@@ -38,7 +38,7 @@ export default function Login(props) {
       setError(true);
     } else {
       Setvalidemail(finalEmail);
-      let url = UrlConstant.Ip + UrlConstant.login
+      let url = UrlConstant.base_url + UrlConstant.login
       let data = {
         email: finalEmail
       }
@@ -86,7 +86,7 @@ export default function Login(props) {
     console.log(otp.current.value);
     const valid = otp.current.value;
     var numbers = /^[0-9]+$/;
-    let url = UrlConstant.Ip + UrlConstant.otp
+    let url = UrlConstant.base_url + UrlConstant.otp
     // console.log(valid);
     if (!valid.match(numbers)) {
       setOtpError(true);
@@ -140,7 +140,7 @@ export default function Login(props) {
   const hanleResendOTp = async (e) => {
     e.preventDefault();
     console.log("resend otp btn clicked");
-    let url = UrlConstant.Ip + UrlConstant.resend_otp
+    let url = UrlConstant.base_url + UrlConstant.resend_otp
     // SetCounterTimeout(false);
     // Setrestart(restart + 1);
     Setrestartcounter(restartcounter + 1);
