@@ -1,0 +1,38 @@
+.signupemail {
+  width: 420px;
+  height: 48px;
+  left: 23.5%;
+  top: 262px;
+  color: #a3b0b8;
+}
+.signupemail .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: #a3b0b8 !important;
+}
+.signupemail .css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:after {
+  border-bottom: 2px solid #a3b0b8 !important;
+}
+.Signupbtn {
+  position: absolute;
+  width: 420px;
+  height: 42px;
+  left: 340px;
+  top: 310px;
+}
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  font-family: "Open Sans" !important;
+
+  background-color: #c09507 !important;
+}
+.disablebtn {
+  box-sizing: border-box;
+  position: absolute;
+  width: 420px;
+  height: 42px;
+  left: 340px;
+  top: 310px;
+
+  background: #ffffff;
+  opacity: 0.5;
+  border: 1px solid #c09507 !important;
+  border-radius: 2px;
+}
