@@ -9,12 +9,14 @@ import {
   Redirect
 } from 'react-router-dom';
 import Login from './Views/Login/Login'
+import ProfileScreen from './Views/Login/ProfileScreen'
 function App() {
   return (
     <React.Fragment>
       <Router >
         <Switch>
           <Route exact path="/login" component={Login} />
+          <Route exact path="/login/profile" component={ProfileScreen} />
           <Redirect from="/" to="/login" />
         </Switch>
       </Router>
