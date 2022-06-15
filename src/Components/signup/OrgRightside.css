@@ -83,8 +83,8 @@
   position: absolute;
   width: 420px;
   height: 42px;
-  left: 369px;
-  top: 1005px;
+  left: 329px;
+  top: 1155px;
   background: #c09507;
   border-radius: 2px;
 }
@@ -93,7 +93,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 1005px;
+  top: 1155px;
   opacity: 0.5;
   border: 1px solid #c09507 !important;
 }
@@ -102,12 +102,28 @@
   position: absolute;
   width: 420px;
   height: 42px;
-  left: 335px;
-  top: 1037px;
+  left: 328px;
+  top: 1187px;
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
   /* margin-bottom: 20px; */
+}
+.orgdestitle {
+  text-align: left;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #a3b0b8;
+  margin-bottom: 0px !important;
+}
+.DraftEditor-root,
+.DraftEditor-editorContainer,
+.public-DraftEditor-content {
+  height: 150px !important;
+  overflow: scroll;
 }
 
 /* upload css */
@@ -116,7 +132,7 @@
   width: 420px;
   height: 218px;
   left: 839px;
-  top: 878px;
+  top: 1008px;
 
   background: #ffffff;
   border: 1px dashed #d8af28;

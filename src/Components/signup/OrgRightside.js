@@ -17,7 +17,7 @@ import { grey } from "@mui/material/colors";
 
 import RichTextEditor from "react-rte";
 
-import { convertToHTML } from "draft-convert";
+import validator from "validator";
 
 export default function OrgRightside() {
   const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -33,13 +33,6 @@ export default function OrgRightside() {
     RichTextEditor.createValueFromString(orgdesc, "html")
   );
 
-  const handleChange = (value) => {
-    setEditorValue(value);
-    setorgdesc(value.toString("html"));
-    console.log(value.toString("html"));
-    // let currentContentAsHTML = convertToHTML(value.getCurrentContent());
-  };
-
   const [validOrgNumber, setValidOrgnumber] = useState("");
 
   const options = useMemo(() => countryList().getData(), []);
@@ -51,10 +44,27 @@ export default function OrgRightside() {
   const OrgAddress = useRef();
   const Orgcity = useRef();
   const pincode = useRef();
-  const orgdes = useRef();
+
+  const handleChange = (value) => {
+    setEditorValue(value);
+    setorgdesc(value.toString("html"));
+    console.log(value.toString("html"));
+  };
 
   const handleOrgSubmit = (e) => {
     e.preventDefault();
+    // email validation
+    const emailstring = Orgmail.current.value;
+    const valid = validator.isEmail(emailstring);
+    console.log(valid);
+    const finalEmail = emailstring.trim();
+    // console.log(finalEmail);
+    // console.log(finalEmail);
+    if (!valid) {
+      setisOrgmailerror(true);
+    } else {
+      setisOrgnameerror(false);
+    }
   };
   //   const onChange = (value) => {
   //     console.log(value);
@@ -67,7 +77,7 @@ export default function OrgRightside() {
     var orgname = e.target.value;
     if (orgname.length > 0) {
       setisOrgnameerror(false);
-      //   setorgnextbutton(true);
+      setOrgnextbutton(true);
     } else {
       setisOrgnameerror(true);
     }
@@ -80,11 +90,11 @@ export default function OrgRightside() {
   };
 
   const handleOrgmail = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     var email = e.target.value;
     if (email.length > 0) {
       setisOrgmailerror(false);
-      //   setprofilenextbutton(true);
+      setOrgnextbutton(true);
     } else {
       setisOrgmailerror(true);
     }
@@ -100,7 +110,7 @@ export default function OrgRightside() {
     var address = e.target.value;
     if (address.length > 0) {
       setisOrgAddresserror(false);
-      //   setprofilenextbutton(true);
+      setOrgnextbutton(true);
     } else {
       setisOrgAddresserror(true);
     }
@@ -112,7 +122,7 @@ export default function OrgRightside() {
     var city = e.target.value;
     if (city.length > 0) {
       setisOrgcityerror(false);
-      //   setprofilenextbutton(true);
+      setOrgnextbutton(true);
     } else {
       setisOrgcityerror(true);
     }
@@ -133,10 +143,36 @@ export default function OrgRightside() {
     var pincode = e.target.value;
     if (pincode.length > 0) {
       setispincodeerror(false);
-      //   setprofilenextbutton(true);
+      setOrgnextbutton(true);
     } else {
       setispincodeerror(true);
     }
+  };
+
+  const toolbarConfig = {
+    // Optionally specify the groups to display (displayed in the order listed).
+    display: [
+      "INLINE_STYLE_BUTTONS",
+      "BLOCK_TYPE_BUTTONS",
+      //   "LINK_BUTTONS",
+      "BLOCK_TYPE_DROPDOWN",
+      //   "HISTORY_BUTTONS",
+    ],
+    INLINE_STYLE_BUTTONS: [
+      { label: "Bold", style: "BOLD", className: "custom-css-class" },
+      { label: "Italic", style: "ITALIC" },
+      { label: "Underline", style: "UNDERLINE" },
+    ],
+    BLOCK_TYPE_DROPDOWN: [
+      { label: "Normal", style: "unstyled" },
+      { label: "Heading Large", style: "header-one" },
+      { label: "Heading Medium", style: "header-two" },
+      { label: "Heading Small", style: "header-three" },
+    ],
+    BLOCK_TYPE_BUTTONS: [
+      { label: "UL", style: "unordered-list-item" },
+      { label: "OL", style: "ordered-list-item" },
+    ],
   };
 
   //   const onEditorStateChange = (value) => {
@@ -272,7 +308,9 @@ export default function OrgRightside() {
                 ],
               }}
             /> */}
+            <p className="orgdestitle">Organization Description</p>
             <RichTextEditor
+              toolbarConfig={toolbarConfig}
               value={editorValue}
               onChange={handleChange}
               required
@@ -281,10 +319,15 @@ export default function OrgRightside() {
               type="string"
               multiline
               variant="filled"
-              style={{ minHeight: 410 }}
+              style={{
+                minHeight: 410,
+                width: 420,
+                border: "1px solid black",
+                zIndex: 4,
+              }}
             />
           </div>
-          {/* <div className="filesupload">
+          <div className="filesupload">
             <p className="uploadheader">Upload logo</p>
             <div className="uploadimg">
               <svg
@@ -311,7 +354,7 @@ export default function OrgRightside() {
             <p style={{ color: "#A3B0B8" }}>
               Supports: JPEG, PNG not more than 2MB file size
             </p>
-          </div> */}
+          </div>
 
           <div>
             {/* <Button variant="contained" className="orgbtn" type="submit">
@@ -327,7 +370,6 @@ export default function OrgRightside() {
               </Button>
             )}
           </div>
-
           <div>
             <Button
               variant="outlined"
