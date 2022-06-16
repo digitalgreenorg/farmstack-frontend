@@ -19,6 +19,9 @@ import RichTextEditor from "react-rte";
 
 import validator from "validator";
 
+import { FileUploader } from "react-drag-drop-files";
+import Upload from "./upload";
+
 export default function OrgRightside() {
   const [isOrgnameerror, setisOrgnameerror] = useState(false);
   const [isOrgmailerror, setisOrgmailerror] = useState(false);
@@ -39,11 +42,15 @@ export default function OrgRightside() {
 
   const [Orgnextbutton, setOrgnextbutton] = useState(false);
 
+  const [file, setFile] = useState(null);
+
   const Orgname = useRef();
   const Orgmail = useRef();
   const OrgAddress = useRef();
   const Orgcity = useRef();
   const pincode = useRef();
+
+  const fileTypes = ["JPEG", "PNG", "jpg"];
 
   const handleChange = (value) => {
     setEditorValue(value);
@@ -173,6 +180,11 @@ export default function OrgRightside() {
       { label: "UL", style: "unordered-list-item" },
       { label: "OL", style: "ordered-list-item" },
     ],
+  };
+
+  const handleFileChange = (file) => {
+    setFile(file);
+    console.log(file);
   };
 
   //   const onEditorStateChange = (value) => {
@@ -327,8 +339,8 @@ export default function OrgRightside() {
               }}
             />
           </div>
-          <div className="filesupload">
-            <p className="uploadheader">Upload logo</p>
+          {/* <div className="filesupload">
+          <p className="uploadheader">Upload logo</p>
             <div className="uploadimg">
               <svg
                 width={71}
@@ -353,6 +365,28 @@ export default function OrgRightside() {
             </p>
             <p style={{ color: "#A3B0B8" }}>
               Supports: JPEG, PNG not more than 2MB file size
+            </p>
+          </div> */}
+          <div>
+            <FileUploader
+              multiple={true}
+              handleChange={handleFileChange}
+              name="file"
+              types={fileTypes}
+              children={<Upload />}
+              //   maxSize={2}
+            />
+            <p className="filename">
+              {file
+                ? file.length
+                  ? `File name: ${file[0].name}`
+                  : ""
+                : "no files uploaded yet"}
+            </p>
+            <p className="oversizemb">
+              {file != null && file.length && file[0].size > 2097152
+                ? "File uploaded is more than 2mb!"
+                : ""}
             </p>
           </div>
 
