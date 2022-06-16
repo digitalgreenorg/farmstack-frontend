@@ -11,6 +11,7 @@ import {
 import Login from "./Views/Login/Login";
 import ProfileScreen from "./Views/Login/ProfileScreen";
 import OrganisationScreen from "./Views/Login/OrganisationScreen";
+import BrandingScreen from "./Views/Login/BrandingScreen";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/login/profile" component={ProfileScreen} />
           <Route exact path="/login/org" component={OrganisationScreen} />
+          <Route exact path="/login/branding" component={BrandingScreen} />
           <Redirect from="/" to="/login" />
         </Switch>
       </Router>
