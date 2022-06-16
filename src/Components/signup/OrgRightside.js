@@ -386,11 +386,11 @@ export default function OrgRightside() {
                 ? file.length
                   ? `File name: ${file[0].name}`
                   : ""
-                : "no files uploaded yet"}
+                : "No file uploaded yet"}
             </p>
             <p className="oversizemb">
               {file != null && file.length && file[0].size > 2097152
-                ? "File uploaded is more than 2mb!"
+                ? "File uploaded is more than 2MB!"
                 : ""}
             </p>
           </div>

@@ -123,3 +123,40 @@
 
   color: #a3b0b8;
 }
+.colorpicker {
+  position: absolute;
+  width: 420px;
+  height: 185px;
+  left: 839px;
+  top: 559px;
+}
+.brandbtn {
+  position: absolute;
+  width: 420px;
+  height: 42px;
+  left: 329px;
+  top: 905px;
+  background: #c09507;
+  border-radius: 2px;
+}
+.disablebrandbtn {
+  position: absolute;
+  width: 420px;
+  height: 42px;
+  left: 329px;
+  top: 905px;
+  opacity: 0.5;
+  border: 1px solid #c09507 !important;
+}
+.finishlaterbrandbtn {
+  box-sizing: border-box;
+  position: absolute;
+  width: 420px;
+  height: 42px;
+  left: 328px;
+  top: 947px;
+  background: #ffffff;
+  border: 1px solid #c09507 !important;
+  border-radius: 2px;
+  /* margin-bottom: 20px; */
+}
