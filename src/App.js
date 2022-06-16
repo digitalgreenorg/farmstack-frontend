@@ -12,6 +12,7 @@ import Login from "./Views/Login/Login";
 import ProfileScreen from "./Views/Login/ProfileScreen";
 import OrganisationScreen from "./Views/Login/OrganisationScreen";
 import BrandingScreen from "./Views/Login/BrandingScreen";
+import Policies from "./Views/Login/Policies";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path="/login/profile" component={ProfileScreen} />
           <Route exact path="/login/org" component={OrganisationScreen} />
           <Route exact path="/login/branding" component={BrandingScreen} />
+          <Route exact path="/login/policies" component={Policies} />
           <Redirect from="/" to="/login" />
         </Switch>
       </Router>
