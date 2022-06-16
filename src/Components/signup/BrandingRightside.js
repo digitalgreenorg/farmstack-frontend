@@ -3,8 +3,12 @@ import { FileUploader } from "react-drag-drop-files";
 import UploadBanner from "./UploadBanner";
 import "./BrandingRightside";
 export default function BrandingRightside() {
+  const [file, setFile] = useState(null);
   const fileTypes = ["JPEG", "PNG", "jpg"];
-  const handleBannerFileChange = () => {};
+  const handleBannerFileChange = (file) => {
+    setFile(file);
+    console.log(file);
+  };
 
   return (
     <div>
@@ -23,6 +27,18 @@ export default function BrandingRightside() {
           }
           //   maxSize={2}
         />
+        <p className="brandinglogoname">
+          {file
+            ? file.length
+              ? `File name: ${file[0].name}`
+              : ""
+            : "no files uploaded yet"}
+        </p>
+        <p className="oversizemb-brandionglogo">
+          {file != null && file.length && file[0].size > 2097152
+            ? "File uploaded is more than 2mb!"
+            : ""}
+        </p>
       </div>
       <p className="colortitle">Button Color</p>
       <div></div>

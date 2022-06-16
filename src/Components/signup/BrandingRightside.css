@@ -54,3 +54,72 @@
 
   color: #3d4a52;
 }
+.brandinglogoname {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 438px;
+
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  /* sub-headings */
+
+  color: #a3b0b8;
+}
+.filename {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 1268px;
+
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  /* sub-headings */
+
+  color: #a3b0b8;
+}
+
+.oversizemb {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 1288px;
+  color: red !important;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  /* sub-headings */
+
+  color: #a3b0b8;
+}
+.oversizemb-brandionglogo {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 468px;
+  color: red !important;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  /* sub-headings */
+
+  color: #a3b0b8;
+}
