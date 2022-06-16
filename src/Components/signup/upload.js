@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Upload() {
+export default function Upload(props) {
   return (
     <div className="filesupload">
-      <p className="uploadheader">Upload logo</p>
+      <p className="uploadheader">{props.uploadtitle}</p>
       <div className="uploadimg">
         <svg
           width={71}
@@ -26,9 +26,7 @@ export default function Upload() {
         </span>
         your files
       </p>
-      <p style={{ color: "#A3B0B8" }}>
-        Supports: JPEG, PNG not more than 2MB file size
-      </p>
+      <p style={{ color: "#A3B0B8" }}>{props.uploaddes}</p>
     </div>
   );
 }

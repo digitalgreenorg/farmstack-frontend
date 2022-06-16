@@ -373,7 +373,12 @@ export default function OrgRightside() {
               handleChange={handleFileChange}
               name="file"
               types={fileTypes}
-              children={<Upload />}
+              children={
+                <Upload
+                  uploaddes="Supports: JPEG, PNG not more than 2MB file size"
+                  uploadtitle="Upload logo"
+                />
+              }
               //   maxSize={2}
             />
             <p className="filename">
