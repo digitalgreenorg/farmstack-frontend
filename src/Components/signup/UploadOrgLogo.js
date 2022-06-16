@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Upload(props) {
+export default function UploadOrgLogo(props) {
   return (
     <div className="filesupload">
       <p className="uploadheader">{props.uploadtitle}</p>

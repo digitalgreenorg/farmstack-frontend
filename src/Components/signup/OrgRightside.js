@@ -20,7 +20,7 @@ import RichTextEditor from "react-rte";
 import validator from "validator";
 
 import { FileUploader } from "react-drag-drop-files";
-import Upload from "./upload";
+import UploadOrgLogo from "./UploadOrgLogo";
 
 export default function OrgRightside() {
   const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -374,7 +374,7 @@ export default function OrgRightside() {
               name="file"
               types={fileTypes}
               children={
-                <Upload
+                <UploadOrgLogo
                   uploaddes="Supports: JPEG, PNG not more than 2MB file size"
                   uploadtitle="Upload logo"
                 />
