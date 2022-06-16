@@ -52,7 +52,7 @@ export default function OrgRightside() {
 
   const fileTypes = ["JPEG", "PNG", "jpg"];
 
-  const handleChange = (value) => {
+  const handleOrgDesChange = (value) => {
     setEditorValue(value);
     setorgdesc(value.toString("html"));
     console.log(value.toString("html"));
@@ -324,7 +324,7 @@ export default function OrgRightside() {
             <RichTextEditor
               toolbarConfig={toolbarConfig}
               value={editorValue}
-              onChange={handleChange}
+              onChange={handleOrgDesChange}
               required
               id="body-text"
               name="bodyText"
@@ -367,7 +367,7 @@ export default function OrgRightside() {
               Supports: JPEG, PNG not more than 2MB file size
             </p>
           </div> */}
-          <div>
+          <div className="org">
             <FileUploader
               multiple={true}
               handleChange={handleFileChange}

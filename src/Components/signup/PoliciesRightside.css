@@ -1,0 +1,126 @@
+.policiesHeader {
+  position: absolute;
+  width: 76px;
+  height: 27px;
+  left: 839px;
+  top: 147px;
+
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+
+  /* headings */
+
+  color: #3d4a52;
+}
+.governingdes {
+  position: absolute;
+  width: 420px;
+  left: 839px;
+  top: 214px;
+
+  /* background: #f1f1f1; */
+  border-radius: 2px;
+}
+.governingtitle {
+  text-align: left;
+  background: #f1f1f1;
+  margin-bottom: 0;
+}
+
+.filegovlaw .filesupload {
+  position: absolute;
+  width: 420px;
+  height: 218px;
+  left: 119px;
+  top: 332px;
+  background: #ffffff;
+  border: 1px dashed #d8af28;
+  border-radius: 2px;
+}
+.filegovlaw .filename {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 728px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a3b0b8;
+}
+
+.filegovlaw .oversizemb {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 758px;
+  color: red !important;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.warrantiesdes {
+  position: absolute;
+  width: 420px;
+  height: 78px;
+  left: 849px;
+  top: 803px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #3d4a52;
+}
+.warrantiestitle {
+  text-align: left;
+  background: #f1f1f1;
+  margin-bottom: 0;
+}
+
+.filewarranties .filesupload {
+  position: absolute;
+  width: 420px;
+  height: 218px;
+  left: 129px;
+  top: 896px;
+  background: #ffffff;
+  border: 1px dashed #d8af28;
+  border-radius: 2px;
+}
+.filewarranties .filename {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 1308px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a3b0b8;
+}
+
+.filewarranties .oversizemb {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 1328px;
+  color: red !important;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+}

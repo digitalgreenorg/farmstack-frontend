@@ -168,7 +168,7 @@
 }
 
 /* upload css */
-.filesupload {
+.org .filesupload {
   position: absolute;
   width: 420px;
   height: 218px;
@@ -253,8 +253,4 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 19px;
-
-  /* sub-headings */
-
-  color: #a3b0b8;
 }
