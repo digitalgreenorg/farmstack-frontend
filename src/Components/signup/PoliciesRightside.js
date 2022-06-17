@@ -11,15 +11,18 @@ export default function PoliciesRightside() {
   const [warrantiesdesc, setwarrantiesdesc] = useState("");
   const [warrantiesfile, setwarrantiesfile] = useState(null);
 
+  const [liabalitydesc, setliabalitydesc] = useState("");
+  const [liabalityfile, setliabalityfile] = useState(null);
+
   const [editorgovLawValue, setEditorgovLawValue] = React.useState(
     RichTextEditor.createValueFromString(govLawdesc, "html")
   );
   const [editorwarrantiesValue, seteditorwarrantiesValue] = React.useState(
     RichTextEditor.createValueFromString(warrantiesdesc, "html")
   );
-  //   const [editorgovLawValue, setEditorgovLawValue] = React.useState(
-  //     RichTextEditor.createValueFromString(govLawdesc, "html")
-  //   );
+  const [editorLiabalityValue, setEditorLiabalityValue] = React.useState(
+    RichTextEditor.createValueFromString(liabalitydesc, "html")
+  );
   //   const [editorgovLawValue, setEditorgovLawValue] = React.useState(
   //     RichTextEditor.createValueFromString(govLawdesc, "html")
   //   );
@@ -49,7 +52,7 @@ export default function PoliciesRightside() {
     ],
   };
 
-  const fileTypes = ["JPEG", "PNG", "jpg", "docs", "pdf"];
+  const fileTypes = ["doc", "pdf"];
   const handlegovLawChange = (value) => {
     setEditorgovLawValue(value);
     setgovLawdesc(value.toString("html"));
@@ -66,6 +69,15 @@ export default function PoliciesRightside() {
   };
   const handlewarrantiesFileChange = (file) => {
     setwarrantiesfile(file);
+    console.log(file);
+  };
+  const handleliabalityChange = (value) => {
+    setEditorLiabalityValue(value);
+    setliabalitydesc(value.toString("html"));
+    console.log(value.toString("html"));
+  };
+  const handleliabalityFileChange = (file) => {
+    setliabalityfile(file);
     console.log(file);
   };
   return (
@@ -149,7 +161,7 @@ export default function PoliciesRightside() {
           children={
             <UploadOrgLogo
               uploaddes="Supports: .doc, .pdf 2MB file size"
-              uploadtitle="Upload Warranties (Optional)"
+              uploadtitle="Upload Limitation of Liabilities (Optional)"
             />
           }
           //   maxSize={2}
@@ -165,6 +177,55 @@ export default function PoliciesRightside() {
           {warrantiesfile != null &&
           warrantiesfile.length &&
           warrantiesfile[0].size > 2097152
+            ? "File uploaded is more than 2MB!"
+            : ""}
+        </p>
+      </div>
+      <div className="liabiltydes">
+        <p className="liabiltytitle">Limitation of Liabilities</p>
+        <RichTextEditor
+          toolbarConfig={toolbarConfig}
+          value={editorLiabalityValue}
+          onChange={handleliabalityChange}
+          required
+          id="body-text"
+          name="bodyText"
+          type="string"
+          multiline
+          variant="filled"
+          style={{
+            minHeight: 410,
+            width: 420,
+            border: "1px solid black",
+            zIndex: 4,
+          }}
+        />
+      </div>
+      <div className="fileliabilty">
+        <FileUploader
+          multiple={true}
+          handleChange={handleliabalityFileChange}
+          name="file"
+          types={fileTypes}
+          children={
+            <UploadOrgLogo
+              uploaddes="Supports: .doc, .pdf 2MB file size"
+              uploadtitle="Upload Warranties (Optional)"
+            />
+          }
+          //   maxSize={2}
+        />
+        <p className="filename">
+          {liabalityfile
+            ? liabalityfile.length
+              ? `File name: ${liabalityfile[0].name}`
+              : ""
+            : "No file uploaded yet"}
+        </p>
+        <p className="oversizemb">
+          {liabalityfile != null &&
+          liabalityfile.length &&
+          liabalityfile[0].size > 2097152
             ? "File uploaded is more than 2MB!"
             : ""}
         </p>
