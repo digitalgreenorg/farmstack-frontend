@@ -4,6 +4,9 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MuiPhoneNumber from "material-ui-phone-number";
 
+import HTTPService from "../../Services/HTTPService";
+import UrlConstant from "../../Constants/UrlConstants";
+
 // import "react-phone-input-2/lib/material.css";
 
 // import PhoneInput from "react-phone-input-2";
@@ -13,10 +16,10 @@ export default function ProfileRightside(props) {
   const profilefirstname = useRef();
   const profilelastname = useRef();
   const profileemail = useRef();
-  const profilenumber = useRef();
 
-  const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
-    useState(false);
+  const [ispropfilefirstnameerror, setispropfilefirstnameerror] = useState(
+    false
+  );
   const [ispropfilelastnameerror, setispropfilelastnameerror] = useState(false);
   const [ispropfileemailerror, setispropfileemailerror] = useState(false);
   const [ispropfilenumbererror, setispropfilenumbererror] = useState(false);
@@ -26,6 +29,9 @@ export default function ProfileRightside(props) {
   const handleprofileSubmit = async (e) => {
     e.preventDefault();
     console.log(profilefirstname.current.value);
+    const firstname = profilefirstname.current.value;
+    const lastname = profilelastname.current.value;
+    const email = profileemail.current.value;
     if (profilefirstname.current.value.length === 0) {
       setispropfilefirstnameerror(true);
     } else {
@@ -41,11 +47,32 @@ export default function ProfileRightside(props) {
     } else {
       setispropfileemailerror(false);
     }
-    // if (profilenumber.current.value.length <= 3) {
-    //   setispropfilenumbererror(true);
-    // } else {
-    //   setispropfilenumbererror(false);
-    // }
+    var bodyFormData = new FormData();
+    bodyFormData.append("email", email);
+    bodyFormData.append("first_name", firstname);
+    bodyFormData.append("last_name", lastname);
+    bodyFormData.append("phone_number", validNumber);
+
+    console.log("profile data", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.profile;
+
+    await HTTPService("PUT", url, bodyFormData, true, false)
+      .then((response) => {
+        console.log("response");
+        console.log("org details", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 201) {
+          // setEmail(false);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
   };
   const handleprofilfirstename = (e) => {
     console.log(e.target.value);
@@ -156,7 +183,6 @@ export default function ProfileRightside(props) {
               label="Contact Number"
               variant="filled"
               onChange={handleprofilenumber}
-              //   inputRef={profilenumber}
               error={ispropfilenumbererror}
               helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />

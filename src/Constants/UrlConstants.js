@@ -4,6 +4,7 @@ const UrlConstant = {
   otp: "accounts/otp/",
   resend_otp: "accounts/resend_otp/",
   org: "datahub/organization/",
+  profile: "accounts/register/eddc9ee1-f3f9-4577-8c53-7553b5cced47/",
 };
 
 export default UrlConstant;
