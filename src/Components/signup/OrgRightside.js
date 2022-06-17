@@ -22,6 +22,9 @@ import validator from "validator";
 import { FileUploader } from "react-drag-drop-files";
 import UploadOrgLogo from "./UploadOrgLogo";
 
+import HTTPService from "../../Services/HTTPService";
+import UrlConstant from "../../Constants/UrlConstants";
+
 export default function OrgRightside() {
   const [isOrgnameerror, setisOrgnameerror] = useState(false);
   const [isOrgmailerror, setisOrgmailerror] = useState(false);
@@ -58,21 +61,122 @@ export default function OrgRightside() {
     console.log(value.toString("html"));
   };
 
-  const handleOrgSubmit = (e) => {
+  const handleOrgSubmit = async (e) => {
     e.preventDefault();
+    let url = UrlConstant.base_url + UrlConstant.org;
     // email validation
     const emailstring = Orgmail.current.value;
     const valid = validator.isEmail(emailstring);
     console.log(valid);
     const finalEmail = emailstring.trim();
-    // console.log(finalEmail);
-    // console.log(finalEmail);
+
+    const name = Orgname.current.value;
+    const finalName = name.trim();
+
+    const address = OrgAddress.current.value;
+    const finalAddress = address.trim();
+
+    const city = Orgcity.current.value;
+    const finalCity = city.trim();
+
+    const pinCode = pincode.current.value;
+    const finalpinCode = pinCode.trim();
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("org_email", finalEmail);
+    bodyFormData.append("name", finalName);
+    bodyFormData.append(
+      "address",
+      JSON.stringify({
+        country: countryvalue,
+        pincode: finalpinCode,
+        address: finalAddress,
+        city: finalCity,
+      })
+    );
+    bodyFormData.append("phone_number", validOrgNumber);
+    bodyFormData.append("logo", file);
+    bodyFormData.append("org_description", orgdesc);
+    console.log("dfdfdsf", bodyFormData);
+
+    // let data = {
+    //   org_email: finalEmail,
+    //   name: finalName,
+    //   address: {
+    //     country: countryvalue,
+    //     pincode: finalpinCode,
+    //     address: finalAddress,
+    //     city: finalCity,
+    //   },
+    //   phone_number: validOrgNumber,
+    //   //   logo: file,
+    //   org_description: orgdesc,
+    // };
+
     if (!valid) {
       setisOrgmailerror(true);
     } else {
       setisOrgnameerror(false);
+
+      HTTPService("POST", url, bodyFormData, true, false)
+        .then((response) => {
+          console.log("response");
+          console.log("org details", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            // setEmail(false);
+            // setError(false);
+          } else {
+            // setError(true);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          //   setError(true);
+        });
+
+      //   await fetch(url, {
+      //     method: "POST",
+      //     headers: {
+      //       //   Accept: "application/json",
+      //       "content-type": "multipart/form-data; boundary=l3ipy71otz",
+      //     },
+      //     body: {
+      //       org_email: finalEmail,
+      //       name: finalName,
+      //       address: {
+      //         country: countryvalue,
+      //         pincode: finalpinCode,
+      //         address: finalAddress,
+      //         city: finalCity,
+      //       },
+      //       phone_number: validOrgNumber,
+      //       logo: file,
+      //       org_description: orgdesc,
+
+      //       //   otp: valid,
+      //     },
+      //   })
+      //     .then((response) => {
+      //       console.log("response");
+      //       console.log("org details", response.data);
+      //       // console.log(response.json());
+      //       // console.log(response.refresh);
+      //       // console.log(response.active);
+      //       if (response.status === 200) {
+      //         // setOtpError(false);
+      //       } else {
+      //         // setOtpError(true);
+      //       }
+      //     })
+      //     .catch((e) => {
+      //       console.log(e);
+      //       //   setOtpError(true);
+      //     });
     }
   };
+
   //   const onChange = (value) => {
   //     console.log(value);
   //     setorgdesc(value);
@@ -183,8 +287,11 @@ export default function OrgRightside() {
   };
 
   const handleFileChange = (file) => {
+    // var finalFiles = file.target.files;
     setFile(file);
     console.log(file);
+    console.log(file.length);
+    console.log(file.size);
   };
 
   //   const onEditorStateChange = (value) => {
@@ -369,7 +476,7 @@ export default function OrgRightside() {
           </div> */}
           <div className="org">
             <FileUploader
-              multiple={true}
+              //   multiple={true}
               handleChange={handleFileChange}
               name="file"
               types={fileTypes}
@@ -383,13 +490,13 @@ export default function OrgRightside() {
             />
             <p className="filename">
               {file
-                ? file.length
-                  ? `File name: ${file[0].name}`
+                ? file.size
+                  ? `File name: ${file.name}`
                   : ""
                 : "No file uploaded yet"}
             </p>
             <p className="oversizemb">
-              {file != null && file.length && file[0].size > 2097152
+              {file != null && file.size > 2097152
                 ? "File uploaded is more than 2MB!"
                 : ""}
             </p>
