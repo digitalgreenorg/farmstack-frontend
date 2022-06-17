@@ -3,6 +3,7 @@ import "./PoliciesRightside.css";
 import RichTextEditor from "react-rte";
 import { FileUploader } from "react-drag-drop-files";
 import UploadOrgLogo from "./UploadOrgLogo";
+import Button from "@mui/material/Button";
 
 export default function PoliciesRightside() {
   const [govLawdesc, setgovLawdesc] = useState("");
@@ -14,6 +15,14 @@ export default function PoliciesRightside() {
   const [liabalitydesc, setliabalitydesc] = useState("");
   const [liabalityfile, setliabalityfile] = useState(null);
 
+  const [privacydesc, setprivacydesc] = useState("");
+  const [privacyfile, setprivacyfile] = useState(null);
+
+  const [termdesc, settermdesc] = useState("");
+  const [termfile, settermfile] = useState(null);
+
+  const [policiesnextbutton, setpoliciesnextbutton] = useState(false);
+
   const [editorgovLawValue, setEditorgovLawValue] = React.useState(
     RichTextEditor.createValueFromString(govLawdesc, "html")
   );
@@ -23,9 +32,12 @@ export default function PoliciesRightside() {
   const [editorLiabalityValue, setEditorLiabalityValue] = React.useState(
     RichTextEditor.createValueFromString(liabalitydesc, "html")
   );
-  //   const [editorgovLawValue, setEditorgovLawValue] = React.useState(
-  //     RichTextEditor.createValueFromString(govLawdesc, "html")
-  //   );
+  const [editorprivacyValue, setEditorprivacyValue] = React.useState(
+    RichTextEditor.createValueFromString(privacydesc, "html")
+  );
+  const [editortermValue, setEditortermValue] = React.useState(
+    RichTextEditor.createValueFromString(termdesc, "html")
+  );
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
     display: [
@@ -78,6 +90,25 @@ export default function PoliciesRightside() {
   };
   const handleliabalityFileChange = (file) => {
     setliabalityfile(file);
+    console.log(file);
+  };
+  const handleprivacyChange = (value) => {
+    setEditorprivacyValue(value);
+    setprivacydesc(value.toString("html"));
+    console.log(value.toString("html"));
+  };
+  const handleprivacyFileChange = (file) => {
+    setprivacyfile(file);
+    console.log(file);
+  };
+
+  const handletermChange = (value) => {
+    setEditortermValue(value);
+    settermdesc(value.toString("html"));
+    console.log(value.toString("html"));
+  };
+  const handletermFileChange = (file) => {
+    settermfile(file);
     console.log(file);
   };
   return (
@@ -229,6 +260,124 @@ export default function PoliciesRightside() {
             ? "File uploaded is more than 2MB!"
             : ""}
         </p>
+      </div>
+      <div className="privacydes">
+        <p className="privacytitle">Privacy Policy</p>
+        <RichTextEditor
+          toolbarConfig={toolbarConfig}
+          value={editorprivacyValue}
+          onChange={handleprivacyChange}
+          required
+          id="body-text"
+          name="bodyText"
+          type="string"
+          multiline
+          variant="filled"
+          style={{
+            minHeight: 410,
+            width: 420,
+            border: "1px solid black",
+            zIndex: 4,
+          }}
+        />
+      </div>
+      <div className="fileprivacy">
+        <FileUploader
+          multiple={true}
+          handleChange={handleprivacyFileChange}
+          name="file"
+          types={fileTypes}
+          children={
+            <UploadOrgLogo
+              uploaddes="Supports: .doc, .pdf 2MB file size"
+              uploadtitle="Upload Privacy Policy (Optional)"
+            />
+          }
+          //   maxSize={2}
+        />
+        <p className="filename">
+          {privacyfile
+            ? privacyfile.length
+              ? `File name: ${privacyfile[0].name}`
+              : ""
+            : "No file uploaded yet"}
+        </p>
+        <p className="oversizemb">
+          {privacyfile != null &&
+          privacyfile.length &&
+          privacyfile[0].size > 2097152
+            ? "File uploaded is more than 2MB!"
+            : ""}
+        </p>
+      </div>
+      <div className="termdes">
+        <p className="termtitle">Terms of Use</p>
+        <RichTextEditor
+          toolbarConfig={toolbarConfig}
+          value={editortermValue}
+          onChange={handletermChange}
+          required
+          id="body-text"
+          name="bodyText"
+          type="string"
+          multiline
+          variant="filled"
+          style={{
+            minHeight: 410,
+            width: 420,
+            border: "1px solid black",
+            zIndex: 4,
+          }}
+        />
+      </div>
+      <div className="termprivacy">
+        <FileUploader
+          multiple={true}
+          handleChange={handletermFileChange}
+          name="file"
+          types={fileTypes}
+          children={
+            <UploadOrgLogo
+              uploaddes="Supports: .doc, .pdf 2MB file size"
+              uploadtitle="Upload Terms of Use (Optional)"
+            />
+          }
+          //   maxSize={2}
+        />
+        <p className="filename">
+          {termfile
+            ? termfile.length
+              ? `File name: ${termfile[0].name}`
+              : ""
+            : "No file uploaded yet"}
+        </p>
+        <p className="oversizemb">
+          {termfile != null && termfile.length && termfile[0].size > 2097152
+            ? "File uploaded is more than 2MB!"
+            : ""}
+        </p>
+      </div>
+      <div>
+        {/* <Button variant="contained" className="policiesbtn" type="submit">
+          <span className="signupbtnname">Next</span>
+        </Button> */}
+        {policiesnextbutton ? (
+          <Button variant="contained" className="policiesbtn" type="submit">
+            <span className="signupbtnname">Next</span>
+          </Button>
+        ) : (
+          <Button variant="outlined" disabled className="disablepoliciesbtn">
+            Next
+          </Button>
+        )}
+      </div>
+      <div>
+        <Button
+          variant="outlined"
+          className="finishlaterpoliciesbtn"
+          type="button">
+          Finish Later
+        </Button>
       </div>
     </div>
   );

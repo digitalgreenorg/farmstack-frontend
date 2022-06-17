@@ -175,3 +175,131 @@
   font-size: 14px;
   line-height: 19px;
 }
+.privacydes {
+  position: absolute;
+  width: 420px;
+  left: 849px !important;
+  top: 1973px !important;
+}
+.privacytitle {
+  text-align: left;
+  background: #f1f1f1;
+  margin-bottom: 0;
+}
+.fileprivacy .filesupload {
+  position: absolute;
+  width: 420px;
+  height: 218px;
+  left: 129px;
+  top: 2020px;
+  background: #ffffff;
+  border: 1px dashed #d8af28;
+  border-radius: 2px;
+}
+.fileprivacy .filename {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 2498px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a3b0b8;
+}
+.fileprivacy .oversizemb {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 2528px;
+  color: red !important;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+}
+.termdes {
+  position: absolute;
+  width: 420px;
+  left: 849px !important;
+  top: 2572px !important;
+}
+.termtitle {
+  text-align: left;
+  background: #f1f1f1;
+  margin-bottom: 0;
+}
+.termprivacy .filesupload {
+  position: absolute;
+  width: 420px;
+  height: 218px;
+  left: 129px;
+  top: 2620px;
+  background: #ffffff;
+  border: 1px dashed #d8af28;
+  border-radius: 2px;
+}
+
+.termprivacy .filename {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 3108px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a3b0b8;
+}
+.termprivacy .oversizemb {
+  position: absolute;
+  width: 420px;
+  height: 18px;
+  left: 827px;
+  top: 3128px;
+  color: red !important;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+}
+.policiesbtn {
+  position: absolute;
+  width: 420px;
+  height: 42px;
+  left: 339px;
+  top: 2961px;
+
+  background: #c09507;
+  border-radius: 2px;
+}
+.disablepoliciesbtn {
+  position: absolute;
+  width: 420px;
+  height: 42px;
+  left: 339px;
+  top: 2961px;
+
+  background: #c09507;
+  border-radius: 2px;
+}
+.finishlaterpoliciesbtn {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 420px;
+  height: 42px;
+  left: 339px;
+  top: 3011px;
+
+  background: #ffffff;
+  border: 1px solid #c09507 !important;
+  border-radius: 2px;
+}
