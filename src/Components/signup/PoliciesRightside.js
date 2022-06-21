@@ -5,6 +5,11 @@ import { FileUploader } from "react-drag-drop-files";
 import UploadOrgLogo from "./UploadOrgLogo";
 import Button from "@mui/material/Button";
 
+import axios from "axios";
+import LinearProgress from "@mui/material/LinearProgress";
+import UrlConstant from "../../Constants/UrlConstants";
+import CancelIcon from "@mui/icons-material/Cancel";
+
 export default function PoliciesRightside() {
   const [govLawdesc, setgovLawdesc] = useState("");
   const [govLawfile, setgovLawFile] = useState(null);
@@ -64,24 +69,108 @@ export default function PoliciesRightside() {
     ],
   };
 
+  const [govuploadProgress, setgovuploadProgress] = useState(0);
+  const [warrantyloadProgress, setwarrantyloadProgress] = useState(0);
+  // const [govuploadProgress, setgovuploadProgress] = useState(0);
+  // const [govuploadProgress, setgovuploadProgress] = useState(0);
+  // const [govuploadProgress, setgovuploadProgress] = useState(0);
+
   const fileTypes = ["doc", "pdf"];
   const handlegovLawChange = (value) => {
     setEditorgovLawValue(value);
     setgovLawdesc(value.toString("html"));
     console.log(value.toString("html"));
   };
-  const handlegovLawFileChange = (file) => {
+  const handlegovLawFileChange = async (file) => {
     setgovLawFile(file);
     console.log(file);
+
+    const options = {
+      onUploadProgress: (progressEvent) => {
+        console.log(progressEvent.loaded);
+        const { loaded, total } = progressEvent;
+        let percent = Math.floor((loaded * 100) / total);
+        console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+        setgovuploadProgress(percent);
+      },
+    };
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("governing_law", file);
+
+    console.log("branding data", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.policies_files_upload;
+
+    if (file.size < 2097152) {
+      await axios
+        .post(url, bodyFormData, options, {
+          headers: { "content-type": "multipart/form-data" },
+        })
+        .then((response) => {
+          console.log("response");
+          console.log("governing law details", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            // setEmail(false);
+            // setError(false);
+          } else {
+            // setError(true);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          //   setError(true);
+        });
+    }
   };
   const handlewarrantiesChange = (value) => {
     seteditorwarrantiesValue(value);
     setwarrantiesdesc(value.toString("html"));
     console.log(value.toString("html"));
   };
-  const handlewarrantiesFileChange = (file) => {
+  const handlewarrantiesFileChange = async (file) => {
     setwarrantiesfile(file);
     console.log(file);
+
+    const options = {
+      onUploadProgress: (progressEvent) => {
+        console.log(progressEvent.loaded);
+        const { loaded, total } = progressEvent;
+        let percent = Math.floor((loaded * 100) / total);
+        console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+        setwarrantyloadProgress(percent);
+      },
+    };
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("warranty", file);
+
+    console.log("branding data", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.policies_files_upload;
+
+    if (file.size < 2097152) {
+      await axios
+        .post(url, bodyFormData, options, {
+          headers: { "content-type": "multipart/form-data" },
+        })
+        .then((response) => {
+          console.log("response");
+          console.log("governing law details", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            // setEmail(false);
+            // setError(false);
+          } else {
+            // setError(true);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          //   setError(true);
+        });
+    }
   };
   const handleliabalityChange = (value) => {
     setEditorLiabalityValue(value);
@@ -111,108 +200,131 @@ export default function PoliciesRightside() {
     settermfile(file);
     console.log(file);
   };
+
+  const handlePoliciesSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div>
       <p className="policiesHeader">Policies</p>
-      <div className="governingdes">
-        <p className="governingtitle">Governing Laws</p>
-        <RichTextEditor
-          toolbarConfig={toolbarConfig}
-          value={editorgovLawValue}
-          onChange={handlegovLawChange}
-          required
-          id="body-text"
-          name="bodyText"
-          type="string"
-          multiline
-          variant="filled"
-          style={{
-            minHeight: 410,
-            width: 420,
-            border: "1px solid black",
-            zIndex: 4,
-          }}
-        />
-      </div>
-      <div className="filegovlaw">
-        <FileUploader
-          multiple={true}
-          handleChange={handlegovLawFileChange}
-          name="file"
-          types={fileTypes}
-          children={
-            <UploadOrgLogo
-              uploaddes="Supports: .doc, .pdf 2MB file size"
-              uploadtitle="Upload Governing Laws (Optional)"
+      <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
+        <div className="governingdes">
+          <p className="governingtitle">Governing Laws</p>
+          <RichTextEditor
+            toolbarConfig={toolbarConfig}
+            value={editorgovLawValue}
+            onChange={handlegovLawChange}
+            required
+            id="body-text"
+            name="bodyText"
+            type="string"
+            multiline
+            variant="filled"
+            style={{
+              minHeight: 410,
+              width: 420,
+              border: "1px solid black",
+              zIndex: 4,
+            }}
+          />
+        </div>
+        <div className="filegovlaw">
+          <FileUploader
+            handleChange={handlegovLawFileChange}
+            name="file"
+            types={fileTypes}
+            children={
+              <UploadOrgLogo
+                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploadtitle="Upload Governing Laws (Optional)"
+              />
+            }
+            // maxSize={2}
+          />
+          <p className="filename">
+            {govLawfile
+              ? govLawfile.size
+                ? `File name: ${govLawfile.name}`
+                : ""
+              : "No file uploaded yet"}
+          </p>
+          <p className="oversizemb">
+            {govLawfile != null && govLawfile.size > 2097152
+              ? "File uploaded is more than 2MB!"
+              : ""}
+          </p>
+          <div className="govlawprogress">
+            <LinearProgress
+              variant="determinate"
+              value={govuploadProgress}
+              color="success"
             />
-          }
-          //   maxSize={2}
-        />
-        <p className="filename">
-          {govLawfile
-            ? govLawfile.length
-              ? `File name: ${govLawfile[0].name}`
-              : ""
-            : "No file uploaded yet"}
-        </p>
-        <p className="oversizemb">
-          {govLawfile != null &&
-          govLawfile.length &&
-          govLawfile[0].size > 2097152
-            ? "File uploaded is more than 2MB!"
-            : ""}
-        </p>
-      </div>
-      <div className="warrantiesdes">
-        <p className="warrantiestitle">Warranties</p>
-        <RichTextEditor
-          toolbarConfig={toolbarConfig}
-          value={editorwarrantiesValue}
-          onChange={handlewarrantiesChange}
-          required
-          id="body-text"
-          name="bodyText"
-          type="string"
-          multiline
-          variant="filled"
-          style={{
-            minHeight: 410,
-            width: 420,
-            border: "1px solid black",
-            zIndex: 4,
-          }}
-        />
-      </div>
-      <div className="filewarranties">
-        <FileUploader
-          multiple={true}
-          handleChange={handlewarrantiesFileChange}
-          name="file"
-          types={fileTypes}
-          children={
-            <UploadOrgLogo
-              uploaddes="Supports: .doc, .pdf 2MB file size"
-              uploadtitle="Upload Limitation of Liabilities (Optional)"
+            <p className="govupper">{govuploadProgress}%</p>
+          </div>
+          <p className="govupclose">
+            <CancelIcon />
+          </p>
+        </div>
+        <div className="warrantiesdes">
+          <p className="warrantiestitle">Warranties</p>
+          <RichTextEditor
+            toolbarConfig={toolbarConfig}
+            value={editorwarrantiesValue}
+            onChange={handlewarrantiesChange}
+            required
+            id="body-text"
+            name="bodyText"
+            type="string"
+            multiline
+            variant="filled"
+            style={{
+              minHeight: 410,
+              width: 420,
+              border: "1px solid black",
+              zIndex: 4,
+            }}
+          />
+        </div>
+        <div className="filewarranties">
+          <FileUploader
+            handleChange={handlewarrantiesFileChange}
+            name="file"
+            types={fileTypes}
+            children={
+              <UploadOrgLogo
+                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploadtitle="Upload Limitation of Liabilities (Optional)"
+              />
+            }
+            //   maxSize={2}
+          />
+          <p className="filename">
+            {warrantiesfile
+              ? warrantiesfile.size
+                ? `File name: ${warrantiesfile.name}`
+                : ""
+              : "No file uploaded yet"}
+          </p>
+          <p className="oversizemb">
+            {warrantiesfile != null && warrantiesfile.size > 2097152
+              ? "File uploaded is more than 2MB!"
+              : ""}
+          </p>
+
+          <div className="warrantyprogress">
+            <LinearProgress
+              variant="determinate"
+              value={warrantyloadProgress}
+              color="success"
             />
-          }
-          //   maxSize={2}
-        />
-        <p className="filename">
-          {warrantiesfile
-            ? warrantiesfile.length
-              ? `File name: ${warrantiesfile[0].name}`
-              : ""
-            : "No file uploaded yet"}
-        </p>
-        <p className="oversizemb">
-          {warrantiesfile != null &&
-          warrantiesfile.length &&
-          warrantiesfile[0].size > 2097152
-            ? "File uploaded is more than 2MB!"
-            : ""}
-        </p>
-      </div>
-      <div className="liabiltydes">
+            <p className="warrantyper">{warrantyloadProgress}%</p>
+          </div>
+          <p className="warrantyclose">
+            <CancelIcon />
+          </p>
+        </div>
+        {/* <div className="liabiltydes">
         <p className="liabiltytitle">Limitation of Liabilities</p>
         <RichTextEditor
           toolbarConfig={toolbarConfig}
@@ -260,8 +372,9 @@ export default function PoliciesRightside() {
             ? "File uploaded is more than 2MB!"
             : ""}
         </p>
-      </div>
-      <div className="privacydes">
+      </div> */}
+
+        {/* <div className="privacydes">
         <p className="privacytitle">Privacy Policy</p>
         <RichTextEditor
           toolbarConfig={toolbarConfig}
@@ -309,8 +422,9 @@ export default function PoliciesRightside() {
             ? "File uploaded is more than 2MB!"
             : ""}
         </p>
-      </div>
-      <div className="termdes">
+      </div> */}
+
+        {/* <div className="termdes">
         <p className="termtitle">Terms of Use</p>
         <RichTextEditor
           toolbarConfig={toolbarConfig}
@@ -356,11 +470,9 @@ export default function PoliciesRightside() {
             ? "File uploaded is more than 2MB!"
             : ""}
         </p>
-      </div>
-      <div>
-        {/* <Button variant="contained" className="policiesbtn" type="submit">
-          <span className="signupbtnname">Next</span>
-        </Button> */}
+      </div> */}
+
+        {/* <div>
         {policiesnextbutton ? (
           <Button variant="contained" className="policiesbtn" type="submit">
             <span className="signupbtnname">Next</span>
@@ -378,7 +490,8 @@ export default function PoliciesRightside() {
           type="button">
           Finish Later
         </Button>
-      </div>
+      </div> */}
+      </form>
     </div>
   );
 }

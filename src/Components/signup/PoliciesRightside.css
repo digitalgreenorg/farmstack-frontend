@@ -73,7 +73,7 @@
   width: 420px;
   height: 78px;
   left: 849px;
-  top: 803px;
+  top: 843px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -92,7 +92,7 @@
   width: 420px;
   height: 218px;
   left: 129px;
-  top: 896px;
+  top: 936px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -102,7 +102,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1308px;
+  top: 1348px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -116,7 +116,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1328px;
+  top: 1378px;
   color: red !important;
   font-family: "Open Sans";
   font-style: normal;
@@ -302,4 +302,28 @@
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
+}
+.govlawprogress {
+  position: absolute;
+  width: 275px;
+  height: 6px;
+  left: 897px;
+  top: 790px;
+}
+.govupclose {
+  position: absolute;
+  left: 1200px;
+  top: 778px;
+}
+.warrantyprogress {
+  position: absolute;
+  width: 275px;
+  height: 6px;
+  left: 897px;
+  top: 1420px;
+}
+.warrantyclose {
+  position: absolute;
+  left: 1200px;
+  top: 1408px;
 }
