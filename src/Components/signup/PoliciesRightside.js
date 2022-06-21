@@ -618,25 +618,28 @@ export default function PoliciesRightside() {
           </p>
         </div>
 
-        {/* <div>
-        {policiesnextbutton ? (
+        <div>
           <Button variant="contained" className="policiesbtn" type="submit">
             <span className="signupbtnname">Next</span>
           </Button>
-        ) : (
-          <Button variant="outlined" disabled className="disablepoliciesbtn">
-            Next
+          {/* {policiesnextbutton ? (
+            <Button variant="contained" className="policiesbtn" type="submit">
+              <span className="signupbtnname">Next</span>
+            </Button>
+          ) : (
+            <Button variant="outlined" disabled className="disablepoliciesbtn">
+              Next
+            </Button>
+          )} */}
+        </div>
+        <div>
+          <Button
+            variant="outlined"
+            className="finishlaterpoliciesbtn"
+            type="button">
+            Finish Later
           </Button>
-        )}
-      </div>
-      <div>
-        <Button
-          variant="outlined"
-          className="finishlaterpoliciesbtn"
-          type="button">
-          Finish Later
-        </Button>
-      </div> */}
+        </div>
       </form>
     </div>
   );
