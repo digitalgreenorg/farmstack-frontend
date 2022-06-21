@@ -72,7 +72,7 @@ export default function PoliciesRightside() {
   const [govuploadProgress, setgovuploadProgress] = useState(0);
   const [warrantyloadProgress, setwarrantyloadProgress] = useState(0);
   const [liabiltyloadProgress, setliabiltyloadProgress] = useState(0);
-  // const [govuploadProgress, setgovuploadProgress] = useState(0);
+  const [privacyProgress, setprivacyProgress] = useState(0);
   // const [govuploadProgress, setgovuploadProgress] = useState(0);
 
   const fileTypes = ["doc", "pdf"];
@@ -188,7 +188,7 @@ export default function PoliciesRightside() {
         const { loaded, total } = progressEvent;
         let percent = Math.floor((loaded * 100) / total);
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
-        setliabiltyloadProgress(percent);
+        setprivacyProgress(percent);
       },
     };
 
@@ -226,9 +226,48 @@ export default function PoliciesRightside() {
     setprivacydesc(value.toString("html"));
     console.log(value.toString("html"));
   };
-  const handleprivacyFileChange = (file) => {
+  const handleprivacyFileChange = async (file) => {
     setprivacyfile(file);
     console.log(file);
+
+    const options = {
+      onUploadProgress: (progressEvent) => {
+        console.log(progressEvent.loaded);
+        const { loaded, total } = progressEvent;
+        let percent = Math.floor((loaded * 100) / total);
+        console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+        setliabiltyloadProgress(percent);
+      },
+    };
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("privacy_policy", file);
+
+    console.log("privacy_policy", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.policies_files_upload;
+
+    if (file.size < 2097152) {
+      await axios
+        .post(url, bodyFormData, options, {
+          headers: { "content-type": "multipart/form-data" },
+        })
+        .then((response) => {
+          console.log("response");
+          console.log("privacy_policy", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            // setEmail(false);
+            // setError(false);
+          } else {
+            // setError(true);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          //   setError(true);
+        });
+    }
   };
 
   const handletermChange = (value) => {
@@ -423,55 +462,63 @@ export default function PoliciesRightside() {
           </p>
         </div>
 
-        {/* <div className="privacydes">
-        <p className="privacytitle">Privacy Policy</p>
-        <RichTextEditor
-          toolbarConfig={toolbarConfig}
-          value={editorprivacyValue}
-          onChange={handleprivacyChange}
-          required
-          id="body-text"
-          name="bodyText"
-          type="string"
-          multiline
-          variant="filled"
-          style={{
-            minHeight: 410,
-            width: 420,
-            border: "1px solid black",
-            zIndex: 4,
-          }}
-        />
-      </div>
-      <div className="fileprivacy">
-        <FileUploader
-          multiple={true}
-          handleChange={handleprivacyFileChange}
-          name="file"
-          types={fileTypes}
-          children={
-            <UploadOrgLogo
-              uploaddes="Supports: .doc, .pdf 2MB file size"
-              uploadtitle="Upload Privacy Policy (Optional)"
+        <div className="privacydes">
+          <p className="privacytitle">Privacy Policy</p>
+          <RichTextEditor
+            toolbarConfig={toolbarConfig}
+            value={editorprivacyValue}
+            onChange={handleprivacyChange}
+            required
+            id="body-text"
+            name="bodyText"
+            type="string"
+            multiline
+            variant="filled"
+            style={{
+              minHeight: 410,
+              width: 420,
+              border: "1px solid black",
+              zIndex: 4,
+            }}
+          />
+        </div>
+        <div className="fileprivacy">
+          <FileUploader
+            handleChange={handleprivacyFileChange}
+            name="file"
+            types={fileTypes}
+            children={
+              <UploadOrgLogo
+                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploadtitle="Upload Privacy Policy (Optional)"
+              />
+            }
+            //   maxSize={2}
+          />
+          <p className="filename">
+            {privacyfile
+              ? privacyfile.size
+                ? `File name: ${privacyfile.name}`
+                : ""
+              : "No file uploaded yet"}
+          </p>
+          <p className="oversizemb">
+            {privacyfile != null && privacyfile.size > 2097152
+              ? "File uploaded is more than 2MB!"
+              : ""}
+          </p>
+          <div className="privacyprogress">
+            <LinearProgress
+              variant="determinate"
+              value={privacyProgress}
+              color="success"
             />
-          }
-          //   maxSize={2}
-        />
-        <p className="filename">
-          {privacyfile
-            ? privacyfile.length
-              ? `File name: ${privacyfile[0].name}`
-              : ""
-            : "No file uploaded yet"}
-        </p>
-        <p className="oversizemb">
-          {privacyfile != null &&
-          privacyfile.length &&
-          privacyfile[0].size > 2097152
-            ? "File uploaded is more than 2MB!"
-            : ""}
-        </p>
-      </div> */}
+            <p className="privacyper">{privacyProgress}%</p>
+          </div>
+          <p className="privacyclose">
+            <CancelIcon />
+          </p>
+        </div>
 
         {/* <div className="termdes">
         <p className="termtitle">Terms of Use</p>

@@ -178,7 +178,7 @@
   position: absolute;
   width: 420px;
   left: 849px !important;
-  top: 1973px !important;
+  top: 2123px !important;
 }
 .privacytitle {
   text-align: left;
@@ -190,7 +190,7 @@
   width: 420px;
   height: 218px;
   left: 129px;
-  top: 2020px;
+  top: 2190px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -200,7 +200,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2498px;
+  top: 2658px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -213,7 +213,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2528px;
+  top: 2688px;
   color: red !important;
   font-family: "Open Sans";
   font-style: normal;
@@ -337,4 +337,16 @@
   position: absolute;
   left: 1200px;
   top: 2050px;
+}
+.privacyprogress {
+  position: absolute;
+  width: 275px;
+  height: 6px;
+  left: 897px;
+  top: 2730px;
+}
+.privacyclose {
+  position: absolute;
+  left: 1200px;
+  top: 2720px;
 }
