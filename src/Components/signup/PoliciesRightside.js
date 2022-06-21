@@ -71,7 +71,7 @@ export default function PoliciesRightside() {
 
   const [govuploadProgress, setgovuploadProgress] = useState(0);
   const [warrantyloadProgress, setwarrantyloadProgress] = useState(0);
-  // const [govuploadProgress, setgovuploadProgress] = useState(0);
+  const [liabiltyloadProgress, setliabiltyloadProgress] = useState(0);
   // const [govuploadProgress, setgovuploadProgress] = useState(0);
   // const [govuploadProgress, setgovuploadProgress] = useState(0);
 
@@ -146,7 +146,7 @@ export default function PoliciesRightside() {
     var bodyFormData = new FormData();
     bodyFormData.append("warranty", file);
 
-    console.log("branding data", bodyFormData);
+    console.log("warranty", bodyFormData);
     let url = UrlConstant.base_url + UrlConstant.policies_files_upload;
 
     if (file.size < 2097152) {
@@ -156,7 +156,7 @@ export default function PoliciesRightside() {
         })
         .then((response) => {
           console.log("response");
-          console.log("governing law details", response.data);
+          console.log("warranty", response.data);
           //   console.log(response.json());
           console.log(response.status);
           if (response.status === 201) {
@@ -177,9 +177,49 @@ export default function PoliciesRightside() {
     setliabalitydesc(value.toString("html"));
     console.log(value.toString("html"));
   };
-  const handleliabalityFileChange = (file) => {
+
+  const handleliabalityFileChange = async (file) => {
     setliabalityfile(file);
     console.log(file);
+
+    const options = {
+      onUploadProgress: (progressEvent) => {
+        console.log(progressEvent.loaded);
+        const { loaded, total } = progressEvent;
+        let percent = Math.floor((loaded * 100) / total);
+        console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+        setliabiltyloadProgress(percent);
+      },
+    };
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("limitations_of_liabilities", file);
+
+    console.log("limitations_of_liabilities", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.policies_files_upload;
+
+    if (file.size < 2097152) {
+      await axios
+        .post(url, bodyFormData, options, {
+          headers: { "content-type": "multipart/form-data" },
+        })
+        .then((response) => {
+          console.log("response");
+          console.log("limitations_of_liabilities", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            // setEmail(false);
+            // setError(false);
+          } else {
+            // setError(true);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          //   setError(true);
+        });
+    }
   };
   const handleprivacyChange = (value) => {
     setEditorprivacyValue(value);
@@ -324,55 +364,64 @@ export default function PoliciesRightside() {
             <CancelIcon />
           </p>
         </div>
-        {/* <div className="liabiltydes">
-        <p className="liabiltytitle">Limitation of Liabilities</p>
-        <RichTextEditor
-          toolbarConfig={toolbarConfig}
-          value={editorLiabalityValue}
-          onChange={handleliabalityChange}
-          required
-          id="body-text"
-          name="bodyText"
-          type="string"
-          multiline
-          variant="filled"
-          style={{
-            minHeight: 410,
-            width: 420,
-            border: "1px solid black",
-            zIndex: 4,
-          }}
-        />
-      </div>
-      <div className="fileliabilty">
-        <FileUploader
-          multiple={true}
-          handleChange={handleliabalityFileChange}
-          name="file"
-          types={fileTypes}
-          children={
-            <UploadOrgLogo
-              uploaddes="Supports: .doc, .pdf 2MB file size"
-              uploadtitle="Upload Warranties (Optional)"
+
+        <div className="liabiltydes">
+          <p className="liabiltytitle">Limitation of Liabilities</p>
+          <RichTextEditor
+            toolbarConfig={toolbarConfig}
+            value={editorLiabalityValue}
+            onChange={handleliabalityChange}
+            required
+            id="body-text"
+            name="bodyText"
+            type="string"
+            multiline
+            variant="filled"
+            style={{
+              minHeight: 410,
+              width: 420,
+              border: "1px solid black",
+              zIndex: 4,
+            }}
+          />
+        </div>
+        <div className="fileliabilty">
+          <FileUploader
+            handleChange={handleliabalityFileChange}
+            name="file"
+            types={fileTypes}
+            children={
+              <UploadOrgLogo
+                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploadtitle="Upload Warranties (Optional)"
+              />
+            }
+            //   maxSize={2}
+          />
+          <p className="filename">
+            {liabalityfile
+              ? liabalityfile.size
+                ? `File name: ${liabalityfile.name}`
+                : ""
+              : "No file uploaded yet"}
+          </p>
+          <p className="oversizemb">
+            {liabalityfile != null && liabalityfile.size > 2097152
+              ? "File uploaded is more than 2MB!"
+              : ""}
+          </p>
+          <div className="liabiltyprogress">
+            <LinearProgress
+              variant="determinate"
+              value={liabiltyloadProgress}
+              color="success"
             />
-          }
-          //   maxSize={2}
-        />
-        <p className="filename">
-          {liabalityfile
-            ? liabalityfile.length
-              ? `File name: ${liabalityfile[0].name}`
-              : ""
-            : "No file uploaded yet"}
-        </p>
-        <p className="oversizemb">
-          {liabalityfile != null &&
-          liabalityfile.length &&
-          liabalityfile[0].size > 2097152
-            ? "File uploaded is more than 2MB!"
-            : ""}
-        </p>
-      </div> */}
+            <p className="liabiltyper">{liabiltyloadProgress}%</p>
+          </div>
+          <p className="liabiltyclose">
+            <CancelIcon />
+          </p>
+        </div>
 
         {/* <div className="privacydes">
         <p className="privacytitle">Privacy Policy</p>

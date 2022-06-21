@@ -129,8 +129,7 @@
   position: absolute;
   width: 420px;
   left: 849px;
-  top: 1373px;
-  /* background: #f1f1f1; */
+  top: 1483px;
   border-radius: 2px;
 }
 .liabiltytitle {
@@ -143,7 +142,7 @@
   width: 420px;
   height: 218px;
   left: 129px;
-  top: 1456px;
+  top: 1556px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -153,7 +152,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1908px;
+  top: 2008px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -167,7 +166,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1925px;
+  top: 2035px;
   color: red !important;
   font-family: "Open Sans";
   font-style: normal;
@@ -326,4 +325,16 @@
   position: absolute;
   left: 1200px;
   top: 1408px;
+}
+.liabiltyprogress {
+  position: absolute;
+  width: 275px;
+  height: 6px;
+  left: 897px;
+  top: 2060px;
+}
+.liabiltyclose {
+  position: absolute;
+  left: 1200px;
+  top: 2050px;
 }
