@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Rightintro.css";
-import Farmstack from "../../Assets/farmstack.jpg";
+import Farmstack from "../../Assets/Img/farmstack.jpg";
 
 export default function Rightintro() {
   return (
