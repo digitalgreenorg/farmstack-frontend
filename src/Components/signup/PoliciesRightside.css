@@ -225,7 +225,7 @@
   position: absolute;
   width: 420px;
   left: 849px !important;
-  top: 2572px !important;
+  top: 2822px !important;
 }
 .termtitle {
   text-align: left;
@@ -237,7 +237,7 @@
   width: 420px;
   height: 218px;
   left: 129px;
-  top: 2620px;
+  top: 2859px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -248,7 +248,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 3108px;
+  top: 3358px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -261,7 +261,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 3128px;
+  top: 3398px;
   color: red !important;
   font-family: "Open Sans";
   font-style: normal;
@@ -349,4 +349,16 @@
   position: absolute;
   left: 1200px;
   top: 2720px;
+}
+.tosprogress {
+  position: absolute;
+  width: 275px;
+  height: 6px;
+  left: 897px;
+  top: 3450px;
+}
+.tosclose {
+  position: absolute;
+  left: 1200px;
+  top: 3437px;
 }

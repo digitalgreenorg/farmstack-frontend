@@ -73,7 +73,7 @@ export default function PoliciesRightside() {
   const [warrantyloadProgress, setwarrantyloadProgress] = useState(0);
   const [liabiltyloadProgress, setliabiltyloadProgress] = useState(0);
   const [privacyProgress, setprivacyProgress] = useState(0);
-  // const [govuploadProgress, setgovuploadProgress] = useState(0);
+  const [tosloadProgress, settosloadProgress] = useState(0);
 
   const fileTypes = ["doc", "pdf"];
   const handlegovLawChange = (value) => {
@@ -188,7 +188,7 @@ export default function PoliciesRightside() {
         const { loaded, total } = progressEvent;
         let percent = Math.floor((loaded * 100) / total);
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
-        setprivacyProgress(percent);
+        setliabiltyloadProgress(percent);
       },
     };
 
@@ -236,7 +236,7 @@ export default function PoliciesRightside() {
         const { loaded, total } = progressEvent;
         let percent = Math.floor((loaded * 100) / total);
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
-        setliabiltyloadProgress(percent);
+        setprivacyProgress(percent);
       },
     };
 
@@ -275,9 +275,49 @@ export default function PoliciesRightside() {
     settermdesc(value.toString("html"));
     console.log(value.toString("html"));
   };
-  const handletermFileChange = (file) => {
+
+  const handletermFileChange = async (file) => {
     settermfile(file);
     console.log(file);
+
+    const options = {
+      onUploadProgress: (progressEvent) => {
+        console.log(progressEvent.loaded);
+        const { loaded, total } = progressEvent;
+        let percent = Math.floor((loaded * 100) / total);
+        console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+        settosloadProgress(percent);
+      },
+    };
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("tos", file);
+
+    console.log("tos", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.policies_files_upload;
+
+    if (file.size < 2097152) {
+      await axios
+        .post(url, bodyFormData, options, {
+          headers: { "content-type": "multipart/form-data" },
+        })
+        .then((response) => {
+          console.log("response");
+          console.log("tos", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            // setEmail(false);
+            // setError(false);
+          } else {
+            // setError(true);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          //   setError(true);
+        });
+    }
   };
 
   const handlePoliciesSubmit = (e) => {
@@ -520,53 +560,63 @@ export default function PoliciesRightside() {
           </p>
         </div>
 
-        {/* <div className="termdes">
-        <p className="termtitle">Terms of Use</p>
-        <RichTextEditor
-          toolbarConfig={toolbarConfig}
-          value={editortermValue}
-          onChange={handletermChange}
-          required
-          id="body-text"
-          name="bodyText"
-          type="string"
-          multiline
-          variant="filled"
-          style={{
-            minHeight: 410,
-            width: 420,
-            border: "1px solid black",
-            zIndex: 4,
-          }}
-        />
-      </div>
-      <div className="termprivacy">
-        <FileUploader
-          multiple={true}
-          handleChange={handletermFileChange}
-          name="file"
-          types={fileTypes}
-          children={
-            <UploadOrgLogo
-              uploaddes="Supports: .doc, .pdf 2MB file size"
-              uploadtitle="Upload Terms of Use (Optional)"
+        <div className="termdes">
+          <p className="termtitle">Terms of Use</p>
+          <RichTextEditor
+            toolbarConfig={toolbarConfig}
+            value={editortermValue}
+            onChange={handletermChange}
+            required
+            id="body-text"
+            name="bodyText"
+            type="string"
+            multiline
+            variant="filled"
+            style={{
+              minHeight: 410,
+              width: 420,
+              border: "1px solid black",
+              zIndex: 4,
+            }}
+          />
+        </div>
+        <div className="termprivacy">
+          <FileUploader
+            handleChange={handletermFileChange}
+            name="file"
+            types={fileTypes}
+            children={
+              <UploadOrgLogo
+                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploadtitle="Upload Terms of Use (Optional)"
+              />
+            }
+            //   maxSize={2}
+          />
+          <p className="filename">
+            {termfile
+              ? termfile.size
+                ? `File name: ${termfile.name}`
+                : ""
+              : "No file uploaded yet"}
+          </p>
+          <p className="oversizemb">
+            {termfile != null && termfile.size > 2097152
+              ? "File uploaded is more than 2MB!"
+              : ""}
+          </p>
+          <div className="tosprogress">
+            <LinearProgress
+              variant="determinate"
+              value={tosloadProgress}
+              color="success"
             />
-          }
-          //   maxSize={2}
-        />
-        <p className="filename">
-          {termfile
-            ? termfile.length
-              ? `File name: ${termfile[0].name}`
-              : ""
-            : "No file uploaded yet"}
-        </p>
-        <p className="oversizemb">
-          {termfile != null && termfile.length && termfile[0].size > 2097152
-            ? "File uploaded is more than 2MB!"
-            : ""}
-        </p>
-      </div> */}
+            <p className="tosper">{tosloadProgress}%</p>
+          </div>
+          <p className="tosclose">
+            <CancelIcon />
+          </p>
+        </div>
 
         {/* <div>
         {policiesnextbutton ? (
