@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import "./Rightintro.css";
 import Farmstack from "../../Assets/farmstack.jpg";
 
@@ -7,8 +7,7 @@ export default function Rightintro() {
     <div>
       <img src={Farmstack} alt="FarmStack" className="rightimg" />
       <h3 className="rightcontent">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac tellus
-        gravida, elementum magna ut, viverra purus.
+        Sign your organization up in just a few steps.
       </h3>
     </div>
   );

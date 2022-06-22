@@ -57,7 +57,7 @@ export default function BrandingRightside() {
   };
   return (
     <div>
-      <p className="brandingtitle">Make your Branding</p>
+      <p className="brandingtitle">Create your Branding</p>
       <div>
         <form noValidate autoComplete="off" onSubmit={handleBrandingSubmit}>
           <div className="brandinglogo">

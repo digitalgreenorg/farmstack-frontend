@@ -1,5 +1,5 @@
 const UrlConstant = {
-  base_url: "https://5773-106-51-85-143.in.ngrok.io/",
+  base_url: "https://ca62-106-51-85-143.in.ngrok.io/",
   login: "accounts/login/",
   otp: "accounts/otp/",
   resend_otp: "accounts/resend_otp/",

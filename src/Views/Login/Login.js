@@ -5,11 +5,11 @@ import Rightintro from "../../Components/intros/Rightintro";
 import SignupEmail from "../../Components/signup/SignupEmail";
 import Footerimg from "../../Components/signup/Footerimg";
 import SignupOtp from "../../Components/signup/SignupOtp";
-import './Login.css'
+import "./Login.css";
 import validator from "validator";
-import HTTPService from '../../Services/HTTPService'
-import UrlConstant from '../../Constants/UrlConstants';
-import labels from '../../Constants/labels';
+import HTTPService from "../../Services/HTTPService";
+import UrlConstant from "../../Constants/UrlConstants";
+import labels from "../../Constants/labels";
 
 export default function Login(props) {
   const [button, setButton] = useState(false);
@@ -19,12 +19,13 @@ export default function Login(props) {
   const [verifyOtpbutton, setOtpButton] = useState(false);
   const otp = useRef();
   const [isOtperror, setOtpError] = useState(false);
+  const [userSuspenderror, setuserSuspenderror] = useState(false);
   const [restartcounter, Setrestartcounter] = useState(0);
   const [disable, setDisable] = useState(true);
 
   const [isemail, setEmail] = useState(true);
   const [validemail, Setvalidemail] = useState("");
-  const [screenlabels, setscreenlabels] = useState(labels['en']);
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,10 +39,10 @@ export default function Login(props) {
       setError(true);
     } else {
       Setvalidemail(finalEmail);
-      let url = UrlConstant.base_url + UrlConstant.login
+      let url = UrlConstant.base_url + UrlConstant.login;
       let data = {
-        email: finalEmail
-      }
+        email: finalEmail,
+      };
       // await fetch(url, {
       //   method: "POST",
       //   headers: {
@@ -52,18 +53,19 @@ export default function Login(props) {
       //     email: finalEmail,
       //   }),
       // }).then((response) => {
-      HTTPService('POST', url, data, false, false).then((response) => {
-        console.log("email sent");
-        console.log("email sent", response.data);
-        //   console.log(response.json());
-        console.log(response.status);
-        if (response.status === 201) {
-          setEmail(false);
-          setError(false);
-        } else {
-          setError(true);
-        }
-      })
+      HTTPService("POST", url, data, false, false)
+        .then((response) => {
+          console.log("email sent");
+          console.log("email sent", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            setEmail(false);
+            setError(false);
+          } else {
+            setError(true);
+          }
+        })
         .catch((e) => {
           console.log(e);
           setError(true);
@@ -86,8 +88,8 @@ export default function Login(props) {
     console.log(otp.current.value);
     const valid = otp.current.value;
     var numbers = /^[0-9]+$/;
-    let url = UrlConstant.base_url + UrlConstant.otp
-    // console.log(valid);
+    let url = UrlConstant.base_url + UrlConstant.otp;
+
     if (!valid.match(numbers)) {
       setOtpError(true);
     } else {
@@ -103,24 +105,37 @@ export default function Login(props) {
       //   }),
       // })
       //   .then((response) => {
-      HTTPService('POST', url, {
-        email: validemail,
-        otp: valid,
-      }, false, false).then((response) => {
-        console.log("otp valid");
-        console.log("otp valid", response.data);
-        // console.log(response.json());
-        // console.log(response.refresh);
-        // console.log(response.active);
-        if (response.status === 200) {
-          setOtpError(false);
-        } else {
-          setOtpError(true);
-        }
-      })
+      HTTPService(
+        "POST",
+        url,
+        {
+          email: validemail,
+          otp: valid,
+        },
+        false,
+        false
+      )
+        .then((response) => {
+          console.log("otp valid");
+          console.log("otp valid", response.data);
+          console.log(response.status);
+          // console.log(response.json());
+          // console.log(response.refresh);
+          // console.log(response.active);
+          if (response.status === 200) {
+            setOtpError(false);
+          } else {
+            setOtpError(true);
+          }
+        })
         .catch((e) => {
-          console.log(e);
+          console.log(e.response.status);
           setOtpError(true);
+          if (e.response.status === 403) {
+            setuserSuspenderror(true);
+            setOtpError(false);
+          }
+          console.log(userSuspenderror);
         });
     }
   };
@@ -140,7 +155,7 @@ export default function Login(props) {
   const hanleResendOTp = async (e) => {
     e.preventDefault();
     console.log("resend otp btn clicked");
-    let url = UrlConstant.base_url + UrlConstant.resend_otp
+    let url = UrlConstant.base_url + UrlConstant.resend_otp;
     // SetCounterTimeout(false);
     // Setrestart(restart + 1);
     Setrestartcounter(restartcounter + 1);
@@ -155,12 +170,19 @@ export default function Login(props) {
     //     email: validemail,
     //   }),
     // })
-    HTTPService('POST', url, {
-      email: validemail,
-    }, false, false).then((response) => {
-      console.log("otp valid");
-      console.log(response);
-    })
+    HTTPService(
+      "POST",
+      url,
+      {
+        email: validemail,
+      },
+      false,
+      false
+    )
+      .then((response) => {
+        console.log("otp valid");
+        console.log(response);
+      })
       .catch((e) => {
         console.log(e);
       });
@@ -183,18 +205,19 @@ export default function Login(props) {
           button={button}
         />
       ) : (
-          <SignupOtp
-            handleSubmitOtp={handleSubmitOtp}
-            handleOtp={handleOtp}
-            isOtperror={isOtperror}
-            otp={otp}
-            button={verifyOtpbutton}
-            hanleResendOTp={hanleResendOTp}
-            restartcounter={restartcounter}
-            disable={disable}
-            setDisable={setDisable}
-          />
-        )}
+        <SignupOtp
+          handleSubmitOtp={handleSubmitOtp}
+          handleOtp={handleOtp}
+          isOtperror={isOtperror}
+          isuserSuspenderror={userSuspenderror}
+          otp={otp}
+          button={verifyOtpbutton}
+          hanleResendOTp={hanleResendOTp}
+          restartcounter={restartcounter}
+          disable={disable}
+          setDisable={setDisable}
+        />
+      )}
     </div>
   );
 }
