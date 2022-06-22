@@ -129,7 +129,7 @@ function EditParticipants(props) {
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            {(organisationname && orginsationemail && !isorganisationemailerror && countryvalue && contactnumber && websitelink && !iswebsitelinkrerror && organisationaddress && pincode && firstname && useremail && !isuseremailerror && organisationlength)
+                            {(organisationname && orginsationemail && !isorganisationemailerror && countryvalue && contactnumber.length==15 && websitelink && !iswebsitelinkrerror && organisationaddress && pincode && firstname && useremail && !isuseremailerror && organisationlength)
                                 ? (
                                     <Button onClick={() => addNewParticipants()} variant="contained" className="submitbtn">
                                         {screenlabels.common.update}
