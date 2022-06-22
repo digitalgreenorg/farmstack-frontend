@@ -1,5 +1,5 @@
 const UrlConstant = {
-  base_url: "https://20eb-106-51-85-143.in.ngrok.io/",
+  base_url: "https://5773-106-51-85-143.in.ngrok.io/",
   login: "accounts/login/",
   otp: "accounts/otp/",
   resend_otp: "accounts/resend_otp/",
@@ -8,6 +8,7 @@ const UrlConstant = {
   branding: "datahub/theme/",
   policies_files_upload: "datahub/drop_document/",
   policies_save_upload: "datahub/save_documents/",
+  delete_policies_drop_document: "datahub/drop_document/delete/",
 };
 
 export default UrlConstant;

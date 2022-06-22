@@ -127,7 +127,9 @@ export default function PoliciesRightside() {
   const handlewarrantiesChange = (value) => {
     seteditorwarrantiesValue(value);
     setwarrantiesdesc(value.toString("html"));
-    console.log(value.toString("html"));
+    // console.log(value.toString("html"));
+    // warrantiesdesc.toString();
+    console.log(warrantiesdesc.toString());
   };
   const handlewarrantiesFileChange = async (file) => {
     setwarrantiesfile(file);
@@ -320,8 +322,183 @@ export default function PoliciesRightside() {
     }
   };
 
-  const handlePoliciesSubmit = (e) => {
+  const handlePoliciesSubmit = async (e) => {
     e.preventDefault();
+    let url = UrlConstant.base_url + UrlConstant.policies_save_upload;
+    var bodyFormData = new FormData();
+    bodyFormData.append("privacy_policy", privacydesc);
+    bodyFormData.append("tos", termdesc);
+    bodyFormData.append("governing_law", govLawdesc);
+    bodyFormData.append("limitations_of_liabilities", liabalitydesc);
+    bodyFormData.append("warranty", warrantiesdesc);
+    // console.log(setprivacydesc);
+    await axios
+      .post(url, bodyFormData, {
+        headers: { "content-type": "multipart/form-data" },
+      })
+      .then((response) => {
+        console.log("response");
+        console.log("tos", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 201) {
+          console.log("submitted form");
+          // setEmail(false);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
+  };
+
+  const handlegovupCancel = async (e) => {
+    console.log("clicked on gov up cancel btn");
+    let url = UrlConstant.base_url + UrlConstant.delete_policies_drop_document;
+
+    await axios
+      .delete(url, {
+        headers: { "Content-Type": "application/json" },
+        data: { id: "governing_law" },
+      })
+      .then((response) => {
+        console.log("response");
+        console.log("tos", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 204) {
+          console.log("gov law delete success");
+          setgovLawFile(null);
+          setgovuploadProgress(0);
+          // setEmail(false);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
+  };
+  const handlewarrantyCancel = async (e) => {
+    console.log("clicked on warranties cancel btn");
+    let url = UrlConstant.base_url + UrlConstant.delete_policies_drop_document;
+
+    await axios
+      .delete(url, {
+        headers: { "Content-Type": "application/json" },
+        data: { id: "warranty" },
+      })
+      .then((response) => {
+        console.log("response");
+        console.log("tos", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 204) {
+          console.log("warranty delete success");
+          // setEmail(false);
+          setwarrantiesfile(null);
+          setwarrantyloadProgress(0);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
+  };
+  const handleliabiltyCancel = async (e) => {
+    console.log("clicked on liability cancel btn");
+    let url = UrlConstant.base_url + UrlConstant.delete_policies_drop_document;
+
+    await axios
+      .delete(url, {
+        headers: { "Content-Type": "application/json" },
+        data: { id: "limitations_of_liabilities" },
+      })
+      .then((response) => {
+        console.log("response");
+        console.log("tos", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 204) {
+          console.log("warranty delete success");
+          // setEmail(false);
+          setliabalityfile(null);
+          setliabiltyloadProgress(0);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
+  };
+  const handleprivacyCancel = async (e) => {
+    console.log("clicked on privacy cancel btn");
+    let url = UrlConstant.base_url + UrlConstant.delete_policies_drop_document;
+
+    await axios
+      .delete(url, {
+        headers: { "Content-Type": "application/json" },
+        data: { id: "privacy_policy" },
+      })
+      .then((response) => {
+        console.log("response");
+        console.log("tos", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 204) {
+          console.log("warranty delete success");
+          // setEmail(false);
+          setprivacyfile(null);
+          setprivacyProgress(0);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
+  };
+  const handletosCancel = async (e) => {
+    console.log("clicked on tos cancel btn");
+    let url = UrlConstant.base_url + UrlConstant.delete_policies_drop_document;
+
+    await axios
+      .delete(url, {
+        headers: { "Content-Type": "application/json" },
+        data: { id: "tos" },
+      })
+      .then((response) => {
+        console.log("response");
+        console.log("tos", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 204) {
+          console.log("warranty delete success");
+          // setEmail(false);
+          settermfile(null);
+          settosloadProgress(0);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
   };
 
   return (
@@ -382,7 +559,7 @@ export default function PoliciesRightside() {
             <p className="govupper">{govuploadProgress}%</p>
           </div>
           <p className="govupclose">
-            <CancelIcon />
+            {govLawfile && <CancelIcon onClick={handlegovupCancel} />}
           </p>
         </div>
         <div className="warrantiesdes">
@@ -440,7 +617,7 @@ export default function PoliciesRightside() {
             <p className="warrantyper">{warrantyloadProgress}%</p>
           </div>
           <p className="warrantyclose">
-            <CancelIcon />
+            {warrantiesfile && <CancelIcon onClick={handlewarrantyCancel} />}
           </p>
         </div>
 
@@ -498,7 +675,7 @@ export default function PoliciesRightside() {
             <p className="liabiltyper">{liabiltyloadProgress}%</p>
           </div>
           <p className="liabiltyclose">
-            <CancelIcon />
+            {liabalityfile && <CancelIcon onClick={handleliabiltyCancel} />}
           </p>
         </div>
 
@@ -556,7 +733,7 @@ export default function PoliciesRightside() {
             <p className="privacyper">{privacyProgress}%</p>
           </div>
           <p className="privacyclose">
-            <CancelIcon />
+            {privacyfile && <CancelIcon onClick={handleprivacyCancel} />}
           </p>
         </div>
 
@@ -614,7 +791,7 @@ export default function PoliciesRightside() {
             <p className="tosper">{tosloadProgress}%</p>
           </div>
           <p className="tosclose">
-            <CancelIcon />
+            {termfile && <CancelIcon onClick={handletosCancel} />}
           </p>
         </div>
 
