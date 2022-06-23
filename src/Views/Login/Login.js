@@ -13,6 +13,8 @@ import labels from "../../Constants/labels";
 
 import ProfileRightside from "../../Components/signup/ProfileRightside";
 import OrgRightside from "../../Components/signup/OrgRightside";
+import PoliciesRightside from "../../Components/signup/PoliciesRightside";
+import BrandingRightside from "../../Components/signup/BrandingRightside";
 
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
@@ -422,6 +424,8 @@ export default function Login(props) {
           //   console.log(response.json());
           console.log(response.status);
           if (response.status === 201) {
+            setisPolicies(true);
+            setisOrg(false);
             // setEmail(false);
             // setError(false);
           } else {
@@ -627,6 +631,15 @@ export default function Login(props) {
       ) : (
         <></>
       )}
+      {isPolicies && (
+        <PoliciesRightside
+          showBrandingScreen={() => {
+            setisPolicies(false);
+            setisBranding(true);
+          }}
+        />
+      )}
+      {isBranding && <BrandingRightside />}
     </div>
   );
 }

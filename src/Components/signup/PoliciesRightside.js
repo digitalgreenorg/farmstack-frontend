@@ -10,7 +10,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import UrlConstant from "../../Constants/UrlConstants";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-export default function PoliciesRightside() {
+export default function PoliciesRightside(props) {
   const [govLawdesc, setgovLawdesc] = useState("");
   const [govLawfile, setgovLawFile] = useState(null);
 
@@ -343,6 +343,7 @@ export default function PoliciesRightside() {
         console.log(response.status);
         if (response.status === 201) {
           console.log("submitted form");
+          props.showBrandingScreen();
           // setEmail(false);
           // setError(false);
         } else {
@@ -796,10 +797,19 @@ export default function PoliciesRightside() {
         </div>
 
         <div>
-          <Button variant="contained" className="policiesbtn" type="submit">
+          {/* <Button variant="contained" className="policiesbtn" type="submit">
             <span className="signupbtnname">Next</span>
-          </Button>
-          {/* {policiesnextbutton ? (
+          </Button> */}
+          {privacydesc.length > 0 &&
+          termdesc.length > 0 &&
+          govLawdesc.length > 0 &&
+          liabalitydesc.length > 0 &&
+          warrantiesdesc.length > 0 &&
+          govLawfile &&
+          warrantiesfile &&
+          liabalityfile &&
+          privacyfile &&
+          termfile ? (
             <Button variant="contained" className="policiesbtn" type="submit">
               <span className="signupbtnname">Next</span>
             </Button>
@@ -807,7 +817,7 @@ export default function PoliciesRightside() {
             <Button variant="outlined" disabled className="disablepoliciesbtn">
               Next
             </Button>
-          )} */}
+          )}
         </div>
         <div>
           <Button
