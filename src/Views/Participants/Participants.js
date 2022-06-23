@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ParticipantsCards from '../../Components/Participants/ParticipantsCards'
-import AddParticipantCard from '../../Components/Participants/AddParticipantCard'
+import AddCard from '../../Components/AddCard/AddCard'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container';
@@ -65,7 +65,7 @@ function Participants(props) {
                 </Row>
                 <Row style={useStyles.marginrowtop10px}>
                     <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>
-                        <AddParticipantCard addevent={() => history.push('/datahub/participants/add')}></AddParticipantCard>
+                        <AddCard firstText={screenlabels.addparticipants.firstText} secondText={screenlabels.addparticipants.secondText} thirdText={screenlabels.addparticipants.thirdText} fourText={screenlabels.addparticipants.fourText} addevent={() => history.push('/datahub/participants/add')}></AddCard>
                     </Col>
                     {participantList.map((rowData, index) => (
                         <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>

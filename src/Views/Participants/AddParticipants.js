@@ -62,7 +62,7 @@ function AddParticipants(props) {
     return (
         <>
             <Container style={useStyles.marginrowtop}>
-                {isSuccess ? <Success route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Participant Added Successfully!!"} imageText={"Added"} msg={"You Addeda a Participant"}></Success> : <><ParticipantForm
+                {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Participant Added Successfully!!"} imageText={"Added"} msg={"You Addeda a Participant"}></Success> : <><ParticipantForm
                     organisationname={organisationname}
                     setorganisationname={ref => { setorganisationname(ref) }}
                     orginsationemail={orginsationemail}

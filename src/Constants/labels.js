@@ -28,7 +28,11 @@ const labels = {
             "first_name": "First Name",
             "last_name": "Last Name",
             "contact_number": "Contact Number",
-            "subscripiton_length": "Subscription Length"
+            "subscripiton_length": "Subscription Length",
+            "firstText":"Add new Participant",
+            "secondText":"Add details about your dataset and make",
+            "thirdText":"discoverable to other participants in our",
+            "fourText":'network. “Dummy Data”'
         },
         "editparticipants": {
             "first_heading": "Edit Participants Orginsation Details",
@@ -56,6 +60,21 @@ const labels = {
         "inviteParticipants": {
             "first_heading": "Invite participants",
             "second_heading": "Invite message",
+        },
+        "settings":{
+            "heading":"Add new member",
+            "editheading":"Edit member details",
+            "email": "Email",
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "role":"Role",
+            "delete_member": "Delete Member",
+            "delete_msg": "Are you sure you want to delete the team member?",
+            "second_delete_msg": "This action will delete the member’s account from the system.The member will no longer be able to use her account in the datahub.",
+            "firstText":"Add new Member",
+            "secondText":"Add details about your dataset and make",
+            "thirdText":"discoverable to other participants in our",
+            "fourText":'network. “Dummy Data”'
         }
     }
 }

@@ -76,7 +76,7 @@ function InviteParticipants(props) {
     return (
         <>
             <Container style={useStyles.marginrowtop}>
-            {isSuccess ? <Success route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Invite participants sent successfully!"} imageText={"Invited"} msg={"Your invitation sent to participants."}></Success> :
+            {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Invite participants sent successfully!"} imageText={"Invited"} msg={"Your invitation sent to participants."}></Success> :
             <> <Row style={useStyles.marginrowtop}>
                     <span style={{ fontWeight: "bold" }}>
                         {screenlabels.inviteParticipants.first_heading}

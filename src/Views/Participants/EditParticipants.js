@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../../Components/Navbar/Navbar'
 import ParticipantForm from '../../Components/Participants/ParticipantForm'
 import Success from '../../Components/Success/Success'
 import Row from 'react-bootstrap/Row'
@@ -93,7 +92,7 @@ function EditParticipants(props) {
     return (
         <>
             <Container style={useStyles.marginrowtop}>
-                {isSuccess ? <Success route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Changes are Updated!!"} imageText={"Updated"} msg={"Your changes are updated successfully"}></Success> : <><ParticipantForm
+                {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Changes are Updated!!"} imageText={"Updated"} msg={"Your changes are updated successfully"}></Success> : <><ParticipantForm
                     organisationname={organisationname}
                     setorganisationname={ref => { setorganisationname(ref) }}
                     orginsationemail={orginsationemail}

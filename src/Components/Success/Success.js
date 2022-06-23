@@ -44,7 +44,7 @@ export default function Success(props) {
             </Row>
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={12} lg={12} >
-                    <Button  onClick={()=> history.push('/'+props.route)} variant="contained" className="submitbtn">
+                    <Button  onClick={()=>props.okevent()} variant="contained" className="submitbtn">
                         <span>{props.btntext}</span>
                     </Button>
                 </Col>

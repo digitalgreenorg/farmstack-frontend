@@ -8,11 +8,11 @@ import {
   NavBtnLink,
 } from './NavbarElements';
 import labels from '../../Constants/labels';
-const Navbar = () => {
+const Navbar = (props) => {
   const [screenlabels, setscreenlabels] = useState(labels['en']);
   return (
     <>
-      <Nav>
+      <Nav id="datahubnavbar">
         {/* <Bars /> */}
         <img
           src={require('../../Assets/Img/farmstack.jpg')}
@@ -21,8 +21,12 @@ const Navbar = () => {
         />
         <NavMenu>
           <NavLink to='/datahub/participants' activeStyle>
-            <img
+            <img className="boldimage"
               src={require('../../Assets/Img/bold_participants.svg')}
+              alt="new"
+            />
+            <img className="nonboldimage"
+              src={require('../../Assets/Img/participants.svg')}
               alt="new"
             />&nbsp;&nbsp;{screenlabels.navbar.Participants}
           </NavLink>
@@ -38,8 +42,12 @@ const Navbar = () => {
               alt="new"
             />&nbsp;&nbsp;{screenlabels.navbar.Support}
           </NavLink>
-          <NavLink to='/Paricipants' activeStyle>
-            <img
+          <NavLink to='/datahub/settings' activeStyle>
+            <img className="boldimage"
+              src={require('../../Assets/Img/bold_settings.svg')}
+              alt="new"
+            />
+            <img className="nonboldimage"
               src={require('../../Assets/Img/settings.svg')}
               alt="new"
             />&nbsp;&nbsp;{screenlabels.navbar.Settings}

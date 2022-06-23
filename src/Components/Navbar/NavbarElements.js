@@ -26,6 +26,12 @@ cursor: pointer;
     color: #3D4A52;
 	border-bottom: 3px solid #c09507;
 }
+&.active > .boldimage {
+	display: block;
+}
+&.active > .nonboldimage {
+	display: none;
+}
 &:hover {
     text-decoration: none;
     color: #c09507;

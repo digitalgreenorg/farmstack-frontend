@@ -95,7 +95,7 @@ function ViewParticipants(props) {
                     msg={screenlabels.viewparticipants.second_delete_msg}>
                 </Delete>
                     : <></>}
-                {isDeleteSuccess ? <Success route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Participant deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a participant."}></Success> : <></>}
+                {isDeleteSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Participant deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a participant."}></Success> : <></>}
                 {isSuccess ? <>
                     <ViewParticipantForm
                         organisationname={organisationname}
