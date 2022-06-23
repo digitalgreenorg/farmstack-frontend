@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import SignInHeader from "../../Components/signup/SignInHeader";
 import Leftintro from "../../Components/intros/Leftintro";
 import Rightintro from "../../Components/intros/Rightintro";
@@ -12,6 +12,10 @@ import UrlConstant from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
 
 import ProfileRightside from "../../Components/signup/ProfileRightside";
+import OrgRightside from "../../Components/signup/OrgRightside";
+
+import RichTextEditor from "react-rte";
+import countryList from "react-select-country-list";
 
 export default function Login(props) {
   const [button, setButton] = useState(false);
@@ -249,16 +253,22 @@ export default function Login(props) {
 
     await HTTPService("PUT", url, bodyFormData, true, false)
       .then((response) => {
-        console.log("response");
-        console.log("org details", response.data);
+        console.log("profile response");
+        console.log("profile details", response.data);
         //   console.log(response.json());
         console.log(response.status);
+        // setisOrg(true);
+        // setisProfile(false);
         if (response.status === 201) {
           // setEmail(false);
           // setError(false);
-        } else {
-          // setError(true);
+          setisProfile(false);
+          setisOrg(true);
         }
+        // } else {
+        //   // setError(true);
+        //   setisOrg(false);
+        // }
       })
       .catch((e) => {
         console.log(e);
@@ -317,6 +327,220 @@ export default function Login(props) {
     // }
     setValidnumber(value);
   };
+
+  // org screen
+  const [isOrgnameerror, setisOrgnameerror] = useState(false);
+  const [isOrgmailerror, setisOrgmailerror] = useState(false);
+  // const [isOrgnumbererror, setisOrgnumbererror] = useState(false);
+  const [isOrgAddresserror, setisOrgAddresserror] = useState(false);
+  const [isOrgcityerror, setisOrgcityerror] = useState(false);
+  const [ispincodeerror, setispincodeerror] = useState(false);
+  const [countryvalue, setcountryvalue] = useState("");
+  // const [orgdeserror, serorgdeserror] = useState(false);
+  // const [orgdesc, setorgdesc] = useState("");
+  // const [editorValue, setEditorValue] = React.useState(
+  //   RichTextEditor.createValueFromString(orgdesc, "html")
+  // );
+  const [textEditorValue, settextEditorValue] = useState("");
+
+  const [validOrgNumber, setValidOrgnumber] = useState("");
+  const [orgfile, setorgfile] = useState(null);
+
+  const Orgname = useRef();
+  const Orgmail = useRef();
+  const OrgAddress = useRef();
+  const Orgcity = useRef();
+  const pincode = useRef();
+
+  const [Orgnamebtn, setOrgnamebtn] = useState(false);
+  const [Orgemailbtn, setOrgemailbtn] = useState(false);
+  const [Orgaddressbtn, setOrgaddressbtn] = useState(false);
+  const [Orgcitybtn, setOrgcitybtn] = useState(false);
+  const [Orgcountrybtn, setOrgcountrybtn] = useState(false);
+  const [Orgpincodebtn, setOrgpincodebtn] = useState(false);
+  // const [Orgdesbtn, setOrgdesbtn] = useState(false);
+
+  // const handleOrgDesChange = (value) => {
+  //   setEditorValue(value);
+  //   setorgdesc(value.toString("html"));
+  //   console.log(value.toString("html"));
+  //   // console.log(value.length);
+  //   if (value.toString("html") !== "<p><br></p>") {
+  //     setOrgdesbtn(true);
+  //   } else {
+  //     setOrgdesbtn(false);
+  //   }
+  // };
+
+  const handleOrgSubmit = async (e) => {
+    e.preventDefault();
+    let url = UrlConstant.base_url + UrlConstant.org;
+    // email validation
+    const emailstring = Orgmail.current.value;
+    const valid = validator.isEmail(emailstring);
+    console.log(valid);
+    const finalEmail = emailstring.trim();
+
+    const name = Orgname.current.value;
+    const finalName = name.trim();
+
+    const address = OrgAddress.current.value;
+    const finalAddress = address.trim();
+
+    const city = Orgcity.current.value;
+    const finalCity = city.trim();
+
+    const pinCode = pincode.current.value;
+    const finalpinCode = pinCode.trim();
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("org_email", finalEmail);
+    bodyFormData.append("name", finalName);
+    bodyFormData.append(
+      "address",
+      JSON.stringify({
+        country: countryvalue,
+        pincode: finalpinCode,
+        address: finalAddress,
+        city: finalCity,
+      })
+    );
+    bodyFormData.append("phone_number", validOrgNumber);
+    bodyFormData.append("logo", orgfile);
+    bodyFormData.append("org_description", textEditorValue);
+    console.log("dfdfdsf", bodyFormData);
+
+    if (!valid) {
+      setisOrgmailerror(true);
+    } else {
+      setisOrgnameerror(false);
+
+      HTTPService("POST", url, bodyFormData, true, false)
+        .then((response) => {
+          console.log("response");
+          console.log("org details", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            // setEmail(false);
+            // setError(false);
+          } else {
+            // setError(true);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          //   setError(true);
+        });
+    }
+  };
+
+  const handleOrgname = (e) => {
+    console.log(e.target.value);
+    var letters = /^[A-Za-z ]*$/;
+    var orgname = e.target.value;
+    // if (orgname.length > 0) {
+    //   setisOrgnameerror(false);
+    //   setOrgnextbutton(true);
+    // } else {
+    //   setisOrgnameerror(true);
+    // }
+    if (orgname.match(letters)) {
+      setisOrgnameerror(false);
+      setOrgnamebtn(true);
+      //   setprofilenextbutton(true);
+    } else {
+      setisOrgnameerror(true);
+      setOrgnamebtn(false);
+    }
+  };
+
+  const handleOrgmail = (e) => {
+    // console.log(e.target.value);
+    var email = e.target.value;
+    // if (email.length > 0) {
+    //   setisOrgmailerror(false);
+    //   // setOrgnextbutton(true);
+    // } else {
+    //   setisOrgmailerror(true);
+    // }
+    const valid = validator.isEmail(email);
+    console.log(valid);
+    const finalEmail = email.trim();
+    console.log(finalEmail);
+    if (valid) {
+      setisOrgmailerror(false);
+      setOrgemailbtn(true);
+    } else {
+      setisOrgmailerror(true);
+      setOrgemailbtn(false);
+    }
+  };
+
+  const handleOrgnumber = (value) => {
+    console.log(value);
+    setValidOrgnumber(value);
+  };
+
+  const handleOrgAddress = (e) => {
+    console.log(e.target.value);
+    var address = e.target.value;
+    if (address.length > 0) {
+      setisOrgAddresserror(false);
+      setOrgaddressbtn(true);
+      // setOrgnextbutton(true);
+    } else {
+      setisOrgAddresserror(true);
+      setOrgaddressbtn(false);
+    }
+  };
+
+  const handleOrgcity = (e) => {
+    console.log(e.target.value);
+    var letters = /^[A-Za-z]+$/;
+    var city = e.target.value;
+    // if (city.length > 0) {
+    //   setisOrgcityerror(false);
+    //   setOrgnextbutton(true);
+    // } else {
+    //   setisOrgcityerror(true);
+    // }
+    if (city.match(letters)) {
+      setisOrgcityerror(false);
+      setOrgcitybtn(true);
+      //   setprofilenextbutton(true);
+    } else {
+      setisOrgcityerror(true);
+      setOrgcitybtn(false);
+    }
+  };
+
+  const countrychangeHandler = (value) => {
+    setcountryvalue(value);
+    setOrgcountrybtn(true);
+  };
+
+  const handlepincode = (e) => {
+    console.log(e.target.value);
+    var pincode = e.target.value;
+    if (pincode.length > 0) {
+      setispincodeerror(false);
+      setOrgpincodebtn(true);
+      // setOrgnextbutton(true);
+    } else {
+      setispincodeerror(true);
+      setOrgpincodebtn(false);
+    }
+  };
+
+  const handleorgFileChange = (file) => {
+    // var finalFiles = file.target.files;
+    setorgfile(file);
+    console.log(file);
+    console.log(file.length);
+    console.log(file.size);
+  };
+
   return (
     <div>
       <SignInHeader></SignInHeader>
@@ -363,6 +587,45 @@ export default function Login(props) {
           profileemail={profileemail}
           validemail={validemail}
         />
+      )}
+      {isOrg ? (
+        <OrgRightside
+          isOrgnameerror={isOrgnameerror}
+          isOrgmailerror={isOrgmailerror}
+          isOrgAddresserror={isOrgAddresserror}
+          isOrgcityerror={isOrgcityerror}
+          ispincodeerror={ispincodeerror}
+          countryvalue={countryvalue}
+          // orgdesc={orgdesc}
+          // editorValue={editorValue}
+          validOrgNumber={validOrgNumber}
+          orgfile={orgfile}
+          Orgname={Orgname}
+          Orgmail={Orgmail}
+          OrgAddress={OrgAddress}
+          Orgcity={Orgcity}
+          pincode={pincode}
+          Orgnamebtn={Orgnamebtn}
+          Orgemailbtn={Orgemailbtn}
+          Orgaddressbtn={Orgaddressbtn}
+          Orgcitybtn={Orgcitybtn}
+          Orgcountrybtn={Orgcountrybtn}
+          Orgpincodebtn={Orgpincodebtn}
+          // Orgdesbtn={Orgdesbtn}
+          // handleOrgDesChange={handleOrgDesChange}
+          textEditorData={(value) => settextEditorValue(value)}
+          handleOrgSubmit={handleOrgSubmit}
+          handleOrgname={handleOrgname}
+          handleOrgmail={handleOrgmail}
+          handleOrgnumber={handleOrgnumber}
+          handleOrgAddress={handleOrgAddress}
+          handleOrgcity={handleOrgcity}
+          countrychangeHandler={countrychangeHandler}
+          handlepincode={handlepincode}
+          handleorgFileChange={handleorgFileChange}
+        />
+      ) : (
+        <></>
       )}
     </div>
   );

@@ -25,240 +25,275 @@ import UploadOrgLogo from "./UploadOrgLogo";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 
-export default function OrgRightside() {
-  const [isOrgnameerror, setisOrgnameerror] = useState(false);
-  const [isOrgmailerror, setisOrgmailerror] = useState(false);
-  const [isOrgnumbererror, setisOrgnumbererror] = useState(false);
-  const [isOrgAddresserror, setisOrgAddresserror] = useState(false);
-  const [isOrgcityerror, setisOrgcityerror] = useState(false);
-  const [ispincodeerror, setispincodeerror] = useState(false);
-  const [countryvalue, setcountryvalue] = useState("");
-  const [orgdeserror, serorgdeserror] = useState(false);
+export default function OrgRightside(props) {
+  // const [isOrgnameerror, setisOrgnameerror] = useState(false);
+  // const [isOrgmailerror, setisOrgmailerror] = useState(false);
+  // // const [isOrgnumbererror, setisOrgnumbererror] = useState(false);
+  // const [isOrgAddresserror, setisOrgAddresserror] = useState(false);
+  // const [isOrgcityerror, setisOrgcityerror] = useState(false);
+  // const [ispincodeerror, setispincodeerror] = useState(false);
+  // const [countryvalue, setcountryvalue] = useState("");
+  // // const [orgdeserror, serorgdeserror] = useState(false);
   const [orgdesc, setorgdesc] = useState("");
   const [editorValue, setEditorValue] = React.useState(
     RichTextEditor.createValueFromString(orgdesc, "html")
   );
 
-  const [validOrgNumber, setValidOrgnumber] = useState("");
+  // const [validOrgNumber, setValidOrgnumber] = useState("");
 
   const options = useMemo(() => countryList().getData(), []);
 
-  const [Orgnextbutton, setOrgnextbutton] = useState(false);
+  // // const [Orgnextbutton, setOrgnextbutton] = useState(false);
 
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
 
-  const Orgname = useRef();
-  const Orgmail = useRef();
-  const OrgAddress = useRef();
-  const Orgcity = useRef();
-  const pincode = useRef();
+  // const Orgname = useRef();
+  // const Orgmail = useRef();
+  // const OrgAddress = useRef();
+  // const Orgcity = useRef();
+  // const pincode = useRef();
 
   const fileTypes = ["JPEG", "PNG", "jpg"];
+
+  // const [Orgnamebtn, setOrgnamebtn] = useState(false);
+  // const [Orgemailbtn, setOrgemailbtn] = useState(false);
+  // const [Orgaddressbtn, setOrgaddressbtn] = useState(false);
+  // const [Orgcitybtn, setOrgcitybtn] = useState(false);
+  // const [Orgcountrybtn, setOrgcountrybtn] = useState(false);
+  // const [Orgpincodebtn, setOrgpincodebtn] = useState(false);
+  const [Orgdesbtn, setOrgdesbtn] = useState(false);
 
   const handleOrgDesChange = (value) => {
     setEditorValue(value);
     setorgdesc(value.toString("html"));
     console.log(value.toString("html"));
-  };
-
-  const handleOrgSubmit = async (e) => {
-    e.preventDefault();
-    let url = UrlConstant.base_url + UrlConstant.org;
-    // email validation
-    const emailstring = Orgmail.current.value;
-    const valid = validator.isEmail(emailstring);
-    console.log(valid);
-    const finalEmail = emailstring.trim();
-
-    const name = Orgname.current.value;
-    const finalName = name.trim();
-
-    const address = OrgAddress.current.value;
-    const finalAddress = address.trim();
-
-    const city = Orgcity.current.value;
-    const finalCity = city.trim();
-
-    const pinCode = pincode.current.value;
-    const finalpinCode = pinCode.trim();
-
-    var bodyFormData = new FormData();
-    bodyFormData.append("org_email", finalEmail);
-    bodyFormData.append("name", finalName);
-    bodyFormData.append(
-      "address",
-      JSON.stringify({
-        country: countryvalue,
-        pincode: finalpinCode,
-        address: finalAddress,
-        city: finalCity,
-      })
-    );
-    bodyFormData.append("phone_number", validOrgNumber);
-    bodyFormData.append("logo", file);
-    bodyFormData.append("org_description", orgdesc);
-    console.log("dfdfdsf", bodyFormData);
-
-    // let data = {
-    //   org_email: finalEmail,
-    //   name: finalName,
-    //   address: {
-    //     country: countryvalue,
-    //     pincode: finalpinCode,
-    //     address: finalAddress,
-    //     city: finalCity,
-    //   },
-    //   phone_number: validOrgNumber,
-    //   //   logo: file,
-    //   org_description: orgdesc,
-    // };
-
-    if (!valid) {
-      setisOrgmailerror(true);
+    // console.log(value.length);
+    if (value.toString("html") !== "<p><br></p>") {
+      setOrgdesbtn(true);
     } else {
-      setisOrgnameerror(false);
-
-      HTTPService("POST", url, bodyFormData, true, false)
-        .then((response) => {
-          console.log("response");
-          console.log("org details", response.data);
-          //   console.log(response.json());
-          console.log(response.status);
-          if (response.status === 201) {
-            // setEmail(false);
-            // setError(false);
-          } else {
-            // setError(true);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          //   setError(true);
-        });
-
-      //   await fetch(url, {
-      //     method: "POST",
-      //     headers: {
-      //       //   Accept: "application/json",
-      //       "content-type": "multipart/form-data; boundary=l3ipy71otz",
-      //     },
-      //     body: {
-      //       org_email: finalEmail,
-      //       name: finalName,
-      //       address: {
-      //         country: countryvalue,
-      //         pincode: finalpinCode,
-      //         address: finalAddress,
-      //         city: finalCity,
-      //       },
-      //       phone_number: validOrgNumber,
-      //       logo: file,
-      //       org_description: orgdesc,
-
-      //       //   otp: valid,
-      //     },
-      //   })
-      //     .then((response) => {
-      //       console.log("response");
-      //       console.log("org details", response.data);
-      //       // console.log(response.json());
-      //       // console.log(response.refresh);
-      //       // console.log(response.active);
-      //       if (response.status === 200) {
-      //         // setOtpError(false);
-      //       } else {
-      //         // setOtpError(true);
-      //       }
-      //     })
-      //     .catch((e) => {
-      //       console.log(e);
-      //       //   setOtpError(true);
-      //     });
+      setOrgdesbtn(false);
     }
+    props.textEditorData(value.toString("html"));
   };
 
-  //   const onChange = (value) => {
-  //     console.log(value);
-  //     setorgdesc(value);
-  //   };
+  // const handleOrgSubmit = async (e) => {
+  //   e.preventDefault();
+  //   let url = UrlConstant.base_url + UrlConstant.org;
+  //   // email validation
+  //   const emailstring = Orgmail.current.value;
+  //   const valid = validator.isEmail(emailstring);
+  //   console.log(valid);
+  //   const finalEmail = emailstring.trim();
 
-  const handleOrgname = (e) => {
-    console.log(e.target.value);
-    var letters = /^[A-Za-z ]+$/;
-    var orgname = e.target.value;
-    if (orgname.length > 0) {
-      setisOrgnameerror(false);
-      setOrgnextbutton(true);
-    } else {
-      setisOrgnameerror(true);
-    }
-    if (orgname.match(letters)) {
-      setisOrgnameerror(false);
-      //   setprofilenextbutton(true);
-    } else {
-      setisOrgnameerror(true);
-    }
-  };
+  //   const name = Orgname.current.value;
+  //   const finalName = name.trim();
 
-  const handleOrgmail = (e) => {
-    // console.log(e.target.value);
-    var email = e.target.value;
-    if (email.length > 0) {
-      setisOrgmailerror(false);
-      setOrgnextbutton(true);
-    } else {
-      setisOrgmailerror(true);
-    }
-  };
+  //   const address = OrgAddress.current.value;
+  //   const finalAddress = address.trim();
 
-  const handleOrgnumber = (value) => {
-    console.log(value);
-    setValidOrgnumber(value);
-  };
+  //   const city = Orgcity.current.value;
+  //   const finalCity = city.trim();
 
-  const handleOrgAddress = (e) => {
-    console.log(e.target.value);
-    var address = e.target.value;
-    if (address.length > 0) {
-      setisOrgAddresserror(false);
-      setOrgnextbutton(true);
-    } else {
-      setisOrgAddresserror(true);
-    }
-  };
+  //   const pinCode = pincode.current.value;
+  //   const finalpinCode = pinCode.trim();
 
-  const handleOrgcity = (e) => {
-    console.log(e.target.value);
-    var letters = /^[A-Za-z]+$/;
-    var city = e.target.value;
-    if (city.length > 0) {
-      setisOrgcityerror(false);
-      setOrgnextbutton(true);
-    } else {
-      setisOrgcityerror(true);
-    }
-    if (city.match(letters)) {
-      setisOrgcityerror(false);
-      //   setprofilenextbutton(true);
-    } else {
-      setisOrgcityerror(true);
-    }
-  };
+  //   var bodyFormData = new FormData();
+  //   bodyFormData.append("org_email", finalEmail);
+  //   bodyFormData.append("name", finalName);
+  //   bodyFormData.append(
+  //     "address",
+  //     JSON.stringify({
+  //       country: countryvalue,
+  //       pincode: finalpinCode,
+  //       address: finalAddress,
+  //       city: finalCity,
+  //     })
+  //   );
+  //   bodyFormData.append("phone_number", validOrgNumber);
+  //   bodyFormData.append("logo", file);
+  //   bodyFormData.append("org_description", orgdesc);
+  //   console.log("dfdfdsf", bodyFormData);
 
-  const countrychangeHandler = (value) => {
-    setcountryvalue(value);
-  };
+  //   // let data = {
+  //   //   org_email: finalEmail,
+  //   //   name: finalName,
+  //   //   address: {
+  //   //     country: countryvalue,
+  //   //     pincode: finalpinCode,
+  //   //     address: finalAddress,
+  //   //     city: finalCity,
+  //   //   },
+  //   //   phone_number: validOrgNumber,
+  //   //   //   logo: file,
+  //   //   org_description: orgdesc,
+  //   // };
 
-  const handlepincode = (e) => {
-    console.log(e.target.value);
-    var pincode = e.target.value;
-    if (pincode.length > 0) {
-      setispincodeerror(false);
-      setOrgnextbutton(true);
-    } else {
-      setispincodeerror(true);
-    }
-  };
+  //   if (!valid) {
+  //     setisOrgmailerror(true);
+  //   } else {
+  //     setisOrgnameerror(false);
+
+  //     HTTPService("POST", url, bodyFormData, true, false)
+  //       .then((response) => {
+  //         console.log("response");
+  //         console.log("org details", response.data);
+  //         //   console.log(response.json());
+  //         console.log(response.status);
+  //         if (response.status === 201) {
+  //           // setEmail(false);
+  //           // setError(false);
+  //         } else {
+  //           // setError(true);
+  //         }
+  //       })
+  //       .catch((e) => {
+  //         console.log(e);
+  //         //   setError(true);
+  //       });
+
+  //     //   await fetch(url, {
+  //     //     method: "POST",
+  //     //     headers: {
+  //     //       //   Accept: "application/json",
+  //     //       "content-type": "multipart/form-data; boundary=l3ipy71otz",
+  //     //     },
+  //     //     body: {
+  //     //       org_email: finalEmail,
+  //     //       name: finalName,
+  //     //       address: {
+  //     //         country: countryvalue,
+  //     //         pincode: finalpinCode,
+  //     //         address: finalAddress,
+  //     //         city: finalCity,
+  //     //       },
+  //     //       phone_number: validOrgNumber,
+  //     //       logo: file,
+  //     //       org_description: orgdesc,
+
+  //     //       //   otp: valid,
+  //     //     },
+  //     //   })
+  //     //     .then((response) => {
+  //     //       console.log("response");
+  //     //       console.log("org details", response.data);
+  //     //       // console.log(response.json());
+  //     //       // console.log(response.refresh);
+  //     //       // console.log(response.active);
+  //     //       if (response.status === 200) {
+  //     //         // setOtpError(false);
+  //     //       } else {
+  //     //         // setOtpError(true);
+  //     //       }
+  //     //     })
+  //     //     .catch((e) => {
+  //     //       console.log(e);
+  //     //       //   setOtpError(true);
+  //     //     });
+  //   }
+  // };
+
+  // //   const onChange = (value) => {
+  // //     console.log(value);
+  // //     setorgdesc(value);
+  // //   };
+
+  // const handleOrgname = (e) => {
+  //   console.log(e.target.value);
+  //   var letters = /^[A-Za-z ]*$/;
+  //   var orgname = e.target.value;
+  //   // if (orgname.length > 0) {
+  //   //   setisOrgnameerror(false);
+  //   //   setOrgnextbutton(true);
+  //   // } else {
+  //   //   setisOrgnameerror(true);
+  //   // }
+  //   if (orgname.match(letters)) {
+  //     setisOrgnameerror(false);
+  //     setOrgnamebtn(true);
+  //     //   setprofilenextbutton(true);
+  //   } else {
+  //     setisOrgnameerror(true);
+  //     setOrgnamebtn(false);
+  //   }
+  // };
+
+  // const handleOrgmail = (e) => {
+  //   // console.log(e.target.value);
+  //   var email = e.target.value;
+  //   // if (email.length > 0) {
+  //   //   setisOrgmailerror(false);
+  //   //   // setOrgnextbutton(true);
+  //   // } else {
+  //   //   setisOrgmailerror(true);
+  //   // }
+  //   const valid = validator.isEmail(email);
+  //   console.log(valid);
+  //   const finalEmail = email.trim();
+  //   console.log(finalEmail);
+  //   if (valid) {
+  //     setisOrgmailerror(false);
+  //     setOrgemailbtn(true);
+  //   } else {
+  //     setisOrgmailerror(true);
+  //     setOrgemailbtn(false);
+  //   }
+  // };
+
+  // const handleOrgnumber = (value) => {
+  //   console.log(value);
+  //   setValidOrgnumber(value);
+  // };
+
+  // const handleOrgAddress = (e) => {
+  //   console.log(e.target.value);
+  //   var address = e.target.value;
+  //   if (address.length > 0) {
+  //     setisOrgAddresserror(false);
+  //     setOrgaddressbtn(true);
+  //     // setOrgnextbutton(true);
+  //   } else {
+  //     setisOrgAddresserror(true);
+  //     setOrgaddressbtn(false);
+  //   }
+  // };
+
+  // const handleOrgcity = (e) => {
+  //   console.log(e.target.value);
+  //   var letters = /^[A-Za-z]+$/;
+  //   var city = e.target.value;
+  //   // if (city.length > 0) {
+  //   //   setisOrgcityerror(false);
+  //   //   setOrgnextbutton(true);
+  //   // } else {
+  //   //   setisOrgcityerror(true);
+  //   // }
+  //   if (city.match(letters)) {
+  //     setisOrgcityerror(false);
+  //     setOrgcitybtn(true);
+  //     //   setprofilenextbutton(true);
+  //   } else {
+  //     setisOrgcityerror(true);
+  //     setOrgcitybtn(false);
+  //   }
+  // };
+
+  // const countrychangeHandler = (value) => {
+  //   setcountryvalue(value);
+  //   setOrgcountrybtn(true);
+  // };
+
+  // const handlepincode = (e) => {
+  //   console.log(e.target.value);
+  //   var pincode = e.target.value;
+  //   if (pincode.length > 0) {
+  //     setispincodeerror(false);
+  //     setOrgpincodebtn(true);
+  //     // setOrgnextbutton(true);
+  //   } else {
+  //     setispincodeerror(true);
+  //     setOrgpincodebtn(false);
+  //   }
+  // };
 
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
@@ -286,13 +321,13 @@ export default function OrgRightside() {
     ],
   };
 
-  const handleFileChange = (file) => {
-    // var finalFiles = file.target.files;
-    setFile(file);
-    console.log(file);
-    console.log(file.length);
-    console.log(file.size);
-  };
+  // const handleorgFileChange = (file) => {
+  //   // var finalFiles = file.target.files;
+  //   setFile(file);
+  //   console.log(file);
+  //   console.log(file.length);
+  //   console.log(file.size);
+  // };
 
   //   const onEditorStateChange = (value) => {
   //     console.log(value);
@@ -305,34 +340,32 @@ export default function OrgRightside() {
     <div>
       <div className="orgheader">Organization details</div>
       <div>
-        <form noValidate autoComplete="off" onSubmit={handleOrgSubmit}>
+        <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
           <div className="orgname">
             <TextField
-              required
               id="filled-basic"
               label="Organization Name"
               variant="filled"
               style={{ width: "420px" }}
               //   className="profilefirstname"
-              onChange={handleOrgname}
-              inputRef={Orgname}
-              error={isOrgnameerror}
-              helperText={isOrgnameerror ? "Enter Name" : ""}
+              onChange={props.handleOrgname}
+              inputRef={props.Orgname}
+              error={props.isOrgnameerror}
+              helperText={props.isOrgnameerror ? "Enter Name" : ""}
             />
           </div>
           <div className="orgemail">
             <TextField
-              required
               type="email"
               id="filled-basic"
               label="Organization Mail ID"
               variant="filled"
               style={{ width: "420px" }}
               //   className="profilelastname"
-              onChange={handleOrgmail}
-              inputRef={Orgmail}
-              error={isOrgmailerror}
-              helperText={isOrgmailerror ? "Enter Valid Email id" : ""}
+              onChange={props.handleOrgmail}
+              inputRef={props.Orgmail}
+              error={props.isOrgmailerror}
+              helperText={props.isOrgmailerror ? "Enter Valid Email id" : ""}
             />
           </div>
           <div className="orgnumber">
@@ -342,24 +375,23 @@ export default function OrgRightside() {
               id="filled-basic"
               label="Organization Contact Number"
               variant="filled"
-              onChange={handleOrgnumber}
+              onChange={props.handleOrgnumber}
               //   inputRef={profilenumber}
-              error={isOrgnumbererror}
-              helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
+              // error={isOrgnumbererror}
+              // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
             />
           </div>
           <div className="orgaddress">
             <TextField
-              required
               id="filled-basic"
               label="Address"
               variant="filled"
               style={{ width: "420px" }}
               //   className="profileemail"
-              onChange={handleOrgAddress}
-              inputRef={OrgAddress}
-              error={isOrgAddresserror}
-              helperText={isOrgAddresserror ? "Enter Valid Address" : ""}
+              onChange={props.handleOrgAddress}
+              inputRef={props.OrgAddress}
+              error={props.isOrgAddresserror}
+              helperText={props.isOrgAddresserror ? "Enter Valid Address" : ""}
             />
           </div>
           <div className="orgcity">
@@ -369,17 +401,17 @@ export default function OrgRightside() {
               variant="filled"
               style={{ width: "420px" }}
               //   className="profileemail"
-              onChange={handleOrgcity}
-              inputRef={Orgcity}
-              error={isOrgcityerror}
-              helperText={isOrgcityerror ? "Enter Valid City" : ""}
+              onChange={props.handleOrgcity}
+              inputRef={props.Orgcity}
+              error={props.isOrgcityerror}
+              helperText={props.isOrgcityerror ? "Enter Valid City" : ""}
             />
           </div>
           <div className="orgcountry">
             <Select
               options={options}
-              value={countryvalue}
-              onChange={countrychangeHandler}
+              value={props.countryvalue}
+              onChange={props.countrychangeHandler}
               isSearchable={true}
               style={{ width: "420px", zIndex: 4, backgroundColor: grey }}
               placeholder="Select Country"
@@ -393,10 +425,10 @@ export default function OrgRightside() {
               label="Pin Code"
               variant="filled"
               style={{ width: "420px", zIndex: 0 }}
-              onChange={handlepincode}
-              inputRef={pincode}
-              error={ispincodeerror}
-              helperText={ispincodeerror ? "Enter vaild pin code" : ""}
+              onChange={props.handlepincode}
+              inputRef={props.pincode}
+              error={props.ispincodeerror}
+              helperText={props.ispincodeerror ? "Enter vaild pin code" : ""}
             />
           </div>
           <div className="orgdes">
@@ -477,7 +509,7 @@ export default function OrgRightside() {
           <div className="org">
             <FileUploader
               //   multiple={true}
-              handleChange={handleFileChange}
+              handleChange={props.handleorgFileChange}
               name="file"
               types={fileTypes}
               children={
@@ -489,24 +521,30 @@ export default function OrgRightside() {
               //   maxSize={2}
             />
             <p className="filename">
-              {file
-                ? file.size
-                  ? `File name: ${file.name}`
+              {props.orgfile
+                ? props.orgfile.size
+                  ? `File name: ${props.orgfile.name}`
                   : ""
                 : "No file uploaded yet"}
             </p>
             <p className="oversizemb">
-              {file != null && file.size > 2097152
+              {props.orgfile != null && props.orgfile.size > 2097152
                 ? "File uploaded is more than 2MB!"
                 : ""}
             </p>
           </div>
-
           <div>
             {/* <Button variant="contained" className="orgbtn" type="submit">
               <span className="signupbtnname">Next</span>
             </Button> */}
-            {Orgnextbutton ? (
+            {props.Orgnamebtn &&
+            props.Orgemailbtn &&
+            props.Orgaddressbtn &&
+            props.Orgcitybtn &&
+            props.Orgcountrybtn &&
+            props.Orgpincodebtn &&
+            Orgdesbtn &&
+            props.orgfile ? (
               <Button variant="contained" className="orgbtn" type="submit">
                 <span className="signupbtnname">Next</span>
               </Button>

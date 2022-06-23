@@ -211,9 +211,6 @@ export default function ProfileRightside(props) {
                 Next
               </Button>
             )}
-            {/* <Button variant="contained" className="profilebtn" type="submit">
-              <span className="signupbtnname">Next</span>
-            </Button> */}
           </div>
 
           <div>

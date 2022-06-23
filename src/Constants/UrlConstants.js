@@ -1,5 +1,5 @@
 const UrlConstant = {
-  base_url: "http://ec2-3-101-36-249.us-west-1.compute.amazonaws.com:8000/",
+  base_url: "https://datahubtest.farmstack.co/be/",
   login: "accounts/login/",
   otp: "accounts/otp/",
   resend_otp: "accounts/resend_otp/",
