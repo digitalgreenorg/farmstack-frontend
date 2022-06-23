@@ -11,6 +11,8 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
 
+import ProfileRightside from "../../Components/signup/ProfileRightside";
+
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -23,9 +25,17 @@ export default function Login(props) {
   const [restartcounter, Setrestartcounter] = useState(0);
   const [disable, setDisable] = useState(true);
 
-  const [isemail, setEmail] = useState(true);
   const [validemail, Setvalidemail] = useState("");
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
+  const [isemail, setEmail] = useState(true);
+  const [isOtp, setisOtp] = useState(false);
+  const [isProfile, setisProfile] = useState(false);
+  const [isOrg, setisOrg] = useState(false);
+  const [isPolicies, setisPolicies] = useState(false);
+  const [isBranding, setisBranding] = useState(false);
+
+  const [profileid, setprofileid] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,8 +70,11 @@ export default function Login(props) {
           //   console.log(response.json());
           console.log(response.status);
           if (response.status === 201) {
+            console.log(response.data.id);
+            setprofileid(response.data.id);
             setEmail(false);
             setError(false);
+            setisOtp(true);
           } else {
             setError(true);
           }
@@ -124,6 +137,8 @@ export default function Login(props) {
           // console.log(response.active);
           if (response.status === 200) {
             setOtpError(false);
+            setisProfile(true);
+            setisOtp(false);
           } else {
             setOtpError(true);
           }
@@ -188,14 +203,128 @@ export default function Login(props) {
       });
   };
 
+  // profile screen functions
+  const profilefirstname = useRef();
+  const profilelastname = useRef();
+  const profileemail = useRef();
+
+  const [ispropfilefirstnameerror, setispropfilefirstnameerror] = useState(
+    false
+  );
+  const [ispropfilelastnameerror, setispropfilelastnameerror] = useState(false);
+  const [ispropfileemailerror, setispropfileemailerror] = useState(false);
+  // const [ispropfilenumbererror, setispropfilenumbererror] = useState(false);
+  const [profilenextbutton, setprofilenextbutton] = useState(false);
+  const [validNumber, setValidnumber] = useState("");
+
+  const handleprofileSubmit = async (e) => {
+    e.preventDefault();
+    console.log(profilefirstname.current.value);
+    const firstname = profilefirstname.current.value;
+    const lastname = profilelastname.current.value;
+    const email = profileemail.current.value;
+    if (profilefirstname.current.value.length === 0) {
+      setispropfilefirstnameerror(true);
+    } else {
+      setispropfilefirstnameerror(false);
+    }
+    // if (profilelastname.current.value.length === 0) {
+    //   setispropfilelastnameerror(true);
+    // } else {
+    //   setispropfilelastnameerror(false);
+    // }
+    // if (profileemail.current.value.length === 0) {
+    //   setispropfileemailerror(true);
+    // } else {
+    //   setispropfileemailerror(false);
+    // }
+    var bodyFormData = new FormData();
+    bodyFormData.append("email", email);
+    bodyFormData.append("first_name", firstname);
+    bodyFormData.append("last_name", lastname);
+    bodyFormData.append("phone_number", validNumber);
+
+    console.log("profile data", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.profile + `${profileid}/`;
+
+    await HTTPService("PUT", url, bodyFormData, true, false)
+      .then((response) => {
+        console.log("response");
+        console.log("org details", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 201) {
+          // setEmail(false);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
+  };
+  const handleprofilfirstename = (e) => {
+    console.log(e.target.value);
+    var letters = /^[A-Za-z]+$/;
+    var profilefirstname = e.target.value;
+    // if (profilefirstname.length > 0) {
+    //   setispropfilefirstnameerror(false);
+    //   // setprofilenextbutton(true);
+    // } else {
+    //   setispropfilefirstnameerror(true);
+    // }
+    if (profilefirstname.match(letters)) {
+      setispropfilefirstnameerror(false);
+      setprofilenextbutton(true);
+    } else {
+      setispropfilefirstnameerror(true);
+      setprofilenextbutton(false);
+    }
+  };
+  const handleprofilelastname = (e) => {
+    console.log(e.target.value);
+    var letters = /^[A-Za-z\s]*$/;
+    var lastname = e.target.value;
+    if (lastname.match(letters)) {
+      setispropfilelastnameerror(false);
+      // setprofilenextbutton(true);
+    } else {
+      setispropfilelastnameerror(true);
+      // setprofilenextbutton(false);
+    }
+  };
+
+  // const handleprofileemail = (e) => {
+  //   console.log(e.target.value);
+  //   var email = e.target.value;
+  //   // if (email.length > 0) {
+  //   //   setispropfileemailerror(false);
+  //   //   setprofilenextbutton(true);
+  //   // } else {
+  //   //   setispropfileemailerror(true);
+  //   // }
+  // };
+  const handleprofilenumber = (value) => {
+    console.log(value);
+    // var number = e.target.value;
+    // if (number.length > 0) {
+    //   setispropfilenumbererror(false);
+    //   setprofilenextbutton(true);
+    // } else {
+    //   setispropfilenumbererror(true);
+    // }
+    setValidnumber(value);
+  };
   return (
     <div>
       <SignInHeader></SignInHeader>
       <h1 className="headertext">{screenlabels.signup_header}</h1>
       <Leftintro />
-      <Rightintro />
+      {isemail || isOtp ? <Rightintro /> : ""}
       <Footerimg />
-      {isemail ? (
+      {isemail && (
         <SignupEmail
           screenlabels={screenlabels}
           handleSubmit={handleSubmit}
@@ -204,7 +333,8 @@ export default function Login(props) {
           email={email}
           button={button}
         />
-      ) : (
+      )}
+      {isOtp && (
         <SignupOtp
           handleSubmitOtp={handleSubmitOtp}
           handleOtp={handleOtp}
@@ -216,6 +346,22 @@ export default function Login(props) {
           restartcounter={restartcounter}
           disable={disable}
           setDisable={setDisable}
+        />
+      )}
+      {isProfile && (
+        <ProfileRightside
+          handleprofileSubmit={handleprofileSubmit}
+          handleprofilfirstename={handleprofilfirstename}
+          handleprofilelastname={handleprofilelastname}
+          handleprofilenumber={handleprofilenumber}
+          ispropfilefirstnameerror={ispropfilefirstnameerror}
+          ispropfilelastnameerror={ispropfilelastnameerror}
+          ispropfileemailerror={ispropfileemailerror}
+          profilenextbutton={profilenextbutton}
+          profilefirstname={profilefirstname}
+          profilelastname={profilelastname}
+          profileemail={profileemail}
+          validemail={validemail}
         />
       )}
     </div>
