@@ -558,7 +558,8 @@ export default function OrgRightside(props) {
             <Button
               variant="outlined"
               className="finishlaterorgbtn"
-              type="button">
+              type="button"
+              onClick={props.finishLaterOrgScreen}>
               Finish Later
             </Button>
           </div>

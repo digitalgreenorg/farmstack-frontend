@@ -330,6 +330,12 @@ export default function Login(props) {
     setValidnumber(value);
   };
 
+  const finishLaterProfileScreen = () => {
+    console.log("clicked on finish later profile screen");
+    setisProfile(false);
+    setisOrg(true);
+  };
+
   // org screen
   const [isOrgnameerror, setisOrgnameerror] = useState(false);
   const [isOrgmailerror, setisOrgmailerror] = useState(false);
@@ -545,6 +551,12 @@ export default function Login(props) {
     console.log(file.size);
   };
 
+  const finishLaterOrgScreen = () => {
+    console.log("clicked on finish later Org screen");
+    setisPolicies(true);
+    setisOrg(false);
+  };
+
   return (
     <div>
       <SignInHeader></SignInHeader>
@@ -590,6 +602,7 @@ export default function Login(props) {
           profilelastname={profilelastname}
           profileemail={profileemail}
           validemail={validemail}
+          finishLaterProfileScreen={finishLaterProfileScreen}
         />
       )}
       {isOrg ? (
@@ -627,6 +640,7 @@ export default function Login(props) {
           countrychangeHandler={countrychangeHandler}
           handlepincode={handlepincode}
           handleorgFileChange={handleorgFileChange}
+          finishLaterOrgScreen={finishLaterOrgScreen}
         />
       ) : (
         <></>

@@ -32,7 +32,7 @@ export default function BrandingRightside() {
     e.preventDefault();
     var bodyFormData = new FormData();
     bodyFormData.append("button_color", hexColor);
-    bodyFormData.append("hero_image", file);
+    bodyFormData.append("banner", file);
 
     console.log("branding data", bodyFormData);
     let url = UrlConstant.base_url + UrlConstant.branding;

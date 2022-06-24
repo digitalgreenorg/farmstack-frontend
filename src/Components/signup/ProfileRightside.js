@@ -214,7 +214,7 @@ export default function ProfileRightside(props) {
           </div>
 
           <div>
-            <Button variant="outlined" className="finishlaterbtn" type="button">
+            <Button variant="outlined" className="finishlaterbtn" type="button" onClick={props.finishLaterProfileScreen}>
               Finish Later
             </Button>
           </div>

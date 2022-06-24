@@ -502,6 +502,12 @@ export default function PoliciesRightside(props) {
       });
   };
 
+
+  const finishLaterPoliciesScreen = () => {
+    console.log("clicked on finish later policies screen");
+   props.showBrandingScreen();
+  };
+
   return (
     <div>
       <p className="policiesHeader">Company Policies</p>
@@ -823,7 +829,8 @@ export default function PoliciesRightside(props) {
           <Button
             variant="outlined"
             className="finishlaterpoliciesbtn"
-            type="button">
+            type="button"
+            onClick={finishLaterPoliciesScreen}>
             Finish Later
           </Button>
         </div>
