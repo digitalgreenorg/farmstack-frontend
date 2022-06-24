@@ -8,8 +8,14 @@ import {
   NavBtnLink,
 } from './NavbarElements';
 import labels from '../../Constants/labels';
+import LocalStorageConstants from '../../Constants/LocalStorageConstants'
 const Navbar = (props) => {
   const [screenlabels, setscreenlabels] = useState(labels['en']);
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
+    props.history.push('/login');
+  }
   return (
     <>
       <Nav id="datahubnavbar">
@@ -55,7 +61,7 @@ const Navbar = (props) => {
           {/* Second Nav */}
           {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
         </NavMenu>
-        <NavBtn>
+        <NavBtn onClick={handleLogout}>
           <NavBtnLink to='/signin'> <img
             src={require('../../Assets/Img/account.svg')}
             alt="new"

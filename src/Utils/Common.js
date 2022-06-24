@@ -1,21 +1,12 @@
-  export const setTokenLocal = (token,language) => {
-    localStorage.setItem('token', JSON.stringify(token));
-    localStorage.setItem('language', JSON.stringify(language));
+  import LocalStorageConstants from '../Constants/LocalStorageConstants'
+  export const setTokenLocal = (token) => {
+    localStorage.setItem(LocalStorageConstants.KEYS.JWTToken, JSON.stringify(token));
   }
   export const getTokenLocal = () => {
-    const tokenString = localStorage.getItem('token');
-    const userToken = JSON.parse(tokenString);
-    return userToken
+    const tokenString = localStorage.getItem(LocalStorageConstants.KEYS.JWTToken);
+    return tokenString
   }
-  export const getlanguage = () => {
-    let language = localStorage.getItem('language');
-    let userlanguage = JSON.parse(language);
-    if(userlanguage) {
-      return userlanguage
-    }else{
-      return 'en'
-    }
-  }
+
 
 
 

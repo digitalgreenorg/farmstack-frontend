@@ -16,18 +16,14 @@ import AddTeamMember from '../Views/Settings/TeamMembers/AddTeamMember'
 import EditTeamMember from '../Views/Settings/TeamMembers/EditTeamMember'
 import Settings from '../Views/Settings/Settings/Settings'
 import { useParams,useHistory } from 'react-router-dom';
+import {getTokenLocal} from '../Utils/Common'
 function Datahub(props) {
-    const [activePage, setactivePage] = useState("");
-    useEffect(() => {
-        let urlList=props.location.pathname.split("\/")
-        if(urlList.length>2){
-            setactivePage(urlList[2]) 
-        console.log("urlList",urlList[2])
-        }
-    }, []);
+    // const [activePage, setactivePage] = useState("");
+    // useEffect(() => {
+    // }, []);
     return (
-        <>
-            <Navbar activePage={activePage}/>
+        <>{getTokenLocal() ?
+            <><Navbar/>
             <Switch>
                 <Route exact path="/datahub/participants/view/:id" component={ViewParticipants} />
                 <Route exact path="/datahub/participants/edit/:id" component={EditParticipants} />
@@ -38,8 +34,9 @@ function Datahub(props) {
                 <Route exact path="/datahub/settings/editmember/:id" component={EditTeamMember} />
                 <Route exact path="/datahub/settings" component={Settings} />
 
-            </Switch>
-        </>
+            </Switch></>:(
+            props.history.push("/login")
+        )}</>
     );
 }
 export default Datahub;

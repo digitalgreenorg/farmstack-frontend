@@ -1,5 +1,6 @@
 const LocalStorageConstants = {
 	KEYS: {
+		"JWTToken":"JWTToken"
 	}
 };
 
