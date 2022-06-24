@@ -26,7 +26,7 @@ export default function OtpCountDownTimer(props) {
     <>
       <div className="counter">
         <Countdown
-          date={Date.now() + 10000}
+          date={Date.now() + 120000}
           renderer={renderer}
           key={props.restartcounter}
           precision={3}
