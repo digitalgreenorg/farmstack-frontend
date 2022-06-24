@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useEffect} from "react";
 import SignInHeader from "../../Components/signup/SignInHeader";
 import Leftintro from "../../Components/intros/Leftintro";
 import Rightintro from "../../Components/intros/Rightintro";
@@ -15,7 +15,7 @@ import ProfileRightside from "../../Components/signup/ProfileRightside";
 import OrgRightside from "../../Components/signup/OrgRightside";
 import PoliciesRightside from "../../Components/signup/PoliciesRightside";
 import BrandingRightside from "../../Components/signup/BrandingRightside";
-
+import {setTokenLocal,getTokenLocal} from '../../Utils/Common'
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
 
@@ -42,7 +42,11 @@ export default function Login(props) {
   const [isBranding, setisBranding] = useState(false);
 
   const [profileid, setprofileid] = useState("");
-
+  useEffect(() => {
+    if(getTokenLocal()){
+      props.history.push("/datahub/participants")
+    }
+    }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(email.current.value);
@@ -137,6 +141,8 @@ export default function Login(props) {
         .then((response) => {
           console.log("otp valid");
           console.log("otp valid", response.data);
+          console.log("access token", response.data.access);
+          setTokenLocal(response.data.access)
           console.log(response.status);
           // console.log(response.json());
           // console.log(response.refresh);

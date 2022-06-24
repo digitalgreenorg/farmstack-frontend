@@ -20,14 +20,14 @@ function App() {
     <React.Fragment>
       <Router>
         <Switch>
-          <Route exact path="/login" component={Login} />
-          {/* <Route exact path="/login/profile" component={ProfileScreen} />
+          {/* <Route exact path="/login" component={Login} />
+          <Route exact path="/login/profile" component={ProfileScreen} />
           <Route exact path="/login/org" component={OrganisationScreen} />
           <Route exact path="/login/branding" component={BrandingScreen} />
-          <Route exact path="/login/policies" component={Policies} /> */}
-        <Route path="/datahub" component={Datahub} />
-          <Route  path="/login" component={Login} />
-          <Route  path="/login/profile" component={ProfileScreen} />
+          <Route exact path="/login/policies" component={Policies} />
+          <Route  path="/login/profile" component={ProfileScreen} /> */}
+          <Route path="/datahub" component={Datahub} />
+          <Route path="/login" component={Login} />
           <Redirect from="/" to="/login" />
         </Switch>
       </Router>

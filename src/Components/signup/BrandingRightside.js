@@ -7,13 +7,13 @@ import Button from "@mui/material/Button";
 
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-
-export default function BrandingRightside() {
+import { useHistory } from "react-router-dom";
+export default function BrandingRightside(props) {
   const [file, setFile] = useState(null);
   const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 });
   const [hexColor, sethexColor] = useState("");
   const [Brandingnextbutton, setBrandingnextbutton] = useState(true);
-
+  const history = useHistory();
   const fileTypes = ["JPEG", "PNG", "jpg"];
   const handleBannerFileChange = (file) => {
     setFile(file);
@@ -44,6 +44,7 @@ export default function BrandingRightside() {
         //   console.log(response.json());
         console.log(response.status);
         if (response.status === 201) {
+          history.push("/datahub/participants");
           // setEmail(false);
           // setError(false);
         } else {
@@ -99,7 +100,7 @@ export default function BrandingRightside() {
           <span className="signupbtnname">Next</span>
         </Button> */}
             {Brandingnextbutton ? (
-              <Button variant="contained" className="brandbtn" type="submit">
+              <Button variant="contained" className="brandbtn" type="submit" >
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
@@ -115,7 +116,8 @@ export default function BrandingRightside() {
             <Button
               variant="outlined"
               className="finishlaterbrandbtn"
-              type="button">
+              type="button"
+              onClick={()=>{history.push("/datahub/participants")}}>
               Finish Later
             </Button>
           </div>

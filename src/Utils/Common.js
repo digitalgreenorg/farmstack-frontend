@@ -4,7 +4,8 @@
   }
   export const getTokenLocal = () => {
     const tokenString = localStorage.getItem(LocalStorageConstants.KEYS.JWTToken);
-    return tokenString
+    const userToken = JSON.parse(tokenString);
+    return userToken
   }
 
 
