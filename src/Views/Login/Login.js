@@ -560,7 +560,7 @@ export default function Login(props) {
   return (
     <div>
       <SignInHeader></SignInHeader>
-      <h1 className="headertext">{screenlabels.signup_header}</h1>
+      <h1 className="headertext">{screenlabels.login.signup_header}</h1>
       <Leftintro />
       {isemail || isOtp ? <Rightintro /> : ""}
       <Footerimg />

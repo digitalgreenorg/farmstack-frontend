@@ -6,14 +6,15 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
-} from "react-router-dom";
-import Login from "./Views/Login/Login";
-import ProfileScreen from "./Views/Login/ProfileScreen";
-import OrganisationScreen from "./Views/Login/OrganisationScreen";
-import BrandingScreen from "./Views/Login/BrandingScreen";
-import Policies from "./Views/Login/Policies";
-
+  Redirect
+} from 'react-router-dom';
+import Login from './Views/Login/Login'
+import ProfileScreen from './Views/Login/ProfileScreen'
+import Participants from './Views/Participants/Participants'
+import AddParticipants from './Views/Participants/AddParticipants'
+import EditParticipants from './Views/Participants/EditParticipants'
+import ViewParticipants from './Views/Participants/ViewParticipants'
+import Datahub from './Layout/Datahub'
 function App() {
   return (
     <React.Fragment>
@@ -24,6 +25,9 @@ function App() {
           <Route exact path="/login/org" component={OrganisationScreen} />
           <Route exact path="/login/branding" component={BrandingScreen} />
           <Route exact path="/login/policies" component={Policies} />
+        <Route path="/datahub" component={Datahub} />
+          <Route  path="/login" component={Login} />
+          <Route  path="/login/profile" component={ProfileScreen} />
           <Redirect from="/" to="/login" />
         </Switch>
       </Router>
