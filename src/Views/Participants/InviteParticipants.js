@@ -86,7 +86,7 @@ function InviteParticipants(props) {
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <ReactMultiEmail
                         style={{"width":"100%"}}
-                            placeholder="Email Id *"
+                            placeholder="Email Id"
                             emails={emails}
                             onChange={(email)=>setemails(email)}
                             validateEmail={email => {
@@ -111,7 +111,7 @@ function InviteParticipants(props) {
                     </span>
                 </Row>
                 <Row style={useStyles.marginrowtop}>
-                    <Col xs={12} sm={12} md={12} lg={12} >
+                    <Col xs={12} sm={12} md={12} lg={12}  className="invite-participant-text-editor">
                         <RichTextEditor
                             toolbarConfig={toolbarConfig}
                             value={editorValue}
@@ -137,7 +137,7 @@ function InviteParticipants(props) {
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
-                        {(emails.length>0&&orgdesc)
+                        {(emails.length>0)
                             ? (
                                 <Button onClick={() =>addInviteParticipants()} variant="contained" className="submitbtn">
                                     {screenlabels.common.submit}

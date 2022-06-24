@@ -8,7 +8,6 @@ body{
   width: 100%;
   height: 100%;
   background-color:#f8f9fa !important;
-  /* font-size: 14px !important; */
 }
 button.disbalesubmitbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important;opacity: 0.5}
 button.cancelbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important;}
@@ -19,18 +18,42 @@ button.submitbtn{ width: 420px !important;text-transform: capitalize;color: #FFF
 .mainheadingsuccess{font-weight: 700;font-size: 20px;color: #3D4A52;}
 .secondmainheadingsuccess{font-weight: 700;font-size: 20px;color: #D8AF28;}
 .thirdmainheadingsuccess{font-weight: 400;font-size: 16px;color: #3D4A52;}
-#datahubnavbar.kkYTtp.active.showboldimage{display:none;}
 .css-1gsv261{    border-bottom: 1px solid #c09507 !important}
 .css-1aquho2-MuiTabs-indicator{background-color: #c09507 !important;}
 .boldimage{  display: none;}
 .nonboldimage{  display: block;}
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+.react-multi-email > input {
+  background: none !important;
+}
+.react-multi-email{
+  width: 100% !important;
+  border:none !important;
+  background: none !important;
+  border-bottom: 1px solid #9AA1A9 !important;
+  border-radius: inherit !important;
+}
+.invite-participant-text-editor > div:first-child{
+  background: #F1F1F1 !important;
+  border: none !important;
+  border-bottom: 1px solid #9AA1A9 !important;
+  border-radius: inherit !important;
+}
+.settingsTabs .Mui-selected {
   color: #ffffff !important;
   border: 1px solid #D8AF28;
   border-radius: 2px 0px 0px 0px;
+  text-transform: capitalize !important;
   background: #C09507;
+  width: 200px;
 }
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+/* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+  background: #FFFFFF;
+  border: 1px solid #D8AF28 !important;
+  text-transform: capitalize !important;
+  font-weight: 400 !important;
+  width: 200px;
+} */
+:not(.Mui-selected).MuiTab-root {
   background: #FFFFFF;
   border: 1px solid #D8AF28 !important;
   text-transform: capitalize !important;

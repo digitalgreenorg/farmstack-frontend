@@ -79,7 +79,7 @@ function Settings(props) {
                     : <></>}
                 {isDeleteSuccess ? <Success okevent={() => { setteamMemberId(""); setisDelete(false); setistabView(true); setisDeleteSuccess(false); getMemberList() }} imagename={'success'} btntext={"ok"} heading={"Team Member deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a member."}></Success> : <></>}
                 {istabView ? <Row style={useStyles.marginrowtop50px}>
-                    <Col xs={12} sm={12} md={12} lg={12}>
+                    <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
                         <Box>
                             <TabContext value={value}>
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
