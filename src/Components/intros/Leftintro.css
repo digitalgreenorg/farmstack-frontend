@@ -34,18 +34,15 @@
   position: absolute;
   width: 528px;
   height: 44px;
-  left: 182px;
+  left: 200px;
   /* top: 320px; */
   top: 300px;
-
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-  line-height: 22px;
-
-  /* headings */
-
+  /* line-height: 22px; */
+  text-align: left;
   color: #3d4a52;
 }
 .intro-image2 {
@@ -78,26 +75,23 @@
 }
 .leftcontent2 {
   position: absolute;
-  width: 528px;
+  width: 512px;
   height: 44px;
-  left: 182px;
+  left: 199px;
   /* top: 460px; */
   top: 440px;
-
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
-
-  /* headings */
-
   color: #3d4a52;
+  text-align: left;
 }
 
 .leftheader3 {
   position: absolute;
-  width: 418px;
+  width: 428px;
   height: 27px;
   left: 182px;
   /* top: 567px; */
@@ -126,19 +120,16 @@
   position: absolute;
   width: 528px;
   height: 44px;
-  left: 182px;
+  left: 200px;
   /* top: 600px; */
   top: 585px;
-
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
-
-  /* headings */
-
   color: #3d4a52;
+  text-align: left;
 }
 
 .intro-image4 {
@@ -172,17 +163,15 @@
   position: absolute;
   width: 528px;
   height: 44px;
-  left: 182px;
+  left: 199px;
   /* top: 740px; */
   top: 720px;
-
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
-
-  /* headings */
   padding-bottom: 2%;
   color: #3d4a52;
+  text-align: left;
 }

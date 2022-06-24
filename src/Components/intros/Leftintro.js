@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import "./Leftintro.css";
 
 export default function Leftintro() {
@@ -89,8 +89,9 @@ export default function Leftintro() {
         </div>
         <h1 className="leftheader">Orchestrate network of data</h1>
         <h2 className="leftcontent">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac
-          tellugravida, elementum magna ut, viverra purus.
+          Coordinate and connectmultiple private and publicsector organizations,
+          institutions, and individuals to create a systematic interconnectionof
+          insights.
         </h2>
         <img
           src="https://cdn.londonandpartners.com/visit/general-london/areas/river/76709-640x360-houses-of-parliament-and-london-eye-on-thames-from-above-640.jpg"
@@ -124,8 +125,9 @@ export default function Leftintro() {
         </div>
         <h1 className="leftheader2">Invite data providers and consumers</h1>
         <h2 className="leftcontent2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac
-          tellugravida, elementum magna ut, viverra purus.
+          Welcome FPOs, government institutions, andcivil society players to
+          work together as learners, providers, and consumers in this
+          fairmulti-user network.
         </h2>
         {/* <img
           src="https://cdn.londonandpartners.com/visit/general-london/areas/river/76709-640x360-houses-of-parliament-and-london-eye-on-thames-from-above-640.jpg"
@@ -165,8 +167,8 @@ export default function Leftintro() {
           Enable secured peer to peer data exchange
         </h1>
         <h2 className="leftcontent3">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac
-          tellugravida, elementum magna ut, viverra purus.
+          This centralized structure enables aclosed network of peers to build
+          trust and bridges the gap via protected connectors.
         </h2>
         {/* <img
           src="https://cdn.londonandpartners.com/visit/general-london/areas/river/76709-640x360-houses-of-parliament-and-london-eye-on-thames-from-above-640.jpg"
@@ -208,8 +210,10 @@ export default function Leftintro() {
         </div>
         <h1 className="leftheader4">Derive value from data</h1>
         <h2 className="leftcontent4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac
-          tellugravida, elementum magna ut, viverra purus.
+          Exchange information and datain a trustworthy mannerwithout having to
+          monetize or pay for insights. Use the data to build your network
+          andgather information systematically for the greater benefit of
+          farmers.
         </h2>
       </div>
     </>

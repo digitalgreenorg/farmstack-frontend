@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import OtpCountDownTimer from "./OtpCountDownTimer";
@@ -16,8 +16,15 @@ export default function SignupOtp(props) {
           className="signupemail "
           onChange={props.handleOtp}
           inputRef={props.otp}
-          error={props.isOtperror}
-          helperText={props.isOtperror ? "Enter vaild OTP" : ""}
+          error={props.isOtperror || props.isuserSuspenderror}
+          helperText={
+            // props.isuserSuspenderror ? "user invaliad" : ""
+            props.isOtperror
+              ? "Enter vaild OTP"
+              : props.isuserSuspenderror
+              ? "Maximum attempts taken, please retry after some time"
+              : ""
+          }
         />
         <div>
           {props.button ? (

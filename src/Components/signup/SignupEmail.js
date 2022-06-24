@@ -44,16 +44,22 @@ export default function SignupEmail(props) {
           onChange={props.handleEmail}
           inputRef={props.email}
           error={props.iserror}
-          helperText={props.iserror ? "Enter Valid Email id" : ""}
+          helperText={
+            props.iserror
+              ? "Enter Valid Email id"
+              : props.userSuspenderror
+              ? "user suspended"
+              : ""
+          }
         />
         <div>
           {props.button ? (
             <Button variant="contained" className="Signupbtn" type="submit">
-              <span className="signupbtnname">Send OTP</span>
+              <span className="signupbtnname">Send OTP to Email</span>
             </Button>
           ) : (
             <Button variant="outlined" disabled className="disablebtn">
-              Send OTP
+              Send OTP to Email
             </Button>
           )}
         </div>

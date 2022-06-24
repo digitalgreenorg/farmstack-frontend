@@ -1,10 +1,14 @@
 const UrlConstant = {
-    base_url:"https://a03b-106-51-85-143.ngrok.io/",
-    login:"accounts/login/",
-    otp:"accounts/otp/",
-    participant:"datahub/participant/",
-    inviteparticipant:"datahub/send_invite/",
-    resend_otp:"accounts/resend_otp/"
+  base_url: "https://datahubtest.farmstack.co/be/",
+  login: "accounts/login/",
+  otp: "accounts/otp/",
+  resend_otp: "accounts/resend_otp/",
+  org: "datahub/organization/",
+  profile: "accounts/register/",
+  branding: "datahub/theme/",
+  policies_files_upload: "datahub/drop_document/",
+  policies_save_upload: "datahub/save_documents/",
+  delete_policies_drop_document: "datahub/drop_document/delete/",
 };
 
-export default UrlConstant
+export default UrlConstant;
