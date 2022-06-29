@@ -7,6 +7,8 @@ import TextField from "@mui/material/TextField";
 import MenuItem from '@mui/material/MenuItem';
 import countryList from "react-select-country-list";
 import MuiPhoneNumber from "material-ui-phone-number";
+import RegexConstants from '../../Constants/RegexConstants';
+import { handleAddressCharacters, handleNameFieldEntry, validateInputField } from '../../Utils/Common';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
@@ -17,6 +19,7 @@ const useStyles = {
 export default function ParticipantForm(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const options = useMemo(() => countryList().getData(), [])
+
     return (
         <>
             <Row style={useStyles.marginrowtop}>
@@ -31,7 +34,7 @@ export default function ParticipantForm(props) {
                         id="filled-basic"
                         variant="standard"
                         value={props.organisationname}
-                        onChange={(e) => props.setorganisationname(e.target.value)}
+                        onChange={(e) =>validateInputField(e.target.value,RegexConstants.ORG_NAME_REGEX)? props.setorganisationname(e.target.value): e.preventDefault()}
                         label={screenlabels.addparticipants.organisation_name}
                     />
                 </Col>
@@ -41,7 +44,7 @@ export default function ParticipantForm(props) {
                         id="filled-basic"
                         variant="standard"
                         value={props.orginsationemail}
-                        onChange={(e) => props.setorginsationemail(e.target.value)}
+                        onChange={(e) => props.setorginsationemail(e.target.value.trim())}
                         label={screenlabels.addparticipants.email}
                         error={props.isorganisationemailerror}
                         helperText={props.isorganisationemailerror ? "Enter Valid Email id" : ""}
@@ -54,7 +57,7 @@ export default function ParticipantForm(props) {
                         style={useStyles.inputwidth}
                         variant="standard"
                         value={props.websitelink}
-                        onChange={(e) => props.setwebsitelink(e.target.value)}
+                        onChange={(e) => props.setwebsitelink(e.target.value.trim())}
                         label={screenlabels.addparticipants.website_link}
                         error={props.iswebsitelinkrerror}
                         helperText={props.iswebsitelinkrerror ? "Enter Valid Website Link" : ""}
@@ -67,6 +70,7 @@ export default function ParticipantForm(props) {
                         variant="standard"
                         label={screenlabels.addparticipants.organisation_address}
                         value={props.organisationaddress}
+                        onKeyDown={(e) => handleAddressCharacters(props.organisationaddress,e)}
                         onChange={(e) => props.setorganisationaddress(e.target.value)}
                     />
                 </Col>
@@ -97,7 +101,9 @@ export default function ParticipantForm(props) {
                         type="number"
                         label={screenlabels.addparticipants.pincode}
                         value={props.pincode}
-                        onChange={(e) => props.setpincode(e.target.value)}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.PINCODE_REGEX) ? props.setpincode(e.target.value.trim()) : e.preventDefault()}
+                        //error={props.ispincodeerror}
+                        // helperText={props.ispincodeerror ? "Enter Valid Pin Code" : ""}
                     />
                 </Col>
             </Row>
@@ -114,7 +120,8 @@ export default function ParticipantForm(props) {
                         variant="standard"
                         label={screenlabels.addparticipants.first_name}
                         value={props.firstname}
-                        onChange={(e) => props.setfirstname(e.target.value)}
+                        onKeyDown={(e) => handleNameFieldEntry(props.firstname,e)}
+                        onChange={(e) => props.setfirstname(e.target.value.trim())}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
@@ -124,7 +131,8 @@ export default function ParticipantForm(props) {
                         variant="standard"
                         label={screenlabels.addparticipants.last_name}
                         value={props.lastname}
-                        onChange={(e) => props.setlastname(e.target.value)}
+                        onKeyDown={(e) => handleNameFieldEntry(props.lastname,e)}
+                        onChange={(e) => props.setlastname(e.target.value.trim())}
                     />
                 </Col>
             </Row>
@@ -136,7 +144,7 @@ export default function ParticipantForm(props) {
                         variant="standard"
                         label={screenlabels.addparticipants.email}
                         value={props.useremail}
-                        onChange={(e) => props.setuseremail(e.target.value)}
+                        onChange={(e) => props.setuseremail(e.target.value.trim())}
                         error={props.isuseremailerror}
                         helperText={props.isuseremailerror ? "Enter Valid Email id" : ""}
                     />
