@@ -56,11 +56,11 @@ function InviteParticipants(props) {
         ],
     };
     const addInviteParticipants = () => {
-        var bodyFormData = new FormData();
-        bodyFormData.append('to_email', emails);
-        console.log("editorValue",orgdesc)
-        bodyFormData.append('content', orgdesc);
-        HTTPService('POST', UrlConstants.base_url + UrlConstants.inviteparticipant, bodyFormData, true, false).then((response) => {
+        let data={
+            'to_email':emails,
+            'content': orgdesc
+        }
+        HTTPService('POST', UrlConstants.base_url + UrlConstants.inviteparticipant, data, false, false).then((response) => {
             console.log("otp valid", response.data);
             setisSuccess(true)
         }).catch((e) => {
