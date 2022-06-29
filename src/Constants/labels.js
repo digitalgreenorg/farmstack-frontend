@@ -55,7 +55,8 @@ const labels = {
             "subscripiton_length": "Subscription Length",
             "delete_participant": "Delete Participant",
             "delete_msg": "Are you sure you want to delete the participant?",
-            "second_delete_msg": "This action will delete the participant’s account from the system including her organisation details, users, datasets and connectors.The participant will no longer be able to use her account in the datahub."
+            "second_delete_msg": "This action will delete the participant’s account from the system including her organisation details, users, datasets and connectors.",
+            "third_delete_msg":"The participant will no longer be able to use her account in the datahub."
         },
         "inviteParticipants": {
             "first_heading": "Invite participants",
@@ -70,7 +71,8 @@ const labels = {
             "role":"Role",
             "delete_member": "Delete Member",
             "delete_msg": "Are you sure you want to delete the team member?",
-            "second_delete_msg": "This action will delete the member’s account from the system.The member will no longer be able to use her account in the datahub.",
+            "second_delete_msg": "This action will delete the member’s account from the system.",
+            "third_delete_msg":"The member will no longer be able to use her account in the datahub.",
             "firstText":"Add new Member",
             "secondText":"Add details about your dataset and make",
             "thirdText":"discoverable to other participants in our",

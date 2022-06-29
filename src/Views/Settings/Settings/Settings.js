@@ -74,7 +74,8 @@ function Settings(props) {
                     cancelEvent={() => { setisDelete(false); setistabView(true); setisDeleteSuccess(false) }}
                     heading={screenlabels.settings.delete_member}
                     imageText={screenlabels.settings.delete_msg}
-                    msg={screenlabels.settings.second_delete_msg}>
+                    firstmsg={screenlabels.settings.second_delete_msg}
+                    secondmsg={screenlabels.settings.third_delete_msg}>
                 </Delete>
                     : <></>}
                 {isDeleteSuccess ? <Success okevent={() => { setteamMemberId(""); setisDelete(false); setistabView(true); setisDeleteSuccess(false); getMemberList() }} imagename={'success'} btntext={"ok"} heading={"Team Member deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a member."}></Success> : <></>}

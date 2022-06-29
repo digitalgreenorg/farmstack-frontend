@@ -22,7 +22,7 @@ function Datahub(props) {
     // useEffect(() => {
     // }, []);
     return (
-        <>{getTokenLocal() ?
+        <>{!getTokenLocal() ?
             <><Navbar/>
             <Switch>
                 <Route exact path="/datahub/participants/view/:id" component={ViewParticipants} />

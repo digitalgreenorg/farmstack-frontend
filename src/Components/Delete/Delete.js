@@ -39,7 +39,12 @@ export default function Delete(props) {
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={12} lg={12} >
                     <span className="thirdmainheadingsuccess">
-                    {props.msg}
+                    {props.firstmsg}
+                    </span>
+                </Col>
+                <Col xs={12} sm={12} md={12} lg={12} >
+                    <span className="thirdmainheadingsuccess">
+                    {props.secondmsg}
                     </span>
                 </Col>
             </Row>

@@ -92,7 +92,8 @@ function ViewParticipants(props) {
                     cancelEvent={() => { setisDelete(false); setisSuccess(true); setisDeleteSuccess(false) }}
                     heading={screenlabels.viewparticipants.delete_participant}
                     imageText={screenlabels.viewparticipants.delete_msg}
-                    msg={screenlabels.viewparticipants.second_delete_msg}>
+                    firstmsg={screenlabels.viewparticipants.second_delete_msg}
+                    secondmsg={screenlabels.viewparticipants.third_delete_msg}>
                 </Delete>
                     : <></>}
                 {isDeleteSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Participant deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a participant."}></Success> : <></>}
