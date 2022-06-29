@@ -12,6 +12,8 @@ import HTTPService from '../../Services/HTTPService'
 import UrlConstants from '../../Constants/UrlConstants'
 import validator from "validator";
 import { useHistory } from "react-router-dom";
+import RegexConstants from '../../Constants/RegexConstants';
+import { validateInputField } from '../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
@@ -35,10 +37,11 @@ function AddParticipants(props) {
     const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
     const [iswebsitelinkrerror, setwebsitelinkerror] = useState(false);
     const [isuseremailerror, setisuseremailerror] = useState(false);
+    // const [ispincodeerror, setispincodeerror] = useState(false)
     const [isSuccess, setisSuccess] = useState(false);
 
     const isValidURL = (string) => {
-        var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        var res = string.match(RegexConstants.WEBSITE_URL_REGEX)
         return (res !== null)
     };
     const addNewParticipants = () => {
@@ -79,7 +82,9 @@ function AddParticipants(props) {
                     organisationaddress={organisationaddress}
                     setorganisationaddress={ref => { setorganisationaddress(ref) }}
                     pincode={pincode}
-                    setpincode={ref => { setpincode(ref) }}
+                    // setpincode={ref => { setpincode(ref); setispincodeerror(!validateInputField(ref,RegexConstants.PINCODE_REGEX)) }}
+                    setpincode={ref => { setpincode(ref);  }}
+                    // ispincodeerror={ispincodeerror}
                     firstname={firstname}
                     setfirstname={ref => { setfirstname(ref) }}
                     lastname={lastname}
