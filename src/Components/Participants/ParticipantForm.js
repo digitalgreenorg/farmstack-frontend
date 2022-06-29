@@ -11,7 +11,7 @@ import MuiPhoneNumber from "material-ui-phone-number";
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
     marginrowtop: {"margin-top": "20px"},
-    inputwidth:{width: "95%"},
+    inputwidth:{width: "95%", "text-align": "left"},
     headingbold:{fontWeight: "bold"}
 };
 export default function ParticipantForm(props) {
@@ -73,7 +73,7 @@ export default function ParticipantForm(props) {
             </Row>
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={6} lg={6} >
-                    <TextField
+                    <TextField 
                         select
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
@@ -168,7 +168,7 @@ export default function ParticipantForm(props) {
                         style={useStyles.inputwidth}
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
-                        label={screenlabels.addparticipants.subscripiton_length}
+                        //label={screenlabels.addparticipants.subscripiton_length}
                         value={props.organisationlength}
                         onChange={(e) => props.setorganisationlength(e.target.value)}
                     >

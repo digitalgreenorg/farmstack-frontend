@@ -295,10 +295,12 @@
   width: 420px;
   height: 42px;
   left: 339px;
-  top: 3371px;
+  top: 3270px;
+  /* bottom: 30px; */
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
+  margin-bottom: 1000px;
 }
 .govlawprogress {
   position: absolute;
@@ -360,3 +362,14 @@
   left: 1200px;
   top: 3437px;
 }
+/* .policiesSpace {
+  margin-bottom: 100px;
+}
+.finish-later-button {
+  margin-bottom: 100px;
+} */
+
+/*.form-alignment{
+
+  margin-bottom: 10%;
+}*/

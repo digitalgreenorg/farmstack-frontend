@@ -53,7 +53,7 @@ const labels = {
             "last_name": "Last Name",
             "contact_number": "Contact Number",
             "subscripiton_length": "Subscription Length",
-            "delete_participant": "Delete Participant",
+            "delete_participant": "Delete Participants",
             "delete_msg": "Are you sure you want to delete the participant?",
             "second_delete_msg": "This action will delete the participant’s account from the system including her organisation details, users, datasets and connectors.",
             "third_delete_msg":"The participant will no longer be able to use her account in the datahub."
