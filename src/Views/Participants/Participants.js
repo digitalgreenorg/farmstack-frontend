@@ -11,10 +11,11 @@ import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 import HTTPService from '../../Services/HTTPService'
 const useStyles = {
-    btncolor: {color: "white","text-transform": "capitalize", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0},
-    btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black" },
+    btncolor: {color: "white","text-transform": "capitalize", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "padding-right": "35px", "padding-left":"35px" },
+    btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black"},
     marginrowtop: { "margin-top": "20px" },
     marginrowtop10px: { "margin-top": "10px" },
+    invbtn:  {"padding-right": "50px", "padding-left":"50px"}
 };
 function Participants(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
@@ -46,7 +47,7 @@ function Participants(props) {
                 setparticipantUrl(response.data.next)
             }
             let datalist=participantList
-            let finalDataList=[...datalist,...response.data.results]
+            let finalDataList=[...datalist,...response.data.results] 
             console.log(datalist)
             setparticipantList(finalDataList)
         }).catch((e) => {

@@ -21,7 +21,7 @@ const useStyles = {
   cardcolor:{border: "1px solid #E4E4E4","box-shadow": "none",cursor:"pointer",height: "209px","border-radius": "2px"}, 
   togglecardcolor:{"box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "2px solid #ebd79c",cursor:"pointer",height: "209px"}, 
   marginrowtop: {"margin-top": "20px"},
-  cardDataHeading:{"font-weight": 600,"font-size": "14px",color: "#3D4A52"},
+  cardDataHeading:{"font-weight": "600","font-size": "14px",color: "#3D4A52" },
   cardData:{"font-weight": 400,"font-size": "14px",color: "#3D4A52"}
 };
 export default function ParticipantsCards(props) {
