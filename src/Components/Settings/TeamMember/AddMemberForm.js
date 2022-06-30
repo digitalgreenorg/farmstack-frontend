@@ -5,6 +5,9 @@ import THEME_COLORS from '../../../Constants/ColorConstants'
 import labels from '../../../Constants/labels';
 import TextField from "@mui/material/TextField";
 import MenuItem from '@mui/material/MenuItem';
+
+import { validateInputField } from '../../../Utils/Common.js'
+import RegexConstants from '../../../Constants/RegexConstants';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
@@ -29,7 +32,7 @@ export default function AddMemberForm(props) {
                         variant="standard"
                         label={screenlabels.settings.first_name}
                         value={props.firstname}
-                        onChange={(e) => props.setfirstname(e.target.value)}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setfirstname(e.target.value.trim()) : e.preventDefault() }
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
@@ -39,7 +42,8 @@ export default function AddMemberForm(props) {
                         variant="standard"
                         label={screenlabels.settings.last_name}
                         value={props.lastname}
-                        onChange={(e) => props.setlastname(e.target.value)}
+                        // onKeyDown={(e) => validateInputField(e.key,RegexConstants.APLHABET_REGEX)?"":e.preventDefault()}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setlastname(e.target.value.trim()) : e.preventDefault() }
                     />
                 </Col>
             </Row>
@@ -51,7 +55,7 @@ export default function AddMemberForm(props) {
                         variant="standard"
                         label={screenlabels.settings.email}
                         value={props.useremail}
-                        onChange={(e) => props.setuseremail(e.target.value)}
+                        onChange={(e) => props.setuseremail(e.target.value.trim())}
                         error={props.isuseremailerror}
                         helperText={props.isuseremailerror ? "Enter Valid Email id" : ""}
                     />
