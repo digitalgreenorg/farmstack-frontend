@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
     marginrowtop: {"margin-top": "20px"},
-    inputwidth:{width: "95%"},
+    inputwidth:{width: "95%", "text-align": "left", "font-family": "Open Sans"},
     headingbold:{fontWeight: "bold"}
 };
 export default function AddMemberForm(props) {
