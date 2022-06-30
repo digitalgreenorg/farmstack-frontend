@@ -120,8 +120,8 @@ export default function ParticipantForm(props) {
                         variant="standard"
                         label={screenlabels.addparticipants.first_name}
                         value={props.firstname}
-                        onKeyDown={(e) => handleNameFieldEntry(props.firstname,e)}
-                        onChange={(e) => props.setfirstname(e.target.value.trim())}
+                        // onKeyDown={(e) => handleNameFieldEntry(props.firstname,e)}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setfirstname(e.target.value.trim()) : e.preventDefault()}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
@@ -131,8 +131,8 @@ export default function ParticipantForm(props) {
                         variant="standard"
                         label={screenlabels.addparticipants.last_name}
                         value={props.lastname}
-                        onKeyDown={(e) => handleNameFieldEntry(props.lastname,e)}
-                        onChange={(e) => props.setlastname(e.target.value.trim())}
+                        // onKeyDown={(e) => handleNameFieldEntry(props.lastname,e)}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setlastname(e.target.value.trim()) : e.preventDefault()}
                     />
                 </Col>
             </Row>

@@ -131,11 +131,11 @@ function EditParticipants(props) {
                             {(organisationname && orginsationemail && !isorganisationemailerror && countryvalue && contactnumber.length==15 && websitelink && !iswebsitelinkrerror && organisationaddress && pincode && firstname && useremail && !isuseremailerror && organisationlength)
                                 ? (
                                     <Button onClick={() => addNewParticipants()} variant="contained" className="submitbtn">
-                                        {screenlabels.common.update}
+                                        {screenlabels.common.submit}
                                     </Button>
                                 ) : (
                                     <Button variant="outlined" disabled className="disbalesubmitbtn">
-                                        {screenlabels.common.update}
+                                        {screenlabels.common.submit}
                                     </Button>
                                 )}
                         </Col>
