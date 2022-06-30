@@ -7,8 +7,9 @@ import Button from "@mui/material/Button";
 import MuiPhoneNumber from "material-ui-phone-number";
 import UploadProfileimg from "../../../Components/Settings/accounts/UploadProfileimg";
 import { FileUploader } from "react-drag-drop-files";
+import labels from "../../../Constants/labels";
 
-export default function AccountSetting() {
+export default function AccountSetting(props) {
   const profilefirstname = useRef();
   const profilelastname = useRef();
   const profileemail = useRef();
@@ -18,9 +19,13 @@ export default function AccountSetting() {
   const [ispropfilelastnameerror, setispropfilelastnameerror] = useState(false);
   const [ispropfileemailerror, setispropfileemailerror] = useState(false);
   const [validNumber, setValidnumber] = useState("");
-  const [profilenextbutton, setprofilenextbutton] = useState(false);
+  const [accountSettingSubmitbutton, setaccountSettingSubmitbutton] =
+    useState(false);
   const fileTypes = ["JPEG", "PNG", "jpg"];
   const [file, setFile] = useState(null);
+  const [accfirstnamebtn, setaccfirstbtn] = useState(false);
+  const [accnumberbtn, setaccnumberbtn] = useState(false);
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   const handleprofilfirstename = (e) => {
     console.log(e.target.value);
@@ -28,6 +33,7 @@ export default function AccountSetting() {
     var profilefirstname = e.target.value;
     if (profilefirstname.match(letters)) {
       setispropfilefirstnameerror(false);
+      setaccfirstbtn(true);
       //   setprofilenextbutton(true);
     } else {
       setispropfilefirstnameerror(true);
@@ -66,6 +72,7 @@ export default function AccountSetting() {
     //   //   setispropfilenumbererror(true);
     //   // }
     setValidnumber(value);
+    setaccnumberbtn(true);
   };
   const handleBannerFileChange = (file) => {
     setFile(file);
@@ -75,149 +82,155 @@ export default function AccountSetting() {
     }
   };
   const accountsettingcancelbtn = (e) => {};
+  const handleAccountSettingSubmit = (e) => {
+    e.preventDefault();
+    props.setisAccountUpdateSuccess();
+  };
   return (
     <div className="accountsetting">
-      <Row>
-        <span className="title">Account Settings</span>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={6} lg={6}>
-          <TextField
-            id="filled-basic"
-            label="First Name"
-            variant="filled"
-            className="firstname"
-            // style={{ width: "50%" }}
-            //   className="profilefirstname"
-            onChange={handleprofilfirstename}
-            inputRef={profilefirstname}
-            error={ispropfilefirstnameerror}
-            helperText={ispropfilefirstnameerror ? "Enter Valid Name" : ""}
-          />
-        </Col>
-        <Col xs={12} sm={12} md={6} lg={6}>
-          <TextField
-            id="filled-basic"
-            label="Last Name"
-            variant="filled"
-            //   style={{ width: "95%" }}
-            //   className="profilelastname"
-            className="lastname"
-            onChange={handleprofilelastname}
-            inputRef={profilelastname}
-            error={ispropfilelastnameerror}
-            helperText={ispropfilelastnameerror ? "Enter Valid last name" : ""}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={6} lg={6}>
-          <TextField
-            id="filled-basic"
-            label="Email"
-            variant="filled"
-            className="email"
-            //   style={{ width: "420px" }}
-            //   className="profileemail"
-            onChange={handleprofileemail}
-            inputRef={profileemail}
-            inputProps={{ readOnly: true }}
-            //   defaultValue={validemail}
-            disabled
-            // error={props.ispropfileemailerror}
-            // helperText={
-            //   props.ispropfileemailerror ? "Enter Valid Email id" : ""
-            // }
-          />
-        </Col>
-        <Col xs={12} sm={12} md={6} lg={6}>
-          <MuiPhoneNumber
-            defaultCountry={"in"}
-            className="phonenumber"
-            //   style={{ width: "420px" }}
-            id="filled-basic"
-            label="Contact Number"
-            variant="filled"
-            onChange={handleprofilenumber}
-            // error={ispropfilenumbererror}
-            // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={6} lg={6}>
-          <FileUploader
-            //   multiple={true}
-            handleChange={handleBannerFileChange}
-            name="file"
-            types={fileTypes}
-            children={
-              <UploadProfileimg
-                uploaddes="Supports: JPEG, PNG not more than 2MB file size"
-                uploadtitle="Upload Profile image"
-              />
-            }
-            //   maxSize={2}
-          />
-        </Col>
-      </Row>
+      <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
+        <Row>
+          <span className="title">Account Settings</span>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <TextField
+              required
+              id="filled-basic"
+              label={screenlabels.account_settings.first_name}
+              variant="filled"
+              className="firstname"
+              // style={{ width: "50%" }}
+              //   className="profilefirstname"
+              onChange={handleprofilfirstename}
+              inputRef={profilefirstname}
+              error={ispropfilefirstnameerror}
+              helperText={ispropfilefirstnameerror ? "Enter Valid Name" : ""}
+            />
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <TextField
+              id="filled-basic"
+              label={screenlabels.account_settings.last_name}
+              variant="filled"
+              //   style={{ width: "95%" }}
+              //   className="profilelastname"
+              className="lastname"
+              onChange={handleprofilelastname}
+              inputRef={profilelastname}
+              //   error={ispropfilelastnameerror}
+              //   helperText={
+              //     ispropfilelastnameerror ? "Enter Valid last name" : ""
+              //   }
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <TextField
+              id="filled-basic"
+              label={screenlabels.account_settings.email}
+              variant="filled"
+              className="email"
+              //   style={{ width: "420px" }}
+              //   className="profileemail"
+              onChange={handleprofileemail}
+              inputRef={profileemail}
+              inputProps={{ readOnly: true }}
+              //   defaultValue={validemail}
+              disabled
+              // error={props.ispropfileemailerror}
+              // helperText={
+              //   props.ispropfileemailerror ? "Enter Valid Email id" : ""
+              // }
+            />
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <MuiPhoneNumber
+              required
+              defaultCountry={"in"}
+              className="phonenumber"
+              //   style={{ width: "420px" }}
+              id="filled-basic"
+              label={screenlabels.account_settings.contact}
+              variant="filled"
+              onChange={handleprofilenumber}
+              // error={ispropfilenumbererror}
+              // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <FileUploader
+              //   multiple={true}
+              handleChange={handleBannerFileChange}
+              name="file"
+              types={fileTypes}
+              children={
+                <UploadProfileimg
+                  uploaddes="Supports: JPEG, PNG not more than 2MB file size"
+                  uploadtitle="Upload Profile image"
+                />
+              }
+              //   maxSize={2}
+            />
+          </Col>
+        </Row>
 
-      <Col xs={12} sm={12} md={6} lg={6}>
-        <div>
-          <p className="uploadimgname">
-            {file
-              ? file.size
-                ? `File name: ${file.name}`
-                : ""
-              : "No file uploaded yet"}
-          </p>
-          <p className="oversizemb-uploadimglogo">
-            {file != null && file.size > 2097152
-              ? "File uploaded is more than 2MB!"
-              : ""}
-          </p>
-        </div>
-      </Col>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
-          <div className="accountsubmit">
-            {/* <Button
+        <Col xs={12} sm={12} md={6} lg={6}>
+          <div>
+            <p className="uploadimgname">
+              {file ? (file.size ? `File name: ${file.name}` : "") : ""}
+            </p>
+            <p className="oversizemb-uploadimglogo">
+              {file != null && file.size > 2097152
+                ? "File uploaded is more than 2MB!"
+                : ""}
+            </p>
+          </div>
+        </Col>
+        <Row>
+          <Col xs={12} sm={12} md={12} lg={12}>
+            <div className="accountsubmit">
+              {/* <Button
               variant="contained"
               className="accountnextbtn"
               type="submit">
               <span className="">Submit</span>
             </Button> */}
-            {profilenextbutton ? (
-              <Button
-                variant="contained"
-                className="accountnextbtn"
-                type="submit">
-                <span className="signupbtnname">Submit</span>
-              </Button>
-            ) : (
+              {accfirstnamebtn && accnumberbtn ? (
+                <Button
+                  variant="contained"
+                  className="accountnextbtn"
+                  type="submit">
+                  <span className="signupbtnname">Submit</span>
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  disabled
+                  className="disableaccountnextbtn">
+                  Submit
+                </Button>
+              )}
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={12} lg={12}>
+            <div className="accountcancel">
               <Button
                 variant="outlined"
-                disabled
-                className="disableaccountnextbtn">
-                Submit
+                className="accountsettingcancelbtn"
+                type="button"
+                onClick={accountsettingcancelbtn}>
+                Cancel
               </Button>
-            )}
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
-          <div className="accountcancel">
-            <Button
-              variant="outlined"
-              className="accountsettingcancelbtn"
-              type="button"
-              onClick={accountsettingcancelbtn}>
-              Cancel
-            </Button>
-          </div>
-        </Col>
-      </Row>
+            </div>
+          </Col>
+        </Row>
+      </form>
     </div>
   );
 }

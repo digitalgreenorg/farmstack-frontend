@@ -49,6 +49,8 @@ function Settings(props) {
   const [isDelete, setisDelete] = useState(false);
   const [teamMemberId, setteamMemberId] = useState("");
   const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
+  const [isAccountUpdateSuccess, setisAccountUpdateSuccess] = useState(false);
+
   const history = useHistory();
   useEffect(() => {
     getMemberList();
@@ -131,6 +133,23 @@ function Settings(props) {
         ) : (
           <></>
         )}
+        {isAccountUpdateSuccess ? (
+          <Success
+            okevent={() => {
+              //   setteamMemberId("");
+              //   setisDelete(false);
+              setistabView(true);
+              setisAccountUpdateSuccess(false);
+              //   getMemberList();
+            }}
+            imagename={"success"}
+            btntext={"ok"}
+            heading={"Account Settings updated successfully !"}
+            imageText={"Success!"}
+            msg={"Your account settings are updated."}></Success>
+        ) : (
+          <></>
+        )}
         {istabView ? (
           <Row style={useStyles.marginrowtop50px}>
             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
@@ -147,7 +166,12 @@ function Settings(props) {
                     </TabList>
                   </Box>
                   <TabPanel value="1">
-                    <AccountSetting />
+                    <AccountSetting
+                      setisAccountUpdateSuccess={() => {
+                        setistabView(false);
+                        setisAccountUpdateSuccess(true);
+                      }}
+                    />
                   </TabPanel>
                   <TabPanel value="2"></TabPanel>
                   <TabPanel value="3">
