@@ -39,6 +39,9 @@ button.submitbtn{ width: 420px !important;text-transform: capitalize;color: #FFF
   border-bottom: 1px solid #9AA1A9 !important;
   border-radius: inherit !important;
 }
+.invite-participant-text-editor > div:first-child >div:first-child{
+  text-align: left;
+}
 .settingsTabs .Mui-selected {
   color: #ffffff !important;
   border: 1px solid #D8AF28;
