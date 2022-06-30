@@ -17,7 +17,7 @@ import THEME_COLORS from '../../../Constants/ColorConstants'
 import UrlConstants from '../../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 const useStyles = {
-    btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize" },
+    btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize"},
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "209px", "border-radius": "2px" },
     togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "2px solid #ebd79c", cursor: "pointer", height: "209px" },
     marginrowtop: { "margin-top": "20px" },
@@ -41,7 +41,7 @@ export default function TeamMemberCard(props) {
                 }
                 title={props.mainheading}
                 subheader={props.subheading}
-                style={{ "background-color": "#f8f9fa", padding: "9px" }}
+                style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left"}}
             />
             <CardContent>
                 <Row style={{ "margin-left": "-25px" }}>
@@ -49,26 +49,26 @@ export default function TeamMemberCard(props) {
                         Role assigned
           </Col>
                 </Row>
-                <Row style={{ "margin-left": "-26px" }}>
+                <Row style={{ "margin-left": "-26px", }}>
                     <Col xs={12} sm={12} md={6} lg={6}>
-                        <span style={useStyles.cardData}>{props.role==2?'Team Member':"Guest"}</span>
+                        <span style={useStyles.cardData}>{props.role==2?'Team Member':"Guest User "}</span>
                     </Col>
                 </Row>
                 {!isshowbutton ? <Row style={useStyles.marginrowtop}>
                     <Col xs={12} sm={12} md={6} lg={6}>
-                        <Button onClick={() => history.push('/datahub/settings/editmember/' + props.id)} variant="outlined" style={useStyles.btncolor}>
+                        <Button onClick={() => history.push('/datahub/settings/editmember/' + props.id)} variant="outlined" style={useStyles.btncolor}>Edit &nbsp;
                             <img
                                 src={require('../../../Assets/Img/edit.svg')}
                                 alt="new"
-                            />&nbsp;Edit
+                            />&nbsp;
             </Button>
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6}>
-                        <Button onClick={() => props.deleteTeamMember(props.id)} variant="outlined" style={useStyles.btncolor}>
+                        <Button onClick={() => props.deleteTeamMember(props.id)} variant="outlined" style={useStyles.btncolor}>Delete &nbsp;
                         <img
                                 src={require('../../../Assets/Img/button_delete.svg')}
                                 alt="new"
-                            />&nbsp; Delete
+                            />&nbsp; 
             </Button>
                     </Col>
                 </Row> : <></>}
