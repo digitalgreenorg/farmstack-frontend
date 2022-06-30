@@ -29,7 +29,7 @@ export default function TeamMemberCard(props) {
     const history = useHistory();
     return (
 
-        <Card style={isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton((prev) => !prev)} onMouseLeave={() => setisshowbutton((prev) => !prev)}>
+        <Card className="particaipancard" style={isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton((prev) => !prev)} onMouseLeave={() => setisshowbutton((prev) => !prev)}>
             <CardHeader
                 avatar={
                     props.profilepic ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url + props.profilepic} sx={{ width: 54, height: 54 }} /> :

@@ -50,6 +50,18 @@ button.submitbtn{ width: 420px !important;text-transform: capitalize;color: #FFF
 .settingsTabs .MuiTabs-indicator{
   background: #C09507 !important;
 }
+.particaipancard .MuiCardHeader-title{
+  padding-bottom: 10px;
+  font-weight: 400;
+font-size: 14px;
+color: #3D4A52;
+}
+.particaipancard .MuiCardHeader-subheader{
+font-weight: 400;
+font-size: 14px;
+color: #000000;
+opacity: 0.5;
+}
 /* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
   background: #FFFFFF;
   border: 1px solid #D8AF28 !important;
