@@ -47,6 +47,9 @@ button.submitbtn{ width: 420px !important;text-transform: capitalize;color: #FFF
   background: #C09507;
   width: 200px;
 }
+.settingsTabs .MuiTabs-indicator{
+  background: #C09507 !important;
+}
 /* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
   background: #FFFFFF;
   border: 1px solid #D8AF28 !important;
