@@ -37,6 +37,7 @@ function EditParticipants(props) {
     const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
     const [iswebsitelinkrerror, setwebsitelinkerror] = useState(false);
     const [isuseremailerror, setisuseremailerror] = useState(false);
+    const [isexisitinguseremail, setisexisitinguseremail] = useState(false)
     const [isSuccess, setisSuccess] = useState(false);
     const history = useHistory();
     const { id } = useParams()
@@ -87,12 +88,13 @@ function EditParticipants(props) {
             setisSuccess(true)
         }).catch((e) => {
             console.log(e);
+            setisexisitinguseremail(true)
         });
     }
     return (
         <>
             <Container style={useStyles.marginrowtop}>
-                {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Changes are Updated!!"} imageText={"Updated"} msg={"Your changes are updated successfully"}></Success> : <><ParticipantForm
+                {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Changes are Updated!"} imageText={"Updated"} msg={"Your changes are updated successfully"}></Success> : <><ParticipantForm
                     organisationname={organisationname}
                     setorganisationname={ref => { setorganisationname(ref) }}
                     orginsationemail={orginsationemail}
@@ -115,8 +117,9 @@ function EditParticipants(props) {
                     lastname={lastname}
                     setlastname={ref => { setlastname(ref) }}
                     useremail={useremail}
-                    setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)) }}
+                    setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)); setisexisitinguseremail(false)}}
                     isuseremailerror={isuseremailerror}
+                    isexisitinguseremail={isexisitinguseremail}
                     organisationlength={organisationlength}
                     setorganisationlength={ref => { setorganisationlength(ref) }}
                     first_heading={screenlabels.editparticipants.first_heading}
@@ -131,11 +134,11 @@ function EditParticipants(props) {
                             {(organisationname && orginsationemail && !isorganisationemailerror && countryvalue && contactnumber.length==15 && websitelink && !iswebsitelinkrerror && organisationaddress && pincode && firstname && useremail && !isuseremailerror && organisationlength)
                                 ? (
                                     <Button onClick={() => addNewParticipants()} variant="contained" className="submitbtn">
-                                        {screenlabels.common.update}
+                                        {screenlabels.common.submit}
                                     </Button>
                                 ) : (
                                     <Button variant="outlined" disabled className="disbalesubmitbtn">
-                                        {screenlabels.common.update}
+                                        {screenlabels.common.submit}
                                     </Button>
                                 )}
                         </Col>

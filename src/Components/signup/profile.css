@@ -2,8 +2,8 @@
   position: absolute;
   width: 141px;
   height: 27px;
-  left: 839px;
-  top: 197px;
+  left: 834px;
+  top: 147px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
@@ -15,8 +15,8 @@
   position: absolute;
   width: 420px;
   height: 48px;
-  left: 839px;
-  top: 254px;
+  left: 842px;
+  top: 205px;
   border-radius: 2px;
 }
 .profilelastname {
@@ -24,7 +24,7 @@
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 332px;
+  top: 295px;
   border-radius: 2px;
 }
 .profileemail {
@@ -32,7 +32,7 @@
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 410px;
+  top: 385px;
   border-radius: 2px;
 }
 .profilenumber {
@@ -40,7 +40,7 @@
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 488px;
+  top: 475px;
   border-radius: 2px;
 }
 .profilebtn {
@@ -49,7 +49,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 456px;
+  top: 430px;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
   background-color: #c09507 !important;
@@ -60,7 +60,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 456px;
+  top: 430px;
   background: #ffffff;
   opacity: 0.5;
   border: 1px solid #c09507 !important;
@@ -71,7 +71,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 498px;
+  top: 465px;
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;

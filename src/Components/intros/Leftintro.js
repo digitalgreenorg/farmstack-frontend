@@ -89,8 +89,8 @@ export default function Leftintro() {
         </div>
         <h1 className="leftheader">Orchestrate network of data</h1>
         <h2 className="leftcontent">
-          Coordinate and connectmultiple private and publicsector organizations,
-          institutions, and individuals to create a systematic interconnectionof
+          Coordinate and connect multiple private and public sector organizations,
+          institutions, and individuals to create a systematic interconnection of
           insights.
         </h2>
         <img
@@ -125,7 +125,7 @@ export default function Leftintro() {
         </div>
         <h1 className="leftheader2">Invite data providers and consumers</h1>
         <h2 className="leftcontent2">
-          Welcome FPOs, government institutions, andcivil society players to
+          Welcome FPOs, government institutions, and civil society players to
           work together as learners, providers, and consumers in this
           fairmulti-user network.
         </h2>

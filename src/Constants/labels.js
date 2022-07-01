@@ -16,7 +16,7 @@ const labels = {
       Signout: "Sign out",
     },
     addparticipants: {
-      first_heading: "Add Participants Orginsation Details",
+      first_heading: "Add Participants Organisation Details",
       second_heading: "Add Participants Root User Details",
       third_heading: "Add Participant's Subscription Length to the Datahub",
       organisation_name: "Organisation Name",
@@ -35,12 +35,12 @@ const labels = {
       fourText: "network. “Dummy Data”",
     },
     editparticipants: {
-      first_heading: "Edit Participants Orginsation Details",
+      first_heading: "Edit Participants Organisation Details",
       second_heading: "Edit Participants Root User Details",
       third_heading: "Edit Participant's Subscription Length to the Datahub",
     },
     viewparticipants: {
-      first_heading: "Participants Orginsation Details",
+      first_heading: "Participants Organisation Details",
       second_heading: "Participants Root User Details",
       third_heading: "Participant's Subscription Length to the Datahub",
       organisation_name: "Organisation Name",
@@ -53,10 +53,12 @@ const labels = {
       last_name: "Last Name",
       contact_number: "Contact Number",
       subscripiton_length: "Subscription Length",
-      delete_participant: "Delete Participant",
+      delete_participant: "Delete Participants",
       delete_msg: "Are you sure you want to delete the participant?",
       second_delete_msg:
-        "This action will delete the participant’s account from the system including her organisation details, users, datasets and connectors.The participant will no longer be able to use her account in the datahub.",
+        "This action will delete the participant’s account from the system including her organisation details, users, datasets and connectors.",
+      third_delete_msg:
+        "The participant will no longer be able to use her account in the datahub.",
     },
     inviteParticipants: {
       first_heading: "Invite participants",
@@ -72,7 +74,9 @@ const labels = {
       delete_member: "Delete Member",
       delete_msg: "Are you sure you want to delete the team member?",
       second_delete_msg:
-        "This action will delete the member’s account from the system.The member will no longer be able to use her account in the datahub.",
+        "This action will delete the member’s account from the system.",
+      third_delete_msg:
+        "The member will no longer be able to use her account in the datahub.",
       firstText: "Add new Member",
       secondText: "Add details about your dataset and make",
       thirdText: "discoverable to other participants in our",

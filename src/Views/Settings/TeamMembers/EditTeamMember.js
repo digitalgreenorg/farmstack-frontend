@@ -26,6 +26,7 @@ function EditTeamMember(props) {
     const [useremail, setuseremail] = useState("");
     const [userrole, setuserrole] = useState("");
     const [isuseremailerror, setisuseremailerror] = useState(false);
+    const [isexistinguseremail, setisexisitinguseremail] =useState(false)
     const [isSuccess, setisSuccess] = useState(false);
     useEffect(() => {
         HTTPService('GET', UrlConstants.base_url + UrlConstants.team_member + id + '/', false, false).then((response) => {
@@ -53,20 +54,22 @@ function EditTeamMember(props) {
             setisSuccess(true)
         }).catch((e) => {
             console.log(e);
+            setisexisitinguseremail(true)
         });
     }
     return (
         <>
             <Container style={useStyles.marginrowtop}>
-                {isSuccess ? <Success okevent={()=>history.push('/datahub/settings')} route={"datahub/settings"} imagename={'success'} btntext={"ok"} heading={"Team Member updated successfully!!"} imageText={"Success!"} msg={"You updated role of member."}></Success> : 
+                {isSuccess ? <Success okevent={()=>history.push('/datahub/settings/3')} route={"datahub/settings"} imagename={'success'} btntext={"ok"} heading={"Team Member updated successfully!!"} imageText={"Success!"} msg={"You updated role of member."}></Success> : 
                 <><AddMemberForm
                     firstname={firstname}
                     setfirstname={ref => { setfirstname(ref) }}
                     lastname={lastname}
                     setlastname={ref => { setlastname(ref) }}
                     useremail={useremail}
-                    setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)) }}
+                    setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)); setisexisitinguseremail(false) }}
                     isuseremailerror={isuseremailerror}
+                    isexistinguseremail={isexistinguseremail}
                     userrole={userrole}
                     setuserrole={ref => { setuserrole(ref) }}
                     first_heading={screenlabels.settings.editheading}
@@ -79,11 +82,11 @@ function EditTeamMember(props) {
                             {(firstname && useremail && !isuseremailerror && userrole)
                                 ? (
                                     <Button onClick={() => EditMember()} variant="contained" className="submitbtn">
-                                        {screenlabels.common.update}
+                                        {screenlabels.common.submit}
                                     </Button>
                                 ) : (
                                     <Button variant="outlined" disabled className="disbalesubmitbtn">
-                                        {screenlabels.common.update}
+                                        {screenlabels.common.submit}
                                     </Button>
                                 )}
                         </Col>
@@ -92,7 +95,7 @@ function EditTeamMember(props) {
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => history.push('/datahub/settings')} variant="outlined" className="cancelbtn">
+                            <Button onClick={() => history.push('/datahub/settings/3')} variant="outlined" className="cancelbtn">
                                 {screenlabels.common.cancel}
                             </Button>
                         </Col>

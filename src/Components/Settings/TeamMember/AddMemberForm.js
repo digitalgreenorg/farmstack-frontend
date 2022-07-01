@@ -5,11 +5,14 @@ import THEME_COLORS from '../../../Constants/ColorConstants'
 import labels from '../../../Constants/labels';
 import TextField from "@mui/material/TextField";
 import MenuItem from '@mui/material/MenuItem';
+
+import { validateInputField } from '../../../Utils/Common.js'
+import RegexConstants from '../../../Constants/RegexConstants';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
     marginrowtop: {"margin-top": "20px"},
-    inputwidth:{width: "95%"},
+    inputwidth:{width: "95%", "text-align": "left", "font-family": "Open Sans"},
     headingbold:{fontWeight: "bold"}
 };
 export default function AddMemberForm(props) {
@@ -26,20 +29,22 @@ export default function AddMemberForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         label={screenlabels.settings.first_name}
                         value={props.firstname}
-                        onChange={(e) => props.setfirstname(e.target.value)}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setfirstname(e.target.value.trim()) : e.preventDefault() }
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
                         label={screenlabels.settings.last_name}
                         value={props.lastname}
-                        onChange={(e) => props.setlastname(e.target.value)}
+                        // onKeyDown={(e) => validateInputField(e.key,RegexConstants.APLHABET_REGEX)?"":e.preventDefault()}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setlastname(e.target.value.trim()) : e.preventDefault() }
                     />
                 </Col>
             </Row>
@@ -48,18 +53,20 @@ export default function AddMemberForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         label={screenlabels.settings.email}
                         value={props.useremail}
-                        onChange={(e) => props.setuseremail(e.target.value)}
-                        error={props.isuseremailerror}
-                        helperText={props.isuseremailerror ? "Enter Valid Email id" : ""}
+                        onChange={(e) => props.setuseremail(e.target.value.trim())}
+                        error={props.isuseremailerror || props.isexistinguseremail}
+                        helperText={props.isuseremailerror ? "Enter Valid Email id" : props.isexistinguseremail ? "User is already registered with this email ID" : ""}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         select
-                        variant="standard"
+                        variant="filled"
+                        required
                         style={useStyles.inputwidth}
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"

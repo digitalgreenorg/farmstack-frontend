@@ -18,6 +18,7 @@ import { TabContext } from "@mui/lab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import AccountSetting from "../accounts/accountSetting";
+import { useParams } from "react-router-dom";
 const useStyles = {
   btncolor: {
     color: "white",
@@ -50,10 +51,17 @@ function Settings(props) {
   const [teamMemberId, setteamMemberId] = useState("");
   const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
   const [isAccountUpdateSuccess, setisAccountUpdateSuccess] = useState(false);
+  const [value, setValue] = React.useState("1");
+  const { id } = useParams();
 
   const history = useHistory();
   useEffect(() => {
     getMemberList();
+    if (id) {
+      setValue(id);
+    } else {
+      setValue(1);
+    }
   }, []);
   const getMemberList = () => {
     HTTPService(
@@ -91,7 +99,7 @@ function Settings(props) {
         console.log(e);
       });
   };
-  const [value, setValue] = React.useState("1");
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
