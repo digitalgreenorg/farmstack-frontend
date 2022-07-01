@@ -143,6 +143,7 @@ export default function ProfileRightside(props) {
           onSubmit={props.handleprofileSubmit}>
           <div className="profilefirstname">
             <TextField
+            required
               id="filled-basic"
               label="First Name"
               variant="filled"

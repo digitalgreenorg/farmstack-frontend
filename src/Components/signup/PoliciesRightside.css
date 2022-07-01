@@ -1,3 +1,7 @@
+.policies {
+  height: 3650px;
+}
+
 .policiesHeader {
   position: absolute;
   /* width: 76px; */
@@ -274,9 +278,9 @@
   width: 420px;
   height: 42px;
   left: 339px;
-  top: 3320px;
+  top: 3280px;
 
-  background: #c09507;
+  background-color: #c09507 !important;
   border-radius: 2px;
 }
 .disablepoliciesbtn {
@@ -284,7 +288,7 @@
   width: 420px;
   height: 42px;
   left: 339px;
-  top: 3320px;
+  top: 3280px;
 
   background: #c09507;
   border-radius: 2px;
@@ -295,12 +299,15 @@
   width: 420px;
   height: 42px;
   left: 339px;
-  top: 3270px;
-  /* bottom: 30px; */
+  top: 3331px;
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
-  margin-bottom: 1000px;
+  color: #585d60 !important;
+  font-family: "Open Sans" !important;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
 }
 .govlawprogress {
   position: absolute;

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useEffect} from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import SignInHeader from "../../Components/signup/SignInHeader";
 import Leftintro from "../../Components/intros/Leftintro";
 import Rightintro from "../../Components/intros/Rightintro";
@@ -15,7 +15,7 @@ import ProfileRightside from "../../Components/signup/ProfileRightside";
 import OrgRightside from "../../Components/signup/OrgRightside";
 import PoliciesRightside from "../../Components/signup/PoliciesRightside";
 import BrandingRightside from "../../Components/signup/BrandingRightside";
-import {setTokenLocal,getTokenLocal} from '../../Utils/Common'
+import { setTokenLocal, getTokenLocal } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
 
@@ -40,13 +40,14 @@ export default function Login(props) {
   const [isOrg, setisOrg] = useState(false);
   const [isPolicies, setisPolicies] = useState(false);
   const [isBranding, setisBranding] = useState(false);
+  const [isaccesstoken, setisaccesstoken] = useState(false);
 
   const [profileid, setprofileid] = useState("");
   useEffect(() => {
-    if(getTokenLocal()){
-      props.history.push("/datahub/participants")
+    if (getTokenLocal()) {
+      props.history.push("/datahub/participants");
     }
-    }, []);
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(email.current.value);
@@ -142,15 +143,28 @@ export default function Login(props) {
           console.log("otp valid");
           console.log("otp valid", response.data);
           console.log("access token", response.data.access);
-          setTokenLocal(response.data.access)
+          console.log("user status", response.data.status);
+
           console.log(response.status);
-          // console.log(response.json());
-          // console.log(response.refresh);
-          // console.log(response.active);
-          if (response.status === 200) {
-            setOtpError(false);
-            setisProfile(true);
-            setisOtp(false);
+          // if (response.data.status) {
+          //   setTokenLocal(response.data.access);
+          //   props.history.push("/datahub/participants");
+          // }
+
+          if (response.status === 201) {
+            if (response.data.status) {
+              setTokenLocal(response.data.access);
+
+              props.history.push("/datahub/participants");
+            } else {
+              setisaccesstoken(response.data.access);
+              setOtpError(false);
+              setisProfile(true);
+              setisOtp(false);
+            }
+            // console.log(response.json());
+            // console.log(response.refresh);
+            // console.log(response.active);
           } else {
             setOtpError(true);
           }
@@ -220,9 +234,8 @@ export default function Login(props) {
   const profilelastname = useRef();
   const profileemail = useRef();
 
-  const [ispropfilefirstnameerror, setispropfilefirstnameerror] = useState(
-    false
-  );
+  const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
+    useState(false);
   const [ispropfilelastnameerror, setispropfilelastnameerror] = useState(false);
   const [ispropfileemailerror, setispropfileemailerror] = useState(false);
   // const [ispropfilenumbererror, setispropfilenumbererror] = useState(false);
@@ -659,7 +672,12 @@ export default function Login(props) {
           }}
         />
       )}
-      {isBranding && <BrandingRightside />}
+      {isBranding && (
+        <BrandingRightside
+          validemail={validemail}
+          isaccesstoken={isaccesstoken}
+        />
+      )}
     </div>
   );
 }

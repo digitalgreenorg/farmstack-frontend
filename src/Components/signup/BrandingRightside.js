@@ -8,6 +8,8 @@ import Button from "@mui/material/Button";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
+import { setTokenLocal, getTokenLocal } from "../../Utils/Common";
+
 export default function BrandingRightside(props) {
   const [file, setFile] = useState(null);
   const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 });
@@ -33,6 +35,7 @@ export default function BrandingRightside(props) {
     var bodyFormData = new FormData();
     bodyFormData.append("button_color", hexColor);
     bodyFormData.append("banner", file);
+    bodyFormData.append("email", props.validemail);
 
     console.log("branding data", bodyFormData);
     let url = UrlConstant.base_url + UrlConstant.branding;
@@ -44,6 +47,37 @@ export default function BrandingRightside(props) {
         //   console.log(response.json());
         console.log(response.status);
         if (response.status === 201) {
+          setTokenLocal(props.isaccesstoken);
+          history.push("/datahub/participants");
+          // setEmail(false);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
+  };
+  const HandleFinishLater = async (e) => {
+    e.preventDefault();
+    var bodyFormData = new FormData();
+    // bodyFormData.append("button_color", hexColor);
+    // bodyFormData.append("banner", file);
+    bodyFormData.append("email", props.validemail);
+
+    console.log("branding data", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.branding;
+
+    await HTTPService("POST", url, bodyFormData, true, false)
+      .then((response) => {
+        console.log("response");
+        console.log("branding details", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 201) {
+          setTokenLocal(props.isaccesstoken);
           history.push("/datahub/participants");
           // setEmail(false);
           // setError(false);
@@ -57,7 +91,7 @@ export default function BrandingRightside(props) {
       });
   };
   return (
-    <div>
+    <div className="branding">
       <p className="brandingtitle">Create your Branding</p>
       <div>
         <form noValidate autoComplete="off" onSubmit={handleBrandingSubmit}>
@@ -100,7 +134,7 @@ export default function BrandingRightside(props) {
           <span className="signupbtnname">Next</span>
         </Button> */}
             {Brandingnextbutton ? (
-              <Button variant="contained" className="brandbtn" type="submit" >
+              <Button variant="contained" className="brandbtn" type="submit">
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
@@ -117,7 +151,10 @@ export default function BrandingRightside(props) {
               variant="outlined"
               className="finishlaterbrandbtn"
               type="button"
-              onClick={()=>{history.push("/datahub/participants")}}>
+              // onClick={() => {
+              //   history.push("/datahub/participants");
+              // }}
+              onClick={HandleFinishLater}>
               Finish Later
             </Button>
           </div>
