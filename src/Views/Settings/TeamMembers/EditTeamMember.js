@@ -26,6 +26,7 @@ function EditTeamMember(props) {
     const [useremail, setuseremail] = useState("");
     const [userrole, setuserrole] = useState("");
     const [isuseremailerror, setisuseremailerror] = useState(false);
+    const [isexistinguseremail, setisexisitinguseremail] =useState(false)
     const [isSuccess, setisSuccess] = useState(false);
     useEffect(() => {
         HTTPService('GET', UrlConstants.base_url + UrlConstants.team_member + id + '/', false, false).then((response) => {
@@ -53,6 +54,7 @@ function EditTeamMember(props) {
             setisSuccess(true)
         }).catch((e) => {
             console.log(e);
+            setisexisitinguseremail(true)
         });
     }
     return (
@@ -65,8 +67,9 @@ function EditTeamMember(props) {
                     lastname={lastname}
                     setlastname={ref => { setlastname(ref) }}
                     useremail={useremail}
-                    setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)) }}
+                    setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)); setisexisitinguseremail(false) }}
                     isuseremailerror={isuseremailerror}
+                    isexistinguseremail={isexistinguseremail}
                     userrole={userrole}
                     setuserrole={ref => { setuserrole(ref) }}
                     first_heading={screenlabels.settings.editheading}
