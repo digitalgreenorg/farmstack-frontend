@@ -37,6 +37,7 @@ function EditParticipants(props) {
     const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
     const [iswebsitelinkrerror, setwebsitelinkerror] = useState(false);
     const [isuseremailerror, setisuseremailerror] = useState(false);
+    const [isexisitinguseremail, setisexisitinguseremail] = useState(false)
     const [isSuccess, setisSuccess] = useState(false);
     const history = useHistory();
     const { id } = useParams()
@@ -87,6 +88,7 @@ function EditParticipants(props) {
             setisSuccess(true)
         }).catch((e) => {
             console.log(e);
+            setisexisitinguseremail(true)
         });
     }
     return (
@@ -115,8 +117,9 @@ function EditParticipants(props) {
                     lastname={lastname}
                     setlastname={ref => { setlastname(ref) }}
                     useremail={useremail}
-                    setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)) }}
+                    setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)); setisexisitinguseremail(false)}}
                     isuseremailerror={isuseremailerror}
+                    isexisitinguseremail={isexisitinguseremail}
                     organisationlength={organisationlength}
                     setorganisationlength={ref => { setorganisationlength(ref) }}
                     first_heading={screenlabels.editparticipants.first_heading}
