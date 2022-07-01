@@ -4,7 +4,7 @@ import "./Leftintro.css";
 export default function Leftintro() {
   return (
     <>
-      <div className="container">
+      <div>
         {/* <img
           src="https://cdn.londonandpartners.com/visit/general-london/areas/river/76709-640x360-houses-of-parliament-and-london-eye-on-thames-from-above-640.jpg"
           alt=""

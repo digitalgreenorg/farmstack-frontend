@@ -52,6 +52,7 @@
   top: 456px;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
+  background-color: #c09507 !important;
 }
 .disableprofilebtn {
   box-sizing: border-box;

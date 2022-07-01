@@ -502,14 +502,13 @@ export default function PoliciesRightside(props) {
       });
   };
 
-
   const finishLaterPoliciesScreen = () => {
     console.log("clicked on finish later policies screen");
-   props.showBrandingScreen();
+    props.showBrandingScreen();
   };
 
   return (
-    <div>
+    <div className="policies">
       <p className="policiesHeader">Company Policies</p>
       <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
         <div className="governingdes">
@@ -540,7 +539,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Governing Laws (Optional)"
+                uploadtitle="Upload Governing Laws "
               />
             }
             // maxSize={2}
@@ -597,7 +596,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Limitation of Liabilities (Optional)"
+                uploadtitle="Upload Limitation of Liabilities "
               />
             }
             //   maxSize={2}
@@ -656,7 +655,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Warranties (Optional)"
+                uploadtitle="Upload Warranties"
               />
             }
             //   maxSize={2}
@@ -714,7 +713,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Privacy Policy (Optional)"
+                uploadtitle="Upload Privacy Policy"
               />
             }
             //   maxSize={2}
@@ -772,7 +771,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Terms of Use (Optional)"
+                uploadtitle="Upload Terms of Use "
               />
             }
             //   maxSize={2}
@@ -803,10 +802,10 @@ export default function PoliciesRightside(props) {
         </div>
 
         <div>
-          {/* <Button variant="contained" className="policiesbtn" type="submit">
+          <Button variant="contained" className="policiesbtn" type="submit">
             <span className="signupbtnname">Next</span>
-          </Button> */}
-          {privacydesc.length > 0 &&
+          </Button>
+          {/* {privacydesc.length > 0 &&
           termdesc.length > 0 &&
           govLawdesc.length > 0 &&
           liabalitydesc.length > 0 &&
@@ -823,7 +822,7 @@ export default function PoliciesRightside(props) {
             <Button variant="outlined" disabled className="disablepoliciesbtn">
               Next
             </Button>
-          )}
+          )} */}
         </div>
         <div>
           <Button

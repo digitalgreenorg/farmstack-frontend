@@ -1,10 +1,13 @@
+.orgright {
+  height: 1300px;
+}
+
 .orgheader {
   position: absolute;
   width: 203px;
   height: 27px;
   left: 839px;
   top: 157px;
-
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
@@ -86,7 +89,7 @@
   height: 42px;
   left: 329px;
   top: 1155px;
-  background: #c09507;
+  background-color: #c09507 !important;
   border-radius: 2px;
 }
 .disableorgbtn {
@@ -108,6 +111,11 @@
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
+  color: #585d60 !important;
+  font-family: "Open Sans" !important;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
   /* margin-bottom: 20px; */
 }
 

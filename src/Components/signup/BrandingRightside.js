@@ -61,7 +61,7 @@ export default function BrandingRightside(props) {
       });
   };
   return (
-    <div>
+    <div className="branding">
       <p className="brandingtitle">Create your Branding</p>
       <div>
         <form noValidate autoComplete="off" onSubmit={handleBrandingSubmit}>

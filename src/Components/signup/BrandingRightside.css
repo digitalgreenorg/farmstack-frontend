@@ -1,3 +1,7 @@
+.branding {
+  height: 1090px;
+}
+
 .Bannerupload {
   position: absolute;
   width: 420px;
@@ -24,7 +28,7 @@
   position: absolute;
   width: 203px;
   height: 27px;
-  left: 828px;
+  left: 838px;
   top: 137px;
 
   font-family: "Open Sans";
@@ -136,7 +140,7 @@
   height: 42px;
   left: 329px;
   top: 905px;
-  background: #c09507;
+  background-color: #c09507 !important;
   border-radius: 2px;
 }
 .disablebrandbtn {
@@ -158,5 +162,12 @@
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
+  border: 1px solid #c09507 !important;
+  border-radius: 2px;
+  color: #585d60 !important;
+  font-family: "Open Sans" !important;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
   /* margin-bottom: 20px; */
 }

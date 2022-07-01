@@ -1,5 +1,5 @@
 const UrlConstant = {
-  base_url: "https://eba8-106-51-85-143.in.ngrok.io/",
+  base_url: "https://datahubtest.farmstack.co/be/",
   login: "accounts/login/",
   otp: "accounts/otp/",
   participant: "datahub/participant/",

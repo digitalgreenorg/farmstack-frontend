@@ -337,7 +337,7 @@ export default function OrgRightside(props) {
   //   };
 
   return (
-    <div>
+    <div className="orgright">
       <div className="orgheader">Organization details</div>
       <div>
         <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
