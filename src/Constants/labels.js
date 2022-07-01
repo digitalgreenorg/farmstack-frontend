@@ -16,7 +16,7 @@ const labels = {
             "Signout": "Sign out"
         },
         "addparticipants": {
-            "first_heading": "Add Participants Orginsation Details",
+            "first_heading": "Add Participants Organisation Details",
             "second_heading": "Add Participants Root User Details",
             "third_heading": "Add Participant's Subscription Length to the Datahub",
             "organisation_name": "Organisation Name",

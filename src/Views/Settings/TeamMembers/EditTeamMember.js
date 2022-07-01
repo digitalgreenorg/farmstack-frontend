@@ -79,11 +79,11 @@ function EditTeamMember(props) {
                             {(firstname && useremail && !isuseremailerror && userrole)
                                 ? (
                                     <Button onClick={() => EditMember()} variant="contained" className="submitbtn">
-                                        {screenlabels.common.update}
+                                        {screenlabels.common.submit}
                                     </Button>
                                 ) : (
                                     <Button variant="outlined" disabled className="disbalesubmitbtn">
-                                        {screenlabels.common.update}
+                                        {screenlabels.common.submit}
                                     </Button>
                                 )}
                         </Col>
