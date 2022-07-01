@@ -7,6 +7,7 @@ background: #ffffff;
 height: 60px;
 display: flex;
 justify-content: space-between;
+border: 1px solid #F1F1F1;
 // padding: 0.1rem calc((100vw - 1000px) / 2);
 padding: 0px 60px;
 z-index: 12;

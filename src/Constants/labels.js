@@ -35,12 +35,12 @@ const labels = {
             "fourText":'network. “Dummy Data”'
         },
         "editparticipants": {
-            "first_heading": "Edit Participants Orginsation Details",
+            "first_heading": "Edit Participants Organisation Details",
             "second_heading": "Edit Participants Root User Details",
             "third_heading": "Edit Participant's Subscription Length to the Datahub",
         },
         "viewparticipants": {
-            "first_heading": "Participants Orginsation Details",
+            "first_heading": "Participants Organisation Details",
             "second_heading": "Participants Root User Details",
             "third_heading": "Participant's Subscription Length to the Datahub",
             "organisation_name": "Organisation Name",

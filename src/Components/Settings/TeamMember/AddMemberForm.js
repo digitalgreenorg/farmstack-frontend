@@ -29,7 +29,8 @@ export default function AddMemberForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         label={screenlabels.settings.first_name}
                         value={props.firstname}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setfirstname(e.target.value.trim()) : e.preventDefault() }
@@ -39,7 +40,7 @@ export default function AddMemberForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
                         label={screenlabels.settings.last_name}
                         value={props.lastname}
                         // onKeyDown={(e) => validateInputField(e.key,RegexConstants.APLHABET_REGEX)?"":e.preventDefault()}
@@ -52,7 +53,8 @@ export default function AddMemberForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         label={screenlabels.settings.email}
                         value={props.useremail}
                         onChange={(e) => props.setuseremail(e.target.value.trim())}
@@ -63,7 +65,8 @@ export default function AddMemberForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         select
-                        variant="standard"
+                        variant="filled"
+                        required
                         style={useStyles.inputwidth}
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"

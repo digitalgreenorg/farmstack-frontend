@@ -32,7 +32,8 @@ export default function ParticipantForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         value={props.organisationname}
                         onChange={(e) =>validateInputField(e.target.value,RegexConstants.ORG_NAME_REGEX)? props.setorganisationname(e.target.value): e.preventDefault()}
                         label={screenlabels.addparticipants.organisation_name}
@@ -42,7 +43,8 @@ export default function ParticipantForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         value={props.orginsationemail}
                         onChange={(e) => props.setorginsationemail(e.target.value.trim())}
                         label={screenlabels.addparticipants.email}
@@ -55,7 +57,8 @@ export default function ParticipantForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         style={useStyles.inputwidth}
-                        variant="standard"
+                        variant="filled"
+                        required
                         value={props.websitelink}
                         onChange={(e) => props.setwebsitelink(e.target.value.trim())}
                         label={screenlabels.addparticipants.website_link}
@@ -67,7 +70,8 @@ export default function ParticipantForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         label={screenlabels.addparticipants.organisation_address}
                         value={props.organisationaddress}
                         onKeyDown={(e) => handleAddressCharacters(props.organisationaddress,e)}
@@ -82,7 +86,8 @@ export default function ParticipantForm(props) {
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         style={useStyles.inputwidth}
-                        variant="standard"
+                        variant="filled"
+                        required
                         value={props.countryvalue}
                         onChange={(e) => props.setcountryvalue(e.target.value)}
                         isSearchable={true}
@@ -97,7 +102,8 @@ export default function ParticipantForm(props) {
                     <TextField
                        style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         type="number"
                         label={screenlabels.addparticipants.pincode}
                         value={props.pincode}
@@ -117,7 +123,8 @@ export default function ParticipantForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         label={screenlabels.addparticipants.first_name}
                         value={props.firstname}
                         // onKeyDown={(e) => handleNameFieldEntry(props.firstname,e)}
@@ -128,7 +135,7 @@ export default function ParticipantForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
                         label={screenlabels.addparticipants.last_name}
                         value={props.lastname}
                         // onKeyDown={(e) => handleNameFieldEntry(props.lastname,e)}
@@ -141,7 +148,8 @@ export default function ParticipantForm(props) {
                     <TextField
                         style={useStyles.inputwidth}
                         id="filled-basic"
-                        variant="standard"
+                        variant="filled"
+                        required
                         label={screenlabels.addparticipants.email}
                         value={props.useremail}
                         onChange={(e) => props.setuseremail(e.target.value.trim())}
@@ -155,7 +163,8 @@ export default function ParticipantForm(props) {
                         style={useStyles.inputwidth}
                         id="filled-basic"
                         label={screenlabels.addparticipants.contact_number}
-                        variant="standard"
+                        variant="filled"
+                        required
                         value={props.contactnumber}
                         onChange={(e) => props.setcontactnumber(e)}
                         error={props.iscontactnumbererror}
@@ -172,7 +181,8 @@ export default function ParticipantForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         select
-                        variant="standard"
+                        variant="filled"
+                        required
                         style={useStyles.inputwidth}
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
