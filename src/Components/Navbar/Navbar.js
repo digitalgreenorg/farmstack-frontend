@@ -9,12 +9,14 @@ import {
 } from './NavbarElements';
 import labels from '../../Constants/labels';
 import LocalStorageConstants from '../../Constants/LocalStorageConstants'
+import { useHistory } from "react-router-dom";
 const Navbar = (props) => {
   const [screenlabels, setscreenlabels] = useState(labels['en']);
+  let history = useHistory();
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
-    props.history.push('/login');
+    history.push('/login');
   }
   return (
     <>
@@ -48,7 +50,7 @@ const Navbar = (props) => {
               alt="new"
             />&nbsp;&nbsp;{screenlabels.navbar.Support}
           </NavLink>
-          <NavLink to='/datahub/settings' activeStyle>
+          <NavLink to='/datahub/settings' activeStyle onClick={(e)=>{e.preventDefault();history.push('/datahub/settings/1')}}>
             <img className="boldimage"
               src={require('../../Assets/Img/bold_settings.svg')}
               alt="new"

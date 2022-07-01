@@ -32,7 +32,7 @@ function Datahub(props) {
                 <Route exact path="/datahub/participants" component={Participants} />
                 <Route exact path="/datahub/settings/addmember" component={AddTeamMember} />
                 <Route exact path="/datahub/settings/editmember/:id" component={EditTeamMember} />
-                <Route exact path="/datahub/settings" component={Settings} />
+                <Route exact path="/datahub/settings/:id" component={Settings} />
 
             </Switch></>:(
             props.history.push("/login")

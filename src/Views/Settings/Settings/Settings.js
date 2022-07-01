@@ -17,6 +17,7 @@ import Tab from '@mui/material/Tab';
 import { TabContext } from '@mui/lab';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { useParams } from 'react-router-dom';
 const useStyles = {
     btncolor: { color: "white", "text-transform": "capitalize", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black" },
@@ -33,9 +34,16 @@ function Settings(props) {
     const [isDelete, setisDelete] = useState(false);
     const [teamMemberId, setteamMemberId] = useState("");
     const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
+    const [value, setValue] = useState('1');
     const history = useHistory();
+    const { id } = useParams()
     useEffect(() => {
         getMemberList()
+        if(id){
+            setValue(id)
+        }else{
+            setValue(1)
+        }
     }, []);
     const getMemberList = () => {
         HTTPService('GET', UrlConstants.base_url + UrlConstants.team_member, false, false).then((response) => {
@@ -58,7 +66,7 @@ function Settings(props) {
             console.log(e);
         });
     }
-    const [value, setValue] = React.useState('1');
+   
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
