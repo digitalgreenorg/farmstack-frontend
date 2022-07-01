@@ -37,6 +37,7 @@ export default function SignupEmail(props) {
     <div>
       <form noValidate autoComplete="off" onSubmit={props.handleSubmit}>
         <TextField
+          required
           id="filled-basic"
           label="Email"
           variant="filled"

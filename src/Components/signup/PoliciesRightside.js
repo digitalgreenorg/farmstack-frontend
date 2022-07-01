@@ -512,7 +512,9 @@ export default function PoliciesRightside(props) {
       <p className="policiesHeader">Company Policies</p>
       <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
         <div className="governingdes">
-          <p className="governingtitle">Governing Laws</p>
+          <p className="governingtitle">
+            Governing Laws<sup>*</sup>
+          </p>
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editorgovLawValue}
@@ -569,7 +571,9 @@ export default function PoliciesRightside(props) {
           </p>
         </div>
         <div className="warrantiesdes">
-          <p className="warrantiestitle">Warranties</p>
+          <p className="warrantiestitle">
+            Warranties<sup>*</sup>
+          </p>
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editorwarrantiesValue}
@@ -628,7 +632,9 @@ export default function PoliciesRightside(props) {
         </div>
 
         <div className="liabiltydes">
-          <p className="liabiltytitle">Limitation of Liabilities</p>
+          <p className="liabiltytitle">
+            Limitation of Liabilities<sup>*</sup>
+          </p>
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editorLiabalityValue}
@@ -686,7 +692,9 @@ export default function PoliciesRightside(props) {
         </div>
 
         <div className="privacydes">
-          <p className="privacytitle">Privacy Policy</p>
+          <p className="privacytitle">
+            Privacy Policy<sup>*</sup>
+          </p>
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editorprivacyValue}
@@ -744,7 +752,9 @@ export default function PoliciesRightside(props) {
         </div>
 
         <div className="termdes">
-          <p className="termtitle">Terms of Use</p>
+          <p className="termtitle">
+            Terms of Use<sup>*</sup>
+          </p>
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editortermValue}

@@ -343,6 +343,7 @@ export default function OrgRightside(props) {
         <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
           <div className="orgname">
             <TextField
+              required
               id="filled-basic"
               label="Organization Name"
               variant="filled"
@@ -356,6 +357,7 @@ export default function OrgRightside(props) {
           </div>
           <div className="orgemail">
             <TextField
+              required
               type="email"
               id="filled-basic"
               label="Organization Mail ID"
@@ -383,6 +385,7 @@ export default function OrgRightside(props) {
           </div>
           <div className="orgaddress">
             <TextField
+              required
               id="filled-basic"
               label="Address"
               variant="filled"
@@ -396,6 +399,7 @@ export default function OrgRightside(props) {
           </div>
           <div className="orgcity">
             <TextField
+              required
               id="filled-basic"
               label="City"
               variant="filled"
@@ -409,6 +413,7 @@ export default function OrgRightside(props) {
           </div>
           <div className="orgcountry">
             <Select
+              required
               options={options}
               value={props.countryvalue}
               onChange={props.countrychangeHandler}
@@ -419,6 +424,7 @@ export default function OrgRightside(props) {
           </div>
           <div className="orgpincode">
             <TextField
+              required
               type="number"
               id="filled-basic"
               //   inputProps={{ maxLength: 6 }}
@@ -459,7 +465,9 @@ export default function OrgRightside(props) {
                 ],
               }}
             /> */}
-            <p className="orgdestitle">Organization Description</p>
+            <p className="orgdestitle">
+              Organization Description<sup>*</sup>
+            </p>
             <RichTextEditor
               toolbarConfig={toolbarConfig}
               value={editorValue}

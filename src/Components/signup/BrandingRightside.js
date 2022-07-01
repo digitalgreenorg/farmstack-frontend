@@ -60,6 +60,36 @@ export default function BrandingRightside(props) {
         //   setError(true);
       });
   };
+  const HandleFinishLater = async (e) => {
+    e.preventDefault();
+    var bodyFormData = new FormData();
+    // bodyFormData.append("button_color", hexColor);
+    // bodyFormData.append("banner", file);
+    bodyFormData.append("email", props.validemail);
+
+    console.log("branding data", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.branding;
+
+    await HTTPService("POST", url, bodyFormData, true, false)
+      .then((response) => {
+        console.log("response");
+        console.log("branding details", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 201) {
+          setTokenLocal(props.isaccesstoken);
+          history.push("/datahub/participants");
+          // setEmail(false);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
+  };
   return (
     <div className="branding">
       <p className="brandingtitle">Create your Branding</p>
@@ -121,9 +151,10 @@ export default function BrandingRightside(props) {
               variant="outlined"
               className="finishlaterbrandbtn"
               type="button"
-              onClick={() => {
-                history.push("/datahub/participants");
-              }}>
+              // onClick={() => {
+              //   history.push("/datahub/participants");
+              // }}
+              onClick={HandleFinishLater}>
               Finish Later
             </Button>
           </div>
