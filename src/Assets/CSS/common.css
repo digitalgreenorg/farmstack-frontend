@@ -13,6 +13,9 @@ body{
 button.disbalesubmitbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important;opacity: 0.5}
 button.cancelbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important;}
 button.submitbtn{ width: 420px !important;text-transform: capitalize;color: #FFFFFF;height:42px;margin-top:30px; background:#C09507;border-radius: 2px;border:2px solid #C09507 !important}
+button.submitbtn:hover{
+  background-color: #C09507 !important;
+}
 .mainheading{font-weight: 700;font-size: 20px;color: #3D4A52;}
 .secondmainheading{font-weight: 600;font-size: 16px;color: #3D4A52;}
 .thirdmainheading{font-weight: 400;font-size: 14px;color: #3D4A52;}
@@ -42,6 +45,7 @@ button.submitbtn{ width: 420px !important;text-transform: capitalize;color: #FFF
 .invite-participant-text-editor > div:first-child >div:first-child{
   text-align: left;
 }
+
 .settingsTabs .Mui-selected {
   color: #ffffff !important;
   border: 1px solid #D8AF28;
