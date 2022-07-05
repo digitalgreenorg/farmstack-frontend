@@ -86,7 +86,7 @@ function InviteParticipants(props) {
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <ReactMultiEmail
                         style={{"width":"100%"}}
-                            placeholder="Email Id"
+                            placeholder="Email Id *"
                             emails={emails}
                             onChange={(email)=>setemails(email)}
                             validateEmail={email => {
@@ -121,8 +121,10 @@ function InviteParticipants(props) {
                             name="bodyText"
                             type="string"
                             placeholder={
-                                "Message"
+                                "Message *"
                             }
+
+                            
                             multiline
                             variant="filled"
                             style={{
