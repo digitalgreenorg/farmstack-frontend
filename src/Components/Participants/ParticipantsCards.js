@@ -25,11 +25,11 @@ const useStyles = {
   cardData:{"font-weight": 400,"font-size": "14px",color: "#3D4A52"}
 };
 export default function ParticipantsCards(props) {
-  const [isshowbutton, setisshowbutton] = React.useState(true);
+  const [isshowbutton, setisshowbutton] = React.useState(false);
   const history = useHistory();
   return (
 
-    <Card className="particaipancard" style={isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton((prev) => !prev)} onMouseLeave={()=>setisshowbutton((prev) => !prev)}>
+    <Card className="particaipancard" style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
       <CardHeader
         avatar={
           props.profilepic? <Avatar alt="Remy Sharp" src={UrlConstants.base_url+props.profilepic} sx={{ width:54, height:54 }}/>:
@@ -66,7 +66,7 @@ export default function ParticipantsCards(props) {
             <span style={useStyles.cardData}>{props.active}</span>
           </Col>
         </Row>
-        {!isshowbutton?<Row style={useStyles.marginrowtop}>
+        {isshowbutton?<Row style={useStyles.marginrowtop}>
           <Col xs={12} sm={12} md={6} lg={6}>
             <Button onClick={() => history.push('/datahub/participants/edit/'+props.id)} variant="outlined" style={useStyles.btncolor}>
               <img
