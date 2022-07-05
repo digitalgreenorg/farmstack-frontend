@@ -15,7 +15,7 @@ import ProfileRightside from "../../Components/signup/ProfileRightside";
 import OrgRightside from "../../Components/signup/OrgRightside";
 import PoliciesRightside from "../../Components/signup/PoliciesRightside";
 import BrandingRightside from "../../Components/signup/BrandingRightside";
-import { setTokenLocal, getTokenLocal } from "../../Utils/Common";
+import { setTokenLocal, getTokenLocal, setUserId } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
 
@@ -83,6 +83,7 @@ export default function Login(props) {
           if (response.status === 201) {
             console.log(response.data.id);
             setprofileid(response.data.id);
+            setUserId(response.data.id);
             setEmail(false);
             setError(false);
             setisOtp(true);
@@ -129,7 +130,7 @@ export default function Login(props) {
       //   }),
       // })
       //   .then((response) => {
-      HTTPService(
+      await HTTPService(
         "POST",
         url,
         {
@@ -140,6 +141,8 @@ export default function Login(props) {
         false
       )
         .then((response) => {
+          console.log("uid", response.data.user);
+
           console.log("otp valid");
           console.log("otp valid", response.data);
           console.log("access token", response.data.access);
