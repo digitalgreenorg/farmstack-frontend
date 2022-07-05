@@ -57,7 +57,7 @@ export default function AddMemberForm(props) {
                         required
                         label={screenlabels.settings.email}
                         value={props.useremail}
-                        onChange={(e) => props.setuseremail(e.target.value.trim())}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setuseremail(e.target.value.trim()) : e.preventDefault()}
                         error={props.isuseremailerror || props.isexistinguseremail}
                         helperText={props.isuseremailerror ? "Enter Valid Email id" : props.isexistinguseremail ? "User is already registered with this email ID" : ""}
                     />
