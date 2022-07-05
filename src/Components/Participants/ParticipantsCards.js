@@ -17,12 +17,13 @@ import THEME_COLORS from '../../Constants/ColorConstants'
 import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 const useStyles = {
-  btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize"}, 
+  btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-left": "-25px", "font-weight": "400", "font-family": "Open Sans"}, 
+  btnPosition: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "font-weight": "400", "font-family": "Open Sans"},
   cardcolor:{border: "1px solid #E4E4E4","box-shadow": "none",cursor:"pointer",height: "209px","border-radius": "2px"}, 
   togglecardcolor:{"box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "2px solid #ebd79c",cursor:"pointer",height: "209px"}, 
   marginrowtop: {"margin-top": "20px"},
   cardDataHeading:{"font-weight": "600","font-size": "14px",color: "#3D4A52" },
-  cardData:{"font-weight": 400,"font-size": "14px",color: "#3D4A52"}
+  cardData:{"font-weight": "400","font-size": "14px",color: "#3D4A52"}
 };
 export default function ParticipantsCards(props) {
   const [isshowbutton, setisshowbutton] = React.useState(false);
@@ -76,7 +77,7 @@ export default function ParticipantsCards(props) {
             </Button>
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
-            <Button onClick={() => history.push('/datahub/participants/view/'+props.id)} variant="outlined" style={useStyles.btncolor}>
+            <Button onClick={() => history.push('/datahub/participants/view/'+props.id)} variant="outlined" style={useStyles.btnPosition}>
               View Details
             </Button>
           </Col>
