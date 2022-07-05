@@ -117,7 +117,7 @@ function ViewParticipants(props) {
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
 
-                            <Button onClick={() => history.push('/datahub/participants/edit/' + id)} variant="outlined" className="cancelbtn">
+                            <Button onClick={() => history.push('/datahub/participants/edit/' + id)} variant="outlined" className="editbtn">
                                 Edit Participant
                          </Button>
                         </Col>
