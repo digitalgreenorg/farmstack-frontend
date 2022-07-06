@@ -24,6 +24,8 @@ import UploadOrgLogo from "./UploadOrgLogo";
 
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
+import { validateInputField } from "../../Utils/Common";
+import RegexConstants from "../../Constants/RegexConstants";
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -349,8 +351,10 @@ export default function OrgRightside(props) {
               variant="filled"
               style={{ width: "420px" }}
               //   className="profilefirstname"
-              onChange={props.handleOrgname}
-              inputRef={props.Orgname}
+              value={props.orgName}
+              onKeyUp={(e) => props.orgName ==="" ? props.setisOrgnameerror(true) : props.setisOrgnameerror(false)}
+              onChange={(e) => validateInputField(e.target.value,RegexConstants.ORG_NAME_REGEX) ? props.setOrgName(e.target.value): e.preventDefault() }
+              // inputRef={props.Orgname}
               error={props.isOrgnameerror}
               helperText={props.isOrgnameerror ? "Enter Name" : ""}
             />
@@ -365,7 +369,7 @@ export default function OrgRightside(props) {
               style={{ width: "420px" }}
               //   className="profilelastname"
               onChange={props.handleOrgmail}
-              inputRef={props.Orgmail}
+              // inputRef={props.Orgmail}
               error={props.isOrgmailerror}
               helperText={props.isOrgmailerror ? "Enter Valid Email id" : ""}
             />

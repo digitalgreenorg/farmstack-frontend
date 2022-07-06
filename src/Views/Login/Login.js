@@ -42,6 +42,13 @@ export default function Login(props) {
   const [isBranding, setisBranding] = useState(false);
   const [isaccesstoken, setisaccesstoken] = useState(false);
 
+
+  const [orgName, setOrgName] = useState("")
+  const [orgEmail, setOrgEmail] = useState("")
+  const [orgAddress, setOrgAddress] = useState("")
+  const [orgCity, setOrgCity] = useState("")
+  const [orgPincode, setOrgPincode] = useState("")
+
   const [profileid, setprofileid] = useState("");
   useEffect(() => {
     if (getTokenLocal()) {
@@ -376,11 +383,13 @@ export default function Login(props) {
   const [validOrgNumber, setValidOrgnumber] = useState("");
   const [orgfile, setorgfile] = useState(null);
 
+  //####################################################################################################
   const Orgname = useRef();
   const Orgmail = useRef();
   const OrgAddress = useRef();
   const Orgcity = useRef();
   const pincode = useRef();
+  //####################################################################################################
 
   const [Orgnamebtn, setOrgnamebtn] = useState(false);
   const [Orgemailbtn, setOrgemailbtn] = useState(false);
@@ -630,6 +639,7 @@ export default function Login(props) {
       {isOrg ? (
         <OrgRightside
           isOrgnameerror={isOrgnameerror}
+          setisOrgnameerror={setisOrgnameerror}
           isOrgmailerror={isOrgmailerror}
           isOrgAddresserror={isOrgAddresserror}
           isOrgcityerror={isOrgcityerror}
@@ -639,11 +649,21 @@ export default function Login(props) {
           // editorValue={editorValue}
           validOrgNumber={validOrgNumber}
           orgfile={orgfile}
-          Orgname={Orgname}
-          Orgmail={Orgmail}
-          OrgAddress={OrgAddress}
-          Orgcity={Orgcity}
-          pincode={pincode}
+          orgName={orgName}
+          setOrgName={setOrgName}
+          orgEmail={orgEmail}
+          setOrgEmail={ref => {setOrgEmail(ref); setisOrgmailerror(!validator.isEmail(ref)) }}
+          orgAddress={orgAddress}
+          setOrgAddress={setOrgAddress}
+          orgCity={orgCity}
+          setOrgCity={setOrgCity}
+          orgPincode={orgPincode}
+          setOrgPincode={setOrgPincode}
+          // Orgname={Orgname}
+          // Orgmail={Orgmail}
+          // OrgAddress={OrgAddress}
+          // Orgcity={Orgcity}
+          // pincode={pincode}
           Orgnamebtn={Orgnamebtn}
           Orgemailbtn={Orgemailbtn}
           Orgaddressbtn={Orgaddressbtn}
