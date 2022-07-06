@@ -826,10 +826,10 @@ export default function PoliciesRightside(props) {
         </div>
 
         <div>
-          <Button variant="contained" className="policiesbtn" type="submit">
+          {/* <Button variant="contained" className="policiesbtn" type="submit">
             <span className="signupbtnname">Next</span>
-          </Button>
-          {/* {privacydesc.length > 0 &&
+          </Button> */}
+          {privacydesc.length > 0 &&
           termdesc.length > 0 &&
           govLawdesc.length > 0 &&
           liabalitydesc.length > 0 &&
@@ -846,7 +846,7 @@ export default function PoliciesRightside(props) {
             <Button variant="outlined" disabled className="disablepoliciesbtn">
               Next
             </Button>
-          )} */}
+          )}
         </div>
         <div>
           <Button

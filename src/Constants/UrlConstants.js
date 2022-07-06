@@ -3,6 +3,7 @@ const UrlConstant = {
   login: "accounts/login/",
   otp: "accounts/otp/",
   participant: "datahub/participant/",
+  support:"datahub/support/filters_tickets/",
   inviteparticipant: "datahub/send_invite/",
   team_member: "datahub/team_member/",
   resend_otp: "accounts/resend_otp/",
