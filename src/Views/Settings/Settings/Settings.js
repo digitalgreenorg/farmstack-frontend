@@ -18,7 +18,9 @@ import { TabContext } from "@mui/lab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import AccountSetting from "../accounts/accountSetting";
+import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
+
 const useStyles = {
   btncolor: {
     color: "white",
@@ -181,7 +183,9 @@ function Settings(props) {
                       }}
                     />
                   </TabPanel>
-                  <TabPanel value="2"></TabPanel>
+                  <TabPanel value="2">
+                    <OrganisationSetting />
+                  </TabPanel>
                   <TabPanel value="3">
                     <Row>
                       <span style={useStyles.teamword}>Team</span>
