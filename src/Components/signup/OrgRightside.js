@@ -24,7 +24,7 @@ import UploadOrgLogo from "./UploadOrgLogo";
 
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import { validateInputField } from "../../Utils/Common";
+import { handleAddressCharacters, validateInputField } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
 
 export default function OrgRightside(props) {
@@ -340,7 +340,7 @@ export default function OrgRightside(props) {
 
   return (
     <div className="orgright">
-      <div className="orgheader">Organization details</div>
+      <div className="orgheader">Organization Details</div>
       <div>
         <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
           <div className="orgname">
@@ -352,7 +352,7 @@ export default function OrgRightside(props) {
               style={{ width: "420px" }}
               //   className="profilefirstname"
               value={props.orgName}
-              onKeyUp={(e) => props.orgName ==="" ? props.setisOrgnameerror(true) : props.setisOrgnameerror(false)}
+              onKeyUp={() =>  props.orgName ==="" ? props.setisOrgnameerror(true) : props.setisOrgnameerror(false)}
               onChange={(e) => validateInputField(e.target.value,RegexConstants.ORG_NAME_REGEX) ? props.setOrgName(e.target.value): e.preventDefault() }
               // inputRef={props.Orgname}
               error={props.isOrgnameerror}
@@ -368,10 +368,12 @@ export default function OrgRightside(props) {
               variant="filled"
               style={{ width: "420px" }}
               //   className="profilelastname"
+              // value={props.orgEmail}
+              // onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setOrgEmail(e.target.value.trim()) : e.preventDefault()}
               onChange={props.handleOrgmail}
-              // inputRef={props.Orgmail}
-              error={props.isOrgmailerror}
-              helperText={props.isOrgmailerror ? "Enter Valid Email id" : ""}
+              inputRef={props.Orgmail}
+              error={props.isOrgmailerror || props.isExistingOrgEmail}
+              helperText={props.isOrgmailerror ? "Enter Valid Email id" : props.isExistingOrgEmail ? "Organization already registered" : ""}
             />
           </div>
           <div className="orgnumber">
@@ -395,8 +397,12 @@ export default function OrgRightside(props) {
               variant="filled"
               style={{ width: "420px" }}
               //   className="profileemail"
-              onChange={props.handleOrgAddress}
-              inputRef={props.OrgAddress}
+              value={props.orgAddress}
+              onKeyDown={(e) => handleAddressCharacters(props.orgAddress,e)}
+              onKeyUp={() => props.orgAddress==="" ? props.setisOrgAddresserror(true) : props.setisOrgAddresserror(false)}
+              onChange={(e) => props.setOrgAddress(e.target.value)}
+              // onChange={props.handleOrgAddress}
+              // inputRef={props.OrgAddress}
               error={props.isOrgAddresserror}
               helperText={props.isOrgAddresserror ? "Enter Valid Address" : ""}
             />
@@ -409,8 +415,11 @@ export default function OrgRightside(props) {
               variant="filled"
               style={{ width: "420px" }}
               //   className="profileemail"
-              onChange={props.handleOrgcity}
-              inputRef={props.Orgcity}
+              value={props.orgCity}
+              onKeyUp={() => props.orgCity === "" ? props.setisOrgcityerror(true) : props.setisOrgcityerror(false)}
+              onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setOrgCity(e.target.value) : e.preventDefault()}
+              // onChange={props.handleOrgcity}
+              // inputRef={props.Orgcity}
               error={props.isOrgcityerror}
               helperText={props.isOrgcityerror ? "Enter Valid City" : ""}
             />
@@ -435,8 +444,11 @@ export default function OrgRightside(props) {
               label="Pin Code"
               variant="filled"
               style={{ width: "420px", zIndex: 0 }}
-              onChange={props.handlepincode}
-              inputRef={props.pincode}
+              value={props.orgPincode}
+              onKeyUp={() => props.orgPincode=="" ? props.setispincodeerror(true) : props.setispincodeerror(false)}
+              onChange={(e) => validateInputField(e.target.value,RegexConstants.PINCODE_REGEX) ? props.setOrgPincode(e.target.value.trim()) : e.preventDefault()}
+              // onChange={props.handlepincode}
+              // inputRef={props.pincode}
               error={props.ispincodeerror}
               helperText={props.ispincodeerror ? "Enter vaild pin code" : ""}
             />
@@ -549,12 +561,12 @@ export default function OrgRightside(props) {
             {/* <Button variant="contained" className="orgbtn" type="submit">
               <span className="signupbtnname">Next</span>
             </Button> */}
-            {props.Orgnamebtn &&
-            props.Orgemailbtn &&
-            props.Orgaddressbtn &&
-            props.Orgcitybtn &&
-            props.Orgcountrybtn &&
-            props.Orgpincodebtn &&
+            {props.orgName && !props.isOrgnameerror &&
+            props.Orgemailbtn && !props.isOrgmailerror &&
+            props.orgAddress && !props.isOrgAddresserror &&
+            props.orgCity && !props.isOrgcityerror &&
+            props.Orgcountrybtn && 
+            props.orgPincode && !props.ispincodeerror &&
             Orgdesbtn &&
             props.orgfile ? (
               <Button variant="contained" className="orgbtn" type="submit">
