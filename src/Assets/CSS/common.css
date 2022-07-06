@@ -17,8 +17,13 @@ button.submitbtn{ width: 420px !important;text-transform: capitalize;color: #FFF
 button.submitbtn:hover{
   background-color: #C09507 !important;
 }
+.width100percent{width:100%}
 .mainheading{font-weight: 700;font-size: 20px;color: #3D4A52;}
 .secondmainheading{font-weight: 600;font-size: 16px;color: #3D4A52;}
+.fontweight600andfontsize14pxandcolor3A3A3A{font-weight: 600;font-size: 14px;color: #3A3A3A;}
+.fontweight600andfontsize14pxandcolorFFFFFF{font-weight: 600;font-size: 14px;color: #FFFFFF;}
+.fontweight600andfontsize14pxandcolor3D4A52{font-weight: 600;font-size: 14px;color: #3D4A52;}
+.fontweight400andfontsize14pxandcolor3D4A52{font-weight: 400;font-size: 14px;color: #3D4A52;}
 .thirdmainheading{font-weight: 400;font-size: 14px;color: #3D4A52;}
 .mainheadingsuccess{font-weight: 700;font-size: 20px;color: #3D4A52;}
 .secondmainheadingsuccess{font-weight: 700;font-size: 20px;color: #D8AF28;}
