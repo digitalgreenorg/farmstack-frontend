@@ -88,6 +88,15 @@ const labels = {
       last_name: "Last Name",
       contact: "Contact Number",
     },
+    org_settings: {
+      email: "Organization Mail ID",
+      org_name: "Organization Name",
+      address: "Organization Address",
+      contact: "Organization Contact Number",
+      city: "City",
+      pincode: "PIN Code",
+      org_des: "Organization Description",
+    },
   },
 };
 export default labels;
