@@ -44,8 +44,12 @@ const Navbar = (props) => {
               alt="new"
             />&nbsp;&nbsp;{screenlabels.navbar.NetworkActivity}
           </NavLink>
-          <NavLink to='/Participnts' activeStyle>
-            <img
+          <NavLink to='/datahub/support' activeStyle>
+              <img className="boldimage"
+              src={require('../../Assets/Img/support_bold.svg')}
+              alt="new"
+            />
+            <img className="nonboldimage"
               src={require('../../Assets/Img/support.svg')}
               alt="new"
             />&nbsp;&nbsp;{screenlabels.navbar.Support}
