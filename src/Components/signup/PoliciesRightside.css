@@ -7,13 +7,13 @@
   /* width: 76px; */
   height: 27px;
   left: 839px;
-  top: 147px;
+  top: 117px;
 
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
-  line-height: 27px;
+  line-height: 37px;
 
   /* headings */
 
@@ -21,9 +21,8 @@
 }
 .governingdes {
   position: absolute;
-  width: 420px;
   left: 839px;
-  top: 214px;
+  top: 180px;
 
   /* background: #f1f1f1; */
   border-radius: 2px;
@@ -31,7 +30,12 @@
 .governingtitle {
   text-align: left;
   background: #f1f1f1;
-  margin-bottom: 0;
+  margin-bottom: 20px;
+  height: 48px;
+  width: 420px;
+  border-bottom: 1px solid #9AA1A9;
+  line-height: 47px;
+  padding-left: 10px;
 }
 
 .filegovlaw .filesupload {
@@ -43,6 +47,7 @@
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
+
 }
 .filegovlaw .filename {
   position: absolute;
@@ -63,7 +68,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 758px;
+  top: 728px;
   color: red !important;
   font-family: "Open Sans";
   font-style: normal;
@@ -82,13 +87,15 @@
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  line-height: 19px;
+  line-height: 49px;
   color: #3d4a52;
 }
 .warrantiestitle {
   text-align: left;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #9AA1A9;
   background: #f1f1f1;
-  margin-bottom: 0;
+  padding-left: 10px;
 }
 
 .filewarranties .filesupload {
@@ -96,7 +103,7 @@
   width: 420px;
   height: 218px;
   left: 129px;
-  top: 936px;
+  top: 996px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -106,7 +113,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1348px;
+  top: 1418px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -120,7 +127,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1378px;
+  top: 1418px;
   color: red !important;
   font-family: "Open Sans";
   font-style: normal;
@@ -133,20 +140,23 @@
   position: absolute;
   width: 420px;
   left: 849px;
-  top: 1483px;
+  top: 1533px;
   border-radius: 2px;
+  line-height: 47px;
 }
 .liabiltytitle {
   text-align: left;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #9AA1A9;
+  padding-left: 10px;
   background: #f1f1f1;
-  margin-bottom: 0;
 }
 .fileliabilty .filesupload {
   position: absolute;
   width: 420px;
   height: 218px;
   left: 129px;
-  top: 1556px;
+  top: 1666px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -156,7 +166,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2008px;
+  top: 2118px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -170,7 +180,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2035px;
+  top: 2118px;
   color: red !important;
   font-family: "Open Sans";
   font-style: normal;
@@ -182,19 +192,22 @@
   position: absolute;
   width: 420px;
   left: 849px !important;
-  top: 2123px !important;
+  top: 2243px !important;
+  line-height: 47px;
 }
 .privacytitle {
   text-align: left;
+  border-bottom: 1px solid #9AA1A9;
+  margin-bottom: 30px;
   background: #f1f1f1;
-  margin-bottom: 0;
+  padding-left: 10px;
 }
 .fileprivacy .filesupload {
   position: absolute;
   width: 420px;
   height: 218px;
   left: 129px;
-  top: 2190px;
+  top: 2350px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -204,7 +217,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2658px;
+  top: 2828px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -217,7 +230,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2688px;
+  top: 2828px;
   color: red !important;
   font-family: "Open Sans";
   font-style: normal;
@@ -229,19 +242,22 @@
   position: absolute;
   width: 420px;
   left: 849px !important;
-  top: 2822px !important;
+  top: 2962px !important;
+  line-height: 47px;
 }
 .termtitle {
   text-align: left;
+  border-bottom: 1px solid #9AA1A9;
+  margin-bottom: 30px;
   background: #f1f1f1;
-  margin-bottom: 0;
+  padding-left: 10px;
 }
 .termprivacy .filesupload {
   position: absolute;
   width: 420px;
   height: 218px;
   left: 129px;
-  top: 2859px;
+  top: 3039px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -252,7 +268,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 3358px;
+  top: 3538px;
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -265,7 +281,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 3398px;
+  top: 3538px;
   color: red !important;
   font-family: "Open Sans";
   font-style: normal;
@@ -278,7 +294,7 @@
   width: 420px;
   height: 42px;
   left: 339px;
-  top: 3280px;
+  top: 3380px;
 
   background-color: #c09507 !important;
   border-radius: 2px;
@@ -288,7 +304,7 @@
   width: 420px;
   height: 42px;
   left: 339px;
-  top: 3280px;
+  top: 3380px;
 
   background: #c09507;
   border-radius: 2px;
@@ -299,7 +315,7 @@
   width: 420px;
   height: 42px;
   left: 339px;
-  top: 3331px;
+  top: 3415px;
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
@@ -308,6 +324,7 @@
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
+  margin-bottom: 100px;
 }
 .govlawprogress {
   position: absolute;
@@ -326,48 +343,48 @@
   width: 275px;
   height: 6px;
   left: 897px;
-  top: 1420px;
+  top: 1470px;
 }
 .warrantyclose {
   position: absolute;
   left: 1200px;
-  top: 1408px;
+  top: 1458px;
 }
 .liabiltyprogress {
   position: absolute;
   width: 275px;
   height: 6px;
   left: 897px;
-  top: 2060px;
+  top: 2170px;
 }
 .liabiltyclose {
   position: absolute;
   left: 1200px;
-  top: 2050px;
+  top: 2150px;
 }
 .privacyprogress {
   position: absolute;
   width: 275px;
   height: 6px;
   left: 897px;
-  top: 2730px;
+  top: 2880px;
 }
 .privacyclose {
   position: absolute;
   left: 1200px;
-  top: 2720px;
+  top: 2860px;
 }
 .tosprogress {
   position: absolute;
   width: 275px;
   height: 6px;
   left: 897px;
-  top: 3450px;
+  top: 3590px;
 }
 .tosclose {
   position: absolute;
   left: 1200px;
-  top: 3437px;
+  top: 3590px;
 }
 /* .policiesSpace {
   margin-bottom: 100px;
@@ -380,3 +397,15 @@
 
   margin-bottom: 10%;
 }*/
+
+.toolbarConfig{
+  text-align: left;
+}
+.footerimg2{
+  position: absolute;
+  width: 148.92px;
+  height: 126.01px;
+  left: 1300.09px;
+  top: 3725px;
+}
+

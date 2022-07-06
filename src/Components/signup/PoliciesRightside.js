@@ -515,6 +515,7 @@ export default function PoliciesRightside(props) {
           <p className="governingtitle">
             Governing Laws<sup>*</sup>
           </p>
+          <div className="toolbarConfig">
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editorgovLawValue}
@@ -528,10 +529,14 @@ export default function PoliciesRightside(props) {
             style={{
               minHeight: 410,
               width: 420,
+              marginTop: 20,
+              marginBottom: 20,
               border: "1px solid black",
               zIndex: 4,
+              textAlign: "left"
             }}
           />
+          </div>
         </div>
         <div className="filegovlaw">
           <FileUploader
@@ -574,6 +579,7 @@ export default function PoliciesRightside(props) {
           <p className="warrantiestitle">
             Warranties<sup>*</sup>
           </p>
+          <div className="toolbarConfig">
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editorwarrantiesValue}
@@ -585,12 +591,14 @@ export default function PoliciesRightside(props) {
             multiline
             variant="filled"
             style={{
-              minHeight: 410,
+              minHeight: 450,
               width: 420,
               border: "1px solid black",
               zIndex: 4,
+
             }}
           />
+          </div>
         </div>
         <div className="filewarranties">
           <FileUploader
@@ -600,7 +608,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Limitation of Liabilities "
+                uploadtitle="Upload Warranties "
               />
             }
             //   maxSize={2}
@@ -635,6 +643,7 @@ export default function PoliciesRightside(props) {
           <p className="liabiltytitle">
             Limitation of Liabilities<sup>*</sup>
           </p>
+          <div className="toolbarConfig">
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editorLiabalityValue}
@@ -652,6 +661,7 @@ export default function PoliciesRightside(props) {
               zIndex: 4,
             }}
           />
+          </div>
         </div>
         <div className="fileliabilty">
           <FileUploader
@@ -661,7 +671,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Warranties"
+                uploadtitle="Upload limitation of Liabilities"
               />
             }
             //   maxSize={2}
@@ -695,6 +705,7 @@ export default function PoliciesRightside(props) {
           <p className="privacytitle">
             Privacy Policy<sup>*</sup>
           </p>
+          <div className="toolbarConfig">
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editorprivacyValue}
@@ -712,6 +723,7 @@ export default function PoliciesRightside(props) {
               zIndex: 4,
             }}
           />
+          </div>
         </div>
         <div className="fileprivacy">
           <FileUploader
@@ -755,6 +767,7 @@ export default function PoliciesRightside(props) {
           <p className="termtitle">
             Terms of Use<sup>*</sup>
           </p>
+          <div className="toolbarConfig">
           <RichTextEditor
             toolbarConfig={toolbarConfig}
             value={editortermValue}
@@ -772,6 +785,7 @@ export default function PoliciesRightside(props) {
               zIndex: 4,
             }}
           />
+          </div>
         </div>
         <div className="termprivacy">
           <FileUploader
@@ -844,6 +858,46 @@ export default function PoliciesRightside(props) {
           </Button>
         </div>
       </form>
+       <div className="footerimg2">
+      <svg
+        width={150}
+        height={127}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <g opacity={0.1} fill="#E7B100">
+          <circle cx={5.814} cy={5.728} r={5.728} />
+          <circle cx={40.181} cy={5.728} r={5.728} />
+          <circle cx={74.547} cy={5.728} r={5.728} />
+          <circle cx={108.914} cy={5.728} r={5.728} />
+          <circle cx={143.28} cy={5.728} r={5.728} />
+          <circle cx={5.814} cy={28.631} r={5.728} />
+          <circle cx={40.181} cy={28.631} r={5.728} />
+          <circle cx={74.547} cy={28.631} r={5.728} />
+          <circle cx={108.914} cy={28.631} r={5.728} />
+          <circle cx={143.28} cy={28.631} r={5.728} />
+          <circle cx={5.814} cy={51.549} r={5.728} />
+          <circle cx={40.181} cy={51.549} r={5.728} />
+          <circle cx={74.547} cy={51.549} r={5.728} />
+          <circle cx={108.914} cy={51.549} r={5.728} />
+          <circle cx={143.28} cy={51.549} r={5.728} />
+          <circle cx={5.814} cy={74.461} r={5.728} />
+          <circle cx={40.181} cy={74.461} r={5.728} />
+          <circle cx={74.547} cy={74.461} r={5.728} />
+          <circle cx={108.914} cy={74.461} r={5.728} />
+          <circle cx={143.28} cy={74.461} r={5.728} />
+          <circle cx={5.814} cy={97.365} r={5.728} />
+          <circle cx={40.181} cy={97.365} r={5.728} />
+          <circle cx={74.547} cy={97.365} r={5.728} />
+          <circle cx={108.914} cy={97.365} r={5.728} />
+          <circle cx={143.28} cy={97.365} r={5.728} />
+          <circle cx={5.814} cy={120.282} r={5.728} />
+          <circle cx={40.181} cy={120.282} r={5.728} />
+          <circle cx={74.547} cy={120.282} r={5.728} />
+          <circle cx={108.914} cy={120.282} r={5.728} />
+          <circle cx={143.28} cy={120.282} r={5.728} />
+        </g>
+      </svg>
+    </div>
     </div>
   );
 }
