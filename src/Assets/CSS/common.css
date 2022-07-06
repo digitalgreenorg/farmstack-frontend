@@ -11,7 +11,8 @@ body{
   background-color:#FFFFFF !important;
 }
 button.disbalesubmitbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important;opacity: 0.5}
-button.cancelbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important;}
+button.cancelbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important; margin-bottom: 50px}
+button.editbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important; margin-top: 50px}
 button.submitbtn{ width: 420px !important;text-transform: capitalize;color: #FFFFFF;height:42px;margin-top:30px; background:#C09507;border-radius: 2px;border:2px solid #C09507 !important}
 button.submitbtn:hover{
   background-color: #C09507 !important;

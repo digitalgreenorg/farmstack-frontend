@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import countryList from "react-select-country-list";
 import MuiPhoneNumber from "material-ui-phone-number";
 import RegexConstants from '../../Constants/RegexConstants';
-import { handleAddressCharacters, handleNameFieldEntry, validateInputField } from '../../Utils/Common';
+import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validateInputField } from '../../Utils/Common';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
@@ -46,7 +46,7 @@ export default function ParticipantForm(props) {
                         variant="filled"
                         required
                         value={props.orginsationemail}
-                        onChange={(e) => props.setorginsationemail(e.target.value.trim())}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setorginsationemail(e.target.value.trim()) : e.preventDefault()}
                         label={screenlabels.addparticipants.email}
                         error={props.isorganisationemailerror}
                         helperText={props.isorganisationemailerror ? "Enter Valid Email id" : ""}
@@ -152,7 +152,7 @@ export default function ParticipantForm(props) {
                         required
                         label={screenlabels.addparticipants.email}
                         value={props.useremail}
-                        onChange={(e) => props.setuseremail(e.target.value.trim())}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setuseremail(e.target.value.trim()) : e.preventDefault()}
                         error={props.isuseremailerror || props.isexisitinguseremail}
                         helperText={props.isuseremailerror ? "Enter Valid Email id" : props.isexisitinguseremail ? "User is already registered with this email ID" : ""}
                     />
