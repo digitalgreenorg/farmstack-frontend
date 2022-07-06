@@ -17,6 +17,7 @@ import {
   getUserLocal,
 } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
+import { useHistory } from "react-router-dom";
 
 export default function AccountSetting(props) {
   const profilefirstname = useRef();
@@ -41,6 +42,8 @@ export default function AccountSetting(props) {
   const [accfilesize, setaccfilesize] = useState(false);
   const [accnumberbtn, setaccnumberbtn] = useState(false);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
+  const history = useHistory();
 
   const handleprofilfirstename = (e) => {
     console.log(e.target.value);
@@ -111,7 +114,10 @@ export default function AccountSetting(props) {
     }
   };
 
-  const accountsettingcancelbtn = (e) => {};
+  const accountsettingcancelbtn = (e) => {
+    // history.push("/datahub/participants/");
+    getAccountDetails();
+  };
 
   const handleAccountSettingSubmit = (e) => {
     e.preventDefault();
@@ -149,12 +155,11 @@ export default function AccountSetting(props) {
         console.log(e);
       });
   };
-
-  useEffect(() => {
+  const getAccountDetails = async () => {
     var id = getUserLocal();
     console.log("user id", id);
 
-    HTTPService(
+    await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.profile + id + "/",
       false,
@@ -178,6 +183,10 @@ export default function AccountSetting(props) {
       .catch((e) => {
         console.log(e);
       });
+  };
+
+  useEffect(() => {
+    getAccountDetails();
   }, []);
   return (
     <div className="accountsetting">
