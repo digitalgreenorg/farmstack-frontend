@@ -15,6 +15,15 @@ import { FileUploader } from "react-drag-drop-files";
 // import UploadBanner from "../../../Components/signup/UploadBanner";
 import UploadOrgBanner from "./UploadOrgBanner";
 
+import HTTPService from "../../../Services/HTTPService";
+import UrlConstants from "../../../Constants/UrlConstants";
+import {
+  setTokenLocal,
+  getTokenLocal,
+  setUserId,
+  getUserLocal,
+} from "../../../Utils/Common";
+
 export default function OrganisationSetting() {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   //   const handleOrgSettingSubmit = (e) => {};
@@ -59,6 +68,41 @@ export default function OrganisationSetting() {
 
   const fileTypes = ["JPEG", "PNG", "jpg"];
   const [orgfilesize, setorgfilesize] = useState(false);
+
+  // get org details.
+  const getOrgDetails = async () => {
+    var id = getUserLocal();
+    console.log("user id", id);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.profile + id + "/",
+      false,
+      false
+    )
+      .then((response) => {
+        console.log("get request for account settings", response.data);
+        console.log("picture", response.data.profile_picture);
+        // setphonenumber(response.data.phone_number);
+        // setfirstname(response.data.first_name);
+        // setlastname(response.data.last_name);
+        // setemail(response.data.email);
+        // setFile(response.data.profile_picture);
+        // if (response.data.first_name) {
+        //   setaccfirstbtn(true);
+        // }
+        // if (response.data.phone_number.length > 0) {
+        //   setaccnumberbtn(true);
+        // }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getOrgDetails();
+  }, []);
 
   //   const [file, setFile] = useState(null);
   // const [Orgdesbtn, setOrgdesbtn] = useState(false);
