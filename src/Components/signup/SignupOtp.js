@@ -4,10 +4,12 @@ import Button from '@mui/material/Button'
 import OtpCountDownTimer from './OtpCountDownTimer'
 import './SignupEmail.css'
 import './SignupOTP.css'
+import Footerimg from '../../Components/signup/Footerimg'
 
 export default function SignupOtp(props) {
   return (
     <div>
+      <Footerimg />
       <form noValidate autoComplete="off" onSubmit={props.handleSubmitOtp}>
         <TextField
           type="number"

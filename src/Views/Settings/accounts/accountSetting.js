@@ -8,11 +8,26 @@ import MuiPhoneNumber from "material-ui-phone-number";
 import UploadProfileimg from "../../../Components/Settings/accounts/UploadProfileimg";
 import { FileUploader } from "react-drag-drop-files";
 import labels from "../../../Constants/labels";
+import HTTPService from "../../../Services/HTTPService";
+import UrlConstants from "../../../Constants/UrlConstants";
+import {
+  setTokenLocal,
+  getTokenLocal,
+  setUserId,
+  getUserLocal,
+} from "../../../Utils/Common";
+import UrlConstant from "../../../Constants/UrlConstants";
+import { useHistory } from "react-router-dom";
 
 export default function AccountSetting(props) {
   const profilefirstname = useRef();
   const profilelastname = useRef();
   const profileemail = useRef();
+  const [firstname, setfirstname] = useState("");
+  const [lastname, setlastname] = useState("");
+  const [email, setemail] = useState("");
+  const [phonenumber, setphonenumber] = useState("");
+  // const [profile_pic, setprofile_pic] = useState(null);
 
   const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
     useState(false);
@@ -24,13 +39,17 @@ export default function AccountSetting(props) {
   const fileTypes = ["JPEG", "PNG", "jpg"];
   const [file, setFile] = useState(null);
   const [accfirstnamebtn, setaccfirstbtn] = useState(false);
+  const [accfilesize, setaccfilesize] = useState(false);
   const [accnumberbtn, setaccnumberbtn] = useState(false);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
+  const history = useHistory();
 
   const handleprofilfirstename = (e) => {
     console.log(e.target.value);
     var letters = /^[A-Za-z]+$/;
     var profilefirstname = e.target.value;
+    setfirstname(e.target.value);
     if (profilefirstname.match(letters)) {
       setispropfilefirstnameerror(false);
       setaccfirstbtn(true);
@@ -42,6 +61,7 @@ export default function AccountSetting(props) {
   };
   const handleprofilelastname = (e) => {
     console.log(e.target.value);
+    setlastname(e.target.value);
     var letters = /^[A-Za-z]+$/;
     var lastname = e.target.value;
     if (lastname.match(letters)) {
@@ -64,6 +84,7 @@ export default function AccountSetting(props) {
   };
   const handleprofilenumber = (value) => {
     console.log(value);
+    console.log(value.length);
     //   // var number = e.target.value;
     //   // if (number.length > 0) {
     //   //   setispropfilenumbererror(false);
@@ -71,21 +92,102 @@ export default function AccountSetting(props) {
     //   // } else {
     //   //   setispropfilenumbererror(true);
     //   // }
+    if (value.length === 15) {
+      setaccnumberbtn(true);
+    } else {
+      setaccnumberbtn(false);
+    }
     setValidnumber(value);
-    setaccnumberbtn(true);
+
+    setphonenumber(value);
   };
+
   const handleBannerFileChange = (file) => {
     setFile(file);
+    // setprofile_pic(file);
     console.log(file);
-    if (file != null && file.length && file[0].size > 2097152) {
+    if (file != null && file.size > 2097152) {
       //   setBrandingnextbutton(false);
+      setaccfilesize(true);
+    } else {
+      setaccfilesize(false);
     }
   };
-  const accountsettingcancelbtn = (e) => {};
+
+  const accountsettingcancelbtn = (e) => {
+    // history.push("/datahub/participants/");
+    getAccountDetails();
+  };
+
   const handleAccountSettingSubmit = (e) => {
     e.preventDefault();
-    props.setisAccountUpdateSuccess();
+
+    var id = getUserLocal();
+    console.log("user id", id);
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("first_name", firstname);
+    bodyFormData.append("last_name", lastname);
+    bodyFormData.append("phone_number", phonenumber);
+    bodyFormData.append("profile_picture", file);
+
+    console.log("branding data", bodyFormData);
+
+    HTTPService(
+      "PUT",
+      UrlConstants.base_url + UrlConstants.profile + id + "/",
+      bodyFormData,
+      true,
+      false
+    )
+      .then((response) => {
+        console.log("account setting updated!");
+        props.setisAccountUpdateSuccess();
+        // console.log("get request for account settings", response.data);
+        // console.log("picture", response.data.profile_picture);
+        // setphonenumber(response.data.phonenumber);
+        // setfirstname(response.data.first_name);
+        // setlastname(response.data.last_name);
+        // setemail(response.data.email);
+        // setFile(response.data.profile_picture);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
+  const getAccountDetails = async () => {
+    var id = getUserLocal();
+    console.log("user id", id);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.profile + id + "/",
+      false,
+      false
+    )
+      .then((response) => {
+        console.log("get request for account settings", response.data);
+        console.log("picture", response.data.profile_picture);
+        setphonenumber(response.data.phone_number);
+        setfirstname(response.data.first_name);
+        setlastname(response.data.last_name);
+        setemail(response.data.email);
+        setFile(response.data.profile_picture);
+        if (response.data.first_name) {
+          setaccfirstbtn(true);
+        }
+        if (response.data.phone_number.length > 0) {
+          setaccnumberbtn(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getAccountDetails();
+  }, []);
   return (
     <div className="accountsetting">
       <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
@@ -100,6 +202,7 @@ export default function AccountSetting(props) {
               label={screenlabels.account_settings.first_name}
               variant="filled"
               className="firstname"
+              value={firstname}
               // style={{ width: "50%" }}
               //   className="profilefirstname"
               onChange={handleprofilfirstename}
@@ -113,6 +216,7 @@ export default function AccountSetting(props) {
               id="filled-basic"
               label={screenlabels.account_settings.last_name}
               variant="filled"
+              value={lastname}
               //   style={{ width: "95%" }}
               //   className="profilelastname"
               className="lastname"
@@ -132,6 +236,7 @@ export default function AccountSetting(props) {
               label={screenlabels.account_settings.email}
               variant="filled"
               className="email"
+              value={email}
               //   style={{ width: "420px" }}
               //   className="profileemail"
               onChange={handleprofileemail}
@@ -150,6 +255,7 @@ export default function AccountSetting(props) {
               required
               defaultCountry={"in"}
               className="phonenumber"
+              value={phonenumber}
               //   style={{ width: "420px" }}
               id="filled-basic"
               label={screenlabels.account_settings.contact}
@@ -182,6 +288,16 @@ export default function AccountSetting(props) {
           <div>
             <p className="uploadimgname">
               {file ? (file.size ? `File name: ${file.name}` : "") : ""}
+              {/* {file == null && profile_pic ? (
+                <a
+                  target="_blank"
+                  href={profile_pic}
+                  style={{ color: "#C09507", textDecoration: "none" }}>
+                  Click here to view uploaded image!
+                </a>
+              ) : (
+                ""
+              )} */}
             </p>
             <p className="oversizemb-uploadimglogo">
               {file != null && file.size > 2097152
@@ -199,7 +315,10 @@ export default function AccountSetting(props) {
               type="submit">
               <span className="">Submit</span>
             </Button> */}
-              {accfirstnamebtn && accnumberbtn ? (
+              {!ispropfilefirstnameerror &&
+              !accfilesize &&
+              accfirstnamebtn &&
+              accnumberbtn ? (
                 <Button
                   variant="contained"
                   className="accountnextbtn"

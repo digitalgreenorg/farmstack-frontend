@@ -1,7 +1,8 @@
 const LocalStorageConstants = {
-	KEYS: {
-		"JWTToken":"JWTToken"
-	}
+  KEYS: {
+    JWTToken: "JWTToken",
+    user: "user",
+  },
 };
 
 export default LocalStorageConstants;

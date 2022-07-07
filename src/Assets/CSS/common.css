@@ -11,7 +11,7 @@ body {
   background-color: #ffffff !important;
 }
 button.disbalesubmitbtn {
-  text-transform: none;
+  text-transform: capitalize;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -22,7 +22,7 @@ button.disbalesubmitbtn {
   opacity: 0.5;
 }
 button.cancelbtn {
-  text-transform: none;
+  text-transform: capitalize;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -30,10 +30,22 @@ button.cancelbtn {
   margin-top: 30px;
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
+  margin-bottom: 50px;
+}
+button.editbtn {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-top: 50px;
 }
 button.submitbtn {
   width: 420px !important;
-  text-transform: none;
+  text-transform: capitalize;
   color: #ffffff;
   height: 42px;
   margin-top: 30px;
@@ -44,6 +56,9 @@ button.submitbtn {
 button.submitbtn:hover {
   background-color: #c09507 !important;
 }
+.width100percent {
+  width: 100%;
+}
 .mainheading {
   font-weight: 700;
   font-size: 20px;
@@ -52,6 +67,26 @@ button.submitbtn:hover {
 .secondmainheading {
   font-weight: 600;
   font-size: 16px;
+  color: #3d4a52;
+}
+.fontweight600andfontsize14pxandcolor3A3A3A {
+  font-weight: 600;
+  font-size: 14px;
+  color: #3a3a3a;
+}
+.fontweight600andfontsize14pxandcolorFFFFFF {
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffffff;
+}
+.fontweight600andfontsize14pxandcolor3D4A52 {
+  font-weight: 600;
+  font-size: 14px;
+  color: #3d4a52;
+}
+.fontweight400andfontsize14pxandcolor3D4A52 {
+  font-weight: 400;
+  font-size: 14px;
   color: #3d4a52;
 }
 .thirdmainheading {

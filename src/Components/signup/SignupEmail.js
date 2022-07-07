@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import React, { useState, useRef } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import './SignupEmail.css'
+=======
+import React, { useState, useRef } from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import "./SignupEmail.css";
+import Footerimg from "../../Components/signup/Footerimg";
+>>>>>>> team_member
 // import validator from "validator";
 
 export default function SignupEmail(props) {
@@ -35,6 +43,7 @@ export default function SignupEmail(props) {
 
   return (
     <div>
+      <Footerimg />
       <form noValidate autoComplete="off" onSubmit={props.handleSubmit}>
         <TextField
           required

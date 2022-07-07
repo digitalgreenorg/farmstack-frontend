@@ -69,6 +69,8 @@ function InviteParticipants(props) {
     }
     const handleOrgDesChange = (value) => {
         console.log("valuevalue",value)
+
+        // console.log(value.getEditorState().getCurrentContent().hasText())
         setEditorValue(value);
         setorgdesc(value.toString("html"));
     };
@@ -86,7 +88,7 @@ function InviteParticipants(props) {
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <ReactMultiEmail
                         style={{"width":"100%"}}
-                            placeholder="Email Id"
+                            placeholder="Email Id *"
                             emails={emails}
                             onChange={(email)=>setemails(email)}
                             validateEmail={email => {
@@ -121,8 +123,10 @@ function InviteParticipants(props) {
                             name="bodyText"
                             type="string"
                             placeholder={
-                                "Message"
+                                "Message *"
                             }
+
+                            
                             multiline
                             variant="filled"
                             style={{
@@ -137,7 +141,7 @@ function InviteParticipants(props) {
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
-                        {(emails.length>0)
+                        {(emails.length>0 && editorValue.getEditorState().getCurrentContent().hasText())
                             ? (
                                 <Button onClick={() =>addInviteParticipants()} variant="contained" className="submitbtn">
                                     {screenlabels.common.submit}
