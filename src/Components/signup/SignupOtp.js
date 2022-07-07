@@ -2,10 +2,12 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import OtpCountDownTimer from "./OtpCountDownTimer";
+import Footerimg from "../../Components/signup/Footerimg";
 
 export default function SignupOtp(props) {
   return (
     <div>
+      <Footerimg />
       <form noValidate autoComplete="off" onSubmit={props.handleSubmitOtp}>
         <TextField
           type="number"

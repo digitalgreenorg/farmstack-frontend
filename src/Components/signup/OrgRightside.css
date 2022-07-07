@@ -4,7 +4,7 @@
 
 .orgheader {
   position: absolute;
-  width: 203px;
+  width: 209px;
   height: 27px;
   left: 839px;
   top: 157px;
@@ -261,4 +261,11 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 19px;
+}
+.footerimg1{
+  position: absolute;
+  width: 148.92px;
+  height: 126.01px;
+  left: 1300.09px;
+  top: 1407px;
 }
