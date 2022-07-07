@@ -31,8 +31,9 @@
 .governingdes {
   position: absolute;
   left: 839px;
-  top: 264px;
+  top: 254px;
   border-radius: 2px;
+  width: 420px;
 }
 .governingtitle {
   text-align: left;
@@ -72,7 +73,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 758px;
+  top: 758px !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -86,12 +87,12 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 728px;
-  color: red !important;
+  top: 820px;
+  color: #ff3d00 !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 19px;
 }
 
@@ -100,7 +101,7 @@
   width: 420px;
   height: 78px;
   left: 839px;
-  top: 843px;
+  top: 860px;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -125,7 +126,7 @@
   width: 420px;
   height: 218px;
   left: 119px;
-  top: 926px;
+  top: 956px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -146,7 +147,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1348px;
+  top: 1378px !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -160,12 +161,12 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1418px;
-  color: red !important;
+  top: 1438px;
+  color: #ff3d00 !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 19px;
 }
 
@@ -173,7 +174,7 @@
   position: absolute;
   width: 420px;
   left: 839px;
-  top: 1443px;
+  top: 1475px;
   border-radius: 2px;
   line-height: 47px;
 }
@@ -203,7 +204,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1948px;
+  top: 1948px !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -217,12 +218,12 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2118px;
-  color: red !important;
+  top: 2005px;
+  color: #ff3d00 !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 19px;
 }
 .privacydes {
@@ -257,7 +258,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2548px;
+  top: 2548px !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -270,19 +271,19 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2828px;
-  color: red !important;
+  top: 2608px;
+  color: #ff3d00 !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 19px;
 }
 .termdes {
   position: absolute;
   width: 420px;
   left: 839px !important;
-  top: 2632px !important;
+  top: 2650px !important;
 }
 .termtitle {
   text-align: left;
@@ -300,7 +301,7 @@
   width: 420px;
   height: 218px;
   left: 119px;
-  top: 2649px;
+  top: 2659px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -311,7 +312,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 3148px;
+  top: 3148px !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -324,12 +325,12 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 3538px;
-  color: red !important;
+  top: 3210px;
+  color: #ff3d00 !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 19px;
 }
 .policiesbtn {
@@ -337,7 +338,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 2980px;
+  top: 3000px;
 
   background-color: #c09507 !important;
   border-radius: 2px;
@@ -348,7 +349,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 2980px;
+  top: 3000px;
 
   background: #ffffff;
   border-radius: 2px;
@@ -360,7 +361,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 3021px;
+  top: 3030px;
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
@@ -388,12 +389,12 @@
   width: 275px;
   height: 6px;
   left: 897px;
-  top: 1380px;
+  top: 1410px;
 }
 .warrantyclose {
   position: absolute;
   left: 1200px;
-  top: 1458px;
+  top: 1397px;
 }
 .liabiltyprogress {
   position: absolute;
@@ -405,7 +406,7 @@
 .liabiltyclose {
   position: absolute;
   left: 1200px;
-  top: 2150px;
+  top: 1970px;
 }
 .privacyprogress {
   position: absolute;
@@ -417,7 +418,7 @@
 .privacyclose {
   position: absolute;
   left: 1200px;
-  top: 2860px;
+  top: 2568px;
 }
 .tosprogress {
   position: absolute;
@@ -429,7 +430,7 @@
 .tosclose {
   position: absolute;
   left: 1200px;
-  top: 3590px;
+  top: 3168px;
 }
 /* .policiesSpace {
   margin-bottom: 100px;
