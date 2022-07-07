@@ -89,7 +89,7 @@ export default function OrganisationSetting(props) {
 
     await HTTPService(
       "GET",
-      "https://dc8b-106-51-85-143.in.ngrok.io/" + UrlConstant.org + id + "/",
+      UrlConstant.base_url + UrlConstant.org + id + "/",
       false,
       false
     )
@@ -100,6 +100,7 @@ export default function OrganisationSetting(props) {
         //   response.data.organization.org_description.toString("html")
         // );
         console.log("org response", response.data.organization);
+        console.log("country", response.data.organization.address.country);
         if (response.data.organization === "null") {
           setisPost(true);
         } else {
@@ -156,9 +157,8 @@ export default function OrganisationSetting(props) {
     var id = getUserLocal();
     console.log("user id", id);
 
-    let puturl =
-      "https://dc8b-106-51-85-143.in.ngrok.io/" + UrlConstant.org + id + "/";
-    let posturl = "https://dc8b-106-51-85-143.in.ngrok.io/" + UrlConstant.org;
+    let puturl = UrlConstant.base_url + UrlConstant.org + id + "/";
+    let posturl = UrlConstant.base_url + UrlConstant.org;
 
     var bodyFormData = new FormData();
     bodyFormData.append("org_email", email);
