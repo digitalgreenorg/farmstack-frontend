@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import "./SignupEmail.css";
+import React, { useState, useRef } from 'react'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import './SignupEmail.css'
 // import validator from "validator";
 
 export default function SignupEmail(props) {
@@ -47,24 +47,24 @@ export default function SignupEmail(props) {
           error={props.iserror}
           helperText={
             props.iserror
-              ? "Enter Valid Email id"
+              ? 'Enter Valid Email id'
               : props.userSuspenderror
-              ? "user suspended"
-              : ""
+              ? 'user suspended'
+              : ''
           }
         />
         <div>
           {props.button ? (
             <Button variant="contained" className="Signupbtn" type="submit">
-              <span className="signupbtnname">Send OTP to Email</span>
+              <span className="signupbtnname">Send OTP</span>
             </Button>
           ) : (
             <Button variant="outlined" disabled className="disablebtn">
-              Send OTP to Email
+              Send OTP
             </Button>
           )}
         </div>
       </form>
     </div>
-  );
+  )
 }
