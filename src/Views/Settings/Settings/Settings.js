@@ -17,6 +17,7 @@ import Tab from "@mui/material/Tab";
 import { TabContext } from "@mui/lab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import Button from "@mui/material/Button";
 import AccountSetting from "../accounts/accountSetting";
 import { useParams } from "react-router-dom";
 const useStyles = {
@@ -52,6 +53,8 @@ function Settings(props) {
   const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
   const [isAccountUpdateSuccess, setisAccountUpdateSuccess] = useState(false);
   const [value, setValue] = React.useState("1");
+  const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
+  const [memberUrl, setMemberUrl] = useState(UrlConstants.base_url + UrlConstants.team_member)
   const { id } = useParams();
 
   const history = useHistory();
@@ -63,16 +66,27 @@ function Settings(props) {
       setValue(1);
     }
   }, []);
+
   const getMemberList = () => {
     HTTPService(
       "GET",
-      UrlConstants.base_url + UrlConstants.team_member,
+      memberUrl,
+      "",
       false,
       false
     )
       .then((response) => {
         console.log("otp valid", response.data);
-        setteamMemberList(response.data.results);
+
+        if(response.data.next == null){
+          setisShowLoadMoreButton(false)
+        } else {
+          setisShowLoadMoreButton(true)
+          setMemberUrl(response.data.next)
+        }
+        let dataList = teamMemberList;
+        let finalDataList=[...dataList,...response.data.results] 
+        setteamMemberList(finalDataList);
       })
       .catch((e) => {
         console.log(e);
@@ -227,6 +241,17 @@ function Settings(props) {
                             }}></TeamMemberCard>
                         </Col>
                       ))}
+                    </Row>
+                    <Row style={useStyles.marginrowtop}>
+                      <Col xs={12} sm={12} md={6} lg={3}></Col>
+                      { isShowLoadMoreButton ? 
+                        <Col xs={12} sm={12} md={6} lg={6}>
+                            <Button onClick={() => getMemberList()} variant="outlined" className="cancelbtn">
+                              Load More
+                            </Button>
+                        </Col>
+                        : <></>
+                      }
                     </Row>
                   </TabPanel>
                   <TabPanel value="4"></TabPanel>
