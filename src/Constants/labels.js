@@ -98,5 +98,22 @@ const labels = {
       org_des: "Organization Description",
     },
   },
+  support: {
+    heading: "List of Tickets",
+    filter: "Filter",
+    all: "All",
+    Status: "Status",
+    Category: "Category",
+    open_status: "Open Status",
+    close_status: "Close Status",
+    hold_status: "Hold Status",
+    User_Accounts: "User Accounts",
+    Datasets: "Datasets",
+    Usage_Policy: "Usage Policy",
+    Certificate: "Certificate",
+    Connectors: "Connectors",
+    Others: "Others",
+    date: "By Date",
+  },
 };
 export default labels;

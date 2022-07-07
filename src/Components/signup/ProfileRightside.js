@@ -3,6 +3,7 @@ import "./profile.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MuiPhoneNumber from "material-ui-phone-number";
+import Footerimg from "../../Components/signup/Footerimg";
 
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
@@ -135,6 +136,7 @@ export default function ProfileRightside(props) {
 
   return (
     <>
+    <Footerimg />
       <div className="profileheader">Profile Details</div>
       <div>
         <form

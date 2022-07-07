@@ -19,6 +19,7 @@
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
     "history": "4.9.0",
+    "jquery": "^3.6.0",
     "material-ui-phone-number": "^3.0.0",
     "mdbreact": "^5.0.1",
     "moment": "^2.24.0",
