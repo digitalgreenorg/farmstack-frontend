@@ -595,7 +595,7 @@ export default function Login(props) {
       <h1 className="headertext">{screenlabels.login.signup_header}</h1>
       <Leftintro />
       {isemail || isOtp ? <Rightintro /> : ""}
-      <Footerimg />
+      {/* <Footerimg /> */}
       {isemail && (
         <SignupEmail
           screenlabels={screenlabels}

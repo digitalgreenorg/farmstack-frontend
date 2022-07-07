@@ -28,7 +28,7 @@
   position: absolute;
   width: 203px;
   height: 27px;
-  left: 838px;
+  left: 839px;
   top: 137px;
 
   font-family: "Open Sans";
@@ -170,4 +170,11 @@
   font-weight: 700;
   font-size: 14px;
   /* margin-bottom: 20px; */
+}
+.footerimg3{
+  position: absolute;
+  width: 148.92px;
+  height: 126.01px;
+  left: 1300.09px;
+  top: 1157px;
 }
