@@ -35,7 +35,7 @@ export default function PolicySettings() {
         </Row>
         <Row>
             <Col xs='12' sm='6' md='6' lg='6'>
-
+                
             </Col>
             <Col xs='12' sm='6' md='6' lg='6'>
 
