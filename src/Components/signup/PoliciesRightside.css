@@ -16,11 +16,7 @@
   /* width: 76px; */
   height: 27px;
   left: 839px;
-<<<<<<< HEAD
   top: 197px;
-=======
-  top: 117px;
->>>>>>> team_member
 
   font-family: 'Open Sans';
   font-style: normal;
@@ -35,18 +31,11 @@
 .governingdes {
   position: absolute;
   left: 839px;
-<<<<<<< HEAD
   top: 264px;
-=======
-  top: 180px;
-
-  /* background: #f1f1f1; */
->>>>>>> team_member
   border-radius: 2px;
 }
 .governingtitle {
   text-align: left;
-<<<<<<< HEAD
   border-bottom-style: 1px solid #9aa1a9;
   font-family: 'Open Sans';
   font-style: normal;
@@ -55,15 +44,6 @@
   line-height: 19px;
   color: #3d4a52;
   margin-bottom: 5px;
-=======
-  background: #f1f1f1;
-  margin-bottom: 20px;
-  height: 48px;
-  width: 420px;
-  border-bottom: 1px solid #9AA1A9;
-  line-height: 47px;
-  padding-left: 10px;
->>>>>>> team_member
 }
 
 .filegovlaw .filesupload {
@@ -75,7 +55,6 @@
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
-<<<<<<< HEAD
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -87,9 +66,6 @@
   /* sub-headings */
 
   color: #a3b0b8;
-=======
-
->>>>>>> team_member
 }
 .filegovlaw .filename {
   position: absolute;
@@ -134,7 +110,6 @@
 }
 .warrantiestitle {
   text-align: left;
-<<<<<<< HEAD
   border-bottom-style: 1px solid #9aa1a9;
   font-family: 'Open Sans';
   font-style: normal;
@@ -143,25 +118,14 @@
   line-height: 19px;
   color: #3d4a52;
   margin-bottom: 5px;
-=======
-  margin-bottom: 30px;
-  border-bottom: 1px solid #9AA1A9;
-  background: #f1f1f1;
-  padding-left: 10px;
->>>>>>> team_member
 }
 
 .filewarranties .filesupload {
   position: absolute;
   width: 420px;
   height: 218px;
-<<<<<<< HEAD
   left: 119px;
   top: 926px;
-=======
-  left: 129px;
-  top: 996px;
->>>>>>> team_member
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -182,13 +146,8 @@
   width: 420px;
   height: 18px;
   left: 827px;
-<<<<<<< HEAD
   top: 1348px;
   font-family: 'Open Sans';
-=======
-  top: 1418px;
-  font-family: "Open Sans";
->>>>>>> team_member
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -213,19 +172,13 @@
 .liabiltydes {
   position: absolute;
   width: 420px;
-<<<<<<< HEAD
   left: 839px;
   top: 1443px;
-=======
-  left: 849px;
-  top: 1533px;
->>>>>>> team_member
   border-radius: 2px;
   line-height: 47px;
 }
 .liabiltytitle {
   text-align: left;
-<<<<<<< HEAD
   border-bottom-style: 1px solid #9aa1a9;
   font-family: 'Open Sans';
   font-style: normal;
@@ -234,24 +187,13 @@
   line-height: 19px;
   color: #3d4a52;
   margin-bottom: 5px;
-=======
-  margin-bottom: 30px;
-  border-bottom: 1px solid #9AA1A9;
-  padding-left: 10px;
-  background: #f1f1f1;
->>>>>>> team_member
 }
 .fileliabilty .filesupload {
   position: absolute;
   width: 420px;
   height: 218px;
-<<<<<<< HEAD
   left: 119px;
   top: 1506px;
-=======
-  left: 129px;
-  top: 1666px;
->>>>>>> team_member
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -261,13 +203,8 @@
   width: 420px;
   height: 18px;
   left: 827px;
-<<<<<<< HEAD
   top: 1948px;
   font-family: 'Open Sans';
-=======
-  top: 2118px;
-  font-family: "Open Sans";
->>>>>>> team_member
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -291,7 +228,6 @@
 .privacydes {
   position: absolute;
   width: 420px;
-<<<<<<< HEAD
   left: 839px !important;
   top: 2043px !important;
 }
@@ -305,30 +241,13 @@
   line-height: 19px;
   color: #3d4a52;
   margin-bottom: 5px;
-=======
-  left: 849px !important;
-  top: 2243px !important;
-  line-height: 47px;
-}
-.privacytitle {
-  text-align: left;
-  border-bottom: 1px solid #9AA1A9;
-  margin-bottom: 30px;
-  background: #f1f1f1;
-  padding-left: 10px;
->>>>>>> team_member
 }
 .fileprivacy .filesupload {
   position: absolute;
   width: 420px;
   height: 218px;
-<<<<<<< HEAD
   left: 119px;
   top: 2080px;
-=======
-  left: 129px;
-  top: 2350px;
->>>>>>> team_member
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -338,13 +257,8 @@
   width: 420px;
   height: 18px;
   left: 827px;
-<<<<<<< HEAD
   top: 2548px;
   font-family: 'Open Sans';
-=======
-  top: 2828px;
-  font-family: "Open Sans";
->>>>>>> team_member
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -367,7 +281,6 @@
 .termdes {
   position: absolute;
   width: 420px;
-<<<<<<< HEAD
   left: 839px !important;
   top: 2632px !important;
 }
@@ -381,30 +294,13 @@
   line-height: 19px;
   color: #3d4a52;
   margin-bottom: 5px;
-=======
-  left: 849px !important;
-  top: 2962px !important;
-  line-height: 47px;
-}
-.termtitle {
-  text-align: left;
-  border-bottom: 1px solid #9AA1A9;
-  margin-bottom: 30px;
-  background: #f1f1f1;
-  padding-left: 10px;
->>>>>>> team_member
 }
 .termprivacy .filesupload {
   position: absolute;
   width: 420px;
   height: 218px;
-<<<<<<< HEAD
   left: 119px;
   top: 2649px;
-=======
-  left: 129px;
-  top: 3039px;
->>>>>>> team_member
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -415,13 +311,8 @@
   width: 420px;
   height: 18px;
   left: 827px;
-<<<<<<< HEAD
   top: 3148px;
   font-family: 'Open Sans';
-=======
-  top: 3538px;
-  font-family: "Open Sans";
->>>>>>> team_member
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -445,13 +336,8 @@
   position: absolute;
   width: 420px;
   height: 42px;
-<<<<<<< HEAD
   left: 329px;
   top: 2980px;
-=======
-  left: 339px;
-  top: 3380px;
->>>>>>> team_member
 
   background-color: #c09507 !important;
   border-radius: 2px;
@@ -461,13 +347,8 @@
   position: absolute;
   width: 420px;
   height: 42px;
-<<<<<<< HEAD
   left: 329px;
   top: 2980px;
-=======
-  left: 339px;
-  top: 3380px;
->>>>>>> team_member
 
   background: #ffffff;
   border-radius: 2px;
@@ -478,13 +359,8 @@
   position: absolute;
   width: 420px;
   height: 42px;
-<<<<<<< HEAD
   left: 329px;
   top: 3021px;
-=======
-  left: 339px;
-  top: 3415px;
->>>>>>> team_member
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
@@ -493,11 +369,7 @@
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
-<<<<<<< HEAD
   text-transform: capitalize !important;
-=======
-  margin-bottom: 100px;
->>>>>>> team_member
 }
 .govlawprogress {
   position: absolute;
@@ -516,11 +388,7 @@
   width: 275px;
   height: 6px;
   left: 897px;
-<<<<<<< HEAD
   top: 1380px;
-=======
-  top: 1470px;
->>>>>>> team_member
 }
 .warrantyclose {
   position: absolute;
@@ -532,11 +400,7 @@
   width: 275px;
   height: 6px;
   left: 897px;
-<<<<<<< HEAD
   top: 1980px;
-=======
-  top: 2170px;
->>>>>>> team_member
 }
 .liabiltyclose {
   position: absolute;
@@ -548,11 +412,7 @@
   width: 275px;
   height: 6px;
   left: 897px;
-<<<<<<< HEAD
   top: 2580px;
-=======
-  top: 2880px;
->>>>>>> team_member
 }
 .privacyclose {
   position: absolute;
@@ -564,11 +424,7 @@
   width: 275px;
   height: 6px;
   left: 897px;
-<<<<<<< HEAD
   top: 3180px;
-=======
-  top: 3590px;
->>>>>>> team_member
 }
 .tosclose {
   position: absolute;
@@ -587,14 +443,13 @@
   margin-bottom: 10%;
 }*/
 
-.toolbarConfig{
+.toolbarConfig {
   text-align: left;
 }
-.footerimg2{
+.footerimg2 {
   position: absolute;
   width: 148.92px;
   height: 126.01px;
   left: 1300.09px;
   top: 3725px;
 }
-
