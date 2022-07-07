@@ -18,6 +18,8 @@ import {
 } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
+import RegexConstants from "../../../Constants/RegexConstants";
+import { validateInputField } from "../../../Utils/Common";
 
 export default function AccountSetting(props) {
   const profilefirstname = useRef();
@@ -47,29 +49,42 @@ export default function AccountSetting(props) {
 
   const handleprofilfirstename = (e) => {
     console.log(e.target.value);
-    var letters = /^[A-Za-z]+$/;
-    var profilefirstname = e.target.value;
-    setfirstname(e.target.value);
-    if (profilefirstname.match(letters)) {
-      setispropfilefirstnameerror(false);
+    // var letters = /^[A-Za-z]+$/;
+    // var profilefirstname = e.target.value;
+    // setfirstname(e.target.value);
+    // if (profilefirstname.match(letters)) {
+    //   setispropfilefirstnameerror(false);
+    //   setaccfirstbtn(true);
+    //   //   setprofilenextbutton(true);
+    // } else {
+    //   setispropfilefirstnameerror(true);
+    //   //   setprofilenextbutton(false);
+    // }
+
+    if (validateInputField(e.target.value, RegexConstants.TEXT_REGEX)) {
+      setfirstname(e.target.value.trim());
       setaccfirstbtn(true);
-      //   setprofilenextbutton(true);
     } else {
-      setispropfilefirstnameerror(true);
-      //   setprofilenextbutton(false);
+      e.preventDefault();
     }
   };
+
   const handleprofilelastname = (e) => {
     console.log(e.target.value);
-    setlastname(e.target.value);
-    var letters = /^[A-Za-z]+$/;
-    var lastname = e.target.value;
-    if (lastname.match(letters)) {
-      setispropfilelastnameerror(false);
-      //   setprofilenextbutton(true);
+    // setlastname(e.target.value);
+    // var letters = /^[A-Za-z]+$/;
+    // var lastname = e.target.value;
+    // if (lastname.match(letters)) {
+    //   setispropfilelastnameerror(false);
+    //   //   setprofilenextbutton(true);
+    // } else {
+    //   setispropfilelastnameerror(true);
+    //   //   setprofilenextbutton(false);
+    // }
+    if (validateInputField(e.target.value, RegexConstants.TEXT_REGEX)) {
+      setlastname(e.target.value.trim());
     } else {
-      setispropfilelastnameerror(true);
-      //   setprofilenextbutton(false);
+      e.preventDefault();
     }
   };
   const handleprofileemail = (e) => {
@@ -204,7 +219,17 @@ export default function AccountSetting(props) {
               className="firstname"
               value={firstname}
               // style={{ width: "50%" }}
-              //   className="profilefirstname"
+              // className="profilefirstname"
+              // onKeyUp={
+              //   firstname === ""
+              //     ? setispropfilefirstnameerror(true)
+              //     : setispropfilefirstnameerror(false)
+              // }
+              onKeyUp={() =>
+                firstname === ""
+                  ? setispropfilefirstnameerror(true)
+                  : setispropfilefirstnameerror(false)
+              }
               onChange={handleprofilfirstename}
               inputRef={profilefirstname}
               error={ispropfilefirstnameerror}
@@ -220,12 +245,17 @@ export default function AccountSetting(props) {
               //   style={{ width: "95%" }}
               //   className="profilelastname"
               className="lastname"
+              // onKeyUp={() =>
+              //   lastname === ""
+              //     ? setispropfilelastnameerror(true)
+              //     : setispropfilelastnameerror(false)
+              // }
               onChange={handleprofilelastname}
               inputRef={profilelastname}
-              //   error={ispropfilelastnameerror}
-              //   helperText={
-              //     ispropfilelastnameerror ? "Enter Valid last name" : ""
-              //   }
+              // error={ispropfilelastnameerror}
+              // helperText={
+              //   ispropfilelastnameerror ? "Enter Valid last name" : ""
+              // }
             />
           </Col>
         </Row>
@@ -318,6 +348,7 @@ export default function AccountSetting(props) {
               {!ispropfilefirstnameerror &&
               !accfilesize &&
               accfirstnamebtn &&
+              file.size < 2097152 &&
               accnumberbtn ? (
                 <Button
                   variant="contained"
