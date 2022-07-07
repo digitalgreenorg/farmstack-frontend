@@ -20,6 +20,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import Button from "@mui/material/Button";
 import AccountSetting from "../accounts/accountSetting";
 import { useParams } from "react-router-dom";
+import PolicySettings from "../PolicySettings/PolicySettings";
 const useStyles = {
   btncolor: {
     color: "white",
@@ -183,8 +184,9 @@ function Settings(props) {
                       aria-label="lab API tabs example">
                       <Tab label="Account Settings" value="1" />
                       <Tab label="Organization Settings" value="2" />
-                      <Tab label="Team Members" value="3" />
-                      <Tab label="Customize Design" value="4" />
+                      <Tab label="Policy Settings" value="3"/>
+                      <Tab label="Team Members" value="4" />
+                      <Tab label="Customize Design" value="5" />
                     </TabList>
                   </Box>
                   <TabPanel value="1">
@@ -197,6 +199,10 @@ function Settings(props) {
                   </TabPanel>
                   <TabPanel value="2"></TabPanel>
                   <TabPanel value="3">
+                      <PolicySettings/>
+
+                  </TabPanel>
+                  <TabPanel value="4">
                     <Row>
                       <span style={useStyles.teamword}>Team</span>
                     </Row>
@@ -254,7 +260,7 @@ function Settings(props) {
                       }
                     </Row>
                   </TabPanel>
-                  <TabPanel value="4"></TabPanel>
+                  <TabPanel value="5"></TabPanel>
                 </TabContext>
               </Box>
             </Col>
