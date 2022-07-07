@@ -22,7 +22,10 @@ import {
   getTokenLocal,
   setUserId,
   getUserLocal,
+  handleAddressCharacters,
 } from "../../../Utils/Common";
+import RegexConstants from "../../../Constants/RegexConstants";
+import { validateInputField } from "../../../Utils/Common";
 
 export default function OrganisationSetting() {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -45,19 +48,27 @@ export default function OrganisationSetting() {
   const [validOrgNumber, setValidOrgnumber] = useState("");
   const [orgfile, setorgfile] = useState(null);
 
-  const Orgname = useRef();
-  const Orgmail = useRef();
-  const OrgAddress = useRef();
-  const Orgcity = useRef();
-  const pincode = useRef();
+  // const Orgname = useRef();
+  // const Orgmail = useRef();
+  // const OrgAddress = useRef();
+  // const Orgcity = useRef();
+  // const pincode = useRef();
+
+  const [orgname, setorgname] = useState("");
+  const [address, setaddress] = useState("");
+  const [email, setemail] = useState("");
+  const [phonenumber, setphonenumber] = useState("");
+  const [city, setcity] = useState("");
+  const [pincode, setpincode] = useState("");
 
   const [Orgnamebtn, setOrgnamebtn] = useState(false);
   const [Orgemailbtn, setOrgemailbtn] = useState(false);
   const [Orgaddressbtn, setOrgaddressbtn] = useState(false);
+  // const [Orgnumberbtn, setOrgnumberbtn] = useState(false);
   const [Orgcitybtn, setOrgcitybtn] = useState(false);
   const [Orgcountrybtn, setOrgcountrybtn] = useState(false);
   const [Orgpincodebtn, setOrgpincodebtn] = useState(false);
-  const [Orgdesbtn, setOrgdesbtn] = useState(false);
+  // const [Orgdesbtn, setOrgdesbtn] = useState(false);
   const options = useMemo(() => countryList().getData(), []);
 
   const [orgdesc, setorgdesc] = useState("");
@@ -186,38 +197,40 @@ export default function OrganisationSetting() {
 
   const handleOrgname = (e) => {
     console.log(e.target.value);
-    var letters = /^[A-Za-z ]*$/;
-    var orgname = e.target.value;
-    // if (orgname.length > 0) {
+    // var letters = /^[A-Za-z ]*$/;
+    // var orgname = e.target.value;
+    // // if (orgname.length > 0) {
+    // //   setisOrgnameerror(false);
+    // //   setOrgnextbutton(true);
+    // // } else {
+    // //   setisOrgnameerror(true);
+    // // }
+    // if (orgname.match(letters)) {
     //   setisOrgnameerror(false);
-    //   setOrgnextbutton(true);
+    //   setOrgnamebtn(true);
+    //   //   setprofilenextbutton(true);
     // } else {
     //   setisOrgnameerror(true);
+    //   setOrgnamebtn(false);
     // }
-    if (orgname.match(letters)) {
-      setisOrgnameerror(false);
+    // if (orgname.length > 0) {
+    //   setOrgnamebtn(true);
+    // } else {
+    //   setOrgnamebtn(false);
+    // }
+    if (validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)) {
+      setorgname(e.target.value);
       setOrgnamebtn(true);
-      //   setprofilenextbutton(true);
+      // setfirstname(e.target.value.trim());
+      // setaccfirstbtn(true);
     } else {
-      setisOrgnameerror(true);
-      setOrgnamebtn(false);
-    }
-    if (orgname.length > 0) {
-      setOrgnamebtn(true);
-    } else {
-      setOrgnamebtn(false);
+      e.preventDefault();
     }
   };
 
   const handleOrgmail = (e) => {
     // console.log(e.target.value);
     var email = e.target.value;
-    // if (email.length > 0) {
-    //   setisOrgmailerror(false);
-    //   // setOrgnextbutton(true);
-    // } else {
-    //   setisOrgmailerror(true);
-    // }
     const valid = validator.isEmail(email);
     console.log(valid);
     const finalEmail = email.trim();
@@ -229,16 +242,30 @@ export default function OrganisationSetting() {
       setisOrgmailerror(true);
       setOrgemailbtn(false);
     }
+    if (validateInputField(e.target.value, RegexConstants.NO_SPACE_REGEX)) {
+      setemail(e.target.value);
+      // setOrgemailbtn(true);
+      // setfirstname(e.target.value.trim());
+      // setaccfirstbtn(true);
+    } else {
+      e.preventDefault();
+    }
   };
 
   const handleOrgnumber = (value) => {
     console.log(value);
     setValidOrgnumber(value);
+    // if (value.length === 15) {
+    //   setOrgnumberbtn(true);
+    // } else {
+    //   setOrgnumberbtn(false);
+    // }
   };
 
   const handleOrgAddress = (e) => {
     console.log(e.target.value);
     var address = e.target.value;
+    setaddress(e.target.value);
     if (address.length > 0) {
       setisOrgAddresserror(false);
       setOrgaddressbtn(true);
@@ -251,7 +278,7 @@ export default function OrganisationSetting() {
 
   const handleOrgcity = (e) => {
     console.log(e.target.value);
-    var letters = /^[A-Za-z]+$/;
+    var letters = /^[A-Za-z]*$/;
     var city = e.target.value;
     // if (city.length > 0) {
     //   setisOrgcityerror(false);
@@ -260,6 +287,7 @@ export default function OrganisationSetting() {
     //   setisOrgcityerror(true);
     // }
     if (city.match(letters)) {
+      setcity(city);
       setisOrgcityerror(false);
       setOrgcitybtn(true);
       //   setprofilenextbutton(true);
@@ -284,6 +312,11 @@ export default function OrganisationSetting() {
     } else {
       setispincodeerror(true);
       setOrgpincodebtn(false);
+    }
+    if (validateInputField(pincode, RegexConstants.PINCODE_REGEX)) {
+      setpincode(pincode);
+    } else {
+      e.preventDefault();
     }
   };
 
@@ -314,11 +347,11 @@ export default function OrganisationSetting() {
     console.log(value.toString("html"));
     // console.log(value.length);
 
-    if (value.toString("html") !== "<p><br></p>") {
-      setOrgdesbtn(true);
-    } else {
-      setOrgdesbtn(false);
-    }
+    // if (value.toString("html") !== "<p><br></p>") {
+    //   setOrgdesbtn(true);
+    // } else {
+    //   setOrgdesbtn(false);
+    // }
 
     // textEditorData(value.toString("html"));
   };
@@ -364,7 +397,8 @@ export default function OrganisationSetting() {
               variant="filled"
               className="name"
               onChange={handleOrgname}
-              inputRef={Orgname}
+              value={orgname}
+              // inputRef={Orgname}
               error={isOrgnameerror}
               helperText={isOrgnameerror ? "Enter Valid Name" : ""}
             />
@@ -377,7 +411,8 @@ export default function OrganisationSetting() {
               variant="filled"
               className="email"
               onChange={handleOrgmail}
-              inputRef={Orgmail}
+              value={email}
+              // inputRef={Orgmail}
               error={isOrgmailerror}
               helperText={isOrgmailerror ? "Enter Valid Email id" : ""}
             />
@@ -406,7 +441,9 @@ export default function OrganisationSetting() {
               variant="filled"
               className="address"
               onChange={handleOrgAddress}
-              inputRef={OrgAddress}
+              // inputRef={OrgAddress}
+              value={address}
+              onKeyDown={(e) => handleAddressCharacters(address, e)}
               error={isOrgAddresserror}
               helperText={isOrgAddresserror ? "Enter Valid Address" : ""}
             />
@@ -421,7 +458,8 @@ export default function OrganisationSetting() {
               variant="filled"
               className="city"
               onChange={handleOrgcity}
-              inputRef={Orgcity}
+              // inputRef={Orgcity}
+              value={city}
               error={isOrgcityerror}
               helperText={isOrgcityerror ? "Enter Valid City" : ""}
             />
@@ -469,7 +507,7 @@ export default function OrganisationSetting() {
               label={screenlabels.org_settings.pincode}
               variant="filled"
               onChange={handlepincode}
-              inputRef={pincode}
+              value={pincode}
               error={ispincodeerror}
               helperText={ispincodeerror ? "Enter vaild pin code" : ""}
             />
@@ -558,8 +596,9 @@ export default function OrganisationSetting() {
               Orgaddressbtn &&
               Orgcountrybtn &&
               Orgcountrybtn &&
+              Orgcitybtn &&
               Orgpincodebtn &&
-              Orgdesbtn &&
+              editorValue.getEditorState().getCurrentContent().hasText() &&
               orgfile ? (
                 <Button
                   variant="contained"
