@@ -53,6 +53,7 @@ function Settings(props) {
   const [teamMemberId, setteamMemberId] = useState("");
   const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
   const [isAccountUpdateSuccess, setisAccountUpdateSuccess] = useState(false);
+  const [isOrgUpdateSuccess, setisOrgUpdateSuccess] = useState(false);
   const [value, setValue] = React.useState("1");
   const { id } = useParams();
 
@@ -160,6 +161,23 @@ function Settings(props) {
         ) : (
           <></>
         )}
+        {isOrgUpdateSuccess ? (
+          <Success
+            okevent={() => {
+              //   setteamMemberId("");
+              //   setisDelete(false);
+              setistabView(true);
+              setisOrgUpdateSuccess(false);
+              //   getMemberList();
+            }}
+            imagename={"success"}
+            btntext={"ok"}
+            heading={"Organisation details updated successfully !"}
+            imageText={"Success!"}
+            msg={"Your organisation details are updated."}></Success>
+        ) : (
+          <></>
+        )}
         {istabView ? (
           <Row style={useStyles.marginrowtop50px}>
             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
@@ -184,7 +202,12 @@ function Settings(props) {
                     />
                   </TabPanel>
                   <TabPanel value="2">
-                    <OrganisationSetting />
+                    <OrganisationSetting
+                      setisOrgUpdateSuccess={() => {
+                        setistabView(false);
+                        setisAccountUpdateSuccess(true);
+                      }}
+                    />
                   </TabPanel>
                   <TabPanel value="3">
                     <Row>

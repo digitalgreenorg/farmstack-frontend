@@ -27,7 +27,7 @@ import {
 import RegexConstants from "../../../Constants/RegexConstants";
 import { validateInputField } from "../../../Utils/Common";
 
-export default function OrganisationSetting() {
+export default function OrganisationSetting(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   //   const handleOrgSettingSubmit = (e) => {};
   // org screen
@@ -185,6 +185,7 @@ export default function OrganisationSetting() {
           //   console.log(response.json());
           console.log(response.status);
           if (response.status === 201) {
+            props.setisOrgUpdateSuccess();
             // setisPolicies(true);
             // setisOrg(false);
             // setEmail(false);
@@ -205,6 +206,7 @@ export default function OrganisationSetting() {
           //   console.log(response.json());
           console.log(response.status);
           if (response.status === 201) {
+            props.setisOrgUpdateSuccess();
             // setisPolicies(true);
             // setisOrg(false);
             // setEmail(false);
@@ -407,7 +409,9 @@ export default function OrganisationSetting() {
       { label: "OL", style: "ordered-list-item" },
     ],
   };
-  const orgsettingcancelbtn = () => {};
+  const orgsettingcancelbtn = () => {
+    getOrgDetails();
+  };
 
   return (
     <div className="orgsetting">
