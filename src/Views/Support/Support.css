@@ -33,16 +33,8 @@
 .marginleft165px{margin-left: 165px;}
 .disbaledatesubmitbtn{text-transform: capitalize !important;border-radius: 2px; background: #FFFFFF !important;border:1px solid #C09507 !important;color:#585D60 !important;opacity: 0.5}
 .enabledatesubmitbtn{text-transform: capitalize !important;color: #FFFFFF;height:42px; background:#C09507;border-radius: 2px;border:2px solid #C09507 !important}
-button.enabledatesubmitbtn:hover{
-    background-color: #C09507 !important;
-  }
+button.enabledatesubmitbtn:hover{background-color: #C09507 !important;}
 .supportcardsecondclosedcolumndata {text-align: right; margin-right: 9px; margin-top: 20px;}
-  .supportcardfromdate .MuiTextField-root{
-    background: #F1F1F1;
-  }
-  .supportcardtodate .MuiTextField-root{
-    background: #F1F1F1;
-  }
-  .supportfirstmaindiv{margin-left: 70px;
-    margin-right: 70px;
-    background: #FCFCFC;}
+.supportcardfromdate .MuiTextField-root{background: #F1F1F1;}
+.supportcardtodate .MuiTextField-root{background: #F1F1F1;}
+.supportfirstmaindiv{margin-left: 70px;margin-right: 70px;background: #FCFCFC;}
