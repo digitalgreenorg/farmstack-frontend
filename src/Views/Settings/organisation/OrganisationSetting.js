@@ -16,7 +16,7 @@ import { FileUploader } from "react-drag-drop-files";
 import UploadOrgBanner from "./UploadOrgBanner";
 
 import HTTPService from "../../../Services/HTTPService";
-import UrlConstants from "../../../Constants/UrlConstants";
+import UrlConstant from "../../../Constants/UrlConstants";
 import {
   setTokenLocal,
   getTokenLocal,
@@ -37,15 +37,16 @@ export default function OrganisationSetting() {
   const [isOrgAddresserror, setisOrgAddresserror] = useState(false);
   const [isOrgcityerror, setisOrgcityerror] = useState(false);
   const [ispincodeerror, setispincodeerror] = useState(false);
+  const [iscountryerror, setiscountryerror] = useState(false);
   const [countryvalue, setcountryvalue] = useState("");
   // const [orgdeserror, serorgdeserror] = useState(false);
   // const [orgdesc, setorgdesc] = useState("");
   // const [editorValue, setEditorValue] = React.useState(
   //   RichTextEditor.createValueFromString(orgdesc, "html")
   // );
-  const [textEditorValue, settextEditorValue] = useState("");
+  // const [textEditorValue, settextEditorValue] = useState("");
 
-  const [validOrgNumber, setValidOrgnumber] = useState("");
+  // const [validOrgNumber, setValidOrgnumber] = useState("");
   const [orgfile, setorgfile] = useState(null);
 
   // const Orgname = useRef();
@@ -79,6 +80,7 @@ export default function OrganisationSetting() {
 
   const fileTypes = ["JPEG", "PNG", "jpg"];
   const [orgfilesize, setorgfilesize] = useState(false);
+  const [isPost, setisPost] = useState(false);
 
   // get org details.
   const getOrgDetails = async () => {
@@ -87,24 +89,43 @@ export default function OrganisationSetting() {
 
     await HTTPService(
       "GET",
-      UrlConstants.base_url + UrlConstants.profile + id + "/",
+      "https://dc8b-106-51-85-143.in.ngrok.io/" + UrlConstant.org + id + "/",
       false,
       false
     )
       .then((response) => {
-        console.log("get request for account settings", response.data);
-        console.log("picture", response.data.profile_picture);
-        // setphonenumber(response.data.phone_number);
-        // setfirstname(response.data.first_name);
-        // setlastname(response.data.last_name);
-        // setemail(response.data.email);
-        // setFile(response.data.profile_picture);
-        // if (response.data.first_name) {
-        //   setaccfirstbtn(true);
-        // }
-        // if (response.data.phone_number.length > 0) {
-        //   setaccnumberbtn(true);
-        // }
+        console.log("get request for org settings", response.data);
+        // console.log(
+        //   "org description",
+        //   response.data.organization.org_description.toString("html")
+        // );
+        console.log("org response", response.data.organization);
+        if (response.data.organization === "null") {
+          setisPost(true);
+        } else {
+          setorgname(response.data.organization.name);
+          // if (response.data.organization.name) {
+          //   setOrgnamebtn(true);
+          // }
+          setaddress(response.data.organization.address.address);
+          // if (response.data.organization.address.address) {
+          //   setOrgnamebtn(true);
+          // }
+          setcity(response.data.organization.address.city);
+          setpincode(response.data.organization.address.pincode);
+          setcountryvalue(response.data.organization.address.country);
+          setemail(response.data.organization.org_email);
+          setphonenumber(response.data.organization.phone_number);
+          // setorgdesc(response.data.organization.org_description.toString("html"));
+          // setorgfile(response.data.organization.logo);
+          console.log(response.data.organization.logo);
+          setEditorValue(
+            RichTextEditor.createValueFromString(
+              response.data.organization.org_description,
+              "html"
+            )
+          );
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -132,73 +153,77 @@ export default function OrganisationSetting() {
 
   const handleOrgSettingSubmit = async (e) => {
     e.preventDefault();
-    // let url = UrlConstant.base_url + UrlConstant.org;
-    // // email validation
-    // const emailstring = Orgmail.current.value;
-    // const valid = validator.isEmail(emailstring);
-    // console.log(valid);
-    // const finalEmail = emailstring.trim();
+    var id = getUserLocal();
+    console.log("user id", id);
 
-    // const name = Orgname.current.value;
-    // const finalName = name.trim();
+    let puturl =
+      "https://dc8b-106-51-85-143.in.ngrok.io/" + UrlConstant.org + id + "/";
+    let posturl = "https://dc8b-106-51-85-143.in.ngrok.io/" + UrlConstant.org;
 
-    // const address = OrgAddress.current.value;
-    // const finalAddress = address.trim();
-
-    // const city = Orgcity.current.value;
-    // const finalCity = city.trim();
-
-    // const pinCode = pincode.current.value;
-    // const finalpinCode = pinCode.trim();
-
-    // var bodyFormData = new FormData();
-    // bodyFormData.append("org_email", finalEmail);
-    // bodyFormData.append("name", finalName);
-    // bodyFormData.append(
-    //   "address",
-    //   JSON.stringify({
-    //     country: countryvalue,
-    //     pincode: finalpinCode,
-    //     address: finalAddress,
-    //     city: finalCity,
-    //   })
-    // );
-    // bodyFormData.append("phone_number", validOrgNumber);
-    // bodyFormData.append("logo", orgfile);
-    // bodyFormData.append("org_description", textEditorValue);
-    // console.log("dfdfdsf", bodyFormData);
-
-    // if (!valid) {
-    //   setisOrgmailerror(true);
-    // } else {
-    //   setisOrgnameerror(false);
-
-    //   HTTPService("POST", url, bodyFormData, true, false)
-    //     .then((response) => {
-    //       console.log("response");
-    //       console.log("org details", response.data);
-    //       //   console.log(response.json());
-    //       console.log(response.status);
-    //       if (response.status === 201) {
-    //         setisPolicies(true);
-    //         setisOrg(false);
-    //         // setEmail(false);
-    //         // setError(false);
-    //       } else {
-    //         // setError(true);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //       //   setError(true);
-    //     });
-    // }
+    var bodyFormData = new FormData();
+    bodyFormData.append("org_email", email);
+    bodyFormData.append("name", orgname);
+    bodyFormData.append(
+      "address",
+      JSON.stringify({
+        country: countryvalue,
+        pincode: pincode,
+        address: address,
+        city: city,
+      })
+    );
+    bodyFormData.append("user_id", id);
+    bodyFormData.append("phone_number", phonenumber);
+    bodyFormData.append("logo", orgfile);
+    bodyFormData.append("org_description", orgdesc);
+    console.log("org details", bodyFormData);
+    if (isPost) {
+      HTTPService("POST", posturl, bodyFormData, true, false)
+        .then((response) => {
+          console.log("response");
+          console.log("org details", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            // setisPolicies(true);
+            // setisOrg(false);
+            // setEmail(false);
+            // setError(false);
+          } else {
+            // setError(true);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          //   setError(true);
+        });
+    } else {
+      HTTPService("PUT", puturl, bodyFormData, true, false)
+        .then((response) => {
+          console.log("response");
+          console.log("org details", response.data);
+          //   console.log(response.json());
+          console.log(response.status);
+          if (response.status === 201) {
+            // setisPolicies(true);
+            // setisOrg(false);
+            // setEmail(false);
+            // setError(false);
+          } else {
+            // setError(true);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          //   setError(true);
+        });
+    }
   };
 
   const handleOrgname = (e) => {
     console.log(e.target.value);
     // var letters = /^[A-Za-z ]*$/;
-    // var orgname = e.target.value;
+    var orgname = e.target.value;
     // // if (orgname.length > 0) {
     // //   setisOrgnameerror(false);
     // //   setOrgnextbutton(true);
@@ -213,18 +238,20 @@ export default function OrganisationSetting() {
     //   setisOrgnameerror(true);
     //   setOrgnamebtn(false);
     // }
-    // if (orgname.length > 0) {
-    //   setOrgnamebtn(true);
+    // if (orgname.length === null) {
+    //   setisOrgnameerror(true);
     // } else {
-    //   setOrgnamebtn(false);
+    //   setisOrgnameerror(false);
     // }
     if (validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)) {
       setorgname(e.target.value);
-      setOrgnamebtn(true);
+      setisOrgnameerror(false);
+      // setOrgnamebtn(true);
       // setfirstname(e.target.value.trim());
       // setaccfirstbtn(true);
     } else {
-      e.preventDefault();
+      // e.preventDefault();
+      setisOrgnameerror(true);
     }
   };
 
@@ -254,7 +281,7 @@ export default function OrganisationSetting() {
 
   const handleOrgnumber = (value) => {
     console.log(value);
-    setValidOrgnumber(value);
+    setphonenumber(value);
     // if (value.length === 15) {
     //   setOrgnumberbtn(true);
     // } else {
@@ -326,12 +353,12 @@ export default function OrganisationSetting() {
     console.log(file);
     // console.log(file.length);
     console.log(file.size);
-    if (file != null && file.size > 2097152) {
-      //   setBrandingnextbutton(false);
-      setorgfilesize(true);
-    } else {
-      setorgfilesize(false);
-    }
+    // if (file != null && file.size > 2097152) {
+    //   //   setBrandingnextbutton(false);
+    //   setorgfilesize(true);
+    // } else {
+    //   setorgfilesize(false);
+    // }
   };
 
   //   const finishLaterOrgScreen = () => {
@@ -398,6 +425,11 @@ export default function OrganisationSetting() {
               className="name"
               onChange={handleOrgname}
               value={orgname}
+              onKeyUp={() =>
+                orgname === ""
+                  ? setisOrgnameerror(true)
+                  : setisOrgnameerror(false)
+              }
               // inputRef={Orgname}
               error={isOrgnameerror}
               helperText={isOrgnameerror ? "Enter Valid Name" : ""}
@@ -428,6 +460,7 @@ export default function OrganisationSetting() {
               label={screenlabels.org_settings.contact}
               variant="filled"
               onChange={handleOrgnumber}
+              value={phonenumber}
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
               // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
@@ -458,6 +491,9 @@ export default function OrganisationSetting() {
               variant="filled"
               className="city"
               onChange={handleOrgcity}
+              onKeyUp={() =>
+                city === "" ? setisOrgcityerror(true) : setisOrgcityerror(false)
+              }
               // inputRef={Orgcity}
               value={city}
               error={isOrgcityerror}
@@ -485,8 +521,11 @@ export default function OrganisationSetting() {
               value={countryvalue}
               onChange={(e) => {
                 setcountryvalue(e.target.value);
+                console.log(e.target.value.length);
+                console.log(e.target.value);
                 if (e.target.value.length > 0) {
-                  setOrgcountrybtn(true);
+                  // setOrgcountrybtn(true);
+                  setiscountryerror(false);
                 }
               }}
               isSearchable={true}
@@ -522,6 +561,7 @@ export default function OrganisationSetting() {
               <RichTextEditor
                 toolbarConfig={toolbarConfig}
                 value={editorValue}
+                // value={orgdesc}
                 onChange={handleOrgDesChange}
                 required
                 id="body-text"
@@ -591,15 +631,39 @@ export default function OrganisationSetting() {
                 type="submit">
                 <span className="">Submit</span>
               </Button> */}
-              {Orgnamebtn &&
-              Orgemailbtn &&
-              Orgaddressbtn &&
-              Orgcountrybtn &&
-              Orgcountrybtn &&
-              Orgcitybtn &&
-              Orgpincodebtn &&
+              {/* {!isOrgnameerror &&
+              !isOrgmailerror &&
+              !isOrgAddresserror &&
+              !isOrgcityerror &&
+              !ispincodeerror &&
+              !iscountryerror &&
+              orgfile != null &&
+              orgfile.size < 2097152 &&
+              editorValue.getEditorState().getCurrentContent().hasText() ? (
+                <Button
+                  variant="contained"
+                  className="accountnextbtn"
+                  type="submit">
+                  <span className="signupbtnname">Submit</span>
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  disabled
+                  className="disableaccountnextbtn">
+                  Submit
+                </Button>
+              )} */}
+              {!isOrgnameerror &&
+              !isOrgmailerror &&
+              !isOrgAddresserror &&
+              !isOrgcityerror &&
+              !ispincodeerror &&
+              !iscountryerror &&
+              orgfile != null &&
+              orgfile.size < 2097152 &&
               editorValue.getEditorState().getCurrentContent().hasText() &&
-              orgfile ? (
+              countryvalue !== "" ? (
                 <Button
                   variant="contained"
                   className="accountnextbtn"
