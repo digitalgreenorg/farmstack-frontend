@@ -516,30 +516,26 @@ export default function PoliciesRightside(props) {
             Governing Laws<sup>*</sup>
           </p>
           <div className="toolbarConfig">
-          <RichTextEditor
-            toolbarConfig={toolbarConfig}
-            value={editorgovLawValue}
-            onChange={handlegovLawChange}
-            required
-            id="body-text"
-            name="bodyText"
-            type="string"
-            multiline
-            variant="filled"
-            style={{
-              minHeight: 410,
-              width: 420,
-<<<<<<< HEAD
-              border: '1px solid black',
-=======
-              marginTop: 20,
-              marginBottom: 20,
-              border: "1px solid black",
->>>>>>> team_member
-              zIndex: 4,
-              textAlign: "left"
-            }}
-          />
+            <RichTextEditor
+              toolbarConfig={toolbarConfig}
+              value={editorgovLawValue}
+              onChange={handlegovLawChange}
+              required
+              id="body-text"
+              name="bodyText"
+              type="string"
+              multiline
+              variant="filled"
+              style={{
+                minHeight: 410,
+                width: 420,
+                marginTop: 20,
+                marginBottom: 20,
+                border: '1px solid black',
+                zIndex: 4,
+                textAlign: 'left',
+              }}
+            />
           </div>
         </div>
         <div className="filegovlaw">
@@ -584,24 +580,23 @@ export default function PoliciesRightside(props) {
             Warranties<sup>*</sup>
           </p>
           <div className="toolbarConfig">
-          <RichTextEditor
-            toolbarConfig={toolbarConfig}
-            value={editorwarrantiesValue}
-            onChange={handlewarrantiesChange}
-            required
-            id="body-text"
-            name="bodyText"
-            type="string"
-            multiline
-            variant="filled"
-            style={{
-              minHeight: 450,
-              width: 420,
-              border: '1px solid black',
-              zIndex: 4,
-
-            }}
-          />
+            <RichTextEditor
+              toolbarConfig={toolbarConfig}
+              value={editorwarrantiesValue}
+              onChange={handlewarrantiesChange}
+              required
+              id="body-text"
+              name="bodyText"
+              type="string"
+              multiline
+              variant="filled"
+              style={{
+                minHeight: 450,
+                width: 420,
+                border: '1px solid black',
+                zIndex: 4,
+              }}
+            />
           </div>
         </div>
         <div className="filewarranties">
@@ -648,23 +643,23 @@ export default function PoliciesRightside(props) {
             Limitation of Liabilities<sup>*</sup>
           </p>
           <div className="toolbarConfig">
-          <RichTextEditor
-            toolbarConfig={toolbarConfig}
-            value={editorLiabalityValue}
-            onChange={handleliabalityChange}
-            required
-            id="body-text"
-            name="bodyText"
-            type="string"
-            multiline
-            variant="filled"
-            style={{
-              minHeight: 410,
-              width: 420,
-              border: '1px solid black',
-              zIndex: 4,
-            }}
-          />
+            <RichTextEditor
+              toolbarConfig={toolbarConfig}
+              value={editorLiabalityValue}
+              onChange={handleliabalityChange}
+              required
+              id="body-text"
+              name="bodyText"
+              type="string"
+              multiline
+              variant="filled"
+              style={{
+                minHeight: 410,
+                width: 420,
+                border: '1px solid black',
+                zIndex: 4,
+              }}
+            />
           </div>
         </div>
         <div className="fileliabilty">
@@ -710,23 +705,23 @@ export default function PoliciesRightside(props) {
             Privacy Policy<sup>*</sup>
           </p>
           <div className="toolbarConfig">
-          <RichTextEditor
-            toolbarConfig={toolbarConfig}
-            value={editorprivacyValue}
-            onChange={handleprivacyChange}
-            required
-            id="body-text"
-            name="bodyText"
-            type="string"
-            multiline
-            variant="filled"
-            style={{
-              minHeight: 410,
-              width: 420,
-              border: '1px solid black',
-              zIndex: 4,
-            }}
-          />
+            <RichTextEditor
+              toolbarConfig={toolbarConfig}
+              value={editorprivacyValue}
+              onChange={handleprivacyChange}
+              required
+              id="body-text"
+              name="bodyText"
+              type="string"
+              multiline
+              variant="filled"
+              style={{
+                minHeight: 410,
+                width: 420,
+                border: '1px solid black',
+                zIndex: 4,
+              }}
+            />
           </div>
         </div>
         <div className="fileprivacy">
@@ -772,23 +767,23 @@ export default function PoliciesRightside(props) {
             Terms of Use<sup>*</sup>
           </p>
           <div className="toolbarConfig">
-          <RichTextEditor
-            toolbarConfig={toolbarConfig}
-            value={editortermValue}
-            onChange={handletermChange}
-            required
-            id="body-text"
-            name="bodyText"
-            type="string"
-            multiline
-            variant="filled"
-            style={{
-              minHeight: 410,
-              width: 420,
-              border: '1px solid black',
-              zIndex: 4,
-            }}
-          />
+            <RichTextEditor
+              toolbarConfig={toolbarConfig}
+              value={editortermValue}
+              onChange={handletermChange}
+              required
+              id="body-text"
+              name="bodyText"
+              type="string"
+              multiline
+              variant="filled"
+              style={{
+                minHeight: 410,
+                width: 420,
+                border: '1px solid black',
+                zIndex: 4,
+              }}
+            />
           </div>
         </div>
         <div className="termprivacy">
@@ -863,46 +858,47 @@ export default function PoliciesRightside(props) {
           </Button>
         </div>
       </form>
-       <div className="footerimg2">
-      <svg
-        width={150}
-        height={127}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <g opacity={0.1} fill="#E7B100">
-          <circle cx={5.814} cy={5.728} r={5.728} />
-          <circle cx={40.181} cy={5.728} r={5.728} />
-          <circle cx={74.547} cy={5.728} r={5.728} />
-          <circle cx={108.914} cy={5.728} r={5.728} />
-          <circle cx={143.28} cy={5.728} r={5.728} />
-          <circle cx={5.814} cy={28.631} r={5.728} />
-          <circle cx={40.181} cy={28.631} r={5.728} />
-          <circle cx={74.547} cy={28.631} r={5.728} />
-          <circle cx={108.914} cy={28.631} r={5.728} />
-          <circle cx={143.28} cy={28.631} r={5.728} />
-          <circle cx={5.814} cy={51.549} r={5.728} />
-          <circle cx={40.181} cy={51.549} r={5.728} />
-          <circle cx={74.547} cy={51.549} r={5.728} />
-          <circle cx={108.914} cy={51.549} r={5.728} />
-          <circle cx={143.28} cy={51.549} r={5.728} />
-          <circle cx={5.814} cy={74.461} r={5.728} />
-          <circle cx={40.181} cy={74.461} r={5.728} />
-          <circle cx={74.547} cy={74.461} r={5.728} />
-          <circle cx={108.914} cy={74.461} r={5.728} />
-          <circle cx={143.28} cy={74.461} r={5.728} />
-          <circle cx={5.814} cy={97.365} r={5.728} />
-          <circle cx={40.181} cy={97.365} r={5.728} />
-          <circle cx={74.547} cy={97.365} r={5.728} />
-          <circle cx={108.914} cy={97.365} r={5.728} />
-          <circle cx={143.28} cy={97.365} r={5.728} />
-          <circle cx={5.814} cy={120.282} r={5.728} />
-          <circle cx={40.181} cy={120.282} r={5.728} />
-          <circle cx={74.547} cy={120.282} r={5.728} />
-          <circle cx={108.914} cy={120.282} r={5.728} />
-          <circle cx={143.28} cy={120.282} r={5.728} />
-        </g>
-      </svg>
-    </div>
+      <div className="footerimg2">
+        <svg
+          width={150}
+          height={127}
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g opacity={0.1} fill="#E7B100">
+            <circle cx={5.814} cy={5.728} r={5.728} />
+            <circle cx={40.181} cy={5.728} r={5.728} />
+            <circle cx={74.547} cy={5.728} r={5.728} />
+            <circle cx={108.914} cy={5.728} r={5.728} />
+            <circle cx={143.28} cy={5.728} r={5.728} />
+            <circle cx={5.814} cy={28.631} r={5.728} />
+            <circle cx={40.181} cy={28.631} r={5.728} />
+            <circle cx={74.547} cy={28.631} r={5.728} />
+            <circle cx={108.914} cy={28.631} r={5.728} />
+            <circle cx={143.28} cy={28.631} r={5.728} />
+            <circle cx={5.814} cy={51.549} r={5.728} />
+            <circle cx={40.181} cy={51.549} r={5.728} />
+            <circle cx={74.547} cy={51.549} r={5.728} />
+            <circle cx={108.914} cy={51.549} r={5.728} />
+            <circle cx={143.28} cy={51.549} r={5.728} />
+            <circle cx={5.814} cy={74.461} r={5.728} />
+            <circle cx={40.181} cy={74.461} r={5.728} />
+            <circle cx={74.547} cy={74.461} r={5.728} />
+            <circle cx={108.914} cy={74.461} r={5.728} />
+            <circle cx={143.28} cy={74.461} r={5.728} />
+            <circle cx={5.814} cy={97.365} r={5.728} />
+            <circle cx={40.181} cy={97.365} r={5.728} />
+            <circle cx={74.547} cy={97.365} r={5.728} />
+            <circle cx={108.914} cy={97.365} r={5.728} />
+            <circle cx={143.28} cy={97.365} r={5.728} />
+            <circle cx={5.814} cy={120.282} r={5.728} />
+            <circle cx={40.181} cy={120.282} r={5.728} />
+            <circle cx={74.547} cy={120.282} r={5.728} />
+            <circle cx={108.914} cy={120.282} r={5.728} />
+            <circle cx={143.28} cy={120.282} r={5.728} />
+          </g>
+        </svg>
+      </div>
     </div>
   )
 }

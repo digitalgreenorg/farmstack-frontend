@@ -22,15 +22,10 @@ import validator from 'validator'
 import { FileUploader } from 'react-drag-drop-files'
 import UploadOrgLogo from './UploadOrgLogo'
 
-<<<<<<< HEAD
 import HTTPService from '../../Services/HTTPService'
 import UrlConstant from '../../Constants/UrlConstants'
-=======
-import HTTPService from "../../Services/HTTPService";
-import UrlConstant from "../../Constants/UrlConstants";
-import { handleAddressCharacters, validateInputField } from "../../Utils/Common";
-import RegexConstants from "../../Constants/RegexConstants";
->>>>>>> team_member
+import { handleAddressCharacters, validateInputField } from '../../Utils/Common'
+import RegexConstants from '../../Constants/RegexConstants'
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -357,8 +352,19 @@ export default function OrgRightside(props) {
               style={{ width: '420px' }}
               //   className="profilefirstname"
               value={props.orgName}
-              onKeyUp={() =>  props.orgName ==="" ? props.setisOrgnameerror(true) : props.setisOrgnameerror(false)}
-              onChange={(e) => validateInputField(e.target.value,RegexConstants.ORG_NAME_REGEX) ? props.setOrgName(e.target.value): e.preventDefault() }
+              onKeyUp={() =>
+                props.orgName === ''
+                  ? props.setisOrgnameerror(true)
+                  : props.setisOrgnameerror(false)
+              }
+              onChange={(e) =>
+                validateInputField(
+                  e.target.value,
+                  RegexConstants.ORG_NAME_REGEX,
+                )
+                  ? props.setOrgName(e.target.value)
+                  : e.preventDefault()
+              }
               // inputRef={props.Orgname}
               error={props.isOrgnameerror}
               helperText={props.isOrgnameerror ? 'Enter Name' : ''}
@@ -377,13 +383,14 @@ export default function OrgRightside(props) {
               // onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setOrgEmail(e.target.value.trim()) : e.preventDefault()}
               onChange={props.handleOrgmail}
               inputRef={props.Orgmail}
-<<<<<<< HEAD
-              error={props.isOrgmailerror}
-              helperText={props.isOrgmailerror ? 'Enter Valid Email id' : ''}
-=======
               error={props.isOrgmailerror || props.isExistingOrgEmail}
-              helperText={props.isOrgmailerror ? "Enter Valid Email id" : props.isExistingOrgEmail ? "Organization already registered" : ""}
->>>>>>> team_member
+              helperText={
+                props.isOrgmailerror
+                  ? 'Enter Valid Email id'
+                  : props.isExistingOrgEmail
+                  ? 'Organization already registered'
+                  : ''
+              }
             />
           </div>
           <div className="orgnumber">
@@ -408,8 +415,12 @@ export default function OrgRightside(props) {
               style={{ width: '420px' }}
               //   className="profileemail"
               value={props.orgAddress}
-              onKeyDown={(e) => handleAddressCharacters(props.orgAddress,e)}
-              onKeyUp={() => props.orgAddress==="" ? props.setisOrgAddresserror(true) : props.setisOrgAddresserror(false)}
+              onKeyDown={(e) => handleAddressCharacters(props.orgAddress, e)}
+              onKeyUp={() =>
+                props.orgAddress === ''
+                  ? props.setisOrgAddresserror(true)
+                  : props.setisOrgAddresserror(false)
+              }
               onChange={(e) => props.setOrgAddress(e.target.value)}
               // onChange={props.handleOrgAddress}
               // inputRef={props.OrgAddress}
@@ -426,8 +437,16 @@ export default function OrgRightside(props) {
               style={{ width: '420px' }}
               //   className="profileemail"
               value={props.orgCity}
-              onKeyUp={() => props.orgCity === "" ? props.setisOrgcityerror(true) : props.setisOrgcityerror(false)}
-              onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setOrgCity(e.target.value) : e.preventDefault()}
+              onKeyUp={() =>
+                props.orgCity === ''
+                  ? props.setisOrgcityerror(true)
+                  : props.setisOrgcityerror(false)
+              }
+              onChange={(e) =>
+                validateInputField(e.target.value, RegexConstants.TEXT_REGEX)
+                  ? props.setOrgCity(e.target.value)
+                  : e.preventDefault()
+              }
               // onChange={props.handleOrgcity}
               // inputRef={props.Orgcity}
               error={props.isOrgcityerror}
@@ -453,18 +472,20 @@ export default function OrgRightside(props) {
               //   inputProps={{ maxLength: 6 }}
               label="Pin Code"
               variant="filled"
-<<<<<<< HEAD
               style={{ width: '420px', zIndex: 0 }}
-              onChange={props.handlepincode}
-              inputRef={props.pincode}
-=======
-              style={{ width: "420px", zIndex: 0 }}
               value={props.orgPincode}
-              onKeyUp={() => props.orgPincode=="" ? props.setispincodeerror(true) : props.setispincodeerror(false)}
-              onChange={(e) => validateInputField(e.target.value,RegexConstants.PINCODE_REGEX) ? props.setOrgPincode(e.target.value.trim()) : e.preventDefault()}
+              onKeyUp={() =>
+                props.orgPincode == ''
+                  ? props.setispincodeerror(true)
+                  : props.setispincodeerror(false)
+              }
+              onChange={(e) =>
+                validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
+                  ? props.setOrgPincode(e.target.value.trim())
+                  : e.preventDefault()
+              }
               // onChange={props.handlepincode}
               // inputRef={props.pincode}
->>>>>>> team_member
               error={props.ispincodeerror}
               helperText={props.ispincodeerror ? 'Enter vaild pin code' : ''}
             />
@@ -577,12 +598,17 @@ export default function OrgRightside(props) {
             {/* <Button variant="contained" className="orgbtn" type="submit">
               <span className="signupbtnname">Next</span>
             </Button> */}
-            {props.orgName && !props.isOrgnameerror &&
-            props.Orgemailbtn && !props.isOrgmailerror &&
-            props.orgAddress && !props.isOrgAddresserror &&
-            props.orgCity && !props.isOrgcityerror &&
-            props.Orgcountrybtn && 
-            props.orgPincode && !props.ispincodeerror &&
+            {props.orgName &&
+            !props.isOrgnameerror &&
+            props.Orgemailbtn &&
+            !props.isOrgmailerror &&
+            props.orgAddress &&
+            !props.isOrgAddresserror &&
+            props.orgCity &&
+            !props.isOrgcityerror &&
+            props.Orgcountrybtn &&
+            props.orgPincode &&
+            !props.ispincodeerror &&
             Orgdesbtn &&
             props.orgfile ? (
               <Button variant="contained" className="orgbtn" type="submit">
@@ -607,45 +633,46 @@ export default function OrgRightside(props) {
         </form>
       </div>
       <div className="footerimg1">
-      <svg
-        width={150}
-        height={127}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <g opacity={0.1} fill="#E7B100">
-          <circle cx={5.814} cy={5.728} r={5.728} />
-          <circle cx={40.181} cy={5.728} r={5.728} />
-          <circle cx={74.547} cy={5.728} r={5.728} />
-          <circle cx={108.914} cy={5.728} r={5.728} />
-          <circle cx={143.28} cy={5.728} r={5.728} />
-          <circle cx={5.814} cy={28.631} r={5.728} />
-          <circle cx={40.181} cy={28.631} r={5.728} />
-          <circle cx={74.547} cy={28.631} r={5.728} />
-          <circle cx={108.914} cy={28.631} r={5.728} />
-          <circle cx={143.28} cy={28.631} r={5.728} />
-          <circle cx={5.814} cy={51.549} r={5.728} />
-          <circle cx={40.181} cy={51.549} r={5.728} />
-          <circle cx={74.547} cy={51.549} r={5.728} />
-          <circle cx={108.914} cy={51.549} r={5.728} />
-          <circle cx={143.28} cy={51.549} r={5.728} />
-          <circle cx={5.814} cy={74.461} r={5.728} />
-          <circle cx={40.181} cy={74.461} r={5.728} />
-          <circle cx={74.547} cy={74.461} r={5.728} />
-          <circle cx={108.914} cy={74.461} r={5.728} />
-          <circle cx={143.28} cy={74.461} r={5.728} />
-          <circle cx={5.814} cy={97.365} r={5.728} />
-          <circle cx={40.181} cy={97.365} r={5.728} />
-          <circle cx={74.547} cy={97.365} r={5.728} />
-          <circle cx={108.914} cy={97.365} r={5.728} />
-          <circle cx={143.28} cy={97.365} r={5.728} />
-          <circle cx={5.814} cy={120.282} r={5.728} />
-          <circle cx={40.181} cy={120.282} r={5.728} />
-          <circle cx={74.547} cy={120.282} r={5.728} />
-          <circle cx={108.914} cy={120.282} r={5.728} />
-          <circle cx={143.28} cy={120.282} r={5.728} />
-        </g>
-      </svg>
-    </div>
+        <svg
+          width={150}
+          height={127}
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g opacity={0.1} fill="#E7B100">
+            <circle cx={5.814} cy={5.728} r={5.728} />
+            <circle cx={40.181} cy={5.728} r={5.728} />
+            <circle cx={74.547} cy={5.728} r={5.728} />
+            <circle cx={108.914} cy={5.728} r={5.728} />
+            <circle cx={143.28} cy={5.728} r={5.728} />
+            <circle cx={5.814} cy={28.631} r={5.728} />
+            <circle cx={40.181} cy={28.631} r={5.728} />
+            <circle cx={74.547} cy={28.631} r={5.728} />
+            <circle cx={108.914} cy={28.631} r={5.728} />
+            <circle cx={143.28} cy={28.631} r={5.728} />
+            <circle cx={5.814} cy={51.549} r={5.728} />
+            <circle cx={40.181} cy={51.549} r={5.728} />
+            <circle cx={74.547} cy={51.549} r={5.728} />
+            <circle cx={108.914} cy={51.549} r={5.728} />
+            <circle cx={143.28} cy={51.549} r={5.728} />
+            <circle cx={5.814} cy={74.461} r={5.728} />
+            <circle cx={40.181} cy={74.461} r={5.728} />
+            <circle cx={74.547} cy={74.461} r={5.728} />
+            <circle cx={108.914} cy={74.461} r={5.728} />
+            <circle cx={143.28} cy={74.461} r={5.728} />
+            <circle cx={5.814} cy={97.365} r={5.728} />
+            <circle cx={40.181} cy={97.365} r={5.728} />
+            <circle cx={74.547} cy={97.365} r={5.728} />
+            <circle cx={108.914} cy={97.365} r={5.728} />
+            <circle cx={143.28} cy={97.365} r={5.728} />
+            <circle cx={5.814} cy={120.282} r={5.728} />
+            <circle cx={40.181} cy={120.282} r={5.728} />
+            <circle cx={74.547} cy={120.282} r={5.728} />
+            <circle cx={108.914} cy={120.282} r={5.728} />
+            <circle cx={143.28} cy={120.282} r={5.728} />
+          </g>
+        </svg>
+      </div>
     </div>
   )
 }

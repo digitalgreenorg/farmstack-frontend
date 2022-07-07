@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useRef, useMemo, useEffect } from 'react'
 import SignInHeader from '../../Components/signup/SignInHeader'
 import Leftintro from '../../Components/intros/Leftintro'
@@ -16,7 +15,7 @@ import ProfileRightside from '../../Components/signup/ProfileRightside'
 import OrgRightside from '../../Components/signup/OrgRightside'
 import PoliciesRightside from '../../Components/signup/PoliciesRightside'
 import BrandingRightside from '../../Components/signup/BrandingRightside'
-import { setTokenLocal, getTokenLocal } from '../../Utils/Common'
+import { setTokenLocal, getTokenLocal, setUserId } from '../../Utils/Common'
 import RichTextEditor from 'react-rte'
 import countryList from 'react-select-country-list'
 
@@ -43,62 +42,14 @@ export default function Login(props) {
   const [isBranding, setisBranding] = useState(false)
   const [isaccesstoken, setisaccesstoken] = useState(false)
 
-  const [profileid, setprofileid] = useState('')
-=======
-import React, { useState, useRef, useMemo, useEffect } from "react";
-import SignInHeader from "../../Components/signup/SignInHeader";
-import Leftintro from "../../Components/intros/Leftintro";
-import Rightintro from "../../Components/intros/Rightintro";
-import SignupEmail from "../../Components/signup/SignupEmail";
-import Footerimg from "../../Components/signup/Footerimg";
-import SignupOtp from "../../Components/signup/SignupOtp";
-import "./Login.css";
-import validator from "validator";
-import HTTPService from "../../Services/HTTPService";
-import UrlConstant from "../../Constants/UrlConstants";
-import labels from "../../Constants/labels";
-
-import ProfileRightside from "../../Components/signup/ProfileRightside";
-import OrgRightside from "../../Components/signup/OrgRightside";
-import PoliciesRightside from "../../Components/signup/PoliciesRightside";
-import BrandingRightside from "../../Components/signup/BrandingRightside";
-import { setTokenLocal, getTokenLocal, setUserId } from "../../Utils/Common";
-import RichTextEditor from "react-rte";
-import countryList from "react-select-country-list";
-
-export default function Login(props) {
-  const [button, setButton] = useState(false);
-  const email = useRef();
-  const [iserror, setError] = useState(false);
-
-  const [verifyOtpbutton, setOtpButton] = useState(false);
-  const otp = useRef();
-  const [isOtperror, setOtpError] = useState(false);
-  const [userSuspenderror, setuserSuspenderror] = useState(false);
-  const [restartcounter, Setrestartcounter] = useState(0);
-  const [disable, setDisable] = useState(true);
-
-  const [validemail, Setvalidemail] = useState("");
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
-
-  const [isemail, setEmail] = useState(true);
-  const [isOtp, setisOtp] = useState(false);
-  const [isProfile, setisProfile] = useState(false);
-  const [isOrg, setisOrg] = useState(false);
-  const [isPolicies, setisPolicies] = useState(false);
-  const [isBranding, setisBranding] = useState(false);
-  const [isaccesstoken, setisaccesstoken] = useState(false);
-
-
-  const [orgName, setOrgName] = useState("")
+  const [orgName, setOrgName] = useState('')
   // const [orgEmail, setOrgEmail] = useState("")
-  const [orgAddress, setOrgAddress] = useState("")
-  const [orgCity, setOrgCity] = useState("")
-  const [orgPincode, setOrgPincode] = useState("")
+  const [orgAddress, setOrgAddress] = useState('')
+  const [orgCity, setOrgCity] = useState('')
+  const [orgPincode, setOrgPincode] = useState('')
   const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false)
 
-  const [profileid, setprofileid] = useState("");
->>>>>>> team_member
+  const [profileid, setprofileid] = useState('')
   useEffect(() => {
     if (getTokenLocal()) {
       props.history.push('/datahub/participants')
@@ -137,20 +88,12 @@ export default function Login(props) {
           //   console.log(response.json());
           console.log(response.status)
           if (response.status === 201) {
-<<<<<<< HEAD
             console.log(response.data.id)
             setprofileid(response.data.id)
+            setUserId(response.data.id)
             setEmail(false)
             setError(false)
             setisOtp(true)
-=======
-            console.log(response.data.id);
-            setprofileid(response.data.id);
-            setUserId(response.data.id);
-            setEmail(false);
-            setError(false);
-            setisOtp(true);
->>>>>>> team_member
           } else {
             setError(true)
           }
@@ -194,13 +137,8 @@ export default function Login(props) {
       //   }),
       // })
       //   .then((response) => {
-<<<<<<< HEAD
-      HTTPService(
-        'POST',
-=======
       await HTTPService(
-        "POST",
->>>>>>> team_member
+        'POST',
         url,
         {
           email: validemail,
@@ -210,19 +148,12 @@ export default function Login(props) {
         false,
       )
         .then((response) => {
-<<<<<<< HEAD
+          console.log('uid', response.data.user)
+
           console.log('otp valid')
           console.log('otp valid', response.data)
           console.log('access token', response.data.access)
           console.log('user status', response.data.status)
-=======
-          console.log("uid", response.data.user);
-
-          console.log("otp valid");
-          console.log("otp valid", response.data);
-          console.log("access token", response.data.access);
-          console.log("user status", response.data.status);
->>>>>>> team_member
 
           console.log(response.status)
           // if (response.data.status) {
@@ -448,17 +379,16 @@ export default function Login(props) {
   // const [editorValue, setEditorValue] = React.useState(
   //   RichTextEditor.createValueFromString(orgdesc, "html")
   // );
-<<<<<<< HEAD
   const [textEditorValue, settextEditorValue] = useState('')
 
   const [validOrgNumber, setValidOrgnumber] = useState('')
   const [orgfile, setorgfile] = useState(null)
 
-  const Orgname = useRef()
+  // const Orgname = useRef();
   const Orgmail = useRef()
-  const OrgAddress = useRef()
-  const Orgcity = useRef()
-  const pincode = useRef()
+  // const OrgAddress = useRef();
+  // const Orgcity = useRef();
+  // const pincode = useRef();
 
   const [Orgnamebtn, setOrgnamebtn] = useState(false)
   const [Orgemailbtn, setOrgemailbtn] = useState(false)
@@ -466,25 +396,6 @@ export default function Login(props) {
   const [Orgcitybtn, setOrgcitybtn] = useState(false)
   const [Orgcountrybtn, setOrgcountrybtn] = useState(false)
   const [Orgpincodebtn, setOrgpincodebtn] = useState(false)
-=======
-  const [textEditorValue, settextEditorValue] = useState("");
-
-  const [validOrgNumber, setValidOrgnumber] = useState("");
-  const [orgfile, setorgfile] = useState(null);
-
-  // const Orgname = useRef();
-  const Orgmail = useRef();
-  // const OrgAddress = useRef();
-  // const Orgcity = useRef();
-  // const pincode = useRef();
-
-  const [Orgnamebtn, setOrgnamebtn] = useState(false);
-  const [Orgemailbtn, setOrgemailbtn] = useState(false);
-  const [Orgaddressbtn, setOrgaddressbtn] = useState(false);
-  const [Orgcitybtn, setOrgcitybtn] = useState(false);
-  const [Orgcountrybtn, setOrgcountrybtn] = useState(false);
-  const [Orgpincodebtn, setOrgpincodebtn] = useState(false);
->>>>>>> team_member
   // const [Orgdesbtn, setOrgdesbtn] = useState(false);
 
   // const handleOrgDesChange = (value) => {
@@ -508,21 +419,8 @@ export default function Login(props) {
     console.log(valid)
     const finalEmail = emailstring.trim()
 
-<<<<<<< HEAD
-    const name = Orgname.current.value
-    const finalName = name.trim()
-
-    const address = OrgAddress.current.value
-    const finalAddress = address.trim()
-
-    const city = Orgcity.current.value
-    const finalCity = city.trim()
-
-    const pinCode = pincode.current.value
-    const finalpinCode = pinCode.trim()
-=======
     // const name = Orgname.current.value;
-    const finalName = orgName;
+    const finalName = orgName
 
     // const address = OrgAddress.current.value;
     const finalAddress = orgAddress
@@ -532,7 +430,6 @@ export default function Login(props) {
 
     // const pinCode = pincode.current.value;
     const finalpinCode = orgPincode
->>>>>>> team_member
 
     var bodyFormData = new FormData()
     bodyFormData.append('org_email', finalEmail)
@@ -574,12 +471,8 @@ export default function Login(props) {
         .catch((e) => {
           console.log(e)
           //   setError(true);
-<<<<<<< HEAD
-        })
-=======
           setIsExistingOrgEmail(true)
-        });
->>>>>>> team_member
+        })
     }
   }
 
@@ -612,18 +505,11 @@ export default function Login(props) {
     // } else {
     //   setisOrgmailerror(true);
     // }
-<<<<<<< HEAD
+    setIsExistingOrgEmail(false)
     const valid = validator.isEmail(email)
     console.log(valid)
     const finalEmail = email.trim()
     console.log(finalEmail)
-=======
-    setIsExistingOrgEmail(false)
-    const valid = validator.isEmail(email);
-    console.log(valid);
-    const finalEmail = email.trim();
-    console.log(finalEmail);
->>>>>>> team_member
     if (valid) {
       setisOrgmailerror(false)
       setOrgemailbtn(true)
@@ -708,13 +594,8 @@ export default function Login(props) {
       <SignInHeader></SignInHeader>
       <h1 className="headertext">{screenlabels.login.signup_header}</h1>
       <Leftintro />
-<<<<<<< HEAD
       {isemail || isOtp ? <Rightintro /> : ''}
-      <Footerimg />
-=======
-      {isemail || isOtp ? <Rightintro /> : ""}
       {/* <Footerimg /> */}
->>>>>>> team_member
       {isemail && (
         <SignupEmail
           screenlabels={screenlabels}
