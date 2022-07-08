@@ -15,7 +15,12 @@ import ProfileRightside from "../../Components/signup/ProfileRightside";
 import OrgRightside from "../../Components/signup/OrgRightside";
 import PoliciesRightside from "../../Components/signup/PoliciesRightside";
 import BrandingRightside from "../../Components/signup/BrandingRightside";
-import { setTokenLocal, getTokenLocal, setUserId } from "../../Utils/Common";
+import {
+  setTokenLocal,
+  getTokenLocal,
+  setUserId,
+  getUserLocal,
+} from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
 
@@ -42,13 +47,12 @@ export default function Login(props) {
   const [isBranding, setisBranding] = useState(false);
   const [isaccesstoken, setisaccesstoken] = useState(false);
 
-
-  const [orgName, setOrgName] = useState("")
+  const [orgName, setOrgName] = useState("");
   // const [orgEmail, setOrgEmail] = useState("")
-  const [orgAddress, setOrgAddress] = useState("")
-  const [orgCity, setOrgCity] = useState("")
-  const [orgPincode, setOrgPincode] = useState("")
-  const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false)
+  const [orgAddress, setOrgAddress] = useState("");
+  const [orgCity, setOrgCity] = useState("");
+  const [orgPincode, setOrgPincode] = useState("");
+  const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false);
 
   const [profileid, setprofileid] = useState("");
   useEffect(() => {
@@ -423,15 +427,19 @@ export default function Login(props) {
     const finalName = orgName;
 
     // const address = OrgAddress.current.value;
-    const finalAddress = orgAddress
+    const finalAddress = orgAddress;
 
     // const city = Orgcity.current.value;
-    const finalCity = orgCity
+    const finalCity = orgCity;
 
     // const pinCode = pincode.current.value;
-    const finalpinCode = orgPincode
+    const finalpinCode = orgPincode;
+
+    var id = getUserLocal();
+    console.log("user id", id);
 
     var bodyFormData = new FormData();
+    bodyFormData.append("user_id", id);
     bodyFormData.append("org_email", finalEmail);
     bodyFormData.append("name", finalName);
     bodyFormData.append(
@@ -471,7 +479,7 @@ export default function Login(props) {
         .catch((e) => {
           console.log(e);
           //   setError(true);
-          setIsExistingOrgEmail(true)
+          setIsExistingOrgEmail(true);
         });
     }
   };
@@ -505,7 +513,7 @@ export default function Login(props) {
     // } else {
     //   setisOrgmailerror(true);
     // }
-    setIsExistingOrgEmail(false)
+    setIsExistingOrgEmail(false);
     const valid = validator.isEmail(email);
     console.log(valid);
     const finalEmail = email.trim();

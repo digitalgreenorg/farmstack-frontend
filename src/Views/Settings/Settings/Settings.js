@@ -19,7 +19,9 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Button from "@mui/material/Button";
 import AccountSetting from "../accounts/accountSetting";
+import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
+
 const useStyles = {
   btncolor: {
     color: "white",
@@ -52,6 +54,7 @@ function Settings(props) {
   const [teamMemberId, setteamMemberId] = useState("");
   const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
   const [isAccountUpdateSuccess, setisAccountUpdateSuccess] = useState(false);
+  const [isOrgUpdateSuccess, setisOrgUpdateSuccess] = useState(false);
   const [value, setValue] = React.useState("1");
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
   const [memberUrl, setMemberUrl] = useState(UrlConstants.base_url + UrlConstants.team_member)
@@ -172,6 +175,23 @@ function Settings(props) {
         ) : (
           <></>
         )}
+        {isOrgUpdateSuccess ? (
+          <Success
+            okevent={() => {
+              //   setteamMemberId("");
+              //   setisDelete(false);
+              setistabView(true);
+              setisOrgUpdateSuccess(false);
+              //   getMemberList();
+            }}
+            imagename={"success"}
+            btntext={"ok"}
+            heading={"Organisation details updated successfully !"}
+            imageText={"Success!"}
+            msg={"Your organisation details are updated."}></Success>
+        ) : (
+          <></>
+        )}
         {istabView ? (
           <Row style={useStyles.marginrowtop50px}>
             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
@@ -195,7 +215,14 @@ function Settings(props) {
                       }}
                     />
                   </TabPanel>
-                  <TabPanel value="2"></TabPanel>
+                  <TabPanel value="2">
+                    <OrganisationSetting
+                      setisOrgUpdateSuccess={() => {
+                        setistabView(false);
+                        setisAccountUpdateSuccess(true);
+                      }}
+                    />
+                  </TabPanel>
                   <TabPanel value="3">
                     <Row>
                       <span style={useStyles.teamword}>Team</span>
