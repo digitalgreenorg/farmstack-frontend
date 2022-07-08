@@ -1,0 +1,15 @@
+.brandsetting .title {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+  color: #3d4a52;
+  padding-left: 18%;
+  padding-top: 3%;
+}
+.brandsetting .colorpickersettings {
+  margin-left: 17%;
+  margin-top: 4%;
+  height: 780px;
+}
