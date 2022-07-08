@@ -546,7 +546,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Governing Laws "
+                uploadtitle="Upload Governing Laws (Optional)"
               />
             }
             // maxSize={2}
@@ -607,7 +607,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Warranties"
+                uploadtitle="Upload Warranties (Optional)"
               />
             }
             //   maxSize={2}
@@ -670,7 +670,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload limitation of Liabilities"
+                uploadtitle="Upload limitation of Liabilities (Optional)"
               />
             }
             //   maxSize={2}
@@ -732,7 +732,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Privacy Policy"
+                uploadtitle="Upload Privacy Policy (Optional)"
               />
             }
             //   maxSize={2}
@@ -794,7 +794,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Terms of Use "
+                uploadtitle="Upload Terms of Use (Optional)"
               />
             }
             //   maxSize={2}
