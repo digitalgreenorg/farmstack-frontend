@@ -114,7 +114,7 @@ export default function OrganisationSetting(props) {
           // }
           setcity(response.data.organization.address.city);
           setpincode(response.data.organization.address.pincode);
-          setcountryvalue(response.data.organization.address.country);
+          setcountryvalue(response.data.organization.address.country.label);
           setemail(response.data.organization.org_email);
           setphonenumber(response.data.organization.phone_number);
           // setorgdesc(response.data.organization.org_description.toString("html"));
