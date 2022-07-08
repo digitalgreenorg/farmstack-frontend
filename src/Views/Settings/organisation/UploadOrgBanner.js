@@ -1,19 +1,17 @@
-import React from 'react'
-import './BrandingRightside.css'
+import React from "react";
 
-export default function UploadBanner() {
+export default function UploadOrgBanner() {
   return (
     <div>
-      <div className="Bannerupload">
-        <p class="bannertitle">Upload your banner image here</p>
+      <div className="BannerOrgupload">
+        <p className="uploadtitle">Upload your banner image here</p>
         <div className="uploadBannerimg">
           <svg
             width="71"
             height="71"
             viewBox="0 0 71 71"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <circle cx="35.5" cy="35.5" r="35.5" fill="#FFF7DC" />
             <circle cx="35.5" cy="35.5" r="29.5" fill="#F9EABC" />
             <circle cx="35.5" cy="35.5" r="23.5" fill="#C09507" />
@@ -48,17 +46,17 @@ export default function UploadBanner() {
             </defs>
           </svg>
         </div>
-        <p className="dragdroptext">
+        <p style={{ color: "#A3B0B8" }}>
           Drag and drop or
           <span>
             <button class="Banneruploadbtn info">Browse</button>
           </span>
           your files
         </p>
-        <p className="dragdroptext">
+        <p style={{ color: "#A3B0B8" }}>
           Size should be ‘1300pixels X 220 pixels’ 2MB only
         </p>
       </div>
     </div>
-  )
+  );
 }

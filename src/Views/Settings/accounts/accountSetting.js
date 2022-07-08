@@ -187,7 +187,7 @@ export default function AccountSetting(props) {
         setfirstname(response.data.first_name);
         setlastname(response.data.last_name);
         setemail(response.data.email);
-        setFile(response.data.profile_picture);
+        // setFile(response.data.profile_picture);
         if (response.data.first_name) {
           setaccfirstbtn(true);
         }
@@ -348,7 +348,7 @@ export default function AccountSetting(props) {
               {!ispropfilefirstnameerror &&
               !accfilesize &&
               accfirstnamebtn &&
-              file.size < 2097152 &&
+              file != null &&
               accnumberbtn ? (
                 <Button
                   variant="contained"
