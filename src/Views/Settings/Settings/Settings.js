@@ -21,6 +21,7 @@ import Button from "@mui/material/Button";
 import AccountSetting from "../accounts/accountSetting";
 import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
+import BrandingSetting from "../branding/BrandingSetting";
 
 const useStyles = {
   btncolor: {
@@ -56,8 +57,10 @@ function Settings(props) {
   const [isAccountUpdateSuccess, setisAccountUpdateSuccess] = useState(false);
   const [isOrgUpdateSuccess, setisOrgUpdateSuccess] = useState(false);
   const [value, setValue] = React.useState("1");
-  const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
-  const [memberUrl, setMemberUrl] = useState(UrlConstants.base_url + UrlConstants.team_member)
+  const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
+  const [memberUrl, setMemberUrl] = useState(
+    UrlConstants.base_url + UrlConstants.team_member
+  );
   const { id } = useParams();
 
   const history = useHistory();
@@ -71,24 +74,18 @@ function Settings(props) {
   }, []);
 
   const getMemberList = () => {
-    HTTPService(
-      "GET",
-      memberUrl,
-      "",
-      false,
-      false
-    )
+    HTTPService("GET", memberUrl, "", false, false)
       .then((response) => {
         console.log("otp valid", response.data);
 
-        if(response.data.next == null){
-          setisShowLoadMoreButton(false)
+        if (response.data.next == null) {
+          setisShowLoadMoreButton(false);
         } else {
-          setisShowLoadMoreButton(true)
-          setMemberUrl(response.data.next)
+          setisShowLoadMoreButton(true);
+          setMemberUrl(response.data.next);
         }
         let dataList = teamMemberList;
-        let finalDataList=[...dataList,...response.data.results] 
+        let finalDataList = [...dataList, ...response.data.results];
         setteamMemberList(finalDataList);
       })
       .catch((e) => {
@@ -274,17 +271,23 @@ function Settings(props) {
                     </Row>
                     <Row style={useStyles.marginrowtop}>
                       <Col xs={12} sm={12} md={6} lg={3}></Col>
-                      { isShowLoadMoreButton ? 
+                      {isShowLoadMoreButton ? (
                         <Col xs={12} sm={12} md={6} lg={6}>
-                            <Button onClick={() => getMemberList()} variant="outlined" className="cancelbtn">
-                              Load More
-                            </Button>
+                          <Button
+                            onClick={() => getMemberList()}
+                            variant="outlined"
+                            className="cancelbtn">
+                            Load More
+                          </Button>
                         </Col>
-                        : <></>
-                      }
+                      ) : (
+                        <></>
+                      )}
                     </Row>
                   </TabPanel>
-                  <TabPanel value="4"></TabPanel>
+                  <TabPanel value="4">
+                    <BrandingSetting />
+                  </TabPanel>
                 </TabContext>
               </Box>
             </Col>

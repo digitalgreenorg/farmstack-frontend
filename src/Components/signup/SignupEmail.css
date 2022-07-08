@@ -39,7 +39,13 @@
   /* identical to box height */
 
   color: #ffffff !important;
+  box-shadow: none !important;
 }
+
+.Signupbtn:hover {
+  background-color: #ab8405 !important;
+}
+
 .css-1rwt2y5-MuiButtonBase-root-MuiButton-root.Mui-disabled {
   font-family: 'Open Sans' !important;
   font-style: normal !important;
