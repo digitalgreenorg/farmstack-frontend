@@ -45,12 +45,12 @@ export default function TeamMemberCard(props) {
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left"}}
             />
             <CardContent>
-                <Row style={{ "margin-left": "-25px" }}>
+                <Row style={{ "margin-left": "-18px", "text-align": "left" }}>
                     <Col xs={12} sm={12} md={6} lg={6} style={useStyles.cardDataHeading}>
                         Role assigned
           </Col>
                 </Row>
-                <Row style={{ "margin-left": "-26px"}}>
+                <Row style={{ "margin-left": "-18px", "text-align": "left"}}>
                     <Col xs={12} sm={12} md={6} lg={6} >
                         <span style={useStyles.cardData}>{props.role==2?'Team Member':'Guest User'}</span>
                     </Col>
@@ -65,7 +65,9 @@ export default function TeamMemberCard(props) {
             </Button>
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => props.deleteTeamMember(props.id)} variant="outlined" style={useStyles.btncolor}>
+                        <Button onClick={() => props.deleteTeamMember(props.id)} 
+                        variant="outlined" 
+                        style={useStyles.btncolor} >
                         <img
                                 src={require('../../../Assets/Img/button_delete.svg')}
                                 alt="new"

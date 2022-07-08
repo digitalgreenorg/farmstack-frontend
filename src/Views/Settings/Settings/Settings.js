@@ -137,7 +137,9 @@ function Settings(props) {
             }}
             heading={screenlabels.settings.delete_member}
             imageText={screenlabels.settings.delete_msg}
-            msg={screenlabels.settings.second_delete_msg}></Delete>
+            msg={screenlabels.settings.second_delete_msg}
+            firstmsg={screenlabels.viewparticipants.second_delete_msg}
+            secondmsg={screenlabels.viewparticipants.third_delete_msg}></Delete>
         ) : (
           <></>
         )}
@@ -154,7 +156,8 @@ function Settings(props) {
             btntext={"ok"}
             heading={"Team Member deleted successfully!"}
             imageText={"Deleted!"}
-            msg={"You deleted a member."}></Success>
+            msg={"You deleted a member."}>
+            </Success>
         ) : (
           <></>
         )}
