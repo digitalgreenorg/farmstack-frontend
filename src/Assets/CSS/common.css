@@ -2,78 +2,167 @@
 /* @import '../../../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'; */
 /* @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap'); */
 /* @import url("https://fonts.googleapis.com/css2?family=Open+Sans"); */
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
-body{
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800');
+body {
   font-family: 'Open Sans';
   text-align: center !important;
   width: 100%;
   height: 100%;
-  background-color:#FFFFFF !important;
+  background-color: #ffffff !important;
 }
-button.disbalesubmitbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important;opacity: 0.5}
-button.cancelbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important; margin-bottom: 50px}
-button.editbtn{text-transform: capitalize;border-radius: 2px; background: #FFFFFF !important;width:420px !important;height: 42px; margin-top: 30px;border:1px solid #C09507 !important;color:#585D60 !important; margin-top: 50px}
-button.submitbtn{ width: 420px !important;text-transform: capitalize;color: #FFFFFF;height:42px;margin-top:30px; background:#C09507;border-radius: 2px;border:2px solid #C09507 !important}
-button.submitbtn:hover{
-  background-color: #C09507 !important;
+button.disbalesubmitbtn {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
 }
-.width100percent{width:100%}
-.mainheading{font-weight: 700;font-size: 20px;color: #3D4A52;}
-.secondmainheading{font-weight: 600;font-size: 16px;color: #3D4A52;}
-.fontweight600andfontsize14pxandcolor3A3A3A{font-weight: 600;font-size: 14px;color: #3A3A3A;}
-.fontweight600andfontsize14pxandcolorFFFFFF{font-weight: 600;font-size: 14px;color: #FFFFFF;}
-.fontweight600andfontsize14pxandcolor3D4A52{font-weight: 600;font-size: 14px;color: #3D4A52;}
-.fontweight400andfontsize14pxandcolor3D4A52{font-weight: 400;font-size: 14px;color: #3D4A52;}
-.thirdmainheading{font-weight: 400;font-size: 14px;color: #3D4A52;}
-.mainheadingsuccess{font-weight: 700;font-size: 20px;color: #3D4A52;}
-.secondmainheadingsuccess{font-weight: 700;font-size: 20px;color: #D8AF28;}
-.thirdmainheadingsuccess{font-weight: 400;font-size: 16px;color: #3D4A52;}
-.css-1gsv261{    border-bottom: 1px solid #c09507 !important}
-.css-1aquho2-MuiTabs-indicator{background-color: #c09507 !important;}
-.boldimage{  display: none;}
-.nonboldimage{  display: block;}
+button.cancelbtn {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-bottom: 50px;
+}
+button.editbtn {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-top: 50px;
+}
+button.submitbtn {
+  width: 420px !important;
+  text-transform: capitalize;
+  color: #ffffff;
+  height: 42px;
+  margin-top: 30px;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+}
+button.submitbtn:hover {
+  background-color: #c09507 !important;
+}
+.width100percent {
+  width: 100%;
+}
+.mainheading {
+  font-weight: 700;
+  font-size: 20px;
+  color: #3d4a52;
+}
+.secondmainheading {
+  font-weight: 600;
+  font-size: 16px;
+  color: #3d4a52;
+}
+.fontweight600andfontsize14pxandcolor3A3A3A {
+  font-weight: 600;
+  font-size: 14px;
+  color: #3a3a3a;
+}
+.fontweight600andfontsize14pxandcolorFFFFFF {
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffffff;
+}
+.fontweight600andfontsize14pxandcolor3D4A52 {
+  font-weight: 600;
+  font-size: 14px;
+  color: #3d4a52;
+}
+.fontweight400andfontsize14pxandcolor3D4A52 {
+  font-weight: 400;
+  font-size: 14px;
+  color: #3d4a52;
+}
+.thirdmainheading {
+  font-weight: 400;
+  font-size: 14px;
+  color: #3d4a52;
+}
+.mainheadingsuccess {
+  font-weight: 700;
+  font-size: 20px;
+  color: #3d4a52;
+}
+.secondmainheadingsuccess {
+  font-weight: 700;
+  font-size: 20px;
+  color: #d8af28;
+}
+.thirdmainheadingsuccess {
+  font-weight: 400;
+  font-size: 16px;
+  color: #3d4a52;
+}
+.css-1gsv261 {
+  border-bottom: 1px solid #c09507 !important;
+}
+.css-1aquho2-MuiTabs-indicator {
+  background-color: #c09507 !important;
+}
+.boldimage {
+  display: none;
+}
+.nonboldimage {
+  display: block;
+}
 .react-multi-email > input {
   background: none !important;
 }
-.react-multi-email{
+.react-multi-email {
   width: 100% !important;
-  border:none !important;
-  background: none !important;
-  border-bottom: 1px solid #9AA1A9 !important;
-  border-radius: inherit !important;
-}
-.invite-participant-text-editor > div:first-child{
-  background: #F1F1F1 !important;
   border: none !important;
-  border-bottom: 1px solid #9AA1A9 !important;
+  background: none !important;
+  border-bottom: 1px solid #9aa1a9 !important;
   border-radius: inherit !important;
 }
-.invite-participant-text-editor > div:first-child >div:first-child{
+.invite-participant-text-editor > div:first-child {
+  background: #f1f1f1 !important;
+  border: none !important;
+  border-bottom: 1px solid #9aa1a9 !important;
+  border-radius: inherit !important;
+}
+.invite-participant-text-editor > div:first-child > div:first-child {
   text-align: left;
 }
 
 .settingsTabs .Mui-selected {
   color: #ffffff !important;
-  border: 1px solid #D8AF28;
+  border: 1px solid #d8af28;
   border-radius: 2px 0px 0px 0px;
   text-transform: capitalize !important;
-  background: #C09507;
+  background: #c09507;
   width: 200px;
 }
-.settingsTabs .MuiTabs-indicator{
-  background: #C09507 !important;
+.settingsTabs .MuiTabs-indicator {
+  background: #c09507 !important;
 }
-.particaipancard .MuiCardHeader-title{
+.particaipancard .MuiCardHeader-title {
   padding-bottom: 10px;
   font-weight: 400;
-font-size: 14px;
-color: #3D4A52;
+  font-size: 14px;
+  color: #3d4a52;
 }
-.particaipancard .MuiCardHeader-subheader{
-font-weight: 400;
-font-size: 14px;
-color: #000000;
-opacity: 0.5;
+.particaipancard .MuiCardHeader-subheader {
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+  opacity: 0.5;
 }
 /* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
   background: #FFFFFF;
@@ -83,8 +172,8 @@ opacity: 0.5;
   width: 200px;
 } */
 :not(.Mui-selected).MuiTab-root {
-  background: #FFFFFF;
-  border: 1px solid #D8AF28 !important;
+  background: #ffffff;
+  border: 1px solid #d8af28 !important;
   text-transform: capitalize !important;
   font-weight: 400 !important;
   width: 200px;
@@ -96,6 +185,43 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
+}
+
+.css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: #a3b0b8 !important;
+  font-family: 'Open Sans' !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+}
+.css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:after {
+  border-bottom: 2px solid #a3b0b8 !important;
+}
+
+.MuiFilledInput-input,
+.MuiInputLabel-root {
+  color: #3d4a52 !important;
+  font-family: 'Open Sans' !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 19px !important;
+}
+css-1wc848c-MuiFormHelperText-root {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+}
+.css-1wc848c-MuiFormHelperText-root.Mui-error {
+  color: #ff3d00 !important;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
 }
