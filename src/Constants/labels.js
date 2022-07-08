@@ -86,25 +86,34 @@ const labels = {
       email: "Email",
       first_name: "First Name",
       last_name: "Last Name",
-      contact: "Contact Number"
+      contact: "Contact Number",
     },
-    support: {
-      "heading": "List of Tickets",
-      "filter":"Filter",
-      "all":"All",
-      "Status":"Status",
-      "Category":"Category",
-      "open_status":"Open Status",
-      "close_status":"Close Status",
-      "hold_status":"Hold Status",
-      "User_Accounts":"User Accounts",
-      "Datasets":"Datasets",
-      "Usage_Policy":"Usage Policy",
-      "Certificate":"Certificate",
-      "Connectors":"Connectors",
-      "Others":"Others",
-      "date":"By Date"
-    }
-  }
+    org_settings: {
+      email: "Organization Mail ID",
+      org_name: "Organization Name",
+      address: "Organization Address",
+      contact: "Organization Contact Number",
+      city: "City",
+      pincode: "PIN Code",
+      org_des: "Organization Description",
+    },
+  },
+  support: {
+    heading: "List of Tickets",
+    filter: "Filter",
+    all: "All",
+    Status: "Status",
+    Category: "Category",
+    open_status: "Open Status",
+    close_status: "Close Status",
+    hold_status: "Hold Status",
+    User_Accounts: "User Accounts",
+    Datasets: "Datasets",
+    Usage_Policy: "Usage Policy",
+    Certificate: "Certificate",
+    Connectors: "Connectors",
+    Others: "Others",
+    date: "By Date",
+  },
 };
 export default labels;
