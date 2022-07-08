@@ -62,7 +62,6 @@
   height: 48px;
   left: 839px;
   top: 642px;
-  background: #f1f1f1;
   text-align: left;
   font-family: 'Open Sans';
   font-style: normal;
@@ -72,6 +71,18 @@
   border-bottom-style: 1px solid #9aa1a9 !important;
   border-top-left-radius: 4px !important;
   border-top-right-radius: 4px !important;
+  color: black !important;
+}
+
+.css-tlfecz-indicatorContainer{
+  color: black;
+}
+.css-1s2u09g-control{
+  color: black;
+}
+
+.css-tj5bde-Svg{
+  color: black;
 }
 .orgpincode {
   position: absolute;
@@ -253,7 +264,7 @@
   height: 19px;
   /* left: 1008px;
   top: 898px; */
-  padding-top: 10px;
+  margin-top: 20px;
   /* padding-left: 20px; */
   text-align: center !important;
   font-family: 'Open Sans';
@@ -270,7 +281,7 @@
   color: #3d4a52;
 }
 .uploadimg {
-  padding-top: 50px;
+  margin-top: 65px;
 }
 .orguploadbtn {
   border: none;
@@ -284,6 +295,7 @@
 .info {
   color: dodgerblue;
   text-decoration: underline;
+  font-size: 14px;
 }
 .rdw-editor-main {
   /* height: 100%; */

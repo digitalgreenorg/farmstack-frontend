@@ -1,5 +1,5 @@
 .policies {
-  height: 3650px;
+  height: 3350px;
 }
 
 .public-DraftStyleDefault-block {
@@ -194,7 +194,7 @@
   width: 420px;
   height: 218px;
   left: 119px;
-  top: 1506px;
+  top: 1536px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -204,7 +204,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1948px !important;
+  top: 1978px !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -218,7 +218,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2005px;
+  top: 2035px;
   color: #ff3d00 !important;
   font-family: 'Open Sans';
   font-style: normal;
@@ -230,7 +230,7 @@
   position: absolute;
   width: 420px;
   left: 839px !important;
-  top: 2043px !important;
+  top: 2073px !important;
 }
 .privacytitle {
   text-align: left;
@@ -248,7 +248,7 @@
   width: 420px;
   height: 218px;
   left: 119px;
-  top: 2080px;
+  top: 2110px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -258,7 +258,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2548px !important;
+  top: 2578px !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -271,7 +271,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 2608px;
+  top: 2638px;
   color: #ff3d00 !important;
   font-family: 'Open Sans';
   font-style: normal;
@@ -283,7 +283,7 @@
   position: absolute;
   width: 420px;
   left: 839px !important;
-  top: 2650px !important;
+  top: 2680px !important;
 }
 .termtitle {
   text-align: left;
@@ -301,7 +301,7 @@
   width: 420px;
   height: 218px;
   left: 119px;
-  top: 2659px;
+  top: 2689px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -312,7 +312,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 3148px !important;
+  top: 3178px !important;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -325,7 +325,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 3210px;
+  top: 3240px;
   color: #ff3d00 !important;
   font-family: 'Open Sans';
   font-style: normal;
@@ -338,7 +338,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 3000px;
+  top: 3030px;
 
   background-color: #c09507 !important;
   border-radius: 2px;
@@ -355,7 +355,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 3000px;
+  top: 3030px;
 
   background: #ffffff;
   border-radius: 2px;
@@ -367,7 +367,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 3030px;
+  top: 3060px;
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
@@ -407,36 +407,36 @@
   width: 275px;
   height: 6px;
   left: 897px;
-  top: 1980px;
+  top: 2010px;
 }
 .liabiltyclose {
   position: absolute;
   left: 1200px;
-  top: 1970px;
+  top: 2000px;
 }
 .privacyprogress {
   position: absolute;
   width: 275px;
   height: 6px;
   left: 897px;
-  top: 2580px;
+  top: 2610px;
 }
 .privacyclose {
   position: absolute;
   left: 1200px;
-  top: 2568px;
+  top: 2598px;
 }
 .tosprogress {
   position: absolute;
   width: 275px;
   height: 6px;
   left: 897px;
-  top: 3180px;
+  top: 3210px;
 }
 .tosclose {
   position: absolute;
   left: 1200px;
-  top: 3168px;
+  top: 3198px;
 }
 /* .policiesSpace {
   margin-bottom: 100px;
@@ -458,5 +458,5 @@
   width: 148.92px;
   height: 126.01px;
   left: 1300.09px;
-  top: 3725px;
+  top: 3350px;
 }
