@@ -349,7 +349,6 @@ export default function AccountSetting(props) {
               !accfilesize &&
               accfirstnamebtn &&
               file != null &&
-              file.size < 2097152 &&
               accnumberbtn ? (
                 <Button
                   variant="contained"
