@@ -58,7 +58,7 @@ export default function SignupEmail(props) {
         <div>
           {props.button ? (
             <Button variant="contained" className="Signupbtn" type="submit">
-              <span className="signupbtnname">Send OTP</span>
+              <span className="signupbtnname">Send OTP to Email</span>
             </Button>
           ) : (
             <Button variant="outlined" disabled className="disablebtn">

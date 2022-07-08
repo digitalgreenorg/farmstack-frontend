@@ -509,7 +509,7 @@ export default function PoliciesRightside(props) {
 
   return (
     <div className="policies">
-      <p className="policiesHeader">Policies</p>
+      <p className="policiesHeader">Company Policies</p>
       <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
         <div className="governingdes">
           <p className="governingtitle">

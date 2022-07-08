@@ -181,7 +181,12 @@
   background-color: #c09507 !important;
   border-radius: 2px;
   text-transform: capitalize !important;
+  box-shadow: none;
 }
+.brandbtn:hover {
+  background-color: #ab8405 !important;
+}
+
 .disablebrandbtn {
   position: absolute;
   width: 420px;

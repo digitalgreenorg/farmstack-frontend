@@ -64,7 +64,13 @@
   border-radius: 2px;
   background-color: #c09507 !important;
   text-transform: capitalize !important;
+  box-shadow: done;
 }
+
+.profilebtn:hover {
+  background-color: #ab8405 !important;
+}
+
 .disableprofilebtn {
   box-sizing: border-box;
   position: absolute;
