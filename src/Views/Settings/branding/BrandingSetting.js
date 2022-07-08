@@ -10,12 +10,39 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 
 import { SketchPicker } from "react-color";
+import {
+  setTokenLocal,
+  getTokenLocal,
+  setUserId,
+  getUserLocal,
+  handleAddressCharacters,
+} from "../../../Utils/Common";
 
 export default function BrandingSetting() {
   const fileTypes = ["JPEG", "PNG", "jpg"];
   const [orgfilesize, setorgfilesize] = useState(false);
   const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 });
   const [brandfile, setbrandfile] = useState(null);
+
+  // get brand details.
+  const getBrandingDetails = async () => {
+    await HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.branding,
+      false,
+      false
+    )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getBrandingDetails();
+  }, []);
 
   const handleBrandSettingSubmit = () => {};
   const handleBannerFileChange = () => {};
