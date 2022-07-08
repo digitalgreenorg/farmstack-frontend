@@ -576,7 +576,7 @@ export default function OrgRightside(props) {
               children={
                 <UploadOrgLogo
                   uploaddes="Supports: JPEG, PNG not more than 2MB file size"
-                  uploadtitle="Upload Logo"
+                  uploadtitle="Upload Company Logo"
                 />
               }
               //   maxSize={2}

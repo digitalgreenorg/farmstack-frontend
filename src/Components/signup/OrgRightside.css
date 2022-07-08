@@ -122,6 +122,10 @@
   font-weight: 700;
   font-size: 14px;
   text-transform: capitalize !important;
+  box-shadow: none;
+}
+.orgbtn:hover {
+  background-color: #ab8405 !important;
 }
 .disableorgbtn {
   position: absolute;
