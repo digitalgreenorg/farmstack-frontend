@@ -94,7 +94,7 @@ function EditParticipants(props) {
     return (
         <>
             <Container style={useStyles.marginrowtop}>
-                {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Changes are Updated!"} imageText={"Updated"} msg={"Your changes are updated successfully"}></Success> : <><ParticipantForm
+                {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Changes are updated!"} imageText={"Updated"} msg={"Your changes are updated successfully."}></Success> : <><ParticipantForm
                     organisationname={organisationname}
                     setorganisationname={ref => { setorganisationname(ref) }}
                     orginsationemail={orginsationemail}

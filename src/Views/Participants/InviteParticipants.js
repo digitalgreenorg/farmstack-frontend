@@ -16,6 +16,7 @@ import 'react-multi-email/style.css';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
+    marginrowtop50: {"margin-top": "50px"},
     btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black" },
     submitbtn: { width: "420px", height: "42px", "margin-top": "30px" }
 };
@@ -77,18 +78,21 @@ function InviteParticipants(props) {
 
     return (
         <>
-            <Container style={useStyles.marginrowtop}>
+            <Container style={useStyles.marginrowtop50}>
             {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Invite participants sent successfully!"} imageText={"Invited"} msg={"Your invitation sent to participants."}></Success> :
             <> <Row style={useStyles.marginrowtop}>
-                    <span style={{ fontWeight: "bold" }}>
+                    <Col xs={12} sm={12} md={12} lg={12} >
+                    <span className='mainheadingsuccess' style={{'float': 'left'}}>
                         {screenlabels.inviteParticipants.first_heading}
                     </span>
+                    </Col>
                 </Row>
                 <Row style={useStyles.marginrowtop}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <ReactMultiEmail
-                        style={{"width":"100%"}}
-                            placeholder="Email Id *"
+                            style={{"width":"100%", 'font-family': 'Open Sans', 'font-style': 'normal','font-weight': '400', 'font-size': '14px','line-height': '19px', 'color': '#3D4A52'}}
+                            placeholder="Email"
+                            variant="filled"
                             emails={emails}
                             onChange={(email)=>setemails(email)}
                             validateEmail={email => {
@@ -108,9 +112,11 @@ function InviteParticipants(props) {
                     </Col>
                 </Row>
                 <Row style={useStyles.marginrowtop}>
-                    <span style={{ fontWeight: "bold" }}>
+                <Col xs={12} sm={12} md={12} lg={12} >
+                    <span className='mainheadingsuccess' style={{'float': 'left'}}>
                         {screenlabels.inviteParticipants.second_heading}
                     </span>
+                </Col>
                 </Row>
                 <Row style={useStyles.marginrowtop}>
                     <Col xs={12} sm={12} md={12} lg={12}  className="invite-participant-text-editor">
@@ -123,10 +129,8 @@ function InviteParticipants(props) {
                             name="bodyText"
                             type="string"
                             placeholder={
-                                "Message *"
+                                "Message"
                             }
-
-                            
                             multiline
                             variant="filled"
                             style={{
@@ -137,7 +141,7 @@ function InviteParticipants(props) {
                         />
                     </Col>
                 </Row>
-                <Row>
+                <Row style={{ "margin-top": "20px" }}>
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
@@ -153,7 +157,7 @@ function InviteParticipants(props) {
                             )}
                     </Col>
                 </Row>
-                <Row style={{ "margin-top": "8px" }}>
+                <Row>
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >

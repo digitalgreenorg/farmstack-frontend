@@ -17,14 +17,15 @@ import THEME_COLORS from '../../Constants/ColorConstants'
 import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 const useStyles = {
-  btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-left": "-25px", "font-weight": "400", "font-family": "Open Sans"}, 
-  btnPosition: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "font-weight": "400", "font-family": "Open Sans"},
-  cardcolor:{border: "1px solid #E4E4E4","box-shadow": "none",cursor:"pointer",height: "209px","border-radius": "2px"}, 
-  togglecardcolor:{"box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "2px solid #ebd79c",cursor:"pointer",height: "209px"}, 
-  marginrowtop: {"margin-top": "20px"},
-  cardDataHeading:{"font-weight": "600","font-size": "14px",color: "#3D4A52" },
-  cardData:{"font-weight": "400","font-size": "14px",color: "#3D4A52"}
+  btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-left": "-25px", "font-weight": "400", "font-family": "Open Sans", 'font-style': 'normal', 'font-size': '14px'}, 
+  btnPosition: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "font-weight": "400", "font-family": "Open Sans", 'font-style': 'normal', 'font-size': '14px'},
+  cardcolor:{border: "1px solid #E4E4E4","box-shadow": "none",cursor:"pointer",height: "240px","border-radius": "2px"}, 
+  togglecardcolor:{"box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", border: "1px solid #D8AF28",cursor:"pointer",height: "240px"}, 
+  marginrowtop: {"margin-top": "30px"},
+  cardDataHeading:{'font-family': 'Open Sans', "font-weight": "600","font-size": "14px",color: "#3D4A52", "text-align": "left", 'padding-left': '8px' },
+  cardData:{'font-family': 'Open Sans', "font-weight": "400","font-size": "14px",color: "#3D4A52", "text-align": "left", 'margin-top': '10px', 'padding-left': '0px'}
 };
+
 export default function ParticipantsCards(props) {
   const [isshowbutton, setisshowbutton] = React.useState(false);
   const history = useHistory();
@@ -33,8 +34,8 @@ export default function ParticipantsCards(props) {
     <Card className="particaipancard" style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
       <CardHeader
         avatar={
-          props.profilepic? <Avatar alt="Remy Sharp" src={UrlConstants.base_url+props.profilepic} sx={{ width:54, height:54 }}/>:
-          <Avatar sx={{ bgcolor:"#c09507",width:54, height:54}} aria-label="recipe">{props.firstname.charAt(0)}</Avatar>
+          props.profilepic? <Avatar alt="Remy Sharp" src={UrlConstants.base_url+props.profilepic} sx={{ width:64, height:64 }}/>:
+          <Avatar sx={{ bgcolor:"#c09507",width:64, height:64}} aria-label="recipe">{props.firstname.charAt(0)}</Avatar>
         }
         action={
           <IconButton aria-label="settings">
@@ -42,38 +43,44 @@ export default function ParticipantsCards(props) {
         }
         title={props.mainheading}
         subheader={props.subheading}
-        style={{ "background-color": "#f8f9fa", padding: "9px","text-align": "left"}}
+        style={{ "background-color": "#F4F4F4", padding: "9px", height: "84px", "text-align": "left", 'font-family': 'Open Sans',
+        'font-style': 'normal', 'font-weight': 400, 'font-size': '14px' ,'line-height': '19px' ,'color': '#3D4A52'}}
       />
       <CardContent>
-        <Row style={{ "margin-left": "-25px" }}>
+        <Row style={{ 'margin-top': '5px' }}>
           <Col xs={12} sm={12} md={4} lg={4} style={useStyles.cardDataHeading}>
-            Dataset
-          </Col>
-          <Col xs={12} sm={12} md={4} lg={5} style={useStyles.cardDataHeading}>
-            Connectors
-          </Col>
-          <Col xs={12} sm={12} md={4} lg={3} style={useStyles.cardDataHeading}>
-            Status
-          </Col>
-        </Row>
-        <Row style={{ "margin-left": "-26px" }}>
-          <Col xs={12} sm={12} md={4} lg={4}>
+            Dataset <br />
             <span style={useStyles.cardData}>{props.dataset}</span>
           </Col>
-          <Col xs={12} sm={12} md={4} lg={5}>
+          <Col xs={12} sm={12} md={4} lg={5} style={useStyles.cardDataHeading}>
+            Connectors<br />
             <span style={useStyles.cardData}>{props.connector}</span>
           </Col>
-          <Col xs={12} sm={12} md={4} lg={3}>
+          <Col xs={12} sm={12} md={4} lg={3} style={useStyles.cardDataHeading}>
+            Status<br />
             <span style={useStyles.cardData}>{props.active}</span>
           </Col>
         </Row>
+        {/*
+        <Row style={{}}>
+          <Col xs={12} sm={12} md={4} lg={4} style={useStyles.cardData}>
+            <span>{props.dataset}</span>
+          </Col>
+          <Col xs={12} sm={12} md={5} lg={5} style={useStyles.cardData}>
+            <span>{props.connector}</span>
+          </Col>
+          <Col xs={12} sm={12} md={3} lg={3} style={useStyles.cardData}>
+            <span>{props.active}</span>
+          </Col>
+        </Row>
+      */}
         {isshowbutton?<Row style={useStyles.marginrowtop}>
           <Col xs={12} sm={12} md={6} lg={6}>
             <Button onClick={() => history.push('/datahub/participants/edit/'+props.id)} variant="outlined" style={useStyles.btncolor}>
               <img
                 src={require('../../Assets/Img/edit.svg')}
                 alt="new"
-              />&nbsp;Edit
+              />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit
             </Button>
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
