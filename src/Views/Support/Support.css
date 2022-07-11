@@ -38,3 +38,6 @@ button.enabledatesubmitbtn:hover{background-color: #C09507 !important;}
 .supportcardfromdate .MuiTextField-root{background: #F1F1F1;}
 .supportcardtodate .MuiTextField-root{background: #F1F1F1;}
 .supportfirstmaindiv{margin-left: 70px;margin-right: 70px;background: #FCFCFC;}
+.supportViewDetailsback{margin-left: 14px;font-weight: 400;font-size: 14px; color: #3491EE;}
+.supportViewDetailsbackimage{margin-left: 94px;margin-top: 54px;text-align: left;}
+.supportViewDeatilsSecondRow{border: 1px solid rgba(238, 238, 238, 0.5);margin-top:23px;}

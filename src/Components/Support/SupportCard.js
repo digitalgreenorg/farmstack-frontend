@@ -104,7 +104,7 @@ export default function SupportCard(props) {
                 </Row>
                 <Row style={{ "margin-top": "-58px" }}>
                     {!isshowbutton ? <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-                        <Button variant="outlined" style={useStyles.btncolor}>
+                        <Button onClick={()=>props.viewCardDetails()} variant="outlined" style={useStyles.btncolor}>
                             View Details
             </Button>
                     </Col> : <></>}
