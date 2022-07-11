@@ -14,7 +14,7 @@
   border-radius: 2px;
 }
 .bannertitle {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -26,7 +26,7 @@
   color: #3d4a52;
 }
 .dragdroptext {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -54,19 +54,15 @@
 }
 .brandingtitle {
   position: absolute;
-  width: 203px;
+  width: 252px;
   height: 27px;
-  left: 839px;
+  left: 819px;
   top: 197px;
-
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
   line-height: 27px;
-
-  /* headings */
-
   color: #3d4a52;
 }
 .colortitle {
@@ -76,7 +72,7 @@
   left: 839px;
   top: 542px;
 
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -93,7 +89,7 @@
   left: 827px;
   top: 478px;
 
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -110,7 +106,7 @@
   left: 827px;
   top: 1368px;
 
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -148,7 +144,7 @@
   top: 500px;
   color: red !important;
   color: #ff3d00 !important;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -165,7 +161,7 @@
     rgba(101, 106, 203, 0) 41.66%,
     #ffffff 100%
   );
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -210,7 +206,7 @@
   border: 1px solid #c09507 !important;
   border-radius: 2px;
   color: #585d60 !important;
-  font-family: 'Open Sans' !important;
+  font-family: "Open Sans" !important;
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
