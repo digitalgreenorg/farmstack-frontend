@@ -100,9 +100,10 @@ export default function OrganisationSetting(props) {
         //   response.data.organization.org_description.toString("html")
         // );
         console.log("org response", response.data.organization);
-        console.log("country", response.data.organization.address.country);
+        // console.log("country", response.data.organization.address.country);
         if (response.data.organization === "null") {
           setisPost(true);
+          console.log("setispost true");
         } else {
           setorgname(response.data.organization.name);
           // if (response.data.organization.name) {
@@ -166,7 +167,9 @@ export default function OrganisationSetting(props) {
     bodyFormData.append(
       "address",
       JSON.stringify({
-        country: countryvalue,
+        country: {
+          label: countryvalue,
+        },
         pincode: pincode,
         address: address,
         city: city,
@@ -410,6 +413,7 @@ export default function OrganisationSetting(props) {
     ],
   };
   const orgsettingcancelbtn = () => {
+    setorgfile(null);
     getOrgDetails();
   };
 

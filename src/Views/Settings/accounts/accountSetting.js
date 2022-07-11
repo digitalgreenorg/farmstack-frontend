@@ -131,6 +131,7 @@ export default function AccountSetting(props) {
 
   const accountsettingcancelbtn = (e) => {
     // history.push("/datahub/participants/");
+    setFile(null);
     getAccountDetails();
   };
 
