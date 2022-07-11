@@ -153,8 +153,7 @@ function Settings(props) {
             btntext={"ok"}
             heading={"Team Member deleted successfully!"}
             imageText={"Deleted!"}
-            msg={"You deleted a member."}>
-            </Success>
+            msg={"You deleted a member."}></Success>
         ) : (
           <></>
         )}
@@ -165,6 +164,7 @@ function Settings(props) {
               //   setisDelete(false);
               setistabView(true);
               setisAccountUpdateSuccess(false);
+              window.location.reload();
               //   getMemberList();
             }}
             imagename={"success"}

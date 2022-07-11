@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Nav,
   NavLink,
@@ -10,7 +10,47 @@ import {
 import labels from "../../Constants/labels";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import { useHistory } from "react-router-dom";
+import HTTPService from "../../Services/HTTPService";
+import { getUserLocal } from "../../Utils/Common";
+import UrlConstant from "../../Constants/UrlConstants";
+import Avatar from "@mui/material/Avatar";
+import "./Navbar.css";
+import Button from "@mui/material/Button";
+
 const Navbar = (props) => {
+  const [profile, setprofile] = useState(null);
+  const getAccountDetails = async () => {
+    var id = getUserLocal();
+    console.log("user id", id);
+
+    await HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.profile + id + "/",
+      false,
+      false
+    )
+      .then((response) => {
+        console.log(
+          "get request for account settings in navbar",
+          response.data
+        );
+        console.log("picture", response.data.profile_picture);
+        setprofile(response.data.profile_picture);
+        // setphonenumber(response.data.phone_number);
+        // setfirstname(response.data.first_name);
+        // setlastname(response.data.last_name);
+        // setemail(response.data.email);
+        // setFile(response.data.profile_picture);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getAccountDetails();
+  }, [profile]);
+
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   let history = useHistory();
   const handleLogout = (e) => {
@@ -42,15 +82,18 @@ const Navbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.Participants}
           </NavLink>
-          <NavLink to='/datahub/support' activeStyle>
-              <img className="boldimage"
-              src={require('../../Assets/Img/support_bold.svg')}
+          <NavLink to="/datahub/support" activeStyle>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/support_bold.svg")}
               alt="new"
             />
-            <img className="nonboldimage"
-              src={require('../../Assets/Img/support.svg')}
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/support.svg")}
               alt="new"
-            />&nbsp;&nbsp;{screenlabels.navbar.Support}
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.Support}
           </NavLink>
           <NavLink
             to="/datahub/settings"
@@ -74,13 +117,32 @@ const Navbar = (props) => {
           {/* Second Nav */}
           {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
         </NavMenu>
-        <NavBtn onClick={handleLogout}>
-          <NavBtnLink to="/signin">
-            {" "}
-            <img src={require("../../Assets/Img/account.svg")} alt="new" />
-            &nbsp;&nbsp;{screenlabels.navbar.Signout}
-          </NavBtnLink>
-        </NavBtn>
+        {profile ? (
+          <NavBtn onClick={handleLogout}>
+            <Button
+              variant="outlined"
+              // color="secondary"
+              className="signoutbtn-navbar"
+              startIcon={<Avatar src={profile} />}>
+              {screenlabels.navbar.Signout}
+            </Button>
+            {/* <NavBtnLink to="/signin" className="signoutbtn-navbar">
+              <Avatar
+                alt="profile img"
+                src={profile}
+                // sx={{ width: 10, height: 10 }}
+              />
+              &nbsp;&nbsp;{screenlabels.navbar.Signout}
+            </NavBtnLink> */}
+          </NavBtn>
+        ) : (
+          <NavBtn onClick={handleLogout}>
+            <NavBtnLink to="/signin">
+              <img src={require("../../Assets/Img/account.svg")} alt="new" />
+              &nbsp;&nbsp;{screenlabels.navbar.Signout}
+            </NavBtnLink>
+          </NavBtn>
+        )}
       </Nav>
     </>
   );
