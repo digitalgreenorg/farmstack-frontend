@@ -224,7 +224,6 @@ function Settings(props) {
                   </TabPanel>
                   <TabPanel value="3">
                       <PolicySettings/>
-
                   </TabPanel>
                   <TabPanel value="4">
                     <Row>
