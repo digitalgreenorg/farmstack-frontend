@@ -4,12 +4,14 @@ import styled from 'styled-components';
 
 export const Nav = styled.nav`
 background: #ffffff;
-height: 60px;
+height: 70px;
+max-width: 1440px;
+padding-top: 25px;
 display: flex;
 justify-content: space-between;
 border: 1px solid #F1F1F1;
 // padding: 0.1rem calc((100vw - 1000px) / 2);
-padding: 0px 60px;
+padding: 0px 70px;
 z-index: 12;
 /* Third Nav */
 /* justify-content: flex-start; */
@@ -20,12 +22,19 @@ color: #808080;
 display: flex;
 align-items: center;
 text-decoration: none;
-padding: 0 2rem;
+margin-left: 29px;
+/*margin-bottom: -5px;*/
+/*margin-top: 25px;*/
+margin-right: 29px;
+padding: 0px;
 height: 100%;
 cursor: pointer;
 &.active {
-    color: #3D4A52;
-	border-bottom: 3px solid #c09507;
+	border-bottom: 8px solid #c09507;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	color: #3D4A52;
+
 }
 &.active > .boldimage {
 	display: block;
@@ -37,6 +46,17 @@ cursor: pointer;
     text-decoration: none;
     color: #c09507;
 }
+
+font-family: 'Open Sans';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 138.69%;
+/* or 19px */
+
+/* headings */
+color: #A3B0B8;
+
 `;
 
 export const Bars = styled(FaBars)`
@@ -70,7 +90,7 @@ white-space: nowrap; */
 export const NavBtn = styled.nav`
 display: flex;
 align-items: center;
-margin-right: 24px;
+margin-right: 0px;
 /* Third Nav */
 /* justify-content: flex-end;
 width: 100vw; */
@@ -97,4 +117,14 @@ margin-left: 24px;
     text-decoration: none;
     color: #c09507;
 }
+
+font-family: 'Open Sans';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 138.69%;
+/* or 19px */
+
+
+color: #D8AF28;
 `;

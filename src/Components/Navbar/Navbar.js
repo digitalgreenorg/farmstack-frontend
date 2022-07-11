@@ -26,7 +26,7 @@ const Navbar = (props) => {
         <img
           src={require("../../Assets/Img/farmstack.jpg")}
           alt="new"
-          style={{ width: "150px", height: "24px", "margin-top": "15px" }}
+          style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
         />
         <NavMenu>
           <NavLink to="/datahub/participants" activeStyle>
@@ -77,7 +77,7 @@ const Navbar = (props) => {
         <NavBtn onClick={handleLogout}>
           <NavBtnLink to="/signin">
             {" "}
-            <img src={require("../../Assets/Img/account.svg")} alt="new" />
+            <img src={require("../../Assets/Img/account.svg")} style={{width: '20px', height: '20px'}} alt="new" />
             &nbsp;&nbsp;{screenlabels.navbar.Signout}
           </NavBtnLink>
         </NavBtn>
