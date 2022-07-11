@@ -44,6 +44,11 @@
   color: #000000;
 
   opacity: 0.5;
+  
+}
+
+.MuiFilledInput-root .MuiFilledInput-underline .MuiInputBase-root .MuiInputBase-colorPrimary .Mui-disabled{
+  border-bottom-style: 1px solid #9AA1A9 !important
 }
 .profilenumber {
   position: absolute;
@@ -64,7 +69,13 @@
   border-radius: 2px;
   background-color: #c09507 !important;
   text-transform: capitalize !important;
+  box-shadow: done;
 }
+
+.profilebtn:hover {
+  background-color: #ab8405 !important;
+}
+
 .disableprofilebtn {
   box-sizing: border-box;
   position: absolute;
