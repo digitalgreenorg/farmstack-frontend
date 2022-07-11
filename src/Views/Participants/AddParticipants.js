@@ -17,7 +17,7 @@ import { validateInputField } from '../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
-    marginrowtop8px: { "margin-top": "8px" },
+    marginrowtop8px: { "margin-top": "0px" },
 };
 function AddParticipants(props) {
     const history = useHistory();
@@ -67,7 +67,7 @@ function AddParticipants(props) {
     return (
         <>
             <Container style={useStyles.marginrowtop}>
-                {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Participant Added Successfully!!"} imageText={"Added"} msg={"You Addeda a Participant"}></Success> : <><ParticipantForm
+                {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Participant added successfully !"} imageText={"Added"} msg={"You added a participant."}></Success> : <><ParticipantForm
                     organisationname={organisationname}
                     setorganisationname={ref => { setorganisationname(ref) }}
                     orginsationemail={orginsationemail}
