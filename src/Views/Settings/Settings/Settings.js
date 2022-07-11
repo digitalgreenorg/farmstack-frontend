@@ -17,8 +17,12 @@ import Tab from "@mui/material/Tab";
 import { TabContext } from "@mui/lab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import Button from "@mui/material/Button";
 import AccountSetting from "../accounts/accountSetting";
+import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
+import BrandingSetting from "../branding/BrandingSetting";
+
 const useStyles = {
   btncolor: {
     color: "white",
@@ -51,7 +55,12 @@ function Settings(props) {
   const [teamMemberId, setteamMemberId] = useState("");
   const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
   const [isAccountUpdateSuccess, setisAccountUpdateSuccess] = useState(false);
+  const [isOrgUpdateSuccess, setisOrgUpdateSuccess] = useState(false);
   const [value, setValue] = React.useState("1");
+  const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
+  const [memberUrl, setMemberUrl] = useState(
+    UrlConstants.base_url + UrlConstants.team_member
+  );
   const { id } = useParams();
 
   const history = useHistory();
@@ -63,16 +72,21 @@ function Settings(props) {
       setValue(1);
     }
   }, []);
+
   const getMemberList = () => {
-    HTTPService(
-      "GET",
-      UrlConstants.base_url + UrlConstants.team_member,
-      false,
-      false
-    )
+    HTTPService("GET", memberUrl, "", false, false)
       .then((response) => {
         console.log("otp valid", response.data);
-        setteamMemberList(response.data.results);
+
+        if (response.data.next == null) {
+          setisShowLoadMoreButton(false);
+        } else {
+          setisShowLoadMoreButton(true);
+          setMemberUrl(response.data.next);
+        }
+        let dataList = teamMemberList;
+        let finalDataList = [...dataList, ...response.data.results];
+        setteamMemberList(finalDataList);
       })
       .catch((e) => {
         console.log(e);
@@ -120,7 +134,9 @@ function Settings(props) {
             }}
             heading={screenlabels.settings.delete_member}
             imageText={screenlabels.settings.delete_msg}
-            msg={screenlabels.settings.second_delete_msg}></Delete>
+            msg={screenlabels.settings.second_delete_msg}
+            firstmsg={screenlabels.viewparticipants.second_delete_msg}
+            secondmsg={screenlabels.viewparticipants.third_delete_msg}></Delete>
         ) : (
           <></>
         )}
@@ -137,7 +153,8 @@ function Settings(props) {
             btntext={"ok"}
             heading={"Team Member deleted successfully!"}
             imageText={"Deleted!"}
-            msg={"You deleted a member."}></Success>
+            msg={"You deleted a member."}>
+            </Success>
         ) : (
           <></>
         )}
@@ -155,6 +172,23 @@ function Settings(props) {
             heading={"Account Settings updated successfully !"}
             imageText={"Success!"}
             msg={"Your account settings are updated."}></Success>
+        ) : (
+          <></>
+        )}
+        {isOrgUpdateSuccess ? (
+          <Success
+            okevent={() => {
+              //   setteamMemberId("");
+              //   setisDelete(false);
+              setistabView(true);
+              setisOrgUpdateSuccess(false);
+              //   getMemberList();
+            }}
+            imagename={"success"}
+            btntext={"ok"}
+            heading={"Organisation details updated successfully !"}
+            imageText={"Success!"}
+            msg={"Your organisation details are updated."}></Success>
         ) : (
           <></>
         )}
@@ -181,7 +215,14 @@ function Settings(props) {
                       }}
                     />
                   </TabPanel>
-                  <TabPanel value="2"></TabPanel>
+                  <TabPanel value="2">
+                    <OrganisationSetting
+                      setisOrgUpdateSuccess={() => {
+                        setistabView(false);
+                        setisAccountUpdateSuccess(true);
+                      }}
+                    />
+                  </TabPanel>
                   <TabPanel value="3">
                     <Row>
                       <span style={useStyles.teamword}>Team</span>
@@ -228,8 +269,25 @@ function Settings(props) {
                         </Col>
                       ))}
                     </Row>
+                    <Row style={useStyles.marginrowtop}>
+                      <Col xs={12} sm={12} md={6} lg={3}></Col>
+                      {isShowLoadMoreButton ? (
+                        <Col xs={12} sm={12} md={6} lg={6}>
+                          <Button
+                            onClick={() => getMemberList()}
+                            variant="outlined"
+                            className="cancelbtn">
+                            Load More
+                          </Button>
+                        </Col>
+                      ) : (
+                        <></>
+                      )}
+                    </Row>
                   </TabPanel>
-                  <TabPanel value="4"></TabPanel>
+                  <TabPanel value="4">
+                    <BrandingSetting />
+                  </TabPanel>
                 </TabContext>
               </Box>
             </Col>

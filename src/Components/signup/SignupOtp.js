@@ -1,11 +1,15 @@
-import React from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import OtpCountDownTimer from "./OtpCountDownTimer";
+import React from 'react'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import OtpCountDownTimer from './OtpCountDownTimer'
+import './SignupEmail.css'
+import './SignupOTP.css'
+import Footerimg from '../../Components/signup/Footerimg'
 
 export default function SignupOtp(props) {
   return (
     <div>
+      <Footerimg />
       <form noValidate autoComplete="off" onSubmit={props.handleSubmitOtp}>
         <TextField
           type="number"
@@ -13,17 +17,17 @@ export default function SignupOtp(props) {
           inputProps={{ maxLength: 6 }}
           label="Enter 6 Digit OTP"
           variant="filled"
-          className="signupemail "
+          className="signupotp"
           onChange={props.handleOtp}
           inputRef={props.otp}
           error={props.isOtperror || props.isuserSuspenderror}
           helperText={
             // props.isuserSuspenderror ? "user invaliad" : ""
             props.isOtperror
-              ? "Enter vaild OTP"
+              ? 'Enter vaild OTP'
               : props.isuserSuspenderror
-              ? "Maximum attempts taken, please retry after some time"
-              : ""
+              ? 'Maximum attempts taken, please retry after some time'
+              : ''
           }
         />
         <div>
@@ -45,5 +49,5 @@ export default function SignupOtp(props) {
         </div>
       </form>
     </div>
-  );
+  )
 }

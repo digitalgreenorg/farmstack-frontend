@@ -26,11 +26,11 @@ const useStyles = {
     cardData: { "font-weight": "400", "font-size": "14px", color: "#3D4A52" }
 };
 export default function TeamMemberCard(props) {
-    const [isshowbutton, setisshowbutton] = React.useState(true);
+    const [isshowbutton, setisshowbutton] = React.useState(false);
     const history = useHistory();
     return (
 
-        <Card className="particaipancard" style={isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton((prev) => !prev)} onMouseLeave={() => setisshowbutton((prev) => !prev)}>
+        <Card className="particaipancard" style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
             <CardHeader
                 avatar={
                     props.profilepic ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url + props.profilepic} sx={{ width: 54, height: 54 }} /> :
@@ -45,17 +45,17 @@ export default function TeamMemberCard(props) {
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left"}}
             />
             <CardContent>
-                <Row style={{ "margin-left": "-25px" }}>
+                <Row style={{ "margin-left": "-18px", "text-align": "left" }}>
                     <Col xs={12} sm={12} md={6} lg={6} style={useStyles.cardDataHeading}>
                         Role assigned
           </Col>
                 </Row>
-                <Row style={{ "margin-left": "-26px"}}>
+                <Row style={{ "margin-left": "-18px", "text-align": "left"}}>
                     <Col xs={12} sm={12} md={6} lg={6} >
                         <span style={useStyles.cardData}>{props.role==2?'Team Member':'Guest User'}</span>
                     </Col>
                 </Row>
-                {!isshowbutton ? <Row style={useStyles.marginrowtop}>
+                {isshowbutton ? <Row style={useStyles.marginrowtop}>
                     <Col xs={12} sm={12} md={6} lg={6} >
                         <Button onClick={() => history.push('/datahub/settings/editmember/' + props.id)} variant="outlined" style={useStyles.btnPosition}> 
                             <img
@@ -65,7 +65,9 @@ export default function TeamMemberCard(props) {
             </Button>
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => props.deleteTeamMember(props.id)} variant="outlined" style={useStyles.btncolor}>
+                        <Button onClick={() => props.deleteTeamMember(props.id)} 
+                        variant="outlined" 
+                        style={useStyles.btncolor} >
                         <img
                                 src={require('../../../Assets/Img/button_delete.svg')}
                                 alt="new"

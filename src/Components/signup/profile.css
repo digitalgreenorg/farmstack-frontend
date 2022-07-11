@@ -2,9 +2,9 @@
   position: absolute;
   width: 141px;
   height: 27px;
-  left: 834px;
-  top: 147px;
-  font-family: "Open Sans";
+  left: 839px;
+  top: 197px;
+  font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -15,8 +15,8 @@
   position: absolute;
   width: 420px;
   height: 48px;
-  left: 842px;
-  top: 205px;
+  left: 839px;
+  top: 254px;
   border-radius: 2px;
 }
 .profilelastname {
@@ -24,7 +24,7 @@
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 295px;
+  top: 332px;
   border-radius: 2px;
 }
 .profileemail {
@@ -32,15 +32,30 @@
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 385px;
+  top: 410px;
   border-radius: 2px;
+
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: #000000;
+
+  opacity: 0.5;
+  
+}
+
+.MuiFilledInput-root .MuiFilledInput-underline .MuiInputBase-root .MuiInputBase-colorPrimary .Mui-disabled{
+  border-bottom-style: 1px solid #9AA1A9 !important
 }
 .profilenumber {
   position: absolute;
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 475px;
+  top: 488px;
   border-radius: 2px;
 }
 .profilebtn {
@@ -53,7 +68,14 @@
   border: 1px solid #c09507 !important;
   border-radius: 2px;
   background-color: #c09507 !important;
+  text-transform: capitalize !important;
+  box-shadow: done;
 }
+
+.profilebtn:hover {
+  background-color: #ab8405 !important;
+}
+
 .disableprofilebtn {
   box-sizing: border-box;
   position: absolute;
@@ -65,25 +87,39 @@
   opacity: 0.5;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
+
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  /* identical to box height */
+
+  color: #585d60 !important;
+  text-transform: capitalize !important;
 }
 .finishlaterbtn {
   position: absolute;
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 465px;
+  top: 464px;
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
 
-  font-family: "Open Sans" !important;
+  font-family: 'Open Sans';
   font-style: normal;
-  font-weight: 700 !important;
-  font-size: 14px !important;
+  font-weight: 700;
+  font-size: 14px;
   line-height: 19px;
   /* identical to box height */
 
   text-align: center;
+  text-transform: capitalize !important;
 
   color: #585d60 !important;
+}
+css-1xab92c-MuiInputBase-root-MuiFilledInput-root:focus {
+  border-bottom-color: rgba(0, 0, 0, 0.42);
 }

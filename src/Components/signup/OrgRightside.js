@@ -1,29 +1,32 @@
-import React, { useState, useRef, useMemo } from "react";
-import "./OrgRightside.css";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import React, { useState, useRef, useMemo } from 'react'
+import './OrgRightside.css'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 // import Select from "@mui/material/Select";
 
-import MuiPhoneNumber from "material-ui-phone-number";
+import MuiPhoneNumber from 'material-ui-phone-number'
 
-import Select from "react-select";
-import countryList from "react-select-country-list";
-import { grey } from "@mui/material/colors";
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
+import { grey } from '@mui/material/colors'
 
 // import { DefaultEditor } from "react-simple-wysiwyg";
 
 // import { Editor } from "react-draft-wysiwyg";
 // import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-import RichTextEditor from "react-rte";
+import RichTextEditor from 'react-rte'
 
-import validator from "validator";
+import validator from 'validator'
 
-import { FileUploader } from "react-drag-drop-files";
-import UploadOrgLogo from "./UploadOrgLogo";
+import { FileUploader } from 'react-drag-drop-files'
+import UploadOrgLogo from './UploadOrgLogo'
 
-import HTTPService from "../../Services/HTTPService";
-import UrlConstant from "../../Constants/UrlConstants";
+import HTTPService from '../../Services/HTTPService'
+import UrlConstant from '../../Constants/UrlConstants'
+import { handleAddressCharacters, validateInputField } from '../../Utils/Common'
+import RegexConstants from '../../Constants/RegexConstants'
+import { Autocomplete } from '@mui/material'
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -34,14 +37,14 @@ export default function OrgRightside(props) {
   // const [ispincodeerror, setispincodeerror] = useState(false);
   // const [countryvalue, setcountryvalue] = useState("");
   // // const [orgdeserror, serorgdeserror] = useState(false);
-  const [orgdesc, setorgdesc] = useState("");
+  const [orgdesc, setorgdesc] = useState('')
   const [editorValue, setEditorValue] = React.useState(
-    RichTextEditor.createValueFromString(orgdesc, "html")
-  );
+    RichTextEditor.createValueFromString(orgdesc, 'html'),
+  )
 
   // const [validOrgNumber, setValidOrgnumber] = useState("");
 
-  const options = useMemo(() => countryList().getData(), []);
+  const options = useMemo(() => countryList().getData(), [])
 
   // // const [Orgnextbutton, setOrgnextbutton] = useState(false);
 
@@ -53,7 +56,7 @@ export default function OrgRightside(props) {
   // const Orgcity = useRef();
   // const pincode = useRef();
 
-  const fileTypes = ["JPEG", "PNG", "jpg"];
+  const fileTypes = ['JPEG', 'PNG', 'jpg']
 
   // const [Orgnamebtn, setOrgnamebtn] = useState(false);
   // const [Orgemailbtn, setOrgemailbtn] = useState(false);
@@ -61,20 +64,20 @@ export default function OrgRightside(props) {
   // const [Orgcitybtn, setOrgcitybtn] = useState(false);
   // const [Orgcountrybtn, setOrgcountrybtn] = useState(false);
   // const [Orgpincodebtn, setOrgpincodebtn] = useState(false);
-  const [Orgdesbtn, setOrgdesbtn] = useState(false);
+  const [Orgdesbtn, setOrgdesbtn] = useState(false)
 
   const handleOrgDesChange = (value) => {
-    setEditorValue(value);
-    setorgdesc(value.toString("html"));
-    console.log(value.toString("html"));
+    setEditorValue(value)
+    setorgdesc(value.toString('html'))
+    console.log(value.toString('html'))
     // console.log(value.length);
-    if (value.toString("html") !== "<p><br></p>") {
-      setOrgdesbtn(true);
+    if (value.toString('html') !== '<p><br></p>') {
+      setOrgdesbtn(true)
     } else {
-      setOrgdesbtn(false);
+      setOrgdesbtn(false)
     }
-    props.textEditorData(value.toString("html"));
-  };
+    props.textEditorData(value.toString('html'))
+  }
 
   // const handleOrgSubmit = async (e) => {
   //   e.preventDefault();
@@ -298,28 +301,28 @@ export default function OrgRightside(props) {
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
     display: [
-      "INLINE_STYLE_BUTTONS",
-      "BLOCK_TYPE_BUTTONS",
+      'INLINE_STYLE_BUTTONS',
+      'BLOCK_TYPE_BUTTONS',
       //   "LINK_BUTTONS",
-      "BLOCK_TYPE_DROPDOWN",
+      'BLOCK_TYPE_DROPDOWN',
       //   "HISTORY_BUTTONS",
     ],
     INLINE_STYLE_BUTTONS: [
-      { label: "Bold", style: "BOLD", className: "custom-css-class" },
-      { label: "Italic", style: "ITALIC" },
-      { label: "Underline", style: "UNDERLINE" },
+      { label: 'Bold', style: 'BOLD', className: 'custom-css-class' },
+      { label: 'Italic', style: 'ITALIC' },
+      { label: 'Underline', style: 'UNDERLINE' },
     ],
     BLOCK_TYPE_DROPDOWN: [
-      { label: "Normal", style: "unstyled" },
-      { label: "Heading Large", style: "header-one" },
-      { label: "Heading Medium", style: "header-two" },
-      { label: "Heading Small", style: "header-three" },
+      { label: 'Normal', style: 'unstyled' },
+      { label: 'Heading Large', style: 'header-one' },
+      { label: 'Heading Medium', style: 'header-two' },
+      { label: 'Heading Small', style: 'header-three' },
     ],
     BLOCK_TYPE_BUTTONS: [
-      { label: "UL", style: "unordered-list-item" },
-      { label: "OL", style: "ordered-list-item" },
+      { label: 'UL', style: 'unordered-list-item' },
+      { label: 'OL', style: 'ordered-list-item' },
     ],
-  };
+  }
 
   // const handleorgFileChange = (file) => {
   //   // var finalFiles = file.target.files;
@@ -338,7 +341,7 @@ export default function OrgRightside(props) {
 
   return (
     <div className="orgright">
-      <div className="orgheader">Organization details</div>
+      <div className="orgheader">Organization Details</div>
       <div>
         <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
           <div className="orgname">
@@ -347,12 +350,25 @@ export default function OrgRightside(props) {
               id="filled-basic"
               label="Organization Name"
               variant="filled"
-              style={{ width: "420px" }}
+              style={{ width: '420px' }}
               //   className="profilefirstname"
-              onChange={props.handleOrgname}
-              inputRef={props.Orgname}
+              value={props.orgName}
+              onKeyUp={() =>
+                props.orgName === ''
+                  ? props.setisOrgnameerror(true)
+                  : props.setisOrgnameerror(false)
+              }
+              onChange={(e) =>
+                validateInputField(
+                  e.target.value,
+                  RegexConstants.ORG_NAME_REGEX,
+                )
+                  ? props.setOrgName(e.target.value)
+                  : e.preventDefault()
+              }
+              // inputRef={props.Orgname}
               error={props.isOrgnameerror}
-              helperText={props.isOrgnameerror ? "Enter Name" : ""}
+              helperText={props.isOrgnameerror ? 'Enter Name' : ''}
             />
           </div>
           <div className="orgemail">
@@ -362,18 +378,26 @@ export default function OrgRightside(props) {
               id="filled-basic"
               label="Organization Mail ID"
               variant="filled"
-              style={{ width: "420px" }}
+              style={{ width: '420px' }}
               //   className="profilelastname"
+              // value={props.orgEmail}
+              // onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setOrgEmail(e.target.value.trim()) : e.preventDefault()}
               onChange={props.handleOrgmail}
               inputRef={props.Orgmail}
-              error={props.isOrgmailerror}
-              helperText={props.isOrgmailerror ? "Enter Valid Email id" : ""}
+              error={props.isOrgmailerror || props.isExistingOrgEmail}
+              helperText={
+                props.isOrgmailerror
+                  ? 'Enter Valid Email id'
+                  : props.isExistingOrgEmail
+                  ? 'Organization already registered'
+                  : ''
+              }
             />
           </div>
           <div className="orgnumber">
             <MuiPhoneNumber
-              defaultCountry={"in"}
-              style={{ width: "420px" }}
+              defaultCountry={'in'}
+              style={{ width: '420px' }}
               id="filled-basic"
               label="Organization Contact Number"
               variant="filled"
@@ -389,12 +413,20 @@ export default function OrgRightside(props) {
               id="filled-basic"
               label="Address"
               variant="filled"
-              style={{ width: "420px" }}
+              style={{ width: '420px' }}
               //   className="profileemail"
-              onChange={props.handleOrgAddress}
-              inputRef={props.OrgAddress}
+              value={props.orgAddress}
+              onKeyDown={(e) => handleAddressCharacters(props.orgAddress, e)}
+              onKeyUp={() =>
+                props.orgAddress === ''
+                  ? props.setisOrgAddresserror(true)
+                  : props.setisOrgAddresserror(false)
+              }
+              onChange={(e) => props.setOrgAddress(e.target.value)}
+              // onChange={props.handleOrgAddress}
+              // inputRef={props.OrgAddress}
               error={props.isOrgAddresserror}
-              helperText={props.isOrgAddresserror ? "Enter Valid Address" : ""}
+              helperText={props.isOrgAddresserror ? 'Enter Valid Address' : ''}
             />
           </div>
           <div className="orgcity">
@@ -403,24 +435,49 @@ export default function OrgRightside(props) {
               id="filled-basic"
               label="City"
               variant="filled"
-              style={{ width: "420px" }}
+              style={{ width: '420px' }}
               //   className="profileemail"
-              onChange={props.handleOrgcity}
-              inputRef={props.Orgcity}
+              value={props.orgCity}
+              onKeyUp={() =>
+                props.orgCity === ''
+                  ? props.setisOrgcityerror(true)
+                  : props.setisOrgcityerror(false)
+              }
+              onChange={(e) =>
+                validateInputField(e.target.value, RegexConstants.TEXT_REGEX)
+                  ? props.setOrgCity(e.target.value)
+                  : e.preventDefault()
+              }
+              // onChange={props.handleOrgcity}
+              // inputRef={props.Orgcity}
               error={props.isOrgcityerror}
-              helperText={props.isOrgcityerror ? "Enter Valid City" : ""}
+              helperText={props.isOrgcityerror ? 'Enter Valid City' : ''}
             />
           </div>
           <div className="orgcountry">
+            {
             <Select
               required
               options={options}
               value={props.countryvalue}
               onChange={props.countrychangeHandler}
               isSearchable={true}
-              style={{ width: "420px", zIndex: 4, backgroundColor: grey }}
-              placeholder="Select Country"
+              style={{ width: '420px'}}
+              placeholder="Country"
             />
+            }
+            {/*
+            <Autocomplete
+              disablePortal
+              variant="filled"
+              id="filled-basic"
+              options={options}
+              sx={{ width: '420px', 'font-family': 'Open Sans', 'font-style': 'normal';
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 19px; }}
+              renderInput={(params) => <TextField variant='filled' {...params} label="Country" />}
+          />*/}
           </div>
           <div className="orgpincode">
             <TextField
@@ -430,11 +487,22 @@ export default function OrgRightside(props) {
               //   inputProps={{ maxLength: 6 }}
               label="Pin Code"
               variant="filled"
-              style={{ width: "420px", zIndex: 0 }}
-              onChange={props.handlepincode}
-              inputRef={props.pincode}
+              style={{ width: '420px', zIndex: 0 }}
+              value={props.orgPincode}
+              onKeyUp={() =>
+                props.orgPincode == ''
+                  ? props.setispincodeerror(true)
+                  : props.setispincodeerror(false)
+              }
+              onChange={(e) =>
+                validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
+                  ? props.setOrgPincode(e.target.value.trim())
+                  : e.preventDefault()
+              }
+              // onChange={props.handlepincode}
+              // inputRef={props.pincode}
               error={props.ispincodeerror}
-              helperText={props.ispincodeerror ? "Enter vaild pin code" : ""}
+              helperText={props.ispincodeerror ? 'Enter vaild pin code' : ''}
             />
           </div>
           <div className="orgdes">
@@ -481,7 +549,7 @@ export default function OrgRightside(props) {
               style={{
                 minHeight: 410,
                 width: 420,
-                border: "1px solid black",
+                border: '1px solid black',
                 zIndex: 4,
               }}
             />
@@ -532,25 +600,30 @@ export default function OrgRightside(props) {
               {props.orgfile
                 ? props.orgfile.size
                   ? `File name: ${props.orgfile.name}`
-                  : ""
-                : "No file uploaded yet"}
+                  : ''
+                : 'No file uploaded yet'}
             </p>
             <p className="oversizemb">
               {props.orgfile != null && props.orgfile.size > 2097152
-                ? "File uploaded is more than 2MB!"
-                : ""}
+                ? 'File uploaded is more than 2MB!'
+                : ''}
             </p>
           </div>
           <div>
             {/* <Button variant="contained" className="orgbtn" type="submit">
               <span className="signupbtnname">Next</span>
             </Button> */}
-            {props.Orgnamebtn &&
+            {props.orgName &&
+            !props.isOrgnameerror &&
             props.Orgemailbtn &&
-            props.Orgaddressbtn &&
-            props.Orgcitybtn &&
+            !props.isOrgmailerror &&
+            props.orgAddress &&
+            !props.isOrgAddresserror &&
+            props.orgCity &&
+            !props.isOrgcityerror &&
             props.Orgcountrybtn &&
-            props.Orgpincodebtn &&
+            props.orgPincode &&
+            !props.ispincodeerror &&
             Orgdesbtn &&
             props.orgfile ? (
               <Button variant="contained" className="orgbtn" type="submit">
@@ -567,12 +640,54 @@ export default function OrgRightside(props) {
               variant="outlined"
               className="finishlaterorgbtn"
               type="button"
-              onClick={props.finishLaterOrgScreen}>
+              onClick={props.finishLaterOrgScreen}
+            >
               Finish Later
             </Button>
           </div>
         </form>
       </div>
+      <div className="footerimg1">
+        <svg
+          width={150}
+          height={127}
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g opacity={0.1} fill="#E7B100">
+            <circle cx={5.814} cy={5.728} r={5.728} />
+            <circle cx={40.181} cy={5.728} r={5.728} />
+            <circle cx={74.547} cy={5.728} r={5.728} />
+            <circle cx={108.914} cy={5.728} r={5.728} />
+            <circle cx={143.28} cy={5.728} r={5.728} />
+            <circle cx={5.814} cy={28.631} r={5.728} />
+            <circle cx={40.181} cy={28.631} r={5.728} />
+            <circle cx={74.547} cy={28.631} r={5.728} />
+            <circle cx={108.914} cy={28.631} r={5.728} />
+            <circle cx={143.28} cy={28.631} r={5.728} />
+            <circle cx={5.814} cy={51.549} r={5.728} />
+            <circle cx={40.181} cy={51.549} r={5.728} />
+            <circle cx={74.547} cy={51.549} r={5.728} />
+            <circle cx={108.914} cy={51.549} r={5.728} />
+            <circle cx={143.28} cy={51.549} r={5.728} />
+            <circle cx={5.814} cy={74.461} r={5.728} />
+            <circle cx={40.181} cy={74.461} r={5.728} />
+            <circle cx={74.547} cy={74.461} r={5.728} />
+            <circle cx={108.914} cy={74.461} r={5.728} />
+            <circle cx={143.28} cy={74.461} r={5.728} />
+            <circle cx={5.814} cy={97.365} r={5.728} />
+            <circle cx={40.181} cy={97.365} r={5.728} />
+            <circle cx={74.547} cy={97.365} r={5.728} />
+            <circle cx={108.914} cy={97.365} r={5.728} />
+            <circle cx={143.28} cy={97.365} r={5.728} />
+            <circle cx={5.814} cy={120.282} r={5.728} />
+            <circle cx={40.181} cy={120.282} r={5.728} />
+            <circle cx={74.547} cy={120.282} r={5.728} />
+            <circle cx={108.914} cy={120.282} r={5.728} />
+            <circle cx={143.28} cy={120.282} r={5.728} />
+          </g>
+        </svg>
+      </div>
     </div>
-  );
+  )
 }
