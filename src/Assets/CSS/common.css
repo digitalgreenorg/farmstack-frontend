@@ -32,7 +32,7 @@ button.cancelbtn {
   background: #ffffff !important;
   width: 420px !important;
   height: 42px;
-  margin-top: 30px;
+  margin-top: 20px;
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   margin-bottom: 50px;
@@ -74,11 +74,11 @@ button.submitbtn {
   background: #c09507;
   border-radius: 2px;
   border: 2px solid #c09507 !important;
-  box-shadow: none;
+  box-shadow: none !important;
 }
-button.submitbtn:hover {
+/* button.submitbtn:hover {
   background-color: #ab8405 !important;
-}
+} */
 .width100percent {
   width: 100%;
 }
@@ -206,6 +206,8 @@ font-style: normal;
   text-transform: capitalize !important;
   background: #c09507;
   width: 200px;
+  height: 42px;
+  font-weight: 400;
 }
 .settingsTabs .MuiTabs-indicator {
   background: #c09507 !important;
@@ -392,4 +394,11 @@ button.submitbtnupdt {
   /* headings */
 
   color: #3D4A52;
+}
+.tabstyle{
+  width: 109px;
+  height: 19px;
+  font-family: "Open Sans" !important;
+  font-size: 14px;
+  font-weight: 400;
 }

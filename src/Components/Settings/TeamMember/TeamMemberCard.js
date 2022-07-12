@@ -43,7 +43,7 @@ export default function TeamMemberCard(props) {
                 title={props.mainheading}
                 subheader={props.subheading}
                 style={{ "background-color": "#F4F4F4", padding: "9px", height: "84px", "text-align": "left", 'font-family': 'Open Sans',
-        'font-style': 'normal', 'font-weight': 400, 'font-size': '14px' ,'line-height': '19px' ,'color': '#3D4A52'}}
+                'font-style': 'normal', 'font-weight': 400, 'font-size': '14px' ,'line-height': '19px' ,'color': '#3D4A52'}}
             />
             <CardContent>
                 <Row style={{ "margin-left": "-18px", "text-align": "left"}}>

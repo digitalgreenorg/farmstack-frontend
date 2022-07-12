@@ -42,10 +42,11 @@ const useStyles = {
     color: "black",
   },
   marginrowtop: { "margin-top": "20px" },
-  marginrowtop50px: { "margin-top": "50px" },
-  marginrowtop10px: { "margin-top": "10px", "box-shadow": "none" },
+  marginrowtop50px: { "margin-top": "20px" },
+  marginrowtop10px: { "margin-top": "20px"},
+  marginrowtopscreen10px: { "margin-top": "10px"},
   teamword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "font-style": "normal", "font-family": "Open Sans"},
-  margintab: {"width": "200px", "height": "42px", "border": "1px solid #D8AF28", "border-radius": "2px 0px 0px 0px;"}
+  background: { "padding-top": "50px", "margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "110px", "padding-right": "110px"},
 };
 
 function Settings(props) {
@@ -119,8 +120,8 @@ function Settings(props) {
     setValue(newValue);
   };
   return (
-    <>
-      <Container style={useStyles.marginrowtop}>
+    <div style={useStyles.background}>
+      <Container style={useStyles.marginrowtopscreen10px}>
         {isDelete ? (
           <Delete
             route={"login"}
@@ -197,7 +198,7 @@ function Settings(props) {
           <Row style={useStyles.marginrowtop50px}>
             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
               <Box>
-                <TabContext value={value}>
+                <TabContext value={value} className="tabstyle">
                   <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
                     <TabList
                       onChange={handleChange}
@@ -230,7 +231,7 @@ function Settings(props) {
                     <Row>
                       <span style={useStyles.teamword}>Team</span>
                     </Row>
-                    <Row style={useStyles.marginrowtop10px}>
+                    <Row>
                       <Col
                         xs={12}
                         sm={6}
@@ -297,7 +298,7 @@ function Settings(props) {
           <></>
         )}
       </Container>
-    </>
+    </div>
   );
 }
 export default Settings;
