@@ -43,7 +43,7 @@ export default function SupportCard(props) {
         <Card className={props.margingtop} style={isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(false)} onMouseLeave={() => setisshowbutton(true)}>
             <CardHeader
                 avatar={
-                    props.data.organization.hero_image ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url + props.data.organization.hero_image} sx={{ width: 54, height: 54 }} /> :
+                    props.data.organization.logo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.data.organization.logo} sx={{ width: 54, height: 54 }} /> :
                         <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.data.subject.charAt(0)}</Avatar>
                 }
                 title={props.data.subject}

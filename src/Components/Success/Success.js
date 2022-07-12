@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
     marginrowtop: {"margin-top": "20px"},
+    marginrowtop50px: {"margin-top": "50px"},
     headingbold:{fontWeight: "bold"},
     headingcolorbold:{fontWeight: "bold",color: THEME_COLORS.THEME_COLOR}
 };
@@ -15,7 +16,7 @@ export default function Success(props) {
     const history = useHistory();
     return (
         <>
-            <Row style={useStyles.marginrowtop}>
+            <Row style={useStyles.marginrowtop50px}>
                 <Col xs={12} sm={12} md={12} lg={12} >
                     <span className="mainheadingsuccess">
                         {props.heading}

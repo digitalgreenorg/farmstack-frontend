@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import ParticipantsCards from '../../Components/Participants/ParticipantsCards'
-import AddCard from '../../Components/AddCard/AddCard'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Container from 'react-bootstrap/Container';
 import labels from '../../Constants/labels';
 import Button from "@mui/material/Button";
-import THEME_COLORS from '../../Constants/ColorConstants'
 import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 import HTTPService from '../../Services/HTTPService'
 import './Support.css'
 import FilterRow from '../../Components/Support/FilterRow'
 import SupportCard from '../../Components/Support/SupportCard'
+import UploadProfileimg from '../../Components/Settings/accounts/UploadProfileimg'
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -20,12 +17,24 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import MenuItem from '@mui/material/MenuItem';
 import $ from 'jquery';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
+import { FileUploader } from "react-drag-drop-files";
+import Success from '../../Components/Success/Success'
+import FileSaver from 'file-saver';
+import Avatar from '@mui/material/Avatar';
+import { handleUnwantedSpace } from '../../Utils/Common';
 function Support(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [supportList, setsupportList] = useState([]);
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
     const [secondrow, setsecondrow] = useState(false);
     const [supportUrl, setsupportUrl] = useState("");
+    const [status, setstatus] = useState("open");
+    const [reply, setreply] = useState("");
+    const [id, setid] = useState("");
+    const [finalPayload, setfinalPayload] = useState("");
+    const fileTypes = ["PDF", "DOC"];
+    const [file, setFile] = useState(null);
+    const [accfilesize, setaccfilesize] = useState(false);
     var payload = ""
     const [filterObject, setfilterObject] = useState(
         {
@@ -46,15 +55,19 @@ function Support(props) {
     const [todate, settodate] = React.useState(null);
     const [rowdata, setrowdata] = React.useState("");
     const [isShowViewDetails, setisShowViewDetails] = useState(false);
+    const [isShowSupport, setisShowSupport] = useState(true);
+    const [isShowUpdated, setisShowUpdated] = useState(false);
+    const [callGetSupport, setcallGetSupport] = useState(false);
+
     useEffect(() => {
         setTimeout(() => {
             $(".supportcardfromdate input.MuiInputBase-input").attr("disabled", "disabled");
             $(".supportcardtodate input.MuiInputBase-input").attr("disabled", "disabled");
         }, 100)
-
-        getSupportList()
+        getSupportList("")
     }, []);
-    const getSupportList = () => {
+    const getSupportList = (payload) => {
+        setfinalPayload(payload)
         HTTPService('POST', UrlConstants.base_url + UrlConstants.support, payload, false, false).then((response) => {
             console.log("otp valid", response.data);
             if (response.data.next == null) {
@@ -69,7 +82,7 @@ function Support(props) {
         });
     };
     const loadMoreSupportList = () => {
-        HTTPService('POST', supportUrl, payload, false, false).then((response) => {
+        HTTPService('POST', supportUrl, finalPayload, false, false).then((response) => {
             console.log("otp valid", response.data);
             if (response.data.next == null) {
                 setisShowLoadMoreButton(false)
@@ -101,7 +114,7 @@ function Support(props) {
             setsecondrow(false)
             settodate(null)
             setfromdate(null);
-            getSupportList()
+            getSupportList(payload)
         }
     }
     const filterByDates = () => {
@@ -115,13 +128,28 @@ function Support(props) {
         data['updated_at__range'] = fromDateandToDate
         payload = data;
         setsecondrow(true)
-        getSupportList()
+        getSupportList(payload)
     }
 
     const viewCardDetails = (data) => {
         console.log("fff", data)
         setrowdata(data)
+        setid(data.id)
+        setisShowSupport(false)
+        setisShowViewDetails(true)
+        setisShowUpdated(false)
+    }
+    const showSuppport = () => {
+        setisShowSupport(true)
         setisShowViewDetails(false)
+        setisShowUpdated(false)
+        setFile(null)
+        setstatus("open")
+        setreply("")
+        if (callGetSupport) {
+            setcallGetSupport(false)
+            getSupportList(finalPayload)
+        }
     }
     const dateTimeFormat = (datetime) => {
         const today = new Date(datetime);
@@ -134,9 +162,49 @@ function Support(props) {
         let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
         return format
     }
+    const handleRsolutionFileChange = (file) => {
+        setFile(file);
+        // setprofile_pic(file);
+        console.log(file);
+        if (file != null && file.size > 2097152) {
+            //   setBrandingnextbutton(false);
+            setaccfilesize(true);
+        } else {
+            setaccfilesize(false);
+        }
+    };
+    const submitResolution = () => {
+        var bodyFormData = new FormData();
+        bodyFormData.append('status', status);
+        bodyFormData.append('solution_message', reply);
+        if (file) {
+            bodyFormData.append('solution_attachments', file);
+        }
+        HTTPService(
+            "PUT",
+            UrlConstants.base_url + UrlConstants.resolution + id + "/",
+            bodyFormData,
+            true,
+            false
+        )
+            .then((response) => {
+                console.log("success")
+                setcallGetSupport(true)
+                setisShowSupport(false)
+                setisShowViewDetails(false)
+                setisShowUpdated(true)
+
+            }).catch((e) => {
+                console.log(e);
+            });
+    }
+    const downloadAttachment = (uri, name) => {
+        FileSaver.saveAs(UrlConstants.base_url_without_slash + uri)
+    }
     return (
         <>
-            {isShowViewDetails ? <Row className="supportfirstmaindiv">
+            {isShowUpdated ? <Success okevent={() => showSuppport()} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Ticket updated successfully !"} imageText={"Success!"} msg={"Your solutions are updated."}></Success> : <></>}
+            {isShowSupport ? <Row className="supportfirstmaindiv">
                 <Row className="supportmaindiv">
                     <Row className="secondmainheading width100percent">{screenlabels.support.heading}</Row>
                     <Row className="supportfilterRow">
@@ -235,11 +303,11 @@ function Support(props) {
                                 : <FilterRow supportFilter={() => filterRow('others', true, 'category')} imgname={'others'} firstcss={'supportfiltercommorrowbold'} secondcss={'supportfiltercommontexticonbold'} thirdcss={'supportfiltercommontextbold'} label={screenlabels.support.Others}></FilterRow>}
                         </Col>
                         <Col className="supportSecondCOlumn">
-                            <Row>
+                            {supportList.length > 0 ? <Row>
                                 {supportList.map((rowData, index) => (
-                                    <>{index <= 1 ? <SupportCard viewCardDetails={() => viewCardDetails(rowData)} margingtop={'supportcard supportcardmargintop0px'} data={rowData} index={index}></SupportCard> : <SupportCard margingtop={'supportcard supportcardmargintop20px'} data={rowData} index={index}></SupportCard>}</>
+                                    <>{index <= 1 ? <SupportCard viewCardDetails={() => viewCardDetails(rowData)} margingtop={'supportcard supportcardmargintop0px'} data={rowData} index={index}></SupportCard> : <SupportCard viewCardDetails={() => viewCardDetails(rowData)} margingtop={'supportcard supportcardmargintop20px'} data={rowData} index={index}></SupportCard>}</>
                                 ))}
-                            </Row>
+                            </Row> : <Row className="nodataavailable">{"No Data Available"}</Row>}
                             <Row className="supportcardmargintop20px">
                             </Row>
                             <Row className="marginleft165px">
@@ -254,78 +322,87 @@ function Support(props) {
                         </Col>
                     </Row>
                 </Row>
-            </Row> :
-                <><Row>
-                    <Col className="supportViewDetailsbackimage" >
-                        <span onClick={() => setisShowViewDetails(true)}>
-                            <img
-                                src={require('../../Assets/Img/Vector.svg')}
-                                alt="new"
-                            />
-                        </span>
-                        <span className="supportViewDetailsback" onClick={() => setisShowViewDetails(true)}>{"Back"}</span>
+            </Row> : <></>}
+            {isShowViewDetails ? <><Row>
+                <Col className="supportViewDetailsbackimage" >
+                    <span onClick={() => showSuppport()}>
+                        <img
+                            src={require('../../Assets/Img/Vector.svg')}
+                            alt="new"
+                        />
+                    </span>
+                    <span className="supportViewDetailsback" onClick={() => showSuppport()}>{"Back"}</span>
+                </Col>
+            </Row>
+                <Row className="supportViewDeatilsSecondRow"></Row>
+                <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+                    <span className="mainheading">{"Ticket Details"}</span>
+                </Row>
+                <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
+                    <Col>
+                        <span className="secondmainheading">{rowdata.subject}</span>
+                    </Col>
+                    <Col>
+                        <span className="secondmainheading">{"Name of Participant"}</span>
+                    </Col>
+                    <Col>
+                        <span className="secondmainheading">{"Name of Participant User"}</span>
                     </Col>
                 </Row>
-                    <Row className="supportViewDeatilsSecondRow"></Row>
-                    {/* <Row style={{"margin-left": "93px","margin-top": "30px"}}>
-                    <span className="mainheading">{"Ticket Details"}</span> 
-                </Row>
-                <Row style={{"margin-left": "79px","margin-top": "30px","text-align": "left"}}>
+                <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                     <Col>
-                    <span className="secondmainheading">{rowdata.subject}</span> 
+                        <div className="messagedescription thirdmainheading">{rowdata.issue_message}</div>
                     </Col>
                     <Col>
-                    <span className="secondmainheading">{"Name of Participant"}</span> 
+                        <Row>
+                            <Col>
+                                {rowdata.organization.logo ? <Avatar
+                                    alt={rowdata.user.first_name}
+                                    src={UrlConstants.base_url_without_slash + rowdata.organization.logo}
+                                    sx={{ width: 56, height: 56 }}
+                                /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{rowdata.user.first_name.charAt(0)}</Avatar>}
+                            </Col>
+                            <Col style={{ "margin-left": "-63%", "margin-top": "3%" }}><span className="thirdmainheading">{rowdata.organization.name}</span></Col>
+                        </Row>
                     </Col>
                     <Col>
-                    <span className="secondmainheading">{"Name of Participant User"}</span> 
-                    </Col>
-                </Row>
-                <Row style={{"margin-left": "79px","margin-top": "5px","text-align": "left"}}>
-                    <Col>
-                    <span className="thirdmainheading">{"Certificate not working"}</span> 
-                    </Col>
-                    <Col>
-                    <span className="thirdmainheading">{rowdata.organization.name}</span> 
-                    </Col>
-                    <Col>
-                    <span className="thirdmainheading">{rowdata.user.first_name}</span> 
+                        <span className="thirdmainheading">{rowdata.user.first_name}</span>
                     </Col>
                 </Row>
-                <Row style={{"margin-left": "79px","margin-top": "157px","text-align": "left"}}>
+                <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
                     <Col>
-                    <span className="secondmainheading">{"Date & Time"}</span> 
+                        <span className="secondmainheading">{"Date & Time"}</span>
                     </Col>
                     <Col>
-                    <span className="secondmainheading">{"Category"}</span> 
+                        <span className="secondmainheading">{"Category"}</span>
                     </Col>
                     <Col>
-                    <span className="secondmainheading">{"Attachment"}</span> 
+                        <span className="secondmainheading">{"Attachment"}</span>
                     </Col>
                 </Row>
-                <Row style={{"margin-left": "79px","margin-top": "5px","text-align": "left"}}>
+                <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                     <Col>
-                    <span className="thirdmainheading">{dateTimeFormat(rowdata.updated_at)}</span> 
+                        <span className="thirdmainheading">{dateTimeFormat(rowdata.updated_at)}</span>
                     </Col>
                     <Col>
-                    <span className="thirdmainheading">{rowdata.category}</span> 
+                        <span className="thirdmainheading">{rowdata.category}</span>
                     </Col>
-                    <Col>
-                    <><span>
+                    {rowdata.issue_attachments?<Col onClick={() => downloadAttachment(rowdata.issue_attachments)} style={{ cursor: "pointer" }}>
+                        <><span>
                             <img
                                 src={require('../../Assets/Img/download.svg')}
                                 alt="new"
                             />
                         </span>
-                        <span className="supportViewDetailsback">{"Download Attachment"}</span></>
-                    </Col>
+                            <span className="supportViewDetailsback">{"Download Attachment"}</span></>
+                                </Col>:<Col><span className="thirdmainheading">{"NA"}</span></Col>}
                 </Row>
-                <Row style={{"margin-left": "79px","margin-top": "40px","text-align": "left"}}>
+                <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
                     <Col>
-                    <span className="secondmainheading">{"Status"}</span> 
+                        <span className="secondmainheading">{"Status"}</span>
                     </Col>
                 </Row>
-                <Row style={{"margin-left": "79px","margin-top": "5px","text-align": "left"}}>
+                <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                     {rowdata.status == 'open' ? <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="thirdmainheading">
                         {rowdata.status}
                     </Col> : <></>}
@@ -335,43 +412,100 @@ function Support(props) {
                     {rowdata.status == 'closed' ? <Col style={{ color: "#096D0D", "text-transform": "capitalize" }} className="thirdmainheading">
                         {rowdata.status}
                     </Col> : <></>}
-                </Row> */}
-                    <Row className="supportViewDeatilsSecondRow"></Row>
-                    <Row style={{ "margin-left": "290px", "margin-top": "30px", "text-align": "left" }}>
-                        <Col>
-                            <span className="mainheading">{"Resolution"}</span>
-                        </Col>
-                    </Row>
-                    <Row style={{ "margin-left": "28px", "margin-top": "30px" }}>
-                        <Col>
-                            <TextareaAutosize
-                                maxRows={4}
-                                placeholder="Reply"
-                                variant="filled"
-                                defaultValue={""}
-                                style={{ width: "420px","min-height": "56px","border-bottom": "1px solid #9AA1A9 !important","border": "none !important"}}
-                            />
-                             <TextField
-                                style={{ width: "420px","margin-left":"20px"}}
-                                select
-                                placeholder="Status"
-                                variant="filled"
-                                required
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                            //label={screenlabels.addparticipants.subscripiton_length}
-                            // value={props.organisationlength}
-                            // onChange={(e) => props.setorganisationlength(e.target.value)}
-                            >
-                                <MenuItem value={1}>1 month</MenuItem>
-                                <MenuItem value={3}>3 month</MenuItem>
-                                <MenuItem value={6}>6 month</MenuItem>
-                                <MenuItem value={12}>12 month</MenuItem>
-                            </TextField>
-                        </Col>
-                    </Row>
-                </>
-            }
+                </Row>
+                <Row className="supportViewDeatilsSecondRow"></Row>
+                <Row style={{ "margin-left": "290px", "margin-top": "30px", "text-align": "left" }}>
+                    <Col>
+                        <span className="mainheading">{"Resolution"}</span>
+                    </Col>
+                </Row>
+                <Row className="resolution" style={{ "margin-left": "28px", "margin-top": "30px" }}>
+                    <Col>
+                        <TextareaAutosize
+                            maxRows={4}
+                            placeholder="Reply *"
+                            variant="filled"
+                            defaultValue={reply}
+                            maxLength={500}
+                            onKeyDown={(e) => handleUnwantedSpace(reply,e)}
+                            onChange={(e) => setreply(e.target.value)}
+                            style={{ border: "none !important", width: "420px", "min-height": "50px", "border-bottom": "1px solid #9AA1A9 !important", "border": "none !important" }}
+                        />
+                        <TextField
+                            style={{ width: "420px", "margin-left": "20px", textAlign: "left" }}
+                            select
+                            label="Status"
+                            variant="filled"
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={status}
+                            onChange={(e) => setstatus(e.target.value)}
+                        >
+                            <MenuItem value={"open"}>Open</MenuItem>
+                            <MenuItem value={"closed"}>Closed</MenuItem>
+                            <MenuItem value={"hold"}>Hold</MenuItem>
+                        </TextField>
+                    </Col>
+                </Row>
+                <Row style={{ "margin-left": "33px" }}>
+                    <Col xs={12} sm={12} md={6} lg={6}>
+                        <FileUploader
+                            handleChange={handleRsolutionFileChange}
+                            name="file"
+                            types={fileTypes}
+                            children={
+                                <UploadProfileimg
+                                    uploaddes="Supports:  .doc or .pdf not more than 2MB file size"
+                                    uploadtitle="Upload reference attachments (optional)"
+                                />
+                            }
+                        //   maxSize={2}
+                        />
+                    </Col>
+                </Row>
+                <Row style={{ "margin-left": "28px" }}>
+                    <Col xs={12} sm={12} md={6} lg={3} >
+                    </Col>
+                    <Col xs={12} sm={12} md={6} lg={6}>
+                        <div>
+                            <p className="uploadimgname">
+                                {file ? (file.size ? `File name: ${file.name}` : "") : ""}
+                            </p>
+                            <p className="oversizemb-uploadimglogo">
+                                {file != null && file.size > 2097152
+                                    ? "File uploaded is more than 2MB!"
+                                    : ""}
+                            </p>
+                        </div>
+                    </Col>
+                </Row>
+                <Row className="supportViewDeatilsSecondRow"></Row>
+                <Row>
+                    <Col xs={12} sm={12} md={6} lg={3} >
+                    </Col>
+                    <Col xs={12} sm={12} md={6} lg={6} >
+                        {(!accfilesize && reply)
+                            ? (
+                                <Button onClick={() => submitResolution()} variant="contained" className="submitbtn">
+                                    {screenlabels.common.submit}
+                                </Button>
+                            ) : (
+                                <Button variant="outlined" disabled className="disbalesubmitbtn">
+                                    {screenlabels.common.submit}
+                                </Button>
+                            )}
+                    </Col>
+                </Row>
+                <Row className="marginrowtop8px">
+                    <Col xs={12} sm={12} md={6} lg={3} >
+                    </Col>
+                    <Col xs={12} sm={12} md={6} lg={6} >
+                        <Button onClick={() => showSuppport()} variant="outlined" className="cancelbtn">
+                            {screenlabels.common.cancel}
+                        </Button>
+                    </Col>
+                </Row>
+            </> : <></>}
         </>
     );
 }
