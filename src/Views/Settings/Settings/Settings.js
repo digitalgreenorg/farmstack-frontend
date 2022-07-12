@@ -43,8 +43,9 @@ const useStyles = {
   },
   marginrowtop: { "margin-top": "20px" },
   marginrowtop50px: { "margin-top": "50px" },
-  marginrowtop10px: { "margin-top": "10px" },
-  teamword: { "font-weight": 700, "font-size": "20px", "margin-left": "15px" },
+  marginrowtop10px: { "margin-top": "10px", "box-shadow": "none" },
+  teamword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "font-style": "normal", "font-family": "Open Sans"},
+  margintab: {"width": "200px", "height": "42px", "border": "1px solid #D8AF28", "border-radius": "2px 0px 0px 0px;"}
 };
 
 function Settings(props) {
@@ -197,7 +198,7 @@ function Settings(props) {
             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
               <Box>
                 <TabContext value={value}>
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
                     <TabList
                       onChange={handleChange}
                       aria-label="lab API tabs example">
@@ -205,6 +206,8 @@ function Settings(props) {
                       <Tab label="Organization Settings" value="2" />
                       <Tab label="Team Members" value="3" />
                       <Tab label="Customize Design" value="4" />
+                      <Tab label="Policy Setting" value="5" />
+
                     </TabList>
                   </Box>
                   <TabPanel value="1">
@@ -237,8 +240,6 @@ function Settings(props) {
                         <AddCard
                           firstText={screenlabels.settings.firstText}
                           secondText={screenlabels.settings.secondText}
-                          thirdText={screenlabels.settings.thirdText}
-                          fourText={screenlabels.settings.fourText}
                           addevent={() =>
                             history.push("/datahub/settings/addmember")
                           }></AddCard>

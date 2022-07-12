@@ -78,9 +78,7 @@ const labels = {
       third_delete_msg:
         "The member will no longer be able to use her account in the datahub.",
       firstText: "Add new Member",
-      secondText: "Add details about your dataset and make",
-      thirdText: "discoverable to other participants in our",
-      fourText: "network. “Dummy Data”",
+      secondText: "Add details about your dataset and make discoverable to other participants in our network. “Dummy Data”",
     },
     account_settings: {
       email: "Email",

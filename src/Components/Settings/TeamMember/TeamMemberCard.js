@@ -17,24 +17,24 @@ import THEME_COLORS from '../../../Constants/ColorConstants'
 import UrlConstants from '../../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 const useStyles = {
-    btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "font-weight": "400", "font-family": "Open Sans"},
-    cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "209px", "border-radius": "2px" },
-    togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "2px solid #ebd79c", cursor: "pointer", height: "209px" },
-    marginrowtop: { "margin-top": "20px"},
-    btnPosition: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-left": "-25px", "font-weight": "400", "font-family": "Open Sans"},
-    cardDataHeading: { "font-weight": "600", "font-size": "14px", color: "#3D4A52"},
-    cardData: { "font-weight": "400", "font-size": "14px", color: "#3D4A52" }
+    btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "box-shadow": "none" ,"font-family": "Open Sans", 'font-style': 'normal', 'font-size': '14px'},
+    cardcolor:{border: "1px solid #E4E4E4","box-shadow": "none",cursor:"pointer",height: "240px","border-radius": "2px"}, 
+    togglecardcolor:{"box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", border: "1px solid #D8AF28",cursor:"pointer",height: "240px"},
+    marginrowtop: { "margin-top": "30px"},
+    btnPosition: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-left": "-25px","box-shadow": "none", "font-weight": "400", "font-family": "Open Sans", 'font-style': 'normal', 'font-size': '14px'},
+    cardDataHeading:{'font-family': 'Open Sans', "font-weight": "600","font-size": "14px",color: "#3D4A52", "text-align": "left", "font-style": "normal", "line-height":"19px" },
+    cardData:{'font-family': 'Open Sans', "font-weight": "400","font-size": "14px",color: "#3D4A52", "text-align": "left", "font-style":"normal", 'margin-top': '10px', 'padding-left': '0px'},
 };
+
 export default function TeamMemberCard(props) {
     const [isshowbutton, setisshowbutton] = React.useState(false);
     const history = useHistory();
     return (
-
-        <Card className="particaipancard" style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
+        <Card className="particaipancard" style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
             <CardHeader
                 avatar={
-                    props.profilepic ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url + props.profilepic} sx={{ width: 54, height: 54 }} /> :
-                        <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.firstname.charAt(0)}</Avatar>
+                    props.profilepic ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url + props.profilepic} sx={{ width:64, height:64 }} /> :
+                        <Avatar sx={{ bgcolor:"#c09507",width:64, height:64 }} aria-label="recipe">{props.firstname.charAt(0)}</Avatar>
                 }
                 action={
                     <IconButton aria-label="settings">
@@ -42,10 +42,11 @@ export default function TeamMemberCard(props) {
                 }
                 title={props.mainheading}
                 subheader={props.subheading}
-                style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left"}}
+                style={{ "background-color": "#F4F4F4", padding: "9px", height: "84px", "text-align": "left", 'font-family': 'Open Sans',
+        'font-style': 'normal', 'font-weight': 400, 'font-size': '14px' ,'line-height': '19px' ,'color': '#3D4A52'}}
             />
             <CardContent>
-                <Row style={{ "margin-left": "-18px", "text-align": "left" }}>
+                <Row style={{ "margin-left": "-18px", "text-align": "left"}}>
                     <Col xs={12} sm={12} md={6} lg={6} style={useStyles.cardDataHeading}>
                         Role assigned
           </Col>

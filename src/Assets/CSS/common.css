@@ -64,6 +64,11 @@ button.submitbtn:hover {
   font-size: 20px;
   color: #3d4a52;
 }
+.editheading{
+  font-weight: 700;
+  font-size: 20px;
+  color: #3d4a52;
+}
 .secondmainheading {
   font-weight: 600;
   font-size: 16px;
@@ -153,16 +158,22 @@ button.submitbtn:hover {
   background: #c09507 !important;
 }
 .particaipancard .MuiCardHeader-title {
-  padding-bottom: 10px;
+  padding-bottom: 18px;
+  font-family: 'Open Sans';
+  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   color: #3d4a52;
+  line-height: 19px;
 }
 .particaipancard .MuiCardHeader-subheader {
   font-weight: 400;
   font-size: 14px;
   color: #000000;
   opacity: 0.5;
+  font-family: 'Open Sans';
+  font-style: normal;
+  line-height: 19px;
 }
 /* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
   background: #FFFFFF;
@@ -225,3 +236,63 @@ css-1wc848c-MuiFormHelperText-root {
   font-size: 12px;
   line-height: 16px;
 }
+button.disbalesubmitbtnteam {
+  text-transform: capitalize;
+  border-radius: 2px;
+  box-shadow: none !important;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 200px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+}
+button.submitbtnteam {
+  width: 420px !important;
+  text-transform: capitalize;
+  color: #ffffff;
+  height: 42px;
+  margin-top: 200px;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+}
+button.cancelbtnteam {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-bottom: 50px;
+  box-shadow: none !important;
+}
+button.disbalesubmitbtupdt {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 200px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+  box-shadow: none !important;
+}
+button.submitbtnupdt {
+  width: 420px !important;
+  text-transform: capitalize;
+  color: #ffffff;
+  height: 42px;
+  margin-top: 200px;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+}
+
+
