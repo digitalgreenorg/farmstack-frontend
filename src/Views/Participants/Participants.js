@@ -11,10 +11,10 @@ import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 import HTTPService from '../../Services/HTTPService'
 const useStyles = {
-    btncolor: {color: "white","text-transform": "capitalize", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "padding-right": "35px", "padding-left":"35px" },
+    btncolor: {color: "white","text-transform": "capitalize", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "padding-right": "0px", "padding-left":"0px", width: "200px", height: "34px", "font-family": 'Open Sans',"font-style": "normal", "font-weight": 700, "font-size": "14px","line-height": "19px", "margin-bottom": "-20px"},
     btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black"},
-    marginrowtop: { "margin-top": "20px" },
-    marginrowtop10px: { "margin-top": "10px" },
+    marginrowtop: { "padding-top": "50px", "margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "110px", "padding-right": "110px" },
+    marginrowtop10px: { "margin-top": "20px"},
     invbtn:  {"padding-right": "50px", "padding-left":"50px"}
 };
 function Participants(props) {
@@ -56,7 +56,7 @@ function Participants(props) {
       };
     return (
         <>
-            <Container style={useStyles.marginrowtop}>
+            <div style={useStyles.marginrowtop}>
                 <Row>
                     <Col xs={12} sm={12} md={12} lg={12}>
                         <Button onClick={() => history.push('/datahub/participants/invite')} style={useStyles.btncolor}>
@@ -66,7 +66,7 @@ function Participants(props) {
                 </Row>
                 <Row style={useStyles.marginrowtop10px}>
                     <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>
-                        <AddCard firstText={screenlabels.addparticipants.firstText} secondText={screenlabels.addparticipants.secondText} thirdText={screenlabels.addparticipants.thirdText} fourText={screenlabels.addparticipants.fourText} addevent={() => history.push('/datahub/participants/add')}></AddCard>
+                        <AddCard firstText={screenlabels.addparticipants.firstText} secondText={screenlabels.addparticipants.secondText} addevent={() => history.push('/datahub/participants/add')}></AddCard>
                     </Col>
                     {participantList.map((rowData, index) => (
                         <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>
@@ -84,16 +84,16 @@ function Participants(props) {
                         </Col>
                     ))}
                 </Row>
-                <Row style={useStyles.marginrowtop}>
+                <Row style={{'margin-top': '10px'}}>
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     {isShowLoadMoreButton ? <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => getParticipantList()} variant="outlined" className="cancelbtn">
-                            Load More
+                        <Button onClick={() => getParticipantList()} variant="outlined" className="cancelbtn" style={{'text-transform': 'none'}}>
+                            Load more
                            </Button>
                     </Col> : <></>}
                 </Row>
-            </Container>
+            </div>
         </>
     );
 }

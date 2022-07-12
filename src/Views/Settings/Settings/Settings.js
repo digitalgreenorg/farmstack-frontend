@@ -21,6 +21,7 @@ import Button from "@mui/material/Button";
 import AccountSetting from "../accounts/accountSetting";
 import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
+import PolicySettings from "../PolicySettings/PolicySettings";
 import BrandingSetting from "../branding/BrandingSetting";
 
 const useStyles = {
@@ -153,8 +154,7 @@ function Settings(props) {
             btntext={"ok"}
             heading={"Team Member deleted successfully!"}
             imageText={"Deleted!"}
-            msg={"You deleted a member."}>
-            </Success>
+            msg={"You deleted a member."}></Success>
         ) : (
           <></>
         )}
@@ -165,6 +165,7 @@ function Settings(props) {
               //   setisDelete(false);
               setistabView(true);
               setisAccountUpdateSuccess(false);
+              window.location.reload();
               //   getMemberList();
             }}
             imagename={"success"}
@@ -203,8 +204,9 @@ function Settings(props) {
                       aria-label="lab API tabs example">
                       <Tab label="Account Settings" value="1" />
                       <Tab label="Organization Settings" value="2" />
-                      <Tab label="Team Members" value="3" />
-                      <Tab label="Customize Design" value="4" />
+                      <Tab label="Policy Settings" value="3"/>
+                      <Tab label="Team Members" value="4" />
+                      <Tab label="Customize Design" value="5" />
                     </TabList>
                   </Box>
                   <TabPanel value="1">
@@ -224,6 +226,9 @@ function Settings(props) {
                     />
                   </TabPanel>
                   <TabPanel value="3">
+                      <PolicySettings/>
+                  </TabPanel>
+                  <TabPanel value="4">
                     <Row>
                       <span style={useStyles.teamword}>Team</span>
                     </Row>
@@ -285,7 +290,7 @@ function Settings(props) {
                       )}
                     </Row>
                   </TabPanel>
-                  <TabPanel value="4">
+                  <TabPanel value="5">
                     <BrandingSetting />
                   </TabPanel>
                 </TabContext>
