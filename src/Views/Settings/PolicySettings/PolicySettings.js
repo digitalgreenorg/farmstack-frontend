@@ -10,6 +10,7 @@ import UrlConstant from '../../../Constants/UrlConstants'
 import axios from 'axios'
 import Button from "@mui/material/Button";
 import HTTPService from "../../../Services/HTTPService";
+import { Link } from 'react-router-dom';
 
 export default function PolicySettings() {
 
@@ -106,11 +107,11 @@ export default function PolicySettings() {
     const [privacyProgress, setprivacyProgress] = useState(0)
     const [tosloadProgress, settosloadProgress] = useState(0)
 
-    const [govLawFileUrl, setGovLawFileUrl] = useState('')
-    const [warrantyFileUrl, setWarrantyFileUrl] = useState('')
-    const [liabilityFileUrl, setLiabilityFileUrl] = useState('')
-    const [privacyFileUrl, setPrivacyFileUrl] = useState('')
-    const [termsFileUrl, setTermsFileUrl] = useState('')
+    const [govLawFileUrl, setGovLawFileUrl] = useState("")
+    const [warrantyFileUrl, setWarrantyFileUrl] = useState("")
+    const [liabilityFileUrl, setLiabilityFileUrl] = useState("")
+    const [privacyFileUrl, setPrivacyFileUrl] = useState("")
+    const [termsFileUrl, setTermsFileUrl] = useState("")
 
     var post = false
     
@@ -639,7 +640,7 @@ export default function PolicySettings() {
                     {govLawFile ? govLawFile.size
                       ? `File name: ${govLawFile.name}`
                       : ''
-                    : govLawFileUrl? <a href={govLawFileUrl}>Governing Laws</a> :'No file uploaded yet'}
+                    : govLawFileUrl? <Link to={{pathname: govLawFileUrl}} target="_blank">Governing Laws</Link> :'No file uploaded yet'}
                   </p>
                   {/* <p className="oversizemb"> */}
                   <p>
@@ -778,7 +779,7 @@ export default function PolicySettings() {
                       ? liabalityFile.size
                         ? `File name: ${liabalityFile.name}`
                         : ''
-                      : liabilityFileUrl? <a href={liabilityFileUrl}>Limitation Of Liabilities</a> :'No file uploaded yet'}
+                      : liabilityFileUrl? <a href={liabilityFileUrl} target="_blank">Limitation Of Liabilities</a> :'No file uploaded yet'}
                   </p>
                   {/* <p className="oversizemb"> */}
                   <p>
@@ -848,7 +849,7 @@ export default function PolicySettings() {
                       ? privacyFile.size
                         ? `File name: ${privacyFile.name}`
                         : ''
-                      : privacyFileUrl? <a href={privacyFileUrl}>Privacy Policy</a> :'No file uploaded yet'}
+                      : privacyFileUrl? <a href={privacyFileUrl} target="_blank">Privacy Policy</a> :'No file uploaded yet'}
                   </p>
                   {/* <p className="oversizemb"> */}
                   <p>
@@ -916,7 +917,7 @@ export default function PolicySettings() {
                       ? termFile.size
                         ? `File name: ${termFile.name}`
                         : ''
-                      : termsFileUrl? <a href={termsFileUrl}>Terms Of Use</a> :'No file uploaded yet'}
+                      : termsFileUrl? <a href={termsFileUrl} target="_blank">Terms Of Use</a> :'No file uploaded yet'}
                   </p>
                   {/* <p className="oversizemb"> */}
                   <p>
