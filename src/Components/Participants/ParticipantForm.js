@@ -12,8 +12,9 @@ import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validat
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
-    marginrowtop: {"margin-top": "20px"},
-    inputwidth:{width: "95%", "text-align": "left"},
+    marginrowtop: {"margin-top": "30px"},
+    marginrowtop50: {"margin-top": "50px"},
+    inputwidth:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52'},
     headingbold:{fontWeight: "bold"}
 };
 export default function ParticipantForm(props) {
@@ -22,10 +23,12 @@ export default function ParticipantForm(props) {
 
     return (
         <>
-            <Row style={useStyles.marginrowtop}>
-                <span className="mainheading">
-                    {props.first_heading}
-                </span>
+            <Row style={useStyles.marginrowtop50}>
+                <Col xs={12} sm={12} md={12} lg={12}>
+                    <span className="mainheading" style={{float: 'left', 'margin-left': '15px'}}>
+                        {props.first_heading}
+                    </span>
+                </Col>
             </Row>
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={6} lg={6} >
@@ -113,10 +116,13 @@ export default function ParticipantForm(props) {
                     />
                 </Col>
             </Row>
+            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
             <Row style={useStyles.marginrowtop}>
-                <span className="mainheading">
+            <Col xs={12} sm={12} md={12} lg={12}>
+                <span className="mainheading" style={{float: 'left', 'margin-left': '15px'}}>
                     {props.second_heading}
                 </span>
+            </Col>
             </Row>
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={6} lg={6} >
@@ -172,22 +178,28 @@ export default function ParticipantForm(props) {
                     />
                 </Col>
             </Row>
+            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
             <Row style={useStyles.marginrowtop}>
-                <span className="mainheading">
+            <Col xs={12} sm={12} md={12} lg={12}>
+                <span className="mainheading" style={{float: 'left', 'margin-left': '15px'}}>
                     {props.third_heading}
                 </span>
+            </Col>
             </Row>
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         select
+                        margin="normal"
                         variant="filled"
                         required
+                        hiddenLabel="true"
                         style={useStyles.inputwidth}
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
-                        //label={screenlabels.addparticipants.subscripiton_length}
+                        label=""
                         value={props.organisationlength}
+                        alignItems="center"
                         onChange={(e) => props.setorganisationlength(e.target.value)}
                     >
                         <MenuItem value={1}>1 month</MenuItem>
@@ -197,6 +209,7 @@ export default function ParticipantForm(props) {
                     </TextField>
                 </Col>
             </Row>
+            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
         </>
     );
 }

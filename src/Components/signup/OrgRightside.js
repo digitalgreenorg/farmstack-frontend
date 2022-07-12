@@ -26,6 +26,7 @@ import HTTPService from '../../Services/HTTPService'
 import UrlConstant from '../../Constants/UrlConstants'
 import { handleAddressCharacters, validateInputField } from '../../Utils/Common'
 import RegexConstants from '../../Constants/RegexConstants'
+import { Autocomplete } from '@mui/material'
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -454,15 +455,29 @@ export default function OrgRightside(props) {
             />
           </div>
           <div className="orgcountry">
+            {
             <Select
               required
               options={options}
               value={props.countryvalue}
               onChange={props.countrychangeHandler}
               isSearchable={true}
-              style={{ width: '420px', zIndex: 4, backgroundColor: grey }}
-              placeholder="Select Country"
+              style={{ width: '420px'}}
+              placeholder="Country"
             />
+            }
+            {/*
+            <Autocomplete
+              disablePortal
+              variant="filled"
+              id="filled-basic"
+              options={options}
+              sx={{ width: '420px', 'font-family': 'Open Sans', 'font-style': 'normal';
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 19px; }}
+              renderInput={(params) => <TextField variant='filled' {...params} label="Country" />}
+          />*/}
           </div>
           <div className="orgpincode">
             <TextField

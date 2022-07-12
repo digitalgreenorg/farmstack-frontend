@@ -19,14 +19,14 @@ export default function UploadOrgLogo(props) {
           />
         </svg>
       </div>
-      <p style={{ color: "#A3B0B8" }}>
+      <p style={{ color: "#A3B0B8", 'padding': 0, 'margin': 0, 'margin-top': '15px' }}>
         Drag and drop or
         <span>
           <button class="orguploadbtn info">Browse</button>
         </span>
         your files
       </p>
-      <p style={{ color: "#A3B0B8" }}>{props.uploaddes}</p>
+      <p style={{ color: "#A3B0B8", 'padding': 0, 'margin-top': '10px', 'margin-bottom': '20px' }}>{props.uploaddes}</p>
     </div>
   );
 }
