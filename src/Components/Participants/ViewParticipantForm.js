@@ -94,7 +94,7 @@ export default function ViewParticipantForm(props) {
                     </span>
                 </Col>
             </Row>
-            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
+            <hr className="separatorline"/>
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
                 <span className="mainheading">
@@ -140,28 +140,27 @@ export default function ViewParticipantForm(props) {
                     </span>
                 </Col>
             </Row>
-            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
+            <hr className="separatorline"/>
             <Row style={useStyles.marginrowtop}>
-                <span className="mainheading">
-                    {screenlabels.viewparticipants.third_heading}
-                </span>
-            </Row>
-            <Row style={useStyles.marginrowtop}>
-                <Col xs={12} sm={12} md={6} lg={6} >
-                    <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
-                        <span className="secondmainheading" style={useStyles.left}>
-                        {screenlabels.viewparticipants.subscripiton_length}
-                        </span>
-                    </Col><br />
-                    <Col xs={12} sm={12} md={12} lg={12}>
-                        <span className="thirdmainheading" style={useStyles.data}>
-                            {props.organisationlength+" Months"}
-                        </span>
-                    </Col>
-
+                <Col xs={12} sm={12} md={12} lg={12}  style={useStyles.left}>
+                    <span className="mainheading">
+                        {screenlabels.viewparticipants.third_heading}
+                    </span>
                 </Col>
             </Row>
-            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
+            <Row style={useStyles.marginrowtop}>
+                <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
+                    <span className="secondmainheading" style={useStyles.left}>
+                    {screenlabels.viewparticipants.subscripiton_length}
+                    </span>
+                </Col><br />
+                <Col xs={12} sm={12} md={12} lg={12}>
+                    <span className="thirdmainheading" style={useStyles.data}>
+                        {props.organisationlength+" Months"}
+                    </span>
+                </Col>
+            </Row>
+            <hr className="separatorline"/>
         </>
     );
 }

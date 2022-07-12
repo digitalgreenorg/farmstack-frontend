@@ -1,9 +1,11 @@
 const UrlConstant = {
   base_url: "https://datahubtest.farmstack.co/be/",
+  base_url_without_slash: "https://datahubtest.farmstack.co/be",
   login: "accounts/login/",
   otp: "accounts/otp/",
   participant: "datahub/participant/",
   support:"datahub/support/filters_tickets/",
+  resolution:"datahub/support/",
   inviteparticipant: "datahub/send_invite/",
   team_member: "datahub/team_member/",
   resend_otp: "accounts/resend_otp/",

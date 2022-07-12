@@ -201,17 +201,22 @@ font-style: normal;
 
 .settingsTabs .Mui-selected {
   color: #ffffff !important;
-  border: 1px solid #d8af28;
   border-radius: 2px 0px 0px 0px;
   text-transform: capitalize !important;
   background: #c09507;
   width: 200px;
   height: 42px;
   font-weight: 400;
+  border-bottom: none !important;
+  border-left: 1px solid #d8af28 !important;
+  border-right: 1px solid #d8af28 !important;
+  border-top: 1px solid #d8af28 !important;
 }
 .settingsTabs .MuiTabs-indicator {
   background: #c09507 !important;
+  border-bottom: none !important;
 }
+.se
 .particaipancard .MuiCardHeader-title {
   padding-bottom: 18px;
   font-family: 'Open Sans';
@@ -249,10 +254,12 @@ font-style: normal;
 } */
 :not(.Mui-selected).MuiTab-root {
   background: #ffffff;
-  border: 1px solid #d8af28 !important;
   text-transform: capitalize !important;
   font-weight: 400 !important;
   width: 200px;
+  border-left: 1px solid #d8af28 !important;
+  border-right: 1px solid #d8af28 !important;
+  border-top: 1px solid #d8af28 !important;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -401,4 +408,20 @@ button.submitbtnupdt {
   font-family: "Open Sans" !important;
   font-size: 14px;
   font-weight: 400;
+}
+
+
+.buttonremovebackgroundonhover:hover{
+  background: none !important;
+}
+
+.separatorline{
+  margin-left : -200px;
+  margin-right: -200px;
+  margin-top : 30px;
+  border-top: 1px solid rgba(238, 238, 238, 0.5);
+}
+.react-multi-email.empty > span[data-placeholder] {
+  display: inline;
+  color: #3D4A52 !important;
 }

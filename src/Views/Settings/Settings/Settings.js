@@ -21,6 +21,7 @@ import Button from "@mui/material/Button";
 import AccountSetting from "../accounts/accountSetting";
 import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
+import PolicySettings from "../PolicySettings/PolicySettings";
 import BrandingSetting from "../branding/BrandingSetting";
 
 const useStyles = {
@@ -46,7 +47,7 @@ const useStyles = {
   marginrowtop10px: { "margin-top": "20px"},
   marginrowtopscreen10px: { "margin-top": "10px"},
   teamword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "font-style": "normal", "font-family": "Open Sans"},
-  background: { "padding-top": "50px", "margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "110px", "padding-right": "110px"},
+  background: { "padding-top": "50px", "margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "60px", "padding-right": "60px"},
 };
 
 function Settings(props) {
@@ -199,16 +200,15 @@ function Settings(props) {
             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
               <Box>
                 <TabContext value={value} className="tabstyle">
-                  <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <TabList
                       onChange={handleChange}
                       aria-label="lab API tabs example">
                       <Tab label="Account Settings" value="1" />
                       <Tab label="Organization Settings" value="2" />
-                      <Tab label="Team Members" value="3" />
-                      <Tab label="Customize Design" value="4" />
-                      <Tab label="Policy Setting" value="5" />
-
+                      <Tab label="Policy Settings" value="3"/>
+                      <Tab label="Team Members" value="4" />
+                      <Tab label="Customize Design" value="5" />
                     </TabList>
                   </Box>
                   <TabPanel value="1">
@@ -228,6 +228,9 @@ function Settings(props) {
                     />
                   </TabPanel>
                   <TabPanel value="3">
+                      <PolicySettings/>
+                  </TabPanel>
+                  <TabPanel value="4">
                     <Row>
                       <span style={useStyles.teamword}>Team</span>
                     </Row>
@@ -287,7 +290,7 @@ function Settings(props) {
                       )}
                     </Row>
                   </TabPanel>
-                  <TabPanel value="4">
+                  <TabPanel value="5">
                     <BrandingSetting />
                   </TabPanel>
                 </TabContext>
