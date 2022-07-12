@@ -126,8 +126,14 @@ export default function PolicySettings() {
           post=true
         }
 
+        //as per response received from backend, name of fields inside documents has .pdf
         setGovLawFileUrl(response.data.Documents.governing_law.pdf)
         setTermsFileUrl(response.data.Documents.tos.pdf)
+        setPrivacyFileUrl(response.data.Documents.privacy_policy.pdf)
+        setLiabilityFileUrl(response.data.Documents.limitations_of_liabilities.pdf)
+        setWarrantyFileUrl(response.data.Documents.warranty.pdf)
+        
+        
 
         setEditorGovLawValue(response.data.Content.governing_law)
         setEditorPrivacyValue(response.data.Content.privacy_policy)
@@ -592,7 +598,7 @@ export default function PolicySettings() {
     }
 
     const policysettingcancelbtn = () => {
-
+      getPolicies()
     }
     
   return (
