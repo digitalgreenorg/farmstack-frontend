@@ -321,5 +321,20 @@ css-1wc848c-MuiFormHelperText-root {
 
   /* headings */
 
-  color: #3D4A52;
+  color: #3D4A52 !important;
+}
+
+.buttonremovebackgroundonhover:hover{
+  background: none !important;
+}
+
+.separatorline{
+  margin-left : -200px;
+  margin-right: -200px;
+  margin-top : 30px;
+  border-top: 1px solid rgba(238, 238, 238, 0.5);
+}
+.react-multi-email.empty > span[data-placeholder] {
+  display: inline;
+  color: #3D4A52 !important;
 }

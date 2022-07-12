@@ -44,7 +44,10 @@ cursor: pointer;
 }
 &:hover {
     text-decoration: none;
-    color: #c09507;
+    color: #A3B0B8;
+}
+&.active:hover {
+	color: #3D4A52;
 }
 
 font-family: 'Open Sans';
@@ -91,6 +94,7 @@ export const NavBtn = styled.nav`
 display: flex;
 align-items: center;
 margin-right: 0px;
+
 /* Third Nav */
 /* justify-content: flex-end;
 width: 100vw; */
@@ -104,7 +108,8 @@ background: #ffffff;
 padding: 5px 15px;
 color: #c09507;
 outline: none;
-border: 2px solid #c09507;
+border: 2px solid #D8AF28;
+border-radius: 2px;
 cursor: pointer;
 transition: all 0.2s ease-in-out;
 text-decoration: none;
@@ -114,8 +119,8 @@ margin-left: 24px;
 	/*transition: all 0.2s ease-in-out;
 	background: #fff;
     color: #808080;*/
+	color: #D8AF28;
     text-decoration: none;
-    color: #c09507;
 }
 
 font-family: 'Open Sans';

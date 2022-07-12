@@ -14,7 +14,7 @@ const useStyles = {
     btncolor: {color: "white","text-transform": "capitalize", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "padding-right": "0px", "padding-left":"0px", width: "200px", height: "34px", "font-family": 'Open Sans',"font-style": "normal", "font-weight": 700, "font-size": "14px","line-height": "19px", "margin-bottom": "-20px"},
     btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black"},
     marginrowtop: { "padding-top": "50px", "margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "110px", "padding-right": "110px" },
-    marginrowtop10px: { "margin-top": "20px" },
+    marginrowtop10px: { "margin-top": "20px"},
     invbtn:  {"padding-right": "50px", "padding-left":"50px"}
 };
 function Participants(props) {
