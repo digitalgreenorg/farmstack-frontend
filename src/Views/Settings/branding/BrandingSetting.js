@@ -91,7 +91,12 @@ export default function BrandingSetting(props) {
     console.log(color.hex);
     sethexColor(color.hex);
   };
-  const brandsettingcancelbtn = () => {};
+  const brandsettingcancelbtn = (e) => {
+    e.preventDefault();
+    getBrandingDetails();
+    setbrandfile(null);
+    // sethexColor(color);
+  };
 
   return (
     <div className="brandsetting">
@@ -100,7 +105,7 @@ export default function BrandingSetting(props) {
           <span className="title">Customize Design</span>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={6} lg={6}>
+          <Col xs={12} sm={12} md={6} lg={6} className="bannerdrag">
             <FileUploader
               handleChange={handleBannerFileChange}
               name="file"
@@ -111,6 +116,7 @@ export default function BrandingSetting(props) {
                   uploadtitle="Upload your banner image here"
                 />
               }
+              onDrop={(file) => console.log(file)}
             />
           </Col>
         </Row>
