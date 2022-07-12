@@ -134,7 +134,7 @@ export default function PolicySettings() {
         setWarrantyFileUrl(response.data.Documents.warranty)
         
         console.log('govLawFileUrl', govLawFileUrl)
-        console.log('termsFileUrl', termsFileUrl)
+        console.log(termsFileUrl)
         console.log('privacyFileUrl', privacyFileUrl)
         console.log('liabilityFileUrl', liabilityFileUrl)
         console.log('warrantyFileUrl', warrantyFileUrl)
@@ -667,7 +667,7 @@ export default function PolicySettings() {
                     {govLawFile ? govLawFile.size
                       ? `File name: ${govLawFile.name}`
                       : ''
-                    : govLawFileUrl? <Link to={{pathname: govLawFileUrl}} target="_blank">Governing Laws</Link> :'No file uploaded yet'}
+                    : govLawFileUrl? <Link to={{pathname: UrlConstant.base_url+govLawFileUrl}} target="_blank">Governing Laws</Link> :'No file uploaded yet'}
                   </p>
                   {/* <p className="oversizemb"> */}
                   <p>
@@ -736,7 +736,7 @@ export default function PolicySettings() {
                       ? warrantiesFile.size
                         ? `File name: ${warrantiesFile.name}`
                         : ''
-                      : warrantyFileUrl? <a href={warrantyFileUrl}>Warranties</a> :'No file uploaded yet'}
+                      : warrantyFileUrl? <a href={UrlConstant.base_url+warrantyFileUrl}>Warranties</a> :'No file uploaded yet'}
                   </p>
                   {/* <p className="oversizemb"> */}
                   <p>
@@ -806,7 +806,7 @@ export default function PolicySettings() {
                       ? liabalityFile.size
                         ? `File name: ${liabalityFile.name}`
                         : ''
-                      : liabilityFileUrl? <a href={liabilityFileUrl} target="_blank">Limitation Of Liabilities</a> :'No file uploaded yet'}
+                      : liabilityFileUrl? <a href={UrlConstant.base_url+liabilityFileUrl} target="_blank">Limitation Of Liabilities</a> :'No file uploaded yet'}
                   </p>
                   {/* <p className="oversizemb"> */}
                   <p>
@@ -876,7 +876,7 @@ export default function PolicySettings() {
                       ? privacyFile.size
                         ? `File name: ${privacyFile.name}`
                         : ''
-                      : privacyFileUrl? <a href={privacyFileUrl} target="_blank">Privacy Policy</a> :'No file uploaded yet'}
+                      : privacyFileUrl? <a href={UrlConstant.base_url+privacyFileUrl} target="_blank">Privacy Policy</a> :'No file uploaded yet'}
                   </p>
                   {/* <p className="oversizemb"> */}
                   <p>
@@ -944,7 +944,7 @@ export default function PolicySettings() {
                       ? termFile.size
                         ? `File name: ${termFile.name}`
                         : ''
-                      : termsFileUrl? <a href={termsFileUrl} target="_blank">Terms Of Use</a> :'No file uploaded yet'}
+                      : termsFileUrl? <a href={UrlConstant.base_url+termsFileUrl} target="_blank">Terms Of Use</a> :'No file uploaded yet'}
                   </p>
                   {/* <p className="oversizemb"> */}
                   <p>
