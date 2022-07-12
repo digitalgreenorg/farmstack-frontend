@@ -1,10 +1,10 @@
-@import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 /* @import '../../../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'; */
 /* @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap'); */
 /* @import url("https://fonts.googleapis.com/css2?family=Open+Sans"); */
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
 body {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   text-align: center !important;
   width: 100%;
   height: 100%;
@@ -20,7 +20,7 @@ button.disbalesubmitbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   opacity: 0.5;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -36,9 +36,9 @@ button.cancelbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   margin-bottom: 50px;
-  background: #FFFFFF;
-  border: 1px solid #C09507;
-  font-family: 'Open Sans';
+  background: #ffffff;
+  border: 1px solid #c09507;
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -55,15 +55,14 @@ button.editbtn {
   color: #585d60 !important;
   margin-top: 50px;
 
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
   line-height: 19px;
   /* identical to box height */
 
-
-  color: #585D60;
+  color: #585d60;
 }
 button.submitbtn {
   width: 420px !important;
@@ -83,30 +82,28 @@ button.submitbtn:hover {
   width: 100%;
 }
 .mainheading {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
   line-height: 138.69%;
   /* identical to box height, or 28px */
-  
-  
+
   /* headings */
-  
-  color: #3D4A52;
+
+  color: #3d4a52;
 }
 .secondmainheading {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 138.69%;
   /* or 22px */
-  
-  
+
   /* headings */
-  
-  color: #3D4A52;
+
+  color: #3d4a52;
 }
 .fontweight600andfontsize14pxandcolor3A3A3A {
   font-weight: 600;
@@ -129,37 +126,36 @@ button.submitbtn:hover {
   color: #3d4a52;
 }
 .thirdmainheading {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 138.69%;
   /* or 19px */
-  
-  
+
   /* headings */
-  
-  color: #3D4A52;
+
+  color: #3d4a52;
 }
 .mainheadingsuccess {
   font-weight: 700;
   font-size: 20px;
   color: #3d4a52;
-  font-family: 'Open Sans';
-font-style: normal;
+  font-family: "Open Sans";
+  font-style: normal;
 }
 .secondmainheadingsuccess {
   font-weight: 700;
   font-size: 20px;
   color: #d8af28;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
 }
 .thirdmainheadingsuccess {
   font-weight: 400;
   font-size: 16px;
   color: #3d4a52;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
 }
 .css-1gsv261 {
@@ -207,25 +203,24 @@ font-style: normal;
 }
 .particaipancard .MuiCardHeader-title {
   padding-bottom: 18px;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 19px;
-  
-  color: #3D4A52;
+
+  color: #3d4a52;
 }
 .particaipancard .MuiCardHeader-subheader {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 19px;
   /* identical to box height */
-  
-  
+
   color: #000000;
-  
+
   opacity: 0.5;
 }
 /* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
@@ -249,13 +244,13 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
 .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
   color: #a3b0b8 !important;
-  font-family: 'Open Sans' !important;
+  font-family: "Open Sans" !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 12px !important;
@@ -268,14 +263,14 @@ input[type='number'] {
 .MuiFilledInput-input,
 .MuiInputLabel-root {
   color: #3d4a52 !important;
-  font-family: 'Open Sans' !important;
+  font-family: "Open Sans" !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 14px !important;
   line-height: 19px !important;
 }
 css-1wc848c-MuiFormHelperText-root {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -283,37 +278,36 @@ css-1wc848c-MuiFormHelperText-root {
 }
 .css-1wc848c-MuiFormHelperText-root.Mui-error {
   color: #ff3d00 !important;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
 }
 
-.backlabel{
-  font-family: 'Open Sans';
+.backlabel {
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 138.69%;
   /* or 19px */
 
-
-  color: #3491EE;
+  color: #3491ee;
 }
-.link :hover{
+.link :hover {
   cursor: pointer;
 }
 
-.react-multi-email [data-tag]{
+.react-multi-email [data-tag] {
   font-weight: 400 !important;
   font-size: 14px !important;
   line-height: 19px !important;
-  color: #3D4A52 !important;
+  color: #3d4a52 !important;
 }
 
-.public-DraftEditorPlaceholder-root{
-  font-family: 'Open Sans';
+.public-DraftEditorPlaceholder-root {
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -321,20 +315,24 @@ css-1wc848c-MuiFormHelperText-root {
 
   /* headings */
 
-  color: #3D4A52 !important;
+  color: #3d4a52 !important;
 }
 
-.buttonremovebackgroundonhover:hover{
+.buttonremovebackgroundonhover:hover {
   background: none !important;
 }
 
-.separatorline{
-  margin-left : -200px;
+.separatorline {
+  margin-left: -200px;
   margin-right: -200px;
-  margin-top : 30px;
+  margin-top: 30px;
   border-top: 1px solid rgba(238, 238, 238, 0.5);
 }
 .react-multi-email.empty > span[data-placeholder] {
   display: inline;
-  color: #3D4A52 !important;
+  color: #3d4a52 !important;
+}
+/* hiding drag and drop shadow issue */
+.sc-gsnTZi {
+  display: none;
 }
