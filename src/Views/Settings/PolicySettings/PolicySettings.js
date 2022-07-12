@@ -113,7 +113,7 @@ export default function PolicySettings() {
     const [privacyFileUrl, setPrivacyFileUrl] = useState("")
     const [termsFileUrl, setTermsFileUrl] = useState("")
 
-    var post = false
+    const [isPostMethod, setIsPostMethod] = useState(false)
     
     useEffect(() => {
       getPolicies()
@@ -122,24 +122,44 @@ export default function PolicySettings() {
       HTTPService("GET",UrlConstant.base_url+UrlConstant.policies_save_upload+"1/", "", false, false)
       .then((response) => {
         console.log("response : ", response.data);
-        if(response.data.Content === null && response.data.Documents === null){
-          post=true
+        if(response.data.Content == 'null' && response.data.Documents == 'null'){
+          setIsPostMethod(true)
+          console.log('post')
         }
 
-        //as per response received from backend, name of fields inside documents has .pdf
-        setGovLawFileUrl(response.data.Documents.governing_law.pdf)
-        setTermsFileUrl(response.data.Documents.tos.pdf)
-        setPrivacyFileUrl(response.data.Documents.privacy_policy.pdf)
-        setLiabilityFileUrl(response.data.Documents.limitations_of_liabilities.pdf)
-        setWarrantyFileUrl(response.data.Documents.warranty.pdf)
+        setGovLawFileUrl(response.data.Documents.governing_law)
+        setTermsFileUrl(response.data.Documents.tos)
+        setPrivacyFileUrl(response.data.Documents.privacy_policy)
+        setLiabilityFileUrl(response.data.Documents.limitations_of_liabilities)
+        setWarrantyFileUrl(response.data.Documents.warranty)
         
+        console.log('govLawFileUrl', govLawFileUrl)
+        console.log('termsFileUrl', termsFileUrl)
+        console.log('privacyFileUrl', privacyFileUrl)
+        console.log('liabilityFileUrl', liabilityFileUrl)
+        console.log('warrantyFileUrl', warrantyFileUrl)
         
 
-        setEditorGovLawValue(response.data.Content.governing_law)
-        setEditorPrivacyValue(response.data.Content.privacy_policy)
-        setEditorTermValue(response.data.Content.tos)
-        setEditorLiabalityValue(response.data.Content.limitations_of_liabilities)
-        seteditorWarrantiesValue(response.data.Content.warranty)
+        setgovLawDesc(response.data.Content.governing_law)
+        setPrivacyDesc(response.data.Content.privacy_policy)
+        setTermDesc(response.data.Content.tos)
+        setLiabalityDesc(response.data.Content.limitations_of_liabilities)
+        setWarrantiesDesc(response.data.Content.warranty)
+
+        // console.log('govLawDesc',govLawDesc)
+        // console.log('privacyDesc',privacyDesc)
+        // console.log('termDesc',termDesc)
+        // console.log('liabalityDesc',liabalityDesc)
+        // console.log('warrantiesDesc',warrantiesDesc)
+
+        setEditorGovLawValue(RichTextEditor.createValueFromString(response.data.Content.governing_law,"html"))
+        setEditorPrivacyValue(RichTextEditor.createValueFromString(response.data.Content.privacy_policy,"html"))
+        setEditorTermValue(RichTextEditor.createValueFromString(response.data.Content.tos,"html"))
+        setEditorLiabalityValue(RichTextEditor.createValueFromString(response.data.Content.limitations_of_liabilities,"html"))
+        seteditorWarrantiesValue(RichTextEditor.createValueFromString(response.data.Content.warranty,"html"))
+
+
+
 
       })
       .catch((e) => {
@@ -554,7 +574,7 @@ export default function PolicySettings() {
       bodyFormData.append('limitations_of_liabilities', liabalityDesc)
       bodyFormData.append('warranty', warrantiesDesc)
       // console.log(setprivacydesc);
-      if(post){
+      if(isPostMethod){
         await axios
           .post(url, bodyFormData, {
             headers: { 'content-type': 'multipart/form-data' },
@@ -574,9 +594,10 @@ export default function PolicySettings() {
             console.log(e)
             //   setError(true);
           })
+          setIsPostMethod(false)
       } else{
         await axios
-          .put(url, bodyFormData, {
+          .put(url+"1/", bodyFormData, {
             headers: { 'content-type': 'multipart/form-data' },
           })
           .then((response) => {
