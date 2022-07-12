@@ -19,7 +19,7 @@ import { useHistory } from "react-router-dom";
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize", "font-weight": "400", "font-size": "14px" },
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px" },
-    togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "2px solid #ebd79c", cursor: "pointer", height: "355px", width: "346px", "margin-left": "20px" },
+    togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "1px solid #ebd79c", cursor: "pointer", height: "355px", width: "346px", "margin-left": "20px" },
     marginrowtop: { "margin-top": "20px" },
     cardDataHeading: { "font-weight": "600", "font-size": "14px", color: "#3D4A52" },
     cardData: { "font-weight": 400, "font-size": "14px", color: "#3D4A52" }
@@ -43,7 +43,7 @@ export default function SupportCard(props) {
         <Card className={props.margingtop} style={isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(false)} onMouseLeave={() => setisshowbutton(true)}>
             <CardHeader
                 avatar={
-                    props.data.organization.hero_image ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url + props.data.organization.hero_image} sx={{ width: 54, height: 54 }} /> :
+                    props.data.organization.logo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.data.organization.logo} sx={{ width: 54, height: 54 }} /> :
                         <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.data.subject.charAt(0)}</Avatar>
                 }
                 title={props.data.subject}
@@ -104,7 +104,7 @@ export default function SupportCard(props) {
                 </Row>
                 <Row style={{ "margin-top": "-58px" }}>
                     {!isshowbutton ? <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-                        <Button variant="outlined" style={useStyles.btncolor}>
+                        <Button onClick={()=>props.viewCardDetails()} variant="outlined" style={useStyles.btncolor}>
                             View Details
             </Button>
                     </Col> : <></>}
