@@ -10,11 +10,8 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import HTTPService from "../../../Services/HTTPService";
-import { Link } from 'react-router-dom';
 import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
 import HandleSessionTimeout from '../../../Utils/Common';
-
-export default function PolicySettings() {
 import { Link } from "react-router-dom";
 
 export default function PolicySettings(props) {
@@ -141,25 +138,6 @@ export default function PolicySettings(props) {
       false,
       false
     )
-    const [govuploadProgress, setgovuploadProgress] = useState(0)
-    const [warrantyloadProgress, setwarrantyloadProgress] = useState(0)
-    const [liabiltyloadProgress, setliabiltyloadProgress] = useState(0)
-    const [privacyProgress, setprivacyProgress] = useState(0)
-    const [tosloadProgress, settosloadProgress] = useState(0)
-
-    const [govLawFileUrl, setGovLawFileUrl] = useState("")
-    const [warrantyFileUrl, setWarrantyFileUrl] = useState("")
-    const [liabilityFileUrl, setLiabilityFileUrl] = useState("")
-    const [privacyFileUrl, setPrivacyFileUrl] = useState("")
-    const [termsFileUrl, setTermsFileUrl] = useState("")
-
-    const [isPostMethod, setIsPostMethod] = useState(false)
-    
-    useEffect(() => {
-      getPolicies()
-    },[])
-    const getPolicies = () => {
-      HTTPService("GET",UrlConstant.base_url+UrlConstant.policies_save_upload+"1/", "", false, true)
       .then((response) => {
         console.log("response : ", response.data);
         if (
