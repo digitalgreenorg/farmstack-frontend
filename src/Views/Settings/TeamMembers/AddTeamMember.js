@@ -49,7 +49,7 @@ function AddTeamMember(props) {
         
         <>
             <Container style={useStyles.marginrowtop}>
-                {isSuccess ? <Success okevent={()=>history.push('/datahub/settings/3')} route={"datahub/settings"} imagename={'success'} btntext={"ok"} heading={"Team Member added successfully !"} imageText={"Success!"} msg={"You added a team member."}></Success> : 
+                {isSuccess ? <Success okevent={()=>history.push('/datahub/settings/4')} route={"datahub/settings"} imagename={'success'} btntext={"ok"} heading={"Team Member added successfully !"} imageText={"Success!"} msg={"You added a team member."}></Success> : 
                 <><AddMemberForm
                     firstname={firstname}
                     setfirstname={ref => { setfirstname(ref) }}
@@ -84,7 +84,7 @@ function AddTeamMember(props) {
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => history.push('/datahub/settings/3')} variant="outlined" className="cancelbtnteam">
+                            <Button onClick={() => history.push('/datahub/settings/4')} variant="outlined" className="cancelbtnteam">
                                 {screenlabels.common.cancel}
                             </Button>
                         </Col>
