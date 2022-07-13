@@ -92,9 +92,9 @@ export default function BrandingSetting(props) {
     sethexColor(color.hex);
   };
   const brandsettingcancelbtn = (e) => {
-    e.preventDefault();
     getBrandingDetails();
     setbrandfile(null);
+    window.location.reload();
     // sethexColor(color);
   };
 
