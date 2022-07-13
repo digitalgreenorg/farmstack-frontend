@@ -82,11 +82,11 @@ function EditTeamMember(props) {
                         <Col xs={12} sm={12} md={6} lg={6} >
                             {(firstname && useremail && !isuseremailerror && userrole)
                                 ? (
-                                    <Button onClick={() => EditMember()} variant="contained" className="submitbtnupdt">
+                                    <Button onClick={() => EditMember()} variant="contained" className="submitbtnteam">
                                         {screenlabels.common.update}
                                     </Button>
                                 ) : (
-                                    <Button variant="outlined" disabled className="disbalesubmitbtnupdt">
+                                    <Button variant="outlined" disabled className="disbalesubmitbtnteam">
                                         {screenlabels.common.update}
                                     </Button>
                                 )}

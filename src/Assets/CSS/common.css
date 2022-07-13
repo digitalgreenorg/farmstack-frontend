@@ -17,6 +17,7 @@ button.disbalesubmitbtn {
   width: 420px !important;
   height: 42px;
   margin-top: 30px;
+  margin-bottom: 30px;
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   opacity: 0.5;
@@ -68,6 +69,7 @@ button.submitbtn {
   color: #ffffff;
   height: 42px;
   margin-top: 30px;
+  margin-bottom: 30px;
   font-weight: 700;
   background: #c09507;
   border-radius: 2px;
@@ -326,9 +328,9 @@ button.submitbtnteam:hover{
 button.submitbtn:hover{
   background-color: #ab8405 !important;
 }
-button.submitbtnupdt:hover{
-  background-color: #ab8405 !important;
-}
+/* button.submitbtnupdt:hover{
+  background-color: #ab8405 !important; */
+
 button.cancelbtnteam {
   text-transform: capitalize;
   border-radius: 2px;
@@ -342,18 +344,18 @@ button.cancelbtnteam {
   margin-bottom: 50px;
   box-shadow: none !important;
 }
-button.disbalesubmitbtupdt {
+/* button.disbalesubmitbtupdt {
   text-transform: capitalize;
   border-radius: 2px;
+  box-shadow: none !important;
   background: #ffffff !important;
   width: 420px !important;
   height: 42px;
   margin-top: 200px;
-  font-weight: 700;
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   opacity: 0.5;
-  box-shadow: none !important;
+  font-weight: 700;
 }
 button.submitbtnupdt {
   width: 420px !important;
@@ -366,7 +368,7 @@ button.submitbtnupdt {
   border-radius: 2px;
   border: 2px solid #c09507 !important;
   box-shadow: none !important;
-}
+} */
 .backlabel {
   font-family: "Open Sans";
   font-style: normal;
