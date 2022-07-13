@@ -44,10 +44,11 @@ const useStyles = {
   },
   marginrowtop: { "margin-top": "20px" },
   marginrowtop50px: { "margin-top": "20px" },
+  marginrowtoptab50px: { "margin-top": "50px" },
   marginrowtop10px: { "margin-top": "20px"},
   marginrowtopscreen10px: { "margin-top": "10px"},
-  teamword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "font-style": "normal", "font-family": "Open Sans"},
-  background: { "padding-top": "50px", "margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "60px", "padding-right": "60px"},
+  teamword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans"},
+  background: {"margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "60px", "padding-right": "60px"},
 };
 
 function Settings(props) {
@@ -232,7 +233,7 @@ function Settings(props) {
           <></>
         )}
         {istabView ? (
-          <Row style={useStyles.marginrowtop50px}>
+          <Row style={useStyles.marginrowtoptab50px}>
             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
               <Box>
                 <TabContext value={value} className="tabstyle">

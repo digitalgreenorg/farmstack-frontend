@@ -54,14 +54,12 @@ button.editbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   margin-top: 50px;
-
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
   line-height: 19px;
   /* identical to box height */
-
   color: #585d60;
 }
 button.submitbtn {
@@ -70,14 +68,15 @@ button.submitbtn {
   color: #ffffff;
   height: 42px;
   margin-top: 30px;
+  font-weight: 700;
   background: #c09507;
   border-radius: 2px;
   border: 2px solid #c09507 !important;
   box-shadow: none !important;
 }
-/* button.submitbtn:hover {
+button.submitbtn:hover {
   background-color: #ab8405 !important;
-} */
+} 
 .width100percent {
   width: 100%;
 }
@@ -212,7 +211,6 @@ button.submitbtn {
   background: #c09507 !important;
   border-bottom: none !important;
 }
-.se
 .particaipancard .MuiCardHeader-title {
   padding-bottom: 18px;
   font-family: "Open Sans";
@@ -221,9 +219,6 @@ button.submitbtn {
   font-size: 14px;
   color: #3d4a52;
   line-height: 19px;
-  line-height: 19px;
-
-  color: #3d4a52;
 }
 .particaipancard .MuiCardHeader-subheader {
   font-family: "Open Sans";
@@ -236,9 +231,6 @@ button.submitbtn {
   color: #000000;
 
   opacity: 0.5;
-  font-family: 'Open Sans';
-  font-style: normal;
-  line-height: 19px;
 }
 /* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
   background: #FFFFFF;
@@ -314,6 +306,7 @@ button.disbalesubmitbtnteam {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   opacity: 0.5;
+  font-weight: 700;
 }
 button.submitbtnteam {
   width: 420px !important;
@@ -325,6 +318,16 @@ button.submitbtnteam {
   border-radius: 2px;
   border: 2px solid #c09507 !important;
   box-shadow: none !important;
+  font-weight: 700;
+}
+button.submitbtnteam:hover{
+  background-color: #ab8405 !important;
+}
+button.submitbtn:hover{
+  background-color: #ab8405 !important;
+}
+button.submitbtnupdt:hover{
+  background-color: #ab8405 !important;
 }
 button.cancelbtnteam {
   text-transform: capitalize;
@@ -333,6 +336,7 @@ button.cancelbtnteam {
   width: 420px !important;
   height: 42px;
   margin-top: 30px;
+  font-weight: 700;
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   margin-bottom: 50px;
@@ -345,6 +349,7 @@ button.disbalesubmitbtupdt {
   width: 420px !important;
   height: 42px;
   margin-top: 200px;
+  font-weight: 700;
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   opacity: 0.5;
@@ -356,14 +361,12 @@ button.submitbtnupdt {
   color: #ffffff;
   height: 42px;
   margin-top: 200px;
+  font-weight: 700;
   background: #c09507;
   border-radius: 2px;
   border: 2px solid #c09507 !important;
   box-shadow: none !important;
 }
-
-
-
 .backlabel {
   font-family: "Open Sans";
   font-style: normal;
@@ -371,9 +374,9 @@ button.submitbtnupdt {
   font-size: 14px;
   line-height: 138.69%;
   /* or 19px */
-
   color: #3491ee;
 }
+
 .link :hover {
   cursor: pointer;
 }
@@ -393,8 +396,6 @@ button.submitbtnupdt {
   line-height: 19px;
 
   /* headings */
-
-  color: #3D4A52;
   color: #3d4a52 !important;
 }
 .tabstyle{
@@ -420,7 +421,4 @@ button.submitbtnupdt {
   display: inline;
   color: #3D4A52 !important;
 }
-* hiding drag and drop shadow issue */
-.sc-gsnTZi {
-  display: none;
-}
+/* hiding drag and drop shadow issue */

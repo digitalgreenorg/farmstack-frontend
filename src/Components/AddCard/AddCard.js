@@ -22,7 +22,7 @@ export default function AddCard(props) {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12} style={{'margin-top': '20px', "margin-left":"30px"}}>
+          <Col xs={12} sm={12} md={12} lg={12} style={{'margin-top': '20px'}}>
           <img
               src={require('../../Assets/Img/add.svg')}
               style={{width: '71px', height: '71px'}}

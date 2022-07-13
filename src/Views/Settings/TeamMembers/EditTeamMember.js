@@ -61,7 +61,7 @@ function EditTeamMember(props) {
     return (
         <>
             <Container style={useStyles.marginrowtop}>
-                {isSuccess ? <Success okevent={()=>history.push('/datahub/settings/3')} route={"datahub/settings"} imagename={'success'} btntext={"ok"} heading={"Team Member updated successfully!!"} imageText={"Success!"} msg={"You updated role of member."}></Success> : 
+                {isSuccess ? <Success okevent={()=>history.push('/datahub/settings/3')} route={"datahub/settings"} imagename={'success'} btntext={"ok"} heading={"Team Member updated successfully !"} imageText={"Success!"} msg={"You updated role of member."}></Success> : 
                 <><AddMemberForm
                     firstname={firstname}
                     setfirstname={ref => { setfirstname(ref) }}
