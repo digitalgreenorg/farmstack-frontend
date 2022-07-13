@@ -415,6 +415,7 @@ export default function OrganisationSetting(props) {
   const orgsettingcancelbtn = () => {
     setorgfile(null);
     getOrgDetails();
+    window.location.reload();
   };
 
   return (

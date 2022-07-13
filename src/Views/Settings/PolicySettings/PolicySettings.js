@@ -661,6 +661,7 @@ export default function PolicySettings(props) {
 
   const policysettingcancelbtn = () => {
     getPolicies();
+    window.location.reload();
   };
 
   return (
