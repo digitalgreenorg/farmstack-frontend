@@ -11,15 +11,18 @@ import RegexConstants from '../../../Constants/RegexConstants';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
-    marginrowtop: {"margin-top": "20px"},
-    inputwidth:{width: "95%", "text-align": "left", "font-family": "Open Sans"},
-    headingbold:{fontWeight: "bold"}
+    marginrowtop: {"margin-top": "30px"},
+    inputwidth:{width: "95%", "text-align": "left", "font-family": "Open Sans", 'width': '420px', "height": '48px', 'left': "65px",},
+    inputwidthright:{width: "95%", "text-align": "left", "font-family": "Open Sans", 'width': '420px', "height": '48px', "right": "65px"},
+    headingbold:{fontWeight: "bold"},
+    marginrowtophead:{"margin-top": "40px", 'font-weight': "600", 'font-family': 'Open Sans', "width": "202px", "height": "27px", "margin-left": "122px"},
+
 };
 export default function AddMemberForm(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     return (
         <>
-            <Row style={useStyles.marginrowtop}>
+            <Row style={useStyles.marginrowtophead}>
                 <span className="mainheading">
                     {props.first_heading}
                 </span>
@@ -38,7 +41,7 @@ export default function AddMemberForm(props) {
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
-                        style={useStyles.inputwidth}
+                        style={useStyles.inputwidthright}
                         id="filled-basic"
                         variant="filled"
                         label={screenlabels.settings.last_name}
@@ -67,7 +70,7 @@ export default function AddMemberForm(props) {
                         select
                         variant="filled"
                         required
-                        style={useStyles.inputwidth}
+                        style={useStyles.inputwidthright}
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         label={screenlabels.settings.role}
