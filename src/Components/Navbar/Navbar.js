@@ -11,11 +11,12 @@ import labels from "../../Constants/labels";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
-import { getUserLocal } from "../../Utils/Common";
+import HandleSessionTimeout, { getUserLocal, handleSessionTimeout } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
+import SESSION_CONSTANTS from "../../Constants/OtherConstants";
 
 const Navbar = (props) => {
   const [profile, setprofile] = useState(null);
@@ -27,7 +28,7 @@ const Navbar = (props) => {
       "GET",
       UrlConstant.base_url + UrlConstant.profile + id + "/",
       false,
-      false
+      true
     )
       .then((response) => {
         console.log(
@@ -44,6 +45,10 @@ const Navbar = (props) => {
       })
       .catch((e) => {
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+          HandleSessionTimeout();
+        }
       });
   };
 

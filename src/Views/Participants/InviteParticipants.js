@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom";
 import RichTextEditor from "react-rte";
 import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/style.css';
+import SESSION_CONSTANTS from '../../Constants/OtherConstants';
+import HandleSessionTimeout from '../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
@@ -61,11 +63,15 @@ function InviteParticipants(props) {
             'to_email':emails,
             'content': orgdesc
         }
-        HTTPService('POST', UrlConstants.base_url + UrlConstants.inviteparticipant, data, false, false).then((response) => {
+        HTTPService('POST', UrlConstants.base_url + UrlConstants.inviteparticipant, data, false, true).then((response) => {
             console.log("otp valid", response.data);
             setisSuccess(true)
         }).catch((e) => {
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
         });
     }
     const handleOrgDesChange = (value) => {

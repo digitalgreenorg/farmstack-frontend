@@ -17,7 +17,7 @@ import UploadOrgBanner from "./UploadOrgBanner";
 
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import {
+import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
   setUserId,
@@ -26,6 +26,7 @@ import {
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import { validateInputField } from "../../../Utils/Common";
+import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
 
 export default function OrganisationSetting(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -91,7 +92,7 @@ export default function OrganisationSetting(props) {
       "GET",
       UrlConstant.base_url + UrlConstant.org + id + "/",
       false,
-      false
+      true
     )
       .then((response) => {
         console.log("get request for org settings", response.data);
@@ -131,6 +132,10 @@ export default function OrganisationSetting(props) {
       })
       .catch((e) => {
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+        }
       });
   };
 
@@ -181,7 +186,7 @@ export default function OrganisationSetting(props) {
     bodyFormData.append("org_description", orgdesc);
     console.log("org details", bodyFormData);
     if (isPost) {
-      HTTPService("POST", posturl, bodyFormData, true, false)
+      HTTPService("POST", posturl, bodyFormData, true, true)
         .then((response) => {
           console.log("response");
           console.log("org details", response.data);
@@ -199,10 +204,14 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           console.log(e);
+          console.log(e.response.status);
+          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+              HandleSessionTimeout();
+          }
           //   setError(true);
         });
     } else {
-      HTTPService("PUT", puturl, bodyFormData, true, false)
+      HTTPService("PUT", puturl, bodyFormData, true, true)
         .then((response) => {
           console.log("response");
           console.log("org details", response.data);
@@ -220,6 +229,10 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           console.log(e);
+          console.log(e.response.status);
+          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+              HandleSessionTimeout();
+          }
           //   setError(true);
         });
     }

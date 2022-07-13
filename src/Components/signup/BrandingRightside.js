@@ -8,7 +8,8 @@ import Button from '@mui/material/Button'
 import HTTPService from '../../Services/HTTPService'
 import UrlConstant from '../../Constants/UrlConstants'
 import { useHistory } from 'react-router-dom'
-import { setTokenLocal, getTokenLocal } from '../../Utils/Common'
+import HandleSessionTimeout, { setTokenLocal, getTokenLocal } from '../../Utils/Common'
+import SESSION_CONSTANTS from '../../Constants/OtherConstants'
 
 export default function BrandingRightside(props) {
   const [file, setFile] = useState(null)
@@ -40,7 +41,7 @@ export default function BrandingRightside(props) {
     console.log('branding data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.branding
 
-    await HTTPService('POST', url, bodyFormData, true, false)
+    await HTTPService('POST', url, bodyFormData, true, true)
       .then((response) => {
         console.log('response')
         console.log('branding details', response.data)
@@ -57,6 +58,10 @@ export default function BrandingRightside(props) {
       })
       .catch((e) => {
         console.log(e)
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+          HandleSessionTimeout();
+        }
         //   setError(true);
       })
   }
@@ -70,7 +75,7 @@ export default function BrandingRightside(props) {
     console.log('branding data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.branding
 
-    await HTTPService('POST', url, bodyFormData, true, false)
+    await HTTPService('POST', url, bodyFormData, true, true)
       .then((response) => {
         console.log('response')
         console.log('branding details', response.data)
@@ -87,6 +92,10 @@ export default function BrandingRightside(props) {
       })
       .catch((e) => {
         console.log(e)
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+          HandleSessionTimeout();
+        }
         //   setError(true);
       })
   }

@@ -13,7 +13,8 @@ import UrlConstants from '../../Constants/UrlConstants'
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from '../../Constants/RegexConstants';
-import { validateInputField } from '../../Utils/Common';
+import HandleSessionTimeout, { validateInputField } from '../../Utils/Common';
+import SESSION_CONSTANTS from '../../Constants/OtherConstants';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
@@ -62,6 +63,10 @@ function AddParticipants(props) {
         }).catch((e) => {
             console.log(e);
             setisexisitinguseremail(true)
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
         });
     }
     return (

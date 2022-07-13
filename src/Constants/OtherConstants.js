@@ -1,0 +1,5 @@
+const SESSION_CONSTANTS = {
+    SESSION_TIMEOUT: "#c09507",
+};  
+
+export default SESSION_CONSTANTS;

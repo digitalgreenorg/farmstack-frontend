@@ -23,6 +23,8 @@ import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
 import PolicySettings from "../PolicySettings/PolicySettings";
 import BrandingSetting from "../branding/BrandingSetting";
+import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
+import HandleSessionTimeout from "../../../Utils/Common";
 
 const useStyles = {
   btncolor: {
@@ -75,7 +77,7 @@ function Settings(props) {
   }, []);
 
   const getMemberList = () => {
-    HTTPService("GET", memberUrl, "", false, false)
+    HTTPService("GET", memberUrl, "", false, true)
       .then((response) => {
         console.log("otp valid", response.data);
 
@@ -91,6 +93,10 @@ function Settings(props) {
       })
       .catch((e) => {
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+        }
       });
   };
   const deleteTeamMember = () => {
@@ -102,7 +108,7 @@ function Settings(props) {
       UrlConstants.base_url + UrlConstants.team_member + teamMemberId + "/",
       "",
       false,
-      false
+      true
     )
       .then((response) => {
         console.log("otp valid", response.data);
@@ -112,6 +118,10 @@ function Settings(props) {
       })
       .catch((e) => {
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+        }
       });
   };
 

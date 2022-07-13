@@ -21,7 +21,8 @@ import { FileUploader } from "react-drag-drop-files";
 import Success from '../../Components/Success/Success'
 import FileSaver from 'file-saver';
 import Avatar from '@mui/material/Avatar';
-import { handleUnwantedSpace } from '../../Utils/Common';
+import HandleSessionTimeout, { handleUnwantedSpace } from '../../Utils/Common';
+import SESSION_CONSTANTS from '../../Constants/OtherConstants';
 function Support(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [supportList, setsupportList] = useState([]);
@@ -68,7 +69,7 @@ function Support(props) {
     }, []);
     const getSupportList = (payload) => {
         setfinalPayload(payload)
-        HTTPService('POST', UrlConstants.base_url + UrlConstants.support, payload, false, false).then((response) => {
+        HTTPService('POST', UrlConstants.base_url + UrlConstants.support, payload, false, true).then((response) => {
             console.log("otp valid", response.data);
             if (response.data.next == null) {
                 setisShowLoadMoreButton(false)
@@ -79,10 +80,14 @@ function Support(props) {
             setsupportList(response.data.results)
         }).catch((e) => {
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
         });
     };
     const loadMoreSupportList = () => {
-        HTTPService('POST', supportUrl, finalPayload, false, false).then((response) => {
+        HTTPService('POST', supportUrl, finalPayload, false, true).then((response) => {
             console.log("otp valid", response.data);
             if (response.data.next == null) {
                 setisShowLoadMoreButton(false)
@@ -96,6 +101,10 @@ function Support(props) {
             setsupportList(finalDataList)
         }).catch((e) => {
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
         });
     };
     const filterRow = (row, flag, payloadkey) => {
@@ -185,7 +194,7 @@ function Support(props) {
             UrlConstants.base_url + UrlConstants.resolution + id + "/",
             bodyFormData,
             true,
-            false
+            true
         )
             .then((response) => {
                 console.log("success")
@@ -196,6 +205,10 @@ function Support(props) {
 
             }).catch((e) => {
                 console.log(e);
+                console.log(e.response.status);
+                if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                    HandleSessionTimeout();
+                }
             });
     }
     const downloadAttachment = (uri, name) => {

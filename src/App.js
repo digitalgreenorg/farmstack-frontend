@@ -15,6 +15,7 @@ import AddParticipants from './Views/Participants/AddParticipants'
 import EditParticipants from './Views/Participants/EditParticipants'
 import ViewParticipants from './Views/Participants/ViewParticipants'
 import Datahub from './Layout/Datahub'
+import SessionExpired from "./Components/SessionExpired/SessionExpired";
 function App() {
   return (
     <React.Fragment>
@@ -28,6 +29,7 @@ function App() {
           <Route  path="/login/profile" component={ProfileScreen} /> */}
           <Route path="/datahub" component={Datahub} />
           <Route path="/login" component={Login} />
+          <Route path="/sessionexpired" component={SessionExpired} />
           <Redirect from="/" to="/login" />
         </Switch>
       </Router>

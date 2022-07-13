@@ -12,6 +12,8 @@ import UrlConstants from '../../Constants/UrlConstants'
 import HTTPService from '../../Services/HTTPService'
 import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
+import SESSION_CONSTANTS from '../../Constants/OtherConstants';
+import HandleSessionTimeout from '../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black" },
@@ -48,7 +50,7 @@ function ViewParticipants(props) {
         return (res !== null)
     };
     useEffect(() => {
-        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', false, false).then((response) => {
+        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', false, true).then((response) => {
             console.log("otp valid", response.data);
             // let addressdata=JSON.parse(response.data.organization.address)
             setorganisationname(response.data.organization.name)
@@ -65,19 +67,27 @@ function ViewParticipants(props) {
             console.log("otp valid", response.data);
         }).catch((e) => {
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
         });
     }, []);
     const deleteParticipants = () => {
         setisDelete(false);
         setisSuccess(false);
         setisDeleteSuccess(true)
-        HTTPService('DELETE', UrlConstants.base_url + UrlConstants.participant + id + '/', "", false, false).then((response) => {
+        HTTPService('DELETE', UrlConstants.base_url + UrlConstants.participant + id + '/', "", false, true).then((response) => {
             console.log("otp valid", response.data);
             setisDeleteSuccess(true)
             setisSuccess(false)
             setisDelete(false);
         }).catch((e) => {
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
         });
     }
     return (

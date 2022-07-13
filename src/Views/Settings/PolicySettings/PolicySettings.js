@@ -11,6 +11,8 @@ import axios from 'axios'
 import Button from "@mui/material/Button";
 import HTTPService from "../../../Services/HTTPService";
 import { Link } from 'react-router-dom';
+import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
+import HandleSessionTimeout from '../../../Utils/Common';
 
 export default function PolicySettings() {
 
@@ -119,7 +121,7 @@ export default function PolicySettings() {
       getPolicies()
     },[])
     const getPolicies = () => {
-      HTTPService("GET",UrlConstant.base_url+UrlConstant.policies_save_upload+"1/", "", false, false)
+      HTTPService("GET",UrlConstant.base_url+UrlConstant.policies_save_upload+"1/", "", false, true)
       .then((response) => {
         console.log("response : ", response.data);
         if(response.data.Content == 'null' && response.data.Documents == 'null'){
@@ -164,6 +166,10 @@ export default function PolicySettings() {
       })
       .catch((e) => {
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+        }
       });
     }
 

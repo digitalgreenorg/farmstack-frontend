@@ -1,5 +1,8 @@
+import { useHistory } from "react-router-dom";
 import LocalStorageConstants from "../Constants/LocalStorageConstants";
 import RegexConstants from "../Constants/RegexConstants";
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(
@@ -65,3 +68,14 @@ export const handleNameFieldEntry = (fieldValue, e) => {
     }
   }
 };
+
+const HandleSessionTimeout = () => {
+  const history = useHistory();
+  return (<>
+  {
+    history.push("/sessionexpired")
+  }
+  </>);
+};
+
+export default HandleSessionTimeout;

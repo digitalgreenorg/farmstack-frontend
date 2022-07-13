@@ -12,6 +12,8 @@ import UrlConstants from '../../../Constants/UrlConstants'
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
+import HandleSessionTimeout from '../../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
@@ -29,13 +31,17 @@ function EditTeamMember(props) {
     const [isexistinguseremail, setisexisitinguseremail] =useState(false)
     const [isSuccess, setisSuccess] = useState(false);
     useEffect(() => {
-        HTTPService('GET', UrlConstants.base_url + UrlConstants.team_member + id + '/', false, false).then((response) => {
+        HTTPService('GET', UrlConstants.base_url + UrlConstants.team_member + id + '/', false, true).then((response) => {
             setfirstname(response.data.first_name)
             setlastname(response.data.last_name)
             setuseremail(response.data.email)
             setuserrole(response.data.role)
         }).catch((e) => {
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
         });
     }, []);
     const EditMember = () => {
@@ -50,10 +56,14 @@ function EditTeamMember(props) {
             'email':useremail,
             'role':userrole
         }
-        HTTPService('PUT', UrlConstants.base_url + UrlConstants.team_member+ id + '/', data, false, false).then((response) => {
+        HTTPService('PUT', UrlConstants.base_url + UrlConstants.team_member+ id + '/', data, false, true).then((response) => {
             setisSuccess(true)
         }).catch((e) => {
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
             setisexisitinguseremail(true)
         });
     }

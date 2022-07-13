@@ -12,6 +12,8 @@ import UrlConstants from '../../Constants/UrlConstants'
 import validator from "validator";
 import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
+import SESSION_CONSTANTS from '../../Constants/OtherConstants';
+import HandleSessionTimeout from '../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
@@ -49,7 +51,7 @@ function EditParticipants(props) {
         return (res !== null)
     };
     useEffect(() => {
-        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', false, false).then((response) => {
+        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', false, true).then((response) => {
             console.log("otp valid", response.data);
             // let addressdata=JSON.parse(response.data.organization.address)
             setorganisationname(response.data.organization.name)
@@ -66,6 +68,10 @@ function EditParticipants(props) {
             setidorg(response.data.organization_id)
         }).catch((e) => {
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
         });
     }, []);
 
@@ -89,6 +95,10 @@ function EditParticipants(props) {
         }).catch((e) => {
             console.log(e);
             setisexisitinguseremail(true)
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                HandleSessionTimeout();
+            }
         });
     }
     return (

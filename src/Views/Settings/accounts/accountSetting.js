@@ -10,7 +10,7 @@ import { FileUploader } from "react-drag-drop-files";
 import labels from "../../../Constants/labels";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstants from "../../../Constants/UrlConstants";
-import {
+import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
   setUserId,
@@ -20,6 +20,7 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../../Constants/RegexConstants";
 import { validateInputField } from "../../../Utils/Common";
+import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
 
 export default function AccountSetting(props) {
   const profilefirstname = useRef();
@@ -154,7 +155,7 @@ export default function AccountSetting(props) {
       UrlConstants.base_url + UrlConstants.profile + id + "/",
       bodyFormData,
       true,
-      false
+      true
     )
       .then((response) => {
         console.log("account setting updated!");
@@ -169,6 +170,10 @@ export default function AccountSetting(props) {
       })
       .catch((e) => {
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+        }
       });
   };
   const getAccountDetails = async () => {
@@ -179,7 +184,7 @@ export default function AccountSetting(props) {
       "GET",
       UrlConstants.base_url + UrlConstants.profile + id + "/",
       false,
-      false
+      true
     )
       .then((response) => {
         console.log("get request for account settings", response.data);
@@ -198,6 +203,10 @@ export default function AccountSetting(props) {
       })
       .catch((e) => {
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+        }
       });
   };
 

@@ -10,13 +10,14 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 
 import { SketchPicker } from "react-color";
-import {
+import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
   setUserId,
   getUserLocal,
   handleAddressCharacters,
 } from "../../../Utils/Common";
+import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
 
 export default function BrandingSetting() {
   const fileTypes = ["JPEG", "PNG", "jpg"];
@@ -37,6 +38,10 @@ export default function BrandingSetting() {
       })
       .catch((e) => {
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+        }
       });
   };
 

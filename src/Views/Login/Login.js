@@ -15,7 +15,7 @@ import ProfileRightside from '../../Components/signup/ProfileRightside'
 import OrgRightside from '../../Components/signup/OrgRightside'
 import PoliciesRightside from '../../Components/signup/PoliciesRightside'
 import BrandingRightside from '../../Components/signup/BrandingRightside'
-import {
+import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
   setUserId,
@@ -23,6 +23,7 @@ import {
 } from '../../Utils/Common'
 import RichTextEditor from 'react-rte'
 import countryList from 'react-select-country-list'
+import SESSION_CONSTANTS from '../../Constants/OtherConstants'
 
 export default function Login(props) {
   const [button, setButton] = useState(false)
@@ -86,7 +87,7 @@ export default function Login(props) {
       //     email: finalEmail,
       //   }),
       // }).then((response) => {
-      HTTPService('POST', url, data, false, false)
+      HTTPService('POST', url, data, false, true)
         .then((response) => {
           console.log('email sent')
           console.log('email sent', response.data)
@@ -105,6 +106,10 @@ export default function Login(props) {
         })
         .catch((e) => {
           console.log(e)
+          console.log(e.response.status);
+          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+          }
           setError(true)
         })
     }
@@ -150,7 +155,7 @@ export default function Login(props) {
           otp: valid,
         },
         false,
-        false,
+        true,
       )
         .then((response) => {
           console.log('uid', response.data.user)
@@ -190,6 +195,10 @@ export default function Login(props) {
           if (e.response.status === 403) {
             setuserSuspenderror(true)
             setOtpError(false)
+          }
+          console.log(e.response.status);
+          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
           }
           console.log(userSuspenderror)
         })
@@ -233,7 +242,7 @@ export default function Login(props) {
         email: validemail,
       },
       false,
-      false,
+      true,
     )
       .then((response) => {
         console.log('otp valid')
@@ -241,6 +250,10 @@ export default function Login(props) {
       })
       .catch((e) => {
         console.log(e)
+        console.log(e.response.status);
+          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+          }
       })
   }
 
@@ -288,7 +301,7 @@ export default function Login(props) {
     console.log('profile data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.profile + `${profileid}/`
 
-    await HTTPService('PUT', url, bodyFormData, true, false)
+    await HTTPService('PUT', url, bodyFormData, true, true)
       .then((response) => {
         console.log('profile response')
         console.log('profile details', response.data)
@@ -309,6 +322,10 @@ export default function Login(props) {
       })
       .catch((e) => {
         console.log(e)
+        console.log(e.response.status);
+          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+          }
         //   setError(true);
       })
   }
@@ -462,7 +479,7 @@ export default function Login(props) {
     } else {
       setisOrgnameerror(false)
 
-      HTTPService('POST', url, bodyFormData, true, false)
+      HTTPService('POST', url, bodyFormData, true, true)
         .then((response) => {
           console.log('response')
           console.log('org details', response.data)
@@ -481,6 +498,10 @@ export default function Login(props) {
           console.log(e)
           //   setError(true);
           setIsExistingOrgEmail(true)
+          console.log(e.response.status);
+          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            HandleSessionTimeout();
+          }
         })
     }
   }
