@@ -43,9 +43,12 @@ const useStyles = {
     color: "black",
   },
   marginrowtop: { "margin-top": "20px" },
-  marginrowtop50px: { "margin-top": "50px" },
-  marginrowtop10px: { "margin-top": "10px" },
-  teamword: { "font-weight": 700, "font-size": "20px", "margin-left": "15px" },
+  marginrowtop50px: { "margin-top": "20px" },
+  marginrowtoptab50px: { "margin-top": "50px" },
+  marginrowtop10px: { "margin-top": "20px"},
+  marginrowtopscreen10px: { "margin-top": "10px"},
+  teamword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans"},
+  background: {"margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "60px", "padding-right": "60px"},
 };
 
 function Settings(props) {
@@ -121,8 +124,8 @@ function Settings(props) {
     setValue(newValue);
   };
   return (
-    <>
-      <Container style={useStyles.marginrowtop}>
+    <div style={useStyles.background}>
+      <Container style={useStyles.marginrowtopscreen10px}>
         {isDelete ? (
           <Delete
             route={"login"}
@@ -230,10 +233,10 @@ function Settings(props) {
           <></>
         )}
         {istabView ? (
-          <Row style={useStyles.marginrowtop50px}>
+          <Row style={useStyles.marginrowtoptab50px}>
             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
               <Box>
-                <TabContext value={value}>
+                <TabContext value={value} className="tabstyle">
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <TabList
                       onChange={handleChange}
@@ -273,7 +276,7 @@ function Settings(props) {
                     <Row>
                       <span style={useStyles.teamword}>Team</span>
                     </Row>
-                    <Row style={useStyles.marginrowtop10px}>
+                    <Row>
                       <Col
                         xs={12}
                         sm={6}
@@ -283,8 +286,6 @@ function Settings(props) {
                         <AddCard
                           firstText={screenlabels.settings.firstText}
                           secondText={screenlabels.settings.secondText}
-                          thirdText={screenlabels.settings.thirdText}
-                          fourText={screenlabels.settings.fourText}
                           addevent={() =>
                             history.push("/datahub/settings/addmember")
                           }></AddCard>
@@ -347,7 +348,7 @@ function Settings(props) {
           <></>
         )}
       </Container>
-    </>
+    </div>
   );
 }
 export default Settings;

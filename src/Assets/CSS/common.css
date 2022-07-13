@@ -17,6 +17,7 @@ button.disbalesubmitbtn {
   width: 420px !important;
   height: 42px;
   margin-top: 30px;
+  margin-bottom: 30px;
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   opacity: 0.5;
@@ -32,7 +33,7 @@ button.cancelbtn {
   background: #ffffff !important;
   width: 420px !important;
   height: 42px;
-  margin-top: 30px;
+  margin-top: 20px;
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   margin-bottom: 50px;
@@ -54,14 +55,12 @@ button.editbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   margin-top: 50px;
-
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
   line-height: 19px;
   /* identical to box height */
-
   color: #585d60;
 }
 button.submitbtn {
@@ -70,14 +69,16 @@ button.submitbtn {
   color: #ffffff;
   height: 42px;
   margin-top: 30px;
+  margin-bottom: 30px;
+  font-weight: 700;
   background: #c09507;
   border-radius: 2px;
   border: 2px solid #c09507 !important;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 button.submitbtn:hover {
   background-color: #ab8405 !important;
-}
+} 
 .width100percent {
   width: 100%;
 }
@@ -91,6 +92,11 @@ button.submitbtn:hover {
 
   /* headings */
 
+  color: #3d4a52;
+}
+.editheading{
+  font-weight: 700;
+  font-size: 20px;
   color: #3d4a52;
 }
 .secondmainheading {
@@ -192,14 +198,20 @@ button.submitbtn:hover {
 
 .settingsTabs .Mui-selected {
   color: #ffffff !important;
-  border: 1px solid #d8af28;
   border-radius: 2px 0px 0px 0px;
   text-transform: capitalize !important;
   background: #c09507;
   width: 200px;
+  height: 42px;
+  font-weight: 400;
+  border-bottom: none !important;
+  border-left: 1px solid #d8af28 !important;
+  border-right: 1px solid #d8af28 !important;
+  border-top: 1px solid #d8af28 !important;
 }
 .settingsTabs .MuiTabs-indicator {
   background: #c09507 !important;
+  border-bottom: none !important;
 }
 .particaipancard .MuiCardHeader-title {
   padding-bottom: 18px;
@@ -207,9 +219,8 @@ button.submitbtn:hover {
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  line-height: 19px;
-
   color: #3d4a52;
+  line-height: 19px;
 }
 .particaipancard .MuiCardHeader-subheader {
   font-family: "Open Sans";
@@ -232,10 +243,12 @@ button.submitbtn:hover {
 } */
 :not(.Mui-selected).MuiTab-root {
   background: #ffffff;
-  border: 1px solid #d8af28 !important;
   text-transform: capitalize !important;
   font-weight: 400 !important;
   width: 200px;
+  border-left: 1px solid #d8af28 !important;
+  border-right: 1px solid #d8af28 !important;
+  border-top: 1px solid #d8af28 !important;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -284,7 +297,78 @@ css-1wc848c-MuiFormHelperText-root {
   font-size: 12px;
   line-height: 16px;
 }
+button.disbalesubmitbtnteam {
+  text-transform: capitalize;
+  border-radius: 2px;
+  box-shadow: none !important;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 200px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+  font-weight: 700;
+}
+button.submitbtnteam {
+  width: 420px !important;
+  text-transform: capitalize;
+  color: #ffffff;
+  height: 42px;
+  margin-top: 200px;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+  font-weight: 700;
+}
+button.submitbtnteam:hover{
+  background-color: #ab8405 !important;
+}
+button.submitbtn:hover{
+  background-color: #ab8405 !important;
+}
+/* button.submitbtnupdt:hover{
+  background-color: #ab8405 !important; */
 
+button.cancelbtnteam {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  font-weight: 700;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-bottom: 50px;
+  box-shadow: none !important;
+}
+/* button.disbalesubmitbtupdt {
+  text-transform: capitalize;
+  border-radius: 2px;
+  box-shadow: none !important;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 200px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+  font-weight: 700;
+}
+button.submitbtnupdt {
+  width: 420px !important;
+  text-transform: capitalize;
+  color: #ffffff;
+  height: 42px;
+  margin-top: 200px;
+  font-weight: 700;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+} */
 .backlabel {
   font-family: "Open Sans";
   font-style: normal;
@@ -292,9 +376,9 @@ css-1wc848c-MuiFormHelperText-root {
   font-size: 14px;
   line-height: 138.69%;
   /* or 19px */
-
   color: #3491ee;
 }
+
 .link :hover {
   cursor: pointer;
 }
@@ -314,9 +398,16 @@ css-1wc848c-MuiFormHelperText-root {
   line-height: 19px;
 
   /* headings */
-
   color: #3d4a52 !important;
 }
+.tabstyle{
+  width: 109px;
+  height: 19px;
+  font-family: "Open Sans" !important;
+  font-size: 14px;
+  font-weight: 400;
+}
+
 
 .buttonremovebackgroundonhover:hover {
   background: none !important;
@@ -330,9 +421,6 @@ css-1wc848c-MuiFormHelperText-root {
 }
 .react-multi-email.empty > span[data-placeholder] {
   display: inline;
-  color: #3d4a52 !important;
+  color: #3D4A52 !important;
 }
 /* hiding drag and drop shadow issue */
-.sc-gsnTZi {
-  display: none;
-}
