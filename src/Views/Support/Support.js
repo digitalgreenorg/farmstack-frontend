@@ -373,7 +373,7 @@ function Support(props) {
                                     alt={rowdata.user.first_name}
                                     src={UrlConstants.base_url_without_slash + rowdata.organization.logo}
                                     sx={{ width: 56, height: 56 }}
-                                /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{rowdata.user.first_name.charAt(0)}</Avatar>}
+                                /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{rowdata.organization.name.charAt(0)}</Avatar>}
                             </Col>
                             <Col style={{ "margin-left": "-63%", "margin-top": "3%" }}><span className="thirdmainheading">{rowdata.organization.name}</span></Col>
                         </Row>

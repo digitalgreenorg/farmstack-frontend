@@ -120,6 +120,7 @@ export default function AccountSetting(props) {
 
   const handleBannerFileChange = (file) => {
     setFile(file);
+    console.log("stop testing chandra ,move it to done");
     // setprofile_pic(file);
     console.log(file);
     if (file != null && file.size > 2097152) {
@@ -134,6 +135,7 @@ export default function AccountSetting(props) {
     // history.push("/datahub/participants/");
     setFile(null);
     getAccountDetails();
+    window.location.reload();
   };
 
   const handleAccountSettingSubmit = (e) => {
@@ -197,8 +199,10 @@ export default function AccountSetting(props) {
         if (response.data.first_name) {
           setaccfirstbtn(true);
         }
-        if (response.data.phone_number.length > 0) {
-          setaccnumberbtn(true);
+        if (response.data.phone_number) {
+          if (response.data.phone_number.length > 0) {
+            setaccnumberbtn(true);
+          }
         }
       })
       .catch((e) => {

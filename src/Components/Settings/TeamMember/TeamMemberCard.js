@@ -18,46 +18,51 @@ import UrlConstants from '../../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "font-weight": "400", "font-family": "Open Sans"},
-    cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "209px", "border-radius": "2px" },
-    togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "2px solid #ebd79c", cursor: "pointer", height: "209px" },
-    marginrowtop: { "margin-top": "20px"},
     btnPosition: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-left": "-25px", "font-weight": "400", "font-family": "Open Sans"},
-    cardDataHeading: { "font-weight": "600", "font-size": "14px", color: "#3D4A52"},
-    cardData: { "font-weight": "400", "font-size": "14px", color: "#3D4A52" }
-};
+    cardcolor:{border: "1px solid #E4E4E4","box-shadow": "none",cursor:"pointer",'min-height': "240px","width": "350px","border-radius": "2px"}, 
+    togglecardcolor:{"box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", border: "1px solid #D8AF28",cursor:"pointer",'min-height': "240px","width": "350px"}, 
+    marginrowtop: {"margin-top": "30px"},
+    cardDataHeading:{'font-family': 'Open Sans', "font-weight": "600","font-size": "14px",color: "#3D4A52", "text-align": "left", 'padding-left': '10px' },
+    cardData:{'font-family': 'Open Sans', "font-weight": "400","font-size": "14px",color: "#3D4A52", "text-align": "left", 'margin-top': '10px', 'padding-left': '0px'},
+    cardDataHead:{'font-family': 'Open Sans', "font-weight": "600","font-size": "14px","font-style":"normal",color: "#3D4A52", "width":"150px", "height": "19px", "line-height":"19px",  "textAlign": "left"},
+    cardDataUser:{'font-family': 'Open Sans', "font-weight": "400","font-size": "14px","font-style":"normal",color: "#3D4A52", "width":"150px", "height": "19px","line-height":"19px", "textAlign": "left", "margin-top": "11px"}
+  };
+
 export default function TeamMemberCard(props) {
     const [isshowbutton, setisshowbutton] = React.useState(false);
     const history = useHistory();
     return (
-
-        <Card className="particaipancard" style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
-            <CardHeader
-                avatar={
-                    props.profilepic ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url + props.profilepic} sx={{ width: 54, height: 54 }} /> :
-                        <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.firstname.charAt(0)}</Avatar>
-                }
-                action={
-                    <IconButton aria-label="settings">
-                    </IconButton>
-                }
-                title={props.mainheading}
-                subheader={props.subheading}
-                style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left"}}
-            />
+        <Card className="particaipancard" style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
+        <CardHeader
+          avatar={
+            props.profilepic? <Avatar alt="Remy Sharp" src={UrlConstants.base_url+props.profilepic} sx={{ width:64, height:64 }}/>:
+            <Avatar sx={{ bgcolor:"#c09507",width:64, height:64}} aria-label="recipe">{props.firstname.charAt(0)}</Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+            </IconButton>
+          }
+          title={props.mainheading}
+          subheader={props.subheading}
+          style={{ "background-color": "#F4F4F4", padding: "9px", height: "84px", "text-align": "left", 'font-family': 'Open Sans',
+          'font-style': 'normal', 'font-weight': 400, 'font-size': '14px' ,'line-height': '19px' ,'color': '#3D4A52'}}
+        />
             <CardContent>
-                <Row style={{ "margin-left": "-18px", "text-align": "left" }}>
-                    <Col xs={12} sm={12} md={6} lg={6} style={useStyles.cardDataHeading}>
+                <Row>
+                    <Col xs={12} sm={12} md={6} lg={6} style={useStyles.cardDataHead}>
                         Role assigned
           </Col>
                 </Row>
-                <Row style={{ "margin-left": "-18px", "text-align": "left"}}>
-                    <Col xs={12} sm={12} md={6} lg={6} >
-                        <span style={useStyles.cardData}>{props.role==2?'Team Member':'Guest User'}</span>
+                <Row>
+                    <Col xs={12} sm={12} md={6} lg={6} style={useStyles.cardDataUser}>
+                {props.role==2?'Team Member':'Guest User'}
                     </Col>
                 </Row>
                 {isshowbutton ? <Row style={useStyles.marginrowtop}>
                     <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => history.push('/datahub/settings/editmember/' + props.id)} variant="outlined" style={useStyles.btnPosition}> 
+                        <Button onClick={() => history.push('/datahub/settings/editmember/' + props.id)} variant="outlined" 
+                        style={useStyles.btnPosition}
+                        className="buttonremovebackgroundonhover"> 
                             <img
                                 src={require('../../../Assets/Img/edit.svg')}
                                 alt="new"
@@ -67,7 +72,8 @@ export default function TeamMemberCard(props) {
                     <Col xs={12} sm={12} md={6} lg={6} >
                         <Button onClick={() => props.deleteTeamMember(props.id)} 
                         variant="outlined" 
-                        style={useStyles.btncolor} >
+                        style={useStyles.btncolor} 
+                        className="buttonremovebackgroundonhover">
                         <img
                                 src={require('../../../Assets/Img/button_delete.svg')}
                                 alt="new"

@@ -19,11 +19,12 @@ import HandleSessionTimeout, {
 } from "../../../Utils/Common";
 import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
 
-export default function BrandingSetting() {
+export default function BrandingSetting(props) {
   const fileTypes = ["JPEG", "PNG", "jpg"];
-  const [orgfilesize, setorgfilesize] = useState(false);
+  // const [orgfilesize, setorgfilesize] = useState(false);
   const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 });
   const [brandfile, setbrandfile] = useState(null);
+  const [hexColor, sethexColor] = useState("");
 
   // get brand details.
   const getBrandingDetails = async () => {
@@ -34,7 +35,13 @@ export default function BrandingSetting() {
       false
     )
       .then((response) => {
+        console.log(brandfile);
         console.log(response.data);
+        console.log(response.data.css.btnBackground);
+        setColor(response.data.css.btnBackground);
+        sethexColor(response.data.css.btnBackground);
+        // console.log(response.data.banner);
+        // setbrandfile(response.data.banner);
       })
       .catch((e) => {
         console.log(e);
@@ -49,12 +56,52 @@ export default function BrandingSetting() {
     getBrandingDetails();
   }, []);
 
-  const handleBrandSettingSubmit = () => {};
-  const handleBannerFileChange = () => {};
-  const handleColorChange = (color) => {
-    setColor(color.rgb);
+  const handleBrandSettingSubmit = (e) => {
+    e.preventDefault();
+
+    let url = UrlConstant.base_url + UrlConstant.branding;
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("button_color", hexColor);
+    bodyFormData.append("banner", brandfile);
+    console.log("branding settings details", bodyFormData);
+    HTTPService("PUT", url, bodyFormData, true, false)
+      .then((response) => {
+        console.log("response");
+        console.log("org details", response.data);
+        //   console.log(response.json());
+        console.log(response.status);
+        if (response.status === 201) {
+          props.setisBrandUpdateSuccess();
+          // setisPolicies(true);
+          // setisOrg(false);
+          // setEmail(false);
+          // setError(false);
+        } else {
+          // setError(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        //   setError(true);
+      });
   };
-  const brandsettingcancelbtn = () => {};
+
+  const handleBannerFileChange = (file) => {
+    setbrandfile(file);
+  };
+  const handleColorChange = (color) => {
+    console.log(color);
+    setColor(color);
+    console.log(color.hex);
+    sethexColor(color.hex);
+  };
+  const brandsettingcancelbtn = (e) => {
+    getBrandingDetails();
+    setbrandfile(null);
+    window.location.reload();
+    // sethexColor(color);
+  };
 
   return (
     <div className="brandsetting">
@@ -63,7 +110,7 @@ export default function BrandingSetting() {
           <span className="title">Customize Design</span>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={6} lg={6}>
+          <Col xs={12} sm={12} md={6} lg={6} className="bannerdrag">
             <FileUploader
               handleChange={handleBannerFileChange}
               name="file"
@@ -74,6 +121,7 @@ export default function BrandingSetting() {
                   uploadtitle="Upload your banner image here"
                 />
               }
+              onDrop={(file) => console.log(file)}
             />
           </Col>
         </Row>
