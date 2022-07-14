@@ -21,6 +21,7 @@ import { useHistory } from "react-router-dom";
 import RegexConstants from "../../../Constants/RegexConstants";
 import { validateInputField } from "../../../Utils/Common";
 import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
+import Loader from "../../../Components/Loader/Loader";
 
 export default function AccountSetting(props) {
   const profilefirstname = useRef();
@@ -30,6 +31,7 @@ export default function AccountSetting(props) {
   const [lastname, setlastname] = useState("");
   const [email, setemail] = useState("");
   const [phonenumber, setphonenumber] = useState("");
+  const[isLoader, setIsLoader] = useState(false)
   // const [profile_pic, setprofile_pic] = useState(null);
 
   const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
@@ -151,7 +153,7 @@ export default function AccountSetting(props) {
     bodyFormData.append("profile_picture", file);
 
     console.log("branding data", bodyFormData);
-
+    setIsLoader(true);
     HTTPService(
       "PUT",
       UrlConstants.base_url + UrlConstants.profile + id + "/",
@@ -160,6 +162,7 @@ export default function AccountSetting(props) {
       true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log("account setting updated!");
         props.setisAccountUpdateSuccess();
         // console.log("get request for account settings", response.data);
@@ -171,16 +174,18 @@ export default function AccountSetting(props) {
         // setFile(response.data.profile_picture);
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e);
         console.log(e.response.status);
         if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            HandleSessionTimeout();
+            history.push('/sessionexpired');
         }
       });
   };
   const getAccountDetails = async () => {
     var id = getUserLocal();
     console.log("user id", id);
+    setIsLoader(true);
 
     await HTTPService(
       "GET",
@@ -189,6 +194,7 @@ export default function AccountSetting(props) {
       true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log("get request for account settings", response.data);
         console.log("picture", response.data.profile_picture);
         setphonenumber(response.data.phone_number);
@@ -206,10 +212,11 @@ export default function AccountSetting(props) {
         }
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e);
         console.log(e.response.status);
         if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            HandleSessionTimeout();
+            history.push('/sessionexpired');
         }
       });
   };
@@ -219,6 +226,7 @@ export default function AccountSetting(props) {
   }, []);
   return (
     <div className="accountsetting">
+      {isLoader ? <Loader />: ''}
       <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
         <Row>
           <span className="title">Account Settings</span>

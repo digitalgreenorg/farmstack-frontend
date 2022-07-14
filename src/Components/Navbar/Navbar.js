@@ -17,13 +17,19 @@ import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
 import SESSION_CONSTANTS from "../../Constants/OtherConstants";
+import Loader from "../Loader/Loader";
 
 const Navbar = (props) => {
   const [profile, setprofile] = useState(null);
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+  const[isLoader, setIsLoader] = useState(false)
+
+  let history = useHistory();
+
   const getAccountDetails = async () => {
     var id = getUserLocal();
     console.log("user id", id);
-
+    setIsLoader(true);
     await HTTPService(
       "GET",
       UrlConstant.base_url + UrlConstant.profile + id + "/",
@@ -31,6 +37,7 @@ const Navbar = (props) => {
       true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log(
           "get request for account settings in navbar",
           response.data
@@ -44,10 +51,16 @@ const Navbar = (props) => {
         // setFile(response.data.profile_picture);
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e);
-        console.log(e.response.status);
-        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-          HandleSessionTimeout();
+        if (e.response != null && e.response != undefined && e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT)
+        {
+          console.log(e.response.status);
+          history.push('/sessionexpired');
+        }
+        else
+        {
+          history.push('/error');
         }
       });
   };
@@ -56,8 +69,6 @@ const Navbar = (props) => {
     getAccountDetails();
   }, [profile]);
 
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  let history = useHistory();
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
@@ -66,6 +77,7 @@ const Navbar = (props) => {
   };
   return (
     <>
+      {isLoader ? <Loader />: ''}
       <Nav id="datahubnavbar">
         {/* <Bars /> */}
         <img

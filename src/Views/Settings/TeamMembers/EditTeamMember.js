@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom';
 import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
 import HandleSessionTimeout from '../../../Utils/Common';
 import { PropaneRounded } from '@mui/icons-material';
+import Loader from '../../../Components/Loader/Loader';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" , },
@@ -31,17 +32,22 @@ function EditTeamMember(props) {
     const [isuseremailerror, setisuseremailerror] = useState(false);
     const [isexistinguseremail, setisexisitinguseremail] =useState(false)
     const [isSuccess, setisSuccess] = useState(false);
+    const[isLoader, setIsLoader] = useState(false)
+
     useEffect(() => {
+        setIsLoader(true);
         HTTPService('GET', UrlConstants.base_url + UrlConstants.team_member + id + '/', false, true).then((response) => {
+            setIsLoader(false);
             setfirstname(response.data.first_name)
             setlastname(response.data.last_name)
             setuseremail(response.data.email)
             setuserrole(response.data.role)
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
             console.log(e.response.status);
             if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                HandleSessionTimeout();
+                history.push('/sessionexpired');
             }
         });
     }, []);
@@ -57,19 +63,23 @@ function EditTeamMember(props) {
             'email':useremail,
             'role':userrole
         }
+        setIsLoader(true);
         HTTPService('PUT', UrlConstants.base_url + UrlConstants.team_member+ id + '/', data, false, true).then((response) => {
+            setIsLoader(false);
             setisSuccess(true)
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
             console.log(e.response.status);
             if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                HandleSessionTimeout();
+                history.push('/sessionexpired');
             }
             setisexisitinguseremail(true)
         });
     }
     return (
         <>
+            {isLoader ? <Loader />: ''}
             <Container style={useStyles.marginrowtop}>
                 {isSuccess ? <Success okevent={()=>history.push('/datahub/settings/4')} route={"datahub/settings"} imagename={'success'} btntext={"ok"} heading={"Team Member updated successfully !"} imageText={"Success!"} msg={"You updated role of member."}></Success> : 
                 <><AddMemberForm

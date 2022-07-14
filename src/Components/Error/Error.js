@@ -18,7 +18,7 @@ const useStyles = {
     headingbold:{fontWeight: "bold"},
     headingcolorbold:{fontWeight: "bold",color: THEME_COLORS.THEME_COLOR}
 };
-export default function SessionExpired(props) {
+export default function Error(props) {
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     const history = useHistory();
     localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
@@ -36,33 +36,12 @@ export default function SessionExpired(props) {
             <Container>
                 <Row style={useStyles.marginrowtop50}>
                     <Col xs={12} sm={12} md={12} lg={12} >
-                        <span className="mainheadingsuccess">
-                            {screenlabels.sessiontimeout.heading}
-                        </span>
-                    </Col>
-                </Row>
-                <Row style={useStyles.marginrowtop}>
-                    <Col xs={12} sm={12} md={12} lg={12} >
-                        <img
-                            src={require('../../Assets/Img/session_expired.png')}
-                            style={{width: '102px', height: '102px'}}
-                            alt="Session Timeout"
-                        />
-                    </Col>
-                    <Col xs={12} sm={12} md={12} lg={12} style={useStyles.marginrowtop20}>
-                        <span className="secondmainheadingsuccess">
-                        {screenlabels.sessiontimeout.secondmainheading}
+                        <span className="thirdheadingsuccess">
+                            OOPS !! Something went wrong.. Please contact administrator.
                         </span>
                     </Col>
                 </Row>
                 <Row style={useStyles.marginrowtop20}>
-                    <Col xs={12} sm={12} md={12} lg={12} >
-                        <span className="thirdmainheadingsuccess">
-                        {screenlabels.sessiontimeout.thirdmainheading}
-                        </span>
-                    </Col>
-                </Row>
-                <Row style={useStyles.marginrowtop50}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <Button  onClick={()=>history.push("/login")} variant="contained" className="submitbtn">
                             <span>Login</span>

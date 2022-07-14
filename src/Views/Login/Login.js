@@ -24,6 +24,8 @@ import HandleSessionTimeout, {
 import RichTextEditor from 'react-rte'
 import countryList from 'react-select-country-list'
 import SESSION_CONSTANTS from '../../Constants/OtherConstants'
+import { useHistory } from 'react-router-dom'
+import Loader from '../../Components/Loader/Loader'
 
 export default function Login(props) {
   const [button, setButton] = useState(false)
@@ -56,6 +58,9 @@ export default function Login(props) {
   const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false)
 
   const [profileid, setprofileid] = useState('')
+
+  const history = useHistory();
+
   useEffect(() => {
     if (getTokenLocal()) {
       props.history.push('/datahub/participants')
@@ -77,6 +82,8 @@ export default function Login(props) {
       let data = {
         email: finalEmail,
       }
+
+      setIsLoader(true)
       // await fetch(url, {
       //   method: "POST",
       //   headers: {
@@ -87,8 +94,9 @@ export default function Login(props) {
       //     email: finalEmail,
       //   }),
       // }).then((response) => {
-      HTTPService('POST', url, data, false, true)
+      HTTPService('POST', url, data, false, false)
         .then((response) => {
+          setIsLoader(false)
           console.log('email sent')
           console.log('email sent', response.data)
           //   console.log(response.json());
@@ -105,12 +113,18 @@ export default function Login(props) {
           }
         })
         .catch((e) => {
+          setIsLoader(false)
           console.log(e)
-          console.log(e.response.status);
-          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            HandleSessionTimeout();
-          }
           setError(true)
+          if (e.response != null && e.response != undefined && e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT)
+          {
+            console.log(e.response.status);
+            history.push('/sessionexpired');
+          }
+          else
+          {
+            history.push('/error');
+          }
         })
     }
   }
@@ -147,6 +161,7 @@ export default function Login(props) {
       //   }),
       // })
       //   .then((response) => {
+      setIsLoader(true);
       await HTTPService(
         'POST',
         url,
@@ -155,9 +170,10 @@ export default function Login(props) {
           otp: valid,
         },
         false,
-        true,
+        false,
       )
         .then((response) => {
+          setIsLoader(false);
           console.log('uid', response.data.user)
 
           console.log('otp valid')
@@ -190,6 +206,7 @@ export default function Login(props) {
           }
         })
         .catch((e) => {
+          setIsLoader(false);
           console.log(e.response.status)
           setOtpError(true)
           if (e.response.status === 403) {
@@ -198,7 +215,7 @@ export default function Login(props) {
           }
           console.log(e.response.status);
           if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            HandleSessionTimeout();
+            history.push('/sessionexpired');
           }
           console.log(userSuspenderror)
         })
@@ -235,6 +252,7 @@ export default function Login(props) {
     //     email: validemail,
     //   }),
     // })
+    setIsLoader(true);
     HTTPService(
       'POST',
       url,
@@ -245,14 +263,16 @@ export default function Login(props) {
       true,
     )
       .then((response) => {
+        setIsLoader(false);
         console.log('otp valid')
         console.log(response)
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e)
         console.log(e.response.status);
           if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            HandleSessionTimeout();
+            history.push('/sessionexpired');
           }
       })
   }
@@ -300,9 +320,10 @@ export default function Login(props) {
 
     console.log('profile data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.profile + `${profileid}/`
-
+    setIsLoader(true);
     await HTTPService('PUT', url, bodyFormData, true, true)
       .then((response) => {
+        setIsLoader(false);
         console.log('profile response')
         console.log('profile details', response.data)
         //   console.log(response.json());
@@ -321,10 +342,11 @@ export default function Login(props) {
         // }
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e)
         console.log(e.response.status);
           if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            HandleSessionTimeout();
+            history.push('/sessionexpired');
           }
         //   setError(true);
       })
@@ -418,6 +440,8 @@ export default function Login(props) {
   const [Orgcitybtn, setOrgcitybtn] = useState(false)
   const [Orgcountrybtn, setOrgcountrybtn] = useState(false)
   const [Orgpincodebtn, setOrgpincodebtn] = useState(false)
+
+  const[isLoader, setIsLoader] = useState(false)
   // const [Orgdesbtn, setOrgdesbtn] = useState(false);
 
   // const handleOrgDesChange = (value) => {
@@ -479,8 +503,10 @@ export default function Login(props) {
     } else {
       setisOrgnameerror(false)
 
+      setIsLoader(true);
       HTTPService('POST', url, bodyFormData, true, true)
         .then((response) => {
+          setIsLoader(false);
           console.log('response')
           console.log('org details', response.data)
           //   console.log(response.json());
@@ -495,12 +521,13 @@ export default function Login(props) {
           }
         })
         .catch((e) => {
+          setIsLoader(false);
           console.log(e)
           //   setError(true);
           setIsExistingOrgEmail(true)
           console.log(e.response.status);
           if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            HandleSessionTimeout();
+            history.push('/sessionexpired');
           }
         })
     }
@@ -621,6 +648,7 @@ export default function Login(props) {
 
   return (
     <div>
+      {isLoader ? <Loader />: ''}
       <SignInHeader></SignInHeader>
       <h1 className="headertext">{screenlabels.login.signup_header}</h1>
       <Leftintro />

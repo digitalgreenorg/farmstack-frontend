@@ -1,5 +1,5 @@
 const SESSION_CONSTANTS = {
-    SESSION_TIMEOUT: "#c09507",
+    SESSION_TIMEOUT: 401,
 };  
 
 export default SESSION_CONSTANTS;

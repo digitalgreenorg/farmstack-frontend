@@ -12,9 +12,9 @@ const authHeader=(isFormData,isAuthorization)=>{
     const token = getTokenLocal()
     if(isAuthorization){
         if(isFormData){
-            return {'Content-Type': 'application/json','Authorization': 'Token '+ token,'content-type': 'multipart/form-data'}
+            return {'Content-Type': 'application/json','Authorization': 'Bearer '+ token,'content-type': 'multipart/form-data'}
         }else{
-            return {'Content-Type': 'application/json','Authorization': 'Token '+ token}
+            return {'Content-Type': 'application/json','Authorization': 'Bearer '+ token}
         }
     }else{
         if(isFormData){

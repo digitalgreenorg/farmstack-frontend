@@ -23,6 +23,7 @@ import FileSaver from 'file-saver';
 import Avatar from '@mui/material/Avatar';
 import HandleSessionTimeout, { handleUnwantedSpace } from '../../Utils/Common';
 import SESSION_CONSTANTS from '../../Constants/OtherConstants';
+import Loader from '../../Components/Loader/Loader';
 function Support(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [supportList, setsupportList] = useState([]);
@@ -36,6 +37,8 @@ function Support(props) {
     const fileTypes = ["PDF", "DOC"];
     const [file, setFile] = useState(null);
     const [accfilesize, setaccfilesize] = useState(false);
+    const[isLoader, setIsLoader] = useState(false)
+
     var payload = ""
     const [filterObject, setfilterObject] = useState(
         {
@@ -68,8 +71,10 @@ function Support(props) {
         getSupportList("")
     }, []);
     const getSupportList = (payload) => {
+        setIsLoader(true);
         setfinalPayload(payload)
         HTTPService('POST', UrlConstants.base_url + UrlConstants.support, payload, false, true).then((response) => {
+            setIsLoader(false);
             console.log("otp valid", response.data);
             if (response.data.next == null) {
                 setisShowLoadMoreButton(false)
@@ -79,15 +84,18 @@ function Support(props) {
             }
             setsupportList(response.data.results)
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
             console.log(e.response.status);
             if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                HandleSessionTimeout();
+                history.push('/sessionexpired');
             }
         });
     };
     const loadMoreSupportList = () => {
+        setIsLoader(true);
         HTTPService('POST', supportUrl, finalPayload, false, true).then((response) => {
+            setIsLoader(false);
             console.log("otp valid", response.data);
             if (response.data.next == null) {
                 setisShowLoadMoreButton(false)
@@ -100,10 +108,11 @@ function Support(props) {
             console.log(datalist)
             setsupportList(finalDataList)
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
             console.log(e.response.status);
             if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                HandleSessionTimeout();
+                history.push('/sessionexpired');
             }
         });
     };
@@ -189,6 +198,7 @@ function Support(props) {
         if (file) {
             bodyFormData.append('solution_attachments', file);
         }
+        setIsLoader(true);
         HTTPService(
             "PUT",
             UrlConstants.base_url + UrlConstants.resolution + id + "/",
@@ -197,6 +207,7 @@ function Support(props) {
             true
         )
             .then((response) => {
+                setIsLoader(false);
                 console.log("success")
                 setcallGetSupport(true)
                 setisShowSupport(false)
@@ -204,10 +215,11 @@ function Support(props) {
                 setisShowUpdated(true)
 
             }).catch((e) => {
+                setIsLoader(false);
                 console.log(e);
                 console.log(e.response.status);
                 if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                    HandleSessionTimeout();
+                    history.push('/sessionexpired');
                 }
             });
     }
@@ -216,6 +228,7 @@ function Support(props) {
     }
     return (
         <>
+            {isLoader ? <Loader />: ''}
             {isShowUpdated ? <Success okevent={() => showSuppport()} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Ticket updated successfully !"} imageText={"Success!"} msg={"Your solutions are updated."}></Success> : <></>}
             {isShowSupport ? <Row className="supportfirstmaindiv">
                 <Row className="supportmaindiv">

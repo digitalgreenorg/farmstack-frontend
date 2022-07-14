@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import SESSION_CONSTANTS from '../../Constants/OtherConstants';
 import HandleSessionTimeout from '../../Utils/Common';
+import Loader from '../../Components/Loader/Loader';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black" },
@@ -40,6 +41,8 @@ function ViewParticipants(props) {
     const [isSuccess, setisSuccess] = useState(true);
     const [isDelete, setisDelete] = useState(false);
     const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
+    const[isLoader, setIsLoader] = useState(false)
+
     const history = useHistory();
     const { id } = useParams()
     useEffect(() => {
@@ -50,7 +53,9 @@ function ViewParticipants(props) {
         return (res !== null)
     };
     useEffect(() => {
+        setIsLoader(true);
         HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', false, true).then((response) => {
+            setIsLoader(false);
             console.log("otp valid", response.data);
             // let addressdata=JSON.parse(response.data.organization.address)
             setorganisationname(response.data.organization.name)
@@ -66,32 +71,37 @@ function ViewParticipants(props) {
             setorganisationlength(response.data.user.subscription)
             console.log("otp valid", response.data);
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
             console.log(e.response.status);
             if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                HandleSessionTimeout();
+                history.push('/sessionexpired');
             }
         });
     }, []);
     const deleteParticipants = () => {
+        setIsLoader(true);
         setisDelete(false);
         setisSuccess(false);
         setisDeleteSuccess(true)
         HTTPService('DELETE', UrlConstants.base_url + UrlConstants.participant + id + '/', "", false, true).then((response) => {
+            setIsLoader(false);
             console.log("otp valid", response.data);
             setisDeleteSuccess(true)
             setisSuccess(false)
             setisDelete(false);
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
             console.log(e.response.status);
             if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                HandleSessionTimeout();
+                history.push('/sessionexpired');
             }
         });
     }
     return (
         <>
+            {isLoader ? <Loader />: ''}
             <Container style={useStyles.marginrowtop}>
                 {isDelete ? <Delete
                     route={"login"}

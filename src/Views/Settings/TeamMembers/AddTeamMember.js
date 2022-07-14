@@ -13,6 +13,7 @@ import validator from "validator";
 import { useHistory } from "react-router-dom";
 import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
 import HandleSessionTimeout from '../../../Utils/Common';
+import Loader from '../../../Components/Loader/Loader';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 , "box-shadow": "none"},
     marginrowtop: { "margin-top": "40px", "font-family": "Open Sans", "width": "1300px", "height": "893px"}, 
@@ -28,6 +29,8 @@ function AddTeamMember(props) {
     const [isuseremailerror, setisuseremailerror] = useState(false);
     const [isexistinguseremail, setisexisitinguseremail] =useState(false)
     const [isSuccess, setisSuccess] = useState(false);
+    const[isLoader, setIsLoader] = useState(false)
+
     const addNewMember = () => {
         // var bodyFormData = new FormData();
         // bodyFormData.append('first_name', firstname);
@@ -40,13 +43,16 @@ function AddTeamMember(props) {
             'email':useremail,
             'role':userrole
         }
+        setIsLoader(true);
         HTTPService('POST', UrlConstants.base_url + UrlConstants.team_member, data, false, true).then((response) => {
-            setisSuccess(true)
+            setisSuccess(true);
+            setIsLoader(false);
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
             console.log(e.response.status);
             if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                HandleSessionTimeout();
+                history.push('/sessionexpired');
             }
             setisexisitinguseremail(true)
         });
@@ -54,6 +60,7 @@ function AddTeamMember(props) {
     return (
         
         <>
+            {isLoader ? <Loader />: ''}
             <Container style={useStyles.marginrowtop}>
                 {isSuccess ? <Success okevent={()=>history.push('/datahub/settings/4')} route={"datahub/settings"} imagename={'success'} btntext={"ok"} heading={"Team Member added successfully !"} imageText={"Success!"} msg={"You added a team member."}></Success> : 
                 <><AddMemberForm
