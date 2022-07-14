@@ -6,12 +6,14 @@ import { Col, Row } from "react-bootstrap";
 import LinearProgress from '@mui/material/LinearProgress'
 
 const DisabledBackground = styled(Box)({
-    width: '100%',
-    height: '100%',
+    width: '200%',
+    height: '200%',
     position: 'fixed',
     background: '#777',
     opacity: 0.8,
     zIndex: 1,
+    margin: '-50%'
+
   })
 
 const Loader = (props) => (
