@@ -68,10 +68,7 @@ function AddParticipants(props) {
             setIsLoader(false);
             console.log(e);
             setisexisitinguseremail(true)
-            console.log(e.response.status);
-            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                history.push('/sessionexpired');
-            }
+            //history.push(GetErrorHandlingRoute(e));
         });
     }
     return (

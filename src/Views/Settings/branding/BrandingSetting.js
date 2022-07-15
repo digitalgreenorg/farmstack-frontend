@@ -32,8 +32,8 @@ export default function BrandingSetting(props) {
   const history = useHistory();
 
   // get brand details.
-  setIsLoader(true);
   const getBrandingDetails = async () => {
+    setIsLoader(true);
     await HTTPService(
       "GET",
       UrlConstant.base_url + UrlConstant.branding,

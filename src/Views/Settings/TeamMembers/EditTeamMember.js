@@ -16,6 +16,7 @@ import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
 import HandleSessionTimeout from '../../../Utils/Common';
 import { PropaneRounded } from '@mui/icons-material';
 import Loader from '../../../Components/Loader/Loader';
+import GetErrorHandlingRoute from '../../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" , },
@@ -44,11 +45,7 @@ function EditTeamMember(props) {
             setuserrole(response.data.role)
         }).catch((e) => {
             setIsLoader(false);
-            console.log(e);
-            console.log(e.response.status);
-            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                history.push('/sessionexpired');
-            }
+            history.push(GetErrorHandlingRoute(e));
         });
     }, []);
     const EditMember = () => {
@@ -69,11 +66,7 @@ function EditTeamMember(props) {
             setisSuccess(true)
         }).catch((e) => {
             setIsLoader(false);
-            console.log(e);
-            console.log(e.response.status);
-            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                history.push('/sessionexpired');
-            }
+            //history.push(GetErrorHandlingRoute(e));
             setisexisitinguseremail(true)
         });
     }

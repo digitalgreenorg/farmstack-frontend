@@ -49,11 +49,7 @@ function AddTeamMember(props) {
             setIsLoader(false);
         }).catch((e) => {
             setIsLoader(false);
-            console.log(e);
-            console.log(e.response.status);
-            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                history.push('/sessionexpired');
-            }
+            //history.push(GetErrorHandlingRoute(e));
             setisexisitinguseremail(true)
         });
     }

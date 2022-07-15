@@ -3,6 +3,7 @@ import LocalStorageConstants from "../Constants/LocalStorageConstants";
 import RegexConstants from "../Constants/RegexConstants";
 import React from 'react'
 import ReactDOM from 'react-dom'
+import SESSION_CONSTANTS from "../Constants/OtherConstants";
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(
@@ -69,13 +70,16 @@ export const handleNameFieldEntry = (fieldValue, e) => {
   }
 };
 
-const HandleSessionTimeout = () => {
-  const history = useHistory();
-  return (<>
+const GetErrorHandlingRoute = (e) => {
+  if (e.response != null && e.response != undefined && e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT)
   {
-    history.push("/sessionexpired")
+    console.log(e.response.status);
+    return('/sessionexpired');
   }
-  </>);
+  else
+  {
+    return('/error');
+  }
 };
 
-export default HandleSessionTimeout;
+export default GetErrorHandlingRoute;

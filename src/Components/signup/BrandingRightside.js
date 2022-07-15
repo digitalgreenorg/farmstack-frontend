@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom'
 import HandleSessionTimeout, { setTokenLocal, getTokenLocal } from '../../Utils/Common'
 import SESSION_CONSTANTS from '../../Constants/OtherConstants'
 import Loader from '../Loader/Loader'
+import GetErrorHandlingRoute from '../../Utils/Common'
 
 export default function BrandingRightside(props) {
   const [file, setFile] = useState(null)
@@ -45,34 +46,20 @@ export default function BrandingRightside(props) {
     let url = UrlConstant.base_url + UrlConstant.branding
 
     setIsLoader(true);
-    await HTTPService('POST', url, bodyFormData, true, true)
+    await HTTPService('POST', url, bodyFormData, true, true, props.isaccesstoken)
       .then((response) => {
         setIsLoader(false);
         console.log('response')
         console.log('branding details', response.data)
         //   console.log(response.json());
         console.log(response.status)
-        if (response.status === 201) {
-          setTokenLocal(props.isaccesstoken)
-          history.push('/datahub/participants')
-          // setEmail(false);
-          // setError(false);
-        } else {
-          // setError(true);
-        }
+        setTokenLocal(props.isaccesstoken)
+        history.push('/datahub/participants')
       })
       .catch((e) => {
         setIsLoader(false);
         console.log(e)
-        if (e.response != null && e.response != undefined && e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT)
-        {
-          console.log(e.response.status);
-          history.push('/sessionexpired');
-        }
-        else
-        {
-          history.push('/error');
-        }
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       })
   }
@@ -86,35 +73,19 @@ export default function BrandingRightside(props) {
     console.log('branding data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.branding
     setIsLoader(true);
-    await HTTPService('POST', url, bodyFormData, true, true)
+    await HTTPService('POST', url, bodyFormData, true, true, props.isaccesstoken)
       .then((response) => {
         setIsLoader(false);
         console.log('response')
         console.log('branding details', response.data)
         //   console.log(response.json());
         console.log(response.status)
-        if (response.status === 201) {
-          setTokenLocal(props.isaccesstoken)
-          history.push('/datahub/participants')
-          // setEmail(false);
-          // setError(false);
-        } else {
-          // setError(true);
-        }
+        setTokenLocal(props.isaccesstoken)
+        history.push('/datahub/participants')
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e)
-        if (e.response != null && e.response != undefined && e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT)
-        {
-          console.log(e.response.status);
-          history.push('/sessionexpired');
-        }
-        else
-        {
-          history.push('/error');
-        }
-        //   setError(true);
+        history.push(GetErrorHandlingRoute(e));
       })
   }
   return (
