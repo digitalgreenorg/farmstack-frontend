@@ -11,13 +11,14 @@ import labels from "../../Constants/labels";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
-import HandleSessionTimeout, { getUserLocal, handleSessionTimeout } from "../../Utils/Common";
+import { getUserLocal } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
 import SESSION_CONSTANTS from "../../Constants/OtherConstants";
 import Loader from "../Loader/Loader";
+import GetErrorHandlingRoute from "../../Utils/Common";
 
 const Navbar = (props) => {
   const [profile, setprofile] = useState(null);
@@ -53,15 +54,7 @@ const Navbar = (props) => {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        if (e.response != null && e.response != undefined && e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT)
-        {
-          console.log(e.response.status);
-          history.push('/sessionexpired');
-        }
-        else
-        {
-          history.push('/error');
-        }
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 

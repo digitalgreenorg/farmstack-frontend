@@ -26,6 +26,7 @@ import countryList from 'react-select-country-list'
 import SESSION_CONSTANTS from '../../Constants/OtherConstants'
 import { useHistory } from 'react-router-dom'
 import Loader from '../../Components/Loader/Loader'
+import GetErrorHandlingRoute from '../../Utils/Common'
 
 export default function Login(props) {
   const [button, setButton] = useState(false)
@@ -115,15 +116,12 @@ export default function Login(props) {
         .catch((e) => {
           setIsLoader(false)
           console.log(e)
-          setError(true)
-          if (e.response != null && e.response != undefined && e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT)
-          {
-            console.log(e.response.status);
-            history.push('/sessionexpired');
+          if (e.response != null && e.response != undefined && e.response.status === 400) {
+            setuserSuspenderror(false)
+            setError(true)
           }
-          else
-          {
-            history.push('/error');
+          else{
+            history.push(GetErrorHandlingRoute(e));
           }
         })
     }
@@ -213,11 +211,13 @@ export default function Login(props) {
             setuserSuspenderror(true)
             setOtpError(false)
           }
-          console.log(e.response.status);
-          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            history.push('/sessionexpired');
+          if (e.response.status === 401)
+          {
+            setOtpError(true)
           }
-          console.log(userSuspenderror)
+          else{
+            history.push(GetErrorHandlingRoute(e));
+          }
         })
     }
   }
@@ -269,11 +269,7 @@ export default function Login(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e)
-        console.log(e.response.status);
-          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            history.push('/sessionexpired');
-          }
+        history.push(GetErrorHandlingRoute(e));
       })
   }
 
@@ -343,12 +339,7 @@ export default function Login(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e)
-        console.log(e.response.status);
-          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            history.push('/sessionexpired');
-          }
-        //   setError(true);
+        history.push(GetErrorHandlingRoute(e));
       })
   }
   const handleprofilfirstename = (e) => {
@@ -523,12 +514,7 @@ export default function Login(props) {
         .catch((e) => {
           setIsLoader(false);
           console.log(e)
-          //   setError(true);
           setIsExistingOrgEmail(true)
-          console.log(e.response.status);
-          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            history.push('/sessionexpired');
-          }
         })
     }
   }

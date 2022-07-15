@@ -19,7 +19,7 @@ import HandleSessionTimeout, {
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../../Constants/RegexConstants";
-import { validateInputField } from "../../../Utils/Common";
+import GetErrorHandlingRoute, { validateInputField } from "../../../Utils/Common";
 import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
 import Loader from "../../../Components/Loader/Loader";
 
@@ -175,11 +175,7 @@ export default function AccountSetting(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e);
-        console.log(e.response.status);
-        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            history.push('/sessionexpired');
-        }
+        history.push(GetErrorHandlingRoute(e));
       });
   };
   const getAccountDetails = async () => {
@@ -213,11 +209,7 @@ export default function AccountSetting(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e);
-        console.log(e.response.status);
-        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            history.push('/sessionexpired');
-        }
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 

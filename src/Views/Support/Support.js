@@ -24,6 +24,7 @@ import Avatar from '@mui/material/Avatar';
 import HandleSessionTimeout, { handleUnwantedSpace } from '../../Utils/Common';
 import SESSION_CONSTANTS from '../../Constants/OtherConstants';
 import Loader from '../../Components/Loader/Loader';
+import GetErrorHandlingRoute from '../../Utils/Common';
 function Support(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [supportList, setsupportList] = useState([]);
@@ -85,11 +86,7 @@ function Support(props) {
             setsupportList(response.data.results)
         }).catch((e) => {
             setIsLoader(false);
-            console.log(e);
-            console.log(e.response.status);
-            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                history.push('/sessionexpired');
-            }
+            history.push(GetErrorHandlingRoute(e));
         });
     };
     const loadMoreSupportList = () => {
@@ -109,11 +106,7 @@ function Support(props) {
             setsupportList(finalDataList)
         }).catch((e) => {
             setIsLoader(false);
-            console.log(e);
-            console.log(e.response.status);
-            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                history.push('/sessionexpired');
-            }
+            history.push(GetErrorHandlingRoute(e));
         });
     };
     const filterRow = (row, flag, payloadkey) => {
@@ -216,11 +209,7 @@ function Support(props) {
 
             }).catch((e) => {
                 setIsLoader(false);
-                console.log(e);
-                console.log(e.response.status);
-                if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-                    history.push('/sessionexpired');
-                }
+                history.push(GetErrorHandlingRoute(e));
             });
     }
     const downloadAttachment = (uri, name) => {
