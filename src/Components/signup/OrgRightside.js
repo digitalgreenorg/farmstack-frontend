@@ -38,6 +38,8 @@ export default function OrgRightside(props) {
   // const [countryvalue, setcountryvalue] = useState("");
   // // const [orgdeserror, serorgdeserror] = useState(false);
   const [orgdesc, setorgdesc] = useState('')
+  const[isLoader, setIsLoader] = useState(false)
+  
   const [editorValue, setEditorValue] = React.useState(
     RichTextEditor.createValueFromString(orgdesc, 'html'),
   )

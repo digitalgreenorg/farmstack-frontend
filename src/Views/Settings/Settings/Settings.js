@@ -23,6 +23,9 @@ import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
 import PolicySettings from "../PolicySettings/PolicySettings";
 import BrandingSetting from "../branding/BrandingSetting";
+import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
+import HandleSessionTimeout from "../../../Utils/Common";
+import Loader from "../../../Components/Loader/Loader";
 
 const useStyles = {
   btncolor: {
@@ -64,6 +67,8 @@ function Settings(props) {
   const [isPolicyUpdateSuccess, setisPolicyUpdateSuccess] = useState(false);
   const [value, setValue] = React.useState("1");
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
+  const[isLoader, setIsLoader] = useState(false)
+
   const [memberUrl, setMemberUrl] = useState(
     UrlConstants.base_url + UrlConstants.team_member
   );
@@ -80,8 +85,10 @@ function Settings(props) {
   }, []);
 
   const getMemberList = () => {
-    HTTPService("GET", memberUrl, "", false, false)
+    setIsLoader(true);
+    HTTPService("GET", memberUrl, "", false, true)
       .then((response) => {
+        setIsLoader(false);
         console.log("otp valid", response.data);
 
         if (response.data.next == null) {
@@ -95,28 +102,40 @@ function Settings(props) {
         setteamMemberList(finalDataList);
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            history.push('/sessionexpired');
+        }
       });
   };
   const deleteTeamMember = () => {
     // setisDelete(false);
     // setistabView(false);
     // setisDeleteSuccess(true)
+    setIsLoader(true);
     HTTPService(
       "DELETE",
       UrlConstants.base_url + UrlConstants.team_member + teamMemberId + "/",
       "",
       false,
-      false
+      true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log("otp valid", response.data);
         setisDeleteSuccess(true);
         setistabView(false);
         setisDelete(false);
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            history.push('/sessionexpired');
+        }
       });
   };
 
@@ -125,6 +144,7 @@ function Settings(props) {
   };
   return (
     <div style={useStyles.background}>
+      {isLoader ? <Loader />: ''}
       <Container style={useStyles.marginrowtopscreen10px}>
         {isDelete ? (
           <Delete

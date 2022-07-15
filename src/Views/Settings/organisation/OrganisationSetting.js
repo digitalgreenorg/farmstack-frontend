@@ -17,7 +17,7 @@ import UploadOrgBanner from "./UploadOrgBanner";
 
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import {
+import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
   setUserId,
@@ -26,6 +26,9 @@ import {
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import { validateInputField } from "../../../Utils/Common";
+import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
+import { useHistory } from "react-router-dom";
+import Loader from "../../../Components/Loader/Loader";
 
 export default function OrganisationSetting(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -81,19 +84,24 @@ export default function OrganisationSetting(props) {
   const fileTypes = ["JPEG", "PNG", "jpg"];
   const [orgfilesize, setorgfilesize] = useState(false);
   const [isPost, setisPost] = useState(false);
+  const[isLoader, setIsLoader] = useState(false)
+
+  const history = useHistory();
 
   // get org details.
   const getOrgDetails = async () => {
     var id = getUserLocal();
     console.log("user id", id);
-
+    setIsLoader(true);
     await HTTPService(
       "GET",
       UrlConstant.base_url + UrlConstant.org + id + "/",
       false,
-      false
+      false,
+      true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log("get request for org settings", response.data);
         // console.log(
         //   "org description",
@@ -130,7 +138,12 @@ export default function OrganisationSetting(props) {
         }
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            history.push('/sessionexpired');
+        }
       });
   };
 
@@ -180,9 +193,11 @@ export default function OrganisationSetting(props) {
     bodyFormData.append("logo", orgfile);
     bodyFormData.append("org_description", orgdesc);
     console.log("org details", bodyFormData);
+    setIsLoader(true);
     if (isPost) {
-      HTTPService("POST", posturl, bodyFormData, true, false)
+      HTTPService("POST", posturl, bodyFormData, true, true)
         .then((response) => {
+          setIsLoader(false);
           console.log("response");
           console.log("org details", response.data);
           //   console.log(response.json());
@@ -198,12 +213,19 @@ export default function OrganisationSetting(props) {
           }
         })
         .catch((e) => {
+          setIsLoader(false);
           console.log(e);
+          console.log(e.response.status);
+          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+              history.push('/sessionexpired');
+          }
           //   setError(true);
         });
     } else {
-      HTTPService("PUT", puturl, bodyFormData, true, false)
+      setIsLoader(true);
+      HTTPService("PUT", puturl, bodyFormData, true, true)
         .then((response) => {
+          setIsLoader(false);
           console.log("response");
           console.log("org details", response.data);
           //   console.log(response.json());
@@ -219,7 +241,12 @@ export default function OrganisationSetting(props) {
           }
         })
         .catch((e) => {
+          setIsLoader(false);
           console.log(e);
+          console.log(e.response.status);
+          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+              history.push('/sessionexpired');
+          }
           //   setError(true);
         });
     }
@@ -420,6 +447,7 @@ export default function OrganisationSetting(props) {
 
   return (
     <div className="orgsetting">
+      {isLoader ? <Loader />: ''}
       <form noValidate autoComplete="off" onSubmit={handleOrgSettingSubmit}>
         <Row>
           <span className="title">Organisation details</span>

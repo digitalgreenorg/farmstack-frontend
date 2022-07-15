@@ -12,6 +12,9 @@ import UrlConstants from '../../Constants/UrlConstants'
 import validator from "validator";
 import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
+import SESSION_CONSTANTS from '../../Constants/OtherConstants';
+import HandleSessionTimeout from '../../Utils/Common';
+import Loader from '../../Components/Loader/Loader';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
@@ -39,6 +42,8 @@ function EditParticipants(props) {
     const [isuseremailerror, setisuseremailerror] = useState(false);
     const [isexisitinguseremail, setisexisitinguseremail] = useState(false)
     const [isSuccess, setisSuccess] = useState(false);
+    const[isLoader, setIsLoader] = useState(false)
+
     const history = useHistory();
     const { id } = useParams()
     useEffect(() => {
@@ -49,7 +54,9 @@ function EditParticipants(props) {
         return (res !== null)
     };
     useEffect(() => {
-        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', false, false).then((response) => {
+        setIsLoader(true);
+        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', false, true).then((response) => {
+            setIsLoader(false);
             console.log("otp valid", response.data);
             // let addressdata=JSON.parse(response.data.organization.address)
             setorganisationname(response.data.organization.name)
@@ -65,7 +72,12 @@ function EditParticipants(props) {
             setorganisationlength(response.data.user.subscription)
             setidorg(response.data.organization_id)
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                history.push('/sessionexpired');
+            }
         });
     }, []);
 
@@ -83,16 +95,24 @@ function EditParticipants(props) {
         bodyFormData.append('role', 3);
         bodyFormData.append('id', idorg);
         console.log("dfdfdsf", bodyFormData)
+        setIsLoader(true);
         HTTPService('PUT', UrlConstants.base_url + UrlConstants.participant + id + '/', bodyFormData, false, true).then((response) => {
+            setIsLoader(false);
             console.log("otp valid", response.data);
             setisSuccess(true)
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
             setisexisitinguseremail(true)
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                history.push('/sessionexpired');
+            }
         });
     }
     return (
         <>
+            {isLoader ? <Loader />: ''}
             <Container style={useStyles.marginrowtop}>
                 {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Changes are updated!"} imageText={"Updated"} msg={"Your changes are updated successfully."}></Success> : <><ParticipantForm
                     organisationname={organisationname}

@@ -13,7 +13,9 @@ import UrlConstants from '../../Constants/UrlConstants'
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from '../../Constants/RegexConstants';
-import { validateInputField } from '../../Utils/Common';
+import HandleSessionTimeout, { validateInputField } from '../../Utils/Common';
+import SESSION_CONSTANTS from '../../Constants/OtherConstants';
+import Loader from '../../Components/Loader/Loader';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
@@ -40,6 +42,7 @@ function AddParticipants(props) {
     const [isexisitinguseremail, setisexisitinguseremail] = useState(false)
     // const [ispincodeerror, setispincodeerror] = useState(false)
     const [isSuccess, setisSuccess] = useState(false);
+    const[isLoader, setIsLoader] = useState(false)
 
     const isValidURL = (string) => {
         var res = string.match(RegexConstants.WEBSITE_URL_REGEX)
@@ -57,15 +60,23 @@ function AddParticipants(props) {
         bodyFormData.append('address', JSON.stringify({ "address": organisationaddress, "country": countryvalue, "pincode": pincode }));
         bodyFormData.append('subscription', organisationlength);
         bodyFormData.append('role', 3);
+        setIsLoader(true);
         HTTPService('POST', UrlConstants.base_url + UrlConstants.participant, bodyFormData, false, true).then((response) => {
+            setIsLoader(false);
             setisSuccess(true)
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
             setisexisitinguseremail(true)
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                history.push('/sessionexpired');
+            }
         });
     }
     return (
         <>
+            {isLoader ? <Loader />: ''}
             <Container style={useStyles.marginrowtop}>
                 {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Participant added successfully !"} imageText={"Added"} msg={"You added a participant."}></Success> : <><ParticipantForm
                     organisationname={organisationname}

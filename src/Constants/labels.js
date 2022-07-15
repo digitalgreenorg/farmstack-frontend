@@ -112,6 +112,11 @@ const labels = {
       Others: "Others",
       date: "By Date",
     },
+    sessiontimeout: {
+      heading: "Your login Session has Expired !",
+      secondmainheading: "Session Expired !",
+      thirdmainheading: "Please login again."
+    },
   },
 };
 export default labels;

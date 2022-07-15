@@ -10,7 +10,10 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import HTTPService from "../../../Services/HTTPService";
-import { Link } from "react-router-dom";
+import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
+import HandleSessionTimeout from '../../../Utils/Common';
+import { Link, useHistory } from "react-router-dom";
+import Loader from "../../../Components/Loader/Loader";
 
 export default function PolicySettings(props) {
   const useStyles = {
@@ -124,19 +127,24 @@ export default function PolicySettings(props) {
   const [termsFileUrl, setTermsFileUrl] = useState("");
 
   const [isPostMethod, setIsPostMethod] = useState(false);
+  const[isLoader, setIsLoader] = useState(false)
+
+  const history = useHistory();
 
   useEffect(() => {
     getPolicies();
   }, []);
   const getPolicies = () => {
+    setIsLoader(true);
     HTTPService(
       "GET",
       UrlConstant.base_url + UrlConstant.policies_save_upload + "1/",
       "",
       false,
-      false
+      true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log("response : ", response.data);
         if (
           response.data.Content == "null" &&
@@ -202,7 +210,12 @@ export default function PolicySettings(props) {
         );
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e);
+        console.log(e.response.status);
+        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+            history.push('/sessionexpired');
+        }
       });
   };
 
@@ -666,6 +679,7 @@ export default function PolicySettings(props) {
 
   return (
     <div style={useStyles.tabmargin}>
+      {isLoader ? <Loader />: ''}
       <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
         <Row style={useStyles.marginheading}>
           <span style={useStyles.headingtext}>Upload Content</span>

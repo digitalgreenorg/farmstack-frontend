@@ -8,13 +8,17 @@ import Button from '@mui/material/Button'
 import HTTPService from '../../Services/HTTPService'
 import UrlConstant from '../../Constants/UrlConstants'
 import { useHistory } from 'react-router-dom'
-import { setTokenLocal, getTokenLocal } from '../../Utils/Common'
+import HandleSessionTimeout, { setTokenLocal, getTokenLocal } from '../../Utils/Common'
+import SESSION_CONSTANTS from '../../Constants/OtherConstants'
+import Loader from '../Loader/Loader'
 
 export default function BrandingRightside(props) {
   const [file, setFile] = useState(null)
   const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 })
   const [hexColor, sethexColor] = useState('')
   const [Brandingnextbutton, setBrandingnextbutton] = useState(true)
+  const[isLoader, setIsLoader] = useState(false)
+
   const history = useHistory()
   const fileTypes = ['JPEG', 'PNG', 'jpg']
   const handleBannerFileChange = (file) => {
@@ -40,8 +44,10 @@ export default function BrandingRightside(props) {
     console.log('branding data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.branding
 
-    await HTTPService('POST', url, bodyFormData, true, false)
+    setIsLoader(true);
+    await HTTPService('POST', url, bodyFormData, true, true)
       .then((response) => {
+        setIsLoader(false);
         console.log('response')
         console.log('branding details', response.data)
         //   console.log(response.json());
@@ -56,7 +62,17 @@ export default function BrandingRightside(props) {
         }
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e)
+        if (e.response != null && e.response != undefined && e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT)
+        {
+          console.log(e.response.status);
+          history.push('/sessionexpired');
+        }
+        else
+        {
+          history.push('/error');
+        }
         //   setError(true);
       })
   }
@@ -69,9 +85,10 @@ export default function BrandingRightside(props) {
 
     console.log('branding data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.branding
-
-    await HTTPService('POST', url, bodyFormData, true, false)
+    setIsLoader(true);
+    await HTTPService('POST', url, bodyFormData, true, true)
       .then((response) => {
+        setIsLoader(false);
         console.log('response')
         console.log('branding details', response.data)
         //   console.log(response.json());
@@ -86,12 +103,23 @@ export default function BrandingRightside(props) {
         }
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e)
+        if (e.response != null && e.response != undefined && e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT)
+        {
+          console.log(e.response.status);
+          history.push('/sessionexpired');
+        }
+        else
+        {
+          history.push('/error');
+        }
         //   setError(true);
       })
   }
   return (
     <div className="branding">
+      {isLoader ? <Loader />: ''}
       <p className="brandingtitle">Create your Branding</p>
       <div>
         <form noValidate autoComplete="off" onSubmit={handleBrandingSubmit}>

@@ -10,6 +10,9 @@ import THEME_COLORS from '../../Constants/ColorConstants'
 import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 import HTTPService from '../../Services/HTTPService'
+import SESSION_CONSTANTS from '../../Constants/OtherConstants';
+import HandleSessionTimeout from '../../Utils/Common';
+import Loader from '../../Components/Loader/Loader';
 const useStyles = {
     btncolor: {color: "white","text-transform": "capitalize", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "padding-right": "0px", "padding-left":"0px", width: "200px", height: "34px", "font-family": 'Open Sans',"font-style": "normal", "font-weight": 700, "font-size": "14px","line-height": "19px", "margin-bottom": "-20px"},
     btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black"},
@@ -22,9 +25,13 @@ function Participants(props) {
     const [participantList, setparticipantList] = useState([]);
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
     const [participantUrl, setparticipantUrl] = useState("");
+    const[isLoader, setIsLoader] = useState(false)
+
     const history = useHistory();
     useEffect(() => {
-        HTTPService('GET',UrlConstants.base_url+UrlConstants.participant,' ',false, false).then((response) => {
+        setIsLoader(true);
+        HTTPService('GET',UrlConstants.base_url+UrlConstants.participant,' ',false, true).then((response) => {
+            setIsLoader(false);
             console.log("otp valid", response.data);
             if (response.data.next == null) {
                 setisShowLoadMoreButton(false)
@@ -34,11 +41,18 @@ function Participants(props) {
             }
             setparticipantList(response.data.results)
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                history.push('/sessionexpired');
+            }
         });
     }, []);
     const getParticipantList = () => {
-        HTTPService('GET',participantUrl,' ', false, false).then((response) => {
+        setIsLoader(true);
+        HTTPService('GET',participantUrl,' ', false, true).then((response) => {
+            setIsLoader(false);
             console.log("otp valid", response.data);
             if (response.data.next == null) {
                 setisShowLoadMoreButton(false)
@@ -51,11 +65,17 @@ function Participants(props) {
             console.log(datalist)
             setparticipantList(finalDataList)
         }).catch((e) => {
+            setIsLoader(false);
             console.log(e);
+            console.log(e.response.status);
+            if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
+                history.push('/sessionexpired');
+            }
         });
       };
     return (
         <>
+            {isLoader ? <Loader />: ''}
             <div style={useStyles.marginrowtop}>
                 <Row>
                     <Col xs={12} sm={12} md={12} lg={12}>
