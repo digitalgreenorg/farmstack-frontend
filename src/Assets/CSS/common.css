@@ -78,7 +78,7 @@ button.submitbtn {
 }
 button.submitbtn:hover {
   background-color: #ab8405 !important;
-} 
+}
 .width100percent {
   width: 100%;
 }
@@ -94,7 +94,7 @@ button.submitbtn:hover {
 
   color: #3d4a52;
 }
-.editheading{
+.editheading {
   font-weight: 700;
   font-size: 20px;
   color: #3d4a52;
@@ -322,10 +322,10 @@ button.submitbtnteam {
   box-shadow: none !important;
   font-weight: 700;
 }
-button.submitbtnteam:hover{
+button.submitbtnteam:hover {
   background-color: #ab8405 !important;
 }
-button.submitbtn:hover{
+button.submitbtn:hover {
   background-color: #ab8405 !important;
 }
 /* button.submitbtnupdt:hover{
@@ -400,14 +400,13 @@ button.submitbtnupdt {
   /* headings */
   color: #3d4a52 !important;
 }
-.tabstyle{
+.tabstyle {
   width: 109px;
   height: 19px;
   font-family: "Open Sans" !important;
   font-size: 14px;
   font-weight: 400;
 }
-
 
 .buttonremovebackgroundonhover:hover {
   background: none !important;
@@ -421,17 +420,20 @@ button.submitbtnupdt {
 }
 .react-multi-email.empty > span[data-placeholder] {
   display: inline;
-  color: #3D4A52 !important;
+  color: #3d4a52 !important;
 }
 
-.MuiLinearProgress-bar1Indeterminate{
+.MuiLinearProgress-bar1Indeterminate {
   background-color: #c09507 !important;
 }
 
-.MuiLinearProgress-bar2Indeterminate{
+.MuiLinearProgress-bar2Indeterminate {
   background-color: #c09507 !important;
 }
-.MuiLinearProgress-colorPrimary{
-  background-color:white !important;
+.MuiLinearProgress-colorPrimary {
+  background-color: white !important;
 }
 /* hiding drag and drop shadow issue */
+.Mui-checked {
+  color: #c09507 !important;
+}
