@@ -11,15 +11,47 @@
 .datasetform .name {
   width: 60%;
   margin-top: 5%;
-  margin-left: 43%;
+  margin-left: 40%;
 }
-.description {
+.datasetform .description {
   float: left;
   width: 60% !important;
   margin-top: 5%;
-  margin-left: 5%;
-  font-family: 'Open Sans';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
+  margin-left: 3%;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+}
+.datasetform .checkbox1 {
+  width: 60%;
+  margin-left: 17.5%;
+  margin-top: 1%;
+  font-family: "Open Sans";
+}
+.datasetform .AddDatasetsecondaryheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #3d4a52;
+  float: left;
+  margin-left: 20%;
+  margin-top: 3%;
+}
+.datasetform .checkbox2 {
+  width: 60%;
+  margin-left: 19%;
+  margin-top: 1%;
+  font-family: "Open Sans";
+}
+.datasetform .checkbox2 .soil {
+  float: left;
+  font-family: "Open Sans";
+}
+.datasetform .crop {
+  width: 60% !important;
+  margin-top: 5%;
+  margin-left: 3%;
+  float: left;
 }
