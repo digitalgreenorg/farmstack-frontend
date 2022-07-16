@@ -1,0 +1,25 @@
+.datasetform .AddDatasetmainheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  color: #3d4a52;
+  float: left;
+  margin-left: 20%;
+  margin-top: 3%;
+}
+.datasetform .name {
+  width: 60%;
+  margin-top: 5%;
+  margin-left: 43%;
+}
+.description {
+  float: left;
+  width: 60% !important;
+  margin-top: 5%;
+  margin-left: 5%;
+  font-family: 'Open Sans';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+}
