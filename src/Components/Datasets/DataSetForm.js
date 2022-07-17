@@ -18,6 +18,7 @@ import THEME_COLORS from "../../Constants/ColorConstants";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { pink } from "@mui/material/colors";
+import Switch from "@mui/material/Switch";
 
 const useStyles = {
   btncolor: {
@@ -160,6 +161,23 @@ export default function DataSetForm(props) {
                 : e.preventDefault()
             }
             label="Corp Detail"
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={6} lg={6}>
+          <span className="AddDatasetageheading">
+            {/* {props.first_heading} */}
+            Age of Actual Data
+          </span>
+        </Col>
+        <Col xs={12} sm={12} md={6} lg={6}>
+          <FormControlLabel
+            value="start"
+            control={<Switch />}
+            label="Constantly updating"
+            labelPlacement="start"
+            className="constantswitch"
           />
         </Col>
       </Row>

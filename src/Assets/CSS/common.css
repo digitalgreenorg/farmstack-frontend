@@ -434,6 +434,16 @@ button.submitbtnupdt {
   background-color: white !important;
 }
 /* hiding drag and drop shadow issue */
+.sc-gsnTZi {
+  display: none;
+}
+
+/* checkbox */
 .Mui-checked {
   color: #c09507 !important;
+}
+
+/* switch */
+.MuiSwitch-track {
+  background-color: #c09507 !important;
 }

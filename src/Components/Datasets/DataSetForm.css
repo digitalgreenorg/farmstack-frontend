@@ -55,3 +55,21 @@
   margin-left: 3%;
   float: left;
 }
+.datasetform .AddDatasetageheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #3d4a52;
+  float: left;
+  margin-left: 41%;
+  margin-top: 4%;
+}
+.datasetform .constantswitch {
+  margin-top: 4%;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #3d4a52;
+}
