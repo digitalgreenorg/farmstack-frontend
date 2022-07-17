@@ -73,3 +73,15 @@
   font-size: 16px;
   color: #3d4a52;
 }
+.datasetform .radiobtns {
+  margin-left: 20%;
+}
+.datasetform .radiobtns .sixmonth {
+  margin-left: 5%;
+}
+.datasetform .radiobtns .ninemonth {
+  margin-left: 5%;
+}
+.datasetform .radiobtns .twelvemonth {
+  margin-left: 5%;
+}

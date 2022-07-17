@@ -19,6 +19,8 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { pink } from "@mui/material/colors";
 import Switch from "@mui/material/Switch";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 
 const useStyles = {
   btncolor: {
@@ -43,6 +45,13 @@ export default function DataSetForm(props) {
   const [datasetname, setdatasetname] = useState("");
   const [Geography, setGeography] = useState("");
   const [cropdetail, setCropdetail] = useState("");
+
+  const [value, setValue] = React.useState("3 months");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
   return (
     <div className="datasetform">
       <Row>
@@ -179,6 +188,40 @@ export default function DataSetForm(props) {
             labelPlacement="start"
             className="constantswitch"
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="radiobtns">
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            value={value}
+            onChange={handleChange}>
+            <FormControlLabel
+              value="3 months"
+              control={<Radio />}
+              label="3 months"
+            />
+            <FormControlLabel
+              value="6 months"
+              control={<Radio />}
+              label="6 months"
+              className="sixmonth"
+            />
+            <FormControlLabel
+              value="9 months"
+              control={<Radio />}
+              label="9 months"
+              className="ninemonth"
+            />
+            <FormControlLabel
+              value="12 months"
+              control={<Radio />}
+              label="12 months"
+              className="twelvemonth"
+            />
+          </RadioGroup>
         </Col>
       </Row>
     </div>
