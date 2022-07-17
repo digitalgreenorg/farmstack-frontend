@@ -447,3 +447,8 @@ button.submitbtnupdt {
 .MuiSwitch-track {
   background-color: #c09507 !important;
 }
+
+/* mui typography  */
+.MuiTypography-root {
+  font-family: "Open Sans" !important;
+}
