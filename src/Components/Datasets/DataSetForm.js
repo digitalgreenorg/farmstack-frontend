@@ -22,6 +22,11 @@ import Switch from "@mui/material/Switch";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import $ from "jquery";
+
 const useStyles = {
   btncolor: {
     color: THEME_COLORS.THEME_COLOR,
@@ -47,6 +52,10 @@ export default function DataSetForm(props) {
   const [cropdetail, setCropdetail] = useState("");
 
   const [value, setValue] = React.useState("3 months");
+
+  //   date picker
+  const [fromdate, setfromdate] = React.useState(null);
+  const [todate, settodate] = React.useState(null);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -222,6 +231,67 @@ export default function DataSetForm(props) {
               className="twelvemonth"
             />
           </RadioGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <span className="AddDatasetsecondaryheading">
+            {/* {props.first_heading} */}
+            Data Capture Interval
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={6} lg={6} className="FromDate">
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              inputFormat="dd/MM/yyyy"
+              disableFuture
+              label="Start Date "
+              value={fromdate}
+              onChange={(newValue) => {
+                settodate(null);
+                setfromdate(newValue);
+                setTimeout(() => {
+                  $(".supportcardtodate input.MuiInputBase-input").attr(
+                    "disabled",
+                    "disabled"
+                  );
+                }, 100);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="filled-basic"
+                  variant="filled"
+                  className="fromtextfield"
+                />
+              )}
+            />
+          </LocalizationProvider>
+        </Col>
+        <Col xs={12} sm={12} md={6} lg={6} className="toDate">
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              inputFormat="dd/MM/yyyy"
+              disabled={fromdate ? false : true}
+              disableFuture
+              label="End Date "
+              minDate={fromdate}
+              value={todate}
+              onChange={(newValue) => {
+                settodate(newValue);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="filled-basic"
+                  variant="filled"
+                  className="totextfield"
+                />
+              )}
+            />
+          </LocalizationProvider>
         </Col>
       </Row>
     </div>

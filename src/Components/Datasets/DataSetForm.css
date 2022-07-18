@@ -85,3 +85,20 @@
 .datasetform .radiobtns .twelvemonth {
   margin-left: 5%;
 }
+.datasetform .FromDate {
+  padding-left: 19%;
+  padding-top: 2%;
+}
+
+.datasetform .toDate {
+  padding-top: 2%;
+  /* float: left; */
+}
+
+.datasetform .FromDate .fromtextfield {
+  width: 90%;
+}
+.datasetform .toDate .totextfield {
+  float: left;
+  width: 60%;
+}
