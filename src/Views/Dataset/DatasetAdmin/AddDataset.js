@@ -6,7 +6,7 @@ import DataSetForm from "../../../Components/Datasets/DataSetForm";
 export default function AddDataset() {
   return (
     <>
-      <DataSetForm />
+      <DataSetForm title={"Add Dataset"} />
     </>
   );
 }

@@ -27,6 +27,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import $ from "jquery";
 
+import { FileUploader } from "react-drag-drop-files";
+import UploadDataset from "../../Components/Datasets/UploadDataset";
+
 const useStyles = {
   btncolor: {
     color: THEME_COLORS.THEME_COLOR,
@@ -59,6 +62,11 @@ export default function DataSetForm(props) {
   const [fromdate, setfromdate] = React.useState(null);
   const [todate, settodate] = React.useState(null);
 
+  const fileTypes = ["csv", "xls", "xlsx"];
+  const [file, setFile] = useState(null);
+
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -69,6 +77,17 @@ export default function DataSetForm(props) {
   const handleChangeAvailable = (event) => {
     setavailablevalue(event.target.value);
   };
+  const handleFileChange = (file) => {
+    setFile(file);
+    // setprofile_pic(file);
+    console.log(file);
+    // if (file != null && file.size > 2097152) {
+    //   //   setBrandingnextbutton(false);
+    //   setaccfilesize(true);
+    // } else {
+    //   setaccfilesize(false);
+    // }
+  };
 
   return (
     <div className="datasetform">
@@ -76,7 +95,7 @@ export default function DataSetForm(props) {
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetmainheading">
             {/* {props.first_heading} */}
-            Add Dataset
+            {props.title}
           </span>
         </Col>
       </Row>
@@ -94,14 +113,14 @@ export default function DataSetForm(props) {
                 ? setdatasetname(e.target.value)
                 : e.preventDefault()
             }
-            label="Dataset Name"
+            label={screenlabels.dataset.name}
           />
         </Col>
-        <Col xs={12} sm={12} md={6} lg={6}>
+        <Col xs={12} sm={12} md={6} lg={6} className="resolution">
           <TextareaAutosize
             className="description"
             maxRows={4}
-            placeholder="Description *"
+            placeholder={screenlabels.dataset.description}
             variant="filled"
             defaultValue={reply}
             maxLength={500}
@@ -120,39 +139,54 @@ export default function DataSetForm(props) {
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
             {/* {props.first_heading} */}
-            Data Category
+            {screenlabels.dataset.Data_Category}
           </span>
         </Col>
       </Row>
       <Row className="checkbox1">
         <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Crop data" />
-        </Col>
-        <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Practice data" />
-        </Col>
-        <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Farmer profile" />
-        </Col>
-        <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Land records" />
-        </Col>
-      </Row>
-      <Row className="checkbox2">
-        <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Cultivation data" />
+          <FormControlLabel
+            control={<Checkbox />}
+            label={screenlabels.dataset.Crop_data}
+          />
         </Col>
         <Col xs={12} sm={12} md={6} lg={3}>
           <FormControlLabel
             control={<Checkbox />}
-            label="Soil data"
+            label={screenlabels.dataset.Practice_data}
+          />
+        </Col>
+        <Col xs={12} sm={12} md={6} lg={3}>
+          <FormControlLabel
+            control={<Checkbox />}
+            label={screenlabels.dataset.Farmer_profile}
+          />
+        </Col>
+        <Col xs={12} sm={12} md={6} lg={3}>
+          <FormControlLabel
+            control={<Checkbox />}
+            label={screenlabels.dataset.Land_records}
+          />
+        </Col>
+      </Row>
+      <Row className="checkbox2">
+        <Col xs={12} sm={12} md={6} lg={3}>
+          <FormControlLabel
+            control={<Checkbox />}
+            label={screenlabels.dataset.Cultivation_data}
+          />
+        </Col>
+        <Col xs={12} sm={12} md={6} lg={3}>
+          <FormControlLabel
+            control={<Checkbox />}
+            label={screenlabels.dataset.Soil_data}
             className="soil"
           />
         </Col>
         <Col xs={12} sm={12} md={6} lg={3}>
           <FormControlLabel
             control={<Checkbox />}
-            label="Weather data"
+            label={screenlabels.dataset.Weather_data}
             className="soil"
           />
         </Col>
@@ -171,7 +205,7 @@ export default function DataSetForm(props) {
                 ? setGeography(e.target.value)
                 : e.preventDefault()
             }
-            label="Geography"
+            label={screenlabels.dataset.Geography}
           />
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
@@ -187,7 +221,7 @@ export default function DataSetForm(props) {
                 ? setCropdetail(e.target.value)
                 : e.preventDefault()
             }
-            label="Corp Detail"
+            label={screenlabels.dataset.Corp_Detail}
           />
         </Col>
       </Row>
@@ -195,14 +229,14 @@ export default function DataSetForm(props) {
         <Col xs={12} sm={12} md={6} lg={6}>
           <span className="AddDatasetageheading">
             {/* {props.first_heading} */}
-            Age of Actual Data
+            {screenlabels.dataset.data}
           </span>
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
           <FormControlLabel
             value="start"
             control={<Switch />}
-            label="Constantly updating"
+            label={screenlabels.dataset.Constantly_updating}
             labelPlacement="start"
             className="constantswitch"
           />
@@ -219,24 +253,24 @@ export default function DataSetForm(props) {
             <FormControlLabel
               value="3 months"
               control={<Radio />}
-              label="3 months"
+              label={screenlabels.dataset.three}
             />
             <FormControlLabel
               value="6 months"
               control={<Radio />}
-              label="6 months"
+              label={screenlabels.dataset.six}
               className="sixmonth"
             />
             <FormControlLabel
               value="9 months"
               control={<Radio />}
-              label="9 months"
+              label={screenlabels.dataset.nine}
               className="ninemonth"
             />
             <FormControlLabel
               value="12 months"
               control={<Radio />}
-              label="12 months"
+              label={screenlabels.dataset.twelve}
               className="twelvemonth"
             />
           </RadioGroup>
@@ -246,7 +280,7 @@ export default function DataSetForm(props) {
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
             {/* {props.first_heading} */}
-            Data Capture Interval
+            {screenlabels.dataset.Interval}
           </span>
         </Col>
       </Row>
@@ -256,7 +290,7 @@ export default function DataSetForm(props) {
             <DatePicker
               inputFormat="dd/MM/yyyy"
               disableFuture
-              label="Start Date "
+              label={screenlabels.dataset.Start_Date}
               value={fromdate}
               onChange={(newValue) => {
                 settodate(null);
@@ -285,7 +319,7 @@ export default function DataSetForm(props) {
               inputFormat="dd/MM/yyyy"
               disabled={fromdate ? false : true}
               disableFuture
-              label="End Date "
+              label={screenlabels.dataset.End_Date}
               minDate={fromdate}
               value={todate}
               onChange={(newValue) => {
@@ -307,7 +341,7 @@ export default function DataSetForm(props) {
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
             {/* {props.first_heading} */}
-            Size of Actual Data (Records)
+            {screenlabels.dataset.Records}
           </span>
         </Col>
       </Row>
@@ -345,7 +379,7 @@ export default function DataSetForm(props) {
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
             {/* {props.first_heading} */}
-            Connector Availablity
+            {screenlabels.dataset.Availablity}
           </span>
         </Col>
       </Row>
@@ -358,18 +392,52 @@ export default function DataSetForm(props) {
             value={availablevalue}
             onChange={handleChangeAvailable}>
             <FormControlLabel
-              value="Available"
+              value={screenlabels.dataset.Available}
               control={<Radio />}
               label="Available"
             />
             <FormControlLabel
-              value="Not Available"
+              value={screenlabels.dataset.Not_Available}
               control={<Radio />}
               label="Not Available"
               className="notavaiable"
             />
           </RadioGroup>
         </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <span className="AddDatasetsecondaryheading">
+            {/* {props.first_heading} */}
+            {screenlabels.dataset.Upload_dataset}
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={6} lg={6}>
+          <FileUploader
+            handleChange={handleFileChange}
+            name="file"
+            types={fileTypes}
+            children={
+              <UploadDataset
+                uploaddes="Supports: CSV, Excel formats not more than 2MB file size"
+                uploadtitle="Upload Dataset"
+              />
+            }
+          />
+        </Col>
+      </Row>
+
+      <Row xs={12} sm={12} md={12} lg={12}>
+        <p className="uploaddatasetname">
+          {file ? (file.size ? `File name: ${file.name}` : "") : ""}
+        </p>
+        <p className="oversizemb-uploadimglogo">
+          {file != null && file.size > 2097152
+            ? "File uploaded is more than 2MB!"
+            : ""}
+        </p>
       </Row>
     </div>
   );
