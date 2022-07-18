@@ -16,6 +16,7 @@ import AddTeamMember from '../Views/Settings/TeamMembers/AddTeamMember'
 import EditTeamMember from '../Views/Settings/TeamMembers/EditTeamMember'
 import Settings from '../Views/Settings/Settings/Settings'
 import Support from '../Views/Support/Support'
+import DatasetAdmin from '../Views/Dataset/DatasetAdmin/DatasetAdmin'
 import { useParams,useHistory } from 'react-router-dom';
 import {getTokenLocal} from '../Utils/Common'
 function Datahub(props) {
@@ -35,6 +36,7 @@ function Datahub(props) {
                 <Route exact path="/datahub/settings/editmember/:id" component={EditTeamMember} />
                 <Route exact path="/datahub/settings/:id" component={Settings} />
                 <Route exact path="/datahub/support" component={Support} />
+                <Route exact path="/datahub/admin/dataset" component={DatasetAdmin}/>
 
             </Switch></>:(
             props.history.push("/login")
