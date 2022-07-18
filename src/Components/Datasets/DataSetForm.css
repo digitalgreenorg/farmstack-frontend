@@ -86,7 +86,7 @@
   margin-left: 5%;
 }
 .datasetform .FromDate {
-  padding-left: 19%;
+  padding-left: 21%;
   padding-top: 2%;
 }
 
@@ -96,9 +96,27 @@
 }
 
 .datasetform .FromDate .fromtextfield {
-  width: 90%;
+  width: 100%;
 }
 .datasetform .toDate .totextfield {
   float: left;
   width: 60%;
+  /* padding-left: 2%; */
+  margin-left: 3%;
+}
+.datasetform .recordradiobtns {
+  margin-left: 20%;
+  margin-top: 1%;
+}
+.datasetform .recordradiobtns .record2 {
+  margin-left: 7.5%;
+}
+.datasetform .recordradiobtns .record3 {
+  margin-left: 8%;
+}
+.datasetform .recordradiobtns .record4 {
+  margin-left: 7%;
+}
+.datasetform .notavaiable {
+  margin-left: 5%;
 }

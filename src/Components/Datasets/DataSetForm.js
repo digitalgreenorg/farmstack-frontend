@@ -52,6 +52,8 @@ export default function DataSetForm(props) {
   const [cropdetail, setCropdetail] = useState("");
 
   const [value, setValue] = React.useState("3 months");
+  const [recordsvalue, setrecordsvalue] = React.useState("100k");
+  const [availablevalue, setavailablevalue] = React.useState("Available");
 
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
@@ -59,6 +61,13 @@ export default function DataSetForm(props) {
 
   const handleChange = (event) => {
     setValue(event.target.value);
+  };
+
+  const handleChangeRecords = (event) => {
+    setrecordsvalue(event.target.value);
+  };
+  const handleChangeAvailable = (event) => {
+    setavailablevalue(event.target.value);
   };
 
   return (
@@ -292,6 +301,74 @@ export default function DataSetForm(props) {
               )}
             />
           </LocalizationProvider>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <span className="AddDatasetsecondaryheading">
+            {/* {props.first_heading} */}
+            Size of Actual Data (Records)
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            value={recordsvalue}
+            onChange={handleChangeRecords}>
+            <FormControlLabel value="100k" control={<Radio />} label="100k" />
+            <FormControlLabel
+              value="150k"
+              control={<Radio />}
+              label="150k"
+              className="record2"
+            />
+            <FormControlLabel
+              value="200k"
+              control={<Radio />}
+              label="200k"
+              className="record3"
+            />
+            <FormControlLabel
+              value="+500k"
+              control={<Radio />}
+              label="+500k"
+              className="record4"
+            />
+          </RadioGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <span className="AddDatasetsecondaryheading">
+            {/* {props.first_heading} */}
+            Connector Availablity
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            value={availablevalue}
+            onChange={handleChangeAvailable}>
+            <FormControlLabel
+              value="Available"
+              control={<Radio />}
+              label="Available"
+            />
+            <FormControlLabel
+              value="Not Available"
+              control={<Radio />}
+              label="Not Available"
+              className="notavaiable"
+            />
+          </RadioGroup>
         </Col>
       </Row>
     </div>
