@@ -55,7 +55,7 @@ function ViewParticipants(props) {
     };
     useEffect(() => {
         setIsLoader(true);
-        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', false, true).then((response) => {
+        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', '', false, true).then((response) => {
             setIsLoader(false);
             console.log("otp valid", response.data);
             // let addressdata=JSON.parse(response.data.organization.address)

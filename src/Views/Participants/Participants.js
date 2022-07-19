@@ -31,7 +31,7 @@ function Participants(props) {
     const history = useHistory();
     useEffect(() => {
         setIsLoader(true);
-        HTTPService('GET',UrlConstants.base_url+UrlConstants.participant,' ',false, true).then((response) => {
+        HTTPService('GET',UrlConstants.base_url+UrlConstants.participant,'',false, true).then((response) => {
             setIsLoader(false);
             console.log("otp valid", response.data);
             if (response.data.next == null) {
@@ -48,7 +48,7 @@ function Participants(props) {
     }, []);
     const getParticipantList = () => {
         setIsLoader(true);
-        HTTPService('GET',participantUrl,' ', false, true).then((response) => {
+        HTTPService('GET',participantUrl,'', false, true).then((response) => {
             setIsLoader(false);
             console.log("otp valid", response.data);
             if (response.data.next == null) {
