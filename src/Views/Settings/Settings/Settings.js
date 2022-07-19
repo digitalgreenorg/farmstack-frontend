@@ -23,7 +23,6 @@ import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
 import PolicySettings from "../PolicySettings/PolicySettings";
 import BrandingSetting from "../branding/BrandingSetting";
-import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
 import HandleSessionTimeout from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
 import GetErrorHandlingRoute from "../../../Utils/Common";
