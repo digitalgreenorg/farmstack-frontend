@@ -49,6 +49,11 @@
   float: left;
   font-family: "Open Sans";
 }
+.datasetform .checkbox2 .weather {
+  float: left;
+  font-family: "Open Sans";
+  margin-left: -18px;
+}
 .datasetform .crop {
   width: 60% !important;
   margin-top: 5%;
