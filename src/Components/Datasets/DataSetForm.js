@@ -26,10 +26,7 @@ export default function DataSetForm(props) {
     <div className="datasetform">
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
-          <span className="AddDatasetmainheading">
-            {/* {props.first_heading} */}
-            {props.title}
-          </span>
+          <span className="AddDatasetmainheading">{props.title}</span>
         </Col>
       </Row>
       <Row>
@@ -67,7 +64,6 @@ export default function DataSetForm(props) {
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
-            {/* {props.first_heading} */}
             {screenlabels.dataset.Data_Category}
           </span>
         </Col>
@@ -183,7 +179,6 @@ export default function DataSetForm(props) {
       <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
           <span className="AddDatasetageheading">
-            {/* {props.first_heading} */}
             {screenlabels.dataset.data}
           </span>
         </Col>
@@ -278,7 +273,6 @@ export default function DataSetForm(props) {
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
-            {/* {props.first_heading} */}
             {screenlabels.dataset.Interval}
           </span>
         </Col>
@@ -403,7 +397,6 @@ export default function DataSetForm(props) {
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
-            {/* {props.first_heading} */}
             {screenlabels.dataset.Availablity}
           </span>
         </Col>
@@ -433,7 +426,6 @@ export default function DataSetForm(props) {
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
-            {/* {props.first_heading} */}
             {screenlabels.dataset.Upload_dataset}
           </span>
         </Col>

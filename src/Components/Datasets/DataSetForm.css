@@ -1,3 +1,7 @@
+.datasetform {
+  overflow-x: hidden;
+}
+
 .datasetform .AddDatasetmainheading {
   font-family: "Open Sans";
   font-style: normal;
