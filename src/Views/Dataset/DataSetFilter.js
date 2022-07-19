@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import labels from '../../Constants/labels';
 
-export default function DataSetFilter() {
+export default function DataSetFilter(props) {
   const [screenlabels, setscreenlabels] = useState(labels['en']);
 
   const filterObject = props.filterObject
@@ -17,7 +17,7 @@ export default function DataSetFilter() {
             <span className="fontweight600andfontsize14pxandcolor3A3A3A" >{screenlabels.support.filter}</span>
             </Col>
         </Row>
-        {filterObject.all ? <Row onClick={() => filterRow('all', false, 'all')} className="supportfiltersecondrow">
+        {filterObject.all ? <Row onClick={() => props.filterRow('all', false, 'all')} className="supportfiltersecondrow">
                                 <span className="supportallicon">
                                     <img
                                         src={require('../../Assets/Img/filter.svg')}
@@ -26,7 +26,7 @@ export default function DataSetFilter() {
                                 </span>
                                 <span className="fontweight600andfontsize14pxandcolorFFFFFF supportalltexticon">{screenlabels.support.all}</span>
                             </Row> :
-                                <Row onClick={() => filterRow('all', true, 'all')} className="supportfiltersecondrowbold">
+                                <Row onClick={() => props.filterRow('all', true, 'all')} className="supportfiltersecondrowbold">
                                     <span className="supportallicon">
                                         <img
                                             src={require('../../Assets/Img/filter_bold.svg')}

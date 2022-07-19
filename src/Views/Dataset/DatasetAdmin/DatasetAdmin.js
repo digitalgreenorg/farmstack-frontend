@@ -9,9 +9,6 @@ import Tab from "@mui/material/Tab";
 import { TabContext } from "@mui/lab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import DataSetCard from '../../../Components/Datasets/DataSetCard';
-import { width } from '@mui/system';
-import AddCard from '../../../Components/AddCard/AddCard';
 import { useHistory } from 'react-router-dom';
 
 export default function DatasetAdmin() {
@@ -35,7 +32,7 @@ export default function DatasetAdmin() {
         "usage_policy": false,
         "certificate": false
     });
-    
+
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
