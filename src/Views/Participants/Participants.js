@@ -10,8 +10,6 @@ import THEME_COLORS from '../../Constants/ColorConstants'
 import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 import HTTPService from '../../Services/HTTPService'
-import SESSION_CONSTANTS from '../../Constants/OtherConstants';
-import HandleSessionTimeout from '../../Utils/Common';
 import Loader from '../../Components/Loader/Loader';
 import GetErrorHandlingRoute from '../../Utils/Common';
 const useStyles = {

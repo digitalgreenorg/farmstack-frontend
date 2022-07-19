@@ -12,8 +12,6 @@ import UrlConstants from '../../Constants/UrlConstants'
 import HTTPService from '../../Services/HTTPService'
 import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
-import SESSION_CONSTANTS from '../../Constants/OtherConstants';
-import HandleSessionTimeout from '../../Utils/Common';
 import Loader from '../../Components/Loader/Loader';
 import GetErrorHandlingRoute from '../../Utils/Common';
 const useStyles = {

@@ -14,7 +14,6 @@ import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from '../../Constants/RegexConstants';
 import HandleSessionTimeout, { validateInputField } from '../../Utils/Common';
-import SESSION_CONSTANTS from '../../Constants/OtherConstants';
 import Loader from '../../Components/Loader/Loader';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },

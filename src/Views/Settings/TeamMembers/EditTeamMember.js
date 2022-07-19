@@ -12,9 +12,6 @@ import UrlConstants from '../../../Constants/UrlConstants'
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
-import HandleSessionTimeout from '../../../Utils/Common';
-import { PropaneRounded } from '@mui/icons-material';
 import Loader from '../../../Components/Loader/Loader';
 import GetErrorHandlingRoute from '../../../Utils/Common';
 const useStyles = {

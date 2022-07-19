@@ -16,7 +16,6 @@ import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
-import SESSION_CONSTANTS from "../../Constants/OtherConstants";
 import Loader from "../Loader/Loader";
 import GetErrorHandlingRoute from "../../Utils/Common";
 
