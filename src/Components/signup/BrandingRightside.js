@@ -9,7 +9,6 @@ import HTTPService from '../../Services/HTTPService'
 import UrlConstant from '../../Constants/UrlConstants'
 import { useHistory } from 'react-router-dom'
 import HandleSessionTimeout, { setTokenLocal, getTokenLocal } from '../../Utils/Common'
-import SESSION_CONSTANTS from '../../Constants/OtherConstants'
 import Loader from '../Loader/Loader'
 import GetErrorHandlingRoute from '../../Utils/Common'
 

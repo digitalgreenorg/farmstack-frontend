@@ -13,8 +13,6 @@ import { useHistory } from "react-router-dom";
 import RichTextEditor from "react-rte";
 import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/style.css';
-import SESSION_CONSTANTS from '../../Constants/OtherConstants';
-import HandleSessionTimeout from '../../Utils/Common';
 import Loader from '../../Components/Loader/Loader';
 import GetErrorHandlingRoute from '../../Utils/Common';
 const useStyles = {
