@@ -283,48 +283,85 @@ export default function DataSetForm(props) {
           </span>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12} sm={12} md={6} lg={6} className="FromDate">
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              inputFormat="dd/MM/yyyy"
-              disableFuture
-              label={screenlabels.dataset.Start_Date}
-              value={props.fromdate}
-              onChange={props.handleChangeFromDate}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  id="filled-basic"
-                  variant="filled"
-                  className="fromtextfield"
-                />
-              )}
-            />
-          </LocalizationProvider>
-        </Col>
-        <Col xs={12} sm={12} md={6} lg={6} className="toDate">
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              inputFormat="dd/MM/yyyy"
-              disabled={props.fromdate ? false : true}
-              disableFuture
-              label={screenlabels.dataset.End_Date}
-              minDate={props.fromdate}
-              value={props.todate}
-              onChange={props.handleChangeToDate}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  id="filled-basic"
-                  variant="filled"
-                  className="totextfield"
-                />
-              )}
-            />
-          </LocalizationProvider>
-        </Col>
-      </Row>
+      {props.Switchchecked ? (
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={6} className="FromDate">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                inputFormat="dd/MM/yyyy"
+                disabled
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="filled-basic"
+                    variant="filled"
+                    className="fromtextfield"
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={6} className="toDate">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                disabled
+                inputFormat="dd/MM/yyyy"
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="filled-basic"
+                    variant="filled"
+                    className="totextfield"
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Col>
+        </Row>
+      ) : (
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={6} className="FromDate">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                inputFormat="dd/MM/yyyy"
+                disableFuture
+                label={screenlabels.dataset.Start_Date}
+                value={props.fromdate}
+                onChange={props.handleChangeFromDate}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="filled-basic"
+                    variant="filled"
+                    className="fromtextfield"
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={6} className="toDate">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                inputFormat="dd/MM/yyyy"
+                disabled={props.fromdate ? false : true}
+                disableFuture
+                label={screenlabels.dataset.End_Date}
+                minDate={props.fromdate}
+                value={props.todate}
+                onChange={props.handleChangeToDate}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="filled-basic"
+                    variant="filled"
+                    className="totextfield"
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Col>
+        </Row>
+      )}
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
