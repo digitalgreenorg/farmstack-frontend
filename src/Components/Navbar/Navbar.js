@@ -32,7 +32,7 @@ const Navbar = (props) => {
     setIsLoader(true);
     await HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.profile + id + "/",
+      UrlConstant.base_url + UrlConstant.profile + id + "/",'',
       false,
       true
     )
