@@ -174,7 +174,6 @@ export default function DataSetForm(props) {
             className="crop"
             id="filled-basic"
             variant="filled"
-            required
             value={props.cropdetail}
             onChange={props.handleChangecropdetail}
             label={screenlabels.dataset.Corp_Detail}

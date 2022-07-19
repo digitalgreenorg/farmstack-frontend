@@ -11,8 +11,26 @@ import {
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../Constants/ColorConstants";
+import { useHistory } from "react-router-dom";
+import labels from "../../../Constants/labels";
+import Button from "@mui/material/Button";
+
+const useStyles = {
+  btncolor: {
+    color: "white",
+    "border-color": THEME_COLORS.THEME_COLOR,
+    "background-color": THEME_COLORS.THEME_COLOR,
+    float: "right",
+    "border-radius": 0,
+  },
+  marginrowtop: { "margin-top": "20px" },
+  marginrowtop8px: { "margin-top": "0px" },
+};
 
 export default function AddDataset(props) {
+  const history = useHistory();
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
   const [reply, setreply] = useState("");
   const [datasetname, setdatasetname] = useState("");
   const [Geography, setGeography] = useState("");
@@ -27,6 +45,11 @@ export default function AddDataset(props) {
   const [todate, settodate] = React.useState(null);
 
   const [file, setFile] = useState(null);
+
+  const handleAddDatasetSubmit = (e) => {
+    e.preventDefault();
+    console.log("clicked on add dataset submit btn");
+  };
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -139,46 +162,78 @@ export default function AddDataset(props) {
   };
   return (
     <>
-      <DataSetForm
-        title={"Add Dataset"}
-        reply={reply}
-        datasetname={datasetname}
-        handleChangedatasetname={handleChangedatasetname}
-        handleChangedescription={handleChangedescription}
-        handledescriptionKeydown={handledescriptionKeydown}
-        Crop_data={Crop_data}
-        handleChangeCropData={handleChangeCropData}
-        Practice_data={Practice_data}
-        handleChangePracticeData={handleChangePracticeData}
-        Farmer_profile={Farmer_profile}
-        handleChangeFarmer_profile={handleChangeFarmer_profile}
-        Land_records={Land_records}
-        handleChangeLand_records={handleChangeLand_records}
-        Cultivation_data={Cultivation_data}
-        handleChangeCultivationData={handleChangeCultivationData}
-        Soil_data={Soil_data}
-        handleChangeSoilData={handleChangeSoilData}
-        Weather_data={Weather_data}
-        handleChangeWeatherData={handleChangeWeatherData}
-        Geography={Geography}
-        handleChangeGeography={handleChangeGeography}
-        cropdetail={cropdetail}
-        handleChangecropdetail={handleChangecropdetail}
-        Switchchecked={Switchchecked}
-        handleChangeSwitch={handleChangeSwitch}
-        value={value}
-        handleChange={handleChange}
-        fromdate={fromdate}
-        handleChangeFromDate={handleChangeFromDate}
-        todate={todate}
-        handleChangeToDate={handleChangeToDate}
-        recordsvalue={recordsvalue}
-        handleChangeRecords={handleChangeRecords}
-        availablevalue={availablevalue}
-        handleChangeAvailable={handleChangeAvailable}
-        handleFileChange={handleFileChange}
-        file={file}
-      />
+      <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+        <DataSetForm
+          title={"Add Dataset"}
+          reply={reply}
+          datasetname={datasetname}
+          handleChangedatasetname={handleChangedatasetname}
+          handleChangedescription={handleChangedescription}
+          handledescriptionKeydown={handledescriptionKeydown}
+          Crop_data={Crop_data}
+          handleChangeCropData={handleChangeCropData}
+          Practice_data={Practice_data}
+          handleChangePracticeData={handleChangePracticeData}
+          Farmer_profile={Farmer_profile}
+          handleChangeFarmer_profile={handleChangeFarmer_profile}
+          Land_records={Land_records}
+          handleChangeLand_records={handleChangeLand_records}
+          Cultivation_data={Cultivation_data}
+          handleChangeCultivationData={handleChangeCultivationData}
+          Soil_data={Soil_data}
+          handleChangeSoilData={handleChangeSoilData}
+          Weather_data={Weather_data}
+          handleChangeWeatherData={handleChangeWeatherData}
+          Geography={Geography}
+          handleChangeGeography={handleChangeGeography}
+          cropdetail={cropdetail}
+          handleChangecropdetail={handleChangecropdetail}
+          Switchchecked={Switchchecked}
+          handleChangeSwitch={handleChangeSwitch}
+          value={value}
+          handleChange={handleChange}
+          fromdate={fromdate}
+          handleChangeFromDate={handleChangeFromDate}
+          todate={todate}
+          handleChangeToDate={handleChangeToDate}
+          recordsvalue={recordsvalue}
+          handleChangeRecords={handleChangeRecords}
+          availablevalue={availablevalue}
+          handleChangeAvailable={handleChangeAvailable}
+          handleFileChange={handleFileChange}
+          file={file}
+        />
+
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            {datasetname && reply && Geography ? (
+              <Button
+                //   onClick={() => addNewParticipants()}
+                variant="contained"
+                className="submitbtn"
+                type="submit">
+                {screenlabels.common.submit}
+              </Button>
+            ) : (
+              <Button variant="outlined" disabled className="disbalesubmitbtn">
+                {screenlabels.common.submit}
+              </Button>
+            )}
+          </Col>
+        </Row>
+        <Row style={useStyles.marginrowtop8px}>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <Button
+              onClick={() => history.push("/datahub/participants")}
+              variant="outlined"
+              className="cancelbtn">
+              {screenlabels.common.cancel}
+            </Button>
+          </Col>
+        </Row>
+      </form>
     </>
   );
 }
