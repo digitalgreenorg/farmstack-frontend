@@ -37,7 +37,7 @@ function EditTeamMember(props) {
 
     useEffect(() => {
         setIsLoader(true);
-        HTTPService('GET', UrlConstants.base_url + UrlConstants.team_member + id + '/', false, true).then((response) => {
+        HTTPService('GET', UrlConstants.base_url + UrlConstants.team_member + id + '/', '', false, true).then((response) => {
             setIsLoader(false);
             setfirstname(response.data.first_name)
             setlastname(response.data.last_name)
