@@ -1,5 +1,0 @@
-const SESSION_CONSTANTS = {
-    SESSION_TIMEOUT: 401,
-};  
-
-export default SESSION_CONSTANTS;

@@ -17,9 +17,9 @@ import HandleSessionTimeout, {
   getUserLocal,
   handleAddressCharacters,
 } from "../../../Utils/Common";
-import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
+import GetErrorHandlingRoute from "../../../Utils/Common";
 
 export default function BrandingSetting(props) {
   const fileTypes = ["JPEG", "PNG", "jpg"];
@@ -55,9 +55,7 @@ export default function BrandingSetting(props) {
         setIsLoader(false);
         console.log(e);
         console.log(e.response.status);
-        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT) {
-          history.push("/sessionexpired");
-        }
+        history.push(GetErrorHandlingRoute(e))
       });
   };
 

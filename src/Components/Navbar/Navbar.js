@@ -16,7 +16,6 @@ import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
-import SESSION_CONSTANTS from "../../Constants/OtherConstants";
 import Loader from "../Loader/Loader";
 import GetErrorHandlingRoute from "../../Utils/Common";
 
@@ -33,7 +32,7 @@ const Navbar = (props) => {
     setIsLoader(true);
     await HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.profile + id + "/",
+      UrlConstant.base_url + UrlConstant.profile + id + "/",'',
       false,
       true
     )
