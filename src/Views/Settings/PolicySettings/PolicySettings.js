@@ -10,10 +10,10 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import HTTPService from "../../../Services/HTTPService";
-import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
 import HandleSessionTimeout from '../../../Utils/Common';
 import { Link, useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
+import GetErrorHandlingRoute from "../../../Utils/Common";
 
 export default function PolicySettings(props) {
   const useStyles = {
@@ -211,11 +211,7 @@ export default function PolicySettings(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e);
-        console.log(e.response.status);
-        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            history.push('/sessionexpired');
-        }
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 

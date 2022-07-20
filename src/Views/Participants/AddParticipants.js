@@ -14,7 +14,6 @@ import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../Constants/RegexConstants";
 import HandleSessionTimeout, { validateInputField } from "../../Utils/Common";
-import SESSION_CONSTANTS from "../../Constants/OtherConstants";
 import Loader from "../../Components/Loader/Loader";
 const useStyles = {
   btncolor: {

@@ -11,8 +11,6 @@ import HTTPService from '../../../Services/HTTPService'
 import UrlConstants from '../../../Constants/UrlConstants'
 import validator from "validator";
 import { useHistory } from "react-router-dom";
-import SESSION_CONSTANTS from '../../../Constants/OtherConstants';
-import HandleSessionTimeout from '../../../Utils/Common';
 import Loader from '../../../Components/Loader/Loader';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 , "box-shadow": "none"},

@@ -18,13 +18,12 @@ import MenuItem from "@mui/material/MenuItem";
 import $ from "jquery";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
 import { FileUploader } from "react-drag-drop-files";
-import Success from "../../Components/Success/Success";
-import FileSaver from "file-saver";
-import Avatar from "@mui/material/Avatar";
-import HandleSessionTimeout, { handleUnwantedSpace } from "../../Utils/Common";
-import SESSION_CONSTANTS from "../../Constants/OtherConstants";
-import Loader from "../../Components/Loader/Loader";
-import GetErrorHandlingRoute from "../../Utils/Common";
+import Success from '../../Components/Success/Success'
+import FileSaver from 'file-saver';
+import Avatar from '@mui/material/Avatar';
+import HandleSessionTimeout, { handleUnwantedSpace } from '../../Utils/Common';
+import Loader from '../../Components/Loader/Loader';
+import GetErrorHandlingRoute from '../../Utils/Common';
 function Support(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [supportList, setsupportList] = useState([]);
@@ -263,98 +262,121 @@ function Support(props) {
                     {screenlabels.support.filter}
                   </span>
                 </Row>
-                {filterObject.all ? (
-                  <Row
-                    onClick={() => filterRow("all", false, "all")}
-                    className="supportfiltersecondrow">
-                    <span className="supportallicon">
-                      <img
-                        src={require("../../Assets/Img/filter.svg")}
-                        alt="new"
-                      />
-                    </span>
-                    <span className="fontweight600andfontsize14pxandcolorFFFFFF supportalltexticon">
-                      {screenlabels.support.all}
-                    </span>
-                  </Row>
-                ) : (
-                  <Row
-                    onClick={() => filterRow("all", true, "all")}
-                    className="supportfiltersecondrowbold">
-                    <span className="supportallicon">
-                      <img
-                        src={require("../../Assets/Img/filter_bold.svg")}
-                        alt="new"
-                      />
-                    </span>
-                    <span className="fontweight600andfontsize14pxandcolor3D4A52 supportalltexticon">
-                      {screenlabels.support.all}
-                    </span>
-                  </Row>
-                )}
-                <Row
-                  className={
-                    secondrow
-                      ? "supportfilterthirdrowhighlight"
-                      : "supportfilterthirdrow"
-                  }>
-                  <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterthirdrowheadingtext">
-                    {screenlabels.support.date}
-                  </span>
-                  <span className="supportcardfromdate">
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DatePicker
-                        inputFormat="dd/MM/yyyy"
-                        disableFuture
-                        label="From Date *"
-                        value={fromdate}
-                        onChange={(newValue) => {
-                          settodate(null);
-                          setfromdate(newValue);
-                          setTimeout(() => {
-                            $(
-                              ".supportcardtodate input.MuiInputBase-input"
-                            ).attr("disabled", "disabled");
-                          }, 100);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </span>
-                  <span className="supportcardtodate">
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DatePicker
-                        inputFormat="dd/MM/yyyy"
-                        disabled={fromdate ? false : true}
-                        disableFuture
-                        label="To Date *"
-                        minDate={fromdate}
-                        value={todate}
-                        onChange={(newValue) => {
-                          settodate(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </span>
-                  {fromdate && todate ? (
-                    <span className="supportsubmitbrn">
-                      <Button
-                        onClick={() => filterByDates()}
-                        variant="contained"
-                        className="enabledatesubmitbtn">
-                        Submit
-                      </Button>
-                    </span>
-                  ) : (
-                    <span className="supportsubmitbrn">
-                      <Button
-                        variant="outlined"
-                        className="disbaledatesubmitbtn">
-                        Submit
-                      </Button>
-                    </span>
-                  )}
+                <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+                    <Col>
+                        <div className="messagedescription thirdmainheading">{rowdata.issue_message}</div>
+                    </Col>
+                    <Col>
+                        <Row>
+                            <Col>
+                                {rowdata.organization.logo ? <Avatar
+                                    alt={rowdata.user.first_name}
+                                    src={UrlConstants.base_url_without_slash + rowdata.organization.logo}
+                                    sx={{ width: 56, height: 56 }}
+                                /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{rowdata.organization.name.charAt(0)}</Avatar>}
+                            </Col>
+                            <Col style={{ "margin-left": "-63%", "margin-top": "3%" }}><span className="thirdmainheading">{rowdata.organization.name}</span></Col>
+                        </Row>
+                    </Col>
+                    <Col>
+                        <span className="thirdmainheading">{rowdata.user.first_name}</span>
+                    </Col>
+                </Row>
+                <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
+                    <Col>
+                        <span className="secondmainheading">{"Date & Time"}</span>
+                    </Col>
+                    <Col>
+                        <span className="secondmainheading">{"Category"}</span>
+                    </Col>
+                    <Col>
+                        <span className="secondmainheading">{"Attachment"}</span>
+                    </Col>
+                </Row>
+                <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+                    <Col>
+                        <span className="thirdmainheading">{dateTimeFormat(rowdata.updated_at)}</span>
+                    </Col>
+                    <Col>
+                        <span className="thirdmainheading">{rowdata.category}</span>
+                    </Col>
+                    {rowdata.issue_attachments?<Col onClick={() => downloadAttachment(rowdata.issue_attachments)} style={{ cursor: "pointer" }}>
+                        <><span>
+                            <img
+                                src={require('../../Assets/Img/download.svg')}
+                                alt="new"
+                            />
+                        </span>
+                            <span className="supportViewDetailsback">{"Download Attachment"}</span></>
+                                </Col>:<Col><span className="thirdmainheading">{"NA"}</span></Col>}
+                </Row>
+                <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
+                    <Col>
+                        <span className="secondmainheading">{"Status"}</span>
+                    </Col>
+                </Row>
+                <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+                    {rowdata.status == 'open' ? <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="thirdmainheading">
+                        {rowdata.status}
+                    </Col> : <></>}
+                    {rowdata.status == 'hold' ? <Col style={{ color: "#D8AF28", "text-transform": "capitalize" }} className="thirdmainheading">
+                        {rowdata.status}
+                    </Col> : <></>}
+                    {rowdata.status == 'closed' ? <Col style={{ color: "#096D0D", "text-transform": "capitalize" }} className="thirdmainheading">
+                        {rowdata.status}
+                    </Col> : <></>}
+                </Row>
+                <Row className="supportViewDeatilsSecondRow"></Row>
+                <Row style={{ "margin-left": "290px", "margin-top": "30px", "text-align": "left" }}>
+                    <Col>
+                        <span className="mainheading">{"Resolution"}</span>
+                    </Col>
+                </Row>
+                <Row className="resolution" style={{ "margin-left": "28px", "margin-top": "30px" }}>
+                    <Col>
+                        <TextField
+                            id="filled-multiline-static"
+                            label="Reply"
+                            multiline 
+                            rows={4}
+                            variant="filled"
+                            // defaultValue={reply}
+                            maxLength={500}
+                            onKeyDown={(e) => handleUnwantedSpace(reply,e)}
+                            onChange={(e) => setreply(e.target.value)}
+                            style={{ width: "420px", "min-height": "50px",}}
+                        />
+                        <TextField
+                            style={{ width: "420px", "margin-left": "20px", textAlign: "left" }}
+                            select
+                            label="Status"
+                            variant="filled"
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={status}
+                            onChange={(e) => setstatus(e.target.value)}
+                        >
+                            <MenuItem value={"open"}>Open</MenuItem>
+                            <MenuItem value={"closed"}>Closed</MenuItem>
+                            <MenuItem value={"hold"}>Hold</MenuItem>
+                        </TextField>
+                    </Col>
+                </Row>
+                <Row style={{ "margin-left": "33px" }}>
+                    <Col xs={12} sm={12} md={6} lg={6}>
+                        <FileUploader
+                            handleChange={handleRsolutionFileChange}
+                            name="file"
+                            types={fileTypes}
+                            children={
+                                <UploadProfileimg
+                                    uploaddes="Supports:  .doc or .pdf not more than 2MB file size"
+                                    uploadtitle="Upload reference attachments (optional)"
+                                />
+                            }
+                        //   maxSize={2}
+                        />
+                    </Col>
                 </Row>
                 <Row className="supportfiltersecondrowbold">
                   <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
