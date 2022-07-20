@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
 
 import $ from "jquery";
-import {
+import GetErrorHandlingRoute, {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
@@ -14,6 +14,10 @@ import THEME_COLORS from "../../../Constants/ColorConstants";
 import { useHistory } from "react-router-dom";
 import labels from "../../../Constants/labels";
 import Button from "@mui/material/Button";
+import HTTPService from "../../../Services/HTTPService";
+import UrlConstants from "../../../Constants/UrlConstants";
+import Loader from "../../../Components/Loader/Loader";
+import Success from "../../../Components/Success/Success";
 
 const useStyles = {
   btncolor: {
@@ -46,9 +50,38 @@ export default function AddDataset(props) {
 
   const [file, setFile] = useState(null);
 
+  //   loader
+  const [isLoader, setIsLoader] = useState(false);
+  //   success screen
+  const [isSuccess, setisSuccess] = useState(false);
+
   const handleAddDatasetSubmit = (e) => {
     e.preventDefault();
     console.log("clicked on add dataset submit btn");
+    var bodyFormData = new FormData();
+    // bodyFormData.append("first_name", firstname);
+    // bodyFormData.append("last_name", lastname);
+    // bodyFormData.append("phone_number", phonenumber);
+    // bodyFormData.append("profile_picture", file);
+
+    console.log("add dataset", bodyFormData);
+    setIsLoader(true);
+    HTTPService(
+      "POST",
+      UrlConstants.base_url + UrlConstants.profile,
+      bodyFormData,
+      true,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        setisSuccess(true);
+        console.log("dataset uploaded!");
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
   };
 
   const handleChange = (event) => {
@@ -162,78 +195,93 @@ export default function AddDataset(props) {
   };
   return (
     <>
-      <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
-        <DataSetForm
-          title={"Add Dataset"}
-          reply={reply}
-          datasetname={datasetname}
-          handleChangedatasetname={handleChangedatasetname}
-          handleChangedescription={handleChangedescription}
-          handledescriptionKeydown={handledescriptionKeydown}
-          Crop_data={Crop_data}
-          handleChangeCropData={handleChangeCropData}
-          Practice_data={Practice_data}
-          handleChangePracticeData={handleChangePracticeData}
-          Farmer_profile={Farmer_profile}
-          handleChangeFarmer_profile={handleChangeFarmer_profile}
-          Land_records={Land_records}
-          handleChangeLand_records={handleChangeLand_records}
-          Cultivation_data={Cultivation_data}
-          handleChangeCultivationData={handleChangeCultivationData}
-          Soil_data={Soil_data}
-          handleChangeSoilData={handleChangeSoilData}
-          Weather_data={Weather_data}
-          handleChangeWeatherData={handleChangeWeatherData}
-          Geography={Geography}
-          handleChangeGeography={handleChangeGeography}
-          cropdetail={cropdetail}
-          handleChangecropdetail={handleChangecropdetail}
-          Switchchecked={Switchchecked}
-          handleChangeSwitch={handleChangeSwitch}
-          value={value}
-          handleChange={handleChange}
-          fromdate={fromdate}
-          handleChangeFromDate={handleChangeFromDate}
-          todate={todate}
-          handleChangeToDate={handleChangeToDate}
-          recordsvalue={recordsvalue}
-          handleChangeRecords={handleChangeRecords}
-          availablevalue={availablevalue}
-          handleChangeAvailable={handleChangeAvailable}
-          handleFileChange={handleFileChange}
-          file={file}
-        />
+      {isLoader ? <Loader /> : ""}
+      {isSuccess ? (
+        <Success
+          okevent={() => history.push("/datahub/participants")}
+          route={"datahub/participants"}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"You added a new dataset"}
+          imageText={"Added Successfully!"}
+          msg={"Your dataset added in database."}></Success>
+      ) : (
+        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+          <DataSetForm
+            title={"Add Dataset"}
+            reply={reply}
+            datasetname={datasetname}
+            handleChangedatasetname={handleChangedatasetname}
+            handleChangedescription={handleChangedescription}
+            handledescriptionKeydown={handledescriptionKeydown}
+            Crop_data={Crop_data}
+            handleChangeCropData={handleChangeCropData}
+            Practice_data={Practice_data}
+            handleChangePracticeData={handleChangePracticeData}
+            Farmer_profile={Farmer_profile}
+            handleChangeFarmer_profile={handleChangeFarmer_profile}
+            Land_records={Land_records}
+            handleChangeLand_records={handleChangeLand_records}
+            Cultivation_data={Cultivation_data}
+            handleChangeCultivationData={handleChangeCultivationData}
+            Soil_data={Soil_data}
+            handleChangeSoilData={handleChangeSoilData}
+            Weather_data={Weather_data}
+            handleChangeWeatherData={handleChangeWeatherData}
+            Geography={Geography}
+            handleChangeGeography={handleChangeGeography}
+            cropdetail={cropdetail}
+            handleChangecropdetail={handleChangecropdetail}
+            Switchchecked={Switchchecked}
+            handleChangeSwitch={handleChangeSwitch}
+            value={value}
+            handleChange={handleChange}
+            fromdate={fromdate}
+            handleChangeFromDate={handleChangeFromDate}
+            todate={todate}
+            handleChangeToDate={handleChangeToDate}
+            recordsvalue={recordsvalue}
+            handleChangeRecords={handleChangeRecords}
+            availablevalue={availablevalue}
+            handleChangeAvailable={handleChangeAvailable}
+            handleFileChange={handleFileChange}
+            file={file}
+          />
 
-        <Row>
-          <Col xs={12} sm={12} md={6} lg={3}></Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            {datasetname && reply && Geography ? (
+          <Row>
+            <Col xs={12} sm={12} md={6} lg={3}></Col>
+            <Col xs={12} sm={12} md={6} lg={6}>
+              {datasetname && reply && Geography ? (
+                <Button
+                  //   onClick={() => addNewParticipants()}
+                  variant="contained"
+                  className="submitbtn"
+                  type="submit">
+                  {screenlabels.common.submit}
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  disabled
+                  className="disbalesubmitbtn">
+                  {screenlabels.common.submit}
+                </Button>
+              )}
+            </Col>
+          </Row>
+          <Row style={useStyles.marginrowtop8px}>
+            <Col xs={12} sm={12} md={6} lg={3}></Col>
+            <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                //   onClick={() => addNewParticipants()}
-                variant="contained"
-                className="submitbtn"
-                type="submit">
-                {screenlabels.common.submit}
+                onClick={() => history.push("/datahub/participants")}
+                variant="outlined"
+                className="cancelbtn">
+                {screenlabels.common.cancel}
               </Button>
-            ) : (
-              <Button variant="outlined" disabled className="disbalesubmitbtn">
-                {screenlabels.common.submit}
-              </Button>
-            )}
-          </Col>
-        </Row>
-        <Row style={useStyles.marginrowtop8px}>
-          <Col xs={12} sm={12} md={6} lg={3}></Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <Button
-              onClick={() => history.push("/datahub/participants")}
-              variant="outlined"
-              className="cancelbtn">
-              {screenlabels.common.cancel}
-            </Button>
-          </Col>
-        </Row>
-      </form>
+            </Col>
+          </Row>
+        </form>
+      )}
     </>
   );
 }
