@@ -17,25 +17,76 @@ export default function DatasetAdmin() {
   const [isLoader, setIsLoader] = useState(false)
   const [value, setValue] = useState(1)
   const [isTabView, setIsTabView] = useState(true)
+  const [secondrow, setsecondrow] = useState(false)
   const history = useHistory()
+  const [fromdate, setfromdate] = useState(null);
+  const [todate, settodate] = useState(null);
 
+  var payload = ""
   const [filterObject, setfilterObject] = useState(
     {
         "all": true,
-        "open": false,
-        "hold": false,
-        "closed": false,
-        "connectors": false,
-        "datasets": false,
-        "others": false,
-        "user_accounts": false,
-        "usage_policy": false,
-        "certificate": false
+        "geographyList": [],
+        "ageList": [],
+        "cropList": []
     });
+
+  const resetFilters = () => {
+    setfilterObject(
+        {
+        "all": true,
+        "geographyList": [],
+        "ageList": [],
+        "cropList": []
+        }
+    )
+  }
+
+  const getFilterLists = () => {
+
+  }
+
+  const getDatasetList = (payload) => {
+
+  }
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const filterRow = (row, flag, payloadkey) => {
+    if (flag != false) {
+        let tempfilterObject = { ...filterObject }
+        if (payloadkey != 'all') {
+            let data = {}
+            data[payloadkey] = row
+            payload = data;
+        } else {
+            payload = ""
+        }
+        tempfilterObject[row] = flag;
+        Object.keys(tempfilterObject).forEach(function (key) { if (key != row) { tempfilterObject[key] = false } });
+        setfilterObject(tempfilterObject)
+        setsecondrow(false)
+        settodate(null)
+        setfromdate(null);
+        getDatasetList(payload)
+    }
+}
+
+  const filterByDates = () => {
+    let tempfilterObject = { ...filterObject }
+    Object.keys(tempfilterObject).forEach(function (key) { tempfilterObject[key] = false });
+    setfilterObject(tempfilterObject)
+    let fromDateandToDate = []
+    fromDateandToDate.push(fromdate)
+    fromDateandToDate.push(todate)
+    let data = {}
+    data['updated_at__range'] = fromDateandToDate
+    payload = data;
+    setsecondrow(true)
+    getDatasetList(payload)
+}
 
   return (
       <>
@@ -45,7 +96,16 @@ export default function DatasetAdmin() {
             <Row className="supportmaindiv">
                 <Row className="supportfilterRow">
                     <Col className="supportfilterCOlumn">
-                        <DataSetFilter/>
+                        <DataSetFilter
+                            filterObject={filterObject}
+                            secondrow={secondrow}
+                            fromdate={fromdate}
+                            todate={todate}
+                            setfromdate={setfromdate}
+                            settodate={settodate}
+                            filterRow={filterRow}
+                            filterByDates={filterByDates}
+                        />
                     </Col>
                     <Col className="supportSecondCOlumn">
                         {isTabView &&
