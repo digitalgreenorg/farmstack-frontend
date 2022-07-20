@@ -1,7 +1,7 @@
 @import '../../Constants/CssConstants.css';
 .supportmaindiv{margin-top:50px;margin-left:110px;margin-right:110px}
 .supportfilterRow{margin-top:32px;width: 1080px;}
-.supportfilterCOlumn{ height:867px;max-width:346px;background: #FFFFFF;border: 1px solid #E4E4E4;border-radius: 2px;flex-basis:346px}
+.supportfilterCOlumn{ height:fit-content;max-width:346px;background: #FFFFFF;border: 1px solid #E4E4E4;border-radius: 2px;flex-basis:346px}
 .supportfilterfirstrow{ height:50px;background:#F4F4F4}
 .supportfiltertext{padding-top:16px;padding-left:13px}
 .supportfilterheadingtext{padding-top:18px;padding-left:15px}

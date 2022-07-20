@@ -7,10 +7,49 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import $ from 'jquery';
-import FilterCheckboxList from '../../Components/Datasets/FilterCheckboxList';
+import FilterCheckBox from '../../Components/Datasets/FilterCheckBox';
 
 export default function DataSetFilter(props) {
-  const [screenlabels, setscreenlabels] = useState(labels['en']);
+    const [screenlabels, setscreenlabels] = useState(labels['en']);
+
+    const [geographyList, setGeographyList] = useState(["India","Ethiopia","Nepal","Kenya"])
+    const [geoCheckStateList, setGeoCheckStateList] = useState([false,false,false,false])
+
+    const [cropList,setCropList] = useState(["Rice","Wheat","Maize"])
+    const [cropCheckStateList, setCropCheckStateList] = useState([false,false,false])
+
+    const [ageList, setAgeList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
+    const [ageCheckStateList, setAgeCheckStateList] = useState([false,false,false,false])
+
+    const handleCheckListFilterChange = (listName,index) => {
+
+        var resetCheckStateList = []
+        var tempList = []
+        if(listName==="geography"){
+            tempList = [...geoCheckStateList]
+            tempList[index] = !geoCheckStateList[index]
+            setGeoCheckStateList(tempList)
+
+            setCropCheckStateList(resetCheckStateList)
+            setAgeCheckStateList(resetCheckStateList)
+            
+        } else if(listName === "crop"){
+            tempList = [...cropCheckStateList]
+            tempList[index] = !cropCheckStateList[index]
+            setCropCheckStateList(tempList)
+
+            setGeoCheckStateList(resetCheckStateList)
+            setAgeCheckStateList(resetCheckStateList)
+        } else if(listName === "age"){
+            tempList = [...ageCheckStateList]
+            tempList[index] = !ageCheckStateList[index]
+            setAgeCheckStateList(tempList)
+
+            setGeoCheckStateList(resetCheckStateList)
+            setCropCheckStateList(resetCheckStateList)
+        }
+        
+    }
 
   const filterObject = props.filterObject
   return (
@@ -93,14 +132,40 @@ export default function DataSetFilter(props) {
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.geography}</span>
       </Row>
+      
       <Row>
-        {/* <FilterCheckboxList/> */}
+        {geographyList && geographyList.map((geography,index) => (
+            <FilterCheckBox
+                label={geography}
+                checked={geoCheckStateList[index]}
+                handleCheckListFilterChange={() => handleCheckListFilterChange("geography",index)}
+            />
+        ))}  
       </Row>
+      
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.age}</span>
       </Row>
+      <Row>
+        {ageList && ageList.map((age,index) => (
+            <FilterCheckBox
+                label={age}
+                checked={ageCheckStateList[index]}
+                handleCheckListFilterChange={() => handleCheckListFilterChange("age",index)}
+            />
+        ))}  
+      </Row>
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.crop}</span>
+      </Row>
+      <Row>
+        {cropList && cropList.map((crop,index) => (
+            <FilterCheckBox
+                label={crop}
+                checked={cropCheckStateList[index]}
+                handleCheckListFilterChange={() => handleCheckListFilterChange("crop",index)}
+            />
+        ))}  
       </Row>
       
     </div>

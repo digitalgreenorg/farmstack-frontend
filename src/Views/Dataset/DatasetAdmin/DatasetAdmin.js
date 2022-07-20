@@ -15,7 +15,7 @@ export default function DatasetAdmin() {
 
   const [screenlabels, setscreenlabels] = useState(labels['en']);
   const [isLoader, setIsLoader] = useState(false)
-  const [value, setValue] = useState(1)
+  const [value, setValue] = useState('1')
   const [isTabView, setIsTabView] = useState(true)
   const [secondrow, setsecondrow] = useState(false)
   const history = useHistory()
@@ -26,6 +26,7 @@ export default function DatasetAdmin() {
   const [filterObject, setfilterObject] = useState(
     {
         "all": true,
+        "filterName": "",
         "geographyList": [],
         "ageList": [],
         "cropList": []
@@ -35,15 +36,12 @@ export default function DatasetAdmin() {
     setfilterObject(
         {
         "all": true,
+        "filterName": "",
         "geographyList": [],
         "ageList": [],
         "cropList": []
         }
     )
-  }
-
-  const getFilterLists = () => {
-
   }
 
   const getDatasetList = (payload) => {
@@ -116,16 +114,16 @@ export default function DatasetAdmin() {
                                         <TabList
                                         onChange={handleTabChange}
                                         aria-label="lab API tabs example">
-                                        <Tab label="My Datasets" value="1" />
-                                        <Tab label="Member Datasets" value="2" />
+                                        <Tab label="My Datasets" value='1' />
+                                        <Tab label="Member Datasets" value='2' />
                                         </TabList>
                                     </Box>
-                                    <TabPanel value="1">
+                                    <TabPanel value='1'>
                                         <DataSetListing
                                             isMyDataSet={true}
                                         />
                                     </TabPanel>
-                                    <TabPanel value="2">
+                                    <TabPanel value='2'>
                                         <DataSetListing
                                             isMyDataSet={false}
                                         />
