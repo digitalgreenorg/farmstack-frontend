@@ -48,7 +48,7 @@ export default function Login(props) {
   const [isOrg, setisOrg] = useState(false);
   const [isPolicies, setisPolicies] = useState(false);
   const [isBranding, setisBranding] = useState(false);
-  const [isaccesstoken, setisaccesstoken] = useState(false);
+  const [isaccesstoken, setisaccesstoken] = useState("");
 
   const [orgName, setOrgName] = useState("");
   // const [orgEmail, setOrgEmail] = useState("")
@@ -316,7 +316,7 @@ export default function Login(props) {
     console.log("profile data", bodyFormData);
     let url = UrlConstant.base_url + UrlConstant.profile + `${profileid}/`;
     setIsLoader(true);
-    await HTTPService("PUT", url, bodyFormData, true, true)
+    await HTTPService("PUT", url, bodyFormData, true, true, isaccesstoken)
       .then((response) => {
         setIsLoader(false);
         console.log("profile response");
@@ -494,7 +494,7 @@ export default function Login(props) {
       setisOrgnameerror(false);
 
       setIsLoader(true);
-      HTTPService("POST", url, bodyFormData, true, true)
+      HTTPService("POST", url, bodyFormData, true, true, isaccesstoken)
         .then((response) => {
           setIsLoader(false);
           console.log("response");
