@@ -74,7 +74,7 @@ export default function EditDataset() {
     setIsLoader(true);
     HTTPService(
       "PUT",
-      UrlConstants.base_url + UrlConstants.profile,
+      UrlConstants.base_url + UrlConstants.dataset + id + "/",
       bodyFormData,
       true,
       true
@@ -97,7 +97,7 @@ export default function EditDataset() {
     console.log(id);
     await HTTPService(
       "GET",
-      UrlConstants.base_url + UrlConstants.profile + id + "/",
+      UrlConstants.base_url + UrlConstants.dataset + id + "/",
       false,
       true
     )

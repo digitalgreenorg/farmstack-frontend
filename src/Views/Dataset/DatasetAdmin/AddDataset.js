@@ -59,8 +59,8 @@ export default function AddDataset(props) {
     e.preventDefault();
     console.log("clicked on add dataset submit btn");
     var bodyFormData = new FormData();
-    // bodyFormData.append("first_name", firstname);
-    // bodyFormData.append("last_name", lastname);
+    bodyFormData.append("name", datasetname);
+    // bodyFormData.append("description", lastname);
     // bodyFormData.append("phone_number", phonenumber);
     // bodyFormData.append("profile_picture", file);
 
@@ -68,7 +68,7 @@ export default function AddDataset(props) {
     setIsLoader(true);
     HTTPService(
       "POST",
-      UrlConstants.base_url + UrlConstants.profile,
+      UrlConstants.base_url + UrlConstants.dataset,
       bodyFormData,
       true,
       true
