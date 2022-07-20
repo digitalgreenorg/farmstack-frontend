@@ -22,7 +22,6 @@ import Success from '../../Components/Success/Success'
 import FileSaver from 'file-saver';
 import Avatar from '@mui/material/Avatar';
 import HandleSessionTimeout, { handleUnwantedSpace } from '../../Utils/Common';
-import SESSION_CONSTANTS from '../../Constants/OtherConstants';
 import Loader from '../../Components/Loader/Loader';
 import GetErrorHandlingRoute from '../../Utils/Common';
 function Support(props) {

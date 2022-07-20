@@ -23,7 +23,6 @@ import HandleSessionTimeout, {
 } from '../../Utils/Common'
 import RichTextEditor from 'react-rte'
 import countryList from 'react-select-country-list'
-import SESSION_CONSTANTS from '../../Constants/OtherConstants'
 import { useHistory } from 'react-router-dom'
 import Loader from '../../Components/Loader/Loader'
 import GetErrorHandlingRoute from '../../Utils/Common'

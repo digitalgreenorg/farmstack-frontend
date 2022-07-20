@@ -17,9 +17,9 @@ import HandleSessionTimeout, {
   getUserLocal,
   handleAddressCharacters,
 } from "../../../Utils/Common";
-import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
+import GetErrorHandlingRoute from "../../../Utils/Common";
 
 export default function BrandingSetting(props) {
   const fileTypes = ["JPEG", "PNG", "jpg"];
@@ -27,7 +27,7 @@ export default function BrandingSetting(props) {
   const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 });
   const [brandfile, setbrandfile] = useState(null);
   const [hexColor, sethexColor] = useState("");
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
 
   const history = useHistory();
 
@@ -37,8 +37,9 @@ export default function BrandingSetting(props) {
     await HTTPService(
       "GET",
       UrlConstant.base_url + UrlConstant.branding,
+      "",
       false,
-      false
+      true
     )
       .then((response) => {
         setIsLoader(false);
@@ -54,9 +55,7 @@ export default function BrandingSetting(props) {
         setIsLoader(false);
         console.log(e);
         console.log(e.response.status);
-        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            history.push('/sessionexpired');
-        }
+        history.push(GetErrorHandlingRoute(e))
       });
   };
 
@@ -74,7 +73,7 @@ export default function BrandingSetting(props) {
     bodyFormData.append("banner", brandfile);
     console.log("branding settings details", bodyFormData);
     setIsLoader(true);
-    HTTPService("PUT", url, bodyFormData, true, false)
+    HTTPService("PUT", url, bodyFormData, true, true)
       .then((response) => {
         setIsLoader(false);
         console.log("response");
@@ -116,7 +115,7 @@ export default function BrandingSetting(props) {
 
   return (
     <div className="brandsetting">
-      {isLoader ? <Loader />: ''}
+      {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handleBrandSettingSubmit}>
         <Row>
           <span className="title">Customize Design</span>

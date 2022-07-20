@@ -12,8 +12,6 @@ import UrlConstants from '../../Constants/UrlConstants'
 import validator from "validator";
 import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
-import SESSION_CONSTANTS from '../../Constants/OtherConstants';
-import HandleSessionTimeout from '../../Utils/Common';
 import Loader from '../../Components/Loader/Loader';
 import GetErrorHandlingRoute from '../../Utils/Common';
 const useStyles = {
@@ -56,7 +54,7 @@ function EditParticipants(props) {
     };
     useEffect(() => {
         setIsLoader(true);
-        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', false, true).then((response) => {
+        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', '', false, true).then((response) => {
             setIsLoader(false);
             console.log("otp valid", response.data);
             // let addressdata=JSON.parse(response.data.organization.address)

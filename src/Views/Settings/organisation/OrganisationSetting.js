@@ -25,8 +25,7 @@ import HandleSessionTimeout, {
   handleAddressCharacters,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
-import { validateInputField } from "../../../Utils/Common";
-import SESSION_CONSTANTS from "../../../Constants/OtherConstants";
+import GetErrorHandlingRoute, { validateInputField } from "../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
 
@@ -139,11 +138,7 @@ export default function OrganisationSetting(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e);
-        console.log(e.response.status);
-        if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-            history.push('/sessionexpired');
-        }
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -214,11 +209,7 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          console.log(e);
-          console.log(e.response.status);
-          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-              history.push('/sessionexpired');
-          }
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     } else {
@@ -242,11 +233,7 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          console.log(e);
-          console.log(e.response.status);
-          if (e.response.status == SESSION_CONSTANTS.SESSION_TIMEOUT){
-              history.push('/sessionexpired');
-          }
+          history.push(GetErrorHandlingRoute(e))
           //   setError(true);
         });
     }
