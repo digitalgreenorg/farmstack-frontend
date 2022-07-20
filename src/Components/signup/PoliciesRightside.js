@@ -84,6 +84,7 @@ export default function PoliciesRightside(props) {
   const handlegovLawFileChange = async (file) => {
     setgovLawFile(file);
     console.log(file);
+    console.log("checking", props.isaccesstoken);
 
     const options = {
       onUploadProgress: (progressEvent) => {
@@ -100,6 +101,8 @@ export default function PoliciesRightside(props) {
 
     console.log("branding data", bodyFormData);
     let url = UrlConstant.base_url + UrlConstant.policies_files_upload;
+    let token = props.isaccesstoken;
+    console.log("waseem token man", token);
 
     if (file.size < 2097152) {
       await axios
