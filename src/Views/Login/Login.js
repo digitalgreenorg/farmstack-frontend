@@ -180,6 +180,7 @@ export default function Login(props) {
           console.log("otp valid", response.data);
           console.log("access token", response.data.access);
           console.log("user status", response.data.status);
+          console.log("onboarded", response.data.on_boarded);
 
           console.log(response.status);
           // if (response.data.status) {
@@ -188,7 +189,7 @@ export default function Login(props) {
           // }
 
           if (response.status === 201) {
-            if (response.data.status) {
+            if (response.data.on_boarded) {
               setTokenLocal(response.data.access);
 
               props.history.push("/datahub/participants");
