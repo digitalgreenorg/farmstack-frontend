@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom";
 import RichTextEditor from "react-rte";
 import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/style.css';
+import Loader from '../../Components/Loader/Loader';
+import GetErrorHandlingRoute from '../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
@@ -28,6 +30,8 @@ function InviteParticipants(props) {
     const [isSuccess, setisSuccess] = useState(false);
     const [orgdesc, setorgdesc] = useState("");
     const [emails, setemails] = useState([]);
+    const[isLoader, setIsLoader] = useState(false)
+
     const [editorValue, setEditorValue] = React.useState(
         RichTextEditor.createValueFromString(orgdesc, "html")
     );
@@ -61,11 +65,14 @@ function InviteParticipants(props) {
             'to_email':emails,
             'content': orgdesc
         }
-        HTTPService('POST', UrlConstants.base_url + UrlConstants.inviteparticipant, data, false, false).then((response) => {
+        setIsLoader(true);
+        HTTPService('POST', UrlConstants.base_url + UrlConstants.inviteparticipant, data, false, true).then((response) => {
+            setIsLoader(false);
             console.log("otp valid", response.data);
             setisSuccess(true)
         }).catch((e) => {
-            console.log(e);
+            setIsLoader(false);
+            history.push(GetErrorHandlingRoute(e));
         });
     }
     const handleOrgDesChange = (value) => {
@@ -78,6 +85,7 @@ function InviteParticipants(props) {
 
     return (
         <>
+            {isLoader ? <Loader />: ''}
             <Container style={useStyles.marginrowtop50}>
             {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Invite participants sent successfully!"} imageText={"Invited"} msg={"Your invitation sent to participants."}></Success> :
             <> <Row style={useStyles.marginrowtop}>

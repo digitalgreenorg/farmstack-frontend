@@ -8,13 +8,17 @@ import Button from '@mui/material/Button'
 import HTTPService from '../../Services/HTTPService'
 import UrlConstant from '../../Constants/UrlConstants'
 import { useHistory } from 'react-router-dom'
-import { setTokenLocal, getTokenLocal } from '../../Utils/Common'
+import HandleSessionTimeout, { setTokenLocal, getTokenLocal } from '../../Utils/Common'
+import Loader from '../Loader/Loader'
+import GetErrorHandlingRoute from '../../Utils/Common'
 
 export default function BrandingRightside(props) {
   const [file, setFile] = useState(null)
   const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 })
   const [hexColor, sethexColor] = useState('')
   const [Brandingnextbutton, setBrandingnextbutton] = useState(true)
+  const[isLoader, setIsLoader] = useState(false)
+
   const history = useHistory()
   const fileTypes = ['JPEG', 'PNG', 'jpg']
   const handleBannerFileChange = (file) => {
@@ -40,23 +44,21 @@ export default function BrandingRightside(props) {
     console.log('branding data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.branding
 
-    await HTTPService('POST', url, bodyFormData, true, false)
+    setIsLoader(true);
+    await HTTPService('POST', url, bodyFormData, true, true, props.isaccesstoken)
       .then((response) => {
+        setIsLoader(false);
         console.log('response')
         console.log('branding details', response.data)
         //   console.log(response.json());
         console.log(response.status)
-        if (response.status === 201) {
-          setTokenLocal(props.isaccesstoken)
-          history.push('/datahub/participants')
-          // setEmail(false);
-          // setError(false);
-        } else {
-          // setError(true);
-        }
+        setTokenLocal(props.isaccesstoken)
+        history.push('/datahub/participants')
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e)
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       })
   }
@@ -69,29 +71,25 @@ export default function BrandingRightside(props) {
 
     console.log('branding data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.branding
-
-    await HTTPService('POST', url, bodyFormData, true, false)
+    setIsLoader(true);
+    await HTTPService('POST', url, bodyFormData, true, true, props.isaccesstoken)
       .then((response) => {
+        setIsLoader(false);
         console.log('response')
         console.log('branding details', response.data)
         //   console.log(response.json());
         console.log(response.status)
-        if (response.status === 201) {
-          setTokenLocal(props.isaccesstoken)
-          history.push('/datahub/participants')
-          // setEmail(false);
-          // setError(false);
-        } else {
-          // setError(true);
-        }
+        setTokenLocal(props.isaccesstoken)
+        history.push('/datahub/participants')
       })
       .catch((e) => {
-        console.log(e)
-        //   setError(true);
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
       })
   }
   return (
     <div className="branding">
+      {isLoader ? <Loader />: ''}
       <p className="brandingtitle">Create your Branding</p>
       <div>
         <form noValidate autoComplete="off" onSubmit={handleBrandingSubmit}>

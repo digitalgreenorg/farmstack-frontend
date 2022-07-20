@@ -17,7 +17,7 @@ import UploadOrgBanner from "./UploadOrgBanner";
 
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import {
+import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
   setUserId,
@@ -25,7 +25,9 @@ import {
   handleAddressCharacters,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
-import { validateInputField } from "../../../Utils/Common";
+import GetErrorHandlingRoute, { validateInputField } from "../../../Utils/Common";
+import { useHistory } from "react-router-dom";
+import Loader from "../../../Components/Loader/Loader";
 
 export default function OrganisationSetting(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -81,19 +83,24 @@ export default function OrganisationSetting(props) {
   const fileTypes = ["JPEG", "PNG", "jpg"];
   const [orgfilesize, setorgfilesize] = useState(false);
   const [isPost, setisPost] = useState(false);
+  const[isLoader, setIsLoader] = useState(false)
+
+  const history = useHistory();
 
   // get org details.
   const getOrgDetails = async () => {
     var id = getUserLocal();
     console.log("user id", id);
-
+    setIsLoader(true);
     await HTTPService(
       "GET",
       UrlConstant.base_url + UrlConstant.org + id + "/",
       false,
-      false
+      false,
+      true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log("get request for org settings", response.data);
         // console.log(
         //   "org description",
@@ -130,7 +137,8 @@ export default function OrganisationSetting(props) {
         }
       })
       .catch((e) => {
-        console.log(e);
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -180,9 +188,11 @@ export default function OrganisationSetting(props) {
     bodyFormData.append("logo", orgfile);
     bodyFormData.append("org_description", orgdesc);
     console.log("org details", bodyFormData);
+    setIsLoader(true);
     if (isPost) {
-      HTTPService("POST", posturl, bodyFormData, true, false)
+      HTTPService("POST", posturl, bodyFormData, true, true)
         .then((response) => {
+          setIsLoader(false);
           console.log("response");
           console.log("org details", response.data);
           //   console.log(response.json());
@@ -198,12 +208,15 @@ export default function OrganisationSetting(props) {
           }
         })
         .catch((e) => {
-          console.log(e);
+          setIsLoader(false);
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     } else {
-      HTTPService("PUT", puturl, bodyFormData, true, false)
+      setIsLoader(true);
+      HTTPService("PUT", puturl, bodyFormData, true, true)
         .then((response) => {
+          setIsLoader(false);
           console.log("response");
           console.log("org details", response.data);
           //   console.log(response.json());
@@ -219,7 +232,8 @@ export default function OrganisationSetting(props) {
           }
         })
         .catch((e) => {
-          console.log(e);
+          setIsLoader(false);
+          history.push(GetErrorHandlingRoute(e))
           //   setError(true);
         });
     }
@@ -262,20 +276,25 @@ export default function OrganisationSetting(props) {
 
   const handleOrgmail = (e) => {
     // console.log(e.target.value);
-    var email = e.target.value;
-    const valid = validator.isEmail(email);
-    console.log(valid);
-    const finalEmail = email.trim();
-    console.log(finalEmail);
-    if (valid) {
-      setisOrgmailerror(false);
-      setOrgemailbtn(true);
-    } else {
-      setisOrgmailerror(true);
-      setOrgemailbtn(false);
-    }
+    // var email = e.target.value;
+    // const valid = validator.isEmail(email);
+    // console.log(valid);
+    // const finalEmail = email.trim();
+    // console.log(finalEmail);
+    // if (valid) {
+    //   setisOrgmailerror(false);
+    //   setOrgemailbtn(true);
+    // } else {
+    //   setisOrgmailerror(true);
+    //   setOrgemailbtn(false);
+    // }
     if (validateInputField(e.target.value, RegexConstants.NO_SPACE_REGEX)) {
       setemail(e.target.value);
+      if(validator.isEmail(e.target.value)){
+        setisOrgmailerror(false);
+      } else {
+        setisOrgmailerror(true);
+      }
       // setOrgemailbtn(true);
       // setfirstname(e.target.value.trim());
       // setaccfirstbtn(true);
@@ -415,10 +434,12 @@ export default function OrganisationSetting(props) {
   const orgsettingcancelbtn = () => {
     setorgfile(null);
     getOrgDetails();
+    window.location.reload();
   };
 
   return (
     <div className="orgsetting">
+      {isLoader ? <Loader />: ''}
       <form noValidate autoComplete="off" onSubmit={handleOrgSettingSubmit}>
         <Row>
           <span className="title">Organisation details</span>

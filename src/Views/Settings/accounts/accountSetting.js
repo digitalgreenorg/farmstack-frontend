@@ -10,7 +10,7 @@ import { FileUploader } from "react-drag-drop-files";
 import labels from "../../../Constants/labels";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstants from "../../../Constants/UrlConstants";
-import {
+import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
   setUserId,
@@ -19,7 +19,8 @@ import {
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../../Constants/RegexConstants";
-import { validateInputField } from "../../../Utils/Common";
+import GetErrorHandlingRoute, { validateInputField } from "../../../Utils/Common";
+import Loader from "../../../Components/Loader/Loader";
 
 export default function AccountSetting(props) {
   const profilefirstname = useRef();
@@ -29,6 +30,7 @@ export default function AccountSetting(props) {
   const [lastname, setlastname] = useState("");
   const [email, setemail] = useState("");
   const [phonenumber, setphonenumber] = useState("");
+  const[isLoader, setIsLoader] = useState(false)
   // const [profile_pic, setprofile_pic] = useState(null);
 
   const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
@@ -119,6 +121,7 @@ export default function AccountSetting(props) {
 
   const handleBannerFileChange = (file) => {
     setFile(file);
+    console.log("stop testing chandra ,move it to done");
     // setprofile_pic(file);
     console.log(file);
     if (file != null && file.size > 2097152) {
@@ -133,6 +136,7 @@ export default function AccountSetting(props) {
     // history.push("/datahub/participants/");
     setFile(null);
     getAccountDetails();
+    window.location.reload();
   };
 
   const handleAccountSettingSubmit = (e) => {
@@ -148,15 +152,16 @@ export default function AccountSetting(props) {
     bodyFormData.append("profile_picture", file);
 
     console.log("branding data", bodyFormData);
-
+    setIsLoader(true);
     HTTPService(
       "PUT",
       UrlConstants.base_url + UrlConstants.profile + id + "/",
       bodyFormData,
       true,
-      false
+      true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log("account setting updated!");
         props.setisAccountUpdateSuccess();
         // console.log("get request for account settings", response.data);
@@ -168,20 +173,23 @@ export default function AccountSetting(props) {
         // setFile(response.data.profile_picture);
       })
       .catch((e) => {
-        console.log(e);
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
       });
   };
   const getAccountDetails = async () => {
     var id = getUserLocal();
     console.log("user id", id);
+    setIsLoader(true);
 
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.profile + id + "/",
       false,
-      false
+      true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log("get request for account settings", response.data);
         console.log("picture", response.data.profile_picture);
         setphonenumber(response.data.phone_number);
@@ -192,12 +200,15 @@ export default function AccountSetting(props) {
         if (response.data.first_name) {
           setaccfirstbtn(true);
         }
-        if (response.data.phone_number.length > 0) {
-          setaccnumberbtn(true);
+        if (response.data.phone_number) {
+          if (response.data.phone_number.length > 0) {
+            setaccnumberbtn(true);
+          }
         }
       })
       .catch((e) => {
-        console.log(e);
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -206,6 +217,7 @@ export default function AccountSetting(props) {
   }, []);
   return (
     <div className="accountsetting">
+      {isLoader ? <Loader />: ''}
       <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
         <Row>
           <span className="title">Account Settings</span>

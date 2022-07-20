@@ -10,7 +10,7 @@ const useStyles = {
     btn:{ width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black" },
     marginrowtop42: {"margin-top": "42px"},
     marginrowtop: {"margin-top": "20px"},
-    marginrowtop50: {"margin-top": "50px"},
+    marginrowtop50: {"margin-top": "20px"},
     headingbold:{fontWeight: "bold"},
     headingcolorbold:{fontWeight: "bold",color: THEME_COLORS.THEME_COLOR},
     message: {'font-family': 'Open Sans', 'font-style': 'normal', 'font-weight': '400','font-size': '16px', 'line-height': '138.69%', 'color': '#3D4A52'}

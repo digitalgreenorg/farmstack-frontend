@@ -4,7 +4,7 @@ const labels = {
       submit: "Submit",
       cancel: "Cancel",
       update: "Update",
-      back: "Back"
+      back: "Back",
     },
     login: {
       signup_header: "Let's build a datahub together",
@@ -31,7 +31,8 @@ const labels = {
       contact_number: "Contact Number",
       subscripiton_length: "Subscription Length",
       firstText: "Add new Participant",
-      secondText: "Add details about your dataset and make discoverable to other participants in our network. “Dummy Data”",
+      secondText:
+        "Add details about your dataset and make discoverable to other participants in our network. “Dummy Data”",
     },
     editparticipants: {
       first_heading: "Edit Participants Organisation Details",
@@ -77,9 +78,8 @@ const labels = {
       third_delete_msg:
         "The member will no longer be able to use her account in the datahub.",
       firstText: "Add new Member",
-      secondText: "Add details about your dataset and make",
-      thirdText: "discoverable to other participants in our",
-      fourText: "network. “Dummy Data”",
+      secondText:
+        "Add details about your dataset and make discoverable to other participants in our network.",
     },
     account_settings: {
       email: "Email",
@@ -113,6 +113,39 @@ const labels = {
       Connectors: "Connectors",
       Others: "Others",
       date: "By Date",
+    },
+    sessiontimeout: {
+      heading: "Your login Session has Expired !",
+      secondmainheading: "Session Expired !",
+      thirdmainheading: "Please login again.",
+    },
+    dataset: {
+      name: "Dataset Name",
+      description: "Description *",
+      Data_Category: "Data Category",
+      Crop_data: "Crop data",
+      Practice_data: "Practice data",
+      Farmer_profile: "Farmer profile",
+      Land_records: "Land records",
+      Cultivation_data: "Cultivation data",
+      Soil_data: "Soil data",
+      Weather_data: "Weather data",
+      Geography: "Geography",
+      Corp_Detail: "Corp Detail",
+      data: "Age of Actual Data",
+      Constantly_updating: "Constantly updating",
+      three: "3 months",
+      six: "6 months",
+      nine: "9 months",
+      twelve: "12 months",
+      Interval: "Data Capture Interval",
+      Start_Date: "Start Date ",
+      End_Date: "End Date ",
+      Records: " Size of Actual Data (Records)",
+      Availablity: "Connector Availablity",
+      Available: "Available",
+      Not_Available: "Not Available",
+      Upload_dataset: " Upload Sample Datasets",
     },
   },
 };

@@ -1,0 +1,144 @@
+.datasetform {
+  overflow-x: hidden;
+}
+
+.datasetform .AddDatasetmainheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  color: #3d4a52;
+  float: left;
+  margin-left: 20%;
+  margin-top: 3%;
+}
+.datasetform .name {
+  width: 60%;
+  margin-top: 5%;
+  margin-left: 40%;
+}
+.datasetform .description {
+  float: left;
+  width: 60% !important;
+  margin-top: 5%;
+  margin-left: 3%;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+}
+.datasetform .checkbox1 {
+  width: 60%;
+  margin-left: 17.5%;
+  margin-top: 1%;
+  font-family: "Open Sans";
+}
+.datasetform .AddDatasetsecondaryheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #3d4a52;
+  float: left;
+  margin-left: 20%;
+  margin-top: 3%;
+}
+.datasetform .checkbox2 {
+  width: 60%;
+  margin-left: 19%;
+  margin-top: 1%;
+  font-family: "Open Sans";
+}
+.datasetform .checkbox2 .soil {
+  float: left;
+  font-family: "Open Sans";
+}
+.datasetform .checkbox2 .weather {
+  float: left;
+  font-family: "Open Sans";
+  margin-left: -18px;
+}
+.datasetform .crop {
+  width: 60% !important;
+  margin-top: 5%;
+  margin-left: 3%;
+  float: left;
+}
+.datasetform .AddDatasetageheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #3d4a52;
+  float: left;
+  margin-left: 41%;
+  margin-top: 4%;
+}
+.datasetform .constantswitch {
+  margin-top: 4%;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #3d4a52;
+}
+.datasetform .radiobtns {
+  margin-left: 20%;
+}
+.datasetform .radiobtns .sixmonth {
+  margin-left: 5%;
+}
+.datasetform .radiobtns .ninemonth {
+  margin-left: 5%;
+}
+.datasetform .radiobtns .twelvemonth {
+  margin-left: 5%;
+}
+.datasetform .FromDate {
+  padding-left: 21%;
+  padding-top: 2%;
+}
+
+.datasetform .toDate {
+  padding-top: 2%;
+  /* float: left; */
+}
+
+.datasetform .FromDate .fromtextfield {
+  width: 100%;
+}
+.datasetform .toDate .totextfield {
+  float: left;
+  width: 60%;
+  /* padding-left: 2%; */
+  margin-left: 3%;
+}
+.datasetform .recordradiobtns {
+  margin-left: 20%;
+  margin-top: 1%;
+}
+.datasetform .recordradiobtns .record2 {
+  margin-left: 7.5%;
+}
+.datasetform .recordradiobtns .record3 {
+  margin-left: 8%;
+}
+.datasetform .recordradiobtns .record4 {
+  margin-left: 7%;
+}
+.datasetform .notavaiable {
+  margin-left: 5%;
+}
+.datasetupload {
+  background: #ffffff;
+  border: 1px dashed #d8af28;
+  border-radius: 2px;
+  margin-top: 8%;
+  margin-left: 35%;
+  width: 220%;
+  height: 218px;
+}
+.uploaddatasetname {
+  text-align: center;
+  width: 100%;
+}

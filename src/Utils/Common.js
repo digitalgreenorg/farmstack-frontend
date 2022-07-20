@@ -1,5 +1,9 @@
+import { useHistory } from "react-router-dom";
 import LocalStorageConstants from "../Constants/LocalStorageConstants";
 import RegexConstants from "../Constants/RegexConstants";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(
@@ -12,6 +16,7 @@ export const getTokenLocal = () => {
   const userToken = JSON.parse(tokenString);
   return userToken;
 };
+
 export const setUserId = (token) => {
   localStorage.setItem(LocalStorageConstants.KEYS.user, JSON.stringify(token));
 };
@@ -65,3 +70,37 @@ export const handleNameFieldEntry = (fieldValue, e) => {
     }
   }
 };
+
+const GetErrorHandlingRoute = (e) => {
+  if (e.response != null && e.response != undefined && e.response.status == HTTP_CONSTANTS.SESSION_TIMEOUT)
+  {
+    console.log(e.response.status);
+    return('/sessionexpired');
+  }
+  else
+  {
+    return('/error');
+  }
+};
+
+export const setRoleLocal = (role) => {
+  localStorage.setItem(
+    LocalStorageConstants.KEYS.role,
+    JSON.stringify(role)
+  );
+};
+export const getRoleLocal = () => {
+  const roleString = localStorage.getItem(LocalStorageConstants.KEYS.role);
+  const userRole = JSON.parse(roleString);
+  return userRole;
+};
+
+export const isLoggedInUserAdmin = () => {
+  return (getRoleLocal().toLowerCase() == LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase())
+};
+
+export const isLoggedInUserParticipant = () => {
+  return (getRoleLocal().toLowerCase() == LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT.toLowerCase())
+};
+
+export default GetErrorHandlingRoute;

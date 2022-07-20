@@ -16,20 +16,28 @@ import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
+import Loader from "../Loader/Loader";
+import GetErrorHandlingRoute from "../../Utils/Common";
 
 const Navbar = (props) => {
   const [profile, setprofile] = useState(null);
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+  const[isLoader, setIsLoader] = useState(false)
+
+  let history = useHistory();
+
   const getAccountDetails = async () => {
     var id = getUserLocal();
     console.log("user id", id);
-
+    setIsLoader(true);
     await HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.profile + id + "/",
+      UrlConstant.base_url + UrlConstant.profile + id + "/",'',
       false,
-      false
+      true
     )
       .then((response) => {
+        setIsLoader(false);
         console.log(
           "get request for account settings in navbar",
           response.data
@@ -43,7 +51,9 @@ const Navbar = (props) => {
         // setFile(response.data.profile_picture);
       })
       .catch((e) => {
+        setIsLoader(false);
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -51,8 +61,6 @@ const Navbar = (props) => {
     getAccountDetails();
   }, [profile]);
 
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  let history = useHistory();
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
@@ -61,6 +69,7 @@ const Navbar = (props) => {
   };
   return (
     <>
+      {isLoader ? <Loader />: ''}
       <Nav id="datahubnavbar">
         {/* <Bars /> */}
         <img

@@ -1,20 +1,23 @@
 import axios from 'axios';
 import {getTokenLocal } from '../Utils/Common';
-const HTTPService = async (method,url,data,isFormData,isAuthorization) => {
+const HTTPService = async (method,url,data,isFormData,isAuthorization,jwttoken) => {
   return  await axios({
       method,
       url,
       data,
-      headers:authHeader(isFormData,isAuthorization)
+      headers:authHeader(isFormData,isAuthorization,jwttoken)
     })
 };
-const authHeader=(isFormData,isAuthorization)=>{
-    const token = getTokenLocal()
+const authHeader=(isFormData,isAuthorization,jwttoken)=>{
+    let token =jwttoken
+    if(!token){
+        token = getTokenLocal()
+    }
     if(isAuthorization){
         if(isFormData){
-            return {'Content-Type': 'application/json','Authorization': 'Token '+ token,'content-type': 'multipart/form-data'}
+            return {'Content-Type': 'application/json','Authorization': 'Bearer '+ token,'content-type': 'multipart/form-data'}
         }else{
-            return {'Content-Type': 'application/json','Authorization': 'Token '+ token}
+            return {'Content-Type': 'application/json','Authorization': 'Bearer '+ token}
         }
     }else{
         if(isFormData){
