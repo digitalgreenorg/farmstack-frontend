@@ -276,20 +276,25 @@ export default function OrganisationSetting(props) {
 
   const handleOrgmail = (e) => {
     // console.log(e.target.value);
-    var email = e.target.value;
-    const valid = validator.isEmail(email);
-    console.log(valid);
-    const finalEmail = email.trim();
-    console.log(finalEmail);
-    if (valid) {
-      setisOrgmailerror(false);
-      setOrgemailbtn(true);
-    } else {
-      setisOrgmailerror(true);
-      setOrgemailbtn(false);
-    }
+    // var email = e.target.value;
+    // const valid = validator.isEmail(email);
+    // console.log(valid);
+    // const finalEmail = email.trim();
+    // console.log(finalEmail);
+    // if (valid) {
+    //   setisOrgmailerror(false);
+    //   setOrgemailbtn(true);
+    // } else {
+    //   setisOrgmailerror(true);
+    //   setOrgemailbtn(false);
+    // }
     if (validateInputField(e.target.value, RegexConstants.NO_SPACE_REGEX)) {
       setemail(e.target.value);
+      if(validator.isEmail(e.target.value)){
+        setisOrgmailerror(false);
+      } else {
+        setisOrgmailerror(true);
+      }
       // setOrgemailbtn(true);
       // setfirstname(e.target.value.trim());
       // setaccfirstbtn(true);
