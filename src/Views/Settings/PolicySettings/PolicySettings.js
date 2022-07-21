@@ -671,7 +671,7 @@ export default function PolicySettings(props) {
   const policysettingcancelbtn = () => {
     getPolicies();
     history.push("/datahub/settings/3")
-    //window.location.reload();
+    window.location.reload();
   };
 
   return (

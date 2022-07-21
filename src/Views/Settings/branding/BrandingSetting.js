@@ -110,7 +110,7 @@ export default function BrandingSetting(props) {
     getBrandingDetails();
     setbrandfile(null);
     history.push("/datahub/settings/5")
-   // window.location.reload();
+    window.location.reload();
     // sethexColor(color);
   };
 
