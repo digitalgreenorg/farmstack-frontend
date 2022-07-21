@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
@@ -18,6 +18,7 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstants from "../../../Constants/UrlConstants";
 import Loader from "../../../Components/Loader/Loader";
 import Success from "../../../Components/Success/Success";
+import { useParams } from "react-router-dom";
 
 const useStyles = {
   btncolor: {
@@ -31,7 +32,7 @@ const useStyles = {
   marginrowtop8px: { "margin-top": "0px" },
 };
 
-export default function AddDataset(props) {
+export default function EditDataset() {
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -55,20 +56,25 @@ export default function AddDataset(props) {
   //   success screen
   const [isSuccess, setisSuccess] = useState(false);
 
-  const handleAddDatasetSubmit = (e) => {
+  //   retrive id for dataset
+  const { id } = useParams();
+
+  //   put request for dataset
+  const handleEditDatasetSubmit = (e) => {
     e.preventDefault();
-    console.log("clicked on add dataset submit btn");
+    console.log("clicked on edit dataset submit btn");
+
     var bodyFormData = new FormData();
-    bodyFormData.append("name", datasetname);
-    // bodyFormData.append("description", lastname);
+    // bodyFormData.append("first_name", firstname);
+    // bodyFormData.append("last_name", lastname);
     // bodyFormData.append("phone_number", phonenumber);
     // bodyFormData.append("profile_picture", file);
 
     console.log("add dataset", bodyFormData);
     setIsLoader(true);
     HTTPService(
-      "POST",
-      UrlConstants.base_url + UrlConstants.dataset,
+      "PUT",
+      UrlConstants.base_url + UrlConstants.dataset + id + "/",
       bodyFormData,
       true,
       true
@@ -83,6 +89,37 @@ export default function AddDataset(props) {
         history.push(GetErrorHandlingRoute(e));
       });
   };
+  //   get dataset
+  const getAccountDetails = async () => {
+    // var id = getUserLocal();
+    // console.log("user id", id);
+    setIsLoader(true);
+    console.log(id);
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for edit dataset", response.data);
+        // console.log("picture", response.data.profile_picture);
+        // setphonenumber(response.data.phone_number);
+        // setfirstname(response.data.first_name);
+        // setlastname(response.data.last_name);
+        // setemail(response.data.email);
+        // setFile(response.data.profile_picture);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  useEffect(() => {
+    getAccountDetails();
+  }, []);
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -202,13 +239,13 @@ export default function AddDataset(props) {
           route={"datahub/participants"}
           imagename={"success"}
           btntext={"ok"}
-          heading={"You added a new dataset"}
-          imageText={"Added Successfully!"}
-          msg={"Your dataset added in database."}></Success>
+          heading={"Dataset updated Successfully"}
+          imageText={"Success!"}
+          msg={"Your dataset are updated."}></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+        <form noValidate autoComplete="off" onSubmit={handleEditDatasetSubmit}>
           <DataSetForm
-            title={"Add Dataset"}
+            title={"Edit Dataset"}
             reply={reply}
             datasetname={datasetname}
             handleChangedatasetname={handleChangedatasetname}
