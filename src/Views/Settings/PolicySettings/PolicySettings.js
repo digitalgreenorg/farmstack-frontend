@@ -10,12 +10,13 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import HTTPService from "../../../Services/HTTPService";
-import HandleSessionTimeout from '../../../Utils/Common';
+import HandleSessionTimeout, { getTokenLocal } from "../../../Utils/Common";
 import { Link, useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
 import GetErrorHandlingRoute from "../../../Utils/Common";
 
 export default function PolicySettings(props) {
+  let accesstoken = getTokenLocal();
   const useStyles = {
     btncolor: {
       color: "white",
@@ -127,7 +128,7 @@ export default function PolicySettings(props) {
   const [termsFileUrl, setTermsFileUrl] = useState("");
 
   const [isPostMethod, setIsPostMethod] = useState(false);
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
 
   const history = useHistory();
 
@@ -258,6 +259,10 @@ export default function PolicySettings(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setgovuploadProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${accesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -268,9 +273,7 @@ export default function PolicySettings(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: { "content-type": "multipart/form-data" },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("governing law details", response.data);
@@ -295,7 +298,10 @@ export default function PolicySettings(props) {
 
     await axios
       .delete(url, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accesstoken}`,
+        },
         data: { id: "governing_law" },
       })
       .then((response) => {
@@ -331,6 +337,10 @@ export default function PolicySettings(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setwarrantyloadProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${accesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -341,9 +351,7 @@ export default function PolicySettings(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: { "content-type": "multipart/form-data" },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("warranty", response.data);
@@ -368,7 +376,10 @@ export default function PolicySettings(props) {
 
     await axios
       .delete(url, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accesstoken}`,
+        },
         data: { id: "warranty" },
       })
       .then((response) => {
@@ -404,6 +415,10 @@ export default function PolicySettings(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setliabiltyloadProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${accesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -414,9 +429,7 @@ export default function PolicySettings(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: { "content-type": "multipart/form-data" },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("limitations_of_liabilities", response.data);
@@ -442,7 +455,10 @@ export default function PolicySettings(props) {
 
     await axios
       .delete(url, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accesstoken}`,
+        },
         data: { id: "limitations_of_liabilities" },
       })
       .then((response) => {
@@ -479,6 +495,10 @@ export default function PolicySettings(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setprivacyProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${accesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -489,9 +509,7 @@ export default function PolicySettings(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: { "content-type": "multipart/form-data" },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("privacy_policy", response.data);
@@ -516,7 +534,10 @@ export default function PolicySettings(props) {
 
     await axios
       .delete(url, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accesstoken}`,
+        },
         data: { id: "privacy_policy" },
       })
       .then((response) => {
@@ -552,6 +573,10 @@ export default function PolicySettings(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         settosloadProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${accesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -562,9 +587,7 @@ export default function PolicySettings(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: { "content-type": "multipart/form-data" },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("tos", response.data);
@@ -589,7 +612,10 @@ export default function PolicySettings(props) {
 
     await axios
       .delete(url, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accesstoken}`,
+        },
         data: { id: "tos" },
       })
       .then((response) => {
@@ -622,10 +648,15 @@ export default function PolicySettings(props) {
     bodyFormData.append("limitations_of_liabilities", liabalityDesc);
     bodyFormData.append("warranty", warrantiesDesc);
     // console.log(setprivacydesc);
+
+    console.log(accesstoken);
     if (isPostMethod) {
       await axios
         .post(url, bodyFormData, {
-          headers: { "content-type": "multipart/form-data" },
+          headers: {
+            "content-type": "multipart/form-data",
+            Authorization: `Bearer ${accesstoken}`,
+          },
         })
         .then((response) => {
           console.log("response");
@@ -647,7 +678,10 @@ export default function PolicySettings(props) {
     } else {
       await axios
         .put(url + "1/", bodyFormData, {
-          headers: { "content-type": "multipart/form-data" },
+          headers: {
+            "content-type": "multipart/form-data",
+            Authorization: `Bearer ${accesstoken}`,
+          },
         })
         .then((response) => {
           console.log("response");
@@ -675,7 +709,7 @@ export default function PolicySettings(props) {
 
   return (
     <div style={useStyles.tabmargin}>
-      {isLoader ? <Loader />: ''}
+      {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
         <Row style={useStyles.marginheading}>
           <span style={useStyles.headingtext}>Upload Content</span>
