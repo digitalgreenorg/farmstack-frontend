@@ -94,6 +94,10 @@ export default function PoliciesRightside(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setgovuploadProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${props.isaccesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -106,12 +110,7 @@ export default function PoliciesRightside(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: {
-            "content-type": "multipart/form-data",
-            Authorization: `Bearer ${props.isaccesstoken}`,
-          },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("governing law details", response.data);
@@ -149,6 +148,10 @@ export default function PoliciesRightside(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setwarrantyloadProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${props.isaccesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -159,12 +162,7 @@ export default function PoliciesRightside(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: {
-            "content-type": "multipart/form-data",
-            Authorization: `Bearer ${props.isaccesstoken}`,
-          },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("warranty", response.data);
@@ -201,6 +199,10 @@ export default function PoliciesRightside(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setliabiltyloadProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${props.isaccesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -211,12 +213,7 @@ export default function PoliciesRightside(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: {
-            "content-type": "multipart/form-data",
-            Authorization: `Bearer ${props.isaccesstoken}`,
-          },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("limitations_of_liabilities", response.data);
@@ -252,6 +249,10 @@ export default function PoliciesRightside(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         setprivacyProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${props.isaccesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -262,12 +263,7 @@ export default function PoliciesRightside(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: {
-            "content-type": "multipart/form-data",
-            Authorization: `Bearer ${props.isaccesstoken}`,
-          },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("privacy_policy", response.data);
@@ -305,6 +301,10 @@ export default function PoliciesRightside(props) {
         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
         settosloadProgress(percent);
       },
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${props.isaccesstoken}`,
+      },
     };
 
     var bodyFormData = new FormData();
@@ -315,12 +315,7 @@ export default function PoliciesRightside(props) {
 
     if (file.size < 2097152) {
       await axios
-        .post(url, bodyFormData, options, {
-          headers: {
-            "content-type": "multipart/form-data",
-            Authorization: `Bearer ${props.isaccesstoken}`,
-          },
-        })
+        .post(url, bodyFormData, options)
         .then((response) => {
           console.log("response");
           console.log("tos", response.data);
