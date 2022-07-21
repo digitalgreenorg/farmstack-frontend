@@ -20,12 +20,17 @@ import HandleSessionTimeout, {
   getTokenLocal,
   setUserId,
   getUserLocal,
+  setRoleLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserParticipant,
+  getRoleLocal,
 } from '../../Utils/Common'
 import RichTextEditor from 'react-rte'
 import countryList from 'react-select-country-list'
 import { useHistory } from 'react-router-dom'
 import Loader from '../../Components/Loader/Loader'
 import GetErrorHandlingRoute from '../../Utils/Common'
+import ProfileRightsideParticipant from '../../Components/signup/ProfileRightsideParticipant'
 
 export default function Login(props) {
   const [button, setButton] = useState(false)
@@ -49,6 +54,7 @@ export default function Login(props) {
   const [isPolicies, setisPolicies] = useState(false)
   const [isBranding, setisBranding] = useState(false)
   const [isaccesstoken, setisaccesstoken] = useState(false)
+  const [userid, setUserId] = useState(false)
 
   const [orgName, setOrgName] = useState('')
   // const [orgEmail, setOrgEmail] = useState("")
@@ -185,12 +191,24 @@ export default function Login(props) {
           // }
 
           if (response.status === 201) {
+            setRoleLocal(response.data.role);
+            console.log(getRoleLocal());
+            console.log('isLoggedInUserAdmin(): ' + isLoggedInUserAdmin());
+            console.log('isLoggedInUserParticipant(): ' + isLoggedInUserParticipant());
+
             if (response.data.status) {
               setTokenLocal(response.data.access)
-
-              props.history.push('/datahub/participants')
+              if (isLoggedInUserAdmin())
+              {
+                props.history.push('/datahub/participants')
+              }
+              else if (isLoggedInUserParticipant())
+              {
+                props.history.push('/datahub/participants')
+              }
             } else {
               setisaccesstoken(response.data.access)
+              setUserId(response.data.user)
               setOtpError(false)
               setisProfile(true)
               setisOtp(false)
@@ -204,13 +222,13 @@ export default function Login(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          console.log(e.response.status)
+          //console.log(e.response.status)
           setOtpError(true)
-          if (e.response.status === 403) {
+          if (e.response != null && e.response != undefined && e.response.status === 403) {
             setuserSuspenderror(true)
             setOtpError(false)
           }
-          if (e.response.status === 401)
+          if (e.response != null && e.response != undefined && e.response.status === 401)
           {
             setOtpError(true)
           }
@@ -276,6 +294,7 @@ export default function Login(props) {
   const profilefirstname = useRef()
   const profilelastname = useRef()
   const profileemail = useRef()
+  const profilephone = useRef()
 
   const [ispropfilefirstnameerror, setispropfilefirstnameerror] = useState(
     false,
@@ -316,7 +335,7 @@ export default function Login(props) {
     console.log('profile data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.profile + `${profileid}/`
     setIsLoader(true);
-    await HTTPService('PUT', url, bodyFormData, true, true)
+    await HTTPService('PUT', url, bodyFormData, true, true, isaccesstoken)
       .then((response) => {
         setIsLoader(false);
         console.log('profile response')
@@ -391,6 +410,7 @@ export default function Login(props) {
     // } else {
     //   setispropfilenumbererror(true);
     // }
+    profilephone.current = value;
     setValidnumber(value)
   }
 
@@ -638,7 +658,7 @@ export default function Login(props) {
       <h1 className="headertext">{screenlabels.login.signup_header}</h1>
       <Leftintro />
       {isemail || isOtp ? <Rightintro /> : ''}
-      {/* <Footerimg /> */}
+      { /*<Footerimg /> */}
       {isemail && (
         <SignupEmail
           screenlabels={screenlabels}
@@ -663,7 +683,7 @@ export default function Login(props) {
           setDisable={setDisable}
         />
       )}
-      {isProfile && (
+      {(isProfile && isLoggedInUserAdmin()) && (
         <ProfileRightside
           handleprofileSubmit={handleprofileSubmit}
           handleprofilfirstename={handleprofilfirstename}
@@ -678,6 +698,27 @@ export default function Login(props) {
           profileemail={profileemail}
           validemail={validemail}
           finishLaterProfileScreen={finishLaterProfileScreen}
+          isaccesstoken = {isaccesstoken}
+        />
+      )}
+      {(isProfile && isLoggedInUserParticipant()) &&(
+        <ProfileRightsideParticipant
+          handleprofileSubmit={handleprofileSubmit}
+          handleprofilfirstename={handleprofilfirstename}
+          handleprofilelastname={handleprofilelastname}
+          handleprofilenumber={handleprofilenumber}
+          ispropfilefirstnameerror={ispropfilefirstnameerror}
+          ispropfilelastnameerror={ispropfilelastnameerror}
+          ispropfileemailerror={ispropfileemailerror}
+          profilenextbutton={profilenextbutton}
+          profilefirstname={profilefirstname}
+          profilelastname={profilelastname}
+          profileemail={profileemail}
+          profilephone={profilephone}
+          validemail={validemail}
+          finishLaterProfileScreen={finishLaterProfileScreen}
+          isaccesstoken = {isaccesstoken}
+          userid = {userid}
         />
       )}
       {isOrg ? (
@@ -731,6 +772,8 @@ export default function Login(props) {
           handlepincode={handlepincode}
           handleorgFileChange={handleorgFileChange}
           finishLaterOrgScreen={finishLaterOrgScreen}
+          isaccesstoken = {isaccesstoken}
+          userid = {userid}
         />
       ) : (
         <></>
