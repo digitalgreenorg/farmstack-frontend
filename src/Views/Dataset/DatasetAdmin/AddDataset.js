@@ -82,7 +82,7 @@ export default function AddDataset(props) {
       })
     );
     bodyFormData.append("geography", Geography);
-    bodyFormData.append("cropdetail", cropdetail);
+    bodyFormData.append("crop_detail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
     bodyFormData.append("age_of_date", value);
     if (fromdate != null) {
@@ -285,7 +285,17 @@ export default function AddDataset(props) {
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
-              {datasetname && reply && Geography ? (
+              {datasetname &&
+              reply &&
+              Geography &&
+              file &&
+              (Crop_data == true ||
+                Practice_data == true ||
+                Farmer_profile == true ||
+                Land_records == true ||
+                Cultivation_data == true ||
+                Soil_data == true ||
+                Weather_data == true) ? (
                 <Button
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
