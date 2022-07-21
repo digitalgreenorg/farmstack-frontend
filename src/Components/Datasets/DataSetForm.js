@@ -415,7 +415,7 @@ export default function DataSetForm(props) {
               label={screenlabels.dataset.Available}
             />
             <FormControlLabel
-              value="not_avaiable"
+              value="not_available"
               control={<Radio />}
               label="Not Available"
               className={screenlabels.dataset.Not_Available}

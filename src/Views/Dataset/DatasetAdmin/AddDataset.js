@@ -41,13 +41,17 @@ export default function AddDataset(props) {
   const [Geography, setGeography] = useState("");
   const [cropdetail, setCropdetail] = useState("");
 
-  const [value, setValue] = React.useState("3 months");
-  const [recordsvalue, setrecordsvalue] = React.useState("100k");
-  const [availablevalue, setavailablevalue] = React.useState("available");
+  const [value, setValue] = React.useState("");
+  const [recordsvalue, setrecordsvalue] = React.useState("");
+  const [availablevalue, setavailablevalue] = React.useState("");
+
+  //   const [value, setValue] = React.useState("3 months");
+  //   const [recordsvalue, setrecordsvalue] = React.useState("100k");
+  //   const [availablevalue, setavailablevalue] = React.useState("available");
 
   //   date picker
-  const [fromdate, setfromdate] = React.useState();
-  const [todate, settodate] = React.useState();
+  const [fromdate, setfromdate] = React.useState(null);
+  const [todate, settodate] = React.useState(null);
 
   const [file, setFile] = useState(null);
 
@@ -61,6 +65,7 @@ export default function AddDataset(props) {
     console.log("clicked on add dataset submit btn");
     var id = getUserMapId();
     console.log("user id", id);
+
     var bodyFormData = new FormData();
     bodyFormData.append("name", datasetname);
     bodyFormData.append("description", reply);
@@ -80,8 +85,14 @@ export default function AddDataset(props) {
     bodyFormData.append("cropdetail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
     bodyFormData.append("age_of_date", value);
-    bodyFormData.append("data_capture_start", fromdate);
-    bodyFormData.append("data_capture_end", todate);
+    bodyFormData.append(
+      "data_capture_start",
+      fromdate != null ? fromdate.toISOString() : null
+    );
+    bodyFormData.append(
+      "data_capture_end",
+      todate != null ? todate.toISOString() : null
+    );
     bodyFormData.append("sample_dataset", file);
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("dataset_size", recordsvalue);
@@ -103,7 +114,7 @@ export default function AddDataset(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        // history.push(GetErrorHandlingRoute(e));
       });
   };
 
