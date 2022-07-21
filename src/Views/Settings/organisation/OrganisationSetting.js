@@ -443,7 +443,7 @@ export default function OrganisationSetting(props) {
     setorgfile(null);
     getOrgDetails();
     history.push("/datahub/settings/2")
-    //window.location.reload();
+    window.location.reload();
   };
 
   return (
