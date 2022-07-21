@@ -15,6 +15,8 @@ const UrlConstant = {
   policies_files_upload: "datahub/drop_document/",
   policies_save_upload: "datahub/save_documents/",
   delete_policies_drop_document: "datahub/drop_document/delete/",
+  dataset_filter: 'datahub/datasets/filters_data/',
+  dataset_list: 'datahub/datasets/'
 };
 
 export default UrlConstant;
