@@ -1,0 +1,454 @@
+@import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+/* @import '../../../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'; */
+/* @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap'); */
+/* @import url("https://fonts.googleapis.com/css2?family=Open+Sans"); */
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
+body {
+  font-family: "Open Sans";
+  text-align: center !important;
+  width: 1440px;
+  height: 100%;
+  background-color: #ffffff !important;
+}
+button.disbalesubmitbtn {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+}
+button.cancelbtn {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 20px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-bottom: 50px;
+  background: #ffffff;
+  border: 1px solid #c09507;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+}
+button.editbtn {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-top: 50px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #585d60;
+}
+button.submitbtn {
+  width: 420px !important;
+  text-transform: capitalize;
+  color: #ffffff;
+  height: 42px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-weight: 700;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+}
+button.submitbtn:hover {
+  background-color: #ab8405 !important;
+}
+.width100percent {
+  width: 100%;
+}
+.mainheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 138.69%;
+  /* identical to box height, or 28px */
+
+  /* headings */
+
+  color: #3d4a52;
+}
+.editheading {
+  font-weight: 700;
+  font-size: 20px;
+  color: #3d4a52;
+}
+.secondmainheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 138.69%;
+  /* or 22px */
+
+  /* headings */
+
+  color: #3d4a52;
+}
+.fontweight600andfontsize14pxandcolor3A3A3A {
+  font-weight: 600;
+  font-size: 14px;
+  color: #3a3a3a;
+}
+.fontweight600andfontsize14pxandcolorFFFFFF {
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffffff;
+}
+.fontweight600andfontsize14pxandcolor3D4A52 {
+  font-weight: 600;
+  font-size: 14px;
+  color: #3d4a52;
+}
+.fontweight400andfontsize14pxandcolor3D4A52 {
+  font-weight: 400;
+  font-size: 14px;
+  color: #3d4a52;
+}
+.thirdmainheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 138.69%;
+  /* or 19px */
+
+  /* headings */
+
+  color: #3d4a52;
+}
+.mainheadingsuccess {
+  font-weight: 700;
+  font-size: 20px;
+  color: #3d4a52;
+  font-family: "Open Sans";
+  font-style: normal;
+}
+.secondmainheadingsuccess {
+  font-weight: 700;
+  font-size: 20px;
+  color: #d8af28;
+  font-family: "Open Sans";
+  font-style: normal;
+}
+.thirdmainheadingsuccess {
+  font-weight: 400;
+  font-size: 16px;
+  color: #3d4a52;
+  font-family: "Open Sans";
+  font-style: normal;
+}
+.css-1gsv261 {
+  border-bottom: 1px solid #c09507 !important;
+}
+.css-1aquho2-MuiTabs-indicator {
+  background-color: #c09507 !important;
+}
+.boldimage {
+  display: none;
+}
+.nonboldimage {
+  display: block;
+}
+.react-multi-email > input {
+  background: none !important;
+}
+.react-multi-email {
+  width: 100% !important;
+  border: none !important;
+  background: none !important;
+  border-bottom: 1px solid #9aa1a9 !important;
+  border-radius: inherit !important;
+}
+.invite-participant-text-editor > div:first-child {
+  background: #f1f1f1 !important;
+  border: none !important;
+  border-bottom: 1px solid #9aa1a9 !important;
+  border-radius: inherit !important;
+}
+.invite-participant-text-editor > div:first-child > div:first-child {
+  text-align: left;
+}
+
+.settingsTabs .Mui-selected {
+  color: #ffffff !important;
+  border-radius: 2px 0px 0px 0px;
+  text-transform: capitalize !important;
+  background: #c09507;
+  width: 200px;
+  height: 42px;
+  font-weight: 400;
+  border-bottom: none !important;
+  border-left: 1px solid #d8af28 !important;
+  border-right: 1px solid #d8af28 !important;
+  border-top: 1px solid #d8af28 !important;
+}
+.settingsTabs .MuiTabs-indicator {
+  background: #c09507 !important;
+  border-bottom: none !important;
+}
+.particaipancard .MuiCardHeader-title {
+  padding-bottom: 18px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #3d4a52;
+  line-height: 19px;
+}
+.particaipancard .MuiCardHeader-subheader {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  /* identical to box height */
+
+  color: #000000;
+
+  opacity: 0.5;
+}
+/* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+  background: #FFFFFF;
+  border: 1px solid #D8AF28 !important;
+  text-transform: capitalize !important;
+  font-weight: 400 !important;
+  width: 200px;
+} */
+:not(.Mui-selected).MuiTab-root {
+  background: #ffffff;
+  text-transform: capitalize !important;
+  font-weight: 400 !important;
+  width: 200px;
+  border-left: 1px solid #d8af28 !important;
+  border-right: 1px solid #d8af28 !important;
+  border-top: 1px solid #d8af28 !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: #a3b0b8 !important;
+  font-family: "Open Sans" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+}
+.css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:after {
+  border-bottom: 2px solid #a3b0b8 !important;
+}
+
+.MuiFilledInput-input,
+.MuiInputLabel-root {
+  color: #3d4a52 !important;
+  font-family: "Open Sans" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 19px !important;
+}
+css-1wc848c-MuiFormHelperText-root {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+}
+.css-1wc848c-MuiFormHelperText-root.Mui-error {
+  color: #ff3d00 !important;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+}
+button.disbalesubmitbtnteam {
+  text-transform: capitalize;
+  border-radius: 2px;
+  box-shadow: none !important;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 200px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+  font-weight: 700;
+}
+button.submitbtnteam {
+  width: 420px !important;
+  text-transform: capitalize;
+  color: #ffffff;
+  height: 42px;
+  margin-top: 200px;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+  font-weight: 700;
+}
+button.submitbtnteam:hover {
+  background-color: #ab8405 !important;
+}
+button.submitbtn:hover {
+  background-color: #ab8405 !important;
+}
+/* button.submitbtnupdt:hover{
+  background-color: #ab8405 !important; */
+
+button.cancelbtnteam {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  font-weight: 700;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-bottom: 50px;
+  box-shadow: none !important;
+}
+/* button.disbalesubmitbtupdt {
+  text-transform: capitalize;
+  border-radius: 2px;
+  box-shadow: none !important;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 200px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+  font-weight: 700;
+}
+button.submitbtnupdt {
+  width: 420px !important;
+  text-transform: capitalize;
+  color: #ffffff;
+  height: 42px;
+  margin-top: 200px;
+  font-weight: 700;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+} */
+.backlabel {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 138.69%;
+  /* or 19px */
+  color: #3491ee;
+}
+
+.link :hover {
+  cursor: pointer;
+}
+
+.react-multi-email [data-tag] {
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 19px !important;
+  color: #3d4a52 !important;
+}
+
+.public-DraftEditorPlaceholder-root {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  /* headings */
+  color: #3d4a52 !important;
+}
+.tabstyle {
+  width: 109px;
+  height: 19px;
+  font-family: "Open Sans" !important;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.buttonremovebackgroundonhover:hover {
+  background: none !important;
+}
+
+.separatorline {
+  margin-left: -200px;
+  margin-right: -200px;
+  margin-top: 30px;
+  border-top: 1px solid rgba(238, 238, 238, 0.5);
+}
+.react-multi-email.empty > span[data-placeholder] {
+  display: inline;
+  color: #3d4a52 !important;
+}
+
+.MuiLinearProgress-bar1Indeterminate {
+  background-color: #c09507 !important;
+}
+
+.MuiLinearProgress-bar2Indeterminate {
+  background-color: #c09507 !important;
+}
+.MuiLinearProgress-colorPrimary {
+  background-color: white !important;
+}
+/* hiding drag and drop shadow issue */
+.sc-gsnTZi {
+  display: none;
+}
+
+/* checkbox */
+.Mui-checked {
+  color: #c09507 !important;
+}
+
+/* switch */
+.MuiSwitch-track {
+  background-color: #c09507 !important;
+}
+
+/* mui typography  */
+.MuiTypography-root {
+  font-family: "Open Sans" !important;
+}
