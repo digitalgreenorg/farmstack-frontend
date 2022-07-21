@@ -418,7 +418,7 @@ export default function DataSetForm(props) {
               value="not_available"
               control={<Radio />}
               label="Not Available"
-              className={screenlabels.dataset.Not_Available}
+              className="notavaiable"
             />
           </RadioGroup>
         </Col>

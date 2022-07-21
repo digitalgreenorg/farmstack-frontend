@@ -85,15 +85,15 @@ export default function AddDataset(props) {
     bodyFormData.append("cropdetail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
     bodyFormData.append("age_of_date", value);
-    bodyFormData.append(
-      "data_capture_start",
-      fromdate != null ? fromdate.toISOString() : null
-    );
-    bodyFormData.append(
-      "data_capture_end",
-      todate != null ? todate.toISOString() : null
-    );
-    bodyFormData.append("sample_dataset", file);
+    if (fromdate != null) {
+      bodyFormData.append("data_capture_start", fromdate.toISOString());
+    }
+    if (todate != null) {
+      bodyFormData.append("data_capture_end", todate.toISOString());
+    }
+    if (file != null) {
+      bodyFormData.append("sample_dataset", file);
+    }
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
