@@ -103,4 +103,16 @@ export const isLoggedInUserParticipant = () => {
   return (getRoleLocal().toLowerCase() == LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT.toLowerCase())
 };
 
+export const dateTimeFormat = (datetime) => {
+  const today = new Date(datetime)
+  var y = today.getFullYear()
+  var m = (today.getMonth() + 1).toString().padStart(2, "0")
+  var d = today.getDate().toString().padStart(2, "0")
+  var h = today.getHours()
+  var mi =(today.getMinutes()<10?'0':'')+today.getMinutes()
+  var s = today.getSeconds();
+  let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
+  return format
+};
+
 export default GetErrorHandlingRoute;
