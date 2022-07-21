@@ -8,6 +8,7 @@ import GetErrorHandlingRoute, {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
+  getUserMapId,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../Constants/ColorConstants";
@@ -40,9 +41,13 @@ export default function AddDataset(props) {
   const [Geography, setGeography] = useState("");
   const [cropdetail, setCropdetail] = useState("");
 
-  const [value, setValue] = React.useState("3 months");
-  const [recordsvalue, setrecordsvalue] = React.useState("100k");
-  const [availablevalue, setavailablevalue] = React.useState("Available");
+  const [value, setValue] = React.useState("");
+  const [recordsvalue, setrecordsvalue] = React.useState("");
+  const [availablevalue, setavailablevalue] = React.useState("");
+
+  //   const [value, setValue] = React.useState("3 months");
+  //   const [recordsvalue, setrecordsvalue] = React.useState("100k");
+  //   const [availablevalue, setavailablevalue] = React.useState("available");
 
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
@@ -58,11 +63,40 @@ export default function AddDataset(props) {
   const handleAddDatasetSubmit = (e) => {
     e.preventDefault();
     console.log("clicked on add dataset submit btn");
+    var id = getUserMapId();
+    console.log("user id", id);
+
     var bodyFormData = new FormData();
     bodyFormData.append("name", datasetname);
-    // bodyFormData.append("description", lastname);
-    // bodyFormData.append("phone_number", phonenumber);
-    // bodyFormData.append("profile_picture", file);
+    bodyFormData.append("description", reply);
+    bodyFormData.append(
+      "category",
+      JSON.stringify({
+        crop_data: Crop_data,
+        practice_data: Practice_data,
+        farmer_profile: Farmer_profile,
+        land_records: Land_records,
+        cultivation_data: Cultivation_data,
+        soil_data: Soil_data,
+        weather_data: Weather_data,
+      })
+    );
+    bodyFormData.append("geography", Geography);
+    bodyFormData.append("crop_detail", cropdetail);
+    bodyFormData.append("constantly_update", Switchchecked);
+    bodyFormData.append("age_of_date", value);
+    if (fromdate != null) {
+      bodyFormData.append("data_capture_start", fromdate.toISOString());
+    }
+    if (todate != null) {
+      bodyFormData.append("data_capture_end", todate.toISOString());
+    }
+    if (file != null) {
+      bodyFormData.append("sample_dataset", file);
+    }
+    bodyFormData.append("connector_availability", availablevalue);
+    bodyFormData.append("dataset_size", recordsvalue);
+    bodyFormData.append("user_map", id);
 
     console.log("add dataset", bodyFormData);
     setIsLoader(true);
@@ -80,7 +114,7 @@ export default function AddDataset(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        // history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -251,7 +285,17 @@ export default function AddDataset(props) {
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
-              {datasetname && reply && Geography ? (
+              {datasetname &&
+              reply &&
+              Geography &&
+              file &&
+              (Crop_data == true ||
+                Practice_data == true ||
+                Farmer_profile == true ||
+                Land_records == true ||
+                Cultivation_data == true ||
+                Soil_data == true ||
+                Weather_data == true) ? (
                 <Button
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
