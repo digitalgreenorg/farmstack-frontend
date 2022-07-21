@@ -58,7 +58,7 @@ function Datahub(props) {
             <Route exact path="/datahub/dataset/add" component={AddDataset} />
             <Route
               exact
-              path="/datahub/dataset/edit:id"
+              path="/datahub/dataset/edit/:id"
               component={EditDataset}
             />
             <Route
