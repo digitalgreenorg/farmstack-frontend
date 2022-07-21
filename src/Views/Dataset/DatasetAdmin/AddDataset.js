@@ -8,6 +8,7 @@ import GetErrorHandlingRoute, {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
+  getUserMapId,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../Constants/ColorConstants";
@@ -42,11 +43,11 @@ export default function AddDataset(props) {
 
   const [value, setValue] = React.useState("3 months");
   const [recordsvalue, setrecordsvalue] = React.useState("100k");
-  const [availablevalue, setavailablevalue] = React.useState("Available");
+  const [availablevalue, setavailablevalue] = React.useState("available");
 
   //   date picker
-  const [fromdate, setfromdate] = React.useState(null);
-  const [todate, settodate] = React.useState(null);
+  const [fromdate, setfromdate] = React.useState();
+  const [todate, settodate] = React.useState();
 
   const [file, setFile] = useState(null);
 
@@ -58,11 +59,33 @@ export default function AddDataset(props) {
   const handleAddDatasetSubmit = (e) => {
     e.preventDefault();
     console.log("clicked on add dataset submit btn");
+    var id = getUserMapId();
+    console.log("user id", id);
     var bodyFormData = new FormData();
     bodyFormData.append("name", datasetname);
-    // bodyFormData.append("description", lastname);
-    // bodyFormData.append("phone_number", phonenumber);
-    // bodyFormData.append("profile_picture", file);
+    bodyFormData.append("description", reply);
+    bodyFormData.append(
+      "category",
+      JSON.stringify({
+        crop_data: Crop_data,
+        practice_data: Practice_data,
+        farmer_profile: Farmer_profile,
+        land_records: Land_records,
+        cultivation_data: Cultivation_data,
+        soil_data: Soil_data,
+        weather_data: Weather_data,
+      })
+    );
+    bodyFormData.append("geography", Geography);
+    bodyFormData.append("cropdetail", cropdetail);
+    bodyFormData.append("constantly_update", Switchchecked);
+    bodyFormData.append("age_of_date", value);
+    bodyFormData.append("data_capture_start", fromdate);
+    bodyFormData.append("data_capture_end", todate);
+    bodyFormData.append("sample_dataset", file);
+    bodyFormData.append("connector_availability", availablevalue);
+    bodyFormData.append("dataset_size", recordsvalue);
+    bodyFormData.append("user_map", id);
 
     console.log("add dataset", bodyFormData);
     setIsLoader(true);
