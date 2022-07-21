@@ -442,7 +442,8 @@ export default function OrganisationSetting(props) {
   const orgsettingcancelbtn = () => {
     setorgfile(null);
     getOrgDetails();
-    window.location.reload();
+    history.push("/datahub/settings/2")
+    //window.location.reload();
   };
 
   return (
