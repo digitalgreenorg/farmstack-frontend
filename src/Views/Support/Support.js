@@ -435,15 +435,17 @@ function Support(props) {
                 </Row>
                 <Row className="resolution" style={{ "margin-left": "28px", "margin-top": "30px" }}>
                     <Col>
-                        <TextareaAutosize
-                            maxRows={4}
-                            placeholder="Reply *"
+                        <TextField
+                           id='filled-multiline-static'
+                           label="Reply"
+                           multiline
+                           rows={4}
                             variant="filled"
-                            defaultValue={reply}
+                            //defaultValue={reply}
                             maxLength={500}
                             onKeyDown={(e) => handleUnwantedSpace(reply,e)}
                             onChange={(e) => setreply(e.target.value)}
-                            style={{ border: "none !important", width: "420px", "min-height": "50px", "border-bottom": "1px solid #9AA1A9 !important", "border": "none !important" }}
+                            style={{ width: "420px", "min-height": "50px" }}
                         />
                         <TextField
                             style={{ width: "420px", "margin-left": "20px", textAlign: "left" }}
