@@ -117,7 +117,8 @@ const labels = {
       filter: "Filter",
       geography: "Geography",
       age: "Age",
-      crop: "Crop"
+      crop: "Crop",
+      search: "Search"
     },
     sessiontimeout: {
       heading: "Your login Session has Expired !",

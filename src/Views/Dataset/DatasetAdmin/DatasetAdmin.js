@@ -13,12 +13,9 @@ import { useHistory } from 'react-router-dom';
 
 export default function DatasetAdmin() {
 
-  const [screenlabels, setscreenlabels] = useState(labels['en']);
   const [isLoader, setIsLoader] = useState(false)
   const [value, setValue] = useState('1')
-  const [isTabView, setIsTabView] = useState(true)
   const [secondrow, setsecondrow] = useState(false)
-  const history = useHistory()
   const [fromdate, setfromdate] = useState(null);
   const [todate, settodate] = useState(null);
 
@@ -26,7 +23,7 @@ export default function DatasetAdmin() {
   const [filterObject, setfilterObject] = useState(
     {
         "all": true,
-        "filterName": "",
+        // "filterName": "",
         "geographyList": [],
         "ageList": [],
         "cropList": []
@@ -106,7 +103,6 @@ export default function DatasetAdmin() {
                         />
                     </Col>
                     <Col className="supportSecondCOlumn">
-                        {isTabView &&
                         <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
                             <Box>
                                 <TabContext value={value} className="tabstyle">
@@ -136,7 +132,7 @@ export default function DatasetAdmin() {
                                     </TabPanel>
                                 </TabContext>
                             </Box>
-                        </Col> }
+                        </Col>
                     </Col>
                 </Row>
             </Row>
