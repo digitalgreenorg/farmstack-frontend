@@ -53,6 +53,7 @@ export default function Login(props) {
   const [isOrg, setisOrg] = useState(false)
   const [isPolicies, setisPolicies] = useState(false)
   const [isBranding, setisBranding] = useState(false)
+  const [isDataSet, setIsDataSet] = useState(false)
   const [isaccesstoken, setisaccesstoken] = useState(false)
   const [userid, setUserId] = useState(false)
 
@@ -62,6 +63,7 @@ export default function Login(props) {
   const [orgCity, setOrgCity] = useState("");
   const [orgPincode, setOrgPincode] = useState("");
   const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false);
+  const [orgId, setOrgId] = useState(null);
 
   const [profileid, setprofileid] = useState("");
 
@@ -296,12 +298,6 @@ export default function Login(props) {
       });
   };
 
-  // profile screen functions
-  const profilefirstname = useRef()
-  const profilelastname = useRef()
-  const profileemail = useRef()
-  const profilephone = useRef()
-
   const [ispropfilefirstnameerror, setispropfilefirstnameerror] = useState(
     false,
   )
@@ -310,14 +306,18 @@ export default function Login(props) {
   // const [ispropfilenumbererror, setispropfilenumbererror] = useState(false);
   const [profilenextbutton, setprofilenextbutton] = useState(false);
   const [validNumber, setValidnumber] = useState("");
+  const [profilefirstname, setProfileFirstName] = useState('')
+  const [profilelastname, setProfileLastName] = useState('')
+  const [profileimage, setProfileImageFile] = useState(null)
+  const profileemail = useRef()
 
   const handleprofileSubmit = async (e) => {
     e.preventDefault();
-    console.log(profilefirstname.current.value);
-    const firstname = profilefirstname.current.value;
-    const lastname = profilelastname.current.value;
+    //console.log(profilefirstname.current.value);
+    const firstname = profilefirstname;
+    const lastname = profilelastname;
     const email = profileemail.current.value;
-    if (profilefirstname.current.value.length === 0) {
+    if (profilefirstname.length === 0) {
       setispropfilefirstnameerror(true);
     } else {
       setispropfilefirstnameerror(false);
@@ -337,6 +337,7 @@ export default function Login(props) {
     bodyFormData.append("first_name", firstname);
     bodyFormData.append("last_name", lastname);
     bodyFormData.append("phone_number", validNumber);
+    bodyFormData.append("profile_picture", profileimage);
 
     console.log("profile data", bodyFormData);
     let url = UrlConstant.base_url + UrlConstant.profile + `${profileid}/`;
@@ -369,7 +370,8 @@ export default function Login(props) {
   const handleprofilfirstename = (e) => {
     console.log(e.target.value);
     var letters = /^[A-Za-z]+$/;
-    var profilefirstname = e.target.value;
+    var profilefirstname = e.target.value.trim();
+    setProfileFirstName(profilefirstname);
     // if (profilefirstname.length > 0) {
     //   setispropfilefirstnameerror(false);
     //   // setprofilenextbutton(true);
@@ -387,7 +389,8 @@ export default function Login(props) {
   const handleprofilelastname = (e) => {
     console.log(e.target.value);
     var letters = /^[A-Za-z\s]*$/;
-    var lastname = e.target.value;
+    var lastname = e.target.value.trim();
+    setProfileLastName(profilelastname)
     if (lastname.match(letters)) {
       setispropfilelastnameerror(false);
       // setprofilenextbutton(true);
@@ -416,7 +419,7 @@ export default function Login(props) {
     // } else {
     //   setispropfilenumbererror(true);
     // }
-    profilephone.current = value;
+    //profilephone.current = value;
     setValidnumber(value)
   }
 
@@ -443,12 +446,7 @@ export default function Login(props) {
 
   const [validOrgNumber, setValidOrgnumber] = useState("");
   const [orgfile, setorgfile] = useState(null);
-
-  // const Orgname = useRef();
-  const Orgmail = useRef();
-  // const OrgAddress = useRef();
-  // const Orgcity = useRef();
-  // const pincode = useRef();
+  const [orgmail, setOrgMail] = useState('');
 
   const [Orgnamebtn, setOrgnamebtn] = useState(false);
   const [Orgemailbtn, setOrgemailbtn] = useState(false);
@@ -476,7 +474,7 @@ export default function Login(props) {
     e.preventDefault();
     let url = UrlConstant.base_url + UrlConstant.org;
     // email validation
-    const emailstring = Orgmail.current.value;
+    const emailstring = orgmail;
     const valid = validator.isEmail(emailstring);
     console.log(valid);
     const finalEmail = emailstring.trim();
@@ -497,7 +495,7 @@ export default function Login(props) {
     console.log("user id", id);
 
     var bodyFormData = new FormData();
-    bodyFormData.append("user_id", id);
+    bodyFormData.append("user_id", userid);
     bodyFormData.append("org_email", finalEmail);
     bodyFormData.append("name", finalName);
     bodyFormData.append(
@@ -512,15 +510,17 @@ export default function Login(props) {
     bodyFormData.append("phone_number", validOrgNumber);
     bodyFormData.append("logo", orgfile);
     bodyFormData.append("org_description", textEditorValue);
-    console.log("dfdfdsf", bodyFormData);
+    for(const pair of bodyFormData.entries()) {
+      console.log(`${pair[0]}, ${pair[1]}`);
+    }
 
     if (!valid) {
       setisOrgmailerror(true);
     } else {
       setisOrgnameerror(false);
-
+      var method = orgId && orgId.length > 0 ? "PUT" : "POST"
       setIsLoader(true);
-      HTTPService("POST", url, bodyFormData, true, true, isaccesstoken)
+      HTTPService(method, url, bodyFormData, true, true, isaccesstoken)
         .then((response) => {
           setIsLoader(false);
           console.log("response");
@@ -577,6 +577,7 @@ export default function Login(props) {
     const valid = validator.isEmail(email);
     console.log(valid);
     const finalEmail = email.trim();
+    setOrgMail(finalEmail)
     console.log(finalEmail);
     if (valid) {
       setisOrgmailerror(false);
@@ -627,6 +628,7 @@ export default function Login(props) {
 
   const countrychangeHandler = (value) => {
     setcountryvalue(value);
+    console.log(value)
     setOrgcountrybtn(true);
   };
 
@@ -653,8 +655,15 @@ export default function Login(props) {
 
   const finishLaterOrgScreen = () => {
     console.log("clicked on finish later Org screen");
-    setisPolicies(true);
-    setisOrg(false);
+    if(isLoggedInUserAdmin())
+    {
+      setisPolicies(true);
+      setisOrg(false);
+    }
+    if(isLoggedInUserParticipant()){
+      setIsDataSet(true);
+      setisOrg(false);
+    }
   };
 
   return (
@@ -713,6 +722,9 @@ export default function Login(props) {
           handleprofilfirstename={handleprofilfirstename}
           handleprofilelastname={handleprofilelastname}
           handleprofilenumber={handleprofilenumber}
+          setProfileFirstName={setProfileFirstName}
+          setProfileLastName={setProfileLastName}
+          setValidnumber={setValidnumber}
           ispropfilefirstnameerror={ispropfilefirstnameerror}
           ispropfilelastnameerror={ispropfilelastnameerror}
           ispropfileemailerror={ispropfileemailerror}
@@ -720,8 +732,10 @@ export default function Login(props) {
           profilefirstname={profilefirstname}
           profilelastname={profilelastname}
           profileemail={profileemail}
-          profilephone={profilephone}
+          profilephone={validNumber}
           validemail={validemail}
+          profileImageFile = {profileimage}
+          setProfileImageFile={setProfileImageFile}
           finishLaterProfileScreen={finishLaterProfileScreen}
           isaccesstoken = {isaccesstoken}
           userid = {userid}
@@ -739,9 +753,11 @@ export default function Login(props) {
           ispincodeerror={ispincodeerror}
           setispincodeerror={setispincodeerror}
           countryvalue={countryvalue}
+          setCountryValue={setcountryvalue}
           // orgdesc={orgdesc}
           // editorValue={editorValue}
           validOrgNumber={validOrgNumber}
+          setValidOrgnumber = {setValidOrgnumber}
           orgfile={orgfile}
           orgName={orgName}
           setOrgName={setOrgName}
@@ -755,7 +771,8 @@ export default function Login(props) {
           setOrgPincode={setOrgPincode}
           isExistingOrgEmail={isExistingOrgEmail}
           // Orgname={Orgname}
-          Orgmail={Orgmail}
+          Orgmail={orgmail}
+          setOrgMail = {setOrgMail}
           // OrgAddress={OrgAddress}
           // Orgcity={Orgcity}
           // pincode={pincode}
@@ -780,11 +797,13 @@ export default function Login(props) {
           finishLaterOrgScreen={finishLaterOrgScreen}
           isaccesstoken = {isaccesstoken}
           userid = {userid}
+          orgId = {orgId}
+          setOrgId = {setOrgId}
         />
       ) : (
         <></>
       )}
-      {isPolicies && (
+      {(isPolicies && isLoggedInUserAdmin())&& (
         <PoliciesRightside
           isaccesstoken={isaccesstoken}
           showBrandingScreen={() => {
@@ -793,7 +812,7 @@ export default function Login(props) {
           }}
         />
       )}
-      {isBranding && (
+      {(isBranding && isLoggedInUserAdmin()) && (
         <BrandingRightside
           validemail={validemail}
           isaccesstoken={isaccesstoken}

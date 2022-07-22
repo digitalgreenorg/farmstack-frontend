@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useMemo, useEffect } from 'react'
 import './OrgRightside.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -24,9 +24,11 @@ import UploadOrgLogo from './UploadOrgLogo'
 
 import HTTPService from '../../Services/HTTPService'
 import UrlConstant from '../../Constants/UrlConstants'
-import { handleAddressCharacters, validateInputField } from '../../Utils/Common'
+import GetErrorHandlingRoute, { handleAddressCharacters, isLoggedInUserParticipant, validateInputField } from '../../Utils/Common'
 import RegexConstants from '../../Constants/RegexConstants'
 import { Autocomplete } from '@mui/material'
+import { useHistory } from 'react-router-dom'
+import Loader from '../Loader/Loader'
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -43,6 +45,45 @@ export default function OrgRightside(props) {
   const [editorValue, setEditorValue] = React.useState(
     RichTextEditor.createValueFromString(orgdesc, 'html'),
   )
+
+  var history = useHistory();
+  useEffect(() => {
+    if (isLoggedInUserParticipant())
+    {
+      var id = props.userid;
+      setIsLoader(true);
+      HTTPService('GET', UrlConstant.base_url + UrlConstant.participant + id + '/', '', false, true, props.isaccesstoken).then((response) => {
+          setIsLoader(false);
+          console.log("org data: ", response.data);
+          // let addressdata=JSON.parse(response.data.organization.address)
+          if (response.data.organization)
+          {
+            props.setOrgName(response.data.organization.name)
+            props.setOrgMail(response.data.organization.org_email)
+            props.setValidOrgnumber(response.data.organization.phone_number)
+            if (response.data.organization.address)
+            {
+              props.setOrgAddress(response.data.organization.address.address)
+              props.setOrgCity(response.data.organization.address.city)
+              props.setCountryValue(response.data.organization.address.country)
+              props.setOrgPincode(response.data.organization.address.pincode)
+            }
+            if (response.data.organization.org_description)
+            {
+              props.textEditorData(response.data.organization.org_description.toString('html'))
+            }
+            props.setOrgId(response.data.organization.id)
+
+          }
+          //props.setOrgCity(response.data.organization.phone_number)
+          //setidorg(response.data.organization_id)
+      }).catch((e) => {
+          console.log(e);
+          setIsLoader(false);
+          history.push(GetErrorHandlingRoute(e));
+      });
+  }
+}, []);
 
   // const [validOrgNumber, setValidOrgnumber] = useState("");
 
@@ -343,6 +384,7 @@ export default function OrgRightside(props) {
 
   return (
     <div className="orgright">
+      {isLoader ? <Loader />: ''}
       <div className="orgheader">Organization Details</div>
       <div>
         <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
@@ -382,10 +424,10 @@ export default function OrgRightside(props) {
               variant="filled"
               style={{ width: '420px' }}
               //   className="profilelastname"
-              // value={props.orgEmail}
+              value={props.Orgmail}
               // onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setOrgEmail(e.target.value.trim()) : e.preventDefault()}
               onChange={props.handleOrgmail}
-              inputRef={props.Orgmail}
+              //inputRef={props.Orgmail}
               error={props.isOrgmailerror || props.isExistingOrgEmail}
               helperText={
                 props.isOrgmailerror
@@ -403,6 +445,7 @@ export default function OrgRightside(props) {
               id="filled-basic"
               label="Organization Contact Number"
               variant="filled"
+              value = {props.validOrgNumber}
               onChange={props.handleOrgnumber}
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}

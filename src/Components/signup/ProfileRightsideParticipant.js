@@ -26,7 +26,6 @@ const fileTypes = ['JPEG', 'PNG', 'jpg']
 export default function ProfileRightsideParticipant(props) {
 
   const [profileImageUploadProgress, setProfileImageUploadProgress] = useState(0)
-  const [profileImageFile, setProfileImageFile] = useState(null)
 
   const[isLoader, setIsLoader] = useState(false)
 
@@ -44,10 +43,9 @@ export default function ProfileRightsideParticipant(props) {
           if (response.data.user)
           {
             // let addressdata=JSON.parse(response.data.organization.address)
-            props.profilefirstname.current = response.data.user.first_name;
-            props.profilelastname.current = response.data.user.last_name;
-            props.profileemail.current = response.data.user.email;
-            props.profilephone.current = response.data.user.phone;
+            props.setProfileFirstName(response.data.user.first_name);
+            props.setProfileLastName(response.data.user.last_name);
+            props.setValidnumber(response.data.user.phone_number);
           }
           
       }).catch((e) => {
@@ -73,8 +71,8 @@ export default function ProfileRightsideParticipant(props) {
         //   console.log(response.json());
         console.log(response.status)
         if (response.status === 204) {
-          console.log('gov law delete success')
-          setProfileImageFile(null)
+          console.log('policy image delete success')
+          props.setProfileImageFile(null)
           setProfileImageUploadProgress(0)
           // setEmail(false);
           // setError(false);
@@ -89,7 +87,7 @@ export default function ProfileRightsideParticipant(props) {
   }
   
   const handleProfileImageFileChange = async (file) => {
-    setProfileImageFile(file)
+    props.setProfileImageFile(file)
     console.log(file)
   
     const options = {
@@ -104,7 +102,7 @@ export default function ProfileRightsideParticipant(props) {
       }
   
     var bodyFormData = new FormData()
-    bodyFormData.append('profile_image', file)
+    bodyFormData.append('profile_picture', file)
   
     console.log('profile_image data', bodyFormData)
     let url = UrlConstant.base_url + UrlConstant.policies_files_upload
@@ -150,12 +148,12 @@ export default function ProfileRightsideParticipant(props) {
               style={{ width: "420px" }}
               //   className="profilefirstname"
               onChange={props.handleprofilfirstename}
-              inputRef={props.profilefirstname}
+              //inputRef={props.profilefirstname}
               error={props.ispropfilefirstnameerror}
               helperText={
                 props.ispropfilefirstnameerror ? "Enter Valid Name" : ""
               }
-              defaultValue={props.profilefirstname.current}
+              value={props.profilefirstname}
             />
           </div>
           <div className="profilelastname">
@@ -166,12 +164,12 @@ export default function ProfileRightsideParticipant(props) {
               style={{ width: "420px" }}
               //   className="profilelastname"
               onChange={props.handleprofilelastname}
-              inputRef={props.profilelastname}
+              //inputRef={props.profilelastname}
               error={props.ispropfilelastnameerror}
               helperText={
                 props.ispropfilelastnameerror ? "Enter Valid last name" : ""
               }
-              defaultValue={props.profilelastname.current}
+              value={props.profilelastname}
             />
           </div>
           <div className="profileemail">
@@ -184,7 +182,7 @@ export default function ProfileRightsideParticipant(props) {
               onChange={props.handleprofileemail}
               inputRef={props.profileemail}
               inputProps={{ readOnly: true }}
-              defaultValue={props.validemail}
+              value={props.validemail}
               disabled
               // error={props.ispropfileemailerror}
               // helperText={
@@ -200,7 +198,7 @@ export default function ProfileRightsideParticipant(props) {
               label="Contact Number"
               variant="filled"
               onChange={props.handleprofilenumber}
-              defaultValue={props.profilephone.current}
+              value={props.profilephone}
               // error={ispropfilenumbererror}
               // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />
@@ -220,14 +218,14 @@ export default function ProfileRightsideParticipant(props) {
               //   maxSize={2}
             />
             <p className="filename">
-              {profileImageFile
-                ? profileImageFile.size
-                  ? `File name: ${profileImageFile.name}`
+              {props.profileImageFile
+                ? props.profileImageFile.size
+                  ? `File name: ${props.profileImageFile.name}`
                   : ''
                 : 'No file uploaded yet'}
             </p>
             <p className="oversizemb">
-              {profileImageFile != null && profileImageFile.size > 2097152
+              {props.profileImageFile != null && props.profileImageFile.size > 2097152
                 ? 'File uploaded is more than 2MB!'
                 : ''}
             </p>
@@ -240,11 +238,11 @@ export default function ProfileRightsideParticipant(props) {
               <p className="profileimageprogresstext">Uploading {profileImageUploadProgress}%</p>
             </div>
             <p className="profileimageuploadclosebutton">
-              {profileImageFile && <CancelIcon onClick={handleProfileImageUploadCancel} />}
+              {props.profileImageFile && <CancelIcon onClick={handleProfileImageUploadCancel} />}
             </p>
           </div>
           <div>
-            {props.profilenextbutton && profileImageFile? (
+            {props.profilenextbutton && props.profileImageFile? (
               <Button variant="contained" className="profilebtn" type="submit">
                 <span className="signupbtnname">Next</span>
               </Button>

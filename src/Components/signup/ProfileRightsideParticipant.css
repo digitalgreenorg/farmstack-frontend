@@ -144,7 +144,7 @@ css-1xab92c-MuiInputBase-root-MuiFilledInput-root:focus {
 
   color: #a3b0b8;
 }
-.filename {
+.profileimg .filename {
   position: absolute;
   width: 420px;
   height: 18px;
@@ -162,7 +162,7 @@ css-1xab92c-MuiInputBase-root-MuiFilledInput-root:focus {
 
   color: #a3b0b8;
 }
-.uploadheader {
+.profileimg .uploadheader {
   position: absolute;
   width: 100%;
   height: 19px;
@@ -184,10 +184,10 @@ css-1xab92c-MuiInputBase-root-MuiFilledInput-root:focus {
 
   color: #3d4a52;
 }
-.uploadimg {
+.profileimg .uploadimg {
   margin-top: 65px;
 }
-.imguploadbtn {
+.profileimg .imguploadbtn {
   border: none;
   background-color: inherit;
   /* padding: 14px 28px; */
@@ -196,13 +196,13 @@ css-1xab92c-MuiInputBase-root-MuiFilledInput-root:focus {
   display: inline-block;
   padding-top: 5px;
 }
-.info {
+.profileimg .info {
   color: dodgerblue;
   text-decoration: underline;
   font-size: 14px;
 }
 
-.profileimgprogress {
+.profileimg .profileimgprogress {
   position: absolute;
   width: 275px;
   height: 6px;
@@ -213,16 +213,16 @@ css-1xab92c-MuiInputBase-root-MuiFilledInput-root:focus {
 /* identical to box height */
   color: #3491EE;
 }
-.profileimageprogresstext{
+.profileimg .profileimageprogresstext{
   font-size: 12px;
   margin-top: 10px;
 }
-.profileimageuploadclosebutton {
+.profileimg.profileimageuploadclosebutton {
   position: absolute;
   left: 1200px;
   top: 800px;
 }
-.oversizemb {
+.profileimg .oversizemb {
   position: absolute;
   width: 420px;
   height: 18px;
