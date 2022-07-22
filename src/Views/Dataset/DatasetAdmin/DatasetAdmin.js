@@ -49,9 +49,9 @@ export default function DatasetAdmin() {
 
     const [datasetList, setDatasetList] = useState([])
 
-    const [geoMasterList,setGeoMasterList] = useState(['India','Ethiopia'])
-    const [geographyList, setGeographyList] = useState(['India','Ethiopia'])
-    const [geoCheckStateList, setGeoCheckStateList] = useState([false,false])
+    const [geoMasterList,setGeoMasterList] = useState([])
+    const [geographyList, setGeographyList] = useState([])
+    const [geoCheckStateList, setGeoCheckStateList] = useState([])
 
     const [cropMasterList, setCropMasterList] = useState([])
     const [cropList,setCropList] = useState([])
@@ -59,7 +59,7 @@ export default function DatasetAdmin() {
 
     const [ageMasterList, setAgeMasterList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
     const [ageList, setAgeList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
-    const [ageCheckStateList, setAgeCheckStateList] = useState([false,false,false,false])
+    const [ageCheckStateList, setAgeCheckStateList] = useState([])
 
     const handleCheckListFilterChange = (listName,index) => {
 
@@ -71,8 +71,8 @@ export default function DatasetAdmin() {
             tempList[index] = !geoCheckStateList[index]
             setGeoCheckStateList(tempList)
 
-            setCropCheckStateList(resetCheckStateList)
-            setAgeCheckStateList(resetCheckStateList)
+            setCropCheckStateList(resetFilter())
+            setAgeCheckStateList(resetFilter())
             
         } else if(listName === "crop"){
             console.log("Toggled Crop Filter Index:", index)
@@ -80,16 +80,16 @@ export default function DatasetAdmin() {
             tempList[index] = !cropCheckStateList[index]
             setCropCheckStateList(tempList)
 
-            setGeoCheckStateList(resetCheckStateList)
-            setAgeCheckStateList(resetCheckStateList)
+            setGeoCheckStateList(resetFilter())
+            setAgeCheckStateList(resetFilter())
         } else if(listName === "age"){
             console.log("Toggled Age Filter Index:", index)
             tempList = [...ageCheckStateList]
             tempList[index] = !ageCheckStateList[index]
             setAgeCheckStateList(tempList)
 
-            setGeoCheckStateList(resetCheckStateList)
-            setCropCheckStateList(resetCheckStateList)
+            setGeoCheckStateList(resetFilter())
+            setCropCheckStateList(resetFilter())
         }
 
         // let data = {}
@@ -145,12 +145,14 @@ export default function DatasetAdmin() {
             console.log("geography:", response.data.geography);
             setGeoMasterList(response.data.geography)
             setGeographyList(response.data.geography)
-            setGeoCheckStateList(geoMasterList.map((geo)=>{return false}))
+            setGeoCheckStateList(resetFilter())
 
             console.log("crop:",response.data.crop_detail)
             setCropMasterList(response.data.crop_detail)
             setCropList(response.data.crop_detail)
-            setCropCheckStateList(cropMasterList.map((crop)=>{return false}))
+            setCropCheckStateList(resetFilter())
+
+            setAgeCheckStateList(resetFilter())
 
         })
         .catch((e) => {
@@ -193,6 +195,14 @@ export default function DatasetAdmin() {
     setValue(newValue);
     
   };
+
+  const resetFilter =() => {
+      let filter = []
+      for(let i = 0; i<1000; i++){
+          filter.push(false)
+      }
+      return filter
+  }
 
   const filterRow = (row, flag, payloadkey) => {
     if (flag != false) {
