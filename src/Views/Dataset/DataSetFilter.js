@@ -27,7 +27,8 @@ export default function DataSetFilter(props) {
             </Col>
         </Row>
         {filterObject.all ? 
-        <Row onClick={() => props.filterRow('all', false, 'all')} className="supportfiltersecondrow">
+        // <Row onClick={() => props.filterRow('all', false, 'all')} className="supportfiltersecondrow">
+        <Row onClick={() => props.getAllDataSets()} className="supportfiltersecondrow">
             <span className="supportallicon">
                 <img
                     src={require('../../Assets/Img/filter.svg')}
@@ -36,7 +37,8 @@ export default function DataSetFilter(props) {
             </span>
             <span className="fontweight600andfontsize14pxandcolorFFFFFF supportalltexticon">{screenlabels.support.all}</span>
         </Row> :
-        <Row onClick={() => props.filterRow('all', true, 'all')} className="supportfiltersecondrowbold">
+        // <Row onClick={() => props.filterRow('all', true, 'all')} className="supportfiltersecondrowbold">
+        <Row onClick={() => props.getAllDataSets()} className="supportfiltersecondrowbold">
             <span className="supportallicon">
                 <img
                     src={require('../../Assets/Img/filter_bold.svg')}

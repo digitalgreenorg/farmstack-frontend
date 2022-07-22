@@ -35,17 +35,17 @@ export default function DatasetAdmin() {
             "cropList": []
         });
 
-    const resetFilters = () => {
-        setfilterObject(
-            {
-            "all": true,
-            "fromDateandToDate": [],
-            "geographyList": [],
-            "ageList": [],
-            "cropList": []
-            }
-        )
-    }
+    // const resetFilters = () => {
+    //     setfilterObject(
+    //         {
+    //         "all": true,
+    //         "fromDateandToDate": [],
+    //         "geographyList": [],
+    //         "ageList": [],
+    //         "cropList": []
+    //         }
+    //     )
+    // }
 
     const [datasetList, setDatasetList] = useState([])
 
@@ -126,7 +126,7 @@ export default function DatasetAdmin() {
 
     useEffect(() => {
         getFilters()
-        getDatasetList()
+        getDatasetList(buildFilterPayLoad("",getUserLocal(),false,"","",""))
     }, []);
 
     const getFilters = () => {
@@ -140,20 +140,20 @@ export default function DatasetAdmin() {
         )
         .then((response) => {
             setIsLoader(false);
+            setGeoCheckStateList(resetFilter())
+            setCropCheckStateList(resetFilter())
+            setAgeCheckStateList(resetFilter())
+
             console.log("response:", response);
             
             console.log("geography:", response.data.geography);
             setGeoMasterList(response.data.geography)
             setGeographyList(response.data.geography)
-            setGeoCheckStateList(resetFilter())
-
+            
             console.log("crop:",response.data.crop_detail)
             setCropMasterList(response.data.crop_detail)
             setCropList(response.data.crop_detail)
-            setCropCheckStateList(resetFilter())
-
-            setAgeCheckStateList(resetFilter())
-
+            
         })
         .catch((e) => {
             setIsLoader(false);
@@ -166,12 +166,12 @@ export default function DatasetAdmin() {
         setIsLoader(true);
         if(payload == null){
             payload = {}
-        }
-        payload['user_id'] = getUserLocal()
+            payload['user_id'] = getUserLocal()
+        } 
         HTTPService(
             "GET",
             UrlConstant.base_url + UrlConstant.dataset_list,
-            "",
+            payload,
             false,
             true
             )
@@ -180,6 +180,8 @@ export default function DatasetAdmin() {
                 console.log("response:", response)
                 console.log("datatset:",response.data.results)
                 setDatasetList(response.data.results)
+
+                //code to convert dataset results into display cards list
     
             })
             .catch((e) => {
@@ -188,55 +190,81 @@ export default function DatasetAdmin() {
             });
     }
 
-  const handleTabChange = (event, newValue) => {
-    // console.log(newValue)
-    // setIsMemberTab(!isMemberTab)
-    // console.log("isMemberTab",isMemberTab)
-    setValue(newValue);
-    
-  };
+    const buildFilterPayLoad = (createdAtRange,userId,others,geoPayload,cropPayload,agePayload) => {
+        let data = {}
+        data['created_at__range'] = createdAtRange
+        data['user_id'] = userId
+        data['others'] = others
+        data['geography__in'] = geoPayload
+        data['crop_detail__in'] = cropPayload
+        data['age__in'] = agePayload
+        return data
+    }
 
-  const resetFilter =() => {
-      let filter = []
-      for(let i = 0; i<1000; i++){
-          filter.push(false)
-      }
-      return filter
-  }
+    const handleTabChange = (event, newValue) => {
+        // console.log(newValue)
+        // setIsMemberTab(!isMemberTab)
+        // console.log("isMemberTab",isMemberTab)
+        setValue(newValue);
+        
+    };
 
-  const filterRow = (row, flag, payloadkey) => {
-    if (flag != false) {
-        let tempfilterObject = { ...filterObject }
-        if (payloadkey != 'all') {
-            let data = {}
-            data[payloadkey] = row
-            payload = data;
-        } else {
-            payload = ""
+    const resetFilter =() => {
+        let filter = []
+        for(let i = 0; i<1000; i++){
+            filter.push(false)
         }
-        tempfilterObject[row] = flag;
-        Object.keys(tempfilterObject).forEach(function (key) { if (key != row) { tempfilterObject[key] = false } });
-        setfilterObject(tempfilterObject)
+        return filter
+    }
+
+    const filterRow = (row, flag, payloadkey) => {
+        if (flag != false) {
+            let tempfilterObject = { ...filterObject }
+            if (payloadkey != 'all') {
+                let data = {}
+                data[payloadkey] = row
+                payload = data;
+            } else {
+                payload = ""
+            }
+            tempfilterObject[row] = flag;
+            Object.keys(tempfilterObject).forEach(function (key) { if (key != row) { tempfilterObject[key] = false } });
+            setfilterObject(tempfilterObject)
+            setsecondrow(false)
+            settodate(null)
+            setfromdate(null);
+            getDatasetList(payload)
+        }
+    }
+
+    const getAllDataSets = () => {
+        setGeoCheckStateList(resetFilter())
+        setAgeCheckStateList(resetFilter())
+        setCropCheckStateList(resetFilter())
+        
         setsecondrow(false)
         settodate(null)
         setfromdate(null);
+
+        var payload = buildFilterPayLoad("",getUserLocal(),false,"","","")
+
+        getDatasetList(payload)
+
+    }
+
+    const filterByDates = () => {
+        // let tempfilterObject = { ...filterObject }
+        // Object.keys(tempfilterObject).forEach(function (key) { tempfilterObject[key] = false });
+        // setfilterObject(tempfilterObject)
+        let fromDateandToDate = []
+        fromDateandToDate.push(fromdate)
+        fromDateandToDate.push(todate)
+        // let data = {}
+        // data['created_at__range'] = fromDateandToDate
+        payload = buildFilterPayLoad(fromDateandToDate,getUserLocal(),false,"","","")
+        setsecondrow(true)
         getDatasetList(payload)
     }
-}
-
-  const filterByDates = () => {
-    // let tempfilterObject = { ...filterObject }
-    // Object.keys(tempfilterObject).forEach(function (key) { tempfilterObject[key] = false });
-    // setfilterObject(tempfilterObject)
-    let fromDateandToDate = []
-    fromDateandToDate.push(fromdate)
-    fromDateandToDate.push(todate)
-    let data = {}
-    data['created_at__range'] = fromDateandToDate
-    payload = data;
-    setsecondrow(true)
-    getDatasetList(payload)
-}
 
   return (
       <>
@@ -253,7 +281,8 @@ export default function DatasetAdmin() {
                             todate={todate}
                             setfromdate={setfromdate}
                             settodate={settodate}
-                            filterRow={filterRow}
+                            // filterRow={filterRow}
+                            getAllDataSets={getAllDataSets}
                             filterByDates={filterByDates}
                             geoMasterList={geoMasterList}
                             geographyList={geographyList}
