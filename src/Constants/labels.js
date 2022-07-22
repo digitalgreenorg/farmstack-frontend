@@ -114,6 +114,14 @@ const labels = {
       Others: "Others",
       date: "By Date",
     },
+
+    dataset: {
+      filter: "Filter",
+      geography: "Geography",
+      age: "Age",
+      crop: "Crop",
+      search: "Search"
+    },
     sessiontimeout: {
       heading: "Your login Session has Expired !",
       secondmainheading: "Session Expired !",
