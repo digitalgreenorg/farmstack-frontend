@@ -23,9 +23,13 @@ import HandleSessionTimeout, {
   setUserId,
   getUserLocal,
   handleAddressCharacters,
+  setUserMapId,
+  setOrgId,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
-import GetErrorHandlingRoute, { validateInputField } from "../../../Utils/Common";
+import GetErrorHandlingRoute, {
+  validateInputField,
+} from "../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
 
@@ -83,7 +87,7 @@ export default function OrganisationSetting(props) {
   const fileTypes = ["JPEG", "PNG", "jpg"];
   const [orgfilesize, setorgfilesize] = useState(false);
   const [isPost, setisPost] = useState(false);
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
 
   const history = useHistory();
 
@@ -199,6 +203,8 @@ export default function OrganisationSetting(props) {
           console.log(response.status);
           if (response.status === 201) {
             props.setisOrgUpdateSuccess();
+            setUserMapId(response.data.user_map);
+            setOrgId(response.data.org_id);
             // setisPolicies(true);
             // setisOrg(false);
             // setEmail(false);
@@ -222,6 +228,8 @@ export default function OrganisationSetting(props) {
           //   console.log(response.json());
           console.log(response.status);
           if (response.status === 201) {
+            setUserMapId(response.data.user_map);
+            setOrgId(response.data.org_id);
             props.setisOrgUpdateSuccess();
             // setisPolicies(true);
             // setisOrg(false);
@@ -233,7 +241,7 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          history.push(GetErrorHandlingRoute(e))
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -276,20 +284,25 @@ export default function OrganisationSetting(props) {
 
   const handleOrgmail = (e) => {
     // console.log(e.target.value);
-    var email = e.target.value;
-    const valid = validator.isEmail(email);
-    console.log(valid);
-    const finalEmail = email.trim();
-    console.log(finalEmail);
-    if (valid) {
-      setisOrgmailerror(false);
-      setOrgemailbtn(true);
-    } else {
-      setisOrgmailerror(true);
-      setOrgemailbtn(false);
-    }
+    // var email = e.target.value;
+    // const valid = validator.isEmail(email);
+    // console.log(valid);
+    // const finalEmail = email.trim();
+    // console.log(finalEmail);
+    // if (valid) {
+    //   setisOrgmailerror(false);
+    //   setOrgemailbtn(true);
+    // } else {
+    //   setisOrgmailerror(true);
+    //   setOrgemailbtn(false);
+    // }
     if (validateInputField(e.target.value, RegexConstants.NO_SPACE_REGEX)) {
       setemail(e.target.value);
+      if (validator.isEmail(e.target.value)) {
+        setisOrgmailerror(false);
+      } else {
+        setisOrgmailerror(true);
+      }
       // setOrgemailbtn(true);
       // setfirstname(e.target.value.trim());
       // setaccfirstbtn(true);
@@ -429,12 +442,13 @@ export default function OrganisationSetting(props) {
   const orgsettingcancelbtn = () => {
     setorgfile(null);
     getOrgDetails();
+    history.push("/datahub/settings/2")
     window.location.reload();
   };
 
   return (
     <div className="orgsetting">
-      {isLoader ? <Loader />: ''}
+      {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handleOrgSettingSubmit}>
         <Row>
           <span className="title">Organisation details</span>

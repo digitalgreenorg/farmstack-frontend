@@ -4,8 +4,8 @@ const UrlConstant = {
   login: "accounts/login/",
   otp: "accounts/otp/",
   participant: "datahub/participant/",
-  support:"datahub/support/filters_tickets/",
-  resolution:"datahub/support/",
+  support: "datahub/support/filters_tickets/",
+  resolution: "datahub/support/",
   inviteparticipant: "datahub/send_invite/",
   team_member: "datahub/team_member/",
   resend_otp: "accounts/resend_otp/",
@@ -17,6 +17,7 @@ const UrlConstant = {
   delete_policies_drop_document: "datahub/drop_document/delete/",
   dataset_filter: 'datahub/datasets/filters_data/',
   dataset_list: 'datahub/datasets/'
+  dataset: "datahub/datasets/",
 };
 
 export default UrlConstant;

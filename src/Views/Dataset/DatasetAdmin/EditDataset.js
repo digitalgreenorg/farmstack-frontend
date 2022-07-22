@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
@@ -19,6 +19,7 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstants from "../../../Constants/UrlConstants";
 import Loader from "../../../Components/Loader/Loader";
 import Success from "../../../Components/Success/Success";
+import { useParams } from "react-router-dom";
 
 const useStyles = {
   btncolor: {
@@ -32,7 +33,7 @@ const useStyles = {
   marginrowtop8px: { "margin-top": "0px" },
 };
 
-export default function AddDataset(props) {
+export default function EditDataset() {
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -45,10 +46,6 @@ export default function AddDataset(props) {
   const [recordsvalue, setrecordsvalue] = React.useState("");
   const [availablevalue, setavailablevalue] = React.useState("");
 
-  //   const [value, setValue] = React.useState("3 months");
-  //   const [recordsvalue, setrecordsvalue] = React.useState("100k");
-  //   const [availablevalue, setavailablevalue] = React.useState("available");
-
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
   const [todate, settodate] = React.useState(null);
@@ -60,11 +57,21 @@ export default function AddDataset(props) {
   //   success screen
   const [isSuccess, setisSuccess] = useState(false);
 
-  const handleAddDatasetSubmit = (e) => {
+  //   retrive id for dataset
+  const { id } = useParams();
+
+  //   put request for dataset
+  const handleEditDatasetSubmit = (e) => {
     e.preventDefault();
-    console.log("clicked on add dataset submit btn");
-    var id = getUserMapId();
-    console.log("user id", id);
+    console.log("clicked on edit dataset submit btn");
+    var userid = getUserMapId();
+    console.log("user id", userid);
+
+    const datefrom = new Date(fromdate);
+    console.log(datefrom);
+
+    const dateto = new Date(todate);
+    console.log(dateto);
 
     var bodyFormData = new FormData();
     bodyFormData.append("name", datasetname);
@@ -86,23 +93,27 @@ export default function AddDataset(props) {
     bodyFormData.append("constantly_update", Switchchecked);
     bodyFormData.append("age_of_date", value);
     if (fromdate != null) {
-      bodyFormData.append("data_capture_start", fromdate.toISOString());
+      bodyFormData.append("data_capture_start", datefrom.toISOString());
     }
     if (todate != null) {
-      bodyFormData.append("data_capture_end", todate.toISOString());
+      bodyFormData.append("data_capture_end", dateto.toISOString());
     }
     if (file != null) {
       bodyFormData.append("sample_dataset", file);
     }
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("dataset_size", recordsvalue);
-    bodyFormData.append("user_map", id);
+    bodyFormData.append("user_map", userid);
+    // bodyFormData.append("first_name", firstname);
+    // bodyFormData.append("last_name", lastname);
+    // bodyFormData.append("phone_number", phonenumber);
+    // bodyFormData.append("profile_picture", file);
 
-    console.log("add dataset", bodyFormData);
+    console.log("edit dataset", bodyFormData);
     setIsLoader(true);
     HTTPService(
-      "POST",
-      UrlConstants.base_url + UrlConstants.dataset,
+      "PUT",
+      UrlConstants.base_url + UrlConstants.dataset + id + "/",
       bodyFormData,
       true,
       true
@@ -110,13 +121,62 @@ export default function AddDataset(props) {
       .then((response) => {
         setIsLoader(false);
         setisSuccess(true);
-        console.log("dataset uploaded!");
+        console.log("dataset updated!");
       })
       .catch((e) => {
         setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
+        history.push(GetErrorHandlingRoute(e));
       });
   };
+  //   get dataset
+  const getAccountDetails = async () => {
+    // var id = getUserLocal();
+    // console.log("user id", id);
+    setIsLoader(true);
+    console.log(id);
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for edit dataset", response.data);
+        setdatasetname(response.data.name);
+        setreply(response.data.description);
+        setGeography(response.data.geography);
+        setCropdetail(response.data.crop_detail);
+        setSwitchchecked(response.data.constantly_update);
+        setCrop_data(response.data.category.crop_data);
+        setPractice_data(response.data.category.practice_data);
+        setFarmer_profile(response.data.category.farmer_profile);
+        setLand_records(response.data.category.land_records);
+        setCultivation_data(response.data.category.cultivation_data);
+        setSoil_data(response.data.category.soil_data);
+        setWeather_data(response.data.category.weather_data);
+        setavailablevalue(response.data.connector_availability);
+        setrecordsvalue(response.data.dataset_size);
+        setValue(response.data.age_of_date);
+        settodate(response.data.data_capture_end);
+        setfromdate(response.data.data_capture_start);
+
+        // console.log("picture", response.data.profile_picture);
+        // setphonenumber(response.data.phone_number);
+        // setfirstname(response.data.first_name);
+        // setlastname(response.data.last_name);
+        // setemail(response.data.email);
+        // setFile(response.data.profile_picture);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  useEffect(() => {
+    getAccountDetails();
+  }, []);
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -236,13 +296,13 @@ export default function AddDataset(props) {
           route={"datahub/participants"}
           imagename={"success"}
           btntext={"ok"}
-          heading={"You added a new dataset"}
-          imageText={"Added Successfully!"}
-          msg={"Your dataset added in database."}></Success>
+          heading={"Dataset updated Successfully"}
+          imageText={"Success!"}
+          msg={"Your dataset are updated."}></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+        <form noValidate autoComplete="off" onSubmit={handleEditDatasetSubmit}>
           <DataSetForm
-            title={"Add Dataset"}
+            title={"Edit Dataset"}
             reply={reply}
             datasetname={datasetname}
             handleChangedatasetname={handleChangedatasetname}

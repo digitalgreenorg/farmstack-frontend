@@ -2,64 +2,31 @@ import React, { useState } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./DataSetForm.css";
-
-import {
-  handleAddressCharacters,
-  handleNameFieldEntry,
-  preventSpaceKey,
-  validateInputField,
-} from "../../Utils/Common";
 import labels from "../../Constants/labels";
 import TextField from "@mui/material/TextField";
-import RegexConstants from "../../Constants/RegexConstants";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
-import HandleSessionTimeout, { handleUnwantedSpace } from "../../Utils/Common";
-import THEME_COLORS from "../../Constants/ColorConstants";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { pink } from "@mui/material/colors";
 import Switch from "@mui/material/Switch";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 
-const useStyles = {
-  btncolor: {
-    color: THEME_COLORS.THEME_COLOR,
-    "border-color": THEME_COLORS.THEME_COLOR,
-    "border-radius": 0,
-  },
-  marginrowtop: { "margin-top": "30px" },
-  marginrowtop50: { "margin-top": "50px" },
-  firstinputwidth: {
-    width: "420px",
-    "text-align": "left",
-    height: "48px",
-    color: "#3D4A52",
-    "margin-left": "20%",
-  },
-  headingbold: { fontWeight: "bold" },
-};
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
+import { FileUploader } from "react-drag-drop-files";
+import UploadDataset from "../../Components/Datasets/UploadDataset";
 
 export default function DataSetForm(props) {
-  const [reply, setreply] = useState("");
-  const [datasetname, setdatasetname] = useState("");
-  const [Geography, setGeography] = useState("");
-  const [cropdetail, setCropdetail] = useState("");
-
-  const [value, setValue] = React.useState("3 months");
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+  const fileTypes = ["csv", "xls", "xlsx"];
 
   return (
     <div className="datasetform">
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
-          <span className="AddDatasetmainheading">
-            {/* {props.first_heading} */}
-            Add Dataset
-          </span>
+          <span className="AddDatasetmainheading">{props.title}</span>
         </Col>
       </Row>
       <Row>
@@ -70,25 +37,21 @@ export default function DataSetForm(props) {
             id="filled-basic"
             variant="filled"
             required
-            value={datasetname}
-            onChange={(e) =>
-              validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
-                ? setdatasetname(e.target.value)
-                : e.preventDefault()
-            }
-            label="Dataset Name"
+            value={props.datasetname}
+            onChange={props.handleChangedatasetname}
+            label={screenlabels.dataset.name}
           />
         </Col>
-        <Col xs={12} sm={12} md={6} lg={6}>
+        <Col xs={12} sm={12} md={6} lg={6} className="resolution">
           <TextareaAutosize
             className="description"
             maxRows={4}
-            placeholder="Description *"
+            placeholder={screenlabels.dataset.description}
             variant="filled"
-            defaultValue={reply}
+            defaultValue={props.reply}
             maxLength={500}
-            onKeyDown={(e) => handleUnwantedSpace(reply, e)}
-            onChange={(e) => setreply(e.target.value)}
+            onKeyDown={props.handledescriptionKeydown}
+            onChange={props.handleChangedescription}
             style={{
               border: "none !important",
               width: "420px",
@@ -101,41 +64,90 @@ export default function DataSetForm(props) {
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
-            {/* {props.first_heading} */}
-            Data Category
+            {screenlabels.dataset.Data_Category}
           </span>
         </Col>
       </Row>
       <Row className="checkbox1">
         <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Crop data" />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Crop_data}
+                onChange={props.handleChangeCropData}
+              />
+            }
+            label={screenlabels.dataset.Crop_data}
+          />
         </Col>
         <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Practice data" />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Practice_data}
+                onChange={props.handleChangePracticeData}
+              />
+            }
+            label={screenlabels.dataset.Practice_data}
+          />
         </Col>
         <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Farmer profile" />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Farmer_profile}
+                onChange={props.handleChangeFarmer_profile}
+              />
+            }
+            label={screenlabels.dataset.Farmer_profile}
+          />
         </Col>
         <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Land records" />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Land_records}
+                onChange={props.handleChangeLand_records}
+              />
+            }
+            label={screenlabels.dataset.Land_records}
+          />
         </Col>
       </Row>
       <Row className="checkbox2">
         <Col xs={12} sm={12} md={6} lg={3}>
-          <FormControlLabel control={<Checkbox />} label="Cultivation data" />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Cultivation_data}
+                onChange={props.handleChangeCultivationData}
+              />
+            }
+            label={screenlabels.dataset.Cultivation_data}
+          />
         </Col>
         <Col xs={12} sm={12} md={6} lg={3}>
           <FormControlLabel
-            control={<Checkbox />}
-            label="Soil data"
+            control={
+              <Checkbox
+                checked={props.Soil_data}
+                onChange={props.handleChangeSoilData}
+              />
+            }
+            label={screenlabels.dataset.Soil_data}
             className="soil"
           />
         </Col>
         <Col xs={12} sm={12} md={6} lg={3}>
           <FormControlLabel
-            control={<Checkbox />}
-            label="Weather data"
-            className="soil"
+            control={
+              <Checkbox
+                checked={props.Weather_data}
+                onChange={props.handleChangeWeatherData}
+              />
+            }
+            label={screenlabels.dataset.Weather_data}
+            className="weather"
           />
         </Col>
       </Row>
@@ -147,13 +159,9 @@ export default function DataSetForm(props) {
             id="filled-basic"
             variant="filled"
             required
-            value={Geography}
-            onChange={(e) =>
-              validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
-                ? setGeography(e.target.value)
-                : e.preventDefault()
-            }
-            label="Geography"
+            value={props.Geography}
+            onChange={props.handleChangeGeography}
+            label={screenlabels.dataset.Geography}
           />
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
@@ -162,29 +170,29 @@ export default function DataSetForm(props) {
             className="crop"
             id="filled-basic"
             variant="filled"
-            required
-            value={cropdetail}
-            onChange={(e) =>
-              validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
-                ? setCropdetail(e.target.value)
-                : e.preventDefault()
-            }
-            label="Corp Detail"
+            value={props.cropdetail}
+            onChange={props.handleChangecropdetail}
+            label={screenlabels.dataset.Corp_Detail}
           />
         </Col>
       </Row>
       <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
           <span className="AddDatasetageheading">
-            {/* {props.first_heading} */}
-            Age of Actual Data
+            {screenlabels.dataset.data}
           </span>
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
           <FormControlLabel
             value="start"
-            control={<Switch />}
-            label="Constantly updating"
+            control={
+              <Switch
+                checked={props.Switchchecked}
+                onChange={props.handleChangeSwitch}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            }
+            label={screenlabels.dataset.Constantly_updating}
             labelPlacement="start"
             className="constantswitch"
           />
@@ -192,37 +200,265 @@ export default function DataSetForm(props) {
       </Row>
       <Row>
         <Col xs={12} sm={12} md={12} lg={12} className="radiobtns">
+          {props.Switchchecked ? (
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              //   value={value}
+              //   onChange={handleChange}
+            >
+              <FormControlLabel
+                disabled
+                value="3 months"
+                control={<Radio />}
+                label={screenlabels.dataset.three}
+              />
+              <FormControlLabel
+                disabled
+                value="6 months"
+                control={<Radio />}
+                label={screenlabels.dataset.six}
+                className="sixmonth"
+              />
+              <FormControlLabel
+                disabled
+                value="9 months"
+                control={<Radio />}
+                label={screenlabels.dataset.nine}
+                className="ninemonth"
+              />
+              <FormControlLabel
+                disabled
+                value="12 months"
+                control={<Radio />}
+                label={screenlabels.dataset.twelve}
+                className="twelvemonth"
+              />
+            </RadioGroup>
+          ) : (
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={props.value}
+              onChange={props.handleChange}>
+              <FormControlLabel
+                value="3 months"
+                control={<Radio />}
+                label={screenlabels.dataset.three}
+              />
+              <FormControlLabel
+                value="6 months"
+                control={<Radio />}
+                label={screenlabels.dataset.six}
+                className="sixmonth"
+              />
+              <FormControlLabel
+                value="9 months"
+                control={<Radio />}
+                label={screenlabels.dataset.nine}
+                className="ninemonth"
+              />
+              <FormControlLabel
+                value="12 months"
+                control={<Radio />}
+                label={screenlabels.dataset.twelve}
+                className="twelvemonth"
+              />
+            </RadioGroup>
+          )}
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <span className="AddDatasetsecondaryheading">
+            {screenlabels.dataset.Interval}
+          </span>
+        </Col>
+      </Row>
+      {props.Switchchecked ? (
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={6} className="FromDate">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                inputFormat="dd/MM/yyyy"
+                disabled
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="filled-basic"
+                    variant="filled"
+                    className="fromtextfield"
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={6} className="toDate">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                disabled
+                inputFormat="dd/MM/yyyy"
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="filled-basic"
+                    variant="filled"
+                    className="totextfield"
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Col>
+        </Row>
+      ) : (
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={6} className="FromDate">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                inputFormat="dd/MM/yyyy"
+                disableFuture
+                label={screenlabels.dataset.Start_Date}
+                value={props.fromdate}
+                onChange={props.handleChangeFromDate}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="filled-basic"
+                    variant="filled"
+                    className="fromtextfield"
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={6} className="toDate">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                inputFormat="dd/MM/yyyy"
+                disabled={props.fromdate ? false : true}
+                disableFuture
+                label={screenlabels.dataset.End_Date}
+                minDate={props.fromdate}
+                value={props.todate}
+                onChange={props.handleChangeToDate}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="filled-basic"
+                    variant="filled"
+                    className="totextfield"
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Col>
+        </Row>
+      )}
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <span className="AddDatasetsecondaryheading">
+            {/* {props.first_heading} */}
+            {screenlabels.dataset.Records}
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
-            value={value}
-            onChange={handleChange}>
+            value={props.recordsvalue}
+            onChange={props.handleChangeRecords}>
+            <FormControlLabel value="100k" control={<Radio />} label="100k" />
             <FormControlLabel
-              value="3 months"
+              value="150k"
               control={<Radio />}
-              label="3 months"
+              label="150k"
+              className="record2"
             />
             <FormControlLabel
-              value="6 months"
+              value="200k"
               control={<Radio />}
-              label="6 months"
-              className="sixmonth"
+              label="200k"
+              className="record3"
             />
             <FormControlLabel
-              value="9 months"
+              value="+500k"
               control={<Radio />}
-              label="9 months"
-              className="ninemonth"
-            />
-            <FormControlLabel
-              value="12 months"
-              control={<Radio />}
-              label="12 months"
-              className="twelvemonth"
+              label="+500k"
+              className="record4"
             />
           </RadioGroup>
         </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <span className="AddDatasetsecondaryheading">
+            {screenlabels.dataset.Availablity}
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            value={props.availablevalue}
+            onChange={props.handleChangeAvailable}>
+            <FormControlLabel
+              value="available"
+              control={<Radio />}
+              label={screenlabels.dataset.Available}
+            />
+            <FormControlLabel
+              value="not_available"
+              control={<Radio />}
+              label="Not Available"
+              className="notavaiable"
+            />
+          </RadioGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <span className="AddDatasetsecondaryheading">
+            {screenlabels.dataset.Upload_dataset}
+          </span>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={6} lg={6}>
+          <FileUploader
+            handleChange={props.handleFileChange}
+            name="file"
+            types={fileTypes}
+            children={
+              <UploadDataset
+                uploaddes="Supports: CSV, Excel formats not more than 2MB file size"
+                uploadtitle="Upload Dataset"
+              />
+            }
+          />
+        </Col>
+      </Row>
+
+      <Row xs={12} sm={12} md={12} lg={12}>
+        <p className="uploaddatasetname">
+          {props.file
+            ? props.file.size
+              ? `File name: ${props.file.name}`
+              : ""
+            : ""}
+        </p>
+        <p className="oversizemb-uploadimglogo">
+          {props.file != null && props.file.size > 2097152
+            ? "File uploaded is more than 2MB!"
+            : ""}
+        </p>
       </Row>
     </div>
   );

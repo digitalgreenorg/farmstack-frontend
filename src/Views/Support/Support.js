@@ -436,16 +436,16 @@ function Support(props) {
                 <Row className="resolution" style={{ "margin-left": "28px", "margin-top": "30px" }}>
                     <Col>
                         <TextField
-                            id="filled-multiline-static"
-                            label="Reply"
-                            multiline 
-                            rows={4}
+                           id='filled-multiline-static'
+                           label="Reply"
+                           multiline
+                           rows={4}
                             variant="filled"
-                            // defaultValue={reply}
+                            //defaultValue={reply}
                             maxLength={500}
                             onKeyDown={(e) => handleUnwantedSpace(reply,e)}
                             onChange={(e) => setreply(e.target.value)}
-                            style={{ width: "420px", "min-height": "50px",}}
+                            style={{ width: "420px", "min-height": "50px" }}
                         />
                         <TextField
                             style={{ width: "420px", "margin-left": "20px", textAlign: "left" }}
