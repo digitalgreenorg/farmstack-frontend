@@ -1,8 +1,8 @@
 import { useHistory } from "react-router-dom";
 import LocalStorageConstants from "../Constants/LocalStorageConstants";
 import RegexConstants from "../Constants/RegexConstants";
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from "react";
+import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 
 export const setTokenLocal = (token) => {
@@ -16,12 +16,38 @@ export const getTokenLocal = () => {
   const userToken = JSON.parse(tokenString);
   return userToken;
 };
-
+// user id
 export const setUserId = (token) => {
   localStorage.setItem(LocalStorageConstants.KEYS.user, JSON.stringify(token));
 };
 export const getUserLocal = () => {
   const tokenString = localStorage.getItem(LocalStorageConstants.KEYS.user);
+  const userToken = JSON.parse(tokenString);
+  return userToken;
+};
+
+// user map
+export const setUserMapId = (token) => {
+  localStorage.setItem(
+    LocalStorageConstants.KEYS.user_map,
+    JSON.stringify(token)
+  );
+};
+export const getUserMapId = () => {
+  const tokenString = localStorage.getItem(LocalStorageConstants.KEYS.user_map);
+  const userToken = JSON.parse(tokenString);
+  return userToken;
+};
+
+// org id
+export const setOrgId = (token) => {
+  localStorage.setItem(
+    LocalStorageConstants.KEYS.org_id,
+    JSON.stringify(token)
+  );
+};
+export const getOrgLocal = () => {
+  const tokenString = localStorage.getItem(LocalStorageConstants.KEYS.org_id);
   const userToken = JSON.parse(tokenString);
   return userToken;
 };
@@ -72,22 +98,20 @@ export const handleNameFieldEntry = (fieldValue, e) => {
 };
 
 const GetErrorHandlingRoute = (e) => {
-  if (e.response != null && e.response != undefined && e.response.status == HTTP_CONSTANTS.SESSION_TIMEOUT)
-  {
+  if (
+    e.response != null &&
+    e.response != undefined &&
+    e.response.status == HTTP_CONSTANTS.SESSION_TIMEOUT
+  ) {
     console.log(e.response.status);
-    return('/sessionexpired');
-  }
-  else
-  {
-    return('/error');
+    return "/sessionexpired";
+  } else {
+    return "/error";
   }
 };
 
 export const setRoleLocal = (role) => {
-  localStorage.setItem(
-    LocalStorageConstants.KEYS.role,
-    JSON.stringify(role)
-  );
+  localStorage.setItem(LocalStorageConstants.KEYS.role, JSON.stringify(role));
 };
 export const getRoleLocal = () => {
   const roleString = localStorage.getItem(LocalStorageConstants.KEYS.role);

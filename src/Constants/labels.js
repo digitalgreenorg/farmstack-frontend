@@ -114,6 +114,14 @@ const labels = {
       Others: "Others",
       date: "By Date",
     },
+
+    dataset: {
+      filter: "Filter",
+      geography: "Geography",
+      age: "Age",
+      crop: "Crop",
+      search: "Search"
+    },
     sessiontimeout: {
       heading: "Your login Session has Expired !",
       secondmainheading: "Session Expired !",
@@ -122,7 +130,7 @@ const labels = {
     dataset: {
       name: "Dataset Name",
       description: "Description *",
-      Data_Category: "Data Category",
+      Data_Category: "Data Category *",
       Crop_data: "Crop data",
       Practice_data: "Practice data",
       Farmer_profile: "Farmer profile",

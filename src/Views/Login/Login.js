@@ -20,16 +20,18 @@ import HandleSessionTimeout, {
   getTokenLocal,
   setUserId,
   getUserLocal,
+  setUserMapId,
+  setOrgId,
   setRoleLocal,
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
-  getRoleLocal,
-} from '../../Utils/Common'
-import RichTextEditor from 'react-rte'
-import countryList from 'react-select-country-list'
-import { useHistory } from 'react-router-dom'
-import Loader from '../../Components/Loader/Loader'
-import GetErrorHandlingRoute from '../../Utils/Common'
+  getRoleLocal
+} from "../../Utils/Common";
+import RichTextEditor from "react-rte";
+import countryList from "react-select-country-list";
+import { useHistory } from "react-router-dom";
+import Loader from "../../Components/Loader/Loader";
+import GetErrorHandlingRoute from "../../Utils/Common";
 import ProfileRightsideParticipant from '../../Components/signup/ProfileRightsideParticipant'
 
 export default function Login(props) {
@@ -213,11 +215,12 @@ export default function Login(props) {
                 props.history.push('/datahub/participants')
               }
             } else {
-              setisaccesstoken(response.data.access)
-              setUserId(response.data.user)
-              setOtpError(false)
-              setisProfile(true)
-              setisOtp(false)
+              setisaccesstoken(response.data.access);
+              setUserMapId(response.data.user_map);
+              setOrgId(response.data.org_id);
+              setOtpError(false);
+              setisProfile(true);
+              setisOtp(false);
             }
             // console.log(response.json());
             // console.log(response.refresh);
@@ -527,9 +530,13 @@ export default function Login(props) {
           console.log("org details", response.data);
           //   console.log(response.json());
           console.log(response.status);
+          console.log(response.data.user_map);
+          console.log(response.data.org_id);
           if (response.status === 201) {
             setisPolicies(true);
             setisOrg(false);
+            setUserMapId(response.data.user_map);
+            setOrgId(response.data.org_id);
             // setEmail(false);
             // setError(false);
           } else {
