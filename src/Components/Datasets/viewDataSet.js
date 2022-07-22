@@ -14,13 +14,13 @@ export default function ViewDataSet(props) {
     return (
         <><Row>
             <Col className="supportViewDetailsbackimage" >
-                <span onClick={() => props.showSuppport()}>
+                <span onClick={() => props.back()}>
                     <img
                         src={require('../../Assets/Img/Vector.svg')}
                         alt="new"
                     />
                 </span>
-                <span className="supportViewDetailsback" onClick={() => props.showSuppport()}>{"Back"}</span>
+                <span className="supportViewDetailsback" onClick={() => props.back()}>{"Back"}</span>
             </Col>
         </Row>
             <Row className="supportViewDeatilsSecondRow"></Row>

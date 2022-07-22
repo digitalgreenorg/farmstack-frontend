@@ -10,6 +10,9 @@ import Delete from '../../Components/Delete/Delete'
 import labels from '../../Constants/labels';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
+import GetErrorHandlingRoute from '../../Utils/Common';
+import { useHistory } from "react-router-dom";
+import HTTPService from '../../Services/HTTPService'
 function SampleDataSet(props) {
     var data = [
         {
@@ -37,123 +40,156 @@ function SampleDataSet(props) {
     ]
     var tabelkeys = Object.keys(data[0])
     const [screenlabels, setscreenlabels] = useState(labels['en']);
+    const [screenView, setscreenView] = useState(
+        {
+            "isDataSetFilter": false,
+            "isDataSetView": true,
+            "isApprove": false,
+            "isApproveSuccess": false,
+            "isDisapprove": false,
+            "isDisapproveSuccess": false,
+            "isDelete": false,
+            "isDeleSuccess": false,
+            "isEnable": false,
+            "isEnableSuccess": false,
+            "isDisable": false,
+            "isDisableSuccess": false
+        }
+    );
+    const[isLoader, setIsLoader] = useState(false)
+    const history = useHistory();
+    const changeView = (keyname) => {
+        let tempfilterObject = { ...screenView }
+        Object.keys(tempfilterObject).forEach(function (key) { if (key != keyname) { tempfilterObject[key] = false }else{tempfilterObject[key] = true} });
+        setscreenView(tempfilterObject)
+    }
+    const loadMoreSupportList = () => {
+        setIsLoader(true);
+        HTTPService('POST','','', false, true).then((response) => {
+            setIsLoader(false);
+        }).catch((e) => {
+            setIsLoader(false);
+            history.push(GetErrorHandlingRoute(e));
+        });
+    };
     useEffect(() => {
     }, []);
-
     // const downloadAttachment = (uri, name) => {
     //     FileSaver.saveAs(UrlConstants.base_url_without_slash + uri)
     // }
     return (
         <>
-            {false ? <ViewDataSet rowdata={''} tabelkeys={tabelkeys} data={data}></ViewDataSet> : ''}
-            <Row>
-                <span style={{ width: "700px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span><span className="fontweight400andfontsize14pxandcolor3D4A52">{"or"}</span><span style={{ width: "700px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span>
-            </Row>
-            <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                <span className="mainheading">{"Request changes"}</span>
-            </Row>
-            <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+            {screenView.isDataSetView ? <><ViewDataSet back={() => changeView('isDataSetFilter')} rowdata={''} tabelkeys={tabelkeys} data={data}></ViewDataSet>
+                <Row>
+                    <span style={{ width: "700px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span><span className="fontweight400andfontsize14pxandcolor3D4A52">{"or"}</span><span style={{ width: "700px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span>
+                </Row>
+                <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+                    <span className="mainheading">{"Request changes"}</span>
+                </Row>
+                <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
                     {false ? <Avatar
                         src={""}
                         sx={{ width: 56, height: 56 }}
-                    /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{"s"}</Avatar>}<span className="thirdmainheading" style={{"margin-left": "8px"}}>{"sdsdfsd"}</span><span className="thirdmainheading" style={{"margin-left": "8px"}}>{"  "+"sdsddfdfbdfbfsd"}</span> 
-            </Row>
-            <Row style={{ "margin-left": "93px" }}>
-            <span className="thirdmainheading" style={{"margin-left": "64px","margin-top": "-23px"}}>{"sdsdfsd"}</span>
-            </Row>
-            <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                <TextField
-                    id="outlined-multiline-flexible"
-                    label="Multiline"
-                    multiline
-                    maxRows={10}
-                    value={""}
-                    onChange={() => { }}
-                    variant="filled"
-                    style={{ width: "93%","margin-left": "60px",
-                    "margin-right": "70px"}}
-                />
-            </Row>
+                    /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{"s"}</Avatar>}<span className="thirdmainheading" style={{ "margin-left": "8px" }}>{"sdsdfsd"}</span><span className="thirdmainheading" style={{ "margin-left": "8px" }}>{"  " + "sdsddfdfbdfbfsd"}</span>
+                </Row>
+                <Row style={{ "margin-left": "93px" }}>
+                    <span className="thirdmainheading" style={{ "margin-left": "64px", "margin-top": "-23px" }}>{"sdsdfsd"}</span>
+                </Row>
+                <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+                    <TextField
+                        id="outlined-multiline-flexible"
+                        label="Multiline"
+                        multiline
+                        maxRows={10}
+                        value={""}
+                        onChange={() => { }}
+                        variant="filled"
+                        style={{
+                            width: "93%", "margin-left": "60px",
+                            "margin-right": "70px"
+                        }}
+                    />
+                </Row></> : ''}
 
-            {false ? <Delete
+            {screenView.isDisable ? <Delete
                 route={"login"}
                 imagename={'disable'}
                 firstbtntext={"Disable"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { }}
-                cancelEvent={() => { }}
+                cancelEvent={() => {changeView('isDataSetView') }}
                 heading={"Disable dataset"}
                 imageText={"Are you sure you want to diable the dataset?"}
                 firstmsg={"This action will disable the dataset from the system."}
                 secondmsg={"The dataset will disappear to your members and connector will disconnect. "}>
             </Delete>
                 : <></>}
-            {false ?
-                <Success okevent={() => { }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset disabled successfully!"} imageText={"Disabled"} msg={"You diabled a dataset."}></Success> : <></>
+            {screenView.isDisableSuccess ?
+                <Success okevent={() => {changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset disabled successfully!"} imageText={"Disabled"} msg={"You diabled a dataset."}></Success> : <></>
             }
-            {false ? <Delete
+            {screenView.isEnable ? <Delete
                 route={"login"}
                 imagename={'disable'}
                 firstbtntext={"Enable"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { }}
-                cancelEvent={() => { }}
+                cancelEvent={() => { changeView('isDataSetView')}}
                 heading={"Enable dataset"}
                 imageText={"Are you sure you want to enable the dataset?"}
                 firstmsg={"This action will enable the dataset from the system."}
                 secondmsg={"The dataset will appear to your members and connector will connect."}>
             </Delete>
                 : <></>}
-            {false ?
-                <Success okevent={() => { }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset enabled successfully!"} imageText={"Enabled"} msg={"You enabled a dataset."}></Success> : <></>
+            {screenView.isEnableSuccess ?
+                <Success okevent={() => {changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset enabled successfully!"} imageText={"Enabled"} msg={"You enabled a dataset."}></Success> : <></>
             }
-            {false ? <Delete
+            {screenView.isApprove ? <Delete
                 route={"login"}
                 imagename={'thumbsup'}
                 firstbtntext={"Approve Dataset"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { }}
-                cancelEvent={() => { }}
+                cancelEvent={() => {changeView('isDataSetView') }}
                 heading={"Approve Dataset"}
                 imageText={"Are you sure you want to approve Dataset?"}
                 firstmsg={""}
                 secondmsg={""}>
             </Delete>
                 : <></>}
-            {false ?
-                <Success okevent={() => { }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approve Dataset"} imageText={"Approved"} msg={"You approved a dataset."}></Success> : <></>
+            {screenView.isApproveSuccess ?
+                <Success okevent={() => {changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approve Dataset"} imageText={"Approved"} msg={"You approved a dataset."}></Success> : <></>
             }
-            {false ? <Delete
+            {screenView.isDisapprove ? <Delete
                 route={"login"}
                 imagename={'thumbsdown'}
                 firstbtntext={"Disapprove Dataset"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { }}
-                cancelEvent={() => { }}
+                cancelEvent={() => { changeView('isDataSetView')}}
                 heading={"Disapprove Dataset"}
                 imageText={"Are you sure you want to disapprove Dataset?"}
                 firstmsg={""}
                 secondmsg={""}>
             </Delete>
                 : <></>}
-            {false ?
-                <Success okevent={() => { }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Disapprove Dataset"} imageText={"Disapprove"} msg={"You disapproved a dataset."}></Success> : <></>
+            {screenView.isDisapproveSuccess ?
+                <Success okevent={() => {changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Disapprove Dataset"} imageText={"Disapprove"} msg={"You disapproved a dataset."}></Success> : <></>
             }
-               {false ? <Delete
+            {screenView.isDelete ? <Delete
                 route={"login"}
                 imagename={'thumbsdown'}
                 firstbtntext={"Delete"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { }}
-                cancelEvent={() => { }}
+                cancelEvent={() => {changeView('isDataSetView') }}
                 heading={"Delete dataset"}
                 imageText={"Are you sure you want to delete your dataset?"}
                 firstmsg={"This action will delete the dataset from the system."}
                 secondmsg={"The dataset will no longer be able to use in your datahub account."}>
             </Delete>
                 : <></>}
-                  {false ?
-                <Success okevent={() => { }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
+            {screenView.isDeleSuccess ?
+                <Success okevent={() => {changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
             }
         </>
     );
