@@ -75,11 +75,8 @@ function Datahub(props) {
             />
             <Route exact path="/datahub/settings/:id" component={Settings} />
             <Route exact path="/datahub/support" component={Support} />
-<<<<<<< HEAD
             <Route exact path="/datahub/dataset" component={SampleDataSet} />
-=======
             <Route exact path="/datahub/admin/dataset" component={DatasetAdmin}/>
->>>>>>> team_member
           </Switch>
         </>
       ) : (
