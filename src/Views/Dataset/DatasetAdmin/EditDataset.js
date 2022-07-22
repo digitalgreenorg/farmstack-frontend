@@ -8,6 +8,7 @@ import GetErrorHandlingRoute, {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
+  getUserMapId,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../Constants/ColorConstants";
@@ -41,9 +42,9 @@ export default function EditDataset() {
   const [Geography, setGeography] = useState("");
   const [cropdetail, setCropdetail] = useState("");
 
-  const [value, setValue] = React.useState("3 months");
-  const [recordsvalue, setrecordsvalue] = React.useState("100k");
-  const [availablevalue, setavailablevalue] = React.useState("Available");
+  const [value, setValue] = React.useState("");
+  const [recordsvalue, setrecordsvalue] = React.useState("");
+  const [availablevalue, setavailablevalue] = React.useState("");
 
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
@@ -63,14 +64,52 @@ export default function EditDataset() {
   const handleEditDatasetSubmit = (e) => {
     e.preventDefault();
     console.log("clicked on edit dataset submit btn");
+    var userid = getUserMapId();
+    console.log("user id", userid);
+
+    const datefrom = new Date(fromdate);
+    console.log(datefrom);
+
+    const dateto = new Date(todate);
+    console.log(dateto);
 
     var bodyFormData = new FormData();
+    bodyFormData.append("name", datasetname);
+    bodyFormData.append("description", reply);
+    bodyFormData.append(
+      "category",
+      JSON.stringify({
+        crop_data: Crop_data,
+        practice_data: Practice_data,
+        farmer_profile: Farmer_profile,
+        land_records: Land_records,
+        cultivation_data: Cultivation_data,
+        soil_data: Soil_data,
+        weather_data: Weather_data,
+      })
+    );
+    bodyFormData.append("geography", Geography);
+    bodyFormData.append("crop_detail", cropdetail);
+    bodyFormData.append("constantly_update", Switchchecked);
+    bodyFormData.append("age_of_date", value);
+    if (fromdate != null) {
+      bodyFormData.append("data_capture_start", datefrom.toISOString());
+    }
+    if (todate != null) {
+      bodyFormData.append("data_capture_end", dateto.toISOString());
+    }
+    if (file != null) {
+      bodyFormData.append("sample_dataset", file);
+    }
+    bodyFormData.append("connector_availability", availablevalue);
+    bodyFormData.append("dataset_size", recordsvalue);
+    bodyFormData.append("user_map", userid);
     // bodyFormData.append("first_name", firstname);
     // bodyFormData.append("last_name", lastname);
     // bodyFormData.append("phone_number", phonenumber);
     // bodyFormData.append("profile_picture", file);
 
-    console.log("add dataset", bodyFormData);
+    console.log("edit dataset", bodyFormData);
     setIsLoader(true);
     HTTPService(
       "PUT",
@@ -82,7 +121,7 @@ export default function EditDataset() {
       .then((response) => {
         setIsLoader(false);
         setisSuccess(true);
-        console.log("dataset uploaded!");
+        console.log("dataset updated!");
       })
       .catch((e) => {
         setIsLoader(false);
@@ -104,6 +143,24 @@ export default function EditDataset() {
       .then((response) => {
         setIsLoader(false);
         console.log("get request for edit dataset", response.data);
+        setdatasetname(response.data.name);
+        setreply(response.data.description);
+        setGeography(response.data.geography);
+        setCropdetail(response.data.crop_detail);
+        setSwitchchecked(response.data.constantly_update);
+        setCrop_data(response.data.category.crop_data);
+        setPractice_data(response.data.category.practice_data);
+        setFarmer_profile(response.data.category.farmer_profile);
+        setLand_records(response.data.category.land_records);
+        setCultivation_data(response.data.category.cultivation_data);
+        setSoil_data(response.data.category.soil_data);
+        setWeather_data(response.data.category.weather_data);
+        setavailablevalue(response.data.connector_availability);
+        setrecordsvalue(response.data.dataset_size);
+        setValue(response.data.age_of_date);
+        settodate(response.data.data_capture_end);
+        setfromdate(response.data.data_capture_start);
+
         // console.log("picture", response.data.profile_picture);
         // setphonenumber(response.data.phone_number);
         // setfirstname(response.data.first_name);
@@ -288,7 +345,17 @@ export default function EditDataset() {
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
-              {datasetname && reply && Geography ? (
+              {datasetname &&
+              reply &&
+              Geography &&
+              file &&
+              (Crop_data == true ||
+                Practice_data == true ||
+                Farmer_profile == true ||
+                Land_records == true ||
+                Cultivation_data == true ||
+                Soil_data == true ||
+                Weather_data == true) ? (
                 <Button
                   //   onClick={() => addNewParticipants()}
                   variant="contained"

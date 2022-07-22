@@ -109,6 +109,7 @@ export default function BrandingSetting(props) {
   const brandsettingcancelbtn = (e) => {
     getBrandingDetails();
     setbrandfile(null);
+    history.push("/datahub/settings/5")
     window.location.reload();
     // sethexColor(color);
   };
