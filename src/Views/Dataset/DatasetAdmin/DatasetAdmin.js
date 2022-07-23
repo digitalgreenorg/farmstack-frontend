@@ -18,12 +18,16 @@ import {getUserLocal} from '../../../Utils/Common'
 export default function DatasetAdmin() {
 
     const [isLoader, setIsLoader] = useState(false)
+    const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(true);
     const [value, setValue] = useState('1')
     const [secondrow, setsecondrow] = useState(false)
     const [fromdate, setfromdate] = useState(null);
     const [todate, settodate] = useState(null);
     const history = useHistory();
     const [isMemberTab, setIsMemberTab] = useState(false)
+    const [datasetUrl, setDatasetUrl] = useState(
+        UrlConstant.base_url + UrlConstant.dataset_filter
+      );
 
     var payload = ""
     const [filterObject, setfilterObject] = useState(
@@ -51,20 +55,21 @@ export default function DatasetAdmin() {
 
     const [geoMasterList,setGeoMasterList] = useState([])
     const [geographyList, setGeographyList] = useState([])
-    const [geoCheckStateList, setGeoCheckStateList] = useState([])
+    const [geoCheckStateList, setGeoCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
 
     const [cropMasterList, setCropMasterList] = useState([])
     const [cropList,setCropList] = useState([])
-    const [cropCheckStateList, setCropCheckStateList] = useState([])
+    const [cropCheckStateList, setCropCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
 
     const [ageMasterList, setAgeMasterList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
     const [ageList, setAgeList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
-    const [ageCheckStateList, setAgeCheckStateList] = useState([])
+    const [ageCheckStateList, setAgeCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
 
     const handleCheckListFilterChange = (listName,index) => {
 
         var resetCheckStateList = []
         var tempList = []
+        var filterParams = []
         if(listName==="geography"){
             console.log("Toggled Geography Filter index:", index)
             tempList = [...geoCheckStateList]
@@ -74,6 +79,14 @@ export default function DatasetAdmin() {
             setCropCheckStateList(resetFilter())
             setAgeCheckStateList(resetFilter())
             
+            filterParams = geoMasterList.map((geo,index) => {
+                if(tempList[index]){
+                    return geo
+                }
+            })
+
+            payload = buildFilterPayLoad("",getUserLocal(),false,filterParams,"","")
+            
         } else if(listName === "crop"){
             console.log("Toggled Crop Filter Index:", index)
             tempList = [...cropCheckStateList]
@@ -82,6 +95,15 @@ export default function DatasetAdmin() {
 
             setGeoCheckStateList(resetFilter())
             setAgeCheckStateList(resetFilter())
+
+            filterParams = cropMasterList.map((crop,index) => {
+                if(tempList[index]){
+                    return crop
+                }
+            })
+
+            payload = buildFilterPayLoad("",getUserLocal(),false,"",filterParams,"")
+
         } else if(listName === "age"){
             console.log("Toggled Age Filter Index:", index)
             tempList = [...ageCheckStateList]
@@ -90,12 +112,24 @@ export default function DatasetAdmin() {
 
             setGeoCheckStateList(resetFilter())
             setCropCheckStateList(resetFilter())
+
+            // for(let i = 0; i<ageMasterList.length ; i++){
+            //     if(tempList[i]){
+            //         filterParams.push(ageMasterList[i])
+            //     }
+            // }
+            filterParams = ageMasterList.map((age,index) => {
+                if(tempList[index]){
+                    return age
+                }
+            })
+            payload = buildFilterPayLoad("",getUserLocal(),false,"","",filterParams)
         }
 
-        // let data = {}
+        console.log("filterParam : ",filterParams)
+        console.log("payload:", payload)
 
-
-
+        getDatasetList(payload)
     }
 
     const handleGeoSearch = (e) => {
@@ -170,7 +204,7 @@ export default function DatasetAdmin() {
         } 
         HTTPService(
             "GET",
-            UrlConstant.base_url + UrlConstant.dataset_list,
+            datasetUrl,
             payload,
             false,
             true
@@ -179,10 +213,15 @@ export default function DatasetAdmin() {
                 setIsLoader(false);
                 console.log("response:", response)
                 console.log("datatset:",response.data.results)
-                setDatasetList(response.data.results)
 
                 //code to convert dataset results into display cards list
-    
+                if (response.data.next == null) {
+                    setisShowLoadMoreButton(true)
+                } else {
+                    setisShowLoadMoreButton(true)
+                    setDatasetUrl(response.data.next);
+                }
+                setDatasetList(response.data.results)
             })
             .catch((e) => {
                 setIsLoader(false);
@@ -313,11 +352,15 @@ export default function DatasetAdmin() {
                                     <TabPanel value='1'>
                                         <DataSetListing
                                             datasetList={datasetList}
+                                            isShowLoadMoreButton={isShowLoadMoreButton}
+                                            getDatasetList={getDatasetList}
                                         />
                                     </TabPanel>
                                     <TabPanel value='2'>
                                         <DataSetListing
                                             datasetList={datasetList}
+                                            isShowLoadMoreButton={isShowLoadMoreButton}
+                                            getDatasetList={getDatasetList}
                                         />
                                         {/* <OrganisationSetting
                                         setisOrgUpdateSuccess={() => {
