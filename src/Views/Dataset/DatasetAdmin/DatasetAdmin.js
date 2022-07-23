@@ -26,7 +26,7 @@ export default function DatasetAdmin() {
     const history = useHistory();
     const [isMemberTab, setIsMemberTab] = useState(false)
     const [datasetUrl, setDatasetUrl] = useState(
-        UrlConstant.base_url + UrlConstant.dataset_filter
+        UrlConstant.base_url + UrlConstant.dataset_list
       );
 
     var payload = ""
@@ -52,6 +52,7 @@ export default function DatasetAdmin() {
     // }
 
     const [datasetList, setDatasetList] = useState([])
+    const [memberDatasetList , setMemberDatasetList] = useState([])
 
     const [geoMasterList,setGeoMasterList] = useState([])
     const [geographyList, setGeographyList] = useState([])
@@ -85,7 +86,7 @@ export default function DatasetAdmin() {
                 }
             })
 
-            payload = buildFilterPayLoad("",getUserLocal(),false,filterParams,"","")
+            payload = buildFilterPayLoad("",getUserLocal(),filterParams,"","")
             
         } else if(listName === "crop"){
             console.log("Toggled Crop Filter Index:", index)
@@ -102,7 +103,7 @@ export default function DatasetAdmin() {
                 }
             })
 
-            payload = buildFilterPayLoad("",getUserLocal(),false,"",filterParams,"")
+            payload = buildFilterPayLoad("",getUserLocal(),"",filterParams,"")
 
         } else if(listName === "age"){
             console.log("Toggled Age Filter Index:", index)
@@ -123,7 +124,7 @@ export default function DatasetAdmin() {
                     return age
                 }
             })
-            payload = buildFilterPayLoad("",getUserLocal(),false,"","",filterParams)
+            payload = buildFilterPayLoad("",getUserLocal(),"","",filterParams)
         }
 
         console.log("filterParam : ",filterParams)
@@ -160,7 +161,7 @@ export default function DatasetAdmin() {
 
     useEffect(() => {
         getFilters()
-        getDatasetList(buildFilterPayLoad("",getUserLocal(),false,"","",""))
+        getDatasetList(buildFilterPayLoad("",getUserLocal(),"","",""))
     }, []);
 
     const getFilters = () => {
@@ -199,8 +200,7 @@ export default function DatasetAdmin() {
     const getDatasetList = (payload) => {
         setIsLoader(true);
         if(payload == null){
-            payload = {}
-            payload['user_id'] = getUserLocal()
+            payload = buildFilterPayLoad("",getUserLocal(),"","","")
         } 
         HTTPService(
             "GET",
@@ -221,7 +221,11 @@ export default function DatasetAdmin() {
                     setisShowLoadMoreButton(true)
                     setDatasetUrl(response.data.next);
                 }
-                setDatasetList(response.data.results)
+                if(!isMemberTab){
+                    setDatasetList(response.data.results)
+                } else {
+                    setMemberDatasetList(response.data.results)
+                }
             })
             .catch((e) => {
                 setIsLoader(false);
@@ -229,11 +233,15 @@ export default function DatasetAdmin() {
             });
     }
 
-    const buildFilterPayLoad = (createdAtRange,userId,others,geoPayload,cropPayload,agePayload) => {
+    const buildFilterPayLoad = (createdAtRange,userId,geoPayload,cropPayload,agePayload) => {
         let data = {}
         data['created_at__range'] = createdAtRange
         data['user_id'] = userId
-        data['others'] = others
+        if(isMemberTab){
+            data['others'] = true
+        } else {
+            data['others'] = false
+        }
         data['geography__in'] = geoPayload
         data['crop_detail__in'] = cropPayload
         data['age__in'] = agePayload
@@ -245,6 +253,11 @@ export default function DatasetAdmin() {
         // setIsMemberTab(!isMemberTab)
         // console.log("isMemberTab",isMemberTab)
         setValue(newValue);
+        if(newValue == "2"){
+            setIsMemberTab(true)
+        } else{
+            setIsMemberTab(false)
+        }
         
     };
 
@@ -285,7 +298,7 @@ export default function DatasetAdmin() {
         settodate(null)
         setfromdate(null);
 
-        var payload = buildFilterPayLoad("",getUserLocal(),false,"","","")
+        var payload = buildFilterPayLoad("",getUserLocal(),"","","")
 
         getDatasetList(payload)
 
@@ -300,7 +313,7 @@ export default function DatasetAdmin() {
         fromDateandToDate.push(todate)
         // let data = {}
         // data['created_at__range'] = fromDateandToDate
-        payload = buildFilterPayLoad(fromDateandToDate,getUserLocal(),false,"","","")
+        payload = buildFilterPayLoad(fromDateandToDate,getUserLocal(),"","","")
         setsecondrow(true)
         getDatasetList(payload)
     }
