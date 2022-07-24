@@ -55,17 +55,17 @@ export default function DatasetAdmin() {
     const [datasetList, setDatasetList] = useState([])
     const [memberDatasetList , setMemberDatasetList] = useState([])
 
-    const [geoMasterList,setGeoMasterList] = useState([])
-    const [geographyList, setGeographyList] = useState([])
-    const [geoCheckStateList, setGeoCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
+    // const [geoMasterList,setGeoMasterList] = useState([])
+    // const [geographyList, setGeographyList] = useState([])
+    // const [geoCheckStateList, setGeoCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
 
-    const [cropMasterList, setCropMasterList] = useState([])
-    const [cropList,setCropList] = useState([])
-    const [cropCheckStateList, setCropCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
+    // const [cropMasterList, setCropMasterList] = useState([])
+    // const [cropList,setCropList] = useState([])
+    // const [cropCheckStateList, setCropCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
 
-    const [ageMasterList, setAgeMasterList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
-    const [ageList, setAgeList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
-    const [ageCheckStateList, setAgeCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
+    // const [ageMasterList, setAgeMasterList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
+    // const [ageList, setAgeList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
+    // const [ageCheckStateList, setAgeCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
 
 
     // const [geoFilterMaster,setGeoFilterMaster] = useState([])
@@ -86,72 +86,72 @@ export default function DatasetAdmin() {
                                         {index:2,name:"9 Months",isChecked:false},
                                         {index:3,name:"Constantly Updating",isChecked:false}])
 
-    const handleCheckListFilterChange = (listName,index) => {
+    // const handleCheckListFilterChange = (listName,index) => {
 
-        var resetCheckStateList = []
-        var tempList = []
-        var filterParams = []
-        if(listName==="geography"){
-            console.log("Toggled Geography Filter index:", index)
-            tempList = [...geoCheckStateList]
-            tempList[index] = !geoCheckStateList[index]
-            setGeoCheckStateList(tempList)
+        // var resetCheckStateList = []
+        // var tempList = []
+        // var filterParams = []
+        // if(listName==="geography"){
+        //     console.log("Toggled Geography Filter index:", index)
+        //     tempList = [...geoCheckStateList]
+        //     tempList[index] = !geoCheckStateList[index]
+        //     setGeoCheckStateList(tempList)
 
-            setCropCheckStateList(resetFilter())
-            setAgeCheckStateList(resetFilter())
+        //     setCropCheckStateList(resetFilter())
+        //     setAgeCheckStateList(resetFilter())
             
-            filterParams = geoMasterList.map((geo,index) => {
-                if(tempList[index]){
-                    return geo
-                }
-            })
+        //     filterParams = geoMasterList.map((geo,index) => {
+        //         if(tempList[index]){
+        //             return geo
+        //         }
+        //     })
 
-            payload = buildFilterPayLoad("",getUserLocal(),filterParams,"","")
+        //     payload = buildFilterPayLoad("",getUserLocal(),filterParams,"","")
             
-        } else if(listName === "crop"){
-            console.log("Toggled Crop Filter Index:", index)
-            tempList = [...cropCheckStateList]
-            tempList[index] = !cropCheckStateList[index]
-            setCropCheckStateList(tempList)
+        // } else if(listName === "crop"){
+        //     console.log("Toggled Crop Filter Index:", index)
+        //     tempList = [...cropCheckStateList]
+        //     tempList[index] = !cropCheckStateList[index]
+        //     setCropCheckStateList(tempList)
 
-            setGeoCheckStateList(resetFilter())
-            setAgeCheckStateList(resetFilter())
+        //     setGeoCheckStateList(resetFilter())
+        //     setAgeCheckStateList(resetFilter())
 
-            filterParams = cropMasterList.map((crop,index) => {
-                if(tempList[index]){
-                    return crop
-                }
-            })
+        //     filterParams = cropMasterList.map((crop,index) => {
+        //         if(tempList[index]){
+        //             return crop
+        //         }
+        //     })
 
-            payload = buildFilterPayLoad("",getUserLocal(),"",filterParams,"")
+        //     payload = buildFilterPayLoad("",getUserLocal(),"",filterParams,"")
 
-        } else if(listName === "age"){
-            console.log("Toggled Age Filter Index:", index)
-            tempList = [...ageCheckStateList]
-            tempList[index] = !ageCheckStateList[index]
-            setAgeCheckStateList(tempList)
+        // } else if(listName === "age"){
+        //     console.log("Toggled Age Filter Index:", index)
+        //     tempList = [...ageCheckStateList]
+        //     tempList[index] = !ageCheckStateList[index]
+        //     setAgeCheckStateList(tempList)
 
-            setGeoCheckStateList(resetFilter())
-            setCropCheckStateList(resetFilter())
+        //     setGeoCheckStateList(resetFilter())
+        //     setCropCheckStateList(resetFilter())
 
-            // for(let i = 0; i<ageMasterList.length ; i++){
-            //     if(tempList[i]){
-            //         filterParams.push(ageMasterList[i])
-            //     }
-            // }
-            filterParams = ageMasterList.map((age,index) => {
-                if(tempList[index]){
-                    return age
-                }
-            })
-            payload = buildFilterPayLoad("",getUserLocal(),"","",filterParams)
-        }
+        //     // for(let i = 0; i<ageMasterList.length ; i++){
+        //     //     if(tempList[i]){
+        //     //         filterParams.push(ageMasterList[i])
+        //     //     }
+        //     // }
+        //     filterParams = ageMasterList.map((age,index) => {
+        //         if(tempList[index]){
+        //             return age
+        //         }
+        //     })
+        //     payload = buildFilterPayLoad("",getUserLocal(),"","",filterParams)
+        // }
 
-        console.log("filterParam : ",filterParams)
-        console.log("payload:", payload)
+        // console.log("filterParam : ",filterParams)
+        // console.log("payload:", payload)
 
-        getDatasetList(payload)
-    }
+        // getDatasetList(payload)
+    // }
 
     const handleFilterChange = (index,filterName) => {
 
@@ -586,18 +586,18 @@ export default function DatasetAdmin() {
                             // filterRow={filterRow}
                             getAllDataSets={getAllDataSets}
                             filterByDates={filterByDates}
-                            geoMasterList={geoMasterList}
-                            geographyList={geographyList}
-                            geoCheckStateList={geoCheckStateList}
+                            // geoMasterList={geoMasterList}
+                            // geographyList={geographyList}
+                            // geoCheckStateList={geoCheckStateList}
                             handleGeoSearch={handleGeoSearch}
-                            ageMasterList={ageMasterList}
-                            ageList={ageList}
-                            ageCheckStateList={ageCheckStateList}
-                            cropMasterList={cropMasterList}
-                            cropCheckStateList={cropCheckStateList}
-                            cropList={cropList}
+                            // ageMasterList={ageMasterList}
+                            // ageList={ageList}
+                            // ageCheckStateList={ageCheckStateList}
+                            // cropMasterList={cropMasterList}
+                            // cropCheckStateList={cropCheckStateList}
+                            // cropList={cropList}
                             handleCropSearch={handleCropSearch}
-                            handleCheckListFilterChange={handleCheckListFilterChange}
+                            // handleCheckListFilterChange={handleCheckListFilterChange}
 
                             geoFilterDisplay={geoFilterDisplay}
                             cropFilterDisplay={cropFilterDisplay}
