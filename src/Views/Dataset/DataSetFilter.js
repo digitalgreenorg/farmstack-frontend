@@ -108,6 +108,7 @@ export default function DataSetFilter(props) {
       </Row>
       <Row>
           {props.geoFilterDisplay && props.geoFilterDisplay.map((geoFilter) => (
+              geoFilter.isDisplayed &&
               <FilterCheckBox
                 label={geoFilter.name}
                 checked={geoFilter.isChecked}
@@ -160,6 +161,7 @@ export default function DataSetFilter(props) {
       </Row>
       <Row>
           {props.cropFilterDisplay && props.cropFilterDisplay.map((cropFilter) => (
+              cropFilter.isDisplayed &&
               <FilterCheckBox
                 label={cropFilter.name}
                 checked={cropFilter.isChecked}

@@ -287,30 +287,35 @@ export default function DatasetAdmin() {
     }
 
     const handleGeoSearch = (e) => {
-        // const searchText = e.target.value
-        // var tempList = [...geoMasterList]
-        // var newDisplayList = [...geoMasterList]
-        // if(searchText !== ""){
-        //     for(let i=0; i<tempList.length; i++){
-        //         if(tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase()) ){
-        //             newDisplayList.splice(i,1)
-        //         }
-        //     }
-        // }
-        // setGeoFilterDisplay(newDisplayList)
+        const searchText = e.target.value
+        var tempList = [...geoFilterDisplay]
+        for(let i=0; i<tempList.length; i++){
+            if(searchText == ""){
+                tempList[i].isDisplayed = true
+            } else {
+                if(!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase()) ){
+                    tempList[i].isDisplayed = false
+                }
+            }
+        }
+        
+        setGeoFilterDisplay(tempList)
     }
 
     const handleCropSearch = (e) => {
         const searchText = e.target.value
-        var tempList =[]
-        if(searchText == ""){
-            tempList = cropMasterList
-        } else {
-            tempList = cropMasterList.filter((crop)=>{
-                return crop.startsWith(searchText)
-            })
+        var tempList = [...cropFilterDisplay]
+        for(let i=0; i<tempList.length; i++){
+            if(searchText == ""){
+                tempList[i].isDisplayed = true
+            } else {
+                if(!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase()) ){
+                    tempList[i].isDisplayed = false
+                }
+            }
         }
-        setCropList(tempList)
+        
+        setCropFilterDisplay(tempList)
     }
 
     useEffect(() => {
@@ -411,6 +416,7 @@ export default function DatasetAdmin() {
             data['index'] = i;
             data['name'] = filterInput[i]
             data['isChecked'] = false
+            data['isDisplayed'] = true
             filter.push(data)
         }
         return filter
