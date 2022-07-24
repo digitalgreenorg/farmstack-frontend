@@ -19,6 +19,7 @@ export default function DatasetAdmin() {
 
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(true);
+    const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [value, setValue] = useState('1')
     const [secondrow, setsecondrow] = useState(false)
     const [fromdate, setfromdate] = useState(null);
@@ -65,6 +66,25 @@ export default function DatasetAdmin() {
     const [ageMasterList, setAgeMasterList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
     const [ageList, setAgeList] = useState(["3 Months","6 Months","9 Months","Constantly Updating"])
     const [ageCheckStateList, setAgeCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
+
+
+    const [geoFilterMaster,setGeoFilterMaster] = useState([])
+    const [geoFilterDisplay, setGeoFilterDisplay] = useState([])
+
+    const [cropFilterMaster, setCropFilterMaster] = useState([])
+    const [cropFilterDisplay, setCropFilterDisplay] = useState([])
+
+    const [ageFilterMaster, setAgeFilterMaster] = useState([
+                                        {index:0,name:"3 Months",isChecked:false},
+                                        {index:1,name:"6 Months",isChecked:false},
+                                        {index:2,name:"9 Months",isChecked:false},
+                                        {index:3,name:"Constantly Updating",isChecked:false}])
+
+    const [ageFilterDisplay, setAgeFilterDisplay] =useState([
+                                        {index:0,name:"3 Months",isChecked:false},
+                                        {index:1,name:"6 Months",isChecked:false},
+                                        {index:2,name:"9 Months",isChecked:false},
+                                        {index:3,name:"Constantly Updating",isChecked:false}])
 
     const handleCheckListFilterChange = (listName,index) => {
 
@@ -133,17 +153,151 @@ export default function DatasetAdmin() {
         getDatasetList(payload)
     }
 
-    const handleGeoSearch = (e) => {
-        const searchText = e.target.value
-        var tempList =[]
-        if(searchText == ""){
-            tempList = geoMasterList
-        } else {
-            tempList = geoMasterList.filter((geo)=>{
-                return geo.startsWith(searchText)
-            })
+    const handleFilterChange = (index,filterName) => {
+
+        var tempFilterMaster = []
+        var tempFilterDisplay = []
+        var payloadList = []
+        var payload = {}
+
+        if(filterName == screenlabels.dataset.geography){
+
+            resetFilterState(screenlabels.dataset.age)
+            resetFilterState(screenlabels.dataset.crop)
+
+            tempFilterDisplay = [...geoFilterDisplay]
+            for(let i=0; i<tempFilterDisplay.length; i++){
+                if(tempFilterDisplay[i].index == index){
+                    tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked
+                }
+            }
+            setGeoFilterDisplay(tempFilterDisplay)
+
+            tempFilterMaster = [...geoFilterMaster]
+            for(let i =0; i<tempFilterMaster.length; i++){
+                if(tempFilterMaster[i].index == index){
+                    tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
+                }
+                if(tempFilterMaster[i].isChecked){
+                    payloadList.push(tempFilterMaster[i].name)
+                }
+            }
+            setGeoFilterMaster(tempFilterMaster)
+            payload = buildFilterPayLoad("",getUserLocal(),payloadList,"","")
+
+        } else if(filterName == screenlabels.dataset.age){
+
+            resetFilterState(screenlabels.dataset.geography)
+            resetFilterState(screenlabels.dataset.crop)
+
+            tempFilterDisplay = [...ageFilterDisplay]
+            for(let i=0; i<tempFilterDisplay.length; i++){
+                if(tempFilterDisplay[i].index == index){
+                    tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked
+                }
+            }
+            setAgeFilterDisplay(tempFilterDisplay)
+
+            tempFilterMaster = [...ageFilterMaster]
+            for(let i =0; i<tempFilterMaster.length; i++){
+                if(tempFilterMaster[i].index == index){
+                    tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
+                }
+                if(tempFilterMaster[i].isChecked){
+                    payloadList.push(tempFilterMaster[i].name)
+                }
+            }
+            setAgeFilterMaster(tempFilterMaster)
+            payload = buildFilterPayLoad("",getUserLocal(),"",payloadList,"")
+
+        } else if(filterName == screenlabels.dataset.crop){
+
+            resetFilterState(screenlabels.dataset.geography)
+            resetFilterState(screenlabels.dataset.age)
+
+            tempFilterDisplay = [...cropFilterDisplay]
+            for(let i=0; i<tempFilterDisplay.length; i++){
+                if(tempFilterDisplay[i].index == index){
+                    tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked
+                }
+            }
+            setCropFilterDisplay(tempFilterDisplay)
+
+            tempFilterMaster = [...cropFilterMaster]
+            for(let i =0; i<tempFilterMaster.length; i++){
+                if(tempFilterMaster[i].index == index){
+                    tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
+                }
+                if(tempFilterMaster[i].isChecked){
+                    payloadList.push(tempFilterMaster[i].name)
+                }
+            }
+            setCropFilterMaster(tempFilterMaster)
+            payload = buildFilterPayLoad("",getUserLocal(),"","",payloadList)
         }
-        setGeographyList(tempList)
+
+        getDatasetList(payload)
+    }
+
+    const resetFilterState = (filterName) => {
+        var tempfilterMaster = []
+        var tempFilerDisplay = []
+        if(filterName == screenlabels.dataset.geography){
+
+            tempfilterMaster = [...geoFilterMaster]
+            for(let i=0; i<tempfilterMaster.length; i++){
+                tempfilterMaster[i].isChecked = false
+            }
+            setGeoFilterMaster(tempfilterMaster)
+
+            tempFilerDisplay = [...geoFilterDisplay]
+            for(let i=0; i<tempFilerDisplay.length; i++){
+                tempFilerDisplay[i].isChecked = false
+            }
+            setGeoFilterDisplay(tempFilerDisplay)
+
+        } else if(filterName == screenlabels.dataset.age){
+
+            tempfilterMaster = [...ageFilterMaster]
+            for(let i=0; i<tempfilterMaster.length; i++){
+                tempfilterMaster[i].isChecked = false
+            }
+            setAgeFilterMaster(tempfilterMaster)
+
+            tempFilerDisplay = [...ageFilterDisplay]
+            for(let i=0; i<tempFilerDisplay.length; i++){
+                tempFilerDisplay[i].isChecked = false
+            }
+            setAgeFilterDisplay(tempFilerDisplay)
+
+        } else if(filterName == screenlabels.dataset.crop){
+
+            tempfilterMaster = [...cropFilterMaster]
+            for(let i=0; i<tempfilterMaster.length; i++){
+                tempfilterMaster[i].isChecked = false
+            }
+            setCropFilterMaster(tempfilterMaster)
+
+            tempFilerDisplay = [...cropFilterDisplay]
+            for(let i=0; i<tempFilerDisplay.length; i++){
+                tempFilerDisplay[i].isChecked = false
+            }
+            setCropFilterDisplay(tempFilerDisplay)
+        }
+    }
+
+    const handleGeoSearch = (e) => {
+        // const searchText = e.target.value
+        // var tempList = [...geoMasterList]
+        // var newDisplayList = [...geoMasterList]
+        // if(searchText !== ""){
+        //     for(let i=0; i<tempList.length; i++){
+        //         if(tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase()) ){
+        //             newDisplayList.splice(i,1)
+        //         }
+        //     }
+        // }
+        // setGeoFilterDisplay(newDisplayList)
     }
 
     const handleCropSearch = (e) => {
@@ -164,6 +318,38 @@ export default function DatasetAdmin() {
         getDatasetList(buildFilterPayLoad("",getUserLocal(),"","",""))
     }, []);
 
+    // const getFilters = () => {
+    //     setIsLoader(true);
+    //     HTTPService(
+    //     "GET",
+    //     UrlConstant.base_url + UrlConstant.dataset_filter,
+    //     payload,
+    //     false,
+    //     true
+    //     )
+    //     .then((response) => {
+    //         setIsLoader(false);
+    //         setGeoCheckStateList(resetFilter())
+    //         setCropCheckStateList(resetFilter())
+    //         setAgeCheckStateList(resetFilter())
+
+    //         console.log("response:", response);
+            
+    //         console.log("geography:", response.data.geography);
+    //         setGeoMasterList(response.data.geography)
+    //         setGeographyList(response.data.geography)
+            
+    //         console.log("crop:",response.data.crop_detail)
+    //         setCropMasterList(response.data.crop_detail)
+    //         setCropList(response.data.crop_detail)
+            
+    //     })
+    //     .catch((e) => {
+    //         setIsLoader(false);
+    //         history.push(GetErrorHandlingRoute(e));
+    //     });
+    // }
+
     const getFilters = () => {
         setIsLoader(true);
         HTTPService(
@@ -175,25 +361,59 @@ export default function DatasetAdmin() {
         )
         .then((response) => {
             setIsLoader(false);
-            setGeoCheckStateList(resetFilter())
-            setCropCheckStateList(resetFilter())
-            setAgeCheckStateList(resetFilter())
+            console.log("filter response:", response);
+            
+            // console.log("geography:", response.data.geography);
 
-            console.log("response:", response);
-            
-            console.log("geography:", response.data.geography);
-            setGeoMasterList(response.data.geography)
-            setGeographyList(response.data.geography)
-            
-            console.log("crop:",response.data.crop_detail)
-            setCropMasterList(response.data.crop_detail)
-            setCropList(response.data.crop_detail)
+            var geoFilterInput = response.data.geography
+            // var geoFilter = []
+            // for(var i =0; i<geoFilterInput.length; i++){
+            //     var data = {}
+            //     data['index'] = i;
+            //     data['name'] = geoFilterInput[i]
+            //     data['isChecked'] = false
+            //     geoFilter.push(data)
+            // }
+            // console.log("crop:",response.data.crop_detail)
+            var cropFilterInput = response.data.crop_detail
+            // var cropFilter = []
+            // for(var i =0; i<cropFilterInput.length; i++){
+            //     var data = {}
+            //     data['index'] = i;
+            //     data['name'] = cropFilterInput[i]
+            //     data['isChecked'] = false
+            //     cropFilter.push(data)
+            // }
+
+            // console.log("tempGepList",geoFilter)
+            setGeoFilterMaster(initFilter(geoFilterInput))
+            setGeoFilterDisplay(initFilter(geoFilterInput))
+
+            setCropFilterMaster(initFilter(cropFilterInput))
+            setCropFilterDisplay(initFilter(cropFilterInput))
+
+            console.log("geoFilterMaster", geoFilterMaster)
+            console.log("geoFilterDisplay", geoFilterDisplay)
+            console.log("cropFilterMaster",cropFilterMaster)
+            console.log("cropFilterDisplay", cropFilterDisplay)
             
         })
         .catch((e) => {
             setIsLoader(false);
             history.push(GetErrorHandlingRoute(e));
         });
+    }
+
+    const initFilter = (filterInput) => {
+        let filter = []
+        for(var i =0; i<filterInput.length; i++){
+            var data = {}
+            data['index'] = i;
+            data['name'] = filterInput[i]
+            data['isChecked'] = false
+            filter.push(data)
+        }
+        return filter
     }
 
     
@@ -234,7 +454,7 @@ export default function DatasetAdmin() {
             });
     }
 
-    const buildFilterPayLoad = (createdAtRange,userId,geoPayload,cropPayload,agePayload) => {
+    const buildFilterPayLoad = (createdAtRange,userId,geoPayload,agePayload,cropPayload) => {
         let data = {}
         data['created_at__range'] = createdAtRange
         data['user_id'] = userId
@@ -349,6 +569,12 @@ export default function DatasetAdmin() {
                             cropList={cropList}
                             handleCropSearch={handleCropSearch}
                             handleCheckListFilterChange={handleCheckListFilterChange}
+
+                            geoFilterDisplay={geoFilterDisplay}
+                            cropFilterDisplay={cropFilterDisplay}
+                            ageFilterDisplay={ageFilterDisplay}
+                            handleFilterChange={handleFilterChange}
+
                         />
                     </Col>
                     <Col className="supportSecondCOlumn">

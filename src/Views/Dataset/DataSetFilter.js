@@ -107,6 +107,15 @@ export default function DataSetFilter(props) {
           />
       </Row>
       <Row>
+          {props.geoFilterDisplay && props.geoFilterDisplay.map((geoFilter) => (
+              <FilterCheckBox
+                label={geoFilter.name}
+                checked={geoFilter.isChecked}
+                handleCheckListFilterChange={() => props.handleFilterChange(geoFilter.index,screenlabels.dataset.geography)}
+              />
+              ))}
+      </Row>
+      {/* <Row>
         {props.geographyList && props.geographyList.map((geography) => (
             <FilterCheckBox
                 label={geography}
@@ -115,11 +124,20 @@ export default function DataSetFilter(props) {
             />
         ))}  
       </Row>
-      
+       */}
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.age}</span>
       </Row>
       <Row>
+          {props.ageFilterDisplay && props.ageFilterDisplay.map((ageFilter) => (
+              <FilterCheckBox
+                label={ageFilter.name}
+                checked={ageFilter.isChecked}
+                handleCheckListFilterChange={() => props.handleFilterChange(ageFilter.index,screenlabels.dataset.age)}
+              />
+          ))}
+      </Row>
+      {/* <Row>
         {props.ageList && props.ageList.map((age) => (
             <FilterCheckBox
                 label={age}
@@ -127,7 +145,7 @@ export default function DataSetFilter(props) {
                 handleCheckListFilterChange={() => props.handleCheckListFilterChange("age",props.ageMasterList.findIndex((a)=> a == age))}
             />
         ))}  
-      </Row>
+      </Row> */}
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.crop}</span>
       </Row>
@@ -141,6 +159,15 @@ export default function DataSetFilter(props) {
           />
       </Row>
       <Row>
+          {props.cropFilterDisplay && props.cropFilterDisplay.map((cropFilter) => (
+              <FilterCheckBox
+                label={cropFilter.name}
+                checked={cropFilter.isChecked}
+                handleCheckListFilterChange={() => props.handleFilterChange(cropFilter.index,screenlabels.dataset.crop)}
+              />
+          ))}
+      </Row>
+      {/* <Row>
         {props.cropList && props.cropList.map((crop) => (
             <FilterCheckBox
                 label={crop}
@@ -148,7 +175,7 @@ export default function DataSetFilter(props) {
                 handleCheckListFilterChange={() => props.handleCheckListFilterChange("crop",props.cropMasterList.findIndex((c)=> c == crop))}
             />
         ))}  
-      </Row>
+      </Row> */}
       
     </div>
   )
