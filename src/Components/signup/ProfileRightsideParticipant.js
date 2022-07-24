@@ -203,6 +203,7 @@ export default function ProfileRightsideParticipant(props) {
               // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />
           </div>
+          {/*
           <div className="profileimg">
             <FileUploader
               //   multiple={true}
@@ -241,8 +242,9 @@ export default function ProfileRightsideParticipant(props) {
               {props.profileImageFile && <CancelIcon onClick={handleProfileImageUploadCancel} />}
             </p>
           </div>
+          */}
           <div>
-            {props.profilenextbutton && props.profileImageFile? (
+            {props.profilenextbutton ? (
               <Button variant="contained" className="profilebtn" type="submit">
                 <span className="signupbtnname">Next</span>
               </Button>

@@ -74,9 +74,18 @@ export default function OrgRightside(props) {
             }
             props.setOrgId(response.data.organization.id)
 
+            // Trigger change event on all the input fields - to be changed later
+            var changeEvent = new Event('change', { bubbles: true });
+            document.getElementById('orgnametextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgemailtextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgphonetextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgaddresstextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgcitytextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgcountryselect').dispatchEvent(changeEvent)
+            document.getElementById('orgpincodetextfield').dispatchEvent(changeEvent)
+            //document.getElementById('orgdescriptioneditor').dispatchEvent(changeEvent)
+            //document.getElementById('orgfileuploader').dispatchEvent(changeEvent)
           }
-          //props.setOrgCity(response.data.organization.phone_number)
-          //setidorg(response.data.organization_id)
       }).catch((e) => {
           console.log(e);
           setIsLoader(false);
@@ -391,7 +400,7 @@ export default function OrgRightside(props) {
           <div className="orgname">
             <TextField
               required
-              id="filled-basic"
+              id="orgnametextfield"
               label="Organization Name"
               variant="filled"
               style={{ width: '420px' }}
@@ -419,7 +428,7 @@ export default function OrgRightside(props) {
             <TextField
               required
               type="email"
-              id="filled-basic"
+              id="orgemailtextfield"
               label="Organization Mail ID"
               variant="filled"
               style={{ width: '420px' }}
@@ -442,7 +451,7 @@ export default function OrgRightside(props) {
             <MuiPhoneNumber
               defaultCountry={'in'}
               style={{ width: '420px' }}
-              id="filled-basic"
+              id="orgphonetextfield"
               label="Organization Contact Number"
               variant="filled"
               value = {props.validOrgNumber}
@@ -455,7 +464,7 @@ export default function OrgRightside(props) {
           <div className="orgaddress">
             <TextField
               required
-              id="filled-basic"
+              id="orgaddresstextfield"
               label="Address"
               variant="filled"
               style={{ width: '420px' }}
@@ -477,7 +486,7 @@ export default function OrgRightside(props) {
           <div className="orgcity">
             <TextField
               required
-              id="filled-basic"
+              id="orgcitytextfield"
               label="City"
               variant="filled"
               style={{ width: '420px' }}
@@ -503,6 +512,7 @@ export default function OrgRightside(props) {
             {
             <Select
               required
+              id="orgcountryselect"
               options={options}
               value={props.countryvalue}
               onChange={props.countrychangeHandler}
@@ -528,7 +538,7 @@ export default function OrgRightside(props) {
             <TextField
               required
               type="number"
-              id="filled-basic"
+              id="orgpincodetextfield"
               //   inputProps={{ maxLength: 6 }}
               label="Pin Code"
               variant="filled"
@@ -586,7 +596,7 @@ export default function OrgRightside(props) {
               value={editorValue}
               onChange={handleOrgDesChange}
               required
-              id="body-text"
+              id="orgdescriptioneditor"
               name="bodyText"
               type="string"
               multiline
@@ -630,6 +640,7 @@ export default function OrgRightside(props) {
           <div className="org">
             <FileUploader
               //   multiple={true}
+              id="orgfileuploader"
               handleChange={props.handleorgFileChange}
               name="file"
               types={fileTypes}

@@ -33,6 +33,7 @@ import { useHistory } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import GetErrorHandlingRoute from "../../Utils/Common";
 import ProfileRightsideParticipant from '../../Components/signup/ProfileRightsideParticipant'
+import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
 
 export default function Login(props) {
   const [button, setButton] = useState(false)
@@ -212,7 +213,7 @@ export default function Login(props) {
               }
               else if (isLoggedInUserParticipant())
               {
-                props.history.push('/datahub/participants')
+                props.history.push('/participant/home')
               }
             } else {
               setisaccesstoken(response.data.access);
@@ -340,7 +341,7 @@ export default function Login(props) {
     bodyFormData.append("first_name", firstname);
     bodyFormData.append("last_name", lastname);
     bodyFormData.append("phone_number", validNumber);
-    bodyFormData.append("profile_picture", profileimage);
+    //bodyFormData.append("profile_picture", profileimage);
 
     console.log("profile data", bodyFormData);
     let url = UrlConstant.base_url + UrlConstant.profile + `${profileid}/`;
@@ -475,7 +476,7 @@ export default function Login(props) {
 
   const handleOrgSubmit = async (e) => {
     e.preventDefault();
-    let url = UrlConstant.base_url + UrlConstant.org;
+    
     // email validation
     const emailstring = orgmail;
     const valid = validator.isEmail(emailstring);
@@ -522,6 +523,8 @@ export default function Login(props) {
     } else {
       setisOrgnameerror(false);
       var method = orgId && orgId.length > 0 ? "PUT" : "POST"
+      var url = orgId && orgId.length > 0 ? (UrlConstant.base_url + UrlConstant.org + userid + "/") : (UrlConstant.base_url + UrlConstant.org)
+
       setIsLoader(true);
       HTTPService(method, url, bodyFormData, true, true, isaccesstoken)
         .then((response) => {
@@ -537,6 +540,10 @@ export default function Login(props) {
             setisOrg(false);
             setUserMapId(response.data.user_map);
             setOrgId(response.data.org_id);
+
+            if (isLoggedInUserParticipant()){
+              setIsDataSet(true)
+            }
             // setEmail(false);
             // setError(false);
           } else {
@@ -670,6 +677,7 @@ export default function Login(props) {
     if(isLoggedInUserParticipant()){
       setIsDataSet(true);
       setisOrg(false);
+      //props.history.push('/loginadddatasetparticipant');
     }
   };
 
@@ -677,7 +685,8 @@ export default function Login(props) {
     <div>
       {isLoader ? <Loader /> : ""}
       <SignInHeader></SignInHeader>
-      <h1 className="headertext">{screenlabels.login.signup_header}</h1>
+      {(isDataSet && isLoggedInUserParticipant())? (<AddDatasetParticipant isaccesstoken={isaccesstoken}/>):
+      (<><h1 className="headertext">{screenlabels.login.signup_header}</h1>
       <Leftintro />
       {isemail || isOtp ? <Rightintro /> : ""}
       {/* <Footerimg /> */}
@@ -793,7 +802,6 @@ export default function Login(props) {
           // handleOrgDesChange={handleOrgDesChange}
           textEditorData={(value) => settextEditorValue(value)}
           handleOrgSubmit={handleOrgSubmit}
-          handleOrgname={handleOrgname}
           handleOrgmail={handleOrgmail}
           handleOrgnumber={handleOrgnumber}
           handleOrgAddress={handleOrgAddress}
@@ -824,7 +832,7 @@ export default function Login(props) {
           validemail={validemail}
           isaccesstoken={isaccesstoken}
         />
-      )}
+      )}</>)}
     </div>
   );
 }
