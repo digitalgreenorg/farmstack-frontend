@@ -30,15 +30,19 @@ export default function DatasetAdmin() {
         UrlConstant.base_url + UrlConstant.dataset_list
       );
 
-    var payload = ""
-    const [filterObject, setfilterObject] = useState(
-        {
-            "all": true,
-            "fromDateandToDate": [],
-            "geographyList": [],
-            "ageList": [],
-            "cropList": []
-        });
+    // var payload = ""
+    const [isShowAll,setIsShowAll] = useState(true)
+    const [geoSearchState, setGeoSearchState] = useState("")
+    const [cropSearchState, setCropSearchState] = useState("")
+    
+    // const [filterObject, setfilterObject] = useState(
+    //     {
+    //         "all": true,
+    //         "fromDateandToDate": [],
+    //         "geographyList": [],
+    //         "ageList": [],
+    //         "cropList": []
+    //     });
 
     // const resetFilters = () => {
     //     setfilterObject(
@@ -159,7 +163,10 @@ export default function DatasetAdmin() {
         var tempFilterDisplay = []
         var payloadList = []
         var payload = {}
+
+        setIsShowAll(false)
         resetDateFilters()
+
         if(filterName == screenlabels.dataset.geography){
 
             resetFilterState(screenlabels.dataset.age)
@@ -262,8 +269,10 @@ export default function DatasetAdmin() {
             tempFilerDisplay = [...geoFilterDisplay]
             for(let i=0; i<tempFilerDisplay.length; i++){
                 tempFilerDisplay[i].isChecked = false
+                tempFilerDisplay[i].isDisplayed = true
             }
             setGeoFilterDisplay(tempFilerDisplay)
+            setGeoSearchState("")
 
         } else if(filterName == screenlabels.dataset.age){
 
@@ -276,6 +285,7 @@ export default function DatasetAdmin() {
             tempFilerDisplay = [...ageFilterDisplay]
             for(let i=0; i<tempFilerDisplay.length; i++){
                 tempFilerDisplay[i].isChecked = false
+                tempFilerDisplay[i].isDisplayed = true
             }
             setAgeFilterDisplay(tempFilerDisplay)
 
@@ -290,13 +300,16 @@ export default function DatasetAdmin() {
             tempFilerDisplay = [...cropFilterDisplay]
             for(let i=0; i<tempFilerDisplay.length; i++){
                 tempFilerDisplay[i].isChecked = false
+                tempFilerDisplay[i].isDisplayed = true
             }
             setCropFilterDisplay(tempFilerDisplay)
+            setCropSearchState("")
         }
     }
 
     const handleGeoSearch = (e) => {
         const searchText = e.target.value
+        setGeoSearchState(searchText)
         var tempList = [...geoFilterDisplay]
         for(let i=0; i<tempList.length; i++){
             if(searchText == ""){
@@ -313,6 +326,7 @@ export default function DatasetAdmin() {
 
     const handleCropSearch = (e) => {
         const searchText = e.target.value
+        setCropSearchState(searchText)
         var tempList = [...cropFilterDisplay]
         for(let i=0; i<tempList.length; i++){
             if(searchText == ""){
@@ -369,7 +383,7 @@ export default function DatasetAdmin() {
         HTTPService(
         "GET",
         UrlConstant.base_url + UrlConstant.dataset_filter,
-        payload,
+        "",
         false,
         true
         )
@@ -510,25 +524,25 @@ export default function DatasetAdmin() {
         setfromdate(null);
     }
 
-    const filterRow = (row, flag, payloadkey) => {
-        if (flag != false) {
-            let tempfilterObject = { ...filterObject }
-            if (payloadkey != 'all') {
-                let data = {}
-                data[payloadkey] = row
-                payload = data;
-            } else {
-                payload = ""
-            }
-            tempfilterObject[row] = flag;
-            Object.keys(tempfilterObject).forEach(function (key) { if (key != row) { tempfilterObject[key] = false } });
-            setfilterObject(tempfilterObject)
-            setsecondrow(false)
-            settodate(null)
-            setfromdate(null);
-            getDatasetList(payload)
-        }
-    }
+    // const filterRow = (row, flag, payloadkey) => {
+    //     if (flag != false) {
+    //         let tempfilterObject = { ...filterObject }
+    //         if (payloadkey != 'all') {
+    //             let data = {}
+    //             data[payloadkey] = row
+    //             payload = data;
+    //         } else {
+    //             payload = ""
+    //         }
+    //         tempfilterObject[row] = flag;
+    //         Object.keys(tempfilterObject).forEach(function (key) { if (key != row) { tempfilterObject[key] = false } });
+    //         setfilterObject(tempfilterObject)
+    //         setsecondrow(false)
+    //         settodate(null)
+    //         setfromdate(null);
+    //         getDatasetList(payload)
+    //     }
+    // }
 
     const getAllDataSets = () => {
         // setGeoCheckStateList(resetFilter())
@@ -538,7 +552,8 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
-        
+
+        setIsShowAll(true)
         setsecondrow(false)
         settodate(null)
         setfromdate(null);
@@ -558,12 +573,12 @@ export default function DatasetAdmin() {
         fromDateandToDate.push(todate)
         // let data = {}
         // data['created_at__range'] = fromDateandToDate
-
+        setIsShowAll(false)
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
 
-        payload = buildFilterPayLoad(fromDateandToDate,getUserLocal(),"","","")
+        var payload = buildFilterPayLoad(fromDateandToDate,getUserLocal(),"","","")
         setsecondrow(true)
         getDatasetList(payload)
     }
@@ -577,7 +592,9 @@ export default function DatasetAdmin() {
                 <Row className="supportfilterRow">
                     <Col className="supportfilterCOlumn">
                         <DataSetFilter
-                            filterObject={filterObject}
+                            // filterObject={filterObject}
+                            isShowAll={isShowAll}
+                            setIsShowAll={setIsShowAll}
                             secondrow={secondrow}
                             fromdate={fromdate}
                             todate={todate}
@@ -604,6 +621,8 @@ export default function DatasetAdmin() {
                             ageFilterDisplay={ageFilterDisplay}
                             handleFilterChange={handleFilterChange}
                             resetFilterState={resetFilterState}
+                            geoSearchState={geoSearchState}
+                            cropSearchState={cropSearchState}
 
                         />
                     </Col>

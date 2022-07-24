@@ -14,7 +14,7 @@ export default function DataSetFilter(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
 
 
-  const filterObject = props.filterObject
+//   const filterObject = props.filterObject
   return (
     <div>
         <Row className="supportfilterfirstrow">
@@ -26,7 +26,7 @@ export default function DataSetFilter(props) {
             <span className="fontweight600andfontsize14pxandcolor3A3A3A" >{screenlabels.dataset.filter}</span>
             </Col>
         </Row>
-        {filterObject.all ? 
+        {props.isShowAll ? 
         // <Row onClick={() => props.filterRow('all', false, 'all')} className="supportfiltersecondrow">
         <Row onClick={() => props.getAllDataSets()} className="supportfiltersecondrow">
             <span className="supportallicon">
@@ -59,6 +59,7 @@ export default function DataSetFilter(props) {
                       onChange={(newValue) => {
                           props.settodate(null)
                           props.setfromdate(newValue);
+                        //   props.setIsShowAll(false)
                           props.resetFilterState(screenlabels.dataset.geography)
                           props.resetFilterState(screenlabels.dataset.age)
                           props.resetFilterState(screenlabels.dataset.crop)
@@ -106,6 +107,7 @@ export default function DataSetFilter(props) {
             id="filled-basic"
             variant="filled"
             label={screenlabels.dataset.search}
+            value={props.geoSearchState}
             onChange={(e) => props.handleGeoSearch(e)}
           />
       </Row>
@@ -159,6 +161,7 @@ export default function DataSetFilter(props) {
             id="filled-basic"
             variant="filled"
             label={screenlabels.dataset.search}
+            value={props.cropSearchState}
             onChange={(e) => props.handleCropSearch(e)}
           />
       </Row>
