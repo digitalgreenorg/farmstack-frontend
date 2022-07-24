@@ -151,7 +151,14 @@ const labels = {
       geography: "Geography",
       age: "Age",
       crop: "Crop",
-      search: "Search"
+      search: "Search",
+      datasets: "Datasets",
+      enabled: "Enabled",
+      disbaled: "Disabled",
+      status: "Status",
+      for_review: "For Review",
+      rejected: "Rejected",
+      approved: "Approved"
     },
   },
 };

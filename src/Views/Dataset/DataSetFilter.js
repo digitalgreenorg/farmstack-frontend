@@ -13,17 +13,24 @@ import { SearchSharp } from '@mui/icons-material';
 export default function DataSetFilter(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
 
-
-//   const filterObject = props.filterObject
   return (
     <div>
         <Row className="supportfilterfirstrow">
             <Col className='supportfiltertext'>
-            <span className="fontweight600andfontsize14pxandcolor3A3A3A" >{screenlabels.dataset.filter}</span>
+            <span className="fontweight600andfontsize14pxandcolor3A3A3A">{screenlabels.dataset.filter}</span>
+            {/* <span style={{"font-weight": "600","font-size": "14px","color": "#3a3a3a","left":"10px"}}>{screenlabels.dataset.filter}</span> */}
             </Col>
             
             <Col className='supportfiltertext'>
-            <span className="fontweight600andfontsize14pxandcolor3A3A3A" >{screenlabels.dataset.filter}</span>
+            <span className="fontweight600andfontsize14pxandcolor3A3A3A" >
+                        <Button
+                            style={{"font-style":"Open Sans","font-weight": "500","font-size": "13px","bottom":"4px","right":"-10px"}}
+                            onClick={() => props.clearAllFilters()}
+                            // variant="outlined"
+                            // className="cancelbtn"
+                            >
+                            Clear All
+                        </Button></span>
             </Col>
         </Row>
         {props.isShowAll ? 
@@ -63,6 +70,8 @@ export default function DataSetFilter(props) {
                           props.resetFilterState(screenlabels.dataset.geography)
                           props.resetFilterState(screenlabels.dataset.age)
                           props.resetFilterState(screenlabels.dataset.crop)
+                          props.resetFilterState(screenlabels.dataset.status)
+                          props.resetEnabledStatusFilter()
                           setTimeout(() => {
                               $(".supportcardtodate input.MuiInputBase-input").attr("disabled", "disabled");
                           }, 100)
@@ -98,6 +107,39 @@ export default function DataSetFilter(props) {
                   </Button>
               </span>}
       </Row>
+      {props.showMemberFilters && 
+        <Row className="supportfiltersecondrowbold">
+            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.status}</span>
+        </Row>}
+        {props.showMemberFilters &&
+            props.statusFilter && props.statusFilter.map((status) => (
+            <FilterCheckBox
+                label={status.name}
+                checked={status.isChecked}
+                handleCheckListFilterChange={() => props.handleFilterChange(status.index,screenlabels.dataset.status)}
+            />
+            ))
+        }
+      {props.showMemberFilters && 
+        <Row className="supportfiltersecondrowbold">
+            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.datasets}</span>
+        </Row>}
+        {props.showMemberFilters &&
+        
+            <FilterCheckBox
+                label={screenlabels.dataset.enabled}
+                checked={props.isEnabledFilter}
+                handleCheckListFilterChange={() => props.handleEnableStatusFilter(screenlabels.dataset.enabled)}
+            />
+        }
+        {props.showMemberFilters &&
+        
+            <FilterCheckBox
+                label={screenlabels.dataset.disbaled}
+                checked={props.isDisabledFilter}
+                handleCheckListFilterChange={() => props.handleEnableStatusFilter(screenlabels.dataset.disbaled)}
+            />
+        }
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.geography}</span>
       </Row>
@@ -111,7 +153,7 @@ export default function DataSetFilter(props) {
             onChange={(e) => props.handleGeoSearch(e)}
           />
       </Row>
-      <Row>
+      {/* <Row> */}
           {props.geoFilterDisplay && props.geoFilterDisplay.map((geoFilter) => (
               geoFilter.isDisplayed &&
               <FilterCheckBox
@@ -120,7 +162,7 @@ export default function DataSetFilter(props) {
                 handleCheckListFilterChange={() => props.handleFilterChange(geoFilter.index,screenlabels.dataset.geography)}
               />
               ))}
-      </Row>
+      {/* </Row> */}
       {/* <Row>
         {props.geographyList && props.geographyList.map((geography) => (
             <FilterCheckBox
@@ -134,7 +176,7 @@ export default function DataSetFilter(props) {
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.age}</span>
       </Row>
-      <Row>
+      {/* <Row> */}
           {props.ageFilterDisplay && props.ageFilterDisplay.map((ageFilter) => (
               <FilterCheckBox
                 label={ageFilter.name}
@@ -142,7 +184,7 @@ export default function DataSetFilter(props) {
                 handleCheckListFilterChange={() => props.handleFilterChange(ageFilter.index,screenlabels.dataset.age)}
               />
           ))}
-      </Row>
+      {/* </Row> */}
       {/* <Row>
         {props.ageList && props.ageList.map((age) => (
             <FilterCheckBox
@@ -165,7 +207,7 @@ export default function DataSetFilter(props) {
             onChange={(e) => props.handleCropSearch(e)}
           />
       </Row>
-      <Row>
+      {/* <Row> */}
           {props.cropFilterDisplay && props.cropFilterDisplay.map((cropFilter) => (
               cropFilter.isDisplayed &&
               <FilterCheckBox
@@ -174,7 +216,7 @@ export default function DataSetFilter(props) {
                 handleCheckListFilterChange={() => props.handleFilterChange(cropFilter.index,screenlabels.dataset.crop)}
               />
           ))}
-      </Row>
+      {/* </Row> */}
       {/* <Row>
         {props.cropList && props.cropList.map((crop) => (
             <FilterCheckBox
