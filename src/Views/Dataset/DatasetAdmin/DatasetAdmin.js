@@ -68,17 +68,17 @@ export default function DatasetAdmin() {
     const [ageCheckStateList, setAgeCheckStateList] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
 
 
-    const [geoFilterMaster,setGeoFilterMaster] = useState([])
+    // const [geoFilterMaster,setGeoFilterMaster] = useState([])
     const [geoFilterDisplay, setGeoFilterDisplay] = useState([])
 
-    const [cropFilterMaster, setCropFilterMaster] = useState([])
+    // const [cropFilterMaster, setCropFilterMaster] = useState([])
     const [cropFilterDisplay, setCropFilterDisplay] = useState([])
 
-    const [ageFilterMaster, setAgeFilterMaster] = useState([
-                                        {index:0,name:"3 Months",isChecked:false},
-                                        {index:1,name:"6 Months",isChecked:false},
-                                        {index:2,name:"9 Months",isChecked:false},
-                                        {index:3,name:"Constantly Updating",isChecked:false}])
+    // const [ageFilterMaster, setAgeFilterMaster] = useState([
+    //                                     {index:0,name:"3 Months",isChecked:false},
+    //                                     {index:1,name:"6 Months",isChecked:false},
+    //                                     {index:2,name:"9 Months",isChecked:false},
+    //                                     {index:3,name:"Constantly Updating",isChecked:false}])
 
     const [ageFilterDisplay, setAgeFilterDisplay] =useState([
                                         {index:0,name:"3 Months",isChecked:false},
@@ -159,7 +159,7 @@ export default function DatasetAdmin() {
         var tempFilterDisplay = []
         var payloadList = []
         var payload = {}
-
+        resetDateFilters()
         if(filterName == screenlabels.dataset.geography){
 
             resetFilterState(screenlabels.dataset.age)
@@ -170,19 +170,22 @@ export default function DatasetAdmin() {
                 if(tempFilterDisplay[i].index == index){
                     tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked
                 }
+                if(tempFilterDisplay[i].isChecked){
+                    payloadList.push(tempFilterDisplay[i].name)
+                }
             }
             setGeoFilterDisplay(tempFilterDisplay)
 
-            tempFilterMaster = [...geoFilterMaster]
-            for(let i =0; i<tempFilterMaster.length; i++){
-                if(tempFilterMaster[i].index == index){
-                    tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
-                }
-                if(tempFilterMaster[i].isChecked){
-                    payloadList.push(tempFilterMaster[i].name)
-                }
-            }
-            setGeoFilterMaster(tempFilterMaster)
+            // tempFilterMaster = [...geoFilterMaster]
+            // for(let i =0; i<tempFilterMaster.length; i++){
+            //     if(tempFilterMaster[i].index == index){
+            //         tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
+            //     }
+            //     if(tempFilterMaster[i].isChecked){
+            //         payloadList.push(tempFilterMaster[i].name)
+            //     }
+            // }
+            // setGeoFilterMaster(tempFilterMaster)
             payload = buildFilterPayLoad("",getUserLocal(),payloadList,"","")
 
         } else if(filterName == screenlabels.dataset.age){
@@ -195,19 +198,22 @@ export default function DatasetAdmin() {
                 if(tempFilterDisplay[i].index == index){
                     tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked
                 }
+                if(tempFilterDisplay[i].isChecked){
+                    payloadList.push(tempFilterDisplay[i].name)
+                }
             }
             setAgeFilterDisplay(tempFilterDisplay)
 
-            tempFilterMaster = [...ageFilterMaster]
-            for(let i =0; i<tempFilterMaster.length; i++){
-                if(tempFilterMaster[i].index == index){
-                    tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
-                }
-                if(tempFilterMaster[i].isChecked){
-                    payloadList.push(tempFilterMaster[i].name)
-                }
-            }
-            setAgeFilterMaster(tempFilterMaster)
+            // tempFilterMaster = [...ageFilterMaster]
+            // for(let i =0; i<tempFilterMaster.length; i++){
+            //     if(tempFilterMaster[i].index == index){
+            //         tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
+            //     }
+            //     if(tempFilterMaster[i].isChecked){
+            //         payloadList.push(tempFilterMaster[i].name)
+            //     }
+            // }
+            // setAgeFilterMaster(tempFilterMaster)
             payload = buildFilterPayLoad("",getUserLocal(),"",payloadList,"")
 
         } else if(filterName == screenlabels.dataset.crop){
@@ -220,19 +226,22 @@ export default function DatasetAdmin() {
                 if(tempFilterDisplay[i].index == index){
                     tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked
                 }
+                if(tempFilterDisplay[i].isChecked){
+                    payloadList.push(tempFilterDisplay[i].name)
+                }
             }
             setCropFilterDisplay(tempFilterDisplay)
 
-            tempFilterMaster = [...cropFilterMaster]
-            for(let i =0; i<tempFilterMaster.length; i++){
-                if(tempFilterMaster[i].index == index){
-                    tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
-                }
-                if(tempFilterMaster[i].isChecked){
-                    payloadList.push(tempFilterMaster[i].name)
-                }
-            }
-            setCropFilterMaster(tempFilterMaster)
+            // tempFilterMaster = [...cropFilterMaster]
+            // for(let i =0; i<tempFilterMaster.length; i++){
+            //     if(tempFilterMaster[i].index == index){
+            //         tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
+            //     }
+            //     if(tempFilterMaster[i].isChecked){
+            //         payloadList.push(tempFilterMaster[i].name)
+            //     }
+            // }
+            // setCropFilterMaster(tempFilterMaster)
             payload = buildFilterPayLoad("",getUserLocal(),"","",payloadList)
         }
 
@@ -244,11 +253,11 @@ export default function DatasetAdmin() {
         var tempFilerDisplay = []
         if(filterName == screenlabels.dataset.geography){
 
-            tempfilterMaster = [...geoFilterMaster]
-            for(let i=0; i<tempfilterMaster.length; i++){
-                tempfilterMaster[i].isChecked = false
-            }
-            setGeoFilterMaster(tempfilterMaster)
+            // tempfilterMaster = [...geoFilterMaster]
+            // for(let i=0; i<tempfilterMaster.length; i++){
+            //     tempfilterMaster[i].isChecked = false
+            // }
+            // setGeoFilterMaster(tempfilterMaster)
 
             tempFilerDisplay = [...geoFilterDisplay]
             for(let i=0; i<tempFilerDisplay.length; i++){
@@ -258,11 +267,11 @@ export default function DatasetAdmin() {
 
         } else if(filterName == screenlabels.dataset.age){
 
-            tempfilterMaster = [...ageFilterMaster]
-            for(let i=0; i<tempfilterMaster.length; i++){
-                tempfilterMaster[i].isChecked = false
-            }
-            setAgeFilterMaster(tempfilterMaster)
+            // tempfilterMaster = [...ageFilterMaster]
+            // for(let i=0; i<tempfilterMaster.length; i++){
+            //     tempfilterMaster[i].isChecked = false
+            // }
+            // setAgeFilterMaster(tempfilterMaster)
 
             tempFilerDisplay = [...ageFilterDisplay]
             for(let i=0; i<tempFilerDisplay.length; i++){
@@ -272,11 +281,11 @@ export default function DatasetAdmin() {
 
         } else if(filterName == screenlabels.dataset.crop){
 
-            tempfilterMaster = [...cropFilterMaster]
-            for(let i=0; i<tempfilterMaster.length; i++){
-                tempfilterMaster[i].isChecked = false
-            }
-            setCropFilterMaster(tempfilterMaster)
+            // tempfilterMaster = [...cropFilterMaster]
+            // for(let i=0; i<tempfilterMaster.length; i++){
+            //     tempfilterMaster[i].isChecked = false
+            // }
+            // setCropFilterMaster(tempfilterMaster)
 
             tempFilerDisplay = [...cropFilterDisplay]
             for(let i=0; i<tempFilerDisplay.length; i++){
@@ -391,15 +400,15 @@ export default function DatasetAdmin() {
             // }
 
             // console.log("tempGepList",geoFilter)
-            setGeoFilterMaster(initFilter(geoFilterInput))
+            // setGeoFilterMaster(initFilter(geoFilterInput))
             setGeoFilterDisplay(initFilter(geoFilterInput))
 
-            setCropFilterMaster(initFilter(cropFilterInput))
+            // setCropFilterMaster(initFilter(cropFilterInput))
             setCropFilterDisplay(initFilter(cropFilterInput))
 
-            console.log("geoFilterMaster", geoFilterMaster)
+            // console.log("geoFilterMaster", geoFilterMaster)
             console.log("geoFilterDisplay", geoFilterDisplay)
-            console.log("cropFilterMaster",cropFilterMaster)
+            // console.log("cropFilterMaster",cropFilterMaster)
             console.log("cropFilterDisplay", cropFilterDisplay)
             
         })
@@ -496,6 +505,11 @@ export default function DatasetAdmin() {
         return filter
     }
 
+    const resetDateFilters = () => {
+        settodate(null)
+        setfromdate(null);
+    }
+
     const filterRow = (row, flag, payloadkey) => {
         if (flag != false) {
             let tempfilterObject = { ...filterObject }
@@ -517,9 +531,13 @@ export default function DatasetAdmin() {
     }
 
     const getAllDataSets = () => {
-        setGeoCheckStateList(resetFilter())
-        setAgeCheckStateList(resetFilter())
-        setCropCheckStateList(resetFilter())
+        // setGeoCheckStateList(resetFilter())
+        // setAgeCheckStateList(resetFilter())
+        // setCropCheckStateList(resetFilter())
+
+        resetFilterState(screenlabels.dataset.geography)
+        resetFilterState(screenlabels.dataset.age)
+        resetFilterState(screenlabels.dataset.crop)
         
         setsecondrow(false)
         settodate(null)
@@ -540,6 +558,11 @@ export default function DatasetAdmin() {
         fromDateandToDate.push(todate)
         // let data = {}
         // data['created_at__range'] = fromDateandToDate
+
+        resetFilterState(screenlabels.dataset.geography)
+        resetFilterState(screenlabels.dataset.age)
+        resetFilterState(screenlabels.dataset.crop)
+
         payload = buildFilterPayLoad(fromDateandToDate,getUserLocal(),"","","")
         setsecondrow(true)
         getDatasetList(payload)
@@ -580,6 +603,7 @@ export default function DatasetAdmin() {
                             cropFilterDisplay={cropFilterDisplay}
                             ageFilterDisplay={ageFilterDisplay}
                             handleFilterChange={handleFilterChange}
+                            resetFilterState={resetFilterState}
 
                         />
                     </Col>

@@ -59,6 +59,9 @@ export default function DataSetFilter(props) {
                       onChange={(newValue) => {
                           props.settodate(null)
                           props.setfromdate(newValue);
+                          props.resetFilterState(screenlabels.dataset.geography)
+                          props.resetFilterState(screenlabels.dataset.age)
+                          props.resetFilterState(screenlabels.dataset.crop)
                           setTimeout(() => {
                               $(".supportcardtodate input.MuiInputBase-input").attr("disabled", "disabled");
                           }, 100)
