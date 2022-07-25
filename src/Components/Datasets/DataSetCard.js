@@ -170,7 +170,7 @@ export default function DataSetCard(props) {
                     {isshowbutton ? 
                         <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                             <Button 
-                            // onClick={()=>props.viewCardDetails()} 
+                            onClick={()=>props.viewCardDetails(props.id)} 
                             variant="outlined" style={useStyles.btncolor}>
                                 View Details
                             </Button>
