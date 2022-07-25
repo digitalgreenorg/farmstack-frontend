@@ -17,13 +17,15 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import { FileUploader } from "react-drag-drop-files";
 import UploadDataset from "../../Components/Datasets/UploadDataset";
+import { Container } from "react-bootstrap";
+import { width } from "@mui/system";
 
 export default function DataSetForm(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const fileTypes = ["csv", "xls", "xlsx"];
 
   return (
-    <div className="datasetform">
+    <Container className="datasetform">
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetmainheading">{props.title}</span>
@@ -37,6 +39,7 @@ export default function DataSetForm(props) {
             id="filled-basic"
             variant="filled"
             required
+            width="100%"
             value={props.datasetname}
             onChange={props.handleChangedatasetname}
             label={screenlabels.dataset.name}
@@ -50,11 +53,12 @@ export default function DataSetForm(props) {
             variant="filled"
             defaultValue={props.reply}
             maxLength={500}
+            width="100%"
             onKeyDown={props.handledescriptionKeydown}
             onChange={props.handleChangedescription}
             style={{
               border: "none !important",
-              width: "420px",
+              /*width: "420px",*/
               "min-height": "50px",
               "border-bottom": "1px solid #9AA1A9 !important",
             }}
@@ -68,8 +72,8 @@ export default function DataSetForm(props) {
           </span>
         </Col>
       </Row>
-      <Row className="checkbox1">
-        <Col xs={12} sm={12} md={6} lg={3}>
+      <Row>
+        <Col xs={3} sm={3} md={3} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -78,9 +82,10 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Crop_data}
+            style={{width: "100%"}}
           />
         </Col>
-        <Col xs={12} sm={12} md={6} lg={3}>
+        <Col xs={3} sm={3} md={3} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -89,9 +94,10 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Practice_data}
+            style={{width: "100%"}}
           />
         </Col>
-        <Col xs={12} sm={12} md={6} lg={3}>
+        <Col xs={3} sm={3} md={3} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -100,9 +106,10 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Farmer_profile}
+            style={{width: "100%"}}
           />
         </Col>
-        <Col xs={12} sm={12} md={6} lg={3}>
+        <Col xs={3} sm={3} md={3} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -111,11 +118,12 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Land_records}
+            style={{width: "100%"}}
           />
         </Col>
       </Row>
-      <Row className="checkbox2">
-        <Col xs={12} sm={12} md={6} lg={3}>
+      <Row>
+        <Col xs={3} sm={3} md={3} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -124,9 +132,10 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Cultivation_data}
+            style={{width: "100%"}}
           />
         </Col>
-        <Col xs={12} sm={12} md={6} lg={3}>
+        <Col xs={3} sm={3} md={3} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -135,10 +144,10 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Soil_data}
-            className="soil"
+            style={{width: "100%"}}
           />
         </Col>
-        <Col xs={12} sm={12} md={6} lg={3}>
+        <Col xs={3} sm={3} md={3} lg={3}>
           <FormControlLabel
             control={
               <Checkbox
@@ -148,6 +157,7 @@ export default function DataSetForm(props) {
             }
             label={screenlabels.dataset.Weather_data}
             className="weather"
+            style={{width: "100%"}}
           />
         </Col>
       </Row>
@@ -159,6 +169,7 @@ export default function DataSetForm(props) {
             id="filled-basic"
             variant="filled"
             required
+            width="100%"
             value={props.Geography}
             onChange={props.handleChangeGeography}
             label={screenlabels.dataset.Geography}
@@ -170,6 +181,7 @@ export default function DataSetForm(props) {
             className="crop"
             id="filled-basic"
             variant="filled"
+            width="100%"
             value={props.cropdetail}
             onChange={props.handleChangecropdetail}
             label={screenlabels.dataset.Corp_Detail}
@@ -177,12 +189,12 @@ export default function DataSetForm(props) {
         </Col>
       </Row>
       <Row>
-        <Col xs={12} sm={12} md={6} lg={6}>
+        <Col xs={12} sm={12} md={9} lg={9}>
           <span className="AddDatasetageheading">
             {screenlabels.dataset.data}
           </span>
         </Col>
-        <Col xs={12} sm={12} md={6} lg={6}>
+        <Col xs={12} sm={12} md={3} lg={3}>
           <FormControlLabel
             value="start"
             control={
@@ -431,7 +443,7 @@ export default function DataSetForm(props) {
         </Col>
       </Row>
       <Row>
-        <Col xs={12} sm={12} md={6} lg={6}>
+        <Col xs={12} sm={12} md={12} lg={12}>
           <FileUploader
             handleChange={props.handleFileChange}
             name="file"
@@ -442,6 +454,7 @@ export default function DataSetForm(props) {
                 uploadtitle="Upload Dataset"
               />
             }
+            classes="fileUpload"
           />
         </Col>
       </Row>
@@ -460,6 +473,6 @@ export default function DataSetForm(props) {
             : ""}
         </p>
       </Row>
-    </div>
+    </Container>
   );
 }

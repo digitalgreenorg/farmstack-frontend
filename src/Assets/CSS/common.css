@@ -433,6 +433,15 @@ button.submitbtnupdt {
 .MuiLinearProgress-colorPrimary {
   background-color: white !important;
 }
+
+MuiLinearProgress-determinate{
+  background-color: #c09507 !important;
+}
+
+.MuiLinearProgress-colorSuccess MuiLinearProgress-determinate{
+  background-color: white !important;
+}
+
 /* hiding drag and drop shadow issue */
 .sc-gsnTZi {
   display: none;
