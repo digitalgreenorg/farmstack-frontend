@@ -18,7 +18,7 @@ import {getUserLocal} from '../../../Utils/Common'
 export default function DatasetAdmin() {
 
     const [isLoader, setIsLoader] = useState(false)
-    const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(true);
+    const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [value, setValue] = useState('1')
     const [secondrow, setsecondrow] = useState(false)
@@ -394,9 +394,8 @@ export default function DatasetAdmin() {
                 console.log("response:", response)
                 console.log("datatset:",response.data.results)
 
-                //code to convert dataset results into display cards list
                 if (response.data.next == null) {
-                    setisShowLoadMoreButton(true)
+                    setisShowLoadMoreButton(false)
                 } else {
                     setisShowLoadMoreButton(true)
                     setDatasetUrl(response.data.next);
