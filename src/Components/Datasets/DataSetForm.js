@@ -339,7 +339,7 @@ export default function DataSetForm(props) {
         </Row>
       ) : (
         <Row>
-          <Col xs={12} sm={12} md={6} lg={6} className="FromDate">
+          <Col xs={12} sm={12} md={6} lg={6} className="FromDate addDatasetFromdate">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 inputFormat="dd/MM/yyyy"
@@ -358,7 +358,7 @@ export default function DataSetForm(props) {
               />
             </LocalizationProvider>
           </Col>
-          <Col xs={12} sm={12} md={6} lg={6} className="toDate">
+          <Col xs={12} sm={12} md={6} lg={6} className="toDate addDatasetTodate">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 inputFormat="dd/MM/yyyy"

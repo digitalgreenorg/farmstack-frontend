@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
@@ -34,6 +34,18 @@ const useStyles = {
 };
 
 export default function AddDataset(props) {
+  useEffect(() => {
+    setTimeout(() => {
+      $(".addDatasetFromdate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+    }, 100);
+  }, []);
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -166,7 +178,7 @@ export default function AddDataset(props) {
     settodate(null);
     setfromdate(newValue);
     setTimeout(() => {
-      $(".supportcardtodate input.MuiInputBase-input").attr(
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
         "disabled",
         "disabled"
       );

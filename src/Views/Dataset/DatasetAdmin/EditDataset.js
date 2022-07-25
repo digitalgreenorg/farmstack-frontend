@@ -183,6 +183,16 @@ export default function EditDataset() {
 
   useEffect(() => {
     getAccountDetails();
+    setTimeout(() => {
+      $(".addDatasetFromdate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+    }, 100);
   }, []);
 
   const handleChange = (event) => {
@@ -238,7 +248,7 @@ export default function EditDataset() {
     settodate(null);
     setfromdate(newValue);
     setTimeout(() => {
-      $(".supportcardtodate input.MuiInputBase-input").attr(
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
         "disabled",
         "disabled"
       );
