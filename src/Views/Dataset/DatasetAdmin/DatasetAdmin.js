@@ -29,6 +29,9 @@ export default function DatasetAdmin() {
     const [datasetUrl, setDatasetUrl] = useState(
         UrlConstant.base_url + UrlConstant.dataset_list
       );
+    const [memberDatasetUrl, setMemberDatasetUrl] = useState(
+        UrlConstant.base_url + UrlConstant.dataset_list
+        );
 
     const [isShowAll,setIsShowAll] = useState(true)
     const [isEnabledFilter, setIsEnabledFilter] = useState(false)
@@ -384,7 +387,7 @@ export default function DatasetAdmin() {
         HTTPService(
             "POST",
             // "GET",
-            datasetUrl,
+            isMemberTab? memberDatasetUrl :datasetUrl,
             payload,
             false,
             true
@@ -398,7 +401,11 @@ export default function DatasetAdmin() {
                     setisShowLoadMoreButton(false)
                 } else {
                     setisShowLoadMoreButton(true)
-                    setDatasetUrl(response.data.next);
+                    if(!isMemberTab){
+                        setDatasetUrl(response.data.next)
+                    } else {
+                        setMemberDatasetUrl(response.data.next)
+                    }
                 }
                 if(!isMemberTab){
                     setDatasetList(response.data.results)
@@ -431,7 +438,7 @@ export default function DatasetAdmin() {
             data['crop_detail__in'] = cropPayload
         }
         if(agePayload !== ""){
-            data['age__in'] = agePayload
+            data['age_of_date__in'] = agePayload
         }
         if(statusPayload !== ""){
             data['status__in'] = statusPayload

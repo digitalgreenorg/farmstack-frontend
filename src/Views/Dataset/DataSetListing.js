@@ -86,7 +86,7 @@ export default function DataSetListing(props) {
                 {props.isShowLoadMoreButton ? (
                     <Col xs={12} sm={12} md={6} lg={6}>
                         <Button
-                            onClick={() => props.getDatasetList()}
+                            onClick={() => props.getDatasetList()} //to be changed to new handler method which builds payload
                             variant="outlined"
                             className="cancelbtn">
                             Load More
