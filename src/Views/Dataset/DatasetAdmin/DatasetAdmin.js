@@ -382,8 +382,8 @@ export default function DatasetAdmin() {
             payload = buildFilterPayLoad("",getUserLocal(),"","","","")
         } 
         HTTPService(
-            // "POST",
-            "GET",
+            "POST",
+            // "GET",
             datasetUrl,
             payload,
             false,
@@ -408,6 +408,7 @@ export default function DatasetAdmin() {
                 }
             })
             .catch((e) => {
+                console.log(e)
                 setIsLoader(false);
                 history.push(GetErrorHandlingRoute(e));
             });
@@ -415,19 +416,35 @@ export default function DatasetAdmin() {
 
     const buildFilterPayLoad = (createdAtRange,userId,geoPayload,agePayload,cropPayload,statusPayload) => {
         let data = {}
-        data['created_at__range'] = createdAtRange
+        if(createdAtRange !== ""){
+            data['created_at__range'] = createdAtRange
+        }
         data['user_id'] = userId
         if(isMemberTab){
             data['others'] = true
         } else {
             data['others'] = false
         }
-        data['geography__in'] = geoPayload
-        data['crop_detail__in'] = cropPayload
-        data['age__in'] = agePayload
-        data['status__in'] = statusPayload
-        data['is_enabled__in'] = isEnabledFilter
-        data['is_disabled__in'] = isDisabledFilter
+        if(geoPayload !== ""){
+            data['geography__in'] = geoPayload
+        }
+        if(cropPayload !== ""){
+            data['crop_detail__in'] = cropPayload
+        }
+        if(agePayload !== ""){
+            data['age__in'] = agePayload
+        }
+        if(statusPayload !== ""){
+            data['status__in'] = statusPayload
+        }
+        if(isEnabledFilter || isDisabledFilter){
+            if(geoPayload !== ""){
+                data['is_enabled'] = isEnabledFilter
+            }
+            // if(geoPayload !== ""){
+            //   data['is_disabled'] = isDisabledFilter
+            // }
+        }
         return data
     }
 
@@ -557,13 +574,15 @@ export default function DatasetAdmin() {
                                         <DataSetListing
                                             datasetList={datasetList}
                                             isShowLoadMoreButton={isShowLoadMoreButton}
+                                            isMemberTab={isMemberTab}
                                             getDatasetList={getDatasetList}
                                         />
                                     </TabPanel>
                                     <TabPanel value='2'>
                                         <DataSetListing
-                                            datasetList={datasetList}
+                                            datasetList={memberDatasetList}
                                             isShowLoadMoreButton={isShowLoadMoreButton}
+                                            isMemberTab={isMemberTab}
                                             getDatasetList={getDatasetList}
                                         />
                                         {/* <OrganisationSetting

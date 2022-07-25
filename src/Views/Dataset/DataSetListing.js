@@ -7,6 +7,19 @@ export default function DataSetListing(props) {
   return (
     <div>
         <Row style={{"margin-left":"-44px","width":"150%"}}>
+            {
+                props.datasetList && props.datasetList.map((dataset) => (
+                    <DataSetCard
+                        isMemberTab={props.isMemberTab}
+                        orgName={dataset.organization.name}
+                        ageOfData={dataset.age_of_date}
+                        cropDetail={dataset.crop_detail}
+                        geography={dataset.geography}
+                        orgLogo={dataset.geography.logo}
+                        margingtop={'supportcard supportcardmargintop20px'}
+                    />
+                ))
+            }
             <DataSetCard
                 margingtop={'supportcard supportcardmargintop20px'}
             />

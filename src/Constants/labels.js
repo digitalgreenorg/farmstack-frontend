@@ -158,7 +158,11 @@ const labels = {
       status: "Status",
       for_review: "For Review",
       rejected: "Rejected",
-      approved: "Approved"
+      approved: "Approved",
+      organisation_name: "Organization Name",
+      published_on: "Published On",
+      age_of_data: "Age of Data",
+      crop_details: "Crop Details"
     },
   },
 };
