@@ -15,7 +15,9 @@ import Col from 'react-bootstrap/Col'
 import Button from "@mui/material/Button";
 import THEME_COLORS from '../../Constants/ColorConstants'
 import UrlConstants from '../../Constants/UrlConstants'
+import labels from '../../Constants/labels';
 import { useHistory } from "react-router-dom";
+import {useState} from 'react'
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize", "font-weight": "400", "font-size": "14px" },
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px" },
@@ -27,8 +29,9 @@ const useStyles = {
     datasetdescription: {"margin-left":"0px","margin-right":"0px","font-family": "Open Sans", "font-style": "normal", "font-weight": "400", "font-size": "14px", "line-height": "19px"}
 };
 export default function DataSetCard(props) {
-    const [isshowbutton, setisshowbutton] = React.useState(false);
+    const [isshowbutton, setisshowbutton] = useState(false)
     const history = useHistory();
+    const [screenlabels, setscreenlabels] = useState(labels['en'])
     const dateTimeFormat = (datetime) => {
         const today = new Date(datetime);
         var y = today.getFullYear();
@@ -57,19 +60,31 @@ export default function DataSetCard(props) {
                     DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription
                 </Row>
                 <Row>
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        Geography
-                    </Col>
+                    {props.isMemberTab ?
+                        <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                            {screenlabels.dataset.organisation_name}
+                        </Col> :
+                        <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                             {screenlabels.dataset.geography}
+                        </Col>
+                    }
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-                        Published On
+                        {screenlabels.dataset.published_on}
                     </Col>
                 </Row>
                 <Row className="supportcardmargintop">
+                    {
+                    props.isMemberTab ?
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        Test Organisation Name 
+                        {props.orgName}
+                    </Col> :
+                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                        {props.geography}Kochi
                     </Col>
-                    <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
-                        Sample_status
+                    }
+                    {/* <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"> */}
+                    <Col style={{"font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
+                        Date | Time
                     </Col>
                 </Row>
                 {/* <Row className="supportcardmargintop">
@@ -96,18 +111,18 @@ export default function DataSetCard(props) {
                 </Row> */}
                 <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        Age of Data
+                        {screenlabels.dataset.age_of_data}
                     </Col>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-                        Crop Details
+                        {screenlabels.dataset.crop_details}
                     </Col>
                 </Row>
                 <Row className="supportcardmargintop">
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        Test Organisation Name 
+                        {props.ageOfData}6 Months
                     </Col>
-                    <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
-                        Sample_status
+                    <Col style={{ color: "#3D4A52", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
+                        {props.cropDetail}Chilli
                     </Col>
                 </Row>
                 {/* <Row>
@@ -145,6 +160,13 @@ export default function DataSetCard(props) {
                 </Row> */}
                 {/* <Row style={{ "margin-top": "-58px" }}> */}
                 <Row>
+                    {
+                        props.isMemberTab &&
+                        <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                            {screenlabels.dataset.geography}
+                        </Col>
+                        
+                    }
                     {isshowbutton ? 
                         <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                             <Button 

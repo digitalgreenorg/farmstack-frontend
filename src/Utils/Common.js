@@ -120,17 +120,16 @@ export const getRoleLocal = () => {
 };
 
 export const isLoggedInUserAdmin = () => {
-  return (
-    getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
-  );
+  return (getRoleLocal()) 
+  ? (getRoleLocal().toLowerCase() == LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()) 
+  : false
 };
 
 export const isLoggedInUserParticipant = () => {
-  return (
-    getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT.toLowerCase()
-  );
+  //return true;
+  return (getRoleLocal()) 
+  ? (getRoleLocal().toLowerCase() == LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()) 
+  : false
 };
 
 export const dateTimeFormat = (datetime) => {
