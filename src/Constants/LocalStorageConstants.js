@@ -8,8 +8,8 @@ const LocalStorageConstants = {
   },
   ROLES: {
     DATAHUB_ADMIN: "datahub_admin",
-    DATAHUB_PARTICIPANT: "datahub_participant",
-  },
+    DATAHUB_PARTICIPANT_ROOT: "datahub_participant_root"
+  }
 };
 
 export default LocalStorageConstants;

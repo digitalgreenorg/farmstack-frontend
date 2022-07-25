@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useMemo, useEffect } from 'react'
 import './OrgRightside.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -24,9 +24,11 @@ import UploadOrgLogo from './UploadOrgLogo'
 
 import HTTPService from '../../Services/HTTPService'
 import UrlConstant from '../../Constants/UrlConstants'
-import { handleAddressCharacters, validateInputField } from '../../Utils/Common'
+import GetErrorHandlingRoute, { handleAddressCharacters, isLoggedInUserParticipant, validateInputField } from '../../Utils/Common'
 import RegexConstants from '../../Constants/RegexConstants'
 import { Autocomplete } from '@mui/material'
+import { useHistory } from 'react-router-dom'
+import Loader from '../Loader/Loader'
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -44,6 +46,84 @@ export default function OrgRightside(props) {
     RichTextEditor.createValueFromString(orgdesc, 'html'),
   )
 
+  const orgNameRef = useRef();
+  const orgMailRef = useRef();
+  // const OrgAddress = useRef();
+  // const Orgcity = useRef();
+  // const pincode = useRef();
+
+  var history = useHistory();
+  useEffect(() => {
+    if (isLoggedInUserParticipant())
+    {
+      var id = props.userid;
+      setIsLoader(true);
+      HTTPService('GET', UrlConstant.base_url + UrlConstant.participant + id + '/', '', false, true, props.isaccesstoken).then((response) => {
+          setIsLoader(false);
+          console.log("org data: ", response.data);
+          // let addressdata=JSON.parse(response.data.organization.address)
+          if (response.data.organization)
+          {
+            props.setOrgName(response.data.organization.name)
+            props.setOrgMail(response.data.organization.org_email)
+            props.setValidOrgnumber(response.data.organization.phone_number)
+            if (response.data.organization.address)
+            {
+              props.setOrgAddress(response.data.organization.address.address)
+              props.setOrgCity(response.data.organization.address.city)
+              props.setCountryValue(response.data.organization.address.country)
+              props.setOrgPincode(response.data.organization.address.pincode)
+            }
+            if (response.data.organization.org_description)
+            {
+              props.textEditorData(response.data.organization.org_description.toString('html'))
+            }
+            props.setOrgId(response.data.organization.id)
+
+            // Trigger change event on all the input fields - to be changed later
+
+
+            orgNameRef.current.dispatchEvent(
+              new Event("change", {
+                  detail: {
+                      newValue: props.orgName,
+                  },
+                  bubbles: true,
+                  cancelable: true,
+              })
+            );
+
+            orgMailRef.current.dispatchEvent(
+              new Event("change", {
+                  detail: {
+                      newValue: props.OrgMail,
+                  },
+                  bubbles: true,
+                  cancelable: true,
+              })
+            );
+
+            /*
+            var changeEvent = new Event('change', { bubbles: true });
+            document.getElementById('orgnametextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgemailtextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgphonetextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgaddresstextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgcitytextfield').dispatchEvent(changeEvent)
+            document.getElementById('orgcountryselect').dispatchEvent(changeEvent)
+            document.getElementById('orgpincodetextfield').dispatchEvent(changeEvent)
+            */
+            //document.getElementById('orgdescriptioneditor').dispatchEvent(changeEvent)
+            //document.getElementById('orgfileuploader').dispatchEvent(changeEvent)
+          }
+      }).catch((e) => {
+          console.log(e);
+          setIsLoader(false);
+          history.push(GetErrorHandlingRoute(e));
+      });
+  }
+}, []);
+
   // const [validOrgNumber, setValidOrgnumber] = useState("");
 
   const options = useMemo(() => countryList().getData(), [])
@@ -51,12 +131,6 @@ export default function OrgRightside(props) {
   // // const [Orgnextbutton, setOrgnextbutton] = useState(false);
 
   // const [file, setFile] = useState(null);
-
-  // const Orgname = useRef();
-  // const Orgmail = useRef();
-  // const OrgAddress = useRef();
-  // const Orgcity = useRef();
-  // const pincode = useRef();
 
   const fileTypes = ['JPEG', 'PNG', 'jpg']
 
@@ -343,17 +417,19 @@ export default function OrgRightside(props) {
 
   return (
     <div className="orgright">
+      {isLoader ? <Loader />: ''}
       <div className="orgheader">Organization Details</div>
       <div>
         <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
           <div className="orgname">
             <TextField
               required
-              id="filled-basic"
+              id="orgnametextfield"
               label="Organization Name"
               variant="filled"
               style={{ width: '420px' }}
               //   className="profilefirstname"
+              inputRef={orgNameRef}
               value={props.orgName}
               onKeyUp={() =>
                 props.orgName === ''
@@ -377,15 +453,15 @@ export default function OrgRightside(props) {
             <TextField
               required
               type="email"
-              id="filled-basic"
+              id="orgemailtextfield"
               label="Organization Mail ID"
               variant="filled"
               style={{ width: '420px' }}
               //   className="profilelastname"
-              // value={props.orgEmail}
+              value={props.Orgmail}
               // onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setOrgEmail(e.target.value.trim()) : e.preventDefault()}
               onChange={props.handleOrgmail}
-              inputRef={props.Orgmail}
+              //inputRef={props.Orgmail}
               error={props.isOrgmailerror || props.isExistingOrgEmail}
               helperText={
                 props.isOrgmailerror
@@ -394,15 +470,17 @@ export default function OrgRightside(props) {
                   ? 'Organization already registered'
                   : ''
               }
+              inputRef={orgMailRef}
             />
           </div>
           <div className="orgnumber">
             <MuiPhoneNumber
               defaultCountry={'in'}
               style={{ width: '420px' }}
-              id="filled-basic"
+              id="orgphonetextfield"
               label="Organization Contact Number"
               variant="filled"
+              value = {props.validOrgNumber}
               onChange={props.handleOrgnumber}
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
@@ -412,7 +490,7 @@ export default function OrgRightside(props) {
           <div className="orgaddress">
             <TextField
               required
-              id="filled-basic"
+              id="orgaddresstextfield"
               label="Address"
               variant="filled"
               style={{ width: '420px' }}
@@ -434,7 +512,7 @@ export default function OrgRightside(props) {
           <div className="orgcity">
             <TextField
               required
-              id="filled-basic"
+              id="orgcitytextfield"
               label="City"
               variant="filled"
               style={{ width: '420px' }}
@@ -460,6 +538,7 @@ export default function OrgRightside(props) {
             {
             <Select
               required
+              id="orgcountryselect"
               options={options}
               value={props.countryvalue}
               onChange={props.countrychangeHandler}
@@ -485,7 +564,7 @@ export default function OrgRightside(props) {
             <TextField
               required
               type="number"
-              id="filled-basic"
+              id="orgpincodetextfield"
               //   inputProps={{ maxLength: 6 }}
               label="Pin Code"
               variant="filled"
@@ -543,7 +622,7 @@ export default function OrgRightside(props) {
               value={editorValue}
               onChange={handleOrgDesChange}
               required
-              id="body-text"
+              id="orgdescriptioneditor"
               name="bodyText"
               type="string"
               multiline
@@ -587,6 +666,7 @@ export default function OrgRightside(props) {
           <div className="org">
             <FileUploader
               //   multiple={true}
+              id="orgfileuploader"
               handleChange={props.handleorgFileChange}
               name="file"
               types={fileTypes}
