@@ -82,7 +82,7 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Crop_data}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           />
         </Col>
         <Col xs={3} sm={3} md={3} lg={3}>
@@ -94,7 +94,7 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Practice_data}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           />
         </Col>
         <Col xs={3} sm={3} md={3} lg={3}>
@@ -106,7 +106,7 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Farmer_profile}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           />
         </Col>
         <Col xs={3} sm={3} md={3} lg={3}>
@@ -118,7 +118,7 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Land_records}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           />
         </Col>
       </Row>
@@ -132,7 +132,7 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Cultivation_data}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           />
         </Col>
         <Col xs={3} sm={3} md={3} lg={3}>
@@ -144,7 +144,7 @@ export default function DataSetForm(props) {
               />
             }
             label={screenlabels.dataset.Soil_data}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           />
         </Col>
         <Col xs={3} sm={3} md={3} lg={3}>
@@ -157,7 +157,20 @@ export default function DataSetForm(props) {
             }
             label={screenlabels.dataset.Weather_data}
             className="weather"
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
+          />
+        </Col>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Research_data}
+                onChange={props.handleChangeResearchData}
+              />
+            }
+            label={screenlabels.dataset.Research_data}
+            className="weather"
+            style={{ width: "100%" }}
           />
         </Col>
       </Row>

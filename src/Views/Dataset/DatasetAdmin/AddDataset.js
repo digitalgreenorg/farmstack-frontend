@@ -80,6 +80,7 @@ export default function AddDataset(props) {
         cultivation_data: Cultivation_data,
         soil_data: Soil_data,
         weather_data: Weather_data,
+        research_data: Research_data,
       })
     );
     bodyFormData.append("geography", Geography);
@@ -192,6 +193,7 @@ export default function AddDataset(props) {
   const [Cultivation_data, setCultivation_data] = React.useState(false);
   const [Soil_data, setSoil_data] = React.useState(false);
   const [Weather_data, setWeather_data] = React.useState(false);
+  const [Research_data, setResearch_data] = React.useState(false);
 
   const handleChangeCropData = (event) => {
     console.log(event.target.checked);
@@ -220,6 +222,10 @@ export default function AddDataset(props) {
   const handleChangeWeatherData = (event) => {
     console.log(event.target.checked);
     setWeather_data(event.target.checked);
+  };
+  const handleChangeResearchData = (event) => {
+    console.log(event.target.checked);
+    setResearch_data(event.target.checked);
   };
   return (
     <>
@@ -256,6 +262,8 @@ export default function AddDataset(props) {
             handleChangeSoilData={handleChangeSoilData}
             Weather_data={Weather_data}
             handleChangeWeatherData={handleChangeWeatherData}
+            Research_data={Research_data}
+            handleChangeResearchData={handleChangeResearchData}
             Geography={Geography}
             handleChangeGeography={handleChangeGeography}
             cropdetail={cropdetail}
