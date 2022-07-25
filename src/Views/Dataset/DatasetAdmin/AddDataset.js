@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useState } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -133,14 +134,7 @@ export default function AddDataset(props) {
   };
   const handleFileChange = (file) => {
     setFile(file);
-    // setprofile_pic(file);
     console.log(file);
-    // if (file != null && file.size > 2097152) {
-    //   //   setBrandingnextbutton(false);
-    //   setaccfilesize(true);
-    // } else {
-    //   setaccfilesize(false);
-    // }
   };
   const handleChangedatasetname = (e) => {
     validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
@@ -289,6 +283,7 @@ export default function AddDataset(props) {
               reply &&
               Geography &&
               file &&
+              file.size < 2097152 &&
               (Crop_data == true ||
                 Practice_data == true ||
                 Farmer_profile == true ||
