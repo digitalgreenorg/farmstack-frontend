@@ -114,14 +114,6 @@ const labels = {
       Others: "Others",
       date: "By Date",
     },
-
-    dataset: {
-      filter: "Filter",
-      geography: "Geography",
-      age: "Age",
-      crop: "Crop",
-      search: "Search"
-    },
     sessiontimeout: {
       heading: "Your login Session has Expired !",
       secondmainheading: "Session Expired !",
@@ -154,6 +146,23 @@ const labels = {
       Available: "Available",
       Not_Available: "Not Available",
       Upload_dataset: " Upload Sample Datasets",
+
+      filter: "Filter",
+      geography: "Geography",
+      age: "Age",
+      crop: "Crop",
+      search: "Search",
+      datasets: "Datasets",
+      enabled: "Enabled",
+      disbaled: "Disabled",
+      status: "Status",
+      for_review: "For Review",
+      rejected: "Rejected",
+      approved: "Approved",
+      organisation_name: "Organization Name",
+      published_on: "Published On",
+      age_of_data: "Age of Data",
+      crop_details: "Crop Details"
     },
   },
 };
