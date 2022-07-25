@@ -52,6 +52,7 @@ export default function EditDataset() {
   const [todate, settodate] = React.useState(null);
 
   const [file, setFile] = useState(null);
+  const [filesize, setfilesize] = useState(false);
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -202,12 +203,11 @@ export default function EditDataset() {
     // setprofile_pic(file);
     console.log(file);
     console.log(typeof file);
-    // if (file != null && file.size > 2097152) {
-    //   //   setBrandingnextbutton(false);
-    //   setaccfilesize(true);
-    // } else {
-    //   setaccfilesize(false);
-    // }
+    if (file != null && file.size > 2097152) {
+      setfilesize(true);
+    } else {
+      setfilesize(false);
+    }
   };
   const handleChangedatasetname = (e) => {
     validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
@@ -363,7 +363,9 @@ export default function EditDataset() {
               reply &&
               Geography &&
               file &&
-              //   file.size < 2097152 &&
+              !filesize &&
+              //   (file ? file.size < 2097152 : false) &&
+              //   typeof file == "string" &&
               (Crop_data == true ||
                 Practice_data == true ||
                 Farmer_profile == true ||
