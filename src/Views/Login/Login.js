@@ -58,7 +58,7 @@ export default function Login(props) {
   const [isBranding, setisBranding] = useState(false)
   const [isDataSet, setIsDataSet] = useState(false)
   const [isaccesstoken, setisaccesstoken] = useState(false)
-  const [userid, setUserId] = useState(false)
+  //const [userid, setUserId] = useState(false)
 
   const [orgName, setOrgName] = useState('')
   // const [orgEmail, setOrgEmail] = useState("")
@@ -499,7 +499,7 @@ export default function Login(props) {
     console.log("user id", id);
 
     var bodyFormData = new FormData();
-    bodyFormData.append("user_id", userid);
+    bodyFormData.append("user_id", id);
     bodyFormData.append("org_email", finalEmail);
     bodyFormData.append("name", finalName);
     bodyFormData.append(
@@ -523,7 +523,7 @@ export default function Login(props) {
     } else {
       setisOrgnameerror(false);
       var method = orgId && orgId.length > 0 ? "PUT" : "POST"
-      var url = orgId && orgId.length > 0 ? (UrlConstant.base_url + UrlConstant.org + userid + "/") : (UrlConstant.base_url + UrlConstant.org)
+      var url = orgId && orgId.length > 0 ? (UrlConstant.base_url + UrlConstant.org + id + "/") : (UrlConstant.base_url + UrlConstant.org)
 
       setIsLoader(true);
       HTTPService(method, url, bodyFormData, true, true, isaccesstoken)
@@ -754,7 +754,7 @@ export default function Login(props) {
           setProfileImageFile={setProfileImageFile}
           finishLaterProfileScreen={finishLaterProfileScreen}
           isaccesstoken = {isaccesstoken}
-          userid = {userid}
+          userid = {getUserLocal()}
         />
       )}
       {isOrg ? (
@@ -811,7 +811,7 @@ export default function Login(props) {
           handleorgFileChange={handleorgFileChange}
           finishLaterOrgScreen={finishLaterOrgScreen}
           isaccesstoken = {isaccesstoken}
-          userid = {userid}
+          userid = {getUserLocal()}
           orgId = {orgId}
           setOrgId = {setOrgId}
         />
