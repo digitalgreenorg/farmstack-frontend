@@ -46,6 +46,12 @@ export default function OrgRightside(props) {
     RichTextEditor.createValueFromString(orgdesc, 'html'),
   )
 
+  const orgNameRef = useRef();
+  const orgMailRef = useRef();
+  // const OrgAddress = useRef();
+  // const Orgcity = useRef();
+  // const pincode = useRef();
+
   var history = useHistory();
   useEffect(() => {
     if (isLoggedInUserParticipant())
@@ -75,6 +81,29 @@ export default function OrgRightside(props) {
             props.setOrgId(response.data.organization.id)
 
             // Trigger change event on all the input fields - to be changed later
+
+
+            orgNameRef.current.dispatchEvent(
+              new Event("change", {
+                  detail: {
+                      newValue: props.orgName,
+                  },
+                  bubbles: true,
+                  cancelable: true,
+              })
+            );
+
+            orgMailRef.current.dispatchEvent(
+              new Event("change", {
+                  detail: {
+                      newValue: props.OrgMail,
+                  },
+                  bubbles: true,
+                  cancelable: true,
+              })
+            );
+
+            /*
             var changeEvent = new Event('change', { bubbles: true });
             document.getElementById('orgnametextfield').dispatchEvent(changeEvent)
             document.getElementById('orgemailtextfield').dispatchEvent(changeEvent)
@@ -83,6 +112,7 @@ export default function OrgRightside(props) {
             document.getElementById('orgcitytextfield').dispatchEvent(changeEvent)
             document.getElementById('orgcountryselect').dispatchEvent(changeEvent)
             document.getElementById('orgpincodetextfield').dispatchEvent(changeEvent)
+            */
             //document.getElementById('orgdescriptioneditor').dispatchEvent(changeEvent)
             //document.getElementById('orgfileuploader').dispatchEvent(changeEvent)
           }
@@ -101,12 +131,6 @@ export default function OrgRightside(props) {
   // // const [Orgnextbutton, setOrgnextbutton] = useState(false);
 
   // const [file, setFile] = useState(null);
-
-  // const Orgname = useRef();
-  // const Orgmail = useRef();
-  // const OrgAddress = useRef();
-  // const Orgcity = useRef();
-  // const pincode = useRef();
 
   const fileTypes = ['JPEG', 'PNG', 'jpg']
 
@@ -405,6 +429,7 @@ export default function OrgRightside(props) {
               variant="filled"
               style={{ width: '420px' }}
               //   className="profilefirstname"
+              inputRef={orgNameRef}
               value={props.orgName}
               onKeyUp={() =>
                 props.orgName === ''
@@ -445,6 +470,7 @@ export default function OrgRightside(props) {
                   ? 'Organization already registered'
                   : ''
               }
+              inputRef={orgMailRef}
             />
           </div>
           <div className="orgnumber">

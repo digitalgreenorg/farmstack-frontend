@@ -31,6 +31,8 @@ export default function ProfileRightsideParticipant(props) {
 
   let history = useHistory();
 
+  const nameRef = useRef();
+
   useEffect(() => {
     if (isLoggedInUserParticipant())
     {
@@ -46,6 +48,17 @@ export default function ProfileRightsideParticipant(props) {
             props.setProfileFirstName(response.data.user.first_name);
             props.setProfileLastName(response.data.user.last_name);
             props.setValidnumber(response.data.user.phone_number);
+
+            nameRef.current.dispatchEvent(
+              new Event("change", {
+                  detail: {
+                      newValue: response.data.user.first_name,
+                  },
+                  bubbles: true,
+                  cancelable: true,
+              })
+            );
+
           }
           
       }).catch((e) => {
@@ -148,7 +161,7 @@ export default function ProfileRightsideParticipant(props) {
               style={{ width: "420px" }}
               //   className="profilefirstname"
               onChange={props.handleprofilfirstename}
-              //inputRef={props.profilefirstname}
+              inputRef={nameRef}
               error={props.ispropfilefirstnameerror}
               helperText={
                 props.ispropfilefirstnameerror ? "Enter Valid Name" : ""
