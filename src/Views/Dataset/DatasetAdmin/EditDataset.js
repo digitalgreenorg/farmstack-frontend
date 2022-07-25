@@ -349,6 +349,7 @@ export default function EditDataset() {
               reply &&
               Geography &&
               file &&
+              file.size < 2097152 &&
               (Crop_data == true ||
                 Practice_data == true ||
                 Farmer_profile == true ||
