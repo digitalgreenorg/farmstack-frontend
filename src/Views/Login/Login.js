@@ -297,7 +297,7 @@ export default function Login(props) {
         email: validemail,
       },
       false,
-      true
+      false
     )
       .then((response) => {
         setIsLoader(false);
@@ -577,6 +577,7 @@ export default function Login(props) {
 
             if (isLoggedInUserParticipant()){
               setOnBoardedTrue();
+              setTokenLocal(isaccesstoken)
               if (getUserMapId()){
                 setIsDataSet(true);
                 setisOrg(false);
@@ -714,6 +715,7 @@ export default function Login(props) {
     }
     if(isLoggedInUserParticipant()){
       setOnBoardedTrue();
+      setTokenLocal(isaccesstoken)
       if (getUserMapId()){
         setIsDataSet(true);
         setisOrg(false);
@@ -729,7 +731,7 @@ export default function Login(props) {
     <div>
       {isLoader ? <Loader /> : ""}
       <SignInHeader></SignInHeader>
-      {(isDataSet && isLoggedInUserParticipant())? (<AddDatasetParticipant isaccesstoken={isaccesstoken}/>):
+      {(isDataSet && isLoggedInUserParticipant())? (<AddDatasetParticipant isaccesstoken={isaccesstoken} okAction={()=> history.push("/participant/datasets")} cancelAction={()=> history.push("/participant/home")}/>):
       (<><h1 className="headertext">{screenlabels.login.signup_header}</h1>
       <Leftintro />
       {isemail || isOtp ? <Rightintro /> : ""}

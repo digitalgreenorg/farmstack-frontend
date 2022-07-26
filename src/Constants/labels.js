@@ -5,6 +5,7 @@ const labels = {
       cancel: "Cancel",
       update: "Update",
       back: "Back",
+      finishLater: "Finish later"
     },
     login: {
       signup_header: "Let's build a datahub together",
