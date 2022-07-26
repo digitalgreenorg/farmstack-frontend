@@ -9,6 +9,9 @@ import {
   withRouter,
 } from "react-router-dom";
 import { getTokenLocal } from "../Utils/Common";
+import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
+import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
+
 function Datahub(props) {
   return (
     <>
@@ -16,15 +19,17 @@ function Datahub(props) {
         <>
           <ParticipantNavbar />
           <Switch>
-          <Route
+            <Route exact path="/participant/datasets" component={Home} />
+            <Route exact path="/participant/home" component={Home} />
+            <Route
               exact
-              path="/participant/datasets"
-              component={Home}
+              path="/participant/dataset/add"
+              component={AddDataSetParticipant}
             />
-             <Route
+            <Route
               exact
-              path="/participant/home"
-              component={Home}
+              path="/participant/dataset/edit/:id"
+              component={EditDatasetParticipant}
             />
           </Switch>
         </>
