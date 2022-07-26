@@ -314,7 +314,7 @@ export default function EditDataset() {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/datahub/participants")}
+          okevent={() => history.push("/datahub/datasets")}
           route={"datahub/participants"}
           imagename={"success"}
           btntext={"ok"}
@@ -404,7 +404,7 @@ export default function EditDataset() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/datahub/participants")}
+                onClick={() => history.push("/datahub/datasets")}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}
