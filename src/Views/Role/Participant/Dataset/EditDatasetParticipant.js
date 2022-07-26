@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import DataSetForm from "../../../Components/Datasets/DataSetForm";
-
+import { useParams } from "react-router-dom";
 import $ from "jquery";
+import DataSetForm from "../../../../Components/Datasets/DataSetForm";
 import GetErrorHandlingRoute, {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
   getUserMapId,
   fileUpload,
-} from "../../../Utils/Common";
-import RegexConstants from "../../../Constants/RegexConstants";
-import THEME_COLORS from "../../../Constants/ColorConstants";
+} from "../../../../Utils/Common";
+import RegexConstants from "../../../../Constants/RegexConstants";
+import THEME_COLORS from "../../../../Constants/ColorConstants";
 import { useHistory } from "react-router-dom";
-import labels from "../../../Constants/labels";
+import labels from "../../../../Constants/labels";
 import Button from "@mui/material/Button";
-import HTTPService from "../../../Services/HTTPService";
-import UrlConstants from "../../../Constants/UrlConstants";
-import Loader from "../../../Components/Loader/Loader";
-import Success from "../../../Components/Success/Success";
-import { useParams } from "react-router-dom";
+import HTTPService from "../../../../Services/HTTPService";
+import UrlConstants from "../../../../Constants/UrlConstants";
+import Loader from "../../../../Components/Loader/Loader";
+import Success from "../../../../Components/Success/Success";
 
 const useStyles = {
   btncolor: {
@@ -34,7 +33,7 @@ const useStyles = {
   marginrowtop8px: { "margin-top": "0px" },
 };
 
-export default function EditDataset() {
+export default function EditDatasetParticipant() {
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -116,7 +115,7 @@ export default function EditDataset() {
     setIsLoader(true);
     HTTPService(
       "PUT",
-      UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      UrlConstants.base_url + UrlConstants.datasetparticipant + id + "/",
       bodyFormData,
       true,
       true
@@ -128,7 +127,7 @@ export default function EditDataset() {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        // history.push(GetErrorHandlingRoute(e));
       });
   };
   //   get dataset
@@ -140,7 +139,7 @@ export default function EditDataset() {
 
     await HTTPService(
       "GET",
-      UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      UrlConstants.base_url + UrlConstants.datasetparticipant + id + "/",
       false,
       true
     )
@@ -314,104 +313,129 @@ export default function EditDataset() {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/datahub/datasets")}
-          route={"datahub/participants"}
+          okevent={() => history.push("/participant/datasets")}
+          route={"participant/datasets"}
           imagename={"success"}
           btntext={"ok"}
           heading={"Dataset updated Successfully"}
           imageText={"Success!"}
-          msg={"Your dataset are updated."}></Success>
+          msg={"Your dataset updated successfully!"}></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleEditDatasetSubmit}>
-          <DataSetForm
-            title={"Edit Dataset"}
-            reply={reply}
-            datasetname={datasetname}
-            handleChangedatasetname={handleChangedatasetname}
-            handleChangedescription={handleChangedescription}
-            handledescriptionKeydown={handledescriptionKeydown}
-            Crop_data={Crop_data}
-            handleChangeCropData={handleChangeCropData}
-            Practice_data={Practice_data}
-            handleChangePracticeData={handleChangePracticeData}
-            Farmer_profile={Farmer_profile}
-            handleChangeFarmer_profile={handleChangeFarmer_profile}
-            Land_records={Land_records}
-            handleChangeLand_records={handleChangeLand_records}
-            Cultivation_data={Cultivation_data}
-            handleChangeCultivationData={handleChangeCultivationData}
-            Soil_data={Soil_data}
-            handleChangeSoilData={handleChangeSoilData}
-            Weather_data={Weather_data}
-            handleChangeWeatherData={handleChangeWeatherData}
-            Research_data={Research_data}
-            handleChangeResearchData={handleChangeResearchData}
-            Geography={Geography}
-            handleChangeGeography={handleChangeGeography}
-            cropdetail={cropdetail}
-            handleChangecropdetail={handleChangecropdetail}
-            Switchchecked={Switchchecked}
-            handleChangeSwitch={handleChangeSwitch}
-            value={value}
-            handleChange={handleChange}
-            fromdate={fromdate}
-            handleChangeFromDate={handleChangeFromDate}
-            todate={todate}
-            handleChangeToDate={handleChangeToDate}
-            recordsvalue={recordsvalue}
-            handleChangeRecords={handleChangeRecords}
-            availablevalue={availablevalue}
-            handleChangeAvailable={handleChangeAvailable}
-            handleFileChange={handleFileChange}
-            file={file}
-          />
-
+        <>
           <Row>
-            <Col xs={12} sm={12} md={6} lg={3}></Col>
-            <Col xs={12} sm={12} md={6} lg={6}>
-              {datasetname &&
-              reply &&
-              Geography &&
-              file &&
-              !filesize &&
-              //   (file ? file.size < 2097152 : false) &&
-              //   typeof file == "string" &&
-              (Crop_data == true ||
-                Practice_data == true ||
-                Farmer_profile == true ||
-                Land_records == true ||
-                Cultivation_data == true ||
-                Soil_data == true ||
-                Weather_data == true) ? (
+            <Col className="supportViewDetailsbackimage">
+              <span
+                onClick={() => {
+                  history.push("/participant/datasets");
+                }}>
+                <img
+                  src={require("../../../../Assets/Img/Vector.svg")}
+                  alt="new"
+                />
+              </span>
+              <span
+                className="supportViewDetailsback"
+                onClick={() => {
+                  history.push("/participant/datasets");
+                }}>
+                {"Back"}
+              </span>
+            </Col>
+          </Row>
+          <form
+            noValidate
+            autoComplete="off"
+            onSubmit={handleEditDatasetSubmit}>
+            <DataSetForm
+              title={"Edit Dataset"}
+              reply={reply}
+              datasetname={datasetname}
+              handleChangedatasetname={handleChangedatasetname}
+              handleChangedescription={handleChangedescription}
+              handledescriptionKeydown={handledescriptionKeydown}
+              Crop_data={Crop_data}
+              handleChangeCropData={handleChangeCropData}
+              Practice_data={Practice_data}
+              handleChangePracticeData={handleChangePracticeData}
+              Farmer_profile={Farmer_profile}
+              handleChangeFarmer_profile={handleChangeFarmer_profile}
+              Land_records={Land_records}
+              handleChangeLand_records={handleChangeLand_records}
+              Cultivation_data={Cultivation_data}
+              handleChangeCultivationData={handleChangeCultivationData}
+              Soil_data={Soil_data}
+              handleChangeSoilData={handleChangeSoilData}
+              Weather_data={Weather_data}
+              handleChangeWeatherData={handleChangeWeatherData}
+              Research_data={Research_data}
+              handleChangeResearchData={handleChangeResearchData}
+              Geography={Geography}
+              handleChangeGeography={handleChangeGeography}
+              cropdetail={cropdetail}
+              handleChangecropdetail={handleChangecropdetail}
+              Switchchecked={Switchchecked}
+              handleChangeSwitch={handleChangeSwitch}
+              value={value}
+              handleChange={handleChange}
+              fromdate={fromdate}
+              handleChangeFromDate={handleChangeFromDate}
+              todate={todate}
+              handleChangeToDate={handleChangeToDate}
+              recordsvalue={recordsvalue}
+              handleChangeRecords={handleChangeRecords}
+              availablevalue={availablevalue}
+              handleChangeAvailable={handleChangeAvailable}
+              handleFileChange={handleFileChange}
+              file={file}
+            />
+
+            <Row>
+              <Col xs={12} sm={12} md={6} lg={3}></Col>
+              <Col xs={12} sm={12} md={6} lg={6}>
+                {datasetname &&
+                reply &&
+                Geography &&
+                file &&
+                !filesize &&
+                //   (file ? file.size < 2097152 : false) &&
+                //   typeof file == "string" &&
+                (Crop_data == true ||
+                  Practice_data == true ||
+                  Farmer_profile == true ||
+                  Land_records == true ||
+                  Cultivation_data == true ||
+                  Soil_data == true ||
+                  Weather_data == true) ? (
+                  <Button
+                    //   onClick={() => addNewParticipants()}
+                    variant="contained"
+                    className="submitbtn"
+                    type="submit">
+                    {screenlabels.common.submit}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    disabled
+                    className="disbalesubmitbtn">
+                    {screenlabels.common.submit}
+                  </Button>
+                )}
+              </Col>
+            </Row>
+            <Row style={useStyles.marginrowtop8px}>
+              <Col xs={12} sm={12} md={6} lg={3}></Col>
+              <Col xs={12} sm={12} md={6} lg={6}>
                 <Button
-                  //   onClick={() => addNewParticipants()}
-                  variant="contained"
-                  className="submitbtn"
-                  type="submit">
-                  {screenlabels.common.submit}
-                </Button>
-              ) : (
-                <Button
+                  onClick={() => history.push("/datahub/datasets")}
                   variant="outlined"
-                  disabled
-                  className="disbalesubmitbtn">
-                  {screenlabels.common.submit}
+                  className="cancelbtn">
+                  {screenlabels.common.cancel}
                 </Button>
-              )}
-            </Col>
-          </Row>
-          <Row style={useStyles.marginrowtop8px}>
-            <Col xs={12} sm={12} md={6} lg={3}></Col>
-            <Col xs={12} sm={12} md={6} lg={6}>
-              <Button
-                onClick={() => history.push("/datahub/datasets")}
-                variant="outlined"
-                className="cancelbtn">
-                {screenlabels.common.cancel}
-              </Button>
-            </Col>
-          </Row>
-        </form>
+              </Col>
+            </Row>
+          </form>
+        </>
       )}
     </>
   );
