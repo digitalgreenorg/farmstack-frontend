@@ -40,6 +40,7 @@ export default function DataSetListing(props) {
                 props.datasetList && props.datasetList.map((dataset) => (
                     <DataSetCard
                         isMemberTab={props.isMemberTab}
+                        title={dataset.name}
                         orgName={dataset.organization.name}
                         ageOfData={dataset.age_of_date}
                         cropDetail={dataset.crop_detail}
@@ -51,7 +52,7 @@ export default function DataSetListing(props) {
                     />
                 ))
             }
-            <DataSetCard
+            {/* <DataSetCard
                 margingtop={'supportcard supportcardmargintop20px'}
             />
             <DataSetCard
@@ -80,13 +81,14 @@ export default function DataSetListing(props) {
             />
             <DataSetCard
                 margingtop={'supportcard supportcardmargintop20px'}
-            />
-            <Row style={{"margin-left":"40px","margin-top":"20px"}}>
+            /> */}
+        </Row>
+        <Row style={{"margin-left":"40px","margin-top":"20px"}}>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 {props.isShowLoadMoreButton ? (
                     <Col xs={12} sm={12} md={6} lg={6}>
                         <Button
-                            onClick={() => props.getDatasetList()}
+                            onClick={() => props.getDatasetList(true)}
                             variant="outlined"
                             className="cancelbtn">
                             Load More
@@ -96,8 +98,6 @@ export default function DataSetListing(props) {
                     <></>
                 )}
             </Row>
-            
-        </Row>
     </div>
   )
 }
