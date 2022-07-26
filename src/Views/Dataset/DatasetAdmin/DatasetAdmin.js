@@ -811,7 +811,7 @@ export default function DatasetAdmin() {
                 deleteEvent={() => { changeStatus(false, true, 'isDisableSuccess') }}
                 cancelEvent={() => { changeView('isDataSetView') }}
                 heading={"Disable dataset"}
-                imageText={"Are you sure you want to diable the dataset?"}
+                imageText={"Are you sure you want to disable the dataset?"}
                 firstmsg={"This action will disable the dataset from the system."}
                 secondmsg={"The dataset will disappear to your members and connector will disconnect. "}>
             </Delete>
