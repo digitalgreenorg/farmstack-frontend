@@ -22,6 +22,7 @@ import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
 import { getTokenLocal } from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
+import Dashboard from "../Views/Dashboard/Dashboard";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -47,6 +48,12 @@ function Datahub(props) {
               path="/datahub/participants/add"
               component={AddParticipants}
             />
+            <Route
+              exact
+              path="/datahub/dashboard"
+              component={Dashboard}
+            />
+
             <Route
               exact
               path="/datahub/participants/invite"
