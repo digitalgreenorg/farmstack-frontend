@@ -750,7 +750,7 @@ export default function DatasetAdmin() {
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
                   <Button
-                    onClick={() => history.push("/datahub/datasets/edit/" + id)}
+                    onClick={() => history.push("/datahub/dataset/edit/" + id)}
                     variant="outlined"
                     className="editbtn">
                     Edit Dataset
@@ -933,6 +933,7 @@ export default function DatasetAdmin() {
         <Success
           okevent={() => {
             changeView("isDataSetFilter");
+            getDatasetList(false);
           }}
           route={"datahub/participants"}
           imagename={"success"}
@@ -968,6 +969,7 @@ export default function DatasetAdmin() {
         <Success
           okevent={() => {
             changeView("isDataSetFilter");
+            getDatasetList(false);
           }}
           route={"datahub/participants"}
           imagename={"success"}
@@ -1001,6 +1003,7 @@ export default function DatasetAdmin() {
         <Success
           okevent={() => {
             changeView("isDataSetFilter");
+            getDatasetList(false);
           }}
           route={"datahub/participants"}
           imagename={"success"}
@@ -1034,6 +1037,7 @@ export default function DatasetAdmin() {
         <Success
           okevent={() => {
             changeView("isDataSetFilter");
+            getDatasetList(false);
           }}
           route={"datahub/participants"}
           imagename={"success"}
@@ -1069,6 +1073,7 @@ export default function DatasetAdmin() {
         <Success
           okevent={() => {
             changeView("isDataSetFilter");
+            getDatasetList(false);
           }}
           route={"datahub/participants"}
           imagename={"success"}
