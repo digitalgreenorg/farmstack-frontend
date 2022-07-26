@@ -23,12 +23,12 @@ function Datahub(props) {
             <Route exact path="/participant/home" component={Home} />
             <Route
               exact
-              path="/participant/dataset/add"
+              path="/participant/datasets/add"
               component={AddDataSetParticipant}
             />
             <Route
               exact
-              path="/participant/dataset/edit/:id"
+              path="/participant/datasets/edit/:id"
               component={EditDatasetParticipant}
             />
           </Switch>
