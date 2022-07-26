@@ -18,6 +18,7 @@ import UrlConstants from '../../Constants/UrlConstants'
 import labels from '../../Constants/labels';
 import { useHistory } from "react-router-dom";
 import {useState} from 'react'
+import { getUserLocal, getUserMapId, dateTimeFormat } from '../../Utils/Common'
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize", "font-weight": "400", "font-size": "14px" },
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px" },
@@ -84,7 +85,7 @@ export default function DataSetCard(props) {
                     }
                     {/* <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"> */}
                     <Col style={{"font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
-                        Date | Time
+                        {dateTimeFormat(props.publishedon,true)}
                     </Col>
                 </Row>
                 {/* <Row className="supportcardmargintop">
