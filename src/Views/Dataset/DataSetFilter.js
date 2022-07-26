@@ -72,6 +72,7 @@ export default function DataSetFilter(props) {
                           props.resetFilterState(screenlabels.dataset.crop)
                           props.resetFilterState(screenlabels.dataset.status)
                           props.resetEnabledStatusFilter()
+                          props.resetUrls()
                           setTimeout(() => {
                               $(".supportcardtodate input.MuiInputBase-input").attr("disabled", "disabled");
                           }, 100)

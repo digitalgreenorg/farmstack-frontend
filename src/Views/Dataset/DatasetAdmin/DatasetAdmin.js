@@ -13,7 +13,7 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
 import GetErrorHandlingRoute from "../../../Utils/Common";
 import { useHistory } from 'react-router-dom';
-import { getUserLocal,getUserMapId,dateTimeFormat } from '../../../Utils/Common'
+import { getUserLocal, getUserMapId, dateTimeFormat } from '../../../Utils/Common'
 import ViewDataSet from '../../../Components/Datasets/viewDataSet';
 import Success from '../../../Components/Success/Success'
 import Delete from '../../../Components/Delete/Delete'
@@ -25,7 +25,9 @@ import Button from "@mui/material/Button";
 import './DatasetAdmin.css'
 export default function DatasetAdmin() {
     const [isLoader, setIsLoader] = useState(false)
-    const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
+    const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
+    const [showLoadMoreAdmin, setShowLoadMoreAdmin] = useState(false);
+    const [showLoadMoreMember, setShowLoadMoreMember] = useState(false);
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [value, setValue] = useState('1')
     const [secondrow, setsecondrow] = useState(false)
@@ -34,6 +36,9 @@ export default function DatasetAdmin() {
     const history = useHistory();
     const [isMemberTab, setIsMemberTab] = useState(false)
     const [datasetUrl, setDatasetUrl] = useState(
+        UrlConstant.base_url + UrlConstant.dataset_list
+    );
+    const [memberDatasetUrl, setMemberDatasetUrl] = useState(
         UrlConstant.base_url + UrlConstant.dataset_list
     );
 
@@ -68,9 +73,9 @@ export default function DatasetAdmin() {
         { index: 3, name: "Constantly Updating", isChecked: false }])
 
     const [statusFilter, setStatusFilter] = useState([
-        { index: 0, name: screenlabels.dataset.for_review, isChecked: false },
-        { index: 1, name: screenlabels.dataset.rejected, isChecked: false },
-        { index: 2, name: screenlabels.dataset.approved, isChecked: false }])
+        { index: 0, name: screenlabels.dataset.for_review, payloadName: "for_review", isChecked: false },
+        { index: 1, name: screenlabels.dataset.rejected, payloadName: "rejected", isChecked: false },
+        { index: 2, name: screenlabels.dataset.approved, payloadName: "approved", isChecked: false }])
     const [screenView, setscreenView] = useState(
         {
             "isDataSetFilter": true,
@@ -85,7 +90,7 @@ export default function DatasetAdmin() {
             "isEnableSuccess": false,
             "isDisable": false,
             "isDisableSuccess": false,
-            "isChangeRequestSuccess":false
+            "isChangeRequestSuccess": false
         }
     );
     const [isAdminView, setisAdminView] = useState(true)
@@ -93,16 +98,23 @@ export default function DatasetAdmin() {
     const [tablekeys, settablekeys] = useState([])
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
+    var payload = ""
+
+    const resetUrls = () => {
+        setDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
+        setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
+    }
     const handleFilterChange = (index, filterName) => {
 
-        var tempFilterMaster = []
+        // var tempFilterMaster = []
         var tempFilterDisplay = []
         var payloadList = []
-        var payload = {}
+        // var payload = {}
 
         setIsShowAll(false)
         resetDateFilters()
         resetEnabledStatusFilter()
+        resetUrls()
 
         if (filterName == screenlabels.dataset.geography) {
 
@@ -201,7 +213,7 @@ export default function DatasetAdmin() {
                     tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked
                 }
                 if (tempFilterDisplay[i].isChecked) {
-                    payloadList.push(tempFilterDisplay[i].name)
+                    payloadList.push(tempFilterDisplay[i].payloadName)
                 }
             }
             setStatusFilter(tempFilterDisplay)
@@ -209,7 +221,7 @@ export default function DatasetAdmin() {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", payloadList)
         }
 
-        getDatasetList(payload)
+        getDatasetList(false)
     }
 
     const resetFilterState = (filterName) => {
@@ -281,6 +293,7 @@ export default function DatasetAdmin() {
         //reset other filters and states
         setIsShowAll(false)
         resetDateFilters()
+        resetUrls()
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
@@ -293,8 +306,8 @@ export default function DatasetAdmin() {
             setIsEnabledFilter(false)
             setIsDisabledFilter(!isDisabledFilter)
         }
-        var payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        getDatasetList(payload)
+        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        getDatasetList(false)
     }
 
     const handleGeoSearch = (e) => {
@@ -333,8 +346,9 @@ export default function DatasetAdmin() {
 
     useEffect(() => {
         getFilters()
-        getDatasetList(buildFilterPayLoad("", getUserLocal(), "", "", "", ""))
-    }, []);
+        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        getDatasetList(false)
+    }, [isMemberTab]);
 
     const getFilters = () => {
         setIsLoader(true);
@@ -404,15 +418,15 @@ export default function DatasetAdmin() {
     }
 
 
-    const getDatasetList = (payload) => {
+    const getDatasetList = (isLoadMore) => {
         setIsLoader(true);
-        if (payload == null) {
+        if (payload == "") {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         }
         HTTPService(
             "POST",
             // "GET",
-            datasetUrl,
+            isMemberTab ? memberDatasetUrl : datasetUrl,
             payload,
             false,
             true
@@ -424,14 +438,35 @@ export default function DatasetAdmin() {
 
                 if (response.data.next == null) {
                     setisShowLoadMoreButton(false)
+                    setShowLoadMoreAdmin(false)
+                    setShowLoadMoreMember(false)
                 } else {
                     setisShowLoadMoreButton(true)
-                    setDatasetUrl(response.data.next);
+                    if (!isMemberTab) {
+                        setDatasetUrl(response.data.next)
+                        setShowLoadMoreAdmin(true)
+                        setShowLoadMoreMember(false)
+                    } else {
+                        setMemberDatasetUrl(response.data.next)
+                        setShowLoadMoreAdmin(false)
+                        setShowLoadMoreMember(true)
+                    }
                 }
+                let finalDataList = []
                 if (!isMemberTab) {
-                    setDatasetList(response.data.results)
+                    if (isLoadMore) {
+                        finalDataList = [...datasetList, ...response.data.results]
+                    } else {
+                        finalDataList = [...response.data.results]
+                    }
+                    setDatasetList(finalDataList)
                 } else {
-                    setMemberDatasetList(response.data.results)
+                    if (isLoadMore) {
+                        finalDataList = [...memberDatasetList, ...response.data.results]
+                    } else {
+                        finalDataList = [...response.data.results]
+                    }
+                    setMemberDatasetList(finalDataList)
                 }
             })
             .catch((e) => {
@@ -446,8 +481,8 @@ export default function DatasetAdmin() {
         if (createdAtRange !== "") {
             data['created_at__range'] = createdAtRange
         }
-        // data['user_id'] = userId
-        data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
+        data['user_id'] = userId
+        // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         if (isMemberTab) {
             data['others'] = true
         } else {
@@ -460,10 +495,10 @@ export default function DatasetAdmin() {
             data['crop_detail__in'] = cropPayload
         }
         if (agePayload !== "") {
-            data['age__in'] = agePayload
+            data['age_of_date__in'] = agePayload
         }
         if (statusPayload !== "") {
-            data['status__in'] = statusPayload
+            data['approval_status__in'] = statusPayload
         }
         if (isEnabledFilter || isDisabledFilter) {
             if (geoPayload !== "") {
@@ -480,11 +515,15 @@ export default function DatasetAdmin() {
 
         setValue(newValue);
         if (newValue == "2") {
-            setIsMemberTab(true)
+            console.log("isMemberTab", isMemberTab)
+            setIsMemberTab(!isMemberTab)
+            console.log("isMemberTab", isMemberTab)
         } else {
-            setIsMemberTab(false)
+            setIsMemberTab(!isMemberTab)
         }
+        console.log("isMemberTab", isMemberTab)
         clearAllFilters()
+        console.log("isMemberTab", isMemberTab)
 
     };
 
@@ -497,14 +536,15 @@ export default function DatasetAdmin() {
     const clearAllFilters = () => {
         setIsShowAll(true)
         resetDateFilters()
+        resetUrls()
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
         resetEnabledStatusFilter()
 
-        var payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        getDatasetList(payload)
+        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        getDatasetList(false)
     }
 
     const getAllDataSets = () => {
@@ -513,15 +553,16 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
+        resetUrls()
 
         setIsShowAll(true)
         setsecondrow(false)
         settodate(null)
         setfromdate(null);
 
-        var payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
 
-        getDatasetList(payload)
+        getDatasetList(false)
 
     }
 
@@ -536,10 +577,11 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
+        resetUrls()
 
-        var payload = buildFilterPayLoad(fromDateandToDate, getUserLocal(), "", "", "", "")
+        payload = buildFilterPayLoad(fromDateandToDate, getUserLocal(), "", "", "", "")
         setsecondrow(true)
-        getDatasetList(payload)
+        getDatasetList(false)
     }
     const changeView = (keyname) => {
         let tempfilterObject = { ...screenView }
@@ -594,13 +636,13 @@ export default function DatasetAdmin() {
     const downloadAttachment = (uri) => {
         FileSaver.saveAs(UrlConstants.base_url_without_slash + uri)
     }
-    const changeStatus = (status,isenbaledisabledataset,sectioid) => {
+    const changeStatus = (status, isenbaledisabledataset, sectioid) => {
         setIsLoader(true);
         var bodyFormData = new FormData();
         bodyFormData.append("user_map", getUserMapId());
-        if(isenbaledisabledataset){
+        if (isenbaledisabledataset) {
             bodyFormData.append("is_enabled", status);
-        }else{
+        } else {
             bodyFormData.append("approval_status", status);
         }
         HTTPService(
@@ -620,7 +662,7 @@ export default function DatasetAdmin() {
                 history.push(GetErrorHandlingRoute(e));
             });
     }
-    const requestChangeDataset = (status,isenbaledisabledataset,sectioid) => {
+    const requestChangeDataset = (status, isenbaledisabledataset, sectioid) => {
         setIsLoader(true);
         var bodyFormData = new FormData();
         bodyFormData.append("user_map", getUserMapId());
@@ -668,25 +710,25 @@ export default function DatasetAdmin() {
                         </Col>
                     </Row></> : <></>}
                 {isAdminView ? <>
-                    {viewdata.approval_status=='for_review'?<><Row>
+                    {viewdata.approval_status == 'for_review' ? <><Row>
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => {changeView('isApprove') }} variant="contained" className="submitbtn">
+                            <Button onClick={() => { changeView('isApprove') }} variant="contained" className="submitbtn">
                                 Approve Dataset
                                 </Button>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => changeView('isDisapprove')} variant="outlined" className="editbtn">
-                                Disapprove Dataset
+                        <Row>
+                            <Col xs={12} sm={12} md={6} lg={3} >
+                            </Col>
+                            <Col xs={12} sm={12} md={6} lg={6} >
+                                <Button onClick={() => changeView('isDisapprove')} variant="outlined" className="editbtn">
+                                    Disapprove Dataset
                          </Button>
-                        </Col>
-                    </Row></>:<></>}
-                    {viewdata.approval_status=='approved' && viewdata.is_enabled?<Row>
+                            </Col>
+                        </Row></> : <></>}
+                    {viewdata.approval_status == 'approved' && viewdata.is_enabled ? <Row>
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
@@ -694,16 +736,16 @@ export default function DatasetAdmin() {
                                 Disable Dataset
                          </Button>
                         </Col>
-                    </Row>:<></>}
-                    {viewdata.approval_status=='approved' && !viewdata.is_enabled?<Row>
+                    </Row> : <></>}
+                    {viewdata.approval_status == 'approved' && !viewdata.is_enabled ? <Row>
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() =>changeView('isEnable') } variant="outlined" className="editbtn">
+                            <Button onClick={() => changeView('isEnable')} variant="outlined" className="editbtn">
                                 Enable Dataset
                          </Button>
                         </Col>
-                    </Row>:<></>}
+                    </Row> : <></>}
                     {/* <Row>
                         <span style={{ width: "700px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span><span className="fontweight400andfontsize14pxandcolor3D4A52" style={{"margin-top":"-11px"}}>{"or"}</span><span style={{ width: "724px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span>
                     </Row>
@@ -766,7 +808,7 @@ export default function DatasetAdmin() {
                 imagename={'disable'}
                 firstbtntext={"Disable"}
                 secondbtntext={"Cancel"}
-                deleteEvent={() => { changeStatus(false,true,'isDisableSuccess')}}
+                deleteEvent={() => { changeStatus(false, true, 'isDisableSuccess') }}
                 cancelEvent={() => { changeView('isDataSetView') }}
                 heading={"Disable dataset"}
                 imageText={"Are you sure you want to diable the dataset?"}
@@ -782,7 +824,7 @@ export default function DatasetAdmin() {
                 imagename={'disable'}
                 firstbtntext={"Enable"}
                 secondbtntext={"Cancel"}
-                deleteEvent={() => {changeStatus(true,true,'isEnableSuccess') }}
+                deleteEvent={() => { changeStatus(true, true, 'isEnableSuccess') }}
                 cancelEvent={() => { changeView('isDataSetView') }}
                 heading={"Enable dataset"}
                 imageText={"Are you sure you want to enable the dataset?"}
@@ -798,7 +840,7 @@ export default function DatasetAdmin() {
                 imagename={'thumbsup'}
                 firstbtntext={"Approve Dataset"}
                 secondbtntext={"Cancel"}
-                deleteEvent={() => {changeStatus('approved',false,'isApproveSuccess') }}
+                deleteEvent={() => { changeStatus('approved', false, 'isApproveSuccess') }}
                 cancelEvent={() => { changeView('isDataSetView') }}
                 heading={"Approve Dataset"}
                 imageText={"Are you sure you want to approve Dataset?"}
@@ -814,7 +856,7 @@ export default function DatasetAdmin() {
                 imagename={'thumbsdown'}
                 firstbtntext={"Disapprove Dataset"}
                 secondbtntext={"Cancel"}
-                deleteEvent={() => { changeStatus('rejected',false,'isDisapproveSuccess')}}
+                deleteEvent={() => { changeStatus('rejected', false, 'isDisapproveSuccess') }}
                 cancelEvent={() => { changeView('isDataSetView') }}
                 heading={"Disapprove Dataset"}
                 imageText={"Are you sure you want to disapprove Dataset?"}
@@ -880,6 +922,7 @@ export default function DatasetAdmin() {
                                 statusFilter={statusFilter}
                                 // handleStatusFilter={handleStatusFilter}
                                 resetEnabledStatusFilter={resetEnabledStatusFilter}
+                                resetUrls={resetUrls}
                             />
                         </Col>
                         <Col className="supportSecondCOlumn">
@@ -897,7 +940,7 @@ export default function DatasetAdmin() {
                                         <TabPanel value='1'>
                                             <DataSetListing
                                                 datasetList={datasetList}
-                                                isShowLoadMoreButton={isShowLoadMoreButton}
+                                                isShowLoadMoreButton={showLoadMoreAdmin}
                                                 isMemberTab={isMemberTab}
                                                 getDatasetList={getDatasetList}
                                                 viewCardDetails={(id) => viewCardDetails(id, true)}
@@ -906,7 +949,7 @@ export default function DatasetAdmin() {
                                         <TabPanel value='2'>
                                             <DataSetListing
                                                 datasetList={memberDatasetList}
-                                                isShowLoadMoreButton={isShowLoadMoreButton}
+                                                isShowLoadMoreButton={showLoadMoreMember}
                                                 isMemberTab={isMemberTab}
                                                 getDatasetList={getDatasetList}
                                                 viewCardDetails={(id) => viewCardDetails(id, false)}

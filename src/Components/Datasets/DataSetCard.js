@@ -47,17 +47,17 @@ export default function DataSetCard(props) {
 
         <Card className={props.margingtop} style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
             <CardHeader
-                // avatar={
-                //     props.data.organization.logo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.data.organization.logo} sx={{ width: 54, height: 54 }} /> :
-                //         <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.data.subject.charAt(0)}</Avatar>
-                // }
+                avatar={
+                    props.orgLogo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.orgLogo} sx={{ width: 54, height: 54 }} /> :
+                        <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.orgName.charAt(0)}</Avatar>
+                }
                 // title={props.data.subject}
-                title="Sample Title"
+                title={props.title}
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left" }}
             />
             <CardContent>
                 <Row style={useStyles.datasetdescription}>
-                    DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription
+                    {props.description}
                 </Row>
                 <Row>
                     {props.isMemberTab ?
@@ -79,7 +79,7 @@ export default function DataSetCard(props) {
                         {props.orgName}
                     </Col> :
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {props.geography}Kochi
+                        {props.geography}
                     </Col>
                     }
                     {/* <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"> */}
@@ -119,10 +119,10 @@ export default function DataSetCard(props) {
                 </Row>
                 <Row className="supportcardmargintop">
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {props.ageOfData}6 Months
+                        {props.ageOfData}
                     </Col>
-                    <Col style={{ color: "#3D4A52", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
-                        {props.cropDetail}Chilli
+                    <Col style={{"padding-right":"4px",color: "#3D4A52", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
+                        {props.cropDetail}
                     </Col>
                 </Row>
                 {/* <Row>
@@ -160,13 +160,18 @@ export default function DataSetCard(props) {
                 </Row> */}
                 {/* <Row style={{ "margin-top": "-58px" }}> */}
                 <Row>
-                    {
-                        props.isMemberTab &&
-                        <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                            {screenlabels.dataset.geography}
-                        </Col>
-                        
-                    }
+                    {props.isMemberTab &&
+                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                        {screenlabels.dataset.geography}
+                    </Col>}
+                    </Row>
+                    <Row className="supportcardmargintop">
+                    {props.isMemberTab ?
+                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                        {props.geography}
+                    </Col> : <Col></Col>}
+                    </Row>
+                    <Row style={!props.isMemberTab?{"margin-top":"30px"}:{"margin-top":"-50px"}}>
                     {isshowbutton ? 
                         <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                             <Button 
@@ -175,7 +180,8 @@ export default function DataSetCard(props) {
                                 View Details
                             </Button>
                         </Col>     : <></>}
-                </Row>
+                     </Row>
+               
             </CardContent>
         </Card>
     );
