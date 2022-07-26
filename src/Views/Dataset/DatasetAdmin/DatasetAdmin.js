@@ -444,7 +444,7 @@ export default function DatasetAdmin() {
             .catch((e) => {
                 console.log(e)
                 setIsLoader(false);
-                // history.push(GetErrorHandlingRoute(e));
+                history.push(GetErrorHandlingRoute(e));
             });
     }
 
@@ -453,8 +453,8 @@ export default function DatasetAdmin() {
         if(createdAtRange !== ""){
             data['created_at__range'] = createdAtRange
         }
-        // data['user_id'] = userId
-        data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
+        data['user_id'] = userId
+        // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         if(isMemberTab){
             data['others'] = true
         } else {
