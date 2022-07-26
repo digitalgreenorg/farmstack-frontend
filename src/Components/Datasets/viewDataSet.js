@@ -212,7 +212,7 @@ export default function ViewDataSet(props) {
                 "margin-right": "70px",
                 overflow: "scroll"
             }}>
-                <Col><Table aria-label="simple table" style={{ overflow: "scroll" }}>
+                <Col><Table aria-label="simple table" style={{ overflow: "scroll",width:"1300px" }}>
                     <TableHead >
                         <TableRow>
                             {props.tabelkeys.map((key) => (<TableCell>{key}</TableCell>))}
