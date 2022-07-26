@@ -6,10 +6,13 @@ import UrlConstant from '../../Constants/UrlConstants';
 import HTTPService from '../../Services/HTTPService';
 import { useHistory } from 'react-router-dom';
 import GetErrorHandlingRoute from '../../Utils/Common';
+import AddDatasetCard from '../../Components/Datasets/AddDatasetCard';
+import labels from '../../Constants/labels';
 
 
 export default function DataSetListing(props) {
 
+    const [screenlabels, setscreenlabels] = useState(labels['en']);
     const history = useHistory();
     const [isLoader, setIsLoader] = useState(false)
 
@@ -37,21 +40,28 @@ export default function DataSetListing(props) {
     <div>
         <Row style={{"margin-left":"-44px","width":"150%"}}>
             {
+                !props.isMemberTab &&
+                <AddDatasetCard firstText={screenlabels.dataset.add_dataset} secondText={screenlabels.dataset.add_dataset_text} addevent={() => history.push('/datahub/dataset/add')}></AddDatasetCard>
+                // <AddCard firstText={screenlabels.addparticipants.firstText} secondText={screenlabels.addparticipants.secondText} addevent={() => history.push('/datahub/participants/add')}></AddCard>
+            }
+            {
                 props.datasetList && props.datasetList.map((dataset) => (
                     <DataSetCard
                         isMemberTab={props.isMemberTab}
+                        title={dataset.name}
                         orgName={dataset.organization.name}
                         ageOfData={dataset.age_of_date}
                         cropDetail={dataset.crop_detail}
                         geography={dataset.geography}
-                        orgLogo={dataset.geography.logo}
+                        orgLogo={dataset.organization.logo}
+                        description={dataset.description}
                         id={dataset.id}
                         viewCardDetails={viewCardDetails}
                         margingtop={'supportcard supportcardmargintop20px'}
                     />
                 ))
             }
-            <DataSetCard
+            {/* <DataSetCard
                 margingtop={'supportcard supportcardmargintop20px'}
             />
             <DataSetCard
@@ -80,13 +90,14 @@ export default function DataSetListing(props) {
             />
             <DataSetCard
                 margingtop={'supportcard supportcardmargintop20px'}
-            />
-            <Row style={{"margin-left":"40px","margin-top":"20px"}}>
+            /> */}
+        </Row>
+        <Row style={{"margin-left":"40px","margin-top":"20px"}}>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 {props.isShowLoadMoreButton ? (
                     <Col xs={12} sm={12} md={6} lg={6}>
                         <Button
-                            onClick={() => props.getDatasetList()}
+                            onClick={() => props.getDatasetList(true)}
                             variant="outlined"
                             className="cancelbtn">
                             Load More
@@ -96,8 +107,6 @@ export default function DataSetListing(props) {
                     <></>
                 )}
             </Row>
-            
-        </Row>
     </div>
   )
 }
