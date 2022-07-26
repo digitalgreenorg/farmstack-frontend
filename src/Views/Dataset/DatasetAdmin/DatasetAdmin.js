@@ -23,6 +23,7 @@ import FileSaver from 'file-saver';
 import UrlConstants from '../../../Constants/UrlConstants'
 import Button from "@mui/material/Button";
 import './DatasetAdmin.css'
+import $ from 'jquery';
 export default function DatasetAdmin() {
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
@@ -348,6 +349,10 @@ export default function DatasetAdmin() {
         getFilters()
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         getDatasetList(false)
+        setTimeout(() => {
+            $(".supportcardfromdate input.MuiInputBase-input").attr("disabled", "disabled");
+            $(".supportcardtodate input.MuiInputBase-input").attr("disabled", "disabled");
+        }, 100)
     }, [isMemberTab]);
 
     const getFilters = () => {
