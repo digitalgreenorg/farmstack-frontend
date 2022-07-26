@@ -15,26 +15,25 @@ export default function DataSetListing(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const history = useHistory();
     const [isLoader, setIsLoader] = useState(false)
+    // const viewCardDetails = (id) => {
+    //     setIsLoader(true);
+    //     HTTPService(
+    //     "GET",
+    //     UrlConstant.base_url + UrlConstant.dataset+id+"/",
+    //     "",
+    //     false,
+    //     true
+    //     )
+    //     .then((response) => {
+    //         setIsLoader(false);
+    //         console.log("filter response:", response);
 
-    const viewCardDetails = (id) => {
-        setIsLoader(true);
-        HTTPService(
-        "GET",
-        UrlConstant.base_url + UrlConstant.dataset+id+"/",
-        "",
-        false,
-        true
-        )
-        .then((response) => {
-            setIsLoader(false);
-            console.log("filter response:", response);
-
-        })
-        .catch((e) => {
-            setIsLoader(false);
-            history.push(GetErrorHandlingRoute(e));
-        });
-    }
+    //     })
+    //     .catch((e) => {
+    //         setIsLoader(false);
+    //         history.push(GetErrorHandlingRoute(e));
+    //     });
+    // }
 
   return (
     <div>
@@ -56,7 +55,7 @@ export default function DataSetListing(props) {
                         orgLogo={dataset.organization.logo}
                         description={dataset.description}
                         id={dataset.id}
-                        viewCardDetails={viewCardDetails}
+                        viewCardDetails={()=>props.viewCardDetails(dataset.id)}
                         margingtop={'supportcard supportcardmargintop20px'}
                     />
                 ))
