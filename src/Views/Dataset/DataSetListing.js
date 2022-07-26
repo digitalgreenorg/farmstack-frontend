@@ -41,7 +41,7 @@ export default function DataSetListing(props) {
         <Row style={{"margin-left":"-44px","width":"150%"}}>
             {
                 !props.isMemberTab &&
-                <AddDatasetCard firstText={screenlabels.dataset.add_dataset} secondText={screenlabels.dataset.add_dataset_text} addevent={() => history.push('/datahub/dataset/add')}></AddDatasetCard>
+                <AddDatasetCard firstText={screenlabels.dataset.add_dataset} secondText={screenlabels.dataset.add_dataset_text} addevent={() => history.push('/datahub/datasets/add')}></AddDatasetCard>
                 // <AddCard firstText={screenlabels.addparticipants.firstText} secondText={screenlabels.addparticipants.secondText} addevent={() => history.push('/datahub/participants/add')}></AddCard>
             }
             {
