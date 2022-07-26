@@ -167,7 +167,9 @@ const labels = {
       age_of_data: "Age of Data",
       crop_details: "Crop Details",
       add_dataset: "Add New Dataset",
-      add_dataset_text: "Add details about your dataset and make discoverable to other participants in our network."
+      add_dataset_text: "Add details about your dataset and make discoverable to other participants in our network.",
+      no_dataset_text1: "There are no Datasets at this moment !",
+      no_dataset_text2: "Add your Dataset."
     },
   },
 };
