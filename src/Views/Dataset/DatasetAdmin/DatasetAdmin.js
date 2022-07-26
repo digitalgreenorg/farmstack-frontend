@@ -661,6 +661,7 @@ export default function DatasetAdmin() {
                 setIsLoader(false);
                 console.log("filter response:", response);
                 changeView(sectioid)
+                
             })
             .catch((e) => {
                 setIsLoader(false);
@@ -822,7 +823,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDisableSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset disabled successfully!"} imageText={"Disabled"} msg={"You diabled a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset disabled successfully!"} imageText={"Disabled"} msg={"You diabled a dataset."}></Success> : <></>
             }
             {screenView.isEnable ? <Delete
                 route={"login"}
@@ -838,7 +839,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isEnableSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset enabled successfully!"} imageText={"Enabled"} msg={"You enabled a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset enabled successfully!"} imageText={"Enabled"} msg={"You enabled a dataset."}></Success> : <></>
             }
             {screenView.isApprove ? <Delete
                 route={"login"}
@@ -854,7 +855,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isApproveSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approve Dataset"} imageText={"Approved"} msg={"You approved a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approve Dataset"} imageText={"Approved"} msg={"You approved a dataset."}></Success> : <></>
             }
             {screenView.isDisapprove ? <Delete
                 route={"login"}
@@ -870,7 +871,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDisapproveSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Disapprove Dataset"} imageText={"Disapprove"} msg={"You disapproved a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Disapprove Dataset"} imageText={"Disapprove"} msg={"You disapproved a dataset."}></Success> : <></>
             }
             {screenView.isDelete ? <Delete
                 route={"login"}
@@ -886,7 +887,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDeleSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
             }
             {screenView.isDataSetFilter ? <Row className="supportfirstmaindiv">
                 {/* <Row className="secondmainheading width100percent">{screenlabels.support.heading}</Row> */}
