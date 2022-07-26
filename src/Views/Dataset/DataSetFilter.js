@@ -115,7 +115,12 @@ export default function DataSetFilter(props) {
       </Row>
       {props.showMemberFilters && 
         <Row className="supportfiltersecondrowbold">
-            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.status}</span>
+            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">  
+              <img
+              src={require("../../Assets/Img/status.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.dataset.status}</span>
         </Row>}
         {props.showMemberFilters &&
             props.statusFilter && props.statusFilter.map((status) => (
@@ -128,7 +133,12 @@ export default function DataSetFilter(props) {
         }
       {props.showMemberFilters && 
         <Row className="supportfiltersecondrowbold">
-            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.datasets}</span>
+            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext"> 
+            <img
+              src={require("../../Assets/Img/dataset_bold.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.dataset.datasets}</span>
         </Row>}
         {props.showMemberFilters &&
         
@@ -147,7 +157,14 @@ export default function DataSetFilter(props) {
             />
         }
       <Row className="supportfiltersecondrowbold">
-          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.geography}</span>
+          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img
+              src={require("../../Assets/Img/geography.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;
+              {screenlabels.dataset.geography}
+              </span>
       </Row>
       <Row className="supportfiltersecondrowbold">
           <TextField 
@@ -180,7 +197,12 @@ export default function DataSetFilter(props) {
       </Row>
        */}
       <Row className="supportfiltersecondrowbold">
-          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.age}</span>
+          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img
+              src={require("../../Assets/Img/calendar.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.dataset.age}</span>
       </Row>
       {/* <Row> */}
           {props.ageFilterDisplay && props.ageFilterDisplay.map((ageFilter) => (
@@ -201,7 +223,12 @@ export default function DataSetFilter(props) {
         ))}  
       </Row> */}
       <Row className="supportfiltersecondrowbold">
-          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.crop}</span>
+          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img
+              src={require("../../Assets/Img/crop.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.dataset.crop}</span>
       </Row>
       <Row className="supportfiltersecondrowbold">
           <TextField 
