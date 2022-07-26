@@ -78,6 +78,19 @@ const ParticipantNavbar = (props) => {
           style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
         />
         <NavMenu>
+        <NavLink to="/participant/datasets" activeStyle>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/dataset_bold.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/datasets.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.datasets}
+          </NavLink>
         </NavMenu>
         {profile ? (
           <NavBtn onClick={handleLogout}>

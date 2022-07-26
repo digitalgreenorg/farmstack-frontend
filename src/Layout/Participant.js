@@ -18,6 +18,11 @@ function Datahub(props) {
           <Switch>
           <Route
               exact
+              path="/participant/datasets"
+              component={Home}
+            />
+             <Route
+              exact
               path="/participant/home"
               component={Home}
             />
