@@ -132,7 +132,7 @@ export const isLoggedInUserParticipant = () => {
   : false
 };
 
-export const dateTimeFormat = (datetime) => {
+export const dateTimeFormat = (datetime,istime) => {
   const today = new Date(datetime)
   var y = today.getFullYear()
   var m = (today.getMonth() + 1).toString().padStart(2, "0")
@@ -140,8 +140,14 @@ export const dateTimeFormat = (datetime) => {
   var h = today.getHours()
   var mi =(today.getMinutes()<10?'0':'')+today.getMinutes()
   var s = today.getSeconds();
-  let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
-  return format
+  if(istime){
+    let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
+    return format
+  }else{
+    let format = d + "/" + m + "/" + y
+    return format
+  }
+  
 };
 
 export default GetErrorHandlingRoute;

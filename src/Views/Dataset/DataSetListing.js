@@ -12,26 +12,25 @@ export default function DataSetListing(props) {
 
     const history = useHistory();
     const [isLoader, setIsLoader] = useState(false)
+    // const viewCardDetails = (id) => {
+    //     setIsLoader(true);
+    //     HTTPService(
+    //     "GET",
+    //     UrlConstant.base_url + UrlConstant.dataset+id+"/",
+    //     "",
+    //     false,
+    //     true
+    //     )
+    //     .then((response) => {
+    //         setIsLoader(false);
+    //         console.log("filter response:", response);
 
-    const viewCardDetails = (id) => {
-        setIsLoader(true);
-        HTTPService(
-        "GET",
-        UrlConstant.base_url + UrlConstant.dataset+id+"/",
-        "",
-        false,
-        true
-        )
-        .then((response) => {
-            setIsLoader(false);
-            console.log("filter response:", response);
-
-        })
-        .catch((e) => {
-            setIsLoader(false);
-            history.push(GetErrorHandlingRoute(e));
-        });
-    }
+    //     })
+    //     .catch((e) => {
+    //         setIsLoader(false);
+    //         history.push(GetErrorHandlingRoute(e));
+    //     });
+    // }
 
   return (
     <div>
@@ -46,12 +45,12 @@ export default function DataSetListing(props) {
                         geography={dataset.geography}
                         orgLogo={dataset.geography.logo}
                         id={dataset.id}
-                        viewCardDetails={viewCardDetails}
+                        viewCardDetails={()=>props.viewCardDetails(dataset.id)}
                         margingtop={'supportcard supportcardmargintop20px'}
                     />
                 ))
             }
-            <DataSetCard
+            {/* <DataSetCard
                 margingtop={'supportcard supportcardmargintop20px'}
             />
             <DataSetCard
@@ -80,7 +79,7 @@ export default function DataSetListing(props) {
             />
             <DataSetCard
                 margingtop={'supportcard supportcardmargintop20px'}
-            />
+            /> */}
             <Row style={{"margin-left":"40px","margin-top":"20px"}}>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 {props.isShowLoadMoreButton ? (
