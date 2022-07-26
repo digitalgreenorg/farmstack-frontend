@@ -120,16 +120,25 @@ export const getRoleLocal = () => {
 };
 
 export const isLoggedInUserAdmin = () => {
-  return (getRoleLocal()) 
-  ? (getRoleLocal().toLowerCase() == LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()) 
-  : false
+  return getRoleLocal()
+    ? getRoleLocal().toLowerCase() ==
+        LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
+    : false;
 };
 
 export const isLoggedInUserParticipant = () => {
   //return true;
-  return (getRoleLocal()) 
-  ? (getRoleLocal().toLowerCase() == LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()) 
-  : false
+  return getRoleLocal()
+    ? getRoleLocal().toLowerCase() ==
+        LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
+    : false;
+};
+
+// file upload
+export const fileUpload = (bodyFormData, file, Key) => {
+  if (file != null && typeof file != "string") {
+    return bodyFormData.append(Key, file);
+  }
 };
 
 export default GetErrorHandlingRoute;

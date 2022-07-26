@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable eqeqeq */
+import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
@@ -33,6 +34,18 @@ const useStyles = {
 };
 
 export default function AddDataset(props) {
+  useEffect(() => {
+    setTimeout(() => {
+      $(".addDatasetFromdate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+    }, 100);
+  }, []);
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -79,6 +92,7 @@ export default function AddDataset(props) {
         cultivation_data: Cultivation_data,
         soil_data: Soil_data,
         weather_data: Weather_data,
+        research_data: Research_data,
       })
     );
     bodyFormData.append("geography", Geography);
@@ -133,14 +147,7 @@ export default function AddDataset(props) {
   };
   const handleFileChange = (file) => {
     setFile(file);
-    // setprofile_pic(file);
     console.log(file);
-    // if (file != null && file.size > 2097152) {
-    //   //   setBrandingnextbutton(false);
-    //   setaccfilesize(true);
-    // } else {
-    //   setaccfilesize(false);
-    // }
   };
   const handleChangedatasetname = (e) => {
     validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
@@ -171,7 +178,7 @@ export default function AddDataset(props) {
     settodate(null);
     setfromdate(newValue);
     setTimeout(() => {
-      $(".supportcardtodate input.MuiInputBase-input").attr(
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
         "disabled",
         "disabled"
       );
@@ -198,6 +205,7 @@ export default function AddDataset(props) {
   const [Cultivation_data, setCultivation_data] = React.useState(false);
   const [Soil_data, setSoil_data] = React.useState(false);
   const [Weather_data, setWeather_data] = React.useState(false);
+  const [Research_data, setResearch_data] = React.useState(false);
 
   const handleChangeCropData = (event) => {
     console.log(event.target.checked);
@@ -226,6 +234,10 @@ export default function AddDataset(props) {
   const handleChangeWeatherData = (event) => {
     console.log(event.target.checked);
     setWeather_data(event.target.checked);
+  };
+  const handleChangeResearchData = (event) => {
+    console.log(event.target.checked);
+    setResearch_data(event.target.checked);
   };
   return (
     <>
@@ -262,6 +274,8 @@ export default function AddDataset(props) {
             handleChangeSoilData={handleChangeSoilData}
             Weather_data={Weather_data}
             handleChangeWeatherData={handleChangeWeatherData}
+            Research_data={Research_data}
+            handleChangeResearchData={handleChangeResearchData}
             Geography={Geography}
             handleChangeGeography={handleChangeGeography}
             cropdetail={cropdetail}
@@ -289,6 +303,7 @@ export default function AddDataset(props) {
               reply &&
               Geography &&
               file &&
+              file.size < 2097152 &&
               (Crop_data == true ||
                 Practice_data == true ||
                 Farmer_profile == true ||

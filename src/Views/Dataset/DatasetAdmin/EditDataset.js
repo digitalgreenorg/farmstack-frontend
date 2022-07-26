@@ -9,6 +9,7 @@ import GetErrorHandlingRoute, {
   handleUnwantedSpace,
   HandleSessionTimeout,
   getUserMapId,
+  fileUpload,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../Constants/ColorConstants";
@@ -51,6 +52,7 @@ export default function EditDataset() {
   const [todate, settodate] = React.useState(null);
 
   const [file, setFile] = useState(null);
+  const [filesize, setfilesize] = useState(false);
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -98,16 +100,17 @@ export default function EditDataset() {
     if (todate != null) {
       bodyFormData.append("data_capture_end", dateto.toISOString());
     }
-    if (file != null) {
-      bodyFormData.append("sample_dataset", file);
-    }
+
+    // file upload
+    fileUpload(bodyFormData, file, "sample_dataset");
+    // console.log(typeof file != "string");
+    // if (file != null && typeof file != "string") {
+    //   bodyFormData.append("sample_dataset", file);
+    // }
+
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", userid);
-    // bodyFormData.append("first_name", firstname);
-    // bodyFormData.append("last_name", lastname);
-    // bodyFormData.append("phone_number", phonenumber);
-    // bodyFormData.append("profile_picture", file);
 
     console.log("edit dataset", bodyFormData);
     setIsLoader(true);
@@ -134,6 +137,7 @@ export default function EditDataset() {
     // console.log("user id", id);
     setIsLoader(true);
     console.log(id);
+
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.dataset + id + "/",
@@ -155,6 +159,7 @@ export default function EditDataset() {
         setCultivation_data(response.data.category.cultivation_data);
         setSoil_data(response.data.category.soil_data);
         setWeather_data(response.data.category.weather_data);
+        setResearch_data(response.data.category.research_data);
         setavailablevalue(response.data.connector_availability);
         setrecordsvalue(response.data.dataset_size);
         setValue(response.data.age_of_date);
@@ -166,7 +171,9 @@ export default function EditDataset() {
         // setfirstname(response.data.first_name);
         // setlastname(response.data.last_name);
         // setemail(response.data.email);
-        // setFile(response.data.profile_picture);
+        setFile(response.data.sample_dataset);
+        // console.log(typeof typeof file);
+        console.log(typeof response.data.sample_dataset);
       })
       .catch((e) => {
         setIsLoader(false);
@@ -176,6 +183,16 @@ export default function EditDataset() {
 
   useEffect(() => {
     getAccountDetails();
+    setTimeout(() => {
+      $(".addDatasetFromdate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+    }, 100);
   }, []);
 
   const handleChange = (event) => {
@@ -195,12 +212,12 @@ export default function EditDataset() {
     setFile(file);
     // setprofile_pic(file);
     console.log(file);
-    // if (file != null && file.size > 2097152) {
-    //   //   setBrandingnextbutton(false);
-    //   setaccfilesize(true);
-    // } else {
-    //   setaccfilesize(false);
-    // }
+    console.log(typeof file);
+    if (file != null && file.size > 2097152) {
+      setfilesize(true);
+    } else {
+      setfilesize(false);
+    }
   };
   const handleChangedatasetname = (e) => {
     validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
@@ -231,7 +248,7 @@ export default function EditDataset() {
     settodate(null);
     setfromdate(newValue);
     setTimeout(() => {
-      $(".supportcardtodate input.MuiInputBase-input").attr(
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
         "disabled",
         "disabled"
       );
@@ -258,6 +275,7 @@ export default function EditDataset() {
   const [Cultivation_data, setCultivation_data] = React.useState(false);
   const [Soil_data, setSoil_data] = React.useState(false);
   const [Weather_data, setWeather_data] = React.useState(false);
+  const [Research_data, setResearch_data] = React.useState(false);
 
   const handleChangeCropData = (event) => {
     console.log(event.target.checked);
@@ -286,6 +304,10 @@ export default function EditDataset() {
   const handleChangeWeatherData = (event) => {
     console.log(event.target.checked);
     setWeather_data(event.target.checked);
+  };
+  const handleChangeResearchData = (event) => {
+    console.log(event.target.checked);
+    setResearch_data(event.target.checked);
   };
   return (
     <>
@@ -322,6 +344,8 @@ export default function EditDataset() {
             handleChangeSoilData={handleChangeSoilData}
             Weather_data={Weather_data}
             handleChangeWeatherData={handleChangeWeatherData}
+            Research_data={Research_data}
+            handleChangeResearchData={handleChangeResearchData}
             Geography={Geography}
             handleChangeGeography={handleChangeGeography}
             cropdetail={cropdetail}
@@ -349,6 +373,9 @@ export default function EditDataset() {
               reply &&
               Geography &&
               file &&
+              !filesize &&
+              //   (file ? file.size < 2097152 : false) &&
+              //   typeof file == "string" &&
               (Crop_data == true ||
                 Practice_data == true ||
                 Farmer_profile == true ||

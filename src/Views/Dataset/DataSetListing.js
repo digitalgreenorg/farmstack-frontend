@@ -1,9 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DataSetCard from '../../Components/Datasets/DataSetCard'
 import { Col, Row } from 'react-bootstrap'
 import Button from "@mui/material/Button";
+import UrlConstant from '../../Constants/UrlConstants';
+import HTTPService from '../../Services/HTTPService';
+import { useHistory } from 'react-router-dom';
+import GetErrorHandlingRoute from '../../Utils/Common';
+
 
 export default function DataSetListing(props) {
+
+    const history = useHistory();
+    const [isLoader, setIsLoader] = useState(false)
+
+    const viewCardDetails = (id) => {
+        setIsLoader(true);
+        HTTPService(
+        "GET",
+        UrlConstant.base_url + UrlConstant.dataset+id+"/",
+        "",
+        false,
+        true
+        )
+        .then((response) => {
+            setIsLoader(false);
+            console.log("filter response:", response);
+
+        })
+        .catch((e) => {
+            setIsLoader(false);
+            history.push(GetErrorHandlingRoute(e));
+        });
+    }
+
   return (
     <div>
         <Row style={{"margin-left":"-44px","width":"150%"}}>
@@ -16,6 +45,8 @@ export default function DataSetListing(props) {
                         cropDetail={dataset.crop_detail}
                         geography={dataset.geography}
                         orgLogo={dataset.geography.logo}
+                        id={dataset.id}
+                        viewCardDetails={viewCardDetails}
                         margingtop={'supportcard supportcardmargintop20px'}
                     />
                 ))
