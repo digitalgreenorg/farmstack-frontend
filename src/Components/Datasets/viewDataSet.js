@@ -116,7 +116,7 @@ export default function ViewDataSet(props) {
                 </Col>
             </Row>
             <Row className="supportViewDeatilsSecondRow"></Row>
-            <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+            {!props.isAdminView?<><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
                 <span className="mainheading">{"Organization details"}</span>
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
@@ -195,7 +195,7 @@ export default function ViewDataSet(props) {
                     <span className="secondmainheading">{""}</span>
                 </Col>
             </Row>
-            <Row className="supportViewDeatilsSecondRow"></Row>
+            <Row className="supportViewDeatilsSecondRow"></Row></>:<></>}
             <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
                 <span className="mainheading" >{"Sample data table"}</span><span style={{ "margin-left": "67%" }} onClick={() => props.downloadAttachment(props.rowdata.sample_dataset)}>
                     <img

@@ -639,7 +639,7 @@ export default function DatasetAdmin() {
     const changeStatus = (status, isenbaledisabledataset, sectioid) => {
         setIsLoader(true);
         var bodyFormData = new FormData();
-        bodyFormData.append("user_map", getUserMapId());
+        // bodyFormData.append("user_map", getUserMapId());
         if (isenbaledisabledataset) {
             bodyFormData.append("is_enabled", status);
         } else {
@@ -709,7 +709,7 @@ export default function DatasetAdmin() {
                 </Button>
                         </Col>
                     </Row></> : <></>}
-                {isAdminView ? <>
+                {!isAdminView? <>
                     {viewdata.approval_status == 'for_review' ? <><Row>
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
@@ -727,8 +727,8 @@ export default function DatasetAdmin() {
                                     Disapprove Dataset
                          </Button>
                             </Col>
-                        </Row></> : <></>}
-                    {viewdata.approval_status == 'approved' && viewdata.is_enabled ? <Row>
+                        </Row><Row className="marginrowtop8px"></Row></> : <></>}
+                    {viewdata.approval_status == 'approved' && viewdata.is_enabled ? <><Row>
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
@@ -736,8 +736,8 @@ export default function DatasetAdmin() {
                                 Disable Dataset
                          </Button>
                         </Col>
-                    </Row> : <></>}
-                    {viewdata.approval_status == 'approved' && !viewdata.is_enabled ? <Row>
+                    </Row><Row className="marginrowtop8px"></Row></>: <></>}
+                    {viewdata.approval_status == 'approved' && !viewdata.is_enabled ?<><Row>
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
@@ -745,7 +745,7 @@ export default function DatasetAdmin() {
                                 Enable Dataset
                          </Button>
                         </Col>
-                    </Row> : <></>}
+                    </Row> <Row className="marginrowtop8px"></Row></>: <></>}
                     {/* <Row>
                         <span style={{ width: "700px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span><span className="fontweight400andfontsize14pxandcolor3D4A52" style={{"margin-top":"-11px"}}>{"or"}</span><span style={{ width: "724px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span>
                     </Row>

@@ -78,19 +78,7 @@ const Navbar = (props) => {
           style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
         />
         <NavMenu>
-        <NavLink to="/datahub/datasets" activeStyle>
-            <img
-              className="boldimage"
-              src={require("../../Assets/Img/dataset_bold.svg")}
-              alt="new"
-            />
-            <img
-              className="nonboldimage"
-              src={require("../../Assets/Img/datasets.svg")}
-              alt="new"
-            />
-            &nbsp;&nbsp;{screenlabels.navbar.datasets}
-          </NavLink>
+      
           <NavLink to="/datahub/participants" activeStyle>
             <img
               className="boldimage"
@@ -103,6 +91,19 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.Participants}
+          </NavLink>
+          <NavLink to="/datahub/datasets" activeStyle>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/dataset_bold.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/datasets.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.datasets}
           </NavLink>
           <NavLink to="/datahub/support" activeStyle>
             <img
