@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import GetErrorHandlingRoute from '../../Utils/Common';
 import AddDatasetCard from '../../Components/Datasets/AddDatasetCard';
 import labels from '../../Constants/labels';
+import NoDatasetCard from '../../Components/Datasets/NoDatasetCard';
 
 
 export default function DataSetListing(props) {
@@ -44,12 +45,17 @@ export default function DataSetListing(props) {
                 // <AddCard firstText={screenlabels.addparticipants.firstText} secondText={screenlabels.addparticipants.secondText} addevent={() => history.push('/datahub/participants/add')}></AddCard>
             }
             {
+                (!props.datasetList || props.datasetList.length ==0) &&
+                <NoDatasetCard firstText={screenlabels.dataset.no_dataset_text1} secondText={screenlabels.dataset.no_dataset_text2}></NoDatasetCard>
+            }
+            {
                 props.datasetList && props.datasetList.map((dataset) => (
                     <DataSetCard
                         isMemberTab={props.isMemberTab}
                         title={dataset.name}
                         orgName={dataset.organization.name}
                         ageOfData={dataset.age_of_date}
+                        publishedon={dataset.created_at}
                         cropDetail={dataset.crop_detail}
                         geography={dataset.geography}
                         orgLogo={dataset.organization.logo}
