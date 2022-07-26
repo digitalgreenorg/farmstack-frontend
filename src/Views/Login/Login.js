@@ -25,7 +25,8 @@ import HandleSessionTimeout, {
   setRoleLocal,
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
-  getRoleLocal
+  getRoleLocal,
+  getUserMapId
 } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
@@ -42,6 +43,7 @@ export default function Login(props) {
 
   const [verifyOtpbutton, setOtpButton] = useState(false)
   const otp = useRef()
+  const [otpValue, setOtpValue] = useState('')
   const [isOtperror, setOtpError] = useState(false)
   const [userSuspenderror, setuserSuspenderror] = useState(false)
   const [restartcounter, Setrestartcounter] = useState(0)
@@ -253,9 +255,15 @@ export default function Login(props) {
 
   const handleOtp = (e) => {
     e.preventDefault();
-    const value = e.target.value;
+    let value = e.target.value;
     console.log(value);
-    if (e.target.value.length === 6) {
+    value = value.replace(/[^0-9]/g, "")
+    if (value.trim().length > 6) {
+      value = value.substring(0,6)
+    }
+    e.target.value = value;
+    // setOtpValue(value)
+    if (value.trim().length === 6) {
       setOtpButton(true);
       setOtpError(false);
     } else {
@@ -360,6 +368,7 @@ export default function Login(props) {
           // setError(false);
           setisProfile(false);
           setisOrg(true);
+          //setOnBoardedTrue();
         }
         // } else {
         //   // setError(true);
@@ -427,10 +436,35 @@ export default function Login(props) {
     setValidnumber(value)
   }
 
+  const setOnBoardedTrue = () => {
+    let data = {
+      user_id: getUserLocal(),
+      on_boarded: true
+    };
+    var url = UrlConstant.base_url + UrlConstant.onboarded;
+    var bodyFormData = new FormData();
+    bodyFormData.append("user_id", getUserLocal());
+    bodyFormData.append("on_boarded", true);
+    
+    setIsLoader(true);
+    HTTPService("POST", url, data, false, true, isaccesstoken)
+      .then((response) => {
+        setIsLoader(false);
+        console.log("onboarded true response", response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        console.log(e);
+      });
+  }
   const finishLaterProfileScreen = () => {
     console.log("clicked on finish later profile screen");
     setisProfile(false);
     setisOrg(true);
+    /*
+    if (isLoggedInUserParticipant()) {
+      setOnBoardedTrue();
+    }*/
   };
 
   // org screen
@@ -542,7 +576,11 @@ export default function Login(props) {
             setOrgId(response.data.org_id);
 
             if (isLoggedInUserParticipant()){
-              setIsDataSet(true)
+              setOnBoardedTrue();
+              if (getUserMapId()){
+                setIsDataSet(true);
+                setisOrg(false);
+              }
             }
             // setEmail(false);
             // setError(false);
@@ -675,8 +713,14 @@ export default function Login(props) {
       setisOrg(false);
     }
     if(isLoggedInUserParticipant()){
-      setIsDataSet(true);
-      setisOrg(false);
+      setOnBoardedTrue();
+      if (getUserMapId()){
+        setIsDataSet(true);
+        setisOrg(false);
+      }
+      else{
+        props.history.push('/participant/home')
+      }
       //props.history.push('/loginadddatasetparticipant');
     }
   };
@@ -707,6 +751,8 @@ export default function Login(props) {
           isOtperror={isOtperror}
           isuserSuspenderror={userSuspenderror}
           otp={otp}
+          otpValue={otpValue}
+          setOtpValue = {setOtpValue}
           button={verifyOtpbutton}
           hanleResendOTp={hanleResendOTp}
           restartcounter={restartcounter}
@@ -753,6 +799,7 @@ export default function Login(props) {
           profileImageFile = {profileimage}
           setProfileImageFile={setProfileImageFile}
           finishLaterProfileScreen={finishLaterProfileScreen}
+          setprofilenextbutton = {setprofilenextbutton}
           isaccesstoken = {isaccesstoken}
           userid = {getUserLocal()}
         />
@@ -762,6 +809,7 @@ export default function Login(props) {
           isOrgnameerror={isOrgnameerror}
           setisOrgnameerror={setisOrgnameerror}
           isOrgmailerror={isOrgmailerror}
+          setisOrgmailerror={setisOrgmailerror}
           isOrgAddresserror={isOrgAddresserror}
           setisOrgAddresserror={setisOrgAddresserror}
           isOrgcityerror={isOrgcityerror}
@@ -794,9 +842,11 @@ export default function Login(props) {
           // pincode={pincode}
           Orgnamebtn={Orgnamebtn}
           Orgemailbtn={Orgemailbtn}
+          setOrgemailbtn={setOrgemailbtn}
           Orgaddressbtn={Orgaddressbtn}
           Orgcitybtn={Orgcitybtn}
           Orgcountrybtn={Orgcountrybtn}
+          setOrgcountrybtn={setOrgcountrybtn}
           Orgpincodebtn={Orgpincodebtn}
           // Orgdesbtn={Orgdesbtn}
           // handleOrgDesChange={handleOrgDesChange}
