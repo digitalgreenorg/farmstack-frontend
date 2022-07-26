@@ -29,6 +29,7 @@ import RegexConstants from '../../Constants/RegexConstants'
 import { Autocomplete } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import Loader from '../Loader/Loader'
+import { borderBottom } from '@mui/system'
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -65,7 +66,16 @@ export default function OrgRightside(props) {
           if (response.data.organization)
           {
             props.setOrgName(response.data.organization.name)
+            if (response.data.organization.name && response.data.organization.name.trim().length > 0)
+            {
+              props.setisOrgnameerror(false)
+            }
             props.setOrgMail(response.data.organization.org_email)
+            if (response.data.organization.org_email && response.data.organization.org_email.trim().length > 0)
+            {
+              props.setisOrgmailerror(false)
+              props.setOrgemailbtn(true)
+            }
             props.setValidOrgnumber(response.data.organization.phone_number)
             if (response.data.organization.address)
             {
@@ -73,48 +83,31 @@ export default function OrgRightside(props) {
               props.setOrgCity(response.data.organization.address.city)
               props.setCountryValue(response.data.organization.address.country)
               props.setOrgPincode(response.data.organization.address.pincode)
+
+              if (response.data.organization.address.address && response.data.organization.address.address.trim().length > 0){
+                props.setisOrgAddresserror(false)
+              }
+              if (response.data.organization.address.city && response.data.organization.address.city.trim().length > 0){
+                props.setisOrgcityerror(false)
+              }
+              if (response.data.organization.address.country && response.data.organization.address.country.value.trim().length > 0){
+                props.setOrgcountrybtn(true)
+              }
+              if (response.data.organization.address.pincode && response.data.organization.address.pincode.trim().pincode > 0){
+                props.setispincodeerror(false)
+              }
             }
             if (response.data.organization.org_description)
             {
-              props.textEditorData(response.data.organization.org_description.toString('html'))
+              setEditorValue(RichTextEditor.createValueFromString(response.data.organization.org_description, 'html'))
+              setorgdesc(response.data.organization.org_description)
+              props.textEditorData(response.data.organization.org_description)
+              if (response.data.organization.org_description.toString('html') !== '<p><br></p>') {
+                setOrgdesbtn(true)
+              }
             }
             props.setOrgId(response.data.organization.id)
 
-            // Trigger change event on all the input fields - to be changed later
-
-
-            orgNameRef.current.dispatchEvent(
-              new Event("change", {
-                  detail: {
-                      newValue: props.orgName,
-                  },
-                  bubbles: true,
-                  cancelable: true,
-              })
-            );
-
-            orgMailRef.current.dispatchEvent(
-              new Event("change", {
-                  detail: {
-                      newValue: props.OrgMail,
-                  },
-                  bubbles: true,
-                  cancelable: true,
-              })
-            );
-
-            /*
-            var changeEvent = new Event('change', { bubbles: true });
-            document.getElementById('orgnametextfield').dispatchEvent(changeEvent)
-            document.getElementById('orgemailtextfield').dispatchEvent(changeEvent)
-            document.getElementById('orgphonetextfield').dispatchEvent(changeEvent)
-            document.getElementById('orgaddresstextfield').dispatchEvent(changeEvent)
-            document.getElementById('orgcitytextfield').dispatchEvent(changeEvent)
-            document.getElementById('orgcountryselect').dispatchEvent(changeEvent)
-            document.getElementById('orgpincodetextfield').dispatchEvent(changeEvent)
-            */
-            //document.getElementById('orgdescriptioneditor').dispatchEvent(changeEvent)
-            //document.getElementById('orgfileuploader').dispatchEvent(changeEvent)
           }
       }).catch((e) => {
           console.log(e);
@@ -543,7 +536,7 @@ export default function OrgRightside(props) {
               value={props.countryvalue}
               onChange={props.countrychangeHandler}
               isSearchable={true}
-              style={{ width: '420px'}}
+              style={{ width: '420px', border: 'none', borderBottom: '1px solid #9AA1A9'}}
               placeholder="Country"
             />
             }

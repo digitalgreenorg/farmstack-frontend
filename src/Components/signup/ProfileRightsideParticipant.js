@@ -49,15 +49,9 @@ export default function ProfileRightsideParticipant(props) {
             props.setProfileLastName(response.data.user.last_name);
             props.setValidnumber(response.data.user.phone_number);
 
-            nameRef.current.dispatchEvent(
-              new Event("change", {
-                  detail: {
-                      newValue: response.data.user.first_name,
-                  },
-                  bubbles: true,
-                  cancelable: true,
-              })
-            );
+            if (response.data.user.first_name && response.data.user.first_name.length > 0){
+              props.setprofilenextbutton (true)
+            }
 
           }
           
@@ -155,7 +149,7 @@ export default function ProfileRightsideParticipant(props) {
           <div className="profilefirstname">
             <TextField
             required
-              id="filled-basic"
+              id="profilefirstnametextfield"
               label="First Name"
               variant="filled"
               style={{ width: "420px" }}

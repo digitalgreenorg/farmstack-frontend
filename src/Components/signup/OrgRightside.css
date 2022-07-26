@@ -68,12 +68,16 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 19px;
-  border-bottom-style: 1px solid #9aa1a9 !important;
+  border: none;
+  border-radius: none;
+  border-bottom: 1px solid #9aa1a9 !important;
   border-top-left-radius: 4px !important;
   border-top-right-radius: 4px !important;
   color: black !important;
 }
-
+.orgcountry:active{
+  border: none;
+}
 .css-tlfecz-indicatorContainer{
   color: black;
 }
