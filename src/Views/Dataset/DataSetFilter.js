@@ -17,12 +17,16 @@ export default function DataSetFilter(props) {
     <div>
         <Row className="supportfilterfirstrow">
             <Col className='supportfiltertext'>
-            <span className="fontweight600andfontsize14pxandcolor3A3A3A">{screenlabels.dataset.filter}</span>
+            <div style={{"margin-left":"-100px","font-weight":"600"}}>
+            <span className="datasetfiltertext">{screenlabels.dataset.filter}</span>
             {/* <span style={{"font-weight": "600","font-size": "14px","color": "#3a3a3a","left":"10px"}}>{screenlabels.dataset.filter}</span> */}
+            </div>
             </Col>
             
+            
             <Col className='supportfiltertext'>
-            <span className="fontweight600andfontsize14pxandcolor3A3A3A" >
+            <div style={{"margin-left":"55px"}}>
+            <span className="filterClearAll">
                         <Button
                             style={{"font-style":"Open Sans","font-weight": "500","font-size": "13px","bottom":"4px","right":"-10px"}}
                             onClick={() => props.clearAllFilters()}
@@ -31,6 +35,7 @@ export default function DataSetFilter(props) {
                             >
                             Clear All
                         </Button></span>
+            </div>
             </Col>
         </Row>
         {props.isShowAll ? 
