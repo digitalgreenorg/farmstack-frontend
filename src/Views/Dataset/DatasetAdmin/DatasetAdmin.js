@@ -99,10 +99,14 @@ export default function DatasetAdmin() {
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
     var payload = ""
+    var adminUrl = UrlConstant.base_url + UrlConstant.dataset_list
+    var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
 
     const resetUrls = () => {
-        setDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
-        setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
+        // setDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
+        // setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
+        adminUrl = UrlConstant.base_url + UrlConstant.dataset_list
+        memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
     }
     const handleFilterChange = (index, filterName) => {
 
@@ -114,7 +118,7 @@ export default function DatasetAdmin() {
         setIsShowAll(false)
         resetDateFilters()
         resetEnabledStatusFilter()
-        resetUrls()
+        // resetUrls()
 
         if (filterName == screenlabels.dataset.geography) {
 
@@ -293,7 +297,7 @@ export default function DatasetAdmin() {
         //reset other filters and states
         setIsShowAll(false)
         resetDateFilters()
-        resetUrls()
+        // resetUrls()
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
@@ -348,7 +352,7 @@ export default function DatasetAdmin() {
         getFilters()
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         getDatasetList(false)
-    }, [isMemberTab]);
+    }, [value]);
 
     const getFilters = () => {
         setIsLoader(true);
@@ -419,6 +423,9 @@ export default function DatasetAdmin() {
 
 
     const getDatasetList = (isLoadMore) => {
+        if(!isLoadMore){
+            resetUrls()
+        }
         setIsLoader(true);
         if (payload == "") {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
@@ -426,7 +433,8 @@ export default function DatasetAdmin() {
         HTTPService(
             "POST",
             // "GET",
-            isMemberTab ? memberDatasetUrl : datasetUrl,
+            // isMemberTab ? memberDatasetUrl : datasetUrl,
+            !isLoadMore ? (value == "2" ? memberUrl : adminUrl) : (value == "2"? memberDatasetUrl:datasetUrl),
             payload,
             false,
             true
@@ -442,12 +450,14 @@ export default function DatasetAdmin() {
                     setShowLoadMoreMember(false)
                 } else {
                     setisShowLoadMoreButton(true)
-                    if (!isMemberTab) {
+                    if (value == "1") {
                         setDatasetUrl(response.data.next)
+                        // adminUrl = response.data.next
                         setShowLoadMoreAdmin(true)
                         setShowLoadMoreMember(false)
                     } else {
                         setMemberDatasetUrl(response.data.next)
+                        // memberUrl = response.data.next
                         setShowLoadMoreAdmin(false)
                         setShowLoadMoreMember(true)
                     }
@@ -536,7 +546,7 @@ export default function DatasetAdmin() {
     const clearAllFilters = () => {
         setIsShowAll(true)
         resetDateFilters()
-        resetUrls()
+        // resetUrls()
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
@@ -553,7 +563,7 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
-        resetUrls()
+        // resetUrls()
 
         setIsShowAll(true)
         setsecondrow(false)
@@ -577,7 +587,7 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
-        resetUrls()
+        // resetUrls()
 
         payload = buildFilterPayLoad(fromDateandToDate, getUserLocal(), "", "", "", "")
         setsecondrow(true)
@@ -912,7 +922,7 @@ export default function DatasetAdmin() {
                                 cropSearchState={cropSearchState}
 
                                 clearAllFilters={clearAllFilters}
-                                showMemberFilters={isMemberTab}
+                                showMemberFilters={value == "2"}
                                 isEnabledFilter={isEnabledFilter}
                                 isDisabledFilter={isDisabledFilter}
                                 handleEnableStatusFilter={handleEnableStatusFilter}
@@ -922,7 +932,7 @@ export default function DatasetAdmin() {
                                 statusFilter={statusFilter}
                                 // handleStatusFilter={handleStatusFilter}
                                 resetEnabledStatusFilter={resetEnabledStatusFilter}
-                                resetUrls={resetUrls}
+                                // resetUrls={resetUrls}
                             />
                         </Col>
                         <Col className="supportSecondCOlumn">
@@ -941,7 +951,7 @@ export default function DatasetAdmin() {
                                             <DataSetListing
                                                 datasetList={datasetList}
                                                 isShowLoadMoreButton={showLoadMoreAdmin}
-                                                isMemberTab={isMemberTab}
+                                                isMemberTab={value =="2"}
                                                 getDatasetList={getDatasetList}
                                                 viewCardDetails={(id) => viewCardDetails(id, true)}
                                             />
@@ -950,7 +960,7 @@ export default function DatasetAdmin() {
                                             <DataSetListing
                                                 datasetList={memberDatasetList}
                                                 isShowLoadMoreButton={showLoadMoreMember}
-                                                isMemberTab={isMemberTab}
+                                                isMemberTab={value =="2"}
                                                 getDatasetList={getDatasetList}
                                                 viewCardDetails={(id) => viewCardDetails(id, false)}
                                             />
