@@ -140,7 +140,7 @@ const labels = {
       Weather_data: "Weather data",
       Research_data: "Research data",
       Geography: "Geography",
-      Corp_Detail: "Crop Detail",
+      Crop_Detail: "Crop Detail",
       data: "Age of Actual Data",
       Constantly_updating: "Constantly updating",
       three: "3 months",
