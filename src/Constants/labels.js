@@ -123,9 +123,8 @@ const labels = {
     },
     error: {
       heading: "Oops!",
-
       secondmainheading: "Someting went wrong!",
-      thirdmainheading: "Your login session has expired, please sign in again.",
+      thirdmainheading: "Please try again later or contact to support@farmstack.co",
     },
     dataset: {
       name: "Dataset Name",

@@ -13,7 +13,7 @@ import HTTPService from "../../../Services/HTTPService";
 import HandleSessionTimeout, { getTokenLocal } from "../../../Utils/Common";
 import { Link, useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
-import GetErrorHandlingRoute from "../../../Utils/Common";
+import {GetErrorHandlingRoute} from "../../../Utils/Common";
 
 export default function PolicySettings(props) {
   let accesstoken = getTokenLocal();
