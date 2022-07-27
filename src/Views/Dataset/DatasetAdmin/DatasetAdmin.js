@@ -368,7 +368,7 @@ export default function DatasetAdmin() {
         HTTPService(
             "POST",
             UrlConstant.base_url + UrlConstant.dataset_filter,
-            "",
+            payloadData,
             false,
             true
         )

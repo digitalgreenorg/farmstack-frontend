@@ -366,7 +366,7 @@ export default function DatasetParticipant() {
         HTTPService(
             "POST",
             UrlConstant.base_url + UrlConstant.dataset_filter_participant,
-            "",
+            payloadData,
             false,
             true
         )
