@@ -197,7 +197,7 @@ export default function DataSetForm(props) {
             width="100%"
             value={props.cropdetail}
             onChange={props.handleChangecropdetail}
-            label={screenlabels.dataset.Corp_Detail}
+            label={screenlabels.dataset.Crop_Detail}
           />
         </Col>
       </Row>
