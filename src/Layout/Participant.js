@@ -8,7 +8,7 @@ import {
   Redirect,
   withRouter,
 } from "react-router-dom";
-import { getTokenLocal } from "../Utils/Common";
+import { getTokenLocal,isLoggedInUserParticipant } from "../Utils/Common";
 import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
 import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
 import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
@@ -16,7 +16,7 @@ import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParti
 function Datahub(props) {
   return (
     <>
-      {getTokenLocal() ? (
+      {(getTokenLocal() && isLoggedInUserParticipant())? (
         <>
           <ParticipantNavbar />
           <Switch>
