@@ -729,11 +729,11 @@ export default function DatasetAdmin() {
                                 </Button>
                         </Col>
                     </Row>
-                        <Row>
+                        <Row className="margin">
                             <Col xs={12} sm={12} md={6} lg={3} >
                             </Col>
                             <Col xs={12} sm={12} md={6} lg={6} >
-                                <Button onClick={() => changeView('isDisapprove')} variant="outlined" className="editbtn">
+                                <Button onClick={() => changeView('isDisapprove')} style={{"margin-top":"0px"}} variant="outlined" className="editbtn">
                                     Disapprove Dataset
                          </Button>
                             </Col>
