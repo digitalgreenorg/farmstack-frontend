@@ -143,7 +143,7 @@ export default function AddDataset(props) {
     // }
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATE_SET_REGEX, )
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
@@ -156,13 +156,13 @@ export default function AddDataset(props) {
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATE_SET_REGEX)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.TEXT_REGEX)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };
