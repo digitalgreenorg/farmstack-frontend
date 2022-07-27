@@ -4,12 +4,13 @@ import Col from "react-bootstrap/Col";
 import { useParams } from "react-router-dom";
 import $ from "jquery";
 import DataSetForm from "../../../../Components/Datasets/DataSetForm";
-import GetErrorHandlingRoute, {
+import {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
   getUserMapId,
   fileUpload,
+  GetErrorHandlingRoute,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../../Constants/ColorConstants";
@@ -220,7 +221,7 @@ export default function EditDatasetParticipant() {
     }
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
@@ -233,13 +234,13 @@ export default function EditDatasetParticipant() {
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.TEXT_REGEX)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };

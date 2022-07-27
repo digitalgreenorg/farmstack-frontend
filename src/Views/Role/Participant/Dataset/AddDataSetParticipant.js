@@ -3,7 +3,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useHistory } from "react-router-dom";
 import AddDatasetParticipant from "../../../Dataset/DatasetParticipant/AddDatasetParticipant";
-import getTokenLocal from "../../../../Utils/Common";
+import {getTokenLocal} from "../../../../Utils/Common";
 
 export default function AddDataSetParticipant() {
   const history = useHistory();
