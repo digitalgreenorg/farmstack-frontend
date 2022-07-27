@@ -26,49 +26,49 @@ import HandleSessionTimeout, {
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
   getRoleLocal,
-  getUserMapId
+  getUserMapId,
 } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
 import { useHistory } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import GetErrorHandlingRoute from "../../Utils/Common";
-import ProfileRightsideParticipant from '../../Components/signup/ProfileRightsideParticipant'
+import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
 import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
 
 export default function Login(props) {
-  const [button, setButton] = useState(false)
-  const email = useRef()
-  const [iserror, setError] = useState(false)
+  const [button, setButton] = useState(false);
+  const email = useRef();
+  const [iserror, setError] = useState(false);
 
-  const [verifyOtpbutton, setOtpButton] = useState(false)
-  const otp = useRef()
-  const [otpValue, setOtpValue] = useState('')
-  const [isOtperror, setOtpError] = useState(false)
-  const [userSuspenderror, setuserSuspenderror] = useState(false)
-  const [restartcounter, Setrestartcounter] = useState(0)
-  const [disable, setDisable] = useState(true)
+  const [verifyOtpbutton, setOtpButton] = useState(false);
+  const otp = useRef();
+  const [otpValue, setOtpValue] = useState("");
+  const [isOtperror, setOtpError] = useState(false);
+  const [userSuspenderror, setuserSuspenderror] = useState(false);
+  const [restartcounter, Setrestartcounter] = useState(0);
+  const [disable, setDisable] = useState(true);
 
-  const [validemail, Setvalidemail] = useState('')
-  const [screenlabels, setscreenlabels] = useState(labels['en'])
+  const [validemail, Setvalidemail] = useState("");
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
-  const [isemail, setEmail] = useState(true)
-  const [isOtp, setisOtp] = useState(false)
-  const [isProfile, setisProfile] = useState(false)
-  const [isOrg, setisOrg] = useState(false)
-  const [isPolicies, setisPolicies] = useState(false)
-  const [isBranding, setisBranding] = useState(false)
-  const [isDataSet, setIsDataSet] = useState(false)
-  const [isaccesstoken, setisaccesstoken] = useState(false)
+  const [isemail, setEmail] = useState(true);
+  const [isOtp, setisOtp] = useState(false);
+  const [isProfile, setisProfile] = useState(false);
+  const [isOrg, setisOrg] = useState(false);
+  const [isPolicies, setisPolicies] = useState(false);
+  const [isBranding, setisBranding] = useState(false);
+  const [isDataSet, setIsDataSet] = useState(false);
+  const [isaccesstoken, setisaccesstoken] = useState(false);
   //const [userid, setUserId] = useState(false)
 
-  const [orgName, setOrgName] = useState('')
+  const [orgName, setOrgName] = useState("");
   // const [orgEmail, setOrgEmail] = useState("")
   const [orgAddress, setOrgAddress] = useState("");
   const [orgCity, setOrgCity] = useState("");
   const [orgPincode, setOrgPincode] = useState("");
   const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false);
-  const [orgId, setOrgId] = useState(null);
+  const [orgId, setOrgIdState] = useState(null);
 
   const [profileid, setprofileid] = useState("");
 
@@ -203,24 +203,25 @@ export default function Login(props) {
 
           if (response.status === 201) {
             setRoleLocal(response.data.role);
+            setUserMapId(response.data.user_map);
+            setOrgId(response.data.org_id);
             console.log(getRoleLocal());
-            console.log('isLoggedInUserAdmin(): ' + isLoggedInUserAdmin());
-            console.log('isLoggedInUserParticipant(): ' + isLoggedInUserParticipant());
+            console.log("isLoggedInUserAdmin(): " + isLoggedInUserAdmin());
+            console.log(
+              "isLoggedInUserParticipant(): " + isLoggedInUserParticipant()
+            );
 
             if (response.data.on_boarded) {
-              setTokenLocal(response.data.access)
-              if (isLoggedInUserAdmin())
-              {
-                props.history.push('/datahub/participants')
-              }
-              else if (isLoggedInUserParticipant())
-              {
-                props.history.push('/participant/home')
+              setTokenLocal(response.data.access);
+              if (isLoggedInUserAdmin()) {
+                props.history.push("/datahub/participants");
+              } else if (isLoggedInUserParticipant()) {
+                props.history.push("/participant/home");
               }
             } else {
               setisaccesstoken(response.data.access);
-              setUserMapId(response.data.user_map);
-              setOrgId(response.data.org_id);
+
+              setOrgIdState(response.data.org_id);
               setOtpError(false);
               setisProfile(true);
               setisOtp(false);
@@ -235,14 +236,21 @@ export default function Login(props) {
         .catch((e) => {
           setIsLoader(false);
           //console.log(e.response.status)
-          setOtpError(true)
-          if (e.response != null && e.response != undefined && e.response.status === 403) {
-            setuserSuspenderror(true)
-            setOtpError(false)
+          setOtpError(true);
+          if (
+            e.response != null &&
+            e.response != undefined &&
+            e.response.status === 403
+          ) {
+            setuserSuspenderror(true);
+            setOtpError(false);
           }
-          if (e.response != null && e.response != undefined && e.response.status === 401)
-          {
-            setOtpError(true)
+          if (
+            e.response != null &&
+            e.response != undefined &&
+            e.response.status === 401
+          ) {
+            setOtpError(true);
           }
           if (e.response.status === 401) {
             setOtpError(true);
@@ -257,9 +265,9 @@ export default function Login(props) {
     e.preventDefault();
     let value = e.target.value;
     console.log(value);
-    value = value.replace(/[^0-9]/g, "")
+    value = value.replace(/[^0-9]/g, "");
     if (value.trim().length > 6) {
-      value = value.substring(0,6)
+      value = value.substring(0, 6);
     }
     e.target.value = value;
     // setOtpValue(value)
@@ -310,18 +318,17 @@ export default function Login(props) {
       });
   };
 
-  const [ispropfilefirstnameerror, setispropfilefirstnameerror] = useState(
-    false,
-  )
-  const [ispropfilelastnameerror, setispropfilelastnameerror] = useState(false)
-  const [ispropfileemailerror, setispropfileemailerror] = useState(false)
+  const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
+    useState(false);
+  const [ispropfilelastnameerror, setispropfilelastnameerror] = useState(false);
+  const [ispropfileemailerror, setispropfileemailerror] = useState(false);
   // const [ispropfilenumbererror, setispropfilenumbererror] = useState(false);
   const [profilenextbutton, setprofilenextbutton] = useState(false);
   const [validNumber, setValidnumber] = useState("");
-  const [profilefirstname, setProfileFirstName] = useState('')
-  const [profilelastname, setProfileLastName] = useState('')
-  const [profileimage, setProfileImageFile] = useState(null)
-  const profileemail = useRef()
+  const [profilefirstname, setProfileFirstName] = useState("");
+  const [profilelastname, setProfileLastName] = useState("");
+  const [profileimage, setProfileImageFile] = useState(null);
+  const profileemail = useRef();
 
   const handleprofileSubmit = async (e) => {
     e.preventDefault();
@@ -403,7 +410,7 @@ export default function Login(props) {
     console.log(e.target.value);
     var letters = /^[A-Za-z\s]*$/;
     var lastname = e.target.value.trim();
-    setProfileLastName(profilelastname)
+    setProfileLastName(profilelastname);
     if (lastname.match(letters)) {
       setispropfilelastnameerror(false);
       // setprofilenextbutton(true);
@@ -433,19 +440,19 @@ export default function Login(props) {
     //   setispropfilenumbererror(true);
     // }
     //profilephone.current = value;
-    setValidnumber(value)
-  }
+    setValidnumber(value);
+  };
 
   const setOnBoardedTrue = () => {
     let data = {
       user_id: getUserLocal(),
-      on_boarded: true
+      on_boarded: true,
     };
     var url = UrlConstant.base_url + UrlConstant.onboarded;
     var bodyFormData = new FormData();
     bodyFormData.append("user_id", getUserLocal());
     bodyFormData.append("on_boarded", true);
-    
+
     setIsLoader(true);
     HTTPService("POST", url, data, false, true, isaccesstoken)
       .then((response) => {
@@ -456,7 +463,7 @@ export default function Login(props) {
         setIsLoader(false);
         console.log(e);
       });
-  }
+  };
   const finishLaterProfileScreen = () => {
     console.log("clicked on finish later profile screen");
     setisProfile(false);
@@ -484,7 +491,7 @@ export default function Login(props) {
 
   const [validOrgNumber, setValidOrgnumber] = useState("");
   const [orgfile, setorgfile] = useState(null);
-  const [orgmail, setOrgMail] = useState('');
+  const [orgmail, setOrgMail] = useState("");
 
   const [Orgnamebtn, setOrgnamebtn] = useState(false);
   const [Orgemailbtn, setOrgemailbtn] = useState(false);
@@ -510,7 +517,7 @@ export default function Login(props) {
 
   const handleOrgSubmit = async (e) => {
     e.preventDefault();
-    
+
     // email validation
     const emailstring = orgmail;
     const valid = validator.isEmail(emailstring);
@@ -548,7 +555,7 @@ export default function Login(props) {
     bodyFormData.append("phone_number", validOrgNumber);
     bodyFormData.append("logo", orgfile);
     bodyFormData.append("org_description", textEditorValue);
-    for(const pair of bodyFormData.entries()) {
+    for (const pair of bodyFormData.entries()) {
       console.log(`${pair[0]}, ${pair[1]}`);
     }
 
@@ -556,8 +563,11 @@ export default function Login(props) {
       setisOrgmailerror(true);
     } else {
       setisOrgnameerror(false);
-      var method = orgId && orgId.length > 0 ? "PUT" : "POST"
-      var url = orgId && orgId.length > 0 ? (UrlConstant.base_url + UrlConstant.org + id + "/") : (UrlConstant.base_url + UrlConstant.org)
+      var method = orgId && orgId.length > 0 ? "PUT" : "POST";
+      var url =
+        orgId && orgId.length > 0
+          ? UrlConstant.base_url + UrlConstant.org + id + "/"
+          : UrlConstant.base_url + UrlConstant.org;
 
       setIsLoader(true);
       HTTPService(method, url, bodyFormData, true, true, isaccesstoken)
@@ -574,11 +584,12 @@ export default function Login(props) {
             setisOrg(false);
             setUserMapId(response.data.user_map);
             setOrgId(response.data.org_id);
+            setOrgIdState(response.data.org_id);
 
-            if (isLoggedInUserParticipant()){
+            if (isLoggedInUserParticipant()) {
               setOnBoardedTrue();
-              setTokenLocal(isaccesstoken)
-              if (getUserMapId()){
+              setTokenLocal(isaccesstoken);
+              if (getUserMapId()) {
                 setIsDataSet(true);
                 setisOrg(false);
               }
@@ -630,7 +641,7 @@ export default function Login(props) {
     const valid = validator.isEmail(email);
     console.log(valid);
     const finalEmail = email.trim();
-    setOrgMail(finalEmail)
+    setOrgMail(finalEmail);
     console.log(finalEmail);
     if (valid) {
       setisOrgmailerror(false);
@@ -681,7 +692,7 @@ export default function Login(props) {
 
   const countrychangeHandler = (value) => {
     setcountryvalue(value);
-    console.log(value)
+    console.log(value);
     setOrgcountrybtn(true);
   };
 
@@ -708,20 +719,19 @@ export default function Login(props) {
 
   const finishLaterOrgScreen = () => {
     console.log("clicked on finish later Org screen");
-    if(isLoggedInUserAdmin())
-    {
+    if (isLoggedInUserAdmin()) {
       setisPolicies(true);
       setisOrg(false);
     }
-    if(isLoggedInUserParticipant()){
+    if (isLoggedInUserParticipant()) {
       setOnBoardedTrue();
-      setTokenLocal(isaccesstoken)
-      if (getUserMapId()){
+      setTokenLocal(isaccesstoken);
+      if (getUserMapId()) {
         setIsDataSet(true);
         setisOrg(false);
       }
       else{
-        props.history.push('/participant/home')
+        props.history.push('/participant/datasets')
       }
       //props.history.push('/loginadddatasetparticipant');
     }
@@ -731,160 +741,169 @@ export default function Login(props) {
     <div>
       {isLoader ? <Loader /> : ""}
       <SignInHeader></SignInHeader>
-      {(isDataSet && isLoggedInUserParticipant())? (<AddDatasetParticipant isaccesstoken={isaccesstoken} okAction={()=> history.push("/participant/datasets")} cancelAction={()=> history.push("/participant/home")}/>):
-      (<><h1 className="headertext">{screenlabels.login.signup_header}</h1>
-      <Leftintro />
-      {isemail || isOtp ? <Rightintro /> : ""}
-      {/* <Footerimg /> */}
-      {isemail && (
-        <SignupEmail
-          screenlabels={screenlabels}
-          handleSubmit={handleSubmit}
-          handleEmail={handleEmail}
-          iserror={iserror}
-          email={email}
-          button={button}
-        />
-      )}
-      {isOtp && (
-        <SignupOtp
-          handleSubmitOtp={handleSubmitOtp}
-          handleOtp={handleOtp}
-          isOtperror={isOtperror}
-          isuserSuspenderror={userSuspenderror}
-          otp={otp}
-          otpValue={otpValue}
-          setOtpValue = {setOtpValue}
-          button={verifyOtpbutton}
-          hanleResendOTp={hanleResendOTp}
-          restartcounter={restartcounter}
-          disable={disable}
-          setDisable={setDisable}
-        />
-      )}
-      {(isProfile && isLoggedInUserAdmin()) && (
-        <ProfileRightside
-          handleprofileSubmit={handleprofileSubmit}
-          handleprofilfirstename={handleprofilfirstename}
-          handleprofilelastname={handleprofilelastname}
-          handleprofilenumber={handleprofilenumber}
-          ispropfilefirstnameerror={ispropfilefirstnameerror}
-          ispropfilelastnameerror={ispropfilelastnameerror}
-          ispropfileemailerror={ispropfileemailerror}
-          profilenextbutton={profilenextbutton}
-          profilefirstname={profilefirstname}
-          profilelastname={profilelastname}
-          profileemail={profileemail}
-          validemail={validemail}
-          finishLaterProfileScreen={finishLaterProfileScreen}
-          isaccesstoken = {isaccesstoken}
-        />
-      )}
-      {(isProfile && isLoggedInUserParticipant()) &&(
-        <ProfileRightsideParticipant
-          handleprofileSubmit={handleprofileSubmit}
-          handleprofilfirstename={handleprofilfirstename}
-          handleprofilelastname={handleprofilelastname}
-          handleprofilenumber={handleprofilenumber}
-          setProfileFirstName={setProfileFirstName}
-          setProfileLastName={setProfileLastName}
-          setValidnumber={setValidnumber}
-          ispropfilefirstnameerror={ispropfilefirstnameerror}
-          ispropfilelastnameerror={ispropfilelastnameerror}
-          ispropfileemailerror={ispropfileemailerror}
-          profilenextbutton={profilenextbutton}
-          profilefirstname={profilefirstname}
-          profilelastname={profilelastname}
-          profileemail={profileemail}
-          profilephone={validNumber}
-          validemail={validemail}
-          profileImageFile = {profileimage}
-          setProfileImageFile={setProfileImageFile}
-          finishLaterProfileScreen={finishLaterProfileScreen}
-          setprofilenextbutton = {setprofilenextbutton}
-          isaccesstoken = {isaccesstoken}
-          userid = {getUserLocal()}
-        />
-      )}
-      {isOrg ? (
-        <OrgRightside
-          isOrgnameerror={isOrgnameerror}
-          setisOrgnameerror={setisOrgnameerror}
-          isOrgmailerror={isOrgmailerror}
-          setisOrgmailerror={setisOrgmailerror}
-          isOrgAddresserror={isOrgAddresserror}
-          setisOrgAddresserror={setisOrgAddresserror}
-          isOrgcityerror={isOrgcityerror}
-          setisOrgcityerror={setisOrgcityerror}
-          ispincodeerror={ispincodeerror}
-          setispincodeerror={setispincodeerror}
-          countryvalue={countryvalue}
-          setCountryValue={setcountryvalue}
-          // orgdesc={orgdesc}
-          // editorValue={editorValue}
-          validOrgNumber={validOrgNumber}
-          setValidOrgnumber = {setValidOrgnumber}
-          orgfile={orgfile}
-          orgName={orgName}
-          setOrgName={setOrgName}
-          // orgEmail={orgEmail}
-          // setOrgEmail={setOrgEmail}
-          orgAddress={orgAddress}
-          setOrgAddress={setOrgAddress}
-          orgCity={orgCity}
-          setOrgCity={setOrgCity}
-          orgPincode={orgPincode}
-          setOrgPincode={setOrgPincode}
-          isExistingOrgEmail={isExistingOrgEmail}
-          // Orgname={Orgname}
-          Orgmail={orgmail}
-          setOrgMail = {setOrgMail}
-          // OrgAddress={OrgAddress}
-          // Orgcity={Orgcity}
-          // pincode={pincode}
-          Orgnamebtn={Orgnamebtn}
-          Orgemailbtn={Orgemailbtn}
-          setOrgemailbtn={setOrgemailbtn}
-          Orgaddressbtn={Orgaddressbtn}
-          Orgcitybtn={Orgcitybtn}
-          Orgcountrybtn={Orgcountrybtn}
-          setOrgcountrybtn={setOrgcountrybtn}
-          Orgpincodebtn={Orgpincodebtn}
-          // Orgdesbtn={Orgdesbtn}
-          // handleOrgDesChange={handleOrgDesChange}
-          textEditorData={(value) => settextEditorValue(value)}
-          handleOrgSubmit={handleOrgSubmit}
-          handleOrgmail={handleOrgmail}
-          handleOrgnumber={handleOrgnumber}
-          handleOrgAddress={handleOrgAddress}
-          handleOrgcity={handleOrgcity}
-          countrychangeHandler={countrychangeHandler}
-          handlepincode={handlepincode}
-          handleorgFileChange={handleorgFileChange}
-          finishLaterOrgScreen={finishLaterOrgScreen}
-          isaccesstoken = {isaccesstoken}
-          userid = {getUserLocal()}
-          orgId = {orgId}
-          setOrgId = {setOrgId}
+      {isDataSet && isLoggedInUserParticipant() ? (
+        <AddDatasetParticipant
+          isaccesstoken={isaccesstoken}
+          okAction={() => history.push("/participant/datasets")}
+          cancelAction={() => history.push("/participant/home")}
         />
       ) : (
-        <></>
+        <>
+          <h1 className="headertext">{screenlabels.login.signup_header}</h1>
+          <Leftintro />
+          {isemail || isOtp ? <Rightintro /> : ""}
+          {/* <Footerimg /> */}
+          {isemail && (
+            <SignupEmail
+              screenlabels={screenlabels}
+              handleSubmit={handleSubmit}
+              handleEmail={handleEmail}
+              iserror={iserror}
+              email={email}
+              button={button}
+            />
+          )}
+          {isOtp && (
+            <SignupOtp
+              handleSubmitOtp={handleSubmitOtp}
+              handleOtp={handleOtp}
+              isOtperror={isOtperror}
+              isuserSuspenderror={userSuspenderror}
+              otp={otp}
+              otpValue={otpValue}
+              setOtpValue={setOtpValue}
+              button={verifyOtpbutton}
+              hanleResendOTp={hanleResendOTp}
+              restartcounter={restartcounter}
+              disable={disable}
+              setDisable={setDisable}
+            />
+          )}
+          {isProfile && isLoggedInUserAdmin() && (
+            <ProfileRightside
+              handleprofileSubmit={handleprofileSubmit}
+              handleprofilfirstename={handleprofilfirstename}
+              handleprofilelastname={handleprofilelastname}
+              handleprofilenumber={handleprofilenumber}
+              ispropfilefirstnameerror={ispropfilefirstnameerror}
+              ispropfilelastnameerror={ispropfilelastnameerror}
+              ispropfileemailerror={ispropfileemailerror}
+              profilenextbutton={profilenextbutton}
+              profilefirstname={profilefirstname}
+              profilelastname={profilelastname}
+              profileemail={profileemail}
+              validemail={validemail}
+              finishLaterProfileScreen={finishLaterProfileScreen}
+              isaccesstoken={isaccesstoken}
+            />
+          )}
+          {isProfile && isLoggedInUserParticipant() && (
+            <ProfileRightsideParticipant
+              handleprofileSubmit={handleprofileSubmit}
+              handleprofilfirstename={handleprofilfirstename}
+              handleprofilelastname={handleprofilelastname}
+              handleprofilenumber={handleprofilenumber}
+              setProfileFirstName={setProfileFirstName}
+              setProfileLastName={setProfileLastName}
+              setValidnumber={setValidnumber}
+              ispropfilefirstnameerror={ispropfilefirstnameerror}
+              ispropfilelastnameerror={ispropfilelastnameerror}
+              ispropfileemailerror={ispropfileemailerror}
+              profilenextbutton={profilenextbutton}
+              profilefirstname={profilefirstname}
+              profilelastname={profilelastname}
+              profileemail={profileemail}
+              profilephone={validNumber}
+              validemail={validemail}
+              profileImageFile={profileimage}
+              setProfileImageFile={setProfileImageFile}
+              finishLaterProfileScreen={finishLaterProfileScreen}
+              setprofilenextbutton={setprofilenextbutton}
+              isaccesstoken={isaccesstoken}
+              userid={getUserLocal()}
+            />
+          )}
+          {isOrg ? (
+            <OrgRightside
+              isOrgnameerror={isOrgnameerror}
+              setisOrgnameerror={setisOrgnameerror}
+              isOrgmailerror={isOrgmailerror}
+              setisOrgmailerror={setisOrgmailerror}
+              isOrgAddresserror={isOrgAddresserror}
+              setisOrgAddresserror={setisOrgAddresserror}
+              isOrgcityerror={isOrgcityerror}
+              setisOrgcityerror={setisOrgcityerror}
+              ispincodeerror={ispincodeerror}
+              setispincodeerror={setispincodeerror}
+              countryvalue={countryvalue}
+              setCountryValue={setcountryvalue}
+              // orgdesc={orgdesc}
+              // editorValue={editorValue}
+              validOrgNumber={validOrgNumber}
+              setValidOrgnumber={setValidOrgnumber}
+              orgfile={orgfile}
+              orgName={orgName}
+              setOrgName={setOrgName}
+              // orgEmail={orgEmail}
+              // setOrgEmail={setOrgEmail}
+              orgAddress={orgAddress}
+              setOrgAddress={setOrgAddress}
+              orgCity={orgCity}
+              setOrgCity={setOrgCity}
+              orgPincode={orgPincode}
+              setOrgPincode={setOrgPincode}
+              isExistingOrgEmail={isExistingOrgEmail}
+              // Orgname={Orgname}
+              Orgmail={orgmail}
+              setOrgMail={setOrgMail}
+              // OrgAddress={OrgAddress}
+              // Orgcity={Orgcity}
+              // pincode={pincode}
+              Orgnamebtn={Orgnamebtn}
+              Orgemailbtn={Orgemailbtn}
+              setOrgemailbtn={setOrgemailbtn}
+              Orgaddressbtn={Orgaddressbtn}
+              Orgcitybtn={Orgcitybtn}
+              Orgcountrybtn={Orgcountrybtn}
+              setOrgcountrybtn={setOrgcountrybtn}
+              Orgpincodebtn={Orgpincodebtn}
+              // Orgdesbtn={Orgdesbtn}
+              // handleOrgDesChange={handleOrgDesChange}
+              textEditorData={(value) => settextEditorValue(value)}
+              handleOrgSubmit={handleOrgSubmit}
+              handleOrgmail={handleOrgmail}
+              handleOrgnumber={handleOrgnumber}
+              handleOrgAddress={handleOrgAddress}
+              handleOrgcity={handleOrgcity}
+              countrychangeHandler={countrychangeHandler}
+              handlepincode={handlepincode}
+              handleorgFileChange={handleorgFileChange}
+              finishLaterOrgScreen={finishLaterOrgScreen}
+              isaccesstoken={isaccesstoken}
+              userid={getUserLocal()}
+              orgId={orgId}
+              setOrgId={setOrgIdState}
+            />
+          ) : (
+            <></>
+          )}
+          {isPolicies && isLoggedInUserAdmin() && (
+            <PoliciesRightside
+              isaccesstoken={isaccesstoken}
+              showBrandingScreen={() => {
+                setisPolicies(false);
+                setisBranding(true);
+              }}
+            />
+          )}
+          {isBranding && isLoggedInUserAdmin() && (
+            <BrandingRightside
+              validemail={validemail}
+              isaccesstoken={isaccesstoken}
+            />
+          )}
+        </>
       )}
-      {(isPolicies && isLoggedInUserAdmin())&& (
-        <PoliciesRightside
-          isaccesstoken={isaccesstoken}
-          showBrandingScreen={() => {
-            setisPolicies(false);
-            setisBranding(true);
-          }}
-        />
-      )}
-      {(isBranding && isLoggedInUserAdmin()) && (
-        <BrandingRightside
-          validemail={validemail}
-          isaccesstoken={isaccesstoken}
-        />
-      )}</>)}
     </div>
   );
 }

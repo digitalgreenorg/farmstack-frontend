@@ -204,6 +204,7 @@ export default function OrganisationSetting(props) {
           if (response.status === 201) {
             props.setisOrgUpdateSuccess();
             setUserMapId(response.data.user_map);
+
             setOrgId(response.data.org_id);
             // setisPolicies(true);
             // setisOrg(false);
@@ -442,7 +443,7 @@ export default function OrganisationSetting(props) {
   const orgsettingcancelbtn = () => {
     setorgfile(null);
     getOrgDetails();
-    history.push("/datahub/settings/2")
+    history.push("/datahub/settings/2");
     window.location.reload();
   };
 
