@@ -482,7 +482,7 @@ export default function DatasetParticipant() {
             .catch((e) => {
                 console.log(e)
                 setIsLoader(false);
-                // history.push(GetErrorHandlingRoute(e));
+                history.push(GetErrorHandlingRoute(e));
             });
     }
 
