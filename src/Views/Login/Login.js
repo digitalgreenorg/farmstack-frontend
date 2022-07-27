@@ -216,7 +216,7 @@ export default function Login(props) {
               if (isLoggedInUserAdmin()) {
                 props.history.push("/datahub/participants");
               } else if (isLoggedInUserParticipant()) {
-                props.history.push("/participant/home");
+                props.history.push("/participant/datasets");
               }
             } else {
               setisaccesstoken(response.data.access);
@@ -745,7 +745,7 @@ export default function Login(props) {
         <AddDatasetParticipant
           isaccesstoken={isaccesstoken}
           okAction={() => history.push("/participant/datasets")}
-          cancelAction={() => history.push("/participant/home")}
+          cancelAction={() => history.push("/participant/datasets")}
         />
       ) : (
         <>
