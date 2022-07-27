@@ -5,7 +5,7 @@ const labels = {
       cancel: "Cancel",
       update: "Update",
       back: "Back",
-      finishLater: "Finish later"
+      finishLater: "Finish later",
     },
     login: {
       signup_header: "Let's build a datahub together",
@@ -14,7 +14,7 @@ const labels = {
       Participants: "Participants",
       NetworkActivity: "Network Activity",
       Support: "Support",
-      datasets:"Datasets",
+      datasets: "Datasets",
       Settings: "Settings",
       Signout: "Sign out",
     },
@@ -154,7 +154,7 @@ const labels = {
       Availablity: "Connector Availablity",
       Available: "Available",
       Not_Available: "Not Available",
-      Upload_dataset: " Upload Sample Datasets",
+      Upload_dataset: " Upload Sample Datasets*",
 
       filter: "Filter",
       geography: "Geography",
@@ -173,9 +173,10 @@ const labels = {
       age_of_data: "Age of Data",
       crop_details: "Crop Details",
       add_dataset: "Add New Dataset",
-      add_dataset_text: "Add details about your dataset and make discoverable to other participants in our network.",
+      add_dataset_text:
+        "Add details about your dataset and make discoverable to other participants in our network.",
       no_dataset_text1: "There are no Datasets at this moment !",
-      no_dataset_text2: "Add your Dataset."
+      no_dataset_text2: "Add your Dataset.",
     },
   },
 };
