@@ -117,9 +117,15 @@ const labels = {
       date: "By Date",
     },
     sessiontimeout: {
-      heading: "Your login Session has Expired !",
-      secondmainheading: "Session Expired !",
-      thirdmainheading: "Please login again.",
+      heading: "Session has expired",
+      secondmainheading: "Oops!",
+      thirdmainheading: "Your login session has expired, please sign in again.",
+    },
+    error: {
+      heading: "Oops!",
+
+      secondmainheading: "Someting went wrong!",
+      thirdmainheading: "Your login session has expired, please sign in again.",
     },
     dataset: {
       name: "Dataset Name",
