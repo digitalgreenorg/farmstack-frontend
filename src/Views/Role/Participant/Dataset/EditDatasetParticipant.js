@@ -49,6 +49,7 @@ export default function EditDatasetParticipant() {
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
   const [todate, settodate] = React.useState(null);
+  const [CheckEndDate, setCheckEndDate] = useState(false);
 
   const [file, setFile] = useState(null);
   const [filesize, setfilesize] = useState(false);
@@ -252,11 +253,13 @@ export default function EditDatasetParticipant() {
         "disabled"
       );
     }, 100);
+    setCheckEndDate(true);
   };
 
   const handleChangeToDate = (newValue) => {
     console.log(newValue);
     settodate(newValue);
+    setCheckEndDate(false);
   };
   //   switch
   const [Switchchecked, setSwitchchecked] = React.useState(false);
@@ -395,6 +398,7 @@ export default function EditDatasetParticipant() {
                 {datasetname &&
                 reply &&
                 Geography &&
+                !CheckEndDate &&
                 file &&
                 !filesize &&
                 //   (file ? file.size < 2097152 : false) &&
