@@ -152,7 +152,7 @@ export default function ProfileRightside(props) {
               style={{ width: "420px" }}
               //   className="profilefirstname"
               onChange={props.handleprofilfirstename}
-              inputRef={props.profilefirstname}
+              //inputRef={props.profilefirstname}
               error={props.ispropfilefirstnameerror}
               helperText={
                 props.ispropfilefirstnameerror ? "Enter Valid Name" : ""
@@ -167,7 +167,7 @@ export default function ProfileRightside(props) {
               style={{ width: "420px" }}
               //   className="profilelastname"
               onChange={props.handleprofilelastname}
-              inputRef={props.profilelastname}
+              //inputRef={props.profilelastname}
               error={props.ispropfilelastnameerror}
               helperText={
                 props.ispropfilelastnameerror ? "Enter Valid last name" : ""

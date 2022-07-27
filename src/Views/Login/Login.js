@@ -729,8 +729,9 @@ export default function Login(props) {
       if (getUserMapId()) {
         setIsDataSet(true);
         setisOrg(false);
-      } else {
-        props.history.push("/participant/home");
+      }
+      else{
+        props.history.push('/participant/datasets')
       }
       //props.history.push('/loginadddatasetparticipant');
     }
