@@ -17,6 +17,7 @@ const UrlConstant = {
   delete_policies_drop_document: "datahub/drop_document/delete/",
   dataset_filter: 'datahub/datasets/filters_data/',
   dataset_list: 'datahub/datasets/dataset_filters/',
+  dataset_participant_list: 'participant/datasets/dataset_filters/',
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
   datasetparticipant: "participant/datasets/",

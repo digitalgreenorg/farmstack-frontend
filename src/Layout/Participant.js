@@ -11,6 +11,7 @@ import {
 import { getTokenLocal } from "../Utils/Common";
 import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
 import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
+import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
 
 function Datahub(props) {
   return (
@@ -19,7 +20,7 @@ function Datahub(props) {
         <>
           <ParticipantNavbar />
           <Switch>
-            <Route exact path="/participant/datasets" component={Home} />
+            <Route exact path="/participant/datasets" component={DatasetParticipant} />
             <Route exact path="/participant/home" component={Home} />
             <Route
               exact
