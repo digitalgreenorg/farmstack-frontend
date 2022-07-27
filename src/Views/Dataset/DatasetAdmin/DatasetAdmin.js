@@ -70,7 +70,8 @@ export default function DatasetAdmin() {
         { index: 0, name: "3 Months", isChecked: false },
         { index: 1, name: "6 Months", isChecked: false },
         { index: 2, name: "9 Months", isChecked: false },
-        { index: 3, name: "Constantly Updating", isChecked: false }])
+        { index: 3, name: "12 Months", isChecked: false },
+        { index: 4, name: "Constantly Updating", isChecked: false }])
 
     const [statusFilter, setStatusFilter] = useState([
         { index: 0, name: screenlabels.dataset.for_review, payloadName: "for_review", isChecked: false },
@@ -356,8 +357,16 @@ export default function DatasetAdmin() {
 
     const getFilters = () => {
         setIsLoader(true);
+        var payloadData = {}
+        payloadData['user_id'] = getUserLocal()
+        // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
+        if (isMemberTab) {
+            payloadData['others'] = true
+        } else {
+            payloadData['others'] = false
+        }
         HTTPService(
-            "GET",
+            "POST",
             UrlConstant.base_url + UrlConstant.dataset_filter,
             "",
             false,
