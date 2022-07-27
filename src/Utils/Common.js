@@ -97,7 +97,9 @@ export const handleNameFieldEntry = (fieldValue, e) => {
   }
 };
 
-const GetErrorHandlingRoute = (e) => {
+export const GetErrorHandlingRoute = (e) => {
+  setErrorLocal({'ErrorCode': e.response ? e.response.status : 'unknown', 
+  'ErrorMessage': e.response ? e.response.statusText : 'unknown'});
   if (
     e.response != null &&
     e.response != undefined &&
@@ -117,6 +119,14 @@ export const getRoleLocal = () => {
   const roleString = localStorage.getItem(LocalStorageConstants.KEYS.role);
   const userRole = JSON.parse(roleString);
   return userRole;
+};
+
+export const setErrorLocal = (error) => {
+  localStorage.setItem(LocalStorageConstants.KEYS.error, JSON.stringify(error));
+};
+export const getErrorLocal = () => {
+  return JSON.parse(localStorage.getItem(LocalStorageConstants.KEYS.error));
+
 };
 
 export const isLoggedInUserAdmin = () => {
@@ -159,4 +169,11 @@ export const dateTimeFormat = (datetime,istime) => {
   
 };
 
-export default GetErrorHandlingRoute;
+export const flushLocalstorage = () => {
+  Object.keys(LocalStorageConstants.KEYS).map((key,i)=>{
+    console.log(key); 
+    if (localStorage.getItem(key)) {
+      localStorage.removeItem(key)
+    }
+  });
+}

@@ -23,7 +23,7 @@ import FileSaver from 'file-saver';
 import Avatar from '@mui/material/Avatar';
 import HandleSessionTimeout, { handleUnwantedSpace } from '../../Utils/Common';
 import Loader from '../../Components/Loader/Loader';
-import GetErrorHandlingRoute from '../../Utils/Common';
+import {GetErrorHandlingRoute} from '../../Utils/Common';
 function Support(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [supportList, setsupportList] = useState([]);

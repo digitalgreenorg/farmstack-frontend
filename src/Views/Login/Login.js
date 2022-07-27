@@ -32,7 +32,7 @@ import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
 import { useHistory } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
-import GetErrorHandlingRoute from "../../Utils/Common";
+import {GetErrorHandlingRoute} from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
 import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
 
@@ -690,9 +690,9 @@ export default function Login(props) {
     }
   };
 
-  const countrychangeHandler = (value) => {
-    setcountryvalue(value);
-    console.log(value);
+  const countrychangeHandler = (e) => {
+    setcountryvalue(e.target.value);
+    console.log(e.target.value);
     setOrgcountrybtn(true);
   };
 

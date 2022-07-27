@@ -10,7 +10,7 @@ import Delete from '../../Components/Delete/Delete'
 import labels from '../../Constants/labels';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
-import GetErrorHandlingRoute from '../../Utils/Common';
+import {GetErrorHandlingRoute} from '../../Utils/Common';
 import { useHistory } from "react-router-dom";
 import HTTPService from '../../Services/HTTPService'
 function SampleDataSet(props) {

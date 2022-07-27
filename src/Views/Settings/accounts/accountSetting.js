@@ -19,7 +19,7 @@ import HandleSessionTimeout, {
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../../Constants/RegexConstants";
-import GetErrorHandlingRoute, { validateInputField } from "../../../Utils/Common";
+import { GetErrorHandlingRoute, validateInputField } from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
 
 export default function AccountSetting(props) {
