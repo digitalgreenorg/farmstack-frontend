@@ -42,10 +42,10 @@ export default function ViewDataSet(props) {
                 </Col>
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
-                <Col>
+                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
                     <span className="thirdmainheading">{props.rowdata.name}</span>
                 </Col>
-                <Col>
+                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
                     <span className="thirdmainheading">{props.rowdata.description}</span>
                 </Col>
                 <Col>
@@ -72,11 +72,12 @@ export default function ViewDataSet(props) {
                     <span className="secondmainheading">{"Constantly updating"}</span>
                 </Col>
             </Row>
-            <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
-                <Col>
-                    <span className="thirdmainheading">{props.rowdata.geography}</span>
+            <Row style={{"margin-left": "79px","margin-top": "5px", "text-align": "left" }}>
+                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
+                    <span className="thirdmainheading"
+                    style={{ "max-width": "50%", "height": "37px", "line-height":"19px"}}>{props.rowdata.geography}</span>
                 </Col>
-                <Col>
+                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
                     <span className="thirdmainheading">{props.rowdata.crop_detail}</span>
                 </Col>
                 <Col>

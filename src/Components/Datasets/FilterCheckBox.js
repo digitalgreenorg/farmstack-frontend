@@ -9,6 +9,7 @@ export default function FilterCheckBox(props) {
         <FormControlLabel
             control={ 
                 <Checkbox
+                    style={{"width":"30px", "height":"19px", "margin-left":"10px"}}
                     checked={props.checked}
                     onChange={props.handleCheckListFilterChange}
                 />
