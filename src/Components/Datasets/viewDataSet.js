@@ -77,13 +77,8 @@ export default function ViewDataSet(props) {
                     <span className="thirdmainheading"
                     style={{ "max-width": "50%", "height": "37px", "line-height":"19px"}}>{props.rowdata.geography}</span>
                 </Col>
-<<<<<<< HEAD
                 <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
-                    <span className="thirdmainheading">{props.rowdata.crop_detail}</span>
-=======
-                <Col>
                     <span className="thirdmainheading">{props.rowdata.crop_detail?props.rowdata.crop_detail:'N/A'}</span>
->>>>>>> team_member
                 </Col>
                 <Col>
                     <span className="thirdmainheading">{props.rowdata.constantly_update ? 'Yes' : 'No'}</span>
