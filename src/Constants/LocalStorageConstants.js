@@ -5,6 +5,7 @@ const LocalStorageConstants = {
     role: "role",
     org_id: "org_id",
     user_map: "user_map",
+    error: "error"
   },
   ROLES: {
     DATAHUB_ADMIN: "datahub_admin",

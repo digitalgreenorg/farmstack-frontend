@@ -66,7 +66,7 @@ export default function ViewDataSet(props) {
                     <span className="secondmainheading">{"Geography"}</span>
                 </Col>
                 <Col>
-                    <span className="secondmainheading">{"Corp Detail"}</span>
+                    <span className="secondmainheading">{"Crop Detail"}</span>
                 </Col>
                 <Col>
                     <span className="secondmainheading">{"Constantly updating"}</span>
@@ -77,8 +77,13 @@ export default function ViewDataSet(props) {
                     <span className="thirdmainheading"
                     style={{ "max-width": "50%", "height": "37px", "line-height":"19px"}}>{props.rowdata.geography}</span>
                 </Col>
+<<<<<<< HEAD
                 <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
                     <span className="thirdmainheading">{props.rowdata.crop_detail}</span>
+=======
+                <Col>
+                    <span className="thirdmainheading">{props.rowdata.crop_detail?props.rowdata.crop_detail:'N/A'}</span>
+>>>>>>> team_member
                 </Col>
                 <Col>
                     <span className="thirdmainheading">{props.rowdata.constantly_update ? 'Yes' : 'No'}</span>
@@ -97,13 +102,13 @@ export default function ViewDataSet(props) {
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                 <Col>
-                    <span className="thirdmainheading">{props.rowdata.age_of_date}</span>
+                    <span className="thirdmainheading">{props.rowdata.age_of_date?props.rowdata.age_of_date:'N/A'}</span>
                 </Col>
                 <Col>
                     <span className="thirdmainheading">{props.rowdata.data_capture_start ? dateTimeFormat(props.rowdata.data_capture_start, false) + " - " : 'N/A - '}{props.rowdata.data_capture_end ? dateTimeFormat(props.rowdata.data_capture_end, false) : 'N/A'}</span>
                 </Col>
                 <Col>
-                    <span className="thirdmainheading">{props.rowdata.dataset_size}</span>
+                    <span className="thirdmainheading">{props.rowdata.dataset_size?props.rowdata.dataset_size:'N/A'}</span>
                 </Col>
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
@@ -113,7 +118,7 @@ export default function ViewDataSet(props) {
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                 <Col>
-                    <span className="thirdmainheading">{props.rowdata.connector_availability}</span>
+                    <span className="thirdmainheading">{props.rowdata.connector_availability?props.rowdata.connector_availability:'N/A'}</span>
                 </Col>
             </Row>
             <Row className="supportViewDeatilsSecondRow"></Row>
@@ -148,7 +153,7 @@ export default function ViewDataSet(props) {
                     </Row>
                 </Col>
                 <Col>
-                    <span className="thirdmainheading">{props.rowdata.organization.org_email}</span>
+                    <span className="thirdmainheading">{props.rowdata.organization.org_email?props.rowdata.organization.org_email:'N/A'}</span>
                 </Col>
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
@@ -164,10 +169,10 @@ export default function ViewDataSet(props) {
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                 <Col>
-                    <span className="thirdmainheading">{props.rowdata.organization['name']}</span>
+                    <span className="thirdmainheading">{props.rowdata.organization['name']?props.rowdata.organization['name']:'N/A'}</span>
                 </Col>
                 <Col>
-                    <span className="thirdmainheading">{props.rowdata.organization['address']['address']}</span>
+                    <span className="thirdmainheading">{props.rowdata.organization['address']['address']?props.rowdata.organization['address']['address']:'N/A'}</span>
                 </Col>
                 <Col>
                     <span className="secondmainheading">{""}</span>
@@ -187,10 +192,10 @@ export default function ViewDataSet(props) {
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                 <Col>
-                    <span className="thirdmainheading">{props.rowdata.organization['address']['country']['label']}</span>
+                    <span className="thirdmainheading">{props.rowdata.organization['address']['country']['label']?props.rowdata.organization['address']['country']['label']:'N/A'}</span>
                 </Col>
                 <Col>
-                    <span className="thirdmainheading">{props.rowdata.organization['address']['pincode']}</span>
+                    <span className="thirdmainheading">{props.rowdata.organization['address']['pincode']?props.rowdata.organization['address']['pincode']:'N/A'}</span>
                 </Col>
                 <Col>
                     <span className="secondmainheading">{""}</span>
@@ -198,7 +203,7 @@ export default function ViewDataSet(props) {
             </Row>
             <Row className="supportViewDeatilsSecondRow"></Row></>:<></>}
             <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                <span className="mainheading" >{"Sample data table"}</span><span style={{ "margin-left": "67%" }} onClick={() => props.downloadAttachment(props.rowdata.sample_dataset)}>
+                <span className="mainheading" >{"Sample Data Table"}</span><span style={{ "margin-left": "67%" }} onClick={() => props.downloadAttachment(props.rowdata.sample_dataset)}>
                     <img
                         src={require('../../Assets/Img/download.svg')}
                         alt="new"

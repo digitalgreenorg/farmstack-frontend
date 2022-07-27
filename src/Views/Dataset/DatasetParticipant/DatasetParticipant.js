@@ -13,7 +13,7 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
 import {GetErrorHandlingRoute} from "../../../Utils/Common";
 import { useHistory } from 'react-router-dom';
-import { getUserLocal, getUserMapId, dateTimeFormat } from '../../../Utils/Common'
+import { getUserLocal, getUserMapId, getOrgLocal } from '../../../Utils/Common'
 import ViewDataSet from '../../../Components/Datasets/viewDataSet';
 import Success from '../../../Components/Success/Success'
 import Delete from '../../../Components/Delete/Delete'
@@ -22,8 +22,8 @@ import Avatar from '@mui/material/Avatar';
 import FileSaver from 'file-saver';
 import UrlConstants from '../../../Constants/UrlConstants'
 import Button from "@mui/material/Button";
-import './DatasetAdmin.css'
-export default function DatasetAdmin() {
+import '../DatasetAdmin/DatasetAdmin.css'
+export default function DatasetParticipant() {
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
     const [showLoadMoreAdmin, setShowLoadMoreAdmin] = useState(false);
@@ -36,10 +36,10 @@ export default function DatasetAdmin() {
     const history = useHistory();
     const [isMemberTab, setIsMemberTab] = useState(false)
     const [datasetUrl, setDatasetUrl] = useState(
-        UrlConstant.base_url + UrlConstant.dataset_list
+        UrlConstant.base_url + UrlConstant.dataset_participant_list
     );
     const [memberDatasetUrl, setMemberDatasetUrl] = useState(
-        UrlConstant.base_url + UrlConstant.dataset_list
+        UrlConstant.base_url + UrlConstant.dataset_participant_list
     );
 
     const [isShowAll, setIsShowAll] = useState(true)
@@ -100,14 +100,14 @@ export default function DatasetAdmin() {
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
     var payload = ""
-    var adminUrl = UrlConstant.base_url + UrlConstant.dataset_list
-    var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
+    var adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
+    var memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
 
     const resetUrls = () => {
         // setDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
         // setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
-        adminUrl = UrlConstant.base_url + UrlConstant.dataset_list
-        memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
+        adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
+        memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
     }
     const handleFilterChange = (index, filterName) => {
 
@@ -361,13 +361,11 @@ export default function DatasetAdmin() {
         payloadData['user_id'] = getUserLocal()
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         if (isMemberTab) {
-            payloadData['others'] = true
-        } else {
-            payloadData['others'] = false
+            payloadData['org_id'] = getOrgLocal()
         }
         HTTPService(
             "POST",
-            UrlConstant.base_url + UrlConstant.dataset_filter,
+            UrlConstant.base_url + UrlConstant.dataset_filter_participant,
             payloadData,
             false,
             true
@@ -502,10 +500,13 @@ export default function DatasetAdmin() {
         }
         data['user_id'] = userId
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
-        if (isMemberTab) {
-            data['others'] = true
-        } else {
-            data['others'] = false
+        // if (isMemberTab) {
+        //     data['others'] = true
+        // } else {
+        //     data['others'] = false
+        // }
+        if (isMemberTab){
+            data['org_id'] = getOrgLocal()
         }
         if (geoPayload !== "") {
             data['geography__in'] = geoPayload
@@ -613,7 +614,7 @@ export default function DatasetAdmin() {
         setisAdminView(flag)
         HTTPService(
             "GET",
-            UrlConstant.base_url + UrlConstant.dataset + id + "/",
+            UrlConstant.base_url + UrlConstant.datasetparticipant + id + "/",
             "",
             false,
             true
@@ -637,7 +638,7 @@ export default function DatasetAdmin() {
         setIsLoader(true);
         HTTPService(
             "DELETE",
-            UrlConstant.base_url + UrlConstant.dataset + id + "/",
+            UrlConstant.base_url + UrlConstant.datasetparticipant + id + "/",
             "",
             false,
             true
@@ -709,12 +710,12 @@ export default function DatasetAdmin() {
             {screenView.isChangeRequestSuccess ?
                 <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Change Request Sent Successfully!"} imageText={"Disabled"} msg={"Change Request Sent."}></Success> : <></>
             }
-            {screenView.isDataSetView ? <><ViewDataSet isAdminView={isAdminView} downloadAttachment={(uri) => downloadAttachment(uri)} back={() => changeView('isDataSetFilter')} rowdata={viewdata} tabelkeys={tablekeys} ></ViewDataSet>
-                {isAdminView ? <><Row>
+            {screenView.isDataSetView ? <><ViewDataSet isAdminView={true} downloadAttachment={(uri) => downloadAttachment(uri)} back={() => changeView('isDataSetFilter')} rowdata={viewdata} tabelkeys={tablekeys} ></ViewDataSet>
+                <Row>
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => history.push('/datahub/datasets/edit/' + id)} variant="outlined" className="editbtn">
+                        <Button onClick={() => history.push('/participant/datasets/edit/' + id)} variant="outlined" className="editbtn">
                             Edit Dataset
                          </Button>
                     </Col>
@@ -728,99 +729,6 @@ export default function DatasetAdmin() {
                 </Button>
                         </Col>
                     </Row></> : <></>}
-                {!isAdminView? <>
-                    {viewdata.approval_status == 'for_review' ? <><Row>
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => { changeView('isApprove') }} variant="contained" className="submitbtn">
-                                Approve Dataset
-                                </Button>
-                        </Col>
-                    </Row>
-                        <Row className="margin">
-                            <Col xs={12} sm={12} md={6} lg={3} >
-                            </Col>
-                            <Col xs={12} sm={12} md={6} lg={6} >
-                                <Button onClick={() => changeView('isDisapprove')} style={{"margin-top":"0px"}} variant="outlined" className="editbtn">
-                                    Disapprove Dataset
-                         </Button>
-                            </Col>
-                        </Row><Row className="marginrowtop8px"></Row></> : <></>}
-                    {viewdata.approval_status == 'approved' && viewdata.is_enabled ? <><Row>
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => changeView('isDisable')} variant="outlined" className="editbtn">
-                                Disable Dataset
-                         </Button>
-                        </Col>
-                    </Row><Row className="marginrowtop8px"></Row></>: <></>}
-                    {viewdata.approval_status == 'approved' && !viewdata.is_enabled ?<><Row>
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => changeView('isEnable')} variant="outlined" className="editbtn">
-                                Enable Dataset
-                         </Button>
-                        </Col>
-                    </Row> <Row className="marginrowtop8px"></Row></>: <></>}
-                    {/* <Row>
-                        <span style={{ width: "700px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span><span className="fontweight400andfontsize14pxandcolor3D4A52" style={{"margin-top":"-11px"}}>{"or"}</span><span style={{ width: "724px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span>
-                    </Row>
-                    <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                        <span className="mainheading">{"Request changes"}</span>
-                    </Row>
-                    <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                        {false ? <Avatar
-                            src={""}
-                            sx={{ width: 56, height: 56 }}
-                        /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{"s"}</Avatar>}<span className="thirdmainheading" style={{ "margin-left": "8px" }}>{viewdata.organization['name']}</span><span className="requestChange" style={{ "margin-left": "8px" }}>{"  " + dateTimeFormat(viewdata['updated_at'],true)}</span>
-                    </Row>
-                    <Row style={{ "margin-left": "93px"}}>
-                        <span className="thirdmainheading" style={{ "margin-left": "64px", "margin-top": "-23px"}}>{"sdsdfsd"}</span>
-                    </Row>
-                    <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                        <TextField
-                            id="outlined-multiline-flexible"
-                            label="Replay"
-                            multiline
-                            maxRows={10}
-                            value={requestchange}
-                            onChange={(e) => setrequestchange(e.target.value)}
-                            variant="filled"
-                            style={{
-                                width: "93%", "margin-left": "60px",
-                                "margin-right": "70px"
-                            }}
-                        />
-                    </Row>
-                    <Row>
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            {(requestchange)
-                                ? (
-                                    <Button onClick={() => { requestChangeDataset()}} variant="contained" className="submitbtn">
-                                        {screenlabels.common.submit}
-                                    </Button>
-                                ) : (
-                                    <Button variant="outlined" disabled className="disbalesubmitbtn">
-                                        {screenlabels.common.submit}
-                                    </Button>
-                                )}
-                        </Col>
-                    </Row>
-                    <Row className="marginrowtop8px">
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => setrequestchange("")} variant="outlined" className="cancelbtn">
-                                {screenlabels.common.cancel}
-                            </Button>
-                        </Col>
-                    </Row> */}
-                </> : <></>}</> : ''}
 
             {screenView.isDisable ? <Delete
                 route={"login"}
@@ -962,7 +870,7 @@ export default function DatasetAdmin() {
                                                 isShowLoadMoreButton={showLoadMoreAdmin}
                                                 isMemberTab={value =="2"}
                                                 getDatasetList={getDatasetList}
-                                                viewCardDetails={(id) => viewCardDetails(id, true)}
+                                                viewCardDetails={(id) => viewCardDetails(id, false)}
                                             />
                                         </TabPanel>
                                         <TabPanel value='2'>

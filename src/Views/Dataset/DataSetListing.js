@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import UrlConstant from '../../Constants/UrlConstants';
 import HTTPService from '../../Services/HTTPService';
 import { useHistory } from 'react-router-dom';
-import GetErrorHandlingRoute from '../../Utils/Common';
+import {isLoggedInUserAdmin,isLoggedInUserParticipant } from '../../Utils/Common';
 import AddDatasetCard from '../../Components/Datasets/AddDatasetCard';
 import labels from '../../Constants/labels';
 import NoDatasetCard from '../../Components/Datasets/NoDatasetCard';
@@ -35,13 +35,20 @@ export default function DataSetListing(props) {
     //         history.push(GetErrorHandlingRoute(e));
     //     });
     // }
+    const getAddUrl = () => {
+        if(isLoggedInUserAdmin()){
+            return '/datahub/datasets/add'
+        } else if(isLoggedInUserParticipant()){
+            return '/participant/datasets/add'
+        }
+    }
 
   return (
     <div>
         <Row style={{"margin-left":"-44px","width":"150%"}}>
             {
                 !props.isMemberTab &&
-                <AddDatasetCard firstText={screenlabels.dataset.add_dataset} secondText={screenlabels.dataset.add_dataset_text} addevent={() => history.push('/datahub/datasets/add')}></AddDatasetCard>
+                <AddDatasetCard firstText={screenlabels.dataset.add_dataset} secondText={screenlabels.dataset.add_dataset_text} addevent={() => history.push(getAddUrl())}></AddDatasetCard>
                 // <AddCard firstText={screenlabels.addparticipants.firstText} secondText={screenlabels.addparticipants.secondText} addevent={() => history.push('/datahub/participants/add')}></AddCard>
             }
             {

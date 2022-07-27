@@ -11,7 +11,7 @@ import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 import HTTPService from '../../Services/HTTPService'
 import Loader from '../../Components/Loader/Loader';
-import GetErrorHandlingRoute from '../../Utils/Common';
+import {GetErrorHandlingRoute} from '../../Utils/Common';
 const useStyles = {
     btncolor: {color: "white","text-transform": "capitalize", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "padding-right": "0px", "padding-left":"0px", width: "200px", height: "34px", "font-family": 'Open Sans',"font-style": "normal", "font-weight": 700, "font-size": "14px","line-height": "19px", "margin-bottom": "-20px"},
     btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black"},

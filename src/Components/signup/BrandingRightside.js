@@ -10,7 +10,7 @@ import UrlConstant from '../../Constants/UrlConstants'
 import { useHistory } from 'react-router-dom'
 import HandleSessionTimeout, { setTokenLocal, getTokenLocal } from '../../Utils/Common'
 import Loader from '../Loader/Loader'
-import GetErrorHandlingRoute from '../../Utils/Common'
+import {GetErrorHandlingRoute} from '../../Utils/Common'
 
 export default function BrandingRightside(props) {
   const [file, setFile] = useState(null)

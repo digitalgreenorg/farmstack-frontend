@@ -20,7 +20,7 @@ import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
 import DatasetAdmin from '../Views/Dataset/DatasetAdmin/DatasetAdmin'
 import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
-import { getTokenLocal } from "../Utils/Common";
+import { getTokenLocal,isLoggedInUserAdmin } from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
@@ -28,7 +28,7 @@ function Datahub(props) {
   // }, []);
   return (
     <>
-      {getTokenLocal() ? (
+      {(getTokenLocal() && isLoggedInUserAdmin())? (
         <>
           <Navbar />
           <Switch>

@@ -14,7 +14,7 @@ import { LinearProgress } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useHistory } from "react-router-dom";
 import Loader from "../Loader/Loader";
-import GetErrorHandlingRoute, { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
+import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
 
 const fileTypes = ['JPEG', 'PNG', 'jpg']
 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from "@mui/material/Button";
@@ -9,23 +9,30 @@ import { Container } from 'react-bootstrap';
 import { Nav } from '../Navbar/NavbarElements';
 import './../Navbar/Navbar.css'
 import LocalStorageConstants from '../../Constants/LocalStorageConstants';
+import Footer from '../Footer/Footer';
+import HTTPService from '../../Services/HTTPService';
+import { flushLocalstorage, getErrorLocal, setErrorLocal } from '../../Utils/Common';
+import axios from 'axios';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
-    marginrowtop: {"margin-top": "30px"},
+    marginrowtop30: {"margin-top": "30px"},
+    marginrowtop35: {"margin-top": "35px"},
     marginrowtop50: {"margin-top": "50px"},
+    marginrowtop70: {"margin-top": "70px"},
     marginrowtop20: {"margin-top": "20px"},
     headingbold:{fontWeight: "bold"},
     headingcolorbold:{fontWeight: "bold",color: THEME_COLORS.THEME_COLOR}
 };
 export default function Error(props) {
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
-    const history = useHistory();
-    localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
-    localStorage.removeItem(LocalStorageConstants.KEYS.user);
+    useEffect(()=>{
+       flushLocalstorage();
+    }, []);
+
     return (
         <>
-            <Nav id="datahubnavbar">
+            <Nav id="datahubnavbar" style={{border: 'none'}}>
             {/* <Bars /> */}
                 <img
                 src={require("../../Assets/Img/farmstack.jpg")}
@@ -34,21 +41,40 @@ export default function Error(props) {
                 />
             </Nav>
             <Container>
-                <Row style={useStyles.marginrowtop50}>
+                <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
-                        <span className="thirdheadingsuccess">
-                            OOPS !! Something went wrong.. Please contact administrator.
+                        <span className="mainheadingsuccess">
+                            {screenlabels.error.heading} <br />
+                            Error: {getErrorLocal() ? getErrorLocal().ErrorCode : 'unknown'}
+                        </span>
+                    </Col>
+                </Row>
+                <Row style={useStyles.marginrowtop30}>
+                    <Col xs={12} sm={12} md={12} lg={12} >
+                        <img
+                            src={require('../../Assets/Img/error.png')}
+                            style={{width: '170px', height: '112px'}}
+                            alt="Error"
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={12} sm={12} md={12} lg={12} style={useStyles.marginrowtop35}>
+                        <span className="secondmainheadingsuccess">
+                        {screenlabels.error.secondmainheading}
                         </span>
                     </Col>
                 </Row>
                 <Row style={useStyles.marginrowtop20}>
                     <Col xs={12} sm={12} md={12} lg={12} >
-                        <Button  onClick={()=>history.push("/login")} variant="contained" className="submitbtn">
-                            <span>Login</span>
-                        </Button>
+                        <span className="thirdmainheadingsuccess">
+                        {getErrorLocal() ? getErrorLocal().ErrorMessage : 'unknown'}<br />
+                        {screenlabels.error.thirdmainheading}
+                        </span>
                     </Col>
                 </Row>
             </Container>
+            <Footer/>
         </>
     );
 }

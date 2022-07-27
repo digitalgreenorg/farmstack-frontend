@@ -9,11 +9,14 @@ import { Container } from 'react-bootstrap';
 import { Nav } from '../Navbar/NavbarElements';
 import './../Navbar/Navbar.css'
 import LocalStorageConstants from '../../Constants/LocalStorageConstants';
+import { flushLocalstorage } from '../../Utils/Common';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
-    marginrowtop: {"margin-top": "30px"},
+    marginrowtop30: {"margin-top": "30px"},
+    marginrowtop35: {"margin-top": "35px"},
     marginrowtop50: {"margin-top": "50px"},
+    marginrowtop70: {"margin-top": "70px"},
     marginrowtop20: {"margin-top": "20px"},
     headingbold:{fontWeight: "bold"},
     headingcolorbold:{fontWeight: "bold",color: THEME_COLORS.THEME_COLOR}
@@ -21,11 +24,10 @@ const useStyles = {
 export default function SessionExpired(props) {
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     const history = useHistory();
-    localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
-    localStorage.removeItem(LocalStorageConstants.KEYS.user);
+    flushLocalstorage();
     return (
         <>
-            <Nav id="datahubnavbar">
+            <Nav id="datahubnavbar" style={{border: 'none'}}>
             {/* <Bars /> */}
                 <img
                 src={require("../../Assets/Img/farmstack.jpg")}
@@ -34,38 +36,40 @@ export default function SessionExpired(props) {
                 />
             </Nav>
             <Container>
-                <Row style={useStyles.marginrowtop50}>
+                <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <span className="mainheadingsuccess">
                             {screenlabels.sessiontimeout.heading}
                         </span>
                     </Col>
                 </Row>
-                <Row style={useStyles.marginrowtop}>
+                <Row style={useStyles.marginrowtop30}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <img
                             src={require('../../Assets/Img/session_expired.png')}
-                            style={{width: '102px', height: '102px'}}
+                            style={{width: '170px', height: '112px'}}
                             alt="Session Timeout"
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={12} lg={12} style={useStyles.marginrowtop20}>
+                </Row>
+                <Row>
+                    <Col xs={12} sm={12} md={12} lg={12} style={useStyles.marginrowtop35}>
                         <span className="secondmainheadingsuccess">
                         {screenlabels.sessiontimeout.secondmainheading}
                         </span>
                     </Col>
                 </Row>
-                <Row style={useStyles.marginrowtop20}>
+                <Row style={useStyles.marginrowtop30}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <span className="thirdmainheadingsuccess">
                         {screenlabels.sessiontimeout.thirdmainheading}
                         </span>
                     </Col>
                 </Row>
-                <Row style={useStyles.marginrowtop50}>
+                <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <Button  onClick={()=>history.push("/login")} variant="contained" className="submitbtn">
-                            <span>Login</span>
+                            <span>Sign in</span>
                         </Button>
                     </Col>
                 </Row>
