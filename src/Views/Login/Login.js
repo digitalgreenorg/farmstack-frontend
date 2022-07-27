@@ -215,7 +215,7 @@ export default function Login(props) {
               }
               else if (isLoggedInUserParticipant())
               {
-                props.history.push('/participant/home')
+                props.history.push('/participant/datasets')
               }
             } else {
               setisaccesstoken(response.data.access);
@@ -721,7 +721,7 @@ export default function Login(props) {
         setisOrg(false);
       }
       else{
-        props.history.push('/participant/home')
+        props.history.push('/participant/datasets')
       }
       //props.history.push('/loginadddatasetparticipant');
     }
