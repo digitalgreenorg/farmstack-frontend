@@ -5,6 +5,7 @@ const labels = {
       cancel: "Cancel",
       update: "Update",
       back: "Back",
+      finishLater: "Finish later"
     },
     login: {
       signup_header: "Let's build a datahub together",
@@ -13,6 +14,7 @@ const labels = {
       Participants: "Participants",
       NetworkActivity: "Network Activity",
       Support: "Support",
+      datasets:"Datasets",
       Settings: "Settings",
       Signout: "Sign out",
     },
@@ -130,6 +132,7 @@ const labels = {
       Cultivation_data: "Cultivation data",
       Soil_data: "Soil data",
       Weather_data: "Weather data",
+      Research_data: "Research data",
       Geography: "Geography",
       Crop_Detail: "Crop Detail",
       data: "Age of Actual Data",
@@ -162,7 +165,11 @@ const labels = {
       organisation_name: "Organization Name",
       published_on: "Published On",
       age_of_data: "Age of Data",
-      crop_details: "Crop Details"
+      crop_details: "Crop Details",
+      add_dataset: "Add New Dataset",
+      add_dataset_text: "Add details about your dataset and make discoverable to other participants in our network.",
+      no_dataset_text1: "There are no Datasets at this moment !",
+      no_dataset_text2: "Add your Dataset."
     },
   },
 };

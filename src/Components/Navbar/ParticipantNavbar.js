@@ -19,7 +19,7 @@ import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
 import GetErrorHandlingRoute from "../../Utils/Common";
 
-const Navbar = (props) => {
+const ParticipantNavbar = (props) => {
   const [profile, setprofile] = useState(null);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const[isLoader, setIsLoader] = useState(false)
@@ -78,21 +78,7 @@ const Navbar = (props) => {
           style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
         />
         <NavMenu>
-      
-          <NavLink to="/datahub/participants" activeStyle>
-            <img
-              className="boldimage"
-              src={require("../../Assets/Img/bold_participants.svg")}
-              alt="new"
-            />
-            <img
-              className="nonboldimage"
-              src={require("../../Assets/Img/participants.svg")}
-              alt="new"
-            />
-            &nbsp;&nbsp;{screenlabels.navbar.Participants}
-          </NavLink>
-          <NavLink to="/datahub/datasets" activeStyle>
+        <NavLink to="/participant/datasets" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/dataset_bold.svg")}
@@ -105,58 +91,15 @@ const Navbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.datasets}
           </NavLink>
-          <NavLink to="/datahub/support" activeStyle>
-            <img
-              className="boldimage"
-              src={require("../../Assets/Img/support_bold.svg")}
-              alt="new"
-            />
-            <img
-              className="nonboldimage"
-              src={require("../../Assets/Img/support.svg")}
-              alt="new"
-            />
-            &nbsp;&nbsp;{screenlabels.navbar.Support}
-          </NavLink>
-          <NavLink
-            to="/datahub/settings"
-            activeStyle
-            onClick={(e) => {
-              e.preventDefault();
-              history.push("/datahub/settings/1");
-            }}>
-            <img
-              className="boldimage"
-              src={require("../../Assets/Img/bold_settings.svg")}
-              alt="new"
-            />
-            <img
-              className="nonboldimage"
-              src={require("../../Assets/Img/settings.svg")}
-              alt="new"
-            />
-            &nbsp;&nbsp;{screenlabels.navbar.Settings}
-          </NavLink>
-          {/* Second Nav */}
-          {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
         </NavMenu>
         {profile ? (
           <NavBtn onClick={handleLogout}>
             <Button
               variant="outlined"
-              // color="secondary"
               className="signoutbtn-navbar"
               startIcon={<Avatar src={profile} />}>
               {screenlabels.navbar.Signout}
             </Button>
-            {/* <NavBtnLink to="/signin" className="signoutbtn-navbar">
-              <Avatar
-                alt="profile img"
-                src={profile}
-                // sx={{ width: 10, height: 10 }}
-              />
-              &nbsp;&nbsp;{screenlabels.navbar.Signout}
-            </NavBtnLink> */}
           </NavBtn>
         ) : (
           <NavBtn onClick={handleLogout}>
@@ -171,4 +114,4 @@ const Navbar = (props) => {
   );
 };
 
-export default Navbar;
+export default ParticipantNavbar;

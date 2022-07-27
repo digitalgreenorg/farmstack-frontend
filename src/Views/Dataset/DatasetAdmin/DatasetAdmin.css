@@ -1,4 +1,4 @@
-@import '../../Constants/CssConstants.css';
+@import '../../../Constants/CssConstants.css';
 .supportmaindiv{margin-top:50px;margin-left:110px;margin-right:110px}
 .supportfilterRow{margin-top:32px;width: 1080px;}
 .supportfilterCOlumn{ height:"fit-content";max-width:346px;background: #FFFFFF;border: 1px solid #E4E4E4;border-radius: 2px;flex-basis:346px}
@@ -64,4 +64,9 @@ padding: 10px;
 .nodataavailable{
   margin-left: 50%;
     margin-top: 10%;
+}
+.requestChange{
+  font-weight: 400;
+font-size: 14px;
+color: #C4C4C4;
 }

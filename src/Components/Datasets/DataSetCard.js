@@ -18,6 +18,7 @@ import UrlConstants from '../../Constants/UrlConstants'
 import labels from '../../Constants/labels';
 import { useHistory } from "react-router-dom";
 import {useState} from 'react'
+import { getUserLocal, getUserMapId, dateTimeFormat } from '../../Utils/Common'
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize", "font-weight": "400", "font-size": "14px" },
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px" },
@@ -47,17 +48,17 @@ export default function DataSetCard(props) {
 
         <Card className={props.margingtop} style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
             <CardHeader
-                // avatar={
-                //     props.data.organization.logo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.data.organization.logo} sx={{ width: 54, height: 54 }} /> :
-                //         <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.data.subject.charAt(0)}</Avatar>
-                // }
+                avatar={
+                    props.orgLogo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.orgLogo} sx={{ width: 54, height: 54 }} /> :
+                        <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.orgName.charAt(0)}</Avatar>
+                }
                 // title={props.data.subject}
-                title="Sample Title"
+                title={props.title}
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left" }}
             />
             <CardContent>
                 <Row style={useStyles.datasetdescription}>
-                    DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription
+                    {props.description}
                 </Row>
                 <Row>
                     {props.isMemberTab ?
@@ -79,12 +80,12 @@ export default function DataSetCard(props) {
                         {props.orgName}
                     </Col> :
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {props.geography}Kochi
+                        {props.geography}
                     </Col>
                     }
                     {/* <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"> */}
-                    <Col style={{"font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
-                        Date | Time
+                    <Col style={{"font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+                        {dateTimeFormat(props.publishedon,true)}
                     </Col>
                 </Row>
                 {/* <Row className="supportcardmargintop">
@@ -119,10 +120,10 @@ export default function DataSetCard(props) {
                 </Row>
                 <Row className="supportcardmargintop">
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {props.ageOfData}6 Months
+                        {props.ageOfData}
                     </Col>
-                    <Col style={{ color: "#3D4A52", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
-                        {props.cropDetail}Chilli
+                    <Col style={{"padding-right":"4px",color: "#3D4A52", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
+                        {props.cropDetail}
                     </Col>
                 </Row>
                 {/* <Row>
@@ -160,22 +161,28 @@ export default function DataSetCard(props) {
                 </Row> */}
                 {/* <Row style={{ "margin-top": "-58px" }}> */}
                 <Row>
-                    {
-                        props.isMemberTab &&
-                        <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                            {screenlabels.dataset.geography}
-                        </Col>
-                        
-                    }
+                    {props.isMemberTab &&
+                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                        {screenlabels.dataset.geography}
+                    </Col>}
+                    </Row>
+                    <Row className="supportcardmargintop">
+                    {props.isMemberTab ?
+                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                        {props.geography}
+                    </Col> : <Col></Col>}
+                    </Row>
+                    <Row style={!props.isMemberTab?{"margin-top":"30px"}:{"margin-top":"-50px"}}>
                     {isshowbutton ? 
                         <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                             <Button 
-                            onClick={()=>props.viewCardDetails(props.id)} 
+                            onClick={()=>props.viewCardDetails()} 
                             variant="outlined" style={useStyles.btncolor}>
                                 View Details
                             </Button>
                         </Col>     : <></>}
-                </Row>
+                     </Row>
+               
             </CardContent>
         </Card>
     );

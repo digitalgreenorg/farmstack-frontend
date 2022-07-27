@@ -21,6 +21,7 @@ import DatasetAdmin from '../Views/Dataset/DatasetAdmin/DatasetAdmin'
 import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
 import { getTokenLocal } from "../Utils/Common";
+import SampleDataSet from "../Views/Support/SampleDataSet";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -56,10 +57,10 @@ function Datahub(props) {
               path="/datahub/participants"
               component={Participants}
             />
-            <Route exact path="/datahub/dataset/add" component={AddDataset} />
+            <Route exact path="/datahub/datasets/add" component={AddDataset} />
             <Route
               exact
-              path="/datahub/dataset/edit/:id"
+              path="/datahub/datasets/edit/:id"
               component={EditDataset}
             />
             <Route
@@ -74,7 +75,8 @@ function Datahub(props) {
             />
             <Route exact path="/datahub/settings/:id" component={Settings} />
             <Route exact path="/datahub/support" component={Support} />
-            <Route exact path="/datahub/admin/dataset" component={DatasetAdmin}/>
+            {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
+            <Route exact path="/datahub/datasets" component={DatasetAdmin}/>
           </Switch>
         </>
       ) : (

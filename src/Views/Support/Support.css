@@ -31,9 +31,9 @@
 .supportsubmitbrn .btncolor{color: var(--theme-color);border-color:var(--theme-color);border-radius:0;text-transform:capitalize;background: #FFFFFF; border: 1px solid #D8AF28;border-radius: 2px} 
 .supportsubmitbrn{margin-left: 218px;}
 .marginleft165px{margin-left: 165px;}
-.disbaledatesubmitbtn{text-transform: capitalize !important;border-radius: 2px; background: #FFFFFF !important;border:1px solid #C09507 !important;color:#585D60 !important;opacity: 0.5;  width: 116px; height: 34px; }
-button.enabledatesubmitbtn{text-transform: capitalize !important;color: #FFFFFF;height:42px; background:#C09507 !important;border-radius: 2px;border:2px solid #C09507 !important; width: 116px; height: 34px; }
-button.enabledatesubmitbtn:hover{background-color: #C09507 !important;}
+.disbaledatesubmitbtn{right:35px;text-transform: capitalize !important;border-radius: 2px; background: #FFFFFF !important;border:1px solid #C09507 !important;color:#585D60 !important;opacity: 0.5;  width: 116px; height: 34px; }
+button.enabledatesubmitbtn{right:35px;text-transform: capitalize !important;color: #FFFFFF;height:42px; background:#C09507 !important;border-radius: 2px;border:2px solid #C09507 !important; width: 116px; height: 34px; }
+button.enabledatesubmitbtn:hover{right:35px;background-color: #C09507 !important;}
 .supportcardsecondclosedcolumndata {text-align: right; margin-right: 9px; margin-top: 20px;}
 .supportcardfromdate .MuiTextField-root{background: #F1F1F1;}
 .supportcardtodate .MuiTextField-root{background: #F1F1F1;}

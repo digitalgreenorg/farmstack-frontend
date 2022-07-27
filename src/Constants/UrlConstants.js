@@ -18,7 +18,9 @@ const UrlConstant = {
   dataset_filter: 'datahub/datasets/filters_data/',
   dataset_list: 'datahub/datasets/dataset_filters/',
   // dataset_list: 'datahub/datasets/',
-  dataset: "datahub/datasets/"
+  dataset: "datahub/datasets/",
+  datasetparticipant: "participant/datasets/",
+  onboarded: "accounts/login/onboarded/"
 };
 
 export default UrlConstant;

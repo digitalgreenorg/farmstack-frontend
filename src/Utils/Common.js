@@ -120,16 +120,43 @@ export const getRoleLocal = () => {
 };
 
 export const isLoggedInUserAdmin = () => {
-  return (getRoleLocal()) 
-  ? (getRoleLocal().toLowerCase() == LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()) 
-  : false
+  return getRoleLocal()
+    ? getRoleLocal().toLowerCase() ==
+        LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
+    : false;
 };
 
 export const isLoggedInUserParticipant = () => {
   //return true;
-  return (getRoleLocal()) 
-  ? (getRoleLocal().toLowerCase() == LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()) 
-  : false
+  return getRoleLocal()
+    ? getRoleLocal().toLowerCase() ==
+        LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
+    : false;
+};
+
+// file upload
+export const fileUpload = (bodyFormData, file, Key) => {
+  if (file != null && typeof file != "string") {
+    return bodyFormData.append(Key, file);
+  }
+};
+
+export const dateTimeFormat = (datetime,istime) => {
+  const today = new Date(datetime)
+  var y = today.getFullYear()
+  var m = (today.getMonth() + 1).toString().padStart(2, "0")
+  var d = today.getDate().toString().padStart(2, "0")
+  var h = today.getHours()
+  var mi =(today.getMinutes()<10?'0':'')+today.getMinutes()
+  var s = today.getSeconds();
+  if(istime){
+    let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
+    return format
+  }else{
+    let format = d + "/" + m + "/" + y
+    return format
+  }
+  
 };
 
 export default GetErrorHandlingRoute;
