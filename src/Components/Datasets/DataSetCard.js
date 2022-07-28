@@ -33,17 +33,6 @@ export default function DataSetCard(props) {
     const [isshowbutton, setisshowbutton] = useState(false)
     const history = useHistory();
     const [screenlabels, setscreenlabels] = useState(labels['en'])
-    const dateTimeFormat = (datetime) => {
-        const today = new Date(datetime);
-        var y = today.getFullYear();
-        var m = (today.getMonth() + 1).toString().padStart(2, "0");
-        var d = today.getDate().toString().padStart(2, "0");
-        var h = today.getHours();
-        var mi = today.getMinutes();
-        var s = today.getSeconds();
-        let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
-        return format
-    }
     return (
 
         <Card className={props.margingtop} style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
