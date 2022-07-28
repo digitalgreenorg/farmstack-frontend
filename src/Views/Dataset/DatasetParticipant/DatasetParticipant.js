@@ -43,8 +43,8 @@ export default function DatasetParticipant() {
     );
 
     const [isShowAll, setIsShowAll] = useState(true)
-    const [isEnabledFilter, setIsEnabledFilter] = useState(false)
-    const [isDisabledFilter, setIsDisabledFilter] = useState(false)
+    // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
+    // const [isDisabledFilter, setIsDisabledFilter] = useState(false)
     // const [forReviewFilter, setForReviewFilter] = useState(false)
     // const [rejectedFilter, setRejectedFilter] = useState(false)
     // const [approvedFilter, setApprovedFilter] = useState(false)
@@ -77,6 +77,11 @@ export default function DatasetParticipant() {
         { index: 0, name: screenlabels.dataset.for_review, payloadName: "for_review", isChecked: false },
         { index: 1, name: screenlabels.dataset.rejected, payloadName: "rejected", isChecked: false },
         { index: 2, name: screenlabels.dataset.approved, payloadName: "approved", isChecked: false }])
+
+    const [enableStatusFilter, setEnableStatusFilter] = useState([
+        { index: 0, name: screenlabels.dataset.enabled, payloadName: "is_enabled", isChecked: false },
+        { index: 1, name: screenlabels.dataset.disbaled, payloadName: "is_enabled", isChecked: false }])
+    
     const [screenView, setscreenView] = useState(
         {
             "isDataSetFilter": true,
@@ -119,7 +124,7 @@ export default function DatasetParticipant() {
 
         setIsShowAll(false)
         resetDateFilters()
-        resetEnabledStatusFilter()
+        // resetEnabledStatusFilter()
         // resetUrls()
 
         if (filterName == screenlabels.dataset.geography) {
@@ -127,6 +132,7 @@ export default function DatasetParticipant() {
             resetFilterState(screenlabels.dataset.age)
             resetFilterState(screenlabels.dataset.crop)
             resetFilterState(screenlabels.dataset.status)
+            resetFilterState(screenlabels.dataset.enabled)
 
             tempFilterDisplay = [...geoFilterDisplay]
             for (let i = 0; i < tempFilterDisplay.length; i++) {
@@ -157,6 +163,7 @@ export default function DatasetParticipant() {
             resetFilterState(screenlabels.dataset.geography)
             resetFilterState(screenlabels.dataset.crop)
             resetFilterState(screenlabels.dataset.status)
+            resetFilterState(screenlabels.dataset.enabled)
 
             tempFilterDisplay = [...ageFilterDisplay]
             for (let i = 0; i < tempFilterDisplay.length; i++) {
@@ -187,6 +194,7 @@ export default function DatasetParticipant() {
             resetFilterState(screenlabels.dataset.geography)
             resetFilterState(screenlabels.dataset.age)
             resetFilterState(screenlabels.dataset.status)
+            resetFilterState(screenlabels.dataset.enabled)
 
             tempFilterDisplay = [...cropFilterDisplay]
             for (let i = 0; i < tempFilterDisplay.length; i++) {
@@ -215,6 +223,7 @@ export default function DatasetParticipant() {
             resetFilterState(screenlabels.dataset.geography)
             resetFilterState(screenlabels.dataset.age)
             resetFilterState(screenlabels.dataset.crop)
+            resetFilterState(screenlabels.dataset.enabled)
 
             tempFilterDisplay = [...statusFilter]
             for (let i = 0; i < tempFilterDisplay.length; i++) {
@@ -229,6 +238,25 @@ export default function DatasetParticipant() {
             setStatusFilter(tempFilterDisplay)
 
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", payloadList)
+        } else if (filterName == screenlabels.dataset.enabled){
+            resetFilterState(screenlabels.dataset.geography)
+            resetFilterState(screenlabels.dataset.age)
+            resetFilterState(screenlabels.dataset.crop)
+            resetFilterState(screenlabels.dataset.status)
+
+            tempFilterDisplay = [...enableStatusFilter]
+            if(index == 0){
+                tempFilterDisplay[0].isChecked = !tempFilterDisplay[0].isChecked
+                tempFilterDisplay[1].isChecked = false
+            } else{
+                tempFilterDisplay[0].isChecked = false
+                tempFilterDisplay[1].isChecked = !tempFilterDisplay[1].isChecked
+            }
+            if(tempFilterDisplay[0].isChecked || tempFilterDisplay[1].isChecked ){
+                isAnyFilterChecked = true
+            }
+            setEnableStatusFilter(tempFilterDisplay)
+            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         }
 
         if(isAnyFilterChecked){
@@ -296,34 +324,39 @@ export default function DatasetParticipant() {
                 // tempFilerDisplay[i].isDisplayed = true
             }
             setStatusFilter(tempFilerDisplay)
+        } else if (filterName == screenlabels.dataset.enabled){
+            tempFilerDisplay = [...enableStatusFilter]
+            tempFilerDisplay[0].isChecked=false
+            tempFilerDisplay[1].isChecked=false
+            setEnableStatusFilter(tempFilerDisplay)
         }
     }
 
-    const resetEnabledStatusFilter = () => {
-        setIsEnabledFilter(false)
-        setIsDisabledFilter(false)
-    }
+    // const resetEnabledStatusFilter = () => {
+    //     setIsEnabledFilter(false)
+    //     setIsDisabledFilter(false)
+    // }
 
-    const handleEnableStatusFilter = (filterName) => {
-        //reset other filters and states
-        setIsShowAll(false)
-        resetDateFilters()
-        // resetUrls()
-        resetFilterState(screenlabels.dataset.geography)
-        resetFilterState(screenlabels.dataset.age)
-        resetFilterState(screenlabels.dataset.crop)
-        resetFilterState(screenlabels.dataset.status)
+    // const handleEnableStatusFilter = (filterName) => {
+    //     //reset other filters and states
+    //     setIsShowAll(false)
+    //     resetDateFilters()
+    //     // resetUrls()
+    //     resetFilterState(screenlabels.dataset.geography)
+    //     resetFilterState(screenlabels.dataset.age)
+    //     resetFilterState(screenlabels.dataset.crop)
+    //     resetFilterState(screenlabels.dataset.status)
 
-        if (filterName == screenlabels.dataset.enabled) {
-            setIsEnabledFilter(!isEnabledFilter)
-            setIsDisabledFilter(false)
-        } else {
-            setIsEnabledFilter(false)
-            setIsDisabledFilter(!isDisabledFilter)
-        }
-        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        getDatasetList(false)
-    }
+    //     if (filterName == screenlabels.dataset.enabled) {
+    //         setIsEnabledFilter(!isEnabledFilter)
+    //         setIsDisabledFilter(false)
+    //     } else {
+    //         setIsEnabledFilter(false)
+    //         setIsDisabledFilter(!isDisabledFilter)
+    //     }
+    //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+    //     getDatasetList(false)
+    // }
 
     const handleGeoSearch = (e) => {
         const searchText = e.target.value
@@ -530,9 +563,12 @@ export default function DatasetParticipant() {
         if (statusPayload !== "") {
             data['approval_status__in'] = statusPayload
         }
-        if (isEnabledFilter || isDisabledFilter) {
-            data['is_enabled'] = isEnabledFilter
+        if (enableStatusFilter[0].isChecked || enableStatusFilter[1].isChecked) {
+            data['is_enabled'] = enableStatusFilter[0].isChecked
         }
+        // if (isEnabledFilter || isDisabledFilter) {
+        //     data['is_enabled'] = isEnabledFilter
+        // }
         return data
     }
 
@@ -566,7 +602,8 @@ export default function DatasetParticipant() {
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
-        resetEnabledStatusFilter()
+        resetFilterState(screenlabels.dataset.enabled)
+        // resetEnabledStatusFilter()
 
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         getDatasetList(false)
@@ -845,16 +882,17 @@ export default function DatasetParticipant() {
 
                                 clearAllFilters={clearAllFilters}
                                 showMemberFilters={value == "2"}
-                                isEnabledFilter={isEnabledFilter}
-                                isDisabledFilter={isDisabledFilter}
-                                handleEnableStatusFilter={handleEnableStatusFilter}
+                                // isEnabledFilter={isEnabledFilter}
+                                // isDisabledFilter={isDisabledFilter}
+                                // handleEnableStatusFilter={handleEnableStatusFilter}
                                 // forReviewFilter={forReviewFilter}
                                 // rejectedFilter={rejectedFilter}
                                 // approvedFilter={approvedFilter}
                                 statusFilter={statusFilter}
                                 // handleStatusFilter={handleStatusFilter}
-                                resetEnabledStatusFilter={resetEnabledStatusFilter}
+                                // resetEnabledStatusFilter={resetEnabledStatusFilter}
                                 // resetUrls={resetUrls}
+                                enableStatusFilter={enableStatusFilter}
                             />
                         </Col>
                         <Col className="supportSecondCOlumn">
