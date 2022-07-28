@@ -432,7 +432,7 @@ export default function EditDatasetParticipant() {
               <Col xs={12} sm={12} md={6} lg={3}></Col>
               <Col xs={12} sm={12} md={6} lg={6}>
                 <Button
-                  onClick={() => history.push("/datahub/datasets")}
+                  onClick={() => history.push("/participant/datasets")}
                   variant="outlined"
                   className="cancelbtn">
                   {screenlabels.common.cancel}
