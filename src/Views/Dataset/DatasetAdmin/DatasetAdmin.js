@@ -112,6 +112,7 @@ export default function DatasetAdmin() {
     const handleFilterChange = (index, filterName) => {
 
         // var tempFilterMaster = []
+        var isAnyFilterChecked = false
         var tempFilterDisplay = []
         var payloadList = []
         // var payload = {}
@@ -134,6 +135,7 @@ export default function DatasetAdmin() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].name)
+                    isAnyFilterChecked = true
                 }
             }
             setGeoFilterDisplay(tempFilterDisplay)
@@ -163,6 +165,7 @@ export default function DatasetAdmin() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].payloadName)
+                    isAnyFilterChecked = true
                 }
             }
             setAgeFilterDisplay(tempFilterDisplay)
@@ -192,6 +195,7 @@ export default function DatasetAdmin() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].name)
+                    isAnyFilterChecked = true
                 }
             }
             setCropFilterDisplay(tempFilterDisplay)
@@ -219,14 +223,18 @@ export default function DatasetAdmin() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].payloadName)
+                    isAnyFilterChecked = true
                 }
             }
             setStatusFilter(tempFilterDisplay)
 
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", payloadList)
         }
-
-        getDatasetList(false)
+        if(isAnyFilterChecked){
+            getDatasetList(false)
+        } else{
+            clearAllFilters()
+        }
     }
 
     const resetFilterState = (filterName) => {
@@ -295,6 +303,7 @@ export default function DatasetAdmin() {
     }
 
     const handleEnableStatusFilter = (filterName) => {
+
         //reset other filters and states
         setIsShowAll(false)
         resetDateFilters()
