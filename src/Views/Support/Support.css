@@ -17,8 +17,15 @@
 .supportfiltercommontextbold{font-weight: 400;font-size: 14px;color: #3D4A52;padding-left: 11px;padding-top:20px;}
 .supportSecondCOlumn{ width:732px}
 .supportcardfirstcolumn{margin-top: 20px;text-align: left;}
+.supportcardfirstcolumngeo{margin-top: 20px;text-align: left; overflow: hidden; text-overflow: ellipsis; 
+  display: -webkit-box;
+-webkit-line-clamp: 1;
+-webkit-box-orient: vertical;}
 .supportcardsecondcolumn{text-align: right;margin-right: 10px;margin-top: 20px;}
-.supportcardsecondcolumndata{text-align: right;margin-right: 20px;margin-top: 20px;}
+.supportcardsecondcolumndata{text-align: right;margin-right: 20px;margin-top: 20px; overflow: hidden; text-overflow: ellipsis; 
+  display: -webkit-box;
+-webkit-line-clamp: 1;
+-webkit-box-orient: vertical;}
 .supportcardmargintop{margin-top: -19px;}
 .supportcardmargintop20px{margin-top:20px}
 .supportcardmargintop0px{margin-top:0px}
