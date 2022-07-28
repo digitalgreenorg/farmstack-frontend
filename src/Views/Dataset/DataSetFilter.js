@@ -76,8 +76,7 @@ export default function DataSetFilter(props) {
                           props.resetFilterState(screenlabels.dataset.age)
                           props.resetFilterState(screenlabels.dataset.crop)
                           props.resetFilterState(screenlabels.dataset.status)
-                          props.resetEnabledStatusFilter()
-                        //   props.resetUrls()
+                          props.resetFilterState(screenlabels.dataset.enabled)
                           setTimeout(() => {
                               $(".supportcardtodate input.MuiInputBase-input").attr("disabled", "disabled");
                           }, 100)
@@ -140,7 +139,16 @@ export default function DataSetFilter(props) {
             />
             &nbsp;&nbsp;{screenlabels.dataset.datasets}</span>
         </Row>}
-        {props.showMemberFilters &&
+        {
+            props.showMemberFilters && props.enableStatusFilter.map((filter)=> (
+                <FilterCheckBox
+                label={filter.name}
+                checked={filter.isChecked}
+                handleCheckListFilterChange={() => props.handleFilterChange(filter.index,screenlabels.dataset.enabled)}
+              />
+            ))
+        }
+        {/* {props.showMemberFilters &&
         
             <FilterCheckBox
                 label={screenlabels.dataset.enabled}
@@ -155,7 +163,7 @@ export default function DataSetFilter(props) {
                 checked={props.isDisabledFilter}
                 handleCheckListFilterChange={() => props.handleEnableStatusFilter(screenlabels.dataset.disbaled)}
             />
-        }
+        } */}
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img

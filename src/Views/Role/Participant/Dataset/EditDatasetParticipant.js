@@ -54,6 +54,7 @@ export default function EditDatasetParticipant() {
 
   const [file, setFile] = useState(null);
   const [filesize, setfilesize] = useState(false);
+  const [fileValid, setfileValid] = useState("");
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -129,6 +130,8 @@ export default function EditDatasetParticipant() {
       })
       .catch((e) => {
         setIsLoader(false);
+        console.log(e.response.data.sample_dataset[0]);
+        setfileValid(e.response.data.sample_dataset[0]);
         // history.push(GetErrorHandlingRoute(e));
       });
   };
@@ -211,6 +214,7 @@ export default function EditDatasetParticipant() {
   };
   const handleFileChange = (file) => {
     setFile(file);
+    setfileValid("");
     // setprofile_pic(file);
     console.log(file);
     console.log(typeof file);
@@ -391,6 +395,7 @@ export default function EditDatasetParticipant() {
               handleChangeAvailable={handleChangeAvailable}
               handleFileChange={handleFileChange}
               file={file}
+              fileValid={fileValid}
             />
 
             <Row>
@@ -432,7 +437,7 @@ export default function EditDatasetParticipant() {
               <Col xs={12} sm={12} md={6} lg={3}></Col>
               <Col xs={12} sm={12} md={6} lg={6}>
                 <Button
-                  onClick={() => history.push("/datahub/datasets")}
+                  onClick={() => history.push("/participant/datasets")}
                   variant="outlined"
                   className="cancelbtn">
                   {screenlabels.common.cancel}
