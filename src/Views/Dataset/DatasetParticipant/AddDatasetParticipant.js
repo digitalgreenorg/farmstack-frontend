@@ -100,7 +100,12 @@ export default function AddDataset(props) {
     bodyFormData.append("geography", Geography);
     bodyFormData.append("crop_detail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
-    bodyFormData.append("age_of_date", value);
+    if (Switchchecked == true) {
+      bodyFormData.append("age_of_date", "");
+    } else {
+      bodyFormData.append("age_of_date", value);
+    }
+
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", fromdate.toISOString());
     }
