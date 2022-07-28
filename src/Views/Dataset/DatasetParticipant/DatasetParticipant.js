@@ -67,11 +67,11 @@ export default function DatasetParticipant() {
     //                                     {index:3,name:"Constantly Updating",isChecked:false}])
 
     const [ageFilterDisplay, setAgeFilterDisplay] = useState([
-        { index: 0, name: "3 Months", isChecked: false },
-        { index: 1, name: "6 Months", isChecked: false },
-        { index: 2, name: "9 Months", isChecked: false },
-        { index: 3, name: "12 Months", isChecked: false },
-        { index: 4, name: "Constantly Updating", isChecked: false }])
+        { index: 0, name: "3 Months", payloadName: "3 months", isChecked: false },
+        { index: 1, name: "6 Months", payloadName: "6 months", isChecked: false },
+        { index: 2, name: "9 Months", payloadName: "9 months", isChecked: false },
+        { index: 3, name: "12 Months", payloadName: "12 months", isChecked: false },
+        { index: 4, name: "Constantly Updating", payloadName: "constantly_updating", isChecked: false }])
 
     const [statusFilter, setStatusFilter] = useState([
         { index: 0, name: screenlabels.dataset.for_review, payloadName: "for_review", isChecked: false },
@@ -162,7 +162,7 @@ export default function DatasetParticipant() {
                     tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked
                 }
                 if (tempFilterDisplay[i].isChecked) {
-                    payloadList.push(tempFilterDisplay[i].name)
+                    payloadList.push(tempFilterDisplay[i].payloadName)
                 }
             }
             setAgeFilterDisplay(tempFilterDisplay)
@@ -521,12 +521,7 @@ export default function DatasetParticipant() {
             data['approval_status__in'] = statusPayload
         }
         if (isEnabledFilter || isDisabledFilter) {
-            if (geoPayload !== "") {
-                data['is_enabled'] = isEnabledFilter
-            }
-            // if(geoPayload !== ""){
-            //   data['is_disabled'] = isDisabledFilter
-            // }
+            data['is_enabled'] = isEnabledFilter
         }
         return data
     }
