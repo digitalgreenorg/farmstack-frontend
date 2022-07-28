@@ -69,6 +69,7 @@ export default function AddDataset(props) {
   const [CheckEndDate, setCheckEndDate] = useState(false);
 
   const [file, setFile] = useState(null);
+  const [fileValid, setfileValid] = useState("");
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -135,6 +136,9 @@ export default function AddDataset(props) {
       })
       .catch((e) => {
         setIsLoader(false);
+        console.log(e);
+        console.log(e.response.data.sample_dataset[0]);
+        setfileValid(e.response.data.sample_dataset[0]);
         // history.push(GetErrorHandlingRoute(e));
       });
   };
@@ -155,6 +159,7 @@ export default function AddDataset(props) {
   const handleFileChange = (file) => {
     setFile(file);
     console.log(file);
+    setfileValid("");
   };
   const handleChangedatasetname = (e) => {
     validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
@@ -304,6 +309,7 @@ export default function AddDataset(props) {
             handleChangeAvailable={handleChangeAvailable}
             handleFileChange={handleFileChange}
             file={file}
+            fileValid={fileValid}
           />
 
           <Row>
