@@ -18,7 +18,9 @@ import UrlConstants from '../../Constants/UrlConstants'
 import labels from '../../Constants/labels';
 import { useHistory } from "react-router-dom";
 import {useState} from 'react'
+import ReactTooltip from 'react-tooltip';
 import { getUserLocal, getUserMapId, dateTimeFormat } from '../../Utils/Common'
+import { Tooltip } from '@mui/material';
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize", "font-weight": "400", "font-size": "14px" },
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px" },
@@ -27,7 +29,12 @@ const useStyles = {
     margindescription: {"margin-left": "20px","margin-right":"20px"},
     cardDataHeading: { "font-weight": "600", "font-size": "14px", color: "#3D4A52" },
     cardData: { "font-weight": 400, "font-size": "14px", color: "#3D4A52" },
-    datasetdescription: {"margin-left":"0px","margin-right":"0px","font-family": "Open Sans", "font-style": "normal", "font-weight": "400", "font-size": "14px", "line-height": "19px"}
+    datasetdescription: {"margin-left":"0px","margin-right":"0px","font-family": "Open Sans", "font-style": "normal", "font-weight": "400", "font-size": "14px", "line-height": "19px", 
+    "overflow": "hidden", "text-overflow": "ellipsis", 
+    "display": "-webkit-box",
+    "-webkit-line-clamp":"1",
+    "-webkit-box-orient": "vertical" }
+
 };
 export default function DataSetCard(props) {
     const [isshowbutton, setisshowbutton] = useState(false)
@@ -46,9 +53,11 @@ export default function DataSetCard(props) {
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left" }}
             />
             <CardContent>
+                <Tooltip title={props.description}>
                 <Row style={useStyles.datasetdescription}>
                     {props.description}
                 </Row>
+                </Tooltip>
                 <Row>
                     {props.isMemberTab ?
                         <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
@@ -68,9 +77,11 @@ export default function DataSetCard(props) {
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {props.orgName}
                     </Col> :
-                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Tooltip title={props.geography}>
+                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumngeo">
                         {props.geography}
                     </Col>
+                    </Tooltip>
                     }
                     {/* <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"> */}
                     <Col style={{"font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
@@ -101,19 +112,21 @@ export default function DataSetCard(props) {
                 </Row> */}
                 <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {screenlabels.dataset.age_of_data}
+                       {screenlabels.dataset.age_of_data} 
                     </Col>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-                        {screenlabels.dataset.crop_details}
+                       {screenlabels.dataset.crop_details}
                     </Col>
                 </Row>
                 <Row className="supportcardmargintop">
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {props.ageOfData}
                     </Col>
+                    <Tooltip title={props.cropDetail}>
                     <Col style={{"padding-right":"4px",color: "#3D4A52", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
                         {props.cropDetail}
                     </Col>
+                    </Tooltip>
                 </Row>
                 {/* <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">

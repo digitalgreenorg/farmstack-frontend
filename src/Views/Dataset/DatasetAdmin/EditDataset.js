@@ -239,7 +239,7 @@ export default function EditDataset() {
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.TEXT_REGEX)
+    validateInputField(e.target.value, RegexConstants.GEO_SET_REGEX)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };

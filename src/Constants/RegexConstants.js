@@ -10,7 +10,8 @@ const RegexConstants = {
     NO_SPACE_REGEX : /^([^\s])*$/,
 //   DATE_SET_REGEX: /^$|^[A-za-z][0-9]?(([^\s])+(\s)?)*$/,
   DATA_SET_REGEX: /^$|^[a-zA-Z][ A-Za-z0-9_&@-]*$/,
-  CROP_SET_REGEX: /^$|^[a-zA-Z][ A-Za-z0-9_-]*$/
+  CROP_SET_REGEX: /^$|^[a-zA-Z][ A-Za-z0-9_-]*$/,
+  GEO_SET_REGEX: /^$|^[a-zA-Z\s]*$/
  };
 
 export default RegexConstants
