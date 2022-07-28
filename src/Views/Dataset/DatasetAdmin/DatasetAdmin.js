@@ -823,7 +823,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Disable"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { changeStatus(false, true, 'isDisableSuccess') }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Disable dataset"}
                 imageText={"Are you sure you want to disable the dataset?"}
                 firstmsg={"This action will disable the dataset from the system."}
@@ -839,7 +839,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Enable"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { changeStatus(true, true, 'isEnableSuccess') }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Enable dataset"}
                 imageText={"Are you sure you want to enable the dataset?"}
                 firstmsg={"This action will enable the dataset from the system."}
@@ -855,7 +855,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Approve Dataset"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { changeStatus('approved', false, 'isApproveSuccess') }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Approve Dataset"}
                 imageText={"Are you sure you want to approve Dataset?"}
                 firstmsg={""}
@@ -871,7 +871,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Disapprove Dataset"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { changeStatus('rejected', false, 'isDisapproveSuccess') }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Disapprove Dataset"}
                 imageText={"Are you sure you want to disapprove Dataset?"}
                 firstmsg={""}
@@ -887,7 +887,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Delete"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { deletedataset() }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Delete dataset"}
                 imageText={"Are you sure you want to delete your dataset?"}
                 firstmsg={"This action will delete the dataset from the system."}
