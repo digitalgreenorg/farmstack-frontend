@@ -112,6 +112,7 @@ export default function DatasetParticipant() {
     const handleFilterChange = (index, filterName) => {
 
         // var tempFilterMaster = []
+        var isAnyFilterChecked = false
         var tempFilterDisplay = []
         var payloadList = []
         // var payload = {}
@@ -134,6 +135,7 @@ export default function DatasetParticipant() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].name)
+                    isAnyFilterChecked = true
                 }
             }
             setGeoFilterDisplay(tempFilterDisplay)
@@ -163,6 +165,7 @@ export default function DatasetParticipant() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].payloadName)
+                    isAnyFilterChecked = true
                 }
             }
             setAgeFilterDisplay(tempFilterDisplay)
@@ -192,6 +195,7 @@ export default function DatasetParticipant() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].name)
+                    isAnyFilterChecked = true
                 }
             }
             setCropFilterDisplay(tempFilterDisplay)
@@ -219,6 +223,7 @@ export default function DatasetParticipant() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].payloadName)
+                    isAnyFilterChecked = true
                 }
             }
             setStatusFilter(tempFilterDisplay)
@@ -226,7 +231,12 @@ export default function DatasetParticipant() {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", payloadList)
         }
 
-        getDatasetList(false)
+        if(isAnyFilterChecked){
+            getDatasetList(false)
+        } else {
+            clearAllFilters()
+        }
+        
     }
 
     const resetFilterState = (filterName) => {
