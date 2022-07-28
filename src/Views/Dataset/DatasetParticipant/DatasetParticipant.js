@@ -558,7 +558,13 @@ export default function DatasetParticipant() {
             data['crop_detail__in'] = cropPayload
         }
         if (agePayload !== "") {
-            data['age_of_date__in'] = agePayload
+            if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
+                agePayload.splice(agePayload.length-1)
+                data['constantly_update'] = true
+            }
+            if (agePayload.length>0) {
+                data['age_of_date__in'] = agePayload
+            }
         }
         if (statusPayload !== "") {
             data['approval_status__in'] = statusPayload
