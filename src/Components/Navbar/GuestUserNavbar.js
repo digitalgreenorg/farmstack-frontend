@@ -19,7 +19,7 @@ import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
 import {GetErrorHandlingRoute} from "../../Utils/Common";
 
-const ParticipantNavbar = (props) => {
+const GuestUserNavBar = (props) => {
   const [profile, setprofile] = useState(null);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const[isLoader, setIsLoader] = useState(false)
