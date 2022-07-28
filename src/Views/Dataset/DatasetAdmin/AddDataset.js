@@ -100,7 +100,12 @@ export default function AddDataset(props) {
     bodyFormData.append("geography", Geography);
     bodyFormData.append("crop_detail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
-    bodyFormData.append("age_of_date", value);
+    // bodyFormData.append("age_of_date", value);
+    if (Switchchecked == true) {
+      bodyFormData.append("age_of_date", "");
+    } else {
+      bodyFormData.append("age_of_date", value);
+    }
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", fromdate.toISOString());
     }
@@ -152,7 +157,7 @@ export default function AddDataset(props) {
     console.log(file);
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX, )
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
