@@ -17,6 +17,11 @@ const labels = {
       datasets: "Datasets",
       Settings: "Settings",
       Signout: "Sign out",
+      Signin: "Sign In",
+      helpline: "1800 1100 1200 1912",
+      legal: "Legal",
+      contact: "Contact",
+      apply_for_participant: "Apply for Participant"
     },
     addparticipants: {
       first_heading: "Add Participants organisation details",

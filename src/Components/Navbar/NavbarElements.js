@@ -14,6 +14,7 @@ padding: 0px 70px;
 z-index: 12;
 /* Third Nav */
 /* justify-content: flex-start; */
+vertical-align: middle;
 `;
 
 export const NavLink = styled(Link)`
