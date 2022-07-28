@@ -69,6 +69,7 @@ export default function AddDataset(props) {
   const [CheckEndDate, setCheckEndDate] = useState(false);
 
   const [file, setFile] = useState(null);
+  const [fileValid, setfileValid] = useState("");
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -100,7 +101,12 @@ export default function AddDataset(props) {
     bodyFormData.append("geography", Geography);
     bodyFormData.append("crop_detail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
-    bodyFormData.append("age_of_date", value);
+    // bodyFormData.append("age_of_date", value);
+    if (Switchchecked == true) {
+      bodyFormData.append("age_of_date", "");
+    } else {
+      bodyFormData.append("age_of_date", value);
+    }
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", fromdate.toISOString());
     }
@@ -130,6 +136,9 @@ export default function AddDataset(props) {
       })
       .catch((e) => {
         setIsLoader(false);
+        console.log(e);
+        console.log(e.response.data.sample_dataset[0]);
+        setfileValid(e.response.data.sample_dataset[0]);
         // history.push(GetErrorHandlingRoute(e));
       });
   };
@@ -150,9 +159,10 @@ export default function AddDataset(props) {
   const handleFileChange = (file) => {
     setFile(file);
     console.log(file);
+    setfileValid("");
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX, )
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
@@ -165,7 +175,7 @@ export default function AddDataset(props) {
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.TEXT_REGEX)
+    validateInputField(e.target.value, RegexConstants.GEO_SET_REGEX)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
@@ -299,6 +309,7 @@ export default function AddDataset(props) {
             handleChangeAvailable={handleChangeAvailable}
             handleFileChange={handleFileChange}
             file={file}
+            fileValid={fileValid}
           />
 
           <Row>

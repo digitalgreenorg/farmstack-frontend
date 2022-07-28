@@ -9,7 +9,7 @@ import {
 } from "./NavbarElements";
 import labels from "../../Constants/labels";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
 import { flushLocalstorage, getUserLocal } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
@@ -23,98 +23,71 @@ const GuestUserNavBar = (props) => {
   const [profile, setprofile] = useState(null);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const[isLoader, setIsLoader] = useState(false)
+  const[linkClicked, setLinkClicked] = useState(false)
+  
 
   let history = useHistory();
 
-  const getAccountDetails = async () => {
-    var id = getUserLocal();
-    console.log("user id", id);
-    setIsLoader(true);
-    await HTTPService(
-      "GET",
-      UrlConstant.base_url + UrlConstant.profile + id + "/",'',
-      false,
-      true
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log(
-          "get request for account settings in navbar",
-          response.data
-        );
-        console.log("picture", response.data.profile_picture);
-        setprofile(response.data.profile_picture);
-        // setphonenumber(response.data.phone_number);
-        // setfirstname(response.data.first_name);
-        // setlastname(response.data.last_name);
-        // setemail(response.data.email);
-        // setFile(response.data.profile_picture);
-      })
-      .catch((e) => {
-        setIsLoader(false);
-        console.log(e);
-        history.push(GetErrorHandlingRoute(e));
-      });
-  };
-
   useEffect(() => {
-    getAccountDetails();
+    //getAccountDetails();
   }, [profile]);
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    /*
-    localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
-    localStorage.removeItem(LocalStorageConstants.KEYS.user);
-    */
-    flushLocalstorage();
-    history.push("/login");
-  };
   return (
     <>
       {isLoader ? <Loader />: ''}
       <Nav id="datahubnavbar">
         {/* <Bars /> */}
-        <img
-          src={require("../../Assets/Img/farmstack.jpg")}
-          alt="new"
-          style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
+        <img className="image"
+          src={require("../../Assets/Img/call_icon.png")}
+          alt="call"
+          style={{ width: "52px", height: "52px", "margin-left": "180px", "margin-top": "9px"}}
         />
+        <span className="navtext fontweight400andfontsize16pxandcolor3D4A52">Call: 
+          <Link style={{color: 'black'}} to={{pathname: 'tel: ' + screenlabels.navbar.helpline}}>{screenlabels.navbar.helpline}</Link> -to register your grievance</span>
         <NavMenu>
-        <NavLink to="/participant/datasets" activeStyle>
+          <span className={"navlink " + (props.isLegalClicked ? " active" : "")} to={'#'} 
+                onClick={()=>{props.setLegalClicked(true);props.setContactClicked(false); setLinkClicked(true)}}>
             <img
               className="boldimage"
-              src={require("../../Assets/Img/dataset_bold.svg")}
+              src={require("../../Assets/Img/legal_bold.svg")}
               alt="new"
             />
             <img
               className="nonboldimage"
-              src={require("../../Assets/Img/datasets.svg")}
+              src={require("../../Assets/Img/legal.svg")}
               alt="new"
             />
-            &nbsp;&nbsp;{screenlabels.navbar.datasets}
-          </NavLink>
+            &nbsp;&nbsp;{screenlabels.navbar.legal}
+          </span>
+          <span className={"navlink " + (props.isContactClicked ? " active" : "")} 
+                onClick={()=>{props.setLegalClicked(false);props.setContactClicked(true);setLinkClicked(true)}}>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/contact_bold.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/contact.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.contact}
+          </span>
         </NavMenu>
-        {profile ? (
-          <NavBtn onClick={handleLogout}>
-            <Button
-              variant="outlined"
-              className="signoutbtn-navbar"
-              startIcon={<Avatar src={profile} />}>
-              {screenlabels.navbar.Signout}
-            </Button>
-          </NavBtn>
-        ) : (
-          <NavBtn onClick={handleLogout}>
-            <NavBtnLink to="/signin">
-              <img src={require("../../Assets/Img/account.svg")} alt="new" />
-              &nbsp;&nbsp;{screenlabels.navbar.Signout}
-            </NavBtnLink>
-          </NavBtn>
-        )}
+        <NavBtn>
+          <NavBtnLink to="/signin">
+            &nbsp;&nbsp;{screenlabels.navbar.apply_for_participant}
+          </NavBtnLink>
+        </NavBtn>
+        <NavBtn>
+          <NavBtnLink to="/login">
+            <img src={require("../../Assets/Img/account.svg")} alt="new" />
+            &nbsp;&nbsp;{screenlabels.navbar.Signin}
+          </NavBtnLink>
+        </NavBtn>
       </Nav>
     </>
   );
 };
 
-export default ParticipantNavbar;
+export default GuestUserNavBar;
