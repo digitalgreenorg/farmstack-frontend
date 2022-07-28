@@ -484,6 +484,7 @@ export default function DataSetForm(props) {
           {props.file != null && props.file.size > 2097152
             ? "File uploaded is more than 2MB!"
             : ""}
+            {props.fileValid}
         </p>
       </Row>
     </Container>

@@ -4,7 +4,8 @@ import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
 
 import $ from "jquery";
-import {GetErrorHandlingRoute,
+import {
+  GetErrorHandlingRoute,
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
@@ -54,6 +55,7 @@ export default function EditDataset() {
 
   const [file, setFile] = useState(null);
   const [filesize, setfilesize] = useState(false);
+  const [fileValid, setfileValid] = useState("");
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -129,7 +131,9 @@ export default function EditDataset() {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        console.log(e.response.data.sample_dataset[0]);
+        setfileValid(e.response.data.sample_dataset[0]);
+        // history.push(GetErrorHandlingRoute(e));
       });
   };
   //   get dataset
@@ -211,6 +215,7 @@ export default function EditDataset() {
   };
   const handleFileChange = (file) => {
     setFile(file);
+    setfileValid("");
     // setprofile_pic(file);
     console.log(file);
     console.log(typeof file);
@@ -367,6 +372,7 @@ export default function EditDataset() {
             handleChangeAvailable={handleChangeAvailable}
             handleFileChange={handleFileChange}
             file={file}
+            fileValid={fileValid}
           />
 
           <Row>
