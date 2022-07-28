@@ -197,13 +197,13 @@ export default function ViewDataSet(props) {
             </Row>
             <Row className="supportViewDeatilsSecondRow"></Row></>:<></>}
             <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                <span className="mainheading" >{"Sample Data Table"}</span><span style={{ "margin-left": "67%" }} onClick={() => props.downloadAttachment(props.rowdata.sample_dataset)}>
+                <span className="mainheading" >{"Sample Data Table"}</span><span style={{ "margin-left": "67%","cursor":"pointer" }} onClick={() => props.downloadAttachment(props.rowdata.sample_dataset)}>
                     <img
                         src={require('../../Assets/Img/download.svg')}
                         alt="new"
                     />
                 </span>
-                <span className="supportViewDetailsback" style={{ "margin-top": "4px" }} onClick={() => props.downloadAttachment(props.rowdata.sample_dataset)}>{"Download sample data"}</span>
+                <span className="supportViewDetailsback" style={{ "margin-top": "4px","cursor":"pointer" }} onClick={() => props.downloadAttachment(props.rowdata.sample_dataset)}>{"Download sample data"}</span>
             </Row>
             <Row style={{
                 border: "1px solid #DFDFDF",
