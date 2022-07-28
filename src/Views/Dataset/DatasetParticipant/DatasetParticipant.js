@@ -800,7 +800,7 @@ export default function DatasetParticipant() {
                 firstbtntext={"Delete"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { deletedataset() }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Delete dataset"}
                 imageText={"Are you sure you want to delete your dataset?"}
                 firstmsg={"This action will delete the dataset from the system."}
