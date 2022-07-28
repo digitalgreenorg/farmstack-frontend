@@ -18,6 +18,7 @@ export default function AddDataSetParticipant() {
         successmsg={"Your dataset added successfully!"}
         successimageText={"Success!"}
         successheading={"Thank you for adding your dataset!"}
+        cancelBtbnName={true}
       />
     </>
   );
