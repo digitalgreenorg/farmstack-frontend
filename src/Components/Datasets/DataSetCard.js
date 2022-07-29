@@ -27,7 +27,7 @@ const useStyles = {
     togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "1px solid #ebd79c", cursor: "pointer", height: "355px", width: "346px", "margin-left": "20px" },
     marginrowtop: { "margin-top": "20px" },
     margindescription: {"margin-left": "20px","margin-right":"20px"},
-    cardDataHeading: { "font-weight": "600", "font-size": "14px", color: "#3D4A52" },
+    cardDataHeading: { "font-weight": "600", "font-size": "14px", color: "#3D4A52"},
     cardData: { "font-weight": 400, "font-size": "14px", color: "#3D4A52" },
     datasetdescription: {"margin-left":"0px","margin-right":"0px","font-family": "Open Sans", "font-style": "normal", "font-weight": "400", "font-size": "14px", "line-height": "19px", 
     "overflow": "hidden", "text-overflow": "ellipsis", 
@@ -43,15 +43,19 @@ export default function DataSetCard(props) {
     return (
 
         <Card className={props.margingtop} style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
+            <Tooltip title={props.title}>
             <CardHeader
                 avatar={
                     props.orgLogo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.orgLogo} sx={{ width: 54, height: 54 }} /> :
                         <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.orgName.charAt(0)}</Avatar>
                 }
                 // title={props.data.subject}
+                // tooltip={<Tooltip title={props.title}>{props.title}</Tooltip>}
                 title={props.title}
-                style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left", "word-break": "break-word"}}
+                style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left", "overflow": "hidden", "text-overflow": "ellipsis"}}
+                
             />
+            </Tooltip>
             <CardContent>
                 <Tooltip title={props.description}>
                 <Row style={useStyles.datasetdescription}>
