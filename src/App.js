@@ -31,7 +31,7 @@ function App() {
           <Route exact path="/login/policies" component={Policies} />
           <Route  path="/login/profile" component={ProfileScreen} /> */}
           <Route path="/datahub" component={Datahub} />
-          <Route path="/Participant" component={Participant} />
+          <Route path="/participant" component={Participant} />
           <Route path="/login" component={Login} />
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error" component={Error} />
