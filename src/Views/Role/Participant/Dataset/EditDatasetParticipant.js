@@ -415,7 +415,8 @@ export default function EditDatasetParticipant() {
                   Land_records == true ||
                   Cultivation_data == true ||
                   Soil_data == true ||
-                  Weather_data == true) ? (
+                  Weather_data == true ||
+                  Research_data) ? (
                   <Button
                     //   onClick={() => addNewParticipants()}
                     variant="contained"
