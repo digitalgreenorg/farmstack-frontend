@@ -297,7 +297,18 @@ export default function Login(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        if (e.response != null && e.response != undefined && e.response.status === 401) {
+          setOtpError(true);
+          setuserSuspenderror(false);
+          setErrormessage((e.response.data && e.response.data.message) ? e.response.data.message : 'User not registered')
+        } else if ( e.response != null && e.response != undefined && e.response.status === 403) {
+          setuserSuspenderror(true);
+          setOtpError(false);
+          setErrormessage((e.response.data && e.response.data.message)? e.response.data.message : 'User suspended. Please try after sometime.')
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e));
+        }
       });
   };
 
