@@ -95,7 +95,12 @@ export default function EditDataset() {
       })
     );
     bodyFormData.append("geography", Geography);
-    bodyFormData.append("crop_detail", cropdetail);
+    if (cropdetail == null) {
+      bodyFormData.append("crop_detail", "");
+    } else {
+      bodyFormData.append("crop_detail", cropdetail);
+    }
+    // bodyFormData.append("crop_detail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
     // bodyFormData.append("age_of_date", value);
     if (Switchchecked == true) {
@@ -103,11 +108,11 @@ export default function EditDataset() {
     } else {
       bodyFormData.append("age_of_date", value);
     }
-    if (value != null) {
-      bodyFormData.append("age_of_date", value);
-    } else {
-      bodyFormData.append("age_of_date", "");
-    }
+    // if (value != null) {
+    //   bodyFormData.append("age_of_date", value);
+    // } else {
+    //   bodyFormData.append("age_of_date", "");
+    // }
 
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", datefrom.toISOString());
@@ -176,8 +181,12 @@ export default function EditDataset() {
         setdatasetname(response.data.name);
         setreply(response.data.description);
         setGeography(response.data.geography);
-        setCropdetail(response.data.crop_detail);
+        // setCropdetail(response.data.crop_detail);
         setSwitchchecked(response.data.constantly_update);
+        console.log("testing", response.data.category.crop_detail !== "null");
+        if (response.data.category.crop_detail == "null") {
+          setCropdetail(response.data.crop_detail);
+        }
         setCrop_data(response.data.category.crop_data);
         setPractice_data(response.data.category.practice_data);
         setFarmer_profile(response.data.category.farmer_profile);
@@ -296,6 +305,7 @@ export default function EditDataset() {
   const handleChangeSwitch = (event) => {
     console.log(event.target.checked);
     setSwitchchecked(event.target.checked);
+    setValue(null);
   };
 
   //   checkbox

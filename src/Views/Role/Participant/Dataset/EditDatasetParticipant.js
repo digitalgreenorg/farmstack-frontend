@@ -102,11 +102,11 @@ export default function EditDatasetParticipant() {
     } else {
       bodyFormData.append("age_of_date", value);
     }
-    if (value != null) {
-      bodyFormData.append("age_of_date", value);
-    } else {
-      bodyFormData.append("age_of_date", "");
-    }
+    // if (value != null) {
+    //   bodyFormData.append("age_of_date", value);
+    // } else {
+    //   bodyFormData.append("age_of_date", "");
+    // }
 
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", datefrom.toISOString());
@@ -175,8 +175,12 @@ export default function EditDatasetParticipant() {
         setdatasetname(response.data.name);
         setreply(response.data.description);
         setGeography(response.data.geography);
-        setCropdetail(response.data.crop_detail);
+
         setSwitchchecked(response.data.constantly_update);
+        console.log("testing", response.data.category.crop_detail !== "null");
+        if (response.data.category.crop_detail == "null") {
+          setCropdetail(response.data.crop_detail);
+        }
         setCrop_data(response.data.category.crop_data);
         setPractice_data(response.data.category.practice_data);
         setFarmer_profile(response.data.category.farmer_profile);
@@ -293,6 +297,10 @@ export default function EditDatasetParticipant() {
   const handleChangeSwitch = (event) => {
     console.log(event.target.checked);
     setSwitchchecked(event.target.checked);
+    setValue(null);
+    // if (event.target.checked == true) {
+    //   setValue(null);
+    // }
   };
 
   //   checkbox

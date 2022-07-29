@@ -99,7 +99,11 @@ export default function AddDataset(props) {
       })
     );
     bodyFormData.append("geography", Geography);
-    bodyFormData.append("crop_detail", cropdetail);
+    if (cropdetail == null) {
+      bodyFormData.append("crop_detail", "");
+    } else {
+      bodyFormData.append("crop_detail", cropdetail);
+    }
     bodyFormData.append("constantly_update", Switchchecked);
     // bodyFormData.append("age_of_date", value);
     if (Switchchecked == true) {
