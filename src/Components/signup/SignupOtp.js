@@ -24,14 +24,7 @@ export default function SignupOtp(props) {
           onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
           inputRef={props.otp}
           error={props.isOtperror || props.isuserSuspenderror}
-          helperText={
-            // props.isuserSuspenderror ? "user invaliad" : ""
-            props.isOtperror
-              ? 'Enter vaild OTP'
-              : props.isuserSuspenderror
-              ? 'Maximum attempts taken, please retry after some time'
-              : ''
-          }
+          helperText={(props.isOtperror || props.isuserSuspenderror) ? props.errormessage : ""}
         />
         <div>
           {props.button ? (
