@@ -48,6 +48,7 @@ export default function Login(props) {
   const [userSuspenderror, setuserSuspenderror] = useState(false);
   const [restartcounter, Setrestartcounter] = useState(0);
   const [disable, setDisable] = useState(true);
+  const [errormessage, setErrormessage] = useState('')
 
   const [validemail, Setvalidemail] = useState("");
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -103,16 +104,7 @@ export default function Login(props) {
       };
 
       setIsLoader(true);
-      // await fetch(url, {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     email: finalEmail,
-      //   }),
-      // }).then((response) => {
+
       HTTPService("POST", url, data, false, false)
         .then((response) => {
           setIsLoader(false);
@@ -126,21 +118,25 @@ export default function Login(props) {
             setUserId(response.data.id);
             setEmail(false);
             setError(false);
+            setuserSuspenderror(false)
             setisOtp(true);
           } else {
             setError(true);
+            setuserSuspenderror(false)
           }
         })
         .catch((e) => {
           setIsLoader(false);
           console.log(e);
-          if (
-            e.response != null &&
-            e.response != undefined &&
-            e.response.status === 400
-          ) {
+          if (e.response != null && e.response != undefined && e.response.status === 401) {
             setuserSuspenderror(false);
             setError(true);
+            setErrormessage((e.response.data && e.response.data.message)?e.response.data.message : 'User not registered')
+          } 
+          else if (e.response != null && e.response != undefined && e.response.status === 403) {
+            setuserSuspenderror(true);
+            setError(false);
+            setErrormessage((e.response.data && e.response.data.message)?e.response.data.message : 'User suspended. Please try after sometime.')
           } else {
             history.push(GetErrorHandlingRoute(e));
           }
@@ -168,18 +164,6 @@ export default function Login(props) {
     if (!valid.match(numbers)) {
       setOtpError(true);
     } else {
-      // await fetch("https://d202-106-51-85-143.in.ngrok.io/accounts/otp/", {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     email: validemail,
-      //     otp: valid,
-      //   }),
-      // })
-      //   .then((response) => {
       setIsLoader(true);
       await HTTPService(
         "POST",
@@ -243,24 +227,16 @@ export default function Login(props) {
           setIsLoader(false);
           //console.log(e.response.status)
           setOtpError(true);
-          if (
-            e.response != null &&
-            e.response != undefined &&
-            e.response.status === 403
-          ) {
+          if (e.response != null && e.response != undefined && e.response.status === 401) {
+            setOtpError(true);
+            setuserSuspenderror(false);
+            setErrormessage((e.response.data && e.response.data.message) ? e.response.data.message : 'Enter valid OTP')
+          } else if ( e.response != null && e.response != undefined && e.response.status === 403) {
             setuserSuspenderror(true);
             setOtpError(false);
+            setErrormessage((e.response.data && e.response.data.message)? e.response.data.message : 'Maximum attempts taken. Please try after sometime.')
           }
-          if (
-            e.response != null &&
-            e.response != undefined &&
-            e.response.status === 401
-          ) {
-            setOtpError(true);
-          }
-          if (e.response.status === 401) {
-            setOtpError(true);
-          } else {
+          else {
             history.push(GetErrorHandlingRoute(e));
           }
         });
@@ -768,6 +744,8 @@ export default function Login(props) {
               iserror={iserror}
               email={email}
               button={button}
+              errormessage = {errormessage}
+              isuserSuspenderror = {userSuspenderror}
             />
           )}
           {isOtp && (
@@ -786,6 +764,7 @@ export default function Login(props) {
               setDisable={setDisable}
               remainingCounterTime = {remainingCounterTime}
               setRemainingCounterTime = {setRemainingCounterTime}
+              errormessage = {errormessage}
             />
           )}
           {isProfile && isLoggedInUserAdmin() && (
