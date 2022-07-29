@@ -21,7 +21,7 @@ const labels = {
       helpline: "1800 1100 1200 1912",
       legal: "Legal",
       contact: "Contact",
-      apply_for_participant: "Apply for Participant"
+      apply_for_participant: "Apply for Participant",
     },
     addparticipants: {
       first_heading: "Add Participants organisation details",
@@ -129,7 +129,8 @@ const labels = {
     error: {
       heading: "Oops!",
       secondmainheading: "Someting went wrong!",
-      thirdmainheading: "Please try again later or contact to support@farmstack.co",
+      thirdmainheading:
+        "Please try again later or contact to support@farmstack.co",
     },
     dataset: {
       name: "Dataset Name",
@@ -158,7 +159,7 @@ const labels = {
       Availablity: "Connector Availablity",
       Available: "Available",
       Not_Available: "Not Available",
-      Upload_dataset: " Upload Sample Datasets*",
+      Upload_dataset: " Upload Sample Datasets *",
 
       filter: "Filter",
       geography: "Geography",
