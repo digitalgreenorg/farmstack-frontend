@@ -182,6 +182,8 @@ export default function DataSetFilter(props) {
             label={screenlabels.dataset.search}
             value={props.geoSearchState}
             onChange={(e) => props.handleGeoSearch(e)}
+            error={!props.isGeoSearchFound}
+            helperText={!props.isGeoSearchFound ? "Not Found" : ""}
           />
       </Row>
       {/* <Row> */}
@@ -246,6 +248,8 @@ export default function DataSetFilter(props) {
             label={screenlabels.dataset.search}
             value={props.cropSearchState}
             onChange={(e) => props.handleCropSearch(e)}
+            error={!props.isCropSearchFound}
+            helperText={!props.isCropSearchFound ? "Not Found" : ""}
           />
       </Row>
       {/* <Row> */}

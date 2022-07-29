@@ -82,6 +82,9 @@ export default function DatasetAdmin() {
         { index: 0, name: screenlabels.dataset.enabled, payloadName: "is_enabled", isChecked: false },
         { index: 1, name: screenlabels.dataset.disbaled, payloadName: "is_enabled", isChecked: false }])
 
+    const [isGeoSearchFound, setIsGeoSearchFound] = useState(true)
+    const [isCropSearchFound, setIsCropSearchFound] = useState(true)
+
     const [screenView, setscreenView] = useState(
         {
             "isDataSetFilter": true,
@@ -358,36 +361,44 @@ export default function DatasetAdmin() {
     // }
 
     const handleGeoSearch = (e) => {
+        var searchFound = false
         const searchText = e.target.value
         setGeoSearchState(searchText)
         var tempList = [...geoFilterDisplay]
         for (let i = 0; i < tempList.length; i++) {
             if (searchText == "") {
                 tempList[i].isDisplayed = true
+                searchFound = true
             } else {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
+                } else{
+                    searchFound = true
                 }
             }
         }
-
+        setIsGeoSearchFound(searchFound)
         setGeoFilterDisplay(tempList)
     }
 
     const handleCropSearch = (e) => {
+        var searchFound = false
         const searchText = e.target.value
         setCropSearchState(searchText)
         var tempList = [...cropFilterDisplay]
         for (let i = 0; i < tempList.length; i++) {
             if (searchText == "") {
                 tempList[i].isDisplayed = true
+                searchFound = true
             } else {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
+                } else{
+                    searchFound = true
                 }
             }
         }
-
+        setIsCropSearchFound(searchFound)
         setCropFilterDisplay(tempList)
     }
 
@@ -944,7 +955,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDeleSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false);getFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
             }
             {screenView.isDataSetFilter ? <Row className="supportfirstmaindiv">
                 {/* <Row className="secondmainheading width100percent">{screenlabels.support.heading}</Row> */}
@@ -987,6 +998,8 @@ export default function DatasetAdmin() {
                                 // resetEnabledStatusFilter={resetEnabledStatusFilter}
                                 // resetUrls={resetUrls}
                                 enableStatusFilter={enableStatusFilter}
+                                isGeoSearchFound={isGeoSearchFound}
+                                isCropSearchFound={isCropSearchFound}
                             />
                         </Col>
                         <Col className="supportSecondCOlumn">
