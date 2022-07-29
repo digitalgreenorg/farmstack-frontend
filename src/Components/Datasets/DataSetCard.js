@@ -50,7 +50,7 @@ export default function DataSetCard(props) {
                 }
                 // title={props.data.subject}
                 title={props.title}
-                style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left" }}
+                style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left", "word-break": "break-word"}}
             />
             <CardContent>
                 <Tooltip title={props.description}>
