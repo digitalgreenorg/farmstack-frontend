@@ -48,7 +48,7 @@ export default function DataSetForm(props) {
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
             className="description"
-            label="Reply *"
+            label={screenlabels.dataset.description}
             multiline
             rows={4}
             variant="filled"
