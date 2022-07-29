@@ -103,11 +103,11 @@ export default function EditDataset() {
     } else {
       bodyFormData.append("age_of_date", value);
     }
-    if (value != null) {
-      bodyFormData.append("age_of_date", value);
-    } else {
-      bodyFormData.append("age_of_date", "");
-    }
+    // if (value != null) {
+    //   bodyFormData.append("age_of_date", value);
+    // } else {
+    //   bodyFormData.append("age_of_date", "");
+    // }
 
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", datefrom.toISOString());
@@ -294,6 +294,7 @@ export default function EditDataset() {
   const handleChangeSwitch = (event) => {
     console.log(event.target.checked);
     setSwitchchecked(event.target.checked);
+    setValue(null);
   };
 
   //   checkbox
