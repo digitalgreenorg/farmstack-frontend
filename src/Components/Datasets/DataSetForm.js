@@ -456,12 +456,12 @@ export default function DataSetForm(props) {
             value={props.availablevalue}
             onChange={props.handleChangeAvailable}>
             <FormControlLabel
-              value="available"
+              value="Available"
               control={<Radio />}
               label={screenlabels.dataset.Available}
             />
             <FormControlLabel
-              value="not_available"
+              value="Not Available"
               control={<Radio />}
               label="Not Available"
               className="notavaiable"
