@@ -45,8 +45,20 @@ export default function DataSetForm(props) {
             label={screenlabels.dataset.name}
           />
         </Col>
-        <Col xs={12} sm={12} md={6} lg={6} className="resolution">
-          <TextareaAutosize
+        <Col xs={12} sm={12} md={6} lg={6}>
+          <TextField
+            className="description"
+            label={screenlabels.dataset.description}
+            multiline
+            rows={4}
+            variant="filled"
+            value={props.reply}
+            maxLength={500}
+            onKeyDown={props.handledescriptionKeydown}
+            onChange={props.handleChangedescription}
+          />
+
+          {/* <TextareaAutosize
             className="description"
             maxRows={4}
             placeholder={screenlabels.dataset.description}
@@ -58,11 +70,10 @@ export default function DataSetForm(props) {
             onChange={props.handleChangedescription}
             style={{
               border: "none !important",
-              /*width: "420px",*/
               "min-height": "50px",
               "border-bottom": "1px solid #9AA1A9 !important",
             }}
-          />
+          /> */}
         </Col>
       </Row>
       <Row>
@@ -339,7 +350,12 @@ export default function DataSetForm(props) {
         </Row>
       ) : (
         <Row>
-          <Col xs={12} sm={12} md={6} lg={6} className="FromDate addDatasetFromdate">
+          <Col
+            xs={12}
+            sm={12}
+            md={6}
+            lg={6}
+            className="FromDate addDatasetFromdate">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 inputFormat="dd/MM/yyyy"
@@ -358,7 +374,12 @@ export default function DataSetForm(props) {
               />
             </LocalizationProvider>
           </Col>
-          <Col xs={12} sm={12} md={6} lg={6} className="toDate addDatasetTodate">
+          <Col
+            xs={12}
+            sm={12}
+            md={6}
+            lg={6}
+            className="toDate addDatasetTodate">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 inputFormat="dd/MM/yyyy"
@@ -484,7 +505,7 @@ export default function DataSetForm(props) {
           {props.file != null && props.file.size > 2097152
             ? "File uploaded is more than 2MB!"
             : ""}
-            {props.fileValid}
+          {props.fileValid}
         </p>
       </Row>
     </Container>

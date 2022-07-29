@@ -81,6 +81,9 @@ export default function DatasetParticipant() {
     const [enableStatusFilter, setEnableStatusFilter] = useState([
         { index: 0, name: screenlabels.dataset.enabled, payloadName: "is_enabled", isChecked: false },
         { index: 1, name: screenlabels.dataset.disbaled, payloadName: "is_enabled", isChecked: false }])
+
+    const [isGeoSearchFound, setIsGeoSearchFound] = useState(true)
+    const [isCropSearchFound, setIsCropSearchFound] = useState(true)
     
     const [screenView, setscreenView] = useState(
         {
@@ -359,36 +362,45 @@ export default function DatasetParticipant() {
     // }
 
     const handleGeoSearch = (e) => {
+        var searchFound = false
         const searchText = e.target.value
         setGeoSearchState(searchText)
         var tempList = [...geoFilterDisplay]
         for (let i = 0; i < tempList.length; i++) {
             if (searchText == "") {
                 tempList[i].isDisplayed = true
+                searchFound = true
             } else {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
+                } else{
+                    searchFound = true
                 }
             }
         }
-
+        setIsGeoSearchFound(searchFound)
         setGeoFilterDisplay(tempList)
     }
 
     const handleCropSearch = (e) => {
+        var searchFound = false
         const searchText = e.target.value
         setCropSearchState(searchText)
         var tempList = [...cropFilterDisplay]
         for (let i = 0; i < tempList.length; i++) {
             if (searchText == "") {
                 tempList[i].isDisplayed = true
+                searchFound = true
             } else {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
+                } else {
+                    searchFound = true
                 }
             }
         }
 
+        setIsCropSearchFound(searchFound)
         setCropFilterDisplay(tempList)
     }
 
@@ -558,7 +570,13 @@ export default function DatasetParticipant() {
             data['crop_detail__in'] = cropPayload
         }
         if (agePayload !== "") {
-            data['age_of_date__in'] = agePayload
+            if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
+                agePayload.splice(agePayload.length-1)
+                data['constantly_update'] = true
+            }
+            if (agePayload.length>0) {
+                data['age_of_date__in'] = agePayload
+            }
         }
         if (statusPayload !== "") {
             data['approval_status__in'] = statusPayload
@@ -850,7 +868,7 @@ export default function DatasetParticipant() {
             </Delete>
                 : <></>}
             {screenView.isDeleSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false);getFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
             }
             {screenView.isDataSetFilter ? <Row className="supportfirstmaindiv">
                 {/* <Row className="secondmainheading width100percent">{screenlabels.support.heading}</Row> */}
@@ -893,6 +911,8 @@ export default function DatasetParticipant() {
                                 // resetEnabledStatusFilter={resetEnabledStatusFilter}
                                 // resetUrls={resetUrls}
                                 enableStatusFilter={enableStatusFilter}
+                                isGeoSearchFound={isGeoSearchFound}
+                                isCropSearchFound={isCropSearchFound}
                             />
                         </Col>
                         <Col className="supportSecondCOlumn">
