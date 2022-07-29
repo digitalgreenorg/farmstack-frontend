@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./otpcounter.css";
 import Countdown from "react-countdown";
 
 export default function OtpCountDownTimer(props) {
+
   // Random component
   const Completionist = () => <span>0:00</span>;
   // Renderer callback with condition
@@ -26,11 +27,13 @@ export default function OtpCountDownTimer(props) {
     <>
       <div className="counter">
         <Countdown
-          date={Date.now() + 120000}
+          date={Date.now() + props.remainingCounterTime}
           renderer={renderer}
           key={props.restartcounter}
-          precision={3}
+          precision={1}
           onComplete={() => props.setDisable(false) && <Completionist />}
+          onTick = {()=>{props.setRemainingCounterTime(props.remainingCounterTime - 1000)}}
+          controlled = {false}
         />
       </div>
       <button

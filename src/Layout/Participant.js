@@ -13,7 +13,7 @@ import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetP
 import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
 import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
 
-function Datahub(props) {
+function Participant(props) {
   return (
     <>
       {(getTokenLocal() && isLoggedInUserParticipant())? (
@@ -40,4 +40,4 @@ function Datahub(props) {
     </>
   );
 }
-export default Datahub;
+export default Participant;

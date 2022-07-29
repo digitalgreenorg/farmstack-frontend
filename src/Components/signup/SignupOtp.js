@@ -48,6 +48,8 @@ export default function SignupOtp(props) {
             restartcounter={props.restartcounter}
             disable={props.disable}
             setDisable={props.setDisable}
+            remainingCounterTime={props.remainingCounterTime}
+            setRemainingCounterTime = {props.setRemainingCounterTime}
           />
         </div>
       </form>
