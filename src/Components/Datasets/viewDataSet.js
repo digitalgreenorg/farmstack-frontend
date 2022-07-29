@@ -42,10 +42,10 @@ export default function ViewDataSet(props) {
                 </Col>
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
-                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
+                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px", "word-break": "break-word" }}>
                     <span className="thirdmainheading">{props.rowdata.name}</span>
                 </Col>
-                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
+                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px", "word-break": "break-word"}}>
                     <span className="thirdmainheading">{props.rowdata.description}</span>
                 </Col>
                 <Col>
