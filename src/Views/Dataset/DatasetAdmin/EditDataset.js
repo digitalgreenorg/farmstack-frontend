@@ -91,12 +91,24 @@ export default function EditDataset() {
         cultivation_data: Cultivation_data,
         soil_data: Soil_data,
         weather_data: Weather_data,
+        research_data: Research_data,
       })
     );
     bodyFormData.append("geography", Geography);
     bodyFormData.append("crop_detail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
-    bodyFormData.append("age_of_date", value);
+    // bodyFormData.append("age_of_date", value);
+    if (Switchchecked == true) {
+      bodyFormData.append("age_of_date", "");
+    } else {
+      bodyFormData.append("age_of_date", value);
+    }
+    if (value != null) {
+      bodyFormData.append("age_of_date", value);
+    } else {
+      bodyFormData.append("age_of_date", "");
+    }
+
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", datefrom.toISOString());
     }
@@ -110,9 +122,18 @@ export default function EditDataset() {
     // if (file != null && typeof file != "string") {
     //   bodyFormData.append("sample_dataset", file);
     // }
+    if (availablevalue != null) {
+      bodyFormData.append("connector_availability", availablevalue);
+    } else {
+      bodyFormData.append("connector_availability", "");
+    }
+    if (recordsvalue != null) {
+      bodyFormData.append("dataset_size", recordsvalue);
+    } else {
+      bodyFormData.append("dataset_size", "");
+    }
 
-    bodyFormData.append("connector_availability", availablevalue);
-    bodyFormData.append("dataset_size", recordsvalue);
+    // bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", userid);
 
     console.log("edit dataset", bodyFormData);
