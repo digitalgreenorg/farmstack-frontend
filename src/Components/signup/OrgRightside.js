@@ -460,7 +460,7 @@ export default function OrgRightside(props) {
                 props.isOrgmailerror
                   ? 'Enter Valid Email id'
                   : props.isExistingOrgEmail
-                  ? 'Organization already registered'
+                  ? 'User is already Mapped'
                   : ''
               }
               inputRef={orgMailRef}
