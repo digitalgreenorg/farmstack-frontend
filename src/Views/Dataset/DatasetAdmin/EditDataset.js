@@ -262,7 +262,9 @@ export default function EditDataset() {
   };
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    setreply(e.target.value);
+    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+    ? setreply(e.target.value)
+    :  e.preventDefault();
   };
   const handledescriptionKeydown = (e) => {
     handleUnwantedSpace(reply, e);

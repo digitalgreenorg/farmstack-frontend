@@ -75,9 +75,9 @@ export default function ViewDataSet(props) {
             <Row style={{"margin-left": "79px","margin-top": "5px", "text-align": "left" }}>
                 <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
                     <span className="thirdmainheading"
-                    style={{ "max-width": "50%", "height": "37px", "line-height":"19px"}}>{props.rowdata.geography}</span>
+                    style={{ "max-width": "50%", "height": "37px", "line-height":"19px", "word-break": "break-word"}}>{props.rowdata.geography}</span>
                 </Col>
-                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px"}}>
+                <Col style={{ "width": "30px", "height": "37px", "line-height":"19px", "word-break": "break-word"}}>
                     <span className="thirdmainheading">{props.rowdata.crop_detail?props.rowdata.crop_detail:'N/A'}</span>
                 </Col>
                 <Col>

@@ -581,11 +581,13 @@ export default function Login(props) {
             setOrgIdState(response.data.org_id);
 
             if (isLoggedInUserParticipant()) {
-              setOnBoardedTrue();
-              setTokenLocal(isaccesstoken);
               if (getUserMapId()) {
                 setIsDataSet(true);
                 setisOrg(false);
+              }
+              else{
+                setOnBoardedTrue();
+                setTokenLocal(isaccesstoken);
               }
             }
             // setEmail(false);
@@ -718,13 +720,13 @@ export default function Login(props) {
       setisOrg(false);
     }
     if (isLoggedInUserParticipant()) {
-      setOnBoardedTrue();
-      setTokenLocal(isaccesstoken);
       if (getUserMapId()) {
         setIsDataSet(true);
         setisOrg(false);
       }
       else{
+        setOnBoardedTrue();
+        setTokenLocal(isaccesstoken);
         props.history.push('/participant/datasets')
       }
       //props.history.push('/loginadddatasetparticipant');
@@ -738,8 +740,8 @@ export default function Login(props) {
       {isDataSet && isLoggedInUserParticipant() ? (
         <AddDatasetParticipant
           isaccesstoken={isaccesstoken}
-          okAction={() => history.push("/participant/datasets")}
-          cancelAction={() => history.push("/participant/datasets")}
+          okAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
+          cancelAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
         />
       ) : (
         <>

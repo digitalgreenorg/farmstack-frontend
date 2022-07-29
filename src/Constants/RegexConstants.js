@@ -11,7 +11,7 @@ const RegexConstants = {
 //   DATE_SET_REGEX: /^$|^[A-za-z][0-9]?(([^\s])+(\s)?)*$/,
   DATA_SET_REGEX: /^$|^[a-zA-Z][A-Za-z0-9_&@-]?(([^\s])+(\s)?)*$/,
   CROP_SET_REGEX: /^$|^[a-zA-Z][ A-Za-z0-9_-]*$/,
-  GEO_SET_REGEX: /^$|^[a-zA-Z\s]*$/,
+  GEO_SET_REGEX: /^$|^[a-zA-Z\s]?(([^\s])+(\s)?)*$/,
   DES_SET_REGEX: /^$|^[a-zA-Z][A-Za-z0-9]?(([^\s])+(\s)?)*$/
  };
 
