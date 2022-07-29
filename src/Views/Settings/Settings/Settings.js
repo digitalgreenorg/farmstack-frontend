@@ -137,7 +137,7 @@ function Settings(props) {
   return (
     <div style={useStyles.background}>
       {isLoader ? <Loader />: ''}
-      <Container style={useStyles.marginrowtopscreen10px}>
+      {/* <Container style={useStyles.marginrowtopscreen10px}> */}
         {isDelete ? (
           <Delete
             route={"login"}
@@ -359,7 +359,7 @@ function Settings(props) {
         ) : (
           <></>
         )}
-      </Container>
+      {/* </Container> */}
     </div>
   );
 }
