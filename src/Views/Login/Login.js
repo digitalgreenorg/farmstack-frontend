@@ -72,11 +72,17 @@ export default function Login(props) {
 
   const [profileid, setprofileid] = useState("");
 
+  const timerDuration = 120000
+  const[remainingCounterTime, setRemainingCounterTime] = useState(timerDuration)
+
   const history = useHistory();
 
   useEffect(() => {
-    if (getTokenLocal()) {
+    if (getTokenLocal() && isLoggedInUserAdmin()) {
       props.history.push("/datahub/participants");
+    }
+    if (getTokenLocal() && isLoggedInUserParticipant()) {
+      props.history.push("/participant/datasets");
     }
   }, []);
   const handleSubmit = async (e) => {
@@ -286,6 +292,7 @@ export default function Login(props) {
     // SetCounterTimeout(false);
     // Setrestart(restart + 1);
     Setrestartcounter(restartcounter + 1);
+    setRemainingCounterTime(timerDuration);
     setDisable(true);
     // await fetch("https://80a5-106-51-85-143.in.ngrok.io/accounts/resend_otp/", {
     //   method: "POST",
@@ -410,7 +417,7 @@ export default function Login(props) {
     console.log(e.target.value);
     var letters = /^[A-Za-z\s]*$/;
     var lastname = e.target.value.trim();
-    setProfileLastName(profilelastname);
+    setProfileLastName(lastname);
     if (lastname.match(letters)) {
       setispropfilelastnameerror(false);
       // setprofilenextbutton(true);
@@ -777,6 +784,8 @@ export default function Login(props) {
               restartcounter={restartcounter}
               disable={disable}
               setDisable={setDisable}
+              remainingCounterTime = {remainingCounterTime}
+              setRemainingCounterTime = {setRemainingCounterTime}
             />
           )}
           {isProfile && isLoggedInUserAdmin() && (
