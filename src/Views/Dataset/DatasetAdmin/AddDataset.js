@@ -169,8 +169,8 @@ export default function AddDataset(props) {
   const handleChangedescription = (e) => {
     console.log(e.target.value);
     validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
-    ? setreply(e.target.value)
-    :  e.preventDefault();
+      ? setreply(e.target.value)
+      : e.preventDefault();
   };
   const handledescriptionKeydown = (e) => {
     handleUnwantedSpace(reply, e);
@@ -329,7 +329,8 @@ export default function AddDataset(props) {
                 Land_records == true ||
                 Cultivation_data == true ||
                 Soil_data == true ||
-                Weather_data == true) ? (
+                Weather_data == true ||
+                Research_data) ? (
                 <Button
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
