@@ -46,14 +46,8 @@ export default function SignupEmail(props) {
           className="signupemail"
           onChange={props.handleEmail}
           inputRef={props.email}
-          error={props.iserror}
-          helperText={
-            props.iserror
-              ? 'Enter Valid Email id'
-              : props.userSuspenderror
-              ? 'user suspended'
-              : ''
-          }
+          error={props.iserror || props.isuserSuspenderror}
+          helperText={(props.iserror || props.isuserSuspenderror) ? props.errormessage : ""}
         />
         <div>
           {props.button ? (
