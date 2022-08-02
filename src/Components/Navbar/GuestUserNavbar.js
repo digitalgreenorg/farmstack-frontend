@@ -43,10 +43,9 @@ const GuestUserNavBar = (props) => {
           style={{ width: "52px", height: "52px", "margin-left": "180px", "margin-top": "9px"}}
         />
         <span className="navtext fontweight400andfontsize16pxandcolor3D4A52">Call: 
-          <Link style={{color: 'black'}} to={{pathname: 'tel: ' + screenlabels.navbar.helpline}}>{screenlabels.navbar.helpline}</Link> -to register your grievance</span>
+        <Link style={{color: 'black'}} to={{pathname: 'tel: ' + screenlabels.navbar.helpline}}>{screenlabels.navbar.helpline}</Link> -to register your grievance</span>
         <NavMenu>
-          <span className={"navlink " + (props.isLegalClicked ? " active" : "")} to={'#'} 
-                onClick={()=>{props.setLegalClicked(true);props.setContactClicked(false); setLinkClicked(true)}}>
+          <NavLink to={'/guest/legal'} activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/legal_bold.svg")}
@@ -58,9 +57,8 @@ const GuestUserNavBar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.legal}
-          </span>
-          <span className={"navlink " + (props.isContactClicked ? " active" : "")} 
-                onClick={()=>{props.setLegalClicked(false);props.setContactClicked(true);setLinkClicked(true)}}>
+          </NavLink>
+          <NavLink to={'/guest/contact'} activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/contact_bold.svg")}
@@ -72,7 +70,7 @@ const GuestUserNavBar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.contact}
-          </span>
+          </NavLink>
         </NavMenu>
         <NavBtn>
           <NavBtnLink to="/signin">
