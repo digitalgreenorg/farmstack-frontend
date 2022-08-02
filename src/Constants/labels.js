@@ -171,6 +171,27 @@ const labels = {
       no_dataset_text1: "There are no Datasets at this moment !",
       no_dataset_text2: "Add your Dataset."
     },
+    dashboard :{
+      organisation_details : "Organisation Details",
+      add_team_members: "Add team members",
+      invite_members : "Invite members",
+      update_branding_details : "Update branding details",
+      to_do_list : "To do list",
+      total_no_of_participants : "Total no. of participants",
+      total_no_of_datasets : "Total no. of datasets",
+      total_no_of_active_connectors : "Total no. of active connectors",
+      total_amount_of_data_exchange : "Total amount of data exchange",
+      datasets_title : "Datasets",
+      dataset_category : "Dataset Category",
+      data_exchange_trends : "Data Exchange Trends",
+      support_request : " Support Request",
+      connector_statics : "Connector Statics",
+      period:"Period",
+      day : "Day",
+      month : "Month",
+      yearly : "Yearly",
+      week : "Week"
+    }
   },
 };
 export default labels;
