@@ -94,6 +94,25 @@ const ParticipantNavbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.datasets}
           </NavLink>
+          <NavLink
+            to="/participant/settings"
+            activeStyle
+            onClick={(e) => {
+              e.preventDefault();
+              history.push("/participant/settings/1");
+            }}>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/bold_settings.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/settings.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.Settings}
+          </NavLink>
         </NavMenu>
         {profile ? (
           <NavBtn onClick={handleLogout}>
