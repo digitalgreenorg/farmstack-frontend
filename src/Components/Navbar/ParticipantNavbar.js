@@ -11,13 +11,13 @@ import labels from "../../Constants/labels";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
-import { getUserLocal } from "../../Utils/Common";
+import { flushLocalstorage, getUserLocal } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
-import GetErrorHandlingRoute from "../../Utils/Common";
+import {GetErrorHandlingRoute} from "../../Utils/Common";
 
 const ParticipantNavbar = (props) => {
   const [profile, setprofile] = useState(null);
@@ -63,8 +63,11 @@ const ParticipantNavbar = (props) => {
 
   const handleLogout = (e) => {
     e.preventDefault();
+    /*
     localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
     localStorage.removeItem(LocalStorageConstants.KEYS.user);
+    */
+    flushLocalstorage();
     history.push("/login");
   };
   return (

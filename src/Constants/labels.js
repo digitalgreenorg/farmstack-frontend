@@ -5,7 +5,7 @@ const labels = {
       cancel: "Cancel",
       update: "Update",
       back: "Back",
-      finishLater: "Finish later"
+      finishLater: "Finish later",
     },
     login: {
       signup_header: "Let's build a datahub together",
@@ -14,9 +14,14 @@ const labels = {
       Participants: "Participants",
       NetworkActivity: "Network Activity",
       Support: "Support",
-      datasets:"Datasets",
+      datasets: "Datasets",
       Settings: "Settings",
       Signout: "Sign out",
+      Signin: "Sign In",
+      helpline: "1800 1100 1200 1912",
+      legal: "Legal",
+      contact: "Contact",
+      apply_for_participant: "Apply for Participant",
     },
     addparticipants: {
       first_heading: "Add Participants organisation details",
@@ -117,9 +122,15 @@ const labels = {
       date: "By Date",
     },
     sessiontimeout: {
-      heading: "Your login Session has Expired !",
-      secondmainheading: "Session Expired !",
-      thirdmainheading: "Please login again.",
+      heading: "Session has expired",
+      secondmainheading: "Oops!",
+      thirdmainheading: "Your login session has expired, please sign in again.",
+    },
+    error: {
+      heading: "Oops!",
+      secondmainheading: "Someting went wrong!",
+      thirdmainheading:
+        "Please try again later or contact to support@farmstack.co",
     },
     dataset: {
       name: "Dataset Name",
@@ -134,7 +145,7 @@ const labels = {
       Weather_data: "Weather data",
       Research_data: "Research data",
       Geography: "Geography",
-      Corp_Detail: "Crop Detail",
+      Crop_Detail: "Crop Detail",
       data: "Age of Actual Data",
       Constantly_updating: "Constantly updating",
       three: "3 months",
@@ -148,7 +159,7 @@ const labels = {
       Availablity: "Connector Availablity",
       Available: "Available",
       Not_Available: "Not Available",
-      Upload_dataset: " Upload Sample Datasets",
+      Upload_dataset: " Upload Sample Datasets *",
 
       filter: "Filter",
       geography: "Geography",
@@ -167,9 +178,10 @@ const labels = {
       age_of_data: "Age of Data",
       crop_details: "Crop Details",
       add_dataset: "Add New Dataset",
-      add_dataset_text: "Add details about your dataset and make discoverable to other participants in our network.",
+      add_dataset_text:
+        "Add details about your dataset and make discoverable to other participants in our network.",
       no_dataset_text1: "There are no Datasets at this moment !",
-      no_dataset_text2: "Add your Dataset."
+      no_dataset_text2: "Add your Dataset.",
     },
     dashboard :{
       organisation_details : "Organisation Details",

@@ -4,7 +4,8 @@ import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
 
 import $ from "jquery";
-import GetErrorHandlingRoute, {
+import {
+  GetErrorHandlingRoute,
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
@@ -50,9 +51,11 @@ export default function EditDataset() {
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
   const [todate, settodate] = React.useState(null);
+  const [CheckEndDate, setCheckEndDate] = useState(false);
 
   const [file, setFile] = useState(null);
   const [filesize, setfilesize] = useState(false);
+  const [fileValid, setfileValid] = useState("");
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -88,12 +91,29 @@ export default function EditDataset() {
         cultivation_data: Cultivation_data,
         soil_data: Soil_data,
         weather_data: Weather_data,
+        research_data: Research_data,
       })
     );
     bodyFormData.append("geography", Geography);
-    bodyFormData.append("crop_detail", cropdetail);
+    if (cropdetail == null) {
+      bodyFormData.append("crop_detail", "");
+    } else {
+      bodyFormData.append("crop_detail", cropdetail);
+    }
+    // bodyFormData.append("crop_detail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
-    bodyFormData.append("age_of_date", value);
+    // bodyFormData.append("age_of_date", value);
+    if (Switchchecked == true) {
+      bodyFormData.append("age_of_date", "");
+    } else {
+      bodyFormData.append("age_of_date", value);
+    }
+    // if (value != null) {
+    //   bodyFormData.append("age_of_date", value);
+    // } else {
+    //   bodyFormData.append("age_of_date", "");
+    // }
+
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", datefrom.toISOString());
     }
@@ -107,9 +127,18 @@ export default function EditDataset() {
     // if (file != null && typeof file != "string") {
     //   bodyFormData.append("sample_dataset", file);
     // }
+    if (availablevalue != null) {
+      bodyFormData.append("connector_availability", availablevalue);
+    } else {
+      bodyFormData.append("connector_availability", "");
+    }
+    if (recordsvalue != null) {
+      bodyFormData.append("dataset_size", recordsvalue);
+    } else {
+      bodyFormData.append("dataset_size", "");
+    }
 
-    bodyFormData.append("connector_availability", availablevalue);
-    bodyFormData.append("dataset_size", recordsvalue);
+    // bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", userid);
 
     console.log("edit dataset", bodyFormData);
@@ -128,7 +157,9 @@ export default function EditDataset() {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        console.log(e.response.data.sample_dataset[0]);
+        setfileValid(e.response.data.sample_dataset[0]);
+        // history.push(GetErrorHandlingRoute(e));
       });
   };
   //   get dataset
@@ -150,8 +181,12 @@ export default function EditDataset() {
         setdatasetname(response.data.name);
         setreply(response.data.description);
         setGeography(response.data.geography);
-        setCropdetail(response.data.crop_detail);
+        // setCropdetail(response.data.crop_detail);
         setSwitchchecked(response.data.constantly_update);
+        console.log("testing", response.data.category.crop_detail !== "null");
+        if (response.data.category.crop_detail == "null") {
+          setCropdetail(response.data.crop_detail);
+        }
         setCrop_data(response.data.category.crop_data);
         setPractice_data(response.data.category.practice_data);
         setFarmer_profile(response.data.category.farmer_profile);
@@ -210,6 +245,7 @@ export default function EditDataset() {
   };
   const handleFileChange = (file) => {
     setFile(file);
+    setfileValid("");
     // setprofile_pic(file);
     console.log(file);
     console.log(typeof file);
@@ -220,26 +256,28 @@ export default function EditDataset() {
     }
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    setreply(e.target.value);
+    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+    ? setreply(e.target.value)
+    :  e.preventDefault();
   };
   const handledescriptionKeydown = (e) => {
     handleUnwantedSpace(reply, e);
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.GEO_SET_REGEX)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };
@@ -253,11 +291,13 @@ export default function EditDataset() {
         "disabled"
       );
     }, 100);
+    setCheckEndDate(true);
   };
 
   const handleChangeToDate = (newValue) => {
     console.log(newValue);
     settodate(newValue);
+    setCheckEndDate(false);
   };
   //   switch
   const [Switchchecked, setSwitchchecked] = React.useState(false);
@@ -265,6 +305,7 @@ export default function EditDataset() {
   const handleChangeSwitch = (event) => {
     console.log(event.target.checked);
     setSwitchchecked(event.target.checked);
+    setValue(null);
   };
 
   //   checkbox
@@ -314,7 +355,7 @@ export default function EditDataset() {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/datahub/participants")}
+          okevent={() => history.push("/datahub/datasets")}
           route={"datahub/participants"}
           imagename={"success"}
           btntext={"ok"}
@@ -364,6 +405,7 @@ export default function EditDataset() {
             handleChangeAvailable={handleChangeAvailable}
             handleFileChange={handleFileChange}
             file={file}
+            fileValid={fileValid}
           />
 
           <Row>
@@ -372,6 +414,7 @@ export default function EditDataset() {
               {datasetname &&
               reply &&
               Geography &&
+              !CheckEndDate &&
               file &&
               !filesize &&
               //   (file ? file.size < 2097152 : false) &&
@@ -382,7 +425,8 @@ export default function EditDataset() {
                 Land_records == true ||
                 Cultivation_data == true ||
                 Soil_data == true ||
-                Weather_data == true) ? (
+                Weather_data == true ||
+                Research_data) ? (
                 <Button
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
@@ -404,7 +448,7 @@ export default function EditDataset() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/datahub/participants")}
+                onClick={() => history.push("/datahub/datasets")}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}

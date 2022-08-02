@@ -132,6 +132,11 @@ button.submitbtn:hover {
   color: #3d4a52;
 }
 
+.fontweight400andfontsize16pxandcolor3D4A52 {
+  font-weight: 400;
+  font-size: 16px;
+  color: #3d4a52;
+}
 .thirdmainheading {
   font-family: "Open Sans";
   font-style: normal;

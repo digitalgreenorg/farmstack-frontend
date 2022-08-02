@@ -11,7 +11,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import GetErrorHandlingRoute from "../../../Utils/Common";
+import {GetErrorHandlingRoute} from "../../../Utils/Common";
 import { useHistory } from 'react-router-dom';
 import { getUserLocal, getUserMapId, dateTimeFormat } from '../../../Utils/Common'
 import ViewDataSet from '../../../Components/Datasets/viewDataSet';
@@ -23,7 +23,6 @@ import FileSaver from 'file-saver';
 import UrlConstants from '../../../Constants/UrlConstants'
 import Button from "@mui/material/Button";
 import './DatasetAdmin.css'
-import $ from 'jquery';
 export default function DatasetAdmin() {
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
@@ -44,8 +43,8 @@ export default function DatasetAdmin() {
     );
 
     const [isShowAll, setIsShowAll] = useState(true)
-    const [isEnabledFilter, setIsEnabledFilter] = useState(false)
-    const [isDisabledFilter, setIsDisabledFilter] = useState(false)
+    // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
+    // const [isDisabledFilter, setIsDisabledFilter] = useState(false)
     // const [forReviewFilter, setForReviewFilter] = useState(false)
     // const [rejectedFilter, setRejectedFilter] = useState(false)
     // const [approvedFilter, setApprovedFilter] = useState(false)
@@ -68,15 +67,24 @@ export default function DatasetAdmin() {
     //                                     {index:3,name:"Constantly Updating",isChecked:false}])
 
     const [ageFilterDisplay, setAgeFilterDisplay] = useState([
-        { index: 0, name: "3 Months", isChecked: false },
-        { index: 1, name: "6 Months", isChecked: false },
-        { index: 2, name: "9 Months", isChecked: false },
-        { index: 3, name: "Constantly Updating", isChecked: false }])
+        { index: 0, name: "3 Months", payloadName: "3 months", isChecked: false },
+        { index: 1, name: "6 Months", payloadName: "6 months", isChecked: false },
+        { index: 2, name: "9 Months", payloadName: "9 months", isChecked: false },
+        { index: 3, name: "12 Months", payloadName: "12 months", isChecked: false },
+        { index: 4, name: "Constantly Updating", payloadName: "constantly_updating", isChecked: false }])
 
     const [statusFilter, setStatusFilter] = useState([
         { index: 0, name: screenlabels.dataset.for_review, payloadName: "for_review", isChecked: false },
         { index: 1, name: screenlabels.dataset.rejected, payloadName: "rejected", isChecked: false },
         { index: 2, name: screenlabels.dataset.approved, payloadName: "approved", isChecked: false }])
+
+    const [enableStatusFilter, setEnableStatusFilter] = useState([
+        { index: 0, name: screenlabels.dataset.enabled, payloadName: "is_enabled", isChecked: false },
+        { index: 1, name: screenlabels.dataset.disbaled, payloadName: "is_enabled", isChecked: false }])
+
+    const [isGeoSearchFound, setIsGeoSearchFound] = useState(true)
+    const [isCropSearchFound, setIsCropSearchFound] = useState(true)
+
     const [screenView, setscreenView] = useState(
         {
             "isDataSetFilter": true,
@@ -100,28 +108,34 @@ export default function DatasetAdmin() {
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
     var payload = ""
+    var adminUrl = UrlConstant.base_url + UrlConstant.dataset_list
+    var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
 
     const resetUrls = () => {
-        setDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
-        setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
+        // setDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
+        // setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
+        adminUrl = UrlConstant.base_url + UrlConstant.dataset_list
+        memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
     }
     const handleFilterChange = (index, filterName) => {
 
         // var tempFilterMaster = []
+        var isAnyFilterChecked = false
         var tempFilterDisplay = []
         var payloadList = []
         // var payload = {}
 
         setIsShowAll(false)
         resetDateFilters()
-        resetEnabledStatusFilter()
-        resetUrls()
+        // resetEnabledStatusFilter()
+        // resetUrls()
 
         if (filterName == screenlabels.dataset.geography) {
 
             resetFilterState(screenlabels.dataset.age)
             resetFilterState(screenlabels.dataset.crop)
             resetFilterState(screenlabels.dataset.status)
+            resetFilterState(screenlabels.dataset.enabled)
 
             tempFilterDisplay = [...geoFilterDisplay]
             for (let i = 0; i < tempFilterDisplay.length; i++) {
@@ -130,6 +144,7 @@ export default function DatasetAdmin() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].name)
+                    isAnyFilterChecked = true
                 }
             }
             setGeoFilterDisplay(tempFilterDisplay)
@@ -151,6 +166,7 @@ export default function DatasetAdmin() {
             resetFilterState(screenlabels.dataset.geography)
             resetFilterState(screenlabels.dataset.crop)
             resetFilterState(screenlabels.dataset.status)
+            resetFilterState(screenlabels.dataset.enabled)
 
             tempFilterDisplay = [...ageFilterDisplay]
             for (let i = 0; i < tempFilterDisplay.length; i++) {
@@ -158,7 +174,8 @@ export default function DatasetAdmin() {
                     tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked
                 }
                 if (tempFilterDisplay[i].isChecked) {
-                    payloadList.push(tempFilterDisplay[i].name)
+                    payloadList.push(tempFilterDisplay[i].payloadName)
+                    isAnyFilterChecked = true
                 }
             }
             setAgeFilterDisplay(tempFilterDisplay)
@@ -180,6 +197,7 @@ export default function DatasetAdmin() {
             resetFilterState(screenlabels.dataset.geography)
             resetFilterState(screenlabels.dataset.age)
             resetFilterState(screenlabels.dataset.status)
+            resetFilterState(screenlabels.dataset.enabled)
 
             tempFilterDisplay = [...cropFilterDisplay]
             for (let i = 0; i < tempFilterDisplay.length; i++) {
@@ -188,6 +206,7 @@ export default function DatasetAdmin() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].name)
+                    isAnyFilterChecked = true
                 }
             }
             setCropFilterDisplay(tempFilterDisplay)
@@ -207,6 +226,7 @@ export default function DatasetAdmin() {
             resetFilterState(screenlabels.dataset.geography)
             resetFilterState(screenlabels.dataset.age)
             resetFilterState(screenlabels.dataset.crop)
+            resetFilterState(screenlabels.dataset.enabled)
 
             tempFilterDisplay = [...statusFilter]
             for (let i = 0; i < tempFilterDisplay.length; i++) {
@@ -215,14 +235,37 @@ export default function DatasetAdmin() {
                 }
                 if (tempFilterDisplay[i].isChecked) {
                     payloadList.push(tempFilterDisplay[i].payloadName)
+                    isAnyFilterChecked = true
                 }
             }
             setStatusFilter(tempFilterDisplay)
 
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", payloadList)
-        }
+        } else if (filterName == screenlabels.dataset.enabled){
+            resetFilterState(screenlabels.dataset.geography)
+            resetFilterState(screenlabels.dataset.age)
+            resetFilterState(screenlabels.dataset.crop)
+            resetFilterState(screenlabels.dataset.status)
 
-        getDatasetList(false)
+            tempFilterDisplay = [...enableStatusFilter]
+            if(index == 0){
+                tempFilterDisplay[0].isChecked = !tempFilterDisplay[0].isChecked
+                tempFilterDisplay[1].isChecked = false
+            } else{
+                tempFilterDisplay[0].isChecked = false
+                tempFilterDisplay[1].isChecked = !tempFilterDisplay[1].isChecked
+            }
+            if(tempFilterDisplay[0].isChecked || tempFilterDisplay[1].isChecked ){
+                isAnyFilterChecked = true
+            }
+            setEnableStatusFilter(tempFilterDisplay)
+            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        }
+        if(isAnyFilterChecked){
+            getDatasetList(false)
+        } else{
+            clearAllFilters()
+        }
     }
 
     const resetFilterState = (filterName) => {
@@ -282,66 +325,80 @@ export default function DatasetAdmin() {
                 // tempFilerDisplay[i].isDisplayed = true
             }
             setStatusFilter(tempFilerDisplay)
+        } else if (filterName == screenlabels.dataset.enabled){
+            tempFilerDisplay = [...enableStatusFilter]
+            tempFilerDisplay[0].isChecked=false
+            tempFilerDisplay[1].isChecked=false
+            setEnableStatusFilter(tempFilerDisplay)
         }
     }
 
-    const resetEnabledStatusFilter = () => {
-        setIsEnabledFilter(false)
-        setIsDisabledFilter(false)
-    }
+    // const resetEnabledStatusFilter = () => {
+    //     setIsEnabledFilter(false)
+    //     setIsDisabledFilter(false)
+    // }
 
-    const handleEnableStatusFilter = (filterName) => {
-        //reset other filters and states
-        setIsShowAll(false)
-        resetDateFilters()
-        resetUrls()
-        resetFilterState(screenlabels.dataset.geography)
-        resetFilterState(screenlabels.dataset.age)
-        resetFilterState(screenlabels.dataset.crop)
-        resetFilterState(screenlabels.dataset.status)
+    // const handleEnableStatusFilter = (filterName) => {
 
-        if (filterName == screenlabels.dataset.enabled) {
-            setIsEnabledFilter(!isEnabledFilter)
-            setIsDisabledFilter(false)
-        } else {
-            setIsEnabledFilter(false)
-            setIsDisabledFilter(!isDisabledFilter)
-        }
-        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        getDatasetList(false)
-    }
+    //     //reset other filters and states
+    //     setIsShowAll(false)
+    //     resetDateFilters()
+    //     // resetUrls()
+    //     resetFilterState(screenlabels.dataset.geography)
+    //     resetFilterState(screenlabels.dataset.age)
+    //     resetFilterState(screenlabels.dataset.crop)
+    //     resetFilterState(screenlabels.dataset.status)
+
+    //     if (filterName == screenlabels.dataset.enabled) {
+    //         setIsEnabledFilter(!isEnabledFilter)
+    //         setIsDisabledFilter(false)
+    //     } else {
+    //         setIsEnabledFilter(false)
+    //         setIsDisabledFilter(!isDisabledFilter)
+    //     }
+    //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+    //     getDatasetList(false)
+    // }
 
     const handleGeoSearch = (e) => {
+        var searchFound = false
         const searchText = e.target.value
         setGeoSearchState(searchText)
         var tempList = [...geoFilterDisplay]
         for (let i = 0; i < tempList.length; i++) {
             if (searchText == "") {
                 tempList[i].isDisplayed = true
+                searchFound = true
             } else {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
+                } else{
+                    searchFound = true
                 }
             }
         }
-
+        setIsGeoSearchFound(searchFound)
         setGeoFilterDisplay(tempList)
     }
 
     const handleCropSearch = (e) => {
+        var searchFound = false
         const searchText = e.target.value
         setCropSearchState(searchText)
         var tempList = [...cropFilterDisplay]
         for (let i = 0; i < tempList.length; i++) {
             if (searchText == "") {
                 tempList[i].isDisplayed = true
+                searchFound = true
             } else {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
+                } else{
+                    searchFound = true
                 }
             }
         }
-
+        setIsCropSearchFound(searchFound)
         setCropFilterDisplay(tempList)
     }
 
@@ -349,18 +406,22 @@ export default function DatasetAdmin() {
         getFilters()
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         getDatasetList(false)
-        setTimeout(() => {
-            $(".supportcardfromdate input.MuiInputBase-input").attr("disabled", "disabled");
-            $(".supportcardtodate input.MuiInputBase-input").attr("disabled", "disabled");
-        }, 100)
-    }, [isMemberTab]);
+    }, [value]);
 
     const getFilters = () => {
         setIsLoader(true);
+        var payloadData = {}
+        payloadData['user_id'] = getUserLocal()
+        // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
+        if (isMemberTab) {
+            payloadData['others'] = true
+        } else {
+            payloadData['others'] = false
+        }
         HTTPService(
-            "GET",
+            "POST",
             UrlConstant.base_url + UrlConstant.dataset_filter,
-            "",
+            payloadData,
             false,
             true
         )
@@ -424,6 +485,9 @@ export default function DatasetAdmin() {
 
 
     const getDatasetList = (isLoadMore) => {
+        if(!isLoadMore){
+            resetUrls()
+        }
         setIsLoader(true);
         if (payload == "") {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
@@ -431,7 +495,8 @@ export default function DatasetAdmin() {
         HTTPService(
             "POST",
             // "GET",
-            isMemberTab ? memberDatasetUrl : datasetUrl,
+            // isMemberTab ? memberDatasetUrl : datasetUrl,
+            !isLoadMore ? (value == "2" ? memberUrl : adminUrl) : (value == "2"? memberDatasetUrl:datasetUrl),
             payload,
             false,
             true
@@ -447,12 +512,14 @@ export default function DatasetAdmin() {
                     setShowLoadMoreMember(false)
                 } else {
                     setisShowLoadMoreButton(true)
-                    if (!isMemberTab) {
+                    if (value == "1") {
                         setDatasetUrl(response.data.next)
+                        // adminUrl = response.data.next
                         setShowLoadMoreAdmin(true)
                         setShowLoadMoreMember(false)
                     } else {
                         setMemberDatasetUrl(response.data.next)
+                        // memberUrl = response.data.next
                         setShowLoadMoreAdmin(false)
                         setShowLoadMoreMember(true)
                     }
@@ -499,19 +566,20 @@ export default function DatasetAdmin() {
         if (cropPayload !== "") {
             data['crop_detail__in'] = cropPayload
         }
-        if (agePayload !== "") {
-            data['age_of_date__in'] = agePayload
+        if(agePayload !== ""){
+            if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
+                agePayload.splice(agePayload.length-1)
+                data['constantly_update'] = true
+            }
+            if (agePayload.length>0) {
+                data['age_of_date__in'] = agePayload
+            }
         }
         if (statusPayload !== "") {
             data['approval_status__in'] = statusPayload
         }
-        if (isEnabledFilter || isDisabledFilter) {
-            if (geoPayload !== "") {
-                data['is_enabled'] = isEnabledFilter
-            }
-            // if(geoPayload !== ""){
-            //   data['is_disabled'] = isDisabledFilter
-            // }
+        if (enableStatusFilter[0].isChecked || enableStatusFilter[1].isChecked) {
+            data['is_enabled'] = enableStatusFilter[0].isChecked
         }
         return data
     }
@@ -541,12 +609,13 @@ export default function DatasetAdmin() {
     const clearAllFilters = () => {
         setIsShowAll(true)
         resetDateFilters()
-        resetUrls()
+        // resetUrls()
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
-        resetEnabledStatusFilter()
+        resetFilterState(screenlabels.dataset.enabled)
+        // resetEnabledStatusFilter()
 
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         getDatasetList(false)
@@ -558,7 +627,7 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
-        resetUrls()
+        // resetUrls()
 
         setIsShowAll(true)
         setsecondrow(false)
@@ -582,7 +651,7 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
-        resetUrls()
+        // resetUrls()
 
         payload = buildFilterPayLoad(fromDateandToDate, getUserLocal(), "", "", "", "")
         setsecondrow(true)
@@ -700,7 +769,7 @@ export default function DatasetAdmin() {
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => history.push('/datahub/dataset/edit/' + id)} variant="outlined" className="editbtn">
+                        <Button onClick={() => history.push('/datahub/datasets/edit/' + id)} variant="outlined" className="editbtn">
                             Edit Dataset
                          </Button>
                     </Col>
@@ -724,11 +793,11 @@ export default function DatasetAdmin() {
                                 </Button>
                         </Col>
                     </Row>
-                        <Row>
+                        <Row className="margin">
                             <Col xs={12} sm={12} md={6} lg={3} >
                             </Col>
                             <Col xs={12} sm={12} md={6} lg={6} >
-                                <Button onClick={() => changeView('isDisapprove')} variant="outlined" className="editbtn">
+                                <Button onClick={() => changeView('isDisapprove')} style={{"margin-top":"0px"}} variant="outlined" className="editbtn">
                                     Disapprove Dataset
                          </Button>
                             </Col>
@@ -814,7 +883,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Disable"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { changeStatus(false, true, 'isDisableSuccess') }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Disable dataset"}
                 imageText={"Are you sure you want to disable the dataset?"}
                 firstmsg={"This action will disable the dataset from the system."}
@@ -822,7 +891,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDisableSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset disabled successfully!"} imageText={"Disabled"} msg={"You diabled a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset disabled successfully!"} imageText={"Disabled"} msg={"You diabled a dataset."}></Success> : <></>
             }
             {screenView.isEnable ? <Delete
                 route={"login"}
@@ -830,7 +899,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Enable"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { changeStatus(true, true, 'isEnableSuccess') }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Enable dataset"}
                 imageText={"Are you sure you want to enable the dataset?"}
                 firstmsg={"This action will enable the dataset from the system."}
@@ -838,7 +907,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isEnableSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset enabled successfully!"} imageText={"Enabled"} msg={"You enabled a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset enabled successfully!"} imageText={"Enabled"} msg={"You enabled a dataset."}></Success> : <></>
             }
             {screenView.isApprove ? <Delete
                 route={"login"}
@@ -846,7 +915,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Approve Dataset"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { changeStatus('approved', false, 'isApproveSuccess') }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Approve Dataset"}
                 imageText={"Are you sure you want to approve Dataset?"}
                 firstmsg={""}
@@ -854,7 +923,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isApproveSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approve Dataset"} imageText={"Approved"} msg={"You approved a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approve Dataset"} imageText={"Approved"} msg={"You approved a dataset."}></Success> : <></>
             }
             {screenView.isDisapprove ? <Delete
                 route={"login"}
@@ -862,7 +931,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Disapprove Dataset"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { changeStatus('rejected', false, 'isDisapproveSuccess') }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Disapprove Dataset"}
                 imageText={"Are you sure you want to disapprove Dataset?"}
                 firstmsg={""}
@@ -870,7 +939,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDisapproveSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Disapprove Dataset"} imageText={"Disapprove"} msg={"You disapproved a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Disapprove Dataset"} imageText={"Disapprove"} msg={"You disapproved a dataset."}></Success> : <></>
             }
             {screenView.isDelete ? <Delete
                 route={"login"}
@@ -878,7 +947,7 @@ export default function DatasetAdmin() {
                 firstbtntext={"Delete"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { deletedataset() }}
-                cancelEvent={() => { changeView('isDataSetView') }}
+                cancelEvent={() => { changeView('isDataSetFilter') }}
                 heading={"Delete dataset"}
                 imageText={"Are you sure you want to delete your dataset?"}
                 firstmsg={"This action will delete the dataset from the system."}
@@ -886,7 +955,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDeleSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false);getFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
             }
             {screenView.isDataSetFilter ? <Row className="supportfirstmaindiv">
                 {/* <Row className="secondmainheading width100percent">{screenlabels.support.heading}</Row> */}
@@ -917,17 +986,20 @@ export default function DatasetAdmin() {
                                 cropSearchState={cropSearchState}
 
                                 clearAllFilters={clearAllFilters}
-                                showMemberFilters={isMemberTab}
-                                isEnabledFilter={isEnabledFilter}
-                                isDisabledFilter={isDisabledFilter}
-                                handleEnableStatusFilter={handleEnableStatusFilter}
+                                showMemberFilters={value == "2"}
+                                // isEnabledFilter={isEnabledFilter}
+                                // isDisabledFilter={isDisabledFilter}
+                                // handleEnableStatusFilter={handleEnableStatusFilter}
                                 // forReviewFilter={forReviewFilter}
                                 // rejectedFilter={rejectedFilter}
                                 // approvedFilter={approvedFilter}
                                 statusFilter={statusFilter}
                                 // handleStatusFilter={handleStatusFilter}
-                                resetEnabledStatusFilter={resetEnabledStatusFilter}
-                                resetUrls={resetUrls}
+                                // resetEnabledStatusFilter={resetEnabledStatusFilter}
+                                // resetUrls={resetUrls}
+                                enableStatusFilter={enableStatusFilter}
+                                isGeoSearchFound={isGeoSearchFound}
+                                isCropSearchFound={isCropSearchFound}
                             />
                         </Col>
                         <Col className="supportSecondCOlumn">
@@ -946,7 +1018,7 @@ export default function DatasetAdmin() {
                                             <DataSetListing
                                                 datasetList={datasetList}
                                                 isShowLoadMoreButton={showLoadMoreAdmin}
-                                                isMemberTab={isMemberTab}
+                                                isMemberTab={value =="2"}
                                                 getDatasetList={getDatasetList}
                                                 viewCardDetails={(id) => viewCardDetails(id, true)}
                                             />
@@ -955,7 +1027,7 @@ export default function DatasetAdmin() {
                                             <DataSetListing
                                                 datasetList={memberDatasetList}
                                                 isShowLoadMoreButton={showLoadMoreMember}
-                                                isMemberTab={isMemberTab}
+                                                isMemberTab={value =="2"}
                                                 getDatasetList={getDatasetList}
                                                 viewCardDetails={(id) => viewCardDetails(id, false)}
                                             />

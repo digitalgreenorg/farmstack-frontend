@@ -25,7 +25,7 @@ import PolicySettings from "../PolicySettings/PolicySettings";
 import BrandingSetting from "../branding/BrandingSetting";
 import HandleSessionTimeout from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
-import GetErrorHandlingRoute from "../../../Utils/Common";
+import {GetErrorHandlingRoute} from "../../../Utils/Common";
 
 const useStyles = {
   btncolor: {
@@ -137,7 +137,7 @@ function Settings(props) {
   return (
     <div style={useStyles.background}>
       {isLoader ? <Loader />: ''}
-      <Container style={useStyles.marginrowtopscreen10px}>
+      {/* <Container style={useStyles.marginrowtopscreen10px}> */}
         {isDelete ? (
           <Delete
             route={"login"}
@@ -359,7 +359,7 @@ function Settings(props) {
         ) : (
           <></>
         )}
-      </Container>
+      {/* </Container> */}
     </div>
   );
 }

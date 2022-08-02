@@ -5,7 +5,8 @@ import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
 
 import $ from "jquery";
-import GetErrorHandlingRoute, {
+import {
+  GetErrorHandlingRoute,
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
@@ -65,8 +66,10 @@ export default function AddDataset(props) {
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
   const [todate, settodate] = React.useState(null);
+  const [CheckEndDate, setCheckEndDate] = useState(false);
 
   const [file, setFile] = useState(null);
+  const [fileValid, setfileValid] = useState("");
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -96,9 +99,18 @@ export default function AddDataset(props) {
       })
     );
     bodyFormData.append("geography", Geography);
-    bodyFormData.append("crop_detail", cropdetail);
+    if (cropdetail == null) {
+      bodyFormData.append("crop_detail", "");
+    } else {
+      bodyFormData.append("crop_detail", cropdetail);
+    }
     bodyFormData.append("constantly_update", Switchchecked);
-    bodyFormData.append("age_of_date", value);
+    // bodyFormData.append("age_of_date", value);
+    if (Switchchecked == true) {
+      bodyFormData.append("age_of_date", "");
+    } else {
+      bodyFormData.append("age_of_date", value);
+    }
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", fromdate.toISOString());
     }
@@ -128,6 +140,9 @@ export default function AddDataset(props) {
       })
       .catch((e) => {
         setIsLoader(false);
+        console.log(e);
+        console.log(e.response.data.sample_dataset[0]);
+        setfileValid(e.response.data.sample_dataset[0]);
         // history.push(GetErrorHandlingRoute(e));
       });
   };
@@ -148,28 +163,31 @@ export default function AddDataset(props) {
   const handleFileChange = (file) => {
     setFile(file);
     console.log(file);
+    setfileValid("");
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    setreply(e.target.value);
+    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+      ? setreply(e.target.value)
+      : e.preventDefault();
   };
   const handledescriptionKeydown = (e) => {
     handleUnwantedSpace(reply, e);
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.GEO_SET_REGEX)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };
@@ -183,12 +201,15 @@ export default function AddDataset(props) {
         "disabled"
       );
     }, 100);
+    setCheckEndDate(true);
   };
 
   const handleChangeToDate = (newValue) => {
     console.log(newValue);
     settodate(newValue);
+    setCheckEndDate(false);
   };
+
   //   switch
   const [Switchchecked, setSwitchchecked] = React.useState(false);
 
@@ -244,7 +265,7 @@ export default function AddDataset(props) {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/datahub/participants")}
+          okevent={() => history.push("/datahub/datasets")}
           route={"datahub/participants"}
           imagename={"success"}
           btntext={"ok"}
@@ -294,6 +315,7 @@ export default function AddDataset(props) {
             handleChangeAvailable={handleChangeAvailable}
             handleFileChange={handleFileChange}
             file={file}
+            fileValid={fileValid}
           />
 
           <Row>
@@ -302,6 +324,7 @@ export default function AddDataset(props) {
               {datasetname &&
               reply &&
               Geography &&
+              !CheckEndDate &&
               file &&
               file.size < 2097152 &&
               (Crop_data == true ||
@@ -310,7 +333,8 @@ export default function AddDataset(props) {
                 Land_records == true ||
                 Cultivation_data == true ||
                 Soil_data == true ||
-                Weather_data == true) ? (
+                Weather_data == true ||
+                Research_data) ? (
                 <Button
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
@@ -332,7 +356,7 @@ export default function AddDataset(props) {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/datahub/participants")}
+                onClick={() => history.push("/datahub/datasets")}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}

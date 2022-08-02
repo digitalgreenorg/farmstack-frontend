@@ -5,11 +5,12 @@ import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
 
 import $ from "jquery";
-import GetErrorHandlingRoute, {
+import {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
   getUserMapId,
+  GetErrorHandlingRoute,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../Constants/ColorConstants";
@@ -65,8 +66,10 @@ export default function AddDataset(props) {
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
   const [todate, settodate] = React.useState(null);
+  const [CheckEndDate, setCheckEndDate] = useState(false);
 
   const [file, setFile] = useState(null);
+  const [fileValid, setfileValid] = useState("");
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -96,9 +99,19 @@ export default function AddDataset(props) {
       })
     );
     bodyFormData.append("geography", Geography);
-    bodyFormData.append("crop_detail", cropdetail);
+    if (cropdetail == null) {
+      bodyFormData.append("crop_detail", "");
+    } else {
+      bodyFormData.append("crop_detail", cropdetail);
+    }
+    // bodyFormData.append("crop_detail", cropdetail);
     bodyFormData.append("constantly_update", Switchchecked);
-    bodyFormData.append("age_of_date", value);
+    if (Switchchecked == true) {
+      bodyFormData.append("age_of_date", "");
+    } else {
+      bodyFormData.append("age_of_date", value);
+    }
+
     if (fromdate != null) {
       bodyFormData.append("data_capture_start", fromdate.toISOString());
     }
@@ -128,7 +141,9 @@ export default function AddDataset(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        // history.push(GetErrorHandlingRoute(e));
+        console.log(e.response.data.sample_dataset[0]);
+        setfileValid(e.response.data.sample_dataset[0]);
       });
   };
 
@@ -148,9 +163,10 @@ export default function AddDataset(props) {
   const handleFileChange = (file) => {
     setFile(file);
     console.log(file);
+    setfileValid("");
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
@@ -163,13 +179,13 @@ export default function AddDataset(props) {
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.GEO_SET_REGEX)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };
@@ -183,11 +199,13 @@ export default function AddDataset(props) {
         "disabled"
       );
     }, 100);
+    setCheckEndDate(true);
   };
 
   const handleChangeToDate = (newValue) => {
     console.log(newValue);
     settodate(newValue);
+    setCheckEndDate(false);
   };
   //   switch
   const [Switchchecked, setSwitchchecked] = React.useState(false);
@@ -248,98 +266,141 @@ export default function AddDataset(props) {
           //route={"/participant/home"}
           imagename={"success"}
           btntext={"ok"}
-          heading={"You added a new dataset"}
-          imageText={"Added Successfully!"}
-          msg={"Your dataset added in database."}></Success>
+          heading={
+            props.successheading
+              ? props.successheading
+              : "You added a new dataset"
+          }
+          imageText={
+            props.successimageText
+              ? props.successimageText
+              : "Added Successfully!"
+          }
+          msg={
+            props.successmsg
+              ? props.successmsg
+              : "Your dataset added in database."
+          }></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
-          <DataSetForm
-            title={"Add Dataset"}
-            reply={reply}
-            datasetname={datasetname}
-            handleChangedatasetname={handleChangedatasetname}
-            handleChangedescription={handleChangedescription}
-            handledescriptionKeydown={handledescriptionKeydown}
-            Crop_data={Crop_data}
-            handleChangeCropData={handleChangeCropData}
-            Practice_data={Practice_data}
-            handleChangePracticeData={handleChangePracticeData}
-            Farmer_profile={Farmer_profile}
-            handleChangeFarmer_profile={handleChangeFarmer_profile}
-            Land_records={Land_records}
-            handleChangeLand_records={handleChangeLand_records}
-            Cultivation_data={Cultivation_data}
-            handleChangeCultivationData={handleChangeCultivationData}
-            Soil_data={Soil_data}
-            handleChangeSoilData={handleChangeSoilData}
-            Weather_data={Weather_data}
-            handleChangeWeatherData={handleChangeWeatherData}
-            Research_data={Research_data}
-            handleChangeResearchData={handleChangeResearchData}
-            Geography={Geography}
-            handleChangeGeography={handleChangeGeography}
-            cropdetail={cropdetail}
-            handleChangecropdetail={handleChangecropdetail}
-            Switchchecked={Switchchecked}
-            handleChangeSwitch={handleChangeSwitch}
-            value={value}
-            handleChange={handleChange}
-            fromdate={fromdate}
-            handleChangeFromDate={handleChangeFromDate}
-            todate={todate}
-            handleChangeToDate={handleChangeToDate}
-            recordsvalue={recordsvalue}
-            handleChangeRecords={handleChangeRecords}
-            availablevalue={availablevalue}
-            handleChangeAvailable={handleChangeAvailable}
-            handleFileChange={handleFileChange}
-            file={file}
-          />
+        <>
+          {props.isBackBtn ? (
+            <Row>
+              <Col className="supportViewDetailsbackimage">
+                <span
+                  onClick={() => {
+                    history.push("/participant/datasets");
+                  }}>
+                  <img
+                    src={require("../../../Assets/Img/Vector.svg")}
+                    alt="new"
+                  />
+                </span>
+                <span
+                  className="supportViewDetailsback"
+                  onClick={() => {
+                    history.push("/participant/datasets");
+                  }}>
+                  {"Back"}
+                </span>
+              </Col>
+            </Row>
+          ) : (
+            ""
+          )}
+          <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+            <DataSetForm
+              title={"Add Dataset"}
+              reply={reply}
+              datasetname={datasetname}
+              handleChangedatasetname={handleChangedatasetname}
+              handleChangedescription={handleChangedescription}
+              handledescriptionKeydown={handledescriptionKeydown}
+              Crop_data={Crop_data}
+              handleChangeCropData={handleChangeCropData}
+              Practice_data={Practice_data}
+              handleChangePracticeData={handleChangePracticeData}
+              Farmer_profile={Farmer_profile}
+              handleChangeFarmer_profile={handleChangeFarmer_profile}
+              Land_records={Land_records}
+              handleChangeLand_records={handleChangeLand_records}
+              Cultivation_data={Cultivation_data}
+              handleChangeCultivationData={handleChangeCultivationData}
+              Soil_data={Soil_data}
+              handleChangeSoilData={handleChangeSoilData}
+              Weather_data={Weather_data}
+              handleChangeWeatherData={handleChangeWeatherData}
+              Research_data={Research_data}
+              handleChangeResearchData={handleChangeResearchData}
+              Geography={Geography}
+              handleChangeGeography={handleChangeGeography}
+              cropdetail={cropdetail}
+              handleChangecropdetail={handleChangecropdetail}
+              Switchchecked={Switchchecked}
+              handleChangeSwitch={handleChangeSwitch}
+              value={value}
+              handleChange={handleChange}
+              fromdate={fromdate}
+              handleChangeFromDate={handleChangeFromDate}
+              todate={todate}
+              handleChangeToDate={handleChangeToDate}
+              recordsvalue={recordsvalue}
+              handleChangeRecords={handleChangeRecords}
+              availablevalue={availablevalue}
+              handleChangeAvailable={handleChangeAvailable}
+              handleFileChange={handleFileChange}
+              file={file}
+              fileValid={fileValid}
+            />
 
-          <Row>
-            <Col xs={12} sm={12} md={6} lg={3}></Col>
-            <Col xs={12} sm={12} md={6} lg={6}>
-              {datasetname &&
-              reply &&
-              Geography &&
-              file &&
-              file.size < 2097152 &&
-              (Crop_data == true ||
-                Practice_data == true ||
-                Farmer_profile == true ||
-                Land_records == true ||
-                Cultivation_data == true ||
-                Soil_data == true ||
-                Weather_data == true) ? (
+            <Row>
+              <Col xs={12} sm={12} md={6} lg={3}></Col>
+              <Col xs={12} sm={12} md={6} lg={6}>
+                {datasetname &&
+                reply &&
+                Geography &&
+                !CheckEndDate &&
+                file &&
+                file.size < 2097152 &&
+                (Crop_data == true ||
+                  Practice_data == true ||
+                  Farmer_profile == true ||
+                  Land_records == true ||
+                  Cultivation_data == true ||
+                  Soil_data == true ||
+                  Weather_data == true ||
+                  Research_data) ? (
+                  <Button
+                    //   onClick={() => addNewParticipants()}
+                    variant="contained"
+                    className="submitbtn"
+                    type="submit">
+                    {screenlabels.common.submit}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    disabled
+                    className="disbalesubmitbtn">
+                    {screenlabels.common.submit}
+                  </Button>
+                )}
+              </Col>
+            </Row>
+            <Row style={useStyles.marginrowtop8px}>
+              <Col xs={12} sm={12} md={6} lg={3}></Col>
+              <Col xs={12} sm={12} md={6} lg={6}>
                 <Button
-                  //   onClick={() => addNewParticipants()}
-                  variant="contained"
-                  className="submitbtn"
-                  type="submit">
-                  {screenlabels.common.submit}
-                </Button>
-              ) : (
-                <Button
+                  onClick={props.cancelAction}
                   variant="outlined"
-                  disabled
-                  className="disbalesubmitbtn">
-                  {screenlabels.common.submit}
+                  className="cancelbtn">
+                  {props.cancelBtbnName
+                    ? screenlabels.common.cancel
+                    : screenlabels.common.finishLater}
                 </Button>
-              )}
-            </Col>
-          </Row>
-          <Row style={useStyles.marginrowtop8px}>
-            <Col xs={12} sm={12} md={6} lg={3}></Col>
-            <Col xs={12} sm={12} md={6} lg={6}>
-              <Button
-                onClick={props.cancelAction}
-                variant="outlined"
-                className="cancelbtn">
-                {screenlabels.common.finishLater}
-              </Button>
-            </Col>
-          </Row>
-        </form>
+              </Col>
+            </Row>
+          </form>
+        </>
       )}
     </>
   );

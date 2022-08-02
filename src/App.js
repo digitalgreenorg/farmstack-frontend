@@ -18,7 +18,7 @@ import Datahub from './Layout/Datahub'
 import Participant from './Layout/Participant'
 import Error from "./Components/Error/Error";
 import SessionExpired from "./Components/SessionExpired/SessionExpired";
-
+import GuestUserHome from "./Views/GuestUser/GuestUserHome";
 function App() {
   return (
     <React.Fragment>
@@ -31,11 +31,11 @@ function App() {
           <Route exact path="/login/policies" component={Policies} />
           <Route  path="/login/profile" component={ProfileScreen} /> */}
           <Route path="/datahub" component={Datahub} />
-         
-          <Route path="/Participant" component={Participant} />
+          <Route path="/participant" component={Participant} />
           <Route path="/login" component={Login} />
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error" component={Error} />
+          <Route path="/guest" component={GuestUserHome} />
           <Redirect from="/" to="/login" />
         </Switch>
       </Router>

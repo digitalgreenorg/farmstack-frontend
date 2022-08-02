@@ -24,9 +24,9 @@ import UploadOrgLogo from './UploadOrgLogo'
 
 import HTTPService from '../../Services/HTTPService'
 import UrlConstant from '../../Constants/UrlConstants'
-import GetErrorHandlingRoute, { handleAddressCharacters, isLoggedInUserParticipant, validateInputField } from '../../Utils/Common'
+import {GetErrorHandlingRoute, handleAddressCharacters, isLoggedInUserParticipant, validateInputField } from '../../Utils/Common'
 import RegexConstants from '../../Constants/RegexConstants'
-import { Autocomplete } from '@mui/material'
+import { Autocomplete, MenuItem } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import Loader from '../Loader/Loader'
 import { borderBottom } from '@mui/system'
@@ -90,7 +90,7 @@ export default function OrgRightside(props) {
               if (response.data.organization.address.city && response.data.organization.address.city.trim().length > 0){
                 props.setisOrgcityerror(false)
               }
-              if (response.data.organization.address.country && response.data.organization.address.country.value.trim().length > 0){
+              if (response.data.organization.address.country && response.data.organization.address.country.trim().length > 0){
                 props.setOrgcountrybtn(true)
               }
               if (response.data.organization.address.pincode && response.data.organization.address.pincode.trim().pincode > 0){
@@ -460,7 +460,7 @@ export default function OrgRightside(props) {
                 props.isOrgmailerror
                   ? 'Enter Valid Email id'
                   : props.isExistingOrgEmail
-                  ? 'Organization already registered'
+                  ? 'User is already Mapped'
                   : ''
               }
               inputRef={orgMailRef}
@@ -528,18 +528,22 @@ export default function OrgRightside(props) {
             />
           </div>
           <div className="orgcountry">
-            {
-            <Select
+          <TextField 
+              select
               required
               id="orgcountryselect"
-              options={options}
+              variant="filled"
+              style={{ width: '420px'}}
+              placeholder="Country"
               value={props.countryvalue}
               onChange={props.countrychangeHandler}
               isSearchable={true}
-              style={{ width: '420px', border: 'none', borderBottom: '1px solid #9AA1A9'}}
-              placeholder="Country"
-            />
-            }
+              label="Country"
+          >
+              {options.map((rowData, index) => (
+                  <MenuItem value={rowData.label}>{rowData.label}</MenuItem>
+              ))}
+          </TextField>
             {/*
             <Autocomplete
               disablePortal

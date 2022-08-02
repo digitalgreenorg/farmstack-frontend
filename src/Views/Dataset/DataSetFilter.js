@@ -17,12 +17,16 @@ export default function DataSetFilter(props) {
     <div>
         <Row className="supportfilterfirstrow">
             <Col className='supportfiltertext'>
-            <span className="fontweight600andfontsize14pxandcolor3A3A3A">{screenlabels.dataset.filter}</span>
+            <div style={{"margin-left":"-100px","font-weight":"600"}}>
+            <span className="datasetfiltertext">{screenlabels.dataset.filter}</span>
             {/* <span style={{"font-weight": "600","font-size": "14px","color": "#3a3a3a","left":"10px"}}>{screenlabels.dataset.filter}</span> */}
+            </div>
             </Col>
             
+            
             <Col className='supportfiltertext'>
-            <span className="fontweight600andfontsize14pxandcolor3A3A3A" >
+            <div style={{"margin-left":"55px"}}>
+            <span className="filterClearAll">
                         <Button
                             style={{"font-style":"Open Sans","font-weight": "500","font-size": "13px","bottom":"4px","right":"-10px"}}
                             onClick={() => props.clearAllFilters()}
@@ -31,6 +35,7 @@ export default function DataSetFilter(props) {
                             >
                             Clear All
                         </Button></span>
+            </div>
             </Col>
         </Row>
         {props.isShowAll ? 
@@ -71,8 +76,7 @@ export default function DataSetFilter(props) {
                           props.resetFilterState(screenlabels.dataset.age)
                           props.resetFilterState(screenlabels.dataset.crop)
                           props.resetFilterState(screenlabels.dataset.status)
-                          props.resetEnabledStatusFilter()
-                          props.resetUrls()
+                          props.resetFilterState(screenlabels.dataset.enabled)
                           setTimeout(() => {
                               $(".supportcardtodate input.MuiInputBase-input").attr("disabled", "disabled");
                           }, 100)
@@ -110,7 +114,12 @@ export default function DataSetFilter(props) {
       </Row>
       {props.showMemberFilters && 
         <Row className="supportfiltersecondrowbold">
-            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.status}</span>
+            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">  
+              <img
+              src={require("../../Assets/Img/status.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.dataset.status}</span>
         </Row>}
         {props.showMemberFilters &&
             props.statusFilter && props.statusFilter.map((status) => (
@@ -123,9 +132,23 @@ export default function DataSetFilter(props) {
         }
       {props.showMemberFilters && 
         <Row className="supportfiltersecondrowbold">
-            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.datasets}</span>
+            <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext"> 
+            <img
+              src={require("../../Assets/Img/dataset_bold.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.dataset.datasets}</span>
         </Row>}
-        {props.showMemberFilters &&
+        {
+            props.showMemberFilters && props.enableStatusFilter.map((filter)=> (
+                <FilterCheckBox
+                label={filter.name}
+                checked={filter.isChecked}
+                handleCheckListFilterChange={() => props.handleFilterChange(filter.index,screenlabels.dataset.enabled)}
+              />
+            ))
+        }
+        {/* {props.showMemberFilters &&
         
             <FilterCheckBox
                 label={screenlabels.dataset.enabled}
@@ -140,9 +163,16 @@ export default function DataSetFilter(props) {
                 checked={props.isDisabledFilter}
                 handleCheckListFilterChange={() => props.handleEnableStatusFilter(screenlabels.dataset.disbaled)}
             />
-        }
+        } */}
       <Row className="supportfiltersecondrowbold">
-          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.geography}</span>
+          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img
+              src={require("../../Assets/Img/geography.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;
+              {screenlabels.dataset.geography}
+              </span>
       </Row>
       <Row className="supportfiltersecondrowbold">
           <TextField 
@@ -152,6 +182,8 @@ export default function DataSetFilter(props) {
             label={screenlabels.dataset.search}
             value={props.geoSearchState}
             onChange={(e) => props.handleGeoSearch(e)}
+            error={!props.isGeoSearchFound}
+            helperText={!props.isGeoSearchFound ? "Not Found" : ""}
           />
       </Row>
       {/* <Row> */}
@@ -175,7 +207,12 @@ export default function DataSetFilter(props) {
       </Row>
        */}
       <Row className="supportfiltersecondrowbold">
-          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.age}</span>
+          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img
+              src={require("../../Assets/Img/calendar.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.dataset.age}</span>
       </Row>
       {/* <Row> */}
           {props.ageFilterDisplay && props.ageFilterDisplay.map((ageFilter) => (
@@ -196,7 +233,12 @@ export default function DataSetFilter(props) {
         ))}  
       </Row> */}
       <Row className="supportfiltersecondrowbold">
-          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">{screenlabels.dataset.crop}</span>
+          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img
+              src={require("../../Assets/Img/crop.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.dataset.crop}</span>
       </Row>
       <Row className="supportfiltersecondrowbold">
           <TextField 
@@ -206,6 +248,8 @@ export default function DataSetFilter(props) {
             label={screenlabels.dataset.search}
             value={props.cropSearchState}
             onChange={(e) => props.handleCropSearch(e)}
+            error={!props.isCropSearchFound}
+            helperText={!props.isCropSearchFound ? "Not Found" : ""}
           />
       </Row>
       {/* <Row> */}

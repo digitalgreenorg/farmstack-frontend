@@ -8,23 +8,29 @@ import {
   Redirect,
   withRouter,
 } from "react-router-dom";
-import { getTokenLocal } from "../Utils/Common";
-function Datahub(props) {
+import { getTokenLocal,isLoggedInUserParticipant } from "../Utils/Common";
+import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
+import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
+import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
+
+function Participant(props) {
   return (
     <>
-      {getTokenLocal() ? (
+      {(getTokenLocal() && isLoggedInUserParticipant())? (
         <>
           <ParticipantNavbar />
           <Switch>
-          <Route
+            <Route exact path="/participant/datasets" component={DatasetParticipant} />
+            <Route exact path="/participant/home" component={Home} />
+            <Route
               exact
-              path="/participant/datasets"
-              component={Home}
+              path="/participant/datasets/add"
+              component={AddDataSetParticipant}
             />
-             <Route
+            <Route
               exact
-              path="/participant/home"
-              component={Home}
+              path="/participant/datasets/edit/:id"
+              component={EditDatasetParticipant}
             />
           </Switch>
         </>
@@ -34,4 +40,4 @@ function Datahub(props) {
     </>
   );
 }
-export default Datahub;
+export default Participant;

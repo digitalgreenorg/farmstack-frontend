@@ -18,11 +18,10 @@ export default function NoDatasetCard(props) {
       <CardContent>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12} style={{'margin-top': '20px'}}>
-          {/* <img
-              src={require('../../Assets/Img/add.svg')}
-              style={{width: '71px', height: '71px'}}
+            <img
+              src={require("../../Assets/Img/no_datasets.svg")}
               alt="new"
-            /> */}
+            />
           </Col>
         </Row>
         <Row>

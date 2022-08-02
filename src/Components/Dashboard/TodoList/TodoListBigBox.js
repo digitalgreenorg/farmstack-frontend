@@ -13,7 +13,7 @@ const TodoListBigBox = ({totalDetail}) => {
         {/* <img className={styles.todoListBigBoxUpperPortionImg} src={Dummy}/> */}
         {/* <img className={styles.todoListBigBoxUpperPortionImg} src= "."/> */}
     </div>
-    <div className="nodataavailable">SomeClass</div>
+    {/* <div className="nodataavailable">SomeClass</div> */}
     <span className={styles.todoListBigBoxLowerValues}> <span> {totalDetail.value}</span> <sub style={{fontSize:"18px"}}>{totalDetail.valueUnit? totalDetail.valueUnit: null}</sub>  </span>
     </div>
   )

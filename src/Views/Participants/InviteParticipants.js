@@ -14,7 +14,7 @@ import RichTextEditor from "react-rte";
 import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/style.css';
 import Loader from '../../Components/Loader/Loader';
-import GetErrorHandlingRoute from '../../Utils/Common';
+import {GetErrorHandlingRoute} from '../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },

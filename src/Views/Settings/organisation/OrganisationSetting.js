@@ -27,7 +27,7 @@ import HandleSessionTimeout, {
   setOrgId,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
-import GetErrorHandlingRoute, {
+import {GetErrorHandlingRoute,
   validateInputField,
 } from "../../../Utils/Common";
 import { useHistory } from "react-router-dom";
@@ -126,7 +126,7 @@ export default function OrganisationSetting(props) {
           // }
           setcity(response.data.organization.address.city);
           setpincode(response.data.organization.address.pincode);
-          setcountryvalue(response.data.organization.address.country.label);
+          setcountryvalue(response.data.organization.address.country);
           setemail(response.data.organization.org_email);
           setphonenumber(response.data.organization.phone_number);
           // setorgdesc(response.data.organization.org_description.toString("html"));
@@ -179,9 +179,7 @@ export default function OrganisationSetting(props) {
     bodyFormData.append(
       "address",
       JSON.stringify({
-        country: {
-          label: countryvalue,
-        },
+        country: countryvalue,
         pincode: pincode,
         address: address,
         city: city,
@@ -204,6 +202,7 @@ export default function OrganisationSetting(props) {
           if (response.status === 201) {
             props.setisOrgUpdateSuccess();
             setUserMapId(response.data.user_map);
+
             setOrgId(response.data.org_id);
             // setisPolicies(true);
             // setisOrg(false);
@@ -442,7 +441,7 @@ export default function OrganisationSetting(props) {
   const orgsettingcancelbtn = () => {
     setorgfile(null);
     getOrgDetails();
-    history.push("/datahub/settings/2")
+    history.push("/datahub/settings/2");
     window.location.reload();
   };
 
