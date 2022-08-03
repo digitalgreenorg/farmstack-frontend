@@ -1,0 +1,96 @@
+.connectorform .connectormainheading {
+  color: #3d4a52;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+  margin-top: 8% !important;
+  text-align: start;
+  margin-left: 6%;
+}
+.connectorform .supportViewDetailsbackimage {
+  margin-left: 14px;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: "Open Sans";
+  color: #3491ee;
+  margin-top: 0px;
+  margin-left: 7%;
+}
+.connectorform .link1 {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 5%;
+  text-align: center;
+  padding-left: 30%;
+}
+.connectorform .link2 {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 5%;
+  padding-left: 20%;
+}
+.connectorform .department {
+  padding-left: 8%;
+  margin-top: 2%;
+  text-align: left;
+}
+.connectorform .project {
+  margin-top: 2%;
+  text-align: left;
+}
+.connectorform .connector {
+  margin-top: 2%;
+  text-align: left;
+  padding-left: 8%;
+}
+.connectorform .connectorName {
+  width: 80%;
+}
+.connectorform .Name {
+  margin-top: 2.7% !important;
+  padding-left: 2% !important;
+  text-align: left;
+}
+.connectorform .dataset {
+  margin-top: 2%;
+  text-align: left;
+  padding-left: 8%;
+}
+.connectorform .dockerName {
+  width: 80%;
+}
+.connectorform .docker {
+  margin-top: 2.7% !important;
+  padding-left: 2% !important;
+  text-align: left;
+}
+.connectorform .port {
+  margin-top: 2.7% !important;
+  padding-left: 8.5% !important;
+  text-align: left;
+}
+.connectorform .portName {
+  width: 93%;
+}
+.connectorform .description {
+  float: left;
+  /* width: 80% !important; */
+  margin-top: 2%;
+  padding-left: 2% !important;
+  text-align: left;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+}
+.connectorform .descriptionName {
+  width: 80% !important;
+}
