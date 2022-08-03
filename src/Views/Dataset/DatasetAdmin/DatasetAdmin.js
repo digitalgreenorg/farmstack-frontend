@@ -116,6 +116,8 @@ export default function DatasetAdmin() {
         // setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
         adminUrl = UrlConstant.base_url + UrlConstant.dataset_list
         memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
+        setDatasetUrl("")
+        setMemberDatasetUrl("")
     }
     const handleFilterChange = (index, filterName) => {
 
@@ -262,7 +264,12 @@ export default function DatasetAdmin() {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         }
         if(isAnyFilterChecked){
-            getDatasetList(false)
+            if(isMemberTab){
+                getMemberDatasets(false)
+            } else {
+                getMyDataset(false)
+            }
+            // getDatasetList(false)
         } else{
             clearAllFilters()
         }
@@ -405,8 +412,13 @@ export default function DatasetAdmin() {
     useEffect(() => {
         getFilters()
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        getDatasetList(false)
-    }, [value]);
+        // getDatasetList(false)
+        if(isMemberTab){
+            getMemberDatasets(false)
+        } else{
+            getMyDataset(false) 
+        }   
+    }, [isMemberTab]);
 
     const getFilters = () => {
         setIsLoader(true);
@@ -548,6 +560,98 @@ export default function DatasetAdmin() {
             });
     }
 
+    const getMyDataset = (isLoadMore) => {
+        if(!isLoadMore){
+            resetUrls()
+        }
+        setIsLoader(true);
+        if (payload == "") {
+            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+            payload['others'] = false
+        }
+        HTTPService(
+            "POST",
+            // "GET",
+            // isMemberTab ? memberDatasetUrl : datasetUrl,
+            !isLoadMore ? adminUrl : datasetUrl,
+            payload,
+            false,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log("response:", response)
+                console.log("datatset:", response.data.results)
+
+                if (response.data.next == null) {
+                    setShowLoadMoreAdmin(false)
+                } else {
+                    setDatasetUrl(response.data.next)
+                    setShowLoadMoreAdmin(true)
+                }
+                let finalDataList = []
+                    if (isLoadMore) {
+                        finalDataList = [...datasetList, ...response.data.results]
+                    } else {
+                        finalDataList = [...response.data.results]
+                    }
+                    setDatasetList(finalDataList)
+            })
+            .catch((e) => {
+                console.log(e)
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+
+    const getMemberDatasets = (isLoadMore) => {
+        if(!isLoadMore){
+            resetUrls()
+        }
+        setIsLoader(true);
+        if (payload == "") {
+            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+            payload['others'] = true
+        }
+        HTTPService(
+            "POST",
+            // "GET",
+            // isMemberTab ? memberDatasetUrl : datasetUrl,
+            !isLoadMore ? memberUrl : memberDatasetUrl,
+            payload,
+            false,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log("response:", response)
+                console.log("datatset:", response.data.results)
+
+                if (response.data.next == null) {
+                    // setisShowLoadMoreButton(false)
+                    // setShowLoadMoreAdmin(false)
+                    setShowLoadMoreMember(false)
+                } else {
+                    // setisShowLoadMoreButton(true)
+                    setMemberDatasetUrl(response.data.next)
+                    // memberUrl = response.data.next
+                    setShowLoadMoreMember(true)
+                }
+                let finalDataList = []
+                if (isLoadMore) {
+                    finalDataList = [...memberDatasetList, ...response.data.results]
+                } else {
+                    finalDataList = [...response.data.results]
+                }
+                setMemberDatasetList(finalDataList)
+            })
+            .catch((e) => {
+                console.log(e)
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+
     const buildFilterPayLoad = (createdAtRange, userId, geoPayload, agePayload, cropPayload, statusPayload) => {
         let data = {}
         if (createdAtRange !== "") {
@@ -590,12 +694,15 @@ export default function DatasetAdmin() {
         if (newValue == "2") {
             console.log("isMemberTab", isMemberTab)
             setIsMemberTab(!isMemberTab)
+            // getMemberFilter()
+            getMemberDatasets(false)
             console.log("isMemberTab", isMemberTab)
         } else {
             setIsMemberTab(!isMemberTab)
+            getMyDataset(false)
         }
         console.log("isMemberTab", isMemberTab)
-        clearAllFilters()
+        
         console.log("isMemberTab", isMemberTab)
 
     };
@@ -618,7 +725,12 @@ export default function DatasetAdmin() {
         // resetEnabledStatusFilter()
 
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        getDatasetList(false)
+        if(isMemberTab){
+            getMemberDatasets(false)
+        } else {
+            getMyDataset(false)
+        }
+        // getDatasetList(false)
     }
 
     const getAllDataSets = () => {
@@ -636,7 +748,12 @@ export default function DatasetAdmin() {
 
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
 
-        getDatasetList(false)
+        if(isMemberTab){
+            getMemberDatasets(false)
+        } else {
+            getMyDataset(false)
+        }
+        // getDatasetList(false)
 
     }
 
@@ -655,7 +772,12 @@ export default function DatasetAdmin() {
 
         payload = buildFilterPayLoad(fromDateandToDate, getUserLocal(), "", "", "", "")
         setsecondrow(true)
-        getDatasetList(false)
+        if(isMemberTab){
+            getMemberDatasets(false)
+        } else {
+            getMyDataset(false)
+        }
+        // getDatasetList(false)
     }
     const changeView = (keyname) => {
         let tempfilterObject = { ...screenView }
@@ -891,7 +1013,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDisableSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset disabled successfully!"} imageText={"Disabled"} msg={"You diabled a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');isMemberTab?getMemberDatasets(false):getMyDataset(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset disabled successfully!"} imageText={"Disabled"} msg={"You diabled a dataset."}></Success> : <></>
             }
             {screenView.isEnable ? <Delete
                 route={"login"}
@@ -907,7 +1029,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isEnableSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset enabled successfully!"} imageText={"Enabled"} msg={"You enabled a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');isMemberTab?getMemberDatasets(false):getMyDataset(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Dataset enabled successfully!"} imageText={"Enabled"} msg={"You enabled a dataset."}></Success> : <></>
             }
             {screenView.isApprove ? <Delete
                 route={"login"}
@@ -923,7 +1045,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isApproveSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approve Dataset"} imageText={"Approved"} msg={"You approved a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');isMemberTab?getMemberDatasets(false):getMyDataset(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approve Dataset"} imageText={"Approved"} msg={"You approved a dataset."}></Success> : <></>
             }
             {screenView.isDisapprove ? <Delete
                 route={"login"}
@@ -939,7 +1061,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDisapproveSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Disapprove Dataset"} imageText={"Disapprove"} msg={"You disapproved a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');isMemberTab?getMemberDatasets(false):getMyDataset(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Disapprove Dataset"} imageText={"Disapprove"} msg={"You disapproved a dataset."}></Success> : <></>
             }
             {screenView.isDelete ? <Delete
                 route={"login"}
@@ -955,7 +1077,7 @@ export default function DatasetAdmin() {
             </Delete>
                 : <></>}
             {screenView.isDeleSuccess ?
-                <Success okevent={() => { changeView('isDataSetFilter');getDatasetList(false);getFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
+                <Success okevent={() => { changeView('isDataSetFilter');isMemberTab?getMemberDatasets(false):getMyDataset(false);getFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your dataset deleted successfully!"} imageText={"Deleted!"} msg={"You deleted a dataset."}></Success> : <></>
             }
             {screenView.isDataSetFilter ? <Row className="supportfirstmaindiv">
                 {/* <Row className="secondmainheading width100percent">{screenlabels.support.heading}</Row> */}
@@ -1018,8 +1140,8 @@ export default function DatasetAdmin() {
                                             <DataSetListing
                                                 datasetList={datasetList}
                                                 isShowLoadMoreButton={showLoadMoreAdmin}
-                                                isMemberTab={value =="2"}
-                                                getDatasetList={getDatasetList}
+                                                isMemberTab={isMemberTab}
+                                                getDatasetList={isMemberTab?getMemberDatasets:getMyDataset}
                                                 viewCardDetails={(id) => viewCardDetails(id, true)}
                                             />
                                         </TabPanel>
@@ -1027,8 +1149,8 @@ export default function DatasetAdmin() {
                                             <DataSetListing
                                                 datasetList={memberDatasetList}
                                                 isShowLoadMoreButton={showLoadMoreMember}
-                                                isMemberTab={value =="2"}
-                                                getDatasetList={getDatasetList}
+                                                isMemberTab={isMemberTab}
+                                                getDatasetList={isMemberTab?getMemberDatasets:getMyDataset}
                                                 viewCardDetails={(id) => viewCardDetails(id, false)}
                                             />
                                             {/* <OrganisationSetting
