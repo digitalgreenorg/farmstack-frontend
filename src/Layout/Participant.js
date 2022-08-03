@@ -28,6 +28,11 @@ function Participant(props) {
               path="/participant/datasets"
               component={DatasetParticipant}
             />
+            <Route
+              exact
+              path="/participant/connectors"
+              component={DatasetParticipant}
+            />
             <Route exact path="/participant/home" component={Home} />
             <Route
               exact
