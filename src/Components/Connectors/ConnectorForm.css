@@ -59,3 +59,38 @@
   padding-left: 2% !important;
   text-align: left;
 }
+.connectorform .dataset {
+  margin-top: 2%;
+  text-align: left;
+  padding-left: 8%;
+}
+.connectorform .dockerName {
+  width: 80%;
+}
+.connectorform .docker {
+  margin-top: 2.7% !important;
+  padding-left: 2% !important;
+  text-align: left;
+}
+.connectorform .port {
+  margin-top: 2.7% !important;
+  padding-left: 8.5% !important;
+  text-align: left;
+}
+.connectorform .portName {
+  width: 93%;
+}
+.connectorform .description {
+  float: left;
+  /* width: 80% !important; */
+  margin-top: 2%;
+  padding-left: 2% !important;
+  text-align: left;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+}
+.connectorform .descriptionName {
+  width: 80% !important;
+}
