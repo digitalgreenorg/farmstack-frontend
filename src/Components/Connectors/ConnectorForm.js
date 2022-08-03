@@ -8,8 +8,59 @@ import "./ConnectorForm.css";
 
 import Link from "@mui/material/Link";
 
+import { useTheme } from "@mui/material/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
+const names = [
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+];
+const connectorType = ["Provider", "Consumer"];
 export default function ConnectorForm() {
   const history = useHistory();
+  const [department, setdepartment] = React.useState("");
+  const [project, setproject] = React.useState("");
+  const [connector, setconnector] = React.useState("");
+  const [connectorName, setconnectorName] = React.useState("");
+
+  const handleChangeDepartment = (event) => {
+    console.log(event.target.value);
+    setdepartment(event.target.value);
+  };
+  const handleChangeProject = (event) => {
+    console.log(event.target.value);
+    setproject(event.target.value);
+  };
+  const handleChangeConnector = (event) => {
+    console.log(event.target.value);
+    setconnector(event.target.value);
+  };
+  const handleChangeConnectorName = (event) => {
+    console.log(event.target.value);
+    setconnectorName(event.target.value);
+  };
   return (
     <Container className="connectorform">
       <Row>
@@ -56,6 +107,77 @@ export default function ConnectorForm() {
             underline="hover">
             + Add Project
           </Link>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={6} sm={6} md={6} lg={6} className="department">
+          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+            <InputLabel id="demo-simple-select-required-label">
+              Select Department *
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-required-label"
+              id="demo-simple-select-required"
+              value={department}
+              onChange={handleChangeDepartment}>
+              {names.map((name) => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Col>
+        <Col xs={6} sm={6} md={6} lg={6} className="project">
+          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+            <InputLabel id="demo-simple-select-required-label">
+              Select Project *
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-required-label"
+              id="demo-simple-select-required"
+              value={project}
+              onChange={handleChangeProject}>
+              {names.map((name) => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={6} sm={6} md={6} lg={6} className="connector">
+          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+            <InputLabel id="demo-simple-select-required-label">
+              Connector Type *
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-required-label"
+              id="demo-simple-select-required"
+              value={connector}
+              onChange={handleChangeConnector}>
+              {connectorType.map((name) => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Col>
+        <Col xs={6} sm={6} md={6} lg={6} className="Name">
+          <TextField
+            // style={useStyles.inputwidth}
+            className="connectorName"
+            id="filled-basic"
+            variant="filled"
+            required
+            // width="100%"
+            value={connectorName}
+            onChange={handleChangeConnectorName}
+            label="Connector Name "
+          />
         </Col>
       </Row>
     </Container>

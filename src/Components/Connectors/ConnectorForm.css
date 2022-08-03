@@ -25,7 +25,8 @@
   font-size: 14px;
   line-height: 19px;
   margin-top: 5%;
-  text-align: end;
+  text-align: center;
+  padding-left: 30%;
 }
 .connectorform .link2 {
   font-family: "Open Sans";
@@ -35,4 +36,26 @@
   line-height: 19px;
   margin-top: 5%;
   padding-left: 20%;
+}
+.connectorform .department {
+  padding-left: 8%;
+  margin-top: 2%;
+  text-align: left;
+}
+.connectorform .project {
+  margin-top: 2%;
+  text-align: left;
+}
+.connectorform .connector {
+  margin-top: 2%;
+  text-align: left;
+  padding-left: 8%;
+}
+.connectorform .connectorName {
+  width: 80%;
+}
+.connectorform .Name {
+  margin-top: 2.7% !important;
+  padding-left: 2% !important;
+  text-align: left;
 }
