@@ -1,0 +1,38 @@
+.connectorform .connectormainheading {
+  color: #3d4a52;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+  margin-top: 8% !important;
+  text-align: start;
+  margin-left: 6%;
+}
+.connectorform .supportViewDetailsbackimage {
+  margin-left: 14px;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: "Open Sans";
+  color: #3491ee;
+  margin-top: 0px;
+  margin-left: 7%;
+}
+.connectorform .link1 {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 5%;
+  text-align: end;
+}
+.connectorform .link2 {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 5%;
+  padding-left: 20%;
+}
