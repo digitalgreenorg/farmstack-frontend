@@ -15,6 +15,7 @@ const labels = {
       NetworkActivity: "Network Activity",
       Support: "Support",
       datasets: "Datasets",
+      connectors: "Connectors",
       Settings: "Settings",
       Signout: "Sign out",
       Signin: "Sign In",
