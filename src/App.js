@@ -19,6 +19,8 @@ import Participant from './Layout/Participant'
 import Error from "./Components/Error/Error";
 import SessionExpired from "./Components/SessionExpired/SessionExpired";
 import GuestUserHome from "./Views/GuestUser/GuestUserHome";
+import GuestUserLegal from "./Views/GuestUser/GuestUserLegal";
+import GuestUserContact from "./Views/GuestUser/GuestUserContact";
 function App() {
   return (
     <React.Fragment>
@@ -35,6 +37,9 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error" component={Error} />
+          <Route exact path="/guest/home" component={GuestUserHome} />
+          <Route exact path="/guest/legal" component={GuestUserLegal} />
+          <Route exact path="/guest/contact" component={GuestUserContact} />
           <Route path="/guest" component={GuestUserHome} />
           <Redirect from="/" to="/login" />
         </Switch>

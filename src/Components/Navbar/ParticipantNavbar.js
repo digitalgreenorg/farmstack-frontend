@@ -17,12 +17,12 @@ import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
-import {GetErrorHandlingRoute} from "../../Utils/Common";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 
 const ParticipantNavbar = (props) => {
   const [profile, setprofile] = useState(null);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
 
   let history = useHistory();
 
@@ -32,7 +32,8 @@ const ParticipantNavbar = (props) => {
     setIsLoader(true);
     await HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.profile + id + "/",'',
+      UrlConstant.base_url + UrlConstant.profile + id + "/",
+      "",
       false,
       true
     )
@@ -72,16 +73,16 @@ const ParticipantNavbar = (props) => {
   };
   return (
     <>
-      {isLoader ? <Loader />: ''}
+      {isLoader ? <Loader /> : ""}
       <Nav id="datahubnavbar">
         {/* <Bars /> */}
         <img
           src={require("../../Assets/Img/farmstack.jpg")}
           alt="new"
-          style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
+          style={{ width: "139.35px", height: "18.99px", "margin-top": "26px" }}
         />
         <NavMenu>
-        <NavLink to="/participant/datasets" activeStyle>
+          <NavLink to="/participant/datasets" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/dataset_bold.svg")}
@@ -93,6 +94,19 @@ const ParticipantNavbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.datasets}
+          </NavLink>
+          <NavLink to="/participant/connectors" activeStyle>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/connectors.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/connectors_white.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.connectors}
           </NavLink>
         </NavMenu>
         {profile ? (
