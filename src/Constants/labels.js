@@ -209,6 +209,18 @@ const labels = {
       submit: "Submit",
       cancel: "Cancel",
     },
+    connector_form: {
+      connectorType: " Connector Type * ",
+      selectDataset: "Select Dataset *",
+      connectorName: "Connector Name ",
+      addDepartment: " + Add Department",
+      addProject: " + Add Project ",
+      selectDepartment: "  Select Department * ",
+      selectProject: " Select Project *",
+      docker: "Docker Image url  ",
+      port: "Application Port ",
+      des: "Description",
+    },
   },
 };
 export default labels;

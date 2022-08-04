@@ -18,6 +18,8 @@ import UploadDataset from "../../Components/Datasets/UploadDataset";
 import { validateInputField, handleUnwantedSpace } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
 
+import labels from "../../Constants/labels";
+
 const names = [
   "Oliver Hansen",
   "Van Henry",
@@ -45,6 +47,8 @@ const fileTypes = ["p12", "pfx"];
 
 export default function ConnectorForm(props) {
   const history = useHistory();
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
   const [department, setdepartment] = React.useState("");
   const [project, setproject] = React.useState("");
   const [connector, setconnector] = React.useState("");
@@ -131,7 +135,7 @@ export default function ConnectorForm(props) {
         <Col xs={6} sm={6} md={6} lg={6} className="connector">
           <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
             <InputLabel id="demo-simple-select-required-label">
-              Connector Type *
+              {screenlabels.connector_form.connectorType}
             </InputLabel>
             <Select
               labelId="demo-simple-select-required-label"
@@ -149,7 +153,7 @@ export default function ConnectorForm(props) {
         <Col xs={6} sm={6} md={6} lg={6} className="dataset">
           <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
             <InputLabel id="demo-simple-select-required-label">
-              Select Dataset *
+              {screenlabels.connector_form.selectDataset}
             </InputLabel>
             <Select
               labelId="demo-simple-select-required-label"
@@ -176,7 +180,7 @@ export default function ConnectorForm(props) {
             // width="100%"
             value={connectorName}
             onChange={handleChangeConnectorName}
-            label="Connector Name "
+            label={screenlabels.connector_form.connectorName}
           />
         </Col>
       </Row>
@@ -189,7 +193,7 @@ export default function ConnectorForm(props) {
               console.info("I'm a button.");
             }}
             underline="hover">
-            + Add Department
+            {screenlabels.connector_form.addDepartment}
           </Link>
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="link2">
@@ -200,7 +204,7 @@ export default function ConnectorForm(props) {
               console.info("I'm a button.");
             }}
             underline="hover">
-            + Add Project
+            {screenlabels.connector_form.addProject}
           </Link>
         </Col>
       </Row>
@@ -208,7 +212,7 @@ export default function ConnectorForm(props) {
         <Col xs={6} sm={6} md={6} lg={6} className="department">
           <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
             <InputLabel id="demo-simple-select-required-label">
-              Select Department *
+              {screenlabels.connector_form.selectDepartment}
             </InputLabel>
             <Select
               labelId="demo-simple-select-required-label"
@@ -226,7 +230,7 @@ export default function ConnectorForm(props) {
         <Col xs={6} sm={6} md={6} lg={6} className="project">
           <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
             <InputLabel id="demo-simple-select-required-label">
-              Select Project *
+              {screenlabels.connector_form.selectProject}
             </InputLabel>
             <Select
               labelId="demo-simple-select-required-label"
@@ -254,7 +258,7 @@ export default function ConnectorForm(props) {
             // width="100%"
             value={docker}
             onChange={handleChangeDocker}
-            label="Docker Image url  "
+            label={screenlabels.connector_form.docker}
           />
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="port">
@@ -267,7 +271,7 @@ export default function ConnectorForm(props) {
             // width="100%"
             value={port}
             onChange={handleChangeport}
-            label="Application Port "
+            label={screenlabels.connector_form.port}
             inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           />
         </Col>
@@ -276,7 +280,7 @@ export default function ConnectorForm(props) {
         <Col xs={12} sm={12} md={12} lg={12} className="description">
           <TextField
             className="descriptionName"
-            label="Description"
+            label={screenlabels.connector_form.des}
             multiline
             rows={4}
             variant="filled"
