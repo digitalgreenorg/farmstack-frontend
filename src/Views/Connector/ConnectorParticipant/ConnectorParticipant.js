@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import labels from '../../../Constants/labels';
 import Loader from '../../../Components/Loader/Loader'
 import { Col, Row } from 'react-bootstrap'
 import ConnectorFilter from '../ConnectorFilter'
 import ConnectorListing from '../ConnectorListing'
 
 export default function ConnectorParticipant() {
+    const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [isLoader, setIsLoader] = useState(false)
 
     //connector list state which will be set with backend response
@@ -41,8 +43,146 @@ export default function ConnectorParticipant() {
         { index: 6, name: "Rejected", payloadName: "rejected", isChecked: false }
     ])
 
+    var payload = {}
+
     const handleFilterChange = (index, filterName) => {
-        
+
+         var isAnyFilterChecked = false
+         var tempFilter = []
+         var payloadList = []
+ 
+         setIsShowAll(false)
+ 
+         if (filterName == screenlabels.connector.department) {
+ 
+             resetFilterState(screenlabels.connector.projects)
+             resetFilterState(screenlabels.connector.connector_type)
+             resetFilterState(screenlabels.dataset.connector_status)
+ 
+             tempFilter = [...departmentFilter]
+             for (let i = 0; i < tempFilter.length; i++) {
+                 if (tempFilter[i].index == index) {
+                     tempFilter[i].isChecked = !tempFilter[i].isChecked
+                 }
+                 if (tempFilter[i].isChecked) {
+                     payloadList.push(tempFilter[i].name)
+                     isAnyFilterChecked = true
+                 }
+             }
+             setDepartmentFilter(tempFilter)
+
+            //  payload = buildFilterPayLoad("", getUserLocal(), payloadList, "", "", "")
+ 
+         } else if (filterName == screenlabels.connector.projects) {
+ 
+             resetFilterState(screenlabels.connector.department)
+             resetFilterState(screenlabels.connector.connector_type)
+             resetFilterState(screenlabels.connector.connector_status)
+ 
+             tempFilter = [...projectFilter]
+             for (let i = 0; i < tempFilter.length; i++) {
+                 if (tempFilter[i].index == index) {
+                     tempFilter[i].isChecked = !tempFilter[i].isChecked
+                 }
+                 if (tempFilter[i].isChecked) {
+                     payloadList.push(tempFilter[i].payloadName)
+                     isAnyFilterChecked = true
+                 }
+             }
+             setProjectFilter(tempFilter)
+ 
+            //  payload = buildFilterPayLoad("", getUserLocal(), "", payloadList, "", "")
+ 
+         } else if (filterName == screenlabels.connector.connector_type) {
+ 
+             resetFilterState(screenlabels.connector.department)
+             resetFilterState(screenlabels.connector.projects)
+             resetFilterState(screenlabels.connector.connector_status)
+ 
+             tempFilter = [...connectorTypeFilter]
+             for (let i = 0; i < tempFilter.length; i++) {
+                 if (tempFilter[i].index == index) {
+                     tempFilter[i].isChecked = !tempFilter[i].isChecked
+                 }
+                 if (tempFilter[i].isChecked) {
+                     payloadList.push(tempFilter[i].name)
+                     isAnyFilterChecked = true
+                 }
+             }
+             setConnectoprTypeFilter(tempFilter)
+            //  payload = buildFilterPayLoad("", getUserLocal(), "", "", payloadList, "")
+             
+         } else if (filterName == screenlabels.connector.connector_status) {
+             resetFilterState(screenlabels.connector.department)
+             resetFilterState(screenlabels.connector.projects)
+             resetFilterState(screenlabels.connector.connector_type)
+ 
+             tempFilter = [...statusFilter]
+             for (let i = 0; i < tempFilter.length; i++) {
+                 if (tempFilter[i].index == index) {
+                     tempFilter[i].isChecked = !tempFilter[i].isChecked
+                 }
+                 if (tempFilter[i].isChecked) {
+                     payloadList.push(tempFilter[i].payloadName)
+                     isAnyFilterChecked = true
+                 }
+             }
+             setStatusFilter(tempFilter)
+ 
+            //  payload = buildFilterPayLoad("", getUserLocal(), "", "", "", payloadList)
+         }
+         if(isAnyFilterChecked){
+            //  if(isMemberTab){
+            //      getMemberDatasets(false)
+            //  } else {
+            //      getMyDataset(false)
+            //  }
+         } else{
+            //  clearAllFilters()
+         }
+    }
+
+    const resetFilterState = (filterName) => {
+        var tempFilter = []
+        if (filterName == screenlabels.connector.department) {
+
+            tempFilter = [...departmentFilter]
+            for (let i = 0; i < tempFilter.length; i++) {
+                tempFilter[i].isChecked = false
+                tempFilter[i].isDisplayed = true
+            }
+            setDepartmentFilter(tempFilter)
+            setDeptSearchState("")
+
+        } else if (filterName == screenlabels.connector.projects) {
+
+            tempFilter = [...projectFilter]
+            for (let i = 0; i < tempFilter.length; i++) {
+                tempFilter[i].isChecked = false
+                tempFilter[i].isDisplayed = true
+            }
+            setProjectFilter(tempFilter)
+            setProjectSearchState("")
+
+        } else if (filterName == screenlabels.connector.connector_type) {
+
+            tempFilter = [...connectorTypeFilter]
+            for (let i = 0; i < tempFilter.length; i++) {
+                tempFilter[i].isChecked = false
+                // tempFilter[i].isDisplayed = true
+            }
+            setConnectoprTypeFilter(tempFilter)
+
+        } else if (filterName == screenlabels.connector.connector_status) {
+
+            tempFilter = [...statusFilter]
+            for (let i = 0; i < tempFilter.length; i++) {
+                tempFilter[i].isChecked = false
+                // tempFilter[i].isDisplayed = true
+            }
+            setStatusFilter(tempFilter)
+
+        }
     }
 
   return (
