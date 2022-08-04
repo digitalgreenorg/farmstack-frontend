@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import labels from '../../../Constants/labels';
 import Loader from '../../../Components/Loader/Loader'
+import { getUserLocal } from '../../../Utils/Common'
 import { Col, Row } from 'react-bootstrap'
 import ConnectorFilter from '../ConnectorFilter'
 import ConnectorListing from '../ConnectorListing'
@@ -71,7 +72,7 @@ export default function ConnectorParticipant() {
              }
              setDepartmentFilter(tempFilter)
 
-            //  payload = buildFilterPayLoad("", getUserLocal(), payloadList, "", "", "")
+             payload = buildFilterPayLoad(getUserLocal(), payloadList, "", "", "")
  
          } else if (filterName == screenlabels.connector.projects) {
  
@@ -91,7 +92,7 @@ export default function ConnectorParticipant() {
              }
              setProjectFilter(tempFilter)
  
-            //  payload = buildFilterPayLoad("", getUserLocal(), "", payloadList, "", "")
+             payload = buildFilterPayLoad(getUserLocal(), "", payloadList, "", "")
  
          } else if (filterName == screenlabels.connector.connector_type) {
  
@@ -110,9 +111,10 @@ export default function ConnectorParticipant() {
                  }
              }
              setConnectoprTypeFilter(tempFilter)
-            //  payload = buildFilterPayLoad("", getUserLocal(), "", "", payloadList, "")
+             payload = buildFilterPayLoad(getUserLocal(), "", "", payloadList, "")
              
          } else if (filterName == screenlabels.connector.connector_status) {
+             
              resetFilterState(screenlabels.connector.department)
              resetFilterState(screenlabels.connector.projects)
              resetFilterState(screenlabels.connector.connector_type)
@@ -129,7 +131,7 @@ export default function ConnectorParticipant() {
              }
              setStatusFilter(tempFilter)
  
-            //  payload = buildFilterPayLoad("", getUserLocal(), "", "", "", payloadList)
+             payload = buildFilterPayLoad(getUserLocal(), "", "", "", payloadList)
          }
          if(isAnyFilterChecked){
             //  if(isMemberTab){
@@ -181,8 +183,26 @@ export default function ConnectorParticipant() {
                 // tempFilter[i].isDisplayed = true
             }
             setStatusFilter(tempFilter)
-
         }
+    }
+    const buildFilterPayLoad = (userId, deptPayload, projectPayload, typePayload, statusPayload) => {
+        let data = {}
+        
+        data['user_id'] = userId
+        // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
+        if (deptPayload !== "") {
+            data['department__in'] = deptPayload
+        }
+        if (projectPayload !== "") {
+            data['project__in'] = projectPayload
+        }
+        if(typePayload !== ""){
+            data['connector_type'] = typePayload
+        }
+        if (statusPayload !== "") {
+            data['connector_status__in'] = statusPayload
+        }
+        return data
     }
 
   return (
