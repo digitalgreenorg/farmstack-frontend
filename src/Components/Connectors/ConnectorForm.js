@@ -15,6 +15,9 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+import { FileUploader } from "react-drag-drop-files";
+import UploadDataset from "../../Components/Datasets/UploadDataset";
+
 const names = [
   "Oliver Hansen",
   "Van Henry",
@@ -38,7 +41,8 @@ const names = [
   "Kelly Snyder",
 ];
 const connectorType = ["Provider", "Consumer"];
-export default function ConnectorForm() {
+const fileTypes = ["p12", "pfx"];
+export default function ConnectorForm(props) {
   const history = useHistory();
   const [department, setdepartment] = React.useState("");
   const [project, setproject] = React.useState("");
@@ -237,7 +241,6 @@ export default function ConnectorForm() {
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="port">
           <TextField
-            // style={useStyles.inputwidth}
             className="portName"
             id="filled-basic"
             variant="filled"
@@ -247,6 +250,7 @@ export default function ConnectorForm() {
             value={port}
             onChange={handleChangeport}
             label="Application Port "
+            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           />
         </Col>
       </Row>
@@ -264,6 +268,43 @@ export default function ConnectorForm() {
             onChange={handleChangedescription}
           />
         </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <span className="uploadheading">Upload Certificate *</span>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="fileupload">
+          <FileUploader
+            handleChange={props.handleFileChange}
+            name="file"
+            types={fileTypes}
+            children={
+              <UploadDataset
+                uploaddes="Supports: P12 format only"
+                uploadtitle="Upload Certificate"
+              />
+            }
+            classes="fileUpload"
+          />
+        </Col>
+      </Row>
+
+      <Row xs={12} sm={12} md={12} lg={12}>
+        <p className="uploaddatasetname">
+          {props.file
+            ? props.file.size
+              ? `File name: ${props.file.name}`
+              : ""
+            : ""}
+        </p>
+        <p className="oversizemb-uploadimglogo">
+          {props.file != null && props.file.size > 2097152
+            ? "File uploaded is more than 2MB!"
+            : ""}
+          {props.fileValid}
+        </p>
       </Row>
     </Container>
   );

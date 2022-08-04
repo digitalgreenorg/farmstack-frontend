@@ -94,3 +94,18 @@
 .connectorform .descriptionName {
   width: 83.5% !important;
 }
+.connectorform .uploadheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #3d4a52;
+  float: left;
+  margin-left: 7.5%;
+  margin-top: 3%;
+  margin-bottom: 1%;
+}
+.connectorform .fileupload {
+  padding-left: 8.5%;
+  padding-right: 10%;
+}
