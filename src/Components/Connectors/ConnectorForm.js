@@ -224,7 +224,6 @@ export default function ConnectorForm(props) {
           </FormControl>
         </Col>
       </Row>
-
       <Row>
         <Col xs={6} sm={6} md={6} lg={6} className="docker">
           <TextField
@@ -269,42 +268,48 @@ export default function ConnectorForm(props) {
           />
         </Col>
       </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
-          <span className="uploadheading">Upload Certificate *</span>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12} className="fileupload">
-          <FileUploader
-            handleChange={props.handleFileChange}
-            name="file"
-            types={fileTypes}
-            children={
-              <UploadDataset
-                uploaddes="Supports: P12 format only"
-                uploadtitle="Upload Certificate"
+      {!props.upload ? (
+        ""
+      ) : (
+        <>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12}>
+              <span className="uploadheading">Upload Certificate *</span>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12} className="fileupload">
+              <FileUploader
+                handleChange={props.handleFileChange}
+                name="file"
+                types={fileTypes}
+                children={
+                  <UploadDataset
+                    uploaddes="Supports: P12 format only"
+                    uploadtitle="Upload Certificate"
+                  />
+                }
+                classes="fileUpload"
               />
-            }
-            classes="fileUpload"
-          />
-        </Col>
-      </Row>
-      <Row xs={12} sm={12} md={12} lg={12}>
-        <p className="uploaddatasetname">
-          {props.file
-            ? props.file.size
-              ? `File name: ${props.file.name}`
-              : ""
-            : ""}
-        </p>
-        <p className="oversizemb-uploadimglogo">
-          {props.file != null && props.file.size > 2097152
-            ? "File uploaded is more than 2MB!"
-            : ""}
-          {props.fileValid}
-        </p>
-      </Row>
+            </Col>
+          </Row>
+          <Row xs={12} sm={12} md={12} lg={12}>
+            <p className="uploaddatasetname">
+              {props.file
+                ? props.file.size
+                  ? `File name: ${props.file.name}`
+                  : ""
+                : ""}
+            </p>
+            <p className="oversizemb-uploadimglogo">
+              {props.file != null && props.file.size > 2097152
+                ? "File uploaded is more than 2MB!"
+                : ""}
+              {props.fileValid}
+            </p>
+          </Row>
+        </>
+      )}
     </Container>
   );
 }

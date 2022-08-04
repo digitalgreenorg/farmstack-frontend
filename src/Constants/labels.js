@@ -220,6 +220,7 @@ const labels = {
       docker: "Docker Image url  ",
       port: "Application Port ",
       des: "Description",
+      submit: "Save and Request Certificate",
     },
   },
 };

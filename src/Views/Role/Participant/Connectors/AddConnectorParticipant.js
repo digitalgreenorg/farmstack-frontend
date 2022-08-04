@@ -136,6 +136,7 @@ export default function AddConnectorParticipant() {
           handleChangeDocker={handleChangeDocker}
           handleChangeport={handleChangeport}
           names={names}
+          upload={false}
         />
         <Row>
           <Col xs={12} sm={12} md={6} lg={3}></Col>
@@ -146,18 +147,17 @@ export default function AddConnectorParticipant() {
             connectorName &&
             Dataset &&
             docker &&
-            port &&
-            file ? (
+            port ? (
               <Button
                 //   onClick={() => addNewParticipants()}
                 variant="contained"
                 className="submitbtn"
                 type="submit">
-                {screenlabels.common.submit}
+                {screenlabels.connector_form.submit}
               </Button>
             ) : (
               <Button variant="outlined" disabled className="disbalesubmitbtn">
-                {screenlabels.common.submit}
+                {screenlabels.connector_form.submit}
               </Button>
             )}
           </Col>
