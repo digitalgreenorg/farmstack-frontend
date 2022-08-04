@@ -188,7 +188,7 @@ export default function OrganisationSetting(props) {
     bodyFormData.append("user_id", id);
     bodyFormData.append("phone_number", phonenumber);
     bodyFormData.append("logo", orgfile);
-    bodyFormData.append("org_description", orgdesc);
+    bodyFormData.append("org_description", editorValue.toString("html"));
     console.log("org details", bodyFormData);
     setIsLoader(true);
     if (isPost) {
