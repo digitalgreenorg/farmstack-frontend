@@ -1,14 +1,25 @@
 import React, { useState } from 'react'
 import labels from '../../../Constants/labels';
 import Loader from '../../../Components/Loader/Loader'
+import HTTPService from "../../../Services/HTTPService";
 import { getUserLocal } from '../../../Utils/Common'
 import { Col, Row } from 'react-bootstrap'
 import ConnectorFilter from '../ConnectorFilter'
 import ConnectorListing from '../ConnectorListing'
+import { get } from 'jquery';
+import UrlConstant from '../../../Constants/UrlConstants';
+import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import { useHistory } from 'react-router-dom';
 
 export default function ConnectorParticipant() {
+    
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [isLoader, setIsLoader] = useState(false)
+    const history = useHistory()
+
+    //states for api endpoint management
+    const [connectorUrl, setConnectorUrl] = useState(UrlConstant.base_url+UrlConstant.connector_list)
+    const [showLoadMore, setShowLoadMore] = useState(false)
 
     //connector list state which will be set with backend response
     const [connectorList, setConnectorList] = useState([])
@@ -46,6 +57,92 @@ export default function ConnectorParticipant() {
 
     var payload = {}
 
+    const getFilters = () => {
+        setIsLoader(true);
+        var payloadData = {}
+        payloadData['user_id'] = getUserLocal()
+        // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
+        HTTPService(
+            "POST",
+            UrlConstant.base_url + UrlConstant.connector_filter,
+            payloadData,
+            false,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log("filter response:", response);
+
+                var deptFilterInput = response.data.department 
+                var projectFilterInput = response.data.project
+                
+                setDepartmentFilter(initFilter(deptFilterInput))
+                setProjectFilter(initFilter(projectFilterInput))
+                
+                console.log("deptFilter", departmentFilter) 
+                console.log("projectFilter", projectFilter)
+
+            })
+            .catch((e) => {
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+
+    const initFilter = (filterInput) => {
+        let filter = []
+        for (var i = 0; i < filterInput.length; i++) {
+            var data = {}
+            data['index'] = i;
+            data['name'] = filterInput[i]
+            data['isChecked'] = false
+            data['isDisplayed'] = true
+            filter.push(data)
+        }
+        return filter
+    }
+
+    const getConnectorList = (isLoadMore) => {
+
+        setIsLoader(true);
+        if (payload == "") {
+            payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
+        }
+        HTTPService(
+            "POST",
+            connectorUrl,
+            payload,
+            false,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log("response:", response)
+                console.log("connector:", response.data.results)
+
+                if (response.data.next == null) {
+                    setShowLoadMore(false)
+                    setConnectorUrl(UrlConstant.base_url+UrlConstant.connector_list)
+                } else {
+                    setConnectorUrl(response.data.next)
+                    setShowLoadMore(true)
+                }
+                let finalDataList = []
+                    if (isLoadMore) {
+                        finalDataList = [...connectorList, ...response.data.results]
+                    } else {
+                        finalDataList = [response.data.results]
+                    }
+                    setConnectorList(finalDataList)
+            })
+            .catch((e) => {
+                console.log(e)
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+
+    }
+    
     const handleFilterChange = (index, filterName) => {
 
          var isAnyFilterChecked = false
@@ -114,7 +211,7 @@ export default function ConnectorParticipant() {
              payload = buildFilterPayLoad(getUserLocal(), "", "", payloadList, "")
              
          } else if (filterName == screenlabels.connector.connector_status) {
-             
+
              resetFilterState(screenlabels.connector.department)
              resetFilterState(screenlabels.connector.projects)
              resetFilterState(screenlabels.connector.connector_type)
@@ -134,13 +231,9 @@ export default function ConnectorParticipant() {
              payload = buildFilterPayLoad(getUserLocal(), "", "", "", payloadList)
          }
          if(isAnyFilterChecked){
-            //  if(isMemberTab){
-            //      getMemberDatasets(false)
-            //  } else {
-            //      getMyDataset(false)
-            //  }
+             getConnectorList()
          } else{
-            //  clearAllFilters()
+             clearAllFilters()
          }
     }
 
@@ -186,6 +279,7 @@ export default function ConnectorParticipant() {
         }
     }
     const buildFilterPayLoad = (userId, deptPayload, projectPayload, typePayload, statusPayload) => {
+
         let data = {}
         
         data['user_id'] = userId
@@ -203,6 +297,18 @@ export default function ConnectorParticipant() {
             data['connector_status__in'] = statusPayload
         }
         return data
+    }
+
+    const clearAllFilters = () => {
+        setIsShowAll(true)
+        
+        resetFilterState(screenlabels.connector.department)
+        resetFilterState(screenlabels.connector.projects)
+        resetFilterState(screenlabels.connector.connector_type)
+        resetFilterState(screenlabels.connector.connector_status)
+
+        payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
+        getConnectorList()
     }
 
   return (
@@ -234,11 +340,10 @@ export default function ConnectorParticipant() {
                         isDeptSearchFound={isDeptSearchFound}
                         isProjectSearchFound={isProjectSearchFound}
 
-                        // getAllDataSets={getAllDataSets}
                         // handleGeoSearch={handleGeoSearch}
                         // handleCropSearch={handleCropSearch}
                         handleFilterChange={handleFilterChange}
-                        // clearAllFilters={clearAllFilters}
+                        clearAllFilters={clearAllFilters}
                     />
                 </Col>
                 <Col className="supportSecondCOlumn">

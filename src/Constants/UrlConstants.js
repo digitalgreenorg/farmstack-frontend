@@ -22,7 +22,10 @@ const UrlConstant = {
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
   datasetparticipant: "participant/datasets/",
-  onboarded: "accounts/login/onboarded/"
+  onboarded: "accounts/login/onboarded/",
+
+  connector_filter: 'datahub/connectors/filter_data',
+  connector_list: 'datahub/connectors/'
 };
 
 export default UrlConstant;

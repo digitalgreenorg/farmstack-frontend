@@ -33,7 +33,7 @@ export default function ConnectorFilter(props) {
             </Col>
         </Row>
         {props.isShowAll ? 
-        <Row onClick={() => props.getAllDataSets()} className="supportfiltersecondrow">
+        <Row onClick={() => props.clearAllFilters()} className="supportfiltersecondrow">
             <span className="supportallicon">
                 <img
                     src={require('../../Assets/Img/filter.svg')}
@@ -42,7 +42,7 @@ export default function ConnectorFilter(props) {
             </span>
             <span className="fontweight600andfontsize14pxandcolorFFFFFF supportalltexticon">{screenlabels.support.all}</span>
         </Row> :
-        <Row onClick={() => props.getAllDataSets()} className="supportfiltersecondrowbold">
+        <Row onClick={() => props.clearAllFilters()} className="supportfiltersecondrowbold">
             <span className="supportallicon">
                 <img
                     src={require('../../Assets/Img/filter_bold.svg')}
