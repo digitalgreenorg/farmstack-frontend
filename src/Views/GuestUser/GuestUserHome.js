@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import GuestUserBanner from "../../Components/GuestUser/GuestUserBanner";
+import GuestUserDatasets from "../../Components/GuestUser/GuestUserDatasets";
 import GuestUserDescription from "../../Components/GuestUser/GuestUserDescription";
 import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
@@ -31,6 +32,7 @@ export default function GuestUserHome(props) {
       <GuestUserNavBar />
       <GuestUserBanner />
       <GuestUserDescription />
+      <GuestUserDatasets />
     </>
   );
 }

@@ -4,6 +4,7 @@ import RegexConstants from "../Constants/RegexConstants";
 import React from "react";
 import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
+import HTTPService from "../Services/HTTPService";
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(
@@ -175,5 +176,14 @@ export const flushLocalstorage = () => {
     if (localStorage.getItem(key)) {
       localStorage.removeItem(key)
     }
+  });
+}
+
+export const checkUrlExists = (url) => {
+  HTTPService('GET', url, '', false, false).then((response) => {
+    return true
+  })
+  .catch((e) => {
+    return false
   });
 }

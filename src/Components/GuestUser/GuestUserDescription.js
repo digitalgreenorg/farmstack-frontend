@@ -4,19 +4,33 @@ import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
 import Success from "../../Components/Success/Success";
 import THEME_COLORS from "../../Constants/ColorConstants";
+import UrlConstant from "../../Constants/UrlConstants";
+import HTTPService from "../../Services/HTTPService";
 import './GuestUserBanner.css'
 
 export default function GuestUserDescription(props) {
 
-    const [description, setDescription] = useState('')
+    const [description, setDescription] = useState('<< Organisation description >>')
+    const [isLoader, setIsLoader] = useState(false)
   
-    useEffect(()=>{
-      setDescription('Monitoring of all the schemes implementations and capture the transactional data in real time mode. Enable to identify the eligible beneficiary and control on availing duplicate benefits . Ensure accountability, transparency and speedy disposal of transactional services . Ensure appropriate budget releases and expenditure control system based on the budget allocation for various schemes implementation .')
-  
-    }, [])
+    useEffect(() => {
+        setIsLoader(true)
+        HTTPService('GET', UrlConstant.base_url + UrlConstant.guest_organization_details, '', false, false)
+        .then((response) => {
+          setIsLoader(false);
+          if (response.data.organization.org_description){
+            setDescription(response.data.organization.org_description)
+          }
+        })
+        .catch((e) => {
+          setIsLoader(false);
+          //history.push(GetErrorHandlingRoute(e));
+        });
+      }, [])
     
     return(
     <>
+        {isLoader ? <Loader /> : ''}
         <Container style={{"margin-top": "50px", "margin-left": "180px", "margin-right":"180px"}}>
             <Row>
                 <Col xs={12} sm={12} md={12} lg={12}>
