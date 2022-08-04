@@ -184,6 +184,14 @@ const labels = {
       no_dataset_text1: "There are no Datasets at this moment !",
       no_dataset_text2: "Add your Dataset.",
     },
+    connector: {
+      filter: "Filter",
+      department: "Department",
+      projects: "Projects",
+      connector_type: "Connector Type",
+      connector_status: "Connector Status",
+      search: "Search"
+    }
   },
 };
 export default labels;
