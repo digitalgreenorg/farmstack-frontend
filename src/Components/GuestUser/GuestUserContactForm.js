@@ -91,8 +91,7 @@ const GuestUserContactForm = ({
             <div>{guestUserConstants.guestUser.datahub_admin_name}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.admin_name
-                ? datahubUserDetails.admin_name
-                : "Ambritha"}
+                }
             </div>
           </Row>
           <Row
@@ -106,8 +105,7 @@ const GuestUserContactForm = ({
             <div className={styles.guestUserDatahubAdminDetails}>
               {" "}
               {datahubUserDetails.org_name
-                ? datahubUserDetails.org_name
-                : "Kalgudi"}
+               }
             </div>
           </Row>
           <Row
@@ -120,8 +118,7 @@ const GuestUserContactForm = ({
             <div>{guestUserConstants.guestUser.address}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.address
-                ? datahubUserDetails.address
-                : "Vidhan Soudha, Bangalore, Karnataka"}
+               }
             </div>
           </Row>
           <Row
@@ -134,8 +131,7 @@ const GuestUserContactForm = ({
             <div>{guestUserConstants.guestUser.phone}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.phone_number
-                ? datahubUserDetails.phone_number
-                : "+91 897654 3210"}
+               }
             </div>
           </Row>
         </Col>
@@ -150,8 +146,7 @@ const GuestUserContactForm = ({
             <div> {guestUserConstants.guestUser.datahub_admin_email}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.admin_email
-                ? datahubUserDetails.admin_email
-                : "Ambritha@kalgudi.in"}
+                }
             </div>
           </Row>
           <Row
@@ -164,8 +159,7 @@ const GuestUserContactForm = ({
             <div>{guestUserConstants.guestUser.country}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.country
-                ? datahubUserDetails.country
-                : "India"}
+               }
             </div>
           </Row>
           <Row
@@ -177,7 +171,7 @@ const GuestUserContactForm = ({
           >
             <div>{guestUserConstants.guestUser.city}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
-              {datahubUserDetails.city ? datahubUserDetails.city : "Banglore"}
+              {datahubUserDetails.city }
             </div>
           </Row>
           <Row
@@ -190,8 +184,7 @@ const GuestUserContactForm = ({
             <div>{guestUserConstants.guestUser.website}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.website
-                ? datahubUserDetails.website
-                : "www.kalgudi.in"}
+              }
             </div>
           </Row>
         </Col>
@@ -206,8 +199,7 @@ const GuestUserContactForm = ({
             <div>{guestUserConstants.guestUser.datahub_admin_phone}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.admin_phone
-                ? datahubUserDetails.admin_phone
-                : "+91 8976879231"}
+                }
             </div>
           </Row>
           <Row
@@ -220,8 +212,7 @@ const GuestUserContactForm = ({
             <div>{guestUserConstants.guestUser.pin_code}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.admin_pin_code
-                ? datahubUserDetails.admin_pin_code
-                : "622 123"}
+                }
             </div>
           </Row>
 
@@ -235,8 +226,7 @@ const GuestUserContactForm = ({
             <div> {guestUserConstants.guestUser.email}</div>
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.email_id
-                ? datahubUserDetails.email_id
-                : "info@kalgudi.org"}
+               }
             </div>
           </Row>
         </Col>
@@ -321,6 +311,7 @@ const GuestUserContactForm = ({
             lg={6}
           >
             <TextField
+            // autoComplete={false}
               name="email"
               //   style={useStyles.inputwidth}
               style={{ width: "100%", height: "49px" }}
@@ -345,6 +336,8 @@ const GuestUserContactForm = ({
           </Col>
           <Col style={{ width: "100%", padding: 0 }}>
             <MuiPhoneNumber
+            autoComplete={false}
+
               name="contactNumber"
               defaultCountry={"in"}
               style={{ width: "100%", height: "49px" }}
@@ -408,13 +401,13 @@ const GuestUserContactForm = ({
             }}
           >
             <FormControlLabel
-              value="participant"
+              value="Become a Participant"
               control={<Radio />}
               label={guestUserConstants.guestUser.become_a_participant}
             />
 
             <FormControlLabel
-              value="other"
+              value="Other queries"
               control={<Radio />}
               label={guestUserConstants.guestUser.other_queries}
             />
@@ -436,6 +429,7 @@ const GuestUserContactForm = ({
             multiline
             required
             maxRows={3}
+            autoComplete={false}
             inputProps={{ maxLength: 1000 }}
             variant="filled"
             onChange={(e) =>

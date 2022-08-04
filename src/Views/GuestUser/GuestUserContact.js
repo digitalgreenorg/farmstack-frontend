@@ -22,9 +22,7 @@ export default function GuestUserContact(props) {
   const [isdescriptionerror, setIsDescriptionerror] = useState(false);
   const [emailError, setEmailError] = useState(true);
   const guestUserConstants = labels["en"];
-  const [datahubUserDetails, setDatahubUserDetails] = useState({
-    email_id: "KanhaiyaSuthar0@gmail.com",
-  });
+  const [datahubUserDetails, setDatahubUserDetails] = useState({});
   const [useDetails, setUserDetails] = useState({
     firstName: "",
     lastName: "",
@@ -69,18 +67,46 @@ export default function GuestUserContact(props) {
 
   // Axios Call for getting data from backend
   const addNewGuestUserData = () => {
-    const bodyFormData = {
-      first_name: useDetails.firstName,
-      last_name: useDetails.lastName,
-      email: useDetails.email,
-      subject: useDetails.subject,
-      describe_query: useDetails.queryDescription,
-      contact_number: useDetails.contactNumber,
-    };
+    setIsLoader(true)
+    // var bodyFormData1 = {
+    //   "first_name": useDetails.firstName,
+    //   "last_name": useDetails.lastName,
+    //   "email": useDetails.email,
+    //   "subject": useDetails.subject,
+    //   "describe_query": useDetails.queryDescription,
+    //   "contact_number": useDetails.contactNumber,
+    // };
 
+    var bodyFormData = new FormData();
+    // console.log(bodyFormData, 1)
+    bodyFormData.append("first_name", useDetails.firstName);
+    // bodyFormData.append("first_name", "kanhaiya");
+    // // console.log(bodyFormData)
+
+    bodyFormData.append("last_name", useDetails.lastName);
+    // // console.log(bodyFormData)
+
+    bodyFormData.append("email", useDetails.email);
+    // // console.log(bodyFormData)
+
+    bodyFormData.append("subject", useDetails.subject);
+    // bodyFormData.append("subject", "Hello");
+    // bodyFormData.append("datahub_admin", "kanhaiya@digitalgreen.org");
+    // // console.log(bodyFormData)
+
+    bodyFormData.append("describe_query", useDetails.queryDescription);
+    // // console.log(bodyFormData)
+
+    bodyFormData.append("contact_number", useDetails.contactNumber);
+    
+    
+
+
+    console.log(bodyFormData)
     HTTPService(
       "POST",
-      UrlConstant.guest_base_url + UrlConstant.guest_contact_form,
+      UrlConstant.base_url + UrlConstant.microsite_contact_form,
+    // "https://45b7-115-99-141-128.in.ngrok.io/microsite/contact_form/",
       bodyFormData,
       true,
       false
@@ -92,32 +118,47 @@ export default function GuestUserContact(props) {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
+        setUserDetails({
+            firstName: "",
+            lastName: "",
+            email: "",
+            contactNumber: "",
+            subject: "",
+            queryDescription: "",
+          });
         // setisexisitinguseremail(true);
         //history.push(GetErrorHandlingRoute(e));
       });
   };
 
   const getDatahubAdminDetails = () => {
-    // HTTPService(
-    //   "POST",
-    //   UrlConstant.base_url + UrlConstant.participant,
-    //   //   bodyFormData,
-    //   false,
-    //   true
-    // )
-    //   .then((response) => {
-    //     setIsLoader(false);
-    //     setIsSuccess(true);
-    //   })
-    //   .catch((e) => {
-    //     setIsLoader(false);
-    //     console.log(e);
-    //     // setisexisitinguseremail(true);
-    //     //history.push(GetErrorHandlingRoute(e));
-    //   });
+    HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.microsite_admin_organization,
+        //   "https://45b7-115-99-141-128.in.ngrok.io/microsite/admin_organization/",
+      "",
+      false,
+      false
+    )
+      .then((response) => {
+        const admin = response.data.organization
+        console.log(admin)
+        // setIsLoader(false);
+        setDatahubUserDetails({admin_name: admin.name,org_name:admin.org_description,address:`${admin.address.address}, ${admin.address.city}`,phone_number:admin.phone_number,admin_email:admin.org_email,country:admin.address.country,city:admin.address.city,website:admin.website,admin_phone:admin.phone_number,admin_pin_code:admin.address.pincode,email_id:admin.org_email
+    })
+        // setIsSuccess(true);
+      })
+      .catch((e) => {
+        // setIsLoader(false);
+        console.log(e);
+        // setisexisitinguseremail(true);
+        //history.push(GetErrorHandlingRoute(e));
+      });
   };
 
-  useEffect(() => {});
+  useEffect(() => {
+    getDatahubAdminDetails()
+  },[]);
 
   return (
     <>
