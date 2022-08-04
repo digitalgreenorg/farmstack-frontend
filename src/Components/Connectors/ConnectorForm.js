@@ -7,9 +7,6 @@ import { useHistory } from "react-router-dom";
 import "./ConnectorForm.css";
 
 import Link from "@mui/material/Link";
-
-import { useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -17,6 +14,9 @@ import Select from "@mui/material/Select";
 
 import { FileUploader } from "react-drag-drop-files";
 import UploadDataset from "../../Components/Datasets/UploadDataset";
+
+import { validateInputField, handleUnwantedSpace } from "../../Utils/Common";
+import RegexConstants from "../../Constants/RegexConstants";
 
 const names = [
   "Oliver Hansen",
@@ -42,6 +42,7 @@ const names = [
 ];
 const connectorType = ["Provider", "Consumer"];
 const fileTypes = ["p12", "pfx"];
+
 export default function ConnectorForm(props) {
   const history = useHistory();
   const [department, setdepartment] = React.useState("");
@@ -65,13 +66,21 @@ export default function ConnectorForm(props) {
     console.log(event.target.value);
     setconnector(event.target.value);
   };
-  const handleChangeConnectorName = (event) => {
-    console.log(event.target.value);
-    setconnectorName(event.target.value);
+  const handleChangeConnectorName = (e) => {
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+      ? setconnectorName(e.target.value)
+      : e.preventDefault();
+    console.log(e.target.value);
+    // setconnectorName(event.target.value);
   };
-  const handleChangedescription = (event) => {
-    console.log(event.target.value);
-    setdescription(event.target.value);
+  const handleChangedescription = (e) => {
+    console.log(e.target.value);
+    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+      ? setdescription(e.target.value)
+      : e.preventDefault();
+  };
+  const handledescriptionKeydown = (e) => {
+    handleUnwantedSpace(description, e);
   };
   const handleChangeDataset = (e) => {
     console.log(e.target.value);
@@ -264,7 +273,7 @@ export default function ConnectorForm(props) {
             variant="filled"
             value={description}
             maxLength={500}
-            // onKeyDown={props.handledescriptionKeydown}
+            onKeyDown={handledescriptionKeydown}
             onChange={handleChangedescription}
           />
         </Col>
@@ -290,7 +299,6 @@ export default function ConnectorForm(props) {
           />
         </Col>
       </Row>
-
       <Row xs={12} sm={12} md={12} lg={12}>
         <p className="uploaddatasetname">
           {props.file
