@@ -11,6 +11,7 @@ import Col from "react-bootstrap/Col";
 import labels from "../../../../Constants/labels";
 import Button from "@mui/material/Button";
 import THEME_COLORS from "../../../../Constants/ColorConstants";
+import Success from "../../../../Components/Success/Success";
 
 const names = [
   "Oliver Hansen",
@@ -62,6 +63,9 @@ export default function AddConnectorParticipant() {
   const [file, setFile] = useState(null);
   const [fileValid, setfileValid] = useState("");
 
+  //   success screen
+  const [isSuccess, setisSuccess] = useState(false);
+
   const handleFileChange = (file) => {
     setFile(file);
     console.log(file);
@@ -110,70 +114,87 @@ export default function AddConnectorParticipant() {
   };
   const handleAddDatasetSubmit = (e) => {
     e.preventDefault();
+    setisSuccess(true);
   };
   return (
     <>
-      <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
-        <ConnectorForm
-          title={"Configure a new Connector"}
-          connector={connector}
-          department={department}
-          project={project}
-          connectorName={connectorName}
-          Dataset={Dataset}
-          docker={docker}
-          port={port}
-          file={file}
-          fileValid={fileValid}
-          handleFileChange={handleFileChange}
-          handleChangeDepartment={handleChangeDepartment}
-          handleChangeProject={handleChangeProject}
-          handleChangeConnector={handleChangeConnector}
-          handleChangeConnectorName={handleChangeConnectorName}
-          handleChangedescription={handleChangedescription}
-          handledescriptionKeydown={handledescriptionKeydown}
-          handleChangeDataset={handleChangeDataset}
-          handleChangeDocker={handleChangeDocker}
-          handleChangeport={handleChangeport}
-          names={names}
-          upload={false}
-        />
-        <Row>
-          <Col xs={12} sm={12} md={6} lg={3}></Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            {connector &&
-            department &&
-            project &&
-            connectorName &&
-            Dataset &&
-            docker &&
-            port ? (
+      {isSuccess ? (
+        <Success
+          okevent={() => history.push("/participant/connectors")}
+          route={"/participant/connectors"}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Successfully Saved"}
+          imageText={"Success!"}
+          msg={
+            "The connector configuration is saved successfully and a request for a certificate has been sent to the admin. You may receive the certificate via email soon. "
+          }></Success>
+      ) : (
+        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+          <ConnectorForm
+            title={"Configure a new Connector"}
+            connector={connector}
+            department={department}
+            project={project}
+            connectorName={connectorName}
+            Dataset={Dataset}
+            docker={docker}
+            port={port}
+            file={file}
+            fileValid={fileValid}
+            handleFileChange={handleFileChange}
+            handleChangeDepartment={handleChangeDepartment}
+            handleChangeProject={handleChangeProject}
+            handleChangeConnector={handleChangeConnector}
+            handleChangeConnectorName={handleChangeConnectorName}
+            handleChangedescription={handleChangedescription}
+            handledescriptionKeydown={handledescriptionKeydown}
+            handleChangeDataset={handleChangeDataset}
+            handleChangeDocker={handleChangeDocker}
+            handleChangeport={handleChangeport}
+            names={names}
+            upload={false}
+          />
+          <Row>
+            <Col xs={12} sm={12} md={6} lg={3}></Col>
+            <Col xs={12} sm={12} md={6} lg={6}>
+              {connector &&
+              department &&
+              project &&
+              connectorName &&
+              Dataset &&
+              docker &&
+              port ? (
+                <Button
+                  //   onClick={() => addNewParticipants()}
+                  variant="contained"
+                  className="submitbtn"
+                  type="submit">
+                  {screenlabels.connector_form.submit}
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  disabled
+                  className="disbalesubmitbtn">
+                  {screenlabels.connector_form.submit}
+                </Button>
+              )}
+            </Col>
+          </Row>
+          <Row style={useStyles.marginrowtop8px}>
+            <Col xs={12} sm={12} md={6} lg={3}></Col>
+            <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                //   onClick={() => addNewParticipants()}
-                variant="contained"
-                className="submitbtn"
-                type="submit">
-                {screenlabels.connector_form.submit}
+                onClick={() => history.push("/participant/connectors")}
+                variant="outlined"
+                className="cancelbtn">
+                {screenlabels.common.cancel}
               </Button>
-            ) : (
-              <Button variant="outlined" disabled className="disbalesubmitbtn">
-                {screenlabels.connector_form.submit}
-              </Button>
-            )}
-          </Col>
-        </Row>
-        <Row style={useStyles.marginrowtop8px}>
-          <Col xs={12} sm={12} md={6} lg={3}></Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <Button
-              onClick={() => history.push("/participant/connectors")}
-              variant="outlined"
-              className="cancelbtn">
-              {screenlabels.common.cancel}
-            </Button>
-          </Col>
-        </Row>
-      </form>
+            </Col>
+          </Row>
+        </form>
+      )}
     </>
   );
 }
