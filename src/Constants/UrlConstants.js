@@ -25,10 +25,13 @@ const UrlConstant = {
   dataset: "datahub/datasets/",
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
+  
   guest_organization_details: 'microsite/admin_organization/',
   guest_dataset_listing: 'microsite/datasets/',
   guest_dataset_filters: 'microsite/datasets/filters_data/',
-  guest_dataset_filtered_data: 'microsite/datasets/dataset_filters/'
+  guest_dataset_filtered_data: 'microsite/datasets/dataset_filters/',
+  microsite_contact_form : "microsite/contact_form",
+  microsite_admin_organization : "microsite/admin_organization"
 };
 
 export default UrlConstant;
