@@ -20,28 +20,6 @@ import RegexConstants from "../../Constants/RegexConstants";
 
 import labels from "../../Constants/labels";
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
 const connectorType = ["Provider", "Consumer"];
 const fileTypes = ["p12", "pfx"];
 
@@ -49,64 +27,64 @@ export default function ConnectorForm(props) {
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
-  const [department, setdepartment] = React.useState("");
-  const [project, setproject] = React.useState("");
-  const [connector, setconnector] = React.useState("");
-  const [connectorName, setconnectorName] = React.useState("");
-  const [description, setdescription] = React.useState("");
-  const [Dataset, setDataset] = React.useState("");
-  const [docker, setdocker] = React.useState("");
-  const [port, setport] = React.useState("");
+  //   const [department, setdepartment] = React.useState("");
+  //   const [project, setproject] = React.useState("");
+  //   const [connector, setconnector] = React.useState("");
+  //   const [connectorName, setconnectorName] = React.useState("");
+  //   const [description, setdescription] = React.useState("");
+  //   const [Dataset, setDataset] = React.useState("");
+  //   const [docker, setdocker] = React.useState("");
+  //   const [port, setport] = React.useState("");
 
-  const [file, setFile] = useState(null);
-  const [fileValid, setfileValid] = useState("");
+  //   const [file, setFile] = useState(null);
+  //   const [fileValid, setfileValid] = useState("");
 
-  const handleFileChange = (file) => {
-    setFile(file);
-    console.log(file);
-    setfileValid("");
-  };
+  //   const handleFileChange = (file) => {
+  //     setFile(file);
+  //     console.log(file);
+  //     setfileValid("");
+  //   };
 
-  const handleChangeDepartment = (event) => {
-    console.log(event.target.value);
-    setdepartment(event.target.value);
-  };
-  const handleChangeProject = (event) => {
-    console.log(event.target.value);
-    setproject(event.target.value);
-  };
-  const handleChangeConnector = (event) => {
-    console.log(event.target.value);
-    setconnector(event.target.value);
-  };
-  const handleChangeConnectorName = (e) => {
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
-      ? setconnectorName(e.target.value)
-      : e.preventDefault();
-    console.log(e.target.value);
-    // setconnectorName(event.target.value);
-  };
-  const handleChangedescription = (e) => {
-    console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
-      ? setdescription(e.target.value)
-      : e.preventDefault();
-  };
-  const handledescriptionKeydown = (e) => {
-    handleUnwantedSpace(description, e);
-  };
-  const handleChangeDataset = (e) => {
-    console.log(e.target.value);
-    setDataset(e.target.value);
-  };
-  const handleChangeDocker = (e) => {
-    console.log(e.target.value);
-    setdocker(e.target.value);
-  };
-  const handleChangeport = (e) => {
-    console.log(e.target.value);
-    setport(e.target.value);
-  };
+  //   const handleChangeDepartment = (event) => {
+  //     console.log(event.target.value);
+  //     setdepartment(event.target.value);
+  //   };
+  //   const handleChangeProject = (event) => {
+  //     console.log(event.target.value);
+  //     setproject(event.target.value);
+  //   };
+  //   const handleChangeConnector = (event) => {
+  //     console.log(event.target.value);
+  //     setconnector(event.target.value);
+  //   };
+  //   const handleChangeConnectorName = (e) => {
+  //     validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+  //       ? setconnectorName(e.target.value)
+  //       : e.preventDefault();
+  //     console.log(e.target.value);
+  //     // setconnectorName(event.target.value);
+  //   };
+  //   const handleChangedescription = (e) => {
+  //     console.log(e.target.value);
+  //     validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+  //       ? setdescription(e.target.value)
+  //       : e.preventDefault();
+  //   };
+  //   const handledescriptionKeydown = (e) => {
+  //     handleUnwantedSpace(description, e);
+  //   };
+  //   const handleChangeDataset = (e) => {
+  //     console.log(e.target.value);
+  //     setDataset(e.target.value);
+  //   };
+  //   const handleChangeDocker = (e) => {
+  //     console.log(e.target.value);
+  //     setdocker(e.target.value);
+  //   };
+  //   const handleChangeport = (e) => {
+  //     console.log(e.target.value);
+  //     setport(e.target.value);
+  //   };
   return (
     <Container className="connectorform">
       <Row>
@@ -128,7 +106,7 @@ export default function ConnectorForm(props) {
       </Row>
       <Row className="connectormainheading">
         <Col xs={12} sm={12} md={12} lg={12}>
-          <span>Configure a new Connector</span>
+          <span>{props.title}</span>
         </Col>
       </Row>
       <Row>
@@ -140,8 +118,8 @@ export default function ConnectorForm(props) {
             <Select
               labelId="demo-simple-select-required-label"
               id="demo-simple-select-required"
-              value={connector}
-              onChange={handleChangeConnector}>
+              value={props.connector}
+              onChange={props.handleChangeConnector}>
               {connectorType.map((name) => (
                 <MenuItem key={name} value={name}>
                   {name}
@@ -158,9 +136,9 @@ export default function ConnectorForm(props) {
             <Select
               labelId="demo-simple-select-required-label"
               id="demo-simple-select-required"
-              value={Dataset}
-              onChange={handleChangeDataset}>
-              {names.map((name) => (
+              value={props.Dataset}
+              onChange={props.handleChangeDataset}>
+              {props.names.map((name) => (
                 <MenuItem key={name} value={name}>
                   {name}
                 </MenuItem>
@@ -178,8 +156,8 @@ export default function ConnectorForm(props) {
             variant="filled"
             required
             // width="100%"
-            value={connectorName}
-            onChange={handleChangeConnectorName}
+            value={props.connectorName}
+            onChange={props.handleChangeConnectorName}
             label={screenlabels.connector_form.connectorName}
           />
         </Col>
@@ -217,9 +195,9 @@ export default function ConnectorForm(props) {
             <Select
               labelId="demo-simple-select-required-label"
               id="demo-simple-select-required"
-              value={department}
-              onChange={handleChangeDepartment}>
-              {names.map((name) => (
+              value={props.department}
+              onChange={props.handleChangeDepartment}>
+              {props.names.map((name) => (
                 <MenuItem key={name} value={name}>
                   {name}
                 </MenuItem>
@@ -235,9 +213,9 @@ export default function ConnectorForm(props) {
             <Select
               labelId="demo-simple-select-required-label"
               id="demo-simple-select-required"
-              value={project}
-              onChange={handleChangeProject}>
-              {names.map((name) => (
+              value={props.project}
+              onChange={props.handleChangeProject}>
+              {props.names.map((name) => (
                 <MenuItem key={name} value={name}>
                   {name}
                 </MenuItem>
@@ -256,8 +234,8 @@ export default function ConnectorForm(props) {
             variant="filled"
             required
             // width="100%"
-            value={docker}
-            onChange={handleChangeDocker}
+            value={props.docker}
+            onChange={props.handleChangeDocker}
             label={screenlabels.connector_form.docker}
           />
         </Col>
@@ -269,8 +247,8 @@ export default function ConnectorForm(props) {
             required
             type={"number"}
             // width="100%"
-            value={port}
-            onChange={handleChangeport}
+            value={props.port}
+            onChange={props.handleChangeport}
             label={screenlabels.connector_form.port}
             inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           />
@@ -284,10 +262,10 @@ export default function ConnectorForm(props) {
             multiline
             rows={4}
             variant="filled"
-            value={description}
+            value={props.description}
             maxLength={500}
-            onKeyDown={handledescriptionKeydown}
-            onChange={handleChangedescription}
+            onKeyDown={props.handledescriptionKeydown}
+            onChange={props.handleChangedescription}
           />
         </Col>
       </Row>
@@ -299,7 +277,7 @@ export default function ConnectorForm(props) {
       <Row>
         <Col xs={12} sm={12} md={12} lg={12} className="fileupload">
           <FileUploader
-            handleChange={handleFileChange}
+            handleChange={props.handleFileChange}
             name="file"
             types={fileTypes}
             children={
@@ -314,13 +292,17 @@ export default function ConnectorForm(props) {
       </Row>
       <Row xs={12} sm={12} md={12} lg={12}>
         <p className="uploaddatasetname">
-          {file ? (file.size ? `File name: ${file.name}` : "") : ""}
+          {props.file
+            ? props.file.size
+              ? `File name: ${props.file.name}`
+              : ""
+            : ""}
         </p>
         <p className="oversizemb-uploadimglogo">
-          {file != null && file.size > 2097152
+          {props.file != null && props.file.size > 2097152
             ? "File uploaded is more than 2MB!"
             : ""}
-          {fileValid}
+          {props.fileValid}
         </p>
       </Row>
     </Container>
