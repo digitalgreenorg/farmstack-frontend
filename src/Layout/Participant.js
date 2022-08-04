@@ -12,6 +12,7 @@ import { getTokenLocal, isLoggedInUserParticipant } from "../Utils/Common";
 import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
 import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
 import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
+import Participantsettings from "../Views/Settings/ParticipantSettings/Participantsettings";
 
 import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
 import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
