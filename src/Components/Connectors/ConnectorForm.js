@@ -54,6 +54,15 @@ export default function ConnectorForm(props) {
   const [docker, setdocker] = React.useState("");
   const [port, setport] = React.useState("");
 
+  const [file, setFile] = useState(null);
+  const [fileValid, setfileValid] = useState("");
+
+  const handleFileChange = (file) => {
+    setFile(file);
+    console.log(file);
+    setfileValid("");
+  };
+
   const handleChangeDepartment = (event) => {
     console.log(event.target.value);
     setdepartment(event.target.value);
@@ -286,7 +295,7 @@ export default function ConnectorForm(props) {
       <Row>
         <Col xs={12} sm={12} md={12} lg={12} className="fileupload">
           <FileUploader
-            handleChange={props.handleFileChange}
+            handleChange={handleFileChange}
             name="file"
             types={fileTypes}
             children={
@@ -301,17 +310,13 @@ export default function ConnectorForm(props) {
       </Row>
       <Row xs={12} sm={12} md={12} lg={12}>
         <p className="uploaddatasetname">
-          {props.file
-            ? props.file.size
-              ? `File name: ${props.file.name}`
-              : ""
-            : ""}
+          {file ? (file.size ? `File name: ${file.name}` : "") : ""}
         </p>
         <p className="oversizemb-uploadimglogo">
-          {props.file != null && props.file.size > 2097152
+          {file != null && file.size > 2097152
             ? "File uploaded is more than 2MB!"
             : ""}
-          {props.fileValid}
+          {fileValid}
         </p>
       </Row>
     </Container>
