@@ -106,6 +106,59 @@ export default function ConnectorForm() {
         </Col>
       </Row>
       <Row>
+        <Col xs={6} sm={6} md={6} lg={6} className="connector">
+          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+            <InputLabel id="demo-simple-select-required-label">
+              Connector Type *
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-required-label"
+              id="demo-simple-select-required"
+              value={connector}
+              onChange={handleChangeConnector}>
+              {connectorType.map((name) => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Col>
+        <Col xs={6} sm={6} md={6} lg={6} className="dataset">
+          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+            <InputLabel id="demo-simple-select-required-label">
+              Select Dataset *
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-required-label"
+              id="demo-simple-select-required"
+              value={Dataset}
+              onChange={handleChangeDataset}>
+              {names.map((name) => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="Name">
+          <TextField
+            // style={useStyles.inputwidth}
+            className="connectorName"
+            id="filled-basic"
+            variant="filled"
+            required
+            // width="100%"
+            value={connectorName}
+            onChange={handleChangeConnectorName}
+            label="Connector Name "
+          />
+        </Col>
+      </Row>
+      <Row>
         <Col xs={6} sm={6} md={6} lg={6} className="link1">
           <Link
             component="button"
@@ -167,58 +220,8 @@ export default function ConnectorForm() {
           </FormControl>
         </Col>
       </Row>
+
       <Row>
-        <Col xs={6} sm={6} md={6} lg={6} className="connector">
-          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
-            <InputLabel id="demo-simple-select-required-label">
-              Connector Type *
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
-              value={connector}
-              onChange={handleChangeConnector}>
-              {connectorType.map((name) => (
-                <MenuItem key={name} value={name}>
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Col>
-        <Col xs={6} sm={6} md={6} lg={6} className="Name">
-          <TextField
-            // style={useStyles.inputwidth}
-            className="connectorName"
-            id="filled-basic"
-            variant="filled"
-            required
-            // width="100%"
-            value={connectorName}
-            onChange={handleChangeConnectorName}
-            label="Connector Name "
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={6} sm={6} md={6} lg={6} className="dataset">
-          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
-            <InputLabel id="demo-simple-select-required-label">
-              Select Dataset *
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
-              value={Dataset}
-              onChange={handleChangeDataset}>
-              {names.map((name) => (
-                <MenuItem key={name} value={name}>
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="docker">
           <TextField
             // style={useStyles.inputwidth}
@@ -232,8 +235,6 @@ export default function ConnectorForm() {
             label="Docker Image url  "
           />
         </Col>
-      </Row>
-      <Row>
         <Col xs={6} sm={6} md={6} lg={6} className="port">
           <TextField
             // style={useStyles.inputwidth}
@@ -248,7 +249,9 @@ export default function ConnectorForm() {
             label="Application Port "
           />
         </Col>
-        <Col xs={6} sm={6} md={6} lg={6} className="description">
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="description">
           <TextField
             className="descriptionName"
             label="Description"
