@@ -106,7 +106,7 @@ export default function GuestUserContact(props) {
     HTTPService(
       "POST",
       UrlConstant.base_url + UrlConstant.microsite_contact_form,
-    // "https://45b7-115-99-141-128.in.ngrok.io/microsite/contact_form/",
+
       bodyFormData,
       true,
       false
@@ -132,24 +132,29 @@ export default function GuestUserContact(props) {
   };
 
   const getDatahubAdminDetails = () => {
+    setIsLoader(true);
+
     HTTPService(
       "GET",
       UrlConstant.base_url + UrlConstant.microsite_admin_organization,
-        //   "https://45b7-115-99-141-128.in.ngrok.io/microsite/admin_organization/",
       "",
       false,
       false
     )
       .then((response) => {
-        const admin = response.data.organization
-        console.log(admin)
-        // setIsLoader(false);
-        setDatahubUserDetails({admin_name: admin.name,org_name:admin.org_description,address:`${admin.address.address}, ${admin.address.city}`,phone_number:admin.phone_number,admin_email:admin.org_email,country:admin.address.country,city:admin.address.city,website:admin.website,admin_phone:admin.phone_number,admin_pin_code:admin.address.pincode,email_id:admin.org_email
+        console.log(response)
+        const admin = response.data.user
+        const organization = response.data.organization
+        console.log(admin, organization)
+        // console.log(admin)
+        setIsLoader(false);
+        // console.log({admin_name: admin.first_name,org_name:organization.org_description,address:`${organization.address.address}, ${admin.address.city}`,phone_number:organization.phone_number,admin_email:admin.email,country:organization.address.country,city:organization.address.city,website:organization.website,admin_phone:admin.phone_number,admin_pin_code:organization.address.pincode,email_id:organization.org_email})
+        setDatahubUserDetails({admin_name: admin.first_name,org_name:organization.name,address:`${organization.address.address}, ${organization.address.city}`,phone_number:organization.phone_number,admin_email:admin.email,country:organization.address.country,city:organization.address.city,website:organization.website,admin_phone:admin.phone_number,admin_pin_code:organization.address.pincode,email_id:organization.org_email
     })
         // setIsSuccess(true);
       })
       .catch((e) => {
-        // setIsLoader(false);
+        setIsLoader(false);
         console.log(e);
         // setisexisitinguseremail(true);
         //history.push(GetErrorHandlingRoute(e));
