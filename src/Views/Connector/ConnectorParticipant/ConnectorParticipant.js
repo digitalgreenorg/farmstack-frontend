@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import labels from '../../../Constants/labels';
 import Loader from '../../../Components/Loader/Loader'
 import HTTPService from "../../../Services/HTTPService";
@@ -56,6 +56,12 @@ export default function ConnectorParticipant() {
     ])
 
     var payload = {}
+
+    useEffect(() => {
+        // getFilters()
+        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        // getConnectorList(false)
+    }, []);
 
     const getFilters = () => {
         setIsLoader(true);
@@ -231,7 +237,7 @@ export default function ConnectorParticipant() {
              payload = buildFilterPayLoad(getUserLocal(), "", "", "", payloadList)
          }
          if(isAnyFilterChecked){
-            //  getConnectorList()
+            //  getConnectorList(false)
          } else{
              clearAllFilters()
          }
@@ -308,7 +314,7 @@ export default function ConnectorParticipant() {
         resetFilterState(screenlabels.connector.connector_status)
 
         payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
-        // getConnectorList()
+        // getConnectorList(false)
     }
 
     const handleDeptSearch = (e) => {
@@ -390,7 +396,9 @@ export default function ConnectorParticipant() {
                 </Col>
                 <Col className="supportSecondCOlumn">
                     <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
-                        <ConnectorListing/>
+                        <ConnectorListing
+                        
+                        />
                     </Col>
                 </Col>
             </Row>
