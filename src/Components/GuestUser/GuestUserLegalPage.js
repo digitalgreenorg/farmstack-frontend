@@ -14,10 +14,11 @@ import viewbuttonsvgicon from '../../Assets/Img/viewbuttonsvgicon.svg'
 import styles from "./guestUserLegal.module.css"
 import UrlConstant from '../../Constants/UrlConstants';
 import { useHistory } from 'react-router-dom';
+import parse from 'html-react-parser'
 export default function GuestUserLegalPage({legalData}) {
   const [value, setValue] = React.useState(1);
   const history = useHistory();
-
+    
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -66,8 +67,8 @@ export default function GuestUserLegalPage({legalData}) {
 
                
                 </div>
-            <div style={{fontWeight:"400", fontSize:"14px", lineHeight:"19px",color:"#3D4A52"}}>{eachLegalPolicy.content}</div>
-            
+            <div style={{fontWeight:"400", fontSize:"14px", lineHeight:"19px",color:"#3D4A52"}}>  {parse(`${eachLegalPolicy.content}`)}</div>
+           
             </div>
             
             </TabPanel>

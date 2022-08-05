@@ -4,6 +4,7 @@ import GuestUserDescription from "../../Components/GuestUser/GuestUserDescriptio
 import GuestUserLegalPage from "../../Components/GuestUser/GuestUserLegalPage";
 import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
+import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 
 export default function GuestUserLegal(props){
@@ -31,9 +32,7 @@ export default function GuestUserLegal(props){
             setIsLoader(true)
             HTTPService(
                 "GET",
-              //   UrlConstant.base_url + UrlConstant.microsite_admin_organization,
-              
-                    "https://27e5-27-7-120-49.in.ngrok.io/microsite/legal_documents/",
+                UrlConstant.base_url + UrlConstant.microsite_admin_organization,
                 "",
                 false,
                 false
