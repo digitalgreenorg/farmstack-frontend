@@ -1,9 +1,13 @@
+import { width } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
 import Success from "../../Components/Success/Success";
 import THEME_COLORS from "../../Constants/ColorConstants";
+import UrlConstant from "../../Constants/UrlConstants";
+import HTTPService from "../../Services/HTTPService";
 import './GuestUserBanner.css'
 
 const useStyles = {
@@ -20,28 +24,55 @@ const useStyles = {
 
 export default function GuestUserBanner(props) {
 
-    const [bannerImage, setBannerImage] = useState('')
-    const [logoImage, setLogoImage] = useState('')
-    const [description, setDescription] = useState('')
+    const [bannerImage, setBannerImage] = useState(require('../../Assets/Img/no-image-banner.png'))
+    const [logoImage, setLogoImage] = useState(require('../../Assets/Img/no-image-logo.png'))
+    const [isLoader, setIsLoader] = useState(false)
+    const history = useHistory()
   
-    useEffect(()=>{
-      setBannerImage('https://wallpaperaccess.com/full/1769725.jpg')
-      setLogoImage('https://i.pinimg.com/736x/0d/cf/b5/0dcfb548989afdf22afff75e2a46a508.jpg')
-      setDescription('Monitoring of all the schemes implementations and capture the transactional data in real time mode. Enable to identify the eligible beneficiary and control on availing duplicate benefits . Ensure accountability, transparency and speedy disposal of transactional services . Ensure appropriate budget releases and expenditure control system based on the budget allocation for various schemes implementation .')
-  
+    useEffect(() => {
+      setIsLoader(true)
+      HTTPService('GET', UrlConstant.base_url + UrlConstant.guest_organization_details, '', false, false)
+      .then((response) => {
+        setIsLoader(false);
+        if (response.data.organization.hero_image){
+          let bannerImageUrl = UrlConstant.base_url_without_slash + response.data.organization.hero_image;
+          setBannerImage(bannerImageUrl)
+        }
+        if (response.data.organization.logo){
+          let logoImageUrl = UrlConstant.base_url_without_slash + response.data.organization.logo;
+          setLogoImage(logoImageUrl)
+        }
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        //history.push(GetErrorHandlingRoute(e));
+      });
     }, [])
     
     return(
     <>
+      {isLoader? <Loader />: ''}
       <div className="banner" align="center">
         <Row>
             <Col xs={12} sm={12} md={12} lg={12}>
-            <img style={{width: "100%", height: "220px"}} src={bannerImage}/>
+              <div style={{minWidth: "100%", minHeight: "220px", maxHeight: "220px",  textAlign: "center",
+                            //backgroundImage: `url(${bannerImage})`,
+                            backgroundSize: 'contain',
+                            //backgroundRepeat: 'no-repeat',
+                            //backgroundPosition: 'center',
+                            //background: 'rgb(22,22,22)',
+                            background: `url(${bannerImage}) no-repeat center, 
+                            radial-gradient(circle, rgba(192,149,7,1) 0%, rgba(192,149,7,1) 8%, rgba(255,255,255,1) 100%)`}} 
+                            alt="Organisation banner" src={bannerImage}/>
             </Col>
             <Col>
-            <div className="logo">
-                <img style={{width: "140px", height: "140px"}} src={logoImage} />
-            </div>
+              <div className="logo" style={{
+                              backgroundImage: `url(${logoImage})`,
+                              backgroundSize: 'contain',
+                              backgroundRepeat: 'no-repeat',
+                              backgroundPosition: 'center'}}>
+                  {/*<img style={{minWidth: "140px", minHeight: "140px", maxWidth: "140px", maxHeight: "140px", textAlign: "center"}} alt="Organisation logo" src={logoImage} />*/}
+              </div>
             </Col>
         </Row>
       </div>

@@ -1,6 +1,8 @@
 const UrlConstant = {
   base_url: "https://datahubtest.farmstack.co/be/",
   base_url_without_slash: "https://datahubtest.farmstack.co/be",
+  //base_url: "https://27e5-27-7-120-49.in.ngrok.io/",
+  //base_url_without_slash: "https://27e5-27-7-120-49.in.ngrok.io",
   login: "accounts/login/",
   otp: "accounts/otp/",
   participant: "datahub/participant/",
@@ -24,6 +26,10 @@ const UrlConstant = {
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
 
+  guest_organization_details: 'microsite/admin_organization/',
+  guest_dataset_listing: 'microsite/datasets/',
+  guest_dataset_filters: 'microsite/datasets/filters_data/',
+  guest_dataset_filtered_data: 'microsite/datasets/dataset_filters/',
   connector_filter: 'datahub/connectors/filter_data',
   connector_list: 'datahub/connectors/',
   microsite_contact_form : "microsite/contact_form",
