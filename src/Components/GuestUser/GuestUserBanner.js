@@ -62,7 +62,7 @@ export default function GuestUserBanner(props) {
                             //backgroundPosition: 'center',
                             //background: 'rgb(22,22,22)',
                             background: `url(${bannerImage}) no-repeat center, 
-                            radial-gradient(circle, rgba(68,68,68,0.5) 0%, rgba(102,102,102,0.5) 60%, rgba(255,255,255,0.5) 100%)`}} 
+                            radial-gradient(circle, rgba(192,149,7,1) 0%, rgba(192,149,7,1) 8%, rgba(255,255,255,1) 100%)`}} 
                             alt="Organisation banner" src={bannerImage}/>
             </Col>
             <Col>
