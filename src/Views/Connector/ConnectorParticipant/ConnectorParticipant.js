@@ -231,7 +231,7 @@ export default function ConnectorParticipant() {
              payload = buildFilterPayLoad(getUserLocal(), "", "", "", payloadList)
          }
          if(isAnyFilterChecked){
-             getConnectorList()
+            //  getConnectorList()
          } else{
              clearAllFilters()
          }
@@ -308,7 +308,49 @@ export default function ConnectorParticipant() {
         resetFilterState(screenlabels.connector.connector_status)
 
         payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
-        getConnectorList()
+        // getConnectorList()
+    }
+
+    const handleDeptSearch = (e) => {
+        var searchFound = false
+        const searchText = e.target.value
+        setDeptSearchState(searchText)
+        var tempList = [...departmentFilter]
+        for (let i = 0; i < tempList.length; i++) {
+            if (searchText == "") {
+                tempList[i].isDisplayed = true
+                searchFound = true
+            } else {
+                if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
+                    tempList[i].isDisplayed = false
+                } else{
+                    searchFound = true
+                }
+            }
+        }
+        setIsDeptSearchFound(searchFound)
+        setDepartmentFilter(tempList)
+    }
+
+    const handleProjectSearch = (e) => {
+        var searchFound = false
+        const searchText = e.target.value
+        setProjectSearchState(searchText)
+        var tempList = [...projectFilter]
+        for (let i = 0; i < tempList.length; i++) {
+            if (searchText == "") {
+                tempList[i].isDisplayed = true
+                searchFound = true
+            } else {
+                if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
+                    tempList[i].isDisplayed = false
+                } else{
+                    searchFound = true
+                }
+            }
+        }
+        setIsProjectSearchFound(searchFound)
+        setProjectFilter(tempList)
     }
 
   return (
@@ -340,8 +382,8 @@ export default function ConnectorParticipant() {
                         isDeptSearchFound={isDeptSearchFound}
                         isProjectSearchFound={isProjectSearchFound}
 
-                        // handleGeoSearch={handleGeoSearch}
-                        // handleCropSearch={handleCropSearch}
+                        handleDeptSearch={handleDeptSearch}
+                        handleProjectSearch={handleProjectSearch}
                         handleFilterChange={handleFilterChange}
                         clearAllFilters={clearAllFilters}
                     />
