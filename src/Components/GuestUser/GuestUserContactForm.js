@@ -451,8 +451,9 @@ const GuestUserContactForm = ({
               <Button
                 onClick={() => addNewGuestUserData()}
                 variant="contained"
-                className="submitbtn"
+                className={styles.submitbtn}
                 style={{ marginTop: "50px" }}
+                
                 // onClick={() => {
                 //   setIsSuccess(true);
                 // }}
@@ -464,7 +465,8 @@ const GuestUserContactForm = ({
                 style={{ marginTop: "50px" }}
                 variant="contained"
                 disabled
-                className="submitbtn"
+                className={styles.submitbtn}
+
                 onClick={() => history.push("/guest/home")}
               >
                 {guestUserConstants.guestUser.submit}
