@@ -397,7 +397,9 @@ export default function ConnectorParticipant() {
                 <Col className="supportSecondCOlumn">
                     <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
                         <ConnectorListing
-                        
+                            connectorList={connectorList}
+                            // getConnectorList={getConnectorList}
+                            showLoadMore={true} //to be changed
                         />
                     </Col>
                 </Col>

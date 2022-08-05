@@ -190,7 +190,11 @@ const labels = {
       projects: "Projects",
       connector_type: "Connector Type",
       connector_status: "Connector Status",
-      search: "Search"
+      search: "Search",
+
+      project: "Project",
+      status: "Status",
+      connector_name: "Connector Name"
     }
   },
 };
