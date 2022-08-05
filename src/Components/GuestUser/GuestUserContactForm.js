@@ -464,7 +464,7 @@ const GuestUserContactForm = ({
                 style={{ marginTop: "50px" }}
                 variant="contained"
                 disabled
-                className="submitbtn"
+                className="disbalesubmitbtn"
                 onClick={() => history.push("/guest/home")}
               >
                 {guestUserConstants.guestUser.submit}

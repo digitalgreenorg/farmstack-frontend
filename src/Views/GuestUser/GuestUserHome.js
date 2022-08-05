@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import Footer from "../../Components/Footer/Footer";
 import GuestUserBanner from "../../Components/GuestUser/GuestUserBanner";
 import GuestUserDatasets from "../../Components/GuestUser/GuestUserDatasets";
 import GuestUserDescription from "../../Components/GuestUser/GuestUserDescription";
@@ -33,6 +34,7 @@ export default function GuestUserHome(props) {
       <GuestUserBanner />
       <GuestUserDescription />
       <GuestUserDatasets />
+      <Footer />
     </>
   );
 }

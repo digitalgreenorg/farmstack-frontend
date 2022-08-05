@@ -178,12 +178,3 @@ export const flushLocalstorage = () => {
     }
   });
 }
-
-export const checkUrlExists = (url) => {
-  HTTPService('GET', url, '', false, false).then((response) => {
-    return true
-  })
-  .catch((e) => {
-    return false
-  });
-}

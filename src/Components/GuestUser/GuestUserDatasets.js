@@ -18,6 +18,7 @@ import Button from "@mui/material/Button";
 import './GuestUserDatasets.css'
 import GuestUserDatasetFilter from './GuestUserDatasetFilter';
 import GuestUserDatasetListing from './GuestUserDatasetListing';
+import ViewDataSet from '../Datasets/viewDataSet';
 export default function GuestUserDatasets() {
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
@@ -124,16 +125,6 @@ export default function GuestUserDatasets() {
             }
             setGeoFilterDisplay(tempFilterDisplay)
 
-            // tempFilterMaster = [...geoFilterMaster]
-            // for(let i =0; i<tempFilterMaster.length; i++){
-            //     if(tempFilterMaster[i].index == index){
-            //         tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
-            //     }
-            //     if(tempFilterMaster[i].isChecked){
-            //         payloadList.push(tempFilterMaster[i].name)
-            //     }
-            // }
-            // setGeoFilterMaster(tempFilterMaster)
             payload = buildFilterPayLoad("", getUserLocal(), payloadList, "", "", "")
 
         } else if (filterName == screenlabels.dataset.age) {
@@ -186,16 +177,6 @@ export default function GuestUserDatasets() {
             }
             setCropFilterDisplay(tempFilterDisplay)
 
-            // tempFilterMaster = [...cropFilterMaster]
-            // for(let i =0; i<tempFilterMaster.length; i++){
-            //     if(tempFilterMaster[i].index == index){
-            //         tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
-            //     }
-            //     if(tempFilterMaster[i].isChecked){
-            //         payloadList.push(tempFilterMaster[i].name)
-            //     }
-            // }
-            // setCropFilterMaster(tempFilterMaster)
             payload = buildFilterPayLoad("", getUserLocal(), "", "", payloadList, "")
         } else if (filterName == screenlabels.dataset.status) {
             resetFilterState(screenlabels.dataset.geography)
@@ -322,6 +303,7 @@ export default function GuestUserDatasets() {
                     tempList[i].isDisplayed = false
                 } else{
                     searchFound = true
+                    tempList[i].isDisplayed = true
                 }
             }
         }
@@ -339,10 +321,11 @@ export default function GuestUserDatasets() {
                 tempList[i].isDisplayed = true
                 searchFound = true
             } else {
-                if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
+                if (tempList[i].name && tempList[i].name.length > 0 && (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase()))) {
                     tempList[i].isDisplayed = false
                 } else{
                     searchFound = true
+                    tempList[i].isDisplayed = true
                 }
             }
         }
@@ -385,12 +368,14 @@ export default function GuestUserDatasets() {
     const initFilter = (filterInput) => {
         let filter = []
         for (var i = 0; i < filterInput.length; i++) {
-            var data = {}
-            data['index'] = i;
-            data['name'] = filterInput[i]
-            data['isChecked'] = false
-            data['isDisplayed'] = true
-            filter.push(data)
+            if (filterInput[i] && filterInput[i].length > 0){
+                var data = {}
+                data['index'] = i;
+                data['name'] = filterInput[i]
+                data['isChecked'] = false
+                data['isDisplayed'] = true
+                filter.push(data)
+            }
         }
         return filter
     }
@@ -571,12 +556,15 @@ export default function GuestUserDatasets() {
         getDatasetList(false)
     }
 
+    const downloadAttachment = (uri) => {
+        FileSaver.saveAs(UrlConstant.base_url_without_slash + uri)
+    }
     /*
     const changeView = (keyname) => {
         let tempfilterObject = { ...screenView }
         Object.keys(tempfilterObject).forEach(function (key) { if (key != keyname) { tempfilterObject[key] = false } else { tempfilterObject[key] = true } });
         setscreenView(tempfilterObject)
-    } */
+    }*/
     const viewCardDetails = (id, flag) => {
         setid(id)
         setIsLoader(true);
@@ -586,7 +574,7 @@ export default function GuestUserDatasets() {
             UrlConstant.base_url + UrlConstant.dataset + id + "/",
             "",
             false,
-            true
+            false
         )
             .then((response) => {
                 setIsLoader(false);
@@ -600,15 +588,26 @@ export default function GuestUserDatasets() {
             })
             .catch((e) => {
                 setIsLoader(false);
-                history.push(GetErrorHandlingRoute(e));
+                //history.push(GetErrorHandlingRoute(e));
             });
     }
     
     return (
         <>
             {isLoader ? <Loader /> : ''}
+            {console.log(Object.keys(viewdata).length)}
+            {Object.keys(viewdata).length > 0 ?
+            <>
+            <div>
+                <ViewDataSet 
+                downloadAttachment={(uri) => downloadAttachment(uri)} back={() => {setviewdata({});history.push('/guest/home')}} 
+                rowdata={viewdata} 
+                tabelkeys={tablekeys}>
+                </ViewDataSet>
+            </div>
+            </>:
+            <>
             <Row className="supportfirstmaindiv">
-                {/* <Row className="secondmainheading width100percent">{screenlabels.support.heading}</Row> */}
                 <Row className="supportmaindiv">
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
@@ -666,6 +665,7 @@ export default function GuestUserDatasets() {
                     </Row>
                 </Row>
             </Row>
+            </>}
         </>
     )
 }

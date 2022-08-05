@@ -9,6 +9,7 @@ import {isLoggedInUserAdmin,isLoggedInUserParticipant } from '../../Utils/Common
 import AddDatasetCard from '../../Components/Datasets/AddDatasetCard';
 import labels from '../../Constants/labels';
 import NoDatasetCard from '../../Components/Datasets/NoDatasetCard';
+import GuestUserDatasetCard from './GuestUserDatasetCard';
 
 
 export default function GuestUserDatasetListing(props) {
@@ -27,16 +28,16 @@ export default function GuestUserDatasetListing(props) {
             */}
             {
                 (!props.datasetList || props.datasetList.length ==0) &&
-                <NoDatasetCard firstText={screenlabels.dataset.no_dataset_text1} secondText={screenlabels.dataset.no_dataset_text2}></NoDatasetCard>
+                <NoDatasetCard firstText={screenlabels.dataset.no_dataset_text1}></NoDatasetCard>
             }
             {
                 props.datasetList && props.datasetList.map((dataset) => (
-                    <DataSetCard
+                    <GuestUserDatasetCard
                         isMemberTab={props.isMemberTab}
                         title={dataset.name}
                         orgName={dataset.organization.name}
                         ageOfData={dataset.age_of_date}
-                        publishedon={dataset.created_at}
+                        publishedon={dataset.updated_at}
                         cropDetail={dataset.crop_detail}
                         geography={dataset.geography}
                         orgLogo={dataset.organization.logo}

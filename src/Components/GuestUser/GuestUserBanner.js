@@ -8,7 +8,6 @@ import Success from "../../Components/Success/Success";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
-import { checkUrlExists, GetErrorHandlingRoute } from "../../Utils/Common";
 import './GuestUserBanner.css'
 
 const useStyles = {
@@ -37,15 +36,11 @@ export default function GuestUserBanner(props) {
         setIsLoader(false);
         if (response.data.organization.hero_image){
           let bannerImageUrl = UrlConstant.base_url_without_slash + response.data.organization.hero_image;
-          if (checkUrlExists(bannerImageUrl)){
-            setBannerImage(bannerImageUrl)
-          } 
+          setBannerImage(bannerImageUrl)
         }
         if (response.data.organization.logo){
           let logoImageUrl = UrlConstant.base_url_without_slash + response.data.organization.logo;
-          if (checkUrlExists(logoImageUrl)){
-            setLogoImage(logoImageUrl)
-          } 
+          setLogoImage(logoImageUrl)
         }
       })
       .catch((e) => {
@@ -60,12 +55,24 @@ export default function GuestUserBanner(props) {
       <div className="banner" align="center">
         <Row>
             <Col xs={12} sm={12} md={12} lg={12}>
-            <img style={{minWidth: "100%", minHeight: "220px", maxHeight: "220px",  textAlign: "center"}} alt="Organisation banner" src={bannerImage}/>
+              <div style={{minWidth: "100%", minHeight: "220px", maxHeight: "220px",  textAlign: "center",
+                            //backgroundImage: `url(${bannerImage})`,
+                            backgroundSize: 'contain',
+                            //backgroundRepeat: 'no-repeat',
+                            //backgroundPosition: 'center',
+                            //background: 'rgb(22,22,22)',
+                            background: `url(${bannerImage}) no-repeat center, 
+                            radial-gradient(circle, rgba(68,68,68,0.5) 0%, rgba(102,102,102,0.5) 60%, rgba(255,255,255,0.5) 100%)`}} 
+                            alt="Organisation banner" src={bannerImage}/>
             </Col>
             <Col>
-            <div className="logo">
-                <img style={{minWidth: "140px", minHeight: "140px", maxWidth: "140px", maxHeight: "140px", textAlign: "center"}} alt="Organisation logo" src={logoImage} />
-            </div>
+              <div className="logo" style={{
+                              backgroundImage: `url(${logoImage})`,
+                              backgroundSize: 'contain',
+                              backgroundRepeat: 'no-repeat',
+                              backgroundPosition: 'center'}}>
+                  {/*<img style={{minWidth: "140px", minHeight: "140px", maxWidth: "140px", maxHeight: "140px", textAlign: "center"}} alt="Organisation logo" src={logoImage} />*/}
+              </div>
             </Col>
         </Row>
       </div>

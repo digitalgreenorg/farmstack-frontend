@@ -382,6 +382,7 @@ export default function DatasetParticipant() {
                     tempList[i].isDisplayed = false
                 } else{
                     searchFound = true
+                    tempList[i].isDisplayed = true
                 }
             }
         }
@@ -403,6 +404,7 @@ export default function DatasetParticipant() {
                     tempList[i].isDisplayed = false
                 } else {
                     searchFound = true
+                    tempList[i].isDisplayed = true
                 }
             }
         }

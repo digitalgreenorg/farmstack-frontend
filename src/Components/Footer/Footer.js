@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import './Footer.css'
 export default function Footer(props) {
     return(
+        <>
+        <div style={{marginTop: '120px'}}> </div>
         <footer className="footer">
             <Row>
             <Col xs={12} sm={12} md={3} lg={3}>
@@ -24,5 +26,6 @@ export default function Footer(props) {
             </Col>
             </Row>
         </footer>
+        </>
     );
 }
