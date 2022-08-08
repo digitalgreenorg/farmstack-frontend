@@ -136,7 +136,7 @@ export default function GuestUserContact(props) {
 
     HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.microsite_admin_organization,
+      UrlConstant.base_url + UrlConstant.guest_organization_details,
       "",
       false,
       false
@@ -199,7 +199,7 @@ export default function GuestUserContact(props) {
         />
       )}
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
