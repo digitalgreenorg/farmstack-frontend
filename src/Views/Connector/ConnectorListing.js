@@ -2,6 +2,7 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import Button from "@mui/material/Button";
 import ConnectorCard from '../../Components/Connectors/ConnectorCard';
+import NoConnectorCard from '../../Components/Connectors/NoConnectorCard';
 
 export default function ConnectorListing(props) {
   return (
@@ -14,6 +15,7 @@ export default function ConnectorListing(props) {
         <ConnectorCard
           margingtop={'supportcard supportcardmargintop20px'}
         />
+        <NoConnectorCard/>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 {props.showLoadMore ? (
                     <Col xs={12} sm={12} md={6} lg={6}>

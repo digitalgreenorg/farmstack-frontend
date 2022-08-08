@@ -196,7 +196,9 @@ const labels = {
       status: "Status",
       connector_name: "Connector Name",
       project_name: "Project Name",
-      department_name: "Department Name"
+      department_name: "Department Name",
+      no_connector_text1 : "There are no Connector at this moment !",
+      no_connector_text2 : "Configure your Connector."
     },
     guestUser: {
       contact_us: "Contact Us",
