@@ -37,6 +37,7 @@ const UrlConstant = {
   list_of_dataset: "participant/datasets/list_of_datasets/",
   departments_connector_list: "participant/department/",
   project_list: "participant/project/",
+  connector: "participant/connectors/",
 };
 
 export default UrlConstant;
