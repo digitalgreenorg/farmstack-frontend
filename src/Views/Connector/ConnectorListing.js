@@ -13,9 +13,11 @@ export default function ConnectorListing(props) {
         <ConfigureConnectorCard/>
         <ConnectorCard
           margingtop={'supportcard supportcardmargintop20px'}
+          getImageName={props.getImageName}
         />
         <ConnectorCard
           margingtop={'supportcard supportcardmargintop20px'}
+          getImageName={props.getImageName}
         />
         <NoConnectorCard/>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>

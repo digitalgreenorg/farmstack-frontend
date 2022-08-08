@@ -21,6 +21,7 @@ export default function ConnectorParticipant() {
     //states for api endpoint management
     const [connectorUrl, setConnectorUrl] = useState(UrlConstant.base_url+UrlConstant.connector_list)
     const [showLoadMore, setShowLoadMore] = useState(false)
+    const [isDatasetPresent, setIsDatasetPresent] = useState(true)
 
     //connector list state which will be set with backend response
     const [connectorList, setConnectorList] = useState([])
@@ -360,54 +361,80 @@ export default function ConnectorParticipant() {
         setProjectFilter(tempList)
     }
 
+    const getConnectorStatusImageName = (status) => {
+        var imageName = ""
+        if(status == screenlabels.connector.status_install_certificate){
+            imageName = "status_install_certificate_icon.svg"
+        } else if (status == screenlabels.connector.status_unpaired){
+            imageName = "status_unpaired_icon.svg"
+        } else if (status == screenlabels.connector.status_awaiting_approval){
+            imageName = "status_awaiting_approval_icon.svg"
+        } else if (status == screenlabels.connector.status_paired){
+            imageName = "status_paired_icon.svg"
+        } else if (status == screenlabels.connector.status_pairing_request_received){
+            imageName = "status_pairing_request_received_icon.svg"
+        } else if (status == screenlabels.connector.status_rejected){
+            imageName = "status_rejected_icon.svg"
+        }
+        return imageName
+    }
+
   return (
     <>
       {isLoader ? <Loader /> : ''}
+      
       <div className="connectors">
-      <Row className="supportfirstmaindiv">
-        <Row className="supportmaindiv">
-            <Row className="supportfilterRow">
-                <Col className="supportfilterCOlumn">
-                    <ConnectorFilter
-                        isShowAll={isShowAll}
-                        
-                        // setIsShowAll={setIsShowAll}
-                        // secondrow={secondrow}
-                        // fromdate={fromdate}
-                        // todate={todate}
-                        // setfromdate={setfromdate}
-                        // settodate={settodate}
-                        // filterByDates={filterByDates}
-                        // resetFilterState={resetFilterState}
+        {isDatasetPresent ?
+            <Row className="supportfirstmaindiv">
+                <Row className="supportmaindiv">
+                    <Row className="supportfilterRow">
+                        <Col className="supportfilterCOlumn">
+                            <ConnectorFilter
+                                isShowAll={isShowAll}
+                                
+                                // setIsShowAll={setIsShowAll}
+                                // secondrow={secondrow}
+                                // fromdate={fromdate}
+                                // todate={todate}
+                                // setfromdate={setfromdate}
+                                // settodate={settodate}
+                                // filterByDates={filterByDates}
+                                // resetFilterState={resetFilterState}
 
-                        departmentFilter={departmentFilter}
-                        projectFilter={projectFilter}
-                        connectorTypeFilter={connectorTypeFilter}
-                        statusFilter={statusFilter}
+                                departmentFilter={departmentFilter}
+                                projectFilter={projectFilter}
+                                connectorTypeFilter={connectorTypeFilter}
+                                statusFilter={statusFilter}
 
-                        deptSearchState={deptSearchState}
-                        projectSearchState={projectSearchState}
-                        isDeptSearchFound={isDeptSearchFound}
-                        isProjectSearchFound={isProjectSearchFound}
+                                deptSearchState={deptSearchState}
+                                projectSearchState={projectSearchState}
+                                isDeptSearchFound={isDeptSearchFound}
+                                isProjectSearchFound={isProjectSearchFound}
 
-                        handleDeptSearch={handleDeptSearch}
-                        handleProjectSearch={handleProjectSearch}
-                        handleFilterChange={handleFilterChange}
-                        clearAllFilters={clearAllFilters}
-                    />
-                </Col>
-                <Col className="supportSecondCOlumn">
-                    <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
-                        <ConnectorListing
-                            connectorList={connectorList}
-                            // getConnectorList={getConnectorList}
-                            showLoadMore={true} //to be changed
-                        />
-                    </Col>
-                </Col>
+                                handleDeptSearch={handleDeptSearch}
+                                handleProjectSearch={handleProjectSearch}
+                                handleFilterChange={handleFilterChange}
+                                clearAllFilters={clearAllFilters}
+                            />
+                        </Col>
+                        <Col className="supportSecondCOlumn">
+                            <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
+                                <ConnectorListing
+                                    connectorList={connectorList}
+                                    // getConnectorList={getConnectorList}
+                                    showLoadMore={true} //to be changed
+                                    getImageName = {getConnectorStatusImageName}
+                                />
+                            </Col>
+                        </Col>
+                    </Row>
+                </Row>
             </Row>
-        </Row>
-      </Row>
+            : 
+            <Row className="supportfirstmaindiv">
+
+            </Row>
+        }
       </div>
     </>
   )
