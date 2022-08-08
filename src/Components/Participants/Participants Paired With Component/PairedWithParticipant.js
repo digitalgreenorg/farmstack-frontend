@@ -6,7 +6,9 @@ const PairedWithParticipant = () => {
     <div>
         <Container>
                 <Row>
-                    <Col lg={4}></Col>
+                    <Col>
+
+                    </Col>
                 </Row>
                 <Row>
                     <Col lg={4}></Col>
