@@ -130,7 +130,7 @@ export default function GuestUserContact(props) {
         //history.push(GetErrorHandlingRoute(e));
       });
   };
-
+  
   const getDatahubAdminDetails = () => {
     setIsLoader(true);
 

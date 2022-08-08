@@ -32,8 +32,9 @@ const UrlConstant = {
   guest_dataset_filtered_data: 'microsite/datasets/dataset_filters/',
   connector_filter: 'datahub/connectors/filter_data',
   connector_list: 'datahub/connectors/',
-  microsite_contact_form : "microsite/contact_form",
-  microsite_admin_organization : "microsite/admin_organization"
+  microsite_contact_form : "microsite/contact_form/",
+  microsite_admin_organization : "microsite/admin_organization/",
+  microsite_legal_documents : "/microsite/legal_documents/"
 };
 
 export default UrlConstant;
