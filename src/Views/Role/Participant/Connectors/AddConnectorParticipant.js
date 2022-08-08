@@ -12,6 +12,9 @@ import labels from "../../../../Constants/labels";
 import Button from "@mui/material/Button";
 import THEME_COLORS from "../../../../Constants/ColorConstants";
 import Success from "../../../../Components/Success/Success";
+import Loader from "../../../../Components/Loader/Loader";
+import HTTPService from "../../../../Services/HTTPService";
+import UrlConstants from "../../../../Constants/UrlConstants";
 
 const names = [
   "Oliver Hansen",
@@ -66,6 +69,58 @@ export default function AddConnectorParticipant() {
   //   success screen
   const [isSuccess, setisSuccess] = useState(false);
 
+  //   loader
+  const [isLoader, setIsLoader] = useState(false);
+
+  //   get dataset
+  const getDatasetDetails = async () => {
+    // var id = getUserLocal();
+    // console.log("user id", id);
+    setIsLoader(true);
+
+    await HTTPService(
+      "GET",
+      //   UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for dataset", response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  //   get Department
+  const getDepartmentDetails = async () => {
+    // var id = getUserLocal();
+    // console.log("user id", id);
+    setIsLoader(true);
+
+    await HTTPService(
+      "GET",
+      //   UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for Department", response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  useEffect(() => {
+    getDatasetDetails();
+    getDepartmentDetails();
+  }, []);
+
   const handleFileChange = (file) => {
     setFile(file);
     console.log(file);
@@ -118,6 +173,7 @@ export default function AddConnectorParticipant() {
   };
   return (
     <>
+      {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
           okevent={() => history.push("/participant/connectors")}
