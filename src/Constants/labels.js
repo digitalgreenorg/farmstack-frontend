@@ -194,7 +194,9 @@ const labels = {
 
       project: "Project",
       status: "Status",
-      connector_name: "Connector Name"
+      connector_name: "Connector Name",
+      project_name: "Project Name",
+      department_name: "Department Name"
     },
     guestUser: {
       contact_us: "Contact Us",
