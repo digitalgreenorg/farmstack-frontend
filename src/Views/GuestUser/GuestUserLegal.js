@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Footer from "../../Components/Footer/Footer";
 import GuestUserBanner from "../../Components/GuestUser/GuestUserBanner";
 import GuestUserDescription from "../../Components/GuestUser/GuestUserDescription";
 import GuestUserLegalPage from "../../Components/GuestUser/GuestUserLegalPage";
@@ -81,6 +82,7 @@ export default function GuestUserLegal(props){
         <GuestUserNavBar />
         <GuestUserBanner />
         <GuestUserLegalPage legalData={legalData}/>
+        <Footer />
         </>
     );
 }
