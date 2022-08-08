@@ -22,7 +22,9 @@ const useStyles = {
     // "display": "-webkit-box",
     // "-webkit-line-clamp":"1",
     // "-webkit-box-orient": "vertical" }
-    cardHeading: {"margin-top":"-15px", "background-color": "#f8f9fa", "text-align": "left", "overflow": "hidden", "text-overflow": "ellipsis", "padding-bottom":"10px"}
+    cardHeading: {"margin-top":"-15px", "background-color": "#f8f9fa", "text-align": "left", "overflow": "hidden", "text-overflow": "ellipsis"},
+    cardHeading2: {"margin-top":"-15px", "background-color": "#f8f9fa", "text-align": "left", "overflow": "hidden", "text-overflow": "ellipsis", "padding-bottom":"10px"},
+    left_align: {"text-align":"left"}
 
 };
 
@@ -51,53 +53,53 @@ export default function ConnectorCard(props) {
             </Tooltip> */}
             <CardContent>
                  <Row style={useStyles.cardHeading}>
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {screenlabels.connector.connector_name}
                     </Col>
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+                    <Col style={{"text-align":"left","margin-left":"60px","font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {screenlabels.connector.connector_type}
                     </Col>
                 </Row>
                 {/* <Row className="supportcardmargintop"> */}
-                <Row style={useStyles.cardHeading}>
-                    <Tooltip title={props.geography}>
-                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                <Row style={useStyles.cardHeading2}>
+                    {/* <Tooltip title={props.geography}> */}
+                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {/* {props.geography} */}
                         Connector_P1
                     </Col>
-                    </Tooltip>
-                    <Col style={{"font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+                    {/* </Tooltip> */}
+                    <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {/* {dateTimeFormat(props.publishedon,true)} */}
                         Provider
                     </Col>
                 </Row>
                 <Row>
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {screenlabels.connector.project_name}
                     </Col>
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+                    <Col style={{"text-align":"left","margin-left":"60px","font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {screenlabels.connector.department_name}
                     </Col>
                 </Row>
                 <Row className="supportcardmargintop">
-                    <Tooltip title={props.geography}>
-                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumngeo">
+                    {/* <Tooltip title={props.geography}> */}
+                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {/* {props.geography} */}
                         Sample_Project
                     </Col>
-                    </Tooltip>
-                    <Col style={{"font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+                    {/* </Tooltip> */}
+                    <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {/* {dateTimeFormat(props.publishedon,true)} */}
                         sample Department
                     </Col>
                 </Row>
                 <Row>
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                        {screenlabels.connector.status} 
                     </Col>
                 </Row>
                 <Row className="supportcardmargintop">
-                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {/* {props.ageOfData} */}
                         Pairing Request Received
                     </Col>

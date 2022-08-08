@@ -107,7 +107,7 @@ export default function ConnectorFilter(props) {
     <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">  
             <img
-            src={require("../../Assets/Img/status.svg")}
+            src={require("../../Assets/Img/department_icon.svg")}
             alt="new"
         />
         &nbsp;&nbsp;{screenlabels.connector.department}</span>
@@ -141,7 +141,7 @@ export default function ConnectorFilter(props) {
     <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext"> 
         <img
-            src={require("../../Assets/Img/dataset_bold.svg")}
+            src={require("../../Assets/Img/project_icon.svg")}
             alt="new"
         />
         &nbsp;&nbsp;{screenlabels.connector.projects}</span>
@@ -175,7 +175,7 @@ export default function ConnectorFilter(props) {
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img
-              src={require("../../Assets/Img/geography.svg")}
+              src={require("../../Assets/Img/connector_icon.svg")}
               alt="new"
             />
             &nbsp;&nbsp;
@@ -194,7 +194,7 @@ export default function ConnectorFilter(props) {
       <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img
-              src={require("../../Assets/Img/calendar.svg")}
+              src={require("../../Assets/Img/connector_status_icon.svg")}
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.connector.connector_status}</span>
