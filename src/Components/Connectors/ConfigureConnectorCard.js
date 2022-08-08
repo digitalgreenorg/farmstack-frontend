@@ -13,12 +13,12 @@ const useStyles = {
   cardHeading:{'font-family': 'Open Sans', 'font-style': 'normal', 'font-weight': '600', 'font-size': '14px', 'line-height': '19px', 'text-align': 'center', color: '#3D4A52'}
 };
 export default function ConfigureConnectorCard(props) {
-    const [isshowbutton, setisshowbutton] = React.useState(true);
+    const [isshowbutton, setisshowbutton] = React.useState(false);
     const [screenlabels, setscreenlabels] = React.useState(labels['en'])
 
   return (
 
-    <Card style={isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onClick={()=>props.addevent()} onMouseEnter={()=>setisshowbutton((prev) => !prev)} onMouseLeave={()=>setisshowbutton((prev) => !prev)}>
+    <Card style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onClick={()=>props.addevent()} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
       <CardContent>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
