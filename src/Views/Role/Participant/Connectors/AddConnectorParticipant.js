@@ -12,6 +12,20 @@ import labels from "../../../../Constants/labels";
 import Button from "@mui/material/Button";
 import THEME_COLORS from "../../../../Constants/ColorConstants";
 import Success from "../../../../Components/Success/Success";
+import Loader from "../../../../Components/Loader/Loader";
+import HTTPService from "../../../../Services/HTTPService";
+import UrlConstants from "../../../../Constants/UrlConstants";
+
+import HandleSessionTimeout, {
+  setTokenLocal,
+  getTokenLocal,
+  setUserId,
+  getUserLocal,
+  handleAddressCharacters,
+  setUserMapId,
+  setOrgId,
+  getOrgLocal,
+} from "../../../../Utils/Common";
 
 const names = [
   "Oliver Hansen",
@@ -35,6 +49,7 @@ const names = [
   "Virginia Andrews",
   "Kelly Snyder",
 ];
+
 const useStyles = {
   btncolor: {
     color: "white",
@@ -49,6 +64,10 @@ const useStyles = {
 
 export default function AddConnectorParticipant() {
   const history = useHistory();
+  //   dataset values
+  const [datasets, setdatasets] = React.useState([]);
+  const [department_variable, setdepartment_variable] = React.useState([]);
+  const [project_variable, setproject_variable] = React.useState([]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   const [department, setdepartment] = React.useState("");
@@ -66,15 +85,90 @@ export default function AddConnectorParticipant() {
   //   success screen
   const [isSuccess, setisSuccess] = useState(false);
 
+  //   loader
+  const [isLoader, setIsLoader] = useState(false);
+
+  //   get dataset
+  const getDatasetDetails = async () => {
+    var id = getUserLocal();
+    console.log("user id", id);
+    setIsLoader(true);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.list_of_dataset,
+      { user_id: id },
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for dataset", response.data);
+        setdatasets(response.data);
+        console.log("datasets", datasets);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  //   get Department
+  const getDepartmentDetails = async () => {
+    // var id = getUserLocal();
+    // console.log("user id", id);
+    setIsLoader(true);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.departments_connector_list,
+      { org_id: getOrgLocal() },
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for Department", response.data);
+        setdepartment_variable(response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  useEffect(() => {
+    getDatasetDetails();
+    getDepartmentDetails();
+  }, []);
+
   const handleFileChange = (file) => {
     setFile(file);
     console.log(file);
     setfileValid("");
   };
 
-  const handleChangeDepartment = (event) => {
+  const handleChangeDepartment = async (event) => {
     console.log(event.target.value);
     setdepartment(event.target.value);
+    setIsLoader(true);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.project_list,
+      { department: department },
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for project", response.data);
+        setproject_variable(response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
   };
   const handleChangeProject = (event) => {
     console.log(event.target.value);
@@ -112,12 +206,41 @@ export default function AddConnectorParticipant() {
     console.log(e.target.value);
     setport(e.target.value);
   };
-  const handleAddDatasetSubmit = (e) => {
+  const handleAddDatasetSubmit = async (e) => {
     e.preventDefault();
-    setisSuccess(true);
+    // setisSuccess(true);
+    setIsLoader(true);
+    var bodyFormData = new FormData();
+    bodyFormData.append("connector_name", connectorName);
+    bodyFormData.append("connector_type", connector);
+    bodyFormData.append("connector_description", description);
+    bodyFormData.append("application_port", port);
+    bodyFormData.append("department", department);
+    bodyFormData.append("docker_image_url", docker);
+    bodyFormData.append("project", project);
+    bodyFormData.append("dataset", Dataset);
+
+    await HTTPService(
+      "POST",
+      UrlConstants.base_url + UrlConstants.connector,
+      bodyFormData,
+      true,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        setisSuccess(true);
+        console.log("connector uploaded!", response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        console.log(e);
+        // history.push(GetErrorHandlingRoute(e));
+      });
   };
   return (
     <>
+      {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
           okevent={() => history.push("/participant/connectors")}
@@ -154,6 +277,9 @@ export default function AddConnectorParticipant() {
             handleChangeport={handleChangeport}
             names={names}
             upload={false}
+            datasets={datasets}
+            department_variable={department_variable}
+            project_variable={project_variable}
           />
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
