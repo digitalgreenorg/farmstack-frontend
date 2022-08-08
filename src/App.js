@@ -41,7 +41,7 @@ function App() {
           <Route exact path="/guest/legal" component={GuestUserLegal} />
           <Route exact path="/guest/contact" component={GuestUserContact} />
           <Route path="/guest" component={GuestUserHome} />
-          <Redirect from="/" to="/login" />
+          <Redirect from="/" to="/guest" />
         </Switch>
       </Router>
     </React.Fragment>
