@@ -16,6 +16,17 @@ import Loader from "../../../../Components/Loader/Loader";
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
 
+import HandleSessionTimeout, {
+  setTokenLocal,
+  getTokenLocal,
+  setUserId,
+  getUserLocal,
+  handleAddressCharacters,
+  setUserMapId,
+  setOrgId,
+  getOrgLocal,
+} from "../../../../Utils/Common";
+
 const names = [
   "Oliver Hansen",
   "Van Henry",
@@ -38,6 +49,7 @@ const names = [
   "Virginia Andrews",
   "Kelly Snyder",
 ];
+
 const useStyles = {
   btncolor: {
     color: "white",
@@ -52,6 +64,9 @@ const useStyles = {
 
 export default function AddConnectorParticipant() {
   const history = useHistory();
+  //   dataset values
+  const [datasets, setdatasets] = React.useState([]);
+  const [department_variable, setdepartment_variable] = React.useState([]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   const [department, setdepartment] = React.useState("");
@@ -74,19 +89,22 @@ export default function AddConnectorParticipant() {
 
   //   get dataset
   const getDatasetDetails = async () => {
-    // var id = getUserLocal();
-    // console.log("user id", id);
+    var id = getUserLocal();
+    console.log("user id", id);
     setIsLoader(true);
 
     await HTTPService(
       "GET",
-      //   UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      UrlConstants.base_url + UrlConstants.list_of_dataset,
+      { user_id: id },
       false,
       true
     )
       .then((response) => {
         setIsLoader(false);
         console.log("get request for dataset", response.data);
+        setdatasets(response.data);
+        console.log("datasets", datasets);
       })
       .catch((e) => {
         setIsLoader(false);
@@ -102,13 +120,15 @@ export default function AddConnectorParticipant() {
 
     await HTTPService(
       "GET",
-      //   UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      UrlConstants.base_url + UrlConstants.departments_connector_list,
+      { org_id: getOrgLocal() },
       false,
       true
     )
       .then((response) => {
         setIsLoader(false);
         console.log("get request for Department", response.data);
+        setdepartment_variable(response.data);
       })
       .catch((e) => {
         setIsLoader(false);
@@ -210,6 +230,8 @@ export default function AddConnectorParticipant() {
             handleChangeport={handleChangeport}
             names={names}
             upload={false}
+            datasets={datasets}
+            department_variable={department_variable}
           />
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
