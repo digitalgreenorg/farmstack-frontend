@@ -9,6 +9,7 @@ import ConnectorListing from '../ConnectorListing'
 import { get } from 'jquery';
 import UrlConstant from '../../../Constants/UrlConstants';
 import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import '../ConnectorParticipant.css'
 import { useHistory } from 'react-router-dom';
 
 export default function ConnectorParticipant() {
@@ -362,6 +363,7 @@ export default function ConnectorParticipant() {
   return (
     <>
       {isLoader ? <Loader /> : ''}
+      <div className="connectors">
       <Row className="supportfirstmaindiv">
         <Row className="supportmaindiv">
             <Row className="supportfilterRow">
@@ -406,6 +408,7 @@ export default function ConnectorParticipant() {
             </Row>
         </Row>
       </Row>
+      </div>
     </>
   )
 }
