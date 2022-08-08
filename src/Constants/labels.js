@@ -197,8 +197,10 @@ const labels = {
       connector_name: "Connector Name",
       project_name: "Project Name",
       department_name: "Department Name",
-      no_connector_text1 : "There are no Connector at this moment !",
-      no_connector_text2 : "Configure your Connector."
+      configure_connector: "Configure a new Connector",
+      configure_connector_text: "Configure a new Connector to Provide and Consume data securely.",
+      no_connector_text1 : "There are no Connectors configured at this moment !",
+      no_connector_text2 : "Configure new Connector."
     },
     guestUser: {
       contact_us: "Contact Us",

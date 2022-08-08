@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import THEME_COLORS from '../../Constants/ColorConstants'
 import labels from '../../Constants/labels';
 import { Tooltip } from '@mui/material';
 import { dateTimeFormat } from '../../Utils/Common'

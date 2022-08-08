@@ -3,12 +3,14 @@ import { Col, Row } from 'react-bootstrap'
 import Button from "@mui/material/Button";
 import ConnectorCard from '../../Components/Connectors/ConnectorCard';
 import NoConnectorCard from '../../Components/Connectors/NoConnectorCard';
+import ConfigureConnectorCard from '../../Components/Connectors/ConfigureConnectorCard';
 
 export default function ConnectorListing(props) {
   return (
     <div>
 
       <Row style={{"margin-left":"-20px","margin-top":"-20px"}}>
+        <ConfigureConnectorCard/>
         <ConnectorCard
           margingtop={'supportcard supportcardmargintop20px'}
         />
