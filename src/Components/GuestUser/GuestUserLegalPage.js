@@ -15,6 +15,7 @@ import styles from "./guestUserLegal.module.css"
 import UrlConstant from '../../Constants/UrlConstants';
 import { useHistory } from 'react-router-dom';
 import parse from 'html-react-parser'
+import labels from '../../Constants/labels';
 export default function GuestUserLegalPage({legalData}) {
   const [value, setValue] = React.useState(1);
   const history = useHistory();
@@ -37,7 +38,7 @@ export default function GuestUserLegalPage({legalData}) {
 
         <span style={{textAlign:"left", fontSize:"40px", fontWeight:"600", lineHeight:"54px", color:"#585D60", marginTop:"50px", marginBottom:"32.5px"}}>Legal</span>
         <Box   onClick={() => history.push("/guest/home")} className={styles.backButtonMainDiv} sx={{ display:"flex", justifyContent:"left", marginBottom:"32.5px"}}><ArrowBackIcon ></ArrowBackIcon>{" "}
-        <span style={{marginLeft:"14px"}}>back</span> </Box>
+        <span style={{marginLeft:"14px"}}>{labels.en.common.back}</span> </Box>
         
       
         </Box>

@@ -38,6 +38,7 @@ const UrlConstant = {
   departments_connector_list: "participant/department/",
   project_list: "participant/project/",
   connector: "participant/connectors/",
+  microsite_legal_documents: "/microsite/legal_documents/",
 };
 
 export default UrlConstant;

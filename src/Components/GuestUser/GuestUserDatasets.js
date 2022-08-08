@@ -598,7 +598,7 @@ export default function GuestUserDatasets() {
             {console.log(Object.keys(viewdata).length)}
             {Object.keys(viewdata).length > 0 ?
             <>
-            <div>
+            <div className="guestdiv">
                 <ViewDataSet 
                 downloadAttachment={(uri) => downloadAttachment(uri)} back={() => {setviewdata({});history.push('/guest/home')}} 
                 rowdata={viewdata} 
@@ -607,6 +607,7 @@ export default function GuestUserDatasets() {
             </div>
             </>:
             <>
+            <div className="guestdiv">
             <Row className="supportfirstmaindiv">
                 <Row className="supportmaindiv">
                     <Row className="supportfilterRow">
@@ -665,6 +666,7 @@ export default function GuestUserDatasets() {
                     </Row>
                 </Row>
             </Row>
+            </div>
             </>}
         </>
     )
