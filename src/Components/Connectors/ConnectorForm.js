@@ -140,7 +140,7 @@ export default function ConnectorForm(props) {
               onChange={props.handleChangeDataset}>
               {props.datasets.map((dataset, index) => (
                 //    console.log(dataset)
-                <MenuItem key={dataset.id} value={dataset.name}>
+                <MenuItem key={dataset.id} value={dataset.id}>
                   {dataset.name}
                 </MenuItem>
               ))}
@@ -199,9 +199,7 @@ export default function ConnectorForm(props) {
               value={props.department}
               onChange={props.handleChangeDepartment}>
               {props.department_variable.map((department, index) => (
-                <MenuItem
-                  key={department.id}
-                  value={department.department_name}>
+                <MenuItem key={department.id} value={department.id}>
                   {department.department_name}
                 </MenuItem>
               ))}
@@ -216,11 +214,12 @@ export default function ConnectorForm(props) {
             <Select
               labelId="demo-simple-select-required-label"
               id="demo-simple-select-required"
+              //   onOpen={props.handleOpen}
               value={props.project}
               onChange={props.handleChangeProject}>
-              {props.names.map((name) => (
-                <MenuItem key={name} value={name}>
-                  {name}
+              {props.project_variable.map((project, index) => (
+                <MenuItem key={project.id} value={project.id}>
+                  {project.project_name}
                 </MenuItem>
               ))}
             </Select>

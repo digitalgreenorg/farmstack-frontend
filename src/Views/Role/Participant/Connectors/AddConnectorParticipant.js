@@ -67,6 +67,7 @@ export default function AddConnectorParticipant() {
   //   dataset values
   const [datasets, setdatasets] = React.useState([]);
   const [department_variable, setdepartment_variable] = React.useState([]);
+  const [project_variable, setproject_variable] = React.useState([]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   const [department, setdepartment] = React.useState("");
@@ -147,9 +148,27 @@ export default function AddConnectorParticipant() {
     setfileValid("");
   };
 
-  const handleChangeDepartment = (event) => {
+  const handleChangeDepartment = async (event) => {
     console.log(event.target.value);
     setdepartment(event.target.value);
+    setIsLoader(true);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.project_list,
+      { department: department },
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for project", response.data);
+        setproject_variable(response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
   };
   const handleChangeProject = (event) => {
     console.log(event.target.value);
@@ -232,6 +251,7 @@ export default function AddConnectorParticipant() {
             upload={false}
             datasets={datasets}
             department_variable={department_variable}
+            project_variable={project_variable}
           />
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>

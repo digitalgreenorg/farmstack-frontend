@@ -36,6 +36,7 @@ const UrlConstant = {
   microsite_admin_organization: "microsite/admin_organization",
   list_of_dataset: "participant/datasets/list_of_datasets/",
   departments_connector_list: "participant/department/",
+  project_list: "participant/project/",
 };
 
 export default UrlConstant;
