@@ -113,7 +113,7 @@ export default function ConnectorFilter(props) {
         &nbsp;&nbsp;{screenlabels.connector.department}</span>
     </Row>
     { 
-        props.departmentFilter &&
+        props.departmentFilter && props.departmentFilter.length!==0 &&
         <Row className="supportfiltersecondrowbold">
             <TextField 
                 style={{ "width":"100%", "margin-left":"10px","margin-right":"10px","text-align": "left", color: '#3D4A52'}}
@@ -147,7 +147,7 @@ export default function ConnectorFilter(props) {
         &nbsp;&nbsp;{screenlabels.connector.projects}</span>
     </Row>
     { 
-        props.projectFilter &&
+        props.projectFilter && props.projectFilter.length !==0 &&
         <Row className="supportfiltersecondrowbold">
             <TextField 
                 style={{ "width":"100%", "margin-left":"10px","margin-right":"10px","text-align": "left", color: '#3D4A52'}}

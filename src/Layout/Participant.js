@@ -33,7 +33,7 @@ function Participant(props) {
             <Route
               exact
               path="/participant/connectors"
-              component={DatasetParticipant}
+              component={ConnectorParticipant}
             />
             <Route exact path="/participant/home" component={Home} />
             <Route
@@ -56,7 +56,6 @@ function Participant(props) {
               path="/participant/connectors/edit/:id"
               component={EditConnectorParticipant}
             />
-            <Route exact path="/participant/connectors" component={ConnectorParticipant}/>
           </Switch>
         </>
       ) : (
