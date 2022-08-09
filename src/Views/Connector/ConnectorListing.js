@@ -15,12 +15,12 @@ export default function ConnectorListing(props) {
           <NoConnectorCard/>
         }
         {
-          props.connectorList && props.connectorList.map((connector)=>(
+          props.connectorList && props.connectorList.length > 0 && props.connectorList.map((connector)=>(
             <ConnectorCard
               connectorName={connector.connector_name}
               connectorType={connector.connector_type}
-              projectName={connector.project.project_name}
-              departmentName={connector.department.department_name}
+              projectName={connector['project_details']?connector['project_details']['project_name']:''}
+              departmentName={connector['department_details']?connector['department_details']['department_name']:""}
               status={connector.connector_status}
               statusImageName={props.getImageName(connector.connector_status)}
             />
