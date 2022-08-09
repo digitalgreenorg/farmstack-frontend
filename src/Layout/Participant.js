@@ -16,6 +16,7 @@ import Participantsettings from "../Views/Settings/ParticipantSettings/Participa
 
 import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
 import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
+import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
 
 function Participant(props) {
   return (
@@ -55,6 +56,7 @@ function Participant(props) {
               path="/participant/connectors/edit/:id"
               component={EditConnectorParticipant}
             />
+            <Route exact path="/participant/connectors" component={ConnectorParticipant}/>
           </Switch>
         </>
       ) : (
