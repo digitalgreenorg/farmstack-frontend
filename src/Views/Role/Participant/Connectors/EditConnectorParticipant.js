@@ -347,8 +347,8 @@ export default function EditConnectorParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {connector &&
-              //   department &&
-              //   project &&
+                department &&
+                project &&
               connectorName &&
               Dataset &&
               docker &&

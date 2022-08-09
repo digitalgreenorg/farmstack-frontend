@@ -194,7 +194,7 @@ const labels = {
 
       project: "Project",
       status: "Status",
-      connector_name: "Connector Name"
+      connector_name: "Connector Name",
     },
     guestUser: {
       contact_us: "Contact Us",
@@ -227,28 +227,28 @@ const labels = {
       connectorName: "Connector Name ",
       addDepartment: " + Add Department",
       addProject: " + Add Project ",
-      selectDepartment: "  Select Department ",
-      selectProject: " Select Project ",
+      selectDepartment: "  Select Department *",
+      selectProject: " Select Project *",
       docker: "Docker Image url  ",
       port: "Application Port ",
       des: "Description",
       submit: "Save and Request Certificate",
     },
-    pair_with_component:{
-      pair_with : "Pair with",
-      connector_name : "Connector Name",
-      dataset_name : "Dataset Name",
-      department_name : "Department Name",  
-       project_name : "Project Name",
-       certificate_status:"Certificate Status",
-       docker_image_url : "Docker Image url",
-       application_port : "Application Port",
-       hash_usage_policy : "Hash (usage Policy)",
-      participant_org_name  : "Participant organisation name",
-      participant_org_website : "Participant organisation website",
-      send_pairing_request : "Send Pairing Request",
-      cancel : "Cancel"
-    }
+    pair_with_component: {
+      pair_with: "Pair with",
+      connector_name: "Connector Name",
+      dataset_name: "Dataset Name",
+      department_name: "Department Name",
+      project_name: "Project Name",
+      certificate_status: "Certificate Status",
+      docker_image_url: "Docker Image url",
+      application_port: "Application Port",
+      hash_usage_policy: "Hash (usage Policy)",
+      participant_org_name: "Participant organisation name",
+      participant_org_website: "Participant organisation website",
+      send_pairing_request: "Send Pairing Request",
+      cancel: "Cancel",
+    },
   },
 };
 export default labels;
