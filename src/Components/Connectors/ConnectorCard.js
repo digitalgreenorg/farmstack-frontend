@@ -65,12 +65,12 @@ export default function ConnectorCard(props) {
                     {/* <Tooltip title={props.geography}> */}
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {props.connectorName}
-                        Connector_P1
+                        {/* Connector_P1 */}
                     </Col>
                     {/* </Tooltip> */}
                     <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {props.connectorType}
-                        Provider
+                        {/* Provider */}
                     </Col>
                 </Row>
                 <Row>
@@ -85,12 +85,12 @@ export default function ConnectorCard(props) {
                     {/* <Tooltip title={props.geography}> */}
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {props.projectName}
-                        Sample_Project
+                        {/* Sample_Project */}
                     </Col>
                     {/* </Tooltip> */}
                     <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {props.departmentName}
-                        sample Department
+                        {/* sample Department */}
                     </Col>
                 </Row>
                 <Row>
@@ -109,7 +109,7 @@ export default function ConnectorCard(props) {
                         </span>
                         &nbsp;&nbsp;
                         {props.status}
-                        Pairing Request Received
+                        {/* Pairing Request Received */}
                     </Col>
                     {/* <Tooltip title={props.cropDetail}>
                     <Col style={{"padding-right":"4px",color: "#3D4A52", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">

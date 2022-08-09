@@ -8,7 +8,6 @@ import ConfigureConnectorCard from '../../Components/Connectors/ConfigureConnect
 export default function ConnectorListing(props) {
   return (
     <div>
-
       <Row style={{"margin-left":"-20px","margin-top":"-20px"}}>
         <ConfigureConnectorCard/>
         {
@@ -27,14 +26,14 @@ export default function ConnectorListing(props) {
             />
           ))
         }
-        <ConnectorCard
+        {/* <ConnectorCard
           margingtop={'supportcard supportcardmargintop20px'}
           getImageName={props.getImageName}
         />
         <ConnectorCard
           margingtop={'supportcard supportcardmargintop20px'}
           getImageName={props.getImageName}
-        />
+        /> */}
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 {props.showLoadMore ? (
                     <Col xs={12} sm={12} md={6} lg={6}>

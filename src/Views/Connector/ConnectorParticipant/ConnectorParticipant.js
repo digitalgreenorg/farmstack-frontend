@@ -21,7 +21,7 @@ export default function ConnectorParticipant() {
     //states for api endpoint management
     const [connectorUrl, setConnectorUrl] = useState(UrlConstant.base_url+UrlConstant.connector_list)
     const [showLoadMore, setShowLoadMore] = useState(false)
-    const [isDatasetPresent, setIsDatasetPresent] = useState(true)
+    const [isDatasetPresent, setIsDatasetPresent] = useState(true) // to be set to false after backend field is sent in response
 
     //connector list state which will be set with backend response
     const [connectorList, setConnectorList] = useState([])
@@ -60,9 +60,9 @@ export default function ConnectorParticipant() {
     var payload = {}
 
     useEffect(() => {
-        // getFilters()
-        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        // getConnectorList(false)
+        getFilters()
+        payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
+        getConnectorList(false)
     }, []);
 
     const getFilters = () => {
@@ -81,17 +81,19 @@ export default function ConnectorParticipant() {
                 setIsLoader(false);
                 console.log("filter response:", response);
 
-                var deptFilterInput = response.data.departments 
+                var deptFilterInput = response.data.departments
                 var projectFilterInput = response.data.projects
                 
                 setDepartmentFilter(initFilter(deptFilterInput))
                 setProjectFilter(initFilter(projectFilterInput))
+                // setIsDatasetPresent(response.data.isDatasetPresent)
                 
                 console.log("deptFilter", departmentFilter) 
                 console.log("projectFilter", projectFilter)
 
             })
             .catch((e) => {
+                console.log(e)
                 setIsLoader(false);
                 history.push(GetErrorHandlingRoute(e));
             });
@@ -239,7 +241,7 @@ export default function ConnectorParticipant() {
              payload = buildFilterPayLoad(getUserLocal(), "", "", "", payloadList)
          }
          if(isAnyFilterChecked){
-            //  getConnectorList(false)
+             getConnectorList(false)
          } else{
              clearAllFilters()
          }
@@ -316,7 +318,7 @@ export default function ConnectorParticipant() {
         resetFilterState(screenlabels.connector.connector_status)
 
         payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
-        // getConnectorList(false)
+        getConnectorList(false)
     }
 
     const handleDeptSearch = (e) => {
@@ -422,7 +424,7 @@ export default function ConnectorParticipant() {
                                 <ConnectorListing
                                     connectorList={connectorList}
                                     // getConnectorList={getConnectorList}
-                                    showLoadMore={true} //to be changed
+                                    showLoadMore={showLoadMore} //to be changed
                                     getImageName = {getConnectorStatusImageName}
                                 />
                             </Col>
