@@ -5,6 +5,7 @@ import {
   handleUnwantedSpace,
   getOrgLocal,
   getUserLocal,
+  fileUpload,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -258,9 +259,41 @@ export default function EditConnectorParticipant() {
     console.log(e.target.value);
     setport(e.target.value);
   };
-  const handleAddDatasetSubmit = (e) => {
+
+  //   put request
+  const handleEditConnectorSubmit = async (e) => {
     e.preventDefault();
-    setisSuccess(true);
+    // setisSuccess(true);
+    setIsLoader(true);
+    var bodyFormData = new FormData();
+    bodyFormData.append("connector_name", connectorName);
+    bodyFormData.append("connector_type", connector);
+    bodyFormData.append("connector_description", description);
+    bodyFormData.append("application_port", port);
+    bodyFormData.append("department", department);
+    bodyFormData.append("docker_image_url", docker);
+    bodyFormData.append("project", project);
+    bodyFormData.append("dataset", Dataset);
+    // file upload
+    fileUpload(bodyFormData, file, "certificate");
+
+    await HTTPService(
+      "PUT",
+      UrlConstants.base_url + UrlConstants.connector+ id + "/",
+      bodyFormData,
+      true,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        setisSuccess(true);
+        console.log("connector uploaded!", response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        console.log(e);
+        // history.push(GetErrorHandlingRoute(e));
+      });
   };
   return (
     <>
@@ -275,7 +308,10 @@ export default function EditConnectorParticipant() {
           imageText={"Success!"}
           msg={"The connector configuration is saved successfully. "}></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+        <form
+          noValidate
+          autoComplete="off"
+          onSubmit={handleEditConnectorSubmit}>
           <ConnectorForm
             title={"Edit Connector"}
             connector={connector}
