@@ -3,6 +3,8 @@ import ConnectorForm from "../../../../Components/Connectors/ConnectorForm";
 import {
   validateInputField,
   handleUnwantedSpace,
+  getOrgLocal,
+  getUserLocal,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -15,6 +17,7 @@ import Success from "../../../../Components/Success/Success";
 import Loader from "../../../../Components/Loader/Loader";
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
+import { useParams } from "react-router-dom";
 
 const names = [
   "Oliver Hansen",
@@ -52,7 +55,13 @@ const useStyles = {
 
 export default function EditConnectorParticipant() {
   const history = useHistory();
+  const [datasets, setdatasets] = React.useState([]);
+  const [department_variable, setdepartment_variable] = React.useState([]);
+  const [project_variable, setproject_variable] = React.useState([]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
+  //   retrive id for dataset
+  const { id } = useParams();
 
   const [department, setdepartment] = React.useState("");
   const [project, setproject] = React.useState("");
@@ -72,21 +81,81 @@ export default function EditConnectorParticipant() {
   //   loader
   const [isLoader, setIsLoader] = useState(false);
 
-  //   get dataset
-  const getDatasetDetails = async () => {
+  //   get connector data
+  const getConnectorDetails = async () => {
     // var id = getUserLocal();
     // console.log("user id", id);
+    setIsLoader(true);
+    console.log(id);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.connector + id + "/",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for edit connector", response.data);
+        setconnectorName(response.data.connector_name);
+        setconnector(response.data.connector_type);
+        setproject(response.data.project);
+        setdepartment(response.data.department_details.id);
+        setdescription(response.data.connector_description);
+        setDataset(response.data.dataset_details.id);
+        setdocker(response.data.docker_image_url);
+        setport(response.data.application_port);
+        setFile(response.data.certificate);
+
+        if (response.data.department_details.id) {
+          HTTPService(
+            "GET",
+            UrlConstants.base_url + UrlConstants.project_list,
+            { department: department },
+            false,
+            true
+          )
+            .then((response) => {
+              setIsLoader(false);
+              console.log("get request for project", response.data);
+              setproject_variable(response.data);
+            })
+            .catch((e) => {
+              setIsLoader(false);
+              // history.push(GetErrorHandlingRoute(e));
+            });
+        }
+        // console.log(typeof typeof file);
+        console.log(typeof response.data.certificate);
+        console.log(response.data.connector_description);
+        console.log(response.data.dataset_details.name);
+        console.log(response.data.project_details.id);
+        console.log(response.data.department_details.department_name);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  //   get dataset
+  const getDatasetDetails = async () => {
+    var id = getUserLocal();
+    console.log("user id", id);
     setIsLoader(true);
 
     await HTTPService(
       "GET",
-      //   UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      UrlConstants.base_url + UrlConstants.list_of_dataset,
+      { user_id: id },
       false,
       true
     )
       .then((response) => {
         setIsLoader(false);
         console.log("get request for dataset", response.data);
+        setdatasets(response.data);
+        console.log("datasets", datasets);
       })
       .catch((e) => {
         setIsLoader(false);
@@ -102,13 +171,15 @@ export default function EditConnectorParticipant() {
 
     await HTTPService(
       "GET",
-      //   UrlConstants.base_url + UrlConstants.dataset + id + "/",
+      UrlConstants.base_url + UrlConstants.departments_connector_list,
+      { org_id: getOrgLocal() },
       false,
       true
     )
       .then((response) => {
         setIsLoader(false);
         console.log("get request for Department", response.data);
+        setdepartment_variable(response.data);
       })
       .catch((e) => {
         setIsLoader(false);
@@ -117,6 +188,7 @@ export default function EditConnectorParticipant() {
   };
 
   useEffect(() => {
+    getConnectorDetails();
     getDatasetDetails();
     getDepartmentDetails();
   }, []);
@@ -127,9 +199,28 @@ export default function EditConnectorParticipant() {
     setfileValid("");
   };
 
-  const handleChangeDepartment = (event) => {
+  const handleChangeDepartment = async (event) => {
     console.log(event.target.value);
     setdepartment(event.target.value);
+
+    setIsLoader(true);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.project_list,
+      { department: department },
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for project", response.data);
+        setproject_variable(response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
   };
   const handleChangeProject = (event) => {
     console.log(event.target.value);
@@ -194,6 +285,7 @@ export default function EditConnectorParticipant() {
             Dataset={Dataset}
             docker={docker}
             port={port}
+            description={description}
             file={file}
             fileValid={fileValid}
             handleFileChange={handleFileChange}
@@ -208,6 +300,9 @@ export default function EditConnectorParticipant() {
             handleChangeport={handleChangeport}
             names={names}
             upload={true}
+            datasets={datasets}
+            department_variable={department_variable}
+            project_variable={project_variable}
           />
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>

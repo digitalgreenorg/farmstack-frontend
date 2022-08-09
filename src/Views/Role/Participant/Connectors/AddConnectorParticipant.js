@@ -265,6 +265,7 @@ export default function AddConnectorParticipant() {
             port={port}
             file={file}
             fileValid={fileValid}
+            description={description}
             handleFileChange={handleFileChange}
             handleChangeDepartment={handleChangeDepartment}
             handleChangeProject={handleChangeProject}
