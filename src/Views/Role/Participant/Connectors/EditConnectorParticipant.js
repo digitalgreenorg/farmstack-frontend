@@ -257,7 +257,10 @@ export default function EditConnectorParticipant() {
   };
   const handleChangeport = (e) => {
     console.log(e.target.value);
-    setport(e.target.value);
+    // setport(e.target.value);
+    validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
+      ? setport(e.target.value)
+      : e.preventDefault();
   };
 
   //   put request
@@ -279,7 +282,7 @@ export default function EditConnectorParticipant() {
 
     await HTTPService(
       "PUT",
-      UrlConstants.base_url + UrlConstants.connector+ id + "/",
+      UrlConstants.base_url + UrlConstants.connector + id + "/",
       bodyFormData,
       true,
       true
@@ -344,8 +347,8 @@ export default function EditConnectorParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {connector &&
-              department &&
-              project &&
+              //   department &&
+              //   project &&
               connectorName &&
               Dataset &&
               docker &&
