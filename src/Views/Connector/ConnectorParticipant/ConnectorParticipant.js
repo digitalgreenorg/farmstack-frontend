@@ -81,8 +81,8 @@ export default function ConnectorParticipant() {
                 setIsLoader(false);
                 console.log("filter response:", response);
 
-                var deptFilterInput = response.data.department 
-                var projectFilterInput = response.data.project
+                var deptFilterInput = response.data.departments 
+                var projectFilterInput = response.data.projects
                 
                 setDepartmentFilter(initFilter(deptFilterInput))
                 setProjectFilter(initFilter(projectFilterInput))

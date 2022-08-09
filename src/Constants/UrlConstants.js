@@ -30,8 +30,8 @@ const UrlConstant = {
   guest_dataset_listing: 'microsite/datasets/',
   guest_dataset_filters: 'microsite/datasets/filters_data/',
   guest_dataset_filtered_data: 'microsite/datasets/dataset_filters/',
-  connector_filter: 'participant/connectors/connectors_filters/',
-  connector_list: 'datahub/connectors/',
+  connector_filter: 'participant/connectors/filters_data/',
+  connector_list: 'participant/connectors/connectors_filters',
   microsite_contact_form : "microsite/contact_form",
   microsite_admin_organization : "microsite/admin_organization"
 };
