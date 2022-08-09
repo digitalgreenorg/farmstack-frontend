@@ -11,6 +11,21 @@ export default function ConnectorListing(props) {
 
       <Row style={{"margin-left":"-20px","margin-top":"-20px"}}>
         <ConfigureConnectorCard/>
+        {
+          (!props.connectorList || props.connectorList.length ==0) &&
+          <NoConnectorCard/>
+        }
+        {
+          props.connectorList && props.connectorList.map((connector)=>(
+            <ConnectorCard
+              connectorName={connector.connector_name}
+              connectorType={connector.connector_type}
+              projectName={connector.project.project_name}
+              departmentName={connector.department.department_name}
+              status={connector.certificate_status}
+            />
+          ))
+        }
         <ConnectorCard
           margingtop={'supportcard supportcardmargintop20px'}
           getImageName={props.getImageName}
@@ -19,7 +34,6 @@ export default function ConnectorListing(props) {
           margingtop={'supportcard supportcardmargintop20px'}
           getImageName={props.getImageName}
         />
-        <NoConnectorCard/>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 {props.showLoadMore ? (
                     <Col xs={12} sm={12} md={6} lg={6}>
