@@ -24,26 +24,48 @@ const GuestUserNavBar = (props) => {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const[isLoader, setIsLoader] = useState(false)
   const[linkClicked, setLinkClicked] = useState(false)
+  const [phoneNumber, setPhoneNumber] = useState(null)
   
 
   let history = useHistory();
 
   useEffect(() => {
-    //getAccountDetails();
-  }, [profile]);
+    HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.guest_organization_details,
+      "",
+      false,
+      false
+    )
+    .then((response) => {
+        setIsLoader(false);
+        if (response.data.organization && response.data.organization.phone_number)
+        {
+          setPhoneNumber(response.data.organization.phone_number)
+        }
+    })
+    .catch((e) => {
+      setIsLoader(false);
+      console.log(e);
+    });
+    
+  }, []);
 
   return (
     <>
       {isLoader ? <Loader />: ''}
       <Nav id="datahubnavbar">
         {/* <Bars /> */}
-        <img className="image"
-          src={require("../../Assets/Img/call_icon.png")}
-          alt="call"
-          style={{ width: "52px", height: "52px", "margin-left": "180px", "margin-top": "9px"}}
-        />
-        <span className="navtext fontweight400andfontsize16pxandcolor3D4A52">Call: 
-        <Link style={{color: 'black'}} to={{pathname: 'tel: ' + screenlabels.navbar.helpline}}>{screenlabels.navbar.helpline}</Link> -to register your grievance</span>
+        {phoneNumber ?
+        <div>
+          <img className="image"
+            src={require("../../Assets/Img/call_icon.png")}
+            alt="call"
+            style={{ width: "52px", height: "52px", "margin-left": "180px", "margin-top": "9px"}}
+          />&nbsp;&nbsp;&nbsp;&nbsp;
+          <span className="navtext fontweight400andfontsize16pxandcolor3D4A52">Call:&nbsp;
+          <Link style={{color: 'black'}} to={{pathname: 'tel: ' + phoneNumber}}>{phoneNumber}</Link> -to register your grievance</span>
+        </div> : <></> }
         <NavMenu>
           <NavLink to={'/guest/legal'} activeStyle>
             <img

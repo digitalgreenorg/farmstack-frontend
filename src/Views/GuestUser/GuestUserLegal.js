@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import Footer from "../../Components/Footer/Footer";
 import GuestUserBanner from "../../Components/GuestUser/GuestUserBanner";
 import GuestUserDescription from "../../Components/GuestUser/GuestUserDescription";
 import GuestUserLegalPage from "../../Components/GuestUser/GuestUserLegalPage";
 import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
+import PairedWithParticipant from "../../Components/Participants/Participants Paired With Component/PairedWithParticipant";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 
@@ -32,13 +34,13 @@ export default function GuestUserLegal(props){
             setIsLoader(true)
             HTTPService(
                 "GET",
-                UrlConstant.base_url + UrlConstant.microsite_admin_organization,
+                UrlConstant.base_url + UrlConstant.microsite_legal_documents,
                 "",
                 false,
                 false
               )
                 .then((response) => {
-                  console.log(response)
+                  console.log(response, "updated responmse")
                   response = response.data
                  
     let arr = [
@@ -80,6 +82,7 @@ export default function GuestUserLegal(props){
         <GuestUserNavBar />
         <GuestUserBanner />
         <GuestUserLegalPage legalData={legalData}/>
+        <Footer />
         </>
     );
 }
