@@ -569,7 +569,7 @@ export default function DatasetParticipant() {
         setIsLoader(true);
         if (payload == "") {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            payload['others'] = false
+            // payload['others'] = false
         }
         HTTPService(
             "POST",
@@ -613,7 +613,8 @@ export default function DatasetParticipant() {
         setIsLoader(true);
         if (payload == "") {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            payload['others'] = true
+            // payload['others'] = true
+            payload['org_id'] = getOrgLocal()
         }
         HTTPService(
             "POST",

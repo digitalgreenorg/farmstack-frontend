@@ -11,6 +11,8 @@ import UrlConstant from '../../../Constants/UrlConstants';
 import {GetErrorHandlingRoute} from "../../../Utils/Common";
 import '../ConnectorParticipant.css'
 import { useHistory } from 'react-router-dom';
+import { Box } from '@mui/material';
+import NoDatasetConnectorView from '../NoDatasetConnectorView';
 
 export default function ConnectorParticipant() {
     
@@ -21,7 +23,7 @@ export default function ConnectorParticipant() {
     //states for api endpoint management
     const [connectorUrl, setConnectorUrl] = useState(UrlConstant.base_url+UrlConstant.connector_list)
     const [showLoadMore, setShowLoadMore] = useState(false)
-    const [isDatasetPresent, setIsDatasetPresent] = useState(true) // to be set to false after backend field is sent in response
+    const [isDatasetPresent, setIsDatasetPresent] = useState(false) // to be set to false after backend field is sent in response
 
     //connector list state which will be set with backend response
     const [connectorList, setConnectorList] = useState([])
@@ -86,7 +88,7 @@ export default function ConnectorParticipant() {
                 
                 setDepartmentFilter(initFilter(deptFilterInput))
                 setProjectFilter(initFilter(projectFilterInput))
-                // setIsDatasetPresent(response.data.isDatasetPresent)
+                setIsDatasetPresent(response.data.is_dataset_present)
                 
                 console.log("deptFilter", departmentFilter) 
                 console.log("projectFilter", projectFilter)
@@ -141,7 +143,7 @@ export default function ConnectorParticipant() {
                     if (isLoadMore) {
                         finalDataList = [...connectorList, ...response.data.results]
                     } else {
-                        finalDataList = [response.data.results]
+                        finalDataList = response.data.results
                     }
                     setConnectorList(finalDataList)
             })
@@ -433,9 +435,7 @@ export default function ConnectorParticipant() {
                 </Row>
             </Row>
             : 
-            <Row className="supportfirstmaindiv">
-
-            </Row>
+            <NoDatasetConnectorView/>
         }
       </div>
     </>

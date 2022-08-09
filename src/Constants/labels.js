@@ -201,6 +201,9 @@ const labels = {
       configure_connector_text: "Configure a new Connector to Provide and Consume data securely.",
       no_connector_text1 : "There are no Connectors configured at this moment !",
       no_connector_text2 : "Configure new Connector.",
+      no_dataset_text1 : "You have not created a dataset for which you can create a connector",
+      click_here : "Click Here",
+      no_dataset_text2 : " to get started!",
 
       status_install_certificate : "Install Certificate",
       status_unpaired : "Unpaired",
