@@ -23,6 +23,7 @@ export default function ConnectorListing(props) {
               projectName={connector.project.project_name}
               departmentName={connector.department.department_name}
               status={connector.certificate_status}
+              statusImageName={props.getImageName(connector.certificate_status)}
             />
           ))
         }

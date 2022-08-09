@@ -64,12 +64,12 @@ export default function ConnectorCard(props) {
                 <Row style={useStyles.cardHeading2}>
                     {/* <Tooltip title={props.geography}> */}
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {/* {props.geography} */}
+                        {props.connectorName}
                         Connector_P1
                     </Col>
                     {/* </Tooltip> */}
                     <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-                        {/* {dateTimeFormat(props.publishedon,true)} */}
+                        {props.connectorType}
                         Provider
                     </Col>
                 </Row>
@@ -84,12 +84,12 @@ export default function ConnectorCard(props) {
                 <Row className="supportcardmargintop">
                     {/* <Tooltip title={props.geography}> */}
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {/* {props.geography} */}
+                        {props.projectName}
                         Sample_Project
                     </Col>
                     {/* </Tooltip> */}
                     <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-                        {/* {dateTimeFormat(props.publishedon,true)} */}
+                        {props.departmentName}
                         sample Department
                     </Col>
                 </Row>
@@ -100,7 +100,15 @@ export default function ConnectorCard(props) {
                 </Row>
                 <Row className="supportcardmargintop">
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {/* {props.ageOfData} */}
+                        <span style={{"margin-left":"-10px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+                            <img
+                                src={require("../../Assets/Img/connector_status_icon.svg")}
+                                // src={require("../../Assets/Img/"+props.statusImageName)}
+                                alt="new"
+                            />
+                        </span>
+                        &nbsp;&nbsp;
+                        {props.status}
                         Pairing Request Received
                     </Col>
                     {/* <Tooltip title={props.cropDetail}>
