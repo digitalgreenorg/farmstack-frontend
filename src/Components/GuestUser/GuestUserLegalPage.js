@@ -45,7 +45,7 @@ export default function GuestUserLegalPage({legalData}) {
     <Box sx={{ width: '1300px', typography: 'body',margin:"auto", padding:"0"  }}>
       <TabContext  value={value}>
         <Box sx={{ borderBottom: 1, borderColor: '#C09507' , padding:"0" }}>
-          <TabList sx={{maxHeight:"42px"}}  onChange={handleChange} aria-label="lab API tabs example" textColor='red' >
+          <TabList sx={{maxHeight:"42px"}}  onChange={handleChange} aria-label="lab API tabs example" textColor='red' indicatorColor='#C09507' >
            
            {legalData.map((eachLegalPolicy, index)=>(<Tab  sx={{width:"220px",  background:"#C09507", color:value==`${index+1}`?"white" : "black", textTransform:"capitalize", fontSize:"14px"}}  label={eachLegalPolicy.title} value={index+1} />
             

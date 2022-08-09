@@ -5,7 +5,6 @@ import GuestUserDescription from "../../Components/GuestUser/GuestUserDescriptio
 import GuestUserLegalPage from "../../Components/GuestUser/GuestUserLegalPage";
 import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
-import PairedWithParticipant from "../../Components/Participants/Participants Paired With Component/PairedWithParticipant";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 
@@ -83,6 +82,7 @@ export default function GuestUserLegal(props){
         <GuestUserBanner />
         <GuestUserLegalPage legalData={legalData}/>
         <Footer />
+       
         </>
     );
 }

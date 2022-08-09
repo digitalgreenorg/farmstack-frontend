@@ -237,6 +237,7 @@ const labels = {
     pair_with_component:{
       pair_with : "Pair with",
       connector_name : "Connector Name",
+      connector_type : "Connector Type",
       dataset_name : "Dataset Name",
       department_name : "Department Name",  
        project_name : "Project Name",
@@ -247,7 +248,8 @@ const labels = {
       participant_org_name  : "Participant organisation name",
       participant_org_website : "Participant organisation website",
       send_pairing_request : "Send Pairing Request",
-      cancel : "Cancel"
+      cancel : "Cancel",
+      select_provider_connector :"Select Provider Connector"
     }
   },
 };
