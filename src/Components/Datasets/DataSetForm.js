@@ -320,6 +320,7 @@ export default function DataSetForm(props) {
               <DatePicker
                 inputFormat="dd/MM/yyyy"
                 disabled
+                value={props.fromdate}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -335,6 +336,7 @@ export default function DataSetForm(props) {
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 disabled
+                value={props.todate}
                 inputFormat="dd/MM/yyyy"
                 renderInput={(params) => (
                   <TextField
