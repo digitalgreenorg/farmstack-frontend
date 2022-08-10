@@ -5,6 +5,7 @@ import styles from "./guestUserContactForm.module.css";
 import { useHistory } from "react-router-dom";
 
 import {
+  createTheme,
   FormControlLabel,
   FormLabel,
   Radio,
@@ -14,6 +15,17 @@ import {
 import { validateInputField } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { yellow } from "@mui/material/colors";
+import { MuiThemeProvider } from "@material-ui/core";
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#F1F1F1'
+    }
+  }
+});
+
 
 const GuestUserContactForm = ({
   isSuccess,
@@ -289,7 +301,7 @@ const GuestUserContactForm = ({
                   : e.preventDefault()
               }
               label={guestUserConstants.guestUser.last_name}
-              error={"enter correct details"}
+              // error={"enter correct details"}
               //   helperText={"error"}
             />
           </Col>
@@ -334,18 +346,21 @@ const GuestUserContactForm = ({
               // }
             />
           </Col>
-          <Col style={{ width: "100%", padding: 0 }}>
+          <Col style={{ width: "100%", padding: 0}}>
+            
             <MuiPhoneNumber
             autoComplete={false}
-
+              
               name="contactNumber"
               defaultCountry={"in"}
               style={{ width: "100%", height: "49px" }}
               //   style={useStyles.inputwidth}
               //   placeholder={}
+              
               id="filled-basic"
-              label={guestUserConstants.guestUser.contact_number}
               variant="filled"
+              // color="false"
+              label={guestUserConstants.guestUser.contact_number}
               required
               value={useDetails.contactNumber}
               onChange={(value) =>
@@ -353,8 +368,8 @@ const GuestUserContactForm = ({
                   target: { name: "contactNumber", value: value },
                 })
               }
-              error={iscontactnumbererror}
-              helperText={iscontactnumbererror ? "Enter Valid Number" : ""}
+              // error={iscontactnumbererror}
+              // helperText={iscontactnumbererror ? "Enter Valid Number" : ""}
             />
           </Col>
         </Row>
@@ -423,11 +438,13 @@ const GuestUserContactForm = ({
           <TextField
             style={useStyles.fullWidth}
             name="queryDescription"
-            id="filled-basic"
+            // id="filled-basic"
+            
             label={guestUserConstants.guestUser.describe_your_query}
             placeholder="Write"
             multiline
             required
+            value={useDetails.queryDescription}
             maxRows={3}
             autoComplete={false}
             inputProps={{ maxLength: 1000 }}
@@ -444,6 +461,7 @@ const GuestUserContactForm = ({
           <Col xs={12} sm={12} md={6} lg={6}>
             {useDetails.firstName &&
             useDetails.email &&
+            useDetails.contactNumber.length==15 &&
             useDetails.queryDescription &&
             !emailError &&
             !iscontactnumbererror &&
@@ -473,7 +491,7 @@ const GuestUserContactForm = ({
               </Button>
             )}
             <Button
-              style={{ marginTop: "30px" }}
+              style={{ marginTop: "0px" }}
               variant="outlined"
               className="cancelbtn"
               onClick={() => history.push("/home")}
@@ -488,3 +506,5 @@ const GuestUserContactForm = ({
 };
 
 export default GuestUserContactForm;
+
+
