@@ -200,7 +200,7 @@ export default function GuestUserContact(props) {
         />
       )}
 
-      <Footer />
+      <Footer disableContactLink={true}/>
     </>
   );
 }

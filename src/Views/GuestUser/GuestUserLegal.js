@@ -81,8 +81,7 @@ export default function GuestUserLegal(props){
         <GuestUserNavBar />
         <GuestUserBanner />
         <GuestUserLegalPage legalData={legalData}/>
-        <Footer />
-       
+        <Footer disableLegalLink={true}/>
         </>
     );
 }
