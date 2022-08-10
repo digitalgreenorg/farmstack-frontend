@@ -336,6 +336,7 @@ export default function ConnectorParticipant() {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
                 } else{
+                    tempList[i].isDisplayed = true
                     searchFound = true
                 }
             }
@@ -357,6 +358,7 @@ export default function ConnectorParticipant() {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
                 } else{
+                    tempList[i].isDisplayed = true
                     searchFound = true
                 }
             }
