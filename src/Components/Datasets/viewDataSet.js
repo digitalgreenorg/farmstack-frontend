@@ -38,6 +38,28 @@ const useStyles = {
 export default function ViewDataSet(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [isLoader, setIsLoader] = useState(false);
+  let category;
+  let categoryStr = '';
+  if (typeof props.rowdata.category === 'string' || props.rowdata.category instanceof String) 
+  {
+    category = JSON.parse(props.rowdata.category)
+  }
+  else{
+    category = props.rowdata.category
+  }
+
+  categoryStr += category["crop_data"] ? "Crop data" : ""
+  categoryStr += category["cultivation"] ? " | Cultivation data" : ""
+  categoryStr += category["practice_data"] ? " | Practice data" : ""
+  categoryStr += category["farmer_profile"] ? " | Farmer profile" : ""
+  categoryStr += category["land_records"] ? " | Land records" : ""
+  categoryStr += category["soil_data"] ? " | Soil data" : ""
+  categoryStr += category["weather_data"] ? " | Weather data" : ""
+  categoryStr += category["research_data"] ? " | Research data" : ""
+
+  if (categoryStr.startsWith(' |')){
+    categoryStr = categoryStr.replace(' |', '').trim()
+  }
   return (
     <>
       <Row>
@@ -110,16 +132,7 @@ export default function ViewDataSet(props) {
 
         <Col>
           <span className="thirdmainheading">
-            {props.rowdata.category["crop_data"] ? "Crop data" : ""}
-            {props.rowdata.category["cultivation"] ? " | Cultivation data" : ""}
-            {props.rowdata.category["practice_data"] ? " | Practice data" : ""}
-            {props.rowdata.category["farmer_profile"]
-              ? " | Farmer profile"
-              : ""}
-            {props.rowdata.category["land_records"] ? " | Land records" : ""}
-            {props.rowdata.category["soil_data"] ? " | Soil data" : ""}
-            {props.rowdata.category["weather_data"] ? " | Weather data" : ""}
-            {props.rowdata.category["research_data"] ? " | Research data" : ""}
+            {categoryStr}
           </span>
         </Col>
       </Row>
@@ -378,8 +391,8 @@ export default function ViewDataSet(props) {
             }}>
             <Col>
               <span className="thirdmainheading">
-                {props.rowdata.organization["address"]["country"]["label"]
-                  ? props.rowdata.organization["address"]["country"]["label"]
+                {props.rowdata.organization["address"]["country"]
+                  ? props.rowdata.organization["address"]["country"]
                   : "N/A"}
               </span>
             </Col>
