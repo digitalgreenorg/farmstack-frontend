@@ -246,12 +246,16 @@ export default function ConnectorForm(props) {
             id="filled-basic"
             variant="filled"
             required
-            type={"number"}
+            // type={"number"}
             // width="100%"
             value={props.port}
             onChange={props.handleChangeport}
             label={screenlabels.connector_form.port}
-            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+            inputProps={{
+              maxLength: 5,
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+            }}
           />
         </Col>
       </Row>
