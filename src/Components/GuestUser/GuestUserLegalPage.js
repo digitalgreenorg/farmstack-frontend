@@ -37,7 +37,7 @@ export default function GuestUserLegalPage({legalData}) {
         <Box sx={{ width: '1300px', typography: 'body1',margin:"auto", display:"flex", flexDirection:"column",alignItems:"left",justifyContent:"left"}}>
 
         <span style={{textAlign:"left", fontSize:"40px", fontWeight:"600", lineHeight:"54px", color:"#585D60", marginTop:"50px", marginBottom:"32.5px"}}>Legal</span>
-        <Box   onClick={() => history.push("/guest/home")} className={styles.backButtonMainDiv} sx={{ display:"flex", justifyContent:"left", marginBottom:"32.5px"}}><ArrowBackIcon ></ArrowBackIcon>{" "}
+        <Box   onClick={() => history.push("/home")} className={styles.backButtonMainDiv} sx={{ display:"flex", justifyContent:"left", marginBottom:"32.5px"}}><ArrowBackIcon ></ArrowBackIcon>{" "}
         <span style={{marginLeft:"14px"}}>{labels.en.common.back}</span> </Box>
         
       
