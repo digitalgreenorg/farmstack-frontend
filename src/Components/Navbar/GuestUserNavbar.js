@@ -64,10 +64,10 @@ const GuestUserNavBar = (props) => {
             style={{ width: "52px", height: "52px", "margin-left": "180px", "margin-top": "9px"}}
           />&nbsp;&nbsp;&nbsp;&nbsp;
           <span className="navtext fontweight400andfontsize16pxandcolor3D4A52">Call:&nbsp;
-          <Link style={{color: 'black'}} to={{pathname: 'tel: ' + phoneNumber}}>{phoneNumber}</Link> -to register your grievance</span>
+          <a style={{color: 'black'}} href={'tel: ' + phoneNumber}>{phoneNumber}</a> -to register your grievance</span>
         </div> : <></> }
         <NavMenu>
-          <NavLink to={'/guest/legal'} activeStyle>
+          <NavLink to={'/legal'} activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/legal_bold.svg")}
@@ -80,7 +80,7 @@ const GuestUserNavBar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.legal}
           </NavLink>
-          <NavLink to={'/guest/contact'} activeStyle>
+          <NavLink to={'/contact'} activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/contact_bold.svg")}

@@ -42,7 +42,7 @@ const GuestUserContactForm = ({
       </Row>
       <Row>
         <Col
-          onClick={() => history.push("/guest/home")}
+          onClick={() => history.push("/home")}
           className={styles.backButtonMainDiv}
         >
           <ArrowBackIcon className={styles.backArrowIcon}></ArrowBackIcon>{" "}
@@ -467,7 +467,7 @@ const GuestUserContactForm = ({
                 disabled
                 className={styles.submitbtn}
 
-                onClick={() => history.push("/guest/home")}
+                onClick={() => history.push("/home")}
               >
                 {guestUserConstants.guestUser.submit}
               </Button>
@@ -476,7 +476,7 @@ const GuestUserContactForm = ({
               style={{ marginTop: "30px" }}
               variant="outlined"
               className="cancelbtn"
-              onClick={() => history.push("/guest/home")}
+              onClick={() => history.push("/home")}
             >
               {guestUserConstants.guestUser.cancel}
             </Button>
