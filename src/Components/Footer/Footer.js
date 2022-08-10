@@ -11,16 +11,20 @@ export default function Footer(props) {
             <Col xs={12} sm={12} md={3} lg={3}>
             </Col>
             <Col xs={12} sm={12} md={1} lg={1}>
-             <Link className="footerlink" to={'/'}>Home</Link>
+            {(props.disableHomeLink)? <Link className = "footerlink" to='#'>Home</Link>
+             :<Link className="footerlink" to={'/'} target="_blank">Home</Link>}
             </Col>
             <Col xs={12} sm={12} md={2} lg={2}>
             <Link className="footerlink" to={{pathname: "https://farmstack.co/" }} target='_blank'>About Farmstack</Link>
             </Col>
             <Col xs={12} sm={12} md={1} lg={1}>
-            <Link className="footerlink" to={{pathname: "/guest/legal" }} target='_blank'>Legal</Link>
+            {(props.disableLegalLink)?<Link className = "footerlink" to='#'>Legal</Link>
+            :<Link className="footerlink" to={{pathname: "/guest/legal" }} target='_blank'>Legal</Link>}
             </Col>
             <Col xs={12} sm={12} md={2} lg={2}>
-            <Link className="footerlink" to={{pathname: "/guest/contact" }} target='_blank'>Contact us</Link>
+            {(props.disableContactLink)? <Link className = "footerlink" to='#'>Contact us</Link>
+            :<Link className = "footerlink" to={{pathname: "/guest/contact" }} target='_blank'>Contact us</Link>}
+            {/*<span className = "footerlink">Contact us</span>*/}
             </Col>
             <Col xs={12} sm={12} md={3} lg={3}>
             </Col>
