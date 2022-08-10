@@ -17,10 +17,10 @@ export default function Footer(props) {
             <Link className="footerlink" to={{pathname: "https://farmstack.co/" }} target='_blank'>About Farmstack</Link>
             </Col>
             <Col xs={12} sm={12} md={1} lg={1}>
-            <Link className="footerlink" to={{pathname: "/guest/legal" }} target='_blank'>Legal</Link>
+            <Link className="footerlink" to={{pathname: "/legal" }} target='_blank'>Legal</Link>
             </Col>
             <Col xs={12} sm={12} md={2} lg={2}>
-            <Link className="footerlink" to={{pathname: "/guest/contact" }} target='_blank'>Contact us</Link>
+            <Link className="footerlink" to={{pathname: "/contact" }} target='_blank'>Contact us</Link>
             </Col>
             <Col xs={12} sm={12} md={3} lg={3}>
             </Col>

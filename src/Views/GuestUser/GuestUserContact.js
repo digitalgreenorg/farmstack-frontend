@@ -173,8 +173,8 @@ export default function GuestUserContact(props) {
       <GuestUserBanner />
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/guest/home")}
-          route={"guest/home"}
+          okevent={() => history.push("/home")}
+          route={"/home"}
           imagename={"success"}
           btntext={"ok"}
           heading={"Thanks for reaching us."}

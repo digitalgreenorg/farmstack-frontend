@@ -81,7 +81,7 @@ export default function GuestUserLegalPage({ legalData }) {
         }}
       >
         <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: "#C09507", padding: "0" }}>
+          <Box className="settingsTabs" sx={{ borderBottom: 1, borderColor: "#C09507", padding: "0" }}>
             <TabList
               sx={{ maxHeight: "42px" }}
               onChange={handleChange}
