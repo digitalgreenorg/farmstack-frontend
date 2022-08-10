@@ -39,6 +39,9 @@ const UrlConstant = {
   project_list: "participant/project/",
   connector: "participant/connectors/",
   microsite_legal_documents: "/microsite/legal_documents/",
+  consumer_paring_request:'participant/connectors_map/',
+  provider_connectors: 'participant/connectors/get_connectors/?dataset_id='
+  
 };
 
 export default UrlConstant;

@@ -1067,7 +1067,7 @@ export default function DatasetAdmin() {
             }
             {screenView.isDelete ? <Delete
                 route={"login"}
-                imagename={'thumbsdown'}
+                imagename={'delete'}
                 firstbtntext={"Delete"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { deletedataset() }}
