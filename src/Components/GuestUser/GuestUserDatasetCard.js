@@ -162,7 +162,7 @@ export default function GuestUserDatasetCard(props) {
                 textAlign: "left",
               }}
               className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
-              {props.cropDetail}
+              {props.cropDetail == "" ? "N/A" : props.cropDetail}
             </Col>
           </Tooltip>
         </Row>
