@@ -207,12 +207,12 @@ const labels = {
       click_here: "Click Here",
       no_dataset_text2: " to get started!",
 
-      status_install_certificate : "Install Certificate",
-      status_unpaired : "Unpaired",
-      status_awaiting_approval : "Awaiting For Approval",
-      status_paired : "Paired",
-      status_pairing_request_received : "Pairing Request Received",
-      status_rejected : "Rejected"
+      status_install_certificate : "install certificate",
+      status_unpaired : "unpaired",
+      status_awaiting_approval : "awaiting for approval",
+      status_paired : "paired",
+      status_pairing_request_received : "pairing request received",
+      status_rejected : "rejected"
     },
     guestUser: {
       contact_us: "Contact Us",
