@@ -61,9 +61,9 @@ export default function DataSetListing(props) {
                         isMemberTab={props.isMemberTab}
                         title={dataset.name}
                         orgName={dataset.organization.name}
-                        ageOfData={dataset.age_of_date}
+                        ageOfData={dataset.age_of_date ? dataset.age_of_date : "N/A"}
                         publishedon={dataset.created_at}
-                        cropDetail={dataset.crop_detail}
+                        cropDetail={dataset.crop_detail ? dataset.crop_detail : "N/A"}
                         geography={dataset.geography}
                         orgLogo={dataset.organization.logo}
                         description={dataset.description}
