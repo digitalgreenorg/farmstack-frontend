@@ -19,6 +19,7 @@ export default function ConnectorListing(props) {
         {
           props.connectorList && props.connectorList.length > 0 && props.connectorList.map((connector)=>(
             <ConnectorCard
+              margingtop={'supportcard supportcardmargintop20px'}
               connectorName={connector.connector_name}
               connectorType={connector.connector_type}
               projectName={connector['project_details']?connector['project_details']['project_name']:''}
