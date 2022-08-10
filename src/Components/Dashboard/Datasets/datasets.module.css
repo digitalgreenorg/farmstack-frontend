@@ -1,49 +1,47 @@
-.datasetsMainBox{
-    display: flex;
-    flex-direction: column;
-    width: 640px;
-    height: 368px;
-    border-radius: 10px;
-    border: 1px solid #E4E4E4;
-    /* padding: 20px; */
-    /* justify-content: left; */
+.datasetsMainBox {
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+  height: 368px;
+  border-radius: 10px;
+  border: 1px solid #e4e4e4;
+  /* padding: 20px; */
+  /* justify-content: left; */
 }
-.datasetsHeading{
-    text-align: left;
-    font-size: 20px;
-    color: #3D4A52;
-    font-weight: 700;
-    padding-left: 20px;
-    padding-top: 20px;
-}
-
-.datasetsChartBox{
-    /* border: 1px solid grey; */
-    width: 640px;
-    display: flex;
-    /* border: 1px solid red; */
-    justify-content: space-around;
-}
-.datasetSideMenu{
-    display: flex;
-    flex-direction: column;
-    
+.datasetsHeading {
+  text-align: left;
+  font-size: 20px;
+  color: #3d4a52;
+  font-weight: 700;
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
-.datasetSideMenuEachData{
-    display: flex;
-    justify-content: left;
-    margin-bottom: 23px;
-    align-items: center;
-    /* width: 100%; */
-
-
+.datasetsChartBox {
+  /* border: 1px solid grey; */
+  width: 640px;
+  /* display: flex; */
+  /* border: 1px solid red; */
+  /* justify-content: left; */
+  /* text-align: left; */
 }
-.datasetSideMenuTextWithPercent{
-font-size: 14px;
-font-weight: 600;
-line-height: 19px;
+.datasetSideMenu {
+  display: flex;
+  flex-direction: column;
+}
 
-/* text-align: ; */
-/* border: 1px solid blue; */
+.datasetSideMenuEachData {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 23px;
+  align-items: center;
+  /* width: 100%; */
+}
+.datasetSideMenuTextWithPercent {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+
+  /* text-align: ; */
+  /* border: 1px solid blue; */
 }
