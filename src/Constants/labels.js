@@ -194,7 +194,25 @@ const labels = {
 
       project: "Project",
       status: "Status",
-      connector_name: "Connector Name"
+      connector_name: "Connector Name",
+      project_name: "Project Name",
+      department_name: "Department Name",
+      configure_connector: "Configure a new Connector",
+      configure_connector_text:
+        "Configure a new Connector to Provide and Consume data securely.",
+      no_connector_text1: "There are no Connectors configured at this moment !",
+      no_connector_text2: "Configure new Connector.",
+      no_dataset_text1:
+        "You have not created a dataset for which you can create a connector",
+      click_here: "Click Here",
+      no_dataset_text2: " to get started!",
+
+      status_install_certificate : "install certificate",
+      status_unpaired : "unpaired",
+      status_awaiting_approval : "awaiting for approval",
+      status_paired : "paired",
+      status_pairing_request_received : "pairing request received",
+      status_rejected : "rejected"
     },
     guestUser: {
       contact_us: "Contact Us",
@@ -227,7 +245,7 @@ const labels = {
       connectorName: "Connector Name ",
       addDepartment: " + Add Department",
       addProject: " + Add Project ",
-      selectDepartment: "  Select Department * ",
+      selectDepartment: "  Select Department *",
       selectProject: " Select Project *",
       docker: "Docker Image url  ",
       port: "Application Port ",

@@ -11,7 +11,7 @@ export default function AddDataSetParticipant() {
   return (
     <>
       <AddDatasetParticipant
-        isaccesstoken={() => getTokenLocal()}
+        isaccesstoken={getTokenLocal()}
         okAction={() => history.push("/participant/datasets")}
         cancelAction={() => history.push("/participant/datasets")}
         isBackBtn={true}

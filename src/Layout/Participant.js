@@ -16,6 +16,7 @@ import Participantsettings from "../Views/Settings/ParticipantSettings/Participa
 
 import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
 import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
+import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
 
 function Participant(props) {
   return (
@@ -32,7 +33,7 @@ function Participant(props) {
             <Route
               exact
               path="/participant/connectors"
-              component={DatasetParticipant}
+              component={ConnectorParticipant}
             />
             <Route exact path="/participant/home" component={Home} />
             <Route

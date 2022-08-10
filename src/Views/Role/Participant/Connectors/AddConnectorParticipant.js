@@ -204,7 +204,10 @@ export default function AddConnectorParticipant() {
   };
   const handleChangeport = (e) => {
     console.log(e.target.value);
-    setport(e.target.value);
+    // setport(e.target.value);
+    validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
+      ? setport(e.target.value)
+      : e.preventDefault();
   };
   const handleAddDatasetSubmit = async (e) => {
     e.preventDefault();
@@ -265,6 +268,7 @@ export default function AddConnectorParticipant() {
             port={port}
             file={file}
             fileValid={fileValid}
+            description={description}
             handleFileChange={handleFileChange}
             handleChangeDepartment={handleChangeDepartment}
             handleChangeProject={handleChangeProject}

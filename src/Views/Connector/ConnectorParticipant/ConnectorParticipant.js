@@ -9,7 +9,10 @@ import ConnectorListing from '../ConnectorListing'
 import { get } from 'jquery';
 import UrlConstant from '../../../Constants/UrlConstants';
 import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import '../ConnectorParticipant.css'
 import { useHistory } from 'react-router-dom';
+import { Box } from '@mui/material';
+import NoDatasetConnectorView from '../NoDatasetConnectorView';
 
 export default function ConnectorParticipant() {
     
@@ -20,6 +23,7 @@ export default function ConnectorParticipant() {
     //states for api endpoint management
     const [connectorUrl, setConnectorUrl] = useState(UrlConstant.base_url+UrlConstant.connector_list)
     const [showLoadMore, setShowLoadMore] = useState(false)
+    const [isDatasetPresent, setIsDatasetPresent] = useState(false) // to be set to false after backend field is sent in response
 
     //connector list state which will be set with backend response
     const [connectorList, setConnectorList] = useState([])
@@ -47,20 +51,20 @@ export default function ConnectorParticipant() {
     ])
 
     const [statusFilter, setStatusFilter] = useState([
-        { index: 1, name: "Install Certificate", payloadName: "install_certificate", isChecked: false },
+        { index: 1, name: "Install Certificate", payloadName: "install certificate", isChecked: false },
         { index: 2, name: "Unpaired", payloadName: "unpaired", isChecked: false },
-        { index: 3, name: "Awaiting Approval", payloadName: "awaiting_approval", isChecked: false },
+        { index: 3, name: "Awaiting Approval", payloadName: "awaiting for approval", isChecked: false },
         { index: 4, name: "Paired", payloadName: "paired", isChecked: false },
-        { index: 5, name: "Pairing Request Received", payloadName: "pairing_request_received", isChecked: false },
+        { index: 5, name: "Pairing Request Received", payloadName: "pairing request received", isChecked: false },
         { index: 6, name: "Rejected", payloadName: "rejected", isChecked: false }
     ])
 
     var payload = {}
 
     useEffect(() => {
-        // getFilters()
-        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        // getConnectorList(false)
+        getFilters()
+        payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
+        getConnectorList(false)
     }, []);
 
     const getFilters = () => {
@@ -79,17 +83,19 @@ export default function ConnectorParticipant() {
                 setIsLoader(false);
                 console.log("filter response:", response);
 
-                var deptFilterInput = response.data.department 
-                var projectFilterInput = response.data.project
+                var deptFilterInput = response.data.departments
+                var projectFilterInput = response.data.projects
                 
                 setDepartmentFilter(initFilter(deptFilterInput))
                 setProjectFilter(initFilter(projectFilterInput))
+                setIsDatasetPresent(response.data.is_dataset_present)
                 
                 console.log("deptFilter", departmentFilter) 
                 console.log("projectFilter", projectFilter)
 
             })
             .catch((e) => {
+                console.log(e)
                 setIsLoader(false);
                 history.push(GetErrorHandlingRoute(e));
             });
@@ -137,7 +143,7 @@ export default function ConnectorParticipant() {
                     if (isLoadMore) {
                         finalDataList = [...connectorList, ...response.data.results]
                     } else {
-                        finalDataList = [response.data.results]
+                        finalDataList = response.data.results
                     }
                     setConnectorList(finalDataList)
             })
@@ -189,7 +195,7 @@ export default function ConnectorParticipant() {
                      tempFilter[i].isChecked = !tempFilter[i].isChecked
                  }
                  if (tempFilter[i].isChecked) {
-                     payloadList.push(tempFilter[i].payloadName)
+                     payloadList.push(tempFilter[i].name)
                      isAnyFilterChecked = true
                  }
              }
@@ -209,7 +215,7 @@ export default function ConnectorParticipant() {
                      tempFilter[i].isChecked = !tempFilter[i].isChecked
                  }
                  if (tempFilter[i].isChecked) {
-                     payloadList.push(tempFilter[i].name)
+                     payloadList.push(tempFilter[i].payloadName)
                      isAnyFilterChecked = true
                  }
              }
@@ -237,7 +243,7 @@ export default function ConnectorParticipant() {
              payload = buildFilterPayLoad(getUserLocal(), "", "", "", payloadList)
          }
          if(isAnyFilterChecked){
-            //  getConnectorList(false)
+             getConnectorList(false)
          } else{
              clearAllFilters()
          }
@@ -297,7 +303,7 @@ export default function ConnectorParticipant() {
             data['project__in'] = projectPayload
         }
         if(typePayload !== ""){
-            data['connector_type'] = typePayload
+            data['connector_type__in'] = typePayload
         }
         if (statusPayload !== "") {
             data['connector_status__in'] = statusPayload
@@ -314,7 +320,7 @@ export default function ConnectorParticipant() {
         resetFilterState(screenlabels.connector.connector_status)
 
         payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
-        // getConnectorList(false)
+        getConnectorList(false)
     }
 
     const handleDeptSearch = (e) => {
@@ -330,6 +336,7 @@ export default function ConnectorParticipant() {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
                 } else{
+                    tempList[i].isDisplayed = true
                     searchFound = true
                 }
             }
@@ -351,6 +358,7 @@ export default function ConnectorParticipant() {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
                 } else{
+                    tempList[i].isDisplayed = true
                     searchFound = true
                 }
             }
@@ -359,53 +367,79 @@ export default function ConnectorParticipant() {
         setProjectFilter(tempList)
     }
 
+    const getConnectorStatusImageName = (status) => {
+        var imageName = ""
+        if(status == screenlabels.connector.status_install_certificate){
+            imageName = "status_install_certificate_icon.svg"
+        } else if (status == screenlabels.connector.status_unpaired){
+            imageName = "status_unpaired_icon.svg"
+        } else if (status == screenlabels.connector.status_awaiting_approval){
+            imageName = "status_awaiting_approval_icon.svg"
+        } else if (status == screenlabels.connector.status_paired){
+            imageName = "status_paired_icon.svg"
+        } else if (status == screenlabels.connector.status_pairing_request_received){
+            imageName = "status_pairing_request_received_icon.svg"
+        } else if (status == screenlabels.connector.status_rejected){
+            imageName = "status_rejected_icon.svg"
+        }
+        return imageName
+    }
+
   return (
     <>
       {isLoader ? <Loader /> : ''}
-      <Row className="supportfirstmaindiv">
-        <Row className="supportmaindiv">
-            <Row className="supportfilterRow">
-                <Col className="supportfilterCOlumn">
-                    <ConnectorFilter
-                        isShowAll={isShowAll}
-                        
-                        // setIsShowAll={setIsShowAll}
-                        // secondrow={secondrow}
-                        // fromdate={fromdate}
-                        // todate={todate}
-                        // setfromdate={setfromdate}
-                        // settodate={settodate}
-                        // filterByDates={filterByDates}
-                        // resetFilterState={resetFilterState}
+      
+      <div className="connectors">
+        {isDatasetPresent ?
+            <Row className="supportfirstmaindiv">
+                <Row className="supportmaindiv">
+                    <Row className="supportfilterRow">
+                        <Col className="supportfilterCOlumn">
+                            <ConnectorFilter
+                                isShowAll={isShowAll}
+                                
+                                // setIsShowAll={setIsShowAll}
+                                // secondrow={secondrow}
+                                // fromdate={fromdate}
+                                // todate={todate}
+                                // setfromdate={setfromdate}
+                                // settodate={settodate}
+                                // filterByDates={filterByDates}
+                                // resetFilterState={resetFilterState}
 
-                        departmentFilter={departmentFilter}
-                        projectFilter={projectFilter}
-                        connectorTypeFilter={connectorTypeFilter}
-                        statusFilter={statusFilter}
+                                departmentFilter={departmentFilter}
+                                projectFilter={projectFilter}
+                                connectorTypeFilter={connectorTypeFilter}
+                                statusFilter={statusFilter}
 
-                        deptSearchState={deptSearchState}
-                        projectSearchState={projectSearchState}
-                        isDeptSearchFound={isDeptSearchFound}
-                        isProjectSearchFound={isProjectSearchFound}
+                                deptSearchState={deptSearchState}
+                                projectSearchState={projectSearchState}
+                                isDeptSearchFound={isDeptSearchFound}
+                                isProjectSearchFound={isProjectSearchFound}
 
-                        handleDeptSearch={handleDeptSearch}
-                        handleProjectSearch={handleProjectSearch}
-                        handleFilterChange={handleFilterChange}
-                        clearAllFilters={clearAllFilters}
-                    />
-                </Col>
-                <Col className="supportSecondCOlumn">
-                    <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
-                        <ConnectorListing
-                            connectorList={connectorList}
-                            // getConnectorList={getConnectorList}
-                            showLoadMore={true} //to be changed
-                        />
-                    </Col>
-                </Col>
+                                handleDeptSearch={handleDeptSearch}
+                                handleProjectSearch={handleProjectSearch}
+                                handleFilterChange={handleFilterChange}
+                                clearAllFilters={clearAllFilters}
+                            />
+                        </Col>
+                        <Col className="supportSecondCOlumn">
+                            <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
+                                <ConnectorListing
+                                    connectorList={connectorList}
+                                    // getConnectorList={getConnectorList}
+                                    showLoadMore={showLoadMore} //to be changed
+                                    getImageName = {getConnectorStatusImageName}
+                                />
+                            </Col>
+                        </Col>
+                    </Row>
+                </Row>
             </Row>
-        </Row>
-      </Row>
+            : 
+            <NoDatasetConnectorView/>
+        }
+      </div>
     </>
   )
 }
