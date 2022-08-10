@@ -51,11 +51,11 @@ export default function ConnectorParticipant() {
     ])
 
     const [statusFilter, setStatusFilter] = useState([
-        { index: 1, name: "Install Certificate", payloadName: "install_certificate", isChecked: false },
+        { index: 1, name: "Install Certificate", payloadName: "install certificate", isChecked: false },
         { index: 2, name: "Unpaired", payloadName: "unpaired", isChecked: false },
-        { index: 3, name: "Awaiting Approval", payloadName: "awaiting_approval", isChecked: false },
+        { index: 3, name: "Awaiting Approval", payloadName: "awaiting for approval", isChecked: false },
         { index: 4, name: "Paired", payloadName: "paired", isChecked: false },
-        { index: 5, name: "Pairing Request Received", payloadName: "pairing_request_received", isChecked: false },
+        { index: 5, name: "Pairing Request Received", payloadName: "pairing request received", isChecked: false },
         { index: 6, name: "Rejected", payloadName: "rejected", isChecked: false }
     ])
 
@@ -195,7 +195,7 @@ export default function ConnectorParticipant() {
                      tempFilter[i].isChecked = !tempFilter[i].isChecked
                  }
                  if (tempFilter[i].isChecked) {
-                     payloadList.push(tempFilter[i].payloadName)
+                     payloadList.push(tempFilter[i].name)
                      isAnyFilterChecked = true
                  }
              }
@@ -215,7 +215,7 @@ export default function ConnectorParticipant() {
                      tempFilter[i].isChecked = !tempFilter[i].isChecked
                  }
                  if (tempFilter[i].isChecked) {
-                     payloadList.push(tempFilter[i].name)
+                     payloadList.push(tempFilter[i].payloadName)
                      isAnyFilterChecked = true
                  }
              }
@@ -303,7 +303,7 @@ export default function ConnectorParticipant() {
             data['project__in'] = projectPayload
         }
         if(typePayload !== ""){
-            data['connector_type'] = typePayload
+            data['connector_type__in'] = typePayload
         }
         if (statusPayload !== "") {
             data['connector_status__in'] = statusPayload
@@ -336,6 +336,7 @@ export default function ConnectorParticipant() {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
                 } else{
+                    tempList[i].isDisplayed = true
                     searchFound = true
                 }
             }
@@ -357,6 +358,7 @@ export default function ConnectorParticipant() {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
                 } else{
+                    tempList[i].isDisplayed = true
                     searchFound = true
                 }
             }

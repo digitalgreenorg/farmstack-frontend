@@ -600,7 +600,7 @@ export default function GuestUserDatasets() {
             <>
             <div className="guestdiv">
                 <ViewDataSet 
-                downloadAttachment={(uri) => downloadAttachment(uri)} back={() => {setviewdata({});history.push('/guest/home')}} 
+                downloadAttachment={(uri) => downloadAttachment(uri)} back={() => {setviewdata({});history.push('/home')}} 
                 rowdata={viewdata} 
                 tabelkeys={tablekeys}>
                 </ViewDataSet>

@@ -37,11 +37,10 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error" component={Error} />
-          <Route exact path="/guest/home" component={GuestUserHome} />
-          <Route exact path="/guest/legal" component={GuestUserLegal} />
-          <Route exact path="/guest/contact" component={GuestUserContact} />
-          <Route path="/guest" component={GuestUserHome} />
-          <Redirect from="/" to="/guest" />
+          <Route exact path="/home" component={GuestUserHome} />
+          <Route exact path="/legal" component={GuestUserLegal} />
+          <Route exact path="/contact" component={GuestUserContact} />
+          <Redirect from="/" to="/home" />
         </Switch>
       </Router>
     </React.Fragment>

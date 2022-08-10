@@ -19,11 +19,11 @@ export default function Footer(props) {
             </Col>
             <Col xs={12} sm={12} md={1} lg={1}>
             {(props.disableLegalLink)?<Link className = "footerlink" to='#'>Legal</Link>
-            :<Link className="footerlink" to={{pathname: "/guest/legal" }} target='_blank'>Legal</Link>}
+            :<Link className="footerlink" to={{pathname: "/legal" }} target='_blank'>Legal</Link>}
             </Col>
             <Col xs={12} sm={12} md={2} lg={2}>
             {(props.disableContactLink)? <Link className = "footerlink" to='#'>Contact us</Link>
-            :<Link className = "footerlink" to={{pathname: "/guest/contact" }} target='_blank'>Contact us</Link>}
+            :<Link className = "footerlink" to={{pathname: "/contact" }} target='_blank'>Contact us</Link>}
             {/*<span className = "footerlink">Contact us</span>*/}
             </Col>
             <Col xs={12} sm={12} md={3} lg={3}>
