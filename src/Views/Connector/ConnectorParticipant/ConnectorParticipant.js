@@ -59,6 +59,7 @@ export default function ConnectorParticipant() {
         { index: 6, name: "Rejected", payloadName: "rejected", isChecked: false }
     ])
 
+    const [filterState, setFilterState] = useState({})
     var payload = {}
 
     useEffect(() => {
@@ -120,6 +121,9 @@ export default function ConnectorParticipant() {
         if (payload == "") {
             payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
         }
+        if(isLoadMore){
+            payload = {...filterState}
+        }
         HTTPService(
             "POST",
             connectorUrl,
@@ -135,6 +139,7 @@ export default function ConnectorParticipant() {
                 if (response.data.next == null) {
                     setShowLoadMore(false)
                     setConnectorUrl(UrlConstant.base_url+UrlConstant.connector_list)
+                    setFilterState({})
                 } else {
                     setConnectorUrl(response.data.next)
                     setShowLoadMore(true)
@@ -293,6 +298,7 @@ export default function ConnectorParticipant() {
     const buildFilterPayLoad = (userId, deptPayload, projectPayload, typePayload, statusPayload) => {
 
         let data = {}
+        setFilterState({})
         
         data['user_id'] = userId
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
@@ -308,6 +314,8 @@ export default function ConnectorParticipant() {
         if (statusPayload !== "") {
             data['connector_status__in'] = statusPayload
         }
+
+        setFilterState(data)
         return data
     }
 
