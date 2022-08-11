@@ -168,8 +168,9 @@ export default function ConnectorForm(props) {
           <Link
             component="button"
             variant="body2"
-            onClick={() => {
+            onClick={(e) => {
               console.info("I'm a button.");
+              e.preventDefault();
             }}
             underline="hover">
             {screenlabels.connector_form.addDepartment}
@@ -179,8 +180,9 @@ export default function ConnectorForm(props) {
           <Link
             component="button"
             variant="body2"
-            onClick={() => {
+            onClick={(e) => {
               console.info("I'm a button.");
+              e.preventDefault();
             }}
             underline="hover">
             {screenlabels.connector_form.addProject}
