@@ -8,20 +8,48 @@ import ConnectorFilter from '../ConnectorFilter'
 import ConnectorListing from '../ConnectorListing'
 import { get } from 'jquery';
 import UrlConstant from '../../../Constants/UrlConstants';
-import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import '../ConnectorParticipant.css'
 import { useHistory } from 'react-router-dom';
 import { Box } from '@mui/material';
 import NoDatasetConnectorView from '../NoDatasetConnectorView';
-
+import { FileUploader } from "react-drag-drop-files";
+import UploadDataset from "../../../Components/Datasets/UploadDataset";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from '@mui/material/MenuItem';
+import ViewConnectorDetails from "../../../Components/Connectors/ViewConnectorDetails";
+import PairingRequest from "../../../Components/PairingRequest/PairingRequest";
+import Success from '../../../Components/Success/Success'
+import Delete from '../../../Components/Delete/Delete'
+import UrlConstants from "../../../Constants/UrlConstants";
+import { Tooltip } from "@mui/material";
+const useStyles = {
+    datasetdescription: {
+        "margin-left": "0px",
+        "margin-right": "0px",
+        "font-family": "Open Sans",
+        "font-style": "normal",
+        "font-weight": "400",
+        "font-size": "14px",
+        "line-height": "19px",
+        overflow: "hidden",
+        "text-overflow": "ellipsis",
+        display: "-webkit-box",
+        "-webkit-line-clamp": "1",
+        "-webkit-box-orient": "vertical",
+        float: "left",
+        width: "300px",
+    },
+};
 export default function ConnectorParticipant() {
-    
+
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [isLoader, setIsLoader] = useState(false)
     const history = useHistory()
 
     //states for api endpoint management
-    const [connectorUrl, setConnectorUrl] = useState(UrlConstant.base_url+UrlConstant.connector_list)
+    const [connectorUrl, setConnectorUrl] = useState(UrlConstant.base_url + UrlConstant.connector_list)
     const [showLoadMore, setShowLoadMore] = useState(false)
     const [isDatasetPresent, setIsDatasetPresent] = useState(false) // to be set to false after backend field is sent in response
 
@@ -42,7 +70,7 @@ export default function ConnectorParticipant() {
     ])
     const [projectFilter, setProjectFilter] = useState([
         { index: 0, name: "Project1", payloadName: "project1", isChecked: false, isDisplayed: true },
-        { index: 1, name: "Project2", payloadName: "project2", isChecked: false , isDisplayed: true}
+        { index: 1, name: "Project2", payloadName: "project2", isChecked: false, isDisplayed: true }
     ])
 
     const [connectorTypeFilter, setConnectoprTypeFilter] = useState([
@@ -86,12 +114,12 @@ export default function ConnectorParticipant() {
 
                 var deptFilterInput = response.data.departments
                 var projectFilterInput = response.data.projects
-                
+
                 setDepartmentFilter(initFilter(deptFilterInput))
                 setProjectFilter(initFilter(projectFilterInput))
                 setIsDatasetPresent(response.data.is_dataset_present)
-                
-                console.log("deptFilter", departmentFilter) 
+
+                console.log("deptFilter", departmentFilter)
                 console.log("projectFilter", projectFilter)
 
             })
@@ -145,12 +173,12 @@ export default function ConnectorParticipant() {
                     setShowLoadMore(true)
                 }
                 let finalDataList = []
-                    if (isLoadMore) {
-                        finalDataList = [...connectorList, ...response.data.results]
-                    } else {
-                        finalDataList = response.data.results
-                    }
-                    setConnectorList(finalDataList)
+                if (isLoadMore) {
+                    finalDataList = [...connectorList, ...response.data.results]
+                } else {
+                    finalDataList = response.data.results
+                }
+                setConnectorList(finalDataList)
             })
             .catch((e) => {
                 console.log(e)
@@ -159,7 +187,7 @@ export default function ConnectorParticipant() {
             });
 
     }
-    
+
     const handleFilterChange = (index, filterName) => {
 
          var isAnyFilterChecked = false
@@ -321,7 +349,7 @@ export default function ConnectorParticipant() {
 
     const clearAllFilters = () => {
         setIsShowAll(true)
-        
+
         resetFilterState(screenlabels.connector.department)
         resetFilterState(screenlabels.connector.projects)
         resetFilterState(screenlabels.connector.connector_type)
@@ -377,77 +405,644 @@ export default function ConnectorParticipant() {
 
     const getConnectorStatusImageName = (status) => {
         var imageName = ""
-        if(status == screenlabels.connector.status_install_certificate){
+        if (status == screenlabels.connector.status_install_certificate) {
             imageName = "status_install_certificate_icon.svg"
-        } else if (status == screenlabels.connector.status_unpaired){
+        } else if (status == screenlabels.connector.status_unpaired) {
             imageName = "status_unpaired_icon.svg"
-        } else if (status == screenlabels.connector.status_awaiting_approval){
+        } else if (status == screenlabels.connector.status_awaiting_approval) {
             imageName = "status_awaiting_approval_icon.svg"
-        } else if (status == screenlabels.connector.status_paired){
+        } else if (status == screenlabels.connector.status_paired) {
             imageName = "status_paired_icon.svg"
-        } else if (status == screenlabels.connector.status_pairing_request_received){
+        } else if (status == screenlabels.connector.status_pairing_request_received) {
             imageName = "status_pairing_request_received_icon.svg"
-        } else if (status == screenlabels.connector.status_rejected){
+        } else if (status == screenlabels.connector.status_rejected) {
             imageName = "status_rejected_icon.svg"
         }
         return imageName
     }
+    const [connectorDeatilsData, setconnectorDeatilsData] = useState({});
+    const [screenView, setscreenView] = useState(
+        {
+            "isConnectorList": true,
+            "isConnectorViwDetails": false,
+            "isDelete": false,
+            "isDeleSuccess": false,
+            "isInstallationSuccess": false,
+            "isPairingRequestSentSuccess": false,
+            "isUnpair": false,
+            "isUnpairSuccess": false,
+            "ispair": false,
+            "ispairSuccess": false,
+            "isReject": false,
+            "isRejectSuccess": false
+        }
+    );
+    const [accfilesize, setaccfilesize] = useState(true);
+    const [providerConectorList, setproviderConectorList] = useState([]);
+    const [providerConnector, setproviderConnector] = useState('');
+    const [organisationName, setorganisationName] = useState('');
+    const [ConsumerID, setConsumerID] = useState('');
+    const [ConsumerStatus, setConsumerStatus] = useState('');
+    const [providerConnectorDetails, setproviderConnectorDetails] = useState({});
+    const [providerViewConnectorDetails, setproviderViewConnectorDetails] = useState({});
+    const [file, setFile] = useState(null);
+    const [fileValid, setfileValid] = useState("");
+    const fileTypes = ["p12", "pfx"];
 
-  return (
-    <>
-      {isLoader ? <Loader /> : ''}
-      
-      <div className="connectors">
-        {isDatasetPresent ?
-            <Row className="supportfirstmaindiv">
-                <Row className="supportmaindiv">
-                    <Row className="supportfilterRow">
-                        <Col className="supportfilterCOlumn">
-                            <ConnectorFilter
-                                isShowAll={isShowAll}
-                                
-                                // setIsShowAll={setIsShowAll}
-                                // secondrow={secondrow}
-                                // fromdate={fromdate}
-                                // todate={todate}
-                                // setfromdate={setfromdate}
-                                // settodate={settodate}
-                                // filterByDates={filterByDates}
-                                // resetFilterState={resetFilterState}
+    const changeView = (keyname) => {
+        let tempfilterObject = { ...screenView }
+        Object.keys(tempfilterObject).forEach(function (key) { if (key != keyname) { tempfilterObject[key] = false } else { tempfilterObject[key] = true } });
+        setscreenView(tempfilterObject)
+    }
+    const handleFileChange = (file) => {
+        setFile(file);
+        console.log(file);
+        if (file != null && file.size > 2097152) {
+            //   setBrandingnextbutton(false);
+            setaccfilesize(true);
+        } else {
+            setaccfilesize(false);
+        }
+    };
+    const installCretificate = () => {
+        var bodyFormData = new FormData();
+        bodyFormData.append('certificate', file);
+        bodyFormData.append('connector_status', 'unpaired');
+        setIsLoader(true);
+        HTTPService(
+            "PUT",
+            UrlConstants.base_url + UrlConstants.connector + connectorDeatilsData['id'] + "/",
+            bodyFormData,
+            true,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                changeView('isInstallationSuccess')
 
-                                departmentFilter={departmentFilter}
-                                projectFilter={projectFilter}
-                                connectorTypeFilter={connectorTypeFilter}
-                                statusFilter={statusFilter}
+            }).catch((e) => {
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+    const getProviderConnectors = (id) => {
+        setIsLoader(true);
+        HTTPService(
+            "GET",
+            UrlConstants.base_url + UrlConstants.provider_connectors + id,
+            '',
+            true,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log(response.data)
+                setproviderConectorList([...response.data])
+                // changeView('isInstallationSuccess')
+            }).catch((e) => {
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+    const sendPairingRequest = (id) => {
+        var bodyFormData = new FormData();
+        bodyFormData.append('provider', providerConnectorDetails['id']);
+        bodyFormData.append('consumer', connectorDeatilsData['id']);
+        bodyFormData.append('connector_pair_status', 'awaiting for approval');
+        setIsLoader(true);
+        HTTPService(
+            "POST",
+            UrlConstants.base_url + UrlConstants.consumer_paring_request,
+            bodyFormData,
+            true,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                setFile(null);
+                setproviderConnectorDetails({});
+                setproviderConnector('')
+                changeView('isPairingRequestSentSuccess')
+            }).catch((e) => {
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+    const getProviderConnectorDeatils = (id) => {
+        setIsLoader(true);
+        HTTPService(
+            "GET",
+            UrlConstants.base_url + UrlConstants.connector + id + "/",
+            '',
+            true,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log(response.data)
+                setproviderConnectorDetails({ ...response.data })
+                setorganisationName(response.data['organization_details']['name'])
+                console.log("setproviderConnectorDetails", providerConnectorDetails)
+            }).catch((e) => {
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+    const viewCardDetails = (id) => {
+        console.log("sdsdfdf", id)
+        setIsLoader(true);
+        HTTPService(
+            "GET",
+            UrlConstants.base_url + UrlConstants.connector + id + '/',
+            '',
+            true,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log(response.data)
+                setconnectorDeatilsData({ ...response.data })
+                changeView('isConnectorViwDetails')
+                if (response.data['connector_type'] == 'Consumer' && (response.data['connector_status'] == 'unpaired' || response.data['connector_status'] == 'rejected')) {
+                    getProviderConnectors(response.data['dataset_details']['id'])
+                }
+                if (response.data['connector_type'] == 'Consumer' && (response.data['connector_status'] == 'awaiting for approval' || response.data['connector_status'] == 'paired')) {
+                    for (let i = 0; i < response.data.relation.length; i++) {
+                        if (response.data.relation[i].connector_pair_status === 'awaiting for approval' || response.data.relation[i].connector_pair_status === 'paired') {
+                            let temdata = { ...response.data.relation[i] }
+                            setproviderViewConnectorDetails(temdata)
+                        }
+                    }
+                }
+                console.log("providerViewConnectorDetails", providerViewConnectorDetails)
+            }).catch((e) => {
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+    const approveReject = (id, status) => {
+        console.log("ss", id)
+        console.log("status", status)
+        setConsumerID(id)
+        setConsumerStatus(status)
+        if (status == 'paired') {
+            changeView('ispair')
+        }
+        if (status == 'rejected') {
+            changeView('isReject')
+        }
+        if (status == 'unpaired') {
+            changeView('isUnpair')
+        }
 
-                                deptSearchState={deptSearchState}
-                                projectSearchState={projectSearchState}
-                                isDeptSearchFound={isDeptSearchFound}
-                                isProjectSearchFound={isProjectSearchFound}
-
-                                handleDeptSearch={handleDeptSearch}
-                                handleProjectSearch={handleProjectSearch}
-                                handleFilterChange={handleFilterChange}
-                                clearAllFilters={clearAllFilters}
-                            />
+    }
+    const approveOrRejectConnector = () => {
+        var bodyFormData = new FormData();
+        bodyFormData.append('connector_pair_status', ConsumerStatus);
+        setIsLoader(true);
+        HTTPService(
+            "PUT",
+            UrlConstants.base_url + UrlConstants.consumer_paring_request + ConsumerID + '/',
+            bodyFormData,
+            true,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                if (ConsumerStatus == 'paired') {
+                    changeView('ispairSuccess')
+                }
+                if (ConsumerStatus == 'rejected') {
+                    changeView('isRejectSuccess')
+                }
+                if (ConsumerStatus == 'unpaired') {
+                    changeView('isUnpairSuccess')
+                }
+            }).catch((e) => {
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+    const deleteConnector = (id) => {
+        setIsLoader(true);
+        HTTPService(
+            "DELETE",
+            UrlConstants.base_url + UrlConstants.connector + connectorDeatilsData['id'] + '/',
+            '',
+            true,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                changeView('isConnectorList')
+            }).catch((e) => {
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+    return (
+        <>
+            {isLoader ? <Loader /> : ''}
+            {screenView.isConnectorViwDetails ?
+                <><ViewConnectorDetails
+                    data={connectorDeatilsData}
+                    providerdata={providerViewConnectorDetails}
+                    back={() => changeView('isConnectorList')}
+                    edit={() => { history.push('/participant/connectors/edit/' + connectorDeatilsData['id']) }}
+                    delete={() => changeView('isDelete')}
+                    cancel={() => changeView('isConnectorList')}
+                    approveReject={(id, status) => approveReject(id, status)}
+                >
+                </ViewConnectorDetails>
+                    {connectorDeatilsData['connector_type'] == 'Provider' ?
+                        <>
+                            {connectorDeatilsData['connector_status'] != 'install certificate' && connectorDeatilsData.relation.length > 0 ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+                                <span className="mainheading">{"Pairing Request Received (" + connectorDeatilsData.relation.length + ")"}</span>
+                            </Row></> : <></>}
+                            {connectorDeatilsData.relation.length > 0 ? <>{connectorDeatilsData.relation.map((rowData, index) => (
+                                <PairingRequest approveReject={(id, status) => approveReject(id, status)} data={rowData}></PairingRequest>
+                            ))}</> : <></>}
+                        </> : <></>}
+                    {connectorDeatilsData['connector_type'] == 'Provider' && (connectorDeatilsData['connector_status'] == 'unpaired') ? <><Row>
+                        <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
-                        <Col className="supportSecondCOlumn">
-                            <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
-                                <ConnectorListing
-                                    connectorList={connectorList}
-                                    // getConnectorList={getConnectorList}
-                                    showLoadMore={showLoadMore} //to be changed
-                                    getImageName = {getConnectorStatusImageName}
-                                />
-                            </Col>
+                        <Col xs={12} sm={12} md={6} lg={6} >
+                            <Button onClick={() => { history.push('/participant/connectors/edit/' + connectorDeatilsData['id']) }} variant="outlined" className="submitbtn">
+                                Update Connector
+                                </Button>
                         </Col>
                     </Row>
-                </Row>
-            </Row>
-            : 
-            <NoDatasetConnectorView/>
-        }
-      </div>
-    </>
-  )
+                        <Row className="margin">
+                            <Col xs={12} sm={12} md={6} lg={3} >
+                            </Col>
+                            <Col xs={12} sm={12} md={6} lg={6} >
+                                <Button onClick={() => changeView('isDelete')} style={{ "margin-top": "0px" }} variant="outlined" className="editbtn">
+                                    Delete Connector
+                         </Button>
+                            </Col>
+                        </Row><Row className="marginrowtop8px"></Row></> : <></>}
+                    {connectorDeatilsData['connector_type'] == 'Consumer' && (connectorDeatilsData['connector_status'] == 'unpaired' || connectorDeatilsData['connector_status'] == 'rejected') ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+                        <span className="mainheading">{"Pair with"}</span>
+                    </Row>
+                        <Row style={{ "margin-left": "64px", "margin-top": "30px" }}>
+                            <Col>
+                                <TextField
+                                    style={{ "width": "95%", "textAlign": "left" }}
+                                    select
+                                    margin="normal"
+                                    variant="filled"
+                                    required
+                                    hiddenLabel="true"
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    label="Select Provider Connector"
+                                    value={providerConnector}
+                                    alignItems="center"
+                                    onChange={(e) => { setproviderConnector(e.target.value); getProviderConnectorDeatils(e.target.value) }}
+                                >
+                                    {providerConectorList.map((rowData, index) => (
+                                        <MenuItem value={rowData.id}>{rowData.connector_name}</MenuItem>
+                                    ))}
+                                </TextField>
+                            </Col>
+                            <Col></Col>
+                            <Col></Col>
+                        </Row>
+                        {providerConnectorDetails['connector_type'] ? <><Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
+                            <Col>
+                                <span className="secondmainheading">{"Connector Name"}</span>
+                            </Col>
+                            <Col>
+                                <span className="secondmainheading">{"Connector Type"}</span>
+                            </Col>
+                            <Col>
+                                <span className="secondmainheading">{"Dataset Name"}</span>
+                            </Col>
+                        </Row>
+                            <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+                                <Col>
+                                    <Tooltip title={providerConnectorDetails['connector_name']}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['connector_name']}</span>
+                                        </Row>
+                                    </Tooltip>
+                                </Col>
+                                <Col>
+
+                                    <span className="thirdmainheading">{providerConnectorDetails['connector_type']}</span>
+                                </Col>
+                                <Col>
+                                    <Tooltip title={providerConnectorDetails['dataset_details'] ? providerConnectorDetails['dataset_details']['name'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['dataset_details'] ? providerConnectorDetails['dataset_details']['name'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
+                                </Col>
+                            </Row>
+                            <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
+                                <Col>
+                                    <span className="secondmainheading">{"Department Name"}</span>
+                                </Col>
+                                <Col>
+                                    <span className="secondmainheading">{"Project Name"}</span>
+                                </Col>
+                                <Col>
+                                    <span className="secondmainheading">{"Certificate Status"}</span>
+                                </Col>
+                            </Row>
+                            <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+                                <Col>
+                                    <Tooltip title={providerConnectorDetails['department_details'] ? providerConnectorDetails['department_details']['department_name'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['department_details'] ? providerConnectorDetails['department_details']['department_name'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
+                                </Col>
+                                <Col>
+                                    <Tooltip title={providerConnectorDetails['project_details'] ? providerConnectorDetails['project_details']['project_name'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['project_details'] ? providerConnectorDetails['project_details']['project_name'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
+                                </Col>
+                                <Col>
+                                    <Tooltip title={providerConnectorDetails['certificate']}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['certificate']}</span>
+                                        </Row>
+                                    </Tooltip>
+                                </Col>
+                            </Row>
+                            <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
+                                <Col>
+                                    <span className="secondmainheading">{"Docker Image url"}</span>
+                                </Col>
+                                <Col>
+                                    <span className="secondmainheading">{"Application Port"}</span>
+                                </Col>
+                                <Col>
+                                    <span className="secondmainheading">{"Hash (usage Policy)"}</span>
+                                </Col>
+
+                            </Row>
+                            <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+                                <Col>
+                                    <Tooltip title={providerConnectorDetails['docker_image_url']}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['docker_image_url']}</span>
+                                        </Row>
+                                    </Tooltip>
+                                </Col>
+                                <Col>
+                                    <span className="thirdmainheading">{providerConnectorDetails['application_port']}</span>
+                                </Col>
+                                <Col style={{ "width": "30px", "height": "37px", "line-height": "19px", "word-break": "break-word" }}>
+                                    <Tooltip title={providerConnectorDetails['usage_policy']}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['usage_policy']}</span>
+                                        </Row>
+                                    </Tooltip>
+                                </Col>
+                            </Row>
+                            <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
+                                <Col>
+                                    <span className="secondmainheading">{"Participant organisation name"}</span>
+                                </Col>
+                                <Col>
+                                    <span className="secondmainheading">{"Participant organisation website"}</span>
+                                </Col>
+                                <Col>
+                                    <span className="secondmainheading">{""}</span>
+                                </Col>
+
+                            </Row>
+                            <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+                                <Col>
+                                    <Tooltip title={providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['name'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['name'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
+                                </Col>
+                                <Col>
+                                    <Tooltip title={providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['website'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['website'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
+                                </Col>
+                                <Col>
+                                    <span className="thirdmainheading">{""}</span>
+                                </Col>
+                            </Row>
+                            <Row style={{ "margin-top": "15px" }}>
+                                <Col xs={12} sm={12} md={6} lg={3} >
+                                </Col>
+                                <Col xs={12} sm={12} md={6} lg={6} >
+                                    <Button onClick={() => sendPairingRequest()} variant="contained" className="submitbtn">
+                                        {"Send Pairing Request"}
+                                    </Button>
+                                </Col>
+                            </Row>
+                            <Row className="marginrowtop8px">
+                                <Col xs={12} sm={12} md={6} lg={3} >
+                                </Col>
+                                <Col xs={12} sm={12} md={6} lg={6} >
+                                    <Button onClick={() => { setFile(null); setproviderConnectorDetails({}); setproviderConnector(''); changeView('isConnectorList') }} variant="outlined" className="cancelbtn">
+                                        {screenlabels.common.cancel}
+                                    </Button>
+                                </Col>
+                            </Row></> : <></>}
+                        <Row className="supportViewDeatilsSecondRow"></Row></> : <></>}
+                    {connectorDeatilsData['connector_status'] == 'install certificate' ?
+                        <>
+                            <Row >
+                                <span style={{ "margin-left": "315px", "margin-top": "50px" }}>Upload Certificate *</span>
+                            </Row>
+                            <Row style={{ "margin-left": "290px", "margin-right": "300px" }}>
+                                <Col xs={12} sm={12} md={12} lg={12} className="fileupload">
+                                    <FileUploader
+                                        handleChange={handleFileChange}
+                                        name="file"
+                                        types={fileTypes}
+                                        children={
+                                            <UploadDataset
+                                                uploaddes="Supports: P12 format only"
+                                                uploadtitle="Upload Certificate"
+                                            />
+                                        }
+                                        classes="fileUpload"
+                                    />
+                                </Col>
+                            </Row>
+                            <Row xs={12} sm={12} md={12} lg={12}>
+                                <p className="uploaddatasetname">
+                                    {file
+                                        ? file.size
+                                            ? `File name: ${file.name}`
+                                            : ""
+                                        : ""}
+                                </p>
+                                <p className="oversizemb-uploadimglogo">
+                                    {file != null && file.size > 2097152
+                                        ? "File uploaded is more than 2MB!"
+                                        : ""}
+                                    {fileValid}
+                                </p>
+                            </Row>
+                            <Row>
+                                <Col xs={12} sm={12} md={6} lg={3} >
+                                </Col>
+                                <Col xs={12} sm={12} md={6} lg={6} >
+                                    {(!accfilesize)
+                                        ? (
+                                            <Button onClick={() => installCretificate()} variant="contained" className="submitbtn">
+                                                {"Install Certificate"}
+                                            </Button>
+                                        ) : (
+                                            <Button variant="outlined" disabled className="disbalesubmitbtn">
+                                                {"Install Certificate"}
+                                            </Button>
+                                        )}
+                                </Col>
+                            </Row>
+                            <Row className="marginrowtop8px">
+                                <Col xs={12} sm={12} md={6} lg={3} >
+                                </Col>
+                                <Col xs={12} sm={12} md={6} lg={6} >
+                                    <Button onClick={() => { setFile(null); changeView('isConnectorList') }} variant="outlined" className="cancelbtn">
+                                        {screenlabels.common.cancel}
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </>
+                        : <></>}
+
+                </>
+                : <></>}
+
+            {screenView.isDelete ? <Delete
+                route={"login"}
+                imagename={'delete'}
+                firstbtntext={"Delete"}
+                secondbtntext={"Cancel"}
+                deleteEvent={() => { deleteConnector() }}
+                cancelEvent={() => { changeView('isConnectorList') }}
+                heading={"Delete Connector"}
+                imageText={"Are you sure you want to delete connector?"}
+                firstmsg={"This action will delete the connector from the system."}
+                secondmsg={""}>
+            </Delete>
+                : <></>}
+            {screenView.isDeleSuccess ?
+                <Success okevent={() => { changeView('isConnectorList'); }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your connetor is deleted successfully !"} imageText={"Deleted!"} msg={"You deleted a connector."}></Success> : <></>
+            }
+            {screenView.isInstallationSuccess ?
+                <Success okevent={() => { changeView('isConnectorList'); }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Installation Done"} imageText={"Success!"} msg={"The certificate has been installed successfully. The connector is ready for pairing and data exchange. "}></Success> : <></>
+            }
+            {screenView.isPairingRequestSentSuccess ?
+                <Success okevent={() => { changeView('isConnectorList'); getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Pairing request sent"} imageText={"Success!"} msg={"Your pairing request has been sent to the " + organisationName + " we will update you once any action is taken by them."}></Success> : <></>
+            }
+            {screenView.isUnpair ? <Delete
+                route={"login"}
+                imagename={'unpair'}
+                firstbtntext={"Unpair"}
+                secondbtntext={"Cancel"}
+                deleteEvent={() => { approveOrRejectConnector() }}
+                cancelEvent={() => { changeView('isConnectorList') }}
+                heading={"Unpair Connector"}
+                imageText={"Are you sure you want to unpair connector?"}
+                firstmsg={"This action will unpair the connector from the system."}
+                secondmsg={""}>
+            </Delete>
+                : <></>}
+            {screenView.isUnpairSuccess ?
+                <Success okevent={() => { changeView('isConnectorList'); }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Unpaired"} imageText={"Success!"} msg={"You unpaired the connector."}></Success> : <></>
+            }
+            {screenView.ispair ? <Delete
+                route={"login"}
+                imagename={'pair'}
+                firstbtntext={"Approve"}
+                secondbtntext={"Cancel"}
+                deleteEvent={() => { approveOrRejectConnector() }}
+                cancelEvent={() => { changeView('isConnectorList') }}
+                heading={"Approve Connector Request"}
+                imageText={"Are you sure you want to approve the connector?"}
+                firstmsg={"This action will pair the connector from the system."}
+                secondmsg={""}>
+            </Delete>
+                : <></>}
+            {screenView.ispairSuccess ?
+                <Success okevent={() => { changeView('isConnectorList'); }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approved"} imageText={"Success!"} msg={"The connectors are paired now and data exchange has started."}></Success> : <></>
+            }
+            {screenView.isReject ? <Delete
+                route={"login"}
+                imagename={'pair'}
+                firstbtntext={"Reject"}
+                secondbtntext={"Cancel"}
+                deleteEvent={() => { approveOrRejectConnector() }}
+                cancelEvent={() => { changeView('isConnectorList') }}
+                heading={"Reject Connector Request"}
+                imageText={"Are you sure you want to reject the connector?"}
+                firstmsg={"This action will reject the connector from the system."}
+                secondmsg={""}>
+            </Delete>
+                : <></>}
+            {screenView.isRejectSuccess ?
+                <Success okevent={() => { changeView('isConnectorList'); }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Rejected"} imageText={"Success!"} msg={"You have rejected the pairing request. You will receive a notification if there is a new pairing request."}></Success> : <></>
+            }
+            {screenView.isConnectorList ? <div className="connectors">
+                {isDatasetPresent ?
+                    <Row className="supportfirstmaindiv">
+                        <Row className="supportmaindiv">
+                            <Row className="supportfilterRow">
+                                <Col className="supportfilterCOlumn">
+                                    <ConnectorFilter
+                                        isShowAll={isShowAll}
+
+                                        // setIsShowAll={setIsShowAll}
+                                        // secondrow={secondrow}
+                                        // fromdate={fromdate}
+                                        // todate={todate}
+                                        // setfromdate={setfromdate}
+                                        // settodate={settodate}
+                                        // filterByDates={filterByDates}
+                                        // resetFilterState={resetFilterState}
+
+                                        departmentFilter={departmentFilter}
+                                        projectFilter={projectFilter}
+                                        connectorTypeFilter={connectorTypeFilter}
+                                        statusFilter={statusFilter}
+
+                                        deptSearchState={deptSearchState}
+                                        projectSearchState={projectSearchState}
+                                        isDeptSearchFound={isDeptSearchFound}
+                                        isProjectSearchFound={isProjectSearchFound}
+
+                                        handleDeptSearch={handleDeptSearch}
+                                        handleProjectSearch={handleProjectSearch}
+                                        handleFilterChange={handleFilterChange}
+                                        clearAllFilters={clearAllFilters}
+                                    />
+                                </Col>
+                                <Col className="supportSecondCOlumn">
+                                    <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
+                                        <ConnectorListing
+                                            connectorList={connectorList}
+                                            // getConnectorList={getConnectorList}
+                                            showLoadMore={showLoadMore} //to be changed
+                                            getImageName={getConnectorStatusImageName}
+                                            viewCardDetails={(id) => viewCardDetails(id)}
+                                        />
+                                    </Col>
+                                </Col>
+                            </Row>
+                        </Row>
+                    </Row>
+                    :
+                    <NoDatasetConnectorView />
+                }
+            </div> : <></>}
+        </>
+    )
 }
