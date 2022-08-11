@@ -156,6 +156,7 @@ export default function AddConnectorParticipant() {
     console.log(event.target.value);
     setdepartment(event.target.value);
     setIsLoader(true);
+    setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
 
     await HTTPService(
       "GET",
@@ -181,7 +182,7 @@ export default function AddConnectorParticipant() {
   const handleChangeConnector = async (event) => {
     console.log("connector", event.target.value);
     setconnector(event.target.value);
-
+    setDataset("");
     var id = getUserLocal();
     console.log("user id", id);
     setIsLoader(true);
