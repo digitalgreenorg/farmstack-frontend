@@ -139,7 +139,7 @@ const PairingRequest = (props) => {
                         <div className="secondmainheading">Status</div>
                         <Tooltip title={props.data['connector_pair_status'] ? props.data['connector_pair_status'] : ''}>
                             <div style={useStyles.datasetdescription} className={styles.marginbottom50px}>
-                                <span className="thirdmainheading" >{props.data['connector_pair_status'] ? props.data['connector_pair_status'] : ''}</span>
+                                <span className="thirdmainheading tocapitalizethefirstletter" >{props.data['connector_pair_status'] ? props.data['connector_pair_status'] : ''}</span>
                             </div>
                         </Tooltip>
                     </div>
