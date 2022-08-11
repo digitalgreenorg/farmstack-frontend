@@ -42,7 +42,7 @@ export default function ConnectorListing(props) {
                 {props.showLoadMore ? (
                     <Col xs={12} sm={12} md={6} lg={6}>
                         <Button
-                            // onClick={() => props.getConnectorList(true)}
+                            onClick={() => props.getConnectorList(true)}
                             variant="outlined"
                             className="cancelbtn">
                             Load More
