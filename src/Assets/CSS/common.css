@@ -476,3 +476,7 @@ MuiLinearProgress-determinate{
 .MuiTypography-root {
   font-family: "Open Sans" !important;
 }
+
+.tocapitalizethefirstletter{
+  text-transform: capitalize;
+}

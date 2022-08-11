@@ -121,7 +121,7 @@ export default function ViewConnectorDetails(props) {
                             src={require('../../Assets/Img/status_pairing_request_received_icon.svg')}
                             alt="new"
                         /> : ''}
-                    </span> <span className="thirdmainheading">{props.data['connector_status']}</span>
+                    </span> <span className="thirdmainheading tocapitalizethefirstletter">{props.data['connector_status']}</span>
                 </Col>
                 <Col>
                     <Tooltip title={props.data['project_details']['project_name']}>
@@ -223,7 +223,7 @@ export default function ViewConnectorDetails(props) {
                 </Row><Row className="marginrowtop8px"></Row></> : <></>}
             <Row className="supportViewDeatilsSecondRow"></Row>
             {(props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'awaiting for approval' || props.data['connector_status'] == 'paired')) ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                <span className="mainheading">{props.data['connector_status'] == 'awaiting for approval' ? "Pending at" : "Paired with"}</span>
+                <span className="mainheading">{props.data['connector_status'] == 'awaiting for approval' ? "Pending at" : "Pair with"}</span>
             </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
                     <Col>
