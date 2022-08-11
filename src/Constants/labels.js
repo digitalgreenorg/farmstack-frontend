@@ -22,6 +22,7 @@ const labels = {
       legal: "Legal",
       contact: "Contact",
       apply_for_participant: "Apply for Participant",
+      Dashboard : "Dashboard"
     },
     addparticipants: {
       first_heading: "Add Participants organisation details",
