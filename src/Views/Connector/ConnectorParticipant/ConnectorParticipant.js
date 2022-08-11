@@ -1034,7 +1034,7 @@ export default function ConnectorParticipant() {
                                         <ConnectorListing
                                             connectorList={connectorList}
                                             getConnectorList={getConnectorList}
-                                            showLoadMore={showLoadMore} //to be changed
+                                            showLoadMore={showLoadMore}
                                             getImageName={getConnectorStatusImageName}
                                             viewCardDetails={(id) => viewCardDetails(id)}
                                         />
