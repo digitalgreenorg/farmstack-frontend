@@ -734,7 +734,7 @@ export default function Login(props) {
   };
 
   return (
-    <div>
+    <div className="loginMainDiv">
       {isLoader ? <Loader /> : ""}
       <SignInHeader></SignInHeader>
       {isDataSet && isLoggedInUserParticipant() ? (
@@ -745,7 +745,7 @@ export default function Login(props) {
         />
         
       ) : (
-        <>
+        <div >
           <h1 className="headertext">{screenlabels.login.signup_header}</h1>
           <Leftintro />
           {isemail || isOtp ? <Rightintro /> : ""}
@@ -906,7 +906,7 @@ export default function Login(props) {
             />
             )}
         
-        </>
+        </div>
         
         )}
     </div>
