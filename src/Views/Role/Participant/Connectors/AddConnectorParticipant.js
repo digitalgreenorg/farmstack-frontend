@@ -91,29 +91,29 @@ export default function AddConnectorParticipant() {
   const [isLoader, setIsLoader] = useState(false);
 
   //   get dataset
-  const getDatasetDetails = async () => {
-    var id = getUserLocal();
-    console.log("user id", id);
-    setIsLoader(true);
+  //   const getDatasetDetails = async () => {
+  //     var id = getUserLocal();
+  //     console.log("user id", id);
+  //     setIsLoader(true);
 
-    await HTTPService(
-      "GET",
-      UrlConstants.base_url + UrlConstants.list_of_dataset,
-      { user_id: id },
-      false,
-      true
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log("get request for dataset", response.data);
-        setdatasets(response.data);
-        console.log("datasets", datasets);
-      })
-      .catch((e) => {
-        setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
-      });
-  };
+  //     await HTTPService(
+  //       "GET",
+  //       UrlConstants.base_url + UrlConstants.list_of_dataset,
+  //       { user_id: id },
+  //       false,
+  //       true
+  //     )
+  //       .then((response) => {
+  //         setIsLoader(false);
+  //         console.log("get request for dataset", response.data);
+  //         setdatasets(response.data);
+  //         console.log("datasets", datasets);
+  //       })
+  //       .catch((e) => {
+  //         setIsLoader(false);
+  //         // history.push(GetErrorHandlingRoute(e));
+  //       });
+  //   };
 
   //   get Department
   const getDepartmentDetails = async () => {
@@ -140,7 +140,7 @@ export default function AddConnectorParticipant() {
   };
 
   useEffect(() => {
-    getDatasetDetails();
+    // getDatasetDetails();
     getDepartmentDetails();
     setdepartment("e459f452-2b4b-4129-ba8b-1e1180c87888");
     setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
@@ -178,9 +178,50 @@ export default function AddConnectorParticipant() {
     console.log(event.target.value);
     setproject(event.target.value);
   };
-  const handleChangeConnector = (event) => {
-    console.log(event.target.value);
+  const handleChangeConnector = async (event) => {
+    console.log("connector", event.target.value);
     setconnector(event.target.value);
+
+    var id = getUserLocal();
+    console.log("user id", id);
+    setIsLoader(true);
+
+    if (event.target.value == "Provider") {
+      await HTTPService(
+        "GET",
+        UrlConstants.base_url + UrlConstants.list_of_dataset,
+        { user_id: id },
+        false,
+        true
+      )
+        .then((response) => {
+          setIsLoader(false);
+          console.log("get request for dataset", response.data);
+          setdatasets(response.data);
+          console.log("datasets", datasets);
+        })
+        .catch((e) => {
+          setIsLoader(false);
+          // history.push(GetErrorHandlingRoute(e));
+        });
+    } else {
+      await HTTPService(
+        "GET",
+        UrlConstants.base_url + UrlConstants.list_of_dataset,
+        false,
+        true
+      )
+        .then((response) => {
+          setIsLoader(false);
+          console.log("get request for dataset", response.data);
+          setdatasets(response.data);
+          console.log("datasets", datasets);
+        })
+        .catch((e) => {
+          setIsLoader(false);
+          // history.push(GetErrorHandlingRoute(e));
+        });
+    }
   };
   const handleChangeConnectorName = (e) => {
     validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)

@@ -129,23 +129,43 @@ export default function ConnectorForm(props) {
           </FormControl>
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="dataset">
-          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
-            <InputLabel id="demo-simple-select-required-label">
-              {screenlabels.connector_form.selectDataset}
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
-              value={props.Dataset}
-              onChange={props.handleChangeDataset}>
-              {props.datasets.map((dataset, index) => (
-                //    console.log(dataset)
-                <MenuItem key={dataset.id} value={dataset.id}>
-                  {dataset.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {props.connector ? (
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+              <InputLabel id="demo-simple-select-required-label">
+                {screenlabels.connector_form.selectDataset}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                value={props.Dataset}
+                onChange={props.handleChangeDataset}>
+                {props.datasets.map((dataset, index) => (
+                  //    console.log(dataset)
+                  <MenuItem key={dataset.id} value={dataset.id}>
+                    {dataset.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          ) : (
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }} disabled>
+              <InputLabel id="demo-simple-select-required-label">
+                {screenlabels.connector_form.selectDataset}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                value={props.Dataset}
+                onChange={props.handleChangeDataset}>
+                {props.datasets.map((dataset, index) => (
+                  //    console.log(dataset)
+                  <MenuItem key={dataset.id} value={dataset.id}>
+                    {dataset.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
         </Col>
       </Row>
       <Row>
