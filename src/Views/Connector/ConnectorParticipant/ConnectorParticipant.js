@@ -1033,7 +1033,7 @@ export default function ConnectorParticipant() {
                                     <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
                                         <ConnectorListing
                                             connectorList={connectorList}
-                                            // getConnectorList={getConnectorList}
+                                            getConnectorList={getConnectorList}
                                             showLoadMore={showLoadMore} //to be changed
                                             getImageName={getConnectorStatusImageName}
                                             viewCardDetails={(id) => viewCardDetails(id)}
