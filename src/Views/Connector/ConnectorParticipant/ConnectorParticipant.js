@@ -332,10 +332,10 @@ export default function ConnectorParticipant() {
         data['user_id'] = userId
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         if (deptPayload !== "") {
-            data['department__in'] = deptPayload
+            data['project__department__department_name__in'] = deptPayload
         }
         if (projectPayload !== "") {
-            data['project__in'] = projectPayload
+            data['project__project_name__in'] = projectPayload
         }
         if(typePayload !== ""){
             data['connector_type__in'] = typePayload
@@ -1034,7 +1034,7 @@ export default function ConnectorParticipant() {
                                         <ConnectorListing
                                             connectorList={connectorList}
                                             getConnectorList={getConnectorList}
-                                            showLoadMore={showLoadMore} //to be changed
+                                            showLoadMore={showLoadMore}
                                             getImageName={getConnectorStatusImageName}
                                             viewCardDetails={(id) => viewCardDetails(id)}
                                         />
