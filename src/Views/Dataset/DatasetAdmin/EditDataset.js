@@ -184,9 +184,7 @@ export default function EditDataset() {
         // setCropdetail(response.data.crop_detail);
         setSwitchchecked(response.data.constantly_update);
         console.log("testing", response.data.category.crop_detail !== "null");
-        if (response.data.category.crop_detail == "null") {
-          setCropdetail(response.data.crop_detail);
-        }
+        setCropdetail(response.data.crop_detail);
         setCrop_data(response.data.category.crop_data);
         setPractice_data(response.data.category.practice_data);
         setFarmer_profile(response.data.category.farmer_profile);
@@ -263,8 +261,8 @@ export default function EditDataset() {
   const handleChangedescription = (e) => {
     console.log(e.target.value);
     validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
-    ? setreply(e.target.value)
-    :  e.preventDefault();
+      ? setreply(e.target.value)
+      : e.preventDefault();
   };
   const handledescriptionKeydown = (e) => {
     handleUnwantedSpace(reply, e);

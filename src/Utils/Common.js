@@ -4,6 +4,7 @@ import RegexConstants from "../Constants/RegexConstants";
 import React from "react";
 import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
+import HTTPService from "../Services/HTTPService";
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(

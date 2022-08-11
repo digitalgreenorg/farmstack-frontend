@@ -19,7 +19,7 @@ import HandleSessionTimeout, {
 } from "../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
-import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import { GetErrorHandlingRoute } from "../../../Utils/Common";
 
 export default function BrandingSetting(props) {
   const fileTypes = ["JPEG", "PNG", "jpg"];
@@ -46,8 +46,15 @@ export default function BrandingSetting(props) {
         console.log(brandfile);
         console.log(response.data);
         console.log(response.data.css.btnBackground);
-        setColor(response.data.css.btnBackground);
-        sethexColor(response.data.css.btnBackground);
+        if (response.data.css.btnBackground == null) {
+          setColor("#c09507");
+          sethexColor("#c09507");
+        } else {
+          setColor(response.data.css.btnBackground);
+          sethexColor(response.data.css.btnBackground);
+        }
+        // setColor(response.data.css.btnBackground);
+        // sethexColor(response.data.css.btnBackground);
         // console.log(response.data.banner);
         // setbrandfile(response.data.banner);
       })
@@ -55,7 +62,7 @@ export default function BrandingSetting(props) {
         setIsLoader(false);
         console.log(e);
         console.log(e.response.status);
-        history.push(GetErrorHandlingRoute(e))
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -109,7 +116,7 @@ export default function BrandingSetting(props) {
   const brandsettingcancelbtn = (e) => {
     getBrandingDetails();
     setbrandfile(null);
-    history.push("/datahub/settings/5")
+    history.push("/datahub/settings/5");
     window.location.reload();
     // sethexColor(color);
   };

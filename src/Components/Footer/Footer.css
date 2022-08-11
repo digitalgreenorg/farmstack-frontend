@@ -1,7 +1,7 @@
 .footer {
     text-align: center;
     background-color: #C09507;
-    position: absolute;
+    /*position: fixed;*/
     bottom: 0px;
     min-width: 1440px;
     min-height: 80px;
@@ -21,4 +21,9 @@
 .footerlink:hover{
     color: white;
     text-decoration: none;
+    cursor: pointer;
+}
+
+.footerlink .footerlinkdisabled{
+    pointer-events: none;
 }
