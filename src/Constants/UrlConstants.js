@@ -32,7 +32,7 @@ const UrlConstant = {
   guest_dataset_filtered_data: "microsite/datasets/dataset_filters/",
   connector_filter: 'participant/connectors/filters_data/',
   connector_list: 'participant/connectors/connectors_filters/',
-  microsite_contact_form: "microsite/contact_form",
+  microsite_contact_form: "microsite/contact_form/",
   microsite_admin_organization: "microsite/admin_organization",
   list_of_dataset: "participant/datasets/list_of_datasets/",
   departments_connector_list: "participant/department/",
@@ -40,8 +40,8 @@ const UrlConstant = {
   connector: "participant/connectors/",
   microsite_legal_documents: "/microsite/legal_documents/",
   consumer_paring_request:'participant/connectors_map/',
-  provider_connectors: 'participant/connectors/get_connectors/?dataset_id='
-  
+  provider_connectors: 'participant/connectors/get_connectors/?dataset_id=',
+  microsite_theme: "/microsite/theme/"
 };
 
 export default UrlConstant;

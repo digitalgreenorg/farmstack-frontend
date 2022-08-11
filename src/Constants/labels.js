@@ -207,12 +207,12 @@ const labels = {
       click_here: "Click Here",
       no_dataset_text2: " to get started!",
 
-      status_install_certificate: "Install Certificate",
-      status_unpaired: "Unpaired",
-      status_awaiting_approval: "Awaiting Approval",
-      status_paired: "Paired",
-      status_pairing_request_received: "Pairing Request Received",
-      status_rejected: "Rejected",
+      status_install_certificate : "install certificate",
+      status_unpaired : "unpaired",
+      status_awaiting_approval : "awaiting for approval",
+      status_paired : "paired",
+      status_pairing_request_received : "pairing request received",
+      status_rejected : "rejected"
     },
     guestUser: {
       contact_us: "Contact Us",
@@ -252,21 +252,23 @@ const labels = {
       des: "Description",
       submit: "Save and Request Certificate",
     },
-    pair_with_component: {
-      pair_with: "Pair with",
-      connector_name: "Connector Name",
-      dataset_name: "Dataset Name",
-      department_name: "Department Name",
-      project_name: "Project Name",
-      certificate_status: "Certificate Status",
-      docker_image_url: "Docker Image url",
-      application_port: "Application Port",
-      hash_usage_policy: "Hash (usage Policy)",
-      participant_org_name: "Participant organisation name",
-      participant_org_website: "Participant organisation website",
-      send_pairing_request: "Send Pairing Request",
-      cancel: "Cancel",
-    },
+    pair_with_component:{
+      pair_with : "Pair with",
+      connector_name : "Connector Name",
+      connector_type : "Connector Type",
+      dataset_name : "Dataset Name",
+      department_name : "Department Name",  
+       project_name : "Project Name",
+       certificate_status:"Certificate Status",
+       docker_image_url : "Docker Image url",
+       application_port : "Application Port",
+       hash_usage_policy : "Hash (usage Policy)",
+      participant_org_name  : "Participant organisation name",
+      participant_org_website : "Participant organisation website",
+      send_pairing_request : "Send Pairing Request",
+      cancel : "Cancel",
+      select_provider_connector :"Select Provider Connector"
+    }
   },
 };
 export default labels;

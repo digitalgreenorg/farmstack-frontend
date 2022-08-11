@@ -107,6 +107,9 @@ export default function DatasetParticipant() {
     const [tablekeys, settablekeys] = useState([])
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
+
+    const [filterState, setFilterState] = useState({})
+
     var payload = ""
     var adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
     var memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
@@ -571,6 +574,9 @@ export default function DatasetParticipant() {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
             // payload['others'] = false
         }
+        if(isLoadMore){
+            payload = {...filterState}
+        }
         HTTPService(
             "POST",
             // "GET",
@@ -587,6 +593,7 @@ export default function DatasetParticipant() {
 
                 if (response.data.next == null) {
                     setShowLoadMoreAdmin(false)
+                    setFilterState({})
                 } else {
                     setDatasetUrl(response.data.next)
                     setShowLoadMoreAdmin(true)
@@ -616,6 +623,9 @@ export default function DatasetParticipant() {
             // payload['others'] = true
             payload['org_id'] = getOrgLocal()
         }
+        if(isLoadMore){
+            payload = {...filterState}
+        }
         HTTPService(
             "POST",
             // "GET",
@@ -634,6 +644,7 @@ export default function DatasetParticipant() {
                     // setisShowLoadMoreButton(false)
                     // setShowLoadMoreAdmin(false)
                     setShowLoadMoreMember(false)
+                    setFilterState({})
                 } else {
                     // setisShowLoadMoreButton(true)
                     setMemberDatasetUrl(response.data.next)
@@ -657,6 +668,7 @@ export default function DatasetParticipant() {
 
     const buildFilterPayLoad = (createdAtRange, userId, geoPayload, agePayload, cropPayload, statusPayload) => {
         let data = {}
+        setFilterState({})
         if (createdAtRange !== "") {
             data['created_at__range'] = createdAtRange
         }
@@ -694,6 +706,8 @@ export default function DatasetParticipant() {
         // if (isEnabledFilter || isDisabledFilter) {
         //     data['is_enabled'] = isEnabledFilter
         // }
+
+        setFilterState(data)
         return data
     }
 
@@ -702,10 +716,14 @@ export default function DatasetParticipant() {
         setValue(newValue);
         if (newValue == "2") {
             console.log("isMemberTab", isMemberTab)
+            setFilterState({})
+            setIsShowAll(true)
             setIsMemberTab(!isMemberTab)
             getMemberDatasets(false)
             console.log("isMemberTab", isMemberTab)
         } else {
+            setFilterState({})
+            setIsShowAll(true)
             setIsMemberTab(!isMemberTab)
             getMyDataset(false)
         }

@@ -33,8 +33,6 @@ export default function ConnectorCard(props) {
     const [isshowbutton, setisshowbutton] = useState(false)
     const [screenlabels, setscreenlabels] = useState(labels['en'])
 
-    
-
   return (
     <div>
         <Card className={props.margingtop} style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
@@ -102,8 +100,8 @@ export default function ConnectorCard(props) {
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         <span style={{"margin-left":"-10px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
                             <img
-                                src={require("../../Assets/Img/connector_status_icon.svg")}
-                                // src={require("../../Assets/Img/"+props.statusImageName)}
+                                // src={require("../../Assets/Img/connector_status_icon.svg")}
+                                src={require("../../Assets/Img/"+props.statusImageName)}
                                 alt="new"
                             />
                         </span>

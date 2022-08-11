@@ -99,7 +99,7 @@ export default function GuestUserContact(props) {
 
     bodyFormData.append("contact_number", useDetails.contactNumber);
     
-    
+    console.log("LENGTH" , useDetails.contactNumber.length )
 
 
     console.log(bodyFormData)
@@ -112,6 +112,7 @@ export default function GuestUserContact(props) {
       false
     )
       .then((response) => {
+        
         setIsLoader(false);
         setIsSuccess(true);
       })
@@ -172,8 +173,8 @@ export default function GuestUserContact(props) {
       <GuestUserBanner />
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/guest/home")}
-          route={"guest/home"}
+          okevent={() => history.push("/home")}
+          route={"/home"}
           imagename={"success"}
           btntext={"ok"}
           heading={"Thanks for reaching us."}
@@ -199,7 +200,7 @@ export default function GuestUserContact(props) {
         />
       )}
 
-      <Footer />
+      <Footer disableContactLink={true}/>
     </>
   );
 }

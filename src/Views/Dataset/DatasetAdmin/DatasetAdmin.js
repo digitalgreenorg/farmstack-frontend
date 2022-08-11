@@ -107,6 +107,9 @@ export default function DatasetAdmin() {
     const [tablekeys, settablekeys] = useState([])
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
+
+    const [filterState, setFilterState] = useState({})
+
     var payload = ""
     var adminUrl = UrlConstant.base_url + UrlConstant.dataset_list
     var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
@@ -571,6 +574,9 @@ export default function DatasetAdmin() {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
             payload['others'] = false
         }
+        if(isLoadMore){
+            payload = {...filterState}
+        }
         HTTPService(
             "POST",
             // "GET",
@@ -587,6 +593,7 @@ export default function DatasetAdmin() {
 
                 if (response.data.next == null) {
                     setShowLoadMoreAdmin(false)
+                    setFilterState({})
                 } else {
                     setDatasetUrl(response.data.next)
                     setShowLoadMoreAdmin(true)
@@ -615,6 +622,9 @@ export default function DatasetAdmin() {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
             payload['others'] = true
         }
+        if(isLoadMore){
+            payload = {...filterState}
+        }
         HTTPService(
             "POST",
             // "GET",
@@ -633,6 +643,7 @@ export default function DatasetAdmin() {
                     // setisShowLoadMoreButton(false)
                     // setShowLoadMoreAdmin(false)
                     setShowLoadMoreMember(false)
+                    setFilterState({})
                 } else {
                     // setisShowLoadMoreButton(true)
                     setMemberDatasetUrl(response.data.next)
@@ -656,6 +667,7 @@ export default function DatasetAdmin() {
 
     const buildFilterPayLoad = (createdAtRange, userId, geoPayload, agePayload, cropPayload, statusPayload) => {
         let data = {}
+        setFilterState({})
         if (createdAtRange !== "") {
             data['created_at__range'] = createdAtRange
         }
@@ -687,6 +699,8 @@ export default function DatasetAdmin() {
         if (enableStatusFilter[0].isChecked || enableStatusFilter[1].isChecked) {
             data['is_enabled'] = enableStatusFilter[0].isChecked
         }
+        
+        setFilterState(data)
         return data
     }
 
@@ -697,9 +711,13 @@ export default function DatasetAdmin() {
             console.log("isMemberTab", isMemberTab)
             setIsMemberTab(!isMemberTab)
             // getMemberFilter()
+            setFilterState({})
+            setIsShowAll(true)
             getMemberDatasets(false)
             console.log("isMemberTab", isMemberTab)
         } else {
+            setFilterState({})
+            setIsShowAll(true)
             setIsMemberTab(!isMemberTab)
             getMyDataset(false)
         }
@@ -726,6 +744,7 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.enabled)
         // resetEnabledStatusFilter()
 
+        // setFilterState({})
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         if(isMemberTab){
             getMemberDatasets(false)

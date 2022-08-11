@@ -79,14 +79,15 @@ export default function ConnectorParticipant() {
     ])
 
     const [statusFilter, setStatusFilter] = useState([
-        { index: 1, name: "Install Certificate", payloadName: "install_certificate", isChecked: false },
+        { index: 1, name: "Install Certificate", payloadName: "install certificate", isChecked: false },
         { index: 2, name: "Unpaired", payloadName: "unpaired", isChecked: false },
-        { index: 3, name: "Awaiting Approval", payloadName: "awaiting_approval", isChecked: false },
+        { index: 3, name: "Awaiting Approval", payloadName: "awaiting for approval", isChecked: false },
         { index: 4, name: "Paired", payloadName: "paired", isChecked: false },
-        { index: 5, name: "Pairing Request Received", payloadName: "pairing_request_received", isChecked: false },
+        { index: 5, name: "Pairing Request Received", payloadName: "pairing request received", isChecked: false },
         { index: 6, name: "Rejected", payloadName: "rejected", isChecked: false }
     ])
 
+    const [filterState, setFilterState] = useState({})
     var payload = {}
 
     useEffect(() => {
@@ -148,6 +149,9 @@ export default function ConnectorParticipant() {
         if (payload == "") {
             payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
         }
+        if(isLoadMore){
+            payload = {...filterState}
+        }
         HTTPService(
             "POST",
             connectorUrl,
@@ -162,7 +166,8 @@ export default function ConnectorParticipant() {
 
                 if (response.data.next == null) {
                     setShowLoadMore(false)
-                    setConnectorUrl(UrlConstant.base_url + UrlConstant.connector_list)
+                    setConnectorUrl(UrlConstant.base_url+UrlConstant.connector_list)
+                    setFilterState({})
                 } else {
                     setConnectorUrl(response.data.next)
                     setShowLoadMore(true)
@@ -185,96 +190,96 @@ export default function ConnectorParticipant() {
 
     const handleFilterChange = (index, filterName) => {
 
-        var isAnyFilterChecked = false
-        var tempFilter = []
-        var payloadList = []
+         var isAnyFilterChecked = false
+         var tempFilter = []
+         var payloadList = []
+ 
+         setIsShowAll(false)
+ 
+         if (filterName == screenlabels.connector.department) {
+ 
+             resetFilterState(screenlabels.connector.projects)
+             resetFilterState(screenlabels.connector.connector_type)
+             resetFilterState(screenlabels.dataset.connector_status)
+ 
+             tempFilter = [...departmentFilter]
+             for (let i = 0; i < tempFilter.length; i++) {
+                 if (tempFilter[i].index == index) {
+                     tempFilter[i].isChecked = !tempFilter[i].isChecked
+                 }
+                 if (tempFilter[i].isChecked) {
+                     payloadList.push(tempFilter[i].name)
+                     isAnyFilterChecked = true
+                 }
+             }
+             setDepartmentFilter(tempFilter)
 
-        setIsShowAll(false)
+             payload = buildFilterPayLoad(getUserLocal(), payloadList, "", "", "")
+ 
+         } else if (filterName == screenlabels.connector.projects) {
+ 
+             resetFilterState(screenlabels.connector.department)
+             resetFilterState(screenlabels.connector.connector_type)
+             resetFilterState(screenlabels.connector.connector_status)
+ 
+             tempFilter = [...projectFilter]
+             for (let i = 0; i < tempFilter.length; i++) {
+                 if (tempFilter[i].index == index) {
+                     tempFilter[i].isChecked = !tempFilter[i].isChecked
+                 }
+                 if (tempFilter[i].isChecked) {
+                     payloadList.push(tempFilter[i].name)
+                     isAnyFilterChecked = true
+                 }
+             }
+             setProjectFilter(tempFilter)
+ 
+             payload = buildFilterPayLoad(getUserLocal(), "", payloadList, "", "")
+ 
+         } else if (filterName == screenlabels.connector.connector_type) {
+ 
+             resetFilterState(screenlabels.connector.department)
+             resetFilterState(screenlabels.connector.projects)
+             resetFilterState(screenlabels.connector.connector_status)
+ 
+             tempFilter = [...connectorTypeFilter]
+             for (let i = 0; i < tempFilter.length; i++) {
+                 if (tempFilter[i].index == index) {
+                     tempFilter[i].isChecked = !tempFilter[i].isChecked
+                 }
+                 if (tempFilter[i].isChecked) {
+                     payloadList.push(tempFilter[i].payloadName)
+                     isAnyFilterChecked = true
+                 }
+             }
+             setConnectoprTypeFilter(tempFilter)
+             payload = buildFilterPayLoad(getUserLocal(), "", "", payloadList, "")
+             
+         } else if (filterName == screenlabels.connector.connector_status) {
 
-        if (filterName == screenlabels.connector.department) {
-
-            resetFilterState(screenlabels.connector.projects)
-            resetFilterState(screenlabels.connector.connector_type)
-            resetFilterState(screenlabels.dataset.connector_status)
-
-            tempFilter = [...departmentFilter]
-            for (let i = 0; i < tempFilter.length; i++) {
-                if (tempFilter[i].index == index) {
-                    tempFilter[i].isChecked = !tempFilter[i].isChecked
-                }
-                if (tempFilter[i].isChecked) {
-                    payloadList.push(tempFilter[i].name)
-                    isAnyFilterChecked = true
-                }
-            }
-            setDepartmentFilter(tempFilter)
-
-            payload = buildFilterPayLoad(getUserLocal(), payloadList, "", "", "")
-
-        } else if (filterName == screenlabels.connector.projects) {
-
-            resetFilterState(screenlabels.connector.department)
-            resetFilterState(screenlabels.connector.connector_type)
-            resetFilterState(screenlabels.connector.connector_status)
-
-            tempFilter = [...projectFilter]
-            for (let i = 0; i < tempFilter.length; i++) {
-                if (tempFilter[i].index == index) {
-                    tempFilter[i].isChecked = !tempFilter[i].isChecked
-                }
-                if (tempFilter[i].isChecked) {
-                    payloadList.push(tempFilter[i].payloadName)
-                    isAnyFilterChecked = true
-                }
-            }
-            setProjectFilter(tempFilter)
-
-            payload = buildFilterPayLoad(getUserLocal(), "", payloadList, "", "")
-
-        } else if (filterName == screenlabels.connector.connector_type) {
-
-            resetFilterState(screenlabels.connector.department)
-            resetFilterState(screenlabels.connector.projects)
-            resetFilterState(screenlabels.connector.connector_status)
-
-            tempFilter = [...connectorTypeFilter]
-            for (let i = 0; i < tempFilter.length; i++) {
-                if (tempFilter[i].index == index) {
-                    tempFilter[i].isChecked = !tempFilter[i].isChecked
-                }
-                if (tempFilter[i].isChecked) {
-                    payloadList.push(tempFilter[i].name)
-                    isAnyFilterChecked = true
-                }
-            }
-            setConnectoprTypeFilter(tempFilter)
-            payload = buildFilterPayLoad(getUserLocal(), "", "", payloadList, "")
-
-        } else if (filterName == screenlabels.connector.connector_status) {
-
-            resetFilterState(screenlabels.connector.department)
-            resetFilterState(screenlabels.connector.projects)
-            resetFilterState(screenlabels.connector.connector_type)
-
-            tempFilter = [...statusFilter]
-            for (let i = 0; i < tempFilter.length; i++) {
-                if (tempFilter[i].index == index) {
-                    tempFilter[i].isChecked = !tempFilter[i].isChecked
-                }
-                if (tempFilter[i].isChecked) {
-                    payloadList.push(tempFilter[i].payloadName)
-                    isAnyFilterChecked = true
-                }
-            }
-            setStatusFilter(tempFilter)
-
-            payload = buildFilterPayLoad(getUserLocal(), "", "", "", payloadList)
-        }
-        if (isAnyFilterChecked) {
-            getConnectorList(false)
-        } else {
-            clearAllFilters()
-        }
+             resetFilterState(screenlabels.connector.department)
+             resetFilterState(screenlabels.connector.projects)
+             resetFilterState(screenlabels.connector.connector_type)
+ 
+             tempFilter = [...statusFilter]
+             for (let i = 0; i < tempFilter.length; i++) {
+                 if (tempFilter[i].index == index) {
+                     tempFilter[i].isChecked = !tempFilter[i].isChecked
+                 }
+                 if (tempFilter[i].isChecked) {
+                     payloadList.push(tempFilter[i].payloadName)
+                     isAnyFilterChecked = true
+                 }
+             }
+             setStatusFilter(tempFilter)
+ 
+             payload = buildFilterPayLoad(getUserLocal(), "", "", "", payloadList)
+         }
+         if(isAnyFilterChecked){
+             getConnectorList(false)
+         } else{
+             clearAllFilters()
+         }
     }
 
     const resetFilterState = (filterName) => {
@@ -321,7 +326,8 @@ export default function ConnectorParticipant() {
     const buildFilterPayLoad = (userId, deptPayload, projectPayload, typePayload, statusPayload) => {
 
         let data = {}
-
+        setFilterState({})
+        
         data['user_id'] = userId
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         if (deptPayload !== "") {
@@ -330,12 +336,14 @@ export default function ConnectorParticipant() {
         if (projectPayload !== "") {
             data['project__in'] = projectPayload
         }
-        if (typePayload !== "") {
-            data['connector_type'] = typePayload
+        if(typePayload !== ""){
+            data['connector_type__in'] = typePayload
         }
         if (statusPayload !== "") {
             data['connector_status__in'] = statusPayload
         }
+
+        setFilterState(data)
         return data
     }
 
@@ -363,7 +371,8 @@ export default function ConnectorParticipant() {
             } else {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
-                } else {
+                } else{
+                    tempList[i].isDisplayed = true
                     searchFound = true
                 }
             }
@@ -384,7 +393,8 @@ export default function ConnectorParticipant() {
             } else {
                 if (!tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())) {
                     tempList[i].isDisplayed = false
-                } else {
+                } else{
+                    tempList[i].isDisplayed = true
                     searchFound = true
                 }
             }

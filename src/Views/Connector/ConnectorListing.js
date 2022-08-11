@@ -4,12 +4,14 @@ import Button from "@mui/material/Button";
 import ConnectorCard from '../../Components/Connectors/ConnectorCard';
 import NoConnectorCard from '../../Components/Connectors/NoConnectorCard';
 import ConfigureConnectorCard from '../../Components/Connectors/ConfigureConnectorCard';
+import { useHistory } from 'react-router-dom';
 
 export default function ConnectorListing(props) {
+  const history = useHistory()
   return (
     <div>
       <Row style={{"margin-left":"-20px","margin-top":"-20px"}}>
-        <ConfigureConnectorCard/>
+        <ConfigureConnectorCard addevent={() => history.push("/participant/connectors/add")}/>
         {
           (!props.connectorList || props.connectorList.length ==0) &&
           <NoConnectorCard/>
@@ -17,6 +19,7 @@ export default function ConnectorListing(props) {
         {
           props.connectorList && props.connectorList.length > 0 && props.connectorList.map((connector)=>(
             <ConnectorCard
+              margingtop={'supportcard supportcardmargintop20px'}
               connectorName={connector.connector_name}
               connectorType={connector.connector_type}
               projectName={connector['project_details']?connector['project_details']['project_name']:''}

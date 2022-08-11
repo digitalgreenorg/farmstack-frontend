@@ -83,6 +83,8 @@ export default function GuestUserDatasets() {
     const [tablekeys, settablekeys] = useState([])
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
+    const [filterState, setFilterState] = useState({})
+
     var payload = ""
     var adminUrl = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
     //var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
@@ -389,6 +391,9 @@ export default function GuestUserDatasets() {
         if (payload == "") {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         }
+        if (isLoadMore){
+            payload = {...filterState}
+        }
         HTTPService(
             "POST",
             // "GET",
@@ -407,6 +412,7 @@ export default function GuestUserDatasets() {
                     setisShowLoadMoreButton(false)
                     setShowLoadMoreAdmin(false)
                     setShowLoadMoreMember(false)
+                    setFilterState({})
                 } else {
                     setisShowLoadMoreButton(true)
                     if (value == "1") {
@@ -448,7 +454,7 @@ export default function GuestUserDatasets() {
     const buildFilterPayLoad = (createdAtRange, userId, geoPayload, agePayload, cropPayload, statusPayload) => {
         let data = {}
         if (createdAtRange !== "") {
-            data['created_at__range'] = createdAtRange
+            data['updated_at__range'] = createdAtRange
         }
         //data['user_id'] = userId
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
@@ -479,6 +485,7 @@ export default function GuestUserDatasets() {
         if (enableStatusFilter[0].isChecked || enableStatusFilter[1].isChecked) {
             data['is_enabled'] = enableStatusFilter[0].isChecked
         }
+        setFilterState(data)
         return data
     }
 
@@ -600,7 +607,7 @@ export default function GuestUserDatasets() {
             <>
             <div className="guestdiv">
                 <ViewDataSet 
-                downloadAttachment={(uri) => downloadAttachment(uri)} back={() => {setviewdata({});history.push('/guest/home')}} 
+                downloadAttachment={(uri) => downloadAttachment(uri)} back={() => {setviewdata({});history.push('/home')}} 
                 rowdata={viewdata} 
                 tabelkeys={tablekeys}>
                 </ViewDataSet>
