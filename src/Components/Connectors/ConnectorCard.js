@@ -120,7 +120,7 @@ export default function ConnectorCard(props) {
                     {isshowbutton ? 
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         <Button 
-                        // onClick={()=>props.viewCardDetails()} 
+                        onClick={()=>props.viewCardDetails()} 
                         variant="outlined" style={useStyles.btncolor}>
                             View Details
                         </Button>
