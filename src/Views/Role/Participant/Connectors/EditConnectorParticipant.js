@@ -56,7 +56,13 @@ const useStyles = {
 
 export default function EditConnectorParticipant() {
   const history = useHistory();
-  const [datasets, setdatasets] = React.useState([]);
+  const [datasets, setdatasets] = React.useState([
+    {
+      id: "94d40394-1c9b-4006-a41d-112a5ade08e2",
+      name: "sha1",
+      description: "sha1",
+    },
+  ]);
   const [department_variable, setdepartment_variable] = React.useState([]);
   const [project_variable, setproject_variable] = React.useState([]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -140,29 +146,29 @@ export default function EditConnectorParticipant() {
   };
 
   //   get dataset
-  const getDatasetDetails = async () => {
-    var id = getUserLocal();
-    console.log("user id", id);
-    setIsLoader(true);
+  //   const getDatasetDetails = async () => {
+  //     var id = getUserLocal();
+  //     console.log("user id", id);
+  //     setIsLoader(true);
 
-    await HTTPService(
-      "GET",
-      UrlConstants.base_url + UrlConstants.list_of_dataset,
-      { user_id: id },
-      false,
-      true
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log("get request for dataset", response.data);
-        setdatasets(response.data);
-        console.log("datasets", datasets);
-      })
-      .catch((e) => {
-        setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
-      });
-  };
+  //     await HTTPService(
+  //       "GET",
+  //       UrlConstants.base_url + UrlConstants.list_of_dataset,
+  //       { user_id: id },
+  //       false,
+  //       true
+  //     )
+  //       .then((response) => {
+  //         setIsLoader(false);
+  //         console.log("get request for dataset", response.data);
+  //         setdatasets(response.data);
+  //         console.log("datasets", datasets);
+  //       })
+  //       .catch((e) => {
+  //         setIsLoader(false);
+  //         // history.push(GetErrorHandlingRoute(e));
+  //       });
+  //   };
 
   //   get Department
   const getDepartmentDetails = async () => {
@@ -190,7 +196,7 @@ export default function EditConnectorParticipant() {
 
   useEffect(() => {
     getConnectorDetails();
-    getDatasetDetails();
+    // getDatasetDetails();
     getDepartmentDetails();
   }, []);
 
@@ -203,13 +209,13 @@ export default function EditConnectorParticipant() {
   const handleChangeDepartment = async (event) => {
     console.log(event.target.value);
     setdepartment(event.target.value);
-
+    setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
     setIsLoader(true);
 
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.project_list,
-      { department: department },
+      { department: event.target.value },
       false,
       true
     )
@@ -227,9 +233,50 @@ export default function EditConnectorParticipant() {
     console.log(event.target.value);
     setproject(event.target.value);
   };
-  const handleChangeConnector = (event) => {
-    console.log(event.target.value);
+  const handleChangeConnector = async (event) => {
+    console.log("connector", event.target.value);
     setconnector(event.target.value);
+    setDataset("");
+    var id = getUserLocal();
+    console.log("user id", id);
+    setIsLoader(true);
+
+    if (event.target.value == "Provider") {
+      await HTTPService(
+        "GET",
+        UrlConstants.base_url + UrlConstants.list_of_dataset,
+        { user_id: id },
+        false,
+        true
+      )
+        .then((response) => {
+          setIsLoader(false);
+          console.log("get request for dataset", response.data);
+          setdatasets(response.data);
+          console.log("datasets", datasets);
+        })
+        .catch((e) => {
+          setIsLoader(false);
+          // history.push(GetErrorHandlingRoute(e));
+        });
+    } else {
+      await HTTPService(
+        "GET",
+        UrlConstants.base_url + UrlConstants.list_of_dataset,
+        false,
+        true
+      )
+        .then((response) => {
+          setIsLoader(false);
+          console.log("get request for dataset", response.data);
+          setdatasets(response.data);
+          console.log("datasets", datasets);
+        })
+        .catch((e) => {
+          setIsLoader(false);
+          // history.push(GetErrorHandlingRoute(e));
+        });
+    }
   };
   const handleChangeConnectorName = (e) => {
     validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
@@ -347,8 +394,8 @@ export default function EditConnectorParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {connector &&
-                department &&
-                project &&
+              department &&
+              project &&
               connectorName &&
               Dataset &&
               docker &&
