@@ -67,7 +67,9 @@ export default function AddConnectorParticipant() {
   //   dataset values
   const [datasets, setdatasets] = React.useState([]);
   const [department_variable, setdepartment_variable] = React.useState([]);
-  const [project_variable, setproject_variable] = React.useState([]);
+  const [project_variable, setproject_variable] = React.useState([
+    { id: "3526bd39-4514-43fe-bbc4-ee0980bde252", project_name: "default" },
+  ]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   const [department, setdepartment] = React.useState("");
@@ -140,6 +142,8 @@ export default function AddConnectorParticipant() {
   useEffect(() => {
     getDatasetDetails();
     getDepartmentDetails();
+    setdepartment("e459f452-2b4b-4129-ba8b-1e1180c87888");
+    setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
   }, []);
 
   const handleFileChange = (file) => {
@@ -156,7 +160,7 @@ export default function AddConnectorParticipant() {
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.project_list,
-      { department: department },
+      { department: event.target.value },
       false,
       true
     )
@@ -289,8 +293,8 @@ export default function AddConnectorParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {connector &&
-              department &&
-              project &&
+              //   department &&
+              //   project &&
               connectorName &&
               Dataset &&
               docker &&

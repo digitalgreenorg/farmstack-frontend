@@ -207,23 +207,43 @@ export default function ConnectorForm(props) {
           </FormControl>
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="project">
-          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
-            <InputLabel id="demo-simple-select-required-label">
-              {screenlabels.connector_form.selectProject}
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
-              //   onOpen={props.handleOpen}
-              value={props.project}
-              onChange={props.handleChangeProject}>
-              {props.project_variable.map((project, index) => (
-                <MenuItem key={project.id} value={project.id}>
-                  {project.project_name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {props.department ? (
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+              <InputLabel id="demo-simple-select-required-label">
+                {screenlabels.connector_form.selectProject}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                //   onOpen={props.handleOpen}
+                value={props.project}
+                onChange={props.handleChangeProject}>
+                {props.project_variable.map((project, index) => (
+                  <MenuItem key={project.id} value={project.id}>
+                    {project.project_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          ) : (
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }} disabled>
+              <InputLabel id="demo-simple-select-required-label">
+                {screenlabels.connector_form.selectProject}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                //   onOpen={props.handleOpen}
+                value={props.project}
+                onChange={props.handleChangeProject}>
+                {props.project_variable.map((project, index) => (
+                  <MenuItem key={project.id} value={project.id}>
+                    {project.project_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
         </Col>
       </Row>
       <Row>
