@@ -5,6 +5,7 @@ import OtpCountDownTimer from './OtpCountDownTimer'
 import './SignupEmail.css'
 import './SignupOTP.css'
 import Footerimg from '../../Components/signup/Footerimg'
+import Footer from '../Footer/Footer'
 
 export default function SignupOtp(props) {
   return (
@@ -46,6 +47,10 @@ export default function SignupOtp(props) {
           />
         </div>
       </form>
+      <div style={{position:"absolute", top:"770px"}}>
+
+      <Footer />
+      </div>
     </div>
   )
 }

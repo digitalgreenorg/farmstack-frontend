@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom'
 import HandleSessionTimeout, { setTokenLocal, getTokenLocal } from '../../Utils/Common'
 import Loader from '../Loader/Loader'
 import {GetErrorHandlingRoute} from '../../Utils/Common'
+import Footer from '../Footer/Footer'
 
 export default function BrandingRightside(props) {
   const [file, setFile] = useState(null)
@@ -199,6 +200,10 @@ export default function BrandingRightside(props) {
             <circle cx={143.28} cy={120.282} r={5.728} />
           </g>
         </svg>
+      </div>
+      <div style={{position:"absolute", top:"1200px"}}>
+
+      <Footer />
       </div>
     </div>
   )
