@@ -3,6 +3,7 @@ import ConnectorForm from "../../../../Components/Connectors/ConnectorForm";
 import {
   validateInputField,
   handleUnwantedSpace,
+  getUserMapId,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -268,6 +269,10 @@ export default function AddConnectorParticipant() {
     bodyFormData.append("docker_image_url", docker);
     bodyFormData.append("project", project);
     bodyFormData.append("dataset", Dataset);
+    bodyFormData.append("user_map", getUserMapId())
+
+
+    console.log("Form Data" ,bodyFormData)
 
     await HTTPService(
       "POST",
