@@ -35,7 +35,7 @@ import Loader from "../../Components/Loader/Loader";
 import {GetErrorHandlingRoute} from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
 import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
-
+import Footer from "../../Components/Footer/Footer";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -743,6 +743,7 @@ export default function Login(props) {
           okAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
           cancelAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
         />
+        
       ) : (
         <>
           <h1 className="headertext">{screenlabels.login.signup_header}</h1>
@@ -751,160 +752,164 @@ export default function Login(props) {
           {/* <Footerimg /> */}
           {isemail && (
             <SignupEmail
-              screenlabels={screenlabels}
-              handleSubmit={handleSubmit}
-              handleEmail={handleEmail}
-              iserror={iserror}
-              email={email}
-              button={button}
-              errormessage = {errormessage}
-              isuserSuspenderror = {userSuspenderror}
+            screenlabels={screenlabels}
+            handleSubmit={handleSubmit}
+            handleEmail={handleEmail}
+            iserror={iserror}
+            email={email}
+            button={button}
+            errormessage = {errormessage}
+            isuserSuspenderror = {userSuspenderror}
             />
-          )}
+            
+            )}
           {isOtp && (
             <SignupOtp
-              handleSubmitOtp={handleSubmitOtp}
-              handleOtp={handleOtp}
-              isOtperror={isOtperror}
-              isuserSuspenderror={userSuspenderror}
-              otp={otp}
-              otpValue={otpValue}
-              setOtpValue={setOtpValue}
-              button={verifyOtpbutton}
-              hanleResendOTp={hanleResendOTp}
-              restartcounter={restartcounter}
-              disable={disable}
-              setDisable={setDisable}
-              remainingCounterTime = {remainingCounterTime}
-              setRemainingCounterTime = {setRemainingCounterTime}
-              errormessage = {errormessage}
+            handleSubmitOtp={handleSubmitOtp}
+            handleOtp={handleOtp}
+            isOtperror={isOtperror}
+            isuserSuspenderror={userSuspenderror}
+            otp={otp}
+            otpValue={otpValue}
+            setOtpValue={setOtpValue}
+            button={verifyOtpbutton}
+            hanleResendOTp={hanleResendOTp}
+            restartcounter={restartcounter}
+            disable={disable}
+            setDisable={setDisable}
+            remainingCounterTime = {remainingCounterTime}
+            setRemainingCounterTime = {setRemainingCounterTime}
+            errormessage = {errormessage}
             />
-          )}
+            )}
           {isProfile && isLoggedInUserAdmin() && (
             <ProfileRightside
-              handleprofileSubmit={handleprofileSubmit}
-              handleprofilfirstename={handleprofilfirstename}
-              handleprofilelastname={handleprofilelastname}
-              handleprofilenumber={handleprofilenumber}
-              ispropfilefirstnameerror={ispropfilefirstnameerror}
-              ispropfilelastnameerror={ispropfilelastnameerror}
-              ispropfileemailerror={ispropfileemailerror}
-              profilenextbutton={profilenextbutton}
-              profilefirstname={profilefirstname}
-              profilelastname={profilelastname}
-              profileemail={profileemail}
-              validemail={validemail}
-              finishLaterProfileScreen={finishLaterProfileScreen}
-              isaccesstoken={isaccesstoken}
+            handleprofileSubmit={handleprofileSubmit}
+            handleprofilfirstename={handleprofilfirstename}
+            handleprofilelastname={handleprofilelastname}
+            handleprofilenumber={handleprofilenumber}
+            ispropfilefirstnameerror={ispropfilefirstnameerror}
+            ispropfilelastnameerror={ispropfilelastnameerror}
+            ispropfileemailerror={ispropfileemailerror}
+            profilenextbutton={profilenextbutton}
+            profilefirstname={profilefirstname}
+            profilelastname={profilelastname}
+            profileemail={profileemail}
+            validemail={validemail}
+            finishLaterProfileScreen={finishLaterProfileScreen}
+            isaccesstoken={isaccesstoken}
             />
-          )}
+            )}
           {isProfile && isLoggedInUserParticipant() && (
             <ProfileRightsideParticipant
-              handleprofileSubmit={handleprofileSubmit}
-              handleprofilfirstename={handleprofilfirstename}
-              handleprofilelastname={handleprofilelastname}
-              handleprofilenumber={handleprofilenumber}
-              setProfileFirstName={setProfileFirstName}
-              setProfileLastName={setProfileLastName}
-              setValidnumber={setValidnumber}
-              ispropfilefirstnameerror={ispropfilefirstnameerror}
-              ispropfilelastnameerror={ispropfilelastnameerror}
-              ispropfileemailerror={ispropfileemailerror}
-              profilenextbutton={profilenextbutton}
-              profilefirstname={profilefirstname}
-              profilelastname={profilelastname}
-              profileemail={profileemail}
-              profilephone={validNumber}
-              validemail={validemail}
-              profileImageFile={profileimage}
-              setProfileImageFile={setProfileImageFile}
-              finishLaterProfileScreen={finishLaterProfileScreen}
-              setprofilenextbutton={setprofilenextbutton}
-              isaccesstoken={isaccesstoken}
-              userid={getUserLocal()}
+            handleprofileSubmit={handleprofileSubmit}
+            handleprofilfirstename={handleprofilfirstename}
+            handleprofilelastname={handleprofilelastname}
+            handleprofilenumber={handleprofilenumber}
+            setProfileFirstName={setProfileFirstName}
+            setProfileLastName={setProfileLastName}
+            setValidnumber={setValidnumber}
+            ispropfilefirstnameerror={ispropfilefirstnameerror}
+            ispropfilelastnameerror={ispropfilelastnameerror}
+            ispropfileemailerror={ispropfileemailerror}
+            profilenextbutton={profilenextbutton}
+            profilefirstname={profilefirstname}
+            profilelastname={profilelastname}
+            profileemail={profileemail}
+            profilephone={validNumber}
+            validemail={validemail}
+            profileImageFile={profileimage}
+            setProfileImageFile={setProfileImageFile}
+            finishLaterProfileScreen={finishLaterProfileScreen}
+            setprofilenextbutton={setprofilenextbutton}
+            isaccesstoken={isaccesstoken}
+            userid={getUserLocal()}
             />
-          )}
+            )}
           {isOrg ? (
             <OrgRightside
-              isOrgnameerror={isOrgnameerror}
-              setisOrgnameerror={setisOrgnameerror}
-              isOrgmailerror={isOrgmailerror}
-              setisOrgmailerror={setisOrgmailerror}
-              isOrgAddresserror={isOrgAddresserror}
-              setisOrgAddresserror={setisOrgAddresserror}
-              isOrgcityerror={isOrgcityerror}
-              setisOrgcityerror={setisOrgcityerror}
-              ispincodeerror={ispincodeerror}
-              setispincodeerror={setispincodeerror}
-              countryvalue={countryvalue}
-              setCountryValue={setcountryvalue}
-              // orgdesc={orgdesc}
-              // editorValue={editorValue}
-              validOrgNumber={validOrgNumber}
-              setValidOrgnumber={setValidOrgnumber}
-              orgfile={orgfile}
-              orgName={orgName}
-              setOrgName={setOrgName}
-              // orgEmail={orgEmail}
-              // setOrgEmail={setOrgEmail}
-              orgAddress={orgAddress}
-              setOrgAddress={setOrgAddress}
-              orgCity={orgCity}
-              setOrgCity={setOrgCity}
-              orgPincode={orgPincode}
-              setOrgPincode={setOrgPincode}
-              isExistingOrgEmail={isExistingOrgEmail}
-              // Orgname={Orgname}
-              Orgmail={orgmail}
-              setOrgMail={setOrgMail}
-              // OrgAddress={OrgAddress}
-              // Orgcity={Orgcity}
-              // pincode={pincode}
-              Orgnamebtn={Orgnamebtn}
-              Orgemailbtn={Orgemailbtn}
-              setOrgemailbtn={setOrgemailbtn}
-              Orgaddressbtn={Orgaddressbtn}
-              Orgcitybtn={Orgcitybtn}
-              Orgcountrybtn={Orgcountrybtn}
-              setOrgcountrybtn={setOrgcountrybtn}
-              Orgpincodebtn={Orgpincodebtn}
-              // Orgdesbtn={Orgdesbtn}
-              // handleOrgDesChange={handleOrgDesChange}
-              textEditorData={(value) => settextEditorValue(value)}
-              handleOrgSubmit={handleOrgSubmit}
-              handleOrgmail={handleOrgmail}
-              handleOrgnumber={handleOrgnumber}
-              handleOrgAddress={handleOrgAddress}
-              handleOrgcity={handleOrgcity}
-              countrychangeHandler={countrychangeHandler}
-              handlepincode={handlepincode}
-              handleorgFileChange={handleorgFileChange}
-              finishLaterOrgScreen={finishLaterOrgScreen}
-              isaccesstoken={isaccesstoken}
-              userid={getUserLocal()}
-              orgId={orgId}
-              setOrgId={setOrgIdState}
+            isOrgnameerror={isOrgnameerror}
+            setisOrgnameerror={setisOrgnameerror}
+            isOrgmailerror={isOrgmailerror}
+            setisOrgmailerror={setisOrgmailerror}
+            isOrgAddresserror={isOrgAddresserror}
+            setisOrgAddresserror={setisOrgAddresserror}
+            isOrgcityerror={isOrgcityerror}
+            setisOrgcityerror={setisOrgcityerror}
+            ispincodeerror={ispincodeerror}
+            setispincodeerror={setispincodeerror}
+            countryvalue={countryvalue}
+            setCountryValue={setcountryvalue}
+            // orgdesc={orgdesc}
+            // editorValue={editorValue}
+            validOrgNumber={validOrgNumber}
+            setValidOrgnumber={setValidOrgnumber}
+            orgfile={orgfile}
+            orgName={orgName}
+            setOrgName={setOrgName}
+            // orgEmail={orgEmail}
+            // setOrgEmail={setOrgEmail}
+            orgAddress={orgAddress}
+            setOrgAddress={setOrgAddress}
+            orgCity={orgCity}
+            setOrgCity={setOrgCity}
+            orgPincode={orgPincode}
+            setOrgPincode={setOrgPincode}
+            isExistingOrgEmail={isExistingOrgEmail}
+            // Orgname={Orgname}
+            Orgmail={orgmail}
+            setOrgMail={setOrgMail}
+            // OrgAddress={OrgAddress}
+            // Orgcity={Orgcity}
+            // pincode={pincode}
+            Orgnamebtn={Orgnamebtn}
+            Orgemailbtn={Orgemailbtn}
+            setOrgemailbtn={setOrgemailbtn}
+            Orgaddressbtn={Orgaddressbtn}
+            Orgcitybtn={Orgcitybtn}
+            Orgcountrybtn={Orgcountrybtn}
+            setOrgcountrybtn={setOrgcountrybtn}
+            Orgpincodebtn={Orgpincodebtn}
+            // Orgdesbtn={Orgdesbtn}
+            // handleOrgDesChange={handleOrgDesChange}
+            textEditorData={(value) => settextEditorValue(value)}
+            handleOrgSubmit={handleOrgSubmit}
+            handleOrgmail={handleOrgmail}
+            handleOrgnumber={handleOrgnumber}
+            handleOrgAddress={handleOrgAddress}
+            handleOrgcity={handleOrgcity}
+            countrychangeHandler={countrychangeHandler}
+            handlepincode={handlepincode}
+            handleorgFileChange={handleorgFileChange}
+            finishLaterOrgScreen={finishLaterOrgScreen}
+            isaccesstoken={isaccesstoken}
+            userid={getUserLocal()}
+            orgId={orgId}
+            setOrgId={setOrgIdState}
             />
-          ) : (
-            <></>
-          )}
+            ) : (
+              <></>
+              )}
           {isPolicies && isLoggedInUserAdmin() && (
             <PoliciesRightside
-              isaccesstoken={isaccesstoken}
-              showBrandingScreen={() => {
-                setisPolicies(false);
-                setisBranding(true);
-              }}
+            isaccesstoken={isaccesstoken}
+            showBrandingScreen={() => {
+              setisPolicies(false);
+              setisBranding(true);
+            }}
             />
-          )}
+            )}
           {isBranding && isLoggedInUserAdmin() && (
             <BrandingRightside
-              validemail={validemail}
-              isaccesstoken={isaccesstoken}
+            validemail={validemail}
+            isaccesstoken={isaccesstoken}
             />
-          )}
+            )}
+        
         </>
-      )}
+        
+        )}
     </div>
+    
   );
 }
