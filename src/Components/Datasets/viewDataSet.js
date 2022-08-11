@@ -49,7 +49,7 @@ export default function ViewDataSet(props) {
   }
 
   categoryStr += category["crop_data"] ? "Crop data" : ""
-  categoryStr += category["cultivation"] ? " | Cultivation data" : ""
+  categoryStr += category["cultivation_data"] ? " | Cultivation data" : ""
   categoryStr += category["practice_data"] ? " | Practice data" : ""
   categoryStr += category["farmer_profile"] ? " | Farmer profile" : ""
   categoryStr += category["land_records"] ? " | Land records" : ""
