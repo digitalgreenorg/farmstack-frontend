@@ -661,7 +661,7 @@ export default function ConnectorParticipant() {
                                 <span className="mainheading">{"Pairing Request Received (" + connectorDeatilsData.relation.length + ")"}</span>
                             </Row></> : <></>}
                             {connectorDeatilsData['connector_status'] == 'paired'? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                                <span className="mainheading">{"Pair with"}</span>
+                                <span className="mainheading">{"Paired with"}</span>
                             </Row></> : <></>}
                             {connectorDeatilsData.relation.length > 0 ? <>{connectorDeatilsData.relation.map((rowData, index) => (
                                 <PairingRequest approveReject={(id, status) => approveReject(id, status)} data={rowData}></PairingRequest>
