@@ -448,7 +448,7 @@ export default function GuestUserDatasets() {
     const buildFilterPayLoad = (createdAtRange, userId, geoPayload, agePayload, cropPayload, statusPayload) => {
         let data = {}
         if (createdAtRange !== "") {
-            data['created_at__range'] = createdAtRange
+            data['updated_at__range'] = createdAtRange
         }
         //data['user_id'] = userId
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"

@@ -34,7 +34,7 @@ export default function GuestUserHome(props) {
       <GuestUserBanner />
       <GuestUserDescription />
       <GuestUserDatasets />
-      <Footer />
+      <Footer disableHomeLink={true}/>
     </>
   );
 }

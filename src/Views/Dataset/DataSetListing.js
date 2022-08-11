@@ -78,11 +78,11 @@ export default function DataSetListing(props) {
               title={dataset.name}
               orgName={dataset.organization.name}
               ageOfData={
-                dataset.age_of_date === "" ? "N/A" : dataset.age_of_date
+                dataset.age_of_date ? dataset.age_of_date : "N/A"
               }
               publishedon={dataset.created_at}
               cropDetail={
-                dataset.crop_detail === "" ? "N/A" : dataset.crop_detail
+                dataset.crop_detail ? dataset.crop_detail : "N/A"
               }
               geography={dataset.geography}
               orgLogo={dataset.organization.logo}

@@ -252,21 +252,23 @@ const labels = {
       des: "Description",
       submit: "Save and Request Certificate",
     },
-    pair_with_component: {
-      pair_with: "Pair with",
-      connector_name: "Connector Name",
-      dataset_name: "Dataset Name",
-      department_name: "Department Name",
-      project_name: "Project Name",
-      certificate_status: "Certificate Status",
-      docker_image_url: "Docker Image url",
-      application_port: "Application Port",
-      hash_usage_policy: "Hash (usage Policy)",
-      participant_org_name: "Participant organisation name",
-      participant_org_website: "Participant organisation website",
-      send_pairing_request: "Send Pairing Request",
-      cancel: "Cancel",
-    },
+    pair_with_component:{
+      pair_with : "Pair with",
+      connector_name : "Connector Name",
+      connector_type : "Connector Type",
+      dataset_name : "Dataset Name",
+      department_name : "Department Name",  
+       project_name : "Project Name",
+       certificate_status:"Certificate Status",
+       docker_image_url : "Docker Image url",
+       application_port : "Application Port",
+       hash_usage_policy : "Hash (usage Policy)",
+      participant_org_name  : "Participant organisation name",
+      participant_org_website : "Participant organisation website",
+      send_pairing_request : "Send Pairing Request",
+      cancel : "Cancel",
+      select_provider_connector :"Select Provider Connector"
+    }
   },
 };
 export default labels;

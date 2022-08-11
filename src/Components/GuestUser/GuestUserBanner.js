@@ -33,14 +33,27 @@ export default function GuestUserBanner(props) {
       setIsLoader(true)
       HTTPService('GET', UrlConstant.base_url + UrlConstant.guest_organization_details, '', false, false)
       .then((response) => {
-        setIsLoader(false);
+        setIsLoader(false);/*
         if (response.data.organization.hero_image){
           let bannerImageUrl = UrlConstant.base_url_without_slash + response.data.organization.hero_image;
           setBannerImage(bannerImageUrl)
-        }
+        }*/
         if (response.data.organization.logo){
           let logoImageUrl = UrlConstant.base_url_without_slash + response.data.organization.logo;
           setLogoImage(logoImageUrl)
+        }
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        //history.push(GetErrorHandlingRoute(e));
+      });
+
+      HTTPService('GET', UrlConstant.base_url + UrlConstant.microsite_theme, '', false, false)
+      .then((response) => {
+        setIsLoader(false);
+        if (response.data.hero_image && response.data.hero_image.banner){
+          let bannerImageUrl = UrlConstant.base_url + response.data.hero_image.banner;
+          setBannerImage(bannerImageUrl)
         }
       })
       .catch((e) => {
