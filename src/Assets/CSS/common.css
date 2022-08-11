@@ -131,6 +131,7 @@ button.submitbtn:hover {
   font-size: 14px;
   color: #3d4a52;
 }
+
 .fontweight400andfontsize16pxandcolor3D4A52 {
   font-weight: 400;
   font-size: 16px;
@@ -415,6 +416,15 @@ button.submitbtnupdt {
 
 .buttonremovebackgroundonhover:hover {
   background: none !important;
+}
+
+/* common css for dashboard */
+.widht640andheight368pxandborderradius10andborder1pxsolidE4E4E4 {
+  width: 640px;
+  height: 368px;
+  border-radius: 10px;
+  /* border: 1px solid #d21a1a; */
+  border: 1px solid #E4E4E4;
 }
 
 .separatorline {
