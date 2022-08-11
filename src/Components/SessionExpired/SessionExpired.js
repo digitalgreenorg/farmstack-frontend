@@ -10,6 +10,7 @@ import { Nav } from '../Navbar/NavbarElements';
 import './../Navbar/Navbar.css'
 import LocalStorageConstants from '../../Constants/LocalStorageConstants';
 import { flushLocalstorage } from '../../Utils/Common';
+import Footer from '../Footer/Footer';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
@@ -26,7 +27,7 @@ export default function SessionExpired(props) {
     const history = useHistory();
     flushLocalstorage();
     return (
-        <>
+        <div className='center_keeping_conatiner'>
             <Nav id="datahubnavbar" style={{border: 'none'}}>
             {/* <Bars /> */}
                 <img
@@ -74,6 +75,7 @@ export default function SessionExpired(props) {
                     </Col>
                 </Row>
             </Container>
-        </>
+                <Footer/>
+        </div>
     );
 }

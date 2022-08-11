@@ -30,6 +30,7 @@ import { Autocomplete, MenuItem } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import Loader from '../Loader/Loader'
 import { borderBottom } from '@mui/system'
+import Footer from '../Footer/Footer'
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -766,6 +767,10 @@ export default function OrgRightside(props) {
             <circle cx={143.28} cy={120.282} r={5.728} />
           </g>
         </svg>
+      </div>
+      <div style={{position:"absolute", top:"1500px"}}>
+
+      <Footer />
       </div>
     </div>
   )

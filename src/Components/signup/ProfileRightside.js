@@ -7,6 +7,7 @@ import Footerimg from "../../Components/signup/Footerimg";
 
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
+import Footer from "../Footer/Footer";
 
 // import "react-phone-input-2/lib/material.css";
 
@@ -222,6 +223,10 @@ export default function ProfileRightside(props) {
             </Button>
           </div>
         </form>
+        <div style={{position:"absolute", top:"1000px"}}>
+
+      <Footer />
+      </div>
       </div>
     </>
   );

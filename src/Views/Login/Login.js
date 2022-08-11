@@ -737,18 +737,21 @@ export default function Login(props) {
     <div className="loginMainDiv">
       {isLoader ? <Loader /> : ""}
       <SignInHeader></SignInHeader>
-      {isDataSet && isLoggedInUserParticipant() ? (
+      {isDataSet && isLoggedInUserParticipant() ? (<div>
         <AddDatasetParticipant
           isaccesstoken={isaccesstoken}
           okAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
           cancelAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
-        />
-        
+          /><div style={{position:"absolute", top:"1800px"}}>
+        <Footer/>
+          </div>
+          </div>
       ) : (
         <div >
           <h1 className="headertext">{screenlabels.login.signup_header}</h1>
           <Leftintro />
           {isemail || isOtp ? <Rightintro /> : ""}
+          
           {/* <Footerimg /> */}
           {isemail && (
             <SignupEmail
@@ -905,10 +908,15 @@ export default function Login(props) {
             isaccesstoken={isaccesstoken}
             />
             )}
-        
+
+       
         </div>
         
         )}
+        <div style={{position:"absolute", bottom:0}}>
+
+         {/* <Footer/> */}
+        </div>
     </div>
     
   );
