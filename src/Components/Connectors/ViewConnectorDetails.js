@@ -14,6 +14,25 @@ import Avatar from '@mui/material/Avatar';
 import { FileUploader } from "react-drag-drop-files";
 import UploadDataset from "../../Components/Datasets/UploadDataset";
 import Button from "@mui/material/Button";
+import { Tooltip } from "@mui/material";
+const useStyles = {
+    datasetdescription: {
+        "margin-left": "0px",
+        "margin-right": "0px",
+        "font-family": "Open Sans",
+        "font-style": "normal",
+        "font-weight": "400",
+        "font-size": "14px",
+        "line-height": "19px",
+        overflow: "hidden",
+        "text-overflow": "ellipsis",
+        display: "-webkit-box",
+        "-webkit-line-clamp": "1",
+        "-webkit-box-orient": "vertical",
+        float: "left",
+        width: "300px",
+    },
+};
 export default function ViewConnectorDetails(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [isLoader, setIsLoader] = useState(false)
@@ -47,13 +66,21 @@ export default function ViewConnectorDetails(props) {
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                 <Col>
-                    <span className="thirdmainheading">{props.data['connector_name']}</span>
+                    <Tooltip title={props.data['connector_name']}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.data['connector_name']}</span>
+                        </Row>
+                    </Tooltip>
                 </Col>
                 <Col>
                     <span className="thirdmainheading">{props.data['connector_type']}</span>
                 </Col>
                 <Col>
-                    <span className="thirdmainheading">{props.data['dataset_details']['name']}</span>
+                    <Tooltip title={props.data['dataset_details']['name']}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.data['dataset_details']['name']}</span>
+                        </Row>
+                    </Tooltip>
                 </Col>
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
@@ -69,13 +96,46 @@ export default function ViewConnectorDetails(props) {
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                 <Col >
-                    <span className="thirdmainheading">{props.data['connector_status']}</span>
+                    <span>
+                        {props.data['connector_status'] == 'install certificate' ? <img
+                            src={require('../../Assets/Img/dwonloadblack.svg')}
+                            alt="new"
+                        /> : ''}
+                        {props.data['connector_status'] == 'paired' ? <img
+                            src={require('../../Assets/Img/status_paired_icon.svg')}
+                            alt="new"
+                        /> : ''}
+                        {props.data['connector_status'] == 'unpaired' ? <img
+                            src={require('../../Assets/Img/status_unpaired_icon.svg')}
+                            alt="new"
+                        /> : ''}
+                        {props.data['connector_status'] == 'rejected' ? <img
+                            src={require('../../Assets/Img/status_rejected_icon.svg')}
+                            alt="new"
+                        /> : ''}
+                        {props.data['connector_status'] == 'awaiting for approval' ? <img
+                            src={require('../../Assets/Img/status_awaiting_approval_icon.svg')}
+                            alt="new"
+                        /> : ''}
+                        {props.data['connector_status'] == 'pairing request received' ? <img
+                            src={require('../../Assets/Img/status_pairing_request_received_icon.svg')}
+                            alt="new"
+                        /> : ''}
+                    </span> <span className="thirdmainheading">{props.data['connector_status']}</span>
                 </Col>
                 <Col>
-                    <span className="thirdmainheading">{props.data['project_details']['project_name']}</span>
+                    <Tooltip title={props.data['project_details']['project_name']}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.data['project_details']['project_name']}</span>
+                        </Row>
+                    </Tooltip>
                 </Col>
                 <Col>
-                    <span className="thirdmainheading">{props.data['department_details']['department_name']}</span>
+                    <Tooltip title={props.data['department_details']['department_name']}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.data['department_details']['department_name']}</span>
+                        </Row>
+                    </Tooltip>
                 </Col>
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
@@ -91,13 +151,21 @@ export default function ViewConnectorDetails(props) {
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                 <Col>
-                    <span className="thirdmainheading">{props.data['docker_image_url']}</span>
+                <Tooltip title={props.data['docker_image_url']}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.data['docker_image_url']}</span>
+                        </Row>
+                    </Tooltip>
                 </Col>
                 <Col>
                     <span className="thirdmainheading">{props.data['application_port']}</span>
                 </Col>
-                <Col style={{ "width": "30px", "height": "37px", "line-height": "19px", "word-break": "break-word" }}>
-                    <span className="thirdmainheading">{props.data['usage_policy']}</span>
+                <Col>
+                    <Tooltip title={props.data['usage_policy']}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.data['usage_policy']}</span>
+                        </Row>
+                    </Tooltip>
                 </Col>
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
@@ -105,7 +173,12 @@ export default function ViewConnectorDetails(props) {
                     <span className="secondmainheading">{"Description"}</span>
                 </Col>
                 {props.data['connector_status'] != 'install certificate' ? <><Col>
-                    <span className="secondmainheading">{"Certificate Status"}</span>
+                    <span className="secondmainheading">{"Certificate Status"}{" "}
+              <img
+                style={{ marginLeft: "8px" }}
+                src={require('../../Assets/Img/donestatusicon.svg')}
+                alt="done"
+              /></span>
                 </Col>
                     <Col>
                         <span className="thirdmainheading">{""}</span>
@@ -113,16 +186,24 @@ export default function ViewConnectorDetails(props) {
             </Row>
             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                 <Col>
-                    <span className="thirdmainheading">{props.data['connector_description']}</span>
+                    <Tooltip title={props.data['connector_description']}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.data['connector_description'] ? props.data['connector_description'] : 'N/A'}</span>
+                        </Row>
+                    </Tooltip>
                 </Col>
                 {props.data['connector_status'] != 'install certificate' ? <><Col>
-                    <span className="thirdmainheading">{props.data['certificate']}</span>
+                    <Tooltip title={props.data['certificate']}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.data['certificate']}</span>
+                        </Row>
+                    </Tooltip>
                 </Col>
                     <Col>
                         <span className="thirdmainheading">{""}</span>
                     </Col></> : <></>}
             </Row>
-            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'unpaired' || props.data['connector_status'] == 'rejected') ? <><Row>
+            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'unpaired' || props.data['connector_status'] == 'rejected') ? <><Row className="marginrowtop8px"></Row><Row>
                 <Col xs={12} sm={12} md={6} lg={3} >
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} >
@@ -157,13 +238,21 @@ export default function ViewConnectorDetails(props) {
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                     <Col>
-                        <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['connector_name'] : ""}</span>
+                    <Tooltip title={props.providerdata['connector_details'] ? props.providerdata['connector_details']['connector_name'] : ""}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['connector_name'] : ""}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                     <Col>
-                        <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['connector_type'] : ""}</span>
+                    <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['connector_type'] : ""}</span>
                     </Col>
                     <Col>
-                        <span className="thirdmainheading">{props.providerdata['dataset_details'] ? props.providerdata['dataset_details']['name'] : ""}</span>
+                    <Tooltip title={props.providerdata['dataset_details'] ? props.providerdata['dataset_details']['name'] : ""}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['dataset_details'] ? props.providerdata['dataset_details']['name'] : ""}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
@@ -174,18 +263,35 @@ export default function ViewConnectorDetails(props) {
                         <span className="secondmainheading">{"Project Name"}</span>
                     </Col>
                     <Col>
-                        <span className="secondmainheading">{"Certificate Status"}</span>
+                        <span className="secondmainheading">{"Certificate Status"}{" "}
+              <img
+                style={{ marginLeft: "8px" }}
+                src={require('../../Assets/Img/donestatusicon.svg')}
+                alt="done"
+              /></span>
                     </Col>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                     <Col>
-                        <span className="thirdmainheading">{props.providerdata['department_details'] ? props.providerdata['department_details']['department_name'] : ""}</span>
+                    <Tooltip title={props.providerdata['department_details'] ? props.providerdata['department_details']['department_name'] : ""}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['department_details'] ? props.providerdata['department_details']['department_name'] : ""}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                     <Col>
-                        <span className="thirdmainheading">{props.providerdata['project_details'] ? props.providerdata['project_details']['project_name'] : ""}</span>
+                    <Tooltip title={props.providerdata['project_details'] ? props.providerdata['project_details']['project_name'] : ""}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['project_details'] ? props.providerdata['project_details']['project_name'] : ""}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                     <Col >
-                        <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['certificate'] : ""}</span>
+                    <Tooltip title={props.providerdata['connector_details'] ? props.providerdata['connector_details']['certificate'] : ""}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['certificate'] : ""}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
@@ -202,13 +308,25 @@ export default function ViewConnectorDetails(props) {
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                     <Col>
-                        <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['docker_image_url'] : ""}</span>
+                    <Tooltip title={props.providerdata['connector_details'] ? props.providerdata['connector_details']['docker_image_url'] : ""}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['docker_image_url'] : ""}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                     <Col>
-                        <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['application_port'] : ""}</span>
+                    <Tooltip title={props.providerdata['connector_details'] ? props.providerdata['connector_details']['application_port'] : ""}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['application_port'] : ""}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                     <Col style={{ "width": "30px", "height": "37px", "line-height": "19px", "word-break": "break-word" }}>
-                        <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['usage_policy'] : ""}</span>
+                    <Tooltip title={props.providerdata['connector_details'] ? props.providerdata['connector_details']['usage_policy'] : ""}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['connector_details'] ? props.providerdata['connector_details']['usage_policy'] : ""}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
@@ -225,10 +343,18 @@ export default function ViewConnectorDetails(props) {
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                     <Col>
-                        <span className="thirdmainheading">{props.providerdata['organization_details'] ? props.providerdata['organization_details']['name'] : ''}</span>
+                    <Tooltip title={props.providerdata['organization_details'] ? props.providerdata['organization_details']['name'] : ''}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['organization_details'] ? props.providerdata['organization_details']['name'] : ''}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                     <Col>
-                        <span className="thirdmainheading">{props.providerdata['organization_details'] ? props.providerdata['organization_details']['website'] : ''}</span>
+                    <Tooltip title={props.providerdata['organization_details'] ? props.providerdata['organization_details']['website'] : ''}>
+                        <Row style={useStyles.datasetdescription}>
+                            <span className="thirdmainheading">{props.providerdata['organization_details'] ? props.providerdata['organization_details']['website'] : ''}</span>
+                        </Row>
+                    </Tooltip>
                     </Col>
                     <Col>
                         <span className="thirdmainheading">{""}</span>
@@ -239,7 +365,7 @@ export default function ViewConnectorDetails(props) {
                 <Col xs={12} sm={12} md={6} lg={3} >
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} >
-                    <Button onClick={()=>props.approveReject(props.providerdata['id'],'unpaired')} variant="outlined" className="submitbtn">
+                    <Button onClick={() => props.approveReject(props.providerdata['id'], 'unpaired')} variant="outlined" className="submitbtn">
                         Unpair
                                 </Button>
                 </Col>

@@ -23,6 +23,25 @@ import PairingRequest from "../../../Components/PairingRequest/PairingRequest";
 import Success from '../../../Components/Success/Success'
 import Delete from '../../../Components/Delete/Delete'
 import UrlConstants from "../../../Constants/UrlConstants";
+import { Tooltip } from "@mui/material";
+const useStyles = {
+    datasetdescription: {
+        "margin-left": "0px",
+        "margin-right": "0px",
+        "font-family": "Open Sans",
+        "font-style": "normal",
+        "font-weight": "400",
+        "font-size": "14px",
+        "line-height": "19px",
+        overflow: "hidden",
+        "text-overflow": "ellipsis",
+        display: "-webkit-box",
+        "-webkit-line-clamp": "1",
+        "-webkit-box-orient": "vertical",
+        float: "left",
+        width: "300px",
+    },
+};
 export default function ConnectorParticipant() {
 
     const [screenlabels, setscreenlabels] = useState(labels['en']);
@@ -556,38 +575,38 @@ export default function ConnectorParticipant() {
         console.log("status", status)
         setConsumerID(id)
         setConsumerStatus(status)
-        if(status=='paired'){
+        if (status == 'paired') {
             changeView('ispair')
         }
-        if(status=='rejected'){
+        if (status == 'rejected') {
             changeView('isReject')
         }
-        if(status=='unpaired'){
+        if (status == 'unpaired') {
             changeView('isUnpair')
         }
-      
+
     }
     const approveOrRejectConnector = () => {
         var bodyFormData = new FormData();
-        bodyFormData.append('connector_pair_status',ConsumerStatus);
+        bodyFormData.append('connector_pair_status', ConsumerStatus);
         setIsLoader(true);
         HTTPService(
             "PUT",
-            UrlConstants.base_url + UrlConstants.consumer_paring_request+ConsumerID+'/',
+            UrlConstants.base_url + UrlConstants.consumer_paring_request + ConsumerID + '/',
             bodyFormData,
             true,
             true
         )
             .then((response) => {
                 setIsLoader(false);
-                if(ConsumerStatus=='paired'){
+                if (ConsumerStatus == 'paired') {
                     changeView('ispairSuccess')
                 }
-                if(ConsumerStatus=='rejected'){
-                    changeView('isRejectSuccess') 
+                if (ConsumerStatus == 'rejected') {
+                    changeView('isRejectSuccess')
                 }
-                if(ConsumerStatus=='unpaired'){
-                    changeView('isUnpairSuccess') 
+                if (ConsumerStatus == 'unpaired') {
+                    changeView('isUnpairSuccess')
                 }
             }).catch((e) => {
                 setIsLoader(false);
@@ -615,30 +634,31 @@ export default function ConnectorParticipant() {
         <>
             {isLoader ? <Loader /> : ''}
             {screenView.isConnectorViwDetails ?
-                <><ViewConnectorDetails 
-                data={connectorDeatilsData} 
-                providerdata={providerViewConnectorDetails} 
-                back={() => changeView('isConnectorList')}
-                edit={() => {history.push('/participant/connectors/edit/' + connectorDeatilsData['id'])}}
-                delete={()=>changeView('isDelete')}
-                cancel={()=>changeView('isConnectorList')}
-                approveReject={(id, status) => approveReject(id, status)}
+                <><ViewConnectorDetails
+                    data={connectorDeatilsData}
+                    providerdata={providerViewConnectorDetails}
+                    back={() => changeView('isConnectorList')}
+                    edit={() => { history.push('/participant/connectors/edit/' + connectorDeatilsData['id']) }}
+                    delete={() => changeView('isDelete')}
+                    cancel={() => changeView('isConnectorList')}
+                    approveReject={(id, status) => approveReject(id, status)}
                 >
                 </ViewConnectorDetails>
-                    {connectorDeatilsData['connector_type'] == 'Provider'?
-                        <> <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                            <span className="mainheading">{"Pairing Request Received (" + connectorDeatilsData.relation.length + ")"}</span>
-                        </Row>
+                    {connectorDeatilsData['connector_type'] == 'Provider' ?
+                        <>
+                            {connectorDeatilsData['connector_status'] != 'install certificate' && connectorDeatilsData.relation.length > 0 ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+                                <span className="mainheading">{"Pairing Request Received (" + connectorDeatilsData.relation.length + ")"}</span>
+                            </Row></> : <></>}
                             {connectorDeatilsData.relation.length > 0 ? <>{connectorDeatilsData.relation.map((rowData, index) => (
                                 <PairingRequest approveReject={(id, status) => approveReject(id, status)} data={rowData}></PairingRequest>
                             ))}</> : <></>}
                         </> : <></>}
-                        {connectorDeatilsData['connector_type'] == 'Provider'&&  (connectorDeatilsData['connector_status'] == 'unpaired')? <><Row>
+                    {connectorDeatilsData['connector_type'] == 'Provider' && (connectorDeatilsData['connector_status'] == 'unpaired') ? <><Row>
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => {history.push('/participant/connectors/edit/' + connectorDeatilsData['id'])}} variant="outlined" className="submitbtn">
-                            Update Connector
+                            <Button onClick={() => { history.push('/participant/connectors/edit/' + connectorDeatilsData['id']) }} variant="outlined" className="submitbtn">
+                                Update Connector
                                 </Button>
                         </Col>
                     </Row>
@@ -646,8 +666,8 @@ export default function ConnectorParticipant() {
                             <Col xs={12} sm={12} md={6} lg={3} >
                             </Col>
                             <Col xs={12} sm={12} md={6} lg={6} >
-                                <Button onClick={() =>changeView('isDelete') } style={{"margin-top":"0px"}} variant="outlined" className="editbtn">
-                                Delete Connector
+                                <Button onClick={() => changeView('isDelete')} style={{ "margin-top": "0px" }} variant="outlined" className="editbtn">
+                                    Delete Connector
                          </Button>
                             </Col>
                         </Row><Row className="marginrowtop8px"></Row></> : <></>}
@@ -691,13 +711,22 @@ export default function ConnectorParticipant() {
                         </Row>
                             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                                 <Col>
-                                    <span className="thirdmainheading">{providerConnectorDetails['connector_name']}</span>
+                                    <Tooltip title={providerConnectorDetails['connector_name']}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['connector_name']}</span>
+                                        </Row>
+                                    </Tooltip>
                                 </Col>
                                 <Col>
+
                                     <span className="thirdmainheading">{providerConnectorDetails['connector_type']}</span>
                                 </Col>
                                 <Col>
-                                    <span className="thirdmainheading">{providerConnectorDetails['dataset_details'] ? providerConnectorDetails['dataset_details']['name'] : ''}</span>
+                                    <Tooltip title={providerConnectorDetails['dataset_details'] ? providerConnectorDetails['dataset_details']['name'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['dataset_details'] ? providerConnectorDetails['dataset_details']['name'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
                                 </Col>
                             </Row>
                             <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
@@ -713,13 +742,25 @@ export default function ConnectorParticipant() {
                             </Row>
                             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                                 <Col>
-                                    <span className="thirdmainheading">{providerConnectorDetails['department_details'] ? providerConnectorDetails['department_details']['department_name'] : ''}</span>
+                                    <Tooltip title={providerConnectorDetails['department_details'] ? providerConnectorDetails['department_details']['department_name'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['department_details'] ? providerConnectorDetails['department_details']['department_name'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
                                 </Col>
                                 <Col>
-                                    <span className="thirdmainheading">{providerConnectorDetails['project_details'] ? providerConnectorDetails['project_details']['project_name'] : ''}</span>
+                                    <Tooltip title={providerConnectorDetails['project_details'] ? providerConnectorDetails['project_details']['project_name'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['project_details'] ? providerConnectorDetails['project_details']['project_name'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
                                 </Col>
                                 <Col>
-                                    <span className="thirdmainheading">{providerConnectorDetails['certificate']}</span>
+                                    <Tooltip title={providerConnectorDetails['certificate']}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['certificate']}</span>
+                                        </Row>
+                                    </Tooltip>
                                 </Col>
                             </Row>
                             <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
@@ -736,13 +777,21 @@ export default function ConnectorParticipant() {
                             </Row>
                             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                                 <Col>
-                                    <span className="thirdmainheading">{providerConnectorDetails['docker_image_url']}</span>
+                                    <Tooltip title={providerConnectorDetails['docker_image_url']}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['docker_image_url']}</span>
+                                        </Row>
+                                    </Tooltip>
                                 </Col>
                                 <Col>
                                     <span className="thirdmainheading">{providerConnectorDetails['application_port']}</span>
                                 </Col>
                                 <Col style={{ "width": "30px", "height": "37px", "line-height": "19px", "word-break": "break-word" }}>
-                                    <span className="thirdmainheading">{providerConnectorDetails['usage_policy']}</span>
+                                    <Tooltip title={providerConnectorDetails['usage_policy']}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['usage_policy']}</span>
+                                        </Row>
+                                    </Tooltip>
                                 </Col>
                             </Row>
                             <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
@@ -759,10 +808,18 @@ export default function ConnectorParticipant() {
                             </Row>
                             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                                 <Col>
-                                    <span className="thirdmainheading">{providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['name'] : ''}</span>
+                                    <Tooltip title={providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['name'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['name'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
                                 </Col>
                                 <Col>
-                                    <span className="thirdmainheading">{providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['website'] : ''}</span>
+                                    <Tooltip title={providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['website'] : ''}>
+                                        <Row style={useStyles.datasetdescription}>
+                                            <span className="thirdmainheading">{providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['website'] : ''}</span>
+                                        </Row>
+                                    </Tooltip>
                                 </Col>
                                 <Col>
                                     <span className="thirdmainheading">{""}</span>
@@ -859,7 +916,7 @@ export default function ConnectorParticipant() {
                 imagename={'delete'}
                 firstbtntext={"Delete"}
                 secondbtntext={"Cancel"}
-                deleteEvent={() => {deleteConnector() }}
+                deleteEvent={() => { deleteConnector() }}
                 cancelEvent={() => { changeView('isConnectorList') }}
                 heading={"Delete Connector"}
                 imageText={"Are you sure you want to delete connector?"}
@@ -874,14 +931,14 @@ export default function ConnectorParticipant() {
                 <Success okevent={() => { changeView('isConnectorList'); }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Installation Done"} imageText={"Success!"} msg={"The certificate has been installed successfully. The connector is ready for pairing and data exchange. "}></Success> : <></>
             }
             {screenView.isPairingRequestSentSuccess ?
-                <Success okevent={() => { changeView('isConnectorList'); }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Pairing request sent"} imageText={"Success!"} msg={"Your pairing request has been sent to the " + organisationName + " we will update you once any action is taken by them."}></Success> : <></>
+                <Success okevent={() => { changeView('isConnectorList'); getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Pairing request sent"} imageText={"Success!"} msg={"Your pairing request has been sent to the " + organisationName + " we will update you once any action is taken by them."}></Success> : <></>
             }
             {screenView.isUnpair ? <Delete
                 route={"login"}
                 imagename={'unpair'}
                 firstbtntext={"Unpair"}
                 secondbtntext={"Cancel"}
-                deleteEvent={() => { approveOrRejectConnector()}}
+                deleteEvent={() => { approveOrRejectConnector() }}
                 cancelEvent={() => { changeView('isConnectorList') }}
                 heading={"Unpair Connector"}
                 imageText={"Are you sure you want to unpair connector?"}
@@ -897,7 +954,7 @@ export default function ConnectorParticipant() {
                 imagename={'pair'}
                 firstbtntext={"Approve"}
                 secondbtntext={"Cancel"}
-                deleteEvent={() => {approveOrRejectConnector()}}
+                deleteEvent={() => { approveOrRejectConnector() }}
                 cancelEvent={() => { changeView('isConnectorList') }}
                 heading={"Approve Connector Request"}
                 imageText={"Are you sure you want to approve the connector?"}
@@ -913,7 +970,7 @@ export default function ConnectorParticipant() {
                 imagename={'pair'}
                 firstbtntext={"Reject"}
                 secondbtntext={"Cancel"}
-                deleteEvent={() => {approveOrRejectConnector() }}
+                deleteEvent={() => { approveOrRejectConnector() }}
                 cancelEvent={() => { changeView('isConnectorList') }}
                 heading={"Reject Connector Request"}
                 imageText={"Are you sure you want to reject the connector?"}

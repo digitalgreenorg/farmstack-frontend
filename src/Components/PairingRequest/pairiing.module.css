@@ -1,7 +1,7 @@
 .mainPairRequest {
     border: 1px solid #d8af28;
     border-radius: 10px;
-    margin: 20px 70px;
+    margin: 20px 90px;
     padding-bottom: 50px;
   }
   .mainPairRequest:hover {
@@ -82,4 +82,7 @@
   }
   .approvebutton:hover {
     background-color: #ab8405 !important;
+  }
+  .marginbottom50px {
+    margin-bottom: 50px;
   }
