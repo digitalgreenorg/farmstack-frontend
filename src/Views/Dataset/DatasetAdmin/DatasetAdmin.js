@@ -744,7 +744,7 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.enabled)
         // resetEnabledStatusFilter()
 
-        setFilterState({})
+        // setFilterState({})
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         if(isMemberTab){
             getMemberDatasets(false)
