@@ -223,7 +223,7 @@ export default function ViewConnectorDetails(props) {
                 </Row><Row className="marginrowtop8px"></Row></> : <></>}
             <Row className="supportViewDeatilsSecondRow"></Row>
             {(props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'awaiting for approval' || props.data['connector_status'] == 'paired')) ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                <span className="mainheading">{props.data['connector_status'] == 'awaiting for approval' ? "Pending at" : "Pair with"}</span>
+                <span className="mainheading">{props.data['connector_status'] == 'awaiting for approval' ? "Pending with" : "Paired with"}</span>
             </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
                     <Col>
