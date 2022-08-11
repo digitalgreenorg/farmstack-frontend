@@ -83,6 +83,8 @@ export default function GuestUserDatasets() {
     const [tablekeys, settablekeys] = useState([])
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
+    const [filterState, setFilterState] = useState({})
+
     var payload = ""
     var adminUrl = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
     //var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
@@ -389,6 +391,9 @@ export default function GuestUserDatasets() {
         if (payload == "") {
             payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         }
+        if (isLoadMore){
+            payload = {...filterState}
+        }
         HTTPService(
             "POST",
             // "GET",
@@ -407,6 +412,7 @@ export default function GuestUserDatasets() {
                     setisShowLoadMoreButton(false)
                     setShowLoadMoreAdmin(false)
                     setShowLoadMoreMember(false)
+                    setFilterState({})
                 } else {
                     setisShowLoadMoreButton(true)
                     if (value == "1") {
@@ -479,6 +485,7 @@ export default function GuestUserDatasets() {
         if (enableStatusFilter[0].isChecked || enableStatusFilter[1].isChecked) {
             data['is_enabled'] = enableStatusFilter[0].isChecked
         }
+        setFilterState(data)
         return data
     }
 
