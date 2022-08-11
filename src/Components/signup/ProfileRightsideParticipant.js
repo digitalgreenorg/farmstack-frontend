@@ -15,6 +15,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import { useHistory } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
+import Footer from "../Footer/Footer";
 
 const fileTypes = ['JPEG', 'PNG', 'jpg']
 
@@ -268,6 +269,10 @@ export default function ProfileRightsideParticipant(props) {
             </Button>
           </div>
         </form>
+        <div style={{position:"absolute", top:"770px"}}>
+
+      <Footer />
+      </div>
       </div>
     </>
   );

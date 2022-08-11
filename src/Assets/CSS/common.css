@@ -6,9 +6,15 @@
 body {
   font-family: "Open Sans";
   text-align: center !important;
-  width: 1440px;
+  width: 100%;
   height: 100%;
   background-color: #ffffff !important;
+}
+.center_keeping_conatiner{
+  /* border: 1px solid red; */
+  width: 1440px;
+  /* margin-left: 2 */
+margin: 0 auto;
 }
 button.disbalesubmitbtn {
   text-transform: capitalize;

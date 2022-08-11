@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import './SignupEmail.css'
 import Footerimg from '../../Components/signup/Footerimg'
+import Footer from '../Footer/Footer'
 // import validator from "validator";
 
 export default function SignupEmail(props) {
@@ -61,6 +62,10 @@ export default function SignupEmail(props) {
           )}
         </div>
       </form>
+      <div style={{position:"absolute", top:"770px"}}>
+
+      <Footer />
+      </div>
     </div>
   )
 }
