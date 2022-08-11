@@ -22,6 +22,7 @@ import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
 import { getTokenLocal,isLoggedInUserAdmin } from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
+import Footer from "../Components/Footer/Footer";
 import Dashboard from "../Views/Dashboard/Dashboard";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
@@ -30,7 +31,7 @@ function Datahub(props) {
   return (
     <>
       {(getTokenLocal() && isLoggedInUserAdmin())? (
-        <>
+        <div className="center_keeping_conatiner">
           <Navbar />
           <Switch>
             <Route
@@ -85,7 +86,8 @@ function Datahub(props) {
             {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
             <Route exact path="/datahub/datasets" component={DatasetAdmin}/>
           </Switch>
-        </>
+          <Footer/>
+        </div>
       ) : (
         props.history.push("/login")
       )}

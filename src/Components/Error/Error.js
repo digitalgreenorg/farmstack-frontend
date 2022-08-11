@@ -31,7 +31,7 @@ export default function Error(props) {
     }, []);
 
     return (
-        <>
+        <div classname="center_keeping_conatiner" style={{ width:"1440px", margin:"0 auto"}}>
             <Nav id="datahubnavbar" style={{border: 'none'}}>
             {/* <Bars /> */}
                 <img
@@ -75,6 +75,6 @@ export default function Error(props) {
                 </Row>
             </Container>
             <Footer/>
-        </>
+        </div>
     );
 }

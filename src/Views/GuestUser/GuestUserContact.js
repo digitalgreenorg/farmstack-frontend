@@ -167,7 +167,7 @@ export default function GuestUserContact(props) {
   },[]);
 
   return (
-    <>
+    <div className="center_keeping_conatiner">
       {isLoader ? <Loader /> : ""}
       <GuestUserNavBar />
       <GuestUserBanner />
@@ -201,6 +201,6 @@ export default function GuestUserContact(props) {
       )}
 
       <Footer disableContactLink={true}/>
-    </>
+    </div>
   );
 }

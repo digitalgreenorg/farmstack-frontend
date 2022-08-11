@@ -76,12 +76,12 @@ export default function GuestUserLegal(props){
 
       },[]);
     return(
-        <>
+        <div className="center_keeping_conatiner">
         {isLoader ? <Loader /> : ""}
         <GuestUserNavBar />
         <GuestUserBanner />
         <GuestUserLegalPage legalData={legalData}/>
         <Footer disableLegalLink={true}/>
-        </>
+        </div>
     );
 }

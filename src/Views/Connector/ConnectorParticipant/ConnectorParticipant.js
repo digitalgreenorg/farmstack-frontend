@@ -657,8 +657,11 @@ export default function ConnectorParticipant() {
                 </ViewConnectorDetails>
                     {connectorDeatilsData['connector_type'] == 'Provider' ?
                         <>
-                            {connectorDeatilsData['connector_status'] != 'install certificate' && connectorDeatilsData.relation.length > 0 ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+                            {(connectorDeatilsData['connector_status'] != 'paired') && connectorDeatilsData.relation.length > 0 ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
                                 <span className="mainheading">{"Pairing Request Received (" + connectorDeatilsData.relation.length + ")"}</span>
+                            </Row></> : <></>}
+                            {connectorDeatilsData['connector_status'] == 'paired'? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+                                <span className="mainheading">{"Pair with"}</span>
                             </Row></> : <></>}
                             {connectorDeatilsData.relation.length > 0 ? <>{connectorDeatilsData.relation.map((rowData, index) => (
                                 <PairingRequest approveReject={(id, status) => approveReject(id, status)} data={rowData}></PairingRequest>
@@ -1030,7 +1033,7 @@ export default function ConnectorParticipant() {
                                     <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
                                         <ConnectorListing
                                             connectorList={connectorList}
-                                            // getConnectorList={getConnectorList}
+                                            getConnectorList={getConnectorList}
                                             showLoadMore={showLoadMore} //to be changed
                                             getImageName={getConnectorStatusImageName}
                                             viewCardDetails={(id) => viewCardDetails(id)}
