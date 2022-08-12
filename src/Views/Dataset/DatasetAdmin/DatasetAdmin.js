@@ -475,6 +475,8 @@ export default function DatasetAdmin() {
                 // setCropFilterMaster(initFilter(cropFilterInput))
                 setCropFilterDisplay(initFilter(cropFilterInput))
 
+                resetFilterState(screenlabels.dataset.age)
+
                 // console.log("geoFilterMaster", geoFilterMaster)
                 console.log("geoFilterDisplay", geoFilterDisplay)
                 // console.log("cropFilterMaster",cropFilterMaster)
