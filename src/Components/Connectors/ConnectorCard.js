@@ -60,12 +60,12 @@ export default function ConnectorCard(props) {
                 </Row>
                 {/* <Row className="supportcardmargintop"> */}
                 <Row style={useStyles.cardHeading2}>
-                    {/* <Tooltip title={props.geography}> */}
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Tooltip title={props.connectorName}>
+                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 cardConnectorName">
                         {props.connectorName}
                         {/* Connector_P1 */}
                     </Col>
-                    {/* </Tooltip> */}
+                    </Tooltip>
                     <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {props.connectorType}
                         {/* Provider */}
@@ -80,16 +80,18 @@ export default function ConnectorCard(props) {
                     </Col>
                 </Row>
                 <Row className="supportcardmargintop">
-                    {/* <Tooltip title={props.geography}> */}
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Tooltip title={props.projectName}>
+                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 cardConnectorName">
                         {props.projectName}
                         {/* Sample_Project */}
                     </Col>
-                    {/* </Tooltip> */}
-                    <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+                    </Tooltip>
+                    <Tooltip title={props.departmentName}>
+                    <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 cardConnectorName">
                         {props.departmentName}
                         {/* sample Department */}
                     </Col>
+                    </Tooltip>
                 </Row>
                 <Row>
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
