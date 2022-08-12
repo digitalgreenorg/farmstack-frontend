@@ -180,6 +180,9 @@ export default function ConnectorForm(props) {
             value={props.connectorName}
             onChange={props.handleChangeConnectorName}
             label={screenlabels.connector_form.connectorName}
+            error={props.nameErrorMessage ? true : false}
+            helperText={props.nameErrorMessage}
+
           />
         </Col>
       </Row>
@@ -280,6 +283,8 @@ export default function ConnectorForm(props) {
             value={props.docker}
             onChange={props.handleChangeDocker}
             label={screenlabels.connector_form.docker}
+            error={props.dockerErrorMessage ? true : false}
+            helperText={props.dockerErrorMessage}
           />
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="port">
