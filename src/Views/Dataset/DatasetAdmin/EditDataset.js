@@ -114,10 +114,10 @@ export default function EditDataset() {
     //   bodyFormData.append("age_of_date", "");
     // }
 
-    if (fromdate != null) {
+    if (fromdate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_start", datefrom.toISOString());
     }
-    if (todate != null) {
+    if (todate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_end", dateto.toISOString());
     }
 
