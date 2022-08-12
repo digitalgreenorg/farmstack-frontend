@@ -723,7 +723,7 @@ export default function OrganisationSetting(props) {
             <div className="accountcancel">
               <Button
                 variant="outlined"
-                className="accountsettingcancelbtn"
+                className="cancelbtn"
                 type="button"
                 onClick={orgsettingcancelbtn}>
                 Cancel

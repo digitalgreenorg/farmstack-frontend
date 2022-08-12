@@ -8,6 +8,7 @@ import UploadOrgBanner from "../organisation/UploadOrgBanner";
 
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
+import labels from "../../../Constants/labels";
 
 import { SketchPicker } from "react-color";
 import HandleSessionTimeout, {
@@ -28,7 +29,7 @@ export default function BrandingSetting(props) {
   const [brandfile, setbrandfile] = useState(null);
   const [hexColor, sethexColor] = useState("");
   const [isLoader, setIsLoader] = useState(false);
-
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
 
   // get brand details.
@@ -222,10 +223,10 @@ export default function BrandingSetting(props) {
             <div className="brandingcancel">
               <Button
                 variant="outlined"
-                className="accountsettingcancelbtn"
+                className="cancelbtn"
                 type="button"
                 onClick={brandsettingcancelbtn}>
-                Cancel
+                {screenlabels.common.cancel}
               </Button>
             </div>
           </Col>

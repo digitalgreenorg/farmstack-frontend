@@ -1139,7 +1139,7 @@ export default function PolicySettings(props) {
           <Col xs="12" sm="12" md="12" lg="12">
             <Button
               variant="outlined"
-              className="accountsettingcancelbtn"
+              className="cancelbtn"
               type="button"
               onClick={policysettingcancelbtn}>
               Cancel

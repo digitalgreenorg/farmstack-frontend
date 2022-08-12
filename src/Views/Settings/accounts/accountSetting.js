@@ -19,7 +19,10 @@ import HandleSessionTimeout, {
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../../Constants/RegexConstants";
-import { GetErrorHandlingRoute, validateInputField } from "../../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  validateInputField,
+} from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
 
 export default function AccountSetting(props) {
@@ -30,7 +33,7 @@ export default function AccountSetting(props) {
   const [lastname, setlastname] = useState("");
   const [email, setemail] = useState("");
   const [phonenumber, setphonenumber] = useState("");
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
   // const [profile_pic, setprofile_pic] = useState(null);
 
   const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
@@ -217,7 +220,7 @@ export default function AccountSetting(props) {
   }, []);
   return (
     <div className="accountsetting">
-      {isLoader ? <Loader />: ''}
+      {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
         <Row>
           <span className="title">Account Settings</span>
@@ -385,10 +388,10 @@ export default function AccountSetting(props) {
             <div className="accountcancel">
               <Button
                 variant="outlined"
-                className="accountsettingcancelbtn"
+                className="cancelbtn"
                 type="button"
                 onClick={accountsettingcancelbtn}>
-                Cancel
+                {screenlabels.common.cancel}
               </Button>
             </div>
           </Col>
