@@ -491,9 +491,10 @@ const GuestUserContactForm = ({
               </Button>
             )}
             <Button
-              style={{ marginTop: "0px" }}
+              style={{ marginTop: "0px", boxShadow:"none" }}
               variant="outlined"
               className="cancelbtn"
+              
               onClick={() => history.push("/home")}
             >
               {guestUserConstants.guestUser.cancel}

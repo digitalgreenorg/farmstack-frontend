@@ -24,6 +24,7 @@ import Avatar from '@mui/material/Avatar';
 import HandleSessionTimeout, { handleUnwantedSpace } from '../../Utils/Common';
 import Loader from '../../Components/Loader/Loader';
 import {GetErrorHandlingRoute} from '../../Utils/Common';
+import { Tooltip } from '@mui/material';
 function Support(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [supportList, setsupportList] = useState([]);
@@ -364,24 +365,33 @@ function Support(props) {
                     </Col>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+                    <Tooltip title={rowdata.issue_message}>
+
                     <Col>
                         <div className="messagedescription thirdmainheading">{rowdata.issue_message}</div>
                     </Col>
+                    </Tooltip>
                     <Col>
+
                         <Row>
                             <Col>
                                 {rowdata.organization.logo ? <Avatar
                                     alt={rowdata.user.first_name}
                                     src={UrlConstants.base_url_without_slash + rowdata.organization.logo}
                                     sx={{ width: 56, height: 56 }}
-                                /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{rowdata.organization.name.charAt(0)}</Avatar>}
+                                    /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{rowdata.organization.name.charAt(0)}</Avatar>}
                             </Col>
+                            <Tooltip title={rowdata.organization.name}>
                             <Col style={{ "margin-left": "-63%", "margin-top": "3%" }}><span className="thirdmainheading">{rowdata.organization.name}</span></Col>
+                                    </Tooltip>
                         </Row>
                     </Col>
+                    <Tooltip title={rowdata.user.first_name}>
+
                     <Col>
                         <span className="thirdmainheading">{rowdata.user.first_name}</span>
                     </Col>
+                    </Tooltip>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
                     <Col>

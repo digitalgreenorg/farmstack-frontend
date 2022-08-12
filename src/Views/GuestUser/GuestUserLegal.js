@@ -34,6 +34,7 @@ export default function GuestUserLegal(props){
             HTTPService(
                 "GET",
                 UrlConstant.base_url + UrlConstant.microsite_legal_documents,
+                // "https://1eb8-106-51-85-143.in.ngrok.io/microsite/legal_documents/",
                 "",
                 false,
                 false
@@ -44,12 +45,11 @@ export default function GuestUserLegal(props){
                  
     let arr = [
         
-        {title:"Governing Laws", content:response.Content.governing_law, download:response.Documents.governing_law},
-        {title:"Warranties", content:response.Content.warranty, download:response.Documents.warranty},
-        {title:"Limitation of Liabilities", content:response.Content.limitations_of_liabilities, download:response.Documents.limitations_of_liabilities},
-        {title:"Policy", content:response.Content.privacy_policy, download:response.Documents.privacy_policy},
-        {title:"Terms of Use", content:response.Content.tos, download: response.Documents.tos},
-        
+        {title:"Governing Laws", content:response.Content && response.Content.governing_law ?response.Content.governing_law : "" , download:response.Documents && response.Documents.governing_law ? response.Documents.governing_law : "" },
+        {title:"Warranties", content:response.Content && response.Content.warranty ?response.Content.warranty : "" , download:response.Documents && response.Documents.warranty ? response.Documents.warranty : "" },
+        {title:"Limitation of Liabilities", content:response.Content && response.Content.limitations_of_liabilities ?response.Content.limitations_of_liabilities : "" , download:response.Documents && response.Documents.limitations_of_liabilities ? response.Documents.limitations_of_liabilities : "" },
+        {title:"Privacy Policy", content:response.Content && response.Content.privacy_policy ?response.Content.privacy_policy : "" , download:response.Documents && response.Documents.privacy_policy ? response.Documents.privacy_policy : "" },
+        {title:"Terms of Use", content:response.Content && response.Content.tos ?response.Content.tos : "" , download:response.Documents && response.Documents.tos ? response.Documents.tos : "" },
     ]
     setLegalData([...arr])
     // console.log(arr)

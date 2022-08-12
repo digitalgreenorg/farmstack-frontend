@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 import HTTPService from "../Services/HTTPService";
+import FileSaver from "file-saver";
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(
@@ -177,4 +178,9 @@ export const flushLocalstorage = () => {
       localStorage.removeItem(key)
     }
   });
+}
+
+
+export const downloadAttachment = (uri, name) => {
+  FileSaver.saveAs(uri, name)
 }

@@ -43,7 +43,7 @@ export default function DataSetCard(props) {
     return (
 
         <Card className={props.margingtop} style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
-            <Tooltip title={props.title}>
+            {/* <Tooltip title={props.title}> */}
             <CardHeader
                 avatar={
                     props.orgLogo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.orgLogo} sx={{ width: 54, height: 54 }} /> :
@@ -55,7 +55,7 @@ export default function DataSetCard(props) {
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left", "overflow": "hidden", "text-overflow": "ellipsis"}}
                 
             />
-            </Tooltip>
+            {/* </Tooltip> */}
             <CardContent>
                 <Tooltip title={props.description}>
                 <Row style={useStyles.datasetdescription}>
@@ -64,6 +64,7 @@ export default function DataSetCard(props) {
                 </Tooltip>
                 <Row>
                     {props.isMemberTab ?
+                   
                         <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                             {screenlabels.dataset.organisation_name}
                         </Col> :
@@ -75,17 +76,21 @@ export default function DataSetCard(props) {
                         {screenlabels.dataset.published_on}
                     </Col>
                 </Row>
+
                 <Row className="supportcardmargintop">
                     {
                     props.isMemberTab ?
-                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {props.orgName}
-                    </Col> :
-                    <Tooltip title={props.geography}>
-                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumngeo">
+                    // <Tooltip title={props.orgName}>
+                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn memberDataSetCardTooltipAndWidthAndOverflowWidth200">
+                        {props.orgName} 
+                    </Col>  
+                    // </Tooltip>
+                      :
+                    // <Tooltip title={props.geography}>
+                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumngeo memberDataSetCardTooltipAndWidthAndOverflowWidth200">
                         {props.geography}
                     </Col>
-                    </Tooltip>
+                    // </Tooltip>
                     }
                     {/* <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"> */}
                     <Col style={{"font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
@@ -126,11 +131,11 @@ export default function DataSetCard(props) {
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {props.ageOfData}
                     </Col>
-                    <Tooltip title={props.cropDetail}>
+                    {/* <Tooltip title={props.cropDetail}> */}
                     <Col style={{"padding-right":"4px",color: "#3D4A52", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
                         {props.cropDetail}
                     </Col>
-                    </Tooltip>
+                    {/* </Tooltip> */}
                 </Row>
                 {/* <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
@@ -174,9 +179,12 @@ export default function DataSetCard(props) {
                     </Row>
                     <Row className="supportcardmargintop">
                     {props.isMemberTab ?
-                    <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    
+                    <Col  className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn memberDataSetCardTooltipAndWidthAndOverflowWidth200">
                         {props.geography}
-                    </Col> : <Col></Col>}
+                    </Col> 
+                    
+                    : <Col></Col>}
                     </Row>
                     <Row style={!props.isMemberTab?{"margin-top":"30px"}:{"margin-top":"-50px"}}>
                     {isshowbutton ? 

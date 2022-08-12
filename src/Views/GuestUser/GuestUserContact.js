@@ -12,6 +12,7 @@ import Footer from "../../Components/Footer/Footer";
 import validator from "validator";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 export default function GuestUserContact(props) {
   // var validator = require('validator');
   const history = useHistory();
@@ -119,16 +120,16 @@ export default function GuestUserContact(props) {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        setUserDetails({
-            firstName: "",
-            lastName: "",
-            email: "",
-            contactNumber: "",
-            subject: "",
-            queryDescription: "",
-          });
+        // setUserDetails({
+        //     firstName: "",
+        //     lastName: "",
+        //     email: "",
+        //     contactNumber: "",
+        //     subject: "",
+        //     queryDescription: "",
+        //   });
         // setisexisitinguseremail(true);
-        //history.push(GetErrorHandlingRoute(e));
+        history.push(GetErrorHandlingRoute(e));
       });
   };
   

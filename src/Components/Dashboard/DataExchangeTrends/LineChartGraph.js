@@ -35,132 +35,151 @@ const CustomTooltip = ({ active, payload, label }) => {
 const LineChartGraph = ({filterPeriod}) => {
     const data = [
         {
-          name: 1,
+          connectors: 1,
           uv: 4000,
           days: 2.400,
           amt: 2.400,
         },
         {
-          name: 2,
+          connectors: 2,
           uv: 3000,
           days: 1.398,
           amt: 2.210,
         },
         {
-          name: 3,
+          connectors: 3,
           uv: 2000,
           days: 9.800,
           amt: 2.290,
         },
         {
-          name: 4,
+          connectors: 4,
           uv: 2780,
           days: 3.908,
           amt: 2.000,
         },
         {
-          name: 5,
+          connectors: 5,
           uv: 1890,
           days: 4.800,
           amt: 2.181,
         },
         {
-          name: 6,
+          connectors: 6,
           uv: 2390,
           days: 3.800,
           amt: 2.500,
         },
         {
-          name: 7,
+          connectors: 7,
           uv: 3490,
           days: 4.300,
           amt: 2.100,
         },
         {
-          name: 8,
+          connectors: 8,
           uv: 3490,
           days: 4.300,
           amt: 2.100,
         },
         {
-          name: 9,
+          connectors: 9,
           uv: 3490,
           days: 4.300,
           amt: 2.100,
         },
         {
-          name: 10,
+          connectors: 10,
           uv: 3490,
           days: 4.300,
           amt: 2.100,
         },
         {
-          name:11,
+          connectors:11,
           uv: 3490,
           days: 2.00,
           amt: 2.100,
         },
         {
-          name: 12,
+          connectors: 12,
           uv: 3490,
           days: 4.300,
           amt: 2.100,
         },
         {
-          name: 13,
+          connectors: 13,
           uv: 3490,
           days: 4.300,
           amt: 2.100,
         },
         {
-          name: 14,
+          connectors: 14,
           uv: 3490,
           days: 4.300,
           amt: 2.100,
         },
         {
-          name: 15,
+          connectors: 15,
           uv: 3490,
           days: 4.500,
           amt: 2.100,
         },
         {
-          name: 16,
+          connectors: 16,
           uv: 3490,
           days: 4.300,
           amt: 3.100,
         },
         {
-          name: 17,
+          connectors: 17,
           uv: 3490,
           days: 4.500,
           amt: 2.100,
         },
         {
-          name: 18,
+          connectors: 18,
           uv: 3490,
           days: 4.300,
           amt: 6.100,
         },
         {
-          name: 19,
+          connectors: 19,
           uv: 3490,
           days: 8.00,
           amt: 2.100,
         },
         {
-          name: 20,
+          connectors: 20,
           uv: 3490,
           days: 3.00,
           amt: 2.100,
         },
         {
-          name: 20,
+          connectors: 21,
+          uv: 3490,
+          days: 19.00,
+          amt: 2.100,
+        },
+        {
+          connectors: 22,
+          uv: 3490,
+          days: 19.00,
+          amt: 2.100,
+        },
+        {
+          connectors: 23,
+          uv: 3490,
+          days: 19.00,
+          amt: 2.100,
+        },
+        {
+          connectors: 24,
           uv: 3490,
           days: 19.00,
           amt: 2.100,
         },
       ];
+      const monthData = [{}]
     
   return (
     <div>
@@ -176,7 +195,7 @@ const LineChartGraph = ({filterPeriod}) => {
           }}
         >
           {/* <CartesianGrid strokeDasharray="3 3" /> */}
-          <XAxis minTickGap={1}  domain={['dataMin', 'dataMax']} tick={{ stroke: '#3D4A52' }} startOffset={0}  fontSize="10px" fontWeight={600}  strokeWidth={1} stroke='#E4E4E4' />
+          <XAxis minTickGap={1}  domain={['dataMin', 'dataMax']} tick={{ stroke: '#3D4A52' }} dataKey="connectors"  startOffset={0}  fontSize="10px" fontWeight={600}  strokeWidth={1} stroke='#E4E4E4' />
           <YAxis minTickGap={1} tick={{ stroke: '#3D4A52' }}  allowDataOverflow={true}  fontSize="10px" fontWeight={600}  strokeWidth={1} stroke='#E4E4E4' />
           <Tooltip content={<CustomTooltip />} payload={data} position={{  y: 50 }} itemStyle={{border:"none"}}  />
           {/* <Legend /> */}

@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import THEME_COLORS from '../../Constants/ColorConstants'
 import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
+import { Tooltip } from "@mui/material";
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize", "font-weight": "400", "font-size": "14px" },
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px" },
@@ -41,14 +42,16 @@ export default function SupportCard(props) {
     return (
 
         <Card className={props.margingtop} style={isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(false)} onMouseLeave={() => setisshowbutton(true)}>
+            <Tooltip title={props.data.subject} >
             <CardHeader
                 avatar={
                     props.data.organization.logo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.data.organization.logo} sx={{ width: 54, height: 54 }} /> :
-                        <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.data.subject.charAt(0)}</Avatar>
+                    <Avatar sx={{ bgcolor: "#c09507", width: 54, height: 54 }} aria-label="recipe">{props.data.subject.charAt(0)}</Avatar>
                 }
                 title={props.data.subject}
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left" }}
-            />
+                />
+                </Tooltip>
             <CardContent>
                 <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
@@ -59,9 +62,12 @@ export default function SupportCard(props) {
           </Col>
                 </Row>
                 <Row className="supportcardmargintop">
+                    <Tooltip title={props.data.organization.name}>
+
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {props.data.organization.name}
                     </Col>
+                    </Tooltip>
                     {props.data.status == 'open' ? <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
                         {props.data.status}
                     </Col> : <></>}
@@ -72,16 +78,21 @@ export default function SupportCard(props) {
                         {props.data.status}
                     </Col> : <></>}
                 </Row>
+              
+
                 <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+               
                         Name of Participant User
           </Col>
                 </Row>
+                <Tooltip title= {props.data.user.first_name}>
                 <Row className="supportcardmargintop">
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {props.data.user.first_name}
                     </Col>
                 </Row>
+                </Tooltip>
                 <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {"Date & Time"}
@@ -97,11 +108,13 @@ export default function SupportCard(props) {
                         Category
           </Col>
                 </Row>
+               
                 <Row className="supportcardmargintop">
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {props.data.category}
                     </Col>
                 </Row>
+               
                 <Row style={{ "margin-top": "-58px" }}>
                     {!isshowbutton ? <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         <Button onClick={()=>props.viewCardDetails()} variant="outlined" style={useStyles.btncolor}>
