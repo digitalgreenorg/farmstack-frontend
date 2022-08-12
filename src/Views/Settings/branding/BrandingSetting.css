@@ -9,10 +9,11 @@
   padding-top: 3%;
 }
 .brandsetting .colorpickersettings {
-  margin-left: 37%;
+  margin-left: 32%;
   margin-top: 4%;
-  /* height: 780px; */
+  padding-bottom: 5%;
   width: 100px;
+  margin-bottom: 5%;
 }
 .brandingcancel {
   padding-left: 15%;

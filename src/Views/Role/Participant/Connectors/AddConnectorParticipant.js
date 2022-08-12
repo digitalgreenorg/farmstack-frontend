@@ -3,6 +3,8 @@ import ConnectorForm from "../../../../Components/Connectors/ConnectorForm";
 import {
   validateInputField,
   handleUnwantedSpace,
+  getUserMapId,
+  GetErrorHandlingRoute,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -89,6 +91,8 @@ export default function AddConnectorParticipant() {
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
+  const [nameErrorMessage, setnameErrorMessage] = useState(null)
+  const [dockerErrorMessage, setDockerErrorMessage] = useState(null)
 
   //   get dataset
   //   const getDatasetDetails = async () => {
@@ -257,6 +261,8 @@ export default function AddConnectorParticipant() {
   };
   const handleAddDatasetSubmit = async (e) => {
     e.preventDefault();
+    setnameErrorMessage(null)
+    setDockerErrorMessage(null)
     // setisSuccess(true);
     setIsLoader(true);
     var bodyFormData = new FormData();
@@ -268,6 +274,10 @@ export default function AddConnectorParticipant() {
     bodyFormData.append("docker_image_url", docker);
     bodyFormData.append("project", project);
     bodyFormData.append("dataset", Dataset);
+    bodyFormData.append("user_map", getUserMapId())
+
+
+    console.log("Form Data" ,bodyFormData)
 
     await HTTPService(
       "POST",
@@ -284,7 +294,15 @@ export default function AddConnectorParticipant() {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        // history.push(GetErrorHandlingRoute(e));
+        if (e.response && e.response.status === 400 && e.response.data.connector_name && e.response.data.connector_name[0].includes('connectors with this connector name already exists')){
+          setnameErrorMessage(e.response.data.connector_name)
+        }
+        else if (e.response && e.response.status === 400 && e.response.data.docker_image_url && e.response.data.docker_image_url[0].includes('Invalid docker Image:')){
+          setDockerErrorMessage(e.response.data.docker_image_url)
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e))
+        }
       });
   };
   return (
@@ -330,6 +348,8 @@ export default function AddConnectorParticipant() {
             datasets={datasets}
             department_variable={department_variable}
             project_variable={project_variable}
+            nameErrorMessage={nameErrorMessage}
+            dockerErrorMessage={dockerErrorMessage}
           />
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>

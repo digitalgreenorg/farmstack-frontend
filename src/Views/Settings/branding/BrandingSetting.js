@@ -8,6 +8,7 @@ import UploadOrgBanner from "../organisation/UploadOrgBanner";
 
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
+import labels from "../../../Constants/labels";
 
 import { SketchPicker } from "react-color";
 import HandleSessionTimeout, {
@@ -21,6 +22,11 @@ import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../../Utils/Common";
 
+const useStyles = {
+  marginrowtop: { "margin-top": "20px" },
+  marginrowtop8px: { "margin-top": "0px" },
+};
+
 export default function BrandingSetting(props) {
   const fileTypes = ["JPEG", "PNG", "jpg"];
   // const [orgfilesize, setorgfilesize] = useState(false);
@@ -28,7 +34,7 @@ export default function BrandingSetting(props) {
   const [brandfile, setbrandfile] = useState(null);
   const [hexColor, sethexColor] = useState("");
   const [isLoader, setIsLoader] = useState(false);
-
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
 
   // get brand details.
@@ -187,15 +193,19 @@ export default function BrandingSetting(props) {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="brandsubmit">
-              <Button
-                variant="contained"
-                className="accountnextbtn"
-                type="submit">
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            {/* <Button variant="contained" className="submitbtn" type="submit">
                 <span className="">Submit</span>
-              </Button>
-              {/* {!ispropfilefirstnameerror &&
+              </Button> */}
+            <Button
+              //   onClick={() => addNewParticipants()}
+              variant="contained"
+              className="submitbtn"
+              type="submit">
+              {screenlabels.common.submit}
+            </Button>
+            {/* {!ispropfilefirstnameerror &&
               !accfilesize &&
               accfirstnamebtn &&
               file != null &&
@@ -214,20 +224,18 @@ export default function BrandingSetting(props) {
                   Submit
                 </Button>
               )} */}
-            </div>
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="brandingcancel">
-              <Button
-                variant="outlined"
-                className="accountsettingcancelbtn"
-                type="button"
-                onClick={brandsettingcancelbtn}>
-                Cancel
-              </Button>
-            </div>
+        <Row style={useStyles.marginrowtop8px}>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <Button
+              variant="outlined"
+              className="cancelbtn"
+              type="button"
+              onClick={brandsettingcancelbtn}>
+              {screenlabels.common.cancel}
+            </Button>
           </Col>
         </Row>
       </form>

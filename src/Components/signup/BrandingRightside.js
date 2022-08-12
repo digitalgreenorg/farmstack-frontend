@@ -54,6 +54,7 @@ export default function BrandingRightside(props) {
         //   console.log(response.json());
         console.log(response.status)
         setTokenLocal(props.isaccesstoken)
+        props.setOnBoardedTrue();
         history.push('/datahub/participants')
       })
       .catch((e) => {
@@ -64,6 +65,10 @@ export default function BrandingRightside(props) {
       })
   }
   const HandleFinishLater = async (e) => {
+    props.setOnBoardedTrue();
+    setTokenLocal(props.isaccesstoken)
+    history.push('/datahub/participants')
+    /*
     e.preventDefault()
     var bodyFormData = new FormData()
     // bodyFormData.append("button_color", hexColor);
@@ -87,6 +92,7 @@ export default function BrandingRightside(props) {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       })
+      */
   }
   return (
     <div className="branding">

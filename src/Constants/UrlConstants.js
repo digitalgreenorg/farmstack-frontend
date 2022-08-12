@@ -1,8 +1,8 @@
 const UrlConstant = {
   base_url: "https://datahubtest.farmstack.co/be/",
   base_url_without_slash: "https://datahubtest.farmstack.co/be",
-  //base_url: "https://27e5-27-7-120-49.in.ngrok.io/",
-  //base_url_without_slash: "https://27e5-27-7-120-49.in.ngrok.io",
+  // base_url: "https://ada8-106-51-85-143.in.ngrok.io/",
+  // base_url_without_slash: "https://ada8-106-51-85-143.in.ngrok.io",
   login: "accounts/login/",
   otp: "accounts/otp/",
   participant: "datahub/participant/",

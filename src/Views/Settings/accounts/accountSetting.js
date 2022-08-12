@@ -19,8 +19,16 @@ import HandleSessionTimeout, {
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../../Constants/RegexConstants";
-import { GetErrorHandlingRoute, validateInputField } from "../../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  validateInputField,
+} from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
+
+const useStyles = {
+  marginrowtop: { "margin-top": "20px" },
+  marginrowtop8px: { "margin-top": "0px" },
+};
 
 export default function AccountSetting(props) {
   const profilefirstname = useRef();
@@ -30,7 +38,7 @@ export default function AccountSetting(props) {
   const [lastname, setlastname] = useState("");
   const [email, setemail] = useState("");
   const [phonenumber, setphonenumber] = useState("");
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
   // const [profile_pic, setprofile_pic] = useState(null);
 
   const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
@@ -217,7 +225,7 @@ export default function AccountSetting(props) {
   }, []);
   return (
     <div className="accountsetting">
-      {isLoader ? <Loader />: ''}
+      {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
         <Row>
           <span className="title">Account Settings</span>
@@ -349,48 +357,52 @@ export default function AccountSetting(props) {
             </p>
           </div>
         </Col>
+
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="accountsubmit">
-              {/* <Button
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            {/* <Col xs={12} sm={12} md={12} lg={12}> */}
+            {/* <div className="accountsubmit"> */}
+            {/* <Button
               variant="contained"
               className="accountnextbtn"
               type="submit">
               <span className="">Submit</span>
             </Button> */}
-              {!ispropfilefirstnameerror &&
-              !accfilesize &&
-              accfirstnamebtn &&
-              file != null &&
-              accnumberbtn ? (
-                <Button
-                  variant="contained"
-                  className="accountnextbtn"
-                  type="submit">
-                  <span className="signupbtnname">Submit</span>
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  disabled
-                  className="disableaccountnextbtn">
-                  Submit
-                </Button>
-              )}
-            </div>
+            {!ispropfilefirstnameerror &&
+            !accfilesize &&
+            accfirstnamebtn &&
+            file != null &&
+            accnumberbtn ? (
+              // <Button variant="contained" className="submitbtn" type="submit">
+              //   <span className="signupbtnname">Submit</span>
+              // </Button>
+              <Button
+                //   onClick={() => addNewParticipants()}
+                variant="contained"
+                className="submitbtn"
+                type="submit">
+                {screenlabels.common.submit}
+              </Button>
+            ) : (
+              <Button variant="outlined" disabled className="disbalesubmitbtn">
+                Submit
+              </Button>
+            )}
+            {/* </div> */}
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="accountcancel">
-              <Button
-                variant="outlined"
-                className="accountsettingcancelbtn"
-                type="button"
-                onClick={accountsettingcancelbtn}>
-                Cancel
-              </Button>
-            </div>
+        <Row style={useStyles.marginrowtop8px}>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <Button
+              variant="outlined"
+              className="cancelbtn"
+              type="button"
+              onClick={accountsettingcancelbtn}>
+              {screenlabels.common.cancel}
+            </Button>
+            {/* </div> */}
           </Col>
         </Row>
       </form>

@@ -22,15 +22,20 @@ import validator from "validator";
 import { FileUploader } from "react-drag-drop-files";
 import UploadOrgLogo from "./UploadOrgLogo";
 
-import HTTPService from '../../Services/HTTPService'
-import UrlConstant from '../../Constants/UrlConstants'
-import {GetErrorHandlingRoute, handleAddressCharacters, isLoggedInUserParticipant, validateInputField } from '../../Utils/Common'
-import RegexConstants from '../../Constants/RegexConstants'
-import { Autocomplete, MenuItem } from '@mui/material'
-import { useHistory } from 'react-router-dom'
-import Loader from '../Loader/Loader'
-import { borderBottom } from '@mui/system'
-import Footer from '../Footer/Footer'
+import HTTPService from "../../Services/HTTPService";
+import UrlConstant from "../../Constants/UrlConstants";
+import {
+  GetErrorHandlingRoute,
+  handleAddressCharacters,
+  isLoggedInUserParticipant,
+  validateInputField,
+} from "../../Utils/Common";
+import RegexConstants from "../../Constants/RegexConstants";
+import { Autocomplete, MenuItem } from "@mui/material";
+import { useHistory } from "react-router-dom";
+import Loader from "../Loader/Loader";
+import { borderBottom } from "@mui/system";
+import Footer from "../Footer/Footer";
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -489,7 +494,7 @@ export default function OrgRightside(props) {
                 props.isOrgmailerror
                   ? "Enter Valid Email id"
                   : props.isExistingOrgEmail
-                  ? "User is already Mapped"
+                  ? props.existingOrgMailMessage
                   : ""
               }
               inputRef={orgMailRef}
@@ -546,7 +551,10 @@ export default function OrgRightside(props) {
                   : props.setisOrgcityerror(false)
               }
               onChange={(e) =>
-                validateInputField(e.target.value, RegexConstants.TEXT_REGEX)
+                validateInputField(
+                  e.target.value,
+                  RegexConstants.DATA_SET_REGEX
+                )
                   ? props.setOrgCity(e.target.value)
                   : e.preventDefault()
               }
@@ -795,9 +803,8 @@ export default function OrgRightside(props) {
           </g>
         </svg>
       </div>
-      <div style={{position:"absolute", top:"1500px"}}>
-
-      <Footer />
+      <div style={{ position: "absolute", top: "1500px" }}>
+        <Footer />
       </div>
     </div>
   );

@@ -111,10 +111,10 @@ export default function AddDataset(props) {
     } else {
       bodyFormData.append("age_of_date", value);
     }
-    if (fromdate != null) {
+    if (fromdate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_start", fromdate.toISOString());
     }
-    if (todate != null) {
+    if (todate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_end", todate.toISOString());
     }
     if (file != null) {
@@ -123,6 +123,7 @@ export default function AddDataset(props) {
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
+    bodyFormData.append("approval_status", "approved");
 
     console.log("add dataset", bodyFormData);
     setIsLoader(true);
@@ -214,7 +215,7 @@ export default function AddDataset(props) {
   const [Switchchecked, setSwitchchecked] = React.useState(false);
 
   const handleChangeSwitch = (event) => {
-    console.log(event.target.checked);
+    console.log("switch", event.target.checked);
     setSwitchchecked(event.target.checked);
   };
 
