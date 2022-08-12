@@ -9,6 +9,8 @@ import axios from "axios";
 import LinearProgress from "@mui/material/LinearProgress";
 import UrlConstant from "../../Constants/UrlConstants";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useHistory } from "react-router-dom";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 import Footer from "../Footer/Footer";
 
 export default function PoliciesRightside(props) {
@@ -76,6 +78,8 @@ export default function PoliciesRightside(props) {
   const [privacyProgress, setprivacyProgress] = useState(0);
   const [tosloadProgress, settosloadProgress] = useState(0);
 
+  const history = useHistory()
+
   const fileTypes = ["doc", "pdf"];
   const handlegovLawChange = (value) => {
     setEditorgovLawValue(value);
@@ -126,6 +130,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e))
           //   setError(true);
         });
     }
@@ -178,6 +183,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e))
           //   setError(true);
         });
     }
@@ -229,6 +235,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e))
           //   setError(true);
         });
     }
@@ -279,6 +286,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e))
           //   setError(true);
         });
     }
@@ -331,6 +339,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e))
           //   setError(true);
         });
     }
@@ -369,6 +378,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e))
         //   setError(true);
       });
   };
@@ -402,6 +412,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e))
         //   setError(true);
       });
   };
@@ -434,6 +445,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e))
         //   setError(true);
       });
   };
@@ -466,6 +478,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e))
         //   setError(true);
       });
   };
@@ -498,6 +511,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e))
         //   setError(true);
       });
   };
@@ -530,6 +544,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e))
         //   setError(true);
       });
   };

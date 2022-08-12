@@ -363,7 +363,7 @@ export default function GuestUserDatasets() {
             })
             .catch((e) => {
                 setIsLoader(false);
-                //history.push(GetErrorHandlingRoute(e));
+                history.push(GetErrorHandlingRoute(e));
             });
     }
 
