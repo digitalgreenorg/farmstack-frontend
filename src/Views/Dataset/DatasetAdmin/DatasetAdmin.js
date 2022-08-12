@@ -11,7 +11,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import {GetErrorHandlingRoute, getOrgLocal} from "../../../Utils/Common";
 import { useHistory } from 'react-router-dom';
 import { getUserLocal, getUserMapId, dateTimeFormat } from '../../../Utils/Common'
 import ViewDataSet from '../../../Components/Datasets/viewDataSet';
@@ -429,6 +429,7 @@ export default function DatasetAdmin() {
         setIsLoader(true);
         var payloadData = {}
         payloadData['user_id'] = getUserLocal()
+        payloadData['org_id'] = getOrgLocal()
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         if (isMemberTab) {
             payloadData['others'] = true
@@ -676,6 +677,7 @@ export default function DatasetAdmin() {
             data['created_at__range'] = createdAtRange
         }
         data['user_id'] = userId
+        data['org_id'] = getOrgLocal()
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         if (isMemberTab) {
             data['others'] = true
