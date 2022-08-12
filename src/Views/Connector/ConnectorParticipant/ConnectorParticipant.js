@@ -74,8 +74,8 @@ export default function ConnectorParticipant() {
     ])
 
     const [connectorTypeFilter, setConnectoprTypeFilter] = useState([
-        { index: 0, name: "Provider", payloadName: "provider", isChecked: false },
-        { index: 1, name: "Consumer", payloadName: "consumer", isChecked: false }
+        { index: 0, name: "Provider", payloadName: "Provider", isChecked: false },
+        { index: 1, name: "Consumer", payloadName: "Consumer", isChecked: false }
     ])
 
     const [statusFilter, setStatusFilter] = useState([
@@ -155,7 +155,7 @@ export default function ConnectorParticipant() {
         }
         HTTPService(
             "POST",
-            connectorUrl,
+            isLoadMore ? connectorUrl : UrlConstant.base_url+UrlConstant.connector_list,
             payload,
             false,
             true
