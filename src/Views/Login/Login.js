@@ -4,6 +4,7 @@ import Leftintro from "../../Components/intros/Leftintro";
 import Rightintro from "../../Components/intros/Rightintro";
 import SignupEmail from "../../Components/signup/SignupEmail";
 import Footerimg from "../../Components/signup/Footerimg";
+import Footer from "../../Components/Footer/Footer";
 import SignupOtp from "../../Components/signup/SignupOtp";
 import "./Login.css";
 import validator from "validator";
@@ -35,7 +36,6 @@ import Loader from "../../Components/Loader/Loader";
 import {GetErrorHandlingRoute} from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
 import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
-import Footer from "../../Components/Footer/Footer";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -69,6 +69,7 @@ export default function Login(props) {
   const [orgCity, setOrgCity] = useState("");
   const [orgPincode, setOrgPincode] = useState("");
   const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false);
+  const [existingOrgMailMessage, setexistingOrgMailMessage] = useState(false);
   const [orgId, setOrgIdState] = useState(null);
 
   const [profileid, setprofileid] = useState("");
@@ -599,7 +600,15 @@ export default function Login(props) {
         .catch((e) => {
           setIsLoader(false);
           console.log(e);
-          setIsExistingOrgEmail(true);
+          if (e.response && e.response.status && e.response.status === 400 && 
+              e.response.data && e.response.data.message && e.response.data.message === "User is already associated with an organization")
+          {
+            setIsExistingOrgEmail(true)
+            setexistingOrgMailMessage(e.response.data.message)
+          }
+          else{
+            history.push(GetErrorHandlingRoute(e))
+          }
         });
     }
   };
@@ -831,64 +840,65 @@ export default function Login(props) {
             )}
           {isOrg ? (
             <OrgRightside
-            isOrgnameerror={isOrgnameerror}
-            setisOrgnameerror={setisOrgnameerror}
-            isOrgmailerror={isOrgmailerror}
-            setisOrgmailerror={setisOrgmailerror}
-            isOrgAddresserror={isOrgAddresserror}
-            setisOrgAddresserror={setisOrgAddresserror}
-            isOrgcityerror={isOrgcityerror}
-            setisOrgcityerror={setisOrgcityerror}
-            ispincodeerror={ispincodeerror}
-            setispincodeerror={setispincodeerror}
-            countryvalue={countryvalue}
-            setCountryValue={setcountryvalue}
-            // orgdesc={orgdesc}
-            // editorValue={editorValue}
-            validOrgNumber={validOrgNumber}
-            setValidOrgnumber={setValidOrgnumber}
-            orgfile={orgfile}
-            orgName={orgName}
-            setOrgName={setOrgName}
-            // orgEmail={orgEmail}
-            // setOrgEmail={setOrgEmail}
-            orgAddress={orgAddress}
-            setOrgAddress={setOrgAddress}
-            orgCity={orgCity}
-            setOrgCity={setOrgCity}
-            orgPincode={orgPincode}
-            setOrgPincode={setOrgPincode}
-            isExistingOrgEmail={isExistingOrgEmail}
-            // Orgname={Orgname}
-            Orgmail={orgmail}
-            setOrgMail={setOrgMail}
-            // OrgAddress={OrgAddress}
-            // Orgcity={Orgcity}
-            // pincode={pincode}
-            Orgnamebtn={Orgnamebtn}
-            Orgemailbtn={Orgemailbtn}
-            setOrgemailbtn={setOrgemailbtn}
-            Orgaddressbtn={Orgaddressbtn}
-            Orgcitybtn={Orgcitybtn}
-            Orgcountrybtn={Orgcountrybtn}
-            setOrgcountrybtn={setOrgcountrybtn}
-            Orgpincodebtn={Orgpincodebtn}
-            // Orgdesbtn={Orgdesbtn}
-            // handleOrgDesChange={handleOrgDesChange}
-            textEditorData={(value) => settextEditorValue(value)}
-            handleOrgSubmit={handleOrgSubmit}
-            handleOrgmail={handleOrgmail}
-            handleOrgnumber={handleOrgnumber}
-            handleOrgAddress={handleOrgAddress}
-            handleOrgcity={handleOrgcity}
-            countrychangeHandler={countrychangeHandler}
-            handlepincode={handlepincode}
-            handleorgFileChange={handleorgFileChange}
-            finishLaterOrgScreen={finishLaterOrgScreen}
-            isaccesstoken={isaccesstoken}
-            userid={getUserLocal()}
-            orgId={orgId}
-            setOrgId={setOrgIdState}
+              isOrgnameerror={isOrgnameerror}
+              setisOrgnameerror={setisOrgnameerror}
+              isOrgmailerror={isOrgmailerror}
+              setisOrgmailerror={setisOrgmailerror}
+              isOrgAddresserror={isOrgAddresserror}
+              setisOrgAddresserror={setisOrgAddresserror}
+              isOrgcityerror={isOrgcityerror}
+              setisOrgcityerror={setisOrgcityerror}
+              ispincodeerror={ispincodeerror}
+              setispincodeerror={setispincodeerror}
+              countryvalue={countryvalue}
+              setCountryValue={setcountryvalue}
+              // orgdesc={orgdesc}
+              // editorValue={editorValue}
+              validOrgNumber={validOrgNumber}
+              setValidOrgnumber={setValidOrgnumber}
+              orgfile={orgfile}
+              orgName={orgName}
+              setOrgName={setOrgName}
+              // orgEmail={orgEmail}
+              // setOrgEmail={setOrgEmail}
+              orgAddress={orgAddress}
+              setOrgAddress={setOrgAddress}
+              orgCity={orgCity}
+              setOrgCity={setOrgCity}
+              orgPincode={orgPincode}
+              setOrgPincode={setOrgPincode}
+              isExistingOrgEmail={isExistingOrgEmail}
+              // Orgname={Orgname}
+              Orgmail={orgmail}
+              setOrgMail={setOrgMail}
+              // OrgAddress={OrgAddress}
+              // Orgcity={Orgcity}
+              // pincode={pincode}
+              Orgnamebtn={Orgnamebtn}
+              Orgemailbtn={Orgemailbtn}
+              setOrgemailbtn={setOrgemailbtn}
+              Orgaddressbtn={Orgaddressbtn}
+              Orgcitybtn={Orgcitybtn}
+              Orgcountrybtn={Orgcountrybtn}
+              setOrgcountrybtn={setOrgcountrybtn}
+              Orgpincodebtn={Orgpincodebtn}
+              // Orgdesbtn={Orgdesbtn}
+              // handleOrgDesChange={handleOrgDesChange}
+              textEditorData={(value) => settextEditorValue(value)}
+              handleOrgSubmit={handleOrgSubmit}
+              handleOrgmail={handleOrgmail}
+              handleOrgnumber={handleOrgnumber}
+              handleOrgAddress={handleOrgAddress}
+              handleOrgcity={handleOrgcity}
+              countrychangeHandler={countrychangeHandler}
+              handlepincode={handlepincode}
+              handleorgFileChange={handleorgFileChange}
+              finishLaterOrgScreen={finishLaterOrgScreen}
+              isaccesstoken={isaccesstoken}
+              userid={getUserLocal()}
+              orgId={orgId}
+              setOrgId={setOrgIdState}
+              existingOrgMailMessage = {existingOrgMailMessage}
             />
             ) : (
               <></>
@@ -906,6 +916,7 @@ export default function Login(props) {
             <BrandingRightside
             validemail={validemail}
             isaccesstoken={isaccesstoken}
+            setOnBoardedTrue = {setOnBoardedTrue}
             />
             )}
 

@@ -434,8 +434,11 @@ export default function DatasetParticipant() {
         var payloadData = {}
         payloadData['user_id'] = getUserLocal()
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
+        payloadData['org_id'] = getOrgLocal()
         if (isMemberTab) {
-            payloadData['org_id'] = getOrgLocal()
+            payloadData['others'] = true
+        } else {
+            payloadData['others'] = false
         }
         HTTPService(
             "POST",
@@ -476,6 +479,9 @@ export default function DatasetParticipant() {
 
                 // setCropFilterMaster(initFilter(cropFilterInput))
                 setCropFilterDisplay(initFilter(cropFilterInput))
+                resetFilterState(screenlabels.dataset.age)
+                resetFilterState(screenlabels.dataset.status)
+                resetFilterState(screenlabels.dataset.enabled)
 
                 // console.log("geoFilterMaster", geoFilterMaster)
                 console.log("geoFilterDisplay", geoFilterDisplay)
@@ -577,6 +583,8 @@ export default function DatasetParticipant() {
             // payload['others'] = false
             payload = {}
             payload['user_id'] = getUserLocal()
+            payload['org_id'] = getOrgLocal()
+            payload['others'] = false
             setFilterState(payload)
         }
         if(isLoadMore){
@@ -629,6 +637,7 @@ export default function DatasetParticipant() {
             payload = {}
             payload['user_id'] = getUserLocal()
             payload['org_id'] = getOrgLocal()
+            payload['others'] = true
             setFilterState(payload)
         }
         if(isLoadMore){
@@ -681,6 +690,7 @@ export default function DatasetParticipant() {
             data['created_at__range'] = createdAtRange
         }
         data['user_id'] = userId
+        data['org_id'] = getOrgLocal()
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         // if (isMemberTab) {
         //     data['others'] = true

@@ -99,8 +99,21 @@ export const handleNameFieldEntry = (fieldValue, e) => {
 };
 
 export const GetErrorHandlingRoute = (e) => {
+  var errorMessage = '';
+  if(e.response && e.response.data && e.response.data.message){
+    errorMessage = e.response.data.message
+  }
+  else if (e.response && e.response.data){
+    errorMessage = e.response.data
+  }
+  else if (e.response){
+    errorMessage = e.response.statusText
+  }
+  else{
+    errorMessage = 'unknown'
+  }
   setErrorLocal({'ErrorCode': e.response ? e.response.status : 'unknown', 
-  'ErrorMessage': e.response ? e.response.statusText : 'unknown'});
+  'ErrorMessage': errorMessage});
   if (
     e.response != null &&
     e.response != undefined &&

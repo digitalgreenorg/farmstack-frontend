@@ -123,6 +123,7 @@ export default function AddDataset(props) {
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
+    bodyFormData.append("approval_status", "approved");
 
     console.log("add dataset", bodyFormData);
     setIsLoader(true);

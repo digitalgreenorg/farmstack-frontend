@@ -48,6 +48,7 @@
 .connectors .supportViewDetailsback{margin-left: 14px;font-weight: 400;font-size: 14px; color: #3491EE;}
 .connectors .supportViewDetailsbackimage{margin-left: 94px;margin-top: 54px;text-align: left;cursor: pointer;}
 .connectors .supportViewDeatilsSecondRow{border: 1px solid rgba(238, 238, 238, 0.5);margin-top:23px;}
+.connectors .cardConnectorName{font-size:14px;font-weight:600;overflow: hidden;text-overflow: ellipsis;width: 50px;margin-top: 20px;text-align: left;}
 .connectors .oversizemb-uploadimglogo {
     width: 100%;
     color: red;

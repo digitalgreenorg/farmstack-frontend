@@ -74,8 +74,8 @@ export default function ConnectorParticipant() {
     ])
 
     const [connectorTypeFilter, setConnectoprTypeFilter] = useState([
-        { index: 0, name: "Provider", payloadName: "provider", isChecked: false },
-        { index: 1, name: "Consumer", payloadName: "consumer", isChecked: false }
+        { index: 0, name: "Provider", payloadName: "Provider", isChecked: false },
+        { index: 1, name: "Consumer", payloadName: "Consumer", isChecked: false }
     ])
 
     const [statusFilter, setStatusFilter] = useState([
@@ -155,7 +155,7 @@ export default function ConnectorParticipant() {
         }
         HTTPService(
             "POST",
-            connectorUrl,
+            isLoadMore ? connectorUrl : UrlConstant.base_url+UrlConstant.connector_list,
             payload,
             false,
             true
@@ -421,6 +421,25 @@ export default function ConnectorParticipant() {
         }
         return imageName
     }
+
+    const getConnectorStatusDisplayName = (status) => {
+        var displayName = ""
+        if (status == screenlabels.connector.status_install_certificate) {
+            displayName = "Install Certificate"
+        } else if (status == screenlabels.connector.status_unpaired) {
+            displayName = "Unpaired"
+        } else if (status == screenlabels.connector.status_awaiting_approval) {
+            displayName = "Awaiting Approval"
+        } else if (status == screenlabels.connector.status_paired) {
+            displayName = "Paired"
+        } else if (status == screenlabels.connector.status_pairing_request_received) {
+            displayName = "Pairing Request Received"
+        } else if (status == screenlabels.connector.status_rejected) {
+            displayName = "Rejected"
+        }
+        return displayName
+    }
+
     const [connectorDeatilsData, setconnectorDeatilsData] = useState({});
     const [screenView, setscreenView] = useState(
         {
@@ -1036,6 +1055,7 @@ export default function ConnectorParticipant() {
                                             getConnectorList={getConnectorList}
                                             showLoadMore={showLoadMore}
                                             getImageName={getConnectorStatusImageName}
+                                            getStatusDisplayName={getConnectorStatusDisplayName}
                                             viewCardDetails={(id) => viewCardDetails(id)}
                                         />
                                     </Col>

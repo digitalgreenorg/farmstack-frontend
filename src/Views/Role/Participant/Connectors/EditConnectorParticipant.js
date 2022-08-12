@@ -6,6 +6,7 @@ import {
   getOrgLocal,
   getUserLocal,
   fileUpload,
+  GetErrorHandlingRoute,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -87,6 +88,9 @@ export default function EditConnectorParticipant() {
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
+
+  const [nameErrorMessage, setnameErrorMessage] = useState(null)
+  const [dockerErrorMessage, setDockerErrorMessage] = useState(null)
 
   //   get connector data
   const getConnectorDetails = async () => {
@@ -342,6 +346,15 @@ export default function EditConnectorParticipant() {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
+        if (e.response && e.response.status === 400 && e.response.data.connector_name && e.response.data.connector_name[0].includes('connectors with this connector name already exists')){
+          setnameErrorMessage(e.response.data.connector_name)
+        }
+        else if (e.response && e.response.status === 400 && e.response.data.docker_image_url && e.response.data.docker_image_url[0].includes('Invalid docker Image:')){
+          setDockerErrorMessage(e.response.data.docker_image_url)
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e))
+        }
         // history.push(GetErrorHandlingRoute(e));
       });
   };
@@ -389,6 +402,8 @@ export default function EditConnectorParticipant() {
             datasets={datasets}
             department_variable={department_variable}
             project_variable={project_variable}
+            nameErrorMessage={nameErrorMessage}
+            dockerErrorMessage={dockerErrorMessage}
           />
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>

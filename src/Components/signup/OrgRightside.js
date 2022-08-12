@@ -494,7 +494,7 @@ export default function OrgRightside(props) {
                 props.isOrgmailerror
                   ? "Enter Valid Email id"
                   : props.isExistingOrgEmail
-                  ? "User is already Mapped"
+                  ? props.existingOrgMailMessage
                   : ""
               }
               inputRef={orgMailRef}
