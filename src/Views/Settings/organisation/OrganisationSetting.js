@@ -27,11 +27,17 @@ import HandleSessionTimeout, {
   setOrgId,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
-import {GetErrorHandlingRoute,
+import {
+  GetErrorHandlingRoute,
   validateInputField,
 } from "../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
+
+const useStyles = {
+  marginrowtop: { "margin-top": "20px" },
+  marginrowtop8px: { "margin-top": "0px" },
+};
 
 export default function OrganisationSetting(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -660,15 +666,15 @@ export default function OrganisationSetting(props) {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="accountsubmit">
-              {/* <Button
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            {/* <Button
                 variant="contained"
                 className="accountnextbtn"
                 type="submit">
                 <span className="">Submit</span>
               </Button> */}
-              {/* {!isOrgnameerror &&
+            {/* {!isOrgnameerror &&
               !isOrgmailerror &&
               !isOrgAddresserror &&
               !isOrgcityerror &&
@@ -691,44 +697,36 @@ export default function OrganisationSetting(props) {
                   Submit
                 </Button>
               )} */}
-              {!isOrgnameerror &&
-              !isOrgmailerror &&
-              !isOrgAddresserror &&
-              !isOrgcityerror &&
-              !ispincodeerror &&
-              !iscountryerror &&
-              orgfile != null &&
-              orgfile.size < 2097152 &&
-              editorValue.getEditorState().getCurrentContent().hasText() &&
-              countryvalue !== "" ? (
-                <Button
-                  variant="contained"
-                  className="accountnextbtn"
-                  type="submit">
-                  <span className="signupbtnname">Submit</span>
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  disabled
-                  className="disableaccountnextbtn">
-                  Submit
-                </Button>
-              )}
-            </div>
+            {!isOrgnameerror &&
+            !isOrgmailerror &&
+            !isOrgAddresserror &&
+            !isOrgcityerror &&
+            !ispincodeerror &&
+            !iscountryerror &&
+            orgfile != null &&
+            orgfile.size < 2097152 &&
+            editorValue.getEditorState().getCurrentContent().hasText() &&
+            countryvalue !== "" ? (
+              <Button variant="contained" className="submitbtn" type="submit">
+                <span className="signupbtnname">Submit</span>
+              </Button>
+            ) : (
+              <Button variant="outlined" disabled className="disbalesubmitbtn">
+                Submit
+              </Button>
+            )}
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="accountcancel">
-              <Button
-                variant="outlined"
-                className="cancelbtn"
-                type="button"
-                onClick={orgsettingcancelbtn}>
-                Cancel
-              </Button>
-            </div>
+        <Row style={useStyles.marginrowtop8px}>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <Button
+              variant="outlined"
+              className="cancelbtn"
+              type="button"
+              onClick={orgsettingcancelbtn}>
+              Cancel
+            </Button>
           </Col>
         </Row>
       </form>
