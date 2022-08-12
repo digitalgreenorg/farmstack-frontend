@@ -36,7 +36,7 @@ import Loader from "../../Components/Loader/Loader";
 import {GetErrorHandlingRoute} from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
 import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
-
+import Footer from "../../Components/Footer/Footer";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -744,96 +744,101 @@ export default function Login(props) {
   };
 
   return (
-    <div>
+    <div className="loginMainDiv">
       {isLoader ? <Loader /> : ""}
       <SignInHeader></SignInHeader>
-      {isDataSet && isLoggedInUserParticipant() ? (
+      {isDataSet && isLoggedInUserParticipant() ? (<div>
         <AddDatasetParticipant
           isaccesstoken={isaccesstoken}
           okAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
           cancelAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
-        />
+          /><div style={{position:"absolute", top:"1800px"}}>
+        <Footer/>
+          </div>
+          </div>
       ) : (
-        <>
+        <div >
           <h1 className="headertext">{screenlabels.login.signup_header}</h1>
           <Leftintro />
           {isemail || isOtp ? <Rightintro /> : ""}
+          
           {/* <Footerimg /> */}
           {isemail && (
             <SignupEmail
-              screenlabels={screenlabels}
-              handleSubmit={handleSubmit}
-              handleEmail={handleEmail}
-              iserror={iserror}
-              email={email}
-              button={button}
-              errormessage = {errormessage}
-              isuserSuspenderror = {userSuspenderror}
+            screenlabels={screenlabels}
+            handleSubmit={handleSubmit}
+            handleEmail={handleEmail}
+            iserror={iserror}
+            email={email}
+            button={button}
+            errormessage = {errormessage}
+            isuserSuspenderror = {userSuspenderror}
             />
-          )}
+            
+            )}
           {isOtp && (
             <SignupOtp
-              handleSubmitOtp={handleSubmitOtp}
-              handleOtp={handleOtp}
-              isOtperror={isOtperror}
-              isuserSuspenderror={userSuspenderror}
-              otp={otp}
-              otpValue={otpValue}
-              setOtpValue={setOtpValue}
-              button={verifyOtpbutton}
-              hanleResendOTp={hanleResendOTp}
-              restartcounter={restartcounter}
-              disable={disable}
-              setDisable={setDisable}
-              remainingCounterTime = {remainingCounterTime}
-              setRemainingCounterTime = {setRemainingCounterTime}
-              errormessage = {errormessage}
+            handleSubmitOtp={handleSubmitOtp}
+            handleOtp={handleOtp}
+            isOtperror={isOtperror}
+            isuserSuspenderror={userSuspenderror}
+            otp={otp}
+            otpValue={otpValue}
+            setOtpValue={setOtpValue}
+            button={verifyOtpbutton}
+            hanleResendOTp={hanleResendOTp}
+            restartcounter={restartcounter}
+            disable={disable}
+            setDisable={setDisable}
+            remainingCounterTime = {remainingCounterTime}
+            setRemainingCounterTime = {setRemainingCounterTime}
+            errormessage = {errormessage}
             />
-          )}
+            )}
           {isProfile && isLoggedInUserAdmin() && (
             <ProfileRightside
-              handleprofileSubmit={handleprofileSubmit}
-              handleprofilfirstename={handleprofilfirstename}
-              handleprofilelastname={handleprofilelastname}
-              handleprofilenumber={handleprofilenumber}
-              ispropfilefirstnameerror={ispropfilefirstnameerror}
-              ispropfilelastnameerror={ispropfilelastnameerror}
-              ispropfileemailerror={ispropfileemailerror}
-              profilenextbutton={profilenextbutton}
-              profilefirstname={profilefirstname}
-              profilelastname={profilelastname}
-              profileemail={profileemail}
-              validemail={validemail}
-              finishLaterProfileScreen={finishLaterProfileScreen}
-              isaccesstoken={isaccesstoken}
+            handleprofileSubmit={handleprofileSubmit}
+            handleprofilfirstename={handleprofilfirstename}
+            handleprofilelastname={handleprofilelastname}
+            handleprofilenumber={handleprofilenumber}
+            ispropfilefirstnameerror={ispropfilefirstnameerror}
+            ispropfilelastnameerror={ispropfilelastnameerror}
+            ispropfileemailerror={ispropfileemailerror}
+            profilenextbutton={profilenextbutton}
+            profilefirstname={profilefirstname}
+            profilelastname={profilelastname}
+            profileemail={profileemail}
+            validemail={validemail}
+            finishLaterProfileScreen={finishLaterProfileScreen}
+            isaccesstoken={isaccesstoken}
             />
-          )}
+            )}
           {isProfile && isLoggedInUserParticipant() && (
             <ProfileRightsideParticipant
-              handleprofileSubmit={handleprofileSubmit}
-              handleprofilfirstename={handleprofilfirstename}
-              handleprofilelastname={handleprofilelastname}
-              handleprofilenumber={handleprofilenumber}
-              setProfileFirstName={setProfileFirstName}
-              setProfileLastName={setProfileLastName}
-              setValidnumber={setValidnumber}
-              ispropfilefirstnameerror={ispropfilefirstnameerror}
-              ispropfilelastnameerror={ispropfilelastnameerror}
-              ispropfileemailerror={ispropfileemailerror}
-              profilenextbutton={profilenextbutton}
-              profilefirstname={profilefirstname}
-              profilelastname={profilelastname}
-              profileemail={profileemail}
-              profilephone={validNumber}
-              validemail={validemail}
-              profileImageFile={profileimage}
-              setProfileImageFile={setProfileImageFile}
-              finishLaterProfileScreen={finishLaterProfileScreen}
-              setprofilenextbutton={setprofilenextbutton}
-              isaccesstoken={isaccesstoken}
-              userid={getUserLocal()}
+            handleprofileSubmit={handleprofileSubmit}
+            handleprofilfirstename={handleprofilfirstename}
+            handleprofilelastname={handleprofilelastname}
+            handleprofilenumber={handleprofilenumber}
+            setProfileFirstName={setProfileFirstName}
+            setProfileLastName={setProfileLastName}
+            setValidnumber={setValidnumber}
+            ispropfilefirstnameerror={ispropfilefirstnameerror}
+            ispropfilelastnameerror={ispropfilelastnameerror}
+            ispropfileemailerror={ispropfileemailerror}
+            profilenextbutton={profilenextbutton}
+            profilefirstname={profilefirstname}
+            profilelastname={profilelastname}
+            profileemail={profileemail}
+            profilephone={validNumber}
+            validemail={validemail}
+            profileImageFile={profileimage}
+            setProfileImageFile={setProfileImageFile}
+            finishLaterProfileScreen={finishLaterProfileScreen}
+            setprofilenextbutton={setprofilenextbutton}
+            isaccesstoken={isaccesstoken}
+            userid={getUserLocal()}
             />
-          )}
+            )}
           {isOrg ? (
             <OrgRightside
               isOrgnameerror={isOrgnameerror}
@@ -896,26 +901,34 @@ export default function Login(props) {
               setOrgId={setOrgIdState}
               existingOrgMailMessage = {existingOrgMailMessage}
             />
-          ) : (
-            <></>
-          )}
+            ) : (
+              <></>
+              )}
           {isPolicies && isLoggedInUserAdmin() && (
             <PoliciesRightside
-              isaccesstoken={isaccesstoken}
-              showBrandingScreen={() => {
-                setisPolicies(false);
-                setisBranding(true);
-              }}
+            isaccesstoken={isaccesstoken}
+            showBrandingScreen={() => {
+              setisPolicies(false);
+              setisBranding(true);
+            }}
             />
-          )}
+            )}
           {isBranding && isLoggedInUserAdmin() && (
             <BrandingRightside
-              validemail={validemail}
-              isaccesstoken={isaccesstoken}
+            validemail={validemail}
+            isaccesstoken={isaccesstoken}
             />
-          )}
-        </>
-      )}
+            )}
+
+       
+        </div>
+        
+        )}
+        <div style={{position:"absolute", bottom:0}}>
+
+         {/* <Footer/> */}
+        </div>
     </div>
+    
   );
 }

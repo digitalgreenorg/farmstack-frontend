@@ -3,6 +3,7 @@ import ConnectorForm from "../../../../Components/Connectors/ConnectorForm";
 import {
   validateInputField,
   handleUnwantedSpace,
+  getUserMapId,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -67,7 +68,9 @@ export default function AddConnectorParticipant() {
   //   dataset values
   const [datasets, setdatasets] = React.useState([]);
   const [department_variable, setdepartment_variable] = React.useState([]);
-  const [project_variable, setproject_variable] = React.useState([]);
+  const [project_variable, setproject_variable] = React.useState([
+    { id: "3526bd39-4514-43fe-bbc4-ee0980bde252", project_name: "default" },
+  ]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   const [department, setdepartment] = React.useState("");
@@ -89,29 +92,29 @@ export default function AddConnectorParticipant() {
   const [isLoader, setIsLoader] = useState(false);
 
   //   get dataset
-  const getDatasetDetails = async () => {
-    var id = getUserLocal();
-    console.log("user id", id);
-    setIsLoader(true);
+  //   const getDatasetDetails = async () => {
+  //     var id = getUserLocal();
+  //     console.log("user id", id);
+  //     setIsLoader(true);
 
-    await HTTPService(
-      "GET",
-      UrlConstants.base_url + UrlConstants.list_of_dataset,
-      { user_id: id },
-      false,
-      true
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log("get request for dataset", response.data);
-        setdatasets(response.data);
-        console.log("datasets", datasets);
-      })
-      .catch((e) => {
-        setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
-      });
-  };
+  //     await HTTPService(
+  //       "GET",
+  //       UrlConstants.base_url + UrlConstants.list_of_dataset,
+  //       { user_id: id },
+  //       false,
+  //       true
+  //     )
+  //       .then((response) => {
+  //         setIsLoader(false);
+  //         console.log("get request for dataset", response.data);
+  //         setdatasets(response.data);
+  //         console.log("datasets", datasets);
+  //       })
+  //       .catch((e) => {
+  //         setIsLoader(false);
+  //         // history.push(GetErrorHandlingRoute(e));
+  //       });
+  //   };
 
   //   get Department
   const getDepartmentDetails = async () => {
@@ -138,8 +141,10 @@ export default function AddConnectorParticipant() {
   };
 
   useEffect(() => {
-    getDatasetDetails();
+    // getDatasetDetails();
     getDepartmentDetails();
+    setdepartment("e459f452-2b4b-4129-ba8b-1e1180c87888");
+    setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
   }, []);
 
   const handleFileChange = (file) => {
@@ -152,11 +157,12 @@ export default function AddConnectorParticipant() {
     console.log(event.target.value);
     setdepartment(event.target.value);
     setIsLoader(true);
+    setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
 
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.project_list,
-      { department: department },
+      { department: event.target.value },
       false,
       true
     )
@@ -174,9 +180,50 @@ export default function AddConnectorParticipant() {
     console.log(event.target.value);
     setproject(event.target.value);
   };
-  const handleChangeConnector = (event) => {
-    console.log(event.target.value);
+  const handleChangeConnector = async (event) => {
+    console.log("connector", event.target.value);
     setconnector(event.target.value);
+    setDataset("");
+    var id = getUserLocal();
+    console.log("user id", id);
+    setIsLoader(true);
+
+    if (event.target.value == "Provider") {
+      await HTTPService(
+        "GET",
+        UrlConstants.base_url + UrlConstants.list_of_dataset,
+        { user_id: id },
+        false,
+        true
+      )
+        .then((response) => {
+          setIsLoader(false);
+          console.log("get request for dataset", response.data);
+          setdatasets(response.data);
+          console.log("datasets", datasets);
+        })
+        .catch((e) => {
+          setIsLoader(false);
+          // history.push(GetErrorHandlingRoute(e));
+        });
+    } else {
+      await HTTPService(
+        "GET",
+        UrlConstants.base_url + UrlConstants.list_of_dataset,
+        false,
+        true
+      )
+        .then((response) => {
+          setIsLoader(false);
+          console.log("get request for dataset", response.data);
+          setdatasets(response.data);
+          console.log("datasets", datasets);
+        })
+        .catch((e) => {
+          setIsLoader(false);
+          // history.push(GetErrorHandlingRoute(e));
+        });
+    }
   };
   const handleChangeConnectorName = (e) => {
     validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
@@ -222,6 +269,10 @@ export default function AddConnectorParticipant() {
     bodyFormData.append("docker_image_url", docker);
     bodyFormData.append("project", project);
     bodyFormData.append("dataset", Dataset);
+    bodyFormData.append("user_map", getUserMapId())
+
+
+    console.log("Form Data" ,bodyFormData)
 
     await HTTPService(
       "POST",
@@ -289,8 +340,8 @@ export default function AddConnectorParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {connector &&
-              department &&
-              project &&
+              //   department &&
+              //   project &&
               connectorName &&
               Dataset &&
               docker &&

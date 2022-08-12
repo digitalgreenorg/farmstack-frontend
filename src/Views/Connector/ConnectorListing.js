@@ -24,7 +24,7 @@ export default function ConnectorListing(props) {
               connectorType={connector.connector_type}
               projectName={connector['project_details']?connector['project_details']['project_name']:''}
               departmentName={connector['department_details']?connector['department_details']['department_name']:""}
-              status={connector.connector_status}
+              status={props.getStatusDisplayName(connector.connector_status)}
               statusImageName={props.getImageName(connector.connector_status)}
               viewCardDetails={()=>props.viewCardDetails(connector.id)}
             />
@@ -42,7 +42,7 @@ export default function ConnectorListing(props) {
                 {props.showLoadMore ? (
                     <Col xs={12} sm={12} md={6} lg={6}>
                         <Button
-                            // onClick={() => props.getConnectorList(true)}
+                            onClick={() => props.getConnectorList(true)}
                             variant="outlined"
                             className="cancelbtn">
                             Load More

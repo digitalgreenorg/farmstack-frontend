@@ -418,12 +418,14 @@ export default function DatasetParticipant() {
 
     useEffect(() => {
         getFilters()
-        payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        // getMyDataset(false)
+        // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         if(isMemberTab){
             getMemberDatasets(false)
         } else {
             getMyDataset(false)
         }
+
         // getDatasetList(false)
     }, [isMemberTab]);
 
@@ -474,6 +476,9 @@ export default function DatasetParticipant() {
 
                 // setCropFilterMaster(initFilter(cropFilterInput))
                 setCropFilterDisplay(initFilter(cropFilterInput))
+                resetFilterState(screenlabels.dataset.age)
+                resetFilterState(screenlabels.dataset.status)
+                resetFilterState(screenlabels.dataset.enabled)
 
                 // console.log("geoFilterMaster", geoFilterMaster)
                 console.log("geoFilterDisplay", geoFilterDisplay)
@@ -571,8 +576,11 @@ export default function DatasetParticipant() {
         }
         setIsLoader(true);
         if (payload == "") {
-            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+            // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
             // payload['others'] = false
+            payload = {}
+            payload['user_id'] = getUserLocal()
+            setFilterState(payload)
         }
         if(isLoadMore){
             payload = {...filterState}
@@ -619,9 +627,12 @@ export default function DatasetParticipant() {
         }
         setIsLoader(true);
         if (payload == "") {
-            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+            // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
             // payload['others'] = true
+            payload = {}
+            payload['user_id'] = getUserLocal()
             payload['org_id'] = getOrgLocal()
+            setFilterState(payload)
         }
         if(isLoadMore){
             payload = {...filterState}

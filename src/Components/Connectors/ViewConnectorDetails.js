@@ -121,7 +121,7 @@ export default function ViewConnectorDetails(props) {
                             src={require('../../Assets/Img/status_pairing_request_received_icon.svg')}
                             alt="new"
                         /> : ''}
-                    </span> <span className="thirdmainheading">{props.data['connector_status']}</span>
+                    </span> <span className="thirdmainheading tocapitalizethefirstletter">{props.data['connector_status']}</span>
                 </Col>
                 <Col>
                     <Tooltip title={props.data['project_details']['project_name']}>
@@ -203,7 +203,7 @@ export default function ViewConnectorDetails(props) {
                         <span className="thirdmainheading">{""}</span>
                     </Col></> : <></>}
             </Row>
-            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'unpaired' || props.data['connector_status'] == 'rejected') ? <><Row className="marginrowtop8px"></Row><Row>
+            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'unpaired') ? <><Row className="marginrowtop8px"></Row><Row>
                 <Col xs={12} sm={12} md={6} lg={3} >
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} >
@@ -223,7 +223,7 @@ export default function ViewConnectorDetails(props) {
                 </Row><Row className="marginrowtop8px"></Row></> : <></>}
             <Row className="supportViewDeatilsSecondRow"></Row>
             {(props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'awaiting for approval' || props.data['connector_status'] == 'paired')) ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                <span className="mainheading">{props.data['connector_status'] == 'awaiting for approval' ? "Pending at" : "Paired with"}</span>
+                <span className="mainheading">{props.data['connector_status'] == 'awaiting for approval' ? "Pending with" : "Paired with"}</span>
             </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
                     <Col>

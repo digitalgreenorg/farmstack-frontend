@@ -11,6 +11,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useHistory } from "react-router-dom";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
+import Footer from "../Footer/Footer";
 
 export default function PoliciesRightside(props) {
   const [govLawdesc, setgovLawdesc] = useState("");
@@ -942,6 +943,10 @@ export default function PoliciesRightside(props) {
             <circle cx={143.28} cy={120.282} r={5.728} />
           </g>
         </svg>
+      </div>
+      <div style={{position:"absolute", top:"3400px"}}>
+
+      <Footer  />
       </div>
     </div>
   );
