@@ -24,7 +24,7 @@ export default function ConnectorListing(props) {
               connectorType={connector.connector_type}
               projectName={connector['project_details']?connector['project_details']['project_name']:''}
               departmentName={connector['department_details']?connector['department_details']['department_name']:""}
-              status={connector.connector_status}
+              status={props.getStatusDisplayName(connector.connector_status)}
               statusImageName={props.getImageName(connector.connector_status)}
               viewCardDetails={()=>props.viewCardDetails(connector.id)}
             />
