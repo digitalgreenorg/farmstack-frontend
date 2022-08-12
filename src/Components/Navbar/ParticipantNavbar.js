@@ -54,7 +54,7 @@ const ParticipantNavbar = (props) => {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        history.push(GetErrorHandlingRoute(e));
+        //history.push(GetErrorHandlingRoute(e));
       });
   };
 

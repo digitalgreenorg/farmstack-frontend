@@ -4,6 +4,7 @@ import Leftintro from "../../Components/intros/Leftintro";
 import Rightintro from "../../Components/intros/Rightintro";
 import SignupEmail from "../../Components/signup/SignupEmail";
 import Footerimg from "../../Components/signup/Footerimg";
+import Footer from "../../Components/Footer/Footer";
 import SignupOtp from "../../Components/signup/SignupOtp";
 import "./Login.css";
 import validator from "validator";
@@ -69,6 +70,7 @@ export default function Login(props) {
   const [orgCity, setOrgCity] = useState("");
   const [orgPincode, setOrgPincode] = useState("");
   const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false);
+  const [existingOrgMailMessage, setexistingOrgMailMessage] = useState(false);
   const [orgId, setOrgIdState] = useState(null);
 
   const [profileid, setprofileid] = useState("");
@@ -599,7 +601,15 @@ export default function Login(props) {
         .catch((e) => {
           setIsLoader(false);
           console.log(e);
-          setIsExistingOrgEmail(true);
+          if (e.response && e.response.status && e.response.status === 400 && 
+              e.response.data && e.response.data.message && e.response.data.message === "User is already associated with an organization")
+          {
+            setIsExistingOrgEmail(true)
+            setexistingOrgMailMessage(e.response.data.message)
+          }
+          else{
+            history.push(GetErrorHandlingRoute(e))
+          }
         });
     }
   };
@@ -884,6 +894,7 @@ export default function Login(props) {
               userid={getUserLocal()}
               orgId={orgId}
               setOrgId={setOrgIdState}
+              existingOrgMailMessage = {existingOrgMailMessage}
             />
           ) : (
             <></>
