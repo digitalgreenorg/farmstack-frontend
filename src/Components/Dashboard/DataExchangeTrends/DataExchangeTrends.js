@@ -8,7 +8,8 @@ import labels from '../../../Constants/labels'
 
 
 const DataExchangeTrends = () => {
-  const [filterPeriod, setFilterPeriod] = useState(0)
+  const [filterPeriod, setFilterPeriod] = useState(24)
+  
   return (
     <div style={{padding:"20px"}} className="widht640andheight368pxandborderradius10andborder1pxsolidE4E4E4">
       <div style={{display:"flex"}}>

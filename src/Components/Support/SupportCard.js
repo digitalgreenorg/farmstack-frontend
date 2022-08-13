@@ -62,12 +62,15 @@ export default function SupportCard(props) {
           </Col>
                 </Row>
                 <Row className="supportcardmargintop">
-                    <Tooltip title={props.data.organization.name}>
 
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Tooltip title={props.data.organization.name}>
+                       <div className='width150px text_overflow_ellipsis_overflow_hidden'>
+
                         {props.data.organization.name}
-                    </Col>
+                       </div>
                     </Tooltip>
+                    </Col>
                     {props.data.status == 'open' ? <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
                         {props.data.status}
                     </Col> : <></>}
@@ -86,13 +89,20 @@ export default function SupportCard(props) {
                         Name of Participant User
           </Col>
                 </Row>
-                <Tooltip title= {props.data.user.first_name}>
+               
                 <Row className="supportcardmargintop">
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        {props.data.user.first_name}
+
+                    <Tooltip title= {props.data.user.first_name}>
+                       <div className='width150px text_overflow_ellipsis_overflow_hidden'>
+
+                       {props.data.user.first_name}
+                       </div>
+                    </Tooltip>
+                       
                     </Col>
                 </Row>
-                </Tooltip>
+               
                 <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {"Date & Time"}

@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import THEME_COLORS from '../../Constants/ColorConstants'
 import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
+import { Tooltip, Zoom } from '@mui/material';
 const useStyles = {
   btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-left": "-25px", "font-weight": "400", "font-family": "Open Sans", 'font-style': 'normal', 'font-size': '14px'}, 
   btnPosition: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "font-weight": "400", "font-family": "Open Sans", 'font-style': 'normal', 'font-size': '14px'},
@@ -32,6 +33,7 @@ export default function ParticipantsCards(props) {
   return (
 
     <Card className="particaipancard" style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
+      <Tooltip TransitionComponent={Zoom}  placement='bottom-start'  title={props.mainheading + " " +props.subheading}>
       <CardHeader
         avatar={
           props.profilepic? <Avatar alt="Remy Sharp" src={UrlConstants.base_url+props.profilepic} sx={{ width:64, height:64 }}/>:
@@ -45,20 +47,29 @@ export default function ParticipantsCards(props) {
         subheader={props.subheading}
         style={{ "background-color": "#F4F4F4", padding: "9px", height: "84px", "text-align": "left", 'font-family': 'Open Sans',
         'font-style': 'normal', 'font-weight': 400, 'font-size': '14px' ,'line-height': '19px' ,'color': '#3D4A52'}}
-      />
+        />
+        </Tooltip>
       <CardContent>
         <Row style={{ 'margin-top': '5px' }}>
           <Col xs={12} sm={12} md={4} lg={4} style={useStyles.cardDataHeading}>
             Dataset <br />
-            <span style={useStyles.cardData}>{props.dataset}</span>
+      <Tooltip TransitionComponent={Zoom}   title={props.dataset}>
+            <div className='width100px text_overflow_ellipsis_overflow_hidden'  style={useStyles.cardData}>{props.dataset}</div>
+      </Tooltip>
           </Col>
           <Col xs={12} sm={12} md={4} lg={5} style={useStyles.cardDataHeading}>
             Connectors<br />
-            <span style={useStyles.cardData}>{props.connector}</span>
+      <Tooltip TransitionComponent={Zoom}    title={props.connector}>
+            <div className='width100px text_overflow_ellipsis_overflow_hidden' style={useStyles.cardData}>{props.connector}</div>
+      </Tooltip>
           </Col>
           <Col xs={12} sm={12} md={4} lg={3} style={useStyles.cardDataHeading}>
             Status<br />
-            <span style={useStyles.cardData}>{props.active}</span>
+      <Tooltip TransitionComponent={Zoom}    title={props.active}>
+            <div className='width100px text_overflow_ellipsis_overflow_hidden' style={useStyles.cardData}>{props.active}</div>
+      </Tooltip>
+
+
           </Col>
         </Row>
         {/*

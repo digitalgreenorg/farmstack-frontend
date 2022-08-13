@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import styles from "./datasetsCategory.module.css";
+// import   "./datasetsCategory.module.css";
 import "../../../Assets/CSS/common.css";
 import BarChartComponent from "./BarChart";
 import { useEffect } from "react";
 import labels from "../../../Constants/labels";
+import { Tooltip } from "@mui/material";
 
 const DatasetsCategory = ({ allDashboardDetails }) => {
   const [barChartData, setBarChartData] = useState([]);
@@ -11,7 +13,7 @@ const DatasetsCategory = ({ allDashboardDetails }) => {
     if (allDashboardDetails) {
       setBarChartData([...allDashboardDetails]);
     }
-  });
+  },[]);
   return (
     <div
       style={{ display: "flex", flexDirection: "column", padding: "20px" }}
@@ -30,11 +32,14 @@ const DatasetsCategory = ({ allDashboardDetails }) => {
       </div>
 
       <BarChartComponent barChartData={barChartData} />
-      <div className={styles.mainBarGraph}>
-        {" "}
+        <Tooltip title="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac tellus
+      gravida, elementum magna ut, viverra purus.">
+      <div className={styles.mainBarGraph + " " + "text_overflow_ellipsis_overflow_hidden width600px"}>
+
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac tellus
-        gravida, elementum magna ut, viverra purus.{" "}
-      </div>
+        gravida, elementum magna ut, viverra purus.
+        </div>
+        </Tooltip>
     </div>
   );
 };

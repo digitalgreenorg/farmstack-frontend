@@ -504,3 +504,45 @@ MuiLinearProgress-determinate{
   /* border: 1px solid red; */
   /* padding: 0; */
 }
+
+.text_overflow_ellipsis_overflow_hidden{
+text-overflow: ellipsis;
+overflow: hidden;
+
+}
+
+.width100px {
+  width: 100px;
+  /* border: 1px solid red; */
+}
+.width150px {
+  width: 150px;
+  
+}
+.width200px{
+  width: 200px;
+  /* border: 1px solid red; */
+}
+.width250px{
+  width: 250px;
+}
+.width260px{
+  width: 250px;
+}
+.width270px{
+  width: 270px;
+  /* border: 1px solid red; */
+
+}
+
+.width300px{
+  width: 300px;
+  border: 1px solid red;
+
+}
+
+.width600px{
+  width: 600px;
+  /* border: 1px solid blue; */
+
+}

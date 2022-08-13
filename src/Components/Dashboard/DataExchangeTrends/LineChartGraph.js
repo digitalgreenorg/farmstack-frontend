@@ -1,5 +1,5 @@
 import { red } from '@mui/material/colors';
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useEffect, useState } from 'react';
 
 import {
     LineChart,
@@ -33,7 +33,8 @@ const CustomTooltip = ({ active, payload, label }) => {
   };
   
 const LineChartGraph = ({filterPeriod}) => {
-    const data = [
+  
+    const dummy = [
         {
           connectors: 1,
           uv: 4000,
@@ -178,8 +179,51 @@ const LineChartGraph = ({filterPeriod}) => {
           days: 19.00,
           amt: 2.100,
         },
+        {
+          connectors: 25,
+          uv: 3490,
+          days: 19.00,
+          amt: 2.100,
+        },
+        {
+          connectors: 26,
+          uv: 3490,
+          days: 19.00,
+          amt: 2.100,
+        },
+        {
+          connectors: 24,
+          uv: 3490,
+          days: 19.00,
+          amt: 2.100,
+        },
+        {
+          connectors: 27,
+          uv: 3490,
+          days: 19.00,
+          amt: 2.100,
+        },
+        {
+          connectors: 28,
+          uv: 3490,
+          days: 19.00,
+          amt: 2.100,
+        },
+        {
+          connectors: 29,
+          uv: 3490,
+          days: 19.00,
+          amt: 2.100,
+        },
       ];
+      const [data, setData] = useState(dummy)
       const monthData = [{}]
+      
+      useEffect(()=>{
+       let updatedData =  dummy.filter((item, i)=>i<filterPeriod)
+        setData([...updatedData])
+        console.log(data, "updated")
+      }, [filterPeriod])
     
   return (
     <div>
@@ -195,7 +239,7 @@ const LineChartGraph = ({filterPeriod}) => {
           }}
         >
           {/* <CartesianGrid strokeDasharray="3 3" /> */}
-          <XAxis minTickGap={1}  domain={['dataMin', 'dataMax']} tick={{ stroke: '#3D4A52' }} dataKey="connectors"  startOffset={0}  fontSize="10px" fontWeight={600}  strokeWidth={1} stroke='#E4E4E4' />
+          <XAxis minTickGap={1}  domain={['dataMin', 'dataMax - 10' ]} tick={{ stroke: '#3D4A52' }} dataKey="connectors"  startOffset={0}  fontSize="10px" fontWeight={600}  strokeWidth={1} stroke='#E4E4E4' />
           <YAxis minTickGap={1} tick={{ stroke: '#3D4A52' }}  allowDataOverflow={true}  fontSize="10px" fontWeight={600}  strokeWidth={1} stroke='#E4E4E4' />
           <Tooltip content={<CustomTooltip />} payload={data} position={{  y: 50 }} itemStyle={{border:"none"}}  />
           {/* <Legend /> */}
