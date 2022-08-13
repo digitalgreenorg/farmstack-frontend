@@ -21,7 +21,7 @@ import { FileUploader } from "react-drag-drop-files";
 import Success from '../../Components/Success/Success'
 import FileSaver from 'file-saver';
 import Avatar from '@mui/material/Avatar';
-import HandleSessionTimeout, { handleUnwantedSpace } from '../../Utils/Common';
+import HandleSessionTimeout, { GetErrorKey, handleUnwantedSpace } from '../../Utils/Common';
 import Loader from '../../Components/Loader/Loader';
 import {GetErrorHandlingRoute} from '../../Utils/Common';
 function Support(props) {
@@ -62,6 +62,8 @@ function Support(props) {
     const [isShowSupport, setisShowSupport] = useState(true);
     const [isShowUpdated, setisShowUpdated] = useState(false);
     const [callGetSupport, setcallGetSupport] = useState(false);
+
+    const[solutionErrorMessage,setSolutionErrorMessage] = useState(false)
 
     useEffect(() => {
         setTimeout(() => {
@@ -184,6 +186,7 @@ function Support(props) {
         }
     };
     const submitResolution = () => {
+        setSolutionErrorMessage(null)
         var bodyFormData = new FormData();
         bodyFormData.append('status', status);
         bodyFormData.append('solution_message', reply);
@@ -208,7 +211,20 @@ function Support(props) {
 
             }).catch((e) => {
                 setIsLoader(false);
-                history.push(GetErrorHandlingRoute(e));
+                var returnValues = GetErrorKey(e, bodyFormData.keys())
+                var errorKeys = returnValues[0]
+                var errorMessages = returnValues[1]
+                if (errorKeys.length > 0){
+                    for (var i=0; i<errorKeys.length; i++){
+                        switch(errorKeys[i]){
+                        case "solution_message": setSolutionErrorMessage(errorMessages[i]); break;
+                        default: history.push(GetErrorHandlingRoute(e)); break;
+                        }
+                    }
+                }
+                else{
+                    history.push(GetErrorHandlingRoute(e))
+                }
             });
     }
     const downloadAttachment = (uri, name) => {
@@ -446,6 +462,8 @@ function Support(props) {
                             onKeyDown={(e) => handleUnwantedSpace(reply,e)}
                             onChange={(e) => setreply(e.target.value)}
                             style={{ width: "420px", "min-height": "50px" }}
+                            error = {solutionErrorMessage ? true : false}
+                            helperText = {setSolutionErrorMessage}
                         />
                         <TextField
                             style={{ width: "420px", "margin-left": "20px", textAlign: "left" }}

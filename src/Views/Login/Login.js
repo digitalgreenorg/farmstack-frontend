@@ -28,6 +28,7 @@ import HandleSessionTimeout, {
   isLoggedInUserParticipant,
   getRoleLocal,
   getUserMapId,
+  GetErrorKey,
 } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
@@ -69,10 +70,14 @@ export default function Login(props) {
   const [orgCity, setOrgCity] = useState("");
   const [orgPincode, setOrgPincode] = useState("");
   const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false);
-  const [existingOrgMailMessage, setexistingOrgMailMessage] = useState(false);
   const [orgId, setOrgIdState] = useState(null);
 
   const [profileid, setprofileid] = useState("");
+
+  const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
+  const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
+  const[orgPhoneNumberErrorMessage, setOrgPhoneNumberErrorMessage] = useState(null)
+  const[orgDescriptionErrorMessage, setOrgDescriptionErrorMessage] = useState(null)
 
   const timerDuration = 120000
   const[remainingCounterTime, setRemainingCounterTime] = useState(timerDuration)
@@ -323,6 +328,12 @@ export default function Login(props) {
   const [profilefirstname, setProfileFirstName] = useState("");
   const [profilelastname, setProfileLastName] = useState("");
   const [profileimage, setProfileImageFile] = useState(null);
+
+  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
+  const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
+  const[emailErrorMessage, setEmailErrorMessage] = useState(null)
+  const[phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null)
+
   const profileemail = useRef();
 
   const handleprofileSubmit = async (e) => {
@@ -336,6 +347,12 @@ export default function Login(props) {
     } else {
       setispropfilefirstnameerror(false);
     }
+
+    setFirstNameErrorMessage(null)
+    setLastNameErrorMessage(null)
+    setEmailErrorMessage(null)
+    setPhoneNumberErrorMessage(null)
+
     // if (profilelastname.current.value.length === 0) {
     //   setispropfilelastnameerror(true);
     // } else {
@@ -379,7 +396,24 @@ export default function Login(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        var returnValues = GetErrorKey(e, bodyFormData.keys())
+        var errorKeys = returnValues[0]
+        var errorMessages = returnValues[1]
+        if (errorKeys.length > 0){
+          for (var i=0; i<errorKeys.length; i++){
+            switch(errorKeys[i]){
+              case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
+              case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
+              case "email": setEmailErrorMessage(errorMessages[i]); break;
+              case "phone_number": setPhoneNumberErrorMessage(errorMessages[i]); break;
+              default: history.push(GetErrorHandlingRoute(e)); break;
+            }
+          }
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e))
+        }
+        //history.push(GetErrorHandlingRoute(e));
       });
   };
   const handleprofilfirstename = (e) => {
@@ -513,6 +547,11 @@ export default function Login(props) {
   const handleOrgSubmit = async (e) => {
     e.preventDefault();
 
+    setOrgNameErrorMessage(null)
+    setOrgEmailErrorMessage (null)
+    setOrgPhoneNumberErrorMessage (null)
+    setOrgDescriptionErrorMessage (null)
+
     // email validation
     const emailstring = orgmail;
     const valid = validator.isEmail(emailstring);
@@ -600,11 +639,19 @@ export default function Login(props) {
         .catch((e) => {
           setIsLoader(false);
           console.log(e);
-          if (e.response && e.response.status && e.response.status === 400 && 
-              e.response.data && e.response.data.message && e.response.data.message === "User is already associated with an organization")
-          {
-            setIsExistingOrgEmail(true)
-            setexistingOrgMailMessage(e.response.data.message)
+          var returnValues = GetErrorKey(e, bodyFormData.keys())
+          var errorKeys = returnValues[0]
+          var errorMessages = returnValues[1]
+          if (errorKeys.length > 0){
+            for (var i=0; i<errorKeys.length; i++){
+              switch(errorKeys[i]){
+                case "phone_number": setOrgPhoneNumberErrorMessage(errorMessages[i]); break;
+                case "name": setOrgNameErrorMessage(errorMessages[i]); break;
+                case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
+                case "org_description": setOrgDescriptionErrorMessage(errorMessages[i]); break;
+                default: history.push(GetErrorHandlingRoute(e)); break;
+              }
+            }
           }
           else{
             history.push(GetErrorHandlingRoute(e))
@@ -810,6 +857,10 @@ export default function Login(props) {
             validemail={validemail}
             finishLaterProfileScreen={finishLaterProfileScreen}
             isaccesstoken={isaccesstoken}
+            firstNameErrorMessage={firstNameErrorMessage}
+            lastNameErrorMessage={lastNameErrorMessage}
+            emailErrorMessage={emailErrorMessage}
+            phoneNumberErrorMessage={phoneNumberErrorMessage}
             />
             )}
           {isProfile && isLoggedInUserParticipant() && (
@@ -836,6 +887,10 @@ export default function Login(props) {
             setprofilenextbutton={setprofilenextbutton}
             isaccesstoken={isaccesstoken}
             userid={getUserLocal()}
+            firstNameErrorMessage={firstNameErrorMessage}
+            lastNameErrorMessage={lastNameErrorMessage}
+            emailErrorMessage={emailErrorMessage}
+            phoneNumberErrorMessage={phoneNumberErrorMessage}
             />
             )}
           {isOrg ? (
@@ -898,7 +953,10 @@ export default function Login(props) {
               userid={getUserLocal()}
               orgId={orgId}
               setOrgId={setOrgIdState}
-              existingOrgMailMessage = {existingOrgMailMessage}
+              orgNameErrorMessage={orgNameErrorMessage}
+              orgEmailErrorMessage={orgEmailErrorMessage}
+              orgPhoneNumberErrorMessage={orgPhoneNumberErrorMessage}
+              orgDescriptionErrorMessage={orgDescriptionErrorMessage}
             />
             ) : (
               <></>

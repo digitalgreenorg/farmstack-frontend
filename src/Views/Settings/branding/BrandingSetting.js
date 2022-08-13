@@ -106,6 +106,7 @@ export default function BrandingSetting(props) {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
+        history.push(GetErrorHandlingRoute(e))
         //   setError(true);
       });
   };

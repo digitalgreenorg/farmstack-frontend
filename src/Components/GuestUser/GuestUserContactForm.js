@@ -42,6 +42,12 @@ const GuestUserContactForm = ({
   datahubUserDetails,
   isdescriptionerror,
   addNewGuestUserData,
+  firstNameErrorMessage,
+  lastNameErrorMessage,
+  emailErrorMessage,
+  contactNumberErrorMessage,
+  subjectErrorMessage,
+  describeQueryErrorMessage
 }) => {
   const history = useHistory();
 
@@ -286,6 +292,8 @@ const GuestUserContactForm = ({
                   : e.preventDefault()
               }
               label={guestUserConstants.guestUser.first_name}
+              error = {firstNameErrorMessage ? true : false}
+              helperText = {firstNameErrorMessage}
             />
           </Col>
           <Col style={{ width: "100%", padding: 0 }}>
@@ -301,6 +309,8 @@ const GuestUserContactForm = ({
                   : e.preventDefault()
               }
               label={guestUserConstants.guestUser.last_name}
+              error = {lastNameErrorMessage ? true : false}
+              helperText = {lastNameErrorMessage}
               // error={"enter correct details"}
               //   helperText={"error"}
             />
@@ -340,6 +350,9 @@ const GuestUserContactForm = ({
                   : e.preventDefault()
               }
               label={guestUserConstants.guestUser.email}
+              error = {emailErrorMessage ? true : false}
+              helperText = {emailErrorMessage}
+              
               // error={props.isorganisationemailerror}
               // helperText={
               //   props.isorganisationemailerror ? "Enter Valid Email id" : ""
@@ -368,6 +381,8 @@ const GuestUserContactForm = ({
                   target: { name: "contactNumber", value: value },
                 })
               }
+              error = {contactNumberErrorMessage ? true : false}
+              helperText = {contactNumberErrorMessage}
               // error={iscontactnumbererror}
               // helperText={iscontactnumbererror ? "Enter Valid Number" : ""}
             />
@@ -446,6 +461,8 @@ const GuestUserContactForm = ({
             required
             value={useDetails.queryDescription}
             maxRows={3}
+            rows={3}
+            minRows={3}
             autoComplete={false}
             inputProps={{ maxLength: 1000 }}
             variant="filled"
@@ -454,6 +471,8 @@ const GuestUserContactForm = ({
                 ? handleChange(e)
                 : e.preventDefault()
             }
+            error = {describeQueryErrorMessage ? true : false}
+            helperText = {describeQueryErrorMessage}
           />
         </Row>
         <Row>
@@ -470,7 +489,7 @@ const GuestUserContactForm = ({
                 onClick={() => addNewGuestUserData()}
                 variant="contained"
                 className={styles.submitbtn}
-                style={{ marginTop: "50px" }}
+                style={{ marginTop: "100px" }}
                 
                 // onClick={() => {
                 //   setIsSuccess(true);
@@ -480,7 +499,7 @@ const GuestUserContactForm = ({
               </Button>
             ) : (
               <Button
-                style={{ marginTop: "50px" }}
+                style={{ marginTop: "100px" }}
                 variant="contained"
                 disabled
                 className={styles.submitbtn}

@@ -15,6 +15,7 @@ import HandleSessionTimeout, {
   getTokenLocal,
   setUserId,
   getUserLocal,
+  GetErrorKey,
 } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
@@ -54,6 +55,10 @@ export default function AccountSetting(props) {
   const [accfilesize, setaccfilesize] = useState(false);
   const [accnumberbtn, setaccnumberbtn] = useState(false);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
+  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
+  const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
+  const[phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null)
 
   const history = useHistory();
 
@@ -153,6 +158,10 @@ export default function AccountSetting(props) {
     var id = getUserLocal();
     console.log("user id", id);
 
+    setFirstNameErrorMessage(null)
+    setLastNameErrorMessage(null)
+    setPhoneNumberErrorMessage(null)
+
     var bodyFormData = new FormData();
     bodyFormData.append("first_name", firstname);
     bodyFormData.append("last_name", lastname);
@@ -182,7 +191,23 @@ export default function AccountSetting(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        var returnValues = GetErrorKey(e, bodyFormData.keys())
+        var errorKeys = returnValues[0]
+        var errorMessages = returnValues[1]
+        if (errorKeys.length > 0){
+          for (var i=0; i<errorKeys.length; i++){
+            switch(errorKeys[i]){
+              case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
+              case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
+              //case "email": setEmailErrorMessage(errorMessages[i]); break;
+              case "phone_number": setPhoneNumberErrorMessage(errorMessages[i]); break;
+              default: history.push(GetErrorHandlingRoute(e)); break;
+            }
+          }
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e))
+        }
       });
   };
   const getAccountDetails = async () => {
@@ -253,8 +278,8 @@ export default function AccountSetting(props) {
               }
               onChange={handleprofilfirstename}
               inputRef={profilefirstname}
-              error={ispropfilefirstnameerror}
-              helperText={ispropfilefirstnameerror ? "Enter Valid Name" : ""}
+              error={ispropfilefirstnameerror || firstNameErrorMessage}
+              helperText={(ispropfilefirstnameerror && !firstNameErrorMessage) ? "Enter Valid Name" : firstNameErrorMessage}
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -273,6 +298,8 @@ export default function AccountSetting(props) {
               // }
               onChange={handleprofilelastname}
               inputRef={profilelastname}
+              error = {lastNameErrorMessage ? true : false}
+              helperText={lastNameErrorMessage}
               // error={ispropfilelastnameerror}
               // helperText={
               //   ispropfilelastnameerror ? "Enter Valid last name" : ""
@@ -312,6 +339,8 @@ export default function AccountSetting(props) {
               label={screenlabels.account_settings.contact}
               variant="filled"
               onChange={handleprofilenumber}
+              error = {phoneNumberErrorMessage ? true : false}
+              helperText = {phoneNumberErrorMessage}
               // error={ispropfilenumbererror}
               // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />

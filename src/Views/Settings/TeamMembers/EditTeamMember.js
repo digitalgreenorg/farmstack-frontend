@@ -13,7 +13,7 @@ import validator from "validator";
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import Loader from '../../../Components/Loader/Loader';
-import { GetErrorHandlingRoute } from '../../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey } from '../../../Utils/Common';
 
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
@@ -32,6 +32,11 @@ function EditTeamMember(props) {
     const [isexistinguseremail, setisexisitinguseremail] =useState(false)
     const [isSuccess, setisSuccess] = useState(false);
     const[isLoader, setIsLoader] = useState(false)
+
+    const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
+    const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
+    const[emailErrorMessage, setEmailErrorMessage] = useState(null)
+    const[roleErrorMessage, setRoleErrorMessage] = useState(null)
 
     useEffect(() => {
         setIsLoader(true);
@@ -64,8 +69,23 @@ function EditTeamMember(props) {
             setisSuccess(true)
         }).catch((e) => {
             setIsLoader(false);
-            //history.push(GetErrorHandlingRoute(e));
-            setisexisitinguseremail(true)
+            var returnValues = GetErrorKey(e, data.keys())
+            var errorKeys = returnValues[0]
+            var errorMessages = returnValues[1]
+            if (errorKeys.length > 0){
+                for (var i=0; i<errorKeys.length; i++){
+                    switch(errorKeys[i]){
+                    case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
+                    case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
+                    case "email": setEmailErrorMessage(errorMessages[i]); break;
+                    case "role": setRoleErrorMessage(errorMessages[i]); break;
+                    default: history.push(GetErrorHandlingRoute(e)); break;
+                    }
+                }
+            }
+            else{
+                history.push(GetErrorHandlingRoute(e))
+            }
         });
     }
     return (
@@ -85,6 +105,10 @@ function EditTeamMember(props) {
                     userrole={userrole}
                     setuserrole={ref => { setuserrole(ref) }}
                     first_heading={screenlabels.settings.editheading}
+                    firstNameErrorMessage={firstNameErrorMessage}
+                    lastNameErrorMessage={lastNameErrorMessage}
+                    emailErrorMessage={emailErrorMessage}
+                    roleErrorMessage={roleErrorMessage}
                 >
                 </AddMemberForm>
                     <Row style={useStyles.marginrowtop8px}>
