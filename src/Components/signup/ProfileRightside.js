@@ -154,9 +154,9 @@ export default function ProfileRightside(props) {
               //   className="profilefirstname"
               onChange={props.handleprofilfirstename}
               //inputRef={props.profilefirstname}
-              error={props.ispropfilefirstnameerror}
+              error={props.ispropfilefirstnameerror || props.firstNameErrorMessage}
               helperText={
-                props.ispropfilefirstnameerror ? "Enter Valid Name" : ""
+                props.ispropfilefirstnameerror ? "Enter Valid Name" : props.firstNameErrorMessage
               }
             />
           </div>
@@ -169,9 +169,9 @@ export default function ProfileRightside(props) {
               //   className="profilelastname"
               onChange={props.handleprofilelastname}
               //inputRef={props.profilelastname}
-              error={props.ispropfilelastnameerror}
+              error={props.ispropfilelastnameerror || props.lastNameErrorMessage}
               helperText={
-                props.ispropfilelastnameerror ? "Enter Valid last name" : ""
+                props.ispropfilelastnameerror ? "Enter Valid last name" : props.lastNameErrorMessage
               }
             />
           </div>
@@ -187,6 +187,8 @@ export default function ProfileRightside(props) {
               inputProps={{ readOnly: true }}
               defaultValue={props.validemail}
               disabled
+              error={props.emailErrorMessage ? true : false}
+              helperText={props.emailErrorMessage}
               // error={props.ispropfileemailerror}
               // helperText={
               //   props.ispropfileemailerror ? "Enter Valid Email id" : ""
@@ -201,6 +203,8 @@ export default function ProfileRightside(props) {
               label="Contact Number"
               variant="filled"
               onChange={props.handleprofilenumber}
+              error={props.phoneNumberErrorMessage?true:false}
+              helperText={props.phoneNumberErrorMessage}
               // error={ispropfilenumbererror}
               // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />
