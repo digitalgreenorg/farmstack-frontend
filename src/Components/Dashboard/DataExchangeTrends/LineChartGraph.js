@@ -33,7 +33,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   };
   
 const LineChartGraph = ({filterPeriod}) => {
-  
+  // const []
     const dummy = [
         {
           connectors: 1,
@@ -224,6 +224,8 @@ const LineChartGraph = ({filterPeriod}) => {
         setData([...updatedData])
         console.log(data, "updated")
       }, [filterPeriod])
+
+
     
   return (
     <div>
@@ -245,10 +247,10 @@ const LineChartGraph = ({filterPeriod}) => {
           {/* <Legend /> */}
           {/* <ReferenceLine x="Page C" stroke="#D73193" label="Max PV PAGE" /> */}
           <ReferenceLine strokeDasharray="10 10" y={4.5} x="16" label="" stroke="red" />
-          <ReferenceLine x={16} label="" stroke="#CFC1E4" />
+          <ReferenceLine x={16} alwaysShow={false} label="" stroke="#CFC1E4" />
           <ReferenceDot x={16} y={4.5}  fill="#402769" stroke="#FFFFFF" strokeWidth="10px" />
           {/* <ReferenceArea x1={12} x2={16} y1={8} y2={10} stroke="#402769"   strokeOpacity={0.3}  /> */}
-          <Line animationDuration={4000} strokeDashArray="4"  animationEasing="ease-in-out" type="monotone" dataKey="days" stroke="#5AAAFA" strokeWidth={2} dot={false} />
+          <Line isAnimationActive={true} animationDuration={3000} onAnimationEnd={()=>console.log("first")} strokeDashArray="4" animationBegin={100}  animationEasing="ease-in-out" type="monotone" dataKey="days" stroke="#5AAAFA" strokeWidth={2} dot={false} />
 
           {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */} 
         </LineChart>

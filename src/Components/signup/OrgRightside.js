@@ -493,7 +493,7 @@ export default function OrgRightside(props) {
               helperText={
                 (props.isOrgmailerror && !props.orgEmailErrorMessage)
                   ? "Enter Valid Email id"
-                  : props.existingOrgMailMessage
+                  : props.orgEmailErrorMessage
               }
               inputRef={orgMailRef}
             />

@@ -61,7 +61,7 @@ export default function DataSetCard(props) {
                 }
                 // title={props.data.subject}
                 // tooltip={<Tooltip title={props.title}>{props.title}</Tooltip>}
-                title={props.title + parse(`${newimg}`)}
+                title={props.title}
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left", "overflow": "hidden", "text-overflow": "ellipsis"}}
                 
                 />

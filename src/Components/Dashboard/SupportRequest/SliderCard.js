@@ -14,7 +14,7 @@ const SliderCard = ({supportRequestData}) => {
             <div className={styles.supportRequestDetailTopThreeBlockEach}>
                 <span className={styles.supportRequestDetailTopThreeBlockEachText}>Open Request</span>
                 <Tooltip TransitionComponent={Zoom}  title={supportRequestData.openRequest}>
-                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "text_overflow_ellipsis_overflow_hidden width150px"}>{supportRequestData.openRequest}</span>
+                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{supportRequestData.openRequest}</span>
                 </Tooltip>
 
                 
@@ -23,7 +23,7 @@ const SliderCard = ({supportRequestData}) => {
                             <span className={styles.supportRequestDetailTopThreeBlockEachText}>Close Request</span>
                 <Tooltip TransitionComponent={Zoom}  title={supportRequestData.closeRequest}>
 
-                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "text_overflow_ellipsis_overflow_hidden width150px"}>{supportRequestData.closeRequest}</span>
+                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{supportRequestData.closeRequest}</span>
                 </Tooltip>
 
                 </div>
@@ -31,7 +31,7 @@ const SliderCard = ({supportRequestData}) => {
                             <span className={styles.supportRequestDetailTopThreeBlockEachText}>Hold Request</span>
                 <Tooltip TransitionComponent={Zoom}  title={supportRequestData.holdRequest}>
 
-                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "text_overflow_ellipsis_overflow_hidden width150px"}>{supportRequestData.holdRequest}</span>
+                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{supportRequestData.holdRequest}</span>
                 </Tooltip>
                 
                 </div>
@@ -53,13 +53,13 @@ const SliderCard = ({supportRequestData}) => {
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}><span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the Participant</span>
                 <Tooltip TransitionComponent={Zoom}  title={supportRequestData.newRequestNameOfParticipant}>
                 
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "text_overflow_ellipsis_overflow_hidden width200px"}>{supportRequestData.newRequestNameOfParticipant}</span>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{supportRequestData.newRequestNameOfParticipant}</span>
                 </Tooltip>
                 </div>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}>                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the Participant User</span>
                 <Tooltip TransitionComponent={Zoom}  title={supportRequestData.newRequestNameOfTheParticipantUser}>
                
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "text_overflow_ellipsis_overflow_hidden width200px"}>{supportRequestData.newRequestNameOfTheParticipantUser}</span>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{supportRequestData.newRequestNameOfTheParticipantUser}</span>
                 </Tooltip>
                 
                 </div>
