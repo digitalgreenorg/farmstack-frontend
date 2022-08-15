@@ -8,6 +8,8 @@ import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import $ from 'jquery';
 import FilterCheckBox from '../../Components/Datasets/FilterCheckBox';
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 import { SearchSharp } from '@mui/icons-material';
 
 export default function DataSetFilter(props) {
@@ -214,6 +216,21 @@ export default function DataSetFilter(props) {
             />
             &nbsp;&nbsp;{screenlabels.dataset.age}</span>
       </Row>
+      <Row style={{"margin-left":"-3px","margin-top":"10px"}}>
+          <FormControlLabel
+            value="start"
+            control={
+              <Switch
+                checked={props.constantyUpdateSwitch}
+                onChange={(e) => props.handleConstantyUpdateSwitch(e)}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            }
+            label={screenlabels.dataset.Constantly_updating}
+            labelPlacement="start"
+            className="constantswitch"
+          />
+        </Row>
       {/* <Row> */}
           {props.ageFilterDisplay && props.ageFilterDisplay.map((ageFilter) => (
               <FilterCheckBox
