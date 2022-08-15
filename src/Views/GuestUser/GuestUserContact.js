@@ -12,7 +12,9 @@ import Footer from "../../Components/Footer/Footer";
 import validator from "validator";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
+
 import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
+
 export default function GuestUserContact(props) {
   // var validator = require('validator');
   const history = useHistory();
@@ -41,6 +43,7 @@ export default function GuestUserContact(props) {
   const[describeQueryErrorMessage, setDescribeQueryErrorMessage] = useState(null)
 
   const handleChange = (e) => {
+    e.preventDefault()
     if (e.target.name == "email") {
       setEmailError(!validator.isEmail(e.target.value));
     }
@@ -67,7 +70,7 @@ export default function GuestUserContact(props) {
     },
     fullWidth: {
       width: "860px",
-      height: "49px",
+      // height: "49px",
     },
     marginRight: { "margin-right": "20px" },
     headingbold: { fontWeight: "bold" },
@@ -136,6 +139,7 @@ export default function GuestUserContact(props) {
         setIsLoader(false);
         console.log(e);
 
+
         var returnValues = GetErrorKey(e, bodyFormData.keys())
         var errorKeys = returnValues[0]
         var errorMessages = returnValues[1]
@@ -156,17 +160,8 @@ export default function GuestUserContact(props) {
           history.push(GetErrorHandlingRoute(e))
         }
 
-        /*
-        setUserDetails({
-            firstName: "",
-            lastName: "",
-            email: "",
-            contactNumber: "",
-            subject: "",
-            queryDescription: "",
-          });*/
-        // setisexisitinguseremail(true);
-        //history.push(GetErrorHandlingRoute(e));
+  
+        history.push(GetErrorHandlingRoute(e));
       });
   };
   

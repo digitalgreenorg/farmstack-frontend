@@ -5,6 +5,7 @@ import NativeSelect from '@mui/material/NativeSelect';
 import labels from '../../../Constants/labels'
 
 const SelectComponent = ({filterPeriod, setFilterPeriod}) => {
+
   return (<FormControl fullWidth>
     <InputLabel variant="standard" htmlFor="uncontrolled-native">
      <span style={{fontSize:"12px", lineHeight:"16px"}}>
@@ -18,12 +19,14 @@ const SelectComponent = ({filterPeriod, setFilterPeriod}) => {
         name: 'Period',
         id: 'uncontrolled-native',
       }}
-      onChange={(e)=>setFilterPeriod(e.target.value)}
+      onChange={(e)=> {
+        console.log(filterPeriod)
+        setFilterPeriod(e.target.value)}}
     >
       
-      <option value={7*24}>{labels.en.dashboard.week}</option>
-      <option value={30*24}>{labels.en.dashboard.month}</option>
-      <option value={365*24}>{labels.en.dashboard.yearly}</option>
+      <option value={24 * 7}>{labels.en.dashboard.week}</option>
+      <option value={24 * 30}>{labels.en.dashboard.month}</option>
+      {/* <option value={365 * 24}>{labels.en.dashboard.yearly}</option> */}
       <option value={24}>{labels.en.dashboard.day}</option>
     </NativeSelect>
   </FormControl>

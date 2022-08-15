@@ -48,13 +48,15 @@ const BarChartComponent = ({ barChartData }) => {
       value: 10.0,
       amt: 2.5,
     },
+    
+    
   ];
   const [data, setData] = useState(propsData);
   useEffect(() => {
     if (barChartData) {
       setData([...data]);
     }
-  });
+  },[]);
 
   // console.log(data)
   return (
@@ -69,7 +71,8 @@ const BarChartComponent = ({ barChartData }) => {
         barSize={30}
         //    style={{border:"1px solid blue"}}
         isAnimationActive={true}
-        barCategoryGap={65}
+        // barCategoryGap="20%"
+        
       >
         <YAxis
           padding={{ top: 20, bottom: 5 }}
@@ -80,22 +83,30 @@ const BarChartComponent = ({ barChartData }) => {
           type="number"
           fontSize="10px"
           axisLine={false}
+          isAnimationActive={true}
         />
         <XAxis
           padding={{ left: 30, right: 20 }}
-          tickSize={0}
-          minTickGap={1}
+          tickSize={1}
+          minTickGap={-1}
           fontSize="10px"
           axisLine={false}
           type="category"
           dataKey="name"
           scale="point"
           interval={0}
-          angle={0}
+          angle={propsData.length < 6 ? 0 : propsData.length >=10 ? 20 : 0 }
+          tickMargin={1}
+          
         />
         <Tooltip />
 
-        <Bar dataKey="value" fill="#5AAAFA" />
+        <Bar 
+        
+        isAnimationActive={true}
+        animationBegin="0"
+        animationDuration={2000}
+        dataKey="value" fill="#5AAAFA" />
       </BarChart>
     </div>
   );

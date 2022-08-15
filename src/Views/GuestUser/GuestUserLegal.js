@@ -34,6 +34,7 @@ export default function GuestUserLegal(props){
             HTTPService(
                 "GET",
                 UrlConstant.base_url + UrlConstant.microsite_legal_documents,
+                // "https://1eb8-106-51-85-143.in.ngrok.io/microsite/legal_documents/",
                 "",
                 false,
                 false
@@ -42,6 +43,15 @@ export default function GuestUserLegal(props){
                   console.log(response, "updated responmse")
                   response = response.data
                  
+
+   
+    // console.log(arr)
+                  // console.log(admin)
+                  // setIsLoader(false);
+      
+      
+              
+
                   let arr = [
                       
                       {title:"Governing Laws", content:response.Content.governing_law, download:response.Documents.governing_law},
@@ -52,6 +62,7 @@ export default function GuestUserLegal(props){
                       
                   ]
                   setLegalData([...arr])
+
                   setIsLoader(false);
                 })
                 .catch((e) => {

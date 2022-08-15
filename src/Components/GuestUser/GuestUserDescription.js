@@ -8,6 +8,8 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import parse from 'html-react-parser'
 import './GuestUserBanner.css'
+import { Tooltip } from "@mui/material";
+import { Zoom } from "@material-ui/core";
 
 export default function GuestUserDescription(props) {
 
@@ -35,7 +37,10 @@ export default function GuestUserDescription(props) {
         <Container style={{"margin-top": "50px", "margin-left": "180px", "margin-right":"180px"}}>
             <Row>
                 <Col xs={12} sm={12} md={12} lg={12}>
-                <span class="fontweight400andfontsize16pxandcolor3D4A52">{parse(description)}</span>
+                  <Tooltip TransitionComponent={Zoom} title={parse(description)}>
+
+                <span className="fontweight400andfontsize16pxandcolor3D4A52 d-inline-block text-truncate width1000px classForPtag">{parse(description)}</span>
+                  </Tooltip>
                 </Col>
             </Row>
         </Container>

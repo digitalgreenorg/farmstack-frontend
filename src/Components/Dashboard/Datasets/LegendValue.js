@@ -1,3 +1,4 @@
+import { Tooltip } from "@mui/material";
 import React, { useState } from "react";
 
 const LegendValue = ({ data, COLORS }) => {
@@ -10,7 +11,7 @@ const LegendValue = ({ data, COLORS }) => {
 
   // setTotal(sum)
   return (
-    <div style={{ marginRight: "50px" }}>
+    <div className="width250px" >
       {data.map((entry, index) => (
         <div
           style={{
@@ -29,8 +30,10 @@ const LegendValue = ({ data, COLORS }) => {
               marginBottom: "20px",
             }}
           ></div>
-          <div key={`item-${index}`}>
-            {Math.round((+entry.value / sum) * 100)}% {entry.name}
+          <div style={{textAlign:"left"}} className="width200px" key={`item-${index}`}>
+            <Tooltip title={`${Math.round((+entry.value / sum) * 100)}% ${entry.name}` }>
+           <span className="d-inline-block text-truncate width150px">{`${Math.round((+entry.value / sum) * 100)}% ${entry.name}` }</span> 
+            </Tooltip>
           </div>
         </div>
       ))}

@@ -11,7 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import { dateTimeFormat } from "../../Utils/Common";
 import UrlConstants from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Zoom } from "@mui/material";
 
 const useStyles = {
   datasetdescription: {
@@ -92,6 +92,7 @@ export default function ViewDataSet(props) {
           <span className="secondmainheading">{"Data Category"}</span>
         </Col>
       </Row>
+      
       <Row
         style={{
           "margin-left": "79px",
@@ -105,7 +106,9 @@ export default function ViewDataSet(props) {
             "line-height": "19px",
             "word-break": "break-word",
           }}>
-          <span className="thirdmainheading">{props.rowdata.name}</span>
+            <Tooltip TransitionComponent={Zoom} title={props.rowdata.name}>
+          <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">{props.rowdata.name}</span>
+        </Tooltip>
         </Col>
         {/* <Col
           style={{
@@ -122,18 +125,20 @@ export default function ViewDataSet(props) {
             height: "37px",
             "line-height": "19px",
             "word-break": "break-word",
-          }}>
-          <Tooltip title={props.rowdata.description}>
+          }}
+          >
             <Row style={useStyles.datasetdescription}>
-              {props.rowdata.description}
-            </Row>
+          <Tooltip TransitionComponent={Zoom} title={props.rowdata.description}>
+            <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate"> {props.rowdata.description}</span> 
           </Tooltip>
+            </Row>
         </Col>
-
-        <Col>
-          <span className="thirdmainheading">
+        <Col className="text-truncate">
+        <Tooltip TransitionComponent={Zoom} title={categoryStr}>
+          <span  style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">
             {categoryStr}
           </span>
+        </Tooltip>
         </Col>
       </Row>
       <Row
@@ -158,30 +163,40 @@ export default function ViewDataSet(props) {
           "margin-top": "5px",
           "text-align": "left",
         }}>
-        <Col style={{ width: "30px", height: "37px", "line-height": "19px" }}>
+        <Col className="memberDataSetCardTooltipAndWidthAndOverflow" style={{ width: "30px", height: "37px", "line-height": "19px",  }}>
+          <Tooltip TransitionComponent={Zoom} title={props.rowdata.geography}>
           <span
-            className="thirdmainheading"
+            className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate"
             style={{
               "margin-top": "5px",
               "max-width": "50%",
               height: "37px",
               "line-height": "19px",
               "word-break": "break-word",
+              maxWidth: "300px"
             }}>
             {props.rowdata.geography}
           </span>
+        </Tooltip>
         </Col>
+
+
         <Col
+        className="memberDataSetCardTooltipAndWidthAndOverflow"
           style={{
             width: "30px",
             height: "37px",
             "line-height": "19px",
             "word-break": "break-word",
+            // border:"1px solid red"
           }}>
-          <span className="thirdmainheading">
+            <Tooltip TransitionComponent={Zoom} title=  {props.rowdata.crop_detail ? props.rowdata.crop_detail : "N/A"}>
+          <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">
             {props.rowdata.crop_detail ? props.rowdata.crop_detail : "N/A"}
           </span>
+        </Tooltip>
         </Col>
+
         <Col>
           <span className="thirdmainheading">
             {props.rowdata.constantly_update ? "Yes" : "No"}
@@ -287,13 +302,17 @@ export default function ViewDataSet(props) {
               "margin-top": "5px",
               "text-align": "left",
             }}>
-            <Col>
-              <span className="thirdmainheading">
+            <Col className="memberDataSetCardTooltipAndWidthAndOverflow">
+              <Tooltip TransitionComponent={Zoom} title= {props.rowdata.user.first_name + " " + props.rowdata.user.last_name}>
+              <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">
                 {props.rowdata.user.first_name} {props.rowdata.user.last_name}
               </span>
+            </Tooltip>
             </Col>
+
             <Col>
-              <Row>
+              <Row className="memberDataSetCardTooltipAndWidthAndOverflow">
+
                 <Col>
                   {props.rowdata.organization.logo ? (
                     <Avatar
@@ -312,20 +331,29 @@ export default function ViewDataSet(props) {
                     </Avatar>
                   )}
                 </Col>
+
                 <Col style={{ "margin-left": "-63%", "margin-top": "3%" }}>
-                  <span className="thirdmainheading">
+                    <Tooltip TransitionComponent={Zoom} title= {props.rowdata.organization.name}>
+                  <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">
                     {props.rowdata.organization.name}
                   </span>
+                  </Tooltip>
                 </Col>
               </Row>
             </Col>
-            <Col>
-              <span className="thirdmainheading">
+
+            <Col className="memberDataSetCardTooltipAndWidthAndOverflow">
+            <Tooltip  TransitionComponent={Zoom} title={props.rowdata.organization.org_email
+                  ? props.rowdata.organization.org_email
+                  : "N/A"}>
+              <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">
                 {props.rowdata.organization.org_email
                   ? props.rowdata.organization.org_email
                   : "N/A"}
               </span>
+            </Tooltip>
             </Col>
+
           </Row>
           <Row
             style={{
@@ -349,20 +377,31 @@ export default function ViewDataSet(props) {
               "margin-top": "5px",
               "text-align": "left",
             }}>
-            <Col>
-              <span className="thirdmainheading">
+
+            <Col className="memberDataSetCardTooltipAndWidthAndOverflow">
+              <Tooltip  TransitionComponent={Zoom} title={props.rowdata.organization["name"]
+                  ? props.rowdata.organization["name"]
+                  : "N/A"}>
+              <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">
                 {props.rowdata.organization["name"]
                   ? props.rowdata.organization["name"]
                   : "N/A"}
               </span>
+                  </Tooltip>
             </Col>
-            <Col>
-              <span className="thirdmainheading">
+            
+            <Col className="memberDataSetCardTooltipAndWidthAndOverflow">
+                  <Tooltip  TransitionComponent={Zoom} title={props.rowdata.organization["address"]["address"]
+                  ? props.rowdata.organization["address"]["address"]
+                  : "N/A"}>
+              <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">
                 {props.rowdata.organization["address"]["address"]
                   ? props.rowdata.organization["address"]["address"]
                   : "N/A"}
               </span>
+                  </Tooltip>
             </Col>
+
             <Col>
               <span className="secondmainheading">{""}</span>
             </Col>
@@ -373,6 +412,7 @@ export default function ViewDataSet(props) {
               "margin-top": "30px",
               "text-align": "left",
             }}>
+             
             <Col>
               <span className="secondmainheading">{"Country"}</span>
             </Col>
@@ -390,19 +430,29 @@ export default function ViewDataSet(props) {
               "text-align": "left",
             }}>
             <Col>
-              <span className="thirdmainheading">
+               <Tooltip  TransitionComponent={Zoom} title={props.rowdata.organization["address"]["country"]
+                  ? props.rowdata.organization["address"]["country"]
+                  : "N/A"}>
+              <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">
                 {props.rowdata.organization["address"]["country"]
                   ? props.rowdata.organization["address"]["country"]
                   : "N/A"}
               </span>
+            </Tooltip>
             </Col>
+
             <Col>
-              <span className="thirdmainheading">
+            <Tooltip TransitionComponent={Zoom} title= {props.rowdata.organization["address"]["pincode"]
+                  ? props.rowdata.organization["address"]["pincode"]
+                  : "N/A"}>
+              <span style={{maxWidth: "300px"}} className="thirdmainheading memberDataSetCardTooltipAndWidthAndOverflow d-inline-block text-truncate">
                 {props.rowdata.organization["address"]["pincode"]
                   ? props.rowdata.organization["address"]["pincode"]
                   : "N/A"}
               </span>
+            </Tooltip>
             </Col>
+
             <Col>
               <span className="secondmainheading">{""}</span>
             </Col>

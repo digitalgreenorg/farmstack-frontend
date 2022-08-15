@@ -14,6 +14,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import parse from "html-react-parser";
 import labels from "../../Constants/labels";
+import { downloadAttachment } from "../../Utils/Common";
 export default function GuestUserLegalPage({ legalData }) {
   const [value, setValue] = React.useState(1);
   const history = useHistory();
@@ -160,8 +161,9 @@ export default function GuestUserLegalPage({ legalData }) {
                         <spna>View document</spna>{" "}
                       </a>
                       <a
-                        target="blank"
-                        href={UrlConstant.base_url + eachLegalPolicy.download}
+                       
+                          
+                        onClick={()=>downloadAttachment(UrlConstant.base_url + eachLegalPolicy.download,eachLegalPolicy.title )}
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -195,6 +197,7 @@ export default function GuestUserLegalPage({ legalData }) {
                   >
                     {" "}
                     {parse(`${eachLegalPolicy.content}`)}
+                    {console.log(eachLegalPolicy.content, "eachLegalPolicy.content")}
                   </div>
                 </div>
               </TabPanel>
