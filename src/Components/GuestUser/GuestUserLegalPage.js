@@ -197,6 +197,7 @@ export default function GuestUserLegalPage({ legalData }) {
                   >
                     {" "}
                     {parse(`${eachLegalPolicy.content}`)}
+                    {console.log(eachLegalPolicy.content, "eachLegalPolicy.content")}
                   </div>
                 </div>
               </TabPanel>

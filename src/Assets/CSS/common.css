@@ -519,6 +519,11 @@ overflow: hidden;
   width: 150px;
   
 }
+
+.width173px{
+  width: 173px;
+  /* border: 1px solid red; */
+}
 .width200px{
   width: 200px;
   /* border: 1px solid red; */
@@ -537,12 +542,57 @@ overflow: hidden;
 
 .width300px{
   width: 300px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
+
+}
+
+.width300px_mt5px{
+  width: 300px;
+  margin-top: 5px;
+  /* border: 1px solid red; */
+
 
 }
 
 .width600px{
   width: 600px;
-  /* border: 1px solid blue; */
+  border: 1px solid blue;
 
+}
+.width1000px{
+  width: 1000px;
+/* border: 1px solid red; */
+
+}
+
+.classForPtag {
+/* border: 1px solid red; */
+/* width: 1000px; */
+
+}
+
+
+.cardheaderTitlespecifier .css-et1ao3-MuiTypography-root{
+  /* border: 1px solid red; */
+  width: 250px;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+}
+.cardheaderTitlespecifier .css-et1ao3-MuiTypography-root{
+  /* border: 1px solid green; */
+  width: 250px;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+}
+.cardheaderTitlespecifier .css-83ijpv-MuiTypography-root{
+  /* border: 1px solid green; */
+  width: 250px;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+}
+
+
+
+.red{
+  border: 1px solid red;
 }

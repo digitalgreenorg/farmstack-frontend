@@ -182,37 +182,37 @@ const LineChartGraph = ({filterPeriod}) => {
         {
           connectors: 25,
           uv: 3490,
-          days: 19.00,
+          days: 18.00,
           amt: 2.100,
         },
         {
           connectors: 26,
           uv: 3490,
-          days: 19.00,
-          amt: 2.100,
-        },
-        {
-          connectors: 24,
-          uv: 3490,
-          days: 19.00,
+          days: 17.00,
           amt: 2.100,
         },
         {
           connectors: 27,
           uv: 3490,
-          days: 19.00,
+          days: 15.00,
           amt: 2.100,
         },
         {
           connectors: 28,
           uv: 3490,
-          days: 19.00,
+          days: 10.00,
           amt: 2.100,
         },
         {
           connectors: 29,
           uv: 3490,
-          days: 19.00,
+          days: 13.00,
+          amt: 2.100,
+        },
+        {
+          connectors: 30,
+          uv: 3490,
+          days: 14.00,
           amt: 2.100,
         },
       ];
@@ -248,7 +248,7 @@ const LineChartGraph = ({filterPeriod}) => {
           <ReferenceLine x={16} label="" stroke="#CFC1E4" />
           <ReferenceDot x={16} y={4.5}  fill="#402769" stroke="#FFFFFF" strokeWidth="10px" />
           {/* <ReferenceArea x1={12} x2={16} y1={8} y2={10} stroke="#402769"   strokeOpacity={0.3}  /> */}
-          <Line animationDuration={5000} animationBegin={2000} strokeDashArray="4"  animationEasing="ease-in-out" type="monotone" dataKey="days" stroke="#5AAAFA" strokeWidth={2} dot={false} />
+          <Line animationDuration={4000} strokeDashArray="4"  animationEasing="ease-in-out" type="monotone" dataKey="days" stroke="#5AAAFA" strokeWidth={2} dot={false} />
 
           {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */} 
         </LineChart>

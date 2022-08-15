@@ -26,6 +26,10 @@
   line-height: 19px;
   color: #3d4a52;
   font-style: normal;
+  /* border: 1px solid red; */
+  width: 300px;
+  text-overflow: ellipsis;
+  overflow: hidden;
   /* or 19px */
 }
 

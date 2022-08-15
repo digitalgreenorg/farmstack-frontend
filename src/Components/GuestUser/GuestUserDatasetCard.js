@@ -21,6 +21,7 @@ import { useState } from "react";
 import ReactTooltip from "react-tooltip";
 import { getUserLocal, getUserMapId, dateTimeFormat } from "../../Utils/Common";
 import { Tooltip } from "@mui/material";
+import { Zoom } from "@material-ui/core";
 const useStyles = {
   btncolor: {
     color: THEME_COLORS.THEME_COLOR,
@@ -82,16 +83,17 @@ export default function GuestUserDatasetCard(props) {
       onMouseEnter={() => setisshowbutton(true)}
       onMouseLeave={() => setisshowbutton(false)}>
       <Tooltip title={props.title}>
+      <div className='cardheaderTitlespecifier text-truncate'>
         <CardHeader
           avatar={
             props.orgLogo ? (
               <Avatar
-                alt="Remy Sharp"
-                src={UrlConstants.base_url_without_slash + props.orgLogo}
-                sx={{ width: 54, height: 54 }}
+              alt="Remy Sharp"
+              src={UrlConstants.base_url_without_slash + props.orgLogo}
+              sx={{ width: 54, height: 54 }}
               />
-            ) : (
-              <Avatar
+              ) : (
+                <Avatar
                 sx={{ bgcolor: "#c09507", width: 54, height: 54 }}
                 aria-label="recipe">
                 {props.orgName.charAt(0)}
@@ -108,25 +110,38 @@ export default function GuestUserDatasetCard(props) {
             overflow: "hidden",
             "text-overflow": "ellipsis",
           }}
-        />
+          > Hello</CardHeader>
+          </div>
       </Tooltip>
       <CardContent>
-        <Tooltip title={props.description}>
-          <Row style={useStyles.datasetdescription}>{props.description}</Row>
+          <Row style={useStyles.datasetdescription}>
+        <Tooltip TransitionComponent={Zoom} title={props.description}>
+
+          <span style={{maxWidth: "300px"}} className="d-inline-block text-truncate">
+
+            {props.description}
+            </span> 
         </Tooltip>
+
+            </Row>
         <Row>
-          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
             {screenlabels.dataset.organisation_name}
           </Col>
           <Col
-            className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
+            className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn width173px"
             style={{ textAlign: "left" }}>
             {screenlabels.dataset.published_on}
           </Col>
         </Row>
         <Row className="supportcardmargintop">
-          <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-            {props.orgName}
+          <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
+            <Tooltip TransitionComponent={Zoom} title={props.orgName}>
+                  <div style={{maxWidth: "135px"}} className="d-inline-block text-truncate">
+
+                    {props.orgName}
+                  </div>
+            </Tooltip>
           </Col>
           <Col
             style={{
@@ -135,25 +150,31 @@ export default function GuestUserDatasetCard(props) {
               "text-transform": "capitalize",
               textAlign: "left",
             }}
-            className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+            className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn width173px">
             {props.publishedon ? dateTimeFormat(props.publishedon, true) : "NA"}
           </Col>
         </Row>
         <Row>
-          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
             {screenlabels.dataset.age_of_data}
           </Col>
           <Col
-            className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
+            className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn width173px"
             style={{ textAlign: "left" }}>
             {screenlabels.dataset.crop_details}
           </Col>
         </Row>
         <Row className="supportcardmargintop">
-          <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-            {props.ageOfData == "" ? "N/A" : props.ageOfData}
+          <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
+
+             <Tooltip TransitionComponent={Zoom} title={props.ageOfData == "" ? "N/A" : props.ageOfData}>
+                    <div style={{maxWidth: "135px"}} className="d-inline-block text-truncate"> 
+                      {props.ageOfData == "" ? "N/A" : props.ageOfData}
+                    </div>
+             </Tooltip>
+           
           </Col>
-          <Tooltip title={props.cropDetail}>
+         
             <Col
               style={{
                 "padding-right": "4px",
@@ -161,23 +182,33 @@ export default function GuestUserDatasetCard(props) {
                 "text-transform": "capitalize",
                 textAlign: "left",
               }}
-              className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata">
-              {props.cropDetail == "" ? "N/A" : props.cropDetail}
+              className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata width173px">
+                 <Tooltip TransitionComponent={Zoom} title={props.cropDetail == "" ? "N/A" : props.cropDetail}>
+                    <div style={{maxWidth: "135px"}} className="d-inline-block text-truncate"> 
+                    {props.cropDetail == "" ? "N/A" : props.cropDetail}
+                    </div>
+             </Tooltip>
+              
             </Col>
-          </Tooltip>
+          
         </Row>
         <Row>
-          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
             {screenlabels.dataset.geography}
           </Col>
         </Row>
         <Row className="supportcardmargintop">
-          <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-            {props.geography}
+          <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
+          <Tooltip TransitionComponent={Zoom} title={props.geography}>
+                    <div style={{maxWidth: "135px"}} className="d-inline-block text-truncate"> 
+                    {props.geography}
+                    </div>
+             </Tooltip>
+            
           </Col>
           {isshowbutton ? (
-            <Col
-              className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
+            <Col 
+              className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn width173px"
               style={{ textAlign: "left" }}>
               <Button
                 onClick={() => props.viewCardDetails()}

@@ -105,7 +105,7 @@ export const GetErrorHandlingRoute = (e) => {
     errorMessage = e.response.data.message
   }
   else if (e.response && e.response.data){
-    errorMessage = e.response.data
+    errorMessage = String(e.response.data)
   }
   else if (e.response){
     errorMessage = e.response.statusText
@@ -194,6 +194,20 @@ export const flushLocalstorage = () => {
 }
 
 
+
 export const downloadAttachment = (uri, name) => {
   FileSaver.saveAs(uri, name)
 }
+
+export const GetErrorKey = (e, keyList) => {
+  var errorKeys = []
+  var errorMessages = []
+  for (var key of keyList){
+    if (e.response && e.response.status === 400 && e.response.data && e.response.data[key]){
+      errorKeys.push(key)
+      errorMessages.push(e.response.data[key][0])
+    }
+  }
+  return [errorKeys, errorMessages]
+}
+

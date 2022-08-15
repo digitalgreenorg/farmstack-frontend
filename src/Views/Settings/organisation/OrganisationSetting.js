@@ -25,6 +25,7 @@ import HandleSessionTimeout, {
   handleAddressCharacters,
   setUserMapId,
   setOrgId,
+  GetErrorKey,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import {
@@ -94,6 +95,11 @@ export default function OrganisationSetting(props) {
   const [orgfilesize, setorgfilesize] = useState(false);
   const [isPost, setisPost] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
+
+  const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
+  const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
+  const[orgPhoneNumberErrorMessage, setOrgPhoneNumberErrorMessage] = useState(null)
+  const[orgDescriptionErrorMessage, setOrgDescriptionErrorMessage] = useState(null)
 
   const history = useHistory();
 
@@ -176,6 +182,11 @@ export default function OrganisationSetting(props) {
     var id = getUserLocal();
     console.log("user id", id);
 
+    setOrgNameErrorMessage(null)
+    setOrgEmailErrorMessage (null)
+    setOrgPhoneNumberErrorMessage (null)
+    setOrgDescriptionErrorMessage (null)
+
     let puturl = UrlConstant.base_url + UrlConstant.org + id + "/";
     let posturl = UrlConstant.base_url + UrlConstant.org;
 
@@ -220,7 +231,23 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          history.push(GetErrorHandlingRoute(e));
+          var returnValues = GetErrorKey(e, bodyFormData.keys())
+          var errorKeys = returnValues[0]
+          var errorMessages = returnValues[1]
+          if (errorKeys.length > 0){
+            for (var i=0; i<errorKeys.length; i++){
+              switch(errorKeys[i]){
+                case "phone_number": setOrgPhoneNumberErrorMessage(errorMessages[i]); break;
+                case "name": setOrgNameErrorMessage(errorMessages[i]); break;
+                case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
+                case "org_description": setOrgDescriptionErrorMessage(errorMessages[i]); break;
+                default: history.push(GetErrorHandlingRoute(e)); break;
+              }
+            }
+          }
+          else{
+            history.push(GetErrorHandlingRoute(e))
+          }
           //   setError(true);
         });
     } else {
@@ -246,7 +273,23 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          history.push(GetErrorHandlingRoute(e));
+          var returnValues = GetErrorKey(e, bodyFormData.keys())
+          var errorKeys = returnValues[0]
+          var errorMessages = returnValues[1]
+          if (errorKeys.length > 0){
+            for (var i=0; i<errorKeys.length; i++){
+              switch(errorKeys[i]){
+                case "phone_number": setOrgPhoneNumberErrorMessage(errorMessages[i]); break;
+                case "name": setOrgNameErrorMessage(errorMessages[i]); break;
+                case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
+                case "org_description": setOrgDescriptionErrorMessage(errorMessages[i]); break;
+                default: history.push(GetErrorHandlingRoute(e)); break;
+              }
+            }
+          }
+          else{
+            history.push(GetErrorHandlingRoute(e))
+          }
           //   setError(true);
         });
     }
@@ -474,8 +517,8 @@ export default function OrganisationSetting(props) {
                   : setisOrgnameerror(false)
               }
               // inputRef={Orgname}
-              error={isOrgnameerror}
-              helperText={isOrgnameerror ? "Enter Valid Name" : ""}
+              error={isOrgnameerror || orgNameErrorMessage}
+              helperText={(isOrgnameerror && !orgNameErrorMessage) ? "Enter Valid Name" : orgNameErrorMessage}
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -488,8 +531,8 @@ export default function OrganisationSetting(props) {
               onChange={handleOrgmail}
               value={email}
               // inputRef={Orgmail}
-              error={isOrgmailerror}
-              helperText={isOrgmailerror ? "Enter Valid Email id" : ""}
+              error={isOrgmailerror || orgEmailErrorMessage}
+              helperText={isOrgmailerror && !orgEmailErrorMessage ? "Enter Valid Email id" : orgEmailErrorMessage}
             />
           </Col>
         </Row>
@@ -504,6 +547,8 @@ export default function OrganisationSetting(props) {
               variant="filled"
               onChange={handleOrgnumber}
               value={phonenumber}
+              error = {orgPhoneNumberErrorMessage ? true : false}
+              helperText = {orgPhoneNumberErrorMessage}
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
               // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
@@ -618,6 +663,8 @@ export default function OrganisationSetting(props) {
                   border: "1px solid black",
                   //   zIndex: 4,
                 }}
+                error={orgDescriptionErrorMessage ? true: false}
+                helperText = {orgDescriptionErrorMessage}
               />
             </div>
           </Col>

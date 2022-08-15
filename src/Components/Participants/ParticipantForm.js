@@ -40,6 +40,8 @@ export default function ParticipantForm(props) {
                         value={props.organisationname}
                         onChange={(e) =>validateInputField(e.target.value,RegexConstants.ORG_NAME_REGEX)? props.setorganisationname(e.target.value): e.preventDefault()}
                         label={screenlabels.addparticipants.organisation_name}
+                        error={props.orgNameErrorMessage ? true: false}
+                        helperText={props.orgNameErrorMessage}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
@@ -51,8 +53,9 @@ export default function ParticipantForm(props) {
                         value={props.orginsationemail}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setorginsationemail(e.target.value.trim()) : e.preventDefault()}
                         label={screenlabels.addparticipants.email}
-                        error={props.isorganisationemailerror}
-                        helperText={props.isorganisationemailerror ? "Enter Valid Email id" : ""}
+                        error={props.isorganisationemailerror || props.orgEmailErrorMessage}
+                        helperText={(props.isorganisationemailerror && !props.orgEmailErrorMessage) ? 
+                            "Enter Valid Email id" : props.orgEmailErrorMessage}
                     />
                 </Col>
             </Row>
@@ -65,8 +68,9 @@ export default function ParticipantForm(props) {
                         value={props.websitelink}
                         onChange={(e) => props.setwebsitelink(e.target.value.trim())}
                         label={screenlabels.addparticipants.website_link}
-                        error={props.iswebsitelinkrerror}
-                        helperText={props.iswebsitelinkrerror ? "Enter Valid Website Link" : ""}
+                        error={props.iswebsitelinkrerror || props.orgWebsiteErrorMessage}
+                        helperText={(props.iswebsitelinkrerror && !props.orgWebsiteErrorMessage) 
+                                    ? "Enter Valid Website Link" : props.orgEmailErrorMessage}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
@@ -79,6 +83,7 @@ export default function ParticipantForm(props) {
                         value={props.organisationaddress}
                         onKeyDown={(e) => handleAddressCharacters(props.organisationaddress,e)}
                         onChange={(e) => props.setorganisationaddress(e.target.value)}
+                        
                     />
                 </Col>
             </Row>
@@ -135,6 +140,8 @@ export default function ParticipantForm(props) {
                         value={props.firstname}
                         // onKeyDown={(e) => handleNameFieldEntry(props.firstname,e)}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setfirstname(e.target.value.trim()) : e.preventDefault()}
+                        error={props.firstNameErrorMessage ? true: false}
+                        helperText={props.firstNameErrorMessage}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
@@ -146,6 +153,8 @@ export default function ParticipantForm(props) {
                         value={props.lastname}
                         // onKeyDown={(e) => handleNameFieldEntry(props.lastname,e)}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setlastname(e.target.value.trim()) : e.preventDefault()}
+                        error={props.lastNameErrorMessage ? true: false}
+                        helperText={props.lastNameErrorMessage}
                     />
                 </Col>
             </Row>
@@ -159,8 +168,11 @@ export default function ParticipantForm(props) {
                         label={screenlabels.addparticipants.email}
                         value={props.useremail}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setuseremail(e.target.value.trim()) : e.preventDefault()}
-                        error={props.isuseremailerror || props.isexisitinguseremail}
-                        helperText={props.isuseremailerror ? "Enter Valid Email id" : props.isexisitinguseremail ? "User is already registered with this email ID" : ""}
+                        error={props.isuseremailerror || props.isexisitinguseremail || props.emailErrorMessage}
+                        helperText={(props.isuseremailerror && !props.emailErrorMessage) ? 
+                                    "Enter Valid Email id" : 
+                                    (props.isexisitinguseremail && !props.emailErrorMessage) ? 
+                                    "User is already registered with this email ID" : props.emailErrorMessage}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
@@ -173,8 +185,9 @@ export default function ParticipantForm(props) {
                         required
                         value={props.contactnumber}
                         onChange={(e) => props.setcontactnumber(e)}
-                        error={props.iscontactnumbererror}
-                        helperText={props.iscontactnumbererror ? "Enter Valid Number" : ""}
+                        error={props.iscontactnumbererror || props.phoneNumberErrorMessage}
+                        helperText={(props.iscontactnumbererror && !props.phoneNumberErrorMessage) 
+                            ? "Enter Valid Number" : props.phoneNumberErrorMessage}
                     />
                 </Col>
             </Row>
@@ -206,6 +219,10 @@ export default function ParticipantForm(props) {
                         <MenuItem value={3}>3 month</MenuItem>
                         <MenuItem value={6}>6 month</MenuItem>
                         <MenuItem value={12}>12 month</MenuItem>
+
+                        {/* error={props.orgSubscriptionErrorMessage ? true: false}
+                        helperText={props.orgSubscriptionErrorMessage} */}
+
                     </TextField>
                 </Col>
             </Row>

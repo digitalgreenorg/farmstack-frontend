@@ -43,7 +43,10 @@ export default function DataSetForm(props) {
             value={props.datasetname}
             onChange={props.handleChangedatasetname}
             label={screenlabels.dataset.name}
+            error={props.nameErrorMessage ? true : false}
+            helperText={props.nameErrorMessage}
           />
+          
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
@@ -56,6 +59,8 @@ export default function DataSetForm(props) {
             maxLength={500}
             onKeyDown={props.handledescriptionKeydown}
             onChange={props.handleChangedescription}
+            error={props.descriptionErrorMessage ? true : false}
+            helperText={props.descriptionErrorMessage}
           />
 
           {/* <TextareaAutosize
@@ -197,6 +202,9 @@ export default function DataSetForm(props) {
             value={props.Geography}
             onChange={props.handleChangeGeography}
             label={screenlabels.dataset.Geography}
+            error={props.geographyErrorMessage ? true : false}
+            helperText={props.geographyErrorMessage}
+            
           />
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
@@ -209,6 +217,8 @@ export default function DataSetForm(props) {
             value={props.cropdetail}
             onChange={props.handleChangecropdetail}
             label={screenlabels.dataset.Crop_Detail}
+            error={props.cropDetailErrorMessage ? true : false}
+            helperText={props.cropDetailErrorMessage}
           />
         </Col>
       </Row>
@@ -327,8 +337,12 @@ export default function DataSetForm(props) {
                     id="filled-basic"
                     variant="filled"
                     className="fromtextfield"
+                    
                   />
+                  
                 )}
+                error={props.dataCaptureStartErrorMessage ? true : false}
+                helperText={props.dataCaptureStartErrorMessage}
               />
             </LocalizationProvider>
           </Col>
@@ -346,6 +360,8 @@ export default function DataSetForm(props) {
                     className="totextfield"
                   />
                 )}
+                error={props.dataCaptureEndErrorMessage ? true : false}
+                helperText={props.dataCaptureEndErrorMessage}
               />
             </LocalizationProvider>
           </Col>

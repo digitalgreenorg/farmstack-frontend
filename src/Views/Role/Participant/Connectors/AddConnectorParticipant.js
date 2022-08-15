@@ -5,6 +5,7 @@ import {
   handleUnwantedSpace,
   getUserMapId,
   GetErrorHandlingRoute,
+  GetErrorKey,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -93,6 +94,12 @@ export default function AddConnectorParticipant() {
   const [isLoader, setIsLoader] = useState(false);
   const [nameErrorMessage, setnameErrorMessage] = useState(null)
   const [dockerErrorMessage, setDockerErrorMessage] = useState(null)
+  const [typeErrorMessage, setTypeErrorMessage] = useState(null)
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
+  const [portErrorMessage, setPortErrorMessage] = useState(null)
+  const [departErrorMessage, setDepartMentErrorMessage] = useState(null)
+  const [projectErrorMessage, setProjectErrorMessage] = useState(null)
+  const [datasetErrorMessage, setDatasetErrorMessage] = useState(null)
 
   //   get dataset
   //   const getDatasetDetails = async () => {
@@ -139,7 +146,7 @@ export default function AddConnectorParticipant() {
       })
       .catch((e) => {
         setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -176,7 +183,7 @@ export default function AddConnectorParticipant() {
       })
       .catch((e) => {
         setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
+        history.push(GetErrorHandlingRoute(e));
       });
   };
   const handleChangeProject = (event) => {
@@ -207,7 +214,7 @@ export default function AddConnectorParticipant() {
         })
         .catch((e) => {
           setIsLoader(false);
-          // history.push(GetErrorHandlingRoute(e));
+          history.push(GetErrorHandlingRoute(e));
         });
     } else {
       await HTTPService(
@@ -224,7 +231,7 @@ export default function AddConnectorParticipant() {
         })
         .catch((e) => {
           setIsLoader(false);
-          // history.push(GetErrorHandlingRoute(e));
+          history.push(GetErrorHandlingRoute(e));
         });
     }
   };
@@ -261,8 +268,16 @@ export default function AddConnectorParticipant() {
   };
   const handleAddDatasetSubmit = async (e) => {
     e.preventDefault();
-    setnameErrorMessage(null)
-    setDockerErrorMessage(null)
+
+    setnameErrorMessage(null); 
+    setTypeErrorMessage(null);
+    setDescriptionErrorMessage(null);
+    setPortErrorMessage(null);
+    setDepartMentErrorMessage(null);
+    setDockerErrorMessage(null);
+    setProjectErrorMessage(null);
+    setDatasetErrorMessage(null);
+
     // setisSuccess(true);
     setIsLoader(true);
     var bodyFormData = new FormData();
@@ -275,8 +290,6 @@ export default function AddConnectorParticipant() {
     bodyFormData.append("project", project);
     bodyFormData.append("dataset", Dataset);
     bodyFormData.append("user_map", getUserMapId())
-
-
     console.log("Form Data" ,bodyFormData)
 
     await HTTPService(
@@ -294,6 +307,29 @@ export default function AddConnectorParticipant() {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
+        var returnValues = GetErrorKey(e, bodyFormData.keys())
+        var errorKeys = returnValues[0]
+        var errorMessages = returnValues[1]
+        if (errorKeys.length > 0){
+          for (var i=0; i<errorKeys.length; i++){
+            switch(errorKeys[i]){
+              case "connector_name": setnameErrorMessage(errorMessages[i]); break;
+              //case "connector_type": setTypeErrorMessage(errorMessages[i]); break;
+              case "connector_description": setDescriptionErrorMessage(errorMessages[i]); break;
+              case "application_port": setPortErrorMessage(errorMessages[i]); break;
+              //case "department": setDepartMentErrorMessage(errorMessages[i]); break;
+              case "docker_image_url": setDockerErrorMessage(errorMessages[i]); break;
+              //case "project": setProjectErrorMessage(errorMessages[i]); break;
+              //case "dataset": setDatasetErrorMessage(errorMessages[i]); break;
+              default: history.push(GetErrorHandlingRoute(e)); break;
+            }
+          }
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e))
+        }
+
+        /*
         if (e.response && e.response.status === 400 && e.response.data.connector_name && e.response.data.connector_name[0].includes('connectors with this connector name already exists')){
           setnameErrorMessage(e.response.data.connector_name)
         }
@@ -302,7 +338,7 @@ export default function AddConnectorParticipant() {
         }
         else{
           history.push(GetErrorHandlingRoute(e))
-        }
+        }*/
       });
   };
   return (
@@ -349,7 +385,13 @@ export default function AddConnectorParticipant() {
             department_variable={department_variable}
             project_variable={project_variable}
             nameErrorMessage={nameErrorMessage}
+            typeErrorMessage={typeErrorMessage}
+            descriptionErrorMessage={descriptionErrorMessage}
+            portErrorMessage={portErrorMessage}
+            departErrorMessage={departErrorMessage}
             dockerErrorMessage={dockerErrorMessage}
+            projectErrorMessage={projectErrorMessage}
+            datasetErrorMessage={datasetErrorMessage}
           />
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>

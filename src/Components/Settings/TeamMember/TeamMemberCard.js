@@ -35,6 +35,8 @@ export default function TeamMemberCard(props) {
     return (
         <Card className="particaipancard" style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
        <Tooltip TransitionComponent={Zoom} title={ "Name:" + " " + props.mainheading + " & Email: " +  props.subheading}>
+        <div className='cardheaderTitlespecifier text-truncate'>
+
         <CardHeader
           avatar={
               props.profilepic? <Avatar alt="Remy Sharp" src={UrlConstants.base_url+props.profilepic} sx={{ width:64, height:64 }}/>:
@@ -49,6 +51,7 @@ export default function TeamMemberCard(props) {
           style={{ "background-color": "#F4F4F4", padding: "9px", height: "84px", "text-align": "left", 'font-family': 'Open Sans',
           'font-style': 'normal', 'font-weight': 400, 'font-size': '14px' ,'line-height': '19px' ,'color': '#3D4A52'}}
           />
+          </div>
           </Tooltip>
             <CardContent>
                 <Row>

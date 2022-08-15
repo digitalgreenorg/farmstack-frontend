@@ -32,16 +32,16 @@ const ConnectorStatistics = () => {
             <tbody>
 
           {connectorData.map((eachConnector)=>(<tr className={styles.tableConnectortrtd}>
-            <Tooltip TransitionComponent={Zoom} title={eachConnector.connectorName}>
+            <Tooltip placement='bottom-start' TransitionComponent={Zoom} title={eachConnector.connectorName}>
                <td className='text-truncate width300px'>{eachConnector.connectorName}</td>
             </Tooltip>
-            <Tooltip TransitionComponent={Zoom} title={eachConnector.datasets}> 
+            <Tooltip placement='bottom-start' TransitionComponent={Zoom} title={eachConnector.datasets}> 
             <td className='text-truncate width300px'>{eachConnector.datasets}</td>
             </Tooltip>
-            <Tooltip TransitionComponent={Zoom} title={eachConnector.activity}>
+            <Tooltip placement='bottom-start' TransitionComponent={Zoom} title={eachConnector.activity}>
               <td className='text-truncate width300px'>{eachConnector.activity}</td>
               </Tooltip>
-            <Tooltip TransitionComponent={Zoom} title={eachConnector.date}> 
+            <Tooltip placement='bottom-start'  TransitionComponent={Zoom} title={eachConnector.date}> 
             <td className='text-truncate width300px'>{eachConnector.date}</td>
             </Tooltip>
            

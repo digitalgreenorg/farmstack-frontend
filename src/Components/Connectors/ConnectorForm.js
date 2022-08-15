@@ -19,6 +19,7 @@ import { validateInputField, handleUnwantedSpace } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
 
 import labels from "../../Constants/labels";
+import { FormHelperText } from "@mui/material";
 
 const connectorType = ["Provider", "Consumer"];
 const fileTypes = ["p12", "pfx"];
@@ -125,7 +126,9 @@ export default function ConnectorForm(props) {
                   {name}
                 </MenuItem>
               ))}
+               {/* error={props.typeErrorMessage ? true : false} */}
             </Select>
+             {/*<FormHelperText>{props.typeErrorMessage}</FormHelperText>*/}
           </FormControl>
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="dataset">
@@ -145,7 +148,9 @@ export default function ConnectorForm(props) {
                     {dataset.name}
                   </MenuItem>
                 ))}
+                {/* error={props.datasetErrorMessage ? true : false} */}
               </Select>
+              {/*<FormHelperText>{props.datasetErrorMessage}</FormHelperText>*/}
             </FormControl>
           ) : (
             <FormControl variant="filled" sx={{ m: 1, width: 420 }} disabled>
@@ -163,7 +168,9 @@ export default function ConnectorForm(props) {
                     {dataset.name}
                   </MenuItem>
                 ))}
+                {/* error={props.datasetErrorMessage ? true : false} */}
               </Select>
+              {/*<FormHelperText>{props.datasetErrorMessage}</FormHelperText>*/}
             </FormControl>
           )}
         </Col>
@@ -228,7 +235,9 @@ export default function ConnectorForm(props) {
                   {department.department_name}
                 </MenuItem>
               ))}
+              {/* error={props.departErrorMessage ? true : false} */}
             </Select>
+            {/*<FormHelperText>{props.departErrorMessage}</FormHelperText>*/}
           </FormControl>
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="project">
@@ -248,7 +257,9 @@ export default function ConnectorForm(props) {
                     {project.project_name}
                   </MenuItem>
                 ))}
+                {/* error={props.projectErrorMessage ? true : false} */}
               </Select>
+              {/* <FormHelperText>{props.projectErrorMessage}</FormHelperText> */}
             </FormControl>
           ) : (
             <FormControl variant="filled" sx={{ m: 1, width: 420 }} disabled>
@@ -266,7 +277,9 @@ export default function ConnectorForm(props) {
                     {project.project_name}
                   </MenuItem>
                 ))}
+                {/* error={props.projectErrorMessage ? true : false} */}
               </Select>
+              {/* <FormHelperText>{props.projectErrorMessage}</FormHelperText> */}
             </FormControl>
           )}
         </Col>
@@ -303,6 +316,8 @@ export default function ConnectorForm(props) {
               inputMode: "numeric",
               pattern: "[0-9]*",
             }}
+            error={props.portErrorMessage ? true : false}
+            helperText={props.portErrorMessage}
           />
         </Col>
       </Row>
@@ -318,6 +333,8 @@ export default function ConnectorForm(props) {
             maxLength={500}
             onKeyDown={props.handledescriptionKeydown}
             onChange={props.handleChangedescription}
+            error={props.descriptionErrorMessage ? true : false}
+            helperText={props.descriptionErrorMessage}
           />
         </Col>
       </Row>

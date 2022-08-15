@@ -21,6 +21,10 @@ import {useState} from 'react'
 import ReactTooltip from 'react-tooltip';
 import { getUserLocal, getUserMapId, dateTimeFormat } from '../../Utils/Common'
 import { Tooltip, Zoom } from '@mui/material';
+import parse from "html-react-parser";
+// import successIcon from "../../Assets/Img/successiconsvg.svg"
+import success from "../../Assets/Img/successiconsvg.svg"
+
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize", "font-weight": "400", "font-size": "14px" },
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px" },
@@ -40,12 +44,16 @@ export default function DataSetCard(props) {
     const [isshowbutton, setisshowbutton] = useState(false)
     const history = useHistory();
     const [screenlabels, setscreenlabels] = useState(labels['en'])
+    let newimg = document.createElement("img");
+    newimg.src = success;
+    newimg.alt = "hello";
+
     return (
 
         <Card className={props.margingtop} style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(true)} onMouseLeave={() => setisshowbutton(false)}>
             <Tooltip  TransitionComponent={Zoom}   title={props.title}>
-                <div>
-
+                <div className='cardheaderTitlespecifier text-truncate'>
+                
             <CardHeader
                 avatar={
                     props.orgLogo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.orgLogo} sx={{ width: 54, height: 54 }} /> :
@@ -53,16 +61,19 @@ export default function DataSetCard(props) {
                 }
                 // title={props.data.subject}
                 // tooltip={<Tooltip title={props.title}>{props.title}</Tooltip>}
-                title={props.title}
+                title={props.title + parse(`${newimg}`)}
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left", "overflow": "hidden", "text-overflow": "ellipsis"}}
                 
                 />
                 </div>
             </Tooltip>
+            
             <CardContent>
                 <Row style={useStyles.datasetdescription}>
                 <Tooltip TransitionComponent={Zoom} title={props.description}>
                    <span style={{maxWidth: "300px"}} className="d-inline-block text-truncate">
+                    
+
                    {props.description}
                     </span> 
                 </Tooltip>
@@ -70,7 +81,8 @@ export default function DataSetCard(props) {
                 <Row>
                     {props.isMemberTab ?
                    
-                        <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                   <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                           
                             {screenlabels.dataset.organisation_name}
                         </Col> :
                         <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">

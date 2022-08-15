@@ -146,7 +146,7 @@ export default function OrgRightside(props) {
         .catch((e) => {
           console.log(e);
           setIsLoader(false);
-          history.push(GetErrorHandlingRoute(e));
+          //history.push(GetErrorHandlingRoute(e));
         });
     }
   }, []);
@@ -472,8 +472,8 @@ export default function OrgRightside(props) {
                   : e.preventDefault()
               }
               // inputRef={props.Orgname}
-              error={props.isOrgnameerror}
-              helperText={props.isOrgnameerror ? "Enter Name" : ""}
+              error={props.isOrgnameerror || props.orgNameErrorMessage}
+              helperText={props.isOrgnameerror && !props.orgNameErrorMessage ? "Enter Name" : props.orgNameErrorMessage}
             />
           </div>
           <div className="orgemail">
@@ -489,13 +489,11 @@ export default function OrgRightside(props) {
               // onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setOrgEmail(e.target.value.trim()) : e.preventDefault()}
               onChange={props.handleOrgmail}
               //inputRef={props.Orgmail}
-              error={props.isOrgmailerror || props.isExistingOrgEmail}
+              error={props.isOrgmailerror || props.orgEmailErrorMessage}
               helperText={
-                props.isOrgmailerror
+                (props.isOrgmailerror && !props.orgEmailErrorMessage)
                   ? "Enter Valid Email id"
-                  : props.isExistingOrgEmail
-                  ? props.existingOrgMailMessage
-                  : ""
+                  : props.existingOrgMailMessage
               }
               inputRef={orgMailRef}
             />
@@ -509,6 +507,8 @@ export default function OrgRightside(props) {
               variant="filled"
               value={props.validOrgNumber}
               onChange={props.handleOrgnumber}
+              error = {props.orgPhoneNumberErrorMessage ? true : false}
+              helperText={props.orgPhoneNumberErrorMessage}
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
               // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
@@ -666,6 +666,8 @@ export default function OrgRightside(props) {
                 border: "1px solid black",
                 zIndex: 4,
               }}
+              error={props.orgDescriptionErrorMessage ? true: false}
+              helperText={props.orgDescriptionErrorMessage}
             />
           </div>
           {/* <div className="filesupload">

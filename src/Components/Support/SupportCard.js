@@ -43,6 +43,8 @@ export default function SupportCard(props) {
 
         <Card className={props.margingtop} style={isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor} onMouseEnter={() => setisshowbutton(false)} onMouseLeave={() => setisshowbutton(true)}>
             <Tooltip title={props.data.subject} >
+                <div className='cardheaderTitlespecifier text-truncate'>
+
             <CardHeader
                 avatar={
                     props.data.organization.logo ? <Avatar alt="Remy Sharp" src={UrlConstants.base_url_without_slash + props.data.organization.logo} sx={{ width: 54, height: 54 }} /> :
@@ -51,6 +53,7 @@ export default function SupportCard(props) {
                 title={props.data.subject}
                 style={{ "background-color": "#f8f9fa", padding: "9px", "text-align": "left" }}
                 />
+                </div>
                 </Tooltip>
             <CardContent>
                 <Row>

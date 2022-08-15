@@ -58,7 +58,8 @@ export default function ProfileRightsideParticipant(props) {
           
       }).catch((e) => {
           setIsLoader(false);
-          history.push(GetErrorHandlingRoute(e));
+          console.log(e)
+          //history.push(GetErrorHandlingRoute(e));
       });
     }
 }, []);
