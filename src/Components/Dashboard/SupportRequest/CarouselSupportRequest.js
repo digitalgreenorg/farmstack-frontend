@@ -10,7 +10,7 @@ function CarouselSupportRequest() {
     const [supportRequestData, setSupportRequestData] = useState([
         {openRequest:25,closeRequest:59,holdRequest:4, newRequestTitle:"Certificate is working",newRequestCategory:"Certficate",newRequestDateAndTime:"28/02/2022",newRequestNameOfParticipant:"Kalgudi",newRequestNameOfTheParticipantUser:"Kanhaiya Suthar" },
         {openRequest:5,closeRequest:81,holdRequest:12, newRequestTitle:"Certificate is not working",newRequestCategory:"Certficate",newRequestDateAndTime:"21/03/2022",newRequestNameOfParticipant:"Kalgudi",newRequestNameOfTheParticipantUser:"Abhinesh Kumar" },
-        {openRequest:100,closeRequest:131,holdRequest:3, newRequestTitle:"Certificate is working",newRequestCategory:"Certficate",newRequestDateAndTime:"23/05/2022",newRequestNameOfParticipant:"Kalgudi",newRequestNameOfTheParticipantUser:"Swati Shetty" }
+        {openRequest:100,closeRequest:131,holdRequest:3, newRequestTitle:"Certificate is working",newRequestCategory:"Certficate",newRequestDateAndTime:"23/05/2022",newRequestNameOfParticipant:"Kalgudi",newRequestNameOfTheParticipantUser:"Waseem" }
     ])
   return (<div className={styles.my__carousel_main}>
 
