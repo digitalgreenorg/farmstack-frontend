@@ -62,7 +62,6 @@ const useStyles = {
     "border-radius": 0,
   },
   marginrowtop: { "margin-top": "20px" },
-  marginrowtop8px: { "margin-top": "0px" },
 };
 
 export default function AddConnectorParticipant() {
@@ -413,6 +412,7 @@ export default function AddConnectorParticipant() {
               docker &&
               port ? (
                 <Button
+                  style={useStyles.marginrowtop}
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
                   className="submitbtn"
@@ -429,7 +429,7 @@ export default function AddConnectorParticipant() {
               )}
             </Col>
           </Row>
-          <Row style={useStyles.marginrowtop8px}>
+          <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button

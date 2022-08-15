@@ -471,7 +471,7 @@ export default function EditConnectorParticipant() {
               )}
             </Col>
           </Row>
-          <Row style={useStyles.marginrowtop8px}>
+          <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
