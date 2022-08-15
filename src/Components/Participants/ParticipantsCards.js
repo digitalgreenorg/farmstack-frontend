@@ -17,9 +17,7 @@ import THEME_COLORS from '../../Constants/ColorConstants'
 import UrlConstants from '../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
 import { Tooltip, Zoom } from '@mui/material';
-import successIcon from "../../Assets/Img/successicon.svg"
-import crossIcon from "../../Assets/Img/crossicon.svg"
-import parse from "html-react-parser"
+
 const useStyles = {
   btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-left": "-25px", "font-weight": "400", "font-family": "Open Sans", 'font-style': 'normal', 'font-size': '14px'}, 
   btnPosition: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0,"text-transform": "capitalize", "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "font-weight": "400", "font-family": "Open Sans", 'font-style': 'normal', 'font-size': '14px'},
