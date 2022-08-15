@@ -211,3 +211,18 @@ export const GetErrorKey = (e, keyList) => {
   return [errorKeys, errorMessages]
 }
 
+export const getDockerHubURL = (dockerImageName) => {
+  const [dockerImage, tag] = dockerImageName.split(':')
+  return `https://hub.docker.com/r/${dockerImage}/${tag}`
+}
+export const openLinkInNewTab = (url) => {
+  if(url.includes("http")){
+    window.open(url,'_blank');
+  }else{
+    window.open("http://"+url,'_blank');
+  }
+}
+
+
+
+

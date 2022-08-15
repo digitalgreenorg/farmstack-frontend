@@ -610,3 +610,7 @@ overflow: hidden;
   right: 11px;
   bottom:0px ;
 }
+.dockerImageURL{
+  color: #3491EE;
+  cursor: pointer;
+}
