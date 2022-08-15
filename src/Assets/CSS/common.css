@@ -556,7 +556,7 @@ overflow: hidden;
 
 .width600px{
   width: 600px;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 
 }
 .width1000px{
@@ -595,4 +595,22 @@ overflow: hidden;
 
 .red{
   border: 1px solid red;
+}
+
+.successIconInsideCardheader{
+  /* border: 1px solid red; */
+  width: 22px;
+  height: 21px;
+}
+.MuiCardHeader-content{
+  position: relative;
+}
+.MuiCardHeader-content .successIconInsideCardheader{
+  position: absolute;
+  right: 11px;
+  bottom:0px ;
+}
+.dockerImageURL{
+  color: #3491EE;
+  cursor: pointer;
 }

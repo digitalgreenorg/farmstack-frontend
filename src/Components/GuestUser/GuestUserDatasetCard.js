@@ -105,7 +105,7 @@ export default function GuestUserDatasetCard(props) {
           // title={props.data.subject}
           // tooltip={<Tooltip title={props.title}>{props.title}</Tooltip>}
           title={props.title} 
-          subheader={parse(`<img src=${successIcon} alt="hello" />`)}
+          subheader={parse(`<img className="successIconInsideCardheader" src=${successIcon} alt="hello" />`)}
           style={{
             "background-color": "#f8f9fa",
             padding: "9px",
