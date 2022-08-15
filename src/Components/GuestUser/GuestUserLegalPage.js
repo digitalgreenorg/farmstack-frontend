@@ -118,7 +118,7 @@ export default function GuestUserLegalPage({ legalData }) {
                     fontStyle: "normal",
                     marginLeft: "110px",
                     marginRight: "110px",
-                    border:"1px solid red"
+                    // border:"1px solid red"
                   }}
                 >
                   <div
