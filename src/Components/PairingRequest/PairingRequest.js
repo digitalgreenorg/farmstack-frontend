@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./pairiing.module.css";
 import donestatusicon from "../../Assets/Img/donestatusicon.svg";
 import { Tooltip } from "@mui/material";
+import { GetErrorHandlingRoute, getDockerHubURL, openLinkInNewTab } from "../../Utils/Common";
 const useStyles = {
     datasetdescription: {
         "margin-left": "0px",
@@ -105,9 +106,9 @@ const PairingRequest = (props) => {
                         }}
                     >
                         <div className="secondmainheading">Docker image url</div>
-                        <Tooltip title={props.data['connector_details'] ? props.data['connector_details']['docker_image_url'] : ''}>
+                        <Tooltip title={props.data['connector_details'] ? getDockerHubURL(props.data['connector_details']['docker_image_url']) : ''}>
                             <div style={useStyles.datasetdescription} className={styles.marginbottom50px}>
-                                <span className="thirdmainheading" >{props.data['connector_details'] ? props.data['connector_details']['docker_image_url'] : ''}</span>
+                                {props.data['connector_details'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { openLinkInNewTab(getDockerHubURL(props.data['connector_details']['docker_image_url'])) }}>{props.data['connector_details'] ? props.data['connector_details']['docker_image_url'] : ''}</span> : <span>{""}</span>}
                             </div>
                         </Tooltip>
                     </div>
@@ -117,7 +118,7 @@ const PairingRequest = (props) => {
             </div>
                         <Tooltip title={props.data['organization_details'] ? props.data['organization_details']['website'] : ''}>
                             <div style={useStyles.datasetdescription} className={styles.marginbottom50px}>
-                                <span className="thirdmainheading" >{props.data['organization_details'] ? props.data['organization_details']['website'] : ''}</span>
+                    {props.data['organization_details']?<span className="thirdmainheading dockerImageURL" onClick={() => { openLinkInNewTab(props.data['organization_details']['website'])}}>{props.data['organization_details'] ? props.data['organization_details']['website'] : ''}</span>:<span>{""}</span>}
                             </div>
                         </Tooltip>
                     </div>
