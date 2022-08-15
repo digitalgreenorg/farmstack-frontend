@@ -38,20 +38,22 @@ export default function ConnectorListing(props) {
           margingtop={'supportcard supportcardmargintop20px'}
           getImageName={props.getImageName}
         /> */}
-                <Col xs={12} sm={12} md={6} lg={3}></Col>
-                {props.showLoadMore ? (
-                    <Col xs={12} sm={12} md={6} lg={6}>
-                        <Button
-                            onClick={() => props.getConnectorList(true)}
-                            variant="outlined"
-                            className="cancelbtn">
-                            Load More
-                        </Button>
-                    </Col>
-                ) : (
-                    <></>
-                )}
-            </Row>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          {props.showLoadMore ? (
+              <Col xs={12} sm={12} md={6} lg={6}>
+                  <Button
+                      onClick={() => props.getConnectorList(true)}
+                      variant="outlined"
+                      className="cancelbtn">
+                      Load More
+                  </Button>
+              </Col>
+          ) : (
+              <></>
+          )}
+        </Row>
     </div>
   )
 }
