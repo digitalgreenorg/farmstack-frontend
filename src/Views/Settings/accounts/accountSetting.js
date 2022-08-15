@@ -331,6 +331,7 @@ export default function AccountSetting(props) {
           <Col xs={12} sm={12} md={6} lg={6}>
             <MuiPhoneNumber
               required
+              countryCodeEditable={false}
               defaultCountry={"in"}
               className="phonenumber"
               value={phonenumber}

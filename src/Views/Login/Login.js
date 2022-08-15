@@ -152,7 +152,8 @@ export default function Login(props) {
   const handleEmail = (e) => {
     e.preventDefault();
     console.log(e.target.value);
-    if (e.target.value.length > 0) {
+    e.target.value = e.target.value.trim()
+    if (e.target.value.trim().length > 0) {
       setButton(true);
       setError(false);
     } else {

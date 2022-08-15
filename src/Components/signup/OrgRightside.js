@@ -501,6 +501,7 @@ export default function OrgRightside(props) {
           <div className="orgnumber">
             <MuiPhoneNumber
               defaultCountry={"in"}
+              countryCodeEditable={false}
               style={{ width: "420px" }}
               id="orgphonetextfield"
               label="Organization Contact Number"
@@ -608,6 +609,7 @@ export default function OrgRightside(props) {
                   ? props.setispincodeerror(true)
                   : props.setispincodeerror(false)
               }
+              onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
               onChange={(e) =>
                 validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
                   ? props.setOrgPincode(e.target.value.trim())

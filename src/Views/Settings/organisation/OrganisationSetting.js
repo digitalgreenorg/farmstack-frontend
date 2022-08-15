@@ -540,6 +540,7 @@ export default function OrganisationSetting(props) {
           <Col xs={12} sm={12} md={6} lg={6}>
             <MuiPhoneNumber
               defaultCountry={"in"}
+              countryCodeEditable={false}
               //   value={phonenumber}
               className="phonenumber"
               id="filled-basic"
@@ -632,6 +633,7 @@ export default function OrganisationSetting(props) {
               id="filled-basic"
               className="name"
               label={screenlabels.org_settings.pincode}
+              onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
               variant="filled"
               onChange={handlepincode}
               value={pincode}

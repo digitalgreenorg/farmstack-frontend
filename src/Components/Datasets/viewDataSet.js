@@ -233,14 +233,22 @@ export default function ViewDataSet(props) {
           </span>
         </Col>
         <Col>
+        {console.log(!props.rowdata.data_capture_start)}
+        {console.log((!props.rowdata.data_capture_end))}
+        {console.log((!props.rowdata.data_capture_start && !props.rowdata.data_capture_end))}
+
+        {(!props.rowdata.data_capture_start && !props.rowdata.data_capture_end) ?
+          <span className="thirdmainheading"> N/A </span>
+          : 
           <span className="thirdmainheading">
-            {props.rowdata.data_capture_start
-              ? dateTimeFormat(props.rowdata.data_capture_start, false) + " - "
-              : "N/A - "}
-            {props.rowdata.data_capture_end
-              ? dateTimeFormat(props.rowdata.data_capture_end, false)
-              : "N/A"}
+          {props.rowdata.data_capture_start
+            ? dateTimeFormat(props.rowdata.data_capture_start, false) + " - "
+            : "N/A - "}
+          {props.rowdata.data_capture_end
+            ? dateTimeFormat(props.rowdata.data_capture_end, false)
+            : "N/A"}
           </span>
+          }
         </Col>
         <Col>
           <span className="thirdmainheading">
