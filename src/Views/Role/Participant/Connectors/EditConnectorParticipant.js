@@ -286,8 +286,21 @@ export default function EditConnectorParticipant() {
         });
     }
   };
+//   const handleChangeConnectorName = (e) => {
+//     validateInputField(
+//       e.target.value,
+//       RegexConstants.validateInputField(
+//         e.target.value,
+//         RegexConstants.connector_name
+//       )
+//     )
+//       ? setconnectorName(e.target.value)
+//       : e.preventDefault();
+//     console.log(e.target.value);
+//     // setconnectorName(event.target.value);
+//   };
   const handleChangeConnectorName = (e) => {
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setconnectorName(e.target.value)
       : e.preventDefault();
     console.log(e.target.value);
