@@ -692,14 +692,14 @@ export default function DatasetParticipant() {
         data['user_id'] = userId
         data['org_id'] = getOrgLocal()
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
-        // if (isMemberTab) {
-        //     data['others'] = true
-        // } else {
-        //     data['others'] = false
-        // }
-        if (isMemberTab){
-            data['org_id'] = getOrgLocal()
+        if (isMemberTab) {
+            data['others'] = true
+        } else {
+            data['others'] = false
         }
+        // if (isMemberTab){
+        //     data['org_id'] = getOrgLocal()
+        // }
         if (geoPayload !== "") {
             data['geography__in'] = geoPayload
         }
