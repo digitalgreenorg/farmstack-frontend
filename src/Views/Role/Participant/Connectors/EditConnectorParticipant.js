@@ -58,13 +58,7 @@ const useStyles = {
 
 export default function EditConnectorParticipant() {
   const history = useHistory();
-  const [datasets, setdatasets] = React.useState([
-    {
-      id: "94d40394-1c9b-4006-a41d-112a5ade08e2",
-      name: "sha1",
-      description: "sha1",
-    },
-  ]);
+  const [datasets, setdatasets] = React.useState([]);
   const [department_variable, setdepartment_variable] = React.useState([]);
   const [project_variable, setproject_variable] = React.useState([]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -90,14 +84,14 @@ export default function EditConnectorParticipant() {
   //   loader
   const [isLoader, setIsLoader] = useState(false);
 
-  const [nameErrorMessage, setnameErrorMessage] = useState(null)
-  const [dockerErrorMessage, setDockerErrorMessage] = useState(null)
-  const [typeErrorMessage, setTypeErrorMessage] = useState(null)
-  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
-  const [portErrorMessage, setPortErrorMessage] = useState(null)
-  const [departErrorMessage, setDepartMentErrorMessage] = useState(null)
-  const [projectErrorMessage, setProjectErrorMessage] = useState(null)
-  const [datasetErrorMessage, setDatasetErrorMessage] = useState(null)
+  const [nameErrorMessage, setnameErrorMessage] = useState(null);
+  const [dockerErrorMessage, setDockerErrorMessage] = useState(null);
+  const [typeErrorMessage, setTypeErrorMessage] = useState(null);
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null);
+  const [portErrorMessage, setPortErrorMessage] = useState(null);
+  const [departErrorMessage, setDepartMentErrorMessage] = useState(null);
+  const [projectErrorMessage, setProjectErrorMessage] = useState(null);
+  const [datasetErrorMessage, setDatasetErrorMessage] = useState(null);
 
   //   get connector data
   const getConnectorDetails = async () => {
@@ -120,7 +114,7 @@ export default function EditConnectorParticipant() {
         setproject(response.data.project);
         setdepartment(response.data.department_details.id);
         setdescription(response.data.connector_description);
-        setDataset(response.data.dataset_details.id);
+        setDataset(response.data.dataset);
         setdocker(response.data.docker_image_url);
         setport(response.data.application_port);
         setFile(response.data.certificate);
@@ -156,30 +150,30 @@ export default function EditConnectorParticipant() {
       });
   };
 
-  //   get dataset
-  //   const getDatasetDetails = async () => {
-  //     var id = getUserLocal();
-  //     console.log("user id", id);
-  //     setIsLoader(true);
+  // get dataset
+  const getDatasetDetails = async () => {
+    var id = getUserLocal();
+    console.log("user id", id);
+    setIsLoader(true);
 
-  //     await HTTPService(
-  //       "GET",
-  //       UrlConstants.base_url + UrlConstants.list_of_dataset,
-  //       { user_id: id },
-  //       false,
-  //       true
-  //     )
-  //       .then((response) => {
-  //         setIsLoader(false);
-  //         console.log("get request for dataset", response.data);
-  //         setdatasets(response.data);
-  //         console.log("datasets", datasets);
-  //       })
-  //       .catch((e) => {
-  //         setIsLoader(false);
-  //         // history.push(GetErrorHandlingRoute(e));
-  //       });
-  //   };
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.list_of_dataset,
+      { user_id: id },
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for dataset", response.data);
+        setdatasets(response.data);
+        console.log("datasets", datasets);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
+  };
 
   //   get Department
   const getDepartmentDetails = async () => {
@@ -207,8 +201,11 @@ export default function EditConnectorParticipant() {
 
   useEffect(() => {
     getConnectorDetails();
+    getDatasetDetails();
     // getDatasetDetails();
     getDepartmentDetails();
+    // setdepartment("e459f452-2b4b-4129-ba8b-1e1180c87888");
+    // setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
   }, []);
 
   const handleFileChange = (file) => {
@@ -325,7 +322,7 @@ export default function EditConnectorParticipant() {
   const handleEditConnectorSubmit = async (e) => {
     e.preventDefault();
     // setisSuccess(true);
-    setnameErrorMessage(null); 
+    setnameErrorMessage(null);
     setTypeErrorMessage(null);
     setDescriptionErrorMessage(null);
     setPortErrorMessage(null);
@@ -361,26 +358,35 @@ export default function EditConnectorParticipant() {
       })
       .catch((e) => {
         setIsLoader(false);
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "connector_name": setnameErrorMessage(errorMessages[i]); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "connector_name":
+                setnameErrorMessage(errorMessages[i]);
+                break;
               //case "connector_type": setTypeErrorMessage(errorMessages[i]); break;
-              case "connector_description": setDescriptionErrorMessage(errorMessages[i]); break;
-              case "application_port": setPortErrorMessage(errorMessages[i]); break;
+              case "connector_description":
+                setDescriptionErrorMessage(errorMessages[i]);
+                break;
+              case "application_port":
+                setPortErrorMessage(errorMessages[i]);
+                break;
               //case "department": setDepartMentErrorMessage(errorMessages[i]); break;
-              case "docker_image_url": setDockerErrorMessage(errorMessages[i]); break;
+              case "docker_image_url":
+                setDockerErrorMessage(errorMessages[i]);
+                break;
               //case "project": setProjectErrorMessage(errorMessages[i]); break;
               //case "dataset": setDatasetErrorMessage(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
       });
   };
