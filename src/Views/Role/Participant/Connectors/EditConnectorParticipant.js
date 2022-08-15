@@ -408,7 +408,7 @@ export default function EditConnectorParticipant() {
           autoComplete="off"
           onSubmit={handleEditConnectorSubmit}>
           <ConnectorForm
-            title={"Edit Connector"}
+            title={"Update connector"}
             connector={connector}
             department={department}
             project={project}
@@ -459,14 +459,14 @@ export default function EditConnectorParticipant() {
                   variant="contained"
                   className="submitbtn"
                   type="submit">
-                  {screenlabels.connector_form.submit}
+                  Update
                 </Button>
               ) : (
                 <Button
                   variant="outlined"
                   disabled
                   className="disbalesubmitbtn">
-                  {screenlabels.connector_form.submit}
+                  Update
                 </Button>
               )}
             </Col>
