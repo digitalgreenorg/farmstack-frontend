@@ -70,8 +70,11 @@ export default function DatasetParticipant() {
         { index: 0, name: "3 Months", payloadName: "3 months", isChecked: false },
         { index: 1, name: "6 Months", payloadName: "6 months", isChecked: false },
         { index: 2, name: "9 Months", payloadName: "9 months", isChecked: false },
-        { index: 3, name: "12 Months", payloadName: "12 months", isChecked: false },
-        { index: 4, name: "Constantly Updating", payloadName: "constantly_updating", isChecked: false }])
+        { index: 3, name: "12 Months", payloadName: "12 months", isChecked: false }
+        // { index: 4, name: "Constantly Updating", payloadName: "constantly_updating", isChecked: false }
+    ])
+
+    const [constantyUpdateSwitch, setConstantyUpdateSwitch] = useState(false) 
 
     const [statusFilter, setStatusFilter] = useState([
         { index: 0, name: screenlabels.dataset.for_review, payloadName: "for_review", isChecked: false },
@@ -122,6 +125,42 @@ export default function DatasetParticipant() {
         setDatasetUrl("")
         setMemberDatasetUrl("")
     }
+
+    const handleConstantyUpdateSwitch = (event) => {
+        console.log(event.target.checked)
+        let data = {}
+        setFilterState({})
+        data['user_id'] = getUserLocal()
+        data['org_id'] = getOrgLocal()
+        if (isMemberTab) {
+            data['others'] = true
+        } else {
+            data['others'] = false
+        }
+        if(event.target.checked){
+            setIsShowAll(false)
+            data['constantly_update'] = true
+        } else{
+            setIsShowAll(true)
+        }
+        setFilterState(data)
+        payload = data
+        resetDateFilters()
+        resetFilterState(screenlabels.dataset.age)
+        resetFilterState(screenlabels.dataset.crop)
+        resetFilterState(screenlabels.dataset.status)
+        resetFilterState(screenlabels.dataset.enabled)
+        resetFilterState(screenlabels.dataset.geography)
+
+        setConstantyUpdateSwitch(event.target.checked)
+
+        if(isMemberTab){
+            getMemberDatasets(false)
+        } else {
+            getMyDataset(false)
+        }
+    }
+
     const handleFilterChange = (index, filterName) => {
 
         // var tempFilterMaster = []
@@ -132,6 +171,7 @@ export default function DatasetParticipant() {
 
         setIsShowAll(false)
         resetDateFilters()
+        setConstantyUpdateSwitch(false)
         // resetEnabledStatusFilter()
         // resetUrls()
 
@@ -482,6 +522,7 @@ export default function DatasetParticipant() {
                 resetFilterState(screenlabels.dataset.age)
                 resetFilterState(screenlabels.dataset.status)
                 resetFilterState(screenlabels.dataset.enabled)
+                setConstantyUpdateSwitch(false)
 
                 // console.log("geoFilterMaster", geoFilterMaster)
                 console.log("geoFilterDisplay", geoFilterDisplay)
@@ -707,13 +748,13 @@ export default function DatasetParticipant() {
             data['crop_detail__in'] = cropPayload
         }
         if (agePayload !== "") {
-            if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
-                agePayload.splice(agePayload.length-1)
-                data['constantly_update'] = true
-            }
-            if (agePayload.length>0) {
+            // if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
+            //     agePayload.splice(agePayload.length-1)
+            //     data['constantly_update'] = true
+            // }
+            // if (agePayload.length>0) {
                 data['age_of_date__in'] = agePayload
-            }
+            // }
         }
         if (statusPayload !== "") {
             data['approval_status__in'] = statusPayload
@@ -736,12 +777,14 @@ export default function DatasetParticipant() {
             console.log("isMemberTab", isMemberTab)
             setFilterState({})
             setIsShowAll(true)
+            setConstantyUpdateSwitch(false)
             setIsMemberTab(!isMemberTab)
             getMemberDatasets(false)
             console.log("isMemberTab", isMemberTab)
         } else {
             setFilterState({})
             setIsShowAll(true)
+            setConstantyUpdateSwitch(false)
             setIsMemberTab(!isMemberTab)
             getMyDataset(false)
         }
@@ -756,6 +799,7 @@ export default function DatasetParticipant() {
     const clearAllFilters = () => {
         setIsShowAll(true)
         resetDateFilters()
+        setConstantyUpdateSwitch(false)
         // resetUrls()
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
@@ -781,6 +825,7 @@ export default function DatasetParticipant() {
         resetFilterState(screenlabels.dataset.status)
         // resetUrls()
 
+        setConstantyUpdateSwitch(false)
         setIsShowAll(true)
         setsecondrow(false)
         settodate(null)
@@ -804,6 +849,7 @@ export default function DatasetParticipant() {
         fromDateandToDate.push(todate)
 
         setIsShowAll(false)
+        setConstantyUpdateSwitch(false)
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
@@ -1069,6 +1115,8 @@ export default function DatasetParticipant() {
                                 enableStatusFilter={enableStatusFilter}
                                 isGeoSearchFound={isGeoSearchFound}
                                 isCropSearchFound={isCropSearchFound}
+                                constantyUpdateSwitch={constantyUpdateSwitch}
+                                handleConstantyUpdateSwitch={handleConstantyUpdateSwitch}
                             />
                         </Col>
                         <Col className="supportSecondCOlumn">

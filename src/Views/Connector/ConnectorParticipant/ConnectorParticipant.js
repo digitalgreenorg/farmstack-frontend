@@ -8,7 +8,7 @@ import ConnectorFilter from '../ConnectorFilter'
 import ConnectorListing from '../ConnectorListing'
 import { get } from 'jquery';
 import UrlConstant from '../../../Constants/UrlConstants';
-import { GetErrorHandlingRoute } from "../../../Utils/Common";
+import { GetErrorHandlingRoute,getDockerHubURL,openLinkInNewTab } from "../../../Utils/Common";
 import '../ConnectorParticipant.css'
 import { useHistory } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -540,6 +540,7 @@ export default function ConnectorParticipant() {
             .then((response) => {
                 setIsLoader(false);
                 setFile(null);
+                setaccfilesize(true)
                 setproviderConnectorDetails({});
                 setproviderConnector('')
                 changeView('isPairingRequestSentSuccess')
@@ -667,7 +668,7 @@ export default function ConnectorParticipant() {
                 <><ViewConnectorDetails
                     data={connectorDeatilsData}
                     providerdata={providerViewConnectorDetails}
-                    back={() => changeView('isConnectorList')}
+                    back={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList')}}
                     edit={() => { history.push('/participant/connectors/edit/' + connectorDeatilsData['id']) }}
                     delete={() => changeView('isDelete')}
                     cancel={() => changeView('isConnectorList')}
@@ -707,7 +708,7 @@ export default function ConnectorParticipant() {
                     {connectorDeatilsData['connector_type'] == 'Consumer' && (connectorDeatilsData['connector_status'] == 'unpaired' || connectorDeatilsData['connector_status'] == 'rejected') ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
                         <span className="mainheading">{"Pair with"}</span>
                     </Row>
-                        <Row style={{ "margin-left": "64px", "margin-top": "30px" }}>
+                        {providerConectorList.length>0?<Row style={{ "margin-left": "64px", "margin-top": "30px" }}>
                             <Col>
                                 <TextField
                                     style={{ "width": "95%", "textAlign": "left" }}
@@ -730,7 +731,13 @@ export default function ConnectorParticipant() {
                             </Col>
                             <Col></Col>
                             <Col></Col>
-                        </Row>
+                        </Row>:
+                        <Row style={{ "margin-left": "64px", "margin-top": "30px" }}>
+                            <Col><span><img
+                            src={require('../../../Assets/Img/Info_icon.svg')}
+                            alt="new"
+                                    /> </span><span>{"The connector has already been paired. There is no connector available for pairing at this moment."}</span></Col>
+                            </Row>}
                         {providerConnectorDetails['connector_type'] ? <><Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
                             <Col>
                                 <span className="secondmainheading">{"Connector Name"}</span>
@@ -810,9 +817,9 @@ export default function ConnectorParticipant() {
                             </Row>
                             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
                                 <Col>
-                                    <Tooltip title={providerConnectorDetails['docker_image_url']}>
+                                    <Tooltip title={getDockerHubURL(providerConnectorDetails['docker_image_url'])}>
                                         <Row style={useStyles.datasetdescription}>
-                                            <span className="thirdmainheading">{providerConnectorDetails['docker_image_url']}</span>
+                                            <span className="thirdmainheading dockerImageURL" onClick={()=>{openLinkInNewTab(getDockerHubURL(providerConnectorDetails['docker_image_url']))}}>{providerConnectorDetails['docker_image_url']}</span>
                                         </Row>
                                     </Tooltip>
                                 </Col>
@@ -850,7 +857,7 @@ export default function ConnectorParticipant() {
                                 <Col>
                                     <Tooltip title={providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['website'] : ''}>
                                         <Row style={useStyles.datasetdescription}>
-                                            <span className="thirdmainheading">{providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['website'] : ''}</span>
+                                        {providerConnectorDetails['organization_details']?<span className="thirdmainheading dockerImageURL" onClick={()=>{openLinkInNewTab(providerConnectorDetails['organization_details']['website'])}}>{providerConnectorDetails['organization_details'] ? providerConnectorDetails['organization_details']['website'] : ''}</span>:<span>{""}</span>}
                                         </Row>
                                     </Tooltip>
                                 </Col>
@@ -933,7 +940,7 @@ export default function ConnectorParticipant() {
                                 <Col xs={12} sm={12} md={6} lg={3} >
                                 </Col>
                                 <Col xs={12} sm={12} md={6} lg={6} >
-                                    <Button onClick={() => { setFile(null); changeView('isConnectorList') }} variant="outlined" className="cancelbtn">
+                                    <Button onClick={() => { setFile(null);setaccfilesize(true); changeView('isConnectorList') }} variant="outlined" className="cancelbtn">
                                         {screenlabels.common.cancel}
                                     </Button>
                                 </Col>
@@ -950,7 +957,7 @@ export default function ConnectorParticipant() {
                 firstbtntext={"Delete"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { deleteConnector() }}
-                cancelEvent={() => { changeView('isConnectorList') }}
+                cancelEvent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList') }}
                 heading={"Delete Connector"}
                 imageText={"Are you sure you want to delete connector?"}
                 firstmsg={"This action will delete the connector from the system."}
@@ -958,13 +965,13 @@ export default function ConnectorParticipant() {
             </Delete>
                 : <></>}
             {screenView.isDeleSuccess ?
-                <Success okevent={() => { changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your connetor is deleted successfully !"} imageText={"Deleted!"} msg={"You deleted a connector."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your connetor is deleted successfully !"} imageText={"Deleted!"} msg={"You deleted a connector."}></Success> : <></>
             }
             {screenView.isInstallationSuccess ?
-                <Success okevent={() => { changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Installation Done"} imageText={"Success!"} msg={"The certificate has been installed successfully. The connector is ready for pairing and data exchange. "}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Installation Done"} imageText={"Success!"} msg={"The certificate has been installed successfully. The connector is ready for pairing and data exchange. "}></Success> : <></>
             }
             {screenView.isPairingRequestSentSuccess ?
-                <Success okevent={() => { changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Pairing request sent"} imageText={"Success!"} msg={"Your pairing request has been sent to the " + organisationName + " we will update you once any action is taken by them."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Pairing request sent"} imageText={"Success!"} msg={"Your pairing request has been sent to the " + organisationName + " we will update you once any action is taken by them."}></Success> : <></>
             }
             {screenView.isUnpair ? <Delete
                 route={"login"}
@@ -972,7 +979,7 @@ export default function ConnectorParticipant() {
                 firstbtntext={"Unpair"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { approveOrRejectConnector() }}
-                cancelEvent={() => { changeView('isConnectorList') }}
+                cancelEvent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList') }}
                 heading={"Unpair Connector"}
                 imageText={"Are you sure you want to unpair connector?"}
                 firstmsg={"This action will unpair the connector from the system."}
@@ -980,7 +987,7 @@ export default function ConnectorParticipant() {
             </Delete>
                 : <></>}
             {screenView.isUnpairSuccess ?
-                <Success okevent={() => { changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Unpaired"} imageText={"Success!"} msg={"You unpaired the connector."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Unpaired"} imageText={"Success!"} msg={"You unpaired the connector."}></Success> : <></>
             }
             {screenView.ispair ? <Delete
                 route={"login"}
@@ -988,7 +995,7 @@ export default function ConnectorParticipant() {
                 firstbtntext={"Approve"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { approveOrRejectConnector() }}
-                cancelEvent={() => { changeView('isConnectorList') }}
+                cancelEvent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList') }}
                 heading={"Approve Connector Request"}
                 imageText={"Are you sure you want to approve the connector?"}
                 firstmsg={"This action will pair the connector from the system."}
@@ -996,7 +1003,7 @@ export default function ConnectorParticipant() {
             </Delete>
                 : <></>}
             {screenView.ispairSuccess ?
-                <Success okevent={() => { changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approved"} imageText={"Success!"} msg={"The connectors are paired now and data exchange has started."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approved"} imageText={"Success!"} msg={"The connectors are paired now and data exchange has started."}></Success> : <></>
             }
             {screenView.isReject ? <Delete
                 route={"login"}
@@ -1004,7 +1011,7 @@ export default function ConnectorParticipant() {
                 firstbtntext={"Reject"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { approveOrRejectConnector() }}
-                cancelEvent={() => { changeView('isConnectorList') }}
+                cancelEvent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList') }}
                 heading={"Reject Connector Request"}
                 imageText={"Are you sure you want to reject the connector?"}
                 firstmsg={"This action will reject the connector from the system."}
@@ -1012,7 +1019,7 @@ export default function ConnectorParticipant() {
             </Delete>
                 : <></>}
             {screenView.isRejectSuccess ?
-                <Success okevent={() => { changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Rejected"} imageText={"Success!"} msg={"You have rejected the pairing request. You will receive a notification if there is a new pairing request."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Rejected"} imageText={"Success!"} msg={"You have rejected the pairing request. You will receive a notification if there is a new pairing request."}></Success> : <></>
             }
             {screenView.isConnectorList ? <div className="connectors">
                 {isDatasetPresent ?
