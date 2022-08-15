@@ -115,6 +115,7 @@ export default function ParticipantForm(props) {
                         type="number"
                         label={screenlabels.addparticipants.pincode}
                         value={props.pincode}
+                        onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.PINCODE_REGEX) ? props.setpincode(e.target.value.trim()) : e.preventDefault()}
                         //error={props.ispincodeerror}
                         // helperText={props.ispincodeerror ? "Enter Valid Pin Code" : ""}
@@ -178,6 +179,7 @@ export default function ParticipantForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <MuiPhoneNumber
                         defaultCountry={"in"}
+                        countryCodeEditable={false}
                         style={useStyles.inputwidth}
                         id="filled-basic"
                         label={screenlabels.addparticipants.contact_number}
