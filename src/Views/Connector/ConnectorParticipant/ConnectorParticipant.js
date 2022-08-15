@@ -965,13 +965,13 @@ export default function ConnectorParticipant() {
             </Delete>
                 : <></>}
             {screenView.isDeleSuccess ?
-                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your connetor is deleted successfully !"} imageText={"Deleted!"} msg={"You deleted a connector."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Your connetor is deleted successfully !"} imageText={"Deleted!"} msg={"You deleted a connector."}></Success> : <></>
             }
             {screenView.isInstallationSuccess ?
-                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Installation Done"} imageText={"Success!"} msg={"The certificate has been installed successfully. The connector is ready for pairing and data exchange. "}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Installation Done"} imageText={"Success!"} msg={"The certificate has been installed successfully. The connector is ready for pairing and data exchange. "}></Success> : <></>
             }
             {screenView.isPairingRequestSentSuccess ?
-                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Pairing request sent"} imageText={"Success!"} msg={"Your pairing request has been sent to the " + organisationName + " we will update you once any action is taken by them."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Pairing request sent"} imageText={"Success!"} msg={"Your pairing request has been sent to the " + organisationName + " we will update you once any action is taken by them."}></Success> : <></>
             }
             {screenView.isUnpair ? <Delete
                 route={"login"}
@@ -987,7 +987,7 @@ export default function ConnectorParticipant() {
             </Delete>
                 : <></>}
             {screenView.isUnpairSuccess ?
-                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Unpaired"} imageText={"Success!"} msg={"You unpaired the connector."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Unpaired"} imageText={"Success!"} msg={"You unpaired the connector."}></Success> : <></>
             }
             {screenView.ispair ? <Delete
                 route={"login"}
@@ -1003,7 +1003,7 @@ export default function ConnectorParticipant() {
             </Delete>
                 : <></>}
             {screenView.ispairSuccess ?
-                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approved"} imageText={"Success!"} msg={"The connectors are paired now and data exchange has started."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Approved"} imageText={"Success!"} msg={"The connectors are paired now and data exchange has started."}></Success> : <></>
             }
             {screenView.isReject ? <Delete
                 route={"login"}
@@ -1019,7 +1019,7 @@ export default function ConnectorParticipant() {
             </Delete>
                 : <></>}
             {screenView.isRejectSuccess ?
-                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');getConnectorList(false) }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Rejected"} imageText={"Success!"} msg={"You have rejected the pairing request. You will receive a notification if there is a new pairing request."}></Success> : <></>
+                <Success okevent={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList');clearAllFilters() }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Rejected"} imageText={"Success!"} msg={"You have rejected the pairing request. You will receive a notification if there is a new pairing request."}></Success> : <></>
             }
             {screenView.isConnectorList ? <div className="connectors">
                 {isDatasetPresent ?
