@@ -29,6 +29,7 @@ import HandleSessionTimeout, {
   getRoleLocal,
   getUserMapId,
   GetErrorKey,
+  validateInputField,
 } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
@@ -37,6 +38,7 @@ import Loader from "../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
 import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
+import RegexConstants from "../../Constants/RegexConstants";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -588,6 +590,11 @@ export default function Login(props) {
   const [Orgpincodebtn, setOrgpincodebtn] = useState(false);
 
   const [isLoader, setIsLoader] = useState(false);
+
+  const[orgWebsite, setOrgWebsite] = useState('')
+  const[isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false)
+  const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
+
   // const [Orgdesbtn, setOrgdesbtn] = useState(false);
 
   // const handleOrgDesChange = (value) => {
@@ -605,10 +612,11 @@ export default function Login(props) {
   const handleOrgSubmit = async (e) => {
     e.preventDefault();
 
-    setOrgNameErrorMessage(null);
-    setOrgEmailErrorMessage(null);
-    setOrgPhoneNumberErrorMessage(null);
-    setOrgDescriptionErrorMessage(null);
+    setOrgNameErrorMessage(null)
+    setOrgEmailErrorMessage (null)
+    setOrgPhoneNumberErrorMessage (null)
+    setOrgDescriptionErrorMessage (null)
+    setOrgWebsiteErrorMessage(null)
 
     // email validation
     const emailstring = orgmail;
@@ -635,6 +643,7 @@ export default function Login(props) {
     bodyFormData.append("user_id", id);
     bodyFormData.append("org_email", finalEmail);
     bodyFormData.append("name", finalName);
+    bodyFormData.append("website", orgWebsite);
     bodyFormData.append(
       "address",
       JSON.stringify({
@@ -696,27 +705,18 @@ export default function Login(props) {
         .catch((e) => {
           setIsLoader(false);
           console.log(e);
-          var returnValues = GetErrorKey(e, bodyFormData.keys());
-          var errorKeys = returnValues[0];
-          var errorMessages = returnValues[1];
-          if (errorKeys.length > 0) {
-            for (var i = 0; i < errorKeys.length; i++) {
-              switch (errorKeys[i]) {
-                case "phone_number":
-                  setOrgPhoneNumberErrorMessage(errorMessages[i]);
-                  break;
-                case "name":
-                  setOrgNameErrorMessage(errorMessages[i]);
-                  break;
-                case "org_email":
-                  setOrgEmailErrorMessage(errorMessages[i]);
-                  break;
-                case "org_description":
-                  setOrgDescriptionErrorMessage(errorMessages[i]);
-                  break;
-                default:
-                  history.push(GetErrorHandlingRoute(e));
-                  break;
+          var returnValues = GetErrorKey(e, bodyFormData.keys())
+          var errorKeys = returnValues[0]
+          var errorMessages = returnValues[1]
+          if (errorKeys.length > 0){
+            for (var i=0; i<errorKeys.length; i++){
+              switch(errorKeys[i]){
+                case "phone_number": setOrgPhoneNumberErrorMessage(errorMessages[i]); break;
+                case "name": setOrgNameErrorMessage(errorMessages[i]); break;
+                case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
+                case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
+                case "org_description": setOrgDescriptionErrorMessage(errorMessages[i]); break;
+                default: history.push(GetErrorHandlingRoute(e)); break;
               }
             }
           } else {
@@ -746,7 +746,14 @@ export default function Login(props) {
     }
   };
 
+  const handleOrgWebsite = (e) => {
+    e.target.value = e.target.value.trim()
+    setOrgWebsite(e.target.value)
+    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX))
+  };
+
   const handleOrgmail = (e) => {
+    e.target.value = e.target.value.trim()
     // console.log(e.target.value);
     var email = e.target.value;
     // if (email.length > 0) {
@@ -918,24 +925,30 @@ export default function Login(props) {
           )}
           {isProfile && isLoggedInUserAdmin() && (
             <ProfileRightside
-              handleprofileSubmit={handleprofileSubmit}
-              handleprofilfirstename={handleprofilfirstename}
-              handleprofilelastname={handleprofilelastname}
-              handleprofilenumber={handleprofilenumber}
-              ispropfilefirstnameerror={ispropfilefirstnameerror}
-              ispropfilelastnameerror={ispropfilelastnameerror}
-              ispropfileemailerror={ispropfileemailerror}
-              profilenextbutton={profilenextbutton}
-              profilefirstname={profilefirstname}
-              profilelastname={profilelastname}
-              profileemail={profileemail}
-              validemail={validemail}
-              finishLaterProfileScreen={finishLaterProfileScreen}
-              isaccesstoken={isaccesstoken}
-              firstNameErrorMessage={firstNameErrorMessage}
-              lastNameErrorMessage={lastNameErrorMessage}
-              emailErrorMessage={emailErrorMessage}
-              phoneNumberErrorMessage={phoneNumberErrorMessage}
+            handleprofileSubmit={handleprofileSubmit}
+            handleprofilfirstename={handleprofilfirstename}
+            handleprofilelastname={handleprofilelastname}
+            handleprofilenumber={handleprofilenumber}
+            ispropfilefirstnameerror={ispropfilefirstnameerror}
+            ispropfilelastnameerror={ispropfilelastnameerror}
+            ispropfileemailerror={ispropfileemailerror}
+            profilenextbutton={profilenextbutton}
+            profilefirstname={profilefirstname}
+            profilelastname={profilelastname}
+            profileemail={profileemail}
+            validemail={validemail}
+            finishLaterProfileScreen={finishLaterProfileScreen}
+            isaccesstoken={isaccesstoken}
+            firstNameErrorMessage={firstNameErrorMessage}
+            lastNameErrorMessage={lastNameErrorMessage}
+            emailErrorMessage={emailErrorMessage}
+            phoneNumberErrorMessage={phoneNumberErrorMessage}
+            setProfileFirstName={setProfileFirstName}
+            setProfileLastName={setProfileLastName}
+            setValidnumber={setValidnumber}
+            profilephone={validNumber}
+            setprofilenextbutton={setprofilenextbutton}
+            userid={getUserLocal()}
             />
           )}
           {isProfile && isLoggedInUserParticipant() && (
@@ -1032,6 +1045,11 @@ export default function Login(props) {
               orgEmailErrorMessage={orgEmailErrorMessage}
               orgPhoneNumberErrorMessage={orgPhoneNumberErrorMessage}
               orgDescriptionErrorMessage={orgDescriptionErrorMessage}
+              orgWebsite={orgWebsite}
+              isOrgWebsiteerror={isOrgWebsiteerror}
+              orgWebsiteErrorMessage={orgWebsiteErrorMessage}
+              handleOrgWebsite={handleOrgWebsite}
+              setOrgWebsite={setOrgWebsite}
             />
           ) : (
             <></>

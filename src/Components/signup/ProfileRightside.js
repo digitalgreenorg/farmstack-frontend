@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./profile.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -135,6 +135,36 @@ export default function ProfileRightside(props) {
   //   setValidnumber(value);
   // };
 
+  const[isLoader, setIsLoader] = useState(false)
+
+  useEffect(() => {
+
+    var id = props.userid;
+    setIsLoader(true);
+    HTTPService('GET', UrlConstant.base_url + UrlConstant.profile + id + '/', '', false, true, props.isaccesstoken)
+    .then((response) => {
+        setIsLoader(false);
+        console.log("otp valid", response.data);
+        if (response.data)
+        {
+          // let addressdata=JSON.parse(response.data.organization.address)
+          props.setProfileFirstName(response.data.first_name ? response.data.first_name : '');
+          props.setProfileLastName(response.data.last_name ? response.data.last_name : '');
+          props.setValidnumber(response.data.phone_number ? response.data.phone_number : '');
+
+          if (response.data.first_name && response.data.first_name.length > 0){
+            props.setprofilenextbutton (true)
+          }
+
+        }
+        
+    }).catch((e) => {
+        setIsLoader(false);
+        console.log(e)
+        //history.push(GetErrorHandlingRoute(e));
+    });
+}, []);
+
   return (
     <>
     <Footerimg />
@@ -158,6 +188,7 @@ export default function ProfileRightside(props) {
               helperText={
                 props.ispropfilefirstnameerror ? "Enter Valid Name" : props.firstNameErrorMessage
               }
+              value={props.profilefirstname}
             />
           </div>
           <div className="profilelastname">
@@ -173,6 +204,7 @@ export default function ProfileRightside(props) {
               helperText={
                 props.ispropfilelastnameerror ? "Enter Valid last name" : props.lastNameErrorMessage
               }
+              value={props.profilelastname}
             />
           </div>
           <div className="profileemail">
@@ -189,6 +221,7 @@ export default function ProfileRightside(props) {
               disabled
               error={props.emailErrorMessage ? true : false}
               helperText={props.emailErrorMessage}
+
               // error={props.ispropfileemailerror}
               // helperText={
               //   props.ispropfileemailerror ? "Enter Valid Email id" : ""
@@ -206,6 +239,7 @@ export default function ProfileRightside(props) {
               onChange={props.handleprofilenumber}
               error={props.phoneNumberErrorMessage?true:false}
               helperText={props.phoneNumberErrorMessage}
+              value={props.profilephone}
               // error={ispropfilenumbererror}
               // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />
