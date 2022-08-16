@@ -78,7 +78,7 @@ export default function PoliciesRightside(props) {
   const [privacyProgress, setprivacyProgress] = useState(0);
   const [tosloadProgress, settosloadProgress] = useState(0);
 
-  const history = useHistory()
+  const history = useHistory();
 
   const fileTypes = ["doc", "pdf"];
   const handlegovLawChange = (value) => {
@@ -130,7 +130,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
-          history.push(GetErrorHandlingRoute(e))
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -183,7 +183,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
-          history.push(GetErrorHandlingRoute(e))
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -235,7 +235,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
-          history.push(GetErrorHandlingRoute(e))
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -286,7 +286,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
-          history.push(GetErrorHandlingRoute(e))
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -339,7 +339,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
-          history.push(GetErrorHandlingRoute(e))
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -378,7 +378,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
-        history.push(GetErrorHandlingRoute(e))
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -412,7 +412,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
-        history.push(GetErrorHandlingRoute(e))
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -445,7 +445,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
-        history.push(GetErrorHandlingRoute(e))
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -478,7 +478,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
-        history.push(GetErrorHandlingRoute(e))
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -511,7 +511,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
-        history.push(GetErrorHandlingRoute(e))
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -544,7 +544,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
-        history.push(GetErrorHandlingRoute(e))
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -593,7 +593,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Governing Laws (Optional)"
+                uploadtitle="Upload Governing Laws (Required)"
               />
             }
             // maxSize={2}
@@ -654,7 +654,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Warranties (Optional)"
+                uploadtitle="Upload Warranties (Required)"
               />
             }
             //   maxSize={2}
@@ -717,7 +717,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload limitation of Liabilities (Optional)"
+                uploadtitle="Upload limitation of Liabilities (Required)"
               />
             }
             //   maxSize={2}
@@ -779,7 +779,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Privacy Policy (Optional)"
+                uploadtitle="Upload Privacy Policy (Required)"
               />
             }
             //   maxSize={2}
@@ -841,7 +841,7 @@ export default function PoliciesRightside(props) {
             children={
               <UploadOrgLogo
                 uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Terms of Use (Optional)"
+                uploadtitle="Upload Terms of Use (Required)"
               />
             }
             //   maxSize={2}
@@ -944,9 +944,8 @@ export default function PoliciesRightside(props) {
           </g>
         </svg>
       </div>
-      <div style={{position:"absolute", top:"3400px"}}>
-
-      <Footer  />
+      <div style={{ position: "absolute", top: "3400px" }}>
+        <Footer />
       </div>
     </div>
   );
