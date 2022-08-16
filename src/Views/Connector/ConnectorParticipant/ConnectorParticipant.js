@@ -147,12 +147,20 @@ export default function ConnectorParticipant() {
     const getConnectorList = (isLoadMore) => {
 
         setIsLoader(true);
-        if (payload == "") {
-            payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
-        }
-        if(isLoadMore){
+        
+        if(!isLoadMore){
+            if (payload == "") {
+                payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
+            }
+        } else {
             payload = {...filterState}
         }
+        // if (payload == "") {
+        //     payload = buildFilterPayLoad(getUserLocal(), "", "", "", "")
+        // }
+        // if(isLoadMore){
+        //     payload = {...filterState}
+        // }
         HTTPService(
             "POST",
             isLoadMore ? connectorUrl : UrlConstant.base_url+UrlConstant.connector_list,

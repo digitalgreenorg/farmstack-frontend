@@ -13,7 +13,11 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { openLinkInNewTab, validateInputField } from "../../Utils/Common";
+<<<<<<< HEAD
+import { openLinkInNewTab, mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
+=======
+import { mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
+>>>>>>> 70815b75e51ccc6748d119bf4cb4590f0696fb3b
 import RegexConstants from "../../Constants/RegexConstants";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { yellow } from "@mui/material/colors";
@@ -529,7 +533,7 @@ const GuestUserContactForm = ({
           <Col xs={12} sm={12} md={6} lg={6}>
             {useDetails.firstName &&
             useDetails.email &&
-            useDetails.contactNumber.length==15 &&
+            mobileNumberMinimunLengthCheck(useDetails.contactNumber) &&
             useDetails.queryDescription &&
             !emailError &&
             !iscontactnumbererror &&

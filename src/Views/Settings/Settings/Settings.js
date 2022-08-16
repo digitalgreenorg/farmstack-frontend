@@ -141,7 +141,7 @@ function Settings(props) {
     setValue(newValue);
   };
   return (
-    <div style={useStyles.background}>
+    <div className="minHeight501pxsettingpagemaindiv"  style={useStyles.background}>
       {isLoader ? <Loader />: ''}
       {/* <Container style={useStyles.marginrowtopscreen10px}> */}
         {isDelete ? (
