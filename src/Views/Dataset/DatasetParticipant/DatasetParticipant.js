@@ -615,22 +615,34 @@ export default function DatasetParticipant() {
     }
 
     const getMyDataset = (isLoadMore) => {
+
+        setIsLoader(true)
+
         if(!isLoadMore){
             resetUrls()
-        }
-        setIsLoader(true);
-        if (payload == "") {
-            // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            // payload['others'] = false
-            payload = {}
-            payload['user_id'] = getUserLocal()
-            payload['org_id'] = getOrgLocal()
-            payload['others'] = false
-            setFilterState(payload)
-        }
-        if(isLoadMore){
+            if (payload == "") {  
+                payload = {}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = false
+                setFilterState(payload)
+            }
+        } else {
             payload = {...filterState}
         }
+        // setIsLoader(true);
+        // if (payload == "") {
+        //     // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        //     // payload['others'] = false
+        //     payload = {}
+        //     payload['user_id'] = getUserLocal()
+        //     payload['org_id'] = getOrgLocal()
+        //     payload['others'] = false
+        //     setFilterState(payload)
+        // }
+        // if(isLoadMore){
+        //     payload = {...filterState}
+        // }
         HTTPService(
             "POST",
             // "GET",
@@ -668,22 +680,34 @@ export default function DatasetParticipant() {
     }
 
     const getMemberDatasets = (isLoadMore) => {
+
+        setIsLoader(true);
+
         if(!isLoadMore){
             resetUrls()
-        }
-        setIsLoader(true);
-        if (payload == "") {
-            // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            // payload['others'] = true
-            payload = {}
-            payload['user_id'] = getUserLocal()
-            payload['org_id'] = getOrgLocal()
-            payload['others'] = true
-            setFilterState(payload)
-        }
-        if(isLoadMore){
+            if (payload == "") {
+                payload = {}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = true
+                setFilterState(payload)
+            }
+        } else {
             payload = {...filterState}
         }
+        
+        // if (payload == "") {
+        //     // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        //     // payload['others'] = true
+        //     payload = {}
+        //     payload['user_id'] = getUserLocal()
+        //     payload['org_id'] = getOrgLocal()
+        //     payload['others'] = true
+        //     setFilterState(payload)
+        // }
+        // if(isLoadMore){
+        //     payload = {...filterState}
+        // }
         HTTPService(
             "POST",
             // "GET",
