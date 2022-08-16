@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Footer from "../../Components/Footer/Footer";
 import GuestUserBanner from "../../Components/GuestUser/GuestUserBanner";
 import GuestUserDescription from "../../Components/GuestUser/GuestUserDescription";
@@ -7,6 +8,7 @@ import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 
 export default function GuestUserLegal(props){
     const [isLoader, setIsLoader] = useState(false);
@@ -14,6 +16,7 @@ export default function GuestUserLegal(props){
     const [backendReady, setBackendReady] = useState(false)
     const [content, setContent] = useState([])
     const [documents, setDocuments] = useState([])
+    const history = useHistory();
     
     
     // let arr = [
@@ -67,9 +70,7 @@ export default function GuestUserLegal(props){
                 })
                 .catch((e) => {
                   setIsLoader(false);
-                  console.log(e);
-                  // setisexisitinguseremail(true);
-                  //history.push(GetErrorHandlingRoute(e));
+                history.push(GetErrorHandlingRoute(e));
                 });
         }
       useEffect(() => {

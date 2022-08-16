@@ -13,7 +13,7 @@ import UrlConstants from "../../Constants/UrlConstants";
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../Constants/RegexConstants";
-import HandleSessionTimeout, { GetErrorHandlingRoute, GetErrorKey, validateInputField } from "../../Utils/Common";
+import HandleSessionTimeout, { GetErrorHandlingRoute, GetErrorKey, mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
 import Loader from "../../Components/Loader/Loader";
 const useStyles = {
   btncolor: {
@@ -227,7 +227,7 @@ function AddParticipants(props) {
                 orginsationemail &&
                 !isorganisationemailerror &&
                 countryvalue &&
-                contactnumber.length == 15 &&
+               mobileNumberMinimunLengthCheck(contactnumber) &&
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
