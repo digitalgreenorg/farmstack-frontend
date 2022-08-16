@@ -58,14 +58,14 @@ export default function ParticipantsCards(props) {
         <Row style={{ 'margin-top': '5px' }}>
           <Col xs={12} sm={12} md={4} lg={4} style={useStyles.cardDataHeading}>
             Dataset <br />
-      <Tooltip TransitionComponent={Zoom}   title={props.dataset}>
-            <div className='width100px text_overflow_ellipsis_overflow_hidden'  style={useStyles.cardData}>{props.dataset}</div>
+      <Tooltip TransitionComponent={Zoom}   title={props.dataset>9?props.dataset:"0"+props.dataset}>
+            <div className='width100px text_overflow_ellipsis_overflow_hidden'  style={useStyles.cardData}>{props.dataset>9?props.dataset:"0"+props.dataset}</div>
       </Tooltip>
           </Col>
           <Col xs={12} sm={12} md={4} lg={5} style={useStyles.cardDataHeading}>
             Connectors<br />
-      <Tooltip TransitionComponent={Zoom}    title={props.connector}>
-            <div className='width100px text_overflow_ellipsis_overflow_hidden' style={useStyles.cardData}>{props.connector}</div>
+      <Tooltip TransitionComponent={Zoom}    title={props.connector>9?props.connector:"0"+props.connector}>
+            <div className='width100px text_overflow_ellipsis_overflow_hidden' style={useStyles.cardData}>{props.connector>9?props.connector:"0"+props.connector}</div>
       </Tooltip>
           </Col>
           <Col xs={12} sm={12} md={4} lg={3} style={useStyles.cardDataHeading}>

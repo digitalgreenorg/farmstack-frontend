@@ -82,8 +82,8 @@ function Participants(props) {
                     {participantList.map((rowData, index) => (
                         <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>
                             <ParticipantsCards
-                                dataset={"05"}
-                                connector={"DGT"}
+                                dataset={rowData.dataset_count}
+                                connector={rowData.connector_count}
                                 active={rowData.user.status ? "Inactive" : "Active"}
                                 id={rowData.user_id}
                                 profilepic={rowData.user.profile_picture}
