@@ -62,7 +62,6 @@ const useStyles = {
     "border-radius": 0,
   },
   marginrowtop: { "margin-top": "20px" },
-  marginrowtop8px: { "margin-top": "0px" },
 };
 
 export default function AddConnectorParticipant() {
@@ -92,14 +91,14 @@ export default function AddConnectorParticipant() {
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
-  const [nameErrorMessage, setnameErrorMessage] = useState(null)
-  const [dockerErrorMessage, setDockerErrorMessage] = useState(null)
-  const [typeErrorMessage, setTypeErrorMessage] = useState(null)
-  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
-  const [portErrorMessage, setPortErrorMessage] = useState(null)
-  const [departErrorMessage, setDepartMentErrorMessage] = useState(null)
-  const [projectErrorMessage, setProjectErrorMessage] = useState(null)
-  const [datasetErrorMessage, setDatasetErrorMessage] = useState(null)
+  const [nameErrorMessage, setnameErrorMessage] = useState(null);
+  const [dockerErrorMessage, setDockerErrorMessage] = useState(null);
+  const [typeErrorMessage, setTypeErrorMessage] = useState(null);
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null);
+  const [portErrorMessage, setPortErrorMessage] = useState(null);
+  const [departErrorMessage, setDepartMentErrorMessage] = useState(null);
+  const [projectErrorMessage, setProjectErrorMessage] = useState(null);
+  const [datasetErrorMessage, setDatasetErrorMessage] = useState(null);
 
   //   get dataset
   //   const getDatasetDetails = async () => {
@@ -236,7 +235,7 @@ export default function AddConnectorParticipant() {
     }
   };
   const handleChangeConnectorName = (e) => {
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setconnectorName(e.target.value)
       : e.preventDefault();
     console.log(e.target.value);
@@ -269,7 +268,7 @@ export default function AddConnectorParticipant() {
   const handleAddDatasetSubmit = async (e) => {
     e.preventDefault();
 
-    setnameErrorMessage(null); 
+    setnameErrorMessage(null);
     setTypeErrorMessage(null);
     setDescriptionErrorMessage(null);
     setPortErrorMessage(null);
@@ -289,8 +288,8 @@ export default function AddConnectorParticipant() {
     bodyFormData.append("docker_image_url", docker);
     bodyFormData.append("project", project);
     bodyFormData.append("dataset", Dataset);
-    bodyFormData.append("user_map", getUserMapId())
-    console.log("Form Data" ,bodyFormData)
+    bodyFormData.append("user_map", getUserMapId());
+    console.log("Form Data", bodyFormData);
 
     await HTTPService(
       "POST",
@@ -307,26 +306,35 @@ export default function AddConnectorParticipant() {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "connector_name": setnameErrorMessage(errorMessages[i]); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "connector_name":
+                setnameErrorMessage(errorMessages[i]);
+                break;
               //case "connector_type": setTypeErrorMessage(errorMessages[i]); break;
-              case "connector_description": setDescriptionErrorMessage(errorMessages[i]); break;
-              case "application_port": setPortErrorMessage(errorMessages[i]); break;
+              case "connector_description":
+                setDescriptionErrorMessage(errorMessages[i]);
+                break;
+              case "application_port":
+                setPortErrorMessage(errorMessages[i]);
+                break;
               //case "department": setDepartMentErrorMessage(errorMessages[i]); break;
-              case "docker_image_url": setDockerErrorMessage(errorMessages[i]); break;
+              case "docker_image_url":
+                setDockerErrorMessage(errorMessages[i]);
+                break;
               //case "project": setProjectErrorMessage(errorMessages[i]); break;
               //case "dataset": setDatasetErrorMessage(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
 
         /*
@@ -404,6 +412,7 @@ export default function AddConnectorParticipant() {
               docker &&
               port ? (
                 <Button
+                  style={useStyles.marginrowtop}
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
                   className="submitbtn"
@@ -420,7 +429,7 @@ export default function AddConnectorParticipant() {
               )}
             </Col>
           </Row>
-          <Row style={useStyles.marginrowtop8px}>
+          <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button

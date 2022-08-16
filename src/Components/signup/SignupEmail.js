@@ -46,6 +46,7 @@ export default function SignupEmail(props) {
           variant="filled"
           className="signupemail"
           onChange={props.handleEmail}
+          onKeyDown={(e) => {if(e.key == ' ') {e.preventDefault()}}}
           inputRef={props.email}
           error={props.iserror || props.isuserSuspenderror}
           helperText={(props.iserror || props.isuserSuspenderror) ? props.errormessage : ""}

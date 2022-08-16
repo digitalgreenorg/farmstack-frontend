@@ -198,6 +198,7 @@ export default function ProfileRightside(props) {
           <div className="profilenumber">
             <MuiPhoneNumber
               defaultCountry={"in"}
+              countryCodeEditable={false}
               style={{ width: "420px" }}
               id="filled-basic"
               label="Contact Number"
