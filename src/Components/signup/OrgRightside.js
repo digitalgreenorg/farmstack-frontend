@@ -478,7 +478,11 @@ export default function OrgRightside(props) {
               }
               // inputRef={props.Orgname}
               error={props.isOrgnameerror || props.orgNameErrorMessage}
-              helperText={props.isOrgnameerror && !props.orgNameErrorMessage ? "Enter Name" : props.orgNameErrorMessage}
+              helperText={
+                props.isOrgnameerror && !props.orgNameErrorMessage
+                  ? "Enter Name"
+                  : props.orgNameErrorMessage
+              }
             />
           </div>
           <div className="orgemail">
@@ -496,7 +500,7 @@ export default function OrgRightside(props) {
               //inputRef={props.Orgmail}
               error={props.isOrgmailerror || props.orgEmailErrorMessage}
               helperText={
-                (props.isOrgmailerror && !props.orgEmailErrorMessage)
+                props.isOrgmailerror && !props.orgEmailErrorMessage
                   ? "Enter Valid Email id"
                   : props.orgEmailErrorMessage
               }
@@ -530,7 +534,7 @@ export default function OrgRightside(props) {
               variant="filled"
               value={props.validOrgNumber}
               onChange={props.handleOrgnumber}
-              error = {props.orgPhoneNumberErrorMessage ? true : false}
+              error={props.orgPhoneNumberErrorMessage ? true : false}
               helperText={props.orgPhoneNumberErrorMessage}
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
@@ -574,10 +578,7 @@ export default function OrgRightside(props) {
                   : props.setisOrgcityerror(false)
               }
               onChange={(e) =>
-                validateInputField(
-                  e.target.value,
-                  RegexConstants.DATA_SET_REGEX
-                )
+                validateInputField(e.target.value, RegexConstants.city_name)
                   ? props.setOrgCity(e.target.value)
                   : e.preventDefault()
               }
@@ -631,7 +632,11 @@ export default function OrgRightside(props) {
                   ? props.setispincodeerror(true)
                   : props.setispincodeerror(false)
               }
-              onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
+              onKeyDown={(e) => {
+                if (e.key == "-" || e.key == "e" || e.key == "+") {
+                  e.preventDefault();
+                }
+              }}
               onChange={(e) =>
                 validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
                   ? props.setOrgPincode(e.target.value.trim())
@@ -690,7 +695,7 @@ export default function OrgRightside(props) {
                 border: "1px solid black",
                 zIndex: 4,
               }}
-              error={props.orgDescriptionErrorMessage ? true: false}
+              error={props.orgDescriptionErrorMessage ? true : false}
               helperText={props.orgDescriptionErrorMessage}
             />
           </div>

@@ -13,11 +13,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-<<<<<<< HEAD
 import { openLinkInNewTab, mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
-=======
-import { mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
->>>>>>> 70815b75e51ccc6748d119bf4cb4590f0696fb3b
 import RegexConstants from "../../Constants/RegexConstants";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { yellow } from "@mui/material/colors";

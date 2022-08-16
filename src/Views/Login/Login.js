@@ -35,7 +35,7 @@ import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
 import { useHistory } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
-import {GetErrorHandlingRoute} from "../../Utils/Common";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
 import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
 import RegexConstants from "../../Constants/RegexConstants";
@@ -51,7 +51,7 @@ export default function Login(props) {
   const [userSuspenderror, setuserSuspenderror] = useState(false);
   const [restartcounter, Setrestartcounter] = useState(0);
   const [disable, setDisable] = useState(true);
-  const [errormessage, setErrormessage] = useState('')
+  const [errormessage, setErrormessage] = useState("");
 
   const [validemail, Setvalidemail] = useState("");
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -76,13 +76,16 @@ export default function Login(props) {
 
   const [profileid, setprofileid] = useState("");
 
-  const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
-  const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
-  const[orgPhoneNumberErrorMessage, setOrgPhoneNumberErrorMessage] = useState(null)
-  const[orgDescriptionErrorMessage, setOrgDescriptionErrorMessage] = useState(null)
+  const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
+  const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
+  const [orgPhoneNumberErrorMessage, setOrgPhoneNumberErrorMessage] =
+    useState(null);
+  const [orgDescriptionErrorMessage, setOrgDescriptionErrorMessage] =
+    useState(null);
 
-  const timerDuration = 120000
-  const[remainingCounterTime, setRemainingCounterTime] = useState(timerDuration)
+  const timerDuration = 120000;
+  const [remainingCounterTime, setRemainingCounterTime] =
+    useState(timerDuration);
 
   const history = useHistory();
 
@@ -126,25 +129,40 @@ export default function Login(props) {
             setUserId(response.data.id);
             setEmail(false);
             setError(false);
-            setuserSuspenderror(false)
+            setuserSuspenderror(false);
             setisOtp(true);
           } else {
             setError(true);
-            setuserSuspenderror(false)
+            setuserSuspenderror(false);
           }
         })
         .catch((e) => {
           setIsLoader(false);
           console.log(e);
-          if (e.response != null && e.response != undefined && e.response.status === 401) {
+          if (
+            e.response != null &&
+            e.response != undefined &&
+            e.response.status === 401
+          ) {
             setuserSuspenderror(false);
             setError(true);
-            setErrormessage((e.response.data && e.response.data.message)?e.response.data.message : 'User not registered')
-          } 
-          else if (e.response != null && e.response != undefined && e.response.status === 403) {
+            setErrormessage(
+              e.response.data && e.response.data.message
+                ? e.response.data.message
+                : "User not registered"
+            );
+          } else if (
+            e.response != null &&
+            e.response != undefined &&
+            e.response.status === 403
+          ) {
             setuserSuspenderror(true);
             setError(false);
-            setErrormessage((e.response.data && e.response.data.message)?e.response.data.message : 'User suspended. Please try after sometime.')
+            setErrormessage(
+              e.response.data && e.response.data.message
+                ? e.response.data.message
+                : "User suspended. Please try after sometime."
+            );
           } else {
             history.push(GetErrorHandlingRoute(e));
           }
@@ -154,7 +172,7 @@ export default function Login(props) {
   const handleEmail = (e) => {
     e.preventDefault();
     console.log(e.target.value);
-    e.target.value = e.target.value.trim()
+    e.target.value = e.target.value.trim();
     if (e.target.value.trim().length > 0) {
       setButton(true);
       setError(false);
@@ -236,16 +254,31 @@ export default function Login(props) {
           setIsLoader(false);
           //console.log(e.response.status)
           setOtpError(true);
-          if (e.response != null && e.response != undefined && e.response.status === 401) {
+          if (
+            e.response != null &&
+            e.response != undefined &&
+            e.response.status === 401
+          ) {
             setOtpError(true);
             setuserSuspenderror(false);
-            setErrormessage((e.response.data && e.response.data.message) ? e.response.data.message : 'Enter valid OTP')
-          } else if ( e.response != null && e.response != undefined && e.response.status === 403) {
+            setErrormessage(
+              e.response.data && e.response.data.message
+                ? e.response.data.message
+                : "Enter valid OTP"
+            );
+          } else if (
+            e.response != null &&
+            e.response != undefined &&
+            e.response.status === 403
+          ) {
             setuserSuspenderror(true);
             setOtpError(false);
-            setErrormessage((e.response.data && e.response.data.message)? e.response.data.message : 'Maximum attempts taken. Please try after sometime.')
-          }
-          else {
+            setErrormessage(
+              e.response.data && e.response.data.message
+                ? e.response.data.message
+                : "Maximum attempts taken. Please try after sometime."
+            );
+          } else {
             history.push(GetErrorHandlingRoute(e));
           }
         });
@@ -306,16 +339,31 @@ export default function Login(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        if (e.response != null && e.response != undefined && e.response.status === 401) {
+        if (
+          e.response != null &&
+          e.response != undefined &&
+          e.response.status === 401
+        ) {
           setOtpError(true);
           setuserSuspenderror(false);
-          setErrormessage((e.response.data && e.response.data.message) ? e.response.data.message : 'User not registered')
-        } else if ( e.response != null && e.response != undefined && e.response.status === 403) {
+          setErrormessage(
+            e.response.data && e.response.data.message
+              ? e.response.data.message
+              : "User not registered"
+          );
+        } else if (
+          e.response != null &&
+          e.response != undefined &&
+          e.response.status === 403
+        ) {
           setuserSuspenderror(true);
           setOtpError(false);
-          setErrormessage((e.response.data && e.response.data.message)? e.response.data.message : 'User suspended. Please try after sometime.')
-        }
-        else{
+          setErrormessage(
+            e.response.data && e.response.data.message
+              ? e.response.data.message
+              : "User suspended. Please try after sometime."
+          );
+        } else {
           history.push(GetErrorHandlingRoute(e));
         }
       });
@@ -332,10 +380,10 @@ export default function Login(props) {
   const [profilelastname, setProfileLastName] = useState("");
   const [profileimage, setProfileImageFile] = useState(null);
 
-  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
-  const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
-  const[emailErrorMessage, setEmailErrorMessage] = useState(null)
-  const[phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null)
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState(null);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState(null);
+  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null);
 
   const profileemail = useRef();
 
@@ -351,10 +399,10 @@ export default function Login(props) {
       setispropfilefirstnameerror(false);
     }
 
-    setFirstNameErrorMessage(null)
-    setLastNameErrorMessage(null)
-    setEmailErrorMessage(null)
-    setPhoneNumberErrorMessage(null)
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setEmailErrorMessage(null);
+    setPhoneNumberErrorMessage(null);
 
     // if (profilelastname.current.value.length === 0) {
     //   setispropfilelastnameerror(true);
@@ -399,22 +447,31 @@ export default function Login(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
-              case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
-              case "email": setEmailErrorMessage(errorMessages[i]); break;
-              case "phone_number": setPhoneNumberErrorMessage(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              case "email":
+                setEmailErrorMessage(errorMessages[i]);
+                break;
+              case "phone_number":
+                setPhoneNumberErrorMessage(errorMessages[i]);
+                break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
         //history.push(GetErrorHandlingRoute(e));
       });
@@ -634,8 +691,7 @@ export default function Login(props) {
               if (getUserMapId()) {
                 setIsDataSet(true);
                 setisOrg(false);
-              }
-              else{
+              } else {
                 setOnBoardedTrue();
                 setTokenLocal(isaccesstoken);
               }
@@ -663,9 +719,8 @@ export default function Login(props) {
                 default: history.push(GetErrorHandlingRoute(e)); break;
               }
             }
-          }
-          else{
-            history.push(GetErrorHandlingRoute(e))
+          } else {
+            history.push(GetErrorHandlingRoute(e));
           }
         });
     }
@@ -743,6 +798,7 @@ export default function Login(props) {
   const handleOrgcity = (e) => {
     console.log(e.target.value);
     var letters = /^[A-Za-z]+$/;
+    // var letters = /^$|^[a-zA-Z][a-zA-Z ]*$/;
     var city = e.target.value;
     // if (city.length > 0) {
     //   setisOrgcityerror(false);
@@ -797,11 +853,10 @@ export default function Login(props) {
       if (getUserMapId()) {
         setIsDataSet(true);
         setisOrg(false);
-      }
-      else{
+      } else {
         setOnBoardedTrue();
         setTokenLocal(isaccesstoken);
-        props.history.push('/participant/datasets')
+        props.history.push("/participant/datasets");
       }
       //props.history.push('/loginadddatasetparticipant');
     }
@@ -811,54 +866,63 @@ export default function Login(props) {
     <div className="loginMainDiv">
       {isLoader ? <Loader /> : ""}
       <SignInHeader></SignInHeader>
-      {isDataSet && isLoggedInUserParticipant() ? (<div>
-        <AddDatasetParticipant
-          isaccesstoken={isaccesstoken}
-          okAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
-          cancelAction={() => { setOnBoardedTrue();setTokenLocal(isaccesstoken);history.push("/participant/datasets")}}
-          /><div style={{position:"absolute", top:"1800px"}}>
-        <Footer/>
+      {isDataSet && isLoggedInUserParticipant() ? (
+        <div>
+          <AddDatasetParticipant
+            isaccesstoken={isaccesstoken}
+            okAction={() => {
+              setOnBoardedTrue();
+              setTokenLocal(isaccesstoken);
+              history.push("/participant/datasets");
+            }}
+            cancelAction={() => {
+              setOnBoardedTrue();
+              setTokenLocal(isaccesstoken);
+              history.push("/participant/datasets");
+            }}
+          />
+          <div style={{ position: "absolute", top: "1800px" }}>
+            <Footer />
           </div>
-          </div>
+        </div>
       ) : (
-        <div >
+        <div>
           <h1 className="headertext">{screenlabels.login.signup_header}</h1>
           <Leftintro />
           {isemail || isOtp ? <Rightintro /> : ""}
-          
+
           {/* <Footerimg /> */}
           {isemail && (
             <SignupEmail
-            screenlabels={screenlabels}
-            handleSubmit={handleSubmit}
-            handleEmail={handleEmail}
-            iserror={iserror}
-            email={email}
-            button={button}
-            errormessage = {errormessage}
-            isuserSuspenderror = {userSuspenderror}
+              screenlabels={screenlabels}
+              handleSubmit={handleSubmit}
+              handleEmail={handleEmail}
+              iserror={iserror}
+              email={email}
+              button={button}
+              errormessage={errormessage}
+              isuserSuspenderror={userSuspenderror}
             />
-            
-            )}
+          )}
           {isOtp && (
             <SignupOtp
-            handleSubmitOtp={handleSubmitOtp}
-            handleOtp={handleOtp}
-            isOtperror={isOtperror}
-            isuserSuspenderror={userSuspenderror}
-            otp={otp}
-            otpValue={otpValue}
-            setOtpValue={setOtpValue}
-            button={verifyOtpbutton}
-            hanleResendOTp={hanleResendOTp}
-            restartcounter={restartcounter}
-            disable={disable}
-            setDisable={setDisable}
-            remainingCounterTime = {remainingCounterTime}
-            setRemainingCounterTime = {setRemainingCounterTime}
-            errormessage = {errormessage}
+              handleSubmitOtp={handleSubmitOtp}
+              handleOtp={handleOtp}
+              isOtperror={isOtperror}
+              isuserSuspenderror={userSuspenderror}
+              otp={otp}
+              otpValue={otpValue}
+              setOtpValue={setOtpValue}
+              button={verifyOtpbutton}
+              hanleResendOTp={hanleResendOTp}
+              restartcounter={restartcounter}
+              disable={disable}
+              setDisable={setDisable}
+              remainingCounterTime={remainingCounterTime}
+              setRemainingCounterTime={setRemainingCounterTime}
+              errormessage={errormessage}
             />
-            )}
+          )}
           {isProfile && isLoggedInUserAdmin() && (
             <ProfileRightside
             handleprofileSubmit={handleprofileSubmit}
@@ -886,37 +950,37 @@ export default function Login(props) {
             setprofilenextbutton={setprofilenextbutton}
             userid={getUserLocal()}
             />
-            )}
+          )}
           {isProfile && isLoggedInUserParticipant() && (
             <ProfileRightsideParticipant
-            handleprofileSubmit={handleprofileSubmit}
-            handleprofilfirstename={handleprofilfirstename}
-            handleprofilelastname={handleprofilelastname}
-            handleprofilenumber={handleprofilenumber}
-            setProfileFirstName={setProfileFirstName}
-            setProfileLastName={setProfileLastName}
-            setValidnumber={setValidnumber}
-            ispropfilefirstnameerror={ispropfilefirstnameerror}
-            ispropfilelastnameerror={ispropfilelastnameerror}
-            ispropfileemailerror={ispropfileemailerror}
-            profilenextbutton={profilenextbutton}
-            profilefirstname={profilefirstname}
-            profilelastname={profilelastname}
-            profileemail={profileemail}
-            profilephone={validNumber}
-            validemail={validemail}
-            profileImageFile={profileimage}
-            setProfileImageFile={setProfileImageFile}
-            finishLaterProfileScreen={finishLaterProfileScreen}
-            setprofilenextbutton={setprofilenextbutton}
-            isaccesstoken={isaccesstoken}
-            userid={getUserLocal()}
-            firstNameErrorMessage={firstNameErrorMessage}
-            lastNameErrorMessage={lastNameErrorMessage}
-            emailErrorMessage={emailErrorMessage}
-            phoneNumberErrorMessage={phoneNumberErrorMessage}
+              handleprofileSubmit={handleprofileSubmit}
+              handleprofilfirstename={handleprofilfirstename}
+              handleprofilelastname={handleprofilelastname}
+              handleprofilenumber={handleprofilenumber}
+              setProfileFirstName={setProfileFirstName}
+              setProfileLastName={setProfileLastName}
+              setValidnumber={setValidnumber}
+              ispropfilefirstnameerror={ispropfilefirstnameerror}
+              ispropfilelastnameerror={ispropfilelastnameerror}
+              ispropfileemailerror={ispropfileemailerror}
+              profilenextbutton={profilenextbutton}
+              profilefirstname={profilefirstname}
+              profilelastname={profilelastname}
+              profileemail={profileemail}
+              profilephone={validNumber}
+              validemail={validemail}
+              profileImageFile={profileimage}
+              setProfileImageFile={setProfileImageFile}
+              finishLaterProfileScreen={finishLaterProfileScreen}
+              setprofilenextbutton={setprofilenextbutton}
+              isaccesstoken={isaccesstoken}
+              userid={getUserLocal()}
+              firstNameErrorMessage={firstNameErrorMessage}
+              lastNameErrorMessage={lastNameErrorMessage}
+              emailErrorMessage={emailErrorMessage}
+              phoneNumberErrorMessage={phoneNumberErrorMessage}
             />
-            )}
+          )}
           {isOrg ? (
             <OrgRightside
               isOrgnameerror={isOrgnameerror}
@@ -987,35 +1051,28 @@ export default function Login(props) {
               handleOrgWebsite={handleOrgWebsite}
               setOrgWebsite={setOrgWebsite}
             />
-            ) : (
-              <></>
-              )}
+          ) : (
+            <></>
+          )}
           {isPolicies && isLoggedInUserAdmin() && (
             <PoliciesRightside
-            isaccesstoken={isaccesstoken}
-            showBrandingScreen={() => {
-              setisPolicies(false);
-              setisBranding(true);
-            }}
+              isaccesstoken={isaccesstoken}
+              showBrandingScreen={() => {
+                setisPolicies(false);
+                setisBranding(true);
+              }}
             />
-            )}
+          )}
           {isBranding && isLoggedInUserAdmin() && (
             <BrandingRightside
-            validemail={validemail}
-            isaccesstoken={isaccesstoken}
-            setOnBoardedTrue = {setOnBoardedTrue}
+              validemail={validemail}
+              isaccesstoken={isaccesstoken}
+              setOnBoardedTrue={setOnBoardedTrue}
             />
-            )}
-
-       
+          )}
         </div>
-        
-        )}
-        <div style={{position:"absolute", bottom:0}}>
-
-         {/* <Footer/> */}
-        </div>
+      )}
+      <div style={{ position: "absolute", bottom: 0 }}>{/* <Footer/> */}</div>
     </div>
-    
   );
 }
