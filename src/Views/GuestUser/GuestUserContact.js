@@ -43,7 +43,7 @@ export default function GuestUserContact(props) {
   const[describeQueryErrorMessage, setDescribeQueryErrorMessage] = useState(null)
 
   const handleChange = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     if (e.target.name == "email") {
       setEmailError(!validator.isEmail(e.target.value));
     }
@@ -191,7 +191,7 @@ export default function GuestUserContact(props) {
         setIsLoader(false);
         console.log(e);
         // setisexisitinguseremail(true);
-        //history.push(GetErrorHandlingRoute(e));
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 

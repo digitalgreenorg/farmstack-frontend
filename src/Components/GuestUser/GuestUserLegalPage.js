@@ -29,10 +29,12 @@ export default function GuestUserLegalPage({ legalData }) {
 
   return (
     <Box
+    className="minHeight232px"
       sx={{
         fontFamily: "Open Sans",
         fontStyle: "normal",
         boxSizing: "border-box",
+        // border: "1px solid red"
       }}
     >
       <Box

@@ -16,6 +16,7 @@ import HandleSessionTimeout, {
   setUserId,
   getUserLocal,
   GetErrorKey,
+  mobileNumberMinimunLengthCheck,
 } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
@@ -122,7 +123,7 @@ export default function AccountSetting(props) {
     //   // } else {
     //   //   setispropfilenumbererror(true);
     //   // }
-    if (value.length === 15) {
+    if (mobileNumberMinimunLengthCheck(value)) {
       setaccnumberbtn(true);
     } else {
       setaccnumberbtn(false);
