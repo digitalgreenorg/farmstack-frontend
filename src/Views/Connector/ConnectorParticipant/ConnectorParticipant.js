@@ -736,7 +736,7 @@ export default function ConnectorParticipant() {
                             <Col><span><img
                             src={require('../../../Assets/Img/Info_icon.svg')}
                             alt="new"
-                                    /> </span><span>{"The connector has already been paired. There is no connector available for pairing at this moment."}</span></Col>
+                                    /> </span><span>{"No provider connectors are available for pairing"}</span></Col>
                             </Row>}
                         {providerConnectorDetails['connector_type'] ? <><Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
                             <Col>

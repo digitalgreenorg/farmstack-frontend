@@ -69,7 +69,7 @@ function EditTeamMember(props) {
             setisSuccess(true)
         }).catch((e) => {
             setIsLoader(false);
-            var returnValues = GetErrorKey(e, data.keys())
+            var returnValues = GetErrorKey(e, Object.keys(data))
             var errorKeys = returnValues[0]
             var errorMessages = returnValues[1]
             if (errorKeys.length > 0){

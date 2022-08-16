@@ -57,6 +57,7 @@ const useStyles = {
 function Settings(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [teamMemberList, setteamMemberList] = useState([]);
+  const [teampList, setteampList] = useState([]);
   const [istabView, setistabView] = useState(true);
   const [isDelete, setisDelete] = useState(false);
   const [teamMemberId, setteamMemberId] = useState("");
@@ -84,22 +85,27 @@ function Settings(props) {
     }
   }, []);
 
-  const getMemberList = () => {
+  const getMemberList = (flag) => {
     setIsLoader(true);
     HTTPService("GET", memberUrl, "", false, true)
       .then((response) => {
         setIsLoader(false);
         console.log("otp valid", response.data);
-
         if (response.data.next == null) {
           setisShowLoadMoreButton(false);
         } else {
           setisShowLoadMoreButton(true);
           setMemberUrl(response.data.next);
         }
-        let dataList = teamMemberList;
-        let finalDataList = [...dataList, ...response.data.results];
-        setteamMemberList(finalDataList);
+        if(flag){
+          let tempList = [...response.data.results];
+          setteamMemberList(tempList)
+        }else{
+          let dataList = teamMemberList;
+          let finalDataList = [...dataList, ...response.data.results];
+          setteamMemberList(finalDataList);
+        }
+        
       })
       .catch((e) => {
         setIsLoader(false);
@@ -161,11 +167,12 @@ function Settings(props) {
         {isDeleteSuccess ? (
           <Success
             okevent={() => {
+              setMemberUrl(UrlConstants.base_url + UrlConstants.team_member)
               setteamMemberId("");
               setisDelete(false);
               setistabView(true);
               setisDeleteSuccess(false);
-              getMemberList();
+              getMemberList(true);
             }}
             imagename={"success"}
             btntext={"ok"}
