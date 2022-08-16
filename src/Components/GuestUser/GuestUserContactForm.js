@@ -512,9 +512,12 @@ const GuestUserContactForm = ({
             inputProps={{ maxLength: 1000 }}
             variant="filled"
             onChange={(e) =>
-              validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
-                ? handleChange(e)
-                : e.preventDefault()
+              {
+                e.target.value = e.target.value.replace(/\s{2,}/g,' ')
+                validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+                  ? handleChange(e)
+                  : e.preventDefault()
+              }
             }
             error = {describeQueryErrorMessage ? true : false}
             helperText = {describeQueryErrorMessage}

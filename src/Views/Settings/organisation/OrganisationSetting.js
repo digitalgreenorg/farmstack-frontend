@@ -95,11 +95,15 @@ export default function OrganisationSetting(props) {
   const [orgfilesize, setorgfilesize] = useState(false);
   const [isPost, setisPost] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
+  const [orgWebsite, setOrgWebsite] = useState('')
+  const [isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false)
 
   const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
   const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
   const[orgPhoneNumberErrorMessage, setOrgPhoneNumberErrorMessage] = useState(null)
   const[orgDescriptionErrorMessage, setOrgDescriptionErrorMessage] = useState(null)
+  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
+
 
   const history = useHistory();
 
@@ -141,6 +145,7 @@ export default function OrganisationSetting(props) {
           setcountryvalue(response.data.organization.address.country);
           setemail(response.data.organization.org_email);
           setphonenumber(response.data.organization.phone_number);
+          setOrgWebsite(response.data.organization.website)
           // setorgdesc(response.data.organization.org_description.toString("html"));
           // setorgfile(response.data.organization.logo);
           console.log(response.data.organization.logo);
@@ -186,6 +191,7 @@ export default function OrganisationSetting(props) {
     setOrgEmailErrorMessage (null)
     setOrgPhoneNumberErrorMessage (null)
     setOrgDescriptionErrorMessage (null)
+    setOrgWebsiteErrorMessage(null)
 
     let puturl = UrlConstant.base_url + UrlConstant.org + id + "/";
     let posturl = UrlConstant.base_url + UrlConstant.org;
@@ -241,6 +247,7 @@ export default function OrganisationSetting(props) {
                 case "name": setOrgNameErrorMessage(errorMessages[i]); break;
                 case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
                 case "org_description": setOrgDescriptionErrorMessage(errorMessages[i]); break;
+                case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
                 default: history.push(GetErrorHandlingRoute(e)); break;
               }
             }
@@ -368,6 +375,12 @@ export default function OrganisationSetting(props) {
     //   setOrgnumberbtn(false);
     // }
   };
+
+  const handleOrgWebsite = (e) => {
+    e.target.value = e.target.value.trim()
+    setOrgWebsite(e.target.value)
+    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX))
+  }
 
   const handleOrgAddress = (e) => {
     console.log(e.target.value);
@@ -538,13 +551,30 @@ export default function OrganisationSetting(props) {
         </Row>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
+            <TextField
+              //   value={phonenumber}
+              className="name"
+              id="filled-basic"
+              label={screenlabels.org_settings.website}
+              variant="filled"
+              onChange={handleOrgWebsite}
+              value={orgWebsite}
+              error = {isOrgWebsiteerror || orgWebsiteErrorMessage}
+              helperText = {isOrgWebsiteerror ? "Enter Valid URL" : orgWebsiteErrorMessage}
+              //   inputRef={profilenumber}
+              // error={isOrgnumbererror}
+              // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
+            />
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
             <MuiPhoneNumber
               defaultCountry={"in"}
               countryCodeEditable={false}
               //   value={phonenumber}
-              className="phonenumber"
+              className="email"
               id="filled-basic"
               label={screenlabels.org_settings.contact}
+              
               variant="filled"
               onChange={handleOrgnumber}
               value={phonenumber}
@@ -555,13 +585,15 @@ export default function OrganisationSetting(props) {
               // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
             />
           </Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
+        </Row>
+        <Row>
+        <Col xs={12} sm={12} md={6} lg={6}>
             <TextField
               required
               id="filled-basic"
               label={screenlabels.org_settings.address}
               variant="filled"
-              className="address"
+              className="name"
               onChange={handleOrgAddress}
               // inputRef={OrgAddress}
               value={address}
@@ -570,15 +602,13 @@ export default function OrganisationSetting(props) {
               helperText={isOrgAddresserror ? "Enter Valid Address" : ""}
             />
           </Col>
-        </Row>
-        <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
             <TextField
               required
               id="filled-basic"
               label={screenlabels.org_settings.city}
               variant="filled"
-              className="city"
+              className="email"
               onChange={handleOrgcity}
               onKeyUp={() =>
                 city === "" ? setisOrgcityerror(true) : setisOrgcityerror(false)
@@ -589,87 +619,82 @@ export default function OrganisationSetting(props) {
               helperText={isOrgcityerror ? "Enter Valid City" : ""}
             />
           </Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            {/* <Select
-              required
-              options={options}
-              value={countryvalue}
-              onChange={countrychangeHandler}
-              isSearchable={true}
-              className="country"
-            //   style={{ width: "420px", zIndex: 4, backgroundColor: grey }}
-              placeholder="Select Country"
-            /> */}
-            <TextField
-              select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              className="country"
-              variant="filled"
-              required
-              value={countryvalue}
-              onChange={(e) => {
-                setcountryvalue(e.target.value);
-                console.log(e.target.value.length);
-                console.log(e.target.value);
-                if (e.target.value.length > 0) {
-                  // setOrgcountrybtn(true);
-                  setiscountryerror(false);
-                }
-              }}
-              isSearchable={true}
-              label={screenlabels.addparticipants.country}>
-              {options.map((rowData, index) => (
-                <MenuItem value={rowData.label}>{rowData.label}</MenuItem>
-              ))}
-            </TextField>
-          </Col>
         </Row>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
-            <TextField
-              required
-              type="number"
-              id="filled-basic"
-              className="name"
-              label={screenlabels.org_settings.pincode}
-              onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
-              variant="filled"
-              onChange={handlepincode}
-              value={pincode}
-              error={ispincodeerror}
-              helperText={ispincodeerror ? "Enter vaild pin code" : ""}
-            />
-          </Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <Row>
-              <span className="orgdestitle">
-                Organization Description<sup>*</sup>
-              </span>
-            </Row>
-            <div className="invite-participant-text-editor orgrte">
-              <RichTextEditor
-                toolbarConfig={toolbarConfig}
-                value={editorValue}
-                // value={orgdesc}
-                onChange={handleOrgDesChange}
-                required
-                id="body-text"
-                name="bodyText"
-                type="string"
-                multiline
+              <TextField
+                select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                className="name"
                 variant="filled"
-                style={{
-                  minHeight: 410,
-                  //   width: 420,
-                  border: "1px solid black",
-                  //   zIndex: 4,
+                required
+                value={countryvalue}
+                style={{textAlign: 'left'}}
+                onChange={(e) => {
+                  setcountryvalue(e.target.value);
+                  console.log(e.target.value.length);
+                  console.log(e.target.value);
+                  if (e.target.value.length > 0) {
+                    // setOrgcountrybtn(true);
+                    setiscountryerror(false);
+                  }
                 }}
-                error={orgDescriptionErrorMessage ? true: false}
-                helperText = {orgDescriptionErrorMessage}
+                isSearchable={true}
+                label={screenlabels.addparticipants.country}>
+                {options.map((rowData, index) => (
+                  <MenuItem value={rowData.label}>{rowData.label}</MenuItem>
+                ))}
+              </TextField>
+            </Col>
+            <Col xs={12} sm={12} md={6} lg={6}>
+              <TextField
+                required
+                type="number"
+                id="filled-basic"
+                className="email"
+                label={screenlabels.org_settings.pincode}
+                onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
+                variant="filled"
+                onChange={handlepincode}
+                value={pincode}
+                error={ispincodeerror}
+                helperText={ispincodeerror ? "Enter vaild pin code" : ""}
               />
-            </div>
-          </Col>
+            </Col>
+          </Row>
+          <Row style={{marginTop: '20px', textAlign: 'left', marginLeft: '-25px'}}>
+            <Col xs={12} sm={12} md={12} lg={12}>
+                <span className="orgdestitle">
+                  Organization Description<sup>*</sup>
+                </span>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12}>
+              <div className="invite-participant-text-editor orgrte">
+                <RichTextEditor
+                  toolbarConfig={toolbarConfig}
+                  value={editorValue}
+                  // value={orgdesc}
+                  onChange={handleOrgDesChange}
+                  required
+                  id="body-text"
+                  name="bodyText"
+                  type="string"
+                  multiline
+                  variant="filled"
+                  style={{
+                    minHeight: 410,
+                    //   width: 420,
+                    border: "1px solid black",
+                    //   zIndex: 4,
+                  }}
+                  error={orgDescriptionErrorMessage ? true: false}
+                  helperText = {orgDescriptionErrorMessage}
+                />
+              </div>
+            </Col>
         </Row>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -715,43 +740,15 @@ export default function OrganisationSetting(props) {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={4}></Col>
           <Col xs={12} sm={12} md={6} lg={6}>
-            {/* <Button
-                variant="contained"
-                className="accountnextbtn"
-                type="submit">
-                <span className="">Submit</span>
-              </Button> */}
-            {/* {!isOrgnameerror &&
-              !isOrgmailerror &&
-              !isOrgAddresserror &&
-              !isOrgcityerror &&
-              !ispincodeerror &&
-              !iscountryerror &&
-              orgfile != null &&
-              orgfile.size < 2097152 &&
-              editorValue.getEditorState().getCurrentContent().hasText() ? (
-                <Button
-                  variant="contained"
-                  className="accountnextbtn"
-                  type="submit">
-                  <span className="signupbtnname">Submit</span>
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  disabled
-                  className="disableaccountnextbtn">
-                  Submit
-                </Button>
-              )} */}
             {!isOrgnameerror &&
             !isOrgmailerror &&
             !isOrgAddresserror &&
             !isOrgcityerror &&
             !ispincodeerror &&
             !iscountryerror &&
+            !isOrgWebsiteerror &&
             orgfile != null &&
             orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
@@ -767,7 +764,7 @@ export default function OrganisationSetting(props) {
           </Col>
         </Row>
         <Row style={useStyles.marginrowtop8px}>
-          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={4}></Col>
           <Col xs={12} sm={12} md={6} lg={6}>
             <Button
               variant="outlined"
