@@ -65,95 +65,100 @@ export default function OrgRightside(props) {
     setIsLoader(true);
     HTTPService(
       "GET",
-      UrlConstant.base_url + (isLoggedInUserParticipant() ? UrlConstant.participant : UrlConstant.org) + id + "/",
+      UrlConstant.base_url +
+        (isLoggedInUserParticipant()
+          ? UrlConstant.participant
+          : UrlConstant.org) +
+        id +
+        "/",
       "",
       false,
       true,
       props.isaccesstoken
     )
-    .then((response) => {
-      setIsLoader(false);
-      console.log("org data: ", response.data);
-      // let addressdata=JSON.parse(response.data.organization.address)
-      if (response.data.organization) {
-        props.setOrgName(response.data.organization.name);
-        if (
-          response.data.organization.name &&
-          response.data.organization.name.trim().length > 0
-        ) {
-          props.setisOrgnameerror(false);
-        }
-        props.setOrgMail(response.data.organization.org_email);
-        if (
-          response.data.organization.org_email &&
-          response.data.organization.org_email.trim().length > 0
-        ) {
-          props.setisOrgmailerror(false);
-          props.setOrgemailbtn(true);
-        }
-        props.setOrgWebsite(response.data.organization.website);
-        if (
-          response.data.organization.website &&
-          response.data.organization.website.trim().length > 0
-        ) {
-          props.isOrgWebsiteerror(false);
-        }
-        props.setValidOrgnumber(response.data.organization.phone_number);
-        if (response.data.organization.address) {
-          props.setOrgAddress(response.data.organization.address.address);
-          props.setOrgCity(response.data.organization.address.city);
-          props.setCountryValue(response.data.organization.address.country);
-          props.setOrgPincode(response.data.organization.address.pincode);
+      .then((response) => {
+        setIsLoader(false);
+        console.log("org data: ", response.data);
+        // let addressdata=JSON.parse(response.data.organization.address)
+        if (response.data.organization) {
+          props.setOrgName(response.data.organization.name);
+          if (
+            response.data.organization.name &&
+            response.data.organization.name.trim().length > 0
+          ) {
+            props.setisOrgnameerror(false);
+          }
+          props.setOrgMail(response.data.organization.org_email);
+          if (
+            response.data.organization.org_email &&
+            response.data.organization.org_email.trim().length > 0
+          ) {
+            props.setisOrgmailerror(false);
+            props.setOrgemailbtn(true);
+          }
+          props.setOrgWebsite(response.data.organization.website);
+          if (
+            response.data.organization.website &&
+            response.data.organization.website.trim().length > 0
+          ) {
+            props.isOrgWebsiteerror(false);
+          }
+          props.setValidOrgnumber(response.data.organization.phone_number);
+          if (response.data.organization.address) {
+            props.setOrgAddress(response.data.organization.address.address);
+            props.setOrgCity(response.data.organization.address.city);
+            props.setCountryValue(response.data.organization.address.country);
+            props.setOrgPincode(response.data.organization.address.pincode);
 
-          if (
-            response.data.organization.address.address &&
-            response.data.organization.address.address.trim().length > 0
-          ) {
-            props.setisOrgAddresserror(false);
+            if (
+              response.data.organization.address.address &&
+              response.data.organization.address.address.trim().length > 0
+            ) {
+              props.setisOrgAddresserror(false);
+            }
+            if (
+              response.data.organization.address.city &&
+              response.data.organization.address.city.trim().length > 0
+            ) {
+              props.setisOrgcityerror(false);
+            }
+            if (
+              response.data.organization.address.country &&
+              response.data.organization.address.country.trim().length > 0
+            ) {
+              props.setOrgcountrybtn(true);
+            }
+            if (
+              response.data.organization.address.pincode &&
+              response.data.organization.address.pincode.trim().pincode > 0
+            ) {
+              props.setispincodeerror(false);
+            }
           }
-          if (
-            response.data.organization.address.city &&
-            response.data.organization.address.city.trim().length > 0
-          ) {
-            props.setisOrgcityerror(false);
+          if (response.data.organization.org_description) {
+            setEditorValue(
+              RichTextEditor.createValueFromString(
+                response.data.organization.org_description,
+                "html"
+              )
+            );
+            setorgdesc(response.data.organization.org_description);
+            props.textEditorData(response.data.organization.org_description);
+            if (
+              response.data.organization.org_description.toString("html") !==
+              "<p><br></p>"
+            ) {
+              setOrgdesbtn(true);
+            }
           }
-          if (
-            response.data.organization.address.country &&
-            response.data.organization.address.country.trim().length > 0
-          ) {
-            props.setOrgcountrybtn(true);
-          }
-          if (
-            response.data.organization.address.pincode &&
-            response.data.organization.address.pincode.trim().pincode > 0
-          ) {
-            props.setispincodeerror(false);
-          }
+          props.setOrgId(response.data.organization.id);
         }
-        if (response.data.organization.org_description) {
-          setEditorValue(
-            RichTextEditor.createValueFromString(
-              response.data.organization.org_description,
-              "html"
-            )
-          );
-          setorgdesc(response.data.organization.org_description);
-          props.textEditorData(response.data.organization.org_description);
-          if (
-            response.data.organization.org_description.toString("html") !==
-            "<p><br></p>"
-          ) {
-            setOrgdesbtn(true);
-          }
-        }
-        props.setOrgId(response.data.organization.id);
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-      setIsLoader(false);
-      //history.push(GetErrorHandlingRoute(e));
-    });
+      })
+      .catch((e) => {
+        console.log(e);
+        setIsLoader(false);
+        //history.push(GetErrorHandlingRoute(e));
+      });
   }, []);
 
   // const [validOrgNumber, setValidOrgnumber] = useState("");
@@ -450,14 +455,14 @@ export default function OrgRightside(props) {
   return (
     <div className="orgright">
       {isLoader ? <Loader /> : ""}
-      <div className="orgheader">Organization Details</div>
+      <div className="orgheader">Organisation details</div>
       <div>
         <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
           <div className="orgname">
             <TextField
               required
               id="orgnametextfield"
-              label="Organization Name"
+              label="Organisation Name"
               variant="filled"
               style={{ width: "420px" }}
               //   className="profilefirstname"
@@ -490,7 +495,7 @@ export default function OrgRightside(props) {
               required
               type="email"
               id="orgemailtextfield"
-              label="Organization Mail ID"
+              label="Organisation Mail ID"
               variant="filled"
               style={{ width: "420px" }}
               //   className="profilelastname"
@@ -511,14 +516,14 @@ export default function OrgRightside(props) {
             <TextField
               required
               id="orgwebsitetextfield"
-              label="Organization Website"
+              label="Organisation Website"
               variant="filled"
               style={{ width: "420px" }}
               value={props.orgWebsite}
               onChange={props.handleOrgWebsite}
               error={props.isOrgWebsiteerror || props.orgWebsiteErrorMessage}
               helperText={
-                (props.isOrgWebsiteerror && !props.orgWebsiteErrorMessage)
+                props.isOrgWebsiteerror && !props.orgWebsiteErrorMessage
                   ? "Enter Valid URL"
                   : props.orgWebsiteErrorMessage
               }
@@ -530,7 +535,7 @@ export default function OrgRightside(props) {
               countryCodeEditable={false}
               style={{ width: "420px" }}
               id="orgphonetextfield"
-              label="Organization Contact Number"
+              label="Organisation Contact Number"
               variant="filled"
               value={props.validOrgNumber}
               onChange={props.handleOrgnumber}
@@ -623,7 +628,7 @@ export default function OrgRightside(props) {
               type="number"
               id="orgpincodetextfield"
               //   inputProps={{ maxLength: 6 }}
-              label="Pin Code"
+              label="Pin code"
               variant="filled"
               style={{ width: "420px", zIndex: 0 }}
               value={props.orgPincode}
@@ -677,7 +682,7 @@ export default function OrgRightside(props) {
               }}
             /> */}
             <p className="orgdestitle">
-              Organization Description<sup>*</sup>
+              Organisation description<sup>*</sup>
             </p>
             <RichTextEditor
               toolbarConfig={toolbarConfig}
@@ -736,8 +741,8 @@ export default function OrgRightside(props) {
               types={fileTypes}
               children={
                 <UploadOrgLogo
-                  uploaddes="Supports: JPEG, PNG not more than 2MB file size"
-                  uploadtitle="Upload Company Logo"
+                  uploaddes="JPEG and PNG files upto 2MB are supported."
+                  uploadtitle="Upload the company logo"
                 />
               }
               //   maxSize={2}
@@ -788,7 +793,7 @@ export default function OrgRightside(props) {
                 className="finishlaterorgbtn"
                 type="button"
                 onClick={props.finishLaterOrgScreen}>
-                Finish Later
+                Finish later
               </Button>
             </div>
           )}

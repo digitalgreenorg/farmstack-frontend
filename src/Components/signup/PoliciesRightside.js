@@ -592,7 +592,7 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
                 uploadtitle="Upload Governing Laws (Required)"
               />
             }
@@ -653,7 +653,7 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
                 uploadtitle="Upload Warranties (Required)"
               />
             }
@@ -716,7 +716,7 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
                 uploadtitle="Upload limitation of Liabilities (Required)"
               />
             }
@@ -778,7 +778,7 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
                 uploadtitle="Upload Privacy Policy (Required)"
               />
             }
@@ -840,7 +840,7 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
                 uploadtitle="Upload Terms of Use (Required)"
               />
             }
@@ -900,7 +900,7 @@ export default function PoliciesRightside(props) {
             className="finishlaterpoliciesbtn"
             type="button"
             onClick={finishLaterPoliciesScreen}>
-            Finish Later
+            Finish later
           </Button>
         </div>
       </form>

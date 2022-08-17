@@ -135,40 +135,50 @@ export default function ProfileRightside(props) {
   //   setValidnumber(value);
   // };
 
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
 
   useEffect(() => {
-
     var id = props.userid;
     setIsLoader(true);
-    HTTPService('GET', UrlConstant.base_url + UrlConstant.profile + id + '/', '', false, true, props.isaccesstoken)
-    .then((response) => {
+    HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.profile + id + "/",
+      "",
+      false,
+      true,
+      props.isaccesstoken
+    )
+      .then((response) => {
         setIsLoader(false);
         console.log("otp valid", response.data);
-        if (response.data)
-        {
+        if (response.data) {
           // let addressdata=JSON.parse(response.data.organization.address)
-          props.setProfileFirstName(response.data.first_name ? response.data.first_name : '');
-          props.setProfileLastName(response.data.last_name ? response.data.last_name : '');
-          props.setValidnumber(response.data.phone_number ? response.data.phone_number : '');
+          props.setProfileFirstName(
+            response.data.first_name ? response.data.first_name : ""
+          );
+          props.setProfileLastName(
+            response.data.last_name ? response.data.last_name : ""
+          );
+          props.setValidnumber(
+            response.data.phone_number ? response.data.phone_number : ""
+          );
 
-          if (response.data.first_name && response.data.first_name.length > 0){
-            props.setprofilenextbutton (true)
+          if (response.data.first_name && response.data.first_name.length > 0) {
+            props.setprofilenextbutton(true);
           }
-
         }
-        
-    }).catch((e) => {
+      })
+      .catch((e) => {
         setIsLoader(false);
-        console.log(e)
+        console.log(e);
         //history.push(GetErrorHandlingRoute(e));
-    });
-}, []);
+      });
+  }, []);
 
   return (
     <>
-    <Footerimg />
-      <div className="profileheader">Profile Details</div>
+      <Footerimg />
+      <div className="profileheader">Profile details</div>
       <div>
         <form
           noValidate
@@ -176,7 +186,7 @@ export default function ProfileRightside(props) {
           onSubmit={props.handleprofileSubmit}>
           <div className="profilefirstname">
             <TextField
-            required
+              required
               id="filled-basic"
               label="First Name"
               variant="filled"
@@ -184,9 +194,13 @@ export default function ProfileRightside(props) {
               //   className="profilefirstname"
               onChange={props.handleprofilfirstename}
               //inputRef={props.profilefirstname}
-              error={props.ispropfilefirstnameerror || props.firstNameErrorMessage}
+              error={
+                props.ispropfilefirstnameerror || props.firstNameErrorMessage
+              }
               helperText={
-                props.ispropfilefirstnameerror ? "Enter Valid Name" : props.firstNameErrorMessage
+                props.ispropfilefirstnameerror
+                  ? "Enter Valid Name"
+                  : props.firstNameErrorMessage
               }
               value={props.profilefirstname}
             />
@@ -200,9 +214,13 @@ export default function ProfileRightside(props) {
               //   className="profilelastname"
               onChange={props.handleprofilelastname}
               //inputRef={props.profilelastname}
-              error={props.ispropfilelastnameerror || props.lastNameErrorMessage}
+              error={
+                props.ispropfilelastnameerror || props.lastNameErrorMessage
+              }
               helperText={
-                props.ispropfilelastnameerror ? "Enter Valid last name" : props.lastNameErrorMessage
+                props.ispropfilelastnameerror
+                  ? "Enter Valid last name"
+                  : props.lastNameErrorMessage
               }
               value={props.profilelastname}
             />
@@ -237,7 +255,7 @@ export default function ProfileRightside(props) {
               label="Contact Number"
               variant="filled"
               onChange={props.handleprofilenumber}
-              error={props.phoneNumberErrorMessage?true:false}
+              error={props.phoneNumberErrorMessage ? true : false}
               helperText={props.phoneNumberErrorMessage}
               value={props.profilephone}
               // error={ispropfilenumbererror}
@@ -257,15 +275,18 @@ export default function ProfileRightside(props) {
           </div>
 
           <div>
-            <Button variant="outlined" className="finishlaterbtn" type="button" onClick={props.finishLaterProfileScreen}>
-              Finish Later
+            <Button
+              variant="outlined"
+              className="finishlaterbtn"
+              type="button"
+              onClick={props.finishLaterProfileScreen}>
+              Finish later
             </Button>
           </div>
         </form>
-        <div style={{position:"absolute", top:"1000px"}}>
-
-      <Footer />
-      </div>
+        <div style={{ position: "absolute", top: "1000px" }}>
+          <Footer />
+        </div>
       </div>
     </>
   );
