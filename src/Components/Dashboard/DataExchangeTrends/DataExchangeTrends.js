@@ -5,9 +5,10 @@ import  "../../../Assets/CSS/common.css"
 import LineChartGraph from './LineChartGraph'
 import SelectComponent from './SelectComponent'
 import labels from '../../../Constants/labels'
+import NoDataAvailable from '../NoDataAvailable/NoDataAvailable'
 
 
-const DataExchangeTrends = () => {
+const DataExchangeTrends = ({dataForThePieChart}) => {
   const [filterPeriod, setFilterPeriod] = useState(24)
   
   return (
@@ -17,11 +18,11 @@ const DataExchangeTrends = () => {
     <div style={{flex:"3"}} className={styles.dataExchangeHeading}>{labels.en.dashboard.data_exchange_trends}</div>
    <div style={{flex:"1", width:"640px"}}>
     
-     <SelectComponent filterPeriod={filterPeriod} setFilterPeriod={setFilterPeriod}/>
+   {dataForThePieChart.length >0 ? <SelectComponent filterPeriod={filterPeriod} setFilterPeriod={setFilterPeriod}/> : ""}
     </div>
       </div>
     <div>
-      <LineChartGraph filterPeriod={filterPeriod}/>
+     {dataForThePieChart.length >0 ? <LineChartGraph filterPeriod={filterPeriod}/> : <NoDataAvailable/>} 
     </div>
     </div>
   )

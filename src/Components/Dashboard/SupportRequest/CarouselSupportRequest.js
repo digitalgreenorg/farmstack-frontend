@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Carousel from 'react-bootstrap/Carousel';
 import Dummy from "../../../Assets/Img/dummy.png";
+import NoDataAvailable from '../NoDataAvailable/NoDataAvailable';
 import SliderCard from './SliderCard';
 import styles from "./supportRequest.module.css"
 // import Dummy from "../../../Assets/Img/dummy.png";
@@ -8,7 +9,7 @@ import styles from "./supportRequest.module.css"
 function CarouselSupportRequest({supportRequestData}) {
     // console.log(first)
     const [ticketDetails, setTicketDetails] = useState(null)
-    const [supportRequestDatafinal, setSupportRequestData] = useState(null)
+    const [supportRequestDatafinal, setSupportRequestData] = useState([])
     
     useEffect(()=>{
       if(supportRequestData){
@@ -23,10 +24,11 @@ function CarouselSupportRequest({supportRequestData}) {
     },[supportRequestData])
   return (<div className={styles.my__carousel_main}>
 
+{supportRequestDatafinal.length > 0 ? 
     <Carousel controls={false} indicators={true} >
       {supportRequestDatafinal ? 
         supportRequestDatafinal.map((supportRequestDataEach)=>(<Carousel.Item>
-          <SliderCard ticketDetails={ticketDetails}  supportRequestData={supportRequestDataEach}/>
+         <SliderCard ticketDetails={ticketDetails}  supportRequestData={supportRequestDataEach}/> 
           <Carousel.Caption>
           {/* <h3>First slide label</h3>
         <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
@@ -35,7 +37,7 @@ function CarouselSupportRequest({supportRequestData}) {
         )
         
        : ""}
-        </Carousel>
+        </Carousel> : <NoDataAvailable/> }
         </div>
   );
 }

@@ -66,7 +66,7 @@ const BarChartComponent = ({ dataForThePieChart }) => {
 
       <BarChart
         width={600}
-        height={183}
+        height={280}
         data={dataForThePieChart}
         margin={{ top: 0, right: 72, bottom: 0, left: -20 }}
         barSize={30}
@@ -96,7 +96,7 @@ const BarChartComponent = ({ dataForThePieChart }) => {
           dataKey="name"
           scale="point"
           interval={0}
-          angle={dataForThePieChart.length < 6 ? 0 : dataForThePieChart.length >=10 ? 20 : 0 }
+          angle={dataForThePieChart.length < 6 ? 0 : dataForThePieChart.length >=8 ? 20 : 0 }
           tickMargin={1}
           
         />

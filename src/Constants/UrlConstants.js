@@ -41,7 +41,8 @@ const UrlConstant = {
   microsite_legal_documents: "/microsite/legal_documents/",
   consumer_paring_request:'participant/connectors_map/',
   provider_connectors: 'participant/connectors/get_connectors/?dataset_id=',
-  microsite_theme: "/microsite/theme/"
+  microsite_theme: "/microsite/theme/",
+  datahub_dashboard : "datahub/dashboard/"
 };
 
 export default UrlConstant;

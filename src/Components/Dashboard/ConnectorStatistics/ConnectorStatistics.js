@@ -4,6 +4,7 @@ import  "../../../Assets/CSS/common.css"
 import { Tooltip } from '@mui/material'
 import { Zoom } from '@material-ui/core'
 import { dateTimeFormat } from '../../../Utils/Common'
+import NoDataAvailable from '../NoDataAvailable/NoDataAvailable'
 
 const ConnectorStatistics = ({additionalConnectorData}) => {
   const [connectorData, setConnectorData] = useState([])
@@ -22,6 +23,8 @@ const ConnectorStatistics = ({additionalConnectorData}) => {
       <div className={styles.connectorStatisticsHeading}>ConnectorStatistics</div>
       
         <table className={styles.tableConnector}>
+{connectorData.length <= 0 ?<div className={styles.nodatacenter}> <NoDataAvailable/> </div>: <div>
+
           <thead className={styles.thead}>
 
           <tr className={styles.tableConnectortrth}>
@@ -55,7 +58,7 @@ const ConnectorStatistics = ({additionalConnectorData}) => {
 )
 
 )  : ""}
-</tbody>
+</tbody> </div> }
           
         </table>
       
