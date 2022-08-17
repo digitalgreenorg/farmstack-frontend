@@ -82,7 +82,7 @@ const Navbar = (props) => {
         />
         <NavMenu>
       
-          {/* <NavLink to="/datahub/dashboard" activeStyle>
+          <NavLink to="/datahub/dashboard" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/bolddashboard.svg")}
@@ -94,7 +94,7 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.Dashboard}
-          </NavLink> */}
+          </NavLink>
           <NavLink to="/datahub/participants" activeStyle>
             <img
               className="boldimage"

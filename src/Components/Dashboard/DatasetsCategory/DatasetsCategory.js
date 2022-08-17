@@ -6,6 +6,7 @@ import BarChartComponent from "./BarChart";
 import { useEffect } from "react";
 import labels from "../../../Constants/labels";
 import { Tooltip } from "@mui/material";
+import NoDataAvailable from "../NoDataAvailable/NoDataAvailable";
 
 const DatasetsCategory = ({ dataForThePieChart }) => {
   const [barChartData, setBarChartData] = useState([]);
@@ -31,16 +32,16 @@ const DatasetsCategory = ({ dataForThePieChart }) => {
         {labels.en.dashboard.dataset_category}
       </div>
 
-      <BarChartComponent dataForThePieChart={dataForThePieChart} />
+    {dataForThePieChart.length >0 ? <BarChartComponent dataForThePieChart={dataForThePieChart} /> : <NoDataAvailable/>}  
         {/* <Tooltip title="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac tellus */}
       {/* gravida, elementum magna ut, viverra purus."> */}
-      <div className={styles.mainBarGraph + " " + "text_overflow_ellipsis_overflow_hidden width600px"}>
+      {/* {dataForThePieChart.length > 0 ?  <div className={styles.mainBarGraph + " " + "text_overflow_ellipsis_overflow_hidden width600px"}> */}
 
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac tellus
-        gravida, elementum magna ut, viverra purus.
-        </div>
+        {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac tellus
+        gravida, elementum magna ut, viverra purus. */}
+        {/* </div>: ""} */}
         {/* </Tooltip> */}
-    </div>
+    </div> 
   );
 };
 
