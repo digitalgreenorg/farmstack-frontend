@@ -26,6 +26,7 @@ import HandleSessionTimeout, {
   setUserMapId,
   setOrgId,
   GetErrorKey,
+  fileUpload,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import {
@@ -95,15 +96,16 @@ export default function OrganisationSetting(props) {
   const [orgfilesize, setorgfilesize] = useState(false);
   const [isPost, setisPost] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
-  const [orgWebsite, setOrgWebsite] = useState('')
-  const [isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false)
+  const [orgWebsite, setOrgWebsite] = useState("");
+  const [isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false);
 
-  const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
-  const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
-  const[orgPhoneNumberErrorMessage, setOrgPhoneNumberErrorMessage] = useState(null)
-  const[orgDescriptionErrorMessage, setOrgDescriptionErrorMessage] = useState(null)
-  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
-
+  const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
+  const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
+  const [orgPhoneNumberErrorMessage, setOrgPhoneNumberErrorMessage] =
+    useState(null);
+  const [orgDescriptionErrorMessage, setOrgDescriptionErrorMessage] =
+    useState(null);
+  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
 
   const history = useHistory();
 
@@ -145,9 +147,9 @@ export default function OrganisationSetting(props) {
           setcountryvalue(response.data.organization.address.country);
           setemail(response.data.organization.org_email);
           setphonenumber(response.data.organization.phone_number);
-          setOrgWebsite(response.data.organization.website)
+          setOrgWebsite(response.data.organization.website);
           // setorgdesc(response.data.organization.org_description.toString("html"));
-          // setorgfile(response.data.organization.logo);
+          setorgfile(response.data.organization.logo);
           console.log(response.data.organization.logo);
           setEditorValue(
             RichTextEditor.createValueFromString(
@@ -187,11 +189,11 @@ export default function OrganisationSetting(props) {
     var id = getUserLocal();
     console.log("user id", id);
 
-    setOrgNameErrorMessage(null)
-    setOrgEmailErrorMessage (null)
-    setOrgPhoneNumberErrorMessage (null)
-    setOrgDescriptionErrorMessage (null)
-    setOrgWebsiteErrorMessage(null)
+    setOrgNameErrorMessage(null);
+    setOrgEmailErrorMessage(null);
+    setOrgPhoneNumberErrorMessage(null);
+    setOrgDescriptionErrorMessage(null);
+    setOrgWebsiteErrorMessage(null);
 
     let puturl = UrlConstant.base_url + UrlConstant.org + id + "/";
     let posturl = UrlConstant.base_url + UrlConstant.org;
@@ -210,7 +212,10 @@ export default function OrganisationSetting(props) {
     );
     bodyFormData.append("user_id", id);
     bodyFormData.append("phone_number", phonenumber);
-    bodyFormData.append("logo", orgfile);
+    // bodyFormData.append("logo", orgfile);
+    // file upload
+    fileUpload(bodyFormData, orgfile, "logo");
+
     bodyFormData.append("org_description", editorValue.toString("html"));
     bodyFormData.append("website", orgWebsite);
     console.log("org details", bodyFormData);
@@ -238,23 +243,34 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          var returnValues = GetErrorKey(e, bodyFormData.keys())
-          var errorKeys = returnValues[0]
-          var errorMessages = returnValues[1]
-          if (errorKeys.length > 0){
-            for (var i=0; i<errorKeys.length; i++){
-              switch(errorKeys[i]){
-                case "phone_number": setOrgPhoneNumberErrorMessage(errorMessages[i]); break;
-                case "name": setOrgNameErrorMessage(errorMessages[i]); break;
-                case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
-                case "org_description": setOrgDescriptionErrorMessage(errorMessages[i]); break;
-                case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
-                default: history.push(GetErrorHandlingRoute(e)); break;
+          var returnValues = GetErrorKey(e, bodyFormData.keys());
+          var errorKeys = returnValues[0];
+          var errorMessages = returnValues[1];
+          if (errorKeys.length > 0) {
+            for (var i = 0; i < errorKeys.length; i++) {
+              switch (errorKeys[i]) {
+                case "phone_number":
+                  setOrgPhoneNumberErrorMessage(errorMessages[i]);
+                  break;
+                case "name":
+                  setOrgNameErrorMessage(errorMessages[i]);
+                  break;
+                case "org_email":
+                  setOrgEmailErrorMessage(errorMessages[i]);
+                  break;
+                case "org_description":
+                  setOrgDescriptionErrorMessage(errorMessages[i]);
+                  break;
+                case "website":
+                  setOrgWebsiteErrorMessage(errorMessages[i]);
+                  break;
+                default:
+                  history.push(GetErrorHandlingRoute(e));
+                  break;
               }
             }
-          }
-          else{
-            history.push(GetErrorHandlingRoute(e))
+          } else {
+            history.push(GetErrorHandlingRoute(e));
           }
           //   setError(true);
         });
@@ -281,22 +297,31 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          var returnValues = GetErrorKey(e, bodyFormData.keys())
-          var errorKeys = returnValues[0]
-          var errorMessages = returnValues[1]
-          if (errorKeys.length > 0){
-            for (var i=0; i<errorKeys.length; i++){
-              switch(errorKeys[i]){
-                case "phone_number": setOrgPhoneNumberErrorMessage(errorMessages[i]); break;
-                case "name": setOrgNameErrorMessage(errorMessages[i]); break;
-                case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
-                case "org_description": setOrgDescriptionErrorMessage(errorMessages[i]); break;
-                default: history.push(GetErrorHandlingRoute(e)); break;
+          var returnValues = GetErrorKey(e, bodyFormData.keys());
+          var errorKeys = returnValues[0];
+          var errorMessages = returnValues[1];
+          if (errorKeys.length > 0) {
+            for (var i = 0; i < errorKeys.length; i++) {
+              switch (errorKeys[i]) {
+                case "phone_number":
+                  setOrgPhoneNumberErrorMessage(errorMessages[i]);
+                  break;
+                case "name":
+                  setOrgNameErrorMessage(errorMessages[i]);
+                  break;
+                case "org_email":
+                  setOrgEmailErrorMessage(errorMessages[i]);
+                  break;
+                case "org_description":
+                  setOrgDescriptionErrorMessage(errorMessages[i]);
+                  break;
+                default:
+                  history.push(GetErrorHandlingRoute(e));
+                  break;
               }
             }
-          }
-          else{
-            history.push(GetErrorHandlingRoute(e))
+          } else {
+            history.push(GetErrorHandlingRoute(e));
           }
           //   setError(true);
         });
@@ -378,10 +403,12 @@ export default function OrganisationSetting(props) {
   };
 
   const handleOrgWebsite = (e) => {
-    e.target.value = e.target.value.trim()
-    setOrgWebsite(e.target.value)
-    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX))
-  }
+    e.target.value = e.target.value.trim();
+    setOrgWebsite(e.target.value);
+    setisOrgWebsiteerror(
+      !validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX)
+    );
+  };
 
   const handleOrgAddress = (e) => {
     console.log(e.target.value);
@@ -447,12 +474,12 @@ export default function OrganisationSetting(props) {
     console.log(file);
     // console.log(file.length);
     console.log(file.size);
-    // if (file != null && file.size > 2097152) {
-    //   //   setBrandingnextbutton(false);
-    //   setorgfilesize(true);
-    // } else {
-    //   setorgfilesize(false);
-    // }
+    if (file != null && file.size > 2097152) {
+      //   setBrandingnextbutton(false);
+      setorgfilesize(true);
+    } else {
+      setorgfilesize(false);
+    }
   };
 
   //   const finishLaterOrgScreen = () => {
@@ -532,7 +559,11 @@ export default function OrganisationSetting(props) {
               }
               // inputRef={Orgname}
               error={isOrgnameerror || orgNameErrorMessage}
-              helperText={(isOrgnameerror && !orgNameErrorMessage) ? "Enter Valid Name" : orgNameErrorMessage}
+              helperText={
+                isOrgnameerror && !orgNameErrorMessage
+                  ? "Enter Valid Name"
+                  : orgNameErrorMessage
+              }
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -546,7 +577,11 @@ export default function OrganisationSetting(props) {
               value={email}
               // inputRef={Orgmail}
               error={isOrgmailerror || orgEmailErrorMessage}
-              helperText={isOrgmailerror && !orgEmailErrorMessage ? "Enter Valid Email id" : orgEmailErrorMessage}
+              helperText={
+                isOrgmailerror && !orgEmailErrorMessage
+                  ? "Enter Valid Email id"
+                  : orgEmailErrorMessage
+              }
             />
           </Col>
         </Row>
@@ -560,8 +595,10 @@ export default function OrganisationSetting(props) {
               variant="filled"
               onChange={handleOrgWebsite}
               value={orgWebsite}
-              error = {isOrgWebsiteerror || orgWebsiteErrorMessage}
-              helperText = {isOrgWebsiteerror ? "Enter Valid URL" : orgWebsiteErrorMessage}
+              error={isOrgWebsiteerror || orgWebsiteErrorMessage}
+              helperText={
+                isOrgWebsiteerror ? "Enter Valid URL" : orgWebsiteErrorMessage
+              }
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
               // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
@@ -575,12 +612,11 @@ export default function OrganisationSetting(props) {
               className="email"
               id="filled-basic"
               label={screenlabels.org_settings.contact}
-              
               variant="filled"
               onChange={handleOrgnumber}
               value={phonenumber}
-              error = {orgPhoneNumberErrorMessage ? true : false}
-              helperText = {orgPhoneNumberErrorMessage}
+              error={orgPhoneNumberErrorMessage ? true : false}
+              helperText={orgPhoneNumberErrorMessage}
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
               // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
@@ -588,7 +624,7 @@ export default function OrganisationSetting(props) {
           </Col>
         </Row>
         <Row>
-        <Col xs={12} sm={12} md={6} lg={6}>
+          <Col xs={12} sm={12} md={6} lg={6}>
             <TextField
               required
               id="filled-basic"
@@ -623,79 +659,84 @@ export default function OrganisationSetting(props) {
         </Row>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
-              <TextField
-                select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                className="name"
-                variant="filled"
+            <TextField
+              select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              className="name"
+              variant="filled"
+              required
+              value={countryvalue}
+              style={{ textAlign: "left" }}
+              onChange={(e) => {
+                setcountryvalue(e.target.value);
+                console.log(e.target.value.length);
+                console.log(e.target.value);
+                if (e.target.value.length > 0) {
+                  // setOrgcountrybtn(true);
+                  setiscountryerror(false);
+                }
+              }}
+              isSearchable={true}
+              label={screenlabels.addparticipants.country}>
+              {options.map((rowData, index) => (
+                <MenuItem value={rowData.label}>{rowData.label}</MenuItem>
+              ))}
+            </TextField>
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <TextField
+              required
+              type="number"
+              id="filled-basic"
+              className="email"
+              label={screenlabels.org_settings.pincode}
+              onKeyDown={(e) => {
+                if (e.key == "-" || e.key == "e" || e.key == "+") {
+                  e.preventDefault();
+                }
+              }}
+              variant="filled"
+              onChange={handlepincode}
+              value={pincode}
+              error={ispincodeerror}
+              helperText={ispincodeerror ? "Enter vaild pin code" : ""}
+            />
+          </Col>
+        </Row>
+        <Row
+          style={{ marginTop: "20px", textAlign: "left", marginLeft: "-25px" }}>
+          <Col xs={12} sm={12} md={12} lg={12}>
+            <span className="orgdestitle">
+              Organization Description<sup>*</sup>
+            </span>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={12} lg={12}>
+            <div className="invite-participant-text-editor orgrte">
+              <RichTextEditor
+                toolbarConfig={toolbarConfig}
+                value={editorValue}
+                // value={orgdesc}
+                onChange={handleOrgDesChange}
                 required
-                value={countryvalue}
-                style={{textAlign: 'left'}}
-                onChange={(e) => {
-                  setcountryvalue(e.target.value);
-                  console.log(e.target.value.length);
-                  console.log(e.target.value);
-                  if (e.target.value.length > 0) {
-                    // setOrgcountrybtn(true);
-                    setiscountryerror(false);
-                  }
+                id="body-text"
+                name="bodyText"
+                type="string"
+                multiline
+                variant="filled"
+                style={{
+                  minHeight: 410,
+                  //   width: 420,
+                  border: "1px solid black",
+                  //   zIndex: 4,
                 }}
-                isSearchable={true}
-                label={screenlabels.addparticipants.country}>
-                {options.map((rowData, index) => (
-                  <MenuItem value={rowData.label}>{rowData.label}</MenuItem>
-                ))}
-              </TextField>
-            </Col>
-            <Col xs={12} sm={12} md={6} lg={6}>
-              <TextField
-                required
-                type="number"
-                id="filled-basic"
-                className="email"
-                label={screenlabels.org_settings.pincode}
-                onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
-                variant="filled"
-                onChange={handlepincode}
-                value={pincode}
-                error={ispincodeerror}
-                helperText={ispincodeerror ? "Enter vaild pin code" : ""}
+                error={orgDescriptionErrorMessage ? true : false}
+                helperText={orgDescriptionErrorMessage}
               />
-            </Col>
-          </Row>
-          <Row style={{marginTop: '20px', textAlign: 'left', marginLeft: '-25px'}}>
-            <Col xs={12} sm={12} md={12} lg={12}>
-                <span className="orgdestitle">
-                  Organization Description<sup>*</sup>
-                </span>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} sm={12} md={12} lg={12}>
-              <div className="invite-participant-text-editor orgrte">
-                <RichTextEditor
-                  toolbarConfig={toolbarConfig}
-                  value={editorValue}
-                  // value={orgdesc}
-                  onChange={handleOrgDesChange}
-                  required
-                  id="body-text"
-                  name="bodyText"
-                  type="string"
-                  multiline
-                  variant="filled"
-                  style={{
-                    minHeight: 410,
-                    //   width: 420,
-                    border: "1px solid black",
-                    //   zIndex: 4,
-                  }}
-                  error={orgDescriptionErrorMessage ? true: false}
-                  helperText = {orgDescriptionErrorMessage}
-                />
-              </div>
-            </Col>
+            </div>
+          </Col>
         </Row>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -751,7 +792,8 @@ export default function OrganisationSetting(props) {
             !iscountryerror &&
             !isOrgWebsiteerror &&
             orgfile != null &&
-            orgfile.size < 2097152 &&
+            !orgfilesize &&
+            // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
               <Button variant="contained" className="submitbtn" type="submit">
