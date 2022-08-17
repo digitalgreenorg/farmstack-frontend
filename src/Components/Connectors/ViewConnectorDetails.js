@@ -204,7 +204,7 @@ export default function ViewConnectorDetails(props) {
                         <span className="thirdmainheading">{""}</span>
                     </Col></> : <></>}
             </Row>
-            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'unpaired') ? <><Row className="marginrowtop8px"></Row><Row>
+            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'unpaired'||props.data['connector_status'] == 'rejected') ? <><Row className="marginrowtop8px"></Row><Row>
                 <Col xs={12} sm={12} md={6} lg={3} >
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} >
