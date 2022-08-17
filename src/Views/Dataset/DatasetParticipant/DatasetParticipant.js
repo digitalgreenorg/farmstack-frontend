@@ -796,6 +796,7 @@ export default function DatasetParticipant() {
 
     const handleTabChange = (event, newValue) => {
 
+        resetDateFilters()
         setValue(newValue);
         if (newValue == "2") {
             console.log("isMemberTab", isMemberTab)

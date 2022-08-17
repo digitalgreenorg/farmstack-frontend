@@ -782,6 +782,7 @@ export default function DatasetAdmin() {
     const handleTabChange = (event, newValue) => {
 
         setValue(newValue);
+        resetDateFilters()
         if (newValue == "2") {
             console.log("isMemberTab", isMemberTab)
             setIsMemberTab(!isMemberTab)
