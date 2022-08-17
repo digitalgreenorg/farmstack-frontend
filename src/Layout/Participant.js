@@ -25,6 +25,7 @@ function Participant(props) {
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
           <ParticipantNavbar />
+          <div className="minHeight67vhParticipantPage">
           <Switch>
             <Route
               exact
@@ -58,6 +59,7 @@ function Participant(props) {
               component={EditConnectorParticipant}
             />
           </Switch>
+          </div>
           <Footer/>
         </div>
       ) : (

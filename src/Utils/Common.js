@@ -224,5 +224,7 @@ export const openLinkInNewTab = (url) => {
 }
 
 
-
+export const mobileNumberMinimunLengthCheck = (number) =>{
+  return number.length>=10
+}
 

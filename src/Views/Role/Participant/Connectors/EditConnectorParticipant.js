@@ -137,37 +137,53 @@ export default function EditConnectorParticipant() {
               // history.push(GetErrorHandlingRoute(e));
             });
         }
+
         // console.log(typeof typeof file);
         console.log(typeof response.data.certificate);
         console.log(response.data.connector_description);
         console.log(response.data.dataset_details.name);
         console.log(response.data.project_details.id);
         console.log(response.data.department_details.department_name);
-      })
-      .catch((e) => {
-        setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
-      });
-  };
 
-  // get dataset
-  const getDatasetDetails = async () => {
-    var id = getUserLocal();
-    console.log("user id", id);
-    setIsLoader(true);
-
-    await HTTPService(
-      "GET",
-      UrlConstants.base_url + UrlConstants.list_of_dataset,
-      { user_id: id },
-      false,
-      true
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log("get request for dataset", response.data);
-        setdatasets(response.data);
-        console.log("datasets", datasets);
+        // datasets
+        var id = getUserLocal();
+        console.log("user id", id);
+        if (response.data.connector_type === "Provider") {
+          HTTPService(
+            "GET",
+            UrlConstants.base_url + UrlConstants.list_of_dataset,
+            { user_id: id },
+            false,
+            true
+          )
+            .then((response) => {
+              setIsLoader(false);
+              console.log("get request for dataset", response.data);
+              setdatasets(response.data);
+              console.log("datasets", datasets);
+            })
+            .catch((e) => {
+              setIsLoader(false);
+              history.push(GetErrorHandlingRoute(e));
+            });
+        } else {
+          HTTPService(
+            "GET",
+            UrlConstants.base_url + UrlConstants.list_of_dataset,
+            false,
+            true
+          )
+            .then((response) => {
+              setIsLoader(false);
+              console.log("get request for dataset", response.data);
+              setdatasets(response.data);
+              console.log("datasets", datasets);
+            })
+            .catch((e) => {
+              setIsLoader(false);
+              history.push(GetErrorHandlingRoute(e));
+            });
+        }
       })
       .catch((e) => {
         setIsLoader(false);
@@ -201,11 +217,7 @@ export default function EditConnectorParticipant() {
 
   useEffect(() => {
     getConnectorDetails();
-    getDatasetDetails();
-    // getDatasetDetails();
     getDepartmentDetails();
-    // setdepartment("e459f452-2b4b-4129-ba8b-1e1180c87888");
-    // setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
   }, []);
 
   const handleFileChange = (file) => {
@@ -286,19 +298,19 @@ export default function EditConnectorParticipant() {
         });
     }
   };
-//   const handleChangeConnectorName = (e) => {
-//     validateInputField(
-//       e.target.value,
-//       RegexConstants.validateInputField(
-//         e.target.value,
-//         RegexConstants.connector_name
-//       )
-//     )
-//       ? setconnectorName(e.target.value)
-//       : e.preventDefault();
-//     console.log(e.target.value);
-//     // setconnectorName(event.target.value);
-//   };
+  //   const handleChangeConnectorName = (e) => {
+  //     validateInputField(
+  //       e.target.value,
+  //       RegexConstants.validateInputField(
+  //         e.target.value,
+  //         RegexConstants.connector_name
+  //       )
+  //     )
+  //       ? setconnectorName(e.target.value)
+  //       : e.preventDefault();
+  //     console.log(e.target.value);
+  //     // setconnectorName(event.target.value);
+  //   };
   const handleChangeConnectorName = (e) => {
     validateInputField(e.target.value, RegexConstants.connector_name)
       ? setconnectorName(e.target.value)

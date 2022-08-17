@@ -36,7 +36,7 @@ export default function SessionExpired(props) {
                 style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
                 />
             </Nav>
-            <Container>
+            <Container className='minHeightWithoutFooter'>
                 <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <span className="mainheadingsuccess">

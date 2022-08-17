@@ -614,3 +614,38 @@ overflow: hidden;
   color: #3491EE;
   cursor: pointer;
 }
+
+.minHeightWithoutFooter{
+  min-height: 481px;
+  /* border: 1px solid green; */
+}
+
+/* .minHeight300px{
+  min-height:255px;
+  border: 1px solid red;
+  max-height: 255px;
+} */
+
+.minHeight232px{
+  min-height: 232px;
+  /* border: 1px solid red; */
+  /* max-height: 232px; */
+}
+
+.minHeight501pxsettingpagemaindiv{
+  min-height: 501px;
+  /* border: 1px solid red; */
+  /* max-height: 509px; */
+}
+
+
+.minHeight67vhParticipantPage{
+  min-height: 67.5vh;
+  /* border: 1px solid red; */
+  /* max-height: 100vh; */
+}
+.minHeight67vhDatahubPage{
+  min-height: 67.5vh;
+  /* border: 1px solid red; */
+  /* max-height: 100vh; */
+}

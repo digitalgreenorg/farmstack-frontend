@@ -32,7 +32,9 @@ function Datahub(props) {
     <>
       {(getTokenLocal() && isLoggedInUserAdmin())? (
         <div className="center_keeping_conatiner">
+
           <Navbar />
+          <div className="minHeight67vhDatahubPage">
           <Switch>
             <Route
               exact
@@ -86,6 +88,7 @@ function Datahub(props) {
             {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
             <Route exact path="/datahub/datasets" component={DatasetAdmin}/>
           </Switch>
+          </div>
           <Footer/>
         </div>
       ) : (
