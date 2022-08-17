@@ -3,7 +3,7 @@ import styles from "./slider.module.css"
 import  "../../../Assets/CSS/common.css"
 import { Tooltip } from '@mui/material'
 import { Zoom } from '@material-ui/core'
-import { dateTimeFormat } from '../../../Utils/Common'
+import { dateTimeFormat, toTitleCase } from '../../../Utils/Common'
 import { useHistory } from 'react-router-dom'
 import UrlConstant from '../../../Constants/UrlConstants'
 
@@ -22,7 +22,7 @@ const history = useHistory()
             <div className={styles.supportRequestDetailTopThreeBlockEach}>
                 <span className={styles.supportRequestDetailTopThreeBlockEachText}>Open Request</span>
                 {/* <Tooltip TransitionComponent={Zoom}  title={ticketDetails.open_requests}> */}
-                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{ticketDetails.open_requests}</span>
+                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{ ticketDetails.open_requests}</span>
                 {/* </Tooltip> */}
 
                 
@@ -50,11 +50,11 @@ const history = useHistory()
             <div className={styles.supportRequestDetailBottomSixBlocksMain}>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}>
                 <span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Request title</span>
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue}>{supportRequestData.subject}</span>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue}>{toTitleCase(supportRequestData.subject)}</span>
                 </div>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}>
                 <span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Category</span>
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue}>{supportRequestData.category}</span>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue}>{toTitleCase(supportRequestData.category)}</span>
                 </div>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}><span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Date & Time</span>
                 {/* <Tooltip TransitionComponent={Zoom}  title={supportRequestData.updated_at}> */}
@@ -64,13 +64,13 @@ const history = useHistory()
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}><span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the Participant</span>
                 {/* <Tooltip TransitionComponent={Zoom}  title={supportRequestData.organization.name}> */}
                 
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{supportRequestData.organization.name}</span>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{toTitleCase(supportRequestData.organization.name)}</span>
                 {/* </Tooltip> */}
                 </div>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}>                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the Participant User</span>
                 {/* <Tooltip TransitionComponent={Zoom}  title={supportRequestData.user.first_name}> */}
                
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{supportRequestData.user.first_name}</span>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px text-transform-capital"}>{supportRequestData.user.first_name + " " + supportRequestData.user.last_name }</span>
                 {/* </Tooltip> */}
                 
                 </div>

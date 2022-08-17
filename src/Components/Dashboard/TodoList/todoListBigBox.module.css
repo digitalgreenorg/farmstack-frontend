@@ -34,6 +34,7 @@ font-style: normal;
   /* width: 46px; */
   height: 54px;
   /* border: 1px solid red; */
+  font-weight: 400;
   font-size: 40px;
   display: flex;
   align-items: baseline;
