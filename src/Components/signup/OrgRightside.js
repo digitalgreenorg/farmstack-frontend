@@ -834,7 +834,7 @@ export default function OrgRightside(props) {
           </g>
         </svg>
       </div>
-      <div style={{ position: "absolute", top: "1500px" }}>
+      <div style={{ position: "absolute", top: "1700px" }}>
         <Footer />
       </div>
     </div>
