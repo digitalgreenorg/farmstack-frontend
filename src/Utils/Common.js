@@ -228,3 +228,9 @@ export const mobileNumberMinimunLengthCheck = (number) =>{
   return number.length>=10
 }
 
+export function toTitleCase(str) {
+
+      return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ""
+    
+  
+}

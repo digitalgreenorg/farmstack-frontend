@@ -3,36 +3,44 @@ import styles from "./slider.module.css"
 import  "../../../Assets/CSS/common.css"
 import { Tooltip } from '@mui/material'
 import { Zoom } from '@material-ui/core'
+import { dateTimeFormat } from '../../../Utils/Common'
+import { useHistory } from 'react-router-dom'
+import UrlConstant from '../../../Constants/UrlConstants'
 
-const SliderCard = ({supportRequestData}) => {
+const SliderCard = ({supportRequestData,ticketDetails}) => {
+    // /participant/support/6e378443-4d58-4e99-b59f-c7ff2a558a9a/
 
+    const viewDetailsMaintain = (id)=>[
+        history.push("support/")
+    ]
 
-
+console.log(supportRequestData, ticketDetails)
+const history = useHistory()
   return (
     <div className={styles.supportRequestDetailMain}>
         <div className={styles.supportRequestDetailTopThreeBlocks}>
             <div className={styles.supportRequestDetailTopThreeBlockEach}>
                 <span className={styles.supportRequestDetailTopThreeBlockEachText}>Open Request</span>
-                <Tooltip TransitionComponent={Zoom}  title={supportRequestData.openRequest}>
-                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{supportRequestData.openRequest}</span>
-                </Tooltip>
+                {/* <Tooltip TransitionComponent={Zoom}  title={ticketDetails.open_requests}> */}
+                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{ticketDetails.open_requests}</span>
+                {/* </Tooltip> */}
 
                 
             </div>
             <div className={styles.supportRequestDetailTopThreeBlockEach}>
                             <span className={styles.supportRequestDetailTopThreeBlockEachText}>Close Request</span>
-                <Tooltip TransitionComponent={Zoom}  title={supportRequestData.closeRequest}>
+                {/* <Tooltip TransitionComponent={Zoom}  title={ticketDetails.closed_requests}> */}
 
-                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{supportRequestData.closeRequest}</span>
-                </Tooltip>
+                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{ticketDetails.closed_requests}</span>
+                {/* </Tooltip> */}
 
                 </div>
                 <div className={styles.supportRequestDetailTopThreeBlockEach}>
                             <span className={styles.supportRequestDetailTopThreeBlockEachText}>Hold Request</span>
-                <Tooltip TransitionComponent={Zoom}  title={supportRequestData.holdRequest}>
+                {/* <Tooltip TransitionComponent={Zoom}  title={ticketDetails.hold_requests}> */}
 
-                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{supportRequestData.holdRequest}</span>
-                </Tooltip>
+                <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{ticketDetails.hold_requests}</span>
+                {/* </Tooltip> */}
                 
                 </div>
                 
@@ -42,28 +50,31 @@ const SliderCard = ({supportRequestData}) => {
             <div className={styles.supportRequestDetailBottomSixBlocksMain}>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}>
                 <span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Request title</span>
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue}>{supportRequestData.newRequestTitle}</span>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue}>{supportRequestData.subject}</span>
                 </div>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}>
                 <span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Category</span>
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue}>{supportRequestData.newRequestCategory}</span>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue}>{supportRequestData.category}</span>
                 </div>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}><span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Date & Time</span>
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue}>{supportRequestData.newRequestDateAndTime}</span></div>
+                {/* <Tooltip TransitionComponent={Zoom}  title={supportRequestData.updated_at}> */}
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width150px"}>{dateTimeFormat(supportRequestData.updated_at, true)}</span>
+                {/* </Tooltip> */}
+                </div>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}><span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the Participant</span>
-                <Tooltip TransitionComponent={Zoom}  title={supportRequestData.newRequestNameOfParticipant}>
+                {/* <Tooltip TransitionComponent={Zoom}  title={supportRequestData.organization.name}> */}
                 
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{supportRequestData.newRequestNameOfParticipant}</span>
-                </Tooltip>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{supportRequestData.organization.name}</span>
+                {/* </Tooltip> */}
                 </div>
                 <div className={styles.supportRequestDetailBottomSixBlocksEach}>                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the Participant User</span>
-                <Tooltip TransitionComponent={Zoom}  title={supportRequestData.newRequestNameOfTheParticipantUser}>
+                {/* <Tooltip TransitionComponent={Zoom}  title={supportRequestData.user.first_name}> */}
                
-                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{supportRequestData.newRequestNameOfTheParticipantUser}</span>
-                </Tooltip>
+                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{supportRequestData.user.first_name}</span>
+                {/* </Tooltip> */}
                 
                 </div>
-                <div> <button className={styles.viewDetailsButton}>View Details</button> </div>
+                <div> <button onClick={()=>viewDetailsMaintain(supportRequestData.id)} className={styles.viewDetailsButton}>View Details</button> </div>
             </div>
         </div>
     </div>

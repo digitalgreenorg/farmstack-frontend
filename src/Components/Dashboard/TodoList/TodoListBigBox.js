@@ -21,17 +21,19 @@ const TodoListBigBox = ({ totalDetail }) => {
       {/* <div className="nodataavailable">SomeClass</div> */}
       <span className={styles.todoListBigBoxLowerValues}>
         
-        <Tooltip title={totalDetail.value}>
-        <span className="text_overflow_ellipsis_overflow_hidden width270px" style={{ height: "54px" }}> {totalDetail.value} <span
+        {/* <Tooltip title={totalDetail.value}> */}
+        <span className="text_overflow_ellipsis_overflow_hidden width270px" style={{ height: "54px", width:"86px"}}> {totalDetail.value} <span
           style={{
             fontSize: "18px",
             // border: "1px solid blue",
             height: "25px",
+            margin:0,
+            padding:0
           }}
         >
           {totalDetail.valueUnit ? totalDetail.valueUnit : null}
         </span></span>
-        </Tooltip>
+        {/* </Tooltip> */}
         
       </span>
     </div>

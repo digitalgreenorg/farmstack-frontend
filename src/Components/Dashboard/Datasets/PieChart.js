@@ -12,57 +12,26 @@ import PieChartsSideMenu from "./PieChartsSideMenu";
 import styles from "./datasets.module.css";
 import LegendValue from "./LegendValue";
 
-const data = [
-  { name: "Crop data", value: 400 },
-  { name: "Land record", value: 300 },
-  { name: "Farmers data", value: 300 },
-  { name: "Pricing data", value: 200 },
-  { name: "Insurance", value: 400 },
-  { name: "Credit Assessment", value: 100 },
-];
-let totalSum = 0;
-data.forEach((item) => (totalSum += +item.value));
+// const data = [
+//   { name: "Crop data", value: 400 },
+//   { name: "Land record", value: 300 },
+//   { name: "Farmers data", value: 300 },
+//   { name: "Pricing data", value: 200 },
+//   { name: "Insurance", value: 400 },
+//   { name: "Credit Assessment", value: 100 },
+// ];
 
-const COLORS = [
-  "#E7B100",
-  "#402769",
-  "#FD7B25",
-  "#836400",
-  "#096D0D",
-  "#3BBFCC",
-];
 
-const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
-  index,
-}) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-  return (
-    <text
-      x={x}
-      y={y}
-      fill="white"
-      textAnchor={x > cx ? "start" : "end"}
-      dominantBaseline="central"
-    >
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
+
+
+
 
 export default class PieChartMain extends PureComponent {
   //   static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj';
 
   render() {
+    console.log(this.props)
     return (
       <div className={styles.datasetsChartBox}>
         <PieChart
@@ -75,7 +44,7 @@ export default class PieChartMain extends PureComponent {
           height={317}
         >
           <Pie
-            data={data}
+            data={this.props.dataForThePieChart}
             cx="40%"
             cy="50%"
             labelLine={false}
@@ -87,10 +56,10 @@ export default class PieChartMain extends PureComponent {
             animationBegin={500}
             animationDuration={3000}
           >
-            {data.map((entry, index) => (
+            {this.props.dataForThePieChart.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={this.props.colors[index % this.props.colors.length]}
               />
             ))}
           </Pie>
@@ -109,7 +78,7 @@ export default class PieChartMain extends PureComponent {
             //     })
             //   )
             // }
-            content={<LegendValue data={data} COLORS={COLORS} />}
+            content={<LegendValue data={this.props.dataForThePieChart} COLORS={this.props.colors} />}
             verticalAlign="middle"
             align="right"
             layout="vertical"
