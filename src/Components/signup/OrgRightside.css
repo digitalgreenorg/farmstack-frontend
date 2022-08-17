@@ -26,7 +26,6 @@
   left: 839px;
   top: 252px;
 }
-
 .orgemail {
   position: absolute;
   width: 420px;
@@ -34,12 +33,19 @@
   left: 839px;
   top: 330px;
 }
-.orgnumber {
+.orgwebsite {
   position: absolute;
   width: 420px;
   height: 48px;
   left: 839px;
   top: 408px;
+}
+.orgnumber {
+  position: absolute;
+  width: 420px;
+  height: 48px;
+  left: 839px;
+  top: 486px;
 }
 
 .orgaddress {
@@ -47,21 +53,21 @@
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 486px;
+  top: 564px;
 }
 .orgcity {
   position: absolute;
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 564px;
+  top: 642px;
 }
 .orgcountry {
   position: absolute;
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 642px;
+  top: 720px;
   text-align: left;
   font-family: 'Open Sans';
   font-style: normal;
@@ -86,7 +92,7 @@
   width: 420px;
   height: 48px;
   left: 839px;
-  top: 720px;
+  top: 798px;
 }
 .css-1s2u09g-control {
   background: #f1f1f1 !important;
@@ -109,7 +115,7 @@
   width: 420px;
   height: 100px;
   left: 839px;
-  top: 808px;
+  top: 880px;
   z-index: 0;
   font-family: 'Open Sans';
   font-style: normal;
@@ -122,7 +128,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 1200px;
+  top: 1288px;
   background-color: #c09507 !important;
   border-radius: 2px;
   font-family: 'Open Sans' !important;
@@ -140,7 +146,7 @@
   width: 420px;
   height: 42px;
   left: 329px;
-  top: 1200px;
+  top: 1288px;
   opacity: 0.5;
   border: 1px solid #c09507 !important;
   font-family: 'Open Sans' !important;
@@ -155,7 +161,7 @@
   width: 420px;
   height: 42px;
   left: 328px;
-  top: 1230px;
+  top: 1308px;
   background: #ffffff;
   border: 1px solid #c09507 !important;
   border-radius: 2px;
@@ -238,7 +244,7 @@
   width: 420px;
   height: 218px;
   left: 119px;
-  top: 917px;
+  top: 987px;
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
@@ -307,7 +313,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1308px !important;
+  top: 1388px !important;
 
   font-family: 'Open Sans';
   font-style: normal;
@@ -325,7 +331,7 @@
   width: 420px;
   height: 18px;
   left: 827px;
-  top: 1338px;
+  top: 1418px;
   color: #ff3d00 !important;
   font-family: 'Open Sans';
   font-style: normal;
@@ -338,5 +344,5 @@
   width: 148.92px;
   height: 126.01px;
   left: 1300.09px;
-  top: 1407px;
+  top: 1487px;
 }

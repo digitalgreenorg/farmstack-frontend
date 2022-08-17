@@ -615,22 +615,34 @@ export default function DatasetParticipant() {
     }
 
     const getMyDataset = (isLoadMore) => {
+
+        setIsLoader(true)
+
         if(!isLoadMore){
             resetUrls()
-        }
-        setIsLoader(true);
-        if (payload == "") {
-            // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            // payload['others'] = false
-            payload = {}
-            payload['user_id'] = getUserLocal()
-            payload['org_id'] = getOrgLocal()
-            payload['others'] = false
-            setFilterState(payload)
-        }
-        if(isLoadMore){
+            if (payload == "") {  
+                payload = {}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = false
+                setFilterState(payload)
+            }
+        } else {
             payload = {...filterState}
         }
+        // setIsLoader(true);
+        // if (payload == "") {
+        //     // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        //     // payload['others'] = false
+        //     payload = {}
+        //     payload['user_id'] = getUserLocal()
+        //     payload['org_id'] = getOrgLocal()
+        //     payload['others'] = false
+        //     setFilterState(payload)
+        // }
+        // if(isLoadMore){
+        //     payload = {...filterState}
+        // }
         HTTPService(
             "POST",
             // "GET",
@@ -668,22 +680,34 @@ export default function DatasetParticipant() {
     }
 
     const getMemberDatasets = (isLoadMore) => {
+
+        setIsLoader(true);
+
         if(!isLoadMore){
             resetUrls()
-        }
-        setIsLoader(true);
-        if (payload == "") {
-            // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            // payload['others'] = true
-            payload = {}
-            payload['user_id'] = getUserLocal()
-            payload['org_id'] = getOrgLocal()
-            payload['others'] = true
-            setFilterState(payload)
-        }
-        if(isLoadMore){
+            if (payload == "") {
+                payload = {}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = true
+                setFilterState(payload)
+            }
+        } else {
             payload = {...filterState}
         }
+        
+        // if (payload == "") {
+        //     // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        //     // payload['others'] = true
+        //     payload = {}
+        //     payload['user_id'] = getUserLocal()
+        //     payload['org_id'] = getOrgLocal()
+        //     payload['others'] = true
+        //     setFilterState(payload)
+        // }
+        // if(isLoadMore){
+        //     payload = {...filterState}
+        // }
         HTTPService(
             "POST",
             // "GET",
@@ -973,7 +997,7 @@ export default function DatasetParticipant() {
                 <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Change Request Sent Successfully!"} imageText={"Disabled"} msg={"Change Request Sent."}></Success> : <></>
             }
             {screenView.isDataSetView ? <><ViewDataSet isAdminView={true} downloadAttachment={(uri) => downloadAttachment(uri)} back={() => changeView('isDataSetFilter')} rowdata={viewdata} tabelkeys={tablekeys} ></ViewDataSet>
-                <Row>
+               <>{(viewdata.approval_status=="for_review" && viewdata.user_id==getUserLocal())? <><Row>
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
@@ -990,7 +1014,7 @@ export default function DatasetParticipant() {
                                 Delete Dataset
                 </Button>
                         </Col>
-                    </Row></> : <></>}
+                    </Row></>:<></>}</></>: <></>}
 
             {screenView.isDisable ? <Delete
                 route={"login"}

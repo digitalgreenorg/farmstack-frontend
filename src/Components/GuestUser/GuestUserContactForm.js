@@ -13,7 +13,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
+import { openLinkInNewTab, mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { yellow } from "@mui/material/colors";
@@ -226,11 +226,12 @@ const GuestUserContactForm = ({
               display: "flex",
               flexDirection: "column",
             }}
-          >
+          >  
             <div>{guestUserConstants.guestUser.website}</div>
             <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.website}>
 
-            <div className={styles.guestUserDatahubAdminDetails}>
+            <div className={styles.guestUserDatahubAdminDetails} style={{color: '#3491EE', cursor: 'pointer'}} 
+                onClick={()=>openLinkInNewTab(datahubUserDetails.website)}>
               {datahubUserDetails.website
               }
             </div>
@@ -512,9 +513,12 @@ const GuestUserContactForm = ({
             inputProps={{ maxLength: 1000 }}
             variant="filled"
             onChange={(e) =>
-              validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
-                ? handleChange(e)
-                : e.preventDefault()
+              {
+                e.target.value = e.target.value.replace(/\s{2,}/g,' ')
+                validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+                  ? handleChange(e)
+                  : e.preventDefault()
+              }
             }
             error = {describeQueryErrorMessage ? true : false}
             helperText = {describeQueryErrorMessage}

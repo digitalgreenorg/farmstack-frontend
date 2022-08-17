@@ -611,17 +611,31 @@ export default function DatasetAdmin() {
     }
 
     const getMyDataset = (isLoadMore) => {
+
+        setIsLoader(true);
+
         if(!isLoadMore){
             resetUrls()
-        }
-        setIsLoader(true);
-        if (payload == "") {
-            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            payload['others'] = false
-        }
-        if(isLoadMore){
+            if (payload == "") {
+                // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+                payload ={}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = false
+                setFilterState(payload)
+            }
+        } else {
             payload = {...filterState}
         }
+
+        // setIsLoader(true);
+        // if (payload == "") {
+        //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        //     payload['others'] = false
+        // }
+        // if(isLoadMore){
+        //     payload = {...filterState}
+        // }
         HTTPService(
             "POST",
             // "GET",
@@ -659,17 +673,32 @@ export default function DatasetAdmin() {
     }
 
     const getMemberDatasets = (isLoadMore) => {
+
+        setIsLoader(true)
+
         if(!isLoadMore){
             resetUrls()
-        }
-        setIsLoader(true);
-        if (payload == "") {
-            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            payload['others'] = true
-        }
-        if(isLoadMore){
+            if (payload == "") {
+                // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+                payload ={}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = true
+                setFilterState(payload)
+            }
+        } else {
             payload = {...filterState}
         }
+
+        // setIsLoader(true);
+        // if (payload == "") {
+        //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        //     payload['others'] = true
+        // }
+        // if(isLoadMore){
+        //     payload = {...filterState}
+        // }
+
         HTTPService(
             "POST",
             // "GET",
@@ -959,7 +988,7 @@ export default function DatasetAdmin() {
                 <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Change Request Sent Successfully!"} imageText={"Disabled"} msg={"Change Request Sent."}></Success> : <></>
             }
             {screenView.isDataSetView ? <><ViewDataSet isAdminView={isAdminView} downloadAttachment={(uri) => downloadAttachment(uri)} back={() => changeView('isDataSetFilter')} rowdata={viewdata} tabelkeys={tablekeys} ></ViewDataSet>
-                {isAdminView ? <><Row>
+                {(isAdminView && viewdata.approval_status=="for_review" && viewdata.user_id==getUserLocal()) ? <><Row>
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >

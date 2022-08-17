@@ -420,16 +420,24 @@ export default function GuestUserDatasets() {
 
 
     const getDatasetList = (isLoadMore) => {
+
+        setIsLoader(true);
+
         if(!isLoadMore){
             resetUrls()
-        }
-        setIsLoader(true);
-        if (payload == "") {
-            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        }
-        if (isLoadMore){
+            if (payload == "") {
+                payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+            }
+        } else {
             payload = {...filterState}
         }
+        // setIsLoader(true);
+        // if (payload == "") {
+        //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        // }
+        // if (isLoadMore){
+        //     payload = {...filterState}
+        // }
         HTTPService(
             "POST",
             // "GET",

@@ -616,7 +616,7 @@ overflow: hidden;
 }
 
 .minHeightWithoutFooter{
-  min-height: 481px;
+  min-height: 400px;
   /* border: 1px solid green; */
 }
 

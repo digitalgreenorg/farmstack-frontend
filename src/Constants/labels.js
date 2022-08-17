@@ -104,6 +104,7 @@ const labels = {
       city: "City",
       pincode: "PIN Code",
       org_des: "Organization Description",
+      website: "Organization website *"
     },
 
     support: {
