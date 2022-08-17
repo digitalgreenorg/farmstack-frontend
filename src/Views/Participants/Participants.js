@@ -84,7 +84,7 @@ function Participants(props) {
                             <ParticipantsCards
                                 dataset={rowData.dataset_count}
                                 connector={rowData.connector_count}
-                                active={rowData.user.status ? "Inactive" : "Active"}
+                                active={rowData.user.status ? "Active" : "Inactive"}
                                 id={rowData.user_id}
                                 profilepic={rowData.user.profile_picture}
                                 firstname={rowData.user.first_name}
