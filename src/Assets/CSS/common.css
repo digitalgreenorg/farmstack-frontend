@@ -213,7 +213,7 @@ button.submitbtn:hover {
   border-radius: 2px 0px 0px 0px;
   text-transform: capitalize !important;
   background: #c09507;
-  width: 200px;
+  width: 220px;
   height: 42px;
   font-weight: 400;
   border-bottom: none !important;
@@ -257,7 +257,7 @@ button.submitbtn:hover {
   background: #ffffff;
   text-transform: capitalize !important;
   font-weight: 400 !important;
-  width: 200px;
+  width: 220px;
   border-left: 1px solid #d8af28 !important;
   border-right: 1px solid #d8af28 !important;
   border-top: 1px solid #d8af28 !important;

@@ -51,7 +51,7 @@ const useStyles = {
   marginrowtop10px: { "margin-top": "20px"},
   marginrowtopscreen10px: { "margin-top": "10px"},
   teamword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans"},
-  background: {"margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "60px", "padding-right": "60px"},
+  background: {"margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-right": "60px"},
 };
 
 function Settings(props) {
