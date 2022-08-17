@@ -32,7 +32,7 @@ const LegendValue = ({ data, COLORS }) => {
           ></div>
           <div style={{textAlign:"left"}} className="width200px" key={`item-${index}`}>
             {/* <Tooltip title={`${Math.round((+entry.value / sum) * 100)}% ${entry.name}` }> */}
-           <span className="d-inline-block text-truncate width150px">{`${Math.round((+entry.value / sum) * 100)}% ${entry.name}` }</span> 
+           <span >{`${Math.round((+entry.value / sum) * 100)}% ${entry.name}` }</span> 
             {/* </Tooltip> */}
           </div>
         </div>

@@ -6,6 +6,7 @@ import PieChartMain from './PieChart';
 import Example from './PieChart';
 import PieChartsSideMenu from './PieChartsSideMenu';
 import labels from '../../../Constants/labels'
+import NoDataAvailable from '../NoDataAvailable/NoDataAvailable';
 
 
 const Datasets = (props) => {
@@ -25,8 +26,8 @@ const Datasets = (props) => {
   return (
     <div className={styles.datasetsMainBox}>
       <div className={styles.datasetsHeading}>{labels.en.dashboard.datasets_title}</div>
-     
-      <PieChartMain colors={props.colors} dataForThePieChart={props.dataForThePieChart}/>
+     { props.dataForThePieChart.length >0 ? <PieChartMain colors={props.colors} dataForThePieChart={props.dataForThePieChart}/> : <NoDataAvailable/> }
+      
       {/* <Example /> */}
       {/* <Example1/> */}
 

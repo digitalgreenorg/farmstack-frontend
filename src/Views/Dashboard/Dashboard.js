@@ -8,6 +8,7 @@ import SupportRequest from '../../Components/Dashboard/SupportRequest/SupportReq
 import TodoList from '../../Components/Dashboard/TodoList/TodoList'
 import Loader from '../../Components/Loader/Loader'
 import Navbar from '../../Components/Navbar/Navbar'
+import UrlConstant from '../../Constants/UrlConstants'
 import HTTPService from '../../Services/HTTPService'
 import { GetErrorHandlingRoute, toTitleCase } from '../../Utils/Common'
 import styles from "./dashboard.module.css"
@@ -16,16 +17,17 @@ const Dashboard = () => {
   const [dataForThePieChart, setDataForThePieChart] = useState([])
   const [colors, setColors] = useState([])
   const [supportRequestData, setSupportRequestData] = useState(null)
-  const [connectorData, setConnectorData]= useState(null)
+  const [connectorData, setConnectorData]= useState({results :[]})
   const [additionalConnectorData, setAdditionalConnectorData]= useState(null)
   const [isLoader, setIsLoader] = useState(false);
   const history = useHistory();
 
 
+  
    function getData(){
     setIsLoader(true)
     let method = "GET";
-    let url = "https://4346-106-51-85-143.in.ngrok.io" + "/datahub/dashboard/";
+    let url = UrlConstant.base_url + UrlConstant.datahub_dashboard ;
     let data = "";
     HTTPService(
       method,
@@ -35,13 +37,14 @@ const Dashboard = () => {
       true,
     )
     .then((res)=>{
-      console.log(res.data, "RESPONSE")
+      // console.log(res.data, "RESPONSE")
       let data = []
-      for(var key in res.data.categories){
+       for(var key in res.data.categories){
         // console.log(key)
         let obj = {name : toTitleCase(key.split("_").join(" ")) , value : res.data.categories[key]};
         data.push(obj)
-      }
+      } 
+      
       // for(var key in ){
         //   // console.log(key)
         //   // let obj ={id : res.data.support_tickets.recent_tickets[id] ,
@@ -98,10 +101,10 @@ const Dashboard = () => {
     <div className={styles.fourChartParent}>
     <Datasets colors={colors} dataForThePieChart={dataForThePieChart}/>
     <DatasetsCategory dataForThePieChart={dataForThePieChart}/>
-    <DataExchangeTrends allDashboardDetails={allDashboardDetails}/>
+    <DataExchangeTrends dataForThePieChart={dataForThePieChart} allDashboardDetails={allDashboardDetails}/>
     <SupportRequest supportRequestData={supportRequestData}/>
     </div>
-    {setConnectorData ?  <ConnectorStatistics additionalConnectorData={additionalConnectorData} /> : ""}
+     <ConnectorStatistics additionalConnectorData={additionalConnectorData} /> 
     </>
   )
 }

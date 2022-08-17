@@ -206,6 +206,7 @@ const labels = {
       month: "Month",
       yearly: "Yearly",
       week: "Week",
+      no_data_available : "There is no data at this moment!"
     },
     connector: {
       filter: "Filter",
