@@ -68,7 +68,7 @@ const BarChartComponent = ({ dataForThePieChart }) => {
         width={600}
         height={280}
         data={dataForThePieChart}
-        margin={{ top: 0, right: 72, bottom: 0, left: -20 }}
+        margin={{ top: 0, right: 25, bottom: 0, left: -20 }}
         barSize={30}
         //    style={{border:"1px solid blue"}}
         isAnimationActive={true}
@@ -85,18 +85,20 @@ const BarChartComponent = ({ dataForThePieChart }) => {
           fontSize="10px"
           axisLine={false}
           isAnimationActive={true}
+          fontWeight="600"
         />
         <XAxis
           padding={{ left: 30, right: 20 }}
           tickSize={1}
           minTickGap={-1}
           fontSize="10px"
+          fontWeight="600"
           axisLine={false}
           type="category"
           dataKey="name"
           scale="point"
           interval={0}
-          angle={dataForThePieChart.length < 6 ? 0 : dataForThePieChart.length >=8 ? 20 : 0 }
+          angle={dataForThePieChart.length < 6 ? 0 : dataForThePieChart.length >=8 ? 10 : 0 }
           tickMargin={1}
           
         />

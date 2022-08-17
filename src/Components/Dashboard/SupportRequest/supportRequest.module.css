@@ -40,3 +40,18 @@
    /* border: 1px solid red; */
 
 }
+.supportRequestHeadingDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.yellowDot{
+    
+    height: 20px;
+    width: 20px;
+    background-color: #E7B100;
+    border-radius: 50%;
+    border: 1px solid #E7B100;
+}
