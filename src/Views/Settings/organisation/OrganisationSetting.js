@@ -212,6 +212,7 @@ export default function OrganisationSetting(props) {
     bodyFormData.append("phone_number", phonenumber);
     bodyFormData.append("logo", orgfile);
     bodyFormData.append("org_description", editorValue.toString("html"));
+    bodyFormData.append("website", orgWebsite);
     console.log("org details", bodyFormData);
     setIsLoader(true);
     if (isPost) {
