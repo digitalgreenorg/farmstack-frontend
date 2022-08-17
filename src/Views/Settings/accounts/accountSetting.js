@@ -17,6 +17,7 @@ import HandleSessionTimeout, {
   getUserLocal,
   GetErrorKey,
   mobileNumberMinimunLengthCheck,
+  fileUpload,
 } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
@@ -159,15 +160,18 @@ export default function AccountSetting(props) {
     var id = getUserLocal();
     console.log("user id", id);
 
-    setFirstNameErrorMessage(null)
-    setLastNameErrorMessage(null)
-    setPhoneNumberErrorMessage(null)
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setPhoneNumberErrorMessage(null);
 
     var bodyFormData = new FormData();
     bodyFormData.append("first_name", firstname);
     bodyFormData.append("last_name", lastname);
     bodyFormData.append("phone_number", phonenumber);
-    bodyFormData.append("profile_picture", file);
+    // bodyFormData.append("profile_picture", file);
+
+    // file upload
+    fileUpload(bodyFormData, file, "profile_picture");
 
     console.log("branding data", bodyFormData);
     setIsLoader(true);
@@ -192,22 +196,29 @@ export default function AccountSetting(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
-              case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
               //case "email": setEmailErrorMessage(errorMessages[i]); break;
-              case "phone_number": setPhoneNumberErrorMessage(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+              case "phone_number":
+                setPhoneNumberErrorMessage(errorMessages[i]);
+                break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
       });
   };
@@ -230,7 +241,7 @@ export default function AccountSetting(props) {
         setfirstname(response.data.first_name);
         setlastname(response.data.last_name);
         setemail(response.data.email);
-        // setFile(response.data.profile_picture);
+        setFile(response.data.profile_picture);
         if (response.data.first_name) {
           setaccfirstbtn(true);
         }

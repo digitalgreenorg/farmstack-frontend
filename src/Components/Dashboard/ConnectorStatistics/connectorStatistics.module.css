@@ -18,6 +18,11 @@
     border: 1px solid blue;
     border-top-left-radius: 100px;
 } */
+.nodatacenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .tableConnector{
     

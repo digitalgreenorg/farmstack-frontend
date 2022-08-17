@@ -13,6 +13,7 @@ import totalNoOfDatasets from "../../../Assets/Img/Total no.of datasets icon.svg
 import totalNoOfParticipants from "../../../Assets/Img/Total no.of participants icon.svg";
 import updateBrandingDetails from "../../../Assets/Img/Update branding details icon.svg";
 import HTTPService from '../../../Services/HTTPService'
+import UrlConstant from '../../../Constants/UrlConstants'
 
 
 const TodoList = () => {
@@ -26,7 +27,7 @@ const TodoList = () => {
 
   const getData = ()=>{
     let method = "GET";
-    let url = "https://4346-106-51-85-143.in.ngrok.io" + "/datahub/dashboard/";
+    let url = UrlConstant.base_url + UrlConstant.datahub_dashboard ;
     let data = "";
     HTTPService(
       method,

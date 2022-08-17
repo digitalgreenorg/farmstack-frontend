@@ -17,6 +17,7 @@ import HandleSessionTimeout, {
   setUserId,
   getUserLocal,
   handleAddressCharacters,
+  fileUpload,
 } from "../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
@@ -34,6 +35,7 @@ export default function BrandingSetting(props) {
   const [brandfile, setbrandfile] = useState(null);
   const [hexColor, sethexColor] = useState("");
   const [isLoader, setIsLoader] = useState(false);
+  const [filesize, setfilesize] = useState(false);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
 
@@ -49,8 +51,9 @@ export default function BrandingSetting(props) {
     )
       .then((response) => {
         setIsLoader(false);
-        console.log(brandfile);
+        console.log("banner", response.data.banner.banner);
         console.log(response.data);
+        setbrandfile(response.data.banner.banner);
         console.log(response.data.css.btnBackground);
         if (response.data.css.btnBackground == null) {
           setColor("#c09507");
@@ -83,7 +86,10 @@ export default function BrandingSetting(props) {
 
     var bodyFormData = new FormData();
     bodyFormData.append("button_color", hexColor);
-    bodyFormData.append("banner", brandfile);
+    // bodyFormData.append("banner", brandfile);
+    // file upload
+    fileUpload(bodyFormData, brandfile, "banner");
+
     console.log("branding settings details", bodyFormData);
     setIsLoader(true);
     HTTPService("PUT", url, bodyFormData, true, true)
@@ -106,13 +112,19 @@ export default function BrandingSetting(props) {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        history.push(GetErrorHandlingRoute(e))
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
 
   const handleBannerFileChange = (file) => {
     setbrandfile(file);
+    if (file != null && file.size > 2097152) {
+      //   setBrandingnextbutton(false);
+      setfilesize(true);
+    } else {
+      setfilesize(false);
+    }
   };
   const handleColorChange = (color) => {
     console.log(color);
@@ -199,13 +211,22 @@ export default function BrandingSetting(props) {
             {/* <Button variant="contained" className="submitbtn" type="submit">
                 <span className="">Submit</span>
               </Button> */}
-            <Button
-              //   onClick={() => addNewParticipants()}
-              variant="contained"
-              className="submitbtn"
-              type="submit">
-              {screenlabels.common.submit}
-            </Button>
+            {!filesize ? (
+              <Button
+                //   onClick={() => addNewParticipants()}
+                variant="contained"
+                className="submitbtn"
+                type="submit">
+                {screenlabels.common.submit}
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                disabled
+                className="disableaccountnextbtn">
+                Submit
+              </Button>
+            )}
             {/* {!ispropfilefirstnameerror &&
               !accfilesize &&
               accfirstnamebtn &&
