@@ -115,8 +115,9 @@ export default function ParticipantForm(props) {
                         type="number"
                         label={screenlabels.addparticipants.pincode}
                         value={props.pincode}
-                        onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
-                        onChange={(e) => validateInputField(e.target.value,RegexConstants.PINCODE_REGEX) ? props.setpincode(e.target.value.trim()) : e.preventDefault()}
+                        onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == 'E' || e.key == '+') {e.preventDefault()}}}
+                        onChange={(e) => {if (e.target.value.length > 10) e.target.value = e.target.value.substring(0,10); 
+                                          validateInputField(e.target.value,RegexConstants.PINCODE_REGEX) ? props.setpincode(e.target.value.trim()) : e.preventDefault()}}
                         //error={props.ispincodeerror}
                         // helperText={props.ispincodeerror ? "Enter Valid Pin Code" : ""}
                     />

@@ -633,14 +633,16 @@ export default function OrgRightside(props) {
                   : props.setispincodeerror(false)
               }
               onKeyDown={(e) => {
-                if (e.key == "-" || e.key == "e" || e.key == "+") {
+                if (e.key == "-" || e.key == "e" || e.key == "E" || e.key == "+") {
                   e.preventDefault();
                 }
               }}
-              onChange={(e) =>
+              onChange={(e) =>{
+                if (e.target.value.length > 10) e.target.value = e.target.value.substring(0,10);
                 validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
                   ? props.setOrgPincode(e.target.value.trim())
                   : e.preventDefault()
+                }
               }
               // onChange={props.handlepincode}
               // inputRef={props.pincode}

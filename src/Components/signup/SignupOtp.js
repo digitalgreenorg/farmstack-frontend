@@ -22,7 +22,7 @@ export default function SignupOtp(props) {
           className="signupotp"
           onChange={props.handleOtp}
           //value={props.otpValue}
-          onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == '+') {e.preventDefault()}}}
+          onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == 'E' || e.key == '+') {e.preventDefault()}}}
           inputRef={props.otp}
           error={props.isOtperror || props.isuserSuspenderror}
           helperText={(props.isOtperror || props.isuserSuspenderror) ? props.errormessage : ""}
