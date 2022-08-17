@@ -616,7 +616,7 @@ overflow: hidden;
 }
 
 .minHeightWithoutFooter{
-  min-height: 481px;
+  min-height: 400px;
   /* border: 1px solid green; */
 }
 
@@ -648,4 +648,8 @@ overflow: hidden;
   min-height: 67.5vh;
   /* border: 1px solid red; */
   /* max-height: 100vh; */
+}
+
+.hover{
+  cursor: pointer;
 }

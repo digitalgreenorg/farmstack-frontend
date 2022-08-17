@@ -24,7 +24,7 @@ const SelectComponent = ({filterPeriod, setFilterPeriod}) => {
         setFilterPeriod(e.target.value)}}
     >
       
-      <option value={24 * 7}>{labels.en.dashboard.week}</option>
+      {/* <option value={24 * 7}>{labels.en.dashboard.week}</option> */}
       <option value={24 * 30}>{labels.en.dashboard.month}</option>
       {/* <option value={365 * 24}>{labels.en.dashboard.yearly}</option> */}
       <option value={24}>{labels.en.dashboard.day}</option>

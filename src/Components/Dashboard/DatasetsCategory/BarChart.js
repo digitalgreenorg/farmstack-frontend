@@ -10,52 +10,53 @@ import {
   Legend,
 } from "recharts";
 
-const BarChartComponent = ({ barChartData }) => {
-  const propsData = [
-    {
-      name: "Crop data",
-      // uv: 4000,
-      value: 2.2,
-      amt: 2.4,
-    },
-    {
-      name: "Land record",
-      // uv: 3000,
-      value: 2.2,
-      amt: 2.21,
-    },
-    {
-      name: "Farmer data",
-      // uv: 2000,
-      value: 4.2,
-      amt: 2.29,
-    },
-    {
-      name: "Pricing data",
-      // uv: 2780,
-      value: 2.2,
-      amt: 2.0,
-    },
-    {
-      name: "Insurance",
-      // uv: 1890,
-      value: 4.2,
-      amt: 2.181,
-    },
-    {
-      name: "Credit assessment",
-      // uv: 2390,
-      value: 10.0,
-      amt: 2.5,
-    },
+const BarChartComponent = ({ dataForThePieChart }) => {
+  // const propsData = [
+  //   {
+  //     name: "Crop data",
+  //     // uv: 4000,
+  //     value: 2.2,
+  //     amt: 2.4,
+  //   },
+  //   {
+  //     name: "Land record",
+  //     // uv: 3000,
+  //     value: 2.2,
+  //     amt: 2.21,
+  //   },
+  //   {
+  //     name: "Farmer data",
+  //     // uv: 2000,
+  //     value: 4.2,
+  //     amt: 2.29,
+  //   },
+  //   {
+  //     name: "Pricing data",
+  //     // uv: 2780,
+  //     value: 2.2,
+  //     amt: 2.0,
+  //   },
+  //   {
+  //     name: "Insurance",
+  //     // uv: 1890,
+  //     value: 4.2,
+  //     amt: 2.181,
+  //   },
+  //   {
+  //     name: "Credit assessment",
+  //     // uv: 2390,
+  //     value: 10.0,
+  //     amt: 2.5,
+  //   },
     
     
-  ];
-  const [data, setData] = useState(propsData);
+  // ];
+  // const [data, setData] = useState([]);
   useEffect(() => {
-    if (barChartData) {
-      setData([...data]);
-    }
+
+    // if (barChartData) {
+    //   setData([...barChartData]);
+    // }
   },[]);
 
   // console.log(data)
@@ -66,7 +67,7 @@ const BarChartComponent = ({ barChartData }) => {
       <BarChart
         width={600}
         height={183}
-        data={data}
+        data={dataForThePieChart}
         margin={{ top: 0, right: 72, bottom: 0, left: -20 }}
         barSize={30}
         //    style={{border:"1px solid blue"}}
@@ -76,7 +77,7 @@ const BarChartComponent = ({ barChartData }) => {
       >
         <YAxis
           padding={{ top: 20, bottom: 5 }}
-          tickCount={data.length + 1}
+          tickCount={dataForThePieChart.length + 1}
           tickSize={0}
           minTickGap={1}
           domain={[0, "dataMax + 2"]}
@@ -95,7 +96,7 @@ const BarChartComponent = ({ barChartData }) => {
           dataKey="name"
           scale="point"
           interval={0}
-          angle={propsData.length < 6 ? 0 : propsData.length >=10 ? 20 : 0 }
+          angle={dataForThePieChart.length < 6 ? 0 : dataForThePieChart.length >=10 ? 20 : 0 }
           tickMargin={1}
           
         />

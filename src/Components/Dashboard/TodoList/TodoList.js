@@ -12,21 +12,56 @@ import totalNoOfActiveConnectors from "../../../Assets/Img/Total no.of active co
 import totalNoOfDatasets from "../../../Assets/Img/Total no.of datasets icon.svg";
 import totalNoOfParticipants from "../../../Assets/Img/Total no.of participants icon.svg";
 import updateBrandingDetails from "../../../Assets/Img/Update branding details icon.svg";
+import HTTPService from '../../../Services/HTTPService'
 
 
-const TodoList = ({allDashboardDetails}) => {
-  const [todoListSmallBoxData, setTodoListSmallBoxData] = useState([{imgUrl:organizationDetails, title:labels.en.dashboard.organisation_details},{imgUrl:addTeamMembers, title:labels.en.dashboard.add_team_members},{imgUrl:inviteMembers, title:labels.en.dashboard.invite_members},{imgUrl:updateBrandingDetails, title:labels.en.dashboard.update_branding_details}])
+const TodoList = () => {
+  // let {total_participants} = 
   
-  const [totalListDetails, setTotalListDetails] = useState([{imgUrl:totalNoOfParticipants, title:labels.en.dashboard.total_no_of_participants,value:15},{imgUrl:totalNoOfDatasets, title:labels.en.dashboard.total_no_of_datasets,value:5012},{imgUrl:totalNoOfActiveConnectors, title:labels.en.dashboard.total_no_of_active_connectors,value:193},{imgUrl:totalAmountOfDataExchange, title:labels.en.dashboard.total_amount_of_data_exchange,value:50,valueUnit:"Gbs"}])
+  const [todoListSmallBoxData, setTodoListSmallBoxData] = useState([{imgUrl:organizationDetails, title:labels.en.dashboard.organisation_details, click : "settings/2"},{imgUrl:addTeamMembers, title:labels.en.dashboard.add_team_members, click:"settings/addmember"},{imgUrl:inviteMembers, title:labels.en.dashboard.invite_members, click:"participants/invite"},{imgUrl:updateBrandingDetails, title:labels.en.dashboard.update_branding_details, click:"settings/5"}])
+  
+  // const [totalListDetails, setTotalListDetails] = useState([])
+  const [totalListDetails, setTotalListDetails] = useState([])
   const {to_do_list} = labels.en.dashboard;
-  useEffect(()=>{
-    if(allDashboardDetails!==null){
-       const {totalNoOfParticipants, totalNoOfDatasets, totalNoOfActiveConnectors, totalAmountOfDataExchange} = allDashboardDetails;
-       setTotalListDetails([totalNoOfParticipants, totalNoOfDatasets, totalNoOfActiveConnectors, totalAmountOfDataExchange]);
 
-    }else{
-      console.log("problem in fetching Dashboard data from backend")
-    }
+  const getData = ()=>{
+    let method = "GET";
+    let url = "https://4346-106-51-85-143.in.ngrok.io" + "/datahub/dashboard/";
+    let data = "";
+    HTTPService(
+      method,
+      url,
+      data,
+      false,
+      true,
+    )
+    .then((res)=>{
+      console.log(res.data, "RESPONSE")
+
+      let data = [{imgUrl:totalNoOfParticipants, title:labels.en.dashboard.total_no_of_participants,value:res.data.total_participants},{imgUrl:totalNoOfDatasets, title:labels.en.dashboard.total_no_of_datasets,value:res.data.total_datasets},{imgUrl:totalNoOfActiveConnectors, title:labels.en.dashboard.total_no_of_active_connectors,value:res.data.active_connectors},{imgUrl:totalAmountOfDataExchange, title:labels.en.dashboard.total_amount_of_data_exchange,value:res.data.total_data_exchange.total_data,valueUnit:res.data.total_data_exchange.unit}]
+
+
+      setTotalListDetails([...data])
+    })
+    .catch((e)=>{
+      console.log("Error", e)
+    })
+  }
+
+
+  useEffect(()=>{
+    getData()
+    // if(allDashboardDetails!==null){
+    //   //  const {totalNoOfParticipants, totalNoOfDatasets, totalNoOfActiveConnectors, totalAmountOfDataExchange} = allDashboardDetails;
+    //   //  setTotalListDetails([totalNoOfParticipants, totalNoOfDatasets, totalNoOfActiveConnectors, totalAmountOfDataExchange]);
+    //   // console.log("Verified", allDashboardDetails)
+    //   // let data = [{imgUrl:totalNoOfParticipants, title:labels.en.dashboard.total_no_of_participants,value:15},{imgUrl:totalNoOfDatasets, title:labels.en.dashboard.total_no_of_datasets,value:5012},{imgUrl:totalNoOfActiveConnectors, title:labels.en.dashboard.total_no_of_active_connectors,value:193},{imgUrl:totalAmountOfDataExchange, title:labels.en.dashboard.total_amount_of_data_exchange,value:50,valueUnit:"Gbs"}];
+    //   // console.log("DATTTTTTTTTTTTTA", data)
+    //   // setTotalListDetails([...data])
+    // }else{
+    //   console.log("problem in fetching Dashboard data from backend")
+  // console.log("GOT",totalparticipant)
+  // }
   },[])
   return (
     <div>

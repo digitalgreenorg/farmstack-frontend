@@ -105,7 +105,18 @@ export const GetErrorHandlingRoute = (e) => {
     errorMessage = e.response.data.message
   }
   else if (e.response && e.response.data){
-    errorMessage = String(e.response.data)
+    try{
+      JSON.parse(e.response.data)
+      errorMessage = String(e.response.data)
+    }
+    catch(e){
+      if (e.response){
+        errorMessage = e.response.statusText
+      }
+      else{
+        errorMessage = 'Unknown'
+      }
+    }
   }
   else if (e.response){
     errorMessage = e.response.statusText
@@ -228,3 +239,9 @@ export const mobileNumberMinimunLengthCheck = (number) =>{
   return number.length>=10
 }
 
+export function toTitleCase(str) {
+
+      return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ""
+    
+  
+}
