@@ -22,7 +22,7 @@ const TodoListBigBox = ({ totalDetail }) => {
       <span className={styles.todoListBigBoxLowerValues}>
         
         {/* <Tooltip title={totalDetail.value}> */}
-        <span className="text_overflow_ellipsis_overflow_hidden width270px" style={{ height: "54px", width:"86px"}}> {totalDetail.value} <span
+        <span className="text_overflow_ellipsis_overflow_hidden width270px" style={{ height: "54px", width:"90px"}}> {totalDetail.value} <span
           style={{
             fontSize: "18px",
             // border: "1px solid blue",
