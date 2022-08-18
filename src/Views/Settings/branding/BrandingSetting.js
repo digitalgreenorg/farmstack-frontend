@@ -145,7 +145,7 @@ export default function BrandingSetting(props) {
       {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handleBrandSettingSubmit}>
         <Row>
-          <span className="title">Customize Design</span>
+          <span className="title">Customize design</span>
         </Row>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6} className="bannerdrag">
@@ -155,7 +155,7 @@ export default function BrandingSetting(props) {
               types={fileTypes}
               children={
                 <UploadOrgBanner
-                  uploaddes="Size should be '1400pixels X 220 pixels' 2MB only"
+                  uploaddes="Size must be '1300 x 220 pixels' with a maximum of 2MB."
                   uploadtitle="Upload your banner image here"
                 />
               }
@@ -192,7 +192,7 @@ export default function BrandingSetting(props) {
           </Col>
         </Row>
         <Row>
-          <span className="title">Button Color</span>
+          <span className="title">Button color</span>
         </Row>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>

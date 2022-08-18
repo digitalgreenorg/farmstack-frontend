@@ -746,8 +746,8 @@ export default function OrganisationSetting(props) {
               types={fileTypes}
               children={
                 <UploadOrgBanner
-                  uploaddes="Supports: JPEG, PNG not more than 2MB file size"
-                  uploadtitle="Upload logo"
+                  uploaddes="JPEG and PNG files upto 2MB are supoorted"
+                  uploadtitle="Upload the company's logo"
                 />
               }
             />

@@ -1,10 +1,14 @@
 import React from "react";
 
-export default function UploadOrgBanner() {
+export default function UploadOrgBanner(props) {
   return (
     <div>
       <div className="BannerOrgupload">
-        <p className="uploadtitle">Upload your banner image here</p>
+        <p className="uploadtitle">
+          {props.uploadtitle
+            ? props.uploadtitle
+            : "Upload your banner image here"}
+        </p>
         <div className="uploadBannerimg">
           <svg
             width="71"
@@ -54,7 +58,9 @@ export default function UploadOrgBanner() {
           your files
         </p>
         <p style={{ color: "#A3B0B8" }}>
-          Size must be "1300 x 220 pixels," with a maximum size of 2MB.
+          {props.uploaddes
+            ? props.uploaddes
+            : "Size must be '1300 x 220 pixels' with a maximum size of 2MB."}
         </p>
       </div>
     </div>
