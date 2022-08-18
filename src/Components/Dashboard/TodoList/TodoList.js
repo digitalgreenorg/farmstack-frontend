@@ -40,7 +40,7 @@ const TodoList = () => {
       console.log(res.data, "RESPONSE")
 
       let data = [{imgUrl:totalNoOfParticipants, title:labels.en.dashboard.total_no_of_participants,value:res.data.total_participants},{imgUrl:totalNoOfDatasets, title:labels.en.dashboard.total_no_of_datasets,value:res.data.total_datasets},{imgUrl:totalNoOfActiveConnectors, title:labels.en.dashboard.total_no_of_active_connectors,value:res.data.active_connectors},{imgUrl:totalAmountOfDataExchange, title:labels.en.dashboard.total_amount_of_data_exchange,value:res.data.total_data_exchange.total_data,valueUnit:res.data.total_data_exchange.unit}]
-
+      
 
       setTotalListDetails([...data])
     })

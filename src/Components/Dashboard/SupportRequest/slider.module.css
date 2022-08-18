@@ -8,9 +8,10 @@
 .supportRequestDetailTopThreeBlocks{
     display: flex;
     justify-content: space-between;
-    border: 1px solid #E4E4E4;
+    border: 0.1px solid #E4E4E4;
     height: 98px;
     margin-bottom: 21px;
+    transform: matrix(1, 0, 0, 1, 0, 0);;
 }
 .supportRequestDetailTopThreeBlockEach{
     display: flex;
@@ -35,6 +36,8 @@
     font-weight: 700;
     /* color: #585D60; */
     color: #3D4A52;
+    font-weight: 400;
+    /* text-transform:capitalize; */
 }
 
 .secondHeading{
@@ -75,7 +78,7 @@
     font-size: 14px;
     line-height: 19px;
     margin-bottom: 5px;
-
+    /* text-transform:; */
 }
 
 .viewDetailsButton{
@@ -89,4 +92,8 @@ color: #C09507;
 width: 116px;
 height: 34px;
 
+}
+
+.text-transform-capital{
+    text-transform: capitalize;
 }

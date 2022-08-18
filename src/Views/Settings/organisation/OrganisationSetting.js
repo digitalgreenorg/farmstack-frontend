@@ -452,6 +452,7 @@ export default function OrganisationSetting(props) {
 
   const handlepincode = (e) => {
     console.log(e.target.value);
+    if (e.target.value > 10) e.target.value = e.target.value.substring(0,10)
     var pincode = e.target.value;
     if (pincode.length > 0) {
       setispincodeerror(false);
@@ -692,7 +693,7 @@ export default function OrganisationSetting(props) {
               className="email"
               label={screenlabels.org_settings.pincode}
               onKeyDown={(e) => {
-                if (e.key == "-" || e.key == "e" || e.key == "+") {
+                if (e.key == "-" || e.key == "e" || e.key == "E" || e.key == "+") {
                   e.preventDefault();
                 }
               }}
