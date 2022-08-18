@@ -54,7 +54,7 @@ export default function UploadOrgBanner() {
           your files
         </p>
         <p style={{ color: "#A3B0B8" }}>
-          Size should be ‘1300pixels X 220 pixels’ 2MB only
+          Size must be "1300 x 220 pixels," with a maximum size of 2MB.
         </p>
       </div>
     </div>

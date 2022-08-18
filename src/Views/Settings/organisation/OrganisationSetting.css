@@ -18,7 +18,7 @@
   margin-top: 5%;
   margin-left: 10%;
 }
-.orgsetting .website{
+.orgsetting .website {
   width: 80% !important;
   margin-top: 5%;
   margin-left: 10%;
@@ -70,14 +70,14 @@
 }
 
 .BannerOrgupload {
-  width: 100%;
+  /* width: 100%; */
 
   background: #ffffff;
   border: 1px dashed #d8af28;
   border-radius: 2px;
   margin-top: 8%;
-  margin-left: 27%;
-  width: 250%;
+  margin-left: 30%;
+  width: 210%;
   height: 218px;
 }
 .BannerOrgupload .uploadtitle {

@@ -708,7 +708,7 @@ export default function OrganisationSetting(props) {
           style={{ marginTop: "20px", textAlign: "left", marginLeft: "-25px" }}>
           <Col xs={12} sm={12} md={12} lg={12}>
             <span className="orgdestitle">
-              Organization Description<sup>*</sup>
+              Organization description<sup>*</sup>
             </span>
           </Col>
         </Row>
