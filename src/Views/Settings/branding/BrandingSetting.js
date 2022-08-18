@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import "./BrandingSetting.css";
 import Button from "@mui/material/Button";
 import { FileUploader } from "react-drag-drop-files";
-import UploadOrgBanner from "../organisation/UploadOrgBanner";
+import UploadBrandBanner from "./UploadBrandBanner";
 
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
@@ -148,13 +148,13 @@ export default function BrandingSetting(props) {
           <span className="title">Customize design</span>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={6} lg={6} className="bannerdrag">
+          <Col xs={12} sm={12} md={6} lg={6}>
             <FileUploader
               handleChange={handleBannerFileChange}
               name="file"
               types={fileTypes}
               children={
-                <UploadOrgBanner
+                <UploadBrandBanner
                   uploaddes="Size must be '1300 x 220 pixels' with a maximum of 2MB."
                   uploadtitle="Upload your banner image here"
                 />
