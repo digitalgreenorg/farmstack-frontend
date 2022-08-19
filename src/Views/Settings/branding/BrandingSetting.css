@@ -23,3 +23,21 @@
   padding-left: 15%;
   padding-top: 5%;
 }
+.brandingBannerupload {
+  border: 1px dashed #d8af28;
+  background: #ffffff;
+  border: 1px dashed #d8af28;
+  border-radius: 2px;
+  margin-top: 8%;
+  margin-left: 29%;
+  width: 230%;
+  height: 218px;
+}
+.brandingBannerupload .uploadtitle {
+  padding-top: 1%;
+}
+.brandingBannerupload .uploadorgimgname {
+  text-align: center;
+  margin-left: 70%;
+  width: 100%;
+}

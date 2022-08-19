@@ -502,7 +502,7 @@ export default function DataSetForm(props) {
             types={fileTypes}
             children={
               <UploadDataset
-                uploaddes="Supports: CSV, Excel formats not more than 2MB file size"
+                uploaddes="Supports CSV and Excel file formats upto 2MB "
                 uploadtitle="Upload Dataset"
               />
             }

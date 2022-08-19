@@ -1,9 +1,10 @@
 import React from "react";
+import "./BrandingSetting.css";
 
-export default function UploadOrgBanner(props) {
+export default function UploadBrandBanner(props) {
   return (
     <div>
-      <div className="BannerOrgupload">
+      <div className="brandingBannerupload">
         <p className="uploadtitle">
           {props.uploadtitle
             ? props.uploadtitle

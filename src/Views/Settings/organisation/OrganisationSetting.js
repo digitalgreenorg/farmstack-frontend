@@ -709,7 +709,7 @@ export default function OrganisationSetting(props) {
           style={{ marginTop: "20px", textAlign: "left", marginLeft: "-25px" }}>
           <Col xs={12} sm={12} md={12} lg={12}>
             <span className="orgdestitle">
-              Organization Description<sup>*</sup>
+              Organization description<sup>*</sup>
             </span>
           </Col>
         </Row>
@@ -747,8 +747,8 @@ export default function OrganisationSetting(props) {
               types={fileTypes}
               children={
                 <UploadOrgBanner
-                  uploaddes="Supports: JPEG, PNG not more than 2MB file size"
-                  uploadtitle="Upload logo"
+                  uploaddes="JPEG and PNG files upto 2MB are supoorted"
+                  uploadtitle="Upload the company's logo"
                 />
               }
             />
