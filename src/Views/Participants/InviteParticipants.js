@@ -14,7 +14,7 @@ import RichTextEditor from "react-rte";
 import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/style.css';
 import Loader from '../../Components/Loader/Loader';
-import GetErrorHandlingRoute from '../../Utils/Common';
+import {GetErrorHandlingRoute, GetErrorKey} from '../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
     marginrowtop: { "margin-top": "20px" },
@@ -35,6 +35,10 @@ function InviteParticipants(props) {
     const [editorValue, setEditorValue] = React.useState(
         RichTextEditor.createValueFromString(orgdesc, "html")
     );
+
+    const[emailErrorMessage, setEmailErrorMessage] = useState(null)
+    const[descriptionErrorMessage,setDescriptionErrorMessage]= useState(null)
+
     const toolbarConfig = {
         // Optionally specify the groups to display (displayed in the order listed).
         display: [
@@ -65,6 +69,9 @@ function InviteParticipants(props) {
             'to_email':emails,
             'content': orgdesc
         }
+        setDescriptionErrorMessage(null)
+        setEmailErrorMessage(null)
+
         setIsLoader(true);
         HTTPService('POST', UrlConstants.base_url + UrlConstants.inviteparticipant, data, false, true).then((response) => {
             setIsLoader(false);
@@ -72,7 +79,20 @@ function InviteParticipants(props) {
             setisSuccess(true)
         }).catch((e) => {
             setIsLoader(false);
-            history.push(GetErrorHandlingRoute(e));
+            var returnValues = GetErrorKey(e, Object.keys(data))
+            var errorKeys = returnValues[0]
+            var errorMessages = returnValues[1]
+            if (errorKeys.length > 0){
+                for (var i=0; i<errorKeys.length; i++){
+                    switch(errorKeys[i]){
+                    case "to_email": setEmailErrorMessage(errorMessages[i]); break;
+                    case "content": setDescriptionErrorMessage(errorMessages[i]); break;
+                    }
+                }
+            }
+            else{
+                history.push(GetErrorHandlingRoute(e))
+            } 
         });
     }
     const handleOrgDesChange = (value) => {
@@ -116,6 +136,8 @@ function InviteParticipants(props) {
                                     </div>
                                 );
                             }}
+                            error = {setEmailErrorMessage ? true : false}
+                            helperText = {setEmailErrorMessage}
                         />
                     </Col>
                 </Row>
@@ -146,6 +168,8 @@ function InviteParticipants(props) {
                                 border: "1px solid black",
                                 zIndex: 4,
                             }}
+                            error = {setDescriptionErrorMessage ? true : false}
+                            helperText = {setDescriptionErrorMessage}
                         />
                     </Col>
                 </Row>

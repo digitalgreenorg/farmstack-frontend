@@ -5,6 +5,7 @@ import OtpCountDownTimer from './OtpCountDownTimer'
 import './SignupEmail.css'
 import './SignupOTP.css'
 import Footerimg from '../../Components/signup/Footerimg'
+import Footer from '../Footer/Footer'
 
 export default function SignupOtp(props) {
   return (
@@ -14,21 +15,17 @@ export default function SignupOtp(props) {
         <TextField
           type="number"
           id="filled-basic"
+          maxLength={6}
           inputProps={{ maxLength: 6 }}
           label="Enter 6 Digit OTP"
           variant="filled"
           className="signupotp"
           onChange={props.handleOtp}
+          //value={props.otpValue}
+          onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == 'E' || e.key == '+') {e.preventDefault()}}}
           inputRef={props.otp}
           error={props.isOtperror || props.isuserSuspenderror}
-          helperText={
-            // props.isuserSuspenderror ? "user invaliad" : ""
-            props.isOtperror
-              ? 'Enter vaild OTP'
-              : props.isuserSuspenderror
-              ? 'Maximum attempts taken, please retry after some time'
-              : ''
-          }
+          helperText={(props.isOtperror || props.isuserSuspenderror) ? props.errormessage : ""}
         />
         <div>
           {props.button ? (
@@ -45,9 +42,15 @@ export default function SignupOtp(props) {
             restartcounter={props.restartcounter}
             disable={props.disable}
             setDisable={props.setDisable}
+            remainingCounterTime={props.remainingCounterTime}
+            setRemainingCounterTime = {props.setRemainingCounterTime}
           />
         </div>
       </form>
+      <div style={{position:"absolute", top:"770px"}}>
+
+      <Footer />
+      </div>
     </div>
   )
 }

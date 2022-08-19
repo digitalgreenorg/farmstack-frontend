@@ -11,13 +11,13 @@ import labels from "../../Constants/labels";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
-import { getUserLocal } from "../../Utils/Common";
+import { flushLocalstorage, getUserLocal } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
-import GetErrorHandlingRoute from "../../Utils/Common";
+import {GetErrorHandlingRoute} from "../../Utils/Common";
 
 const Navbar = (props) => {
   const [profile, setprofile] = useState(null);
@@ -53,7 +53,7 @@ const Navbar = (props) => {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        history.push(GetErrorHandlingRoute(e));
+        //history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -63,8 +63,11 @@ const Navbar = (props) => {
 
   const handleLogout = (e) => {
     e.preventDefault();
+    flushLocalstorage();
+    /*
     localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
     localStorage.removeItem(LocalStorageConstants.KEYS.user);
+    */
     history.push("/login");
   };
   return (
@@ -78,6 +81,20 @@ const Navbar = (props) => {
           style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
         />
         <NavMenu>
+      
+          <NavLink to="/datahub/dashboard" activeStyle>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/bolddashboard.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/lightdashboard.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.Dashboard}
+          </NavLink>
           <NavLink to="/datahub/participants" activeStyle>
             <img
               className="boldimage"
@@ -90,6 +107,19 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.Participants}
+          </NavLink>
+          <NavLink to="/datahub/datasets" activeStyle>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/dataset_bold.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/datasets.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.datasets}
           </NavLink>
           <NavLink to="/datahub/support" activeStyle>
             <img

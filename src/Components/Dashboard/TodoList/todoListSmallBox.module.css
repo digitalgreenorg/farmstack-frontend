@@ -1,0 +1,34 @@
+.positionabsoluteandwidth310andheight130andleft70andtop167{
+    /* position: absolute; */
+    width: 310px;
+    height: 130px;
+    /* display: inline-block */
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    border: 1px solid #FFDB64;
+    box-sizing: border-box;
+    margin: 10px;
+    background-color: #FFFFFF;
+}
+
+.todoListImg{
+    height: 76.58px;
+    width: 90px;
+    margin: 26.71px 40px 26.71px 20px;
+    
+}
+
+.todoListTitle{
+    /* width: 109px; */
+    /* height: 60px; */
+    font-size: 18px;
+    margin: 36px 0px 34px 0px;
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 400;
+    text-align: left;
+    /* color: red; */
+
+
+}

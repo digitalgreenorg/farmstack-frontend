@@ -2,6 +2,9 @@
   position: absolute;
   width: 148.92px;
   height: 126.01px;
-  left: 1300.09px;
-  top: 740px;
+  /* left: 1300.09px; */
+  z-index: 10;
+  right: 0%;
+  bottom: 0%;
+  /* border: 1px solid red; */
 }

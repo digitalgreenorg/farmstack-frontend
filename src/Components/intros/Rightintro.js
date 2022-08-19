@@ -7,7 +7,7 @@ export default function Rightintro() {
     <div>
       <img src={Farmstack} alt="FarmStack" className="rightimg" />
       <h3 className="rightcontent">
-        Sign your organization up in just a few steps.
+        Sign your organisation up in just a few steps.
       </h3>
     </div>
   );

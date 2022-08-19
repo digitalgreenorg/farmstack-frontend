@@ -1,0 +1,12 @@
+.mainBarGraph {
+  font-family: Open Sans;
+  color: #3d4a52;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  margin-top: 30px;
+  /* border: 1px solid red; */
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

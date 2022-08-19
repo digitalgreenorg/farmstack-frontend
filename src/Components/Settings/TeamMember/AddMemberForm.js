@@ -37,6 +37,8 @@ export default function AddMemberForm(props) {
                         label={screenlabels.settings.first_name}
                         value={props.firstname}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setfirstname(e.target.value.trim()) : e.preventDefault() }
+                        error={props.firstNameErrorMessage ? true : false}
+                        helperText = {props.firstNameErrorMessage}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
@@ -48,6 +50,9 @@ export default function AddMemberForm(props) {
                         value={props.lastname}
                         // onKeyDown={(e) => validateInputField(e.key,RegexConstants.APLHABET_REGEX)?"":e.preventDefault()}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setlastname(e.target.value.trim()) : e.preventDefault() }
+
+                        error={props.lastNameErrorMessage ? true : false}
+                        helperText = {props.lastNameErrorMessage}
                     />
                 </Col>
             </Row>
@@ -61,8 +66,11 @@ export default function AddMemberForm(props) {
                         label={screenlabels.settings.email}
                         value={props.useremail}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setuseremail(e.target.value.trim()) : e.preventDefault()}
-                        error={props.isuseremailerror || props.isexistinguseremail}
-                        helperText={props.isuseremailerror ? "Enter Valid Email id" : props.isexistinguseremail ? "User is already registered with this email ID" : ""}
+                        error={props.isuseremailerror || props.isexistinguseremail || props.emailErrorMessage}
+                        helperText={(props.isuseremailerror && !props.emailErrorMessage) ? 
+                                    "Enter Valid Email id" : 
+                                    (props.isexistinguseremail && !props.emailErrorMessage) 
+                                    ? "User is already registered with this email ID" : props.emailErrorMessage}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} >

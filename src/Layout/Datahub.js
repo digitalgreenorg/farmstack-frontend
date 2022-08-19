@@ -17,18 +17,24 @@ import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
 import Settings from "../Views/Settings/Settings/Settings";
 import Support from "../Views/Support/Support";
 import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
+import DatasetAdmin from '../Views/Dataset/DatasetAdmin/DatasetAdmin'
 import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
-import { getTokenLocal } from "../Utils/Common";
+import { getTokenLocal,isLoggedInUserAdmin } from "../Utils/Common";
+import SampleDataSet from "../Views/Support/SampleDataSet";
+import Footer from "../Components/Footer/Footer";
+import Dashboard from "../Views/Dashboard/Dashboard";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
   // }, []);
   return (
     <>
-      {getTokenLocal() ? (
-        <>
+      {(getTokenLocal() && isLoggedInUserAdmin())? (
+        <div className="center_keeping_conatiner">
+
           <Navbar />
+          <div className="minHeight67vhDatahubPage">
           <Switch>
             <Route
               exact
@@ -47,6 +53,12 @@ function Datahub(props) {
             />
             <Route
               exact
+              path="/datahub/dashboard"
+              component={Dashboard}
+            />
+
+            <Route
+              exact
               path="/datahub/participants/invite"
               component={InviteParticipants}
             />
@@ -55,10 +67,10 @@ function Datahub(props) {
               path="/datahub/participants"
               component={Participants}
             />
-            <Route exact path="/datahub/dataset/add" component={AddDataset} />
+            <Route exact path="/datahub/datasets/add" component={AddDataset} />
             <Route
               exact
-              path="/datahub/dataset/edit/:id"
+              path="/datahub/datasets/edit/:id"
               component={EditDataset}
             />
             <Route
@@ -73,8 +85,12 @@ function Datahub(props) {
             />
             <Route exact path="/datahub/settings/:id" component={Settings} />
             <Route exact path="/datahub/support" component={Support} />
+            {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
+            <Route exact path="/datahub/datasets" component={DatasetAdmin}/>
           </Switch>
-        </>
+          </div>
+          <Footer/>
+        </div>
       ) : (
         props.history.push("/login")
       )}

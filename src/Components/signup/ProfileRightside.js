@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./profile.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -7,6 +7,7 @@ import Footerimg from "../../Components/signup/Footerimg";
 
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
+import Footer from "../Footer/Footer";
 
 // import "react-phone-input-2/lib/material.css";
 
@@ -134,10 +135,50 @@ export default function ProfileRightside(props) {
   //   setValidnumber(value);
   // };
 
+  const [isLoader, setIsLoader] = useState(false);
+
+  useEffect(() => {
+    var id = props.userid;
+    setIsLoader(true);
+    HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.profile + id + "/",
+      "",
+      false,
+      true,
+      props.isaccesstoken
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("otp valid", response.data);
+        if (response.data) {
+          // let addressdata=JSON.parse(response.data.organization.address)
+          props.setProfileFirstName(
+            response.data.first_name ? response.data.first_name : ""
+          );
+          props.setProfileLastName(
+            response.data.last_name ? response.data.last_name : ""
+          );
+          props.setValidnumber(
+            response.data.phone_number ? response.data.phone_number : ""
+          );
+
+          if (response.data.first_name && response.data.first_name.length > 0) {
+            props.setprofilenextbutton(true);
+          }
+        }
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        console.log(e);
+        //history.push(GetErrorHandlingRoute(e));
+      });
+  }, []);
+
   return (
     <>
-    <Footerimg />
-      <div className="profileheader">Profile Details</div>
+      <Footerimg />
+      <div className="profileheader">Profile details</div>
       <div>
         <form
           noValidate
@@ -145,18 +186,23 @@ export default function ProfileRightside(props) {
           onSubmit={props.handleprofileSubmit}>
           <div className="profilefirstname">
             <TextField
-            required
+              required
               id="filled-basic"
               label="First Name"
               variant="filled"
               style={{ width: "420px" }}
               //   className="profilefirstname"
               onChange={props.handleprofilfirstename}
-              inputRef={props.profilefirstname}
-              error={props.ispropfilefirstnameerror}
-              helperText={
-                props.ispropfilefirstnameerror ? "Enter Valid Name" : ""
+              //inputRef={props.profilefirstname}
+              error={
+                props.ispropfilefirstnameerror || props.firstNameErrorMessage
               }
+              helperText={
+                props.ispropfilefirstnameerror
+                  ? "Enter Valid Name"
+                  : props.firstNameErrorMessage
+              }
+              value={props.profilefirstname}
             />
           </div>
           <div className="profilelastname">
@@ -167,11 +213,16 @@ export default function ProfileRightside(props) {
               style={{ width: "420px" }}
               //   className="profilelastname"
               onChange={props.handleprofilelastname}
-              inputRef={props.profilelastname}
-              error={props.ispropfilelastnameerror}
-              helperText={
-                props.ispropfilelastnameerror ? "Enter Valid last name" : ""
+              //inputRef={props.profilelastname}
+              error={
+                props.ispropfilelastnameerror || props.lastNameErrorMessage
               }
+              helperText={
+                props.ispropfilelastnameerror
+                  ? "Enter Valid last name"
+                  : props.lastNameErrorMessage
+              }
+              value={props.profilelastname}
             />
           </div>
           <div className="profileemail">
@@ -186,6 +237,9 @@ export default function ProfileRightside(props) {
               inputProps={{ readOnly: true }}
               defaultValue={props.validemail}
               disabled
+              error={props.emailErrorMessage ? true : false}
+              helperText={props.emailErrorMessage}
+
               // error={props.ispropfileemailerror}
               // helperText={
               //   props.ispropfileemailerror ? "Enter Valid Email id" : ""
@@ -195,11 +249,15 @@ export default function ProfileRightside(props) {
           <div className="profilenumber">
             <MuiPhoneNumber
               defaultCountry={"in"}
+              countryCodeEditable={false}
               style={{ width: "420px" }}
               id="filled-basic"
               label="Contact Number"
               variant="filled"
               onChange={props.handleprofilenumber}
+              error={props.phoneNumberErrorMessage ? true : false}
+              helperText={props.phoneNumberErrorMessage}
+              value={props.profilephone}
               // error={ispropfilenumbererror}
               // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />
@@ -217,11 +275,18 @@ export default function ProfileRightside(props) {
           </div>
 
           <div>
-            <Button variant="outlined" className="finishlaterbtn" type="button" onClick={props.finishLaterProfileScreen}>
-              Finish Later
+            <Button
+              variant="outlined"
+              className="finishlaterbtn"
+              type="button"
+              onClick={props.finishLaterProfileScreen}>
+              Finish later
             </Button>
           </div>
         </form>
+        <div style={{ position: "absolute", top: "1000px" }}>
+          <Footer />
+        </div>
       </div>
     </>
   );

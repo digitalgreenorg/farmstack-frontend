@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+/* eslint-disable eqeqeq */
+import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
 
 import $ from "jquery";
-import GetErrorHandlingRoute, {
+import {
+  GetErrorHandlingRoute,
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
   getUserMapId,
+  GetErrorKey,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../Constants/ColorConstants";
@@ -33,6 +36,18 @@ const useStyles = {
 };
 
 export default function AddDataset(props) {
+  useEffect(() => {
+    setTimeout(() => {
+      $(".addDatasetFromdate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+    }, 100);
+  }, []);
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -52,8 +67,19 @@ export default function AddDataset(props) {
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
   const [todate, settodate] = React.useState(null);
+  const [CheckEndDate, setCheckEndDate] = useState(false);
 
   const [file, setFile] = useState(null);
+  const [fileValid, setfileValid] = useState("");
+
+  const [nameErrorMessage, setnameErrorMessage] = useState(null)
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
+  const [categoryErrorMessage, setCategoryErrorMessage] = useState(null)
+  const [geographyErrorMessage, setGeographyErrorMessage] = useState(null)
+  const [cropDetailErrorMessage, setCropDetailErrorMessage] = useState(null)
+  const [ageErrorMessage, setAgeErrorMessage] = useState(null)
+  const [dataCaptureStartErrorMessage, setDataCaptureStartErrorMessage]= useState(null)
+  const [dataCaptureEndErrorMessage,setDataCaptureEndErrorMessage]= useState(null)
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -65,6 +91,16 @@ export default function AddDataset(props) {
     console.log("clicked on add dataset submit btn");
     var id = getUserMapId();
     console.log("user id", id);
+
+    setnameErrorMessage(null); 
+    setDescriptionErrorMessage(null);
+    setCategoryErrorMessage(null);
+    setGeographyErrorMessage(null); 
+    setCropDetailErrorMessage(null);
+    setAgeErrorMessage(null);
+    setDataCaptureStartErrorMessage(null); 
+    setDataCaptureEndErrorMessage(null); 
+    setfileValid(null); 
 
     var bodyFormData = new FormData();
     bodyFormData.append("name", datasetname);
@@ -79,16 +115,26 @@ export default function AddDataset(props) {
         cultivation_data: Cultivation_data,
         soil_data: Soil_data,
         weather_data: Weather_data,
+        research_data: Research_data,
       })
     );
     bodyFormData.append("geography", Geography);
-    bodyFormData.append("crop_detail", cropdetail);
+    if (cropdetail == null) {
+      bodyFormData.append("crop_detail", "");
+    } else {
+      bodyFormData.append("crop_detail", cropdetail);
+    }
     bodyFormData.append("constantly_update", Switchchecked);
-    bodyFormData.append("age_of_date", value);
-    if (fromdate != null) {
+    // bodyFormData.append("age_of_date", value);
+    if (Switchchecked == true) {
+      bodyFormData.append("age_of_date", "");
+    } else {
+      bodyFormData.append("age_of_date", value);
+    }
+    if (fromdate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_start", fromdate.toISOString());
     }
-    if (todate != null) {
+    if (todate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_end", todate.toISOString());
     }
     if (file != null) {
@@ -97,6 +143,7 @@ export default function AddDataset(props) {
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
+    bodyFormData.append("approval_status", "approved");
 
     console.log("add dataset", bodyFormData);
     setIsLoader(true);
@@ -114,6 +161,31 @@ export default function AddDataset(props) {
       })
       .catch((e) => {
         setIsLoader(false);
+        console.log(e);
+        //console.log(e.response.data.sample_dataset[0]);
+        var returnValues = GetErrorKey(e, bodyFormData.keys())
+        var errorKeys = returnValues[0]
+        var errorMessages = returnValues[1]
+        if (errorKeys.length > 0){
+          for (var i=0; i<errorKeys.length; i++){
+            switch(errorKeys[i]){
+              case "name": setnameErrorMessage(errorMessages[i]); break;
+              case "description": setDescriptionErrorMessage(errorMessages[i]); break;
+              case "category": setCategoryErrorMessage(errorMessages[i]); break;
+              case "geography": setGeographyErrorMessage(errorMessages[i]); break;
+              case "crop_detail": setCropDetailErrorMessage(errorMessages[i]); break;
+              case "age_of_date": setAgeErrorMessage(errorMessages[i]); break;
+              case "data_capture_start": setDataCaptureStartErrorMessage(errorMessages[i]); break;
+              case "data_capture_end": setDataCaptureEndErrorMessage(errorMessages[i]); break;
+              case "sample_dataset": setfileValid(errorMessages[i]); break;
+              default: history.push(GetErrorHandlingRoute(e)); break;
+            }
+          }
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e))
+        }
+        //setfileValid(e.response.data.sample_dataset[0]);
         // history.push(GetErrorHandlingRoute(e));
       });
   };
@@ -133,36 +205,32 @@ export default function AddDataset(props) {
   };
   const handleFileChange = (file) => {
     setFile(file);
-    // setprofile_pic(file);
     console.log(file);
-    // if (file != null && file.size > 2097152) {
-    //   //   setBrandingnextbutton(false);
-    //   setaccfilesize(true);
-    // } else {
-    //   setaccfilesize(false);
-    // }
+    setfileValid("");
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    setreply(e.target.value);
+    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+      ? setreply(e.target.value)
+      : e.preventDefault();
   };
   const handledescriptionKeydown = (e) => {
     handleUnwantedSpace(reply, e);
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.GEO_SET_REGEX)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };
@@ -171,22 +239,25 @@ export default function AddDataset(props) {
     settodate(null);
     setfromdate(newValue);
     setTimeout(() => {
-      $(".supportcardtodate input.MuiInputBase-input").attr(
+      $(".addDatasetTodate input.MuiInputBase-input").attr(
         "disabled",
         "disabled"
       );
     }, 100);
+    setCheckEndDate(true);
   };
 
   const handleChangeToDate = (newValue) => {
     console.log(newValue);
     settodate(newValue);
+    setCheckEndDate(false);
   };
+
   //   switch
   const [Switchchecked, setSwitchchecked] = React.useState(false);
 
   const handleChangeSwitch = (event) => {
-    console.log(event.target.checked);
+    console.log("switch", event.target.checked);
     setSwitchchecked(event.target.checked);
   };
 
@@ -198,6 +269,7 @@ export default function AddDataset(props) {
   const [Cultivation_data, setCultivation_data] = React.useState(false);
   const [Soil_data, setSoil_data] = React.useState(false);
   const [Weather_data, setWeather_data] = React.useState(false);
+  const [Research_data, setResearch_data] = React.useState(false);
 
   const handleChangeCropData = (event) => {
     console.log(event.target.checked);
@@ -227,12 +299,16 @@ export default function AddDataset(props) {
     console.log(event.target.checked);
     setWeather_data(event.target.checked);
   };
+  const handleChangeResearchData = (event) => {
+    console.log(event.target.checked);
+    setResearch_data(event.target.checked);
+  };
   return (
     <>
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/datahub/participants")}
+          okevent={() => history.push("/datahub/datasets")}
           route={"datahub/participants"}
           imagename={"success"}
           btntext={"ok"}
@@ -262,6 +338,8 @@ export default function AddDataset(props) {
             handleChangeSoilData={handleChangeSoilData}
             Weather_data={Weather_data}
             handleChangeWeatherData={handleChangeWeatherData}
+            Research_data={Research_data}
+            handleChangeResearchData={handleChangeResearchData}
             Geography={Geography}
             handleChangeGeography={handleChangeGeography}
             cropdetail={cropdetail}
@@ -280,6 +358,15 @@ export default function AddDataset(props) {
             handleChangeAvailable={handleChangeAvailable}
             handleFileChange={handleFileChange}
             file={file}
+            fileValid={fileValid}
+            nameErrorMessage = {nameErrorMessage}
+            descriptionErrorMessage= {descriptionErrorMessage}
+            categoryErrorMessage={categoryErrorMessage}
+            geographyErrorMessage={geographyErrorMessage}
+            cropDetailErrorMessage={cropDetailErrorMessage}
+            ageErrorMessage={ageErrorMessage}
+            dataCaptureStartErrorMessage={dataCaptureStartErrorMessage}
+            dataCaptureEndErrorMessage={dataCaptureEndErrorMessage}
           />
 
           <Row>
@@ -288,14 +375,17 @@ export default function AddDataset(props) {
               {datasetname &&
               reply &&
               Geography &&
+              !CheckEndDate &&
               file &&
+              file.size < 2097152 &&
               (Crop_data == true ||
                 Practice_data == true ||
                 Farmer_profile == true ||
                 Land_records == true ||
                 Cultivation_data == true ||
                 Soil_data == true ||
-                Weather_data == true) ? (
+                Weather_data == true ||
+                Research_data) ? (
                 <Button
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
@@ -317,7 +407,7 @@ export default function AddDataset(props) {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/datahub/participants")}
+                onClick={() => history.push("/datahub/datasets")}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}

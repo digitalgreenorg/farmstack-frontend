@@ -4,6 +4,7 @@ import Leftintro from "../../Components/intros/Leftintro";
 import Rightintro from "../../Components/intros/Rightintro";
 import SignupEmail from "../../Components/signup/SignupEmail";
 import Footerimg from "../../Components/signup/Footerimg";
+import Footer from "../../Components/Footer/Footer";
 import SignupOtp from "../../Components/signup/SignupOtp";
 import "./Login.css";
 import validator from "validator";
@@ -22,13 +23,22 @@ import HandleSessionTimeout, {
   getUserLocal,
   setUserMapId,
   setOrgId,
+  setRoleLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserParticipant,
+  getRoleLocal,
+  getUserMapId,
+  GetErrorKey,
+  validateInputField,
 } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
 import { useHistory } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
-import GetErrorHandlingRoute from "../../Utils/Common";
-
+import { GetErrorHandlingRoute } from "../../Utils/Common";
+import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
+import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
+import RegexConstants from "../../Constants/RegexConstants";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -36,10 +46,12 @@ export default function Login(props) {
 
   const [verifyOtpbutton, setOtpButton] = useState(false);
   const otp = useRef();
+  const [otpValue, setOtpValue] = useState("");
   const [isOtperror, setOtpError] = useState(false);
   const [userSuspenderror, setuserSuspenderror] = useState(false);
   const [restartcounter, Setrestartcounter] = useState(0);
   const [disable, setDisable] = useState(true);
+  const [errormessage, setErrormessage] = useState("");
 
   const [validemail, Setvalidemail] = useState("");
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -50,7 +62,9 @@ export default function Login(props) {
   const [isOrg, setisOrg] = useState(false);
   const [isPolicies, setisPolicies] = useState(false);
   const [isBranding, setisBranding] = useState(false);
-  const [isaccesstoken, setisaccesstoken] = useState("");
+  const [isDataSet, setIsDataSet] = useState(false);
+  const [isaccesstoken, setisaccesstoken] = useState(false);
+  //const [userid, setUserId] = useState(false)
 
   const [orgName, setOrgName] = useState("");
   // const [orgEmail, setOrgEmail] = useState("")
@@ -58,14 +72,29 @@ export default function Login(props) {
   const [orgCity, setOrgCity] = useState("");
   const [orgPincode, setOrgPincode] = useState("");
   const [isExistingOrgEmail, setIsExistingOrgEmail] = useState(false);
+  const [orgId, setOrgIdState] = useState(null);
 
   const [profileid, setprofileid] = useState("");
+
+  const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
+  const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
+  const [orgPhoneNumberErrorMessage, setOrgPhoneNumberErrorMessage] =
+    useState(null);
+  const [orgDescriptionErrorMessage, setOrgDescriptionErrorMessage] =
+    useState(null);
+
+  const timerDuration = 120000;
+  const [remainingCounterTime, setRemainingCounterTime] =
+    useState(timerDuration);
 
   const history = useHistory();
 
   useEffect(() => {
-    if (getTokenLocal()) {
+    if (getTokenLocal() && isLoggedInUserAdmin()) {
       props.history.push("/datahub/participants");
+    }
+    if (getTokenLocal() && isLoggedInUserParticipant()) {
+      props.history.push("/participant/datasets");
     }
   }, []);
   const handleSubmit = async (e) => {
@@ -86,16 +115,7 @@ export default function Login(props) {
       };
 
       setIsLoader(true);
-      // await fetch(url, {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     email: finalEmail,
-      //   }),
-      // }).then((response) => {
+
       HTTPService("POST", url, data, false, false)
         .then((response) => {
           setIsLoader(false);
@@ -109,9 +129,11 @@ export default function Login(props) {
             setUserId(response.data.id);
             setEmail(false);
             setError(false);
+            setuserSuspenderror(false);
             setisOtp(true);
           } else {
             setError(true);
+            setuserSuspenderror(false);
           }
         })
         .catch((e) => {
@@ -120,10 +142,27 @@ export default function Login(props) {
           if (
             e.response != null &&
             e.response != undefined &&
-            e.response.status === 400
+            e.response.status === 401
           ) {
             setuserSuspenderror(false);
             setError(true);
+            setErrormessage(
+              e.response.data && e.response.data.message
+                ? e.response.data.message
+                : "User not registered"
+            );
+          } else if (
+            e.response != null &&
+            e.response != undefined &&
+            e.response.status === 403
+          ) {
+            setuserSuspenderror(true);
+            setError(false);
+            setErrormessage(
+              e.response.data && e.response.data.message
+                ? e.response.data.message
+                : "User suspended. Please try after sometime."
+            );
           } else {
             history.push(GetErrorHandlingRoute(e));
           }
@@ -133,7 +172,8 @@ export default function Login(props) {
   const handleEmail = (e) => {
     e.preventDefault();
     console.log(e.target.value);
-    if (e.target.value.length > 0) {
+    e.target.value = e.target.value.trim();
+    if (e.target.value.trim().length > 0) {
       setButton(true);
       setError(false);
     } else {
@@ -151,18 +191,6 @@ export default function Login(props) {
     if (!valid.match(numbers)) {
       setOtpError(true);
     } else {
-      // await fetch("https://d202-106-51-85-143.in.ngrok.io/accounts/otp/", {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     email: validemail,
-      //     otp: valid,
-      //   }),
-      // })
-      //   .then((response) => {
       setIsLoader(true);
       await HTTPService(
         "POST",
@@ -191,14 +219,26 @@ export default function Login(props) {
           // }
 
           if (response.status === 201) {
+            setRoleLocal(response.data.role);
+            setUserMapId(response.data.user_map);
+            setOrgId(response.data.org_id);
+            console.log(getRoleLocal());
+            console.log("isLoggedInUserAdmin(): " + isLoggedInUserAdmin());
+            console.log(
+              "isLoggedInUserParticipant(): " + isLoggedInUserParticipant()
+            );
+
             if (response.data.on_boarded) {
               setTokenLocal(response.data.access);
-
-              props.history.push("/datahub/participants");
+              if (isLoggedInUserAdmin()) {
+                props.history.push("/datahub/participants");
+              } else if (isLoggedInUserParticipant()) {
+                props.history.push("/participant/datasets");
+              }
             } else {
               setisaccesstoken(response.data.access);
-              setUserMapId(response.data.user_map);
-              setOrgId(response.data.org_id);
+
+              setOrgIdState(response.data.org_id);
               setOtpError(false);
               setisProfile(true);
               setisOtp(false);
@@ -212,14 +252,32 @@ export default function Login(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          console.log(e.response.status);
+          //console.log(e.response.status)
           setOtpError(true);
-          if (e.response.status === 403) {
+          if (
+            e.response != null &&
+            e.response != undefined &&
+            e.response.status === 401
+          ) {
+            setOtpError(true);
+            setuserSuspenderror(false);
+            setErrormessage(
+              e.response.data && e.response.data.message
+                ? e.response.data.message
+                : "Enter valid OTP"
+            );
+          } else if (
+            e.response != null &&
+            e.response != undefined &&
+            e.response.status === 403
+          ) {
             setuserSuspenderror(true);
             setOtpError(false);
-          }
-          if (e.response.status === 401) {
-            setOtpError(true);
+            setErrormessage(
+              e.response.data && e.response.data.message
+                ? e.response.data.message
+                : "Maximum attempts taken. Please try after sometime."
+            );
           } else {
             history.push(GetErrorHandlingRoute(e));
           }
@@ -229,9 +287,15 @@ export default function Login(props) {
 
   const handleOtp = (e) => {
     e.preventDefault();
-    const value = e.target.value;
+    let value = e.target.value;
     console.log(value);
-    if (e.target.value.length === 6) {
+    value = value.replace(/[^0-9]/g, "");
+    if (value.trim().length > 6) {
+      value = value.substring(0, 6);
+    }
+    e.target.value = value;
+    // setOtpValue(value)
+    if (value.trim().length === 6) {
       setOtpButton(true);
       setOtpError(false);
     } else {
@@ -246,6 +310,7 @@ export default function Login(props) {
     // SetCounterTimeout(false);
     // Setrestart(restart + 1);
     Setrestartcounter(restartcounter + 1);
+    setRemainingCounterTime(timerDuration);
     setDisable(true);
     // await fetch("https://80a5-106-51-85-143.in.ngrok.io/accounts/resend_otp/", {
     //   method: "POST",
@@ -265,7 +330,7 @@ export default function Login(props) {
         email: validemail,
       },
       false,
-      true
+      false
     )
       .then((response) => {
         setIsLoader(false);
@@ -274,14 +339,35 @@ export default function Login(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        if (
+          e.response != null &&
+          e.response != undefined &&
+          e.response.status === 401
+        ) {
+          setOtpError(true);
+          setuserSuspenderror(false);
+          setErrormessage(
+            e.response.data && e.response.data.message
+              ? e.response.data.message
+              : "User not registered"
+          );
+        } else if (
+          e.response != null &&
+          e.response != undefined &&
+          e.response.status === 403
+        ) {
+          setuserSuspenderror(true);
+          setOtpError(false);
+          setErrormessage(
+            e.response.data && e.response.data.message
+              ? e.response.data.message
+              : "User suspended. Please try after sometime."
+          );
+        } else {
+          history.push(GetErrorHandlingRoute(e));
+        }
       });
   };
-
-  // profile screen functions
-  const profilefirstname = useRef();
-  const profilelastname = useRef();
-  const profileemail = useRef();
 
   const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
     useState(false);
@@ -290,18 +376,34 @@ export default function Login(props) {
   // const [ispropfilenumbererror, setispropfilenumbererror] = useState(false);
   const [profilenextbutton, setprofilenextbutton] = useState(false);
   const [validNumber, setValidnumber] = useState("");
+  const [profilefirstname, setProfileFirstName] = useState("");
+  const [profilelastname, setProfileLastName] = useState("");
+  const [profileimage, setProfileImageFile] = useState(null);
+
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState(null);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState(null);
+  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null);
+
+  const profileemail = useRef();
 
   const handleprofileSubmit = async (e) => {
     e.preventDefault();
-    console.log(profilefirstname.current.value);
-    const firstname = profilefirstname.current.value;
-    const lastname = profilelastname.current.value;
+    //console.log(profilefirstname.current.value);
+    const firstname = profilefirstname;
+    const lastname = profilelastname;
     const email = profileemail.current.value;
-    if (profilefirstname.current.value.length === 0) {
+    if (profilefirstname.length === 0) {
       setispropfilefirstnameerror(true);
     } else {
       setispropfilefirstnameerror(false);
     }
+
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setEmailErrorMessage(null);
+    setPhoneNumberErrorMessage(null);
+
     // if (profilelastname.current.value.length === 0) {
     //   setispropfilelastnameerror(true);
     // } else {
@@ -317,6 +419,7 @@ export default function Login(props) {
     bodyFormData.append("first_name", firstname);
     bodyFormData.append("last_name", lastname);
     bodyFormData.append("phone_number", validNumber);
+    //bodyFormData.append("profile_picture", profileimage);
 
     console.log("profile data", bodyFormData);
     let url = UrlConstant.base_url + UrlConstant.profile + `${profileid}/`;
@@ -335,6 +438,7 @@ export default function Login(props) {
           // setError(false);
           setisProfile(false);
           setisOrg(true);
+          //setOnBoardedTrue();
         }
         // } else {
         //   // setError(true);
@@ -343,13 +447,40 @@ export default function Login(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              case "email":
+                setEmailErrorMessage(errorMessages[i]);
+                break;
+              case "phone_number":
+                setPhoneNumberErrorMessage(errorMessages[i]);
+                break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
+            }
+          }
+        } else {
+          history.push(GetErrorHandlingRoute(e));
+        }
+        //history.push(GetErrorHandlingRoute(e));
       });
   };
   const handleprofilfirstename = (e) => {
     console.log(e.target.value);
     var letters = /^[A-Za-z]+$/;
-    var profilefirstname = e.target.value;
+    var profilefirstname = e.target.value.trim();
+    setProfileFirstName(profilefirstname);
     // if (profilefirstname.length > 0) {
     //   setispropfilefirstnameerror(false);
     //   // setprofilenextbutton(true);
@@ -367,7 +498,8 @@ export default function Login(props) {
   const handleprofilelastname = (e) => {
     console.log(e.target.value);
     var letters = /^[A-Za-z\s]*$/;
-    var lastname = e.target.value;
+    var lastname = e.target.value.trim();
+    setProfileLastName(lastname);
     if (lastname.match(letters)) {
       setispropfilelastnameerror(false);
       // setprofilenextbutton(true);
@@ -396,13 +528,39 @@ export default function Login(props) {
     // } else {
     //   setispropfilenumbererror(true);
     // }
+    //profilephone.current = value;
     setValidnumber(value);
   };
 
+  const setOnBoardedTrue = () => {
+    let data = {
+      user_id: getUserLocal(),
+      on_boarded: true,
+    };
+    var url = UrlConstant.base_url + UrlConstant.onboarded;
+    var bodyFormData = new FormData();
+    bodyFormData.append("user_id", getUserLocal());
+    bodyFormData.append("on_boarded", true);
+
+    setIsLoader(true);
+    HTTPService("POST", url, data, false, true, isaccesstoken)
+      .then((response) => {
+        setIsLoader(false);
+        console.log("onboarded true response", response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        console.log(e);
+      });
+  };
   const finishLaterProfileScreen = () => {
     console.log("clicked on finish later profile screen");
     setisProfile(false);
     setisOrg(true);
+    /*
+    if (isLoggedInUserParticipant()) {
+      setOnBoardedTrue();
+    }*/
   };
 
   // org screen
@@ -422,12 +580,7 @@ export default function Login(props) {
 
   const [validOrgNumber, setValidOrgnumber] = useState("");
   const [orgfile, setorgfile] = useState(null);
-
-  // const Orgname = useRef();
-  const Orgmail = useRef();
-  // const OrgAddress = useRef();
-  // const Orgcity = useRef();
-  // const pincode = useRef();
+  const [orgmail, setOrgMail] = useState("");
 
   const [Orgnamebtn, setOrgnamebtn] = useState(false);
   const [Orgemailbtn, setOrgemailbtn] = useState(false);
@@ -437,6 +590,11 @@ export default function Login(props) {
   const [Orgpincodebtn, setOrgpincodebtn] = useState(false);
 
   const [isLoader, setIsLoader] = useState(false);
+
+  const[orgWebsite, setOrgWebsite] = useState('')
+  const[isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false)
+  const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
+
   // const [Orgdesbtn, setOrgdesbtn] = useState(false);
 
   // const handleOrgDesChange = (value) => {
@@ -453,9 +611,15 @@ export default function Login(props) {
 
   const handleOrgSubmit = async (e) => {
     e.preventDefault();
-    let url = UrlConstant.base_url + UrlConstant.org;
+
+    setOrgNameErrorMessage(null)
+    setOrgEmailErrorMessage (null)
+    setOrgPhoneNumberErrorMessage (null)
+    setOrgDescriptionErrorMessage (null)
+    setOrgWebsiteErrorMessage(null)
+
     // email validation
-    const emailstring = Orgmail.current.value;
+    const emailstring = orgmail;
     const valid = validator.isEmail(emailstring);
     console.log(valid);
     const finalEmail = emailstring.trim();
@@ -479,6 +643,7 @@ export default function Login(props) {
     bodyFormData.append("user_id", id);
     bodyFormData.append("org_email", finalEmail);
     bodyFormData.append("name", finalName);
+    bodyFormData.append("website", orgWebsite);
     bodyFormData.append(
       "address",
       JSON.stringify({
@@ -491,15 +656,22 @@ export default function Login(props) {
     bodyFormData.append("phone_number", validOrgNumber);
     bodyFormData.append("logo", orgfile);
     bodyFormData.append("org_description", textEditorValue);
-    console.log("dfdfdsf", bodyFormData);
+    for (const pair of bodyFormData.entries()) {
+      console.log(`${pair[0]}, ${pair[1]}`);
+    }
 
     if (!valid) {
       setisOrgmailerror(true);
     } else {
       setisOrgnameerror(false);
+      var method = orgId && orgId.length > 0 ? "PUT" : "POST";
+      var url =
+        orgId && orgId.length > 0
+          ? UrlConstant.base_url + UrlConstant.org + id + "/"
+          : UrlConstant.base_url + UrlConstant.org;
 
       setIsLoader(true);
-      HTTPService("POST", url, bodyFormData, true, true, isaccesstoken)
+      HTTPService(method, url, bodyFormData, true, true, isaccesstoken)
         .then((response) => {
           setIsLoader(false);
           console.log("response");
@@ -513,6 +685,17 @@ export default function Login(props) {
             setisOrg(false);
             setUserMapId(response.data.user_map);
             setOrgId(response.data.org_id);
+            setOrgIdState(response.data.org_id);
+
+            if (isLoggedInUserParticipant()) {
+              if (getUserMapId()) {
+                setIsDataSet(true);
+                setisOrg(false);
+              } else {
+                setOnBoardedTrue();
+                setTokenLocal(isaccesstoken);
+              }
+            }
             // setEmail(false);
             // setError(false);
           } else {
@@ -522,7 +705,23 @@ export default function Login(props) {
         .catch((e) => {
           setIsLoader(false);
           console.log(e);
-          setIsExistingOrgEmail(true);
+          var returnValues = GetErrorKey(e, bodyFormData.keys())
+          var errorKeys = returnValues[0]
+          var errorMessages = returnValues[1]
+          if (errorKeys.length > 0){
+            for (var i=0; i<errorKeys.length; i++){
+              switch(errorKeys[i]){
+                case "phone_number": setOrgPhoneNumberErrorMessage(errorMessages[i]); break;
+                case "name": setOrgNameErrorMessage(errorMessages[i]); break;
+                case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
+                case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
+                case "org_description": setOrgDescriptionErrorMessage(errorMessages[i]); break;
+                default: history.push(GetErrorHandlingRoute(e)); break;
+              }
+            }
+          } else {
+            history.push(GetErrorHandlingRoute(e));
+          }
         });
     }
   };
@@ -547,7 +746,14 @@ export default function Login(props) {
     }
   };
 
+  const handleOrgWebsite = (e) => {
+    e.target.value = e.target.value.trim()
+    setOrgWebsite(e.target.value)
+    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX))
+  };
+
   const handleOrgmail = (e) => {
+    e.target.value = e.target.value.trim()
     // console.log(e.target.value);
     var email = e.target.value;
     // if (email.length > 0) {
@@ -560,6 +766,7 @@ export default function Login(props) {
     const valid = validator.isEmail(email);
     console.log(valid);
     const finalEmail = email.trim();
+    setOrgMail(finalEmail);
     console.log(finalEmail);
     if (valid) {
       setisOrgmailerror(false);
@@ -591,6 +798,7 @@ export default function Login(props) {
   const handleOrgcity = (e) => {
     console.log(e.target.value);
     var letters = /^[A-Za-z]+$/;
+    // var letters = /^$|^[a-zA-Z][a-zA-Z ]*$/;
     var city = e.target.value;
     // if (city.length > 0) {
     //   setisOrgcityerror(false);
@@ -608,8 +816,9 @@ export default function Login(props) {
     }
   };
 
-  const countrychangeHandler = (value) => {
-    setcountryvalue(value);
+  const countrychangeHandler = (e) => {
+    setcountryvalue(e.target.value);
+    console.log(e.target.value);
     setOrgcountrybtn(true);
   };
 
@@ -636,129 +845,234 @@ export default function Login(props) {
 
   const finishLaterOrgScreen = () => {
     console.log("clicked on finish later Org screen");
-    setisPolicies(true);
-    setisOrg(false);
+    if (isLoggedInUserAdmin()) {
+      setisPolicies(true);
+      setisOrg(false);
+    }
+    if (isLoggedInUserParticipant()) {
+      if (getUserMapId()) {
+        setIsDataSet(true);
+        setisOrg(false);
+      } else {
+        setOnBoardedTrue();
+        setTokenLocal(isaccesstoken);
+        props.history.push("/participant/datasets");
+      }
+      //props.history.push('/loginadddatasetparticipant');
+    }
   };
 
   return (
-    <div>
+    <div className="loginMainDiv">
       {isLoader ? <Loader /> : ""}
       <SignInHeader></SignInHeader>
-      <h1 className="headertext">{screenlabels.login.signup_header}</h1>
-      <Leftintro />
-      {isemail || isOtp ? <Rightintro /> : ""}
-      {/* <Footerimg /> */}
-      {isemail && (
-        <SignupEmail
-          screenlabels={screenlabels}
-          handleSubmit={handleSubmit}
-          handleEmail={handleEmail}
-          iserror={iserror}
-          email={email}
-          button={button}
-        />
-      )}
-      {isOtp && (
-        <SignupOtp
-          handleSubmitOtp={handleSubmitOtp}
-          handleOtp={handleOtp}
-          isOtperror={isOtperror}
-          isuserSuspenderror={userSuspenderror}
-          otp={otp}
-          button={verifyOtpbutton}
-          hanleResendOTp={hanleResendOTp}
-          restartcounter={restartcounter}
-          disable={disable}
-          setDisable={setDisable}
-        />
-      )}
-      {isProfile && (
-        <ProfileRightside
-          handleprofileSubmit={handleprofileSubmit}
-          handleprofilfirstename={handleprofilfirstename}
-          handleprofilelastname={handleprofilelastname}
-          handleprofilenumber={handleprofilenumber}
-          ispropfilefirstnameerror={ispropfilefirstnameerror}
-          ispropfilelastnameerror={ispropfilelastnameerror}
-          ispropfileemailerror={ispropfileemailerror}
-          profilenextbutton={profilenextbutton}
-          profilefirstname={profilefirstname}
-          profilelastname={profilelastname}
-          profileemail={profileemail}
-          validemail={validemail}
-          finishLaterProfileScreen={finishLaterProfileScreen}
-        />
-      )}
-      {isOrg ? (
-        <OrgRightside
-          isOrgnameerror={isOrgnameerror}
-          setisOrgnameerror={setisOrgnameerror}
-          isOrgmailerror={isOrgmailerror}
-          isOrgAddresserror={isOrgAddresserror}
-          setisOrgAddresserror={setisOrgAddresserror}
-          isOrgcityerror={isOrgcityerror}
-          setisOrgcityerror={setisOrgcityerror}
-          ispincodeerror={ispincodeerror}
-          setispincodeerror={setispincodeerror}
-          countryvalue={countryvalue}
-          // orgdesc={orgdesc}
-          // editorValue={editorValue}
-          validOrgNumber={validOrgNumber}
-          orgfile={orgfile}
-          orgName={orgName}
-          setOrgName={setOrgName}
-          // orgEmail={orgEmail}
-          // setOrgEmail={setOrgEmail}
-          orgAddress={orgAddress}
-          setOrgAddress={setOrgAddress}
-          orgCity={orgCity}
-          setOrgCity={setOrgCity}
-          orgPincode={orgPincode}
-          setOrgPincode={setOrgPincode}
-          isExistingOrgEmail={isExistingOrgEmail}
-          // Orgname={Orgname}
-          Orgmail={Orgmail}
-          // OrgAddress={OrgAddress}
-          // Orgcity={Orgcity}
-          // pincode={pincode}
-          Orgnamebtn={Orgnamebtn}
-          Orgemailbtn={Orgemailbtn}
-          Orgaddressbtn={Orgaddressbtn}
-          Orgcitybtn={Orgcitybtn}
-          Orgcountrybtn={Orgcountrybtn}
-          Orgpincodebtn={Orgpincodebtn}
-          // Orgdesbtn={Orgdesbtn}
-          // handleOrgDesChange={handleOrgDesChange}
-          textEditorData={(value) => settextEditorValue(value)}
-          handleOrgSubmit={handleOrgSubmit}
-          handleOrgname={handleOrgname}
-          handleOrgmail={handleOrgmail}
-          handleOrgnumber={handleOrgnumber}
-          handleOrgAddress={handleOrgAddress}
-          handleOrgcity={handleOrgcity}
-          countrychangeHandler={countrychangeHandler}
-          handlepincode={handlepincode}
-          handleorgFileChange={handleorgFileChange}
-          finishLaterOrgScreen={finishLaterOrgScreen}
-        />
+      {isDataSet && isLoggedInUserParticipant() ? (
+        <div>
+          <AddDatasetParticipant
+            isaccesstoken={isaccesstoken}
+            okAction={() => {
+              setOnBoardedTrue();
+              setTokenLocal(isaccesstoken);
+              history.push("/participant/datasets");
+            }}
+            cancelAction={() => {
+              setOnBoardedTrue();
+              setTokenLocal(isaccesstoken);
+              history.push("/participant/datasets");
+            }}
+          />
+          <div style={{ position: "absolute", top: "1800px" }}>
+            <Footer />
+          </div>
+        </div>
       ) : (
-        <></>
+        <div>
+          <h1 className="headertext">{screenlabels.login.signup_header}</h1>
+          <Leftintro />
+          {isemail || isOtp ? <Rightintro /> : ""}
+
+          {/* <Footerimg /> */}
+          {isemail && (
+            <SignupEmail
+              screenlabels={screenlabels}
+              handleSubmit={handleSubmit}
+              handleEmail={handleEmail}
+              iserror={iserror}
+              email={email}
+              button={button}
+              errormessage={errormessage}
+              isuserSuspenderror={userSuspenderror}
+            />
+          )}
+          {isOtp && (
+            <SignupOtp
+              handleSubmitOtp={handleSubmitOtp}
+              handleOtp={handleOtp}
+              isOtperror={isOtperror}
+              isuserSuspenderror={userSuspenderror}
+              otp={otp}
+              otpValue={otpValue}
+              setOtpValue={setOtpValue}
+              button={verifyOtpbutton}
+              hanleResendOTp={hanleResendOTp}
+              restartcounter={restartcounter}
+              disable={disable}
+              setDisable={setDisable}
+              remainingCounterTime={remainingCounterTime}
+              setRemainingCounterTime={setRemainingCounterTime}
+              errormessage={errormessage}
+            />
+          )}
+          {isProfile && isLoggedInUserAdmin() && (
+            <ProfileRightside
+            handleprofileSubmit={handleprofileSubmit}
+            handleprofilfirstename={handleprofilfirstename}
+            handleprofilelastname={handleprofilelastname}
+            handleprofilenumber={handleprofilenumber}
+            ispropfilefirstnameerror={ispropfilefirstnameerror}
+            ispropfilelastnameerror={ispropfilelastnameerror}
+            ispropfileemailerror={ispropfileemailerror}
+            profilenextbutton={profilenextbutton}
+            profilefirstname={profilefirstname}
+            profilelastname={profilelastname}
+            profileemail={profileemail}
+            validemail={validemail}
+            finishLaterProfileScreen={finishLaterProfileScreen}
+            isaccesstoken={isaccesstoken}
+            firstNameErrorMessage={firstNameErrorMessage}
+            lastNameErrorMessage={lastNameErrorMessage}
+            emailErrorMessage={emailErrorMessage}
+            phoneNumberErrorMessage={phoneNumberErrorMessage}
+            setProfileFirstName={setProfileFirstName}
+            setProfileLastName={setProfileLastName}
+            setValidnumber={setValidnumber}
+            profilephone={validNumber}
+            setprofilenextbutton={setprofilenextbutton}
+            userid={getUserLocal()}
+            />
+          )}
+          {isProfile && isLoggedInUserParticipant() && (
+            <ProfileRightsideParticipant
+              handleprofileSubmit={handleprofileSubmit}
+              handleprofilfirstename={handleprofilfirstename}
+              handleprofilelastname={handleprofilelastname}
+              handleprofilenumber={handleprofilenumber}
+              setProfileFirstName={setProfileFirstName}
+              setProfileLastName={setProfileLastName}
+              setValidnumber={setValidnumber}
+              ispropfilefirstnameerror={ispropfilefirstnameerror}
+              ispropfilelastnameerror={ispropfilelastnameerror}
+              ispropfileemailerror={ispropfileemailerror}
+              profilenextbutton={profilenextbutton}
+              profilefirstname={profilefirstname}
+              profilelastname={profilelastname}
+              profileemail={profileemail}
+              profilephone={validNumber}
+              validemail={validemail}
+              profileImageFile={profileimage}
+              setProfileImageFile={setProfileImageFile}
+              finishLaterProfileScreen={finishLaterProfileScreen}
+              setprofilenextbutton={setprofilenextbutton}
+              isaccesstoken={isaccesstoken}
+              userid={getUserLocal()}
+              firstNameErrorMessage={firstNameErrorMessage}
+              lastNameErrorMessage={lastNameErrorMessage}
+              emailErrorMessage={emailErrorMessage}
+              phoneNumberErrorMessage={phoneNumberErrorMessage}
+            />
+          )}
+          {isOrg ? (
+            <OrgRightside
+              isOrgnameerror={isOrgnameerror}
+              setisOrgnameerror={setisOrgnameerror}
+              isOrgmailerror={isOrgmailerror}
+              setisOrgmailerror={setisOrgmailerror}
+              isOrgAddresserror={isOrgAddresserror}
+              setisOrgAddresserror={setisOrgAddresserror}
+              isOrgcityerror={isOrgcityerror}
+              setisOrgcityerror={setisOrgcityerror}
+              ispincodeerror={ispincodeerror}
+              setispincodeerror={setispincodeerror}
+              countryvalue={countryvalue}
+              setCountryValue={setcountryvalue}
+              // orgdesc={orgdesc}
+              // editorValue={editorValue}
+              validOrgNumber={validOrgNumber}
+              setValidOrgnumber={setValidOrgnumber}
+              orgfile={orgfile}
+              orgName={orgName}
+              setOrgName={setOrgName}
+              // orgEmail={orgEmail}
+              // setOrgEmail={setOrgEmail}
+              orgAddress={orgAddress}
+              setOrgAddress={setOrgAddress}
+              orgCity={orgCity}
+              setOrgCity={setOrgCity}
+              orgPincode={orgPincode}
+              setOrgPincode={setOrgPincode}
+              isExistingOrgEmail={isExistingOrgEmail}
+              // Orgname={Orgname}
+              Orgmail={orgmail}
+              setOrgMail={setOrgMail}
+              // OrgAddress={OrgAddress}
+              // Orgcity={Orgcity}
+              // pincode={pincode}
+              Orgnamebtn={Orgnamebtn}
+              Orgemailbtn={Orgemailbtn}
+              setOrgemailbtn={setOrgemailbtn}
+              Orgaddressbtn={Orgaddressbtn}
+              Orgcitybtn={Orgcitybtn}
+              Orgcountrybtn={Orgcountrybtn}
+              setOrgcountrybtn={setOrgcountrybtn}
+              Orgpincodebtn={Orgpincodebtn}
+              // Orgdesbtn={Orgdesbtn}
+              // handleOrgDesChange={handleOrgDesChange}
+              textEditorData={(value) => settextEditorValue(value)}
+              handleOrgSubmit={handleOrgSubmit}
+              handleOrgmail={handleOrgmail}
+              handleOrgnumber={handleOrgnumber}
+              handleOrgAddress={handleOrgAddress}
+              handleOrgcity={handleOrgcity}
+              countrychangeHandler={countrychangeHandler}
+              handlepincode={handlepincode}
+              handleorgFileChange={handleorgFileChange}
+              finishLaterOrgScreen={finishLaterOrgScreen}
+              isaccesstoken={isaccesstoken}
+              userid={getUserLocal()}
+              orgId={orgId}
+              setOrgId={setOrgIdState}
+              orgNameErrorMessage={orgNameErrorMessage}
+              orgEmailErrorMessage={orgEmailErrorMessage}
+              orgPhoneNumberErrorMessage={orgPhoneNumberErrorMessage}
+              orgDescriptionErrorMessage={orgDescriptionErrorMessage}
+              orgWebsite={orgWebsite}
+              isOrgWebsiteerror={isOrgWebsiteerror}
+              orgWebsiteErrorMessage={orgWebsiteErrorMessage}
+              handleOrgWebsite={handleOrgWebsite}
+              setOrgWebsite={setOrgWebsite}
+            />
+          ) : (
+            <></>
+          )}
+          {isPolicies && isLoggedInUserAdmin() && (
+            <PoliciesRightside
+              isaccesstoken={isaccesstoken}
+              showBrandingScreen={() => {
+                setisPolicies(false);
+                setisBranding(true);
+              }}
+            />
+          )}
+          {isBranding && isLoggedInUserAdmin() && (
+            <BrandingRightside
+              validemail={validemail}
+              isaccesstoken={isaccesstoken}
+              setOnBoardedTrue={setOnBoardedTrue}
+            />
+          )}
+        </div>
       )}
-      {isPolicies && (
-        <PoliciesRightside
-          isaccesstoken={isaccesstoken}
-          showBrandingScreen={() => {
-            setisPolicies(false);
-            setisBranding(true);
-          }}
-        />
-      )}
-      {isBranding && (
-        <BrandingRightside
-          validemail={validemail}
-          isaccesstoken={isaccesstoken}
-        />
-      )}
+      <div style={{ position: "absolute", bottom: 0 }}>{/* <Footer/> */}</div>
     </div>
   );
 }

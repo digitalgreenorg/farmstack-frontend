@@ -15,12 +15,23 @@ import HandleSessionTimeout, {
   getTokenLocal,
   setUserId,
   getUserLocal,
+  GetErrorKey,
+  mobileNumberMinimunLengthCheck,
+  fileUpload,
 } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../../Constants/RegexConstants";
-import GetErrorHandlingRoute, { validateInputField } from "../../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  validateInputField,
+} from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
+
+const useStyles = {
+  marginrowtop: { "margin-top": "20px" },
+  marginrowtop8px: { "margin-top": "0px" },
+};
 
 export default function AccountSetting(props) {
   const profilefirstname = useRef();
@@ -30,7 +41,7 @@ export default function AccountSetting(props) {
   const [lastname, setlastname] = useState("");
   const [email, setemail] = useState("");
   const [phonenumber, setphonenumber] = useState("");
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
   // const [profile_pic, setprofile_pic] = useState(null);
 
   const [ispropfilefirstnameerror, setispropfilefirstnameerror] =
@@ -46,6 +57,10 @@ export default function AccountSetting(props) {
   const [accfilesize, setaccfilesize] = useState(false);
   const [accnumberbtn, setaccnumberbtn] = useState(false);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
+  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
+  const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
+  const[phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null)
 
   const history = useHistory();
 
@@ -109,7 +124,7 @@ export default function AccountSetting(props) {
     //   // } else {
     //   //   setispropfilenumbererror(true);
     //   // }
-    if (value.length === 15) {
+    if (mobileNumberMinimunLengthCheck(value)) {
       setaccnumberbtn(true);
     } else {
       setaccnumberbtn(false);
@@ -145,11 +160,18 @@ export default function AccountSetting(props) {
     var id = getUserLocal();
     console.log("user id", id);
 
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setPhoneNumberErrorMessage(null);
+
     var bodyFormData = new FormData();
     bodyFormData.append("first_name", firstname);
     bodyFormData.append("last_name", lastname);
     bodyFormData.append("phone_number", phonenumber);
-    bodyFormData.append("profile_picture", file);
+    // bodyFormData.append("profile_picture", file);
+
+    // file upload
+    fileUpload(bodyFormData, file, "profile_picture");
 
     console.log("branding data", bodyFormData);
     setIsLoader(true);
@@ -174,7 +196,30 @@ export default function AccountSetting(props) {
       })
       .catch((e) => {
         setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              //case "email": setEmailErrorMessage(errorMessages[i]); break;
+              case "phone_number":
+                setPhoneNumberErrorMessage(errorMessages[i]);
+                break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
+            }
+          }
+        } else {
+          history.push(GetErrorHandlingRoute(e));
+        }
       });
   };
   const getAccountDetails = async () => {
@@ -196,7 +241,7 @@ export default function AccountSetting(props) {
         setfirstname(response.data.first_name);
         setlastname(response.data.last_name);
         setemail(response.data.email);
-        // setFile(response.data.profile_picture);
+        setFile(response.data.profile_picture);
         if (response.data.first_name) {
           setaccfirstbtn(true);
         }
@@ -217,7 +262,7 @@ export default function AccountSetting(props) {
   }, []);
   return (
     <div className="accountsetting">
-      {isLoader ? <Loader />: ''}
+      {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
         <Row>
           <span className="title">Account Settings</span>
@@ -245,8 +290,8 @@ export default function AccountSetting(props) {
               }
               onChange={handleprofilfirstename}
               inputRef={profilefirstname}
-              error={ispropfilefirstnameerror}
-              helperText={ispropfilefirstnameerror ? "Enter Valid Name" : ""}
+              error={ispropfilefirstnameerror || firstNameErrorMessage}
+              helperText={(ispropfilefirstnameerror && !firstNameErrorMessage) ? "Enter Valid Name" : firstNameErrorMessage}
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -265,6 +310,8 @@ export default function AccountSetting(props) {
               // }
               onChange={handleprofilelastname}
               inputRef={profilelastname}
+              error = {lastNameErrorMessage ? true : false}
+              helperText={lastNameErrorMessage}
               // error={ispropfilelastnameerror}
               // helperText={
               //   ispropfilelastnameerror ? "Enter Valid last name" : ""
@@ -296,6 +343,7 @@ export default function AccountSetting(props) {
           <Col xs={12} sm={12} md={6} lg={6}>
             <MuiPhoneNumber
               required
+              countryCodeEditable={false}
               defaultCountry={"in"}
               className="phonenumber"
               value={phonenumber}
@@ -304,6 +352,8 @@ export default function AccountSetting(props) {
               label={screenlabels.account_settings.contact}
               variant="filled"
               onChange={handleprofilenumber}
+              error = {phoneNumberErrorMessage ? true : false}
+              helperText = {phoneNumberErrorMessage}
               // error={ispropfilenumbererror}
               // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />
@@ -349,48 +399,52 @@ export default function AccountSetting(props) {
             </p>
           </div>
         </Col>
+
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="accountsubmit">
-              {/* <Button
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            {/* <Col xs={12} sm={12} md={12} lg={12}> */}
+            {/* <div className="accountsubmit"> */}
+            {/* <Button
               variant="contained"
               className="accountnextbtn"
               type="submit">
               <span className="">Submit</span>
             </Button> */}
-              {!ispropfilefirstnameerror &&
-              !accfilesize &&
-              accfirstnamebtn &&
-              file != null &&
-              accnumberbtn ? (
-                <Button
-                  variant="contained"
-                  className="accountnextbtn"
-                  type="submit">
-                  <span className="signupbtnname">Submit</span>
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  disabled
-                  className="disableaccountnextbtn">
-                  Submit
-                </Button>
-              )}
-            </div>
+            {!ispropfilefirstnameerror &&
+            !accfilesize &&
+            accfirstnamebtn &&
+            file != null &&
+            accnumberbtn ? (
+              // <Button variant="contained" className="submitbtn" type="submit">
+              //   <span className="signupbtnname">Submit</span>
+              // </Button>
+              <Button
+                //   onClick={() => addNewParticipants()}
+                variant="contained"
+                className="submitbtn"
+                type="submit">
+                {screenlabels.common.submit}
+              </Button>
+            ) : (
+              <Button variant="outlined" disabled className="disbalesubmitbtn">
+                Submit
+              </Button>
+            )}
+            {/* </div> */}
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="accountcancel">
-              <Button
-                variant="outlined"
-                className="accountsettingcancelbtn"
-                type="button"
-                onClick={accountsettingcancelbtn}>
-                Cancel
-              </Button>
-            </div>
+        <Row style={useStyles.marginrowtop8px}>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <Button
+              variant="outlined"
+              className="cancelbtn"
+              type="button"
+              onClick={accountsettingcancelbtn}>
+              {screenlabels.common.cancel}
+            </Button>
+            {/* </div> */}
           </Col>
         </Row>
       </form>

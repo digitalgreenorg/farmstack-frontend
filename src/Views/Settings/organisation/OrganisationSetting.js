@@ -25,13 +25,21 @@ import HandleSessionTimeout, {
   handleAddressCharacters,
   setUserMapId,
   setOrgId,
+  GetErrorKey,
+  fileUpload,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
-import GetErrorHandlingRoute, {
+import {
+  GetErrorHandlingRoute,
   validateInputField,
 } from "../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
+
+const useStyles = {
+  marginrowtop: { "margin-top": "20px" },
+  marginrowtop8px: { "margin-top": "0px" },
+};
 
 export default function OrganisationSetting(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -88,6 +96,16 @@ export default function OrganisationSetting(props) {
   const [orgfilesize, setorgfilesize] = useState(false);
   const [isPost, setisPost] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
+  const [orgWebsite, setOrgWebsite] = useState("");
+  const [isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false);
+
+  const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
+  const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
+  const [orgPhoneNumberErrorMessage, setOrgPhoneNumberErrorMessage] =
+    useState(null);
+  const [orgDescriptionErrorMessage, setOrgDescriptionErrorMessage] =
+    useState(null);
+  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
 
   const history = useHistory();
 
@@ -126,11 +144,12 @@ export default function OrganisationSetting(props) {
           // }
           setcity(response.data.organization.address.city);
           setpincode(response.data.organization.address.pincode);
-          setcountryvalue(response.data.organization.address.country.label);
+          setcountryvalue(response.data.organization.address.country);
           setemail(response.data.organization.org_email);
           setphonenumber(response.data.organization.phone_number);
+          setOrgWebsite(response.data.organization.website);
           // setorgdesc(response.data.organization.org_description.toString("html"));
-          // setorgfile(response.data.organization.logo);
+          setorgfile(response.data.organization.logo);
           console.log(response.data.organization.logo);
           setEditorValue(
             RichTextEditor.createValueFromString(
@@ -170,6 +189,12 @@ export default function OrganisationSetting(props) {
     var id = getUserLocal();
     console.log("user id", id);
 
+    setOrgNameErrorMessage(null);
+    setOrgEmailErrorMessage(null);
+    setOrgPhoneNumberErrorMessage(null);
+    setOrgDescriptionErrorMessage(null);
+    setOrgWebsiteErrorMessage(null);
+
     let puturl = UrlConstant.base_url + UrlConstant.org + id + "/";
     let posturl = UrlConstant.base_url + UrlConstant.org;
 
@@ -179,9 +204,7 @@ export default function OrganisationSetting(props) {
     bodyFormData.append(
       "address",
       JSON.stringify({
-        country: {
-          label: countryvalue,
-        },
+        country: countryvalue,
         pincode: pincode,
         address: address,
         city: city,
@@ -189,8 +212,12 @@ export default function OrganisationSetting(props) {
     );
     bodyFormData.append("user_id", id);
     bodyFormData.append("phone_number", phonenumber);
-    bodyFormData.append("logo", orgfile);
-    bodyFormData.append("org_description", orgdesc);
+    // bodyFormData.append("logo", orgfile);
+    // file upload
+    fileUpload(bodyFormData, orgfile, "logo");
+
+    bodyFormData.append("org_description", editorValue.toString("html"));
+    bodyFormData.append("website", orgWebsite);
     console.log("org details", bodyFormData);
     setIsLoader(true);
     if (isPost) {
@@ -204,6 +231,7 @@ export default function OrganisationSetting(props) {
           if (response.status === 201) {
             props.setisOrgUpdateSuccess();
             setUserMapId(response.data.user_map);
+
             setOrgId(response.data.org_id);
             // setisPolicies(true);
             // setisOrg(false);
@@ -215,7 +243,35 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          history.push(GetErrorHandlingRoute(e));
+          var returnValues = GetErrorKey(e, bodyFormData.keys());
+          var errorKeys = returnValues[0];
+          var errorMessages = returnValues[1];
+          if (errorKeys.length > 0) {
+            for (var i = 0; i < errorKeys.length; i++) {
+              switch (errorKeys[i]) {
+                case "phone_number":
+                  setOrgPhoneNumberErrorMessage(errorMessages[i]);
+                  break;
+                case "name":
+                  setOrgNameErrorMessage(errorMessages[i]);
+                  break;
+                case "org_email":
+                  setOrgEmailErrorMessage(errorMessages[i]);
+                  break;
+                case "org_description":
+                  setOrgDescriptionErrorMessage(errorMessages[i]);
+                  break;
+                case "website":
+                  setOrgWebsiteErrorMessage(errorMessages[i]);
+                  break;
+                default:
+                  history.push(GetErrorHandlingRoute(e));
+                  break;
+              }
+            }
+          } else {
+            history.push(GetErrorHandlingRoute(e));
+          }
           //   setError(true);
         });
     } else {
@@ -241,7 +297,32 @@ export default function OrganisationSetting(props) {
         })
         .catch((e) => {
           setIsLoader(false);
-          history.push(GetErrorHandlingRoute(e));
+          var returnValues = GetErrorKey(e, bodyFormData.keys());
+          var errorKeys = returnValues[0];
+          var errorMessages = returnValues[1];
+          if (errorKeys.length > 0) {
+            for (var i = 0; i < errorKeys.length; i++) {
+              switch (errorKeys[i]) {
+                case "phone_number":
+                  setOrgPhoneNumberErrorMessage(errorMessages[i]);
+                  break;
+                case "name":
+                  setOrgNameErrorMessage(errorMessages[i]);
+                  break;
+                case "org_email":
+                  setOrgEmailErrorMessage(errorMessages[i]);
+                  break;
+                case "org_description":
+                  setOrgDescriptionErrorMessage(errorMessages[i]);
+                  break;
+                default:
+                  history.push(GetErrorHandlingRoute(e));
+                  break;
+              }
+            }
+          } else {
+            history.push(GetErrorHandlingRoute(e));
+          }
           //   setError(true);
         });
     }
@@ -321,6 +402,14 @@ export default function OrganisationSetting(props) {
     // }
   };
 
+  const handleOrgWebsite = (e) => {
+    e.target.value = e.target.value.trim();
+    setOrgWebsite(e.target.value);
+    setisOrgWebsiteerror(
+      !validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX)
+    );
+  };
+
   const handleOrgAddress = (e) => {
     console.log(e.target.value);
     var address = e.target.value;
@@ -363,6 +452,7 @@ export default function OrganisationSetting(props) {
 
   const handlepincode = (e) => {
     console.log(e.target.value);
+    if (e.target.value > 10) e.target.value = e.target.value.substring(0,10)
     var pincode = e.target.value;
     if (pincode.length > 0) {
       setispincodeerror(false);
@@ -385,12 +475,12 @@ export default function OrganisationSetting(props) {
     console.log(file);
     // console.log(file.length);
     console.log(file.size);
-    // if (file != null && file.size > 2097152) {
-    //   //   setBrandingnextbutton(false);
-    //   setorgfilesize(true);
-    // } else {
-    //   setorgfilesize(false);
-    // }
+    if (file != null && file.size > 2097152) {
+      //   setBrandingnextbutton(false);
+      setorgfilesize(true);
+    } else {
+      setorgfilesize(false);
+    }
   };
 
   //   const finishLaterOrgScreen = () => {
@@ -442,7 +532,7 @@ export default function OrganisationSetting(props) {
   const orgsettingcancelbtn = () => {
     setorgfile(null);
     getOrgDetails();
-    history.push("/datahub/settings/2")
+    history.push("/datahub/settings/2");
     window.location.reload();
   };
 
@@ -469,8 +559,12 @@ export default function OrganisationSetting(props) {
                   : setisOrgnameerror(false)
               }
               // inputRef={Orgname}
-              error={isOrgnameerror}
-              helperText={isOrgnameerror ? "Enter Valid Name" : ""}
+              error={isOrgnameerror || orgNameErrorMessage}
+              helperText={
+                isOrgnameerror && !orgNameErrorMessage
+                  ? "Enter Valid Name"
+                  : orgNameErrorMessage
+              }
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -483,34 +577,61 @@ export default function OrganisationSetting(props) {
               onChange={handleOrgmail}
               value={email}
               // inputRef={Orgmail}
-              error={isOrgmailerror}
-              helperText={isOrgmailerror ? "Enter Valid Email id" : ""}
+              error={isOrgmailerror || orgEmailErrorMessage}
+              helperText={
+                isOrgmailerror && !orgEmailErrorMessage
+                  ? "Enter Valid Email id"
+                  : orgEmailErrorMessage
+              }
             />
           </Col>
         </Row>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
-            <MuiPhoneNumber
-              defaultCountry={"in"}
+            <TextField
               //   value={phonenumber}
-              className="phonenumber"
+              className="name"
               id="filled-basic"
-              label={screenlabels.org_settings.contact}
+              label={screenlabels.org_settings.website}
               variant="filled"
-              onChange={handleOrgnumber}
-              value={phonenumber}
+              onChange={handleOrgWebsite}
+              value={orgWebsite}
+              error={isOrgWebsiteerror || orgWebsiteErrorMessage}
+              helperText={
+                isOrgWebsiteerror ? "Enter Valid URL" : orgWebsiteErrorMessage
+              }
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
               // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
+            <MuiPhoneNumber
+              defaultCountry={"in"}
+              countryCodeEditable={false}
+              //   value={phonenumber}
+              className="email"
+              id="filled-basic"
+              label={screenlabels.org_settings.contact}
+              variant="filled"
+              onChange={handleOrgnumber}
+              value={phonenumber}
+              error={orgPhoneNumberErrorMessage ? true : false}
+              helperText={orgPhoneNumberErrorMessage}
+              //   inputRef={profilenumber}
+              // error={isOrgnumbererror}
+              // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={6}>
             <TextField
               required
               id="filled-basic"
               label={screenlabels.org_settings.address}
               variant="filled"
-              className="address"
+              className="name"
               onChange={handleOrgAddress}
               // inputRef={OrgAddress}
               value={address}
@@ -519,15 +640,13 @@ export default function OrganisationSetting(props) {
               helperText={isOrgAddresserror ? "Enter Valid Address" : ""}
             />
           </Col>
-        </Row>
-        <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
             <TextField
               required
               id="filled-basic"
               label={screenlabels.org_settings.city}
               variant="filled"
-              className="city"
+              className="email"
               onChange={handleOrgcity}
               onKeyUp={() =>
                 city === "" ? setisOrgcityerror(true) : setisOrgcityerror(false)
@@ -538,25 +657,18 @@ export default function OrganisationSetting(props) {
               helperText={isOrgcityerror ? "Enter Valid City" : ""}
             />
           </Col>
+        </Row>
+        <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
-            {/* <Select
-              required
-              options={options}
-              value={countryvalue}
-              onChange={countrychangeHandler}
-              isSearchable={true}
-              className="country"
-            //   style={{ width: "420px", zIndex: 4, backgroundColor: grey }}
-              placeholder="Select Country"
-            /> */}
             <TextField
               select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              className="country"
+              className="name"
               variant="filled"
               required
               value={countryvalue}
+              style={{ textAlign: "left" }}
               onChange={(e) => {
                 setcountryvalue(e.target.value);
                 console.log(e.target.value.length);
@@ -573,15 +685,18 @@ export default function OrganisationSetting(props) {
               ))}
             </TextField>
           </Col>
-        </Row>
-        <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
             <TextField
               required
               type="number"
               id="filled-basic"
-              className="name"
+              className="email"
               label={screenlabels.org_settings.pincode}
+              onKeyDown={(e) => {
+                if (e.key == "-" || e.key == "e" || e.key == "E" || e.key == "+") {
+                  e.preventDefault();
+                }
+              }}
               variant="filled"
               onChange={handlepincode}
               value={pincode}
@@ -589,12 +704,17 @@ export default function OrganisationSetting(props) {
               helperText={ispincodeerror ? "Enter vaild pin code" : ""}
             />
           </Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <Row>
-              <span className="orgdestitle">
-                Organization Description<sup>*</sup>
-              </span>
-            </Row>
+        </Row>
+        <Row
+          style={{ marginTop: "20px", textAlign: "left", marginLeft: "-25px" }}>
+          <Col xs={12} sm={12} md={12} lg={12}>
+            <span className="orgdestitle">
+              Organization Description<sup>*</sup>
+            </span>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={12} lg={12}>
             <div className="invite-participant-text-editor orgrte">
               <RichTextEditor
                 toolbarConfig={toolbarConfig}
@@ -613,6 +733,8 @@ export default function OrganisationSetting(props) {
                   border: "1px solid black",
                   //   zIndex: 4,
                 }}
+                error={orgDescriptionErrorMessage ? true : false}
+                helperText={orgDescriptionErrorMessage}
               />
             </div>
           </Col>
@@ -661,75 +783,40 @@ export default function OrganisationSetting(props) {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="accountsubmit">
-              {/* <Button
-                variant="contained"
-                className="accountnextbtn"
-                type="submit">
-                <span className="">Submit</span>
-              </Button> */}
-              {/* {!isOrgnameerror &&
-              !isOrgmailerror &&
-              !isOrgAddresserror &&
-              !isOrgcityerror &&
-              !ispincodeerror &&
-              !iscountryerror &&
-              orgfile != null &&
-              orgfile.size < 2097152 &&
-              editorValue.getEditorState().getCurrentContent().hasText() ? (
-                <Button
-                  variant="contained"
-                  className="accountnextbtn"
-                  type="submit">
-                  <span className="signupbtnname">Submit</span>
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  disabled
-                  className="disableaccountnextbtn">
-                  Submit
-                </Button>
-              )} */}
-              {!isOrgnameerror &&
-              !isOrgmailerror &&
-              !isOrgAddresserror &&
-              !isOrgcityerror &&
-              !ispincodeerror &&
-              !iscountryerror &&
-              orgfile != null &&
-              orgfile.size < 2097152 &&
-              editorValue.getEditorState().getCurrentContent().hasText() &&
-              countryvalue !== "" ? (
-                <Button
-                  variant="contained"
-                  className="accountnextbtn"
-                  type="submit">
-                  <span className="signupbtnname">Submit</span>
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  disabled
-                  className="disableaccountnextbtn">
-                  Submit
-                </Button>
-              )}
-            </div>
+          <Col xs={12} sm={12} md={6} lg={4}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            {!isOrgnameerror &&
+            !isOrgmailerror &&
+            !isOrgAddresserror &&
+            !isOrgcityerror &&
+            !ispincodeerror &&
+            !iscountryerror &&
+            !isOrgWebsiteerror &&
+            orgfile != null &&
+            !orgfilesize &&
+            // orgfile.size < 2097152 &&
+            editorValue.getEditorState().getCurrentContent().hasText() &&
+            countryvalue !== "" ? (
+              <Button variant="contained" className="submitbtn" type="submit">
+                <span className="signupbtnname">Submit</span>
+              </Button>
+            ) : (
+              <Button variant="outlined" disabled className="disbalesubmitbtn">
+                Submit
+              </Button>
+            )}
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="accountcancel">
-              <Button
-                variant="outlined"
-                className="accountsettingcancelbtn"
-                type="button"
-                onClick={orgsettingcancelbtn}>
-                Cancel
-              </Button>
-            </div>
+        <Row style={useStyles.marginrowtop8px}>
+          <Col xs={12} sm={12} md={6} lg={4}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
+            <Button
+              variant="outlined"
+              className="cancelbtn"
+              type="button"
+              onClick={orgsettingcancelbtn}>
+              Cancel
+            </Button>
           </Col>
         </Row>
       </form>

@@ -1,7 +1,7 @@
 @import '../../Constants/CssConstants.css';
 .supportmaindiv{margin-top:50px;margin-left:110px;margin-right:110px}
 .supportfilterRow{margin-top:32px;width: 1080px;}
-.supportfilterCOlumn{ height:867px;max-width:346px;background: #FFFFFF;border: 1px solid #E4E4E4;border-radius: 2px;flex-basis:346px}
+.supportfilterCOlumn{ height:fit-content;max-width:346px;background: #FFFFFF;border: 1px solid #E4E4E4;border-radius: 2px;flex-basis:346px}
 .supportfilterfirstrow{ height:50px;background:#F4F4F4}
 .supportfiltertext{padding-top:16px;padding-left:13px}
 .supportfilterheadingtext{padding-top:18px;padding-left:15px}
@@ -17,8 +17,15 @@
 .supportfiltercommontextbold{font-weight: 400;font-size: 14px;color: #3D4A52;padding-left: 11px;padding-top:20px;}
 .supportSecondCOlumn{ width:732px}
 .supportcardfirstcolumn{margin-top: 20px;text-align: left;}
+.supportcardfirstcolumngeo{margin-top: 20px;text-align: left; overflow: hidden; text-overflow: ellipsis; 
+  display: -webkit-box;
+-webkit-line-clamp: 1;
+-webkit-box-orient: vertical;}
 .supportcardsecondcolumn{text-align: right;margin-right: 10px;margin-top: 20px;}
-.supportcardsecondcolumndata{text-align: right;margin-right: 20px;margin-top: 20px;}
+.supportcardsecondcolumndata{text-align: right;margin-right: 20px;margin-top: 20px; overflow: hidden; text-overflow: ellipsis; 
+  display: -webkit-box;
+-webkit-line-clamp: 1;
+-webkit-box-orient: vertical;}
 .supportcardmargintop{margin-top: -19px;}
 .supportcardmargintop20px{margin-top:20px}
 .supportcardmargintop0px{margin-top:0px}
@@ -31,9 +38,9 @@
 .supportsubmitbrn .btncolor{color: var(--theme-color);border-color:var(--theme-color);border-radius:0;text-transform:capitalize;background: #FFFFFF; border: 1px solid #D8AF28;border-radius: 2px} 
 .supportsubmitbrn{margin-left: 218px;}
 .marginleft165px{margin-left: 165px;}
-.disbaledatesubmitbtn{text-transform: capitalize !important;border-radius: 2px; background: #FFFFFF !important;border:1px solid #C09507 !important;color:#585D60 !important;opacity: 0.5;  width: 116px; height: 34px; }
-button.enabledatesubmitbtn{text-transform: capitalize !important;color: #FFFFFF;height:42px; background:#C09507 !important;border-radius: 2px;border:2px solid #C09507 !important; width: 116px; height: 34px; }
-button.enabledatesubmitbtn:hover{background-color: #C09507 !important;}
+.disbaledatesubmitbtn{right:35px;text-transform: capitalize !important;border-radius: 2px; background: #FFFFFF !important;border:1px solid #C09507 !important;color:#585D60 !important;opacity: 0.5;  width: 116px; height: 34px; }
+button.enabledatesubmitbtn{right:35px;text-transform: capitalize !important;color: #FFFFFF;height:42px; background:#C09507 !important;border-radius: 2px;border:2px solid #C09507 !important; width: 116px; height: 34px; }
+button.enabledatesubmitbtn:hover{right:35px;background-color: #C09507 !important;}
 .supportcardsecondclosedcolumndata {text-align: right; margin-right: 9px; margin-top: 20px;}
 .supportcardfromdate .MuiTextField-root{background: #F1F1F1;}
 .supportcardtodate .MuiTextField-root{background: #F1F1F1;}

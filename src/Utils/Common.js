@@ -4,6 +4,8 @@ import RegexConstants from "../Constants/RegexConstants";
 import React from "react";
 import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
+import HTTPService from "../Services/HTTPService";
+import FileSaver from "file-saver";
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(
@@ -97,7 +99,33 @@ export const handleNameFieldEntry = (fieldValue, e) => {
   }
 };
 
-const GetErrorHandlingRoute = (e) => {
+export const GetErrorHandlingRoute = (e) => {
+  var errorMessage = '';
+  if(e.response && e.response.data && e.response.data.message){
+    errorMessage = e.response.data.message
+  }
+  else if (e.response && e.response.data){
+    try{
+      JSON.parse(e.response.data)
+      errorMessage = String(e.response.data)
+    }
+    catch(e){
+      if (e.response){
+        errorMessage = e.response.statusText
+      }
+      else{
+        errorMessage = 'Unknown'
+      }
+    }
+  }
+  else if (e.response){
+    errorMessage = e.response.statusText
+  }
+  else{
+    errorMessage = 'unknown'
+  }
+  setErrorLocal({'ErrorCode': e.response ? e.response.status : 'unknown', 
+  'ErrorMessage': errorMessage});
   if (
     e.response != null &&
     e.response != undefined &&
@@ -119,18 +147,101 @@ export const getRoleLocal = () => {
   return userRole;
 };
 
+export const setErrorLocal = (error) => {
+  localStorage.setItem(LocalStorageConstants.KEYS.error, JSON.stringify(error));
+};
+export const getErrorLocal = () => {
+  return JSON.parse(localStorage.getItem(LocalStorageConstants.KEYS.error));
+
+};
+
 export const isLoggedInUserAdmin = () => {
-  return (
-    getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
-  );
+  return getRoleLocal()
+    ? getRoleLocal().toLowerCase() ==
+        LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
+    : false;
 };
 
 export const isLoggedInUserParticipant = () => {
-  return (
-    getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT.toLowerCase()
-  );
+  //return true;
+  return getRoleLocal()
+    ? getRoleLocal().toLowerCase() ==
+        LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
+    : false;
 };
 
-export default GetErrorHandlingRoute;
+// file upload
+export const fileUpload = (bodyFormData, file, Key) => {
+  if (file != null && typeof file != "string") {
+    return bodyFormData.append(Key, file);
+  }
+};
+
+export const dateTimeFormat = (datetime,istime) => {
+  const today = new Date(datetime)
+  var y = today.getFullYear()
+  var m = (today.getMonth() + 1).toString().padStart(2, "0")
+  var d = today.getDate().toString().padStart(2, "0")
+  var h = today.getHours()
+  var mi =(today.getMinutes()<10?'0':'')+today.getMinutes()
+  var s = today.getSeconds();
+  if(istime){
+    let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
+    return format
+  }else{
+    let format = d + "/" + m + "/" + y
+    return format
+  }
+  
+};
+
+export const flushLocalstorage = () => {
+  Object.keys(LocalStorageConstants.KEYS).map((key,i)=>{
+    console.log(key); 
+    if (localStorage.getItem(key)) {
+      localStorage.removeItem(key)
+    }
+  });
+}
+
+
+
+export const downloadAttachment = (uri, name) => {
+  FileSaver.saveAs(uri, name)
+}
+
+export const GetErrorKey = (e, keyList) => {
+  var errorKeys = []
+  var errorMessages = []
+  for (var key of keyList){
+    if (e.response && e.response.status === 400 && e.response.data && e.response.data[key]){
+      errorKeys.push(key)
+      errorMessages.push(e.response.data[key][0])
+    }
+  }
+  return [errorKeys, errorMessages]
+}
+
+export const getDockerHubURL = (dockerImageName) => {
+  const [dockerImage, tag] = dockerImageName.split(':')
+  return `https://hub.docker.com/r/${dockerImage}/${tag}`
+}
+export const openLinkInNewTab = (url) => {
+  if(url.includes("http")){
+    window.open(url,'_blank');
+  }else{
+    window.open("http://"+url,'_blank');
+  }
+}
+
+
+export const mobileNumberMinimunLengthCheck = (number) =>{
+  return number.length>=10
+}
+
+export function toTitleCase(str) {
+
+      return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ""
+    
+  
+}
