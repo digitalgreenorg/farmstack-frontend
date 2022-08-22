@@ -58,9 +58,9 @@ export default function AccountSetting(props) {
   const [accnumberbtn, setaccnumberbtn] = useState(false);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
-  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
-  const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
-  const[phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null)
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState(null);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState(null);
+  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null);
 
   const history = useHistory();
 
@@ -291,7 +291,11 @@ export default function AccountSetting(props) {
               onChange={handleprofilfirstename}
               inputRef={profilefirstname}
               error={ispropfilefirstnameerror || firstNameErrorMessage}
-              helperText={(ispropfilefirstnameerror && !firstNameErrorMessage) ? "Enter Valid Name" : firstNameErrorMessage}
+              helperText={
+                ispropfilefirstnameerror && !firstNameErrorMessage
+                  ? "Enter Valid Name"
+                  : firstNameErrorMessage
+              }
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -310,7 +314,7 @@ export default function AccountSetting(props) {
               // }
               onChange={handleprofilelastname}
               inputRef={profilelastname}
-              error = {lastNameErrorMessage ? true : false}
+              error={lastNameErrorMessage ? true : false}
               helperText={lastNameErrorMessage}
               // error={ispropfilelastnameerror}
               // helperText={
@@ -352,8 +356,8 @@ export default function AccountSetting(props) {
               label={screenlabels.account_settings.contact}
               variant="filled"
               onChange={handleprofilenumber}
-              error = {phoneNumberErrorMessage ? true : false}
-              helperText = {phoneNumberErrorMessage}
+              error={phoneNumberErrorMessage ? true : false}
+              helperText={phoneNumberErrorMessage}
               // error={ispropfilenumbererror}
               // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />
@@ -368,7 +372,7 @@ export default function AccountSetting(props) {
               types={fileTypes}
               children={
                 <UploadProfileimg
-                  uploaddes="Supports: JPEG, PNG not more than 2MB file size"
+                  uploaddes="JPEG and PNG files upto 2 MB in size are supported."
                   uploadtitle="Upload Profile image"
                 />
               }

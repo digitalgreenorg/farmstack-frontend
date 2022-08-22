@@ -30,12 +30,12 @@ export default function GuestUserDatasetFilter(props) {
             <div style={{"margin-left":"55px"}}>
             <span className="filterClearAll">
                         <Button
-                            style={{"font-style":"Open Sans","font-weight": "500","font-size": "13px","bottom":"4px","right":"-10px"}}
+                            style={{"font-style":"Open Sans","font-weight": "500","font-size": "14px","bottom":"5px","right":"-10px","text-transform":"none"}}
                             onClick={() => props.clearAllFilters()}
                             // variant="outlined"
                             // className="cancelbtn"
                             >
-                            Clear All
+                            Clear all
                         </Button></span>
             </div>
             </Col>
@@ -185,7 +185,7 @@ export default function GuestUserDatasetFilter(props) {
             value={props.geoSearchState}
             onChange={(e) => props.handleGeoSearch(e)}
             error={!props.isGeoSearchFound}
-            helperText={!props.isGeoSearchFound ? "Not Found" : ""}
+            helperText={!props.isGeoSearchFound ? "Not found" : ""}
           />
       </Row>
       {/* <Row> */}
@@ -266,7 +266,7 @@ export default function GuestUserDatasetFilter(props) {
             value={props.cropSearchState}
             onChange={(e) => props.handleCropSearch(e)}
             error={!props.isCropSearchFound}
-            helperText={!props.isCropSearchFound ? "Not Found" : ""}
+            helperText={!props.isCropSearchFound ? "Not found" : ""}
           />
       </Row>
       {/* <Row> */}

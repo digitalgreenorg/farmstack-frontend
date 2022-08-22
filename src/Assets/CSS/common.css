@@ -211,7 +211,7 @@ button.submitbtn:hover {
 .settingsTabs .Mui-selected {
   color: #ffffff !important;
   border-radius: 2px 0px 0px 0px;
-  /* text-transform: capitalize !important; */
+  text-transform: none !important;
   background: #c09507;
   width: 220px;
   height: 42px;
@@ -255,7 +255,7 @@ button.submitbtn:hover {
 } */
 :not(.Mui-selected).MuiTab-root {
   background: #ffffff;
-  /* text-transform: capitalize !important; */
+  text-transform: none !important;
   font-weight: 400 !important;
   width: 220px;
   border-left: 1px solid #d8af28 !important;

@@ -26,7 +26,7 @@ export default function UploadPolicyFile(props) {
       <p style={{ color: "#A3B0B8" }}>
         Drag and drop or
         <span>
-          <button class="orguploadbtn info">Browse</button>
+          <button class="orguploadbtn info">browse</button>
         </span>
         your files
       </p>

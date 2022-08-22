@@ -1237,8 +1237,8 @@ export default function DatasetAdmin() {
                                             <TabList
                                                 onChange={handleTabChange}
                                                 aria-label="lab API tabs example">
-                                                <Tab label="My organization" value='1' />
-                                                <Tab label="Other organizations" value='2' />
+                                                <Tab label="My organisation" value='1' />
+                                                <Tab label="Other organisations" value='2' />
                                             </TabList>
                                         </Box>
                                         <TabPanel value='1'>

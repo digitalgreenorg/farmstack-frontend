@@ -70,7 +70,7 @@ export default function AddConnectorParticipant() {
   const [datasets, setdatasets] = React.useState([]);
   const [department_variable, setdepartment_variable] = React.useState([]);
   const [project_variable, setproject_variable] = React.useState([
-    { id: "3526bd39-4514-43fe-bbc4-ee0980bde252", project_name: "default" },
+    { id: "3526bd39-4514-43fe-bbc4-ee0980bde252", project_name: "Default" },
   ]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -366,7 +366,7 @@ export default function AddConnectorParticipant() {
       ) : (
         <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
           <ConnectorForm
-            title={"Configure a new Connector"}
+            title={"Configure a new connector"}
             connector={connector}
             department={department}
             project={project}
