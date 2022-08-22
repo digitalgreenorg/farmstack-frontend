@@ -46,8 +46,9 @@ export default function ConnectorListing(props) {
                   <Button
                       onClick={() => props.getConnectorList(true)}
                       variant="outlined"
-                      className="cancelbtn">
-                      Load More
+                      className="cancelbtn"
+                      style={{"text-transform":"none"}}>
+                      Load more
                   </Button>
               </Col>
           ) : (
