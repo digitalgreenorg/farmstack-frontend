@@ -25,7 +25,7 @@ import PolicySettings from "../PolicySettings/PolicySettings";
 import BrandingSetting from "../branding/BrandingSetting";
 import HandleSessionTimeout from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
-import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import { GetErrorHandlingRoute } from "../../../Utils/Common";
 
 const useStyles = {
   btncolor: {
@@ -48,10 +48,23 @@ const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop50px: { "margin-top": "20px" },
   marginrowtoptab50px: { "margin-top": "50px" },
-  marginrowtop10px: { "margin-top": "20px"},
-  marginrowtopscreen10px: { "margin-top": "10px"},
-  teamword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans"},
-  background: {"margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-right": "60px"},
+  marginrowtop10px: { "margin-top": "20px" },
+  marginrowtopscreen10px: { "margin-top": "10px" },
+  teamword: {
+    "font-weight": "700",
+    "font-size": "20px",
+    "margin-left": "15px",
+    "margin-top": "30px",
+    "margin-bottom": "20px",
+    "font-style": "normal",
+    "font-family": "Open Sans",
+  },
+  background: {
+    "margin-left": "70px",
+    "margin-right": "70px",
+    background: "#FCFCFC",
+    "padding-right": "60px",
+  },
 };
 
 function Settings(props) {
@@ -68,7 +81,7 @@ function Settings(props) {
   const [isPolicyUpdateSuccess, setisPolicyUpdateSuccess] = useState(false);
   const [value, setValue] = React.useState("1");
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
 
   const [memberUrl, setMemberUrl] = useState(
     UrlConstants.base_url + UrlConstants.team_member
@@ -97,15 +110,14 @@ function Settings(props) {
           setisShowLoadMoreButton(true);
           setMemberUrl(response.data.next);
         }
-        if(flag){
+        if (flag) {
           let tempList = [...response.data.results];
-          setteamMemberList(tempList)
-        }else{
+          setteamMemberList(tempList);
+        } else {
           let dataList = teamMemberList;
           let finalDataList = [...dataList, ...response.data.results];
           setteamMemberList(finalDataList);
         }
-        
       })
       .catch((e) => {
         setIsLoader(false);
@@ -141,231 +153,233 @@ function Settings(props) {
     setValue(newValue);
   };
   return (
-    <div className="minHeight501pxsettingpagemaindiv"  style={useStyles.background}>
-      {isLoader ? <Loader />: ''}
+    <div
+      className="minHeight501pxsettingpagemaindiv"
+      style={useStyles.background}>
+      {isLoader ? <Loader /> : ""}
       {/* <Container style={useStyles.marginrowtopscreen10px}> */}
-        {isDelete ? (
-          <Delete
-            route={"login"}
-            imagename={"delete"}
-            firstbtntext={"Delete"}
-            secondbtntext={"Cancel"}
-            deleteEvent={() => deleteTeamMember()}
-            cancelEvent={() => {
-              setisDelete(false);
-              setistabView(true);
-              setisDeleteSuccess(false);
-            }}
-            heading={screenlabels.settings.delete_member}
-            imageText={screenlabels.settings.delete_msg}
-            msg={screenlabels.settings.second_delete_msg}
-            firstmsg={screenlabels.viewparticipants.second_delete_msg}
-            secondmsg={screenlabels.viewparticipants.third_delete_msg}></Delete>
-        ) : (
-          <></>
-        )}
-        {isDeleteSuccess ? (
-          <Success
-            okevent={() => {
-              setMemberUrl(UrlConstants.base_url + UrlConstants.team_member)
-              setteamMemberId("");
-              setisDelete(false);
-              setistabView(true);
-              setisDeleteSuccess(false);
-              getMemberList(true);
-            }}
-            imagename={"success"}
-            btntext={"ok"}
-            heading={"Team Member deleted successfully!"}
-            imageText={"Deleted!"}
-            msg={"You deleted a member."}></Success>
-        ) : (
-          <></>
-        )}
-        {isAccountUpdateSuccess ? (
-          <Success
-            okevent={() => {
-              //   setteamMemberId("");
-              //   setisDelete(false);
-              setistabView(true);
-              setisAccountUpdateSuccess(false);
-              window.location.reload();
-              //   getMemberList();
-            }}
-            imagename={"success"}
-            btntext={"ok"}
-            heading={"Account Settings updated successfully !"}
-            imageText={"Success!"}
-            msg={"Your account settings are updated."}></Success>
-        ) : (
-          <></>
-        )}
-        {isOrgUpdateSuccess ? (
-          <Success
-            okevent={() => {
-              //   setteamMemberId("");
-              //   setisDelete(false);
-              setistabView(true);
-              setisOrgUpdateSuccess(false);
-              //   getMemberList();
-            }}
-            imagename={"success"}
-            btntext={"ok"}
-            heading={"Organisation details updated successfully !"}
-            imageText={"Success!"}
-            msg={"Your organisation details are updated."}></Success>
-        ) : (
-          <></>
-        )}
-        {isBrandUpdateSuccess ? (
-          <Success
-            okevent={() => {
-              //   setteamMemberId("");
-              //   setisDelete(false);
-              setistabView(true);
-              setisBrandUpdateSuccess(false);
-              //   getMemberList();
-            }}
-            imagename={"success"}
-            btntext={"ok"}
-            heading={"Customize Design successfully !"}
-            imageText={"Success!"}
-            msg={"Your Customize Design are updated."}></Success>
-        ) : (
-          <></>
-        )}
-        {isPolicyUpdateSuccess ? (
-          <Success
-            okevent={() => {
-              //   setteamMemberId("");
-              //   setisDelete(false);
-              setistabView(true);
-              setisPolicyUpdateSuccess(false);
-              //   getMemberList();
-            }}
-            imagename={"success"}
-            btntext={"ok"}
-            heading={"Policy details updated successfully !"}
-            imageText={"Success!"}
-            msg={"Your policy details are updated."}></Success>
-        ) : (
-          <></>
-        )}
-        {istabView ? (
-          <Row style={useStyles.marginrowtoptab50px}>
-            <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
-              <Box>
-                <TabContext value={value} className="tabstyle">
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <TabList
-                      onChange={handleChange}
-                      aria-label="lab API tabs example">
-                      <Tab label="Account Settings" value="1" />
-                      <Tab label="Organization Settings" value="2" />
-                      <Tab label="Policy Settings" value="3" />
-                      <Tab label="Team Members" value="4" />
-                      <Tab label="Customize Design" value="5" />
-                    </TabList>
-                  </Box>
-                  <TabPanel value="1">
-                    <AccountSetting
-                      setisAccountUpdateSuccess={() => {
-                        setistabView(false);
-                        setisAccountUpdateSuccess(true);
-                      }}
-                    />
-                  </TabPanel>
-                  <TabPanel value="2">
-                    <OrganisationSetting
-                      setisOrgUpdateSuccess={() => {
-                        setistabView(false);
-                        setisOrgUpdateSuccess(true);
-                      }}
-                    />
-                  </TabPanel>
-                  <TabPanel value="3">
-                    <PolicySettings
-                      setisPolicyUpdateSuccess={() => {
-                        setistabView(false);
-                        setisOrgUpdateSuccess(true);
-                      }}
-                    />
-                  </TabPanel>
-                  <TabPanel value="4">
-                    <Row>
-                      <span style={useStyles.teamword}>Team</span>
-                    </Row>
-                    <Row>
+      {isDelete ? (
+        <Delete
+          route={"login"}
+          imagename={"delete"}
+          firstbtntext={"Delete"}
+          secondbtntext={"Cancel"}
+          deleteEvent={() => deleteTeamMember()}
+          cancelEvent={() => {
+            setisDelete(false);
+            setistabView(true);
+            setisDeleteSuccess(false);
+          }}
+          heading={screenlabels.settings.delete_member}
+          imageText={screenlabels.settings.delete_msg}
+          msg={screenlabels.settings.second_delete_msg}
+          firstmsg={screenlabels.settings.second_delete_msg}
+          secondmsg={screenlabels.settings.third_delete_msg}></Delete>
+      ) : (
+        <></>
+      )}
+      {isDeleteSuccess ? (
+        <Success
+          okevent={() => {
+            setMemberUrl(UrlConstants.base_url + UrlConstants.team_member);
+            setteamMemberId("");
+            setisDelete(false);
+            setistabView(true);
+            setisDeleteSuccess(false);
+            getMemberList(true);
+          }}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Team Member deleted successfully!"}
+          imageText={"Deleted!"}
+          msg={"You deleted a member."}></Success>
+      ) : (
+        <></>
+      )}
+      {isAccountUpdateSuccess ? (
+        <Success
+          okevent={() => {
+            //   setteamMemberId("");
+            //   setisDelete(false);
+            setistabView(true);
+            setisAccountUpdateSuccess(false);
+            window.location.reload();
+            //   getMemberList();
+          }}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Account Settings updated successfully !"}
+          imageText={"Success!"}
+          msg={"Your account settings are updated."}></Success>
+      ) : (
+        <></>
+      )}
+      {isOrgUpdateSuccess ? (
+        <Success
+          okevent={() => {
+            //   setteamMemberId("");
+            //   setisDelete(false);
+            setistabView(true);
+            setisOrgUpdateSuccess(false);
+            //   getMemberList();
+          }}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Organisation details updated successfully !"}
+          imageText={"Success!"}
+          msg={"Your organisation details are updated."}></Success>
+      ) : (
+        <></>
+      )}
+      {isBrandUpdateSuccess ? (
+        <Success
+          okevent={() => {
+            //   setteamMemberId("");
+            //   setisDelete(false);
+            setistabView(true);
+            setisBrandUpdateSuccess(false);
+            //   getMemberList();
+          }}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Customize Design successfully !"}
+          imageText={"Success!"}
+          msg={"Your Customize Design are updated."}></Success>
+      ) : (
+        <></>
+      )}
+      {isPolicyUpdateSuccess ? (
+        <Success
+          okevent={() => {
+            //   setteamMemberId("");
+            //   setisDelete(false);
+            setistabView(true);
+            setisPolicyUpdateSuccess(false);
+            //   getMemberList();
+          }}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Policy details updated successfully !"}
+          imageText={"Success!"}
+          msg={"Your policy details are updated."}></Success>
+      ) : (
+        <></>
+      )}
+      {istabView ? (
+        <Row style={useStyles.marginrowtoptab50px}>
+          <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
+            <Box>
+              <TabContext value={value} className="tabstyle">
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <TabList
+                    onChange={handleChange}
+                    aria-label="lab API tabs example">
+                    <Tab label="Account Settings" value="1" />
+                    <Tab label="Organization Settings" value="2" />
+                    <Tab label="Policy Settings" value="3" />
+                    <Tab label="Team Members" value="4" />
+                    <Tab label="Customize Design" value="5" />
+                  </TabList>
+                </Box>
+                <TabPanel value="1">
+                  <AccountSetting
+                    setisAccountUpdateSuccess={() => {
+                      setistabView(false);
+                      setisAccountUpdateSuccess(true);
+                    }}
+                  />
+                </TabPanel>
+                <TabPanel value="2">
+                  <OrganisationSetting
+                    setisOrgUpdateSuccess={() => {
+                      setistabView(false);
+                      setisOrgUpdateSuccess(true);
+                    }}
+                  />
+                </TabPanel>
+                <TabPanel value="3">
+                  <PolicySettings
+                    setisPolicyUpdateSuccess={() => {
+                      setistabView(false);
+                      setisOrgUpdateSuccess(true);
+                    }}
+                  />
+                </TabPanel>
+                <TabPanel value="4">
+                  <Row>
+                    <span style={useStyles.teamword}>Team</span>
+                  </Row>
+                  <Row>
+                    <Col
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      lg={4}
+                      style={useStyles.marginrowtop10px}>
+                      <AddCard
+                        firstText={screenlabels.settings.firstText}
+                        secondText={screenlabels.settings.secondText}
+                        addevent={() =>
+                          history.push("/datahub/settings/addmember")
+                        }></AddCard>
+                    </Col>
+                    {teamMemberList.map((rowData, index) => (
                       <Col
                         xs={12}
                         sm={6}
                         md={4}
                         lg={4}
                         style={useStyles.marginrowtop10px}>
-                        <AddCard
-                          firstText={screenlabels.settings.firstText}
-                          secondText={screenlabels.settings.secondText}
-                          addevent={() =>
-                            history.push("/datahub/settings/addmember")
-                          }></AddCard>
+                        <TeamMemberCard
+                          id={rowData.id}
+                          profilepic={rowData.profile_picture}
+                          firstname={rowData.first_name}
+                          mainheading={
+                            rowData.first_name + " " + rowData.last_name
+                          }
+                          subheading={rowData.email}
+                          index={index}
+                          role={rowData.role}
+                          deleteTeamMember={(id) => {
+                            setteamMemberId(id);
+                            setisDelete(true);
+                            setistabView(false);
+                            setisDeleteSuccess(false);
+                          }}></TeamMemberCard>
                       </Col>
-                      {teamMemberList.map((rowData, index) => (
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={4}
-                          lg={4}
-                          style={useStyles.marginrowtop10px}>
-                          <TeamMemberCard
-                            id={rowData.id}
-                            profilepic={rowData.profile_picture}
-                            firstname={rowData.first_name}
-                            mainheading={
-                              rowData.first_name + " " + rowData.last_name
-                            }
-                            subheading={rowData.email}
-                            index={index}
-                            role={rowData.role}
-                            deleteTeamMember={(id) => {
-                              setteamMemberId(id);
-                              setisDelete(true);
-                              setistabView(false);
-                              setisDeleteSuccess(false);
-                            }}></TeamMemberCard>
-                        </Col>
-                      ))}
-                    </Row>
-                    <Row style={useStyles.marginrowtop}>
-                      <Col xs={12} sm={12} md={6} lg={3}></Col>
-                      {isShowLoadMoreButton ? (
-                        <Col xs={12} sm={12} md={6} lg={6}>
-                          <Button
-                            onClick={() => getMemberList()}
-                            variant="outlined"
-                            className="cancelbtn">
-                            Load More
-                          </Button>
-                        </Col>
-                      ) : (
-                        <></>
-                      )}
-                    </Row>
-                  </TabPanel>
-                  <TabPanel value="5">
-                    <BrandingSetting
-                      setisBrandUpdateSuccess={() => {
-                        setistabView(false);
-                        setisBrandUpdateSuccess(true);
-                      }}
-                    />
-                  </TabPanel>
-                </TabContext>
-              </Box>
-            </Col>
-          </Row>
-        ) : (
-          <></>
-        )}
+                    ))}
+                  </Row>
+                  <Row style={useStyles.marginrowtop}>
+                    <Col xs={12} sm={12} md={6} lg={3}></Col>
+                    {isShowLoadMoreButton ? (
+                      <Col xs={12} sm={12} md={6} lg={6}>
+                        <Button
+                          onClick={() => getMemberList()}
+                          variant="outlined"
+                          className="cancelbtn">
+                          Load More
+                        </Button>
+                      </Col>
+                    ) : (
+                      <></>
+                    )}
+                  </Row>
+                </TabPanel>
+                <TabPanel value="5">
+                  <BrandingSetting
+                    setisBrandUpdateSuccess={() => {
+                      setistabView(false);
+                      setisBrandUpdateSuccess(true);
+                    }}
+                  />
+                </TabPanel>
+              </TabContext>
+            </Box>
+          </Col>
+        </Row>
+      ) : (
+        <></>
+      )}
       {/* </Container> */}
     </div>
   );

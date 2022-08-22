@@ -265,7 +265,7 @@ export default function AccountSetting(props) {
       {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
         <Row>
-          <span className="title">Account Settings</span>
+          <span className="title">Account settings</span>
         </Row>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>

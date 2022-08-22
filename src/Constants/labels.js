@@ -76,19 +76,19 @@ const labels = {
     settings: {
       heading: "Add new member",
       editheading: "Edit member details",
-      email: "Email",
-      first_name: "First Name",
-      last_name: "Last Name",
+      email: "Email id",
+      first_name: "First name",
+      last_name: "Last name",
       role: "Role",
       delete_member: "Delete Member",
       delete_msg: "Are you sure you want to delete the team member?",
       second_delete_msg:
         "This action will delete the member’s account from the system.",
       third_delete_msg:
-        "The member will no longer be able to use her account in the datahub.",
-      firstText: "Add new Member",
+        "The member's account will no longer be usable in the datahub.",
+      firstText: "Add new member",
       secondText:
-        "Add details about your dataset and make discoverable to other participants in our network.",
+        "Add details about your dataset and make it discoverable to other users of our network.",
     },
     account_settings: {
       email: "Email",
