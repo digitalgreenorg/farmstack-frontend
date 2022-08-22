@@ -267,6 +267,25 @@ const labels = {
       send_pairing_request: "Send Pairing Request",
       cancel: "Cancel",
     },
+    department: {
+      heading: "Add a department",
+      editheading: "Edit a department",
+      department_name: "Department Name",
+      description: "Department Description",
+      department_description: "Description",
+      delete_department: "Delete Department",
+      delete_msg: "Are you sure, you want to delete the department?",
+      second_delete_msg:
+        "This action will delete the department from the system.",
+      third_delete_msg:
+        "The department will no longer be able to use in your acoount.",
+      firstText: "Add new Department",
+      secondText:
+        "Add details about your dataset and make discoverable to other participants in our network.",
+      editbutton: "Edit Department",
+      deletebutton: "Delete Department",
+      viewheading: "Department Details"
+    },
   },
 };
 export default labels;

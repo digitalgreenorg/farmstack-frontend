@@ -17,6 +17,9 @@ import Participantsettings from "../Views/Settings/ParticipantSettings/Participa
 import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
 import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
 import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
+import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
+import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
+import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment"
 
 function Participant(props) {
   return (
@@ -55,6 +58,26 @@ function Participant(props) {
               exact
               path="/participant/connectors/edit/:id"
               component={EditConnectorParticipant}
+            />
+            <Route
+              exact
+              path="/participant/settings"
+              component={Participantsettings}
+            />
+            <Route
+              exact
+              path="/participant/settings/adddepartment"
+              component={DepartmentSettings}
+            />
+            <Route
+              exact
+              path="/participant/settings/editdepartment/:id"
+              component={EditDepartmentSettings}
+            />
+            <Route
+              exact
+              path="/participant/settings/viewdepartment/:id/"
+              component={ViewDepartment}
             />
           </Switch>
         </>
