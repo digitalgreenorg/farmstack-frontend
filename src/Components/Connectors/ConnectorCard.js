@@ -10,7 +10,7 @@ import { dateTimeFormat } from '../../Utils/Common'
 import Button from "@mui/material/Button";
 
 const useStyles = {
-    btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "capitalize", "font-weight": "400", "font-size": "14px" },
+    btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "none", "font-weight": "400", "font-size": "14px" },
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "283px", "border-radius": "2px", width: "414px", "margin-left": "20px" },
     togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "1px solid #ebd79c", cursor: "pointer", height: "283px", width: "414px", "margin-left": "20px" },
     // marginrowtop: { "margin-top": "20px" },
@@ -54,18 +54,18 @@ export default function ConnectorCard(props) {
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {screenlabels.connector.connector_name}
                     </Col>
-                    <Col style={{"text-align":"left","margin-left":"60px","font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+                    <Col style={{"text-align":"left","margin-left":"60px","font-size":"14px","font-weight":"400","text-transform": "none" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {screenlabels.connector.connector_type}
                     </Col>
                 </Row>
                 {/* <Row className="supportcardmargintop"> */}
                 <Row style={useStyles.cardHeading2}>
-                    {/* <Tooltip title={props.geography}> */}
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Tooltip title={props.connectorName}>
+                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 cardConnectorName">
                         {props.connectorName}
                         {/* Connector_P1 */}
                     </Col>
-                    {/* </Tooltip> */}
+                    </Tooltip>
                     <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {props.connectorType}
                         {/* Provider */}
@@ -75,21 +75,23 @@ export default function ConnectorCard(props) {
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {screenlabels.connector.project_name}
                     </Col>
-                    <Col style={{"text-align":"left","margin-left":"60px","font-size":"14px","font-weight":"400","text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+                    <Col style={{"text-align":"left","margin-left":"60px","font-size":"14px","font-weight":"400","text-transform": "none" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         {screenlabels.connector.department_name}
                     </Col>
                 </Row>
                 <Row className="supportcardmargintop">
-                    {/* <Tooltip title={props.geography}> */}
-                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                    <Tooltip title={props.projectName}>
+                    <Col className="fontweight600andfontsize14pxandcolor3D4A52 cardConnectorName">
                         {props.projectName}
                         {/* Sample_Project */}
                     </Col>
-                    {/* </Tooltip> */}
-                    <Col style ={{"text-align":"left","margin-left":"60px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+                    </Tooltip>
+                    <Tooltip title={props.departmentName}>
+                    <Col style ={{"text-align":"left","margin-left":"53px"}} className="fontweight600andfontsize14pxandcolor3D4A52 cardConnectorName">
                         {props.departmentName}
                         {/* sample Department */}
                     </Col>
+                    </Tooltip>
                 </Row>
                 <Row>
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
@@ -98,7 +100,7 @@ export default function ConnectorCard(props) {
                 </Row>
                 <Row className="supportcardmargintop">
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        <span style={{"margin-left":"-10px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+                        <span style={{"margin-left":"-15px"}} className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
                             <img
                                 // src={require("../../Assets/Img/connector_status_icon.svg")}
                                 src={require("../../Assets/Img/"+props.statusImageName)}
@@ -120,9 +122,9 @@ export default function ConnectorCard(props) {
                     {isshowbutton ? 
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         <Button 
-                        // onClick={()=>props.viewCardDetails()} 
+                        onClick={()=>props.viewCardDetails()} 
                         variant="outlined" style={useStyles.btncolor}>
-                            View Details
+                            View details
                         </Button>
                     </Col>     : <></>}
                     </Row>

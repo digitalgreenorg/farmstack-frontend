@@ -1,68 +1,84 @@
-import React, { useState } from 'react'
-import { FileUploader } from 'react-drag-drop-files'
-import UploadBanner from './UploadBanner'
-import './BrandingRightside'
-import { SketchPicker } from 'react-color'
-import Button from '@mui/material/Button'
+import React, { useState } from "react";
+import { FileUploader } from "react-drag-drop-files";
+import UploadBanner from "./UploadBanner";
+import "./BrandingRightside";
+import { SketchPicker } from "react-color";
+import Button from "@mui/material/Button";
 
-import HTTPService from '../../Services/HTTPService'
-import UrlConstant from '../../Constants/UrlConstants'
-import { useHistory } from 'react-router-dom'
-import HandleSessionTimeout, { setTokenLocal, getTokenLocal } from '../../Utils/Common'
-import Loader from '../Loader/Loader'
-import {GetErrorHandlingRoute} from '../../Utils/Common'
+import HTTPService from "../../Services/HTTPService";
+import UrlConstant from "../../Constants/UrlConstants";
+import { useHistory } from "react-router-dom";
+import HandleSessionTimeout, {
+  setTokenLocal,
+  getTokenLocal,
+} from "../../Utils/Common";
+import Loader from "../Loader/Loader";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
+import Footer from "../Footer/Footer";
 
 export default function BrandingRightside(props) {
-  const [file, setFile] = useState(null)
-  const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 })
-  const [hexColor, sethexColor] = useState('')
-  const [Brandingnextbutton, setBrandingnextbutton] = useState(true)
-  const[isLoader, setIsLoader] = useState(false)
+  const [file, setFile] = useState(null);
+  const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 });
+  const [hexColor, sethexColor] = useState("");
+  const [Brandingnextbutton, setBrandingnextbutton] = useState(true);
+  const [isLoader, setIsLoader] = useState(false);
 
-  const history = useHistory()
-  const fileTypes = ['JPEG', 'PNG', 'jpg']
+  const history = useHistory();
+  const fileTypes = ["JPEG", "PNG", "jpg"];
   const handleBannerFileChange = (file) => {
-    setFile(file)
-    console.log(file)
+    setFile(file);
+    console.log(file);
     if (file != null && file.length && file[0].size > 2097152) {
-      setBrandingnextbutton(false)
+      setBrandingnextbutton(false);
     }
-  }
+  };
   const handleColorChange = (color) => {
-    setColor(color.rgb)
-    var hexColor = color.hex
-    console.log(hexColor)
-    sethexColor(hexColor)
-  }
+    setColor(color.rgb);
+    var hexColor = color.hex;
+    console.log(hexColor);
+    sethexColor(hexColor);
+  };
   const handleBrandingSubmit = async (e) => {
-    e.preventDefault()
-    var bodyFormData = new FormData()
-    bodyFormData.append('button_color', hexColor)
-    bodyFormData.append('banner', file)
-    bodyFormData.append('email', props.validemail)
+    e.preventDefault();
+    var bodyFormData = new FormData();
+    bodyFormData.append("button_color", hexColor);
+    bodyFormData.append("banner", file);
+    bodyFormData.append("email", props.validemail);
 
-    console.log('branding data', bodyFormData)
-    let url = UrlConstant.base_url + UrlConstant.branding
+    console.log("branding data", bodyFormData);
+    let url = UrlConstant.base_url + UrlConstant.branding;
 
     setIsLoader(true);
-    await HTTPService('POST', url, bodyFormData, true, true, props.isaccesstoken)
+    await HTTPService(
+      "POST",
+      url,
+      bodyFormData,
+      true,
+      true,
+      props.isaccesstoken
+    )
       .then((response) => {
         setIsLoader(false);
-        console.log('response')
-        console.log('branding details', response.data)
+        console.log("response");
+        console.log("branding details", response.data);
         //   console.log(response.json());
-        console.log(response.status)
-        setTokenLocal(props.isaccesstoken)
-        history.push('/datahub/participants')
+        console.log(response.status);
+        setTokenLocal(props.isaccesstoken);
+        props.setOnBoardedTrue();
+        history.push("/datahub/participants");
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e)
+        console.log(e);
         history.push(GetErrorHandlingRoute(e));
         //   setError(true);
-      })
-  }
+      });
+  };
   const HandleFinishLater = async (e) => {
+    props.setOnBoardedTrue();
+    setTokenLocal(props.isaccesstoken);
+    history.push("/datahub/participants");
+    /*
     e.preventDefault()
     var bodyFormData = new FormData()
     // bodyFormData.append("button_color", hexColor);
@@ -86,10 +102,11 @@ export default function BrandingRightside(props) {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       })
-  }
+      */
+  };
   return (
     <div className="branding">
-      {isLoader ? <Loader />: ''}
+      {isLoader ? <Loader /> : ""}
       <p className="brandingtitle">Create your Branding</p>
       <div>
         <form noValidate autoComplete="off" onSubmit={handleBrandingSubmit}>
@@ -100,8 +117,8 @@ export default function BrandingRightside(props) {
               types={fileTypes}
               children={
                 <UploadBanner
-                  uploaddes="Supports: JPEG, PNG not more than 2MB file size"
-                  uploadtitle="Upload logo"
+                  uploaddes="Size should be '1300 pixels X 220 pixels' 2MB only"
+                  uploadtitle="Upload your banner image here"
                 />
               }
               //   maxSize={2}
@@ -110,13 +127,13 @@ export default function BrandingRightside(props) {
               {file
                 ? file.size
                   ? `File name: ${file.name}`
-                  : ''
-                : 'No file uploaded yet'}
+                  : ""
+                : "No file uploaded yet"}
             </p>
             <p className="oversizemb-brandionglogo">
               {file != null && file.size > 2097152
-                ? 'File uploaded is more than 2MB!'
-                : ''}
+                ? "File uploaded is more than 2MB!"
+                : ""}
             </p>
           </div>
           <p className="colortitle">Button Color</p>
@@ -152,8 +169,7 @@ export default function BrandingRightside(props) {
               // onClick={() => {
               //   history.push("/datahub/participants");
               // }}
-              onClick={HandleFinishLater}
-            >
+              onClick={HandleFinishLater}>
               Finish Later
             </Button>
           </div>
@@ -164,8 +180,7 @@ export default function BrandingRightside(props) {
           width={150}
           height={127}
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+          xmlns="http://www.w3.org/2000/svg">
           <g opacity={0.1} fill="#E7B100">
             <circle cx={5.814} cy={5.728} r={5.728} />
             <circle cx={40.181} cy={5.728} r={5.728} />
@@ -200,6 +215,9 @@ export default function BrandingRightside(props) {
           </g>
         </svg>
       </div>
+      <div style={{ position: "absolute", top: "1200px" }}>
+        <Footer />
+      </div>
     </div>
-  )
+  );
 }

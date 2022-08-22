@@ -1,8 +1,8 @@
 const UrlConstant = {
   base_url: "https://datahubtest.farmstack.co/be/",
   base_url_without_slash: "https://datahubtest.farmstack.co/be",
-  //base_url: "https://27e5-27-7-120-49.in.ngrok.io/",
-  //base_url_without_slash: "https://27e5-27-7-120-49.in.ngrok.io",
+  // base_url: "https://ada8-106-51-85-143.in.ngrok.io/",
+  // base_url_without_slash: "https://ada8-106-51-85-143.in.ngrok.io",
   login: "accounts/login/",
   otp: "accounts/otp/",
   participant: "datahub/participant/",
@@ -32,13 +32,17 @@ const UrlConstant = {
   guest_dataset_filtered_data: "microsite/datasets/dataset_filters/",
   connector_filter: 'participant/connectors/filters_data/',
   connector_list: 'participant/connectors/connectors_filters/',
-  microsite_contact_form: "microsite/contact_form",
+  microsite_contact_form: "microsite/contact_form/",
   microsite_admin_organization: "microsite/admin_organization",
   list_of_dataset: "participant/datasets/list_of_datasets/",
   departments_connector_list: "participant/department/",
   project_list: "participant/project/",
   connector: "participant/connectors/",
   microsite_legal_documents: "/microsite/legal_documents/",
+  consumer_paring_request:'participant/connectors_map/',
+  provider_connectors: 'participant/connectors/get_connectors/?dataset_id=',
+  microsite_theme: "/microsite/theme/",
+  datahub_dashboard : "datahub/dashboard/"
 };
 
 export default UrlConstant;

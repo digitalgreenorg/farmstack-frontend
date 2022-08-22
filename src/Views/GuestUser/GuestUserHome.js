@@ -28,13 +28,13 @@ export default function GuestUserHome(props) {
   const [isLoader, setIsLoader] = useState(false);
 
   return (
-    <>
+    <div className="center_keeping_conatiner">
       {isLoader ? <Loader /> : ""}
       <GuestUserNavBar />
       <GuestUserBanner />
       <GuestUserDescription />
       <GuestUserDatasets />
-      <Footer />
-    </>
+      <Footer disableHomeLink={true}/>
+    </div>
   );
 }

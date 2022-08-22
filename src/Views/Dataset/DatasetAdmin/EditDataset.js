@@ -11,6 +11,7 @@ import {
   HandleSessionTimeout,
   getUserMapId,
   fileUpload,
+  GetErrorKey,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../Constants/ColorConstants";
@@ -62,6 +63,15 @@ export default function EditDataset() {
   //   success screen
   const [isSuccess, setisSuccess] = useState(false);
 
+  const [nameErrorMessage, setnameErrorMessage] = useState(null)
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
+  const [categoryErrorMessage, setCategoryErrorMessage] = useState(null)
+  const [geographyErrorMessage, setGeographyErrorMessage] = useState(null)
+  const [cropDetailErrorMessage, setCropDetailErrorMessage] = useState(null)
+  const [ageErrorMessage, setAgeErrorMessage] = useState(null)
+  const [dataCaptureStartErrorMessage, setDataCaptureStartErrorMessage]= useState(null)
+  const [dataCaptureEndErrorMessage,setDataCaptureEndErrorMessage]= useState(null)
+
   //   retrive id for dataset
   const { id } = useParams();
 
@@ -71,6 +81,16 @@ export default function EditDataset() {
     console.log("clicked on edit dataset submit btn");
     var userid = getUserMapId();
     console.log("user id", userid);
+
+    setnameErrorMessage(null); 
+    setDescriptionErrorMessage(null);
+    setCategoryErrorMessage(null);
+    setGeographyErrorMessage(null); 
+    setCropDetailErrorMessage(null);
+    setAgeErrorMessage(null);
+    setDataCaptureStartErrorMessage(null); 
+    setDataCaptureEndErrorMessage(null); 
+    setfileValid(null); 
 
     const datefrom = new Date(fromdate);
     console.log(datefrom);
@@ -114,10 +134,10 @@ export default function EditDataset() {
     //   bodyFormData.append("age_of_date", "");
     // }
 
-    if (fromdate != null) {
+    if (fromdate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_start", datefrom.toISOString());
     }
-    if (todate != null) {
+    if (todate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_end", dateto.toISOString());
     }
 
@@ -157,8 +177,31 @@ export default function EditDataset() {
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e.response.data.sample_dataset[0]);
-        setfileValid(e.response.data.sample_dataset[0]);
+        //console.log(e.response.data.sample_dataset[0]);
+        var returnValues = GetErrorKey(e, bodyFormData.keys())
+        var errorKeys = returnValues[0]
+        var errorMessages = returnValues[1]
+        if (errorKeys.length > 0){
+          for (var i=0; i<errorKeys.length; i++){
+            switch(errorKeys[i]){
+              case "name": setnameErrorMessage(errorMessages[i]); break;
+              case "description": setDescriptionErrorMessage(errorMessages[i]); break;
+              case "category": setCategoryErrorMessage(errorMessages[i]); break;
+              case "geography": setGeographyErrorMessage(errorMessages[i]); break;
+              case "crop_detail": setCropDetailErrorMessage(errorMessages[i]); break;
+              case "age_of_date": setAgeErrorMessage(errorMessages[i]); break;
+              case "data_capture_start": setDataCaptureStartErrorMessage(errorMessages[i]); break;
+              case "data_capture_end": setDataCaptureEndErrorMessage(errorMessages[i]); break;
+              case "sample_dataset": setfileValid(errorMessages[i]); break;
+              default: history.push(GetErrorHandlingRoute(e)); break;
+            }
+          }
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e))
+        }
+
+        //setfileValid(e.response.data.sample_dataset[0]);
         // history.push(GetErrorHandlingRoute(e));
       });
   };
@@ -184,9 +227,7 @@ export default function EditDataset() {
         // setCropdetail(response.data.crop_detail);
         setSwitchchecked(response.data.constantly_update);
         console.log("testing", response.data.category.crop_detail !== "null");
-        if (response.data.category.crop_detail !== "null") {
-          setCropdetail(response.data.crop_detail);
-        }
+        setCropdetail(response.data.crop_detail);
         setCrop_data(response.data.category.crop_data);
         setPractice_data(response.data.category.practice_data);
         setFarmer_profile(response.data.category.farmer_profile);
@@ -263,8 +304,8 @@ export default function EditDataset() {
   const handleChangedescription = (e) => {
     console.log(e.target.value);
     validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
-    ? setreply(e.target.value)
-    :  e.preventDefault();
+      ? setreply(e.target.value)
+      : e.preventDefault();
   };
   const handledescriptionKeydown = (e) => {
     handleUnwantedSpace(reply, e);
@@ -406,6 +447,14 @@ export default function EditDataset() {
             handleFileChange={handleFileChange}
             file={file}
             fileValid={fileValid}
+            nameErrorMessage = {nameErrorMessage}
+            descriptionErrorMessage= {descriptionErrorMessage}
+            categoryErrorMessage={categoryErrorMessage}
+            geographyErrorMessage={geographyErrorMessage}
+            cropDetailErrorMessage={cropDetailErrorMessage}
+            ageErrorMessage={ageErrorMessage}
+            dataCaptureStartErrorMessage={dataCaptureStartErrorMessage}
+            dataCaptureEndErrorMessage={dataCaptureEndErrorMessage}
           />
 
           <Row>

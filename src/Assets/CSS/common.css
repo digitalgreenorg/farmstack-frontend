@@ -6,9 +6,15 @@
 body {
   font-family: "Open Sans";
   text-align: center !important;
-  width: 1440px;
+  width: 100%;
   height: 100%;
   background-color: #ffffff !important;
+}
+.center_keeping_conatiner{
+  /* border: 1px solid red; */
+  width: 1440px;
+  /* margin-left: 2 */
+margin: 0 auto;
 }
 button.disbalesubmitbtn {
   text-transform: capitalize;
@@ -131,6 +137,7 @@ button.submitbtn:hover {
   font-size: 14px;
   color: #3d4a52;
 }
+
 .fontweight400andfontsize16pxandcolor3D4A52 {
   font-weight: 400;
   font-size: 16px;
@@ -204,9 +211,9 @@ button.submitbtn:hover {
 .settingsTabs .Mui-selected {
   color: #ffffff !important;
   border-radius: 2px 0px 0px 0px;
-  text-transform: capitalize !important;
+  text-transform: none !important;
   background: #c09507;
-  width: 200px;
+  width: 220px;
   height: 42px;
   font-weight: 400;
   border-bottom: none !important;
@@ -248,9 +255,9 @@ button.submitbtn:hover {
 } */
 :not(.Mui-selected).MuiTab-root {
   background: #ffffff;
-  text-transform: capitalize !important;
+  text-transform: none !important;
   font-weight: 400 !important;
-  width: 200px;
+  width: 220px;
   border-left: 1px solid #d8af28 !important;
   border-right: 1px solid #d8af28 !important;
   border-top: 1px solid #d8af28 !important;
@@ -417,6 +424,15 @@ button.submitbtnupdt {
   background: none !important;
 }
 
+/* common css for dashboard */
+.widht640andheight368pxandborderradius10andborder1pxsolidE4E4E4 {
+  width: 640px;
+  height: 368px;
+  border-radius: 10px;
+  /* border: 1px solid #d21a1a; */
+  border: 1px solid #E4E4E4;
+}
+
 .separatorline {
   margin-left: -200px;
   margin-right: -200px;
@@ -465,4 +481,175 @@ MuiLinearProgress-determinate{
 /* mui typography  */
 .MuiTypography-root {
   font-family: "Open Sans" !important;
+}
+
+.tocapitalizethefirstletter{
+  text-transform: capitalize;
+}
+
+
+
+.memberDataSetCardTooltipAndWidthAndOverflowWidth200{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px !important;
+  /* border: 1px solid red; */
+}
+
+.memberDataSetCardTooltipAndWidthAndOverflow{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* min-width: 100px !important; */
+  /* max-width: 350px !important; */
+  /* border: 1px solid red; */
+  /* padding: 0; */
+}
+
+.text_overflow_ellipsis_overflow_hidden{
+text-overflow: ellipsis;
+overflow: hidden;
+
+}
+
+.width100px {
+  width: 100px;
+  /* border: 1px solid red; */
+}
+.width150px {
+  width: 150px;
+  
+}
+
+.width173px{
+  width: 173px;
+  /* border: 1px solid red; */
+}
+.width200px{
+  width: 200px;
+  /* border: 1px solid red; */
+}
+.width250px{
+  width: 250px;
+}
+.width260px{
+  width: 250px;
+}
+.width270px{
+  width: 270px;
+  /* border: 1px solid red; */
+
+}
+
+.width300px{
+  width: 300px;
+  /* border: 1px solid red; */
+
+}
+
+.width300px_mt5px{
+  width: 300px;
+  margin-top: 5px;
+  /* border: 1px solid red; */
+
+
+}
+
+.width600px{
+  width: 600px;
+  /* border: 1px solid blue; */
+
+}
+.width1000px{
+  width: 1000px;
+/* border: 1px solid red; */
+
+}
+
+.classForPtag {
+/* border: 1px solid red; */
+/* width: 1000px; */
+
+}
+
+
+.cardheaderTitlespecifier .css-et1ao3-MuiTypography-root{
+  /* border: 1px solid red; */
+  width: 250px;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+}
+.cardheaderTitlespecifier .css-et1ao3-MuiTypography-root{
+  /* border: 1px solid green; */
+  width: 250px;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+}
+.cardheaderTitlespecifier .css-83ijpv-MuiTypography-root{
+  /* border: 1px solid green; */
+  width: 250px;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+}
+
+
+
+.red{
+  border: 1px solid red;
+}
+
+.successIconInsideCardheader{
+  /* border: 1px solid red; */
+  width: 22px;
+  height: 21px;
+}
+.MuiCardHeader-content{
+  position: relative;
+}
+.MuiCardHeader-content .successIconInsideCardheader{
+  position: absolute;
+  right: 11px;
+  bottom:0px ;
+}
+.dockerImageURL{
+  color: #3491EE;
+  cursor: pointer;
+}
+
+.minHeightWithoutFooter{
+  min-height: 400px;
+  /* border: 1px solid green; */
+}
+
+/* .minHeight300px{
+  min-height:255px;
+  border: 1px solid red;
+  max-height: 255px;
+} */
+
+.minHeight232px{
+  min-height: 232px;
+  /* border: 1px solid red; */
+  /* max-height: 232px; */
+}
+
+.minHeight501pxsettingpagemaindiv{
+  min-height: 501px;
+  /* border: 1px solid red; */
+  /* max-height: 509px; */
+}
+
+
+.minHeight67vhParticipantPage{
+  min-height: 67.5vh;
+  /* border: 1px solid red; */
+  /* max-height: 100vh; */
+}
+.minHeight67vhDatahubPage{
+  min-height: 67.5vh;
+  /* border: 1px solid red; */
+  /* max-height: 100vh; */
+}
+
+.hover{
+  cursor: pointer;
 }

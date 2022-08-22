@@ -19,6 +19,7 @@ import { validateInputField, handleUnwantedSpace } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
 
 import labels from "../../Constants/labels";
+import { FormHelperText } from "@mui/material";
 
 const connectorType = ["Provider", "Consumer"];
 const fileTypes = ["p12", "pfx"];
@@ -125,27 +126,53 @@ export default function ConnectorForm(props) {
                   {name}
                 </MenuItem>
               ))}
+               {/* error={props.typeErrorMessage ? true : false} */}
             </Select>
+             {/*<FormHelperText>{props.typeErrorMessage}</FormHelperText>*/}
           </FormControl>
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="dataset">
-          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
-            <InputLabel id="demo-simple-select-required-label">
-              {screenlabels.connector_form.selectDataset}
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
-              value={props.Dataset}
-              onChange={props.handleChangeDataset}>
-              {props.datasets.map((dataset, index) => (
-                //    console.log(dataset)
-                <MenuItem key={dataset.id} value={dataset.id}>
-                  {dataset.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {props.connector ? (
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+              <InputLabel id="demo-simple-select-required-label">
+                {screenlabels.connector_form.selectDataset}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                value={props.Dataset}
+                onChange={props.handleChangeDataset}>
+                {props.datasets.map((dataset, index) => (
+                  //    console.log(dataset)
+                  <MenuItem key={dataset.id} value={dataset.id}>
+                    {dataset.name}
+                  </MenuItem>
+                ))}
+                {/* error={props.datasetErrorMessage ? true : false} */}
+              </Select>
+              {/*<FormHelperText>{props.datasetErrorMessage}</FormHelperText>*/}
+            </FormControl>
+          ) : (
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }} disabled>
+              <InputLabel id="demo-simple-select-required-label">
+                {screenlabels.connector_form.selectDataset}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                value={props.Dataset}
+                onChange={props.handleChangeDataset}>
+                {props.datasets.map((dataset, index) => (
+                  //    console.log(dataset)
+                  <MenuItem key={dataset.id} value={dataset.id}>
+                    {dataset.name}
+                  </MenuItem>
+                ))}
+                {/* error={props.datasetErrorMessage ? true : false} */}
+              </Select>
+              {/*<FormHelperText>{props.datasetErrorMessage}</FormHelperText>*/}
+            </FormControl>
+          )}
         </Col>
       </Row>
       <Row>
@@ -160,6 +187,9 @@ export default function ConnectorForm(props) {
             value={props.connectorName}
             onChange={props.handleChangeConnectorName}
             label={screenlabels.connector_form.connectorName}
+            error={props.nameErrorMessage ? true : false}
+            helperText={props.nameErrorMessage}
+
           />
         </Col>
       </Row>
@@ -168,8 +198,9 @@ export default function ConnectorForm(props) {
           <Link
             component="button"
             variant="body2"
-            onClick={() => {
+            onClick={(e) => {
               console.info("I'm a button.");
+              e.preventDefault();
             }}
             underline="hover">
             {screenlabels.connector_form.addDepartment}
@@ -179,8 +210,9 @@ export default function ConnectorForm(props) {
           <Link
             component="button"
             variant="body2"
-            onClick={() => {
+            onClick={(e) => {
               console.info("I'm a button.");
+              e.preventDefault();
             }}
             underline="hover">
             {screenlabels.connector_form.addProject}
@@ -203,27 +235,53 @@ export default function ConnectorForm(props) {
                   {department.department_name}
                 </MenuItem>
               ))}
+              {/* error={props.departErrorMessage ? true : false} */}
             </Select>
+            {/*<FormHelperText>{props.departErrorMessage}</FormHelperText>*/}
           </FormControl>
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="project">
-          <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
-            <InputLabel id="demo-simple-select-required-label">
-              {screenlabels.connector_form.selectProject}
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
-              //   onOpen={props.handleOpen}
-              value={props.project}
-              onChange={props.handleChangeProject}>
-              {props.project_variable.map((project, index) => (
-                <MenuItem key={project.id} value={project.id}>
-                  {project.project_name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {props.department ? (
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+              <InputLabel id="demo-simple-select-required-label">
+                {screenlabels.connector_form.selectProject}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                //   onOpen={props.handleOpen}
+                value={props.project}
+                onChange={props.handleChangeProject}>
+                {props.project_variable.map((project, index) => (
+                  <MenuItem key={project.id} value={project.id}>
+                    {project.project_name}
+                  </MenuItem>
+                ))}
+                {/* error={props.projectErrorMessage ? true : false} */}
+              </Select>
+              {/* <FormHelperText>{props.projectErrorMessage}</FormHelperText> */}
+            </FormControl>
+          ) : (
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }} disabled>
+              <InputLabel id="demo-simple-select-required-label">
+                {screenlabels.connector_form.selectProject}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                //   onOpen={props.handleOpen}
+                value={props.project}
+                onChange={props.handleChangeProject}>
+                {props.project_variable.map((project, index) => (
+                  <MenuItem key={project.id} value={project.id}>
+                    {project.project_name}
+                  </MenuItem>
+                ))}
+                {/* error={props.projectErrorMessage ? true : false} */}
+              </Select>
+              {/* <FormHelperText>{props.projectErrorMessage}</FormHelperText> */}
+            </FormControl>
+          )}
         </Col>
       </Row>
       <Row>
@@ -238,6 +296,8 @@ export default function ConnectorForm(props) {
             value={props.docker}
             onChange={props.handleChangeDocker}
             label={screenlabels.connector_form.docker}
+            error={props.dockerErrorMessage ? true : false}
+            helperText={props.dockerErrorMessage}
           />
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} className="port">
@@ -256,6 +316,8 @@ export default function ConnectorForm(props) {
               inputMode: "numeric",
               pattern: "[0-9]*",
             }}
+            error={props.portErrorMessage ? true : false}
+            helperText={props.portErrorMessage}
           />
         </Col>
       </Row>
@@ -271,6 +333,8 @@ export default function ConnectorForm(props) {
             maxLength={500}
             onKeyDown={props.handledescriptionKeydown}
             onChange={props.handleChangedescription}
+            error={props.descriptionErrorMessage ? true : false}
+            helperText={props.descriptionErrorMessage}
           />
         </Col>
       </Row>

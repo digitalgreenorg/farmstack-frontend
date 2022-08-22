@@ -12,6 +12,9 @@ import Footer from "../../Components/Footer/Footer";
 import validator from "validator";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
+
+import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
+
 export default function GuestUserContact(props) {
   // var validator = require('validator');
   const history = useHistory();
@@ -32,7 +35,15 @@ export default function GuestUserContact(props) {
     queryDescription: "",
   });
 
+  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
+  const[lastNameErrorMessage, setLastNameErrorMessage] = useState(null)
+  const[emailErrorMessage, setEmailErrorMessage] = useState(null)
+  const[contactNumberErrorMessage, setContactNumberErrorMessage] = useState(null)
+  const[subjectErrorMessage,setSubjectErrorMessage] = useState(null)
+  const[describeQueryErrorMessage, setDescribeQueryErrorMessage] = useState(null)
+
   const handleChange = (e) => {
+    // e.preventDefault()
     if (e.target.name == "email") {
       setEmailError(!validator.isEmail(e.target.value));
     }
@@ -59,7 +70,7 @@ export default function GuestUserContact(props) {
     },
     fullWidth: {
       width: "860px",
-      height: "49px",
+      // height: "49px",
     },
     marginRight: { "margin-right": "20px" },
     headingbold: { fontWeight: "bold" },
@@ -68,6 +79,14 @@ export default function GuestUserContact(props) {
   // Axios Call for getting data from backend
   const addNewGuestUserData = () => {
     setIsLoader(true)
+
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setEmailErrorMessage(null); 
+    setSubjectErrorMessage(null); 
+    setDescribeQueryErrorMessage(null); 
+    setContactNumberErrorMessage(null); 
+
     // var bodyFormData1 = {
     //   "first_name": useDetails.firstName,
     //   "last_name": useDetails.lastName,
@@ -99,7 +118,7 @@ export default function GuestUserContact(props) {
 
     bodyFormData.append("contact_number", useDetails.contactNumber);
     
-    
+    console.log("LENGTH" , useDetails.contactNumber.length )
 
 
     console.log(bodyFormData)
@@ -112,22 +131,37 @@ export default function GuestUserContact(props) {
       false
     )
       .then((response) => {
+        
         setIsLoader(false);
         setIsSuccess(true);
       })
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        setUserDetails({
-            firstName: "",
-            lastName: "",
-            email: "",
-            contactNumber: "",
-            subject: "",
-            queryDescription: "",
-          });
-        // setisexisitinguseremail(true);
-        //history.push(GetErrorHandlingRoute(e));
+
+
+        var returnValues = GetErrorKey(e, bodyFormData.keys())
+        var errorKeys = returnValues[0]
+        var errorMessages = returnValues[1]
+        if (errorKeys.length > 0){
+          for (var i=0; i<errorKeys.length; i++){
+            switch(errorKeys[i]){
+              case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
+              case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
+              case "email": setEmailErrorMessage(errorMessages[i]); break;
+              case "subject": setSubjectErrorMessage(errorMessages[i]); break;
+              case "describe_query": setDescribeQueryErrorMessage(errorMessages[i]); break;
+              case "contact_number": setContactNumberErrorMessage(errorMessages[i]); break;
+              default: history.push(GetErrorHandlingRoute(e)); break;
+            }
+          }
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e))
+        }
+
+  
+        history.push(GetErrorHandlingRoute(e));
       });
   };
   
@@ -157,7 +191,7 @@ export default function GuestUserContact(props) {
         setIsLoader(false);
         console.log(e);
         // setisexisitinguseremail(true);
-        //history.push(GetErrorHandlingRoute(e));
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -166,14 +200,14 @@ export default function GuestUserContact(props) {
   },[]);
 
   return (
-    <>
+    <div className="center_keeping_conatiner">
       {isLoader ? <Loader /> : ""}
       <GuestUserNavBar />
       <GuestUserBanner />
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/guest/home")}
-          route={"guest/home"}
+          okevent={() => history.push("/home")}
+          route={"/home"}
           imagename={"success"}
           btntext={"ok"}
           heading={"Thanks for reaching us."}
@@ -196,10 +230,16 @@ export default function GuestUserContact(props) {
           datahubUserDetails={datahubUserDetails}
           isdescriptionerror={isdescriptionerror}
           addNewGuestUserData={addNewGuestUserData}
+          firstNameErrorMessage={firstNameErrorMessage}
+          lastNameErrorMessage={lastNameErrorMessage}
+          emailErrorMessage={emailErrorMessage}
+          contactNumberErrorMessage={contactNumberErrorMessage}
+          subjectErrorMessage={subjectErrorMessage}
+          describeQueryErrorMessage={describeQueryErrorMessage}
         />
       )}
 
-      <Footer />
-    </>
+      <Footer disableContactLink={true}/>
+    </div>
   );
 }

@@ -20,13 +20,15 @@ import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/Connec
 import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment"
+import Footer from "../Components/Footer/Footer";
 
 function Participant(props) {
   return (
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
-        <>
+        <div className="center_keeping_conatiner">
           <ParticipantNavbar />
+          <div className="minHeight67vhParticipantPage">
           <Switch>
             <Route
               exact
@@ -80,10 +82,12 @@ function Participant(props) {
               component={ViewDepartment}
             />
           </Switch>
-        </>
+          </div>
+          <Footer/>
+        </div>
       ) : (
         props.history.push("/login")
-      )}
+        )}
     </>
   );
 }

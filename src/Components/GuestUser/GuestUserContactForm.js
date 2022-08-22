@@ -5,15 +5,29 @@ import styles from "./guestUserContactForm.module.css";
 import { useHistory } from "react-router-dom";
 
 import {
+  createTheme,
   FormControlLabel,
   FormLabel,
   Radio,
   RadioGroup,
   TextField,
+  Tooltip,
 } from "@mui/material";
-import { validateInputField } from "../../Utils/Common";
+import { openLinkInNewTab, mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { yellow } from "@mui/material/colors";
+import { MuiThemeProvider, Zoom } from "@material-ui/core";
+import parse from "html-react-parser"
+import success from "../../Assets/Img/successiconsvg.svg"
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#F1F1F1'
+    }
+  }
+});
+
 
 const GuestUserContactForm = ({
   isSuccess,
@@ -30,6 +44,12 @@ const GuestUserContactForm = ({
   datahubUserDetails,
   isdescriptionerror,
   addNewGuestUserData,
+  firstNameErrorMessage,
+  lastNameErrorMessage,
+  emailErrorMessage,
+  contactNumberErrorMessage,
+  subjectErrorMessage,
+  describeQueryErrorMessage
 }) => {
   const history = useHistory();
 
@@ -38,11 +58,12 @@ const GuestUserContactForm = ({
       <Row>
         <Col className={styles.guestUserContactUsHeading}>
           {guestUserConstants.guestUser.contact_us}
+            
         </Col>
       </Row>
       <Row>
         <Col
-          onClick={() => history.push("/guest/home")}
+          onClick={() => history.push("/home")}
           className={styles.backButtonMainDiv}
         >
           <ArrowBackIcon className={styles.backArrowIcon}></ArrowBackIcon>{" "}
@@ -89,10 +110,12 @@ const GuestUserContactForm = ({
             }}
           >
             <div>{guestUserConstants.guestUser.datahub_admin_name}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.admin_name}>
+
             <div className={styles.guestUserDatahubAdminDetails}>
-              {datahubUserDetails.admin_name
-                }
+              {datahubUserDetails.admin_name}
             </div>
+                </Tooltip>
           </Row>
           <Row
             style={{
@@ -102,11 +125,14 @@ const GuestUserContactForm = ({
             }}
           >
             <div>{guestUserConstants.guestUser.organization_name}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.org_name}>
+
             <div className={styles.guestUserDatahubAdminDetails}>
               {" "}
               {datahubUserDetails.org_name
                }
             </div>
+            </Tooltip>
           </Row>
           <Row
             style={{
@@ -116,10 +142,14 @@ const GuestUserContactForm = ({
             }}
           >
             <div>{guestUserConstants.guestUser.address}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.address}>
+
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.address
                }
             </div>
+            </Tooltip>
+
           </Row>
           <Row
             style={{
@@ -129,10 +159,14 @@ const GuestUserContactForm = ({
             }}
           >
             <div>{guestUserConstants.guestUser.phone}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.phone_number}>
+
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.phone_number
                }
             </div>
+            </Tooltip>
+
           </Row>
         </Col>
         <Col style={{ maxWidth: "340px", textAlign: "left" }}>
@@ -144,10 +178,14 @@ const GuestUserContactForm = ({
             }}
           >
             <div> {guestUserConstants.guestUser.datahub_admin_email}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.admin_email}>
+
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.admin_email
                 }
             </div>
+            </Tooltip>
+
           </Row>
           <Row
             style={{
@@ -157,10 +195,14 @@ const GuestUserContactForm = ({
             }}
           >
             <div>{guestUserConstants.guestUser.country}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.country}>
+            
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.country
                }
             </div>
+            </Tooltip>
+
           </Row>
           <Row
             style={{
@@ -170,9 +212,13 @@ const GuestUserContactForm = ({
             }}
           >
             <div>{guestUserConstants.guestUser.city}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.city}>
+
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.city }
             </div>
+            </Tooltip>
+
           </Row>
           <Row
             style={{
@@ -180,12 +226,17 @@ const GuestUserContactForm = ({
               display: "flex",
               flexDirection: "column",
             }}
-          >
+          >  
             <div>{guestUserConstants.guestUser.website}</div>
-            <div className={styles.guestUserDatahubAdminDetails}>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.website}>
+
+            <div className={styles.guestUserDatahubAdminDetails} style={{color: '#3491EE', cursor: 'pointer'}} 
+                onClick={()=>openLinkInNewTab(datahubUserDetails.website)}>
               {datahubUserDetails.website
               }
             </div>
+            </Tooltip>
+
           </Row>
         </Col>
         <Col style={{ maxWidth: "174px", textAlign: "left" }}>
@@ -197,10 +248,14 @@ const GuestUserContactForm = ({
             }}
           >
             <div>{guestUserConstants.guestUser.datahub_admin_phone}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.admin_phone}>
+
             <div className={styles.guestUserDatahubAdminDetails}>
-              {datahubUserDetails.admin_phone
+              {datahubUserDetails.admin_phone ? datahubUserDetails.admin_phone : "-"
                 }
             </div>
+            </Tooltip>
+
           </Row>
           <Row
             style={{
@@ -210,10 +265,14 @@ const GuestUserContactForm = ({
             }}
           >
             <div>{guestUserConstants.guestUser.pin_code}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.admin_pin_code}>
+
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.admin_pin_code
                 }
             </div>
+            </Tooltip>
+
           </Row>
 
           <Row
@@ -224,10 +283,14 @@ const GuestUserContactForm = ({
             }}
           >
             <div> {guestUserConstants.guestUser.email}</div>
+            <Tooltip placement="bottom-start" TransitionComponent={Zoom} title={datahubUserDetails.email_id}>
+
             <div className={styles.guestUserDatahubAdminDetails}>
               {datahubUserDetails.email_id
                }
             </div>
+            </Tooltip>
+
           </Row>
         </Col>
       </Container>
@@ -274,6 +337,8 @@ const GuestUserContactForm = ({
                   : e.preventDefault()
               }
               label={guestUserConstants.guestUser.first_name}
+              error = {firstNameErrorMessage ? true : false}
+              helperText = {firstNameErrorMessage}
             />
           </Col>
           <Col style={{ width: "100%", padding: 0 }}>
@@ -289,7 +354,9 @@ const GuestUserContactForm = ({
                   : e.preventDefault()
               }
               label={guestUserConstants.guestUser.last_name}
-              error={"enter correct details"}
+              error = {lastNameErrorMessage ? true : false}
+              helperText = {lastNameErrorMessage}
+              // error={"enter correct details"}
               //   helperText={"error"}
             />
           </Col>
@@ -328,24 +395,31 @@ const GuestUserContactForm = ({
                   : e.preventDefault()
               }
               label={guestUserConstants.guestUser.email}
+              error = {emailErrorMessage ? true : false}
+              helperText = {emailErrorMessage}
+              
               // error={props.isorganisationemailerror}
               // helperText={
               //   props.isorganisationemailerror ? "Enter Valid Email id" : ""
               // }
             />
           </Col>
-          <Col style={{ width: "100%", padding: 0 }}>
+          <Col style={{ width: "100%", padding: 0}}>
+            
             <MuiPhoneNumber
             autoComplete={false}
-
+            countryCodeEditable={false}
+              
               name="contactNumber"
               defaultCountry={"in"}
               style={{ width: "100%", height: "49px" }}
               //   style={useStyles.inputwidth}
               //   placeholder={}
+              
               id="filled-basic"
-              label={guestUserConstants.guestUser.contact_number}
               variant="filled"
+              // color="false"
+              label={guestUserConstants.guestUser.contact_number}
               required
               value={useDetails.contactNumber}
               onChange={(value) =>
@@ -353,8 +427,10 @@ const GuestUserContactForm = ({
                   target: { name: "contactNumber", value: value },
                 })
               }
-              error={iscontactnumbererror}
-              helperText={iscontactnumbererror ? "Enter Valid Number" : ""}
+              error = {contactNumberErrorMessage ? true : false}
+              helperText = {contactNumberErrorMessage}
+              // error={iscontactnumbererror}
+              // helperText={iscontactnumbererror ? "Enter Valid Number" : ""}
             />
           </Col>
         </Row>
@@ -423,20 +499,29 @@ const GuestUserContactForm = ({
           <TextField
             style={useStyles.fullWidth}
             name="queryDescription"
-            id="filled-basic"
+            // id="filled-basic"
+            
             label={guestUserConstants.guestUser.describe_your_query}
             placeholder="Write"
             multiline
             required
+            value={useDetails.queryDescription}
             maxRows={3}
-            autoComplete={false}
+            // rows={3}
+            // minRows={3}
+            // autoComplete={false}
             inputProps={{ maxLength: 1000 }}
             variant="filled"
             onChange={(e) =>
-              validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
-                ? handleChange(e)
-                : e.preventDefault()
+              {
+                e.target.value = e.target.value.replace(/\s{2,}/g,' ')
+                validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+                  ? handleChange(e)
+                  : e.preventDefault()
+              }
             }
+            error = {describeQueryErrorMessage ? true : false}
+            helperText = {describeQueryErrorMessage}
           />
         </Row>
         <Row>
@@ -444,6 +529,7 @@ const GuestUserContactForm = ({
           <Col xs={12} sm={12} md={6} lg={6}>
             {useDetails.firstName &&
             useDetails.email &&
+            mobileNumberMinimunLengthCheck(useDetails.contactNumber) &&
             useDetails.queryDescription &&
             !emailError &&
             !iscontactnumbererror &&
@@ -452,7 +538,7 @@ const GuestUserContactForm = ({
                 onClick={() => addNewGuestUserData()}
                 variant="contained"
                 className={styles.submitbtn}
-                style={{ marginTop: "50px" }}
+                style={{ marginTop: "100px" }}
                 
                 // onClick={() => {
                 //   setIsSuccess(true);
@@ -462,21 +548,22 @@ const GuestUserContactForm = ({
               </Button>
             ) : (
               <Button
-                style={{ marginTop: "50px" }}
+                style={{ marginTop: "100px" }}
                 variant="contained"
                 disabled
                 className={styles.submitbtn}
 
-                onClick={() => history.push("/guest/home")}
+                onClick={() => history.push("/home")}
               >
                 {guestUserConstants.guestUser.submit}
               </Button>
             )}
             <Button
-              style={{ marginTop: "30px" }}
+              style={{ marginTop: "0px", boxShadow:"none" }}
               variant="outlined"
               className="cancelbtn"
-              onClick={() => history.push("/guest/home")}
+              
+              onClick={() => history.push("/home")}
             >
               {guestUserConstants.guestUser.cancel}
             </Button>
@@ -488,3 +575,5 @@ const GuestUserContactForm = ({
 };
 
 export default GuestUserContactForm;
+
+

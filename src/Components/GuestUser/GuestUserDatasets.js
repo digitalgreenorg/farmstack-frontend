@@ -63,8 +63,11 @@ export default function GuestUserDatasets() {
         { index: 0, name: "3 Months", payloadName: "3 months", isChecked: false },
         { index: 1, name: "6 Months", payloadName: "6 months", isChecked: false },
         { index: 2, name: "9 Months", payloadName: "9 months", isChecked: false },
-        { index: 3, name: "12 Months", payloadName: "12 months", isChecked: false },
-        { index: 4, name: "Constantly Updating", payloadName: "constantly_updating", isChecked: false }])
+        { index: 3, name: "12 Months", payloadName: "12 months", isChecked: false }
+        // { index: 4, name: "Constantly Updating", payloadName: "constantly_updating", isChecked: false }
+    ])
+    
+    const [constantyUpdateSwitch, setConstantyUpdateSwitch] = useState(false)
 
     const [statusFilter, setStatusFilter] = useState([
         { index: 0, name: screenlabels.dataset.for_review, payloadName: "for_review", isChecked: false },
@@ -83,6 +86,8 @@ export default function GuestUserDatasets() {
     const [tablekeys, settablekeys] = useState([])
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
+    const [filterState, setFilterState] = useState({})
+
     var payload = ""
     var adminUrl = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
     //var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
@@ -93,6 +98,37 @@ export default function GuestUserDatasets() {
         adminUrl = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
         //memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
     }
+    const handleConstantyUpdateSwitch = (event) => {
+        console.log(event.target.checked)
+        let data = {}
+        setFilterState({})
+        // data['user_id'] = getUserLocal()
+        // data['org_id'] = getOrgLocal()
+        // if (isMemberTab) {
+        //     data['others'] = true
+        // } else {
+        //     data['others'] = false
+        // }
+        if(event.target.checked){
+            setIsShowAll(false)
+            data['constantly_update'] = true
+        } else{
+            setIsShowAll(true)
+        }
+        setFilterState(data)
+        payload = data
+        resetDateFilters()
+        resetFilterState(screenlabels.dataset.age)
+        resetFilterState(screenlabels.dataset.crop)
+        resetFilterState(screenlabels.dataset.status)
+        resetFilterState(screenlabels.dataset.enabled)
+        resetFilterState(screenlabels.dataset.geography)
+
+        setConstantyUpdateSwitch(event.target.checked)
+
+        getDatasetList(false)
+    }
+
     const handleFilterChange = (index, filterName) => {
 
         // var tempFilterMaster = []
@@ -103,6 +139,7 @@ export default function GuestUserDatasets() {
 
         setIsShowAll(false)
         resetDateFilters()
+        setConstantyUpdateSwitch(false)
         // resetEnabledStatusFilter()
         // resetUrls()
 
@@ -357,11 +394,12 @@ export default function GuestUserDatasets() {
                 setCropFilterDisplay(initFilter(cropFilterInput))
                 console.log("geoFilterDisplay", geoFilterDisplay)
                 console.log("cropFilterDisplay", cropFilterDisplay)
+                setConstantyUpdateSwitch(false)
 
             })
             .catch((e) => {
                 setIsLoader(false);
-                //history.push(GetErrorHandlingRoute(e));
+                history.push(GetErrorHandlingRoute(e));
             });
     }
 
@@ -382,13 +420,24 @@ export default function GuestUserDatasets() {
 
 
     const getDatasetList = (isLoadMore) => {
+
+        setIsLoader(true);
+
         if(!isLoadMore){
             resetUrls()
+            if (payload == "") {
+                payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+            }
+        } else {
+            payload = {...filterState}
         }
-        setIsLoader(true);
-        if (payload == "") {
-            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-        }
+        // setIsLoader(true);
+        // if (payload == "") {
+        //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        // }
+        // if (isLoadMore){
+        //     payload = {...filterState}
+        // }
         HTTPService(
             "POST",
             // "GET",
@@ -407,6 +456,7 @@ export default function GuestUserDatasets() {
                     setisShowLoadMoreButton(false)
                     setShowLoadMoreAdmin(false)
                     setShowLoadMoreMember(false)
+                    setFilterState({})
                 } else {
                     setisShowLoadMoreButton(true)
                     if (value == "1") {
@@ -448,7 +498,7 @@ export default function GuestUserDatasets() {
     const buildFilterPayLoad = (createdAtRange, userId, geoPayload, agePayload, cropPayload, statusPayload) => {
         let data = {}
         if (createdAtRange !== "") {
-            data['created_at__range'] = createdAtRange
+            data['updated_at__range'] = createdAtRange
         }
         //data['user_id'] = userId
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
@@ -465,13 +515,13 @@ export default function GuestUserDatasets() {
             data['crop_detail__in'] = cropPayload
         }
         if(agePayload !== ""){
-            if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
-                agePayload.splice(agePayload.length-1)
-                data['constantly_update'] = true
-            }
-            if (agePayload.length>0) {
+            // if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
+            //     agePayload.splice(agePayload.length-1)
+            //     data['constantly_update'] = true
+            // }
+            // if (agePayload.length>0) {
                 data['age_of_date__in'] = agePayload
-            }
+            // }
         }
         if (statusPayload !== "") {
             data['approval_status__in'] = statusPayload
@@ -479,6 +529,7 @@ export default function GuestUserDatasets() {
         if (enableStatusFilter[0].isChecked || enableStatusFilter[1].isChecked) {
             data['is_enabled'] = enableStatusFilter[0].isChecked
         }
+        setFilterState(data)
         return data
     }
 
@@ -507,6 +558,7 @@ export default function GuestUserDatasets() {
     const clearAllFilters = () => {
         setIsShowAll(true)
         resetDateFilters()
+        setConstantyUpdateSwitch(false)
         // resetUrls()
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
@@ -527,6 +579,7 @@ export default function GuestUserDatasets() {
         resetFilterState(screenlabels.dataset.status)
         // resetUrls()
 
+        setConstantyUpdateSwitch(false)
         setIsShowAll(true)
         setsecondrow(false)
         settodate(null)
@@ -549,6 +602,7 @@ export default function GuestUserDatasets() {
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
         resetFilterState(screenlabels.dataset.status)
+        setConstantyUpdateSwitch(false)
         // resetUrls()
 
         payload = buildFilterPayLoad(fromDateandToDate, getUserLocal(), "", "", "", "")
@@ -600,7 +654,7 @@ export default function GuestUserDatasets() {
             <>
             <div className="guestdiv">
                 <ViewDataSet 
-                downloadAttachment={(uri) => downloadAttachment(uri)} back={() => {setviewdata({});history.push('/guest/home')}} 
+                downloadAttachment={(uri) => downloadAttachment(uri)} back={() => {setviewdata({});history.push('/home')}} 
                 rowdata={viewdata} 
                 tabelkeys={tablekeys}>
                 </ViewDataSet>
@@ -650,6 +704,8 @@ export default function GuestUserDatasets() {
                                 enableStatusFilter={enableStatusFilter}
                                 isGeoSearchFound={isGeoSearchFound}
                                 isCropSearchFound={isCropSearchFound}
+                                constantyUpdateSwitch={constantyUpdateSwitch}
+                                handleConstantyUpdateSwitch={handleConstantyUpdateSwitch}
                             />
                         </Col>
                         <Col className="supportSecondCOlumn">

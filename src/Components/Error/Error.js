@@ -8,10 +8,13 @@ import labels from '../../Constants/labels';
 import { Container } from 'react-bootstrap';
 import { Nav } from '../Navbar/NavbarElements';
 import './../Navbar/Navbar.css'
+import Navbar from '../Navbar/Navbar.js'
+import ParticipantNavbar from '../Navbar/ParticipantNavbar'
+import GuestUserNavbar from '../Navbar/GuestUserNavbar'
 import LocalStorageConstants from '../../Constants/LocalStorageConstants';
 import Footer from '../Footer/Footer';
 import HTTPService from '../../Services/HTTPService';
-import { flushLocalstorage, getErrorLocal, setErrorLocal } from '../../Utils/Common';
+import { flushLocalstorage, getErrorLocal, isLoggedInUserAdmin, isLoggedInUserParticipant, setErrorLocal } from '../../Utils/Common';
 import axios from 'axios';
 // import Select from 'react-select'
 const useStyles = {
@@ -27,20 +30,23 @@ const useStyles = {
 export default function Error(props) {
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     useEffect(()=>{
-       flushLocalstorage();
+    //    flushLocalstorage();
+        // setErrorLocal({})
     }, []);
 
     return (
-        <>
-            <Nav id="datahubnavbar" style={{border: 'none'}}>
-            {/* <Bars /> */}
+        <div classname="center_keeping_conatiner" style={{ width:"1440px", margin:"0 auto"}}>
+            {isLoggedInUserAdmin() ? <Navbar /> : (isLoggedInUserParticipant() ? <ParticipantNavbar /> :
+            <GuestUserNavbar />)}
+            {/*
+            <Nav id="datahubnavbar" style={{border: 'none'}}>                
                 <img
                 src={require("../../Assets/Img/farmstack.jpg")}
                 alt="new"
                 style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
                 />
-            </Nav>
-            <Container>
+            </Nav>) */}
+            <Container className='minHeightWithoutFooter'>
                 <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <span className="mainheadingsuccess">
@@ -75,6 +81,6 @@ export default function Error(props) {
                 </Row>
             </Container>
             <Footer/>
-        </>
+        </div>
     );
 }

@@ -51,12 +51,13 @@ const useStyles = {
   marginrowtop10px: { "margin-top": "20px"},
   marginrowtopscreen10px: { "margin-top": "10px"},
   teamword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans"},
-  background: {"margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "60px", "padding-right": "60px"},
+  background: {"margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-right": "60px"},
 };
 
 function Settings(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [teamMemberList, setteamMemberList] = useState([]);
+  const [teampList, setteampList] = useState([]);
   const [istabView, setistabView] = useState(true);
   const [isDelete, setisDelete] = useState(false);
   const [teamMemberId, setteamMemberId] = useState("");
@@ -84,22 +85,27 @@ function Settings(props) {
     }
   }, []);
 
-  const getMemberList = () => {
+  const getMemberList = (flag) => {
     setIsLoader(true);
     HTTPService("GET", memberUrl, "", false, true)
       .then((response) => {
         setIsLoader(false);
         console.log("otp valid", response.data);
-
         if (response.data.next == null) {
           setisShowLoadMoreButton(false);
         } else {
           setisShowLoadMoreButton(true);
           setMemberUrl(response.data.next);
         }
-        let dataList = teamMemberList;
-        let finalDataList = [...dataList, ...response.data.results];
-        setteamMemberList(finalDataList);
+        if(flag){
+          let tempList = [...response.data.results];
+          setteamMemberList(tempList)
+        }else{
+          let dataList = teamMemberList;
+          let finalDataList = [...dataList, ...response.data.results];
+          setteamMemberList(finalDataList);
+        }
+        
       })
       .catch((e) => {
         setIsLoader(false);
@@ -135,7 +141,7 @@ function Settings(props) {
     setValue(newValue);
   };
   return (
-    <div style={useStyles.background}>
+    <div className="minHeight501pxsettingpagemaindiv"  style={useStyles.background}>
       {isLoader ? <Loader />: ''}
       {/* <Container style={useStyles.marginrowtopscreen10px}> */}
         {isDelete ? (
@@ -161,11 +167,12 @@ function Settings(props) {
         {isDeleteSuccess ? (
           <Success
             okevent={() => {
+              setMemberUrl(UrlConstants.base_url + UrlConstants.team_member)
               setteamMemberId("");
               setisDelete(false);
               setistabView(true);
               setisDeleteSuccess(false);
-              getMemberList();
+              getMemberList(true);
             }}
             imagename={"success"}
             btntext={"ok"}
@@ -253,11 +260,11 @@ function Settings(props) {
                     <TabList
                       onChange={handleChange}
                       aria-label="lab API tabs example">
-                      <Tab label="Account Settings" value="1" />
-                      <Tab label="Organization Settings" value="2" />
-                      <Tab label="Policy Settings" value="3" />
-                      <Tab label="Team Members" value="4" />
-                      <Tab label="Customize Design" value="5" />
+                      <Tab label="Account settings" value="1" />
+                      <Tab label="Organization settings" value="2" />
+                      <Tab label="Policy settings" value="3" />
+                      <Tab label="Team members" value="4" />
+                      <Tab label="Customize design" value="5" />
                     </TabList>
                   </Box>
                   <TabPanel value="1">

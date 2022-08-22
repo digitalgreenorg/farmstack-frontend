@@ -11,7 +11,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import {GetErrorHandlingRoute, getOrgLocal} from "../../../Utils/Common";
 import { useHistory } from 'react-router-dom';
 import { getUserLocal, getUserMapId, dateTimeFormat } from '../../../Utils/Common'
 import ViewDataSet from '../../../Components/Datasets/viewDataSet';
@@ -70,8 +70,11 @@ export default function DatasetAdmin() {
         { index: 0, name: "3 Months", payloadName: "3 months", isChecked: false },
         { index: 1, name: "6 Months", payloadName: "6 months", isChecked: false },
         { index: 2, name: "9 Months", payloadName: "9 months", isChecked: false },
-        { index: 3, name: "12 Months", payloadName: "12 months", isChecked: false },
-        { index: 4, name: "Constantly Updating", payloadName: "constantly_updating", isChecked: false }])
+        { index: 3, name: "12 Months", payloadName: "12 months", isChecked: false }
+        // { index: 4, name: "Constantly Updating", payloadName: "constantly_updating", isChecked: false }
+    ])
+
+    const [constantyUpdateSwitch, setConstantyUpdateSwitch] = useState(false)
 
     const [statusFilter, setStatusFilter] = useState([
         { index: 0, name: screenlabels.dataset.for_review, payloadName: "for_review", isChecked: false },
@@ -107,6 +110,9 @@ export default function DatasetAdmin() {
     const [tablekeys, settablekeys] = useState([])
     const [id, setid] = useState("")
     const [requestchange, setrequestchange] = useState("")
+
+    const [filterState, setFilterState] = useState({})
+
     var payload = ""
     var adminUrl = UrlConstant.base_url + UrlConstant.dataset_list
     var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
@@ -119,6 +125,41 @@ export default function DatasetAdmin() {
         setDatasetUrl("")
         setMemberDatasetUrl("")
     }
+    const handleConstantyUpdateSwitch = (event) => {
+        console.log(event.target.checked)
+        let data = {}
+        setFilterState({})
+        data['user_id'] = getUserLocal()
+        data['org_id'] = getOrgLocal()
+        if (isMemberTab) {
+            data['others'] = true
+        } else {
+            data['others'] = false
+        }
+        if(event.target.checked){
+            setIsShowAll(false)
+            data['constantly_update'] = true
+        } else{
+            setIsShowAll(true)
+        }
+        setFilterState(data)
+        payload = data
+        resetDateFilters()
+        resetFilterState(screenlabels.dataset.age)
+        resetFilterState(screenlabels.dataset.crop)
+        resetFilterState(screenlabels.dataset.status)
+        resetFilterState(screenlabels.dataset.enabled)
+        resetFilterState(screenlabels.dataset.geography)
+
+        setConstantyUpdateSwitch(event.target.checked)
+
+        if(isMemberTab){
+            getMemberDatasets(false)
+        } else {
+            getMyDataset(false)
+        }
+    }
+
     const handleFilterChange = (index, filterName) => {
 
         // var tempFilterMaster = []
@@ -129,6 +170,7 @@ export default function DatasetAdmin() {
 
         setIsShowAll(false)
         resetDateFilters()
+        setConstantyUpdateSwitch(false)
         // resetEnabledStatusFilter()
         // resetUrls()
 
@@ -426,6 +468,7 @@ export default function DatasetAdmin() {
         setIsLoader(true);
         var payloadData = {}
         payloadData['user_id'] = getUserLocal()
+        payloadData['org_id'] = getOrgLocal()
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         if (isMemberTab) {
             payloadData['others'] = true
@@ -471,6 +514,11 @@ export default function DatasetAdmin() {
 
                 // setCropFilterMaster(initFilter(cropFilterInput))
                 setCropFilterDisplay(initFilter(cropFilterInput))
+
+                resetFilterState(screenlabels.dataset.age)
+                resetFilterState(screenlabels.dataset.status)
+                resetFilterState(screenlabels.dataset.enabled)
+                setConstantyUpdateSwitch(false)
 
                 // console.log("geoFilterMaster", geoFilterMaster)
                 console.log("geoFilterDisplay", geoFilterDisplay)
@@ -563,14 +611,31 @@ export default function DatasetAdmin() {
     }
 
     const getMyDataset = (isLoadMore) => {
+
+        setIsLoader(true);
+
         if(!isLoadMore){
             resetUrls()
+            if (payload == "") {
+                // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+                payload ={}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = false
+                setFilterState(payload)
+            }
+        } else {
+            payload = {...filterState}
         }
-        setIsLoader(true);
-        if (payload == "") {
-            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            payload['others'] = false
-        }
+
+        // setIsLoader(true);
+        // if (payload == "") {
+        //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        //     payload['others'] = false
+        // }
+        // if(isLoadMore){
+        //     payload = {...filterState}
+        // }
         HTTPService(
             "POST",
             // "GET",
@@ -587,6 +652,7 @@ export default function DatasetAdmin() {
 
                 if (response.data.next == null) {
                     setShowLoadMoreAdmin(false)
+                    setFilterState({})
                 } else {
                     setDatasetUrl(response.data.next)
                     setShowLoadMoreAdmin(true)
@@ -607,14 +673,32 @@ export default function DatasetAdmin() {
     }
 
     const getMemberDatasets = (isLoadMore) => {
+
+        setIsLoader(true)
+
         if(!isLoadMore){
             resetUrls()
+            if (payload == "") {
+                // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+                payload ={}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = true
+                setFilterState(payload)
+            }
+        } else {
+            payload = {...filterState}
         }
-        setIsLoader(true);
-        if (payload == "") {
-            payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-            payload['others'] = true
-        }
+
+        // setIsLoader(true);
+        // if (payload == "") {
+        //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+        //     payload['others'] = true
+        // }
+        // if(isLoadMore){
+        //     payload = {...filterState}
+        // }
+
         HTTPService(
             "POST",
             // "GET",
@@ -633,6 +717,7 @@ export default function DatasetAdmin() {
                     // setisShowLoadMoreButton(false)
                     // setShowLoadMoreAdmin(false)
                     setShowLoadMoreMember(false)
+                    setFilterState({})
                 } else {
                     // setisShowLoadMoreButton(true)
                     setMemberDatasetUrl(response.data.next)
@@ -656,10 +741,12 @@ export default function DatasetAdmin() {
 
     const buildFilterPayLoad = (createdAtRange, userId, geoPayload, agePayload, cropPayload, statusPayload) => {
         let data = {}
+        setFilterState({})
         if (createdAtRange !== "") {
             data['created_at__range'] = createdAtRange
         }
         data['user_id'] = userId
+        data['org_id'] = getOrgLocal()
         // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
         if (isMemberTab) {
             data['others'] = true
@@ -673,13 +760,13 @@ export default function DatasetAdmin() {
             data['crop_detail__in'] = cropPayload
         }
         if(agePayload !== ""){
-            if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
-                agePayload.splice(agePayload.length-1)
-                data['constantly_update'] = true
-            }
-            if (agePayload.length>0) {
+            // if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
+            //     agePayload.splice(agePayload.length-1)
+            //     data['constantly_update'] = true
+            // }
+            // if (agePayload.length>0) {
                 data['age_of_date__in'] = agePayload
-            }
+            // }
         }
         if (statusPayload !== "") {
             data['approval_status__in'] = statusPayload
@@ -687,19 +774,28 @@ export default function DatasetAdmin() {
         if (enableStatusFilter[0].isChecked || enableStatusFilter[1].isChecked) {
             data['is_enabled'] = enableStatusFilter[0].isChecked
         }
+        
+        setFilterState(data)
         return data
     }
 
     const handleTabChange = (event, newValue) => {
 
         setValue(newValue);
+        resetDateFilters()
         if (newValue == "2") {
             console.log("isMemberTab", isMemberTab)
             setIsMemberTab(!isMemberTab)
             // getMemberFilter()
+            setFilterState({})
+            setIsShowAll(true)
+            setConstantyUpdateSwitch(false)
             getMemberDatasets(false)
             console.log("isMemberTab", isMemberTab)
         } else {
+            setFilterState({})
+            setIsShowAll(true)
+            setConstantyUpdateSwitch(false)
             setIsMemberTab(!isMemberTab)
             getMyDataset(false)
         }
@@ -717,6 +813,7 @@ export default function DatasetAdmin() {
 
     const clearAllFilters = () => {
         setIsShowAll(true)
+        setConstantyUpdateSwitch(false)
         resetDateFilters()
         // resetUrls()
         resetFilterState(screenlabels.dataset.geography)
@@ -726,6 +823,7 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.enabled)
         // resetEnabledStatusFilter()
 
+        // setFilterState({})
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         if(isMemberTab){
             getMemberDatasets(false)
@@ -743,6 +841,7 @@ export default function DatasetAdmin() {
         resetFilterState(screenlabels.dataset.status)
         // resetUrls()
 
+        setConstantyUpdateSwitch(false)
         setIsShowAll(true)
         setsecondrow(false)
         settodate(null)
@@ -766,6 +865,7 @@ export default function DatasetAdmin() {
         fromDateandToDate.push(todate)
 
         setIsShowAll(false)
+        setConstantyUpdateSwitch(false)
         resetFilterState(screenlabels.dataset.geography)
         resetFilterState(screenlabels.dataset.age)
         resetFilterState(screenlabels.dataset.crop)
@@ -889,7 +989,7 @@ export default function DatasetAdmin() {
                 <Success okevent={() => { changeView('isDataSetFilter') }} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Change Request Sent Successfully!"} imageText={"Disabled"} msg={"Change Request Sent."}></Success> : <></>
             }
             {screenView.isDataSetView ? <><ViewDataSet isAdminView={isAdminView} downloadAttachment={(uri) => downloadAttachment(uri)} back={() => changeView('isDataSetFilter')} rowdata={viewdata} tabelkeys={tablekeys} ></ViewDataSet>
-                {isAdminView ? <><Row>
+                {(isAdminView && viewdata.approval_status=="for_review" && viewdata.user_id==getUserLocal()) ? <><Row>
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
@@ -1067,7 +1167,7 @@ export default function DatasetAdmin() {
             }
             {screenView.isDelete ? <Delete
                 route={"login"}
-                imagename={'thumbsdown'}
+                imagename={'delete'}
                 firstbtntext={"Delete"}
                 secondbtntext={"Cancel"}
                 deleteEvent={() => { deletedataset() }}
@@ -1124,6 +1224,9 @@ export default function DatasetAdmin() {
                                 enableStatusFilter={enableStatusFilter}
                                 isGeoSearchFound={isGeoSearchFound}
                                 isCropSearchFound={isCropSearchFound}
+                                constantyUpdateSwitch={constantyUpdateSwitch}
+                                handleConstantyUpdateSwitch={handleConstantyUpdateSwitch}
+                                // setConstantyUpdateSwitch={setConstantyUpdateSwitch}
                             />
                         </Col>
                         <Col className="supportSecondCOlumn">
@@ -1134,8 +1237,8 @@ export default function DatasetAdmin() {
                                             <TabList
                                                 onChange={handleTabChange}
                                                 aria-label="lab API tabs example">
-                                                <Tab label="My Datasets" value='1' />
-                                                <Tab label="Member Datasets" value='2' />
+                                                <Tab label="My organisation" value='1' />
+                                                <Tab label="Other organisations" value='2' />
                                             </TabList>
                                         </Box>
                                         <TabPanel value='1'>

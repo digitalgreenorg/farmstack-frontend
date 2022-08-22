@@ -6,6 +6,8 @@ import {
   getOrgLocal,
   getUserLocal,
   fileUpload,
+  GetErrorHandlingRoute,
+  GetErrorKey,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -82,6 +84,15 @@ export default function EditConnectorParticipant() {
   //   loader
   const [isLoader, setIsLoader] = useState(false);
 
+  const [nameErrorMessage, setnameErrorMessage] = useState(null);
+  const [dockerErrorMessage, setDockerErrorMessage] = useState(null);
+  const [typeErrorMessage, setTypeErrorMessage] = useState(null);
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null);
+  const [portErrorMessage, setPortErrorMessage] = useState(null);
+  const [departErrorMessage, setDepartMentErrorMessage] = useState(null);
+  const [projectErrorMessage, setProjectErrorMessage] = useState(null);
+  const [datasetErrorMessage, setDatasetErrorMessage] = useState(null);
+
   //   get connector data
   const getConnectorDetails = async () => {
     // var id = getUserLocal();
@@ -103,7 +114,7 @@ export default function EditConnectorParticipant() {
         setproject(response.data.project);
         setdepartment(response.data.department_details.id);
         setdescription(response.data.connector_description);
-        setDataset(response.data.dataset_details.id);
+        setDataset(response.data.dataset);
         setdocker(response.data.docker_image_url);
         setport(response.data.application_port);
         setFile(response.data.certificate);
@@ -126,37 +137,53 @@ export default function EditConnectorParticipant() {
               // history.push(GetErrorHandlingRoute(e));
             });
         }
+
         // console.log(typeof typeof file);
         console.log(typeof response.data.certificate);
         console.log(response.data.connector_description);
         console.log(response.data.dataset_details.name);
         console.log(response.data.project_details.id);
         console.log(response.data.department_details.department_name);
-      })
-      .catch((e) => {
-        setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
-      });
-  };
 
-  //   get dataset
-  const getDatasetDetails = async () => {
-    var id = getUserLocal();
-    console.log("user id", id);
-    setIsLoader(true);
-
-    await HTTPService(
-      "GET",
-      UrlConstants.base_url + UrlConstants.list_of_dataset,
-      { user_id: id },
-      false,
-      true
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log("get request for dataset", response.data);
-        setdatasets(response.data);
-        console.log("datasets", datasets);
+        // datasets
+        var id = getUserLocal();
+        console.log("user id", id);
+        if (response.data.connector_type === "Provider") {
+          HTTPService(
+            "GET",
+            UrlConstants.base_url + UrlConstants.list_of_dataset,
+            { user_id: id },
+            false,
+            true
+          )
+            .then((response) => {
+              setIsLoader(false);
+              console.log("get request for dataset", response.data);
+              setdatasets(response.data);
+              console.log("datasets", datasets);
+            })
+            .catch((e) => {
+              setIsLoader(false);
+              history.push(GetErrorHandlingRoute(e));
+            });
+        } else {
+          HTTPService(
+            "GET",
+            UrlConstants.base_url + UrlConstants.list_of_dataset,
+            false,
+            true
+          )
+            .then((response) => {
+              setIsLoader(false);
+              console.log("get request for dataset", response.data);
+              setdatasets(response.data);
+              console.log("datasets", datasets);
+            })
+            .catch((e) => {
+              setIsLoader(false);
+              history.push(GetErrorHandlingRoute(e));
+            });
+        }
       })
       .catch((e) => {
         setIsLoader(false);
@@ -184,13 +211,12 @@ export default function EditConnectorParticipant() {
       })
       .catch((e) => {
         setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
   useEffect(() => {
     getConnectorDetails();
-    getDatasetDetails();
     getDepartmentDetails();
   }, []);
 
@@ -203,13 +229,13 @@ export default function EditConnectorParticipant() {
   const handleChangeDepartment = async (event) => {
     console.log(event.target.value);
     setdepartment(event.target.value);
-
+    setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
     setIsLoader(true);
 
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.project_list,
-      { department: department },
+      { department: event.target.value },
       false,
       true
     )
@@ -220,19 +246,73 @@ export default function EditConnectorParticipant() {
       })
       .catch((e) => {
         setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
+        history.push(GetErrorHandlingRoute(e));
       });
   };
   const handleChangeProject = (event) => {
     console.log(event.target.value);
     setproject(event.target.value);
   };
-  const handleChangeConnector = (event) => {
-    console.log(event.target.value);
+  const handleChangeConnector = async (event) => {
+    console.log("connector", event.target.value);
     setconnector(event.target.value);
+    setDataset("");
+    var id = getUserLocal();
+    console.log("user id", id);
+    setIsLoader(true);
+
+    if (event.target.value == "Provider") {
+      await HTTPService(
+        "GET",
+        UrlConstants.base_url + UrlConstants.list_of_dataset,
+        { user_id: id },
+        false,
+        true
+      )
+        .then((response) => {
+          setIsLoader(false);
+          console.log("get request for dataset", response.data);
+          setdatasets(response.data);
+          console.log("datasets", datasets);
+        })
+        .catch((e) => {
+          setIsLoader(false);
+          // history.push(GetErrorHandlingRoute(e));
+        });
+    } else {
+      await HTTPService(
+        "GET",
+        UrlConstants.base_url + UrlConstants.list_of_dataset,
+        false,
+        true
+      )
+        .then((response) => {
+          setIsLoader(false);
+          console.log("get request for dataset", response.data);
+          setdatasets(response.data);
+          console.log("datasets", datasets);
+        })
+        .catch((e) => {
+          setIsLoader(false);
+          history.push(GetErrorHandlingRoute(e));
+        });
+    }
   };
+  //   const handleChangeConnectorName = (e) => {
+  //     validateInputField(
+  //       e.target.value,
+  //       RegexConstants.validateInputField(
+  //         e.target.value,
+  //         RegexConstants.connector_name
+  //       )
+  //     )
+  //       ? setconnectorName(e.target.value)
+  //       : e.preventDefault();
+  //     console.log(e.target.value);
+  //     // setconnectorName(event.target.value);
+  //   };
   const handleChangeConnectorName = (e) => {
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setconnectorName(e.target.value)
       : e.preventDefault();
     console.log(e.target.value);
@@ -267,6 +347,15 @@ export default function EditConnectorParticipant() {
   const handleEditConnectorSubmit = async (e) => {
     e.preventDefault();
     // setisSuccess(true);
+    setnameErrorMessage(null);
+    setTypeErrorMessage(null);
+    setDescriptionErrorMessage(null);
+    setPortErrorMessage(null);
+    setDepartMentErrorMessage(null);
+    setDockerErrorMessage(null);
+    setProjectErrorMessage(null);
+    setDatasetErrorMessage(null);
+
     setIsLoader(true);
     var bodyFormData = new FormData();
     bodyFormData.append("connector_name", connectorName);
@@ -294,8 +383,36 @@ export default function EditConnectorParticipant() {
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e);
-        // history.push(GetErrorHandlingRoute(e));
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "connector_name":
+                setnameErrorMessage(errorMessages[i]);
+                break;
+              //case "connector_type": setTypeErrorMessage(errorMessages[i]); break;
+              case "connector_description":
+                setDescriptionErrorMessage(errorMessages[i]);
+                break;
+              case "application_port":
+                setPortErrorMessage(errorMessages[i]);
+                break;
+              //case "department": setDepartMentErrorMessage(errorMessages[i]); break;
+              case "docker_image_url":
+                setDockerErrorMessage(errorMessages[i]);
+                break;
+              //case "project": setProjectErrorMessage(errorMessages[i]); break;
+              //case "dataset": setDatasetErrorMessage(errorMessages[i]); break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
+            }
+          }
+        } else {
+          history.push(GetErrorHandlingRoute(e));
+        }
       });
   };
   return (
@@ -316,7 +433,7 @@ export default function EditConnectorParticipant() {
           autoComplete="off"
           onSubmit={handleEditConnectorSubmit}>
           <ConnectorForm
-            title={"Edit Connector"}
+            title={"Update connector"}
             connector={connector}
             department={department}
             project={project}
@@ -342,13 +459,21 @@ export default function EditConnectorParticipant() {
             datasets={datasets}
             department_variable={department_variable}
             project_variable={project_variable}
+            nameErrorMessage={nameErrorMessage}
+            typeErrorMessage={typeErrorMessage}
+            descriptionErrorMessage={descriptionErrorMessage}
+            portErrorMessage={portErrorMessage}
+            departErrorMessage={departErrorMessage}
+            dockerErrorMessage={dockerErrorMessage}
+            projectErrorMessage={projectErrorMessage}
+            datasetErrorMessage={datasetErrorMessage}
           />
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {connector &&
-                department &&
-                project &&
+              department &&
+              project &&
               connectorName &&
               Dataset &&
               docker &&
@@ -359,19 +484,19 @@ export default function EditConnectorParticipant() {
                   variant="contained"
                   className="submitbtn"
                   type="submit">
-                  {screenlabels.connector_form.submit}
+                  Update
                 </Button>
               ) : (
                 <Button
                   variant="outlined"
                   disabled
                   className="disbalesubmitbtn">
-                  {screenlabels.connector_form.submit}
+                  Update
                 </Button>
               )}
             </Col>
           </Row>
-          <Row style={useStyles.marginrowtop8px}>
+          <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button

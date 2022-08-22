@@ -9,6 +9,9 @@ import axios from "axios";
 import LinearProgress from "@mui/material/LinearProgress";
 import UrlConstant from "../../Constants/UrlConstants";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useHistory } from "react-router-dom";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
+import Footer from "../Footer/Footer";
 
 export default function PoliciesRightside(props) {
   const [govLawdesc, setgovLawdesc] = useState("");
@@ -75,6 +78,8 @@ export default function PoliciesRightside(props) {
   const [privacyProgress, setprivacyProgress] = useState(0);
   const [tosloadProgress, settosloadProgress] = useState(0);
 
+  const history = useHistory();
+
   const fileTypes = ["doc", "pdf"];
   const handlegovLawChange = (value) => {
     setEditorgovLawValue(value);
@@ -125,6 +130,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -177,6 +183,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -228,6 +235,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -278,6 +286,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -330,6 +339,7 @@ export default function PoliciesRightside(props) {
         })
         .catch((e) => {
           console.log(e);
+          history.push(GetErrorHandlingRoute(e));
           //   setError(true);
         });
     }
@@ -368,6 +378,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -401,6 +412,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -433,6 +445,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -465,6 +478,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -497,6 +511,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -529,6 +544,7 @@ export default function PoliciesRightside(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
         //   setError(true);
       });
   };
@@ -576,8 +592,8 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Governing Laws (Optional)"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                uploadtitle="Upload Governing Laws (Required)"
               />
             }
             // maxSize={2}
@@ -637,8 +653,8 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Warranties (Optional)"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                uploadtitle="Upload Warranties (Required)"
               />
             }
             //   maxSize={2}
@@ -700,8 +716,8 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload limitation of Liabilities (Optional)"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                uploadtitle="Upload limitation of Liabilities (Required)"
               />
             }
             //   maxSize={2}
@@ -762,8 +778,8 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Privacy Policy (Optional)"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                uploadtitle="Upload Privacy Policy (Required)"
               />
             }
             //   maxSize={2}
@@ -824,8 +840,8 @@ export default function PoliciesRightside(props) {
             types={fileTypes}
             children={
               <UploadOrgLogo
-                uploaddes="Supports: .doc, .pdf 2MB file size"
-                uploadtitle="Upload Terms of Use (Optional)"
+                uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                uploadtitle="Upload Terms of Use (Required)"
               />
             }
             //   maxSize={2}
@@ -884,7 +900,7 @@ export default function PoliciesRightside(props) {
             className="finishlaterpoliciesbtn"
             type="button"
             onClick={finishLaterPoliciesScreen}>
-            Finish Later
+            Finish later
           </Button>
         </div>
       </form>
@@ -927,6 +943,9 @@ export default function PoliciesRightside(props) {
             <circle cx={143.28} cy={120.282} r={5.728} />
           </g>
         </svg>
+      </div>
+      <div style={{ position: "absolute", top: "3400px" }}>
+        <Footer />
       </div>
     </div>
   );

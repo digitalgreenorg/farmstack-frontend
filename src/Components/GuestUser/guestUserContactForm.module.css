@@ -26,6 +26,10 @@
   line-height: 19px;
   color: #3d4a52;
   font-style: normal;
+  /* border: 1px solid red; */
+  width: 300px;
+  text-overflow: ellipsis;
+  overflow: hidden;
   /* or 19px */
 }
 
@@ -109,4 +113,8 @@
   .submitbtn:hover {
     background-color: #ab8405 !important;
     color: white !important;
+  }
+
+  .css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:after {
+    border-bottom: 2px solid #c09507 !important;
   }

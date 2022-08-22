@@ -1,5 +1,5 @@
-import React from 'react'
-import './Leftintro.css'
+import React from "react";
+import "./Leftintro.css";
 
 export default function Leftintro() {
   return (
@@ -15,8 +15,7 @@ export default function Leftintro() {
             width={90}
             height={90}
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <circle cx={45} cy={45} r={45} fill="#F8F8F8" />
             <path
               d="M51.29 45A6.299 6.299 0 0 1 45 51.291a6.299 6.299 0 0 1-6.291-6.29 6.299 6.299 0 0 1 6.29-6.292A6.299 6.299 0 0 1 51.292 45ZM45 41.168A3.84 3.84 0 0 0 41.168 45 3.84 3.84 0 0 0 45 48.832 3.84 3.84 0 0 0 48.832 45 3.84 3.84 0 0 0 45 41.168Z"
@@ -88,11 +87,11 @@ export default function Leftintro() {
             />
           </svg>
         </div>
-        <h1 className="leftheader">Orchestrate network of data</h1>
+        <h1 className="leftheader">Organise a data network</h1>
         <h2 className="leftcontent">
-          Coordinate and connect multiple private and public sector
-          organizations, institutions, and individuals to create a systematic
-          interconnection of insights.
+          Coordinate and connect a wide range of organisations, companies, and
+          individuals from the public and commercial sectors in order to create
+          a systemic interconnection of knowledge.
         </h2>
         <img
           src="https://cdn.londonandpartners.com/visit/general-london/areas/river/76709-640x360-houses-of-parliament-and-london-eye-on-thames-from-above-640.jpg"
@@ -104,8 +103,7 @@ export default function Leftintro() {
             width={90}
             height={90}
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <circle cx={45} cy={45} r={45} fill="#F8F8F8" />
             <path
               d="m26.299 28.96-5.37 16.2 6.4 2.272 5.368-16.2-6.399-2.272Z"
@@ -125,11 +123,11 @@ export default function Leftintro() {
             />
           </svg>
         </div>
-        <h1 className="leftheader2">Invite data providers and consumers</h1>
+        <h1 className="leftheader2">Invite both data producers and users</h1>
         <h2 className="leftcontent2">
-          Welcome FPOs, government institutions, and civil society players to
-          work together as learners, providers, and consumers in this
-          fairmulti-user network.
+          We cordially invite FPOs, governmental entities, and members of civil
+          society to work together in an egalitarian multi-user network as
+          researchers, contributors, and customers.
         </h2>
         {/* <img
           src="https://cdn.londonandpartners.com/visit/general-london/areas/river/76709-640x360-houses-of-parliament-and-london-eye-on-thames-from-above-640.jpg"
@@ -141,8 +139,7 @@ export default function Leftintro() {
             width={90}
             height={90}
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <circle cx={45} cy={45} r={45} fill="#F8F8F8" />
             <rect x={56} y={53} width={16} height={12} rx={3} fill="#C09507" />
             <rect x={19} y={18} width={16} height={12} rx={3} fill="#C09507" />
@@ -167,11 +164,11 @@ export default function Leftintro() {
           </svg>
         </div>
         <h1 className="leftheader3">
-          Enable secured peer to peer data exchange
+          Enable secure peer-to-peer data transfer
         </h1>
         <h2 className="leftcontent3">
-          This centralized structure enables aclosed network of peers to build
-          trust and bridges the gap via protected connectors.
+          Through protected connectors, this centre structure bridges the gap
+          and promotes peer trust in a closed network.
         </h2>
         {/* <img
           src="https://cdn.londonandpartners.com/visit/general-london/areas/river/76709-640x360-houses-of-parliament-and-london-eye-on-thames-from-above-640.jpg"
@@ -183,8 +180,7 @@ export default function Leftintro() {
             width={90}
             height={90}
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <circle cx={45} cy={45} r={45} fill="#F8F8F8" />
             <path
               d="M60.712 53.203H29.285c-.789 0-1.503.306-2.02.801a2.668 2.668 0 0 0-.837 1.934c0 1.51 1.278 2.734 2.857 2.734h1.428l2.508 17.613c.2 1.347 1.405 2.348 2.828 2.348h17.9c1.423 0 2.629-1.001 2.829-2.348l2.507-17.613h1.428c.789 0 1.503-.306 2.02-.801a2.668 2.668 0 0 0 .838-1.934c0-1.51-1.279-2.734-2.858-2.734Z"
@@ -212,14 +208,13 @@ export default function Leftintro() {
             />
           </svg>
         </div>
-        <h1 className="leftheader4">Derive value from data</h1>
+        <h1 className="leftheader4">Creating value from data</h1>
         <h2 className="leftcontent4">
-          Exchange information and datain a trustworthy manner without having to
-          monetize or pay for insights. Use the data to build your network
-          andgather information systematically for the greater benefit of
-          farmers.
+          Data and information can be exchanged trustworthily without the need
+          to monetise or pay for insights. Make use of the information to
+          broaden your network and carefully collect data to aid farmers.
         </h2>
       </div>
     </>
-  )
+  );
 }

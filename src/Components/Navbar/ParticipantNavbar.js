@@ -54,7 +54,7 @@ const ParticipantNavbar = (props) => {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        history.push(GetErrorHandlingRoute(e));
+        //history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -103,7 +103,7 @@ const ParticipantNavbar = (props) => {
             />
             <img
               className="nonboldimage"
-              src={require("../../Assets/Img/connectors_white.svg")}
+              src={require("../../Assets/Img/connector_non_bold.svg")}
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
