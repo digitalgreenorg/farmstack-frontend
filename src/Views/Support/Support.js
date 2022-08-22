@@ -267,9 +267,9 @@ function Support(props) {
                                 <span className="supportcardfromdate">
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <DatePicker
-                                            inputFormat="dd/MM/yyyy"
+                                            inputFormat="dd/mm/yyyy"
                                             disableFuture
-                                            label="From Date *"
+                                            label="From date *"
                                             value={fromdate}
                                             onChange={(newValue) => {
                                                 settodate(null)
@@ -285,10 +285,10 @@ function Support(props) {
                                 <span className="supportcardtodate">
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <DatePicker
-                                            inputFormat="dd/MM/yyyy"
+                                            inputFormat="dd/mm/yyyy"
                                             disabled={fromdate ? false : true}
                                             disableFuture
-                                            label="To Date *"
+                                            label="To date *"
                                             minDate={fromdate}
                                             value={todate}
                                             onChange={(newValue) => {
@@ -345,7 +345,7 @@ function Support(props) {
                             <Row className="marginleft165px">
                                 {isShowLoadMoreButton ?
                                     <Button onClick={() => loadMoreSupportList()} variant="outlined" className="cancelbtn">
-                                        Load More
+                                        Load more
                            </Button>
                                     : <></>}
                             </Row>
@@ -368,17 +368,19 @@ function Support(props) {
             </Row>
                 <Row className="supportViewDeatilsSecondRow"></Row>
                 <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                    <span className="mainheading">{"Ticket Details"}</span>
+                    <span className="mainheading">{"Ticket details"}</span>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
                     <Col>
-                        <span className="secondmainheading">{rowdata.subject}</span>
+                    <Tooltip title={rowdata.subject}>
+                        <span className="secondmainheading d-inline-block text-truncate width300px">{rowdata.subject}</span>
+                    </Tooltip>
                     </Col>
                     <Col>
-                        <span className="secondmainheading">{"Name of Participant"}</span>
+                        <span className="secondmainheading">{"Name of participant"}</span>
                     </Col>
                     <Col>
-                        <span className="secondmainheading">{"Name of Participant User"}</span>
+                        <span className="secondmainheading">{"Name of participant user"}</span>
                     </Col>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>

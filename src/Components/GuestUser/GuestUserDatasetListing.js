@@ -87,7 +87,7 @@ export default function GuestUserDatasetListing(props) {
                             onClick={() => props.getDatasetList(true)}
                             variant="outlined"
                             className="cancelbtn">
-                            Load More
+                            Load more
                         </Button>
                     </Col>
                 ) : (

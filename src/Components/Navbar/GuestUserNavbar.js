@@ -64,7 +64,7 @@ const GuestUserNavBar = (props) => {
             style={{ width: "52px", height: "52px", "margin-left": "180px", "margin-top": "9px"}}
           />&nbsp;&nbsp;&nbsp;&nbsp;
           <span className="navtext fontweight400andfontsize16pxandcolor3D4A52">Call:&nbsp;
-          <a style={{color: 'black'}} href={'tel: ' + phoneNumber}>{phoneNumber}</a> -to register your grievance</span>
+          <a style={{color: 'black'}} href={'tel: ' + phoneNumber}>{phoneNumber}</a>- to register your grievance</span>
         </div> : <></> }
         <NavMenu>
           <NavLink to={'/legal'} activeStyle>

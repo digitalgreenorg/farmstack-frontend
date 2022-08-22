@@ -20,7 +20,7 @@ const ConnectorStatistics = ({additionalConnectorData}) => {
   return (
     <div className={styles.connectorStatisticsMainBox}>
 
-      <div className={styles.connectorStatisticsHeading}>Connector Statistics</div>
+      <div className={styles.connectorStatisticsHeading}>Connector statistics</div>
       
         <table className={styles.tableConnector}>
 {connectorData.length <= 0 ?<div className={styles.nodatacenter}> <NoDataAvailable/> </div>: <div>
@@ -28,7 +28,7 @@ const ConnectorStatistics = ({additionalConnectorData}) => {
           <thead className={styles.thead}>
 
           <tr className={styles.tableConnectortrth}>
-            <th>Connector Name</th>
+            <th>Connector name</th>
             <th>Datasets</th>
             <th>Activity</th>
             <th>Date</th>
