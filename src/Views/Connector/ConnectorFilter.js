@@ -21,12 +21,12 @@ export default function ConnectorFilter(props) {
                 <div style={{"margin-left":"55px"}}>
                     <span className="filterClearAll">
                         <Button
-                            style={{"font-style":"Open Sans","font-weight": "500","font-size": "13px","bottom":"4px","right":"-10px"}}
+                            style={{"font-style":"Open Sans","font-weight": "500","font-size": "14px","bottom":"5px","right":"-10px","text-transform":"none"}}
                             onClick={() => props.clearAllFilters()}
                             // variant="outlined"
                             // className="cancelbtn"
                             >
-                            Clear All
+                            Clear all
                         </Button>
                     </span>
                 </div>
@@ -123,7 +123,7 @@ export default function ConnectorFilter(props) {
                 value={props.deptSearchState}
                 onChange={(e) => props.handleDeptSearch(e)}
                 error={!props.isDeptSearchFound}
-                helperText={!props.isDeptSearchFound ? "Not Found" : ""}
+                helperText={!props.isDeptSearchFound ? "Not found" : ""}
             />
         </Row>
     }
@@ -157,7 +157,7 @@ export default function ConnectorFilter(props) {
                 value={props.projectSearchState}
                 onChange={(e) => props.handleProjectSearch(e)}
                 error={!props.isProjectSearchFound}
-                helperText={!props.isProjectSearchFound ? "Not Found" : ""}
+                helperText={!props.isProjectSearchFound ? "Not found" : ""}
             />
         </Row>
     }

@@ -176,15 +176,15 @@ const labels = {
       for_review: "For Review",
       rejected: "Rejected",
       approved: "Approved",
-      organisation_name: "Organization Name",
-      published_on: "Published On",
-      age_of_data: "Age of Data",
+      organisation_name: "Organization name",
+      published_on: "Published on",
+      age_of_data: "Age of data",
       crop_details: "Crop details",
-      add_dataset: "Add New Dataset",
+      add_dataset: "Add new dataset",
       add_dataset_text:
-        "Add details about your dataset and make it discoverable to other participants of our network.",
-      no_dataset_text1: "There are no Datasets at this moment !",
-      no_dataset_text2: "Add your Dataset.",
+        "Add details about your dataset and make it discoverable to other users of our network.",
+      no_dataset_text1: "Currently, there are no datasets available.",
+      no_dataset_text2: "Add your dataset.",
     },
     dashboard: {
       organisation_details: "Organisation Details",
@@ -224,8 +224,8 @@ const labels = {
       configure_connector: "Configure a new connector",
       configure_connector_text:
         "Configure a new connector to provide and consume data securely.",
-      no_connector_text1: "There are no Connectors configured at this moment !",
-      no_connector_text2: "Configure new Connector.",
+      no_connector_text1: "Currently, there are no connectors available.",
+      no_connector_text2: "Configure new connector.",
       no_dataset_text1:
         "You have not created a dataset for which you can create a connector",
       click_here: "Click Here",
