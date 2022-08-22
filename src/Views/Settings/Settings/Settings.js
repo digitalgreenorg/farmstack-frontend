@@ -274,11 +274,11 @@ function Settings(props) {
                   <TabList
                     onChange={handleChange}
                     aria-label="lab API tabs example">
-                    <Tab label="Account Settings" value="1" />
-                    <Tab label="Organization Settings" value="2" />
-                    <Tab label="Policy Settings" value="3" />
-                    <Tab label="Team Members" value="4" />
-                    <Tab label="Customize Design" value="5" />
+                    <Tab label="Account settings" value="1" />
+                    <Tab label="Organization settings" value="2" />
+                    <Tab label="Policy settings" value="3" />
+                    <Tab label="Team members" value="4" />
+                    <Tab label="Customize design" value="5" />
                   </TabList>
                 </Box>
                 <TabPanel value="1">

@@ -736,7 +736,7 @@ export default function PolicySettings(props) {
       {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
         <Row style={useStyles.marginheading}>
-          <span style={useStyles.headingtext}>Upload Content</span>
+          <span style={useStyles.headingtext}>Upload content</span>
         </Row>
         <Row style={useStyles.marginrow}>
           <Col xs="12" sm="6" md="6" lg="6">
@@ -767,8 +767,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Governing Laws (Optional)"
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload governing laws (Optional)"
                 />
               }
             />
@@ -784,7 +784,7 @@ export default function PolicySettings(props) {
                 <Link
                   to={{ pathname: UrlConstant.base_url + govLawFileUrl }}
                   target="_blank">
-                  Governing Laws
+                  Governing laws
                 </Link>
               ) : (
                 "No file uploaded yet"
@@ -845,8 +845,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Warranties (Optional) "
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload warranties (Optional) "
                 />
               }
               // maxSize={2}
@@ -922,8 +922,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Limitation of Liabilities (Optional) "
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload limitations of liabilities (Optional) "
                 />
               }
               // maxSize={2}
@@ -940,7 +940,7 @@ export default function PolicySettings(props) {
                 <a
                   href={UrlConstant.base_url + liabilityFileUrl}
                   target="_blank">
-                  Limitation Of Liabilities
+                  Limitations of liabilities
                 </a>
               ) : (
                 "No file uploaded yet"
@@ -1002,8 +1002,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Privacy Policy (Optional) "
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload privacy policy (Optional) "
                 />
               }
               // maxSize={2}
@@ -1018,7 +1018,7 @@ export default function PolicySettings(props) {
                 )
               ) : privacyFileUrl ? (
                 <a href={UrlConstant.base_url + privacyFileUrl} target="_blank">
-                  Privacy Policy
+                  Privacy policy
                 </a>
               ) : (
                 "No file uploaded yet"
@@ -1078,8 +1078,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Terms of Use (Optional)"
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload terms of use (Optional)"
                 />
               }
               // maxSize={2}
@@ -1094,7 +1094,7 @@ export default function PolicySettings(props) {
                 )
               ) : termsFileUrl ? (
                 <a href={UrlConstant.base_url + termsFileUrl} target="_blank">
-                  Terms Of Use
+                  Terms of use
                 </a>
               ) : (
                 "No file uploaded yet"
