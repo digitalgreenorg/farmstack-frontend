@@ -66,7 +66,7 @@ const BarChartComponent = ({ dataForThePieChart }) => {
       {/* <div style={{border:"1px solid red", borderRadius:"10px"}}> */}
 
       <BarChart
-        width={dataForThePieChart.length >= 10 ? 1500 : 680}
+        width={dataForThePieChart.length >= 10 ? 1500 : dataForThePieChart.length <= 4 ? 400  : dataForThePieChart.length <= 8 ? 680 : 1000}
         height={280}
         data={dataForThePieChart}
         margin={{ top: 0, right: 25, bottom: 0, left: -20 }}

@@ -26,7 +26,7 @@ const Datasets = (props) => {
  
   return (
     <div className={styles.datasetsMainBox}>
-      <div className={styles.datasetsHeading}>{labels.en.dashboard.datasets_title} <InfoIcon text={"text"}/></div>
+      <div className={styles.datasetsHeading}>{labels.en.dashboard.datasets_title} <InfoIcon text={labels.en.dashboard.dataset_cat_info}/></div>
      { props.dataForThePieChart.length >0 ? <PieChartMain colors={props.colors} dataForThePieChart={props.dataForThePieChart}/> : <NoDataAvailable/> }
       
       {/* <Example /> */}

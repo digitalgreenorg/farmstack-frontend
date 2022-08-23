@@ -20,7 +20,7 @@ const ConnectorStatistics = ({additionalConnectorData}) => {
   return (
     <div className={styles.connectorStatisticsMainBox}>
 
-      <div className={styles.connectorStatisticsHeading}>Connector statistics</div>
+      <div className={styles.connectorStatisticsHeading}>Dataset connector statistics</div>
       
         <table className={styles.tableConnector}>
 {connectorData.length <= 0 ?<div className={styles.nodatacenter}> <NoDataAvailable/> </div>: <div>
@@ -28,8 +28,8 @@ const ConnectorStatistics = ({additionalConnectorData}) => {
           <thead className={styles.thead}>
 
           <tr className={styles.tableConnectortrth}>
-            <th>Connector name</th>
-            <th>Datasets</th>
+            <th>Dataset name</th>
+            <th>Connectors</th>
             <th>Activity</th>
             <th>Date</th>
           </tr>
@@ -38,10 +38,10 @@ const ConnectorStatistics = ({additionalConnectorData}) => {
 
           { additionalConnectorData ? connectorData.map((eachConnector)=>(<tr className={styles.tableConnectortrtd}>
             {/* <Tooltip placement='bottom-start' TransitionComponent={Zoom} title={eachConnector.connector_name}> */}
-               <td >{eachConnector.connector_name}</td>
+               <td >{eachConnector.name}</td>
             {/* </Tooltip> */}
             {/* <Tooltip placement='bottom-start' TransitionComponent={Zoom} title={eachConnector.dataset_count}>  */}
-            <td>{eachConnector.dataset_count}</td>
+            <td>{eachConnector.connector_count}</td>
             {/* </Tooltip> */}
             {/* <Tooltip placement='bottom-start' TransitionComponent={Zoom} title={eachConnector.activity}> */}
               <td >{eachConnector.activity}</td>

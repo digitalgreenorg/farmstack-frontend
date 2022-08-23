@@ -76,19 +76,19 @@ const labels = {
     settings: {
       heading: "Add new member",
       editheading: "Edit member details",
-      email: "Email",
-      first_name: "First Name",
-      last_name: "Last Name",
+      email: "Email id",
+      first_name: "First name",
+      last_name: "Last name",
       role: "Role",
       delete_member: "Delete Member",
       delete_msg: "Are you sure you want to delete the team member?",
       second_delete_msg:
         "This action will delete the member’s account from the system.",
       third_delete_msg:
-        "The member will no longer be able to use her account in the datahub.",
-      firstText: "Add new Member",
+        "The member's account will no longer be usable in the datahub.",
+      firstText: "Add new member",
       secondText:
-        "Add details about your dataset and make discoverable to other participants in our network.",
+        "Add details about your dataset and make it discoverable to other users of our network.",
     },
     account_settings: {
       email: "Email",
@@ -207,7 +207,7 @@ const labels = {
       yearly: "Yearly",
       week: "Week",
       no_data_available: "There is no data at this moment!",
-      dataset_cat_info : "Each bar graph segment represents a distinct category within the larger data set.",
+      dataset_cat_info : "Each bar graph dataset segment includes multiple categorical variable representing a distinct category within the larger data set.",
       dataset_exchange_trend : "These data and analytics (D&A) trends will allow you to periodically monitor the frequency of connections and data transfer.",
       
     },
@@ -295,6 +295,25 @@ const labels = {
       send_pairing_request: "Send pairing request",
       cancel: "Cancel",
       select_provider_connector: "Select provider connector",
+    },
+    department: {
+      heading: "Add a department",
+      editheading: "Edit a department",
+      department_name: "Department Name",
+      description: "Department Description",
+      department_description: "Description",
+      delete_department: "Delete Department",
+      delete_msg: "Are you sure, you want to delete the department?",
+      second_delete_msg:
+        "This action will delete the department from the system.",
+      third_delete_msg:
+        "The department will no longer be able to use in your acoount.",
+      firstText: "Add new Department",
+      secondText:
+        "Add details about your dataset and make discoverable to other participants in our network.",
+      editbutton: "Edit Department",
+      deletebutton: "Delete Department",
+      viewheading: "Department Details"
     },
   },
 };
