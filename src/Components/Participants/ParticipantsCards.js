@@ -105,7 +105,7 @@ export default function ParticipantsCards(props) {
             <Button onClick={() => history.push('/datahub/participants/view/'+props.id)} variant="outlined" 
                     style={useStyles.btnPosition}
                     className="buttonremovebackgroundonhover">
-              View Details
+              View details
             </Button>
           </Col>
         </Row>:<></>}

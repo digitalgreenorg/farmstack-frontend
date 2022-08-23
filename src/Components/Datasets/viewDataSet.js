@@ -83,13 +83,13 @@ export default function ViewDataSet(props) {
           "text-align": "left",
         }}>
         <Col>
-          <span className="secondmainheading">{"Dataset Name"}</span>
+          <span className="secondmainheading">{"Dataset name"}</span>
         </Col>
         <Col>
           <span className="secondmainheading">{"Description"}</span>
         </Col>
         <Col>
-          <span className="secondmainheading">{"Data Category"}</span>
+          <span className="secondmainheading">{"Data category"}</span>
         </Col>
       </Row>
       
@@ -151,7 +151,7 @@ export default function ViewDataSet(props) {
           <span className="secondmainheading">{"Geography"}</span>
         </Col>
         <Col>
-          <span className="secondmainheading">{"Crop Detail"}</span>
+          <span className="secondmainheading">{"Crop detail"}</span>
         </Col>
         <Col>
           <span className="secondmainheading">{"Constantly updating"}</span>
@@ -210,14 +210,14 @@ export default function ViewDataSet(props) {
           "text-align": "left",
         }}>
         <Col>
-          <span className="secondmainheading">{"Age of Actual Data"}</span>
+          <span className="secondmainheading">{"Age of actual data"}</span>
         </Col>
         <Col>
-          <span className="secondmainheading">{"Data Capture Interval"}</span>
+          <span className="secondmainheading">{"Data capture interval"}</span>
         </Col>
         <Col>
           <span className="secondmainheading">
-            {"Size of Actual Data (Records)"}
+            {"Size of actual data"}
           </span>
         </Col>
       </Row>
@@ -263,7 +263,7 @@ export default function ViewDataSet(props) {
           "text-align": "left",
         }}>
         <Col>
-          <span className="secondmainheading">{"Connector Availablity"}</span>
+          <span className="secondmainheading">{"Connector availablity"}</span>
         </Col>
       </Row>
       <Row
@@ -294,14 +294,14 @@ export default function ViewDataSet(props) {
             }}>
             <Col>
               <span className="secondmainheading">
-                {"Contact Person's Name"}
+                {"Contact person's name"}
               </span>
             </Col>
             <Col>
-              <span className="secondmainheading">{"Organization Name"}</span>
+              <span className="secondmainheading">{"Organization name"}</span>
             </Col>
             <Col>
-              <span className="secondmainheading">{"Email"}</span>
+              <span className="secondmainheading">{"Email id"}</span>
             </Col>
           </Row>
           <Row
@@ -370,7 +370,7 @@ export default function ViewDataSet(props) {
               "text-align": "left",
             }}>
             <Col>
-              <span className="secondmainheading">{"Contact Number"}</span>
+              <span className="secondmainheading">{"Contact number"}</span>
             </Col>
             <Col>
               <span className="secondmainheading">{"Address"}</span>
@@ -425,7 +425,7 @@ export default function ViewDataSet(props) {
               <span className="secondmainheading">{"Country"}</span>
             </Col>
             <Col>
-              <span className="secondmainheading">{"PIN Code"}</span>
+              <span className="secondmainheading">{"PIN code"}</span>
             </Col>
             <Col>
               <span className="secondmainheading">{""}</span>
@@ -471,7 +471,7 @@ export default function ViewDataSet(props) {
         <></>
       )}
       <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-        <span className="mainheading">{"Sample Data Table"}</span>
+        <span className="mainheading">{"Sample data table"}</span>
         <span
           style={{ "margin-left": "67%", cursor: "pointer" }}
           onClick={() =>

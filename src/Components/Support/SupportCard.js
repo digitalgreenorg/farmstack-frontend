@@ -58,7 +58,7 @@ export default function SupportCard(props) {
             <CardContent>
                 <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-                        Name of Participant
+                        Name of participant
           </Col>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         Status
@@ -89,7 +89,7 @@ export default function SupportCard(props) {
                 <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                
-                        Name of Participant User
+                        Name of participant user
           </Col>
                 </Row>
                
@@ -131,7 +131,7 @@ export default function SupportCard(props) {
                 <Row style={{ "margin-top": "-58px" }}>
                     {!isshowbutton ? <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         <Button onClick={()=>props.viewCardDetails()} variant="outlined" style={useStyles.btncolor}>
-                            View Details
+                            View details
             </Button>
                     </Col> : <></>}
                 </Row>

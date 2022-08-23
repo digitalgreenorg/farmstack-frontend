@@ -15,6 +15,7 @@ function CarouselSupportRequest({supportRequestData}) {
       if(supportRequestData){
         console.log("ASASASA", supportRequestData)
         setTicketDetails({closed_requests: supportRequestData.closed_requests, hold_requests:supportRequestData.hold_requests , open_requests : supportRequestData.open_requests})
+        
         setSupportRequestData([...supportRequestData.recent_tickets])
 
       }else{

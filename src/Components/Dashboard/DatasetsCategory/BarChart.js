@@ -1,5 +1,6 @@
 import { useForkRef } from "@mui/material";
 import React, { PureComponent, useEffect, useState } from "react";
+import styles from "./datasetsCategory.module.css"
 import {
   BarChart,
   Bar,
@@ -61,18 +62,19 @@ const BarChartComponent = ({ dataForThePieChart }) => {
 
   // console.log(data)
   return (
-    <div style={{ border: "1px solid #E4E4E4", borderRadius: "10px" }}>
+    <div className={styles.barchartencloser} >
       {/* <div style={{border:"1px solid red", borderRadius:"10px"}}> */}
 
       <BarChart
-        width={600}
+        width={dataForThePieChart.length >= 10 ? 1500 : dataForThePieChart.length <= 4 ? 400  : dataForThePieChart.length <= 8 ? 680 : 1000}
         height={280}
         data={dataForThePieChart}
         margin={{ top: 0, right: 25, bottom: 0, left: -20 }}
         barSize={30}
         //    style={{border:"1px solid blue"}}
         isAnimationActive={true}
-        // barCategoryGap="20%"
+        // barCategoryGap={300}
+        barGap={300}
         
       >
         <YAxis
@@ -88,7 +90,7 @@ const BarChartComponent = ({ dataForThePieChart }) => {
           fontWeight="600"
         />
         <XAxis
-          padding={{ left: 30, right: 20 }}
+          padding={{ left: 35, right: 20 }}
           tickSize={1}
           minTickGap={-1}
           fontSize="10px"
@@ -98,8 +100,9 @@ const BarChartComponent = ({ dataForThePieChart }) => {
           dataKey="name"
           scale="point"
           interval={0}
-          angle={dataForThePieChart.length < 6 ? 0 : dataForThePieChart.length >=8 ? 10 : 0 }
+          angle={dataForThePieChart.length < 10 ? 0 : dataForThePieChart.length >=10 ? 20 : 0 }
           tickMargin={1}
+          width={10000}
           
         />
         <Tooltip />
