@@ -207,6 +207,9 @@ const labels = {
       yearly: "Yearly",
       week: "Week",
       no_data_available: "There is no data at this moment!",
+      dataset_cat_info : "Each bar graph segment represents a distinct category within the larger data set.",
+      dataset_exchange_trend : "These data and analytics (D&A) trends will allow you to periodically monitor the frequency of connections and data transfer.",
+      
     },
     connector: {
       filter: "Filter",

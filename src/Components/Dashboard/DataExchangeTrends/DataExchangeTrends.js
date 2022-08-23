@@ -16,7 +16,7 @@ const DataExchangeTrends = ({dataForThePieChart}) => {
     <div style={{padding:"20px"}} className="widht640andheight368pxandborderradius10andborder1pxsolidE4E4E4">
       <div style={{display:"flex"}}>
 
-    <div style={{flex:"3"}} className={styles.dataExchangeHeading}>{labels.en.dashboard.data_exchange_trends} <InfoIcon text={"text3"}/></div>
+    <div style={{flex:"3"}} className={styles.dataExchangeHeading}>{labels.en.dashboard.data_exchange_trends} <InfoIcon text={labels.en.dashboard.dataset_exchange_trend}/></div>
    <div style={{flex:"1", width:"640px"}}>
     
    {dataForThePieChart.length >0 ? <SelectComponent filterPeriod={filterPeriod} setFilterPeriod={setFilterPeriod}/> : ""}

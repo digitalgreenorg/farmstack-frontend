@@ -32,7 +32,7 @@ const DatasetsCategory = ({ dataForThePieChart }) => {
         }}
       >
         {labels.en.dashboard.dataset_category}
-        <InfoIcon text={"text2"}/>
+        <InfoIcon text={labels.en.dashboard.dataset_cat_info}/>
       </div>
 
     {dataForThePieChart.length >0 ? <BarChartComponent dataForThePieChart={dataForThePieChart} /> : <NoDataAvailable/>}  
