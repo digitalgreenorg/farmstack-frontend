@@ -19,7 +19,7 @@ import labels from "../../Constants/labels";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import ReactTooltip from "react-tooltip";
-import { getUserLocal, getUserMapId, dateTimeFormat } from "../../Utils/Common";
+import { getUserLocal, getUserMapId, dateTimeFormat, toTitleCase } from "../../Utils/Common";
 import { Tooltip } from "@mui/material";
 import { Zoom } from "@material-ui/core";
 import parse from "html-react-parser"
@@ -214,11 +214,14 @@ export default function GuestUserDatasetCard(props) {
               className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn width173px"
               style={{ textAlign: "left" }}>
               <Button
+                // className="sentenceCaseClass"
                 onClick={() => props.viewCardDetails()}
                 variant="outlined"
                 style={useStyles.btncolor}>
-                View Details
+               {/* {toTitleCase(`View details`)} */}
+               View details
               </Button>
+
             </Col>
           ) : (
             <></>

@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import labels from "../../../Constants/labels";
 import { Tooltip } from "@mui/material";
 import NoDataAvailable from "../NoDataAvailable/NoDataAvailable";
+import InfoIcon from "../../InfoIcon/InfoIcon";
 
 const DatasetsCategory = ({ dataForThePieChart }) => {
   const [barChartData, setBarChartData] = useState([]);
@@ -27,9 +28,11 @@ const DatasetsCategory = ({ dataForThePieChart }) => {
           color: "#3D4A52",
           fontSize: "20px",
           fontWeight: "700",
+          display:"flex"
         }}
       >
         {labels.en.dashboard.dataset_category}
+        <InfoIcon text={labels.en.dashboard.dataset_cat_info}/>
       </div>
 
     {dataForThePieChart.length >0 ? <BarChartComponent dataForThePieChart={dataForThePieChart} /> : <NoDataAvailable/>}  
