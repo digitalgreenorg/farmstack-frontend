@@ -62,8 +62,7 @@ const useStyles = {
   background: {
     "margin-left": "70px",
     "margin-right": "70px",
-    background: "#FCFCFC",
-    "padding-right": "60px",
+    background: "#FCFCFC"
   },
 };
 

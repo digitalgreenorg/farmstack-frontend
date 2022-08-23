@@ -46,41 +46,48 @@ const useStyles = {
     marginrowtop10px: { "margin-top": "20px" },
     marginrowtopscreen10px: { "margin-top": "10px" },
     departmentword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans" },
-    background: { "margin-left": "70px", "margin-right": "70px", background: "#FCFCFC", "padding-left": "60px", "padding-right": "60px" },
+    background: { "margin-left": "70px", "margin-right": "70px", background: "#FCFCFC"},
 };
 function Participantsettings(props) {
 
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
-    const [getdepartmentList, setgetdepartmentList] =useState([]);
+    const [getdepartmentList, setgetdepartmentList] = useState([]);
     const [istabView, setistabView] = useState(true);
     const [value, setValue] = React.useState("1");
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
-    const [isDepartmentUpdateSuccess, setisDepartnentUpdateSucess]=useState(false)
+    const [isDepartmentUpdateSuccess, setisDepartnentUpdateSucess] = useState(false)
     const [isLoader, setIsLoader] = useState(false)
     const { id } = useParams();
-    const [departmenturl, setdepartmenturl]= useState("")
-    
+    const [departmenturl, setdepartmenturl] = useState("")
+
     const history = useHistory();
-    useEffect( () =>{
+    useEffect(() => {
+        if (id) {
+            setValue(id);
+        } else {
+            setValue(1);
+        }
         setIsLoader(true);
         HTTPService(
             'GET',
-            UrlConstant.base_url+ "/participant/department/",
+            UrlConstant.base_url + "/participant/department/",
             "",
             false,
             true).then((response) => {
                 setIsLoader(false);
                 console.log("otp valid", response.data);
-            //     let dataFromBackend = [...response.data] 
-            // setgetdepartmentList(dataFromBackend)
-                if (response.data.next == null){
+                //     let dataFromBackend = [...response.data] 
+                // setgetdepartmentList(dataFromBackend)
+                if (response.data.next == null) {
                     setisShowLoadMoreButton(false);
-                }else {
+                } else {
                     setisShowLoadMoreButton(true);
                     console.log(response.data.next)
-                   setdepartmenturl(response.data.next);
+                    setdepartmenturl(response.data.next);
                 }
-                setgetdepartmentList(response.data.results)
+                // setgetdepartmentList(response.data.results)
+                let tempList = [...response.data.results];
+                setgetdepartmentList(tempList);
                 //1 let deptList = getdepartmentList;
                 // 2let dataFromBackend = [...deptList, ...response.data.results];
                 // 3setgetdepartmentList(dataFromBackend);
@@ -90,15 +97,12 @@ function Participantsettings(props) {
                 // setgetdepartmentList(finalDeptList);
             }).catch((e) => {
                 setIsLoader(false)
-                history.push(GetErrorHandlingRoute(e))});
+                history.push(GetErrorHandlingRoute(e))
+            });
         // getDatafrombackendfordepartcard ()
-    if (id) {
-        setValue(id);
-      } else {
-        setValue(1);
-      }
+       
     }, [])
-    
+
     const getdepartmentcardList = () => {
         setIsLoader(true);
         HTTPService(
@@ -109,12 +113,12 @@ function Participantsettings(props) {
             true).then((response) => {
                 setIsLoader(false);
                 console.log("otp valid", response.data);
-            //     let dataFromBackend = [...response.data]
-            
-            // setgetdepartmentList(dataFromBackend)
-                if (response.data.next == null){
+                //     let dataFromBackend = [...response.data]
+
+                // setgetdepartmentList(dataFromBackend)
+                if (response.data.next == null) {
                     setisShowLoadMoreButton(false);
-                }else {
+                } else {
                     setisShowLoadMoreButton(true);
                     setdepartmenturl(response.data.next)
                 }
@@ -130,14 +134,14 @@ function Participantsettings(props) {
                 setIsLoader(false)
                 history.push(GetErrorHandlingRoute(e));
             });
-            // let arr = [{1:1}, {2:1}];
-            
-            // let arr1 = [...arr];
-            // console.log(arr,arr1)
-            // let dataFromBackend = [...response.data]
-            
-            // setgetdepartmentList(dataFromBackend)
-            
+        // let arr = [{1:1}, {2:1}];
+
+        // let arr1 = [...arr];
+        // console.log(arr,arr1)
+        // let dataFromBackend = [...response.data]
+
+        // setgetdepartmentList(dataFromBackend)
+
     }
     // useEffect(() => {
     //     getdepartmentcardList();
@@ -149,7 +153,7 @@ function Participantsettings(props) {
     //   }
     // }, [])
 
-    const handleChange= (event, newValue) => {
+    const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     return (
@@ -171,6 +175,12 @@ function Participantsettings(props) {
                                         <Tab label="Project" value="5" />
                                     </TabList>
                                 </Box>
+                                <TabPanel value="1">
+                                </TabPanel>
+                                <TabPanel value="2">
+                                </TabPanel>
+                                <TabPanel value="3">
+                                </TabPanel>
                                 <TabPanel value="4">
                                     <Row>
                                         <span style={useStyles.departmentword}>My Departments</span>
@@ -188,37 +198,39 @@ function Participantsettings(props) {
                                                 addevent={() =>
                                                     history.push("/participant/settings/adddepartment")
                                                 }>
-                                                   
+
                                             </AddCard>
-                                            </Col>
-                                            {getdepartmentList.map((each, index) => (
-                                                // console.log(each, index)
-                                                <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>
+                                        </Col>
+                                        {getdepartmentList.map((each, index) => (
+                                            // console.log(each, index)
+                                            <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>
                                                 <DepartmentSettingsCard
-                                                id={each.id}
-                                                // each={each}
-                                                department_name={each.department_name}
-                                                departmentdescription={each.department_discription}
-                                                index={index}
+                                                    id={each.id}
+                                                    // each={each}
+                                                    department_name={each.department_name}
+                                                    departmentdescription={each.department_discription}
+                                                    index={index}
                                                 ></DepartmentSettingsCard>
-                                                </Col>
-                                            ))}
+                                            </Col>
+                                        ))}
                                     </Row>
                                     <Row style={useStyles.marginrowtop}>
-                      <Col xs={12} sm={12} md={6} lg={3}></Col>
-                      {isShowLoadMoreButton ? (
-                        <Col xs={12} sm={12} md={6} lg={6}>
-                          <Button
-                            onClick={() => getdepartmentcardList()}
-                            variant="outlined"
-                            className="cancelbtn">
-                            Load More
+                                        <Col xs={12} sm={12} md={6} lg={3}></Col>
+                                        {isShowLoadMoreButton ? (
+                                            <Col xs={12} sm={12} md={6} lg={6}>
+                                                <Button
+                                                    onClick={() => getdepartmentcardList()}
+                                                    variant="outlined"
+                                                    className="cancelbtn">
+                                                    Load More
                           </Button>
-                        </Col>
-                      ) : 
-                        <></>
-                      }
-                    </Row>
+                                            </Col>
+                                        ) :
+                                            <></>
+                                        }
+                                    </Row>
+                                </TabPanel>
+                                <TabPanel value="5">
                                 </TabPanel>
                             </TabContext>
                         </Box>
@@ -226,9 +238,9 @@ function Participantsettings(props) {
                 </Row>
 
             ) : (
-         <></>
-         )} 
-         {/* <Footer /> */}
+                    <></>
+                )}
+            {/* <Footer /> */}
         </div>
     );
 }

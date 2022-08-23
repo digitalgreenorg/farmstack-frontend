@@ -63,7 +63,7 @@ function Participant(props) {
             />
             <Route
               exact
-              path="/participant/settings"
+              path="/participant/settings/:id"
               component={Participantsettings}
             />
             <Route

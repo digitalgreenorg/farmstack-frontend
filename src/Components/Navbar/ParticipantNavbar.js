@@ -108,7 +108,7 @@ const ParticipantNavbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
           </NavLink>
-          <NavLink to="/participant/settings" activeStyle>
+          <NavLink to="/participant/settings/1" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/settings.svg")}
