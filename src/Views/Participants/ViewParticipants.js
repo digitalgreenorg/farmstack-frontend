@@ -129,7 +129,7 @@ function ViewParticipants(props) {
                         <Col xs={12} sm={12} md={6} lg={6} >
 
                             <Button onClick={() => history.push('/datahub/participants/edit/' + id)} variant="outlined" className="editbtn">
-                                Edit Participant
+                                Edit participant
                          </Button>
                         </Col>
                     </Row>
@@ -138,7 +138,7 @@ function ViewParticipants(props) {
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
                             <Button variant="outlined" onClick={() => { setisDelete(true); setisSuccess(false); setisDeleteSuccess(false) }} className="cancelbtn">
-                                Delete Participant
+                                Delete participant
                 </Button>
 
                         </Col>
