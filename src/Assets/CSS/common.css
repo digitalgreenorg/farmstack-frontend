@@ -655,10 +655,10 @@ overflow: hidden;
 }
 
 
-:not(.Mui-selected).MuiTab-root{
+/* :not(.Mui-selected).MuiTab-root{
   text-transform: none !important;
 
-}
+} */
 
 .css-1qp0npj-MuiButtonBase-root-MuiTab-root{
   text-transform: none !important;
@@ -682,4 +682,12 @@ overflow: hidden;
 
 .recharts-default-tooltip{
   border: none !important;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root{
+text-transform: none !important;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root ::first-letter{
+text-transform: none !important;
 }
