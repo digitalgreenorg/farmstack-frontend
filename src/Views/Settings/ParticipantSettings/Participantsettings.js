@@ -220,7 +220,7 @@ function Participantsettings(props) {
                     onChange={handleChange}
                     aria-label="lab API tabs example">
                     <Tab label="Account" value="1" />
-                    <Tab label="Organization" value="2" />
+                    <Tab label="Organisation" value="2" />
                     <Tab label="Team" value="3" />
                     <Tab label="Department" value="4" />
                     <Tab label="Project" value="5" />

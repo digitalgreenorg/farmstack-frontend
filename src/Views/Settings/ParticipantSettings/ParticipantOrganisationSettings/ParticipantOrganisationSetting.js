@@ -803,6 +803,11 @@ export default function ParticipantOrganisationSetting(props) {
             !isOrgWebsiteerror &&
             orgfile != null &&
             !orgfilesize &&
+            orgname &&
+            address &&
+            email &&
+            city &&
+            pincode &&
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
