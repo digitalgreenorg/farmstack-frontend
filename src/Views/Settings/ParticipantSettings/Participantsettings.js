@@ -70,7 +70,7 @@ function Participantsettings(props) {
         setIsLoader(true);
         HTTPService(
             'GET',
-            UrlConstant.base_url + "/participant/department/",
+            UrlConstant.base_url + "/participant/department/department_list/",
             "",
             false,
             true).then((response) => {
