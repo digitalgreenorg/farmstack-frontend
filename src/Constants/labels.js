@@ -315,6 +315,15 @@ const labels = {
       deletebutton: "Delete Department",
       viewheading: "Department Details"
     },
+    project: {
+      department: "Department",
+      project: "Project",
+      description: "Description",
+      add_project: "Add new project",
+      add_project_text2: "Add details about your project and make it discoverable to other users of pour network.",
+      no_project_text1: "Currently, there are no projects available.",
+      no_project_text2: "Add new Project."
+    }
   },
 };
 export default labels;

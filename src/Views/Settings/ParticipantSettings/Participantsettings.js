@@ -20,6 +20,7 @@ import { useParams } from "react-router-dom";
 import DepartmentSettingsCard from "./DepartmentSettingsCard";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/Footer";
+import ProjectListing from "./Project/ProjectListing";
 
 
 const useStyles = {
@@ -231,6 +232,7 @@ function Participantsettings(props) {
                                     </Row>
                                 </TabPanel>
                                 <TabPanel value="5">
+                                    <ProjectListing/>
                                 </TabPanel>
                             </TabContext>
                         </Box>
