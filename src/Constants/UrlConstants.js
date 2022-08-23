@@ -1,6 +1,6 @@
 const UrlConstant = {
-  base_url: "https://datahubtest.farmstack.co/be/",
-  base_url_without_slash: "https://datahubtest.farmstack.co/be",
+  base_url: process.env.REACT_APP_BASEURL,
+  base_url_without_slash: process.env.REACT_APP_BASEURL_without_slash,
   // base_url: "https://ada8-106-51-85-143.in.ngrok.io/",
   // base_url_without_slash: "https://ada8-106-51-85-143.in.ngrok.io",
   login: "accounts/login/",
@@ -30,8 +30,8 @@ const UrlConstant = {
   guest_dataset_listing: "microsite/datasets/",
   guest_dataset_filters: "microsite/datasets/filters_data/",
   guest_dataset_filtered_data: "microsite/datasets/dataset_filters/",
-  connector_filter: 'participant/connectors/filters_data/',
-  connector_list: 'participant/connectors/connectors_filters/',
+  connector_filter: "participant/connectors/filters_data/",
+  connector_list: "participant/connectors/connectors_filters/",
   microsite_contact_form: "microsite/contact_form/",
   microsite_admin_organization: "microsite/admin_organization",
   list_of_dataset: "participant/datasets/list_of_datasets/",
@@ -39,10 +39,10 @@ const UrlConstant = {
   project_list: "participant/project/",
   connector: "participant/connectors/",
   microsite_legal_documents: "/microsite/legal_documents/",
-  consumer_paring_request:'participant/connectors_map/',
-  provider_connectors: 'participant/connectors/get_connectors/?dataset_id=',
+  consumer_paring_request: "participant/connectors_map/",
+  provider_connectors: "participant/connectors/get_connectors/?dataset_id=",
   microsite_theme: "/microsite/theme/",
-  datahub_dashboard : "datahub/dashboard/"
+  datahub_dashboard: "datahub/dashboard/",
 };
 
 export default UrlConstant;

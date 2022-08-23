@@ -108,6 +108,19 @@ const ParticipantNavbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
           </NavLink>
+          <NavLink to="/participant/settings/1" activeStyle>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/settings.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/settings.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.Settings}
+          </NavLink>
         </NavMenu>
         {profile ? (
           <NavBtn onClick={handleLogout}>
