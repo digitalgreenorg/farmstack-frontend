@@ -20,6 +20,7 @@ import { useParams } from "react-router-dom";
 import DepartmentSettingsCard from "./DepartmentSettingsCard";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/Footer";
+import ProjectListing from "./Project/ProjectListing";
 
 
 const useStyles = {
@@ -67,38 +68,38 @@ function Participantsettings(props) {
         } else {
             setValue(1);
         }
-        setIsLoader(true);
-        HTTPService(
-            'GET',
-            UrlConstant.base_url + "/participant/department/",
-            "",
-            false,
-            true).then((response) => {
-                setIsLoader(false);
-                console.log("otp valid", response.data);
-                //     let dataFromBackend = [...response.data] 
-                // setgetdepartmentList(dataFromBackend)
-                if (response.data.next == null) {
-                    setisShowLoadMoreButton(false);
-                } else {
-                    setisShowLoadMoreButton(true);
-                    console.log(response.data.next)
-                    setdepartmenturl(response.data.next);
-                }
-                // setgetdepartmentList(response.data.results)
-                let tempList = [...response.data.results];
-                setgetdepartmentList(tempList);
-                //1 let deptList = getdepartmentList;
-                // 2let dataFromBackend = [...deptList, ...response.data.results];
-                // 3setgetdepartmentList(dataFromBackend);
-                // setgetdepartmentList(...eachDepartmentData)
-                // let deptList = getdepartmentList();
-                // let finalDeptList = [...deptList, ...response.data.results];
-                // setgetdepartmentList(finalDeptList);
-            }).catch((e) => {
-                setIsLoader(false)
-                history.push(GetErrorHandlingRoute(e))
-            });
+        // setIsLoader(true);
+        // HTTPService(
+        //     'GET',
+        //     UrlConstant.base_url + "/participant/department/",
+        //     "",
+        //     false,
+        //     true).then((response) => {
+        //         setIsLoader(false);
+        //         console.log("otp valid", response.data);
+        //         //     let dataFromBackend = [...response.data] 
+        //         // setgetdepartmentList(dataFromBackend)
+        //         if (response.data.next == null) {
+        //             setisShowLoadMoreButton(false);
+        //         } else {
+        //             setisShowLoadMoreButton(true);
+        //             console.log(response.data.next)
+        //             setdepartmenturl(response.data.next);
+        //         }
+        //         // setgetdepartmentList(response.data.results)
+        //         let tempList = [...response.data.results];
+        //         setgetdepartmentList(tempList);
+        //         //1 let deptList = getdepartmentList;
+        //         // 2let dataFromBackend = [...deptList, ...response.data.results];
+        //         // 3setgetdepartmentList(dataFromBackend);
+        //         // setgetdepartmentList(...eachDepartmentData)
+        //         // let deptList = getdepartmentList();
+        //         // let finalDeptList = [...deptList, ...response.data.results];
+        //         // setgetdepartmentList(finalDeptList);
+        //     }).catch((e) => {
+        //         setIsLoader(false)
+        //         history.push(GetErrorHandlingRoute(e))
+        //     });
         // getDatafrombackendfordepartcard ()
        
     }, [])
@@ -231,6 +232,7 @@ function Participantsettings(props) {
                                     </Row>
                                 </TabPanel>
                                 <TabPanel value="5">
+                                    <ProjectListing/>
                                 </TabPanel>
                             </TabContext>
                         </Box>
