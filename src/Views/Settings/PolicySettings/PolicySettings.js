@@ -1142,11 +1142,11 @@ export default function PolicySettings(props) {
             (privacyFile || privacyFileUrl) &&
             editorTermValue.getEditorState().getCurrentContent().hasText() &&
             (termFile || termsFileUrl) ? (
-              <Button variant="contained" className="submitbtn" type="submit">
-                <span className="signupbtnname">Submit</span>
+              <Button variant="contained" style={{textTransform:"none"}} className="submitbtn" type="submit">
+                <span className="signupbtnname" style={{textTransform:"none"}}>Submit</span>
               </Button>
             ) : (
-              <Button variant="outlined" disabled className="disbalesubmitbtn">
+              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
@@ -1159,6 +1159,7 @@ export default function PolicySettings(props) {
               variant="outlined"
               className="cancelbtn"
               type="button"
+              style={{textTransform:"none"}}
               onClick={policysettingcancelbtn}>
               Cancel
             </Button>
