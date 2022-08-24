@@ -20,6 +20,7 @@ import { useParams } from "react-router-dom";
 import DepartmentSettingsCard from "./DepartmentSettingsCard";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/Footer";
+import ProjectListing from "./Project/ProjectListing";
 
 import ParticipantAccountSetting from "./ParticipantAccountSettings/ParticipantAccountSetting";
 
