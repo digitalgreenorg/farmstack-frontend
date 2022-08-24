@@ -10,12 +10,13 @@
     box-sizing: border-box;
     margin: 10px;
     background-color: #FFFFFF;
+    padding:26.71px 31px 26.71px 20px
 }
 
 .todoListImg{
     height: 76.58px;
     width: 90px;
-    margin: 26.71px 40px 26.71px 20px;
+    /* margin: ; */
     
 }
 
@@ -23,7 +24,7 @@
     /* width: 109px; */
     /* height: 60px; */
     font-size: 18px;
-    margin: 36px 0px 34px 0px;
+    margin: 10px 0px 8px 40px;
     font-family: "Open Sans";
     font-style: normal;
     font-weight: 400;

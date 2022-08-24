@@ -14,7 +14,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import parse from "html-react-parser";
 import labels from "../../Constants/labels";
-import { downloadAttachment } from "../../Utils/Common";
+import { downloadAttachment, toTitleCase } from "../../Utils/Common";
 export default function GuestUserLegalPage({ legalData }) {
   const [value, setValue] = React.useState(1);
   const history = useHistory();
@@ -98,10 +98,10 @@ export default function GuestUserLegalPage({ legalData }) {
                     minWidth: "220px",
                     background: "#C09507",
                     color: value == `${index + 1}` ? "white" : "black",
-                    textTransform: "capitalize",
+                    // textTransform: "capitalize",
                     fontSize: "14px",
                   }}
-                  label={eachLegalPolicy.title}
+                  label={(eachLegalPolicy.title)}
                   value={index + 1}
                 />
               ))}
@@ -150,6 +150,7 @@ export default function GuestUserLegalPage({ legalData }) {
                           color: "#3491EE",
                           marginRight: "34px",
                         }}
+                        className={styles.legalButton}
                       >
                         {" "}
                         <img
@@ -175,6 +176,7 @@ export default function GuestUserLegalPage({ legalData }) {
                           fontWeight: "400",
                           color: "#3491EE",
                         }}
+                        className={styles.legalButton}
                       >
                         {" "}
                         <img
@@ -186,7 +188,7 @@ export default function GuestUserLegalPage({ legalData }) {
                           src={downloadIcon}
                           alt={eachLegalPolicy.title}
                         />{" "}
-                        <spna>Download document</spna>{" "}
+                        <span>Download document</span>{" "}
                       </a>
                     </div>
                   </div>

@@ -71,7 +71,7 @@ function Participants(props) {
                 <Row>
                     <Col xs={12} sm={12} md={12} lg={12}>
                         <Button onClick={() => history.push('/datahub/participants/invite')} style={useStyles.btncolor}>
-                            + Invite Participants
+                            + Invite participants
                          </Button>
                     </Col>
                 </Row>

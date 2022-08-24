@@ -66,7 +66,7 @@ export default function GuestUserDatasetFilter(props) {
           <span className="supportcardfromdate">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                      inputFormat="dd/MM/yyyy"
+                      inputFormat="dd/mm/yyyy"
                       disableFuture
                       label="From date *"
                       value={props.fromdate}
@@ -90,7 +90,7 @@ export default function GuestUserDatasetFilter(props) {
           <span className="supportcardtodate">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                      inputFormat="dd/MM/yyyy"
+                      inputFormat="dd/mm/yyyy"
                       disabled={props.fromdate ? false : true}
                       disableFuture
                       label="To date *"
