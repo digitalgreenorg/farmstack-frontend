@@ -427,11 +427,12 @@ export default function AccountSetting(props) {
                 //   onClick={() => addNewParticipants()}
                 variant="contained"
                 className="submitbtn"
+                style={{textTransform:"none"}}
                 type="submit">
                 {screenlabels.common.submit}
               </Button>
             ) : (
-              <Button variant="outlined" disabled className="disbalesubmitbtn">
+              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
@@ -444,6 +445,7 @@ export default function AccountSetting(props) {
             <Button
               variant="outlined"
               className="cancelbtn"
+              style={{textTransform:"none"}}
               type="button"
               onClick={accountsettingcancelbtn}>
               {screenlabels.common.cancel}

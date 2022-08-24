@@ -724,22 +724,7 @@ button.disbalesubmitbtndept {
 
 } */
 
-.css-1qp0npj-MuiButtonBase-root-MuiTab-root{
-  text-transform: none !important;
-}
-.css-bkn77w-MuiButtonBase-root-MuiTab-root{
-  text-transform: none !important;
 
-}
-
-.css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
-  text-transform: none !important;
-}
-
-
-.css-1rwt2y5-MuiButtonBase-root-MuiButton-root{
-  text-transform: none !important;
-}
 .recharts-tooltip-wrapper{
   border: none !important;
 }
@@ -748,10 +733,13 @@ button.disbalesubmitbtndept {
   border: none !important;
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root{
-text-transform: none !important;
+
+
+.text-capital{
+  text-transform: capitalize !important;
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root ::first-letter{
-text-transform: none !important;
+.supportcardsecondcolumn .supportEnableButton{
+  text-transform: none !important;
 }
+

@@ -216,6 +216,7 @@ export default function BrandingSetting(props) {
                 //   onClick={() => addNewParticipants()}
                 variant="contained"
                 className="submitbtn"
+                style={{textTransform:"none"}}
                 type="submit">
                 {screenlabels.common.submit}
               </Button>
@@ -223,6 +224,7 @@ export default function BrandingSetting(props) {
               <Button
                 variant="outlined"
                 disabled
+                style={{textTransform:"none"}}
                 className="disableaccountnextbtn">
                 Submit
               </Button>
@@ -254,6 +256,7 @@ export default function BrandingSetting(props) {
             <Button
               variant="outlined"
               className="cancelbtn"
+              style={{textTransform:"none"}}
               type="button"
               onClick={brandsettingcancelbtn}>
               {screenlabels.common.cancel}

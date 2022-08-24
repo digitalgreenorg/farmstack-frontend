@@ -798,10 +798,10 @@ export default function OrganisationSetting(props) {
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
               <Button variant="contained" className="submitbtn" type="submit">
-                <span className="signupbtnname">Submit</span>
+                <span className="signupbtnname" style={{textTransform:"none"}}>Submit</span>
               </Button>
             ) : (
-              <Button variant="outlined" disabled className="disbalesubmitbtn">
+              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
@@ -814,6 +814,7 @@ export default function OrganisationSetting(props) {
               variant="outlined"
               className="cancelbtn"
               type="button"
+              style={{textTransform:"none"}}
               onClick={orgsettingcancelbtn}>
               Cancel
             </Button>
