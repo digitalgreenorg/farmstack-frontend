@@ -27,12 +27,14 @@ import HandleSessionTimeout, {
   setOrgId,
   GetErrorKey,
   fileUpload,
-} from "../../../../Utils/Common";
-import RegexConstants from "../../../../Constants/RegexConstants";
-import {
   GetErrorHandlingRoute,
   validateInputField,
 } from "../../../../Utils/Common";
+import RegexConstants from "../../../../Constants/RegexConstants";
+// import {
+//   GetErrorHandlingRoute,
+//   validateInputField,
+// } from "../../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../../Components/Loader/Loader";
 
@@ -411,9 +413,14 @@ export default function ParticipantOrganisationSetting(props) {
   };
 
   const handleOrgAddress = (e) => {
+    // e.target.value = e.target.value.trim();
+
+    // var address = e.target.value;
+    validateInputField(e.target.value, RegexConstants.address)
+      ? setaddress(e.target.value)
+      : e.preventDefault();
+
     console.log(e.target.value);
-    var address = e.target.value;
-    setaddress(e.target.value);
     if (address.length > 0) {
       setisOrgAddresserror(false);
       setOrgaddressbtn(true);
@@ -635,10 +642,23 @@ export default function ParticipantOrganisationSetting(props) {
               onChange={handleOrgAddress}
               // inputRef={OrgAddress}
               value={address}
-              onKeyDown={(e) => handleAddressCharacters(address, e)}
+              //   onKeyDown={(e) => handleAddressCharacters(address, e)}
               error={isOrgAddresserror}
               helperText={isOrgAddresserror ? "Enter Valid Address" : ""}
             />
+            {/* <TextField
+              // style={useStyles.inputwidth}
+              className="name"
+              id="filled-basic"
+              variant="filled"
+              required
+              // width="100%"
+              value={address}
+              onChange={handleChangeConnectorName}
+              label={screenlabels.connector_form.connectorName}
+              error={props.nameErrorMessage ? true : false}
+              helperText={props.nameErrorMessage}
+            /> */}
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
             <TextField
