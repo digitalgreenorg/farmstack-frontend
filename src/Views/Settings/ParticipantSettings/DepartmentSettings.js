@@ -12,10 +12,11 @@ import DepartmentSettingsForm from "./DepartmentSettingsForm";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/Footer";
+import { GetErrorHandlingRoute } from '../../../Utils/Common';
 
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "box-shadow": "none" },
-    marginrowtop: { "margin-top": "40px", "font-family": "Open Sans", "width": "1300px", "height": "893px" },
+    marginrowtop: { "margin-top": "40px", "font-family": "Open Sans", "width": "1300px", "height": "103px" },
     marginrowtop8px: { "margin-top": "8px" },
 }
 
@@ -43,7 +44,7 @@ function DepartmentSettings(props) {
       setIsLoader(true);
       HTTPService(
         'POST',
-        UrlConstant.base_url+ "participant/department/",
+        UrlConstant.base_url+ UrlConstant.department,
         Formdata,
         true,
         true).then((response) => {
@@ -56,6 +57,7 @@ function DepartmentSettings(props) {
         }).catch((error) => {
             console.log(error)
             setIsLoader(false);
+            history.push(GetErrorHandlingRoute(error));
 
         })
 } 
@@ -64,13 +66,13 @@ function DepartmentSettings(props) {
             {isLoader ? <Loader /> : ""}
             <Container style={useStyles.marginrowtop}>
                 {isSuccess ? <Success
-                    okevent={() => history.push("/participant/settings/")}
+                    okevent={() => history.push("/participant/settings/4")}
                     route={" "}
                     imagename={'success'}
                     btntext={"ok"}
                     heading={"Department added successfully"}
-                    imageText={"Success"}
-                    msg={"You added a Department"}>
+                    imageText={"Success!"}
+                    msg={"You added a department"}>
                     </Success> :
                     <> 
                     <DepartmentSettingsForm
@@ -86,29 +88,31 @@ function DepartmentSettings(props) {
                             <Col xs={12} sm={12} md={6} lg={6} >
                                 {(departmentname && departmentdescription)
                                     ? (
-                                        <Button onClick={() => addnewdepartment()} variant="contained" className="submitbtnteam">
+                                        <Button onClick={() => addnewdepartment()} variant="contained" className="submitbtndept">
                                             {screenlabels.common.submit}
                                         </Button>
                                     ) : (
-                                        <Button variant="outlined" disabled className="disbalesubmitbtnteam">
+                                        <Button variant="outlined" disabled className="disbalesubmitbtndept">
                                             {screenlabels.common.submit}
                                         </Button>
                                     )}
                                     </Col>
                         </Row>
-                        <Row style={useStyles.marginrowtop8px}>
+                        <Row 
+                        style={useStyles.marginrowtop8px}
+                        >
                             <Col xs={12} sm={12} md={6} lg={3} >
                                 </Col>
                                 <Col xs={12} sm={12}  md={6} lg={6}>
                                 <Button 
-                                // onClick={() => history.push()}
-                                 variant="outlined" className="cancelbtnteam">
+                                onClick={() => history.push("/participant/settings/4")}
+                                 variant="outlined" className="cancelbtndept">
                                     {screenlabels.common.cancel}
                                 </Button>
                             </Col>
                         </Row></>}
             </Container>
-            <Footer />
+            {/* <Footer /> */}
         </>
        
     )          

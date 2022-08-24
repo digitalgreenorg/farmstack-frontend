@@ -21,6 +21,7 @@ const UrlConstant = {
   dataset_filter_participant: "participant/datasets/filters_data/",
   dataset_list: "datahub/datasets/dataset_filters/",
   dataset_participant_list: "participant/datasets/dataset_filters/",
+  department: "participant/department/",
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
   datasetparticipant: "participant/datasets/",
