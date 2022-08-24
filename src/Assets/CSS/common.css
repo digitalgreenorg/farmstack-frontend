@@ -653,3 +653,68 @@ overflow: hidden;
 .hover{
   cursor: pointer;
 }
+.Departmentcard .MuiCardHeader-title {
+  padding-bottom: 1px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: #3d4a52;
+  line-height: 19px;
+  margin-left: 8px;
+}
+.Departmentcard .MuiCardHeader-subheader {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  margin-left: 8px;
+  /* identical to box height */
+
+  color: #000000;
+
+  opacity: 0.5;
+}
+button.submitbtndept {
+  width: 420px !important;
+  text-transform: capitalize;
+  color: #ffffff;
+  margin-top: 80px;
+  height: 42px;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+  font-weight: 700;
+}
+button.submitbtndept:hover {
+  background-color: #ab8405 !important;
+}
+button.cancelbtndept {
+  text-transform: capitalize;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  font-weight: 700;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-bottom: 10px;
+  box-shadow: none !important;
+
+}
+button.disbalesubmitbtndept {
+  text-transform: capitalize;
+  border-radius: 2px;
+  box-shadow: none !important;
+  background: #ffffff !important;
+  margin-top: 80px;
+  width: 420px !important;
+  height: 42px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+  font-weight: 700;
+}

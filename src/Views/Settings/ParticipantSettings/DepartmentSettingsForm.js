@@ -11,7 +11,7 @@ const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0 },
     marginrowtop: { "margin-top": "30px" },
     inputwidth: { width: "95%", "text-align": "left", "font-family": "Open Sans", 'width': '420px', "height": '48px', 'left': "65px", },
-    inputwidthright: { width: "95%", "text-align": "left", "font-family": "Open Sans", 'width': '420px', "height": '48px', "right": "65px" },
+    inputwidthright: { width: "95%", "text-align": "left", "font-family": "Open Sans", 'width': '420px', "height": '48px', "right": "65px", "word-break": "break-word" },
     headingbold: { "fontWeight": "bold"},
     marginrowtophead: { "margin-top": "40px", 'font-weight': "600", 'font-family': 'Open Sans', "width": "202px", "height": "27px", "margin-left": "122px" },
 
@@ -33,19 +33,20 @@ export default function DepartmentSettingsForm(props) {
         <Col className="supportViewDetailsbackimage">
           <span
             onClick={() => {
-              history.push("/participant/settings");
+              history.push("/participant/settings/4");
             }}>
             <img src={require("../../../Assets/Img/Vector.svg")} alt="new" />
           </span>
           <span
             className="supportViewDetailsback"
             onClick={() => {
-              history.push("/participant/settings");
+              history.push("/participant/settings/4");
             }}>
             {"Back"}
             </span>
             </Col>
             </Row>
+            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '20px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
             <Row style={useStyles.marginrowtophead}>
                 <span className="mainheading">
                     {props.first_dept_heading}
@@ -58,22 +59,25 @@ export default function DepartmentSettingsForm(props) {
                         id="filled-basic"
                         variant="filled"
                         maxRows={1}
+                        maxLength={100}
                         required
                         label={screenlabels.department.department_name}
                         value={props.departmentname}
-                        onChange={(e) => validateInputField(e.target.value, RegexConstants.DES_SET_REGEX) ? props.setdepartmentname(e.target.value.trim()) : e.preventDefault()}
+                        onChange={(e) =>validateInputField(e.target.value,RegexConstants.CROP_SET_REGEX)? props.setdepartmentname(e.target.value): e.preventDefault()}
+                        // onChange={(e) => validateInputField(e.target.value) ? props.setdepartmentname(e.target.value.trim()) : e.preventDefault()}
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                         style={useStyles.inputwidthright}
-                        id="filled-textarea"
+                        id="filled-basic"
+                        multiline rows={4}
                         variant="filled"
-                        maxRows={4}
+                        maxLength={500}
                         required
                         label={screenlabels.department.description}
                         value={props.departmentdescription}
-                        onChange={(e) => validateInputField(e.target.value, RegexConstants.DES_SET_REGEX) ? props.setdepartmentdescription(e.target.value.trim()) : e.preventDefault()}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.DES_SET_REGEX) ? props.setdepartmentdescription(e.target.value): e.preventDefault()}
                     />
                 </Col>
             </Row>

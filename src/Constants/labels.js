@@ -295,22 +295,22 @@ const labels = {
     },
     department: {
       heading: "Add a department",
-      editheading: "Edit a department",
-      department_name: "Department Name",
-      description: "Department Description",
+      editheading: "Edit department",
+      department_name: "Department name",
+      description: "Department description",
       department_description: "Description",
-      delete_department: "Delete Department",
+      delete_department: "Delete department",
       delete_msg: "Are you sure, you want to delete the department?",
       second_delete_msg:
         "This action will delete the department from the system.",
       third_delete_msg:
         "The department will no longer be able to use in your acoount.",
-      firstText: "Add new Department",
+      firstText: "Add new department",
       secondText:
-        "Add details about your dataset and make discoverable to other participants in our network.",
-      editbutton: "Edit Department",
-      deletebutton: "Delete Department",
-      viewheading: "Department Details"
+        "Create a new department that will be used to categorise various activites",
+      editbutton: "Edit department",
+      deletebutton: "Delete department",
+      viewheading: "Department details"
     },
   },
 };

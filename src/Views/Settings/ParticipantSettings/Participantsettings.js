@@ -19,7 +19,7 @@ import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import { useParams } from "react-router-dom";
 import DepartmentSettingsCard from "./DepartmentSettingsCard";
 import UrlConstant from "../../../Constants/UrlConstants";
-import Footer from "../../../Components/Footer/Footer";
+
 
 
 const useStyles = {
@@ -70,7 +70,7 @@ function Participantsettings(props) {
         setIsLoader(true);
         HTTPService(
             'GET',
-            UrlConstant.base_url + "/participant/department/department_list/",
+            UrlConstant.base_url + "/participant/department/department_list/" + "?org_id=" + JSON.parse(localStorage.getItem("org_id")) ,
             "",
             false,
             true).then((response) => {
@@ -183,7 +183,7 @@ function Participantsettings(props) {
                                 </TabPanel>
                                 <TabPanel value="4">
                                     <Row>
-                                        <span style={useStyles.departmentword}>My Departments</span>
+                                        <span style={useStyles.departmentword}>My departments</span>
                                     </Row>
                                     <Row>
                                         <Col
@@ -196,7 +196,7 @@ function Participantsettings(props) {
                                                 firstText={screenlabels.department.firstText}
                                                 secondText={screenlabels.department.secondText}
                                                 addevent={() =>
-                                                    history.push("/participant/settings/adddepartment")
+                                                    history.push("/participant/settings/adddepartment/:id")
                                                 }>
 
                                             </AddCard>
@@ -207,6 +207,7 @@ function Participantsettings(props) {
                                                 <DepartmentSettingsCard
                                                     id={each.id}
                                                     // each={each}
+                                                    organization={each.organization}
                                                     department_name={each.department_name}
                                                     departmentdescription={each.department_discription}
                                                     index={index}
@@ -222,7 +223,7 @@ function Participantsettings(props) {
                                                     onClick={() => getdepartmentcardList()}
                                                     variant="outlined"
                                                     className="cancelbtn">
-                                                    Load More
+                                                    Load more
                           </Button>
                                             </Col>
                                         ) :
