@@ -17,7 +17,7 @@ body {
 margin: 0 auto;
 }
 button.disbalesubmitbtn {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -34,7 +34,7 @@ button.disbalesubmitbtn {
   line-height: 19px;
 }
 button.cancelbtn {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -52,7 +52,7 @@ button.cancelbtn {
   line-height: 19px;
 }
 button.editbtn {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -71,7 +71,7 @@ button.editbtn {
 }
 button.submitbtn {
   width: 420px !important;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: #ffffff;
   height: 42px;
   margin-top: 30px;
@@ -310,7 +310,7 @@ css-1wc848c-MuiFormHelperText-root {
   line-height: 16px;
 }
 button.disbalesubmitbtnteam {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border-radius: 2px;
   box-shadow: none !important;
   background: #ffffff !important;
@@ -324,7 +324,7 @@ button.disbalesubmitbtnteam {
 }
 button.submitbtnteam {
   width: 420px !important;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   color: #ffffff;
   height: 42px;
   margin-top: 200px;
@@ -344,7 +344,7 @@ button.submitbtn:hover {
   background-color: #ab8405 !important; */
 
 button.cancelbtnteam {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -616,7 +616,7 @@ overflow: hidden;
 }
 
 .minHeightWithoutFooter{
-  min-height: 400px;
+  min-height: 500px;
   /* border: 1px solid green; */
 }
 
@@ -717,4 +717,41 @@ button.disbalesubmitbtndept {
   color: #585d60 !important;
   opacity: 0.5;
   font-weight: 700;
+}
+
+/* :not(.Mui-selected).MuiTab-root{
+  text-transform: none !important;
+
+} */
+
+.css-1qp0npj-MuiButtonBase-root-MuiTab-root{
+  text-transform: none !important;
+}
+.css-bkn77w-MuiButtonBase-root-MuiTab-root{
+  text-transform: none !important;
+
+}
+
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
+  text-transform: none !important;
+}
+
+
+.css-1rwt2y5-MuiButtonBase-root-MuiButton-root{
+  text-transform: none !important;
+}
+.recharts-tooltip-wrapper{
+  border: none !important;
+}
+
+.recharts-default-tooltip{
+  border: none !important;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root{
+text-transform: none !important;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root ::first-letter{
+text-transform: none !important;
 }

@@ -20,7 +20,7 @@ const history = useHistory()
     <div className={styles.supportRequestDetailMain}>
         <div className={styles.supportRequestDetailTopThreeBlocks}>
             <div className={styles.supportRequestDetailTopThreeBlockEach}>
-                <span className={styles.supportRequestDetailTopThreeBlockEachText}>Open Request</span>
+                <span className={styles.supportRequestDetailTopThreeBlockEachText}>Open request</span>
                 {/* <Tooltip TransitionComponent={Zoom}  title={ticketDetails.open_requests}> */}
                 <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{ ticketDetails.open_requests}</span>
                 {/* </Tooltip> */}
@@ -28,7 +28,7 @@ const history = useHistory()
                 
             </div>
             <div className={styles.supportRequestDetailTopThreeBlockEach}>
-                            <span className={styles.supportRequestDetailTopThreeBlockEachText}>Close Request</span>
+                            <span className={styles.supportRequestDetailTopThreeBlockEachText}>Close request</span>
                 {/* <Tooltip TransitionComponent={Zoom}  title={ticketDetails.closed_requests}> */}
 
                 <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{ticketDetails.closed_requests}</span>
@@ -36,7 +36,7 @@ const history = useHistory()
 
                 </div>
                 <div className={styles.supportRequestDetailTopThreeBlockEach}>
-                            <span className={styles.supportRequestDetailTopThreeBlockEachText}>Hold Request</span>
+                            <span className={styles.supportRequestDetailTopThreeBlockEachText}>Hold request</span>
                 {/* <Tooltip TransitionComponent={Zoom}  title={ticketDetails.hold_requests}> */}
 
                 <span className={styles.supportRequestDetailTopThreeBlockEachValueText + " " + "d-inline-block text-truncate width150px"}>{ticketDetails.hold_requests}</span>
@@ -61,13 +61,13 @@ const history = useHistory()
                 <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width150px"}>{dateTimeFormat(supportRequestData.updated_at, true)}</span>
                 {/* </Tooltip> */}
                 </div>
-                <div className={styles.supportRequestDetailBottomSixBlocksEach}><span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the Participant</span>
+                <div className={styles.supportRequestDetailBottomSixBlocksEach}><span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the participant</span>
                 {/* <Tooltip TransitionComponent={Zoom}  title={supportRequestData.organization.name}> */}
                 
                 <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px"}>{toTitleCase(supportRequestData.organization.name)}</span>
                 {/* </Tooltip> */}
                 </div>
-                <div className={styles.supportRequestDetailBottomSixBlocksEach}>                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the Participant User</span>
+                <div className={styles.supportRequestDetailBottomSixBlocksEach}>                <span className={styles.supportRequestDetailBottomSixBlocksEachBlockTitleText}>Name of the participant user</span>
                 {/* <Tooltip TransitionComponent={Zoom}  title={supportRequestData.user.first_name}> */}
                
                 <span className={styles.supportRequestDetailBottomSixBlocksEachBlockValue + " " + "d-inline-block text-truncate width200px text-transform-capital"}>{supportRequestData.user.first_name + " " + supportRequestData.user.last_name }</span>

@@ -61,7 +61,7 @@ export default function TeamMemberCard(props) {
                 </Row>
                 <Row>
                     <Col xs={12} sm={12} md={6} lg={6} style={useStyles.cardDataUser}>
-                {props.role==2?'Team Member':'Guest User'}
+                {props.role==2?'Team member':'Guest user'}
                     </Col>
                 </Row>
                 {isshowbutton ? <Row style={useStyles.marginrowtop}>

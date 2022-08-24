@@ -42,7 +42,10 @@ const Dashboard = () => {
        for(var key in res.data.categories){
         // console.log(key)
         let obj = {name : toTitleCase(key.split("_").join(" ")) , value : res.data.categories[key]};
-        data.push(obj)
+        if(res.data.categories[key]){
+
+          data.push(obj)
+        }
       } 
       
       // for(var key in ){
@@ -72,8 +75,8 @@ const Dashboard = () => {
         
         
         setDataForThePieChart([...data])
-        setAdditionalConnectorData({...res.data.connectors})
-        setConnectorData([...res.data.connectors.results])
+        setAdditionalConnectorData({...res.data.datasets})
+        setConnectorData([...res.data.datasets.results])
         
         setIsLoader(false)
       })
