@@ -19,54 +19,73 @@ import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import { useParams } from "react-router-dom";
 import DepartmentSettingsCard from "./DepartmentSettingsCard";
 import UrlConstant from "../../../Constants/UrlConstants";
+import Footer from "../../../Components/Footer/Footer";
+import ProjectListing from "./Project/ProjectListing";
 
+import ParticipantAccountSetting from "./ParticipantAccountSettings/ParticipantAccountSetting";
 
+import ParticipantOrganisationSetting from "./ParticipantOrganisationSettings/ParticipantOrganisationSetting";
 
 const useStyles = {
-    btncolor: {
-        color: "white",
-        "text-transform": "capitalize",
-        "border-color": THEME_COLORS.THEME_COLOR,
-        "background-color": THEME_COLORS.THEME_COLOR,
-        float: "right",
-        "border-radius": 0,
-    },
-    btn: {
-        width: "420px",
-        height: "42px",
-        "margin-top": "30px",
-        background: "#ffffff",
-        opacity: "0.5",
-        border: "2px solid #c09507",
-        color: "black",
-    },
-    marginrowtop: { "margin-top": "20px" },
-    marginrowtop50px: { "margin-top": "20px" },
-    marginrowtoptab50px: { "margin-top": "50px" },
-    marginrowtop10px: { "margin-top": "20px" },
-    marginrowtopscreen10px: { "margin-top": "10px" },
-    departmentword: { "font-weight": "700", "font-size": "20px", "margin-left": "15px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans" },
-    background: { "margin-left": "70px", "margin-right": "70px", background: "#FCFCFC"},
+  btncolor: {
+    color: "white",
+    "text-transform": "capitalize",
+    "border-color": THEME_COLORS.THEME_COLOR,
+    "background-color": THEME_COLORS.THEME_COLOR,
+    float: "right",
+    "border-radius": 0,
+  },
+  btn: {
+    width: "420px",
+    height: "42px",
+    "margin-top": "30px",
+    background: "#ffffff",
+    opacity: "0.5",
+    border: "2px solid #c09507",
+    color: "black",
+  },
+  marginrowtop: { "margin-top": "20px" },
+  marginrowtop50px: { "margin-top": "20px" },
+  marginrowtoptab50px: { "margin-top": "50px" },
+  marginrowtop10px: { "margin-top": "20px" },
+  marginrowtopscreen10px: { "margin-top": "10px" },
+  departmentword: {
+    "font-weight": "700",
+    "font-size": "20px",
+    "margin-left": "15px",
+    "margin-top": "30px",
+    "margin-bottom": "20px",
+    "font-style": "normal",
+    "font-family": "Open Sans",
+  },
+  background: {
+    "margin-left": "70px",
+    "margin-right": "70px",
+    background: "#FCFCFC",
+  },
 };
 function Participantsettings(props) {
+  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+  const [getdepartmentList, setgetdepartmentList] = useState([]);
+  const [istabView, setistabView] = useState(true);
+  const [value, setValue] = React.useState("1");
+  const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
+  const [isDepartmentUpdateSuccess, setisDepartnentUpdateSucess] =
+    useState(false);
+  const [isLoader, setIsLoader] = useState(false);
+  const { id } = useParams();
+  const [departmenturl, setdepartmenturl] = useState("");
 
-    const [screenlabels, setscreenlabels] = useState(labels["en"]);
-    const [getdepartmentList, setgetdepartmentList] = useState([]);
-    const [istabView, setistabView] = useState(true);
-    const [value, setValue] = React.useState("1");
-    const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
-    const [isDepartmentUpdateSuccess, setisDepartnentUpdateSucess] = useState(false)
-    const [isLoader, setIsLoader] = useState(false)
-    const { id } = useParams();
-    const [departmenturl, setdepartmenturl] = useState("")
+  const [isAccountUpdateSuccess, setisAccountUpdateSuccess] = useState(false);
+  const [isOrgUpdateSuccess, setisOrgUpdateSuccess] = useState(false);
 
-    const history = useHistory();
-    useEffect(() => {
-        if (id) {
-            setValue(id);
-        } else {
-            setValue(1);
-        }
+  const history = useHistory();
+  useEffect(() => {
+    if (id) {
+      setValue(id);
+    } else {
+      setValue(1);
+    }
         setIsLoader(true);
         HTTPService(
             'GET',
@@ -112,10 +131,6 @@ function Participantsettings(props) {
             false,
             true).then((response) => {
                 setIsLoader(false);
-                console.log("otp valid", response.data);
-                //     let dataFromBackend = [...response.data]
-
-                // setgetdepartmentList(dataFromBackend)
                 if (response.data.next == null) {
                     setisShowLoadMoreButton(false);
                 } else {
@@ -126,123 +141,158 @@ function Participantsettings(props) {
                 let dataFromBackend = [...deptList, ...response.data.results];
                 console.log(deptList)
                 setgetdepartmentList(dataFromBackend);
-                // setgetdepartmentList(...eachDepartmentData)
-                // let deptList = getdepartmentList();
-                // let finalDeptList = [...deptList, ...response.data.results];
-                // setgetdepartmentList(finalDeptList);
             }).catch((e) => {
                 setIsLoader(false)
                 history.push(GetErrorHandlingRoute(e));
             });
-        // let arr = [{1:1}, {2:1}];
+          }
+    // setgetdepartmentList(dataFromBackend)
+  // useEffect(() => {
+  //     getdepartmentcardList();
+  //     // getDatafrombackendfordepartcard ()
+  // if (id) {
+  //     setValue(id);
+  //   } else {
+  //     setValue(1);
+  //   }
+  // }, [])
 
-        // let arr1 = [...arr];
-        // console.log(arr,arr1)
-        // let dataFromBackend = [...response.data]
-
-        // setgetdepartmentList(dataFromBackend)
-
-    }
-    // useEffect(() => {
-    //     getdepartmentcardList();
-    //     // getDatafrombackendfordepartcard ()
-    // if (id) {
-    //     setValue(id);
-    //   } else {
-    //     setValue(1);
-    //   }
-    // }, [])
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-    return (
-        <div style={useStyles.background}>
-            {isLoader ? <Loader /> : ''}
-            {istabView ? (
-                <Row style={useStyles.marginrowtoptab50px}>
-                    <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
-                        <Box>
-                            <TabContext value={value} className="tabstyle">
-                                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                                    <TabList
-                                        onChange={handleChange}
-                                        aria-label="lab API tabs example">
-                                        <Tab label="Account" value="1" />
-                                        <Tab label="Organization" value="2" />
-                                        <Tab label="Team" value="3" />
-                                        <Tab label="Department" value="4" />
-                                        <Tab label="Project" value="5" />
-                                    </TabList>
-                                </Box>
-                                <TabPanel value="1">
-                                </TabPanel>
-                                <TabPanel value="2">
-                                </TabPanel>
-                                <TabPanel value="3">
-                                </TabPanel>
-                                <TabPanel value="4">
-                                    <Row>
-                                        <span style={useStyles.departmentword}>My departments</span>
-                                    </Row>
-                                    <Row>
-                                        <Col
-                                            xs={12}
-                                            sm={6}
-                                            md={4}
-                                            lg={4}
-                                            style={useStyles.marginrowtop10px}>
-                                            <AddCard
-                                                firstText={screenlabels.department.firstText}
-                                                secondText={screenlabels.department.secondText}
-                                                addevent={() =>
-                                                    history.push("/participant/settings/adddepartment/:id")
-                                                }>
-
-                                            </AddCard>
-                                        </Col>
-                                        {getdepartmentList.map((each, index) => (
-                                            // console.log(each, index)
-                                            <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>
-                                                <DepartmentSettingsCard
-                                                    id={each.id}
-                                                    // each={each}
-                                                    organization={each.organization}
-                                                    department_name={each.department_name}
-                                                    departmentdescription={each.department_discription}
-                                                    index={index}
-                                                ></DepartmentSettingsCard>
-                                            </Col>
-                                        ))}
-                                    </Row>
-                                    <Row style={useStyles.marginrowtop}>
-                                        <Col xs={12} sm={12} md={6} lg={3}></Col>
-                                        {isShowLoadMoreButton ? (
-                                            <Col xs={12} sm={12} md={6} lg={6}>
-                                                <Button
-                                                    onClick={() => getdepartmentcardList()}
-                                                    variant="outlined"
-                                                    className="cancelbtn">
-                                                    Load more
-                          </Button>
-                                            </Col>
-                                        ) :
-                                            <></>
-                                        }
-                                    </Row>
-                                </TabPanel>
-                                <TabPanel value="5">
-                                </TabPanel>
-                            </TabContext>
-                        </Box>
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  return (
+    <div style={useStyles.background}>
+      {isLoader ? <Loader /> : ""}
+      {isAccountUpdateSuccess ? (
+        <Success
+          okevent={() => {
+            //   setteamMemberId("");
+            //   setisDelete(false);
+            setistabView(true);
+            setisAccountUpdateSuccess(false);
+            window.location.reload();
+            //   getMemberList();
+          }}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Account Settings updated successfully !"}
+          imageText={"Success!"}
+          msg={"Your account settings are updated."}></Success>
+      ) : (
+        <></>
+      )}
+      {isOrgUpdateSuccess ? (
+        <Success
+          okevent={() => {
+            //   setteamMemberId("");
+            //   setisDelete(false);
+            setistabView(true);
+            setisOrgUpdateSuccess(false);
+            //   getMemberList();
+          }}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Organisation details updated successfully !"}
+          imageText={"Success!"}
+          msg={"Your organisation details are updated."}></Success>
+      ) : (
+        <></>
+      )}
+      {istabView ? (
+        <Row style={useStyles.marginrowtoptab50px}>
+          <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
+            <Box>
+              <TabContext value={value} className="tabstyle">
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <TabList
+                    onChange={handleChange}
+                    aria-label="lab API tabs example">
+                    <Tab label="Account" value="1" />
+                    <Tab label="Organisation" value="2" />
+                    <Tab label="Team" value="3" />
+                    <Tab label="Department" value="4" />
+                    <Tab label="Project" value="5" />
+                  </TabList>
+                </Box>
+                <TabPanel value="1">
+                  <ParticipantAccountSetting
+                    setisAccountUpdateSuccess={() => {
+                      setistabView(false);
+                      setisAccountUpdateSuccess(true);
+                    }}
+                  />
+                </TabPanel>
+                <TabPanel value="2">
+                  <ParticipantOrganisationSetting
+                    setisOrgUpdateSuccess={() => {
+                      setistabView(false);
+                      setisOrgUpdateSuccess(true);
+                    }}
+                  />
+                </TabPanel>
+                <TabPanel value="3"></TabPanel>
+                <TabPanel value="4">
+                  <Row>
+                    <span style={useStyles.departmentword}>My departments</span>
+                  </Row>
+                  <Row>
+                    <Col
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      lg={4}
+                      style={useStyles.marginrowtop10px}>
+                      <AddCard
+                        firstText={screenlabels.department.firstText}
+                        secondText={screenlabels.department.secondText}
+                        addevent={() =>
+                          history.push("/participant/settings/adddepartment")
+                        }></AddCard>
                     </Col>
-                </Row>
-
-            ) : (
-                    <></>
-                )}
-            {/* <Footer /> */}
-        </div>
-    );
+                    {getdepartmentList.map((each, index) => (
+                      // console.log(each, index)
+                      <Col
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={4}
+                        style={useStyles.marginrowtop10px}>
+                        <DepartmentSettingsCard
+                          id={each.id}
+                          // each={each}
+                          organization={each.organization}
+                          department_name={each.department_name}
+                          departmentdescription={each.department_discription}
+                          index={index}></DepartmentSettingsCard>
+                      </Col>
+                    ))}
+                  </Row>
+                  <Row style={useStyles.marginrowtop}>
+                    <Col xs={12} sm={12} md={6} lg={3}></Col>
+                    {isShowLoadMoreButton ? (
+                      <Col xs={12} sm={12} md={6} lg={6}>
+                        <Button
+                          onClick={() => getdepartmentcardList()}
+                          variant="outlined"
+                          className="cancelbtn">
+                          Load more
+                        </Button>
+                      </Col>
+                    ) : (
+                      <></>
+                    )}
+                  </Row>
+                </TabPanel>
+                <TabPanel value="5"></TabPanel>
+              </TabContext>
+            </Box>
+          </Col>
+        </Row>
+      ) : (
+        <></>
+      )}
+      {/* <Footer /> */}
+    </div>
+  );
 }
 export default Participantsettings;
