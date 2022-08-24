@@ -41,7 +41,7 @@ const labels = {
       subscripiton_length: "Subscription length",
       firstText: "Add new participant",
       secondText:
-        "Add details about your dataset and make it discoverable to other users of our network."
+        "Add details about your dataset and make it discoverable to other users of our network.",
     },
     editparticipants: {
       first_heading: "Edit participants organisation details",
@@ -207,9 +207,10 @@ const labels = {
       yearly: "Yearly",
       week: "Week",
       no_data_available: "There is no data at this moment!",
-      dataset_cat_info : "Each bar graph dataset segment includes multiple categorical variable representing a distinct category within the larger data set.",
-      dataset_exchange_trend : "These data and analytics (D&A) trends will allow you to periodically monitor the frequency of connections and data transfer.",
-      
+      dataset_cat_info:
+        "Each bar graph dataset segment includes multiple categorical variable representing a distinct category within the larger data set.",
+      dataset_exchange_trend:
+        "These data and analytics (D&A) trends will allow you to periodically monitor the frequency of connections and data transfer.",
     },
     connector: {
       filter: "Filter",
@@ -313,17 +314,21 @@ const labels = {
         "Add details about your dataset and make discoverable to other participants in our network.",
       editbutton: "Edit Department",
       deletebutton: "Delete Department",
-      viewheading: "Department Details"
+      viewheading: "Department Details",
     },
     project: {
       department: "Department",
       project: "Project",
       description: "Description",
       add_project: "Add new project",
-      add_project_text2: "Add details about your project and make it discoverable to other users of pour network.",
+      add_project_text2:
+        "Add details about your project and make it discoverable to other users of pour network.",
       no_project_text1: "Currently, there are no projects available.",
-      no_project_text2: "Add new Project."
-    }
+      no_project_text2: "Add new Project.",
+      select_department: "Select Department *",
+      project_name: "Project Name *",
+      project_des: "Project Description *",
+    },
   },
 };
 export default labels;
