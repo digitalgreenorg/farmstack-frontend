@@ -536,11 +536,11 @@ function Support(props) {
                     <Col xs={12} sm={12} md={6} lg={6} >
                         {(!accfilesize && reply)
                             ? (
-                                <Button onClick={() => submitResolution()} variant="contained" className="submitbtn">
+                                <Button onClick={() => submitResolution()} variant="contained" style={{textTransform:"none"}} className="submitbtn">
                                     {screenlabels.common.submit}
                                 </Button>
                             ) : (
-                                <Button variant="outlined" disabled className="disbalesubmitbtn">
+                                <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
                                     {screenlabels.common.submit}
                                 </Button>
                             )}
@@ -550,7 +550,7 @@ function Support(props) {
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => showSuppport()} variant="outlined" className="cancelbtn">
+                        <Button onClick={() => showSuppport()} style={{textTransform:"none"}} variant="outlined" className="cancelbtn">
                             {screenlabels.common.cancel}
                         </Button>
                     </Col>

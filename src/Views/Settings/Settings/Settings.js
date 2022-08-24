@@ -353,10 +353,11 @@ function Settings(props) {
                     {isShowLoadMoreButton ? (
                       <Col xs={12} sm={12} md={6} lg={6}>
                         <Button
+                          style={{textTransform:"none"}}
                           onClick={() => getMemberList()}
                           variant="outlined"
                           className="cancelbtn">
-                          Load More
+                          Load more
                         </Button>
                       </Col>
                     ) : (

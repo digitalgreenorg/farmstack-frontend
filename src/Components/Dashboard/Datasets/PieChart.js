@@ -20,6 +20,10 @@ import LegendValue from "./LegendValue";
 //   { name: "Insurance", value: 400 },
 //   { name: "Credit Assessment", value: 100 },
 // ];
+const divStyle = {
+  color: 'red',
+  border:"none"
+};
 
 
 
@@ -29,6 +33,7 @@ import LegendValue from "./LegendValue";
 
 export default class PieChartMain extends PureComponent {
   //   static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj';
+  
 
   render() {
     console.log(this.props)
@@ -64,8 +69,10 @@ export default class PieChartMain extends PureComponent {
             ))}
           </Pie>
           <Tooltip
+
             itemStyle={{ color: "#3D4A52" }}
-            wrapperStyle={{ color: "green" }}
+            // contentStyle={{border:"11px solid red"}}
+
           />
           <Legend
             //          payload={
