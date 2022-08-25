@@ -10,19 +10,30 @@ import HTTPService from '../../../../Services/HTTPService'
 import { useHistory } from 'react-router-dom'
 import Button from "@mui/material/Button";
 import Loader from '../../../../Components/Loader/Loader'
+// import ProjectDetailsView from '../../../../Components/Projects/ProjectDetailsView'
 
 export default function ProjectListing() {
 
     const [isLoader, setIsLoader] = useState(false)
     const history = useHistory()
 
-    const [projectUrl, setProjectUrl] = useState(UrlConstant.base_url+UrlConstant.project_list)
+    const [projectUrl, setProjectUrl] = useState(UrlConstant.base_url+UrlConstant.project_listing_page_url)
     const [showLoadMore, setShowLoadMore] = useState(true)
 
     const [projectList, setProjectList] = useState([])
+    const [projectDetails, setProjectDetails] = useState([])
+
+    const [screenView, setscreenView] = useState(
+        {
+            "isProjectList": true,
+            "isProjectViewDetails": false,
+            "isDelete": false,
+            "isDeleSuccess": false,
+        }
+    );
 
     useEffect(()=>{
-        // getProjectList(false)
+        getProjectList(false)
     },[])
 
     const getProjectList = (isLoadMore) => {
@@ -34,7 +45,7 @@ export default function ProjectListing() {
 
         HTTPService(
             "POST",
-            isLoadMore ? projectUrl : UrlConstant.base_url+UrlConstant.project_list,
+            isLoadMore ? projectUrl : UrlConstant.base_url+UrlConstant.project_listing_page_url,
             payload,
             false,
             true
@@ -46,7 +57,7 @@ export default function ProjectListing() {
 
                 if (response.data.next == null) {
                     setShowLoadMore(false)
-                    setProjectUrl(UrlConstant.base_url+UrlConstant.project_list)
+                    setProjectUrl(UrlConstant.base_url+UrlConstant.project_listing_page_url)
                 } else {
                     setProjectUrl(response.data.next)
                     setShowLoadMore(true)
@@ -66,77 +77,117 @@ export default function ProjectListing() {
             });
     }
 
-    const viewCardDetails = (id) => {
+    // const viewCardDetails = (id) => {
+    //     console.log("Project Id: ", id)
+    //     // setIsLoader(true);
+    //     changeView('isProjectViewDetails')
+    //     // HTTPService(
+    //     //     "GET",
+    //     //     UrlConstant.base_url + UrlConstant.project_list + id + '/',
+    //     //     '',
+    //     //     true,
+    //     //     true
+    //     // )
+    //     //     .then((response) => {
+    //     //         setIsLoader(false);
+    //     //         console.log(response.data)
+    //     //         changeView('isProjectViewDetails')
 
-    } 
+    //     //         setProjectDetails(response.data)
+
+    //     //         console.log("projectDetails", projectDetails)
+    //     //     }).catch((e) => {
+    //     //         setIsLoader(false);
+    //     //         history.push(GetErrorHandlingRoute(e));
+    //     //     });
+    // }
+
+    // const changeView = (keyname) => {
+    //     let tempScreenObject = { ...screenView }
+    //     Object.keys(tempScreenObject).forEach(function (key) { if (key != keyname) { tempScreenObject[key] = false } else { tempScreenObject[key] = true } });
+    //     setscreenView(tempScreenObject)
+    // }
 
   return (
     <>
         {isLoader ? <Loader /> : ''}
-        <div className='projects'>
-            <Row>
-                <span style={{ "font-weight": "700", "font-size": "20px", "margin-left": "20px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans" }}>
-                    My Projects
-                </span>
-            </Row>
-            <Row>
-                <AddProjectCard addevent={() => history.push("/participant/connectors/add")}/>
-                {
-                    (!projectList || projectList.length == 0) &&
-                    <NoProjectCard/>
-                }
-                {
-                    projectList && projectList.length > 0 && projectList.map((project)=>(
-                        <ProjectCard
-                        // margingtop={'supportcard supportcardmargintop20px'}
-                        departmentName={project.department_name}
-                        projectName={project.project_name}
-                        description={project.description}
-                        viewCardDetails={()=>viewCardDetails(project.id)}
-                        />
-                    ))
-                }
-                <ProjectCard
-                    departmentName={"Sample Department Name"}
-                    projectName={"Sample Project Name Blah"}
-                    description={"Sample Description blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"}
-                />
-                <ProjectCard
-                    departmentName={"Sample Department Name"}
-                    projectName={"Sample Project Name Blah"}
-                    description={"Sample Description"}
-                />
-                <ProjectCard
-                    departmentName={"Sample Department Name"}
-                    projectName={"Sample Project Name Blah"}
-                    description={"Sample Description blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"}
-                />
-                <ProjectCard
-                    departmentName={"Sample Department Name"}
-                    projectName={"Sample Project Name Blah"}
-                    description={"Sample Description blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"}
-                />
-                
-            </Row>
-            <Row>
-                <Col xs={12} sm={12} md={6} lg={3}></Col>
-                    {showLoadMore ? (
-                        <Col xs={12} sm={12} md={6} lg={6}>
-                            <Button
-                                onClick={() => getProjectList(true)}
-                                variant="outlined"
-                                className="cancelbtn"
-                                style={{"text-transform":"none"}}>
-                                Load more
-                            </Button>
-                        </Col>
-                    ) : (
-                        <></>
-                    )}
-            </Row>
+        {/* {screenView.isProjectViewDetails ?
+            <ProjectDetailsView
+                projectDetails={projectDetails}
+                departmentName="Test"
+                projectName="Test"
+                description="asdfadfa"
+                back={() => {changeView('isProjectList')}}
+            />
+        :<></>} */}
+        {screenView.isProjectList ?
+            <div className='projects'>
+                <Row>
+                    <span style={{ "font-weight": "700", "font-size": "20px", "margin-left": "20px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans" }}>
+                        My Projects
+                    </span>
+                </Row>
+                <Row>
+                    <AddProjectCard addevent={() => history.push("/participant/connectors/add")}/>
+                    {
+                        (!projectList || projectList.length == 0) &&
+                        <NoProjectCard/>
+                    }
+                    {
+                        projectList && projectList.length > 0 && projectList.map((project)=>(
+                            <ProjectCard
+                            id={project.id}
+                            departmentName={project.department.department_name}
+                            projectName={project.project_name}
+                            description={project.project_discription}
+                            // viewCardDetails={()=>viewCardDetails(project.id)}
+                            />
+                        ))
+                    }
+                    <ProjectCard
+                        id={1}
+                        departmentName={"Sample Department Name"}
+                        projectName={"Sample Project Name Blah"}
+                        description={"Sample Description blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"}
+                        // viewCardDetails={()=>viewCardDetails(1)}
+                    />
+                    <ProjectCard
+                        departmentName={"Sample Department Name"}
+                        projectName={"Sample Project Name Blah"}
+                        description={"Sample Description"}
+                    />
+                    <ProjectCard
+                        departmentName={"Sample Department Name"}
+                        projectName={"Sample Project Name Blah"}
+                        description={"Sample Description blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"}
+                    />
+                    <ProjectCard
+                        departmentName={"Sample Department Name"}
+                        projectName={"Sample Project Name Blah"}
+                        description={"Sample Description blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"}
+                    />
+                    
+                </Row>
+                <Row>
+                    <Col xs={12} sm={12} md={6} lg={3}></Col>
+                        {showLoadMore ? (
+                            <Col xs={12} sm={12} md={6} lg={6}>
+                                <Button
+                                    onClick={() => getProjectList(true)}
+                                    variant="outlined"
+                                    className="cancelbtn"
+                                    style={{"text-transform":"none"}}>
+                                    Load more
+                                </Button>
+                            </Col>
+                        ) : (
+                            <></>
+                        )}
+                </Row>
 
-        </div>
-      
+            </div>
+            : <></>
+        }  
     </>
   )
 }
