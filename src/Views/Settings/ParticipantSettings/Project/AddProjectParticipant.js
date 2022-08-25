@@ -87,20 +87,14 @@ export default function AddProjectParticipant() {
     // setisSuccess(true);
     setIsLoader(true);
     var bodyFormData = new FormData();
-    // bodyFormData.append("connector_name", connectorName);
-    // bodyFormData.append("connector_type", connector);
-    // bodyFormData.append("connector_description", description);
-    // bodyFormData.append("application_port", port);
-    // bodyFormData.append("department", department);
-    // bodyFormData.append("docker_image_url", docker);
-    // bodyFormData.append("project", project);
-    // bodyFormData.append("dataset", Dataset);
-    // bodyFormData.append("user_map", getUserMapId());
+    bodyFormData.append(" project_discription", description);
+    bodyFormData.append("department", department);
+    bodyFormData.append("project_name", project);
     console.log("Form Data", bodyFormData);
 
     await HTTPService(
       "POST",
-      UrlConstants.base_url + UrlConstants.connector,
+      UrlConstants.base_url + UrlConstants.add_project,
       bodyFormData,
       true,
       true
@@ -108,7 +102,7 @@ export default function AddProjectParticipant() {
       .then((response) => {
         setIsLoader(false);
         setisSuccess(true);
-        console.log("connector uploaded!", response.data);
+        console.log("project uploaded!", response.data);
       })
       .catch((e) => {
         setIsLoader(false);
