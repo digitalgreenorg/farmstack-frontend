@@ -9,7 +9,7 @@ import { Container } from 'react-bootstrap';
 import { Nav } from '../Navbar/NavbarElements';
 import './../Navbar/Navbar.css'
 import LocalStorageConstants from '../../Constants/LocalStorageConstants';
-import { flushLocalstorage, isLoggedInUserAdmin } from '../../Utils/Common';
+import { flushLocalstorage, isLoggedInUserAdmin, isLoggedInUserParticipant } from '../../Utils/Common';
 import Footer from '../Footer/Footer';
 // import Select from 'react-select'
 const useStyles = {
@@ -73,7 +73,7 @@ export default function SessionExpired(props) {
                 </Row>
                 <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
-                        <Button  onClick={()=> isLoggedInUserAdmin() ? history.push("/datahub/login") : history.push("/participant/login")} variant="contained" className="submitbtn">
+                        <Button  onClick={()=> isLoggedInUserParticipant() ? history.push("/participant/login") : history.push("/datahub/login")} variant="contained" className="submitbtn">
                             <span>Sign in</span>
                         </Button>
                     </Col>
