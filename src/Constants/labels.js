@@ -328,6 +328,8 @@ const labels = {
       select_department: "Select Department *",
       project_name: "Project Name *",
       project_des: "Project Description *",
+      submit: "Submit",
+      cancel: "Cancel",
     },
   },
 };
