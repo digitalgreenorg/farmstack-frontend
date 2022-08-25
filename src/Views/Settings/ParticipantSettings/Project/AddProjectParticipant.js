@@ -158,49 +158,63 @@ export default function AddProjectParticipant() {
   return (
     <>
       {isLoader ? <Loader /> : ""}
-      <form noValidate autoComplete="off" onSubmit={handleAddProjectSubmit}>
-        <ProjectForm
-          title={"Add a project"}
-          department={department}
-          project={project}
-          description={description}
-          department_variable={department_variable}
-          handleChangeDepartment={handleChangeDepartment}
-          handleChangeProject={handleChangeProject}
-          handleChangedescription={handleChangedescription}
-          handledescriptionKeydown={handledescriptionKeydown}
-        />
-        <Row>
-          <Col xs={12} sm={12} md={6} lg={3}></Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            {department && project && description ? (
+      {isSuccess ? (
+        <Success
+          okevent={() => history.push("/participant/settings/5")}
+          route={"/participant/settings/5"}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Project added successfully !"}
+          imageText={"Success!"}
+          msg={"You added a project. "}></Success>
+      ) : (
+        <form noValidate autoComplete="off" onSubmit={handleAddProjectSubmit}>
+          <ProjectForm
+            title={"Add a project"}
+            department={department}
+            project={project}
+            description={description}
+            department_variable={department_variable}
+            handleChangeDepartment={handleChangeDepartment}
+            handleChangeProject={handleChangeProject}
+            handleChangedescription={handleChangedescription}
+            handledescriptionKeydown={handledescriptionKeydown}
+          />
+          <Row>
+            <Col xs={12} sm={12} md={6} lg={3}></Col>
+            <Col xs={12} sm={12} md={6} lg={6}>
+              {department && project && description ? (
+                <Button
+                  style={useStyles.marginrowtop}
+                  //   onClick={() => addNewParticipants()}
+                  variant="contained"
+                  className="submitbtn"
+                  type="submit">
+                  {screenlabels.project.submit}
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  disabled
+                  className="disbalesubmitbtn">
+                  {screenlabels.project.submit}
+                </Button>
+              )}
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} sm={12} md={6} lg={3}></Col>
+            <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                style={useStyles.marginrowtop}
-                //   onClick={() => addNewParticipants()}
-                variant="contained"
-                className="submitbtn"
-                type="submit">
-                {screenlabels.project.submit}
+                onClick={() => history.push("/participant/connectors")}
+                variant="outlined"
+                className="cancelbtn">
+                {screenlabels.common.cancel}
               </Button>
-            ) : (
-              <Button variant="outlined" disabled className="disbalesubmitbtn">
-                {screenlabels.project.submit}
-              </Button>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} sm={12} md={6} lg={3}></Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <Button
-              onClick={() => history.push("/participant/connectors")}
-              variant="outlined"
-              className="cancelbtn">
-              {screenlabels.common.cancel}
-            </Button>
-          </Col>
-        </Row>
-      </form>
+            </Col>
+          </Row>
+        </form>
+      )}
     </>
   );
 }
