@@ -69,7 +69,7 @@ const ParticipantNavbar = (props) => {
     localStorage.removeItem(LocalStorageConstants.KEYS.user);
     */
     flushLocalstorage();
-    history.push("/login");
+    history.push("/participant/login");
   };
   return (
     <>

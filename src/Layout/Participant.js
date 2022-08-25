@@ -88,7 +88,7 @@ function Participant(props) {
           <Footer/>
         </div>
       ) : (
-        props.history.push("/login")
+        props.history.push("/participant/login")
         )}
     </>
   );
