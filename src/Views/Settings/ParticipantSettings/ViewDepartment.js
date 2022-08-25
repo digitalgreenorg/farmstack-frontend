@@ -42,7 +42,7 @@ useEffect(() => {
     console.log(id)
     HTTPService(
         'GET',
-        UrlConstant.base_url + "participant/department/" + id + "/" ,
+        UrlConstant.base_url + UrlConstant.department + id + "/" ,
         "",
         false,
         true).then((response) => {
@@ -66,7 +66,7 @@ const deleteDepartment = () => {
     setisDeleteSuccess(true)
     HTTPService(
         "DELETE",
-        UrlConstant.base_url + "participant/department/" + id + "/" ,
+        UrlConstant.base_url + UrlConstant.department + id + "/" ,
         "",
         false,
         true).then((response) => {
@@ -84,6 +84,7 @@ return (
     <>
     <div>
         {isLoader ? <Loader /> : ""}
+        <div>
             {isDelete ? <Delete
                 route={"login"}
                 imagename={"delete"}
@@ -93,7 +94,7 @@ return (
                 cancelEvent={() => {
                     setisDelete(false);
                     setisDeleteSuccess(false);
-                    history.push("/participant/settings")
+                    history.push("/participant/settings/4")
                 }}
                 heading={screenlabels.department.delete_department}
                 imageText={screenlabels.department.delete_msg}
@@ -103,12 +104,12 @@ return (
                 : <></>}
             {isDeleteSuccess ? 
                 <Success
-                    okevent={() => history.push("/participant/settings") }
+                    okevent={() => history.push("/participant/settings/4") }
                     imagename={"success"}
                     btntext={"ok"}
-                    heading={"Department deleted successfully!"}
-                    imageText={"Deleted!"}
-                    msg={"You deleted a Department."}></Success>
+                    heading={"Your department deleted successfully!"}
+                    imageText={"Success!"}
+                    msg={"You deleted a department."}></Success>
             : <></>}
             {isSuccess ? <> 
             
@@ -118,31 +119,34 @@ return (
                     departmentdescription={departmentdescription}
                     // setdepartmentdescription={ref => { setdepartmentdescription(ref) }}
                 ></ViewDepartmentForm>
-            <Row>
-                <Col xs={12} sm={12} md={6} ls={3}>
-                </Col>
-                <Col xs={12} sm={12} md={6} ls={6}>
+            <Row  style={{"margin-left": "550px", "margin-top": "50px"}}>
+                {/* <Col xs={12} sm={12} md={6} ls={3}> */}
+                {/* // </Col> */} 
+                {/* <Col xs={12} sm={12} md={6} ls={4}> */}
                     <Button 
                     onClick={() =>history.push("/participant/settings/editdepartment/" +id) } 
                     variant="outlined" className='editbtn'>
-                        <span style={useStyles.btnPosition}>
-                        Edit Department
+                    <span style={{"text-align": "center"}}>
+                        Edit department
                         </span>
                     </Button>
-                </Col>
+                {/* </Col> */}
             </Row>
-            <Row>
-                <Col xs={12} sm={12} md={6} ls={3}>
-                </Col>
-                <Col xs={12} sm={12} md={6} ls={6}>
-                    <Button onClick={() => { setisDelete(true); setisSuccess(false); setisDeleteSuccess(false) }}
+            <Row style={{"margin-left": "550px"}}>
+                {/* <Col xs={12} sm={12} md={6} ls={3}>
+                </Col> */}
+                {/* <Col xs={12} sm={12} md={6} ls={6}> */}
+                    <Button onClick={() => { setisDelete(true); setisSuccess(false); setisDeleteSuccess(false)}}
+                    variant="outlined"
                         className="cancelbtn">
-                        Delete Department
+                            
+                        Delete department
                     </Button>
-                </Col>
+                {/* </Col> */}
             </Row></>:<></>
             }
-            <Footer />
+            {/* <Footer /> */}
+            </div>
     </div>
            </>
 

@@ -92,7 +92,7 @@ function Datahub(props) {
           <Footer/>
         </div>
       ) : (
-        props.history.push("/login")
+        props.history.push("/datahub/login")
       )}
     </>
   );
