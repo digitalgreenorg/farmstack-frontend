@@ -86,80 +86,67 @@ function Participantsettings(props) {
     } else {
       setValue(1);
     }
-    setIsLoader(true);
-    HTTPService(
-      "GET",
-      UrlConstant.base_url + "/participant/department/department_list/",
-      "",
-      false,
-      true
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log("otp valid", response.data);
-        //     let dataFromBackend = [...response.data]
-        // setgetdepartmentList(dataFromBackend)
-        if (response.data.next == null) {
-          setisShowLoadMoreButton(false);
-        } else {
-          setisShowLoadMoreButton(true);
-          console.log(response.data.next);
-          setdepartmenturl(response.data.next);
-        }
-        // setgetdepartmentList(response.data.results)
-        let tempList = [...response.data.results];
-        setgetdepartmentList(tempList);
-        //1 let deptList = getdepartmentList;
-        // 2let dataFromBackend = [...deptList, ...response.data.results];
-        // 3setgetdepartmentList(dataFromBackend);
-        // setgetdepartmentList(...eachDepartmentData)
-        // let deptList = getdepartmentList();
-        // let finalDeptList = [...deptList, ...response.data.results];
-        // setgetdepartmentList(finalDeptList);
-      })
-      .catch((e) => {
-        setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
-      });
-    // getDatafrombackendfordepartcard ()
-  }, []);
+        setIsLoader(true);
+        HTTPService(
+            'GET',
+            UrlConstant.base_url + "/participant/department/department_list/" + "?org_id=" + JSON.parse(localStorage.getItem("org_id")) ,
+            "",
+            false,
+            true).then((response) => {
+                setIsLoader(false);
+                console.log("otp valid", response.data);
+                //     let dataFromBackend = [...response.data] 
+                // setgetdepartmentList(dataFromBackend)
+                if (response.data.next == null) {
+                    setisShowLoadMoreButton(false);
+                } else {
+                    setisShowLoadMoreButton(true);
+                    console.log(response.data.next)
+                    setdepartmenturl(response.data.next);
+                }
+                // setgetdepartmentList(response.data.results)
+                let tempList = [...response.data.results];
+                setgetdepartmentList(tempList);
+                //1 let deptList = getdepartmentList;
+                // 2let dataFromBackend = [...deptList, ...response.data.results];
+                // 3setgetdepartmentList(dataFromBackend);
+                // setgetdepartmentList(...eachDepartmentData)
+                // let deptList = getdepartmentList();
+                // let finalDeptList = [...deptList, ...response.data.results];
+                // setgetdepartmentList(finalDeptList);
+            }).catch((e) => {
+                setIsLoader(false)
+                history.push(GetErrorHandlingRoute(e))
+            });
+        // getDatafrombackendfordepartcard ()
+       
+    }, [])
 
-  const getdepartmentcardList = () => {
-    setIsLoader(true);
-    HTTPService("GET", departmenturl, "", false, true)
-      .then((response) => {
-        setIsLoader(false);
-        console.log("otp valid", response.data);
-        //     let dataFromBackend = [...response.data]
-
-        // setgetdepartmentList(dataFromBackend)
-        if (response.data.next == null) {
-          setisShowLoadMoreButton(false);
-        } else {
-          setisShowLoadMoreButton(true);
-          setdepartmenturl(response.data.next);
-        }
-        let deptList = getdepartmentList;
-        let dataFromBackend = [...deptList, ...response.data.results];
-        console.log(deptList);
-        setgetdepartmentList(dataFromBackend);
-        // setgetdepartmentList(...eachDepartmentData)
-        // let deptList = getdepartmentList();
-        // let finalDeptList = [...deptList, ...response.data.results];
-        // setgetdepartmentList(finalDeptList);
-      })
-      .catch((e) => {
-        setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
-      });
-    // let arr = [{1:1}, {2:1}];
-
-    // let arr1 = [...arr];
-    // console.log(arr,arr1)
-    // let dataFromBackend = [...response.data]
-
+    const getdepartmentcardList = () => {
+        setIsLoader(true);
+        HTTPService(
+            'GET',
+            departmenturl,
+            "",
+            false,
+            true).then((response) => {
+                setIsLoader(false);
+                if (response.data.next == null) {
+                    setisShowLoadMoreButton(false);
+                } else {
+                    setisShowLoadMoreButton(true);
+                    setdepartmenturl(response.data.next)
+                }
+                let deptList = getdepartmentList;
+                let dataFromBackend = [...deptList, ...response.data.results];
+                console.log(deptList)
+                setgetdepartmentList(dataFromBackend);
+            }).catch((e) => {
+                setIsLoader(false)
+                history.push(GetErrorHandlingRoute(e));
+            });
+          }
     // setgetdepartmentList(dataFromBackend)
-  };
   // useEffect(() => {
   //     getdepartmentcardList();
   //     // getDatafrombackendfordepartcard ()
@@ -246,7 +233,7 @@ function Participantsettings(props) {
                 <TabPanel value="3"></TabPanel>
                 <TabPanel value="4">
                   <Row>
-                    <span style={useStyles.departmentword}>My Departments</span>
+                    <span style={useStyles.departmentword}>My departments</span>
                   </Row>
                   <Row>
                     <Col
@@ -273,6 +260,7 @@ function Participantsettings(props) {
                         <DepartmentSettingsCard
                           id={each.id}
                           // each={each}
+                          organization={each.organization}
                           department_name={each.department_name}
                           departmentdescription={each.department_discription}
                           index={index}></DepartmentSettingsCard>
@@ -287,7 +275,7 @@ function Participantsettings(props) {
                           onClick={() => getdepartmentcardList()}
                           variant="outlined"
                           className="cancelbtn">
-                          Load More
+                          Load more
                         </Button>
                       </Col>
                     ) : (

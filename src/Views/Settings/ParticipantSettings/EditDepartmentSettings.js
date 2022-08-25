@@ -40,7 +40,7 @@ useEffect(() => {
     setIsLoader(true);
     HTTPService(
         'GET',
-        UrlConstant.base_url+ "participant/department/" + id + '/' ,
+        UrlConstant.base_url+ UrlConstant.department + id + '/' ,
         "",
         true,
         true).then((response) => {
@@ -53,7 +53,7 @@ useEffect(() => {
             //setdepartmentdescription(response.Formdata.department_discription)
         }).catch((error)=>{
             setIsLoader(false);
-            // history.push(GetErrorHandlingRoute(error));
+            history.push(GetErrorHandlingRoute(error));
         });
     
 }, []);
@@ -68,7 +68,7 @@ useEffect(() => {
     setIsLoader(true);
       HTTPService(
         'PUT',
-        UrlConstant.base_url+ "participant/department/" + id + '/',
+        UrlConstant.base_url+ UrlConstant.department + id + '/',
                                                 //JSON.stringify
         Formdata,
         true,
@@ -79,6 +79,7 @@ useEffect(() => {
         }).catch((error) => {
             console.log(error.message)
             setIsLoader(false);
+            history.push(GetErrorHandlingRoute(error));
 
         })
     }
@@ -88,13 +89,13 @@ useEffect(() => {
             {isLoader ? <Loader /> : ''}
             <Container style={useStyles.marginrowtop}>
                 {isSuccess ?
-                    <Success okevent={() => history.push("/participant/settings")}
+                    <Success okevent={() => history.push("/participant/settings/4")}
                         route={"/participant/settings/adddepartment"}
                         imagename={'success'}
-                        btntext={"ok"}
-                        heading={"Department Updated Successfully !"}
+                        btntext={"Ok"}
+                        heading={"Department updated successfully !"}
                         imageText={"Success !"}
-                        msg={"Your Details are Updated"}
+                        msg={"Your department details are updated"}
                     >
                     </Success> :
                     <>
@@ -111,11 +112,11 @@ useEffect(() => {
                             <Col xs={12} sm={12} md={6} lg={6} >
                                 {(departmentname && departmentdescription)
                                     ? (
-                                        <Button onClick={() => editdepartment()} variant="contained" className="submitbtnteam">
+                                        <Button onClick={() => editdepartment()} variant="contained" className="submitbtndept">
                                             {screenlabels.common.update}
                                         </Button>
                                     ) : (
-                                        <Button variant="outlined" disabled className="disbalesubmitbtnteam">
+                                        <Button variant="outlined" disabled className="disbalesubmitbtndept">
                                             {screenlabels.common.update}
                                         </Button>
                                     )}
@@ -125,13 +126,13 @@ useEffect(() => {
                         <Col xs={12} sm={12} md={6} lg={3} >
                                 </Col>
                             <Col xs={12} sm={12} md={6} lg={6} >
-                                <Button onClick={() => history.push()} variant="outlined" className="cancelbtnteam">
+                                <Button onClick={() => history.push("/participant/settings/4")} variant="outlined" className="cancelbtndept">
                                     {screenlabels.common.cancel}
                                 </Button>
                             </Col>
                         </Row></>}
             </Container>
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 }

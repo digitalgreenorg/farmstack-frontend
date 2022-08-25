@@ -10,6 +10,7 @@ import {
   handleUnwantedSpace,
   GetErrorHandlingRoute,
   GetErrorKey,
+  getOrgLocal,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -155,6 +156,36 @@ export default function AddProjectParticipant() {
         }*/
       });
   };
+  //   get Department
+  const getDepartmentDetails = async () => {
+    // var id = getUserLocal();
+    // console.log("user id", id);
+    setIsLoader(true);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.departments_connector_list,
+      { org_id: getOrgLocal() },
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for Department", response.data);
+        setdepartment_variable(response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  useEffect(() => {
+    // getDatasetDetails();
+    getDepartmentDetails();
+    // setdepartment("e459f452-2b4b-4129-ba8b-1e1180c87888");
+    // setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
+  }, []);
   return (
     <>
       {isLoader ? <Loader /> : ""}

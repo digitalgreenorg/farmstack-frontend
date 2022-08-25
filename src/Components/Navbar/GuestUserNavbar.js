@@ -95,14 +95,15 @@ const GuestUserNavBar = (props) => {
           </NavLink>
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to="/signin">
-            &nbsp;&nbsp;{screenlabels.navbar.apply_for_participant}
+          <NavBtnLink to="/datahub/login">
+            <img src={require("../../Assets/Img/account.svg")} alt="new" />
+            &nbsp;&nbsp;{screenlabels.navbar.SigninAsAdmin}
           </NavBtnLink>
         </NavBtn>
         <NavBtn>
-          <NavBtnLink to="/login">
+          <NavBtnLink to="/participant/login">
             <img src={require("../../Assets/Img/account.svg")} alt="new" />
-            &nbsp;&nbsp;{screenlabels.navbar.Signin}
+            &nbsp;&nbsp;{screenlabels.navbar.SigninAsParticipant}
           </NavBtnLink>
         </NavBtn>
       </Nav>
