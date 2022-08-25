@@ -30,15 +30,18 @@ import HandleSessionTimeout, {
   getUserMapId,
   GetErrorKey,
   validateInputField,
+  isParticipantRoute,
 } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
 import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
 import RegexConstants from "../../Constants/RegexConstants";
+import LeftintroParticipant from "../../Components/intros/LeftIntroParticipant";
+import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -88,6 +91,7 @@ export default function Login(props) {
     useState(timerDuration);
 
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     if (getTokenLocal() && isLoggedInUserAdmin()) {
@@ -112,6 +116,9 @@ export default function Login(props) {
       let url = UrlConstant.base_url + UrlConstant.login;
       let data = {
         email: finalEmail,
+        role: isParticipantRoute(location.pathname) 
+          ? LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT 
+          : LocalStorageConstants.ROLES.DATAHUB_ADMIN
       };
 
       setIsLoader(true);
@@ -888,9 +895,8 @@ export default function Login(props) {
       ) : (
         <div>
           <h1 className="headertext">{screenlabels.login.signup_header}</h1>
-          <Leftintro />
+          {isParticipantRoute(location.pathname) ? <LeftintroParticipant /> : <Leftintro />}
           {isemail || isOtp ? <Rightintro /> : ""}
-
           {/* <Footerimg /> */}
           {isemail && (
             <SignupEmail

@@ -240,8 +240,10 @@ export const mobileNumberMinimunLengthCheck = (number) =>{
 }
 
 export function toTitleCase(str) {
+  return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ""
+}
 
-      return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ""
-    
-  
+export const isParticipantRoute = (url) => {
+  console.log(url)
+  return url.toLowerCase().includes('/participant/')
 }

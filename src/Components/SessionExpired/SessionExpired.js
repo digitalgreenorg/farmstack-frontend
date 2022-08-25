@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from "@mui/material/Button";
@@ -9,7 +9,7 @@ import { Container } from 'react-bootstrap';
 import { Nav } from '../Navbar/NavbarElements';
 import './../Navbar/Navbar.css'
 import LocalStorageConstants from '../../Constants/LocalStorageConstants';
-import { flushLocalstorage } from '../../Utils/Common';
+import { flushLocalstorage, isLoggedInUserAdmin } from '../../Utils/Common';
 import Footer from '../Footer/Footer';
 // import Select from 'react-select'
 const useStyles = {
@@ -25,7 +25,11 @@ const useStyles = {
 export default function SessionExpired(props) {
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     const history = useHistory();
-    flushLocalstorage();
+
+    useEffect(() => {
+        flushLocalstorage();
+    }, [])
+    
     return (
         <div className='center_keeping_conatiner'>
             <Nav id="datahubnavbar" style={{border: 'none'}}>
@@ -69,7 +73,7 @@ export default function SessionExpired(props) {
                 </Row>
                 <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
-                        <Button  onClick={()=>history.push("/login")} variant="contained" className="submitbtn">
+                        <Button  onClick={()=> isLoggedInUserAdmin() ? history.push("/datahub/login") : history.push("/participant/login")} variant="contained" className="submitbtn">
                             <span>Sign in</span>
                         </Button>
                     </Col>
