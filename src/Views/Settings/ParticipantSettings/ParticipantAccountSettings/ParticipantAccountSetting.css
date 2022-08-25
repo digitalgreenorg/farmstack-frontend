@@ -1,4 +1,4 @@
-.accountsetting .title {
+.participantAccountSetting .title {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
@@ -8,39 +8,39 @@
   padding-left: 18%;
   padding-top: 3%;
 }
-.accountsetting .firstname {
+.participantAccountSetting .firstname {
   width: 70% !important;
   margin-top: 5%;
   margin-left: 35%;
 }
-.accountsetting .lastname {
+.participantAccountSetting .lastname {
   width: 70% !important;
   margin-top: 5%;
   margin-left: 10%;
   float: left;
 }
-.accountsetting .email {
+.participantAccountSetting .email {
   width: 70% !important;
   margin-top: 5%;
   margin-left: 35%;
 }
-.accountsetting .phonenumber {
+.participantAccountSetting .phonenumber {
   width: 70% !important;
   margin-top: 5%;
   margin-left: 10%;
   float: left;
 }
-.accountsetting .uploadimgname {
+.participantAccountSetting .uploadimgname {
   margin-left: 60%;
   width: 100%;
 }
-.accountsetting .oversizemb-uploadimglogo {
+.participantAccountSetting .oversizemb-uploadimglogo {
   margin-left: 60%;
   width: 100%;
   color: red;
 }
 
-.accountsetting .submitbtn {
+.participantAccountSetting .submitbtn {
   width: 420px !important;
   /* text-transform: capitalize; */
   color: #ffffff;
@@ -54,10 +54,11 @@
   box-shadow: none !important;
   margin-left: 16% !important;
 }
-.accountsetting .submitbtn:hover {
+.participantAccountSetting .submitbtn:hover {
   background-color: #ab8405 !important;
 }
-.accountsetting .disbalesubmitbtn {
+
+.participantAccountSetting .disbalesubmitbtn {
   /* text-transform: capitalize; */
   border-radius: 2px;
   background: #ffffff !important;
@@ -75,7 +76,7 @@
   line-height: 19px;
   margin-left: 16% !important;
 }
-.accountsetting .cancelbtn {
+.participantAccountSetting .cancelbtn {
   /* text-transform: capitalize; */
   border-radius: 2px;
   background: #ffffff !important;

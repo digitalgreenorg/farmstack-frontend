@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import "./accountsetting.css";
+import "./ParticipantAccountSetting.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MuiPhoneNumber from "material-ui-phone-number";
-import UploadProfileimg from "../../../Components/Settings/accounts/UploadProfileimg";
+import UploadProfileimg from "../../../../Components/Settings/accounts/UploadProfileimg";
 import { FileUploader } from "react-drag-drop-files";
-import labels from "../../../Constants/labels";
-import HTTPService from "../../../Services/HTTPService";
-import UrlConstants from "../../../Constants/UrlConstants";
+import labels from "../../../../Constants/labels";
+import HTTPService from "../../../../Services/HTTPService";
+import UrlConstants from "../../../../Constants/UrlConstants";
 import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
@@ -18,22 +18,21 @@ import HandleSessionTimeout, {
   GetErrorKey,
   mobileNumberMinimunLengthCheck,
   fileUpload,
-} from "../../../Utils/Common";
-import UrlConstant from "../../../Constants/UrlConstants";
+} from "../../../../Utils/Common";
 import { useHistory } from "react-router-dom";
-import RegexConstants from "../../../Constants/RegexConstants";
+import RegexConstants from "../../../../Constants/RegexConstants";
 import {
   GetErrorHandlingRoute,
   validateInputField,
-} from "../../../Utils/Common";
-import Loader from "../../../Components/Loader/Loader";
+} from "../../../../Utils/Common";
+import Loader from "../../../../Components/Loader/Loader";
 
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop8px: { "margin-top": "0px" },
 };
 
-export default function AccountSetting(props) {
+export default function ParticipantAccountSetting(props) {
   const profilefirstname = useRef();
   const profilelastname = useRef();
   const profileemail = useRef();
@@ -261,7 +260,7 @@ export default function AccountSetting(props) {
     getAccountDetails();
   }, []);
   return (
-    <div className="accountsetting">
+    <div className="participantAccountSetting">
       {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
         <Row>
@@ -366,7 +365,6 @@ export default function AccountSetting(props) {
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
             <FileUploader
-              //   multiple={true}
               handleChange={handleBannerFileChange}
               name="file"
               types={fileTypes}
@@ -376,7 +374,6 @@ export default function AccountSetting(props) {
                   uploadtitle="Upload Profile image"
                 />
               }
-              //   maxSize={2}
             />
           </Col>
         </Row>
@@ -385,16 +382,6 @@ export default function AccountSetting(props) {
           <div>
             <p className="uploadimgname">
               {file ? (file.size ? `File name: ${file.name}` : "") : ""}
-              {/* {file == null && profile_pic ? (
-                <a
-                  target="_blank"
-                  href={profile_pic}
-                  style={{ color: "#C09507", textDecoration: "none" }}>
-                  Click here to view uploaded image!
-                </a>
-              ) : (
-                ""
-              )} */}
             </p>
             <p className="oversizemb-uploadimglogo">
               {file != null && file.size > 2097152
@@ -407,36 +394,19 @@ export default function AccountSetting(props) {
         <Row>
           <Col xs={12} sm={12} md={6} lg={3}></Col>
           <Col xs={12} sm={12} md={6} lg={6}>
-            {/* <Col xs={12} sm={12} md={12} lg={12}> */}
-            {/* <div className="accountsubmit"> */}
-            {/* <Button
-              variant="contained"
-              className="accountnextbtn"
-              type="submit">
-              <span className="">Submit</span>
-            </Button> */}
             {!ispropfilefirstnameerror &&
             !accfilesize &&
             accfirstnamebtn &&
             file != null &&
             accnumberbtn ? (
-              // <Button variant="contained" className="submitbtn" type="submit">
-              //   <span className="signupbtnname">Submit</span>
-              // </Button>
-              <Button
-                //   onClick={() => addNewParticipants()}
-                variant="contained"
-                className="submitbtn"
-                style={{textTransform:"none"}}
-                type="submit">
+              <Button variant="contained" className="submitbtn" type="submit">
                 {screenlabels.common.submit}
               </Button>
             ) : (
-              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
+              <Button variant="outlined" disabled className="disbalesubmitbtn ">
                 Submit
               </Button>
             )}
-            {/* </div> */}
           </Col>
         </Row>
         <Row style={useStyles.marginrowtop8px}>
@@ -445,12 +415,10 @@ export default function AccountSetting(props) {
             <Button
               variant="outlined"
               className="cancelbtn"
-              style={{textTransform:"none"}}
               type="button"
               onClick={accountsettingcancelbtn}>
               {screenlabels.common.cancel}
             </Button>
-            {/* </div> */}
           </Col>
         </Row>
       </form>

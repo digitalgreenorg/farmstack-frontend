@@ -4,35 +4,46 @@ import { Row } from "react-bootstrap";
 import { Button } from "@material-ui/core";
 import labels from "../../../Constants/labels";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const useStyles = {
     marginrowtop: { "margin-top": "30px" },
-    inputwidth: { width: "95%", "text-align": "left", "font-family": "Open Sans", 'width': '420px', "height": '48px', 'left': "65px", },
+    inputwidth: {"font-family": "Open Sans", "margin-left": "170px", "padding-top": "45px", "font-weight": "700" },
     inputwidthright: { width: "95%", "text-align": "left", "font-family": "Open Sans", 'width': '420px', "height": '48px', "right": "65px" },
     headingbold: { "fontWeight": "bold" },
     marginrowtophead: { "margin-top": "40px", 'font-weight': "600", 'font-family': 'Open Sans', "width": "202px", "height": "27px", "margin-left": "112px" },
     marginrowtop8px: { "margin-top": "8px" },
-    secondleftheading: {"width": "145px", "height": "22px", "font-family": "Open Sans", "font-style": "normal", "font-weight": "600", "line-height": "138.69px", "margin-top": "50px"},
-    secondrightheading: {"width": "89px", "height": "22px", "font-family": "Open Sans", "font-style": "normal", "font-weight": "600", "line-height": "138.69px"}
+    secondleftheading: {float: "left", "text-align": "left", "margin-left": "111px"},
+    secondrightheading: {  "margin-top": "10px", "margin-right": "500px"},
+    backline: {"border-bottom": "1px", "color": "#EEEEEE" }
 };
 
 export default function ViewDepartmentForm(props) {
     console.log(props, "PROPS")
     const [screenlabels, setscreenlabels] = useState(labels['en']);
+    const history = useHistory();
+
     return (
         <>
             <Row>
-            <Col className="supportViewDetailsbackimage" >
-                <span onClick={() => props.back()}>
-                    <img
-                        src={require('../../../Assets/Img/Vector.svg')}
-                        alt="new"
-                     />
-                </span>
-                <span className="supportViewDetailsback" onClick={() => props.back()}>{"Back"}</span>
+        <Col className="supportViewDetailsbackimage">
+          <span style={useStyles.backline}
+            onClick={() => {
+              history.push("/participant/settings/4");
+            }}>
+            <img src={require("../../../Assets/Img/Vector.svg")} alt="new" />
+          </span>
+          <span 
+            className="supportViewDetailsback"
+            onClick={() => {
+              history.push("/participant/settings/4");
+            }}>
+            {"Back"}
+            </span>
                 
 </Col>
     </Row>
+    <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '20px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
 
             <Row style={useStyles.marginrowtophead}>
                 <span className="mainheading">
@@ -41,18 +52,18 @@ export default function ViewDepartmentForm(props) {
 
             </Row>
             <Row style={useStyles.marginrowtop}>
-                <Col xs={12} sm={12} md={4} lg={4} >
+                <Col xs={12} sm={12} md={4} lg={4} style={{textAlign:"left"}}>
                 <span className="secondmainheading" style={useStyles.secondleftheading}>
                         {screenlabels.department.department_name}
-                        </span>
-                    <span style={useStyles.inputwidth}>
+                        </span><br />
+                    <span className="thirdmainheading" style={useStyles.secondleftheading}>
                         {props.departmentname}</span>
                 </Col>
-                <Col xs={12} sm={12} md={4} lg={4}>
-                <span className="secondmainheading" style={useStyles.secondrightheading}>
+                <Col xs={12} sm={12} md={4} lg={4} style={{textAlign:"left"}}>
+                <span className="secondmainheading" style={useStyles.secondleftheading}>
                         {screenlabels.department.department_description}
-                        </span>
-                    <span style={useStyles.inputwidthright}>
+                        </span><br/>
+                    <span className="thirdmainheading" style={useStyles.secondleftheading}>
                         {props.departmentdescription}
                     </span>
                 </Col>

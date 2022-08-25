@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import "./OrganisationSetting.css";
+import "./ParticipantOrganisationSetting.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MuiPhoneNumber from "material-ui-phone-number";
-import labels from "../../../Constants/labels";
+import labels from "../../../../Constants/labels";
 import validator from "validator";
 import Select from "react-select";
 import countryList from "react-select-country-list";
@@ -13,10 +13,10 @@ import MenuItem from "@mui/material/MenuItem";
 import RichTextEditor from "react-rte";
 import { FileUploader } from "react-drag-drop-files";
 // import UploadBanner from "../../../Components/signup/UploadBanner";
-import UploadOrgBanner from "./UploadOrgBanner";
+import UploadOrgBanner from "./../../organisation/UploadOrgBanner";
 
-import HTTPService from "../../../Services/HTTPService";
-import UrlConstant from "../../../Constants/UrlConstants";
+import HTTPService from "../../../../Services/HTTPService";
+import UrlConstant from "../../../../Constants/UrlConstants";
 import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
@@ -27,21 +27,23 @@ import HandleSessionTimeout, {
   setOrgId,
   GetErrorKey,
   fileUpload,
-} from "../../../Utils/Common";
-import RegexConstants from "../../../Constants/RegexConstants";
-import {
   GetErrorHandlingRoute,
   validateInputField,
-} from "../../../Utils/Common";
+} from "../../../../Utils/Common";
+import RegexConstants from "../../../../Constants/RegexConstants";
+// import {
+//   GetErrorHandlingRoute,
+//   validateInputField,
+// } from "../../../../Utils/Common";
 import { useHistory } from "react-router-dom";
-import Loader from "../../../Components/Loader/Loader";
+import Loader from "../../../../Components/Loader/Loader";
 
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop8px: { "margin-top": "0px" },
 };
 
-export default function OrganisationSetting(props) {
+export default function ParticipantOrganisationSetting(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   //   const handleOrgSettingSubmit = (e) => {};
   // org screen
@@ -411,9 +413,14 @@ export default function OrganisationSetting(props) {
   };
 
   const handleOrgAddress = (e) => {
+    // e.target.value = e.target.value.trim();
+
+    // var address = e.target.value;
+    validateInputField(e.target.value, RegexConstants.address)
+      ? setaddress(e.target.value)
+      : e.preventDefault();
+
     console.log(e.target.value);
-    var address = e.target.value;
-    setaddress(e.target.value);
     if (address.length > 0) {
       setisOrgAddresserror(false);
       setOrgaddressbtn(true);
@@ -452,7 +459,7 @@ export default function OrganisationSetting(props) {
 
   const handlepincode = (e) => {
     console.log(e.target.value);
-    if (e.target.value > 10) e.target.value = e.target.value.substring(0,10)
+    if (e.target.value > 10) e.target.value = e.target.value.substring(0, 10);
     var pincode = e.target.value;
     if (pincode.length > 0) {
       setispincodeerror(false);
@@ -537,7 +544,7 @@ export default function OrganisationSetting(props) {
   };
 
   return (
-    <div className="orgsetting">
+    <div className="participantOrgSetting">
       {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handleOrgSettingSubmit}>
         <Row>
@@ -635,10 +642,23 @@ export default function OrganisationSetting(props) {
               onChange={handleOrgAddress}
               // inputRef={OrgAddress}
               value={address}
-              onKeyDown={(e) => handleAddressCharacters(address, e)}
+              //   onKeyDown={(e) => handleAddressCharacters(address, e)}
               error={isOrgAddresserror}
               helperText={isOrgAddresserror ? "Enter Valid Address" : ""}
             />
+            {/* <TextField
+              // style={useStyles.inputwidth}
+              className="name"
+              id="filled-basic"
+              variant="filled"
+              required
+              // width="100%"
+              value={address}
+              onChange={handleChangeConnectorName}
+              label={screenlabels.connector_form.connectorName}
+              error={props.nameErrorMessage ? true : false}
+              helperText={props.nameErrorMessage}
+            /> */}
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
             <TextField
@@ -693,7 +713,12 @@ export default function OrganisationSetting(props) {
               className="email"
               label={screenlabels.org_settings.pincode}
               onKeyDown={(e) => {
-                if (e.key == "-" || e.key == "e" || e.key == "E" || e.key == "+") {
+                if (
+                  e.key == "-" ||
+                  e.key == "e" ||
+                  e.key == "E" ||
+                  e.key == "+"
+                ) {
                   e.preventDefault();
                 }
               }}
@@ -706,7 +731,11 @@ export default function OrganisationSetting(props) {
           </Col>
         </Row>
         <Row
-          style={{ marginTop: "20px", textAlign: "left", marginLeft: "-25px" }}>
+          style={{
+            marginTop: "20px",
+            textAlign: "left",
+            marginLeft: "-25px",
+          }}>
           <Col xs={12} sm={12} md={12} lg={12}>
             <span className="orgdestitle">
               Organization description<sup>*</sup>
@@ -794,14 +823,19 @@ export default function OrganisationSetting(props) {
             !isOrgWebsiteerror &&
             orgfile != null &&
             !orgfilesize &&
+            orgname &&
+            address &&
+            email &&
+            city &&
+            pincode &&
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
               <Button variant="contained" className="submitbtn" type="submit">
-                <span className="signupbtnname" style={{textTransform:"none"}}>Submit</span>
+                <span className="signupbtnname">Submit</span>
               </Button>
             ) : (
-              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
+              <Button variant="outlined" disabled className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
@@ -814,7 +848,6 @@ export default function OrganisationSetting(props) {
               variant="outlined"
               className="cancelbtn"
               type="button"
-              style={{textTransform:"none"}}
               onClick={orgsettingcancelbtn}>
               Cancel
             </Button>
