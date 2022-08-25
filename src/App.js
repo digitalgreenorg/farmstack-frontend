@@ -32,9 +32,10 @@ function App() {
           <Route exact path="/login/branding" component={BrandingScreen} />
           <Route exact path="/login/policies" component={Policies} />
           <Route  path="/login/profile" component={ProfileScreen} /> */}
+          <Route exact path="/datahub/login" component={Login} />
+          <Route exact path="/participant/login" component={Login} />
           <Route path="/datahub" component={Datahub} />
           <Route path="/participant" component={Participant} />
-          <Route path="/login" component={Login} />
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error" component={Error} />
           <Route exact path="/home" component={GuestUserHome} />

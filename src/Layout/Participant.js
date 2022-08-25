@@ -61,17 +61,13 @@ function Participant(props) {
               path="/participant/connectors/edit/:id"
               component={EditConnectorParticipant}
             />
-            <Route
-              exact
-              path="/participant/settings/:id"
-              component={Participantsettings}
-            />
-            <Route
+               <Route
               exact
               path="/participant/settings/adddepartment"
               component={DepartmentSettings}
             />
-            <Route
+                 
+                 <Route
               exact
               path="/participant/settings/editdepartment/:id"
               component={EditDepartmentSettings}
@@ -81,12 +77,18 @@ function Participant(props) {
               path="/participant/settings/viewdepartment/:id/"
               component={ViewDepartment}
             />
+            <Route
+              exact
+              path="/participant/settings/:id"
+              component={Participantsettings}
+            />
+    
           </Switch>
           </div>
           <Footer/>
         </div>
       ) : (
-        props.history.push("/login")
+        props.history.push("/participant/login")
         )}
     </>
   );
