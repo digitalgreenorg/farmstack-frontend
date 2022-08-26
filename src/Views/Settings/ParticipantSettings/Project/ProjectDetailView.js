@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import {Row, Col} from 'react-bootstrap'
 import { useHistory, useParams } from 'react-router-dom';
+import Delete from '../../../../Components/Delete/Delete';
+import Success from '../../../../Components/Success/Success';
+import labels from '../../../../Constants/labels';
 import UrlConstant from '../../../../Constants/UrlConstants';
 import HTTPService from '../../../../Services/HTTPService';
 import { GetErrorHandlingRoute } from '../../../../Utils/Common';
+import Button from "@mui/material/Button";
 
 export default function ProjectDetailView(props) {
 
@@ -27,11 +31,18 @@ export default function ProjectDetailView(props) {
     };
 
     const [isLoader, setIsLoader] = useState(false)
+    
+    const history = useHistory()
+    const { id } = useParams()
+    const [screenlabels, setscreenlabels] = useState(labels["en"]);
+
+    const [isViewDetail, setisViewDetail] = useState(true)
+    const [isDelete, setisDelete] = useState(false);
+    const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
+
     const [projectName, setProjectName] = useState("")
     const [projectDescription, setProjectDescription] = useState("")
     const [departmentName, setDepartmentName] = useState("")
-    const history = useHistory()
-    const { id } = useParams()
 
     useEffect(()=>{
         getProjectDetails()
@@ -63,9 +74,74 @@ export default function ProjectDetailView(props) {
                 history.push(GetErrorHandlingRoute(e));
             });
     }
+
+    const deleteProject = () => {
+        setIsLoader(true);
+        HTTPService(
+          "DELETE",
+          UrlConstant.base_url + UrlConstant.project_list + id + "/",
+          "",
+          false,
+          true
+        )
+          .then((response) => {
+            setIsLoader(false);
+            console.log("otp valid", response.data);
+            setisDeleteSuccess(true);
+            setisViewDetail(false)
+            setisDelete(false);
+          })
+          .catch((e) => {
+            setIsLoader(false);
+            setisDeleteSuccess(false);
+            setisViewDetail(true)
+            setisDelete(false);
+            history.push(GetErrorHandlingRoute(e));
+          });
+      };
     
   return (
     <>
+    {isDelete ? (
+        <Delete
+          route={"login"}
+          imagename={"delete"}
+          firstbtntext={"Delete"}
+          secondbtntext={"Cancel"}
+          deleteEvent={() => deleteProject()}
+          cancelEvent={() => {
+            setisDelete(false);
+            setisViewDetail(true);
+            setisDeleteSuccess(false);
+          }}
+          heading={screenlabels.project.delete_project}
+          imageText={screenlabels.project.delete_msg}
+          msg={screenlabels.project.second_delete_msg}
+          firstmsg={screenlabels.project.second_delete_msg}
+          secondmsg={screenlabels.project.third_delete_msg}></Delete>
+      ) : (
+        <></>
+      )}
+      {isDeleteSuccess ? (
+        <Success
+          okevent={() => {
+            
+            setisDelete(false);
+            setisViewDetail(true);
+            setisDeleteSuccess(false);
+
+            history.push('/participant/settings/5')
+            
+          }}
+          imagename={"success"}
+          btntext={"ok"}
+          heading={"Project deleted successfully!"}
+          imageText={"Deleted!"}
+          msg={"You deleted a project."}></Success>
+      ) : (
+        <></>
+      )}
+      { isViewDetail && (<>
         <Row>
             <Col className="supportViewDetailsbackimage" >
                 <span onClick={() => history.push('/participant/settings/5')}>
@@ -111,6 +187,36 @@ export default function ProjectDetailView(props) {
                     {/* </Tooltip> */}
                 </Col>
             </Row>
+            <Row style={{"margin-top":"110px"}}>
+                <Col xs={12} sm={12} md={6} lg={3}></Col>
+                <Col xs={12} sm={12} md={6} lg={6}>
+                    <Button
+                        onClick={() => history.push('/participant/settings/5')}
+                        variant="outlined"
+                        className="cancelbtn"
+                        style={{"text-transform":"none"}}>
+                        Edit project
+                    </Button>
+                </Col>
+            </Row>
+            <Row style={{"margin-top":"-50px"}}>
+                <Col xs={12} sm={12} md={6} lg={3}></Col>
+                <Col xs={12} sm={12} md={6} lg={6}>
+                    <Button
+                        onClick={() => {
+                            setisDelete(true);
+                            setisViewDetail(false);
+                            setisDeleteSuccess(false);
+                        }}
+                        variant="outlined"
+                        className="cancelbtn"
+                        style={{"text-transform":"none"}}>
+                        Delete project
+                    </Button>
+                </Col>
+            </Row>
+                
+        </>)}
     </>
   )
 }
