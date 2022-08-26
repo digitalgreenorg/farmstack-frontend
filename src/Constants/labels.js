@@ -43,7 +43,7 @@ const labels = {
       subscripiton_length: "Subscription length",
       firstText: "Add new participant",
       secondText:
-        "Add details about your dataset and make it discoverable to other users of our network."
+        "Add details about your dataset and make it discoverable to other users of our network.",
     },
     editparticipants: {
       first_heading: "Edit participants organisation details",
@@ -209,9 +209,10 @@ const labels = {
       yearly: "Yearly",
       week: "Week",
       no_data_available: "There is no data at this moment!",
-      dataset_cat_info : "Each bar graph dataset segment includes multiple categorical variable representing a distinct category within the larger data set.",
-      dataset_exchange_trend : "These data and analytics (D&A) trends will allow you to periodically monitor the frequency of connections and data transfer.",
-      
+      dataset_cat_info:
+        "Each bar graph dataset segment includes multiple categorical variable representing a distinct category within the larger data set.",
+      dataset_exchange_trend:
+        "These data and analytics (D&A) trends will allow you to periodically monitor the frequency of connections and data transfer.",
     },
     connector: {
       filter: "Filter",
@@ -315,24 +316,27 @@ const labels = {
         "Create a new department that will be used to categorise various activites",
       editbutton: "Edit department",
       deletebutton: "Delete department",
-      viewheading: "Department details"
+      viewheading: "Department details",
     },
     project: {
       department: "Department",
       project: "Project",
       description: "Description",
       add_project: "Add new project",
-      add_project_text2: "Add details about your project and make it discoverable to other users of pour network.",
+      add_project_text2:
+        "Add details about your project and make it discoverable to other users of pour network.",
       no_project_text1: "Currently, there are no projects available.",
       no_project_text2: "Add new Project.",
-
+      select_department: "Select Department *",
+      project_name: "Project Name *",
+      project_des: "Project Description *",
+      submit: "Submit",
+      cancel: "Cancel",
       delete_project: "Delete Project",
       delete_msg: "Are you sure you want to delete the project?",
-      second_delete_msg:
-        "This action will delete the project from the system.",
-      third_delete_msg:
-        "The project will no longer present in your account.",
-    }
+      second_delete_msg: "This action will delete the project from the system.",
+      third_delete_msg: "The project will no longer present in your account.",
+    },
   },
 };
 export default labels;
