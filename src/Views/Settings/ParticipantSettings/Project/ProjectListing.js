@@ -23,14 +23,14 @@ export default function ProjectListing() {
     const [projectList, setProjectList] = useState([])
     const [projectDetails, setProjectDetails] = useState([])
 
-    const [screenView, setscreenView] = useState(
-        {
-            "isProjectList": true,
-            "isProjectViewDetails": false,
-            "isDelete": false,
-            "isDeleSuccess": false,
-        }
-    );
+    // const [screenView, setscreenView] = useState(
+    //     {
+    //         "isProjectList": true,
+    //         "isProjectViewDetails": false,
+    //         "isDelete": false,
+    //         "isDeleSuccess": false,
+    //     }
+    // );
 
     useEffect(()=>{
         getProjectList(false)
@@ -120,7 +120,7 @@ export default function ProjectListing() {
                 back={() => {changeView('isProjectList')}}
             />
         :<></>} */}
-        {screenView.isProjectList ?
+        {/* {screenView.isProjectList ? */}
             <div className='projects'>
                 <Row>
                     <span style={{ "font-weight": "700", "font-size": "20px", "margin-left": "20px", "margin-top": "30px", "margin-bottom": "20px", "font-style": "normal", "font-family": "Open Sans" }}>
@@ -144,7 +144,7 @@ export default function ProjectListing() {
                             />
                         ))
                     }
-                    <ProjectCard
+                    {/* <ProjectCard
                         id={1}
                         departmentName={"Sample Department Name"}
                         projectName={"Sample Project Name Blah"}
@@ -165,7 +165,7 @@ export default function ProjectListing() {
                         departmentName={"Sample Department Name"}
                         projectName={"Sample Project Name Blah"}
                         description={"Sample Description blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"}
-                    />
+                    /> */}
                     
                 </Row>
                 <Row>
@@ -186,8 +186,8 @@ export default function ProjectListing() {
                 </Row>
 
             </div>
-            : <></>
-        }  
+            {/* : <></> */}
+        {/* }   */}
     </>
   )
 }

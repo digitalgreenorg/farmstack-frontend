@@ -199,7 +199,7 @@ export default function ProjectDetailView(props) {
                     </Button>
                 </Col>
             </Row>
-            <Row style={{"margin-top":"-50px"}}>
+            <Row style={{"margin-top":"-40px"}}>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <Button
