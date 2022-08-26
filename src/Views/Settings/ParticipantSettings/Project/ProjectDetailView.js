@@ -64,9 +64,9 @@ export default function ProjectDetailView(props) {
                 setIsLoader(false);
                 console.log(response.data)
 
-                setProjectName(response.data[0].project_name)
-                setProjectDescription(response.data[0].project_discription)
-                setDepartmentName(response.data[0].department.department_name)
+                setProjectName(response.data.project_name)
+                setProjectDescription(response.data.project_discription)
+                setDepartmentName(response.data.department.department_name)
 
                 // console.log("projectDetails", projectDetails)
             }).catch((e) => {
