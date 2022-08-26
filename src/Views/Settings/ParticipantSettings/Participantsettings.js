@@ -86,67 +86,69 @@ function Participantsettings(props) {
     } else {
       setValue(1);
     }
-        setIsLoader(true);
-        HTTPService(
-            'GET',
-            UrlConstant.base_url + "/participant/department/department_list/" + "?org_id=" + JSON.parse(localStorage.getItem("org_id")) ,
-            "",
-            false,
-            true).then((response) => {
-                setIsLoader(false);
-                console.log("otp valid", response.data);
-                //     let dataFromBackend = [...response.data] 
-                // setgetdepartmentList(dataFromBackend)
-                if (response.data.next == null) {
-                    setisShowLoadMoreButton(false);
-                } else {
-                    setisShowLoadMoreButton(true);
-                    console.log(response.data.next)
-                    setdepartmenturl(response.data.next);
-                }
-                // setgetdepartmentList(response.data.results)
-                let tempList = [...response.data.results];
-                setgetdepartmentList(tempList);
-                //1 let deptList = getdepartmentList;
-                // 2let dataFromBackend = [...deptList, ...response.data.results];
-                // 3setgetdepartmentList(dataFromBackend);
-                // setgetdepartmentList(...eachDepartmentData)
-                // let deptList = getdepartmentList();
-                // let finalDeptList = [...deptList, ...response.data.results];
-                // setgetdepartmentList(finalDeptList);
-            }).catch((e) => {
-                setIsLoader(false)
-                history.push(GetErrorHandlingRoute(e))
-            });
-        // getDatafrombackendfordepartcard ()
-       
-    }, [])
+    setIsLoader(true);
+    HTTPService(
+      "GET",
+      UrlConstant.base_url +
+        "/participant/department/department_list/" +
+        "?org_id=" +
+        JSON.parse(localStorage.getItem("org_id")),
+      "",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("otp valid", response.data);
+        //     let dataFromBackend = [...response.data]
+        // setgetdepartmentList(dataFromBackend)
+        if (response.data.next == null) {
+          setisShowLoadMoreButton(false);
+        } else {
+          setisShowLoadMoreButton(true);
+          console.log(response.data.next);
+          setdepartmenturl(response.data.next);
+        }
+        // setgetdepartmentList(response.data.results)
+        let tempList = [...response.data.results];
+        setgetdepartmentList(tempList);
+        //1 let deptList = getdepartmentList;
+        // 2let dataFromBackend = [...deptList, ...response.data.results];
+        // 3setgetdepartmentList(dataFromBackend);
+        // setgetdepartmentList(...eachDepartmentData)
+        // let deptList = getdepartmentList();
+        // let finalDeptList = [...deptList, ...response.data.results];
+        // setgetdepartmentList(finalDeptList);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
+    // getDatafrombackendfordepartcard ()
+  }, []);
 
-    const getdepartmentcardList = () => {
-        setIsLoader(true);
-        HTTPService(
-            'GET',
-            departmenturl,
-            "",
-            false,
-            true).then((response) => {
-                setIsLoader(false);
-                if (response.data.next == null) {
-                    setisShowLoadMoreButton(false);
-                } else {
-                    setisShowLoadMoreButton(true);
-                    setdepartmenturl(response.data.next)
-                }
-                let deptList = getdepartmentList;
-                let dataFromBackend = [...deptList, ...response.data.results];
-                console.log(deptList)
-                setgetdepartmentList(dataFromBackend);
-            }).catch((e) => {
-                setIsLoader(false)
-                history.push(GetErrorHandlingRoute(e));
-            });
-          }
-    // setgetdepartmentList(dataFromBackend)
+  const getdepartmentcardList = () => {
+    setIsLoader(true);
+    HTTPService("GET", departmenturl, "", false, true)
+      .then((response) => {
+        setIsLoader(false);
+        if (response.data.next == null) {
+          setisShowLoadMoreButton(false);
+        } else {
+          setisShowLoadMoreButton(true);
+          setdepartmenturl(response.data.next);
+        }
+        let deptList = getdepartmentList;
+        let dataFromBackend = [...deptList, ...response.data.results];
+        console.log(deptList);
+        setgetdepartmentList(dataFromBackend);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
+  };
+  // setgetdepartmentList(dataFromBackend)
   // useEffect(() => {
   //     getdepartmentcardList();
   //     // getDatafrombackendfordepartcard ()
@@ -209,7 +211,7 @@ function Participantsettings(props) {
                     aria-label="lab API tabs example">
                     <Tab label="Account" value="1" />
                     <Tab label="Organisation" value="2" />
-                    <Tab label="Team" value="3" />
+                    {/* <Tab label="Team" value="3" /> */}
                     <Tab label="Department" value="4" />
                     <Tab label="Project" value="5" />
                   </TabList>
@@ -284,7 +286,7 @@ function Participantsettings(props) {
                   </Row>
                 </TabPanel>
                 <TabPanel value="5">
-                    <ProjectListing/>
+                  <ProjectListing />
                 </TabPanel>
               </TabContext>
             </Box>
