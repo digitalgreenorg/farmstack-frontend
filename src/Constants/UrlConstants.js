@@ -44,6 +44,7 @@ const UrlConstant = {
   provider_connectors: "participant/connectors/get_connectors/?dataset_id=",
   microsite_theme: "/microsite/theme/",
   datahub_dashboard: "datahub/dashboard/",
+  add_project: "/participant/project/",
   project_listing_page_url: "participant/project/project_list/"
 };
 
