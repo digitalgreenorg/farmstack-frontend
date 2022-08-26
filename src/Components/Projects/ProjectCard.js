@@ -7,6 +7,7 @@ import THEME_COLORS from '../../Constants/ColorConstants'
 import labels from '../../Constants/labels';
 import { Tooltip } from '@mui/material';
 import Button from "@mui/material/Button";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0, "text-transform": "none", "font-weight": "400", "font-size": "14px" },
@@ -23,6 +24,7 @@ export default function ProjectCard(props) {
 
     const [isshowbutton, setisshowbutton] = useState(false)
     const [screenlabels, setscreenlabels] = useState(labels['en'])
+    const history = useHistory()
 
   return (
     <div>
@@ -76,7 +78,7 @@ export default function ProjectCard(props) {
                     {isshowbutton ? 
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
                         <Button 
-                        onClick={()=>props.viewCardDetails()} 
+                        onClick={() => history.push('/participant/settings/viewproject/' + props.id)} 
                         variant="outlined" style={useStyles.btncolor}>
                             View details
                         </Button>

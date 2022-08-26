@@ -21,6 +21,7 @@ import DepartmentSettings from "../Views/Settings/ParticipantSettings/Department
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
 import Footer from "../Components/Footer/Footer";
+import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
 
 import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
 import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
@@ -93,6 +94,16 @@ function Participant(props) {
                 exact
                 path="/participant/settings/project/edit/:id"
                 component={EditProjectParticipant}
+              />
+              <Route
+                exact
+                path="/participant/settings/viewdepartment/:id/"
+                component={ViewDepartment}
+              />
+              <Route
+                exact
+                path="/participant/settings/viewproject/:id"
+                component={ProjectDetailView}
               />
             </Switch>
           </div>

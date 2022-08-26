@@ -316,7 +316,7 @@ const labels = {
         "Create a new department that will be used to categorise various activites",
       editbutton: "Edit department",
       deletebutton: "Delete department",
-      viewheading: "Department details"
+      viewheading: "Department details",
     },
     project: {
       department: "Department",
@@ -332,6 +332,10 @@ const labels = {
       project_des: "Project Description *",
       submit: "Submit",
       cancel: "Cancel",
+      delete_project: "Delete Project",
+      delete_msg: "Are you sure you want to delete the project?",
+      second_delete_msg: "This action will delete the project from the system.",
+      third_delete_msg: "The project will no longer present in your account.",
     },
   },
 };

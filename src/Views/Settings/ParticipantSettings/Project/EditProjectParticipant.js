@@ -10,6 +10,7 @@ import {
   handleUnwantedSpace,
   GetErrorHandlingRoute,
   GetErrorKey,
+  getOrgLocal,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -18,6 +19,8 @@ import Col from "react-bootstrap/Col";
 
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
+
+import { useParams } from "react-router-dom";
 
 const useStyles = {
   btncolor: {
@@ -46,6 +49,9 @@ export default function EditProjectParticipant() {
   const history = useHistory();
 
   const [department_variable, setdepartment_variable] = React.useState([]);
+
+  //   retrive id for project list
+  const { id } = useParams();
 
   const handleChangeDepartment = (event) => {
     console.log(event.target.value);
@@ -86,20 +92,14 @@ export default function EditProjectParticipant() {
     // setisSuccess(true);
     setIsLoader(true);
     var bodyFormData = new FormData();
-    // bodyFormData.append("connector_name", connectorName);
-    // bodyFormData.append("connector_type", connector);
-    // bodyFormData.append("connector_description", description);
-    // bodyFormData.append("application_port", port);
-    // bodyFormData.append("department", department);
-    // bodyFormData.append("docker_image_url", docker);
-    // bodyFormData.append("project", project);
-    // bodyFormData.append("dataset", Dataset);
-    // bodyFormData.append("user_map", getUserMapId());
+    bodyFormData.append(" project_discription", description);
+    bodyFormData.append("department", department);
+    bodyFormData.append("project_name", project);
     console.log("Form Data", bodyFormData);
 
     await HTTPService(
-      "POST",
-      UrlConstants.base_url + UrlConstants.connector,
+      "PUT",
+      UrlConstants.base_url + UrlConstants.add_project + id + "/",
       bodyFormData,
       true,
       true
@@ -107,7 +107,7 @@ export default function EditProjectParticipant() {
       .then((response) => {
         setIsLoader(false);
         setisSuccess(true);
-        console.log("connector uploaded!", response.data);
+        console.log("project uploaded!", response.data);
       })
       .catch((e) => {
         setIsLoader(false);
@@ -155,6 +155,73 @@ export default function EditProjectParticipant() {
         }*/
       });
   };
+
+  //   get project data
+  const getProjectDetails = async () => {
+    // var id = getUserLocal();
+    // console.log("user id", id);
+    setIsLoader(true);
+    console.log(id);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.add_project + id + "/",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for edit project", response.data);
+        setproject(response.data.project_name);
+        setdepartment(response.data.department.id);
+        setdescription(response.data.project_discription);
+
+        // console.log(typeof typeof file);
+        // console.log(typeof response.data.certificate);
+        console.log("name", response.data.project_name);
+        console.log(response.data.department);
+        console.log(response.data.project_discription);
+        // console.log(response.data.department_details.department_name);
+
+
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  //   get Department
+  const getDepartmentDetails = async () => {
+    // var id = getUserLocal();
+    // console.log("user id", id);
+    setIsLoader(true);
+
+    await HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.departments_connector_list,
+      { org_id: getOrgLocal() },
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("get request for Department", response.data);
+        setdepartment_variable(response.data);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
+  useEffect(() => {
+    // getDatasetDetails();
+    getDepartmentDetails();
+    getProjectDetails();
+    // setdepartment("e459f452-2b4b-4129-ba8b-1e1180c87888");
+    // setproject("3526bd39-4514-43fe-bbc4-ee0980bde252");
+  }, []);
   return (
     <>
       {isLoader ? <Loader /> : ""}
