@@ -21,6 +21,7 @@ import DepartmentSettings from "../Views/Settings/ParticipantSettings/Department
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment"
 import Footer from "../Components/Footer/Footer";
+import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
 
 function Participant(props) {
   return (
@@ -76,6 +77,11 @@ function Participant(props) {
               exact
               path="/participant/settings/viewdepartment/:id/"
               component={ViewDepartment}
+            />
+            <Route
+              exact
+              path="/participant/settings/viewproject/:id"
+              component={ProjectDetailView}
             />
             <Route
               exact

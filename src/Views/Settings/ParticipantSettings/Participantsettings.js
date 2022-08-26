@@ -283,7 +283,9 @@ function Participantsettings(props) {
                     )}
                   </Row>
                 </TabPanel>
-                <TabPanel value="5"></TabPanel>
+                <TabPanel value="5">
+                    <ProjectListing/>
+                </TabPanel>
               </TabContext>
             </Box>
           </Col>

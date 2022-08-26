@@ -324,7 +324,14 @@ const labels = {
       add_project: "Add new project",
       add_project_text2: "Add details about your project and make it discoverable to other users of pour network.",
       no_project_text1: "Currently, there are no projects available.",
-      no_project_text2: "Add new Project."
+      no_project_text2: "Add new Project.",
+
+      delete_project: "Delete Project",
+      delete_msg: "Are you sure you want to delete the project?",
+      second_delete_msg:
+        "This action will delete the project from the system.",
+      third_delete_msg:
+        "The project will no longer present in your account.",
     }
   },
 };
