@@ -8,6 +8,7 @@ import {
   fileUpload,
   GetErrorHandlingRoute,
   GetErrorKey,
+  isRoleName
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -21,7 +22,7 @@ import Loader from "../../../../Components/Loader/Loader";
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
 import { useParams } from "react-router-dom";
-
+import {useLocation } from "react-router-dom";
 const names = [
   "Oliver Hansen",
   "Van Henry",
@@ -58,6 +59,7 @@ const useStyles = {
 
 export default function EditConnectorParticipant() {
   const history = useHistory();
+  const location = useLocation();
   const [datasets, setdatasets] = React.useState([]);
   const [department_variable, setdepartment_variable] = React.useState([]);
   const [project_variable, setproject_variable] = React.useState([]);
@@ -420,7 +422,7 @@ export default function EditConnectorParticipant() {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/participant/connectors")}
+          okevent={() => history.push(isRoleName(location.pathname)+"connectors")}
           route={"/participant/connectors"}
           imagename={"success"}
           btntext={"ok"}
@@ -500,7 +502,7 @@ export default function EditConnectorParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/participant/connectors")}
+                onClick={() => history.push(isRoleName(location.pathname)+"connectors")}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}

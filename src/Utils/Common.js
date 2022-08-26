@@ -247,3 +247,13 @@ export const isParticipantRoute = (url) => {
   console.log(url)
   return url.toLowerCase().includes('/participant/')
 }
+
+export const isRoleName= (url) => {
+  console.log(url)
+  if(url.toLowerCase().includes('/participant/')){
+    return '/participant/'
+  }
+  if(url.toLowerCase().includes('/datahub/')){
+    return '/datahub/'
+  }
+}

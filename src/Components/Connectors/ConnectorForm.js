@@ -14,18 +14,21 @@ import Select from "@mui/material/Select";
 
 import { FileUploader } from "react-drag-drop-files";
 import UploadDataset from "../../Components/Datasets/UploadDataset";
-
+import {useLocation } from "react-router-dom";
 import { validateInputField, handleUnwantedSpace } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
 
 import labels from "../../Constants/labels";
 import { FormHelperText } from "@mui/material";
-
+import {
+  isRoleName
+} from "../../Utils/Common";
 const connectorType = ["Provider", "Consumer"];
 const fileTypes = ["p12", "pfx"];
 
 export default function ConnectorForm(props) {
   const history = useHistory();
+  const location = useLocation();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   //   const [department, setdepartment] = React.useState("");
@@ -92,14 +95,14 @@ export default function ConnectorForm(props) {
         <Col className="supportViewDetailsbackimage">
           <span
             onClick={() => {
-              history.push("/participant/connectors");
+              history.push(isRoleName(location.pathname)+"connectors");
             }}>
             <img src={require("../../Assets/Img/Vector.svg")} alt="new" />
           </span>
           <span
             className="supportViewDetailsback"
             onClick={() => {
-              history.push("/participant/connectors");
+              history.push(isRoleName(location.pathname)+"connectors");
             }}>
             {"Back"}
           </span>

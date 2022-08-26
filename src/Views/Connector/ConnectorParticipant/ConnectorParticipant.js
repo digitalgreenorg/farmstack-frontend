@@ -8,7 +8,7 @@ import ConnectorFilter from '../ConnectorFilter'
 import ConnectorListing from '../ConnectorListing'
 import { get } from 'jquery';
 import UrlConstant from '../../../Constants/UrlConstants';
-import { GetErrorHandlingRoute,getDockerHubURL,openLinkInNewTab } from "../../../Utils/Common";
+import { GetErrorHandlingRoute,getDockerHubURL,openLinkInNewTab,isRoleName } from "../../../Utils/Common";
 import '../ConnectorParticipant.css'
 import { useHistory } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -24,6 +24,8 @@ import Success from '../../../Components/Success/Success'
 import Delete from '../../../Components/Delete/Delete'
 import UrlConstants from "../../../Constants/UrlConstants";
 import { Tooltip } from "@mui/material";
+import {useLocation } from "react-router-dom";
+
 const useStyles = {
     datasetdescription: {
         "margin-left": "0px",
@@ -43,7 +45,7 @@ const useStyles = {
     },
 };
 export default function ConnectorParticipant() {
-
+    const location = useLocation();
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [isLoader, setIsLoader] = useState(false)
     const history = useHistory()
@@ -677,7 +679,7 @@ export default function ConnectorParticipant() {
                     data={connectorDeatilsData}
                     providerdata={providerViewConnectorDetails}
                     back={() => { setFile(null);setproviderConnectorDetails({});setproviderConnector('');setaccfilesize(true);changeView('isConnectorList')}}
-                    edit={() => { history.push('/participant/connectors/edit/' + connectorDeatilsData['id']) }}
+                    edit={() => { history.push(isRoleName(location.pathname)+ 'connectors/edit/' + connectorDeatilsData['id']) }}
                     delete={() => changeView('isDelete')}
                     cancel={() => changeView('isConnectorList')}
                     approveReject={(id, status) => approveReject(id, status)}
@@ -699,7 +701,7 @@ export default function ConnectorParticipant() {
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => { history.push('/participant/connectors/edit/' + connectorDeatilsData['id']) }} variant="outlined" className="submitbtn">
+                            <Button onClick={() => { history.push(isRoleName(location.pathname)+'connectors/edit/' + connectorDeatilsData['id']) }} variant="outlined" className="submitbtn">
                                 Update Connector
                                 </Button>
                         </Col>

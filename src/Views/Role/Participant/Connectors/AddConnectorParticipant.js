@@ -18,7 +18,7 @@ import Success from "../../../../Components/Success/Success";
 import Loader from "../../../../Components/Loader/Loader";
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
-
+import {useLocation } from "react-router-dom";
 import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
@@ -28,6 +28,7 @@ import HandleSessionTimeout, {
   setUserMapId,
   setOrgId,
   getOrgLocal,
+  isRoleName
 } from "../../../../Utils/Common";
 
 const names = [
@@ -66,6 +67,7 @@ const useStyles = {
 
 export default function AddConnectorParticipant() {
   const history = useHistory();
+  const location = useLocation();
   //   dataset values
   const [datasets, setdatasets] = React.useState([]);
   const [department_variable, setdepartment_variable] = React.useState([]);
@@ -354,7 +356,7 @@ export default function AddConnectorParticipant() {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/participant/connectors")}
+          okevent={() => history.push(isRoleName(location.pathname)+"connectors")}
           route={"/participant/connectors"}
           imagename={"success"}
           btntext={"ok"}
@@ -433,7 +435,7 @@ export default function AddConnectorParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/participant/connectors")}
+                onClick={() => history.push(isRoleName(location.pathname)+ "connectors")}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}
