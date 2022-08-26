@@ -80,11 +80,11 @@ function Participant(props) {
                 path="/participant/settings/editdepartment/:id"
                 component={EditDepartmentSettings}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/participant/settings/viewdepartment/:id/"
                 component={ViewDepartment}
-              />
+              /> */}
               <Route
                 exact
                 path="/participant/settings/project/add"
