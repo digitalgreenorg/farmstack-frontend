@@ -63,7 +63,7 @@ export default function DepartmentSettingsForm(props) {
                         required
                         label={screenlabels.department.department_name}
                         value={props.departmentname}
-                        onChange={(e) =>validateInputField(e.target.value,RegexConstants.CROP_SET_REGEX)? props.setdepartmentname(e.target.value): e.preventDefault()}
+                        onChange={(e) =>validateInputField(e.target.value,RegexConstants.city_name)? props.setdepartmentname(e.target.value): e.preventDefault()}
                         // onChange={(e) => validateInputField(e.target.value) ? props.setdepartmentname(e.target.value.trim()) : e.preventDefault()}
                     />
                 </Col>
