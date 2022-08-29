@@ -67,14 +67,19 @@ function Participant(props) {
               />
               <Route
                 exact
-                path="/participant/settings/:id"
-                component={Participantsettings}
-              />
-              <Route
-                exact
                 path="/participant/settings/adddepartment"
                 component={DepartmentSettings}
               />
+              <Route
+                exact
+                path="/participant/settings/:id"
+                component={Participantsettings}
+              />
+              {/* <Route
+                exact
+                path="/participant/settings/adddepartment"
+                component={DepartmentSettings}
+              /> */}
               <Route
                 exact
                 path="/participant/settings/editdepartment/:id"
