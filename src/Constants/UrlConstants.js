@@ -1,6 +1,7 @@
 const UrlConstant = {
   base_url: process.env.REACT_APP_BASEURL,
   base_url_without_slash: process.env.REACT_APP_BASEURL_without_slash,
+  view_data_connector: process.env.REACT_APP_BASEURL_without_slash_view_data,
   // base_url: "https://ada8-106-51-85-143.in.ngrok.io/",
   // base_url_without_slash: "https://ada8-106-51-85-143.in.ngrok.io",
   login: "accounts/login/",
@@ -45,7 +46,7 @@ const UrlConstant = {
   microsite_theme: "/microsite/theme/",
   datahub_dashboard: "datahub/dashboard/",
   add_project: "/participant/project/",
-  project_listing_page_url: "participant/project/project_list/"
+  project_listing_page_url: "participant/project/project_list/",
 };
 
 export default UrlConstant;
