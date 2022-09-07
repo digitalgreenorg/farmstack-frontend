@@ -618,8 +618,7 @@ export default function ParticipantOrganisationSetting(props) {
               value={orgWebsite}
               error={isOrgWebsiteerror || orgWebsiteErrorMessage}
               helperText={
-                isOrgWebsiteerror && !orgWebsiteErrorMessage
-                ? "Enter Valid URL" : orgWebsiteErrorMessage
+                isOrgWebsiteerror ? "Enter Valid URL" : orgWebsiteErrorMessage
               }
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
