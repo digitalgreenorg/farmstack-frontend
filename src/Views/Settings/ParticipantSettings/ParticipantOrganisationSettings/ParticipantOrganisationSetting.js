@@ -408,9 +408,22 @@ export default function ParticipantOrganisationSetting(props) {
     e.target.value = e.target.value.trim();
     setOrgWebsite(e.target.value);
     setisOrgWebsiteerror(
-      !validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX)
+      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX)
     );
   };
+// const handleOrgWebsite = (e) => {
+//   if(validateInputField(e.target.value, RegexConstants.NO_SPACE_REGEX)) {
+//   setOrgWebsite(e.target.value);
+//   if(validator.isWebsite(e.target.value)) {
+//     setisOrgWebsiteerror(false);
+//   } else {
+//     setisOrgWebsiteerror(true);
+//   }
+//   } else {
+//     e.preventDefault();
+//   }
+// };
+
 
   const handleOrgAddress = (e) => {
     // e.target.value = e.target.value.trim();
@@ -605,7 +618,8 @@ export default function ParticipantOrganisationSetting(props) {
               value={orgWebsite}
               error={isOrgWebsiteerror || orgWebsiteErrorMessage}
               helperText={
-                isOrgWebsiteerror ? "Enter Valid URL" : orgWebsiteErrorMessage
+                isOrgWebsiteerror && !orgWebsiteErrorMessage
+                ? "Enter Valid URL" : orgWebsiteErrorMessage
               }
               //   inputRef={profilenumber}
               // error={isOrgnumbererror}
