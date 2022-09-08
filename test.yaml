@@ -58,11 +58,13 @@ services:
       - ../media/:/datahub/media
       - /home/ubuntu/datahub-api/participant/views.py:/datahub/participant/views.py
       - /home/ubuntu/datahub-api/core/settings.py:/datahub/participant/settings.py
-
       - /home/ubuntu/datahub-api/datahub/views.py:/datahub/datahub/views.py
       - /home/ubuntu/datahub-api/participant/serializers.py:/datahub/participant/serializers.py
       - /home/ubuntu/datahub-api/participant/models.py:/datahub/participant/models.py
+      - /home/ubuntu/datahub-api/utils/connector_utils.py:/datahub/utils/connector_utils.py
     environment:
+      DATAHUB_NAME: https://www.digitalgreen.org
+      DATAHUB_SITE: https://datahubtest.farmstack.co
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: $farmstack@!21
