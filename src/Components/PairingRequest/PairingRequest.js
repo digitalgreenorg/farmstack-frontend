@@ -1,4 +1,7 @@
 import { Box } from "@mui/material";
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Button from "@mui/material/Button";
 import React from "react";
 import styles from "./pairiing.module.css";
 import donestatusicon from "../../Assets/Img/donestatusicon.svg";
@@ -370,18 +373,36 @@ const PairingRequest = (props) => {
       ) : (
         <></>
       )}
-      {props.data["connector_pair_status"] == "paired" ? (
-        <div>
-          <button
-            className={styles.approvebutton}
-            onClick={() => props.approveReject(props.data["id"], "unpaired")}>
-            Unpair
-          </button>
-        </div>
-      ) : (
-        <></>
-      )}
+      {props.data["connector_pair_status"] == "paired" ? 
+         <><Row>
+         <Col xs={12} sm={12} md={6} lg={3} >
+         </Col>
+         <Col xs={12} sm={12} md={6} lg={6} >
+             <Button onClick={() => props.approveReject(props.data["id"], 'unpaired')} variant="outlined" className="submitbtn">
+                 Unpair
+              </Button>
+         </Col>
+     </Row>
+         <Row className="margin">
+             <Col xs={12} sm={12} md={6} lg={3} >
+             </Col>
+             <Col xs={12} sm={12} md={6} lg={6} >
+                 <Button onClick={() => props.cancel()} style={{ "margin-top": "0px" }} variant="outlined" className="editbtn">
+                     Cancel
+                  </Button>
+             </Col>
+         </Row><Row className="marginrowtop8px"></Row></> : <></>}
+      {/* //   <div>
+      //     <button
+      //       className={styles.approvebutton}
+      //       onClick={() => props.approveReject(props.data["id"], "unpaired")}>
+      //       Unpair
+      //     </button>
+      //   </div>
+      // ) : (
+        // <></> */}
     </div>
+
   );
 };
 

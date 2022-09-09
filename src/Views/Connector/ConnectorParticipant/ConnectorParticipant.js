@@ -694,7 +694,9 @@ export default function ConnectorParticipant() {
                                 <span className="mainheading">{"Paired with"}</span>
                             </Row></> : <></>}
                             {connectorDeatilsData.relation.length > 0 ? <>{connectorDeatilsData.relation.map((rowData, index) => (
-                                <PairingRequest approveReject={(id, status) => approveReject(id, status)} data={rowData}></PairingRequest>
+                                <PairingRequest approveReject={(id, status) => approveReject(id, status)} data={rowData}
+                                    cancel={() => changeView('isConnectorList')}>
+                                </PairingRequest>
                             ))}</> : <></>}
                         </> : <></>}
                     {connectorDeatilsData['connector_type'] == 'Provider' && (connectorDeatilsData['connector_status'] == 'unpaired') ? <><Row>
@@ -787,7 +789,14 @@ export default function ConnectorParticipant() {
                                     <span className="secondmainheading">{"Project Name"}</span>
                                 </Col>
                                 <Col>
-                                    <span className="secondmainheading">{"Certificate Status"}</span>
+                                    <span className="secondmainheading">{"Certificate Status"}
+                                    <img
+                                    style={{ marginLeft: "8px" }}
+                                    src={require('../../../Assets/Img/donestatusicon.svg')}
+                                    alt="done"
+                                    />
+                                    
+                                    </span>
                                 </Col>
                             </Row>
                             <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
