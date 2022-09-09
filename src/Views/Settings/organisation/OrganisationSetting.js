@@ -406,7 +406,7 @@ export default function OrganisationSetting(props) {
     e.target.value = e.target.value.trim();
     setOrgWebsite(e.target.value);
     setisOrgWebsiteerror(
-      !validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX)
+      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX)
     );
   };
 
