@@ -61,7 +61,7 @@ function AddParticipants(props) {
   
 
   const isValidURL = (string) => {
-    var res = string.match(RegexConstants.WEBSITE_URL_REGEX);
+    var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
     return res !== null;
   };
   const addNewParticipants = () => {

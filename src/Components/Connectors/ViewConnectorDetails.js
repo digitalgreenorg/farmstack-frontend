@@ -368,7 +368,7 @@ export default function ViewConnectorDetails(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <Button onClick={() => props.approveReject(props.providerdata['id'], 'unpaired')} variant="outlined" className="submitbtn">
                         Unpair
-                                </Button>
+                    </Button>
                 </Col>
             </Row>
                 <Row className="margin">
