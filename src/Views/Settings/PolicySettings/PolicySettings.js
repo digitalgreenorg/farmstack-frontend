@@ -13,7 +13,12 @@ import HTTPService from "../../../Services/HTTPService";
 import HandleSessionTimeout, { getTokenLocal } from "../../../Utils/Common";
 import { Link, useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
-import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import { GetErrorHandlingRoute } from "../../../Utils/Common";
+
+const useStyles = {
+  marginrowtop: { "margin-top": "20px" },
+  marginrowtop8px: { "margin-top": "0px" },
+};
 
 export default function PolicySettings(props) {
   let accesstoken = getTokenLocal();
@@ -139,7 +144,7 @@ export default function PolicySettings(props) {
     setIsLoader(true);
     HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.policies_save_upload + "1/",
+      UrlConstant.base_url + UrlConstant.policies_save_upload,
       "",
       false,
       true
@@ -147,19 +152,24 @@ export default function PolicySettings(props) {
       .then((response) => {
         setIsLoader(false);
         console.log("response : ", response.data);
-        if (
-          response.data.Content == "null" &&
-          response.data.Documents == "null"
-        ) {
+        if (response.data.Content == null && response.data.Documents == null) {
           setIsPostMethod(true);
           console.log("post");
         }
 
-        setGovLawFileUrl(response.data.Documents.governing_law);
-        setTermsFileUrl(response.data.Documents.tos);
-        setPrivacyFileUrl(response.data.Documents.privacy_policy);
-        setLiabilityFileUrl(response.data.Documents.limitations_of_liabilities);
-        setWarrantyFileUrl(response.data.Documents.warranty);
+        setGovLawFileUrl(
+          response.data.Documents ? response.data.Documents.governing_law : ""
+        );
+        setTermsFileUrl(response.data.Documents ? response.data.Documents : "");
+        setPrivacyFileUrl(
+          response.data.Documents ? response.data.Documents : ""
+        );
+        setLiabilityFileUrl(
+          response.data.Documents ? response.data.Documents : ""
+        );
+        setWarrantyFileUrl(
+          response.data.Documents ? response.data.Documents : ""
+        );
 
         console.log("govLawFileUrl", govLawFileUrl);
         console.log(termsFileUrl);
@@ -167,11 +177,21 @@ export default function PolicySettings(props) {
         console.log("liabilityFileUrl", liabilityFileUrl);
         console.log("warrantyFileUrl", warrantyFileUrl);
 
-        setgovLawDesc(response.data.Content.governing_law);
-        setPrivacyDesc(response.data.Content.privacy_policy);
-        setTermDesc(response.data.Content.tos);
-        setLiabalityDesc(response.data.Content.limitations_of_liabilities);
-        setWarrantiesDesc(response.data.Content.warranty);
+        setgovLawDesc(
+          response.data.Content ? response.data.Content.governing_law : ""
+        );
+        setPrivacyDesc(
+          response.data.Content ? response.data.Content.privacy_policy : ""
+        );
+        setTermDesc(response.data.Content ? response.data.Content.tos : "");
+        setLiabalityDesc(
+          response.data.Content
+            ? response.data.Content.limitations_of_liabilities
+            : ""
+        );
+        setWarrantiesDesc(
+          response.data.Content ? response.data.Content.warranty : ""
+        );
 
         // console.log('govLawDesc',govLawDesc)
         // console.log('privacyDesc',privacyDesc)
@@ -181,37 +201,40 @@ export default function PolicySettings(props) {
 
         setEditorGovLawValue(
           RichTextEditor.createValueFromString(
-            response.data.Content.governing_law,
+            response.data.Content ? response.data.Content.governing_law : "",
             "html"
           )
         );
         setEditorPrivacyValue(
           RichTextEditor.createValueFromString(
-            response.data.Content.privacy_policy,
+            response.data.Content ? response.data.Content.privacy_policy : "",
             "html"
           )
         );
         setEditorTermValue(
           RichTextEditor.createValueFromString(
-            response.data.Content.tos,
+            response.data.Content ? response.data.Content.tos : "",
             "html"
           )
         );
         setEditorLiabalityValue(
           RichTextEditor.createValueFromString(
-            response.data.Content.limitations_of_liabilities,
+            response.data.Content
+              ? response.data.Content.limitations_of_liabilities
+              : "",
             "html"
           )
         );
         seteditorWarrantiesValue(
           RichTextEditor.createValueFromString(
-            response.data.Content.warranty,
+            response.data.Content ? response.data.Content.warranty : "",
             "html"
           )
         );
       })
       .catch((e) => {
         setIsLoader(false);
+        console.log(e);
         history.push(GetErrorHandlingRoute(e));
       });
   };
@@ -677,7 +700,7 @@ export default function PolicySettings(props) {
       setIsPostMethod(false);
     } else {
       await axios
-        .put(url + "1/", bodyFormData, {
+        .put(url, bodyFormData, {
           headers: {
             "content-type": "multipart/form-data",
             Authorization: `Bearer ${accesstoken}`,
@@ -704,7 +727,7 @@ export default function PolicySettings(props) {
 
   const policysettingcancelbtn = () => {
     getPolicies();
-    history.push("/datahub/settings/3")
+    history.push("/datahub/settings/3");
     window.location.reload();
   };
 
@@ -713,7 +736,7 @@ export default function PolicySettings(props) {
       {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
         <Row style={useStyles.marginheading}>
-          <span style={useStyles.headingtext}>Upload Content</span>
+          <span style={useStyles.headingtext}>Upload content</span>
         </Row>
         <Row style={useStyles.marginrow}>
           <Col xs="12" sm="6" md="6" lg="6">
@@ -744,8 +767,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Governing Laws (Optional)"
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload governing laws (Optional)"
                 />
               }
             />
@@ -761,7 +784,7 @@ export default function PolicySettings(props) {
                 <Link
                   to={{ pathname: UrlConstant.base_url + govLawFileUrl }}
                   target="_blank">
-                  Governing Laws
+                  Governing laws
                 </Link>
               ) : (
                 "No file uploaded yet"
@@ -822,8 +845,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Warranties (Optional) "
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload warranties (Optional) "
                 />
               }
               // maxSize={2}
@@ -899,8 +922,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Limitation of Liabilities (Optional) "
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload limitations of liabilities (Optional) "
                 />
               }
               // maxSize={2}
@@ -917,7 +940,7 @@ export default function PolicySettings(props) {
                 <a
                   href={UrlConstant.base_url + liabilityFileUrl}
                   target="_blank">
-                  Limitation Of Liabilities
+                  Limitations of liabilities
                 </a>
               ) : (
                 "No file uploaded yet"
@@ -979,8 +1002,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Privacy Policy (Optional) "
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload privacy policy (Optional) "
                 />
               }
               // maxSize={2}
@@ -995,7 +1018,7 @@ export default function PolicySettings(props) {
                 )
               ) : privacyFileUrl ? (
                 <a href={UrlConstant.base_url + privacyFileUrl} target="_blank">
-                  Privacy Policy
+                  Privacy policy
                 </a>
               ) : (
                 "No file uploaded yet"
@@ -1055,8 +1078,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Terms of Use (Optional)"
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload terms of use (Optional)"
                 />
               }
               // maxSize={2}
@@ -1071,7 +1094,7 @@ export default function PolicySettings(props) {
                 )
               ) : termsFileUrl ? (
                 <a href={UrlConstant.base_url + termsFileUrl} target="_blank">
-                  Terms Of Use
+                  Terms of use
                 </a>
               ) : (
                 "No file uploaded yet"
@@ -1100,8 +1123,9 @@ export default function PolicySettings(props) {
             </div>
           </Col>
         </Row>
-        <Row style={useStyles.marginrow}>
-          <Col xs="12" sm="12" md="12" lg="12">
+        <Row>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
             {editorGovLawValue.getEditorState().getCurrentContent().hasText() &&
             (govLawFile || govLawFileUrl) &&
             editorWarrantiesValue
@@ -1118,28 +1142,24 @@ export default function PolicySettings(props) {
             (privacyFile || privacyFileUrl) &&
             editorTermValue.getEditorState().getCurrentContent().hasText() &&
             (termFile || termsFileUrl) ? (
-              <Button
-                variant="contained"
-                className="accountnextbtn"
-                type="submit">
-                <span className="signupbtnname">Submit</span>
+              <Button variant="contained" style={{textTransform:"none"}} className="submitbtn" type="submit">
+                <span className="signupbtnname" style={{textTransform:"none"}}>Submit</span>
               </Button>
             ) : (
-              <Button
-                variant="outlined"
-                disabled
-                className="disableaccountnextbtn">
+              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
           </Col>
         </Row>
-        <Row style={useStyles.marginrow}>
-          <Col xs="12" sm="12" md="12" lg="12">
+        <Row style={useStyles.marginrowtop8px}>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          <Col xs={12} sm={12} md={6} lg={6}>
             <Button
               variant="outlined"
-              className="accountsettingcancelbtn"
+              className="cancelbtn"
               type="button"
+              style={{textTransform:"none"}}
               onClick={policysettingcancelbtn}>
               Cancel
             </Button>

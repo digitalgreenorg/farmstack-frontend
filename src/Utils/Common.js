@@ -4,6 +4,8 @@ import RegexConstants from "../Constants/RegexConstants";
 import React from "react";
 import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
+import HTTPService from "../Services/HTTPService";
+import FileSaver from "file-saver";
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(
@@ -98,8 +100,32 @@ export const handleNameFieldEntry = (fieldValue, e) => {
 };
 
 export const GetErrorHandlingRoute = (e) => {
+  var errorMessage = '';
+  if(e.response && e.response.data && e.response.data.message){
+    errorMessage = e.response.data.message
+  }
+  else if (e.response && e.response.data){
+    try{
+      JSON.parse(e.response.data)
+      errorMessage = String(e.response.data)
+    }
+    catch(e){
+      if (e.response){
+        errorMessage = e.response.statusText
+      }
+      else{
+        errorMessage = 'Unknown'
+      }
+    }
+  }
+  else if (e.response){
+    errorMessage = e.response.statusText
+  }
+  else{
+    errorMessage = 'unknown'
+  }
   setErrorLocal({'ErrorCode': e.response ? e.response.status : 'unknown', 
-  'ErrorMessage': e.response ? e.response.statusText : 'unknown'});
+  'ErrorMessage': errorMessage});
   if (
     e.response != null &&
     e.response != undefined &&
@@ -176,4 +202,58 @@ export const flushLocalstorage = () => {
       localStorage.removeItem(key)
     }
   });
+}
+
+
+
+export const downloadAttachment = (uri, name) => {
+  FileSaver.saveAs(uri, name)
+}
+
+export const GetErrorKey = (e, keyList) => {
+  var errorKeys = []
+  var errorMessages = []
+  for (var key of keyList){
+    if (e.response && e.response.status === 400 && e.response.data && e.response.data[key]){
+      errorKeys.push(key)
+      errorMessages.push(e.response.data[key][0])
+    }
+  }
+  return [errorKeys, errorMessages]
+}
+
+export const getDockerHubURL = (dockerImageName) => {
+  const [dockerImage, tag] = dockerImageName.split(':')
+  return `https://hub.docker.com/r/${dockerImage}/${tag}`
+}
+export const openLinkInNewTab = (url) => {
+  if(url.includes("http")){
+    window.open(url,'_blank');
+  }else{
+    window.open("http://"+url,'_blank');
+  }
+}
+
+
+export const mobileNumberMinimunLengthCheck = (number) =>{
+  return number.length>=10
+}
+
+export function toTitleCase(str) {
+  return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ""
+}
+
+export const isParticipantRoute = (url) => {
+  console.log(url)
+  return url.toLowerCase().includes('/participant/')
+}
+
+export const isRoleName= (url) => {
+  console.log(url)
+  if(url.toLowerCase().includes('/participant/')){
+    return '/participant/'
+  }
+  if(url.toLowerCase().includes('/datahub/')){
+    return '/datahub/'
+  }
 }

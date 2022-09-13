@@ -22,6 +22,11 @@ import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
 import { getTokenLocal,isLoggedInUserAdmin } from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
+import Footer from "../Components/Footer/Footer";
+import Dashboard from "../Views/Dashboard/Dashboard";
+import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
+import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
+import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -29,8 +34,10 @@ function Datahub(props) {
   return (
     <>
       {(getTokenLocal() && isLoggedInUserAdmin())? (
-        <>
+        <div className="center_keeping_conatiner">
+
           <Navbar />
+          <div className="minHeight67vhDatahubPage">
           <Switch>
             <Route
               exact
@@ -47,6 +54,12 @@ function Datahub(props) {
               path="/datahub/participants/add"
               component={AddParticipants}
             />
+            <Route
+              exact
+              path="/datahub/dashboard"
+              component={Dashboard}
+            />
+
             <Route
               exact
               path="/datahub/participants/invite"
@@ -77,10 +90,27 @@ function Datahub(props) {
             <Route exact path="/datahub/support" component={Support} />
             {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
             <Route exact path="/datahub/datasets" component={DatasetAdmin}/>
+            <Route
+              exact
+              path="/datahub/connectors/add"
+              component={AddConnectorParticipant}
+            />
+            <Route
+              exact
+              path="/datahub/connectors/edit/:id"
+              component={EditConnectorParticipant}
+            />
+              <Route
+              exact
+              path="/datahub/connectors"
+              component={ConnectorParticipant}
+            />
           </Switch>
-        </>
+          </div>
+          <Footer/>
+        </div>
       ) : (
-        props.history.push("/login")
+        props.history.push("/datahub/login")
       )}
     </>
   );

@@ -11,6 +11,7 @@ import {
   handleUnwantedSpace,
   HandleSessionTimeout,
   getUserMapId,
+  GetErrorKey,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import THEME_COLORS from "../../../Constants/ColorConstants";
@@ -71,6 +72,15 @@ export default function AddDataset(props) {
   const [file, setFile] = useState(null);
   const [fileValid, setfileValid] = useState("");
 
+  const [nameErrorMessage, setnameErrorMessage] = useState(null)
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
+  const [categoryErrorMessage, setCategoryErrorMessage] = useState(null)
+  const [geographyErrorMessage, setGeographyErrorMessage] = useState(null)
+  const [cropDetailErrorMessage, setCropDetailErrorMessage] = useState(null)
+  const [ageErrorMessage, setAgeErrorMessage] = useState(null)
+  const [dataCaptureStartErrorMessage, setDataCaptureStartErrorMessage]= useState(null)
+  const [dataCaptureEndErrorMessage,setDataCaptureEndErrorMessage]= useState(null)
+
   //   loader
   const [isLoader, setIsLoader] = useState(false);
   //   success screen
@@ -81,6 +91,16 @@ export default function AddDataset(props) {
     console.log("clicked on add dataset submit btn");
     var id = getUserMapId();
     console.log("user id", id);
+
+    setnameErrorMessage(null); 
+    setDescriptionErrorMessage(null);
+    setCategoryErrorMessage(null);
+    setGeographyErrorMessage(null); 
+    setCropDetailErrorMessage(null);
+    setAgeErrorMessage(null);
+    setDataCaptureStartErrorMessage(null); 
+    setDataCaptureEndErrorMessage(null); 
+    setfileValid(null); 
 
     var bodyFormData = new FormData();
     bodyFormData.append("name", datasetname);
@@ -111,10 +131,10 @@ export default function AddDataset(props) {
     } else {
       bodyFormData.append("age_of_date", value);
     }
-    if (fromdate != null) {
+    if (fromdate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_start", fromdate.toISOString());
     }
-    if (todate != null) {
+    if (todate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_end", todate.toISOString());
     }
     if (file != null) {
@@ -123,6 +143,7 @@ export default function AddDataset(props) {
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
+    bodyFormData.append("approval_status", "approved");
 
     console.log("add dataset", bodyFormData);
     setIsLoader(true);
@@ -141,8 +162,30 @@ export default function AddDataset(props) {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        console.log(e.response.data.sample_dataset[0]);
-        setfileValid(e.response.data.sample_dataset[0]);
+        //console.log(e.response.data.sample_dataset[0]);
+        var returnValues = GetErrorKey(e, bodyFormData.keys())
+        var errorKeys = returnValues[0]
+        var errorMessages = returnValues[1]
+        if (errorKeys.length > 0){
+          for (var i=0; i<errorKeys.length; i++){
+            switch(errorKeys[i]){
+              case "name": setnameErrorMessage(errorMessages[i]); break;
+              case "description": setDescriptionErrorMessage(errorMessages[i]); break;
+              case "category": setCategoryErrorMessage(errorMessages[i]); break;
+              case "geography": setGeographyErrorMessage(errorMessages[i]); break;
+              case "crop_detail": setCropDetailErrorMessage(errorMessages[i]); break;
+              case "age_of_date": setAgeErrorMessage(errorMessages[i]); break;
+              case "data_capture_start": setDataCaptureStartErrorMessage(errorMessages[i]); break;
+              case "data_capture_end": setDataCaptureEndErrorMessage(errorMessages[i]); break;
+              case "sample_dataset": setfileValid(errorMessages[i]); break;
+              default: history.push(GetErrorHandlingRoute(e)); break;
+            }
+          }
+        }
+        else{
+          history.push(GetErrorHandlingRoute(e))
+        }
+        //setfileValid(e.response.data.sample_dataset[0]);
         // history.push(GetErrorHandlingRoute(e));
       });
   };
@@ -214,7 +257,7 @@ export default function AddDataset(props) {
   const [Switchchecked, setSwitchchecked] = React.useState(false);
 
   const handleChangeSwitch = (event) => {
-    console.log(event.target.checked);
+    console.log("switch", event.target.checked);
     setSwitchchecked(event.target.checked);
   };
 
@@ -316,6 +359,14 @@ export default function AddDataset(props) {
             handleFileChange={handleFileChange}
             file={file}
             fileValid={fileValid}
+            nameErrorMessage = {nameErrorMessage}
+            descriptionErrorMessage= {descriptionErrorMessage}
+            categoryErrorMessage={categoryErrorMessage}
+            geographyErrorMessage={geographyErrorMessage}
+            cropDetailErrorMessage={cropDetailErrorMessage}
+            ageErrorMessage={ageErrorMessage}
+            dataCaptureStartErrorMessage={dataCaptureStartErrorMessage}
+            dataCaptureEndErrorMessage={dataCaptureEndErrorMessage}
           />
 
           <Row>

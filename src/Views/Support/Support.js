@@ -21,9 +21,11 @@ import { FileUploader } from "react-drag-drop-files";
 import Success from '../../Components/Success/Success'
 import FileSaver from 'file-saver';
 import Avatar from '@mui/material/Avatar';
-import HandleSessionTimeout, { handleUnwantedSpace } from '../../Utils/Common';
+import HandleSessionTimeout, { GetErrorKey, handleUnwantedSpace } from '../../Utils/Common';
 import Loader from '../../Components/Loader/Loader';
 import {GetErrorHandlingRoute} from '../../Utils/Common';
+import { Tooltip } from '@mui/material';
+import { Zoom } from '@material-ui/core';
 function Support(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [supportList, setsupportList] = useState([]);
@@ -62,6 +64,8 @@ function Support(props) {
     const [isShowSupport, setisShowSupport] = useState(true);
     const [isShowUpdated, setisShowUpdated] = useState(false);
     const [callGetSupport, setcallGetSupport] = useState(false);
+
+    const[solutionErrorMessage,setSolutionErrorMessage] = useState(false)
 
     useEffect(() => {
         setTimeout(() => {
@@ -184,6 +188,7 @@ function Support(props) {
         }
     };
     const submitResolution = () => {
+        setSolutionErrorMessage(null)
         var bodyFormData = new FormData();
         bodyFormData.append('status', status);
         bodyFormData.append('solution_message', reply);
@@ -208,7 +213,20 @@ function Support(props) {
 
             }).catch((e) => {
                 setIsLoader(false);
-                history.push(GetErrorHandlingRoute(e));
+                var returnValues = GetErrorKey(e, bodyFormData.keys())
+                var errorKeys = returnValues[0]
+                var errorMessages = returnValues[1]
+                if (errorKeys.length > 0){
+                    for (var i=0; i<errorKeys.length; i++){
+                        switch(errorKeys[i]){
+                        case "solution_message": setSolutionErrorMessage(errorMessages[i]); break;
+                        default: history.push(GetErrorHandlingRoute(e)); break;
+                        }
+                    }
+                }
+                else{
+                    history.push(GetErrorHandlingRoute(e))
+                }
             });
     }
     const downloadAttachment = (uri, name) => {
@@ -249,9 +267,9 @@ function Support(props) {
                                 <span className="supportcardfromdate">
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <DatePicker
-                                            inputFormat="dd/MM/yyyy"
+                                            inputFormat="dd/mm/yyyy"
                                             disableFuture
-                                            label="From Date *"
+                                            label="From date *"
                                             value={fromdate}
                                             onChange={(newValue) => {
                                                 settodate(null)
@@ -267,10 +285,10 @@ function Support(props) {
                                 <span className="supportcardtodate">
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <DatePicker
-                                            inputFormat="dd/MM/yyyy"
+                                            inputFormat="dd/mm/yyyy"
                                             disabled={fromdate ? false : true}
                                             disableFuture
-                                            label="To Date *"
+                                            label="To date *"
                                             minDate={fromdate}
                                             value={todate}
                                             onChange={(newValue) => {
@@ -327,7 +345,7 @@ function Support(props) {
                             <Row className="marginleft165px">
                                 {isShowLoadMoreButton ?
                                     <Button onClick={() => loadMoreSupportList()} variant="outlined" className="cancelbtn">
-                                        Load More
+                                        Load more
                            </Button>
                                     : <></>}
                             </Row>
@@ -350,37 +368,51 @@ function Support(props) {
             </Row>
                 <Row className="supportViewDeatilsSecondRow"></Row>
                 <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                    <span className="mainheading">{"Ticket Details"}</span>
+                    <span className="mainheading">{"Ticket details"}</span>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
                     <Col>
-                        <span className="secondmainheading">{rowdata.subject}</span>
+                    <Tooltip title={rowdata.subject}>
+                        <span className="secondmainheading d-inline-block text-truncate width300px">{rowdata.subject}</span>
+                    </Tooltip>
                     </Col>
                     <Col>
-                        <span className="secondmainheading">{"Name of Participant"}</span>
+                        <span className="secondmainheading">{"Name of participant"}</span>
                     </Col>
                     <Col>
-                        <span className="secondmainheading">{"Name of Participant User"}</span>
+                        <span className="secondmainheading">{"Name of participant user"}</span>
                     </Col>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+
                     <Col>
+                    <Tooltip TransitionComponent={Zoom} placement='bottom-start' title={rowdata.issue_message}>
                         <div className="messagedescription thirdmainheading">{rowdata.issue_message}</div>
+                    </Tooltip>
                     </Col>
                     <Col>
+
                         <Row>
                             <Col>
                                 {rowdata.organization.logo ? <Avatar
                                     alt={rowdata.user.first_name}
                                     src={UrlConstants.base_url_without_slash + rowdata.organization.logo}
                                     sx={{ width: 56, height: 56 }}
-                                /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{rowdata.organization.name.charAt(0)}</Avatar>}
+                                    /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{rowdata.organization.name.charAt(0)}</Avatar>}
                             </Col>
-                            <Col style={{ "margin-left": "-63%", "margin-top": "3%" }}><span className="thirdmainheading">{rowdata.organization.name}</span></Col>
+                            <Col style={{ "margin-left": "-63%", "margin-top": "3%" }}>
+                            <Tooltip TransitionComponent={Zoom} placement='bottom-start' title={rowdata.organization.name}>
+                                
+                                <span className="thirdmainheading d-inline-block text-truncate width300px">{rowdata.organization.name}</span>
+                                    </Tooltip>
+                                </Col>
                         </Row>
                     </Col>
+
                     <Col>
-                        <span className="thirdmainheading">{rowdata.user.first_name}</span>
+                    <Tooltip TransitionComponent={Zoom} placement='bottom-start' title={rowdata.user.first_name}>
+                        <span className="thirdmainheading d-inline-block text-truncate width300px">{rowdata.user.first_name}</span>
+                    </Tooltip>
                     </Col>
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "40px", "text-align": "left" }}>
@@ -446,6 +478,8 @@ function Support(props) {
                             onKeyDown={(e) => handleUnwantedSpace(reply,e)}
                             onChange={(e) => setreply(e.target.value)}
                             style={{ width: "420px", "min-height": "50px" }}
+                            error = {solutionErrorMessage ? true : false}
+                            helperText = {setSolutionErrorMessage}
                         />
                         <TextField
                             style={{ width: "420px", "margin-left": "20px", textAlign: "left" }}
@@ -502,11 +536,11 @@ function Support(props) {
                     <Col xs={12} sm={12} md={6} lg={6} >
                         {(!accfilesize && reply)
                             ? (
-                                <Button onClick={() => submitResolution()} variant="contained" className="submitbtn">
+                                <Button onClick={() => submitResolution()} variant="contained" style={{textTransform:"none"}} className="submitbtn">
                                     {screenlabels.common.submit}
                                 </Button>
                             ) : (
-                                <Button variant="outlined" disabled className="disbalesubmitbtn">
+                                <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
                                     {screenlabels.common.submit}
                                 </Button>
                             )}
@@ -516,7 +550,7 @@ function Support(props) {
                     <Col xs={12} sm={12} md={6} lg={3} >
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => showSuppport()} variant="outlined" className="cancelbtn">
+                        <Button onClick={() => showSuppport()} style={{textTransform:"none"}} variant="outlined" className="cancelbtn">
                             {screenlabels.common.cancel}
                         </Button>
                     </Col>

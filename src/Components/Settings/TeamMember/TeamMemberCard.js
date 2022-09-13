@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import THEME_COLORS from '../../../Constants/ColorConstants'
 import UrlConstants from '../../../Constants/UrlConstants'
 import { useHistory } from "react-router-dom";
+import { Tooltip, Zoom } from '@mui/material';
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "font-weight": "400", "font-family": "Open Sans"},
     btnPosition: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-left": "-25px", "font-weight": "400", "font-family": "Open Sans"},
@@ -33,20 +34,25 @@ export default function TeamMemberCard(props) {
     const history = useHistory();
     return (
         <Card className="particaipancard" style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
+       <Tooltip TransitionComponent={Zoom} title={ "Name:" + " " + props.mainheading + " & Email: " +  props.subheading}>
+        <div className='cardheaderTitlespecifier text-truncate'>
+
         <CardHeader
           avatar={
-            props.profilepic? <Avatar alt="Remy Sharp" src={UrlConstants.base_url+props.profilepic} sx={{ width:64, height:64 }}/>:
-            <Avatar sx={{ bgcolor:"#c09507",width:64, height:64}} aria-label="recipe">{props.firstname.charAt(0)}</Avatar>
-          }
-          action={
-            <IconButton aria-label="settings">
+              props.profilepic? <Avatar alt="Remy Sharp" src={UrlConstants.base_url+props.profilepic} sx={{ width:64, height:64 }}/>:
+              <Avatar sx={{ bgcolor:"#c09507",width:64, height:64}} aria-label="recipe">{props.firstname.charAt(0)}</Avatar>
+            }
+            action={
+                <IconButton aria-label="settings">
             </IconButton>
           }
           title={props.mainheading}
           subheader={props.subheading}
           style={{ "background-color": "#F4F4F4", padding: "9px", height: "84px", "text-align": "left", 'font-family': 'Open Sans',
           'font-style': 'normal', 'font-weight': 400, 'font-size': '14px' ,'line-height': '19px' ,'color': '#3D4A52'}}
-        />
+          />
+          </div>
+          </Tooltip>
             <CardContent>
                 <Row>
                     <Col xs={12} sm={12} md={6} lg={6} style={useStyles.cardDataHead}>
@@ -55,7 +61,7 @@ export default function TeamMemberCard(props) {
                 </Row>
                 <Row>
                     <Col xs={12} sm={12} md={6} lg={6} style={useStyles.cardDataUser}>
-                {props.role==2?'Team Member':'Guest User'}
+                {props.role==2?'Team member':'Guest user'}
                     </Col>
                 </Row>
                 {isshowbutton ? <Row style={useStyles.marginrowtop}>

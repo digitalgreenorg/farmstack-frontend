@@ -12,6 +12,7 @@ import UrlConstants from '../../../Constants/UrlConstants'
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import Loader from '../../../Components/Loader/Loader';
+import { GetErrorHandlingRoute, GetErrorKey } from '../../../Utils/Common';
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 , "box-shadow": "none"},
     marginrowtop: { "margin-top": "40px", "font-family": "Open Sans", "width": "1300px", "height": "893px"}, 
@@ -29,7 +30,18 @@ function AddTeamMember(props) {
     const [isSuccess, setisSuccess] = useState(false);
     const[isLoader, setIsLoader] = useState(false)
 
+    const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
+    const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
+    const[emailErrorMessage, setEmailErrorMessage] = useState(null)
+    const[roleErrorMessage, setRoleErrorMessage] = useState(null)
+
     const addNewMember = () => {
+
+        setFirstNameErrorMessage(null)
+        setLastNameErrorMessage(null)
+        setEmailErrorMessage(null)
+        setRoleErrorMessage(null)
+
         // var bodyFormData = new FormData();
         // bodyFormData.append('first_name', firstname);
         // bodyFormData.append('last_name', lastname);
@@ -48,7 +60,24 @@ function AddTeamMember(props) {
         }).catch((e) => {
             setIsLoader(false);
             //history.push(GetErrorHandlingRoute(e));
-            setisexisitinguseremail(true)
+            var returnValues = GetErrorKey(e, Object.keys(data))
+            var errorKeys = returnValues[0]
+            var errorMessages = returnValues[1]
+            if (errorKeys.length > 0){
+                for (var i=0; i<errorKeys.length; i++){
+                    switch(errorKeys[i]){
+                    case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
+                    case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
+                    case "email": setEmailErrorMessage(errorMessages[i]); break;
+                    case "role": setRoleErrorMessage(errorMessages[i]); break;
+                    default: history.push(GetErrorHandlingRoute(e)); break;
+                    }
+                }
+            }
+            else{
+            history.push(GetErrorHandlingRoute(e))
+            }
+                //setisexisitinguseremail(true)
         });
     }
     return (
@@ -69,6 +98,10 @@ function AddTeamMember(props) {
                     userrole={userrole}
                     setuserrole={ref => { setuserrole(ref) }}
                     first_heading={screenlabels.settings.heading}
+                    firstNameErrorMessage={firstNameErrorMessage}
+                    lastNameErrorMessage={lastNameErrorMessage}
+                    emailErrorMessage={emailErrorMessage}
+                    roleErrorMessage={roleErrorMessage}
                 >
                 </AddMemberForm>
                     <Row style={useStyles.marginrowtop8px}>
@@ -77,11 +110,11 @@ function AddTeamMember(props) {
                         <Col xs={12} sm={12} md={6} lg={6} >
                             {(firstname && useremail && !isuseremailerror && userrole)
                                 ? (
-                                    <Button onClick={() => addNewMember()} variant="contained" className="submitbtnteam">
+                                    <Button onClick={() => addNewMember()} style={{textTransform:"none"}} variant="contained" className="submitbtnteam">
                                         {screenlabels.common.submit}
                                     </Button>
                                 ) : (
-                                    <Button variant="outlined" disabled className="disbalesubmitbtnteam">
+                                    <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtnteam">
                                         {screenlabels.common.submit}
                                     </Button>
                                 )}
@@ -91,7 +124,7 @@ function AddTeamMember(props) {
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => history.push('/datahub/settings/4')} variant="outlined" className="cancelbtnteam">
+                            <Button onClick={() => history.push('/datahub/settings/4')} style={{textTransform:"none"}} variant="outlined" className="cancelbtnteam">
                                 {screenlabels.common.cancel}
                             </Button>
                         </Col>

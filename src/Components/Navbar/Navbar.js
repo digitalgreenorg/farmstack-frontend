@@ -53,7 +53,7 @@ const Navbar = (props) => {
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        history.push(GetErrorHandlingRoute(e));
+        //history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -68,7 +68,7 @@ const Navbar = (props) => {
     localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
     localStorage.removeItem(LocalStorageConstants.KEYS.user);
     */
-    history.push("/login");
+    history.push("/datahub/login");
   };
   return (
     <>
@@ -82,6 +82,19 @@ const Navbar = (props) => {
         />
         <NavMenu>
       
+          <NavLink to="/datahub/dashboard" activeStyle>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/bolddashboard.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/lightdashboard.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.Dashboard}
+          </NavLink>
           <NavLink to="/datahub/participants" activeStyle>
             <img
               className="boldimage"
@@ -107,6 +120,19 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.datasets}
+          </NavLink>
+          <NavLink to="/datahub/connectors" activeStyle>
+            <img
+              className="boldimage"
+              src={require("../../Assets/Img/connectors.svg")}
+              alt="new"
+            />
+            <img
+              className="nonboldimage"
+              src={require("../../Assets/Img/connector_non_bold.svg")}
+              alt="new"
+            />
+            &nbsp;&nbsp;{screenlabels.navbar.connectors}
           </NavLink>
           <NavLink to="/datahub/support" activeStyle>
             <img

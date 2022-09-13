@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import './SignupEmail.css'
 import Footerimg from '../../Components/signup/Footerimg'
+import Footer from '../Footer/Footer'
 // import validator from "validator";
 
 export default function SignupEmail(props) {
@@ -45,6 +46,7 @@ export default function SignupEmail(props) {
           variant="filled"
           className="signupemail"
           onChange={props.handleEmail}
+          onKeyDown={(e) => {if(e.key == ' ') {e.preventDefault()}}}
           inputRef={props.email}
           error={props.iserror || props.isuserSuspenderror}
           helperText={(props.iserror || props.isuserSuspenderror) ? props.errormessage : ""}
@@ -61,6 +63,10 @@ export default function SignupEmail(props) {
           )}
         </div>
       </form>
+      <div style={{position:"absolute", top:"770px"}}>
+
+      <Footer />
+      </div>
     </div>
   )
 }

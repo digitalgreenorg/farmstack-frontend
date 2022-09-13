@@ -15,6 +15,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import { useHistory } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
+import Footer from "../Footer/Footer";
 
 const fileTypes = ['JPEG', 'PNG', 'jpg']
 
@@ -57,7 +58,8 @@ export default function ProfileRightsideParticipant(props) {
           
       }).catch((e) => {
           setIsLoader(false);
-          history.push(GetErrorHandlingRoute(e));
+          console.log(e)
+          //history.push(GetErrorHandlingRoute(e));
       });
     }
 }, []);
@@ -140,7 +142,7 @@ export default function ProfileRightsideParticipant(props) {
     <>
     {isLoader? <Loader /> : ''}
     <Footerimg />
-      <div className="profileheader">Profile Details</div>
+      <div className="profileheader">Profile details</div>
       <div>
         <form
           noValidate
@@ -200,6 +202,7 @@ export default function ProfileRightsideParticipant(props) {
           <div className="profilenumber">
             <MuiPhoneNumber
               defaultCountry={"in"}
+              countryCodeEditable={false}
               style={{ width: "420px" }}
               id="filled-basic"
               label="Contact Number"
@@ -268,6 +271,10 @@ export default function ProfileRightsideParticipant(props) {
             </Button>
           </div>
         </form>
+        <div style={{position:"absolute", top:"770px"}}>
+
+      <Footer />
+      </div>
       </div>
     </>
   );

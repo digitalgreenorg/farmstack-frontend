@@ -29,6 +29,8 @@ export default function NoDatasetCard(props) {
            <span style={useStyles.cardtext}>{props.firstText}</span>
           </Col>
         </Row>
+        {props.secondText ? 
+        <>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
            <span style={useStyles.cardtext}>__________________________________</span>
@@ -47,6 +49,8 @@ export default function NoDatasetCard(props) {
           </Col>
           */}
         </Row>
+        </>
+        : <></>}
       </CardContent>
     </Card>
   );

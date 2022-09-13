@@ -9,79 +9,88 @@
   padding-top: 3%;
 }
 .accountsetting .firstname {
-  width: 80% !important;
+  width: 70% !important;
   margin-top: 5%;
   margin-left: 35%;
 }
 .accountsetting .lastname {
-  /* padding-top: 10%;
-  padding-left: 10%; */
-  width: 80% !important;
+  width: 70% !important;
   margin-top: 5%;
   margin-left: 10%;
+  float: left;
 }
 .accountsetting .email {
-  width: 80% !important;
+  width: 70% !important;
   margin-top: 5%;
   margin-left: 35%;
 }
 .accountsetting .phonenumber {
-  width: 80% !important;
+  width: 70% !important;
   margin-top: 5%;
   margin-left: 10%;
+  float: left;
 }
 .accountsetting .uploadimgname {
-  margin-left: 70%;
+  margin-left: 60%;
   width: 100%;
 }
 .accountsetting .oversizemb-uploadimglogo {
-  margin-left: 70%;
+  margin-left: 60%;
   width: 100%;
   color: red;
 }
-.accountsubmit {
-  padding-left: 20%;
-  padding-top: 7%;
-}
-.accountnextbtn {
-  font-family: "Open Sans" !important;
-  font-style: normal !important;
-  font-weight: 700 !important;
-  font-size: 14px !important;
-  line-height: 19px !important;
-  color: #585d60;
-  background: #c09507 !important;
-  /* opacity: 0.5; */
-  width: 420px;
+
+.accountsetting .submitbtn {
+  width: 420px !important;
+  /* text-transform: capitalize; */
+  color: #ffffff;
   height: 42px;
-  /* padding-left: 10% !important; */
-}
-.disableaccountnextbtn {
-  font-family: "Open Sans" !important;
-  font-style: normal !important;
-  font-weight: 700 !important;
-  font-size: 14px !important;
-  line-height: 19px !important;
-  color: #585d60;
-  /* background: #c09507 !important; */
-  opacity: 0.5;
-  width: 420px;
-  height: 42px;
-}
-.accountsettingcancelbtn {
-  width: 420px;
-  height: 42px;
-  background: #ffffff;
-  border: 1px solid #c09507 !important;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-weight: 700;
+  background: #c09507;
   border-radius: 2px;
-  font-family: "Open Sans" !important;
-  font-style: normal !important;
-  font-weight: 700 !important;
-  font-size: 14px !important;
-  line-height: 19px !important;
-  color: #585d60 !important;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+  margin-left: 16% !important;
 }
-.accountcancel {
-  padding-left: 20%;
-  padding-top: 5%;
+.accountsetting .submitbtn:hover {
+  background-color: #ab8405 !important;
+}
+.accountsetting .disbalesubmitbtn {
+  /* text-transform: capitalize; */
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  margin-left: 16% !important;
+}
+.accountsetting .cancelbtn {
+  /* text-transform: capitalize; */
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 20px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-bottom: 50px;
+  background: #ffffff;
+  border: 1px solid #c09507;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  margin-left: 16% !important;
 }

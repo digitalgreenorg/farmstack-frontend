@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from "@mui/material/Button";
@@ -9,7 +9,8 @@ import { Container } from 'react-bootstrap';
 import { Nav } from '../Navbar/NavbarElements';
 import './../Navbar/Navbar.css'
 import LocalStorageConstants from '../../Constants/LocalStorageConstants';
-import { flushLocalstorage } from '../../Utils/Common';
+import { flushLocalstorage, isLoggedInUserAdmin, isLoggedInUserParticipant } from '../../Utils/Common';
+import Footer from '../Footer/Footer';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
@@ -24,9 +25,13 @@ const useStyles = {
 export default function SessionExpired(props) {
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     const history = useHistory();
-    flushLocalstorage();
+
+    useEffect(() => {
+        flushLocalstorage();
+    }, [])
+    
     return (
-        <>
+        <div className='center_keeping_conatiner'>
             <Nav id="datahubnavbar" style={{border: 'none'}}>
             {/* <Bars /> */}
                 <img
@@ -35,7 +40,7 @@ export default function SessionExpired(props) {
                 style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
                 />
             </Nav>
-            <Container>
+            <Container className='minHeightWithoutFooter'>
                 <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <span className="mainheadingsuccess">
@@ -68,12 +73,13 @@ export default function SessionExpired(props) {
                 </Row>
                 <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
-                        <Button  onClick={()=>history.push("/login")} variant="contained" className="submitbtn">
+                        <Button  onClick={()=> isLoggedInUserParticipant() ? history.push("/participant/login") : history.push("/datahub/login")} variant="contained" className="submitbtn">
                             <span>Sign in</span>
                         </Button>
                     </Col>
                 </Row>
             </Container>
-        </>
+                <Footer/>
+        </div>
     );
 }
