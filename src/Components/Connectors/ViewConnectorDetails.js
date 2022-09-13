@@ -337,9 +337,9 @@ export default function ViewConnectorDetails(props) {
                     <Col>
                         <span className="secondmainheading">{"Participant organisation website"}</span>
                     </Col>
-                    <Col>
-                        <span className="secondmainheading">{""}</span>
-                    </Col>
+                    {props.data['connector_status'] == 'paired'?<Col>
+                        <span className="secondmainheading">{"View Data"}</span>
+                    </Col>:<Col></Col>}
 
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
@@ -357,9 +357,13 @@ export default function ViewConnectorDetails(props) {
                             </Row>
                         </Tooltip>
                     </Col>
-                    <Col>
-                        <span className="thirdmainheading">{""}</span>
-                    </Col>
+                    {props.data['connector_status'] == 'paired'?<Col>
+                        <Tooltip title={props.providerdata['ports'] ? UrlConstants.view_data_connector +props.providerdata['ports']['consumer_app']+"/show_data" : ''}>
+                            <Row style={useStyles.datasetdescription}>
+                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { openLinkInNewTab(UrlConstants.view_data_connector +props.providerdata['ports']['consumer_app']+"/show_data") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
+                            </Row>
+                        </Tooltip>
+                    </Col>:<Col></Col>}
                 </Row>
                 <Row className="supportViewDeatilsSecondRow"></Row></> : <></>}
             {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'paired') ? <><Row>

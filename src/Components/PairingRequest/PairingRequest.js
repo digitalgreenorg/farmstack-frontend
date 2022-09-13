@@ -337,8 +337,7 @@ const PairingRequest = (props) => {
                       className="thirdmainheading dockerImageURL"
                       onClick={() => {
                         openLinkInNewTab(
-                          process.env
-                            .REACT_APP_BASEURL_without_slash_view_data +
+                          UrlConstants.view_data_connector +
                             props.data["ports"]["consumer_app"] +
                             "/show_data"
                         );
