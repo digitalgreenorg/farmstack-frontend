@@ -159,7 +159,7 @@ export default function AddProjectParticipant() {
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.departments_connector_list,
-      { org_id: getOrgLocal() },
+      { org_id: getOrgLocal(), default: false },
       false,
       true
     )
