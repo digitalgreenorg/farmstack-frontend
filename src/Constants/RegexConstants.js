@@ -21,6 +21,7 @@ const RegexConstants = {
   DES_SET_REGEX: /^$|^[a-zA-Z0-9.][a-zA-Z0-9. ]*$/,
   city_name: /^$|^[a-zA-Z][a-zA-Z ]*$/,
   address: /^$|^[a-zA-Z0-9#,][a-zA-Z0-9#, ]*$/,
+  NEW_NAME_REGEX: /^([a-zA-Z0-9]+\s?)*$/   //allows only one space and no spl characters allowed
 };
 
 export default RegexConstants;
