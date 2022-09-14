@@ -53,7 +53,7 @@ export default function AddProjectParticipant() {
     setdepartment(event.target.value);
   };
   const handleChangeProject = (e) => {
-    validateInputField(e.target.value, RegexConstants.NEW_NAME_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setproject(e.target.value)
       : e.preventDefault();
 
