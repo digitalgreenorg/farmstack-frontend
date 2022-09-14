@@ -59,11 +59,12 @@ export default function DepartmentSettingsForm(props) {
                         id="filled-basic"
                         variant="filled"
                         maxRows={1}
-                        maxLength={100}
+                        // maxLength={100}
+                        inputProps= {{maxLength:255}}
                         required
                         label={screenlabels.department.department_name}
                         value={props.departmentname}
-                        onChange={(e) =>validateInputField(e.target.value,RegexConstants.city_name)? props.setdepartmentname(e.target.value): e.preventDefault()}
+                        onChange={(e) =>validateInputField(e.target.value,RegexConstants.NEW_NAME_REGEX)? props.setdepartmentname(e.target.value): e.preventDefault()}
                         // onChange={(e) => validateInputField(e.target.value) ? props.setdepartmentname(e.target.value.trim()) : e.preventDefault()}
                     />
                 </Col>
@@ -73,11 +74,12 @@ export default function DepartmentSettingsForm(props) {
                         id="filled-basic"
                         multiline rows={4}
                         variant="filled"
-                        maxLength={500}
+                        // maxLength={500}
+                        inputProps= {{maxLength:255}}
                         required
                         label={screenlabels.department.description}
                         value={props.departmentdescription}
-                        onChange={(e) => validateInputField(e.target.value,RegexConstants.DES_SET_REGEX) ? props.setdepartmentdescription(e.target.value): e.preventDefault()}
+                        onChange={(e) => validateInputField(e.target.value,RegexConstants.NEW_NAME_REGEX) ? props.setdepartmentdescription(e.target.value): e.preventDefault()}
                     />
                 </Col>
             </Row>
