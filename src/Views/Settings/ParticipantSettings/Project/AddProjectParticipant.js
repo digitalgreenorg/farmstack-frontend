@@ -231,7 +231,7 @@ export default function AddProjectParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/participant/connectors")}
+                onClick={() => history.push("/participant/settings/5")}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}
