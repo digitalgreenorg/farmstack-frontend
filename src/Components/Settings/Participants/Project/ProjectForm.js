@@ -102,6 +102,7 @@ export default function ProjectForm(props) {
             id="filled-basic"
             variant="filled"
             value={props.project}
+            inputProps= {{maxLength:255}}
             onChange={props.handleChangeProject}
             label={screenlabels.project.project_name}
           />
@@ -116,7 +117,8 @@ export default function ProjectForm(props) {
             rows={4}
             variant="filled"
             value={props.description}
-            maxLength={500}
+            inputProps= {{maxLength:255}}
+            // maxLength={500}
             onKeyDown={props.handledescriptionKeydown}
             onChange={props.handleChangedescription}
           />

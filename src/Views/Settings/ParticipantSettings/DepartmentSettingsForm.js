@@ -59,7 +59,8 @@ export default function DepartmentSettingsForm(props) {
                         id="filled-basic"
                         variant="filled"
                         maxRows={1}
-                        maxLength={100}
+                        // maxLength={100}
+                        inputProps= {{maxLength:255}}
                         required
                         label={screenlabels.department.department_name}
                         value={props.departmentname}
@@ -73,7 +74,8 @@ export default function DepartmentSettingsForm(props) {
                         id="filled-basic"
                         multiline rows={4}
                         variant="filled"
-                        maxLength={500}
+                        // maxLength={500}
+                        inputProps= {{maxLength:255}}
                         required
                         label={screenlabels.department.description}
                         value={props.departmentdescription}
