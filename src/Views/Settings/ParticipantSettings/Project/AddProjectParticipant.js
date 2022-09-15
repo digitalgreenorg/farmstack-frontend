@@ -11,6 +11,7 @@ import {
   GetErrorHandlingRoute,
   GetErrorKey,
   getOrgLocal,
+  getUserMapId,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -74,6 +75,7 @@ export default function AddProjectParticipant() {
 
   const handleAddProjectSubmit = async (e) => {
     e.preventDefault();
+    var userid = getUserMapId();
 
     // setnameErrorMessage(null);
     // setTypeErrorMessage(null);
@@ -87,6 +89,7 @@ export default function AddProjectParticipant() {
     // setisSuccess(true);
     setIsLoader(true);
     var bodyFormData = new FormData();
+    bodyFormData.append("user_map", userid)
     bodyFormData.append(" project_discription", description);
     bodyFormData.append("department", department);
     bodyFormData.append("project_name", project);
@@ -160,6 +163,7 @@ export default function AddProjectParticipant() {
       "GET",
       UrlConstants.base_url + UrlConstants.departments_connector_list,
       { org_id: getOrgLocal() },
+      //  {user_map: getUserMapId()},
       false,
       true
     )
