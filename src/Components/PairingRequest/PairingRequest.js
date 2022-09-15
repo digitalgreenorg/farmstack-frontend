@@ -313,7 +313,7 @@ const PairingRequest = (props) => {
               </div>
             </Tooltip>
           </div>
-          {props.data["ports"]["consumer_app"] ? (
+          {props.data["connector_pair_status"] == "paired" ? (
             <div
               style={{
                 display: "flex",
