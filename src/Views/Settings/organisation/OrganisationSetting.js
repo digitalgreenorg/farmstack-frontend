@@ -199,7 +199,7 @@ export default function OrganisationSetting(props) {
     let posturl = UrlConstant.base_url + UrlConstant.org;
 
     var bodyFormData = new FormData();
-    bodyFormData.append("org_email", email);
+    bodyFormData.append("org_email", email.toLowerCase());
     bodyFormData.append("name", orgname);
     bodyFormData.append(
       "address",

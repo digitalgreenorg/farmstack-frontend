@@ -77,8 +77,8 @@ function AddParticipants(props) {
     setisorganisationemailerror(null)
 
     var bodyFormData = new FormData();
-    bodyFormData.append("email", useremail);
-    bodyFormData.append("org_email", orginsationemail);
+    bodyFormData.append("email", useremail.toLowerCase());
+    bodyFormData.append("org_email", orginsationemail.toLowerCase());
     bodyFormData.append("first_name", firstname);
     bodyFormData.append("last_name", lastname);
     bodyFormData.append("name", organisationname);
