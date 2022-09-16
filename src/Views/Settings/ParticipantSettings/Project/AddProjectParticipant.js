@@ -65,7 +65,7 @@ export default function AddProjectParticipant() {
 
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setdescription(e.target.value)
       : e.preventDefault();
   };
