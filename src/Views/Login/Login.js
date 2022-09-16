@@ -107,7 +107,7 @@ export default function Login(props) {
     const emailString = email.current.value;
     const valid = validator.isEmail(email.current.value);
     console.log(valid);
-    const finalEmail = emailString.trim();
+    const finalEmail = emailString.trim().toLowerCase();
     console.log(finalEmail);
     if (!valid) {
       setError(true);
@@ -120,6 +120,7 @@ export default function Login(props) {
           ? LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT 
           : LocalStorageConstants.ROLES.DATAHUB_ADMIN
       };
+      console.log(data, "EMAILLLLLLLLL")
 
       setIsLoader(true);
 
@@ -648,7 +649,7 @@ export default function Login(props) {
 
     var bodyFormData = new FormData();
     bodyFormData.append("user_id", id);
-    bodyFormData.append("org_email", finalEmail);
+    bodyFormData.append("org_email", finalEmail.toLowerCase());
     bodyFormData.append("name", finalName);
     bodyFormData.append("website", orgWebsite);
     bodyFormData.append(
@@ -666,6 +667,7 @@ export default function Login(props) {
     for (const pair of bodyFormData.entries()) {
       console.log(`${pair[0]}, ${pair[1]}`);
     }
+    // console.log(bodyFormData, "EMAIL CHECK")
 
     if (!valid) {
       setisOrgmailerror(true);
