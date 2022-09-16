@@ -756,7 +756,7 @@ export default function Login(props) {
   const handleOrgWebsite = (e) => {
     e.target.value = e.target.value.trim()
     setOrgWebsite(e.target.value)
-    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX))
+    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX))
   };
 
   const handleOrgmail = (e) => {
