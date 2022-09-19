@@ -209,13 +209,13 @@ export default function AddDataset(props) {
     setfileValid("");
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setreply(e.target.value)
       : e.preventDefault();
   };
@@ -224,13 +224,13 @@ export default function AddDataset(props) {
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.GEO_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };
