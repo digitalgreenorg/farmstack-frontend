@@ -13,8 +13,9 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
       - '7000:5432'
+      - '5432:5432'
     volumes:
-      - "../postgres-new-12-08:/var/lib/postgresql/data"
+      - "../postgres-dev:/var/lib/postgresql/data"
     networks:
       - postgresql-network
 

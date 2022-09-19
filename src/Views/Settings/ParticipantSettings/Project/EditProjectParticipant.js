@@ -69,7 +69,7 @@ export default function EditProjectParticipant() {
 
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setdescription(e.target.value)
       : e.preventDefault();
   };
@@ -182,8 +182,6 @@ export default function EditProjectParticipant() {
         console.log(response.data.department);
         console.log(response.data.project_discription);
         // console.log(response.data.department_details.department_name);
-
-
       })
       .catch((e) => {
         setIsLoader(false);
@@ -200,7 +198,7 @@ export default function EditProjectParticipant() {
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.departments_connector_list,
-      { org_id: getOrgLocal() },
+      { org_id: getOrgLocal(), default: false },
       false,
       true
     )
@@ -273,7 +271,7 @@ export default function EditProjectParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/participant/connectors")}
+                onClick={() => history.push("/participant/settings/5")}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}

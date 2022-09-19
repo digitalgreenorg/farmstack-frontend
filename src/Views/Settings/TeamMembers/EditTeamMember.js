@@ -60,7 +60,7 @@ function EditTeamMember(props) {
         let data={
             'first_name':firstname,
             'last_name': lastname,
-            'email':useremail,
+            'email':useremail.toLowerCase(),
             'role':userrole
         }
         setIsLoader(true);

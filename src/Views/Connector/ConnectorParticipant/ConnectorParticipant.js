@@ -536,9 +536,11 @@ export default function ConnectorParticipant() {
     }
     const sendPairingRequest = (id) => {
         var bodyFormData = new FormData();
+        let user_map = JSON.parse(localStorage.getItem("user_map"));
         bodyFormData.append('provider', providerConnectorDetails['id']);
         bodyFormData.append('consumer', connectorDeatilsData['id']);
         bodyFormData.append('connector_pair_status', 'awaiting for approval');
+        bodyFormData.append('user_map', user_map);
         setIsLoader(true);
         HTTPService(
             "POST",
@@ -629,6 +631,8 @@ export default function ConnectorParticipant() {
     }
     const approveOrRejectConnector = () => {
         var bodyFormData = new FormData();
+        let user_map = JSON.parse(localStorage.getItem("user_map"));
+        bodyFormData.append('user_map', user_map);
         bodyFormData.append('connector_pair_status', ConsumerStatus);
         setIsLoader(true);
         HTTPService(

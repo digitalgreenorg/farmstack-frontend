@@ -11,6 +11,7 @@ import {
   GetErrorHandlingRoute,
   GetErrorKey,
   getOrgLocal,
+  getUserMapId,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -64,7 +65,7 @@ export default function AddProjectParticipant() {
 
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setdescription(e.target.value)
       : e.preventDefault();
   };
@@ -74,6 +75,7 @@ export default function AddProjectParticipant() {
 
   const handleAddProjectSubmit = async (e) => {
     e.preventDefault();
+    var userid = getUserMapId();
 
     // setnameErrorMessage(null);
     // setTypeErrorMessage(null);
@@ -87,6 +89,7 @@ export default function AddProjectParticipant() {
     // setisSuccess(true);
     setIsLoader(true);
     var bodyFormData = new FormData();
+    bodyFormData.append("user_map", userid)
     bodyFormData.append(" project_discription", description);
     bodyFormData.append("department", department);
     bodyFormData.append("project_name", project);
@@ -159,7 +162,7 @@ export default function AddProjectParticipant() {
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.departments_connector_list,
-      { org_id: getOrgLocal() },
+      { org_id: getOrgLocal(), default: false },
       false,
       true
     )
@@ -231,7 +234,7 @@ export default function AddProjectParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/participant/connectors")}
+                onClick={() => history.push("/participant/settings/5")}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}
