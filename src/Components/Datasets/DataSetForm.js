@@ -41,6 +41,7 @@ export default function DataSetForm(props) {
             required
             width="100%"
             value={props.datasetname}
+            onKeyDown={props.handledatasetnameKeydown}
             onChange={props.handleChangedatasetname}
             label={screenlabels.dataset.name}
             error={props.nameErrorMessage ? true : false}
