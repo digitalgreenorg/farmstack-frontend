@@ -213,6 +213,9 @@ export default function AddDataset(props) {
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
+  const handledatasetnameKeydown = (e) => {
+    handleUnwantedSpace(datasetname, e);
+  }
   const handleChangedescription = (e) => {
     console.log(e.target.value);
     validateInputField(e.target.value, RegexConstants.connector_name)
@@ -322,6 +325,7 @@ export default function AddDataset(props) {
             reply={reply}
             datasetname={datasetname}
             handleChangedatasetname={handleChangedatasetname}
+            handledatasetnameKeydown={handledatasetnameKeydown}
             handleChangedescription={handleChangedescription}
             handledescriptionKeydown={handledescriptionKeydown}
             Crop_data={Crop_data}

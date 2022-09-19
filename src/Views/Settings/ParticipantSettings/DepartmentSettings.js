@@ -12,7 +12,7 @@ import DepartmentSettingsForm from "./DepartmentSettingsForm";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/Footer";
-import { GetErrorHandlingRoute } from '../../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey } from '../../../Utils/Common';
 
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "box-shadow": "none" },
@@ -28,9 +28,13 @@ function DepartmentSettings(props) {
     const [isSuccess, setisSuccess] = useState(false);
     const [isLoader, setIsLoader] = useState(false)
     const [resId, setResId] = useState("")
+    const [nameErrorMessage, setnameErrorMessage] = useState(null)
+    const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
 
     const addnewdepartment = () => {
     //     // https request
+    setnameErrorMessage(null);
+    setDescriptionErrorMessage(null);
     let Formdata= new FormData()
     Formdata.append("organization", JSON.parse(localStorage.getItem("org_id")))
     Formdata.append("department_name", departmentname)
@@ -57,10 +61,38 @@ function DepartmentSettings(props) {
         }).catch((error) => {
             console.log(error)
             setIsLoader(false);
-            history.push(GetErrorHandlingRoute(error));
+            var returnValues = GetErrorKey(error, Formdata.keys())
+            var errorKeys = returnValues[0]
+            var errorMessages = returnValues[1]
+            // console.log(errorKeys, errorMessages);
 
-        })
-} 
+            
+            //FOR LOOP IN ERROR KEY;
+            if(errorKeys.length > 0){
+            for(let i=0; i<errorKeys.length; i++){
+                console.log(errorMessages[i], errorKeys[i])
+                if(errorKeys[i] == "department_name"){
+                    setnameErrorMessage(errorMessages[i])
+                }else if(errorKeys[i] == "department_description"){
+                    setDescriptionErrorMessage(errorMessages[i])
+                }
+            }
+
+        }
+            // if(errorKeys.length > 0){
+            //     for (var i=0; i<errorKeys.length; i++){
+            //         switch(errorKeys[i]){
+                
+            //             case "department_name": setnameErrorMessage(errorMessages[i]); break;
+            //             case "description": setDescriptionErrorMessage(errorMessages[i]); break;
+            //             default: history.push(GetErrorHandlingRoute(error)); break;
+            //         }
+            //     }
+            // }
+            // else{history.push(GetErrorHandlingRoute(error));
+            // }
+        });
+};
     return (
         <>
             {isLoader ? <Loader /> : ""}
@@ -76,6 +108,8 @@ function DepartmentSettings(props) {
                     </Success> :
                     <> 
                     <DepartmentSettingsForm
+                        nameErrorMessage={nameErrorMessage}
+                        descriptionErrorMessage = {descriptionErrorMessage}
                         departmentname={departmentname}
                         setdepartmentname={ref => { setdepartmentname(ref) }}
                         departmentdescription={departmentdescription}
