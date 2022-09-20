@@ -93,11 +93,14 @@ export default function DepartmentSettingsForm(props) {
             required
             label={screenlabels.department.department_name}
             value={props.departmentname}
+            onKeyDown={props.handledepartnameKeydown}
             onChange={(e) =>
               validateInputField(e.target.value, RegexConstants.city_name)
                 ? props.setdepartmentname(e.target.value)
                 : e.preventDefault()
             }
+            error={props.nameErrorMessage ? true : false}
+            helperText={props.nameErrorMessage}
             // onChange={(e) => validateInputField(e.target.value) ? props.setdepartmentname(e.target.value.trim()) : e.preventDefault()}
           />
         </Col>
@@ -113,11 +116,14 @@ export default function DepartmentSettingsForm(props) {
             required
             label={screenlabels.department.description}
             value={props.departmentdescription}
+            onKeyDown={props.handledepartdescriptionKeydown}
             onChange={(e) =>
               validateInputField(e.target.value, RegexConstants.city_name)
                 ? props.setdepartmentdescription(e.target.value)
                 : e.preventDefault()
             }
+            error={props.descriptionErrorMessage ? true : false}
+            helperText={props.descriptionErrorMessage}
           />
         </Col>
       </Row>

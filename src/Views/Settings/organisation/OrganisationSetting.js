@@ -539,7 +539,7 @@ export default function OrganisationSetting(props) {
   return (
     <div className="orgsetting">
       {isLoader ? <Loader /> : ""}
-      <form noValidate autoComplete="off" onSubmit={handleOrgSettingSubmit}>
+      <div noValidate autoComplete="off" >
         <Row>
           <span className="title">Organisation details</span>
         </Row>
@@ -797,7 +797,9 @@ export default function OrganisationSetting(props) {
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
-              <Button variant="contained" className="submitbtn" type="submit">
+              <Button 
+              onClick={handleOrgSettingSubmit}
+               variant="contained" className="submitbtn" type="submit">
                 <span className="signupbtnname" style={{textTransform:"none"}}>Submit</span>
               </Button>
             ) : (
@@ -820,7 +822,7 @@ export default function OrganisationSetting(props) {
             </Button>
           </Col>
         </Row>
-      </form>
+      </div>
     </div>
   );
 }

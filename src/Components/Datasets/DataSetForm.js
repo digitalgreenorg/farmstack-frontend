@@ -41,6 +41,7 @@ export default function DataSetForm(props) {
             required
             width="100%"
             value={props.datasetname}
+            onKeyDown={props.handledatasetnameKeydown}
             onChange={props.handleChangedatasetname}
             label={screenlabels.dataset.name}
             error={props.nameErrorMessage ? true : false}
@@ -200,6 +201,7 @@ export default function DataSetForm(props) {
             required
             width="100%"
             value={props.Geography}
+            onKeyDown={props.handleGeographyKeydown}
             onChange={props.handleChangeGeography}
             label={screenlabels.dataset.Geography}
             error={props.geographyErrorMessage ? true : false}
@@ -215,6 +217,7 @@ export default function DataSetForm(props) {
             variant="filled"
             width="100%"
             value={props.cropdetail}
+            onKeyDown={props.handleCropKeydown}
             onChange={props.handleChangecropdetail}
             label={screenlabels.dataset.Crop_Detail}
             error={props.cropDetailErrorMessage ? true : false}
