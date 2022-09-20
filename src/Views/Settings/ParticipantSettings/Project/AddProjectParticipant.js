@@ -123,7 +123,7 @@ export default function AddProjectParticipant() {
                     setnameErrorMessage(errorMessages[i])
                 }else if(errorKeys[i] == "project_description"){
                     setDescriptionErrorMessage(errorMessages[i])
-                }else{history.push(GetErrorHandlingRoute(error));
+                }else{history.push(GetErrorHandlingRoute(e));
                 }
             }
           }
