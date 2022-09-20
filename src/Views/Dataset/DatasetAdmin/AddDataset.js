@@ -326,7 +326,7 @@ export default function AddDataset(props) {
           imageText={"Added Successfully!"}
           msg={"Your dataset added in database."}></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+        <div noValidate autoComplete="off">
           <DataSetForm
             title={"Add Dataset"}
             reply={reply}
@@ -400,7 +400,7 @@ export default function AddDataset(props) {
                 Weather_data == true ||
                 Research_data) ? (
                 <Button
-                  //   onClick={() => addNewParticipants()}
+                  onClick={handleAddDatasetSubmit}
                   variant="contained"
                   className="submitbtn"
                   type="submit">
@@ -427,7 +427,7 @@ export default function AddDataset(props) {
               </Button>
             </Col>
           </Row>
-        </form>
+        </div>
       )}
     </>
   );

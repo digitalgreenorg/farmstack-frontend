@@ -217,7 +217,8 @@ export default function AddDataset(props) {
   }
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    setreply(e.target.value);
+    validateInputField(e.target.value, RegexConstants.connector_name)
+    ? setreply(e.target.value): e.preventDefault();
   };
   const handledescriptionKeydown = (e) => {
     handleUnwantedSpace(reply, e);
@@ -358,7 +359,7 @@ export default function AddDataset(props) {
           ) : (
             ""
           )}
-          <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+          <div noValidate autoComplete="off">
             <DataSetForm
               title={"Add Dataset"}
               reply={reply}
@@ -432,7 +433,7 @@ export default function AddDataset(props) {
                   Weather_data == true ||
                   Research_data) ? (
                   <Button
-                    //   onClick={() => addNewParticipants()}
+                    onClick={handleAddDatasetSubmit}
                     variant="contained"
                     className="submitbtn"
                     type="submit">
@@ -461,7 +462,7 @@ export default function AddDataset(props) {
                 </Button>
               </Col>
             </Row>
-          </form>
+          </div>
         </>
       )}
     </>
