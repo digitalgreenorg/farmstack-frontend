@@ -12,7 +12,7 @@ import DepartmentSettingsForm from "./DepartmentSettingsForm";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/Footer";
-import { GetErrorHandlingRoute, GetErrorKey } from '../../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, handleUnwantedSpace } from '../../../Utils/Common';
 
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "box-shadow": "none" },
@@ -75,7 +75,8 @@ function DepartmentSettings(props) {
                     setnameErrorMessage(errorMessages[i])
                 }else if(errorKeys[i] == "department_description"){
                     setDescriptionErrorMessage(errorMessages[i])
-                }
+                }else{history.push(GetErrorHandlingRoute(error));
+                    }
             }
 
         }
@@ -93,6 +94,13 @@ function DepartmentSettings(props) {
             // }
         });
 };
+
+const handledepartnameKeydown= (e) => {
+    handleUnwantedSpace(departmentname, e);
+};
+const handledepartdescriptionKeydown= (e) => {
+    handleUnwantedSpace(departmentdescription, e)
+}
     return (
         <>
             {isLoader ? <Loader /> : ""}
@@ -108,6 +116,8 @@ function DepartmentSettings(props) {
                     </Success> :
                     <> 
                     <DepartmentSettingsForm
+                        handledepartnameKeydown={handledepartnameKeydown}
+                        handledepartdescriptionKeydown={handledepartdescriptionKeydown}
                         nameErrorMessage={nameErrorMessage}
                         descriptionErrorMessage = {descriptionErrorMessage}
                         departmentname={departmentname}

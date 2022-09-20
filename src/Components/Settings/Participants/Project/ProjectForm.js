@@ -103,8 +103,11 @@ export default function ProjectForm(props) {
             variant="filled"
             value={props.project}
             inputProps={{ maxLength: 255 }}
+            onKeyDown={props.handleprojectnameKeydown}
             onChange={props.handleChangeProject}
             label={screenlabels.project.project_name}
+            error={props.nameErrorMessage ? true : false}
+            helperText={props.nameErrorMessage}
           />
         </Col>
       </Row>
@@ -118,9 +121,12 @@ export default function ProjectForm(props) {
             variant="filled"
             value={props.description}
             inputProps={{ maxLength: 255 }}
+            onKeyDown={props.handleprojectdescriptionKeydown}
             // maxLength={500}
             // onKeyDown={props.handledescriptionKeydown}
             onChange={props.handleChangedescription}
+            error={props.descriptionErrorMessage ? true : false}
+            helperText={props.descriptionErrorMessage}
           />
         </Col>
       </Row>

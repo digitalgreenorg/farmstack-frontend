@@ -212,6 +212,9 @@ export default function AddDataset(props) {
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
+  const handledatasetnameKeydown = (e) => {
+    handleUnwantedSpace(datasetname, e);
+  }
   const handleChangedescription = (e) => {
     console.log(e.target.value);
     setreply(e.target.value);
@@ -225,12 +228,18 @@ export default function AddDataset(props) {
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
+  const handleGeographyKeydown = (e) => {
+    handleUnwantedSpace(Geography, e);
+  }
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
     validateInputField(e.target.value, RegexConstants.connector_name)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };
+  const handleCropKeydown = (e) => {
+    handleUnwantedSpace(cropdetail, e);
+  }
   const handleChangeFromDate = (newValue) => {
     console.log(newValue);
     settodate(null);
@@ -355,6 +364,7 @@ export default function AddDataset(props) {
               reply={reply}
               datasetname={datasetname}
               handleChangedatasetname={handleChangedatasetname}
+              handledatasetnameKeydown={handledatasetnameKeydown}
               handleChangedescription={handleChangedescription}
               handledescriptionKeydown={handledescriptionKeydown}
               Crop_data={Crop_data}
@@ -375,8 +385,10 @@ export default function AddDataset(props) {
               handleChangeResearchData={handleChangeResearchData}
               Geography={Geography}
               handleChangeGeography={handleChangeGeography}
+              handleGeographyKeydown={handleGeographyKeydown}
               cropdetail={cropdetail}
               handleChangecropdetail={handleChangecropdetail}
+              handleCropKeydown={handleCropKeydown}
               Switchchecked={Switchchecked}
               handleChangeSwitch={handleChangeSwitch}
               value={value}
