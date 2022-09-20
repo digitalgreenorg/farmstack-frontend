@@ -263,7 +263,7 @@ export default function AccountSetting(props) {
   return (
     <div className="accountsetting">
       {isLoader ? <Loader /> : ""}
-      <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
+      <div noValidate autoComplete="off" >
         <Row>
           <span className="title">Account settings</span>
         </Row>
@@ -424,7 +424,7 @@ export default function AccountSetting(props) {
               //   <span className="signupbtnname">Submit</span>
               // </Button>
               <Button
-                //   onClick={() => addNewParticipants()}
+                onClick={handleAccountSettingSubmit}
                 variant="contained"
                 className="submitbtn"
                 style={{textTransform:"none"}}
@@ -453,7 +453,7 @@ export default function AccountSetting(props) {
             {/* </div> */}
           </Col>
         </Row>
-      </form>
+      </div>
     </div>
   );
 }

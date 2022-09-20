@@ -119,15 +119,21 @@ export default function AddProjectParticipant() {
         if (errorKeys.length > 0) {
           for (var i = 0; i < errorKeys.length; i++) {
             console.log(errorMessages[i], errorKeys[i])
-                if(errorKeys[i] == "project_name"){
-                    setnameErrorMessage(errorMessages[i])
-                }else if(errorKeys[i] == "project_description"){
-                    setDescriptionErrorMessage(errorMessages[i])
-                }else{history.push(GetErrorHandlingRoute(e));
-                }
+                // if(errorKeys[i] == "project_name"){
+                //     setnameErrorMessage(errorMessages[i])
+                // }else if(errorKeys[i] == "project_description"){
+                //     setDescriptionErrorMessage(errorMessages[i])
+                // }else{history.push(GetErrorHandlingRoute(e));
+                // }
+                switch (errorKeys[i]) {
+                  case "project_name": setnameErrorMessage(errorMessages[i]); break;
+                  case "project_description": setDescriptionErrorMessage(errorMessages[i]); break;
+                  default: history.push(GetErrorHandlingRoute(e)); break;
             }
           }
-        }
+        } else {
+          history.push(GetErrorHandlingRoute(e));
+      }
         /*
         if (e.response && e.response.status === 400 && e.response.data.connector_name && e.response.data.connector_name[0].includes('connectors with this connector name already exists')){
           setnameErrorMessage(e.response.data.connector_name)
@@ -138,7 +144,7 @@ export default function AddProjectParticipant() {
         else{
           history.push(GetErrorHandlingRoute(e))
         }*/
-      );
+  });
   };
 
   const handleprojectnameKeydown= (e) => {

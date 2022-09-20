@@ -262,7 +262,7 @@ export default function ParticipantAccountSetting(props) {
   return (
     <div className="participantAccountSetting">
       {isLoader ? <Loader /> : ""}
-      <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
+      <div noValidate autoComplete="off" >
         <Row>
           <span className="title">Account settings</span>
         </Row>
@@ -399,7 +399,8 @@ export default function ParticipantAccountSetting(props) {
             accfirstnamebtn &&
             file != null &&
             accnumberbtn ? (
-              <Button variant="contained" className="submitbtn" type="submit">
+              <Button  onClick={handleAccountSettingSubmit}
+              variant="contained" className="submitbtn" type="submit">
                 {screenlabels.common.submit}
               </Button>
             ) : (
@@ -421,7 +422,7 @@ export default function ParticipantAccountSetting(props) {
             </Button>
           </Col>
         </Row>
-      </form>
+      </div>
     </div>
   );
 }
