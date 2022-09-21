@@ -568,6 +568,8 @@ overflow: hidden;
 .classForPtag {
 /* border: 1px solid red; */
 /* width: 1000px; */
+margin: 0px auto;
+word-wrap: break-word;
 
 }
 
