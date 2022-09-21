@@ -93,6 +93,7 @@ export default function DepartmentSettingsForm(props) {
             required
             label={screenlabels.department.department_name}
             value={props.departmentname}
+            onKeyDown={props.handledepartnameKeydown}
             onChange={(e) =>
               validateInputField(e.target.value, RegexConstants.city_name)
                 ? props.setdepartmentname(e.target.value)
@@ -115,6 +116,7 @@ export default function DepartmentSettingsForm(props) {
             required
             label={screenlabels.department.description}
             value={props.departmentdescription}
+            onKeyDown={props.handledepartdescriptionKeydown}
             onChange={(e) =>
               validateInputField(e.target.value, RegexConstants.city_name)
                 ? props.setdepartmentdescription(e.target.value)

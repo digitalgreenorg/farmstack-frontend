@@ -460,7 +460,7 @@ export default function OrgRightside(props) {
       {isLoader ? <Loader /> : ""}
       <div className="orgheader">Organisation details</div>
       <div>
-        <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
+        <div noValidate autoComplete="off" >
           <div className="orgname">
             <TextField
               required
@@ -788,7 +788,9 @@ export default function OrgRightside(props) {
             !props.ispincodeerror &&
             Orgdesbtn &&
             props.orgfile ? (
-              <Button variant="contained" className="orgbtn" type="submit">
+              <Button 
+              onClick={props.handleOrgSubmit}
+               variant="contained" className="orgbtn" type="submit">
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
@@ -808,7 +810,7 @@ export default function OrgRightside(props) {
               </Button>
             </div>
           )}
-        </form>
+        </div>
       </div>
       <div className="footerimg1">
         <svg

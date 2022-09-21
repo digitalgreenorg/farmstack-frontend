@@ -296,6 +296,9 @@ export default function EditDatasetParticipant() {
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
+  const handledatasetnameKeydown = (e) => {
+    handleUnwantedSpace(datasetname, e);
+  }
   const handleChangedescription = (e) => {
     console.log(e.target.value);
     setreply(e.target.value);
@@ -309,12 +312,18 @@ export default function EditDatasetParticipant() {
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
+  const handleGeographyKeydown = (e) => {
+    handleUnwantedSpace(Geography, e);
+  }
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
     validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };
+  const handleCropKeydown = (e) => {
+    handleUnwantedSpace(cropdetail, e);
+  }
   const handleChangeFromDate = (newValue) => {
     console.log(newValue);
     settodate(null);
@@ -421,15 +430,15 @@ export default function EditDatasetParticipant() {
               </span>
             </Col>
           </Row>
-          <form
+          <div
             noValidate
-            autoComplete="off"
-            onSubmit={handleEditDatasetSubmit}>
+            autoComplete="off">
             <DataSetForm
               title={"Edit Dataset"}
               reply={reply}
               datasetname={datasetname}
               handleChangedatasetname={handleChangedatasetname}
+              handledatasetnameKeydown={handledatasetnameKeydown}
               handleChangedescription={handleChangedescription}
               handledescriptionKeydown={handledescriptionKeydown}
               Crop_data={Crop_data}
@@ -450,8 +459,10 @@ export default function EditDatasetParticipant() {
               handleChangeResearchData={handleChangeResearchData}
               Geography={Geography}
               handleChangeGeography={handleChangeGeography}
+              handleGeographyKeydown={handleGeographyKeydown}
               cropdetail={cropdetail}
               handleChangecropdetail={handleChangecropdetail}
+              handleCropKeydown={handleCropKeydown}
               Switchchecked={Switchchecked}
               handleChangeSwitch={handleChangeSwitch}
               value={value}
@@ -497,7 +508,7 @@ export default function EditDatasetParticipant() {
                   Weather_data == true ||
                   Research_data) ? (
                   <Button
-                    //   onClick={() => addNewParticipants()}
+                    onClick={handleEditDatasetSubmit}
                     variant="contained"
                     className="submitbtn"
                     type="submit">
@@ -524,7 +535,7 @@ export default function EditDatasetParticipant() {
                 </Button>
               </Col>
             </Row>
-          </form>
+          </div>
         </>
       )}
     </>

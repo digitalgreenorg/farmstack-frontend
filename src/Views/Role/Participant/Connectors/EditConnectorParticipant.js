@@ -430,10 +430,10 @@ export default function EditConnectorParticipant() {
           imageText={"Success!"}
           msg={"The connector configuration is saved successfully. "}></Success>
       ) : (
-        <form
+        <div
           noValidate
           autoComplete="off"
-          onSubmit={handleEditConnectorSubmit}>
+          >
           <ConnectorForm
             title={"Update connector"}
             connector={connector}
@@ -482,7 +482,7 @@ export default function EditConnectorParticipant() {
               port &&
               file ? (
                 <Button
-                  //   onClick={() => addNewParticipants()}
+                  onClick={handleEditConnectorSubmit}
                   variant="contained"
                   className="submitbtn"
                   type="submit">
@@ -509,7 +509,7 @@ export default function EditConnectorParticipant() {
               </Button>
             </Col>
           </Row>
-        </form>
+        </div>
       )}
     </>
   );
