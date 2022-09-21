@@ -180,9 +180,6 @@ export default function OrgRightside(props) {
   const [Orgdesbtn, setOrgdesbtn] = useState(false);
 
   const handleOrgDesChange = (value) => {
-    console.log("&&(*&&*&*&**&**(**&*&&^*%*%**^*%^")
-    console.log(value.getEditorState().getCurrentContent())
-
     setEditorValue(value);
     setorgdesc(value.toString("html"));
     console.log(value.toString("html"));
@@ -460,7 +457,7 @@ export default function OrgRightside(props) {
       {isLoader ? <Loader /> : ""}
       <div className="orgheader">Organisation details</div>
       <div>
-        <div noValidate autoComplete="off" >
+        <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
           <div className="orgname">
             <TextField
               required
@@ -788,9 +785,7 @@ export default function OrgRightside(props) {
             !props.ispincodeerror &&
             Orgdesbtn &&
             props.orgfile ? (
-              <Button 
-              onClick={props.handleOrgSubmit}
-               variant="contained" className="orgbtn" type="submit">
+              <Button variant="contained" className="orgbtn" type="submit">
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
@@ -810,7 +805,7 @@ export default function OrgRightside(props) {
               </Button>
             </div>
           )}
-        </div>
+        </form>
       </div>
       <div className="footerimg1">
         <svg
