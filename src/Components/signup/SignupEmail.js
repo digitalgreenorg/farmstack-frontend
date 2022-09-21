@@ -51,7 +51,6 @@ export default function SignupEmail(props) {
           error={props.iserror || props.isuserSuspenderror}
           helperText={(props.iserror || props.isuserSuspenderror) ? props.errormessage : ""}
         />
-       
         <div>
           {props.button ? (
             <Button variant="contained" className="Signupbtn" type="submit">

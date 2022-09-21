@@ -757,7 +757,7 @@ export default function ParticipantOrganisationSetting(props) {
         </Row>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="invite-participant-text-editor orgrte">
+            <div className="invite-participant-text-editor orgrte" style={{display:"flex", flexDirection:"column"}}>
               <RichTextEditor
                 toolbarConfig={toolbarConfig}
                 value={editorValue}
@@ -775,9 +775,12 @@ export default function ParticipantOrganisationSetting(props) {
                   border: "1px solid black",
                   //   zIndex: 4,
                 }}
-                error={orgDescriptionErrorMessage ? true : false}
-                helperText={orgDescriptionErrorMessage}
+                // error={orgDescriptionErrorMessage ? true : false}
+                // helperText={orgDescriptionErrorMessage}
               />
+                <span style={{color:"#ff3d00",textAlign:"left", fontFamily:"Open Sans", fontStyle:"normal", fontWeight:"400", fontSize:"12px", lineHeight:"16px"}}>
+                   {orgDescriptionErrorMessage ? orgDescriptionErrorMessage : ""}
+                </span>
             </div>
           </Col>
         </Row>
