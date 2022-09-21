@@ -88,10 +88,10 @@ export default function AddDataset(props) {
 
   const handleAddDatasetSubmit = (e) => {
     e.preventDefault();
-    console.log("clicked on add dataset submit btn");
+    console.log("clicked on add dataset submit btn11");
     var id = getUserMapId();
     console.log("user id", id);
-
+    console.log("CHekckmkmc", fromdate, todate)
     setnameErrorMessage(null); 
     setDescriptionErrorMessage(null);
     setCategoryErrorMessage(null);
