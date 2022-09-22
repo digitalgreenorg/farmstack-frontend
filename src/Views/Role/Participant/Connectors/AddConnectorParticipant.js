@@ -366,7 +366,7 @@ export default function AddConnectorParticipant() {
             "The connector configuration is saved successfully and a request for a certificate has been sent to the admin. You may receive the certificate via email soon. "
           }></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+        <div noValidate autoComplete="off">
           <ConnectorForm
             title={"Configure a new connector"}
             connector={connector}
@@ -415,7 +415,7 @@ export default function AddConnectorParticipant() {
               port ? (
                 <Button
                   style={useStyles.marginrowtop}
-                  //   onClick={() => addNewParticipants()}
+                  onClick={handleAddDatasetSubmit}
                   variant="contained"
                   className="submitbtn"
                   type="submit">
@@ -442,7 +442,7 @@ export default function AddConnectorParticipant() {
               </Button>
             </Col>
           </Row>
-        </form>
+        </div>
       )}
     </>
   );

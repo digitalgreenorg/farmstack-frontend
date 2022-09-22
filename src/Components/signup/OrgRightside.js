@@ -655,7 +655,7 @@ export default function OrgRightside(props) {
               helperText={props.ispincodeerror ? "Enter vaild pin code" : ""}
             />
           </div>
-          <div className="orgdes">
+          <div className="orgdes" >
             {/* <DefaultEditor value={html} onChange={onChange} /> */}
             {/* <Editor
               toolbarClassName="toolbarClassName"
@@ -683,7 +683,7 @@ export default function OrgRightside(props) {
                 ],
               }}
             /> */}
-            <p className="orgdestitle">
+            <p className="orgdestitle" style={{position:"relative"}}>
               Organisation description<sup>*</sup>
             </p>
             <RichTextEditor
@@ -702,9 +702,15 @@ export default function OrgRightside(props) {
                 border: "1px solid black",
                 zIndex: 4,
               }}
-              error={props.orgDescriptionErrorMessage ? true : false}
-              helperText={props.orgDescriptionErrorMessage}
+              // error={props.orgDescriptionErrorMessage ? true : false}
+              // helperText={props.orgDescriptionErrorMessage}
             />
+            
+            <span style={{position:"absolute",bottom:"-150px", left:"0px",color:"#ff3d00",textAlign:"left",minWidth:"420px", fontFamily:"Open Sans", fontStyle:"normal", fontWeight:"400", fontSize:"12px", lineHeight:"16px"}}>
+              {props.orgDescriptionErrorMessage ? props.orgDescriptionErrorMessage : ""}
+            </span>
+             {/* <TextField style={{width:"100%",position:"absolute", bottom:"-145px",left:0, zIndex:"100", outline:"none", border:"none",}} error={props.orgDescriptionErrorMessage ? true : false} helperText={props.orgDescriptionErrorMessage}>
+                  </TextField> */}
           </div>
           {/* <div className="filesupload">
           <p className="uploadheader">Upload logo</p>
@@ -781,7 +787,7 @@ export default function OrgRightside(props) {
             props.orgfile ? (
               <Button 
               onClick={props.handleOrgSubmit}
-               variant="contained" className="orgbtn" type="submit">
+              variant="contained" className="orgbtn" type="submit">
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
