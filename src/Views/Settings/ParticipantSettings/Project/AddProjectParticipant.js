@@ -96,6 +96,7 @@ export default function AddProjectParticipant() {
     bodyFormData.append(" project_discription", description);
     bodyFormData.append("department", department);
     bodyFormData.append("project_name", project);
+    bodyFormData.append("organization", getOrgLocal());
     console.log("Form Data", bodyFormData);
 
     await HTTPService(
