@@ -64,7 +64,7 @@ function AddParticipants(props) {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
     return res !== null;
   };
-  const isValidUrl = (string) => {
+  const isValidCapsUrl = (string) => {
     var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
     return res1 !== null;
   }
@@ -177,7 +177,7 @@ function AddParticipants(props) {
               websitelink={websitelink}
               setwebsitelink={(ref) => {
                 setwebsitelink(ref);
-                setwebsitelinkerror(!isValidURL(ref) && !isValidUrl(ref));
+                setwebsitelinkerror(!isValidURL(ref) && !isValidCapsUrl(ref));
               }}
               iswebsitelinkrerror={iswebsitelinkrerror}
               organisationaddress={organisationaddress}
