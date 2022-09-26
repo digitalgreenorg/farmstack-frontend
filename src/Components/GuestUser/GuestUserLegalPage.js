@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import parse from "html-react-parser";
 import labels from "../../Constants/labels";
 import { downloadAttachment, toTitleCase } from "../../Utils/Common";
+import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
 export default function GuestUserLegalPage({ legalData }) {
   const [value, setValue] = React.useState(1);
   const history = useHistory();
@@ -93,6 +94,7 @@ export default function GuestUserLegalPage({ legalData }) {
               indicatorColor="#C09507"
             >
               {legalData.map((eachLegalPolicy, index) => (
+                eachLegalPolicy.content && eachLegalPolicy.download ? 
                 <Tab
                   sx={{
                     minWidth: "220px",
@@ -103,12 +105,13 @@ export default function GuestUserLegalPage({ legalData }) {
                   }}
                   label={(eachLegalPolicy.title)}
                   value={index + 1}
-                />
+                /> : ""
               ))}
             </TabList>
           </Box>
           <div style={{ marginTop: "50px" }}>
             {legalData.map((eachLegalPolicy, index) => (
+             eachLegalPolicy.content && eachLegalPolicy.download ? 
               <TabPanel sx={{ padding: "0", margin: "0" }} value={index + 1}>
                 <div
                   style={{
@@ -192,7 +195,7 @@ export default function GuestUserLegalPage({ legalData }) {
                       </a>
                     </div>
                   </div>
-                  <div
+                 {eachLegalPolicy.content ? <div
                     style={{
                       fontWeight: "400",
                       fontSize: "14px",
@@ -203,9 +206,11 @@ export default function GuestUserLegalPage({ legalData }) {
                     {" "}
                     {parse(`${eachLegalPolicy.content}`)}
                     {console.log(eachLegalPolicy.content, "eachLegalPolicy.content")}
-                  </div>
+                  </div> : ""} 
+                  
                 </div>
               </TabPanel>
+              : index ==0 ? <div style={{margin:"auto", display:"inline-block"}}><NoDataAvailable/></div>  : ""
             ))}
           </div>
         </TabContext>

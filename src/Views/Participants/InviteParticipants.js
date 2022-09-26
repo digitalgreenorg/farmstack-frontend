@@ -150,8 +150,6 @@ function InviteParticipants(props) {
                 </Row>
                 <Row style={useStyles.marginrowtop}>
                     <Col xs={12} sm={12} md={12} lg={12}  className="invite-participant-text-editor">
-                        <div style={{display:"flex", flexDirection:"column"}}>
-
                         <RichTextEditor
                             toolbarConfig={toolbarConfig}
                             value={editorValue}
@@ -172,11 +170,7 @@ function InviteParticipants(props) {
                             }}
                             error = {setDescriptionErrorMessage ? true : false}
                             helperText = {setDescriptionErrorMessage}
-                            />
-                          <span style={{color:"#ff3d00",textAlign:"left", fontFamily:"Open Sans", fontStyle:"normal", fontWeight:"400", fontSize:"12px", lineHeight:"16px"}}>
-                            {descriptionErrorMessage ? descriptionErrorMessage : ""}
-                             </span>
-                            </div>
+                        />
                     </Col>
                 </Row>
                 <Row style={{ "margin-top": "20px" }}>
