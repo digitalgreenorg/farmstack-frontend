@@ -894,7 +894,7 @@ export default function PoliciesRightside(props) {
             </Button>
           )}
         </div>
-        <div>
+        {/* <div>
           <Button
             variant="outlined"
             className="finishlaterpoliciesbtn"
@@ -902,7 +902,7 @@ export default function PoliciesRightside(props) {
             onClick={finishLaterPoliciesScreen}>
             Finish later
           </Button>
-        </div>
+        </div> */}
       </form>
       <div className="footerimg2">
         <svg

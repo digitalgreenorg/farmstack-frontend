@@ -531,6 +531,7 @@ export default function OrgRightside(props) {
           </div>
           <div className="orgnumber">
             <MuiPhoneNumber
+              required
               defaultCountry={"in"}
               countryCodeEditable={false}
               style={{ width: "420px" }}
@@ -638,17 +639,22 @@ export default function OrgRightside(props) {
                   : props.setispincodeerror(false)
               }
               onKeyDown={(e) => {
-                if (e.key == "-" || e.key == "e" || e.key == "E" || e.key == "+") {
+                if (
+                  e.key == "-" ||
+                  e.key == "e" ||
+                  e.key == "E" ||
+                  e.key == "+"
+                ) {
                   e.preventDefault();
                 }
               }}
-              onChange={(e) =>{
-                if (e.target.value.length > 10) e.target.value = e.target.value.substring(0,10);
+              onChange={(e) => {
+                if (e.target.value.length > 10)
+                  e.target.value = e.target.value.substring(0, 10);
                 validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
                   ? props.setOrgPincode(e.target.value.trim())
-                  : e.preventDefault()
-                }
-              }
+                  : e.preventDefault();
+              }}
               // onChange={props.handlepincode}
               // inputRef={props.pincode}
               error={props.ispincodeerror}
@@ -773,6 +779,7 @@ export default function OrgRightside(props) {
               <span className="signupbtnname">Next</span>
             </Button> */}
             {props.orgName &&
+            props.validOrgNumber &&
             !props.isOrgnameerror &&
             props.Orgemailbtn &&
             !props.isOrgmailerror &&
