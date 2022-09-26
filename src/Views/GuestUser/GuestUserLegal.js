@@ -36,7 +36,7 @@ export default function GuestUserLegal(props){
             setIsLoader(true)
             HTTPService(
                 "GET",
-                UrlConstant.base_url + UrlConstant.microsite_legal_documents,
+                UrlConstant.base_url_without_slash + UrlConstant.microsite_legal_documents,
                 // "https://1eb8-106-51-85-143.in.ngrok.io/microsite/legal_documents/",
                 "",
                 false,
@@ -45,7 +45,7 @@ export default function GuestUserLegal(props){
                 .then((response) => {
                   console.log(response, "updated responmse")
                   response = response.data
-                 
+                  
 
    
     // console.log(arr)
@@ -57,13 +57,14 @@ export default function GuestUserLegal(props){
 
                   let arr = [
                       
-                      {title:"Governing laws", content:response.Content.governing_law, download:response.Documents.governing_law},
-                      {title:"Warranties", content:response.Content.warranty, download:response.Documents.warranty},
-                      {title:"Limitation of liabilities", content:response.Content.limitations_of_liabilities, download:response.Documents.limitations_of_liabilities},
-                      {title:"Policy", content:response.Content.privacy_policy, download:response.Documents.privacy_policy},
-                      {title:"Terms of use", content:response.Content.tos, download: response.Documents.tos},
+                      {title:"Governing laws", content:response.content.governing_law, download:response.documents.governing_law},
+                      {title:"Warranties", content:response.content.warranty, download:response.documents.warranty},
+                      {title:"Limitation of liabilities", content:response.content.limitations_of_liabilities, download:response.documents.limitations_of_liabilities},
+                      {title:"Policy", content:response.content.privacy_policy, download:response.documents.privacy_policy},
+                      {title:"Terms of use", content:response.content.tos, download: response.documents.tos},
                       
                   ]
+                  console.log(arr, "ARRRRR")
                   setLegalData([...arr])
 
                   setIsLoader(false);
