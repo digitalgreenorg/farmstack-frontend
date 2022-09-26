@@ -14,9 +14,11 @@ import RichTextEditor from "react-rte";
 import { FileUploader } from "react-drag-drop-files";
 // import UploadBanner from "../../../Components/signup/UploadBanner";
 import UploadOrgBanner from "./UploadOrgBanner";
-
+import { FormHelperText } from '@mui/material';
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
+import parse from 'html-react-parser'
+
 import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
@@ -61,6 +63,7 @@ export default function OrganisationSetting(props) {
   // const [textEditorValue, settextEditorValue] = useState("");
 
   // const [validOrgNumber, setValidOrgnumber] = useState("");
+  const [sec, setSec] = useState("")
   const [orgfile, setorgfile] = useState(null);
 
   // const Orgname = useRef();
@@ -406,7 +409,9 @@ export default function OrganisationSetting(props) {
     e.target.value = e.target.value.trim();
     setOrgWebsite(e.target.value);
     setisOrgWebsiteerror(
-      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX)
+      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX) 
+      &&
+      !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX)
     );
   };
 
@@ -491,6 +496,13 @@ export default function OrganisationSetting(props) {
 
   //   org des
   const handleOrgDesChange = (value) => {
+    // console.log((parse(value.toString("html")).props.children).length)
+
+    // setSec(value)
+    // if((parse(value.toString("html")).props.children).length > 512){
+    //   console.log("inside")
+    //   return
+    // }
     setEditorValue(value);
     setorgdesc(value.toString("html"));
     console.log(value.toString("html"));
@@ -539,7 +551,7 @@ export default function OrganisationSetting(props) {
   return (
     <div className="orgsetting">
       {isLoader ? <Loader /> : ""}
-      <form noValidate autoComplete="off" onSubmit={handleOrgSettingSubmit}>
+      <div noValidate autoComplete="off" >
         <Row>
           <span className="title">Organisation details</span>
         </Row>
@@ -713,13 +725,13 @@ export default function OrganisationSetting(props) {
             </span>
           </Col>
         </Row>
-        <Row>
+        <Row >
           <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="invite-participant-text-editor orgrte">
+            <div style={{display:"flex", flexDirection:"column"}} className="invite-participant-text-editor orgrte">
+
               <RichTextEditor
                 toolbarConfig={toolbarConfig}
                 value={editorValue}
-                // value={orgdesc}
                 onChange={handleOrgDesChange}
                 required
                 id="body-text"
@@ -731,11 +743,15 @@ export default function OrganisationSetting(props) {
                   minHeight: 410,
                   //   width: 420,
                   border: "1px solid black",
-                  //   zIndex: 4,
+                  // zIndex: 11,
                 }}
-                error={orgDescriptionErrorMessage ? true : false}
-                helperText={orgDescriptionErrorMessage}
-              />
+                
+                />
+               <span style={{color:"#ff3d00",textAlign:"left", fontFamily:"Open Sans", fontStyle:"normal", fontWeight:"400", fontSize:"12px", lineHeight:"16px"}}>
+              {orgDescriptionErrorMessage ? orgDescriptionErrorMessage : ""}
+            </span>
+                {/* <TextField style={{width:"100%",position:"absolute", bottom:"-19px", left:"0" , outline:"none", border:"none",}} error={orgDescriptionErrorMessage ? true : false} helperText={orgDescriptionErrorMessage}>
+                  </TextField> */}
             </div>
           </Col>
         </Row>
@@ -797,7 +813,9 @@ export default function OrganisationSetting(props) {
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
-              <Button variant="contained" className="submitbtn" type="submit">
+              <Button 
+              onClick={handleOrgSettingSubmit}
+               variant="contained" className="submitbtn" type="submit">
                 <span className="signupbtnname" style={{textTransform:"none"}}>Submit</span>
               </Button>
             ) : (
@@ -820,7 +838,7 @@ export default function OrganisationSetting(props) {
             </Button>
           </Col>
         </Row>
-      </form>
+      </div>
     </div>
   );
 }

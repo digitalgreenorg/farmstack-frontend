@@ -408,7 +408,8 @@ export default function ParticipantOrganisationSetting(props) {
     e.target.value = e.target.value.trim();
     setOrgWebsite(e.target.value);
     setisOrgWebsiteerror(
-      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX)
+      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX)&&
+      !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX)
     );
   };
 // const handleOrgWebsite = (e) => {
@@ -559,7 +560,7 @@ export default function ParticipantOrganisationSetting(props) {
   return (
     <div className="participantOrgSetting">
       {isLoader ? <Loader /> : ""}
-      <form noValidate autoComplete="off" onSubmit={handleOrgSettingSubmit}>
+      <div noValidate autoComplete="off" >
         <Row>
           <span className="title">Organisation details</span>
         </Row>
@@ -757,7 +758,7 @@ export default function ParticipantOrganisationSetting(props) {
         </Row>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
-            <div className="invite-participant-text-editor orgrte">
+            <div className="invite-participant-text-editor orgrte" style={{display:"flex", flexDirection:"column"}}>
               <RichTextEditor
                 toolbarConfig={toolbarConfig}
                 value={editorValue}
@@ -775,9 +776,12 @@ export default function ParticipantOrganisationSetting(props) {
                   border: "1px solid black",
                   //   zIndex: 4,
                 }}
-                error={orgDescriptionErrorMessage ? true : false}
-                helperText={orgDescriptionErrorMessage}
+                // error={orgDescriptionErrorMessage ? true : false}
+                // helperText={orgDescriptionErrorMessage}
               />
+                <span style={{color:"#ff3d00",textAlign:"left", fontFamily:"Open Sans", fontStyle:"normal", fontWeight:"400", fontSize:"12px", lineHeight:"16px"}}>
+                   {orgDescriptionErrorMessage ? orgDescriptionErrorMessage : ""}
+                </span>
             </div>
           </Col>
         </Row>
@@ -844,7 +848,9 @@ export default function ParticipantOrganisationSetting(props) {
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
-              <Button variant="contained" className="submitbtn" type="submit">
+              <Button 
+              onClick={handleOrgSettingSubmit}
+              variant="contained" className="submitbtn" type="submit">
                 <span className="signupbtnname">Submit</span>
               </Button>
             ) : (
@@ -866,7 +872,7 @@ export default function ParticipantOrganisationSetting(props) {
             </Button>
           </Col>
         </Row>
-      </form>
+      </div>
     </div>
   );
 }

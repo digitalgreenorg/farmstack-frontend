@@ -48,6 +48,9 @@ export default function AddProjectParticipant() {
   const history = useHistory();
 
   const [department_variable, setdepartment_variable] = React.useState([]);
+  const [nameErrorMessage, setnameErrorMessage] = useState(null)
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
+
 
   const handleChangeDepartment = (event) => {
     console.log(event.target.value);
@@ -93,6 +96,7 @@ export default function AddProjectParticipant() {
     bodyFormData.append(" project_discription", description);
     bodyFormData.append("department", department);
     bodyFormData.append("project_name", project);
+    bodyFormData.append("organization", getOrgLocal());
     console.log("Form Data", bodyFormData);
 
     await HTTPService(
@@ -115,32 +119,22 @@ export default function AddProjectParticipant() {
         var errorMessages = returnValues[1];
         if (errorKeys.length > 0) {
           for (var i = 0; i < errorKeys.length; i++) {
-            switch (errorKeys[i]) {
-              //    case "connector_name":
-              //      setnameErrorMessage(errorMessages[i]);
-              //      break;
-              //    //case "connector_type": setTypeErrorMessage(errorMessages[i]); break;
-              //    case "connector_description":
-              //      setDescriptionErrorMessage(errorMessages[i]);
-              //      break;
-              //    case "application_port":
-              //      setPortErrorMessage(errorMessages[i]);
-              //      break;
-              //    //case "department": setDepartMentErrorMessage(errorMessages[i]); break;
-              //    case "docker_image_url":
-              //      setDockerErrorMessage(errorMessages[i]);
-              //      break;
-              //case "project": setProjectErrorMessage(errorMessages[i]); break;
-              //case "dataset": setDatasetErrorMessage(errorMessages[i]); break;
-              default:
-                history.push(GetErrorHandlingRoute(e));
-                break;
+            console.log(errorMessages[i], errorKeys[i])
+                // if(errorKeys[i] == "project_name"){
+                //     setnameErrorMessage(errorMessages[i])
+                // }else if(errorKeys[i] == "project_description"){
+                //     setDescriptionErrorMessage(errorMessages[i])
+                // }else{history.push(GetErrorHandlingRoute(e));
+                // }
+                switch (errorKeys[i]) {
+                  case "project_name": setnameErrorMessage(errorMessages[i]); break;
+                  case "project_description": setDescriptionErrorMessage(errorMessages[i]); break;
+                  default: history.push(GetErrorHandlingRoute(e)); break;
             }
           }
         } else {
           history.push(GetErrorHandlingRoute(e));
-        }
-
+      }
         /*
         if (e.response && e.response.status === 400 && e.response.data.connector_name && e.response.data.connector_name[0].includes('connectors with this connector name already exists')){
           setnameErrorMessage(e.response.data.connector_name)
@@ -151,8 +145,15 @@ export default function AddProjectParticipant() {
         else{
           history.push(GetErrorHandlingRoute(e))
         }*/
-      });
+  });
   };
+
+  const handleprojectnameKeydown= (e) => {
+    handleUnwantedSpace(project, e);
+};
+const handleprojectdescriptionKeydown= (e) => {
+    handleUnwantedSpace(description, e)
+}
   //   get Department
   const getDepartmentDetails = async () => {
     // var id = getUserLocal();
@@ -203,7 +204,11 @@ export default function AddProjectParticipant() {
             project={project}
             description={description}
             department_variable={department_variable}
+            nameErrorMessage= {nameErrorMessage}
+            descriptionErrorMessage= {descriptionErrorMessage}
             handleChangeDepartment={handleChangeDepartment}
+            handleprojectnameKeydown={handleprojectnameKeydown}
+            handleprojectdescriptionKeydown={handleprojectdescriptionKeydown}
             handleChangeProject={handleChangeProject}
             handleChangedescription={handleChangedescription}
             handledescriptionKeydown={handledescriptionKeydown}

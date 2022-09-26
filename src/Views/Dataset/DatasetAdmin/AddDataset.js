@@ -88,10 +88,10 @@ export default function AddDataset(props) {
 
   const handleAddDatasetSubmit = (e) => {
     e.preventDefault();
-    console.log("clicked on add dataset submit btn");
+    console.log("clicked on add dataset submit btn11");
     var id = getUserMapId();
     console.log("user id", id);
-
+    console.log("CHekckmkmc", fromdate, todate)
     setnameErrorMessage(null); 
     setDescriptionErrorMessage(null);
     setCategoryErrorMessage(null);
@@ -209,13 +209,16 @@ export default function AddDataset(props) {
     setfileValid("");
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
+  const handledatasetnameKeydown = (e) => {
+    handleUnwantedSpace(datasetname, e);
+  }
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setreply(e.target.value)
       : e.preventDefault();
   };
@@ -224,16 +227,23 @@ export default function AddDataset(props) {
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.GEO_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
+  const handleGeographyKeydown = (e) => {
+    handleUnwantedSpace(Geography, e);
+  }
+ 
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
   };
+  const handleCropKeydown = (e) => {
+    handleUnwantedSpace(cropdetail, e);
+  }
   const handleChangeFromDate = (newValue) => {
     console.log(newValue);
     settodate(null);
@@ -316,16 +326,18 @@ export default function AddDataset(props) {
           imageText={"Added Successfully!"}
           msg={"Your dataset added in database."}></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+        <div noValidate autoComplete="off">
           <DataSetForm
             title={"Add Dataset"}
             reply={reply}
             datasetname={datasetname}
             handleChangedatasetname={handleChangedatasetname}
+            handledatasetnameKeydown={handledatasetnameKeydown}
             handleChangedescription={handleChangedescription}
             handledescriptionKeydown={handledescriptionKeydown}
             Crop_data={Crop_data}
             handleChangeCropData={handleChangeCropData}
+            handleCropKeydown={handleCropKeydown}
             Practice_data={Practice_data}
             handleChangePracticeData={handleChangePracticeData}
             Farmer_profile={Farmer_profile}
@@ -342,6 +354,7 @@ export default function AddDataset(props) {
             handleChangeResearchData={handleChangeResearchData}
             Geography={Geography}
             handleChangeGeography={handleChangeGeography}
+            handleGeographyKeydown={handleGeographyKeydown}
             cropdetail={cropdetail}
             handleChangecropdetail={handleChangecropdetail}
             Switchchecked={Switchchecked}
@@ -387,7 +400,7 @@ export default function AddDataset(props) {
                 Weather_data == true ||
                 Research_data) ? (
                 <Button
-                  //   onClick={() => addNewParticipants()}
+                  onClick={handleAddDatasetSubmit}
                   variant="contained"
                   className="submitbtn"
                   type="submit">
@@ -414,7 +427,7 @@ export default function AddDataset(props) {
               </Button>
             </Col>
           </Row>
-        </form>
+        </div>
       )}
     </>
   );
