@@ -5,7 +5,8 @@ import NoDataAvailable from '../NoDataAvailable/NoDataAvailable';
 import SliderCard from './SliderCard';
 import styles from "./supportRequest.module.css"
 // import Dummy from "../../../Assets/Img/dummy.png";
-
+import back from "../../../Assets/Img/back.png"
+import next from "../../../Assets/Img/next.png"
 function CarouselSupportRequest({supportRequestData}) {
     // console.log(first)
     const [ticketDetails, setTicketDetails] = useState(null)
@@ -26,7 +27,7 @@ function CarouselSupportRequest({supportRequestData}) {
   return (<div className={styles.my__carousel_main}>
 
 {supportRequestDatafinal.length > 0 ? 
-    <Carousel controls={false} indicators={true} >
+    <Carousel controls={true} indicators={true} >
       {supportRequestDatafinal ? 
         supportRequestDatafinal.map((supportRequestDataEach)=>(<Carousel.Item>
          <SliderCard ticketDetails={ticketDetails}  supportRequestData={supportRequestDataEach}/> 
@@ -38,7 +39,12 @@ function CarouselSupportRequest({supportRequestData}) {
         )
         
        : ""}
+       
         </Carousel> : <NoDataAvailable/> }
+        {/* <div style={{display:"flex",zIndex:11, justifyContent:"space-around", width:"200px",margin:"auto", position:"absolute",  bottom:"5px", left:"318px", transform:"translate(-50%, 0%)"}}>
+        <div style={{cursor:"pointer"}}><img  src={back} alt=""/></div>
+        <div style={{cursor:"pointer"}}><img  src={next} alt=""/></div>
+      </div> */}
         </div>
   );
 }
