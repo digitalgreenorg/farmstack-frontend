@@ -572,6 +572,55 @@ margin: 0px auto;
 word-wrap: break-word;
 
 }
+.carousel-indicators {
+  position: absolute;
+  right: 0px;
+  bottom: 0;
+  left: 173px !important;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  margin-right: 15%;
+  margin-left: 15%;
+  list-style: none;
+  width: 72px !important;
+  /* border: 1px solid red; */
+}
+.carousel-control-next, .carousel-control-prev {
+z-index: 200 !important;
+ /* border: 1px solid red; */
+}
+.carousel-control-next{
+  right: 241px !important;
+  height: 200px !important;
+  top: 271px !important;
+  height: 30px !important;
+  width: 30px !important;
+  background-image: url("../Img/next.png");
+  background-repeat: no-repeat;
+  background-position:center !important ;
+
+}
+.carousel-control-prev{
+    background-image: url("../Img/back.png");
+    background-repeat: no-repeat;
+    left: 240px !important;
+    height: 200px !important;
+    top: 271px !important;
+    height: 30px !important;
+    width: 30px !important;
+    background-position:center !important ;
+
+}
+.carousel-control-prev-icon{
+   display: none !important;
+  }
+  .carousel-control-next-icon{
+  display: none !important;
+  
+}
+
 
 
 .cardheaderTitlespecifier .css-et1ao3-MuiTypography-root{
