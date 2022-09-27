@@ -3,8 +3,10 @@
     flex-direction: column;
     justify-content: left;
     text-align: left;
+    /* border: 1px solid red; */
 
 }
+
 .supportRequestDetailTopThreeBlocks{
     display: flex;
     justify-content: space-between;
