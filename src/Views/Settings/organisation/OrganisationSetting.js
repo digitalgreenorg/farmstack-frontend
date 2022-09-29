@@ -14,10 +14,10 @@ import RichTextEditor from "react-rte";
 import { FileUploader } from "react-drag-drop-files";
 // import UploadBanner from "../../../Components/signup/UploadBanner";
 import UploadOrgBanner from "./UploadOrgBanner";
-import { FormHelperText } from '@mui/material';
+import { FormHelperText } from "@mui/material";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import parse from 'html-react-parser'
+import parse from "html-react-parser";
 
 import HandleSessionTimeout, {
   setTokenLocal,
@@ -63,7 +63,7 @@ export default function OrganisationSetting(props) {
   // const [textEditorValue, settextEditorValue] = useState("");
 
   // const [validOrgNumber, setValidOrgnumber] = useState("");
-  const [sec, setSec] = useState("")
+  const [sec, setSec] = useState("");
   const [orgfile, setorgfile] = useState(null);
 
   // const Orgname = useRef();
@@ -409,7 +409,8 @@ export default function OrganisationSetting(props) {
     e.target.value = e.target.value.trim();
     setOrgWebsite(e.target.value);
     setisOrgWebsiteerror(
-      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX)
+      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX) &&
+        !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX)
     );
   };
 
@@ -455,7 +456,7 @@ export default function OrganisationSetting(props) {
 
   const handlepincode = (e) => {
     console.log(e.target.value);
-    if (e.target.value > 10) e.target.value = e.target.value.substring(0,10)
+    if (e.target.value > 10) e.target.value = e.target.value.substring(0, 10);
     var pincode = e.target.value;
     if (pincode.length > 0) {
       setispincodeerror(false);
@@ -549,7 +550,7 @@ export default function OrganisationSetting(props) {
   return (
     <div className="orgsetting">
       {isLoader ? <Loader /> : ""}
-      <div noValidate autoComplete="off" >
+      <div noValidate autoComplete="off">
         <Row>
           <span className="title">Organisation details</span>
         </Row>
@@ -617,6 +618,7 @@ export default function OrganisationSetting(props) {
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
             <MuiPhoneNumber
+              required
               defaultCountry={"in"}
               countryCodeEditable={false}
               //   value={phonenumber}
@@ -703,7 +705,12 @@ export default function OrganisationSetting(props) {
               className="email"
               label={screenlabels.org_settings.pincode}
               onKeyDown={(e) => {
-                if (e.key == "-" || e.key == "e" || e.key == "E" || e.key == "+") {
+                if (
+                  e.key == "-" ||
+                  e.key == "e" ||
+                  e.key == "E" ||
+                  e.key == "+"
+                ) {
                   e.preventDefault();
                 }
               }}
@@ -723,10 +730,11 @@ export default function OrganisationSetting(props) {
             </span>
           </Col>
         </Row>
-        <Row >
+        <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
-            <div style={{display:"flex", flexDirection:"column"}} className="invite-participant-text-editor orgrte">
-
+            <div
+              style={{ display: "flex", flexDirection: "column" }}
+              className="invite-participant-text-editor orgrte">
               <RichTextEditor
                 toolbarConfig={toolbarConfig}
                 value={editorValue}
@@ -743,12 +751,20 @@ export default function OrganisationSetting(props) {
                   border: "1px solid black",
                   // zIndex: 11,
                 }}
-                
-                />
-               <span style={{color:"#ff3d00",textAlign:"left", fontFamily:"Open Sans", fontStyle:"normal", fontWeight:"400", fontSize:"12px", lineHeight:"16px"}}>
-              {orgDescriptionErrorMessage ? orgDescriptionErrorMessage : ""}
-            </span>
-                {/* <TextField style={{width:"100%",position:"absolute", bottom:"-19px", left:"0" , outline:"none", border:"none",}} error={orgDescriptionErrorMessage ? true : false} helperText={orgDescriptionErrorMessage}>
+              />
+              <span
+                style={{
+                  color: "#ff3d00",
+                  textAlign: "left",
+                  fontFamily: "Open Sans",
+                  fontStyle: "normal",
+                  fontWeight: "400",
+                  fontSize: "12px",
+                  lineHeight: "16px",
+                }}>
+                {orgDescriptionErrorMessage ? orgDescriptionErrorMessage : ""}
+              </span>
+              {/* <TextField style={{width:"100%",position:"absolute", bottom:"-19px", left:"0" , outline:"none", border:"none",}} error={orgDescriptionErrorMessage ? true : false} helperText={orgDescriptionErrorMessage}>
                   </TextField> */}
             </div>
           </Col>
@@ -808,16 +824,27 @@ export default function OrganisationSetting(props) {
             !isOrgWebsiteerror &&
             orgfile != null &&
             !orgfilesize &&
+            phonenumber.length > 7 &&
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
-              <Button 
-              onClick={handleOrgSettingSubmit}
-               variant="contained" className="submitbtn" type="submit">
-                <span className="signupbtnname" style={{textTransform:"none"}}>Submit</span>
+              <Button
+                onClick={handleOrgSettingSubmit}
+                variant="contained"
+                className="submitbtn"
+                type="submit">
+                <span
+                  className="signupbtnname"
+                  style={{ textTransform: "none" }}>
+                  Submit
+                </span>
               </Button>
             ) : (
-              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
+              <Button
+                variant="outlined"
+                style={{ textTransform: "none" }}
+                disabled
+                className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
@@ -830,7 +857,7 @@ export default function OrganisationSetting(props) {
               variant="outlined"
               className="cancelbtn"
               type="button"
-              style={{textTransform:"none"}}
+              style={{ textTransform: "none" }}
               onClick={orgsettingcancelbtn}>
               Cancel
             </Button>

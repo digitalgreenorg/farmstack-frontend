@@ -768,7 +768,7 @@ export default function PolicySettings(props) {
               children={
                 <UploadPolicyFile
                   uploaddes="Supports: .doc, .pdf not more than 2MB file size"
-                  uploadtitle="Upload governing laws (Optional)"
+                  uploadtitle="Upload governing laws (Required)"
                 />
               }
             />
@@ -846,7 +846,7 @@ export default function PolicySettings(props) {
               children={
                 <UploadPolicyFile
                   uploaddes="Supports: .doc, .pdf not more than 2MB file size"
-                  uploadtitle="Upload warranties (Optional) "
+                  uploadtitle="Upload warranties (Required) "
                 />
               }
               // maxSize={2}
@@ -923,7 +923,7 @@ export default function PolicySettings(props) {
               children={
                 <UploadPolicyFile
                   uploaddes="Supports: .doc, .pdf not more than 2MB file size"
-                  uploadtitle="Upload limitations of liabilities (Optional) "
+                  uploadtitle="Upload limitations of liabilities (Required) "
                 />
               }
               // maxSize={2}
@@ -1003,7 +1003,7 @@ export default function PolicySettings(props) {
               children={
                 <UploadPolicyFile
                   uploaddes="Supports: .doc, .pdf not more than 2MB file size"
-                  uploadtitle="Upload privacy policy (Optional) "
+                  uploadtitle="Upload privacy policy (Required) "
                 />
               }
               // maxSize={2}
@@ -1079,7 +1079,7 @@ export default function PolicySettings(props) {
               children={
                 <UploadPolicyFile
                   uploaddes="Supports: .doc, .pdf not more than 2MB file size"
-                  uploadtitle="Upload terms of use (Optional)"
+                  uploadtitle="Upload terms of use (Required)"
                 />
               }
               // maxSize={2}
@@ -1142,11 +1142,23 @@ export default function PolicySettings(props) {
             (privacyFile || privacyFileUrl) &&
             editorTermValue.getEditorState().getCurrentContent().hasText() &&
             (termFile || termsFileUrl) ? (
-              <Button variant="contained" style={{textTransform:"none"}} className="submitbtn" type="submit">
-                <span className="signupbtnname" style={{textTransform:"none"}}>Submit</span>
+              <Button
+                variant="contained"
+                style={{ textTransform: "none" }}
+                className="submitbtn"
+                type="submit">
+                <span
+                  className="signupbtnname"
+                  style={{ textTransform: "none" }}>
+                  Submit
+                </span>
               </Button>
             ) : (
-              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
+              <Button
+                variant="outlined"
+                style={{ textTransform: "none" }}
+                disabled
+                className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
@@ -1159,7 +1171,7 @@ export default function PolicySettings(props) {
               variant="outlined"
               className="cancelbtn"
               type="button"
-              style={{textTransform:"none"}}
+              style={{ textTransform: "none" }}
               onClick={policysettingcancelbtn}>
               Cancel
             </Button>

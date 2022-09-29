@@ -457,7 +457,7 @@ export default function OrgRightside(props) {
       {isLoader ? <Loader /> : ""}
       <div className="orgheader">Organisation details</div>
       <div>
-        <div noValidate autoComplete="off" >
+        <div noValidate autoComplete="off">
           <div className="orgname">
             <TextField
               required
@@ -531,6 +531,7 @@ export default function OrgRightside(props) {
           </div>
           <div className="orgnumber">
             <MuiPhoneNumber
+              required
               defaultCountry={"in"}
               countryCodeEditable={false}
               style={{ width: "420px" }}
@@ -638,24 +639,29 @@ export default function OrgRightside(props) {
                   : props.setispincodeerror(false)
               }
               onKeyDown={(e) => {
-                if (e.key == "-" || e.key == "e" || e.key == "E" || e.key == "+") {
+                if (
+                  e.key == "-" ||
+                  e.key == "e" ||
+                  e.key == "E" ||
+                  e.key == "+"
+                ) {
                   e.preventDefault();
                 }
               }}
-              onChange={(e) =>{
-                if (e.target.value.length > 10) e.target.value = e.target.value.substring(0,10);
+              onChange={(e) => {
+                if (e.target.value.length > 10)
+                  e.target.value = e.target.value.substring(0, 10);
                 validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
                   ? props.setOrgPincode(e.target.value.trim())
-                  : e.preventDefault()
-                }
-              }
+                  : e.preventDefault();
+              }}
               // onChange={props.handlepincode}
               // inputRef={props.pincode}
               error={props.ispincodeerror}
               helperText={props.ispincodeerror ? "Enter vaild pin code" : ""}
             />
           </div>
-          <div className="orgdes" >
+          <div className="orgdes">
             {/* <DefaultEditor value={html} onChange={onChange} /> */}
             {/* <Editor
               toolbarClassName="toolbarClassName"
@@ -683,7 +689,7 @@ export default function OrgRightside(props) {
                 ],
               }}
             /> */}
-            <p className="orgdestitle" style={{position:"relative"}}>
+            <p className="orgdestitle" style={{ position: "relative" }}>
               Organisation description<sup>*</sup>
             </p>
             <RichTextEditor
@@ -705,11 +711,26 @@ export default function OrgRightside(props) {
               // error={props.orgDescriptionErrorMessage ? true : false}
               // helperText={props.orgDescriptionErrorMessage}
             />
-            
-            <span style={{position:"absolute",bottom:"-150px", left:"0px",color:"#ff3d00",textAlign:"left",minWidth:"420px", fontFamily:"Open Sans", fontStyle:"normal", fontWeight:"400", fontSize:"12px", lineHeight:"16px"}}>
-              {props.orgDescriptionErrorMessage ? props.orgDescriptionErrorMessage : ""}
+
+            <span
+              style={{
+                position: "absolute",
+                bottom: "-150px",
+                left: "0px",
+                color: "#ff3d00",
+                textAlign: "left",
+                minWidth: "420px",
+                fontFamily: "Open Sans",
+                fontStyle: "normal",
+                fontWeight: "400",
+                fontSize: "12px",
+                lineHeight: "16px",
+              }}>
+              {props.orgDescriptionErrorMessage
+                ? props.orgDescriptionErrorMessage
+                : ""}
             </span>
-             {/* <TextField style={{width:"100%",position:"absolute", bottom:"-145px",left:0, zIndex:"100", outline:"none", border:"none",}} error={props.orgDescriptionErrorMessage ? true : false} helperText={props.orgDescriptionErrorMessage}>
+            {/* <TextField style={{width:"100%",position:"absolute", bottom:"-145px",left:0, zIndex:"100", outline:"none", border:"none",}} error={props.orgDescriptionErrorMessage ? true : false} helperText={props.orgDescriptionErrorMessage}>
                   </TextField> */}
           </div>
           {/* <div className="filesupload">
@@ -773,6 +794,7 @@ export default function OrgRightside(props) {
               <span className="signupbtnname">Next</span>
             </Button> */}
             {props.orgName &&
+            props.validOrgNumber.length > 8 &&
             !props.isOrgnameerror &&
             props.Orgemailbtn &&
             !props.isOrgmailerror &&
@@ -785,9 +807,11 @@ export default function OrgRightside(props) {
             !props.ispincodeerror &&
             Orgdesbtn &&
             props.orgfile ? (
-              <Button 
-              onClick={props.handleOrgSubmit}
-              variant="contained" className="orgbtn" type="submit">
+              <Button
+                onClick={props.handleOrgSubmit}
+                variant="contained"
+                className="orgbtn"
+                type="submit">
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
