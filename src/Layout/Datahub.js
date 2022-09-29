@@ -27,6 +27,7 @@ import Dashboard from "../Views/Dashboard/Dashboard";
 import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
 import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
 import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
+import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -104,6 +105,11 @@ function Datahub(props) {
               exact
               path="/datahub/connectors"
               component={ConnectorParticipant}
+            />
+              <Route
+              exact
+              path="/datahub/connectors/detail"
+              component={DemoDashboardTable}
             />
           </Switch>
           </div>
