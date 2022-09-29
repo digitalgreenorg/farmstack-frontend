@@ -16,6 +16,7 @@ import UploadDataset from "../../Components/Datasets/UploadDataset";
 import Button from "@mui/material/Button";
 import { Tooltip } from "@mui/material";
 import { GetErrorHandlingRoute, getDockerHubURL, openLinkInNewTab } from "../../Utils/Common";
+import { useHistory } from 'react-router-dom';
 const useStyles = {
     datasetdescription: {
         "margin-left": "0px",
@@ -35,6 +36,7 @@ const useStyles = {
     },
 };
 export default function ViewConnectorDetails(props) {
+    const history = useHistory()
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [isLoader, setIsLoader] = useState(false)
 
@@ -360,7 +362,8 @@ export default function ViewConnectorDetails(props) {
                     {props.data['connector_status'] == 'paired'?<Col>
                         <Tooltip title={props.providerdata['ports'] ? UrlConstants.view_data_connector +props.providerdata['ports']['consumer_app']+"/show_data" : ''}>
                             <Row style={useStyles.datasetdescription}>
-                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { openLinkInNewTab(UrlConstants.view_data_connector +props.providerdata['ports']['consumer_app']+"/show_data") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
+                                {/* {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { openLinkInNewTab(UrlConstants.view_data_connector +props.providerdata['ports']['consumer_app']+"/show_data") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>} */}
+                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { history.push("connectors/detail") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
                             </Row>
                         </Tooltip>
                     </Col>:<Col></Col>}
