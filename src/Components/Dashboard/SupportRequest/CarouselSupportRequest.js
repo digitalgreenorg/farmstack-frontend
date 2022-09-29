@@ -41,10 +41,6 @@ function CarouselSupportRequest({supportRequestData}) {
        : ""}
        
         </Carousel> : <NoDataAvailable/> }
-        {/* <div style={{display:"flex",zIndex:11, justifyContent:"space-around", width:"200px",margin:"auto", position:"absolute",  bottom:"5px", left:"318px", transform:"translate(-50%, 0%)"}}>
-        <div style={{cursor:"pointer"}}><img  src={back} alt=""/></div>
-        <div style={{cursor:"pointer"}}><img  src={next} alt=""/></div>
-      </div> */}
         </div>
   );
 }
