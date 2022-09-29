@@ -26,6 +26,8 @@ import BrandingSetting from "../branding/BrandingSetting";
 import HandleSessionTimeout from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../../Utils/Common";
+import DepartmentSettingsCard from "../ParticipantSettings/DepartmentSettingsCard";
+import ProjectListing from "../ParticipantSettings/Project/ProjectListing";
 
 const useStyles = {
   btncolor: {
@@ -67,6 +69,7 @@ const useStyles = {
 };
 
 function Settings(props) {
+  const [getdepartmentList, setgetdepartmentList] = useState([]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [teamMemberList, setteamMemberList] = useState([]);
   const [teampList, setteampList] = useState([]);
@@ -278,6 +281,8 @@ function Settings(props) {
                     <Tab label="Policy settings" value="3" />
                     <Tab label="Team members" value="4" />
                     <Tab label="Customize design" value="5" />
+                    <Tab label="Department" value="6" />
+                    <Tab label="Project" value="7" />
                   </TabList>
                 </Box>
                 <TabPanel value="1">
@@ -372,6 +377,50 @@ function Settings(props) {
                       setisBrandUpdateSuccess(true);
                     }}
                   />
+                </TabPanel>
+                
+                {/* <TabPanel value="6"></TabPanel> */}
+
+                <TabPanel value="6">
+                <Row>
+                    <span style={useStyles.departmentword}>My departments</span>
+                  </Row>
+                  <Row>
+                    <Col
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      lg={4}
+                      style={useStyles.marginrowtop10px}>
+                      <AddCard
+                        firstText={screenlabels.department.firstText}
+                        secondText={screenlabels.department.secondText}
+                        addevent={() =>
+                          history.push("/participant/settings/adddepartment")
+                        }></AddCard>
+                    </Col>
+                    {getdepartmentList.map((each, index) => (
+                      // console.log(each, index)
+                      <Col
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={4}
+                        style={useStyles.marginrowtop10px}>
+                        <DepartmentSettingsCard
+                          id={each.id}
+                          // each={each}
+                          organization={each.organization}
+                          department_name={each.department_name}
+                          departmentdescription={each.department_discription}
+                          index={index}></DepartmentSettingsCard>
+                      </Col>
+                    ))}
+                  </Row>
+
+                </TabPanel> 
+                <TabPanel value="7">
+                  <ProjectListing />
                 </TabPanel>
               </TabContext>
             </Box>

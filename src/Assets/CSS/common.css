@@ -257,7 +257,7 @@ button.submitbtn:hover {
   background: #ffffff;
   text-transform: none !important;
   font-weight: 400 !important;
-  width: 220px;
+  width: 225px;
   border-left: 1px solid #d8af28 !important;
   border-right: 1px solid #d8af28 !important;
   border-top: 1px solid #d8af28 !important;
@@ -267,7 +267,11 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.MuiTabs-root .MuiButtonBase-root{
+  width: 185px !important;
 
+  /* border: 1px solid red !important; */
+}
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
