@@ -267,6 +267,10 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.MuiDataGrid-columnHeaders{
+
+  background-color: #FFDB64 !important;
+}
 .MuiTabs-root .MuiButtonBase-root{
   width: 185px !important;
 

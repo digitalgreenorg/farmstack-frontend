@@ -13,6 +13,7 @@ import {
 } from "../../Utils/Common";
 
 import UrlConstants from "../../Constants/UrlConstants";
+import { useHistory } from "react-router-dom";
 const useStyles = {
   datasetdescription: {
     "margin-left": "0px",
@@ -32,6 +33,8 @@ const useStyles = {
   },
 };
 const PairingRequest = (props) => {
+  const history = useHistory()
+
   //   props = {
   //     connector_name: "Agnext - 1",
   //     connector_type: "Provider",
@@ -335,15 +338,22 @@ const PairingRequest = (props) => {
                   {props.data["ports"]["consumer_app"] ? (
                     <span
                       className="thirdmainheading dockerImageURL"
-                      onClick={() => {
-                        openLinkInNewTab(
-                          UrlConstants.view_data_connector +
-                            props.data["ports"]["consumer_app"] +
-                            "/show_data"
-                        );
-                      }}>
+                      onClick={() => { history.push("connectors/detail") }}
+                      >
                       {props.data["ports"] ? "Click here" : ""}
                     </span>
+                    // <span
+                    //   className="thirdmainheading dockerImageURL"
+                    //   onClick={() => {
+                    //     openLinkInNewTab(
+                    //       UrlConstants.view_data_connector +
+                    //         props.data["ports"]["consumer_app"] +
+                    //         "/show_data"
+                    //     );
+                    //   }}
+                    //   >
+                    //   {props.data["ports"] ? "Click here" : ""}
+                    // </span>
                   ) : (
                     <span>{""}</span>
                   )}
