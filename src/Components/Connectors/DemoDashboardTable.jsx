@@ -121,7 +121,7 @@ const DemoDashboardTable = () => {
             rowsPerPageOptions={[25]}
             
           /> }
-          <div style={{ display:"flex",alignItems:"center", justifyContent:"left"}}> <a
+          {row.length >0 ?  <div style={{ display:"flex",alignItems:"center", justifyContent:"left"}}> <a
             className="downloadDataset"
          onClick={()=>downloadDocument()}
           >
@@ -134,7 +134,7 @@ const DemoDashboardTable = () => {
                           }}
                           src={downloadIcon}
                           alt={"Download"}
-                        /> </div>
+                        /> </div> : "" }
         </div> }
         </>
       );
