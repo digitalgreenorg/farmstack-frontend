@@ -336,24 +336,24 @@ const PairingRequest = (props) => {
                   style={useStyles.datasetdescription}
                   className={styles.marginbottom50px}>
                   {props.data["ports"]["consumer_app"] ? (
-                    <span
-                      className="thirdmainheading dockerImageURL"
-                      onClick={() => { history.push("connectors/detail") }}
-                      >
-                      {props.data["ports"] ? "Click here" : ""}
-                    </span>
                     // <span
                     //   className="thirdmainheading dockerImageURL"
-                    //   onClick={() => {
-                    //     openLinkInNewTab(
-                    //       UrlConstants.view_data_connector +
-                    //         props.data["ports"]["consumer_app"] +
-                    //         "/show_data"
-                    //     );
-                    //   }}
+                    //   onClick={() => { history.push("connectors/detail") }}
                     //   >
                     //   {props.data["ports"] ? "Click here" : ""}
                     // </span>
+                    <span
+                      className="thirdmainheading dockerImageURL"
+                      onClick={() => {
+                        openLinkInNewTab(
+                          UrlConstants.view_data_connector +
+                            props.data["ports"]["consumer_app"] +
+                            "/show_data"
+                        );
+                      }}
+                      >
+                      {props.data["ports"] ? "Click here" : ""}
+                    </span>
                   ) : (
                     <span>{""}</span>
                   )}
