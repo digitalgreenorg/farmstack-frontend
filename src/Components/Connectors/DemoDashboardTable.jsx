@@ -58,6 +58,7 @@ const DemoDashboardTable = () => {
             false,
             false
         ).then((response)=>{
+          // localStorage.removeItem("show_data")
             console.log(response)
           let val = []
 
