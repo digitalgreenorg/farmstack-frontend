@@ -40,6 +40,11 @@ export default function ViewConnectorDetails(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [isLoader, setIsLoader] = useState(false)
 
+    const datasetDetailPage = (url)=>{
+        openLinkInNewTab(url)
+        history.push("connectors/detail")
+    }
+
     return (
         <><Row>
             <Col className="supportViewDetailsbackimage" >
@@ -362,8 +367,8 @@ export default function ViewConnectorDetails(props) {
                     {props.data['connector_status'] == 'paired'?<Col>
                         <Tooltip title={props.providerdata['ports'] ? UrlConstants.view_data_connector +props.providerdata['ports']['consumer_app']+"/show_data" : ''}>
                             <Row style={useStyles.datasetdescription}>
-                                {/* {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { openLinkInNewTab(UrlConstants.view_data_connector +props.providerdata['ports']['consumer_app']+"/show_data") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>} */}
-                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { history.push("connectors/detail") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
+                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { datasetDetailPage(UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.providerdata['ports']['consumer_app'] ) }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
+                                {/* {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { history.push("connectors/detail") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>} */}
                             </Row>
                         </Tooltip>
                     </Col>:<Col></Col>}

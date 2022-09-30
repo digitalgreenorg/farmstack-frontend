@@ -280,6 +280,17 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+.downloadDataset{
+  color: #3491EE !important;
+}
+
+.downloadDataset:hover{
+  text-decoration: underline !important;
+}
+
+.MuiDataGrid-columnHeaderTitle{
+  text-transform: capitalize !important;
+}
 
 .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
   color: #a3b0b8 !important;
@@ -302,7 +313,7 @@ input[type="number"] {
   font-size: 14px !important;
   line-height: 19px !important;
 }
-css-1wc848c-MuiFormHelperText-root {
+.css-1wc848c-MuiFormHelperText-root {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
