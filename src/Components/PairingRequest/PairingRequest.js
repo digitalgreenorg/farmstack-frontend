@@ -49,6 +49,7 @@ const PairingRequest = (props) => {
   //     project_name: "Default",
   //   };
   const datasetDetailPage = (url)=>{
+    console.log(url)
     openLinkInNewTab(url)
     history.push("connectors/detail")
 }
@@ -351,9 +352,7 @@ const PairingRequest = (props) => {
                       className="thirdmainheading dockerImageURL"
                       onClick={() => {
                         datasetDetailPage(
-                          UrlConstants.view_data_connector +
-                            props.data["ports"]["consumer_app"] +
-                            "/show_data"
+                          UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.data['ports']['consumer_app']
                         );
                       }}
                       >
