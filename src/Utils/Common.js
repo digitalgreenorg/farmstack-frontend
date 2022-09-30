@@ -6,7 +6,7 @@ import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 import HTTPService from "../Services/HTTPService";
 import FileSaver from "file-saver";
-
+import UrlConstant from "../Constants/UrlConstants";
 export const setTokenLocal = (token) => {
   localStorage.setItem(
     LocalStorageConstants.KEYS.JWTToken,
@@ -210,6 +210,8 @@ export const downloadAttachment = (uri, name) => {
   FileSaver.saveAs(uri, name)
 }
 
+
+
 export const GetErrorKey = (e, keyList) => {
   var errorKeys = []
   var errorMessages = []
@@ -222,15 +224,24 @@ export const GetErrorKey = (e, keyList) => {
   return [errorKeys, errorMessages]
 }
 
+
 export const getDockerHubURL = (dockerImageName) => {
   const [dockerImage, tag] = dockerImageName.split(':')
   return `https://hub.docker.com/r/${dockerImage}/${tag}`
 }
 export const openLinkInNewTab = (url) => {
+  console.log(url)
   if(url.includes("http")){
-    window.open(url,'_blank');
+    localStorage.setItem("show_data", JSON.stringify(url))
+    window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
+    // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
+    // history.push("connectors/detail")
   }else{
-    window.open("http://"+url,'_blank');
+    localStorage.setItem("show_data", JSON.stringify("http://"+ url))
+    // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
+    window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
+    // window.open("http://"+url,'_blank');
+    // history.push("connectors/detail")
   }
 }
 

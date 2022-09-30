@@ -2,11 +2,20 @@ import React, { useState } from 'react'
 import { useEffect } from 'react';
 import HTTPService from '../../Services/HTTPService';
 import { DataGrid } from '@mui/x-data-grid';
+import NoDataAvailable from '../Dashboard/NoDataAvailable/NoDataAvailable';
+import { downloadAttachment, GetErrorHandlingRoute } from '../../Utils/Common';
+import { useHistory } from 'react-router-dom';
+import downloadIcon from "../../Assets/Img/downloadsvgicon.svg";
+import Loader from '../Loader/Loader';
+
 
 const DemoDashboardTable = () => {
     const [col, setCol]= useState([])
     const [row, setRow] = useState([])
-
+    const history = useHistory()
+    const [isError, setError] = useState(false)
+    const [isLoading, setLoader] = useState(false)
+    let urlToHit =  JSON.parse(localStorage.getItem("show_data"))
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'firstName', headerName: 'First name', width: 130 },
@@ -23,6 +32,7 @@ const DemoDashboardTable = () => {
           description: 'This column has a value getter and is not sortable.',
           sortable: false,
           width: 160,
+          
           valueGetter: (params) =>
             `${params.row.firstName || ''} ${params.row.lastName || ''}`,
         },
@@ -40,9 +50,10 @@ const DemoDashboardTable = () => {
       ];
       const getData = ()=>{
         console.log("Hello")
+        setLoader(true)
         HTTPService(
             "GET",
-            "https://jsonplaceholder.typicode.com/posts",
+            urlToHit,
             "",
             false,
             false
@@ -54,28 +65,78 @@ const DemoDashboardTable = () => {
        let obj =  { field: key, headerName: key, width: 300 }
             val.push(obj)
           }
-        //   console.log(val)
+          let rowArr = []
+          for(let i=0; i<response.data.length; i++){
+            let obj1 = {id:i, ...response.data[i]}
+            rowArr.push(obj1)
+          }
+          
+              setLoader(false)
                 setCol([...val])
+                // let rowArr = [];
+       
                 
                 // { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-              setRow(response.data)
+              setRow([...rowArr])
+              console.log("Row data", response.data)
+        }).catch((err)=>{
+          setLoader(false)
+            console.log(err)
+        //   history.push(GetErrorHandlingRoute(err))
+            // setError(true)
         })
-        .catch(err => console.log(err))
+      }
+
+      const downloadDocument = ()=>{
+        fetch(urlToHit)
+        .then(resp => resp.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          // the filename you want
+          a.download = 'Dataset.csv';
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          // alert('your file has downloaded!'); // or you know, something with better UX...
+        })
+        .catch(() => alert('There was some error fetching the data'));
       }
       useEffect(()=>{
         getData()
       },[])
     return (
+      <>
+     
+      {isLoading ? <Loader/> :
         <div style={{ height: 800, width: '100%', padding:"50px 50px" }}>
+            {row.length <=0 ? <div style={{margin:"auto", width:"fit-content"}}><NoDataAvailable/></div>   : 
           <DataGrid
             
             rows={row}
             columns={col}
             pageSize={25}
             rowsPerPageOptions={[25]}
-
-          />
-        </div>
+            
+          /> }
+          <div style={{ display:"flex",alignItems:"center", justifyContent:"left"}}> <a
+            className="downloadDataset"
+         onClick={()=>downloadDocument()}
+          >
+          Download Dataset </a>  
+                           <img
+                          style={{
+                            width: "16px",
+                            height: "16px",
+                            marginLeft: "14px",
+                          }}
+                          src={downloadIcon}
+                          alt={"Download"}
+                        /> </div>
+        </div> }
+        </>
       );
 }
 
