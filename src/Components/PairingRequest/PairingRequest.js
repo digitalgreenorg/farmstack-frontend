@@ -48,6 +48,12 @@ const PairingRequest = (props) => {
   //     port_number: "1044",
   //     project_name: "Default",
   //   };
+  const datasetDetailPage = (url)=>{
+    console.log(url)
+    openLinkInNewTab(url)
+    history.push("connectors/detail")
+}
+
   return (
     <div style={{}} className={styles.mainPairRequest}>
       <Box
@@ -336,24 +342,22 @@ const PairingRequest = (props) => {
                   style={useStyles.datasetdescription}
                   className={styles.marginbottom50px}>
                   {props.data["ports"]["consumer_app"] ? (
-                    <span
-                      className="thirdmainheading dockerImageURL"
-                      onClick={() => { history.push("connectors/detail") }}
-                      >
-                      {props.data["ports"] ? "Click here" : ""}
-                    </span>
                     // <span
                     //   className="thirdmainheading dockerImageURL"
-                    //   onClick={() => {
-                    //     openLinkInNewTab(
-                    //       UrlConstants.view_data_connector +
-                    //         props.data["ports"]["consumer_app"] +
-                    //         "/show_data"
-                    //     );
-                    //   }}
+                    //   onClick={() => { history.push("connectors/detail") }}
                     //   >
                     //   {props.data["ports"] ? "Click here" : ""}
                     // </span>
+                    <span
+                      className="thirdmainheading dockerImageURL"
+                      onClick={() => {
+                        datasetDetailPage(
+                          UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.data['ports']['consumer_app']
+                        );
+                      }}
+                      >
+                      {props.data["ports"] ? "Click here" : ""}
+                    </span>
                   ) : (
                     <span>{""}</span>
                   )}
