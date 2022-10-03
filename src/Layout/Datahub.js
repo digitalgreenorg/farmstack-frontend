@@ -28,6 +28,9 @@ import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddCon
 import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
 import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
+import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
+import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
+import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -105,6 +108,21 @@ function Datahub(props) {
               exact
               path="/datahub/connectors"
               component={ConnectorParticipant}
+            />
+            <Route
+              exact
+              path="/datahub/settings/project/add"
+              component={AddProjectParticipant}
+            />
+            <Route
+              exact
+              path="/datahub/settings/viewproject/:id"
+              component={ProjectDetailView}
+            />
+            <Route
+              exact
+              path="/datahub/settings/project/edit/:id"
+              component={EditProjectParticipant}
             />
               <Route
               exact
