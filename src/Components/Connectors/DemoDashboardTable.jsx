@@ -7,7 +7,9 @@ import { downloadAttachment, GetErrorHandlingRoute } from '../../Utils/Common';
 import { useHistory } from 'react-router-dom';
 import downloadIcon from "../../Assets/Img/downloadsvgicon.svg";
 import Loader from '../Loader/Loader';
-
+import FileSaver from 'file-saver';
+const converter = require('json-2-csv')
+const fs = require('fs')
 
 const DemoDashboardTable = () => {
     const [col, setCol]= useState([])
@@ -61,23 +63,17 @@ const DemoDashboardTable = () => {
         })
       }
 
+     
 
       const downloadDocument = ()=>{
-        const csvRows = []
-        const headers = Object.keys(data[0]);
-         csvRows.push(headers.join(","))
-
-         for(const row of data){
-         const values =  headers.map(header=>{
-          const escpaed = (""+row[header]).replace(/"/g, '\\"')
-            return `"${escpaed}"`
-
-          });
-          csvRows.push(values.join(","))
-          
-         }  
-          let Downloadable_document = csvRows.join('\n');
-         download(Downloadable_document)
+        converter.json2csv(data, async (err, csv) => {
+          if (err) {
+            throw err
+          }
+          // print CSV string
+          console.log(csv)
+          download(csv)
+        })
       }
 
       const download=(data)=>{
@@ -113,8 +109,8 @@ const DemoDashboardTable = () => {
           /> }
           {row.length >0 ?  <div style={{ display:"flex",alignItems:"center", justifyContent:"left"}}> <a
             className="downloadDataset"
-            href={`data:text/csv;charset=utf-8,${escape(data)}`}
-            download="dataset.csv"
+            // href={`data:text/csv;charset=utf-8,${escape(data)}`}
+            // download="dataset.csv"
          onClick={()=>downloadDocument()}
           >
           Download Dataset </a>  
