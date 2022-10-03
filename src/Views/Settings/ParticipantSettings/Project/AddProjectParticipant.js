@@ -12,9 +12,10 @@ import {
   GetErrorKey,
   getOrgLocal,
   getUserMapId,
+  isRoleName,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -46,11 +47,19 @@ export default function AddProjectParticipant() {
   const [isLoader, setIsLoader] = useState(false);
 
   const history = useHistory();
+  const location = useLocation()
 
   const [department_variable, setdepartment_variable] = React.useState([]);
   const [nameErrorMessage, setnameErrorMessage] = useState(null)
   const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
 
+  const getTabNumber = () => {
+    if(isRoleName(location.pathname) == '/datahub/'){
+      return '7'
+    } else{
+      return '5'
+    }
+  }
 
   const handleChangeDepartment = (event) => {
     console.log(event.target.value);
@@ -189,8 +198,8 @@ const handleprojectdescriptionKeydown= (e) => {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/participant/settings/5")}
-          route={"/participant/settings/5"}
+          okevent={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())}
+          route={isRoleName(location.pathname)+"settings/"+getTabNumber()}
           imagename={"success"}
           btntext={"ok"}
           heading={"Project added successfully !"}
@@ -239,7 +248,7 @@ const handleprojectdescriptionKeydown= (e) => {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/participant/settings/5")}
+                onClick={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())}
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}
