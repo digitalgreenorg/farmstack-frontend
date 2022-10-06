@@ -5,14 +5,14 @@ import Container from "react-bootstrap/Container";
 import labels from "../../../Constants/labels";
 import Button from "@mui/material/Button";
 import THEME_COLORS from "../../../Constants/ColorConstants";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
 import Success from '../../../Components/Success/Success';
 import DepartmentSettingsForm from "./DepartmentSettingsForm";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/Footer";
-import { GetErrorHandlingRoute, GetErrorKey, handleUnwantedSpace } from '../../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, handleUnwantedSpace, isRoleName } from '../../../Utils/Common';
 
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "box-shadow": "none" },
@@ -22,6 +22,7 @@ const useStyles = {
 
 function DepartmentSettings(props) {
     const history = useHistory();
+    const location = useLocation()
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [departmentname, setdepartmentname] = useState("")
     const [departmentdescription, setdepartmentdescription] = useState("")
@@ -101,12 +102,21 @@ function DepartmentSettings(props) {
     const handledepartdescriptionKeydown = (e) => {
         handleUnwantedSpace(departmentdescription, e)
     }
+
+    const getTabNumber = () => {
+        if(isRoleName(location.pathname) == '/datahub/'){
+          return '6'
+        } else{
+          return '4'
+        }
+    }
+
     return (
         <>
             {isLoader ? <Loader /> : ""}
             <Container style={useStyles.marginrowtop}>
                 {isSuccess ? <Success
-                    okevent={() => history.push("/participant/settings/4")}
+                    okevent={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())}
                     route={" "}
                     imagename={'success'}
                     btntext={"ok"}
@@ -149,7 +159,7 @@ function DepartmentSettings(props) {
                             </Col>
                             <Col xs={12} sm={12} md={6} lg={6}>
                                 <Button
-                                    onClick={() => history.push("/participant/settings/4")}
+                                    onClick={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())}
                                     variant="outlined" className="cancelbtndept">
                                     {screenlabels.common.cancel}
                                 </Button>

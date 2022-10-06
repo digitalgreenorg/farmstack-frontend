@@ -7,47 +7,21 @@ import { downloadAttachment, GetErrorHandlingRoute } from '../../Utils/Common';
 import { useHistory } from 'react-router-dom';
 import downloadIcon from "../../Assets/Img/downloadsvgicon.svg";
 import Loader from '../Loader/Loader';
-
+import FileSaver from 'file-saver';
+const converter = require('json-2-csv')
+const fs = require('fs')
 
 const DemoDashboardTable = () => {
     const [col, setCol]= useState([])
     const [row, setRow] = useState([])
+    const [data, setData] = useState([])
     const history = useHistory()
     const [isError, setError] = useState(false)
     const [isLoading, setLoader] = useState(false)
+
     let urlToHit =  JSON.parse(localStorage.getItem("show_data"))
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'firstName', headerName: 'First name', width: 130 },
-        { field: 'lastName', headerName: 'Last name', width: 130 },
-        {
-          field: 'age',
-          headerName: 'Age',
-          type: 'number',
-          width: 90,
-        },
-        {
-          field: 'fullName',
-          headerName: 'Full name',
-          description: 'This column has a value getter and is not sortable.',
-          sortable: false,
-          width: 160,
-          
-          valueGetter: (params) =>
-            `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-        },
-      ];
-    const rows = [
-        { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-        { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-        { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-      ];
+    
+
       const getData = ()=>{
         console.log("Hello")
         setLoader(true)
@@ -58,6 +32,8 @@ const DemoDashboardTable = () => {
             false,
             false
         ).then((response)=>{
+          setData(response.data)
+          // localStorage.removeItem("show_data")
             console.log(response)
           let val = []
 
@@ -87,23 +63,33 @@ const DemoDashboardTable = () => {
         })
       }
 
+     
+
       const downloadDocument = ()=>{
-        fetch(urlToHit)
-        .then(resp => resp.blob())
-        .then(blob => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.style.display = 'none';
-          a.href = url;
-          // the filename you want
-          a.download = 'Dataset.csv';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-          // alert('your file has downloaded!'); // or you know, something with better UX...
+        converter.json2csv(data, async (err, csv) => {
+          if (err) {
+            throw err
+          }
+          // print CSV string
+          console.log(csv)
+          download(csv)
         })
-        .catch(() => alert('There was some error fetching the data'));
       }
+
+      const download=(data)=>{
+        const blob = new Blob([data], {type:'text/csv'})
+        const url =  window.URL.createObjectURL(blob);
+        const a= document.createElement('a');
+        a.setAttribute('hidden', '')
+        a.setAttribute('href', url)
+        a.setAttribute('download', "Dataset.csv");
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+      }
+
+     
       useEffect(()=>{
         getData()
       },[])
@@ -121,8 +107,10 @@ const DemoDashboardTable = () => {
             rowsPerPageOptions={[25]}
             
           /> }
-          <div style={{ display:"flex",alignItems:"center", justifyContent:"left"}}> <a
+          {row.length >0 ?  <div style={{ display:"flex",alignItems:"center", justifyContent:"left"}}> <a
             className="downloadDataset"
+            // href={`data:text/csv;charset=utf-8,${escape(data)}`}
+            // download="dataset.csv"
          onClick={()=>downloadDocument()}
           >
           Download Dataset </a>  
@@ -134,7 +122,7 @@ const DemoDashboardTable = () => {
                           }}
                           src={downloadIcon}
                           alt={"Download"}
-                        /> </div>
+                        /> </div> : "" }
         </div> }
         </>
       );

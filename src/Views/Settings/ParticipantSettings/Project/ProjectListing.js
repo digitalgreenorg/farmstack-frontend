@@ -5,9 +5,9 @@ import { Col, Row } from "react-bootstrap";
 import AddProjectCard from "../../../../Components/Projects/AddProjectCard";
 import NoProjectCard from "../../../../Components/Projects/NoProjectCard";
 import UrlConstant from "../../../../Constants/UrlConstants";
-import { GetErrorHandlingRoute, getOrgLocal } from "../../../../Utils/Common";
+import { GetErrorHandlingRoute, getOrgLocal, isRoleName } from "../../../../Utils/Common";
 import HTTPService from "../../../../Services/HTTPService";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Loader from "../../../../Components/Loader/Loader";
 // import ProjectDetailsView from '../../../../Components/Projects/ProjectDetailsView'
@@ -15,6 +15,7 @@ import Loader from "../../../../Components/Loader/Loader";
 export default function ProjectListing() {
   const [isLoader, setIsLoader] = useState(false);
   const history = useHistory();
+  const location = useLocation()
 
   const [projectUrl, setProjectUrl] = useState(
     UrlConstant.base_url + UrlConstant.project_listing_page_url
@@ -142,7 +143,7 @@ export default function ProjectListing() {
         </Row>
         <Row>
           <AddProjectCard
-            addevent={() => history.push("/participant/settings/project/add")}
+            addevent={() => history.push(isRoleName(location.pathname)+"settings/project/add")}
           />
           {(!projectList || projectList.length == 0) && <NoProjectCard />}
           {projectList &&

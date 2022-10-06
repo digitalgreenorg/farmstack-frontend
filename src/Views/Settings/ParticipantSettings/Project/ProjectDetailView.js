@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import Delete from "../../../../Components/Delete/Delete";
 import Success from "../../../../Components/Success/Success";
 import labels from "../../../../Constants/labels";
 import UrlConstant from "../../../../Constants/UrlConstants";
 import HTTPService from "../../../../Services/HTTPService";
-import { GetErrorHandlingRoute } from "../../../../Utils/Common";
+import { GetErrorHandlingRoute, isRoleName } from "../../../../Utils/Common";
 import Button from "@mui/material/Button";
 
 export default function ProjectDetailView(props) {
@@ -32,6 +32,7 @@ export default function ProjectDetailView(props) {
   const [isLoader, setIsLoader] = useState(false);
 
   const history = useHistory();
+  const location = useLocation()
   const { id } = useParams();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -99,6 +100,14 @@ export default function ProjectDetailView(props) {
       });
   };
 
+  const getTabNumber = () => {
+    if(isRoleName(location.pathname) == '/datahub/'){
+      return '7'
+    } else{
+      return '5'
+    }
+  }
+
   return (
     <>
       {isDelete ? (
@@ -128,7 +137,7 @@ export default function ProjectDetailView(props) {
             setisViewDetail(true);
             setisDeleteSuccess(false);
 
-            history.push("/participant/settings/5");
+            history.push(isRoleName(location.pathname)+"settings/"+getTabNumber());
           }}
           imagename={"success"}
           btntext={"ok"}
@@ -142,7 +151,7 @@ export default function ProjectDetailView(props) {
         <>
           <Row>
             <Col className="supportViewDetailsbackimage">
-              <span onClick={() => history.push("/participant/settings/5")}>
+              <span onClick={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())}>
                 <img
                   src={require("../../../../Assets/Img/Vector.svg")}
                   alt="new"
@@ -150,7 +159,7 @@ export default function ProjectDetailView(props) {
               </span>
               <span
                 className="supportViewDetailsback"
-                onClick={() => history.push("/participant/settings/5")}>
+                onClick={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())}>
                 {"Back"}
               </span>
             </Col>
@@ -204,7 +213,7 @@ export default function ProjectDetailView(props) {
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
                 onClick={() =>
-                  history.push("/participant/settings/project/edit/" + id)
+                  history.push(isRoleName(location.pathname)+"settings/project/edit/" + id)
                 }
                 variant="outlined"
                 className="cancelbtn"
