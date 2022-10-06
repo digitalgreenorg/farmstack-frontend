@@ -3,12 +3,13 @@ import CardHeader from '@mui/material/CardHeader';
 import Card from "@mui/material/Card";
 import CardContent from '@mui/material/CardContent';
 import THEME_COLORS from "../../../Constants/ColorConstants";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Row } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col'
 import Button from "@mui/material/Button";
 import { Tooltip, Zoom } from '@mui/material';
+import { isRoleName } from '../../../Utils/Common';
 
 const useStyles = {
     btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": "2px", "text-transform": "capitalize", "width": "116px", "height": "34px", "margin-right": "-20px", "font-weight": "400", "font-family": "Open Sans"},
@@ -25,6 +26,7 @@ const useStyles = {
   export default function DepartmentSettingsCard(props) {
     const[isshowbutton, setisshowbutton] = useState(false);
     const history = useHistory();
+    const location = useLocation()
      
   return (
     <Card className="Departmentcard" style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
@@ -55,7 +57,7 @@ const useStyles = {
                     {isshowbutton ? 
                     <Col xs={12} sm={12} md={6} lg={6}>
                             <Button  
-                            onClick={() => history.push('/participant/settings/viewdepartment/'+props.id)}
+                            onClick={() => history.push(isRoleName(location.pathname)+'settings/viewdepartment/'+props.id)}
                             variant="outlined" style={useStyles.btnPosition}>
                                 View details
                             </Button>

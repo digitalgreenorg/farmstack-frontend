@@ -3,7 +3,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Container } from "react-bootstrap";
 import TextField from "@mui/material/TextField";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import Link from "@mui/material/Link";
 import InputLabel from "@mui/material/InputLabel";
@@ -15,12 +15,14 @@ import "./ProjectForm.css";
 import {
   validateInputField,
   handleUnwantedSpace,
+  isRoleName,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import labels from "../../../../Constants/labels";
 
 export default function ProjectForm(props) {
   const history = useHistory();
+  const location = useLocation()
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   //   const [department, setdepartment] = React.useState("");
@@ -53,20 +55,28 @@ export default function ProjectForm(props) {
   //     handleUnwantedSpace(description, e);
   //   };
 
+  const getTabNumber = () => {
+    if(isRoleName(location.pathname) == '/datahub/'){
+      return '7'
+    } else{
+      return '5'
+    }
+  }
+
   return (
     <Container className="projectform">
       <Row>
         <Col className="supportViewDetailsbackimage">
           <span
             onClick={() => {
-              history.push("/participant/settings/5");
+              history.push(isRoleName(location.pathname)+"settings/"+getTabNumber());
             }}>
             <img src={require("../../../../Assets/Img/Vector.svg")} alt="new" />
           </span>
           <span
             className="supportViewDetailsback"
             onClick={() => {
-              history.push("/participant/settings/5");
+              history.push(isRoleName(location.pathname)+"settings/"+getTabNumber());
             }}>
             {"Back"}
           </span>
