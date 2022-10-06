@@ -11,10 +11,10 @@ import Button from "@mui/material/Button";
 import THEME_COLORS from "../../../Constants/ColorConstants";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
-import { GetErrorHandlingRoute } from '../../../Utils/Common';
+import { GetErrorHandlingRoute, isRoleName } from '../../../Utils/Common';
 import Footer from "../../../Components/Footer/Footer";
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
@@ -34,6 +34,7 @@ function ViewDepartment(props) {
     const [isDelete, setisDelete] = useState(false)
 
 const history = useHistory();
+const location = useLocation()
 const { id } = useParams()
 
 useEffect(() => {
@@ -80,6 +81,15 @@ const deleteDepartment = () => {
             history.push(GetErrorHandlingRoute(error));
         });
 }
+
+const getTabNumber = () => {
+    if(isRoleName(location.pathname) == '/datahub/'){
+      return '6'
+    } else{
+      return '4'
+    }
+}
+
 return (
     <>
     <div>
@@ -94,7 +104,7 @@ return (
                 cancelEvent={() => {
                     setisDelete(false);
                     setisDeleteSuccess(false);
-                    history.push("/participant/settings/4")
+                    history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())
                 }}
                 heading={screenlabels.department.delete_department}
                 imageText={screenlabels.department.delete_msg}
@@ -104,7 +114,7 @@ return (
                 : <></>}
             {isDeleteSuccess ? 
                 <Success
-                    okevent={() => history.push("/participant/settings/4") }
+                    okevent={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber()) }
                     imagename={"success"}
                     btntext={"ok"}
                     heading={"Your department deleted successfully!"}
@@ -124,7 +134,7 @@ return (
                 {/* // </Col> */} 
                 {/* <Col xs={12} sm={12} md={6} ls={4}> */}
                     <Button 
-                    onClick={() =>history.push("/participant/settings/editdepartment/" +id) } 
+                    onClick={() =>history.push(isRoleName(location.pathname)+"settings/editdepartment/" +id) } 
                     variant="outlined" className='editbtn'>
                     <span style={{"text-align": "center"}}>
                         Edit department
