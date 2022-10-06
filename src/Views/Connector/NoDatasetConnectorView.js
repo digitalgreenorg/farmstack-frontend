@@ -4,9 +4,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import labels from '../../Constants/labels';
 import { Tooltip } from '@mui/material';
-import { dateTimeFormat } from '../../Utils/Common'
+import { dateTimeFormat, isRoleName } from '../../Utils/Common'
 import Button from "@mui/material/Button";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 const useStyles = {
     cardcolor: {background:"#FFFFFF", "box-shadow": "none", height: "283px", "border-radius": "2px", width: "466px", "margin-left": "500px", "margin-top": "150px","padding-top":"50px" },
@@ -29,6 +29,7 @@ export default function NoDatasetConnectorView() {
 
     const [screenlabels, setscreenlabels] = useState(labels['en'])
     const history = useHistory();
+    const location = useLocation()
 
   return (
     <div>
@@ -52,7 +53,7 @@ export default function NoDatasetConnectorView() {
                     <Col xs={12} sm={12} md={12} lg={12} style={{'margin-top': '20px', 'padding': '0','padding-left': '35px', 'padding-right': '35px'}}>
                     {/* <span style={useStyles.cardtext}>{screenlabels.connector.click_here}</span> */}
                     <Link
-                        to={{ pathname: "/participant/datasets/add" }}
+                        to={{ pathname: isRoleName(location.pathname)+"datasets/add" }}
                         // target="_blank">
                         >
                         {screenlabels.connector.click_here}
