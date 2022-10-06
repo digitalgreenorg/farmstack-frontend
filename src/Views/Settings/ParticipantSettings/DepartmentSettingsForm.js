@@ -4,9 +4,9 @@ import Col from "react-bootstrap/Col";
 import THEME_COLORS from "../../../Constants/ColorConstants";
 import labels from "../../../Constants/labels";
 import RegexConstants from "../../../Constants/RegexConstants";
-import { validateInputField } from "../../../Utils/Common";
+import { isRoleName, validateInputField } from "../../../Utils/Common";
 import { TextField } from "@mui/material";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 const useStyles = {
   btncolor: {
     color: THEME_COLORS.THEME_COLOR,
@@ -50,21 +50,31 @@ const useStyles = {
 export default function DepartmentSettingsForm(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
+  const location = useLocation()
   // console.log(props, "PROPS")
+
+  const getTabNumber = () => {
+    if(isRoleName(location.pathname) == '/datahub/'){
+      return '6'
+    } else{
+      return '4'
+    }
+  }
+
   return (
     <>
       <Row>
         <Col className="supportViewDetailsbackimage">
           <span
             onClick={() => {
-              history.push("/participant/settings/4");
+              history.push(isRoleName(location.pathname)+"settings/"+getTabNumber());
             }}>
             <img src={require("../../../Assets/Img/Vector.svg")} alt="new" />
           </span>
           <span
             className="supportViewDetailsback"
             onClick={() => {
-              history.push("/participant/settings/4");
+              history.push(isRoleName(location.pathname)+"settings/"+getTabNumber());
             }}>
             {"Back"}
           </span>

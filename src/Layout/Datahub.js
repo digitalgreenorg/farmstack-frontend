@@ -31,6 +31,9 @@ import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
 import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
 import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
+import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
+import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
+import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -90,6 +93,21 @@ function Datahub(props) {
               path="/datahub/settings/editmember/:id"
               component={EditTeamMember}
             />
+            <Route
+              exact
+              path="/datahub/settings/adddepartment"
+              component={DepartmentSettings}
+            />
+            <Route
+                exact
+                path="/datahub/settings/viewdepartment/:id/"
+                component={ViewDepartment}
+              />
+            <Route
+                exact
+                path="/datahub/settings/editdepartment/:id"
+                component={EditDepartmentSettings}
+              />
             <Route exact path="/datahub/settings/:id" component={Settings} />
             <Route exact path="/datahub/support" component={Support} />
             {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}

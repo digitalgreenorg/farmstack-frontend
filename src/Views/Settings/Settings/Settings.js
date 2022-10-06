@@ -28,6 +28,7 @@ import Loader from "../../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import DepartmentSettingsCard from "../ParticipantSettings/DepartmentSettingsCard";
 import ProjectListing from "../ParticipantSettings/Project/ProjectListing";
+import DepartmentListing from "../Department/DepartmentListing";
 
 const useStyles = {
   btncolor: {
@@ -382,7 +383,8 @@ function Settings(props) {
                 {/* <TabPanel value="6"></TabPanel> */}
 
                 <TabPanel value="6">
-                <Row>
+                    <DepartmentListing/>
+                {/* <Row>
                     <span style={useStyles.departmentword}>My departments</span>
                   </Row>
                   <Row>
@@ -416,7 +418,7 @@ function Settings(props) {
                           index={index}></DepartmentSettingsCard>
                       </Col>
                     ))}
-                  </Row>
+                  </Row> */}
 
                 </TabPanel> 
                 <TabPanel value="7">

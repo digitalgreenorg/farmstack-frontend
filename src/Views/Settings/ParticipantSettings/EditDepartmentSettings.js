@@ -7,11 +7,11 @@ import labels from "../../../Constants/labels";
 import Success from "../../../Components/Success/Success";
 import DepartmentSettingsForm from "./DepartmentSettingsForm";
 import THEME_COLORS from "../../../Constants/ColorConstants";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { Button } from "@material-ui/core";
 import HTTPService from "../../../Services/HTTPService";
-import { GetErrorHandlingRoute } from "../../../Utils/Common";
+import { GetErrorHandlingRoute, isRoleName } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/Footer";
 import { useParams } from "react-router-dom";
@@ -23,6 +23,7 @@ const useStyles = {
 }
 function EditDepartmentSettings(props) {
     const history = useHistory();
+    const location = useLocation()
     const { id } = useParams();
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [departmentname, setdepartmentname] = useState("");
@@ -84,13 +85,21 @@ useEffect(() => {
         })
     }
 
+    const getTabNumber = () => {
+        if(isRoleName(location.pathname) == '/datahub/'){
+          return '6'
+        } else{
+          return '4'
+        }
+    }
+
     return (
         <>
             {isLoader ? <Loader /> : ''}
             <Container style={useStyles.marginrowtop}>
                 {isSuccess ?
-                    <Success okevent={() => history.push("/participant/settings/4")}
-                        route={"/participant/settings/adddepartment"}
+                    <Success okevent={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())}
+                        route={isRoleName(location.pathname)+"settings/adddepartment"}
                         imagename={'success'}
                         btntext={"Ok"}
                         heading={"Department updated successfully !"}
@@ -126,7 +135,7 @@ useEffect(() => {
                         <Col xs={12} sm={12} md={6} lg={3} >
                                 </Col>
                             <Col xs={12} sm={12} md={6} lg={6} >
-                                <Button onClick={() => history.push("/participant/settings/4")} variant="outlined" className="cancelbtndept">
+                                <Button onClick={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())} variant="outlined" className="cancelbtndept">
                                     {screenlabels.common.cancel}
                                 </Button>
                             </Col>

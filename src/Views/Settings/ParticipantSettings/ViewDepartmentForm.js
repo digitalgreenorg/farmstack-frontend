@@ -4,7 +4,8 @@ import { Row } from "react-bootstrap";
 import { Button } from "@material-ui/core";
 import labels from "../../../Constants/labels";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { isRoleName } from "../../../Utils/Common";
 
 const useStyles = {
     marginrowtop: { "margin-top": "30px" },
@@ -22,6 +23,15 @@ export default function ViewDepartmentForm(props) {
     console.log(props, "PROPS")
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const history = useHistory();
+    const location = useLocation()
+
+    const getTabNumber = () => {
+        if(isRoleName(location.pathname) == '/datahub/'){
+          return '6'
+        } else{
+          return '4'
+        }
+    }
 
     return (
         <>
@@ -29,14 +39,14 @@ export default function ViewDepartmentForm(props) {
         <Col className="supportViewDetailsbackimage">
           <span style={useStyles.backline}
             onClick={() => {
-              history.push("/participant/settings/4");
+              history.push(isRoleName(location.pathname)+"settings/"+getTabNumber());
             }}>
             <img src={require("../../../Assets/Img/Vector.svg")} alt="new" />
           </span>
           <span 
             className="supportViewDetailsback"
             onClick={() => {
-              history.push("/participant/settings/4");
+              history.push(isRoleName(location.pathname)+"settings/"+getTabNumber());
             }}>
             {"Back"}
             </span>
