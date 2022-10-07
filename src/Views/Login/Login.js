@@ -789,7 +789,8 @@ export default function Login(props) {
 
   const handleOrgnumber = (value) => {
     console.log(value);
-    setValidOrgnumber(value);
+    
+    setValidOrgnumber(value ? value : "");
   };
 
   const handleOrgAddress = (e) => {
