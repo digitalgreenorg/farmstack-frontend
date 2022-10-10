@@ -1031,7 +1031,7 @@ export default function DatasetAdmin() {
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
                             <Button onClick={() => changeView('isDisable')} variant="outlined" className="editbtn">
-                                Disable Dataset
+                                Disable dataset
                          </Button>
                         </Col>
                     </Row><Row className="marginrowtop8px"></Row></>: <></>}
@@ -1040,7 +1040,7 @@ export default function DatasetAdmin() {
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
                             <Button onClick={() => changeView('isEnable')} variant="outlined" className="editbtn">
-                                Enable Dataset
+                                Enable dataset
                          </Button>
                         </Col>
                     </Row> <Row className="marginrowtop8px"></Row></>: <></>}
