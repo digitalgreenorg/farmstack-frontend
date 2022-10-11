@@ -118,10 +118,10 @@ export default function AddDataset(props) {
         soil_data: Soil_data,
         weather_data: Weather_data,
         research_data: Research_data,
-        Livestock: Livestock,
-        Diary: Diary,
-        Poultry: Poultry,
-        Other: Other,
+        livestock: Livestock,
+        diary: Diary,
+        poultry: Poultry,
+        other: Other,
       })
     );
     bodyFormData.append("geography", Geography);

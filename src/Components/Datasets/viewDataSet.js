@@ -57,10 +57,10 @@ export default function ViewDataSet(props) {
   categoryStr += category["soil_data"] ? " | Soil data" : "";
   categoryStr += category["weather_data"] ? " | Weather data" : "";
   categoryStr += category["research_data"] ? " | Research data" : "";
-  categoryStr += category["Livestock"] ? " | Livestock" : "";
-  categoryStr += category["Diary"] ? " | Diary" : "";
-  categoryStr += category["Poultry"] ? " | Poultry" : "";
-  categoryStr += category["Other"] ? " | Other" : "";
+  categoryStr += category["livestock"] ? " | Livestock" : "";
+  categoryStr += category["diary"] ? " | Diary" : "";
+  categoryStr += category["poultry"] ? " | Poultry" : "";
+  categoryStr += category["other"] ? " | Other" : "";
 
   if (categoryStr.startsWith(" |")) {
     categoryStr = categoryStr.replace(" |", "").trim();
