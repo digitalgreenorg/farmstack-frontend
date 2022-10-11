@@ -47,7 +47,6 @@ export default function DataSetForm(props) {
             error={props.nameErrorMessage ? true : false}
             helperText={props.nameErrorMessage}
           />
-          
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
@@ -192,6 +191,58 @@ export default function DataSetForm(props) {
         </Col>
       </Row>
       <Row>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Livestock}
+                onChange={props.handleChangeLivestock}
+              />
+            }
+            label={screenlabels.dataset.Livestock}
+            style={{ width: "100%" }}
+          />
+        </Col>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Diary}
+                onChange={props.handleChangeDiary}
+              />
+            }
+            label={screenlabels.dataset.Diary}
+            style={{ width: "100%" }}
+          />
+        </Col>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Poultry}
+                onChange={props.handleChangePoultry}
+              />
+            }
+            label={screenlabels.dataset.Poultry}
+            className="weather"
+            style={{ width: "100%" }}
+          />
+        </Col>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Other}
+                onChange={props.handleChangeOther}
+              />
+            }
+            label={screenlabels.dataset.Other}
+            className="weather"
+            style={{ width: "100%" }}
+          />
+        </Col>
+      </Row>
+      <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
             // style={useStyles.inputwidth}
@@ -206,7 +257,6 @@ export default function DataSetForm(props) {
             label={screenlabels.dataset.Geography}
             error={props.geographyErrorMessage ? true : false}
             helperText={props.geographyErrorMessage}
-            
           />
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
@@ -340,9 +390,7 @@ export default function DataSetForm(props) {
                     id="filled-basic"
                     variant="filled"
                     className="fromtextfield"
-                    
                   />
-                  
                 )}
                 error={props.dataCaptureStartErrorMessage ? true : false}
                 helperText={props.dataCaptureStartErrorMessage}
