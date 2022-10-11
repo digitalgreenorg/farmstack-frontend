@@ -11,7 +11,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import {GetErrorHandlingRoute, getOrgLocal} from "../../../Utils/Common";
+import {debounce, GetErrorHandlingRoute, getOrgLocal} from "../../../Utils/Common";
 import { useHistory } from 'react-router-dom';
 import { getUserLocal, getUserMapId, dateTimeFormat } from '../../../Utils/Common'
 import ViewDataSet from '../../../Components/Datasets/viewDataSet';
@@ -23,7 +23,15 @@ import FileSaver from 'file-saver';
 import UrlConstants from '../../../Constants/UrlConstants'
 import Button from "@mui/material/Button";
 import './DatasetAdmin.css'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { InputAdornment } from '@material-ui/core';
+
+
+
 export default function DatasetAdmin() {
+  const debounceOnChange = React.useCallback(debounce(getSearchedData, 1500), []);
+
+    const [searchInputValue, setSearchInputValue] = useState("")
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
     const [showLoadMoreAdmin, setShowLoadMoreAdmin] = useState(false);
@@ -431,6 +439,12 @@ export default function DatasetAdmin() {
         setGeoFilterDisplay(tempList)
     }
 
+    async  function getSearchedData(val){
+        let ans = await fetch("https://jsonplaceholder.typicode.com/posts")
+        let data = await ans.json()
+        console.log("DATAAA", data, datasetList, memberDatasetList)
+
+       }
     const handleCropSearch = (e) => {
         var searchFound = false
         const searchText = e.target.value
@@ -1184,6 +1198,7 @@ export default function DatasetAdmin() {
             {screenView.isDataSetFilter ? <Row className="supportfirstmaindiv">
                 {/* <Row className="secondmainheading width100percent">{screenlabels.support.heading}</Row> */}
                 <Row className="supportmaindiv">
+               
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <DataSetFilter
@@ -1233,14 +1248,32 @@ export default function DatasetAdmin() {
                             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
                                 <Box>
                                     <TabContext value={value} className="tabstyle">
-                                        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                                        <Box sx={{ borderBottom: 1, borderColor: "divider"}}>
                                             <TabList
                                                 onChange={handleTabChange}
                                                 aria-label="lab API tabs example">
                                                 <Tab label="My organisation" value='1' />
                                                 <Tab label="Other organisations" value='2' />
+
                                             </TabList>
+                                           
                                         </Box>
+                                      {/* <div className='searchBarForDataset'>  */}
+                                      {/* <TextField id="outlined" label="Search Dataset" variant="outlined" /> */}
+                                     
+                                      {/* </div>  */}
+                                      <span className='searchBarForDataset' style={{width:"100%", padding:"10px 0px"}}> 
+                                                <TextField
+                                                    id="filled-basic"
+                                                    label="Search for dataset..."
+                                                    variant="filled"
+                                                    style={{width:"100%"}}
+                                                    InputProps={{
+                                                        endAdornment: <InputAdornment position="end"><SearchOutlinedIcon/></InputAdornment>,
+                                                      }}
+                                                    // className="signupemail"
+                                                    onChange={e => debounceOnChange(e.target.value)}
+                                            /></span>
                                         <TabPanel value='1'>
                                             <DataSetListing
                                                 datasetList={datasetList}

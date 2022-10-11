@@ -813,3 +813,17 @@ button.disbalesubmitbtndept {
   text-transform: none !important;
 }
 
+.searchBarForDataset{
+    /* border-left: 1px solid #d8af28 !important; */
+    /* border-right: 1px solid #d8af28 !important; */
+    /* border-top: 1px solid #d8af28 !important; */
+  /* border: 1px solid red; */
+  display: flex;
+  width: 100%;
+  justify-content: right;
+
+}
+.searchBarForDataset .filled-basic{
+ /* width: 300px !important; */
+
+}
