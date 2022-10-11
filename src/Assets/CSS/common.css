@@ -17,7 +17,7 @@ body {
 margin: 0 auto;
 }
 button.disbalesubmitbtn {
-  /* text-transform: capitalize; */
+  text-transform: none !important;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -34,7 +34,7 @@ button.disbalesubmitbtn {
   line-height: 19px;
 }
 button.cancelbtn {
-  /* text-transform: capitalize; */
+  text-transform: none !important;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -52,7 +52,7 @@ button.cancelbtn {
   line-height: 19px;
 }
 button.editbtn {
-  /* text-transform: capitalize; */
+  text-transform: none !important;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -71,7 +71,7 @@ button.editbtn {
 }
 button.submitbtn {
   width: 420px !important;
-  /* text-transform: capitalize; */
+  text-transform: none !important;
   color: #ffffff;
   height: 42px;
   margin-top: 30px;
@@ -329,7 +329,7 @@ input[type="number"] {
   line-height: 16px;
 }
 button.disbalesubmitbtnteam {
-  /* text-transform: capitalize; */
+  text-transform: none !important;
   border-radius: 2px;
   box-shadow: none !important;
   background: #ffffff !important;
@@ -343,7 +343,7 @@ button.disbalesubmitbtnteam {
 }
 button.submitbtnteam {
   width: 420px !important;
-  /* text-transform: capitalize; */
+  text-transform: none !important;
   color: #ffffff;
   height: 42px;
   margin-top: 200px;
@@ -363,7 +363,7 @@ button.submitbtn:hover {
   background-color: #ab8405 !important; */
 
 button.cancelbtnteam {
-  /* text-transform: capitalize; */
+  text-transform: none !important;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -748,7 +748,7 @@ z-index: 200 !important;
 }
 button.submitbtndept {
   width: 420px !important;
-  text-transform: capitalize;
+  text-transform: none !important;
   color: #ffffff;
   margin-top: 80px;
   height: 42px;
@@ -762,7 +762,7 @@ button.submitbtndept:hover {
   background-color: #ab8405 !important;
 }
 button.cancelbtndept {
-  text-transform: capitalize;
+  text-transform: none !important;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -776,7 +776,7 @@ button.cancelbtndept {
 
 }
 button.disbalesubmitbtndept {
-  text-transform: capitalize;
+  text-transform: none !important;
   border-radius: 2px;
   box-shadow: none !important;
   background: #ffffff !important;

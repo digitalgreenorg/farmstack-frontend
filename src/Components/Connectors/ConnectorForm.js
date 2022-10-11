@@ -202,7 +202,7 @@ export default function ConnectorForm(props) {
             component="button"
             variant="body2"
             onClick={(e) => { 
-              history.push("/participant/settings/adddepartment")
+              history.push(isRoleName(location.pathname)+"settings/adddepartment")
               console.info("I'm a button.");
               e.preventDefault();
             }}
@@ -215,7 +215,7 @@ export default function ConnectorForm(props) {
             component="button"
             variant="body2"
             onClick={(e) => {
-              history.push("/participant/settings/project/add")
+              history.push(isRoleName(location.pathname)+"settings/project/add")
               console.info("I'm a button.");
               e.preventDefault();
             }}

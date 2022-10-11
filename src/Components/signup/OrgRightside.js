@@ -48,6 +48,7 @@ export default function OrgRightside(props) {
   // // const [orgdeserror, serorgdeserror] = useState(false);
   const [orgdesc, setorgdesc] = useState("");
   const [isLoader, setIsLoader] = useState(false);
+  console.log( props.validOrgNumber, "KAKAKSANDKJDHBUDSBJVDSIUVBFSUYCBDSIUVDWBVDSBCVISDJFVYUDBDSIU")
 
   const [editorValue, setEditorValue] = React.useState(
     RichTextEditor.createValueFromString(orgdesc, "html")
@@ -103,7 +104,7 @@ export default function OrgRightside(props) {
           ) {
             props.isOrgWebsiteerror(false);
           }
-          props.setValidOrgnumber(response.data.organization.phone_number);
+          props.setValidOrgnumber(response.data.organization.phone_number ? response.data.organization.phone_number : "");
           if (response.data.organization.address) {
             props.setOrgAddress(response.data.organization.address.address);
             props.setOrgCity(response.data.organization.address.city);

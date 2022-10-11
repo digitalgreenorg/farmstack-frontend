@@ -113,7 +113,7 @@
   /* identical to box height */
 
   text-align: center;
-  text-transform: capitalize !important;
+  text-transform: none !important;
 
   color: #585d60 !important;
 }

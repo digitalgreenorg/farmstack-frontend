@@ -267,7 +267,7 @@ export default function ProfileRightsideParticipant(props) {
 
           <div>
             <Button variant="outlined" className="finishlaterbtn" type="button" onClick={props.finishLaterProfileScreen}>
-              Finish Later
+              Finish later
             </Button>
           </div>
         </form>
