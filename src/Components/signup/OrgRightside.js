@@ -806,7 +806,8 @@ export default function OrgRightside(props) {
             props.orgPincode &&
             !props.ispincodeerror &&
             Orgdesbtn &&
-            props.orgfile ? (
+            props.orgfile != null &&
+            props.orgfile.size < 2097152 ? (
               <Button
                 onClick={props.handleOrgSubmit}
                 variant="contained"
