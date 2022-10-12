@@ -146,6 +146,11 @@ const labels = {
       Farmer_profile: "Farmer profile",
       Land_records: "Land records",
       Cultivation_data: "Cultivation data",
+      Livestock: "Livestock",
+      Diary: "Diary",
+      Poultry: "Poultry",
+      Other: "Other",
+
       Soil_data: "Soil data",
       Weather_data: "Weather data",
       Research_data: "Research data",
