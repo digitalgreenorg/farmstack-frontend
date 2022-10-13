@@ -17,7 +17,7 @@ const Search = (props) => {
             endAdornment: <InputAdornment position="end"><SearchOutlinedIcon/></InputAdornment>,
           }}
         // className="signupemail"
-        onChange={e => props.debounceOnChange(e.target.value,props.isLoadmore, props.isMemberTab)}
+        onChange={e => props.debounceOnChange(e.target.value,false, props.isMemberTab)}
 /></span></>
   )
 }
