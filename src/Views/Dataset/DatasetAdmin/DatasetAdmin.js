@@ -11,7 +11,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import {GetErrorHandlingRoute, getOrgLocal} from "../../../Utils/Common";
+import {debounce, GetErrorHandlingRoute, getOrgLocal} from "../../../Utils/Common";
 import { useHistory } from 'react-router-dom';
 import { getUserLocal, getUserMapId, dateTimeFormat } from '../../../Utils/Common'
 import ViewDataSet from '../../../Components/Datasets/viewDataSet';
@@ -23,7 +23,14 @@ import FileSaver from 'file-saver';
 import UrlConstants from '../../../Constants/UrlConstants'
 import Button from "@mui/material/Button";
 import './DatasetAdmin.css'
+
+
+
+
 export default function DatasetAdmin() {
+  const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
+
+    const [searchInputValue, setSearchInputValue] = useState("")
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
     const [showLoadMoreAdmin, setShowLoadMoreAdmin] = useState(false);
@@ -431,6 +438,76 @@ export default function DatasetAdmin() {
         setGeoFilterDisplay(tempList)
     }
 
+    async function getSearchedData(val, isLoadMore, isMemberTab){
+        // console.log(val, "Here is value")
+        
+        if(val.length < 3 && val !== "") return
+        // console.log(val)
+        let data = {}
+        setFilterState({})
+        data['user_id'] = getUserLocal()
+        data['org_id'] = getOrgLocal()
+        data[  "search_pattern"]= val;
+        if (isMemberTab) {
+            data['others'] = true
+        } else {
+            data['others'] = false
+        }
+
+        // let ans = await fetch("https://jsonplaceholder.typicode.com/posts")
+        // let data = await ans.json()
+        // console.log("DATAAA", data, datasetList, memberDatasetList, val)
+
+        HTTPService(
+            "POST",
+            // "GET",
+            // isMemberTab ? memberDatasetUrl : datasetUrl,
+            // UrlConstant.base_url + "participant/datasets/search_datasets/",
+            UrlConstant.base_url + "datahub/datasets/search_datasets/",
+            data,
+            false,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log("response:", response)
+                console.log("datatset:", response.data.results)
+
+                if (response.data.next == null) {
+                    // setisShowLoadMoreButton(false)
+                    // setShowLoadMoreAdmin(false)
+                    setShowLoadMoreMember(false)
+                    setFilterState({})
+                } else {
+                    // setisShowLoadMoreButton(true)
+                    setMemberDatasetUrl(response.data.next)
+                    // memberUrl = response.data.next
+                    setShowLoadMoreMember(true)
+                }
+                let finalDataList = []
+                // if (isLoadMore) {
+                    // finalDataList = [...memberDatasetList, ...response.data.results]
+                // } else {
+                    finalDataList = [...response.data.results]
+                    console.log(finalDataList)
+                // }
+                if(isMemberTab){
+                    setMemberDatasetList(finalDataList)
+
+                }else{
+                    setDatasetList(finalDataList)
+                }
+            })
+            .catch((e) => {
+                console.log(e)
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+
+
+
+
+       }
     const handleCropSearch = (e) => {
         var searchFound = false
         const searchText = e.target.value
@@ -461,7 +538,10 @@ export default function DatasetAdmin() {
             getMemberDatasets(false)
         } else{
             getMyDataset(false) 
-        }   
+        }
+        // if(anyValueInSearchInput){
+
+        // }   
     }, [isMemberTab]);
 
     const getFilters = () => {
@@ -663,6 +743,7 @@ export default function DatasetAdmin() {
                     } else {
                         finalDataList = [...response.data.results]
                     }
+
                     setDatasetList(finalDataList)
             })
             .catch((e) => {
@@ -780,7 +861,7 @@ export default function DatasetAdmin() {
     }
 
     const handleTabChange = (event, newValue) => {
-
+        // console.log(document.querySelector(".searchInputValue"));
         setValue(newValue);
         resetDateFilters()
         if (newValue == "2") {
@@ -1184,9 +1265,13 @@ export default function DatasetAdmin() {
             {screenView.isDataSetFilter ? <Row className="supportfirstmaindiv">
                 {/* <Row className="secondmainheading width100percent">{screenlabels.support.heading}</Row> */}
                 <Row className="supportmaindiv">
+               
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <DataSetFilter
+                                // isLoadMore={isLoadMore}
+                                isMemberTab={isMemberTab}
+                                debounceOnChange={debounceOnChange}
                                 isShowAll={isShowAll}
                                 setIsShowAll={setIsShowAll}
                                 secondrow={secondrow}
@@ -1233,14 +1318,32 @@ export default function DatasetAdmin() {
                             <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
                                 <Box>
                                     <TabContext value={value} className="tabstyle">
-                                        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                                        <Box sx={{ borderBottom: 1, borderColor: "divider"}}>
                                             <TabList
                                                 onChange={handleTabChange}
                                                 aria-label="lab API tabs example">
                                                 <Tab label="My organisation" value='1' />
                                                 <Tab label="Other organisations" value='2' />
+
                                             </TabList>
+                                           
                                         </Box>
+                                      {/* <div className='searchBarForDataset'>  */}
+                                      {/* <TextField id="outlined" label="Search Dataset" variant="outlined" /> */}
+                                     
+                                      {/* </div>  */}
+                                      {/* <span className='searchBarForDataset' style={{ padding:"10px 0px"}}> 
+                                                <TextField
+                                                    id="filled-basic"
+                                                    label="Search for dataset..."
+                                                    variant="filled"
+                                                    style={{width:"100%"}}
+                                                    InputProps={{
+                                                        endAdornment: <InputAdornment position="end"><SearchOutlinedIcon/></InputAdornment>,
+                                                      }}
+                                                    // className="signupemail"
+                                                    onChange={e => debounceOnChange(e.target.value)}
+                                            /></span> */}
                                         <TabPanel value='1'>
                                             <DataSetListing
                                                 datasetList={datasetList}
