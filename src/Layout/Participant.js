@@ -25,6 +25,7 @@ import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/Pro
 
 import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
 import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
+import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 
 function Participant(props) {
   return (
@@ -110,6 +111,11 @@ function Participant(props) {
                 path="/participant/settings/viewproject/:id"
                 component={ProjectDetailView}
               />
+               <Route
+              exact
+              path="/participant/connectors/detail"
+              component={DemoDashboardTable}
+            />
             </Switch>
           </div>
           <Footer />
