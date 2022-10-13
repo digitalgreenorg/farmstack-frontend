@@ -487,15 +487,15 @@ export default function DataSetForm(props) {
             name="row-radio-buttons-group"
             value={props.recordsvalue}
             onChange={props.handleChangeRecords}>
-            <FormControlLabel value="100k" control={<Radio />} label="<100k" />
+            <FormControlLabel value="<100k" control={<Radio />} label="<100k" />
             <FormControlLabel
-              value="150k"
+              value="100k-300k"
               control={<Radio />}
               label="100k-300k"
               className="record2"
             />
             <FormControlLabel
-              value="200k"
+              value="300k-500k"
               control={<Radio />}
               label="300k-500k"
               className="record3"
