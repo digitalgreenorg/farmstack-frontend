@@ -11,7 +11,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import {GetErrorHandlingRoute} from "../../../Utils/Common";
+import {debounce, GetErrorHandlingRoute} from "../../../Utils/Common";
 import { useHistory } from 'react-router-dom';
 import { getUserLocal, getUserMapId, getOrgLocal } from '../../../Utils/Common'
 import ViewDataSet from '../../../Components/Datasets/viewDataSet';
@@ -41,7 +41,8 @@ export default function DatasetParticipant() {
     const [memberDatasetUrl, setMemberDatasetUrl] = useState(
         UrlConstant.base_url + UrlConstant.dataset_participant_list
     );
-
+  const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
+    
     const [isShowAll, setIsShowAll] = useState(true)
     // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
     // const [isDisabledFilter, setIsDisabledFilter] = useState(false)
@@ -455,6 +456,76 @@ export default function DatasetParticipant() {
         setIsCropSearchFound(searchFound)
         setCropFilterDisplay(tempList)
     }
+    async function getSearchedData(val, isLoadMore, isMemberTab){
+        // console.log(val, "Here is value")
+        
+        if(val.length < 3 && val !== "") return
+        // console.log(val)
+        let data = {}
+        setFilterState({})
+        data['user_id'] = getUserLocal()
+        data['org_id'] = getOrgLocal()
+        data[  "search_pattern"]= val;
+        if (isMemberTab) {
+            data['others'] = true
+        } else {
+            data['others'] = false
+        }
+
+        // let ans = await fetch("https://jsonplaceholder.typicode.com/posts")
+        // let data = await ans.json()
+        // console.log("DATAAA", data, datasetList, memberDatasetList, val)
+
+        HTTPService(
+            "POST",
+            // "GET",
+            // isMemberTab ? memberDatasetUrl : datasetUrl,
+            UrlConstant.base_url + "participant/datasets/search_datasets/",
+            // UrlConstant.base_url + "datahub/datasets/search_datasets/",
+            data,
+            false,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log("response:", response)
+                console.log("datatset:", response.data.results)
+
+                if (response.data.next == null) {
+                    // setisShowLoadMoreButton(false)
+                    // setShowLoadMoreAdmin(false)
+                    setShowLoadMoreMember(false)
+                    setFilterState({})
+                } else {
+                    // setisShowLoadMoreButton(true)
+                    setMemberDatasetUrl(response.data.next)
+                    // memberUrl = response.data.next
+                    setShowLoadMoreMember(true)
+                }
+                let finalDataList = []
+                // if (isLoadMore) {
+                    // finalDataList = [...memberDatasetList, ...response.data.results]
+                // } else {
+                    finalDataList = [...response.data.results]
+                    console.log(finalDataList)
+                // }
+                if(isMemberTab){
+                    setMemberDatasetList(finalDataList)
+
+                }else{
+                    setDatasetList(finalDataList)
+                }
+            })
+            .catch((e) => {
+                console.log(e)
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+
+
+
+
+       }
 
     useEffect(() => {
         getFilters()
@@ -1103,6 +1174,8 @@ export default function DatasetParticipant() {
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <DataSetFilter
+                                isMemberTab={isMemberTab}
+                                debounceOnChange={debounceOnChange}
                                 isShowAll={isShowAll}
                                 setIsShowAll={setIsShowAll}
                                 secondrow={secondrow}
