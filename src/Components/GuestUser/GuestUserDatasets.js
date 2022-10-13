@@ -404,46 +404,53 @@ export default function GuestUserDatasets() {
         //     true
         // )
         
-        Axios.post( UrlConstant.base_url + "microsite/datasets/search_datasets/").then((response) => {
-                setIsLoader(false);
-                console.log("response:", response)
-                console.log("datatset:", response.data.results)
+        Axios.post( UrlConstant.base_url + "microsite/datasets/search_datasets/", data) .then((response) => {
+            setIsLoader(false);
+            console.log("response:", response)
+            console.log("datatset:", response.data.results)
 
-                if (response.data.next == null) {
-                    // setisShowLoadMoreButton(false)
-                    // setShowLoadMoreAdmin(false)
-                    setShowLoadMoreMember(false)
-                    setFilterState({})
-                } else {
-                    // setisShowLoadMoreButton(true)
+            if (response.data.next == null) {
+                setisShowLoadMoreButton(false)
+                setShowLoadMoreAdmin(false)
+                setShowLoadMoreMember(false)
+                setFilterState({})
+            } else {
+                setisShowLoadMoreButton(true)
+                if (value == "1") {
                     setDatasetUrl(response.data.next)
+                    // adminUrl = response.data.next
+                    setShowLoadMoreAdmin(true)
+                    setShowLoadMoreMember(false)
+                } else {
+                    //setMemberDatasetUrl(response.data.next)
                     // memberUrl = response.data.next
+                    setShowLoadMoreAdmin(false)
                     setShowLoadMoreMember(true)
                 }
-                let finalDataList = []
-                // if (isLoadMore) {
-                    // finalDataList = [...memberDatasetList, ...response.data.results]
-                // } else {
+            }
+            let finalDataList = []
+            if (!isMemberTab) {
+                if (isLoadMore) {
+                    finalDataList = [...datasetList, ...response.data.results]
+                } else {
                     finalDataList = [...response.data.results]
-                    console.log(finalDataList)
-                // }
-                // if(isMemberTab){
-                    // setMemberDatasetList(finalDataList)
-
-                // }else{
-                    setDatasetList(finalDataList)
-                // }
-            })
-            .catch((e) => {
-                console.log(e)
-                setIsLoader(false);
-                history.push(GetErrorHandlingRoute(e));
-            });
-
-
-
-
-       }
+                }
+                setDatasetList(finalDataList)
+            } else {
+                if (isLoadMore) {
+                    finalDataList = [...memberDatasetList, ...response.data.results]
+                } else {
+                    finalDataList = [...response.data.results]
+                }
+                setMemberDatasetList(finalDataList)
+            }
+        })
+        .catch((e) => {
+            console.log(e)
+            setIsLoader(false);
+            history.push(GetErrorHandlingRoute(e));
+        });
+}
 
     useEffect(() => {
         getFilters()
