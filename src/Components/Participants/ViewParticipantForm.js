@@ -11,7 +11,10 @@ const useStyles = {
     data: { float: "left","margin-top": "5px" },
     left: {float: "left", "text-align": "left"},
     marginrowtop: {"margin-top": "40px" },
-    headingbold:{fontWeight: "bold"}
+    headingbold:{fontWeight: "bold"},
+    fourthhead:{float: 'left', 'margin-left': '700px', 'margin-top': '-27px'},
+    Fourthhead:{float: 'right', 'margin-right': '383px', 'margin-top': '17px'}
+
 };
 export default function ViewParticipantForm(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
@@ -185,18 +188,27 @@ export default function ViewParticipantForm(props) {
             <hr className="separatorline"/>
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={12} lg={12}  style={useStyles.left}>
-                    <span className="mainheading">
+                    <span className="mainheading" style={{"margin-top": "-37px"}}>
                         {screenlabels.viewparticipants.third_heading}
                     </span>
                 </Col>
+                <Col xs={12} sm={12} md={12} lg={12} >
+                <span className="mainheading" style={useStyles.fourthhead}>
+                    {screenlabels.viewparticipants.fourth_heading}
+                </span>
+                <span  style={useStyles.Fourthhead}>
+                    {props.istrusted ? "Yes" : "No"}
+                </span>
+                </Col>
+                
             </Row>
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
-                    <span className="secondmainheading" style={useStyles.left}>
+                    <span className="secondmainheading" style={{"float":"left", "text-align":"left", "margin-top":"-62px"}}>
                     {screenlabels.viewparticipants.subscripiton_length}
                     </span>
                 </Col><br />
-                <Col xs={12} sm={12} md={12} lg={12} style={{textAlign:"left"}}>
+                <Col xs={12} sm={12} md={12} lg={12} style={{"float":"left", "text-align":"left", "margin-top":"-62px"}}>
                 <Tooltip placement='bottom-start' TransitionComponent={Zoom} title={props.organisationlength+" Months"}>
 
                     <span className="thirdmainheading d-inline-block text-truncate width300px_mt5px">
