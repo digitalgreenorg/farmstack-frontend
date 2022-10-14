@@ -856,7 +856,7 @@ export default function ParticipantOrganisationSetting(props) {
             email &&
             city &&
             pincode &&
-            phonenumber.length > 7 &&
+            (phonenumber.length >= 9) &&
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (

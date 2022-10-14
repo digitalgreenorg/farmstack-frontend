@@ -36,8 +36,7 @@ export default function GuestUserDatasets() {
         UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
     );
   const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
-
-
+    const [searchDatasetVar, setSearchDatasetVar] = useState("")
     const [isShowAll, setIsShowAll] = useState(true)
     // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
     // const [isDisabledFilter, setIsDisabledFilter] = useState(false)
@@ -94,11 +93,12 @@ export default function GuestUserDatasets() {
     var payload = ""
     var adminUrl = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
     //var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
-
+    var guestUrl =UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest
     const resetUrls = () => {
         // setDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
         // setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
         adminUrl = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
+         guestUrl =UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest
         //memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
     }
     const handleConstantyUpdateSwitch = (event) => {
@@ -375,8 +375,7 @@ export default function GuestUserDatasets() {
 
     async function getSearchedData(val, isLoadMore, isMemberTab){
         // console.log(val, "Here is value")
-        
-        if(val.length < 3 && val !== "") return
+        if(val.length < 3 && val !== "") val=""
         // console.log(val)
         let data = {}
         setFilterState({})
@@ -403,8 +402,10 @@ export default function GuestUserDatasets() {
         //     false,
         //     true
         // )
-        
-        Axios.post( UrlConstant.base_url + "microsite/datasets/search_datasets/", data) .then((response) => {
+        // console.log(isLoadMore)
+       let url =  !isLoadMore ? (guestUrl) : (datasetUrl)
+
+        Axios.post( url, data) .then((response) => {
             setIsLoader(false);
             console.log("response:", response)
             console.log("datatset:", response.data.results)
@@ -416,6 +417,7 @@ export default function GuestUserDatasets() {
                 setFilterState({})
             } else {
                 setisShowLoadMoreButton(true)
+                console.log(value)
                 if (value == "1") {
                     setDatasetUrl(response.data.next)
                     // adminUrl = response.data.next
@@ -502,7 +504,10 @@ export default function GuestUserDatasets() {
 
 
     const getDatasetList = (isLoadMore) => {
-
+        if(searchDatasetVar){
+            getSearchedData(searchDatasetVar, true,false)
+            return
+        }
         setIsLoader(true);
 
         if(!isLoadMore){
@@ -520,6 +525,7 @@ export default function GuestUserDatasets() {
         // if (isLoadMore){
         //     payload = {...filterState}
         // }
+        
         HTTPService(
             "POST",
             // "GET",
@@ -749,6 +755,8 @@ export default function GuestUserDatasets() {
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <GuestUserDatasetFilter
+                                setSearchDatasetVar={setSearchDatasetVar}
+                                searchDatasetVar={searchDatasetVar}
                                 isMemberTab={isMemberTab}
                                 debounceOnChange={debounceOnChange}
                                 isShowAll={isShowAll}
