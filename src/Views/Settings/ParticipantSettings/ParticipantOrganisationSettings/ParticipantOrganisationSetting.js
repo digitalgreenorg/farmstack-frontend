@@ -29,7 +29,6 @@ import HandleSessionTimeout, {
   fileUpload,
   GetErrorHandlingRoute,
   validateInputField,
-  mobileNumberMinimunLengthCheck
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 // import {
@@ -857,7 +856,7 @@ export default function ParticipantOrganisationSetting(props) {
             email &&
             city &&
             pincode &&
-            mobileNumberMinimunLengthCheck(phonenumber) &&
+            (phonenumber.length >= 9) &&
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
