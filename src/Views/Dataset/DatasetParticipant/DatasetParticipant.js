@@ -43,8 +43,9 @@ export default function DatasetParticipant() {
     );
 //   const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
   const debounceOnChange = React.useCallback(debounce(isMemberTab ? getSearchedData : getSearchOtherData, 1000), []);
-  const [searchDatasetUrl, setSearchDatasetUrl] = useState(UrlConstant.base_url + UrlConstant.search_dataset_end_point)
-
+  const [searchDatasetUrl, setSearchDatasetUrl] = useState(UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant)
+  const [searchDatasetVar, setSearchDatasetVar] = useState("")
+    
     
     const [isShowAll, setIsShowAll] = useState(true)
     // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
@@ -120,14 +121,14 @@ export default function DatasetParticipant() {
     var payload = ""
     var adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
     var memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
-    var searchUrl = UrlConstant.base_url + UrlConstant.search_dataset_end_point
+    var searchUrl = UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant
     
     const resetUrls = () => {
         // setDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
         // setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
         adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
         memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list
-        searchUrl = UrlConstant.base_url + UrlConstant.search_dataset_end_point
+        searchUrl = UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant
 
         setDatasetUrl("")
         setMemberDatasetUrl("")
@@ -465,7 +466,7 @@ export default function DatasetParticipant() {
     async function getSearchOtherData(val, isLoadMore, isMemberTab){
         // console.log(val, "Here is value")
         
-        if(val.length < 3 && val !== "") return
+        if(val && val.length < 3 && val !== "") val=""
         // console.log(val)
         let data = {}
         setFilterState({})
@@ -487,7 +488,7 @@ export default function DatasetParticipant() {
             // "GET",
             // isMemberTab ? memberDatasetUrl : datasetUrl,
             // UrlConstant.base_url + "participant/datasets/search_datasets/",
-            !isLoadMore ? searchUrl : memberDatasetUrl,
+            !isLoadMore ? searchUrl : (memberDatasetUrl?memberDatasetUrl:searchUrl),
             data,
             false,
             true
@@ -534,16 +535,148 @@ export default function DatasetParticipant() {
        }
 
 
+       function fetchSearchDataWithLoadMoreButtonMember (isLoadMore){
+        
+        setIsLoader(true)
+        console.log("payload" , searchDatasetVar)
+
+        // if(!isLoadMore){
+            resetUrls()
+
+                // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+                payload ={}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = true
+                payload["search_pattern"] = searchDatasetVar
+
+                // setFilterState(payload)
+                // if(searchDatasetVar){
+                //     payload["search_pattern"] = searchDatasetVar
+                // }
+            // }
+
+        
+
+       
+
+        HTTPService(
+            "POST",
+            // "GET",
+            // isMemberTab ? memberDatasetUrl : datasetUrl,
+            !isLoadMore ? searchUrl : (memberDatasetUrl?memberDatasetUrl :searchUrl),
+            payload,
+            false,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log("response:", response)
+                console.log("datatset:", response.data.results)
+
+                if (response.data.next == null) {
+                    // setisShowLoadMoreButton(false)
+                    // setShowLoadMoreAdmin(false)
+                    setShowLoadMoreMember(false)
+                    setFilterState({})
+                } else {
+                    // setisShowLoadMoreButton(true)
+                    setMemberDatasetUrl(response.data.next)
+                    // memberUrl = response.data.next
+                    setShowLoadMoreMember(true)
+                }
+                let finalDataList = []
+                if (isLoadMore) {
+                    finalDataList = [...memberDatasetList, ...response.data.results]
+                } else {
+                    finalDataList = [...response.data.results]
+                }
+                setMemberDatasetList(finalDataList)
+            })
+            .catch((e) => {
+                console.log(e)
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+    
+    function fetchSearchDataWithLoadMoreButtonMyOrg (isLoadMore){
+        
+        setIsLoader(true)
+        console.log("payload" , searchDatasetVar)
+
+        // if(!isLoadMore){
+            resetUrls()
+
+                // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
+                payload ={}
+                payload['user_id'] = getUserLocal()
+                payload['org_id'] = getOrgLocal()
+                payload['others'] = false
+                payload["search_pattern"] = searchDatasetVar
+
+                // setFilterState(payload)
+                // if(searchDatasetVar){
+                //     payload["search_pattern"] = searchDatasetVar
+                // }
+            // }
+
+        
+
+       
+
+        HTTPService(
+            "POST",
+            // "GET",
+            // isMemberTab ? memberDatasetUrl : datasetUrl,
+            !isLoadMore ? searchUrl : (datasetUrl ?datasetUrl : searchUrl),
+            payload,
+            false,
+            true
+        )
+            .then((response) => {
+                setIsLoader(false);
+                console.log("response:", response)
+                console.log("datatset:", response.data.results)
+
+                if (response.data.next == null) {
+                    // setisShowLoadMoreButton(false)
+                    // setShowLoadMoreAdmin(false)
+                    setShowLoadMoreMember(false)
+                    setFilterState({})
+                } else {
+                    // setisShowLoadMoreButton(true)
+                    setDatasetUrl(response.data.next)
+                    // memberUrl = response.data.next
+                    setShowLoadMoreMember(true)
+                }
+                let finalDataList = []
+                if (isLoadMore) {
+                    finalDataList = [...datasetList, ...response.data.results]
+                } else {
+                    finalDataList = [...response.data.results]
+                }
+                setDatasetList(finalDataList)
+            })
+            .catch((e) => {
+                console.log(e)
+                setIsLoader(false);
+                history.push(GetErrorHandlingRoute(e));
+            });
+    }
+       
+
+
     async function getSearchedData(val, isLoadMore, isMemberTab){
         // console.log(val, "Here is value")
         
-        if(val.length < 3 && val !== "") return
+        if(val.length < 3 && val !== "") val=""
         // console.log(val)
         let data = {}
         setFilterState({})
         data['user_id'] = getUserLocal()
         data['org_id'] = getOrgLocal()
-        data[  "search_pattern"]= val;
+        data["search_pattern"]= val;
         if (isMemberTab) {
             data['others'] = true
         } else {
@@ -579,7 +712,7 @@ export default function DatasetParticipant() {
                 }
                 let finalDataList = []
                 if (isLoadMore) {
-                    finalDataList = [...datasetUrl, ...response.data.results]
+                    finalDataList = [...datasetList, ...response.data.results]
                 } else {
                     finalDataList = [...response.data.results]
                     console.log(finalDataList)
@@ -763,7 +896,10 @@ export default function DatasetParticipant() {
     const getMyDataset = (isLoadMore) => {
 
         setIsLoader(true)
-
+        if(searchDatasetVar){
+            fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore)
+            return
+         }
         if(!isLoadMore){
             resetUrls()
             if (payload == "") {  
@@ -828,7 +964,10 @@ export default function DatasetParticipant() {
     const getMemberDatasets = (isLoadMore) => {
 
         setIsLoader(true);
-
+        if(searchDatasetVar){
+            fetchSearchDataWithLoadMoreButtonMember(isLoadMore);
+            return
+        }
         if(!isLoadMore){
             resetUrls()
             if (payload == "") {
@@ -1249,6 +1388,8 @@ export default function DatasetParticipant() {
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <DataSetFilter
+                                searchDatasetVar={searchDatasetVar}
+                                setSearchDatasetVar={setSearchDatasetVar}
                                 isMemberTab={isMemberTab}
                                 debounceOnChange={debounceOnChange}
                                 isShowAll={isShowAll}
