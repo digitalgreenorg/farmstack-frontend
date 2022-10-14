@@ -43,10 +43,7 @@ const DemoDashboardTable = () => {
           }
           let rowArr = []
           for(let i=0; i<response.data.length; i++){
-            let masked_phone_number = response.data[i] ?  response.data[i].phone_number.split("") : "9999999999"
-             masked_phone_number.splice(3, 5, "X", "X", "X","X","X")
-            let obj1 = {id:i, ...response.data[i], "phone_number" : masked_phone_number.join("")}
-
+            let obj1 = {id:i, ...response.data[i]}
             rowArr.push(obj1)
           }
           
@@ -69,7 +66,7 @@ const DemoDashboardTable = () => {
      
 
       const downloadDocument = ()=>{
-        converter.json2csv(row, async (err, csv) => {
+        converter.json2csv(data, async (err, csv) => {
           if (err) {
             throw err
           }

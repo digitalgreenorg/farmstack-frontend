@@ -116,7 +116,7 @@
   /* identical to box height */
 
   text-align: center;
-  text-transform: capitalize !important;
+  /* text-transform: capitalize !important; */
 
   color: #585d60 !important;
 }

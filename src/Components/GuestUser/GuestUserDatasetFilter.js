@@ -11,6 +11,7 @@ import FilterCheckBox from '../../Components/Datasets/FilterCheckBox';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { SearchSharp } from '@mui/icons-material';
+import Search from '../Datasets/Search';
 
 export default function GuestUserDatasetFilter(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
@@ -61,6 +62,7 @@ export default function GuestUserDatasetFilter(props) {
             </span>
             <span className="fontweight600andfontsize14pxandcolor3D4A52 supportalltexticon">{screenlabels.support.all}</span>
         </Row>}
+        <Row><Search debounceOnChange={props.debounceOnChange} isLoadmore={props.isLoadmore} isMemberTab={props.isMemberTab}/></Row>
         <Row className={props.secondrow ? 'supportfilterthirdrowhighlight' : "supportfilterthirdrow"}>
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterthirdrowheadingtext">{screenlabels.support.date}</span>
           <span className="supportcardfromdate">

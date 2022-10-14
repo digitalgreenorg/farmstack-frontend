@@ -11,7 +11,9 @@ import FilterCheckBox from "../../Components/Datasets/FilterCheckBox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { SearchSharp } from "@mui/icons-material";
-
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { InputAdornment } from '@material-ui/core';
+import Search from "../../Components/Datasets/Search";
 export default function DataSetFilter(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -74,6 +76,23 @@ export default function DataSetFilter(props) {
           </span>
         </Row>
       )}
+      <Row> 
+        <Search debounceOnChange={props.debounceOnChange} isLoadmore={false} isMemberTab={props.isMemberTab} />
+      {/* <span className='searchBarForDataset' > 
+      
+      <TextField
+          id="filled-basic"
+          label="Search for dataset..."
+          variant="filled"
+          style={{width:"100%"}}
+          InputProps={{
+              endAdornment: <InputAdornment position="end"><SearchOutlinedIcon/></InputAdornment>,
+            }}
+          // className="signupemail"
+          onChange={e => props.debounceOnChange(e.target.value,props.isLoadmore, props.isMemberTab)}
+  /></span> */}
+
+      </Row>
       <Row
         className={
           props.secondrow
@@ -143,6 +162,7 @@ export default function DataSetFilter(props) {
           </span>
         )}
       </Row>
+      
       {props.showMemberFilters && (
         <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
