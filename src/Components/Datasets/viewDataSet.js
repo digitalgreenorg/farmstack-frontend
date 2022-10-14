@@ -12,6 +12,9 @@ import { dateTimeFormat } from "../../Utils/Common";
 import UrlConstants from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import { Tooltip, Zoom } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Stack from "@mui/material/Stack";
 
 const useStyles = {
   datasetdescription: {
@@ -536,6 +539,7 @@ export default function ViewDataSet(props) {
       )}
       <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
         <span className="mainheading">{"Sample data table"}</span>
+
         <span
           style={{ "margin-left": "67%", cursor: "pointer" }}
           onClick={() =>
@@ -551,6 +555,26 @@ export default function ViewDataSet(props) {
           }>
           {"Download sample data"}
         </span>
+      </Row>
+      <Row
+        style={{
+          "margin-left": "93px",
+          "margin-top": "30px",
+          "margin-right": "73px",
+        }}>
+        <Stack sx={{ width: "100%", textAlign: "left" }} spacing={2}>
+          <Alert severity="warning">
+            {/* <AlertTitle style={{ textAlign: "left" }}>Warning</AlertTitle> */}
+            {/* This is a warning alert —{" "} */}
+            <strong>
+              This table's sample dataset is solely meant to be used as a source
+              of information. Despite the fact that accuracy is a goal, the
+              steward is not accountable for the information. Please let the
+              admin know if you come across any information that you think is
+              inaccurate.
+            </strong>
+          </Alert>
+        </Stack>
       </Row>
       <Row
         style={{
