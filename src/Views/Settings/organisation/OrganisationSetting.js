@@ -29,6 +29,8 @@ import HandleSessionTimeout, {
   setOrgId,
   GetErrorKey,
   fileUpload,
+  mobileNumberMinimunLengthCheck
+  
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import {
@@ -824,7 +826,7 @@ export default function OrganisationSetting(props) {
             !isOrgWebsiteerror &&
             orgfile != null &&
             !orgfilesize &&
-            phonenumber.length > 7 &&
+            mobileNumberMinimunLengthCheck (phonenumber) &&
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
