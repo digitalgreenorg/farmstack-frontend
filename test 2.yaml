@@ -1,0 +1,88 @@
+version: '3'
+volumes: 
+  postgres-data:
+  media:
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=$farmstack@!21
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - '7000:5432'
+      - '5432:5432'
+    volumes:
+      - "../postgres-dev:/var/lib/postgresql/data"
+    networks:
+      - postgresql-network
+
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   networks:
+  #     - postgresql-network
+  #   command: --interval 30
+
+  
+  datahub:
+    image: farmstack/datahub-ui:test
+    container_name: datahub-ui
+    env_file:
+      - ./.env.production
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./env_frontend.sh:/docker-entrypoint.d/env.sh
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - /.env.production:/app/.env.production
+    networks:
+      - postgresql-network
+
+  datahub-be:
+    image: farmstack/datahub-be:test
+    container_name: datahub-be
+    command: >
+      sh -c "  python manage.py makemigrations &&  python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        # "python manage.py makemigrations &&
+        #  python manage.py migrate && python manage.py loaddata db_scripts/userrole_fixture.yaml &&
+        #  python manage.py loaddata db_scripts/initial_data.yaml && 
+        # python manage.py runserver 0.0.0.0:8000" 
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/connector_configs:/datahub/connector_configs
+      - ../media/:/datahub/media
+      - /home/ubuntu/datahub-api/participant/views.py:/datahub/participant/views.py
+      - /home/ubuntu/datahub-api/core/settings.py:/datahub/participant/settings.py
+      - /home/ubuntu/datahub-api/datahub/views.py:/datahub/datahub/views.py
+      - /home/ubuntu/datahub-api/participant/serializers.py:/datahub/participant/serializers.py
+      - /home/ubuntu/datahub-api/participant/models.py:/datahub/participant/models.py
+      - /home/ubuntu/datahub-api/utils/connector_utils.py:/datahub/utils/connector_utils.py
+    environment:
+      DATAHUB_NAME: https://www.digitalgreen.org
+      DATAHUB_SITE: https://datahubtest.farmstack.co
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: $farmstack@!21
+      POSTGRES_HOST_AUTH_METHOD: trust
+      SENDGRID_API_KEY: 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
+      EMAIL_HOST_USER: farmstack.dg@gmail.com
+        # SENDGRID_API_KEY: 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
+        # EMAIL_HOST_USER: varunramesh.07@gmail.com
+      PORT: 7000
+    links:
+      - db:db
+    networks:
+      - postgresql-network
+
+networks:
+  postgresql-network:
+    driver: bridge

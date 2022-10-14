@@ -42,6 +42,7 @@ function EditParticipants(props) {
     const [isexisitinguseremail, setisexisitinguseremail] = useState(false)
     const [isSuccess, setisSuccess] = useState(false);
     const[isLoader, setIsLoader] = useState(false)
+    const [istrusted, setistrusted] = React.useState(false);
 
     const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
     const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
@@ -79,6 +80,7 @@ function EditParticipants(props) {
             setuseremail(response.data.user.email)
             setorganisationlength(response.data.user.subscription)
             setidorg(response.data.organization_id)
+            setistrusted(response.data.user.approval_status)
         }).catch((e) => {
             setIsLoader(false);
             history.push(GetErrorHandlingRoute(e));
@@ -109,6 +111,7 @@ function EditParticipants(props) {
         bodyFormData.append('subscription', organisationlength);
         bodyFormData.append('role', 3);
         bodyFormData.append('id', idorg);
+        bodyFormData.append("approval_status", istrusted)
         console.log("dfdfdsf", bodyFormData)
         setIsLoader(true);
         HTTPService('PUT', UrlConstants.base_url + UrlConstants.participant + id + '/', bodyFormData, false, true).then((response) => {
@@ -139,6 +142,10 @@ function EditParticipants(props) {
             } //history.push(GetErrorHandlingRoute(e));
         });
     }
+    const handleistrusted = (event) => {
+        console.log(event.target.checked);
+        setistrusted(event.target.checked)
+      };
     return (
         <>
             {isLoader ? <Loader />: ''}
@@ -147,6 +154,7 @@ function EditParticipants(props) {
                     organisationname={organisationname}
                     setorganisationname={ref => { setorganisationname(ref) }}
                     orginsationemail={orginsationemail}
+                    handleistrusted={handleistrusted}
                     isorganisationemailerror={isorganisationemailerror}
                     setorginsationemail={ref => { setorginsationemail(ref); setisorganisationemailerror(!validator.isEmail(ref)) }}
                     countryvalue={countryvalue}
@@ -158,6 +166,7 @@ function EditParticipants(props) {
                     setwebsitelink={ref => { setwebsitelink(ref); setwebsitelinkerror(!isValidURL(ref)) }}
                     iswebsitelinkrerror={iswebsitelinkrerror}
                     organisationaddress={organisationaddress}
+                    istrusted={istrusted}
                     setorganisationaddress={ref => { setorganisationaddress(ref) }}
                     pincode={pincode}
                     setpincode={ref => { setpincode(ref) }}
@@ -174,6 +183,7 @@ function EditParticipants(props) {
                     first_heading={screenlabels.editparticipants.first_heading}
                     second_heading={screenlabels.editparticipants.second_heading}
                     third_heading={screenlabels.editparticipants.third_heading}
+                    fourth_heading={screenlabels.editparticipants.fourth_heading}
                     orgNameErrorMessage={orgNameErrorMessage}
                     orgEmailErrorMessage={orgEmailErrorMessage}
                     orgWebsiteErrorMessage={orgWebsiteErrorMessage}

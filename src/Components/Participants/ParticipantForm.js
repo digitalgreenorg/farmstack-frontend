@@ -7,6 +7,8 @@ import TextField from "@mui/material/TextField";
 import MenuItem from '@mui/material/MenuItem';
 import countryList from "react-select-country-list";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { FormControlLabel } from '@mui/material';
+import Checkbox from "@mui/material/Checkbox";
 import RegexConstants from '../../Constants/RegexConstants';
 import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validateInputField } from '../../Utils/Common';
 // import Select from 'react-select'
@@ -15,6 +17,7 @@ const useStyles = {
     marginrowtop: {"margin-top": "30px"},
     marginrowtop50: {"margin-top": "50px"},
     inputwidth:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52'},
+    inputwidthlastrow:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52', "margin-top": "-10px"},
     headingbold:{fontWeight: "bold"}
 };
 export default function ParticipantForm(props) {
@@ -197,8 +200,11 @@ export default function ParticipantForm(props) {
             <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
             <Row style={useStyles.marginrowtop}>
             <Col xs={12} sm={12} md={12} lg={12}>
-                <span className="mainheading" style={{float: 'left', 'margin-left': '15px'}}>
+                <span className="mainheading" style={{float: 'left', 'margin-left': '15px', 'margin-top': '5px'}}>
                     {props.third_heading}
+                </span>
+                <span className="mainheading" style={{float: 'left', 'margin-left': '41px', 'margin-top': '5px'}}>
+                    {props.fourth_heading}
                 </span>
             </Col>
             </Row>
@@ -210,7 +216,7 @@ export default function ParticipantForm(props) {
                         variant="filled"
                         required
                         hiddenLabel="true"
-                        style={useStyles.inputwidth}
+                        style={useStyles.inputwidthlastrow}
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         label=""
@@ -228,6 +234,20 @@ export default function ParticipantForm(props) {
 
                     </TextField>
                 </Col>
+                <Col xs={12} sm={12} md={6} lg={6} >
+                <FormControlLabel
+            control={
+              <Checkbox
+                // style={useStyles.inputwidth}
+                checked={props.istrusted}
+                onChange={props.handleistrusted}
+              />
+            }
+            label={screenlabels.addparticipants.is_trusted}
+            style={{ "width": "100%", "float": "left", "margin-left": "8px", "margin-top": "-10px", "fontFamily": "open-sans", "font-size": "14px"}}
+          />
+                </Col>
+                
             </Row>
             <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
         </>
