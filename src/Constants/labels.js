@@ -31,6 +31,7 @@ const labels = {
       first_heading: "Add participants organisation details",
       second_heading: "Add participants root user details",
       third_heading: "Add participant's subscription length to the datahub",
+      fourth_heading: "Add participant's user type",
       organisation_name: "Organisation name",
       email: "Email Id",
       website_link: "Website link",
@@ -44,16 +45,19 @@ const labels = {
       firstText: "Add new participant",
       secondText:
         "Add details about your dataset and make it discoverable to other users of our network.",
+      is_trusted: "Is trusted"
     },
     editparticipants: {
       first_heading: "Edit participants organisation details",
       second_heading: "Edit participants root user details",
       third_heading: "Edit participant's subscription length to the datahub",
+      fourth_heading: "Edit participant's user type",
     },
     viewparticipants: {
       first_heading: "Participant organisation details",
       second_heading: "Participant root user details",
       third_heading: "Participant's subscription length to the datahub",
+      fourth_heading: "Participant's user is Trusted",
       organisation_name: "Organisation name",
       email: "Email id",
       website_link: "Website link",
@@ -146,6 +150,11 @@ const labels = {
       Farmer_profile: "Farmer profile",
       Land_records: "Land records",
       Cultivation_data: "Cultivation data",
+      Livestock: "Livestock",
+      Diary: "Diary",
+      Poultry: "Poultry",
+      Other: "Other",
+
       Soil_data: "Soil data",
       Weather_data: "Weather data",
       Research_data: "Research data",

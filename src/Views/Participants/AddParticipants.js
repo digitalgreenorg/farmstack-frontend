@@ -40,6 +40,7 @@ function AddParticipants(props) {
   const [lastname, setlastname] = useState("");
   const [useremail, setuseremail] = useState("");
   const [organisationlength, setorganisationlength] = useState(3);
+  const [istrusted, setistrusted] = React.useState(false);
   const [isorganisationemailerror, setisorganisationemailerror] =
     useState(false);
   const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
@@ -96,6 +97,7 @@ function AddParticipants(props) {
         pincode: pincode,
       })
     );
+    bodyFormData.append("approval_status", istrusted)
     bodyFormData.append("subscription", organisationlength);
     bodyFormData.append("role", 3);
     setIsLoader(true);
@@ -137,6 +139,11 @@ function AddParticipants(props) {
         //setisexisitinguseremail(true);
         //history.push(GetErrorHandlingRoute(e));
       });
+  };
+
+  const handleistrusted = (event) => {
+    console.log(event.target.checked);
+    setistrusted(event.target.checked)
   };
   return (
     <>
@@ -189,13 +196,15 @@ function AddParticipants(props) {
               setpincode={(ref) => {
                 setpincode(ref);
               }}
+              istrusted={istrusted}
+              handleistrusted={handleistrusted}
               // ispincodeerror={ispincodeerror}
               firstname={firstname}
               setfirstname={(ref) => {
                 setfirstname(ref);
               }}
               lastname={lastname}
-              setlastname={(ref) => {
+              setlastname={(ref) => {   
                 setlastname(ref);
               }}
               useremail={useremail}
@@ -215,6 +224,7 @@ function AddParticipants(props) {
               third_heading={
                 screenlabels.addparticipants.third_heading
               }
+              fourth_heading={screenlabels.addparticipants.fourth_heading}
               firstNameErrorMessage={firstNameErrorMessage}
               lastNameErrorMessage={lastNameErrorMessage}
               emailErrorMessage={emailErrorMessage}

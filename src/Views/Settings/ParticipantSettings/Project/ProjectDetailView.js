@@ -100,6 +100,7 @@ export default function ProjectDetailView(props) {
       });
   };
 
+  //returns tab corresponding tab number of project tab depending on user role
   const getTabNumber = () => {
     if(isRoleName(location.pathname) == '/datahub/'){
       return '7'
