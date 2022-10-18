@@ -507,8 +507,8 @@ export default function GuestUserDatasets() {
 
 
     const getDatasetList = (isLoadMore) => {
-        if(searchDatasetVar.val){
-            getSearchedData(searchDatasetVar.val, true,false)
+        if(searchValMyOrg.val){
+            getSearchedData(searchValMyOrg.val, isLoadMore,false)
             return
         }
         setIsLoader(true);
