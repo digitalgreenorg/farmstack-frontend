@@ -550,7 +550,7 @@ export default function DatasetParticipant() {
                 payload['user_id'] = getUserLocal()
                 payload['org_id'] = getOrgLocal()
                 payload['others'] = true
-                payload["search_pattern"] = searchDatasetVar
+                payload["search_pattern"] = searchValOtherOrg.val.trim()
 
                 // setFilterState(payload)
                 // if(searchDatasetVar){
@@ -615,7 +615,7 @@ export default function DatasetParticipant() {
                 payload['user_id'] = getUserLocal()
                 payload['org_id'] = getOrgLocal()
                 payload['others'] = false
-                payload["search_pattern"] = searchDatasetVar
+                payload["search_pattern"] = searchValMyOrg.val.trim()
 
                 // setFilterState(payload)
                 // if(searchDatasetVar){
@@ -898,7 +898,7 @@ export default function DatasetParticipant() {
     const getMyDataset = (isLoadMore) => {
 
         setIsLoader(true)
-        if(searchDatasetVar){
+        if(searchValMyOrg.val){
             fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore)
             return
          }
@@ -966,7 +966,7 @@ export default function DatasetParticipant() {
     const getMemberDatasets = (isLoadMore) => {
 
         setIsLoader(true);
-        if(searchDatasetVar){
+        if(searchValOtherOrg.val){
             fetchSearchDataWithLoadMoreButtonMember(isLoadMore);
             return
         }
@@ -1095,6 +1095,8 @@ export default function DatasetParticipant() {
 
         resetDateFilters()
         setValue(newValue);
+        setSearchDatasetVar({val : ""})
+
         if (newValue == "2") {
             console.log("isMemberTab", isMemberTab)
             setFilterState({})
