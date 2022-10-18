@@ -77,7 +77,7 @@ export default function DataSetFilter(props) {
         </Row>
       )}
       <Row> 
-        <Search setSearchDatasetVar={props.setSearchDatasetVar} searchDatasetVar={props.searchDatasetVar} debounceOnChange={props.debounceOnChange} isLoadmore={false} isMemberTab={props.isMemberTab} />
+       {props.isMemberTab ?<Search checkForRegex={props.checkForRegex} setSearchValOtherOrg={props.setSearchValOtherOrg}  setSearchDatasetVar={props.setSearchDatasetVar} searchDatasetVar={props.searchValOtherOrg} debounceOnChange={props.debounceOnChange} isLoadmore={false} isMemberTab={props.isMemberTab} /> : <Search checkForRegex={props.checkForRegex} setSearchDatasetVar={props.setSearchDatasetVar} searchDatasetVar={props.searchValMyOrg} debounceOnChange={props.debounceOnChange} setSearchValMyOrg={props.setSearchValMyOrg} isLoadmore={false} isMemberTab={props.isMemberTab} /> } 
       {/* <span className='searchBarForDataset' > 
       
       <TextField

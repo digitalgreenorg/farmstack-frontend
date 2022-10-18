@@ -23,6 +23,7 @@ import FileSaver from 'file-saver';
 import UrlConstants from '../../../Constants/UrlConstants'
 import Button from "@mui/material/Button";
 import '../DatasetAdmin/DatasetAdmin.css'
+import RegexConstants from '../../../Constants/RegexConstants';
 export default function DatasetParticipant() {
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
@@ -44,8 +45,9 @@ export default function DatasetParticipant() {
 //   const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
   const debounceOnChange = React.useCallback(debounce(isMemberTab ? getSearchedData : getSearchOtherData, 1000), []);
   const [searchDatasetUrl, setSearchDatasetUrl] = useState(UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant)
-  const [searchDatasetVar, setSearchDatasetVar] = useState("")
-    
+  const [searchDatasetVar, setSearchDatasetVar] = useState({val:""})
+  const [searchValMyOrg, setSearchValMyOrg] = useState({val : ""})
+  const [searchValOtherOrg, setSearchValOtherOrg] = useState({val : ""})
     
     const [isShowAll, setIsShowAll] = useState(true)
     // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
@@ -1078,6 +1080,16 @@ export default function DatasetParticipant() {
         setFilterState(data)
         return data
     }
+    function checkForRegex(val,e){
+        if (val.match(RegexConstants.ORG_NAME_REGEX)) {
+            
+           !isMemberTab ?  setSearchValMyOrg({val : val}) :setSearchValOtherOrg({val : val}) ;
+            
+          }
+        
+          return;
+        // if()
+    }
 
     const handleTabChange = (event, newValue) => {
 
@@ -1088,10 +1100,12 @@ export default function DatasetParticipant() {
             setFilterState({})
             setIsShowAll(true)
             setConstantyUpdateSwitch(false)
+            setSearchValMyOrg({val : ""})
             setIsMemberTab(!isMemberTab)
             getMemberDatasets(false)
             console.log("isMemberTab", isMemberTab)
         } else {
+            setSearchValOtherOrg({val : ""})
             setFilterState({})
             setIsShowAll(true)
             setConstantyUpdateSwitch(false)
@@ -1388,6 +1402,10 @@ export default function DatasetParticipant() {
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <DataSetFilter
+                                 setSearchValMyOrg={setSearchValMyOrg}
+                                 setSearchValOtherOrg={setSearchValOtherOrg}
+                                 searchValMyOrg={searchValMyOrg}
+                                 searchValOtherOrg={searchValOtherOrg}
                                 searchDatasetVar={searchDatasetVar}
                                 setSearchDatasetVar={setSearchDatasetVar}
                                 isMemberTab={isMemberTab}
@@ -1413,6 +1431,7 @@ export default function DatasetParticipant() {
 
                                 geoSearchState={geoSearchState}
                                 cropSearchState={cropSearchState}
+                                checkForRegex={checkForRegex}
 
                                 clearAllFilters={clearAllFilters}
                                 showMemberFilters={value == "2"}
