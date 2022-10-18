@@ -114,6 +114,9 @@ export default function AccountSetting(props) {
     //   //   setispropfileemailerror(true);
     //   // }
   };
+  const phonenumcheck = (number) =>{
+    return number.length>=9
+  }
   const handleprofilenumber = (value) => {
     console.log(value);
     console.log(value.length);
@@ -124,7 +127,7 @@ export default function AccountSetting(props) {
     //   // } else {
     //   //   setispropfilenumbererror(true);
     //   // }
-    if (mobileNumberMinimunLengthCheck(value)) {
+    if (phonenumcheck(value)) {
       setaccnumberbtn(true);
     } else {
       setaccnumberbtn(false);

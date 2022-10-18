@@ -152,23 +152,23 @@ export default function PolicySettings(props) {
       .then((response) => {
         setIsLoader(false);
         console.log("response : ", response.data);
-        if (response.data.Content == null && response.data.Documents == null) {
+        if (response.data.content == null && response.data.documents == null) {
           setIsPostMethod(true);
           console.log("post");
         }
 
         setGovLawFileUrl(
-          response.data.Documents ? response.data.Documents.governing_law : ""
+          response.data.documents ? response.data.documents.governing_law : ""
         );
-        setTermsFileUrl(response.data.Documents ? response.data.Documents : "");
+        setTermsFileUrl(response.data.documents ? response.data.documents.tos : "");
         setPrivacyFileUrl(
-          response.data.Documents ? response.data.Documents : ""
+          response.data.documents ? response.data.documents.privacy_policy : ""
         );
         setLiabilityFileUrl(
-          response.data.Documents ? response.data.Documents : ""
+          response.data.documents ? response.data.documents.limitations_of_liabilities : ""
         );
         setWarrantyFileUrl(
-          response.data.Documents ? response.data.Documents : ""
+          response.data.documents ? response.data.documents.warranty : ""
         );
 
         console.log("govLawFileUrl", govLawFileUrl);
@@ -178,19 +178,19 @@ export default function PolicySettings(props) {
         console.log("warrantyFileUrl", warrantyFileUrl);
 
         setgovLawDesc(
-          response.data.Content ? response.data.Content.governing_law : ""
+          response.data.content ? response.data.content.governing_law : ""
         );
         setPrivacyDesc(
-          response.data.Content ? response.data.Content.privacy_policy : ""
+          response.data.content ? response.data.content.privacy_policy : ""
         );
-        setTermDesc(response.data.Content ? response.data.Content.tos : "");
+        setTermDesc(response.data.content ? response.data.content.tos : "");
         setLiabalityDesc(
-          response.data.Content
-            ? response.data.Content.limitations_of_liabilities
+          response.data.content
+            ? response.data.content.limitations_of_liabilities
             : ""
         );
         setWarrantiesDesc(
-          response.data.Content ? response.data.Content.warranty : ""
+          response.data.content ? response.data.content.warranty : ""
         );
 
         // console.log('govLawDesc',govLawDesc)
@@ -201,33 +201,35 @@ export default function PolicySettings(props) {
 
         setEditorGovLawValue(
           RichTextEditor.createValueFromString(
-            response.data.Content ? response.data.Content.governing_law : "",
+           response.data.content ? 
+            response.data.content.governing_law: "",
             "html"
           )
         );
         setEditorPrivacyValue(
           RichTextEditor.createValueFromString(
-            response.data.Content ? response.data.Content.privacy_policy : "",
+            response.data.content ? 
+            response.data.content.privacy_policy: "",
             "html"
           )
         );
         setEditorTermValue(
           RichTextEditor.createValueFromString(
-            response.data.Content ? response.data.Content.tos : "",
+            response.data.content ? response.data.content.tos : "",
             "html"
           )
         );
         setEditorLiabalityValue(
           RichTextEditor.createValueFromString(
-            response.data.Content
-              ? response.data.Content.limitations_of_liabilities
+            response.data.content
+              ? response.data.content.limitations_of_liabilities
               : "",
             "html"
           )
         );
         seteditorWarrantiesValue(
           RichTextEditor.createValueFromString(
-            response.data.Content ? response.data.Content.warranty : "",
+            response.data.content ? response.data.content.warranty : "",
             "html"
           )
         );

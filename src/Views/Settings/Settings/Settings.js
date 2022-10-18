@@ -306,7 +306,7 @@ function Settings(props) {
                   <PolicySettings
                     setisPolicyUpdateSuccess={() => {
                       setistabView(false);
-                      setisOrgUpdateSuccess(true);
+                      setisPolicyUpdateSuccess(true);
                     }}
                   />
                 </TabPanel>

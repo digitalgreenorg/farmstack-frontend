@@ -23,6 +23,7 @@ import FileSaver from 'file-saver';
 import UrlConstants from '../../../Constants/UrlConstants'
 import Button from "@mui/material/Button";
 import '../DatasetAdmin/DatasetAdmin.css'
+import RegexConstants from '../../../Constants/RegexConstants';
 export default function DatasetParticipant() {
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
@@ -44,8 +45,9 @@ export default function DatasetParticipant() {
 //   const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
   const debounceOnChange = React.useCallback(debounce(isMemberTab ? getSearchedData : getSearchOtherData, 1000), []);
   const [searchDatasetUrl, setSearchDatasetUrl] = useState(UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant)
-  const [searchDatasetVar, setSearchDatasetVar] = useState("")
-    
+  const [searchDatasetVar, setSearchDatasetVar] = useState({val:""})
+  const [searchValMyOrg, setSearchValMyOrg] = useState({val : ""})
+  const [searchValOtherOrg, setSearchValOtherOrg] = useState({val : ""})
     
     const [isShowAll, setIsShowAll] = useState(true)
     // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
@@ -548,7 +550,7 @@ export default function DatasetParticipant() {
                 payload['user_id'] = getUserLocal()
                 payload['org_id'] = getOrgLocal()
                 payload['others'] = true
-                payload["search_pattern"] = searchDatasetVar
+                payload["search_pattern"] = searchValOtherOrg.val.trim()
 
                 // setFilterState(payload)
                 // if(searchDatasetVar){
@@ -613,7 +615,7 @@ export default function DatasetParticipant() {
                 payload['user_id'] = getUserLocal()
                 payload['org_id'] = getOrgLocal()
                 payload['others'] = false
-                payload["search_pattern"] = searchDatasetVar
+                payload["search_pattern"] = searchValMyOrg.val.trim()
 
                 // setFilterState(payload)
                 // if(searchDatasetVar){
@@ -896,7 +898,7 @@ export default function DatasetParticipant() {
     const getMyDataset = (isLoadMore) => {
 
         setIsLoader(true)
-        if(searchDatasetVar){
+        if(searchValMyOrg.val){
             fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore)
             return
          }
@@ -964,7 +966,7 @@ export default function DatasetParticipant() {
     const getMemberDatasets = (isLoadMore) => {
 
         setIsLoader(true);
-        if(searchDatasetVar){
+        if(searchValOtherOrg.val){
             fetchSearchDataWithLoadMoreButtonMember(isLoadMore);
             return
         }
@@ -1078,20 +1080,34 @@ export default function DatasetParticipant() {
         setFilterState(data)
         return data
     }
+    function checkForRegex(val,e){
+        if (val.match(RegexConstants.ORG_NAME_REGEX)) {
+            
+           !isMemberTab ?  setSearchValMyOrg({val : val}) :setSearchValOtherOrg({val : val}) ;
+            
+          }
+        
+          return;
+        // if()
+    }
 
     const handleTabChange = (event, newValue) => {
 
         resetDateFilters()
         setValue(newValue);
+        setSearchDatasetVar({val : ""})
+
         if (newValue == "2") {
             console.log("isMemberTab", isMemberTab)
             setFilterState({})
             setIsShowAll(true)
             setConstantyUpdateSwitch(false)
+            setSearchValMyOrg({val : ""})
             setIsMemberTab(!isMemberTab)
             getMemberDatasets(false)
             console.log("isMemberTab", isMemberTab)
         } else {
+            setSearchValOtherOrg({val : ""})
             setFilterState({})
             setIsShowAll(true)
             setConstantyUpdateSwitch(false)
@@ -1388,6 +1404,10 @@ export default function DatasetParticipant() {
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <DataSetFilter
+                                 setSearchValMyOrg={setSearchValMyOrg}
+                                 setSearchValOtherOrg={setSearchValOtherOrg}
+                                 searchValMyOrg={searchValMyOrg}
+                                 searchValOtherOrg={searchValOtherOrg}
                                 searchDatasetVar={searchDatasetVar}
                                 setSearchDatasetVar={setSearchDatasetVar}
                                 isMemberTab={isMemberTab}
@@ -1413,6 +1433,7 @@ export default function DatasetParticipant() {
 
                                 geoSearchState={geoSearchState}
                                 cropSearchState={cropSearchState}
+                                checkForRegex={checkForRegex}
 
                                 clearAllFilters={clearAllFilters}
                                 showMemberFilters={value == "2"}
