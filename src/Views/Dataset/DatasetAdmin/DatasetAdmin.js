@@ -11,7 +11,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import {debounce, GetErrorHandlingRoute, getOrgLocal} from "../../../Utils/Common";
+import {debounce, GetErrorHandlingRoute, getOrgLocal, handleUnwantedSpace, validateInputField} from "../../../Utils/Common";
 import { useHistory } from 'react-router-dom';
 import { getUserLocal, getUserMapId, dateTimeFormat } from '../../../Utils/Common'
 import ViewDataSet from '../../../Components/Datasets/viewDataSet';
@@ -23,6 +23,7 @@ import FileSaver from 'file-saver';
 import UrlConstants from '../../../Constants/UrlConstants'
 import Button from "@mui/material/Button";
 import './DatasetAdmin.css'
+import RegexConstants from '../../../Constants/RegexConstants';
 
 
 
@@ -42,8 +43,9 @@ export default function DatasetAdmin() {
     const history = useHistory();
     const [isMemberTab, setIsMemberTab] = useState(false)
     const debounceOnChange = React.useCallback(debounce(isMemberTab ? getSearchedData : getSearchOtherData, 1000), []);
-    const [searchDatasetVar, setSearchDatasetVar] = useState("")
-
+    const [searchDatasetVar, setSearchDatasetVar] = useState({val : ""})
+    const [searchValMyOrg, setSearchValMyOrg] = useState({val : ""})
+    const [searchValOtherOrg, setSearchValOtherOrg] = useState({val : ""})
     const [datasetUrl, setDatasetUrl] = useState(
         UrlConstant.base_url + UrlConstant.dataset_list
     );
@@ -172,6 +174,7 @@ export default function DatasetAdmin() {
             getMyDataset(false)
         }
     }
+   
 
     const handleFilterChange = (index, filterName) => {
 
@@ -452,7 +455,7 @@ export default function DatasetAdmin() {
         setFilterState({})
         data['user_id'] = getUserLocal()
         data['org_id'] = getOrgLocal()
-        data["search_pattern"]= val;
+        data["search_pattern"]= val.trim();
         if (isMemberTab) {
             data['others'] = true
         } else {
@@ -528,7 +531,7 @@ export default function DatasetAdmin() {
                 payload['user_id'] = getUserLocal()
                 payload['org_id'] = getOrgLocal()
                 payload['others'] = true
-                payload["search_pattern"] = searchDatasetVar
+                payload["search_pattern"] = searchDatasetVar.val.trim()
 
                 // setFilterState(payload)
                 // if(searchDatasetVar){
@@ -594,7 +597,7 @@ export default function DatasetAdmin() {
                 payload['user_id'] = getUserLocal()
                 payload['org_id'] = getOrgLocal()
                 payload['others'] = false
-                payload["search_pattern"] = searchDatasetVar
+                payload["search_pattern"] = searchDatasetVar.val.trim()
 
                 // setFilterState(payload)
                 // if(searchDatasetVar){
@@ -659,7 +662,7 @@ export default function DatasetAdmin() {
         setFilterState({})
         data['user_id'] = getUserLocal()
         data['org_id'] = getOrgLocal()
-        data["search_pattern"]= val;
+        data["search_pattern"]= val.trim();
         if (isMemberTab) {
             data['others'] = true
         } else {
@@ -909,7 +912,8 @@ export default function DatasetAdmin() {
     const getMyDataset = (isLoadMore) => {
 
         setIsLoader(true);
-        if(searchDatasetVar!=""){
+        console.log(searchDatasetVar.val, "HERRE")
+        if(searchDatasetVar.val!=""){
             fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore)
             return
          }
@@ -976,7 +980,7 @@ export default function DatasetAdmin() {
 
         setIsLoader(true)
         console.log("payload" , searchDatasetVar)
-        if(searchDatasetVar){
+        if(searchDatasetVar.val){
             fetchSearchDataWithLoadMoreButtonMember(isLoadMore);
             return
         }
@@ -1091,14 +1095,14 @@ export default function DatasetAdmin() {
         return data
     }
     function resetInputSearch(){
-        setSearchDatasetVar(prev=>prev = "")
+        setSearchDatasetVar({val : ""})
         console.log(searchDatasetVar)
     }
 
     const handleTabChange = (event, newValue) => {
         // console.log(document.querySelector(".searchInputValue"));
         setValue(newValue);
-
+        setSearchDatasetVar({val : ""})
         // resetInputSearch()
         resetDateFilters()
         if (newValue == "2") {
@@ -1108,9 +1112,11 @@ export default function DatasetAdmin() {
             setFilterState({})
             setIsShowAll(true)
             setConstantyUpdateSwitch(false)
+            setSearchValMyOrg({val : ""})
             getMemberDatasets(false)
             console.log("isMemberTab", isMemberTab)
         } else {
+            setSearchValOtherOrg({val : ""})
             setFilterState({})
             setIsShowAll(true)
             setConstantyUpdateSwitch(false)
@@ -1131,6 +1137,7 @@ export default function DatasetAdmin() {
     }
 
     const clearAllFilters = () => {
+        
         setIsShowAll(true)
         setConstantyUpdateSwitch(false)
         resetDateFilters()
@@ -1300,6 +1307,16 @@ export default function DatasetAdmin() {
                 setIsLoader(false);
                 history.push(GetErrorHandlingRoute(e));
             });
+    }
+    function checkForRegex(val,e){
+        if (val.match(RegexConstants.ORG_NAME_REGEX)) {
+            
+           !isMemberTab ?  setSearchValMyOrg({val : val}) :setSearchValOtherOrg({val : val}) ;
+            
+          }
+        
+          return;
+        // if()
     }
     return (
         <>
@@ -1507,8 +1524,13 @@ export default function DatasetAdmin() {
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <DataSetFilter
+                                setSearchValMyOrg={setSearchValMyOrg}
+                                setSearchValOtherOrg={setSearchValOtherOrg}
+                                searchValMyOrg={searchValMyOrg}
+                                searchValOtherOrg={searchValOtherOrg}
                                 searchDatasetVar={searchDatasetVar}
                                 setSearchDatasetVar={setSearchDatasetVar}
+                                checkForRegex={checkForRegex}
                                 // isLoadMore={isLoadMore}
                                 isMemberTab={isMemberTab}
                                 debounceOnChange={debounceOnChange}

@@ -20,6 +20,7 @@ import GuestUserDatasetFilter from './GuestUserDatasetFilter';
 import GuestUserDatasetListing from './GuestUserDatasetListing';
 import ViewDataSet from '../Datasets/viewDataSet';
 import Axios from 'axios';
+import RegexConstants from '../../Constants/RegexConstants';
 export default function GuestUserDatasets() {
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
@@ -36,7 +37,9 @@ export default function GuestUserDatasets() {
         UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
     );
   const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
-    const [searchDatasetVar, setSearchDatasetVar] = useState("")
+  const [searchDatasetVar, setSearchDatasetVar] = useState({val : ""})
+  const [searchValMyOrg, setSearchValMyOrg] = useState({val : ""})
+  const [searchValOtherOrg, setSearchValOtherOrg] = useState({val : ""})
     const [isShowAll, setIsShowAll] = useState(true)
     // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
     // const [isDisabledFilter, setIsDisabledFilter] = useState(false)
@@ -381,7 +384,7 @@ export default function GuestUserDatasets() {
         setFilterState({})
         // data['user_id'] = getUserLocal()
         // data['org_id'] = getOrgLocal()
-        data[  "search_pattern"]= val;
+        data[  "search_pattern"]= val.trim();
         // if (isMemberTab) {
         //     data['others'] = true
         // } else {
@@ -504,8 +507,8 @@ export default function GuestUserDatasets() {
 
 
     const getDatasetList = (isLoadMore) => {
-        if(searchDatasetVar){
-            getSearchedData(searchDatasetVar, true,false)
+        if(searchValMyOrg.val){
+            getSearchedData(searchValMyOrg.val, isLoadMore,false)
             return
         }
         setIsLoader(true);
@@ -733,6 +736,16 @@ export default function GuestUserDatasets() {
                 //history.push(GetErrorHandlingRoute(e));
             });
     }
+    function checkForRegex(val,e){
+        if (val.match(RegexConstants.ORG_NAME_REGEX)) {
+            
+           !isMemberTab ?  setSearchValMyOrg({val : val}) :setSearchValOtherOrg({val : val}) ;
+            
+          }
+        
+          return;
+        // if()
+    }
     
     return (
         <>
@@ -755,6 +768,11 @@ export default function GuestUserDatasets() {
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <GuestUserDatasetFilter
+                                setSearchValMyOrg={setSearchValMyOrg}
+                                setSearchValOtherOrg={setSearchValOtherOrg}
+                                searchValMyOrg={searchValMyOrg}
+                                searchValOtherOrg={searchValOtherOrg}
+                                checkForRegex={checkForRegex}
                                 setSearchDatasetVar={setSearchDatasetVar}
                                 searchDatasetVar={searchDatasetVar}
                                 isMemberTab={isMemberTab}

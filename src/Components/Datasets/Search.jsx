@@ -12,14 +12,15 @@ const Search = (props) => {
         variant="filled"
         style={{width:"100%"}}
         className="searchInputValue"
-        value={props.searchDatasetVar}
+        value={props.isMemberTab ? props.searchDatasetVar.val  : props.searchDatasetVar.val}
         InputProps={{
             endAdornment: <InputAdornment position="end"><SearchOutlinedIcon/></InputAdornment>,
           }}
         // className="signupemail"
         onChange={(e)=>{
-          props.setSearchDatasetVar(e.target.value)
-          props.debounceOnChange(e.target.value,false, props.isMemberTab)
+          props.checkForRegex(e.target.value, e)
+          // props.setSearchDatasetVar({val : e.target.value})
+          props.debounceOnChange(e.target.value.trim(),false, props.isMemberTab)
         }}
         // onChange={(e) => props.debounceOnChange(e.target.value,false, props.isMemberTab)}
 /></span></>
