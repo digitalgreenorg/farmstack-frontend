@@ -531,7 +531,7 @@ export default function DatasetAdmin() {
                 payload['user_id'] = getUserLocal()
                 payload['org_id'] = getOrgLocal()
                 payload['others'] = true
-                payload["search_pattern"] = searchDatasetVar.val.trim()
+                payload["search_pattern"] = searchValOtherOrg.val.trim()
 
                 // setFilterState(payload)
                 // if(searchDatasetVar){
@@ -597,7 +597,7 @@ export default function DatasetAdmin() {
                 payload['user_id'] = getUserLocal()
                 payload['org_id'] = getOrgLocal()
                 payload['others'] = false
-                payload["search_pattern"] = searchDatasetVar.val.trim()
+                payload["search_pattern"] = searchValMyOrg.val.trim()
 
                 // setFilterState(payload)
                 // if(searchDatasetVar){
@@ -913,7 +913,7 @@ export default function DatasetAdmin() {
 
         setIsLoader(true);
         console.log(searchDatasetVar.val, "HERRE")
-        if(searchDatasetVar.val!=""){
+        if(searchValMyOrg.val!=""){
             fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore)
             return
          }
@@ -980,7 +980,7 @@ export default function DatasetAdmin() {
 
         setIsLoader(true)
         console.log("payload" , searchDatasetVar)
-        if(searchDatasetVar.val){
+        if(searchValOtherOrg.val){
             fetchSearchDataWithLoadMoreButtonMember(isLoadMore);
             return
         }
