@@ -156,10 +156,10 @@ export default function PolicySettings(props) {
           setIsPostMethod(true);
           console.log("post");
         }
-
+     
         setGovLawFileUrl(
           response.data.documents ? response.data.documents.governing_law : ""
-        );
+              );
         setTermsFileUrl(response.data.documents ? response.data.documents.tos : "");
         setPrivacyFileUrl(
           response.data.documents ? response.data.documents.privacy_policy : ""
@@ -338,6 +338,7 @@ export default function PolicySettings(props) {
           console.log("gov law delete success");
           setgovLawFile(null);
           setgovuploadProgress(0);
+          setGovLawFileUrl("")
           // setEmail(false);
           // setError(false);
         } else {
@@ -417,6 +418,7 @@ export default function PolicySettings(props) {
           // setEmail(false);
           setwarrantiesfile(null);
           setwarrantyloadProgress(0);
+          setWarrantyFileUrl("");
           // setError(false);
         } else {
           // setError(true);
@@ -496,6 +498,7 @@ export default function PolicySettings(props) {
           // setEmail(false);
           setliabalityfile(null);
           setliabiltyloadProgress(0);
+          setLiabilityFileUrl("");
           // setError(false);
         } else {
           // setError(true);
@@ -575,6 +578,7 @@ export default function PolicySettings(props) {
           // setEmail(false);
           setprivacyfile(null);
           setprivacyProgress(0);
+          setPrivacyFileUrl("");
           // setError(false);
         } else {
           // setError(true);
@@ -653,6 +657,7 @@ export default function PolicySettings(props) {
           // setEmail(false);
           settermfile(null);
           settosloadProgress(0);
+          setTermsFileUrl("");
           // setError(false);
         } else {
           // setError(true);
@@ -738,7 +743,7 @@ export default function PolicySettings(props) {
       {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
         <Row style={useStyles.marginheading}>
-          <span style={useStyles.headingtext}>Upload content</span>
+          <span style={useStyles.headingtext}>Upload content *</span>
         </Row>
         <Row style={useStyles.marginrow}>
           <Col xs="12" sm="6" md="6" lg="6">
@@ -803,17 +808,18 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={govuploadProgress}
+                  value={govLawFileUrl ? 100 : govuploadProgress}
                   color="success"
                 />
-                <p className="govupper">{govuploadProgress}%</p>
+                <p className="govupper">{govLawFileUrl  ? "100" : govuploadProgress}%</p>
                 {/* <p>{govuploadProgress}%</p> */}
               </div>
               {/* <p className="govupclose"> */}
               <div style={useStyles.progresscancel}>
                 <p>
-                  {govLawFile && <CancelIcon onClick={handlegovupCancel} />}
-                </p>
+                  {(govLawFileUrl || govLawFile ) && 
+                  <CancelIcon onClick={handlegovupCancel} />}
+                </p> 
               </div>
             </div>
           </Col>
@@ -878,16 +884,16 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={warrantyloadProgress}
+                  value={warrantyFileUrl ? 100 : warrantyloadProgress}
                   color="success"
                 />
                 {/* <p className="warrantyper">{warrantyloadProgress}%</p> */}
-                <p>{warrantyloadProgress}%</p>
+                <p>{warrantyFileUrl ? "100" : warrantyloadProgress}%</p>
               </div>
               <div style={useStyles.progresscancel}>
                 {/* <p className="warrantyclose"> */}
                 <p>
-                  {warrantiesFile && (
+                  {(warrantyFileUrl || warrantiesFile) && (
                     <CancelIcon onClick={handlewarrantyCancel} />
                   )}
                 </p>
@@ -959,15 +965,15 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={liabiltyloadProgress}
+                  value={liabilityFileUrl ? 100 : liabiltyloadProgress}
                   color="success"
                 />
-                <p className="liabiltyper">{liabiltyloadProgress}%</p>
+                <p className="liabiltyper">{liabilityFileUrl ? "100" : liabiltyloadProgress}%</p>
               </div>
               <div style={useStyles.progresscancel}>
                 {/* <p className="liabiltyclose"> */}
                 <p>
-                  {liabalityFile && (
+                  {(liabilityFileUrl || liabalityFile) && (
                     <CancelIcon onClick={handleliabiltyCancel} />
                   )}
                 </p>
@@ -1037,15 +1043,15 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={privacyProgress}
+                  value={privacyFileUrl ? 100 : privacyProgress}
                   color="success"
                 />
-                <p className="privacyper">{privacyProgress}%</p>
+                <p className="privacyper">{privacyFileUrl ? "100" : privacyProgress}%</p>
               </div>
               <div style={useStyles.progresscancel}>
                 {/* <p className="privacyclose"> */}
                 <p>
-                  {privacyFile && <CancelIcon onClick={handleprivacyCancel} />}
+                  {(privacyFile || privacyFileUrl) && <CancelIcon onClick={handleprivacyCancel} />}
                 </p>
               </div>
             </div>
@@ -1113,14 +1119,14 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={tosloadProgress}
+                  value={termsFileUrl ? 100 : tosloadProgress}
                   color="success"
                 />
-                <p className="tosper">{tosloadProgress}%</p>
+                <p className="tosper">{termsFileUrl ? "100" : tosloadProgress}%</p>
               </div>
               <div style={useStyles.progresscancel}>
                 {/* <p className="tosclose"> */}
-                <p>{termFile && <CancelIcon onClick={handletosCancel} />}</p>
+                <p>{(termFile || termsFileUrl )&& <CancelIcon onClick={handletosCancel} />}</p>
               </div>
             </div>
           </Col>
