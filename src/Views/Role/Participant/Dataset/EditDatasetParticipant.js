@@ -22,6 +22,8 @@ import HTTPService from "../../../../Services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
 import Loader from "../../../../Components/Loader/Loader";
 import Success from "../../../../Components/Success/Success";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 
 const useStyles = {
   btncolor: {
@@ -56,6 +58,8 @@ export default function EditDatasetParticipant() {
   const [file, setFile] = useState(null);
   const [filesize, setfilesize] = useState(false);
   const [fileValid, setfileValid] = useState("");
+
+  const [approval_status, setApprovalStatus] = useState("");
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -157,8 +161,6 @@ export default function EditDatasetParticipant() {
     } else {
       bodyFormData.append("dataset_size", "");
     }
-
-    // bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", userid);
 
     console.log("edit dataset", bodyFormData);
@@ -267,6 +269,8 @@ export default function EditDatasetParticipant() {
         setValue(response.data.age_of_date);
         settodate(response.data.data_capture_end);
         setfromdate(response.data.data_capture_start);
+
+        setApprovalStatus(response.data.approval_status);
 
         // console.log("picture", response.data.profile_picture);
         // setphonenumber(response.data.phone_number);
@@ -460,7 +464,8 @@ export default function EditDatasetParticipant() {
           btntext={"ok"}
           heading={"Dataset updated Successfully"}
           imageText={"Success!"}
-          msg={"Your dataset updated successfully!"}></Success>
+          msg={"Your dataset updated successfully!"}
+        ></Success>
       ) : (
         <>
           <Row>
@@ -468,7 +473,8 @@ export default function EditDatasetParticipant() {
               <span
                 onClick={() => {
                   history.push("/participant/datasets");
-                }}>
+                }}
+              >
                 <img
                   src={require("../../../../Assets/Img/Vector.svg")}
                   alt="new"
@@ -478,7 +484,8 @@ export default function EditDatasetParticipant() {
                 className="supportViewDetailsback"
                 onClick={() => {
                   history.push("/participant/datasets");
-                }}>
+                }}
+              >
                 {"Back"}
               </span>
             </Col>
@@ -550,6 +557,24 @@ export default function EditDatasetParticipant() {
             <Row>
               <Col xs={12} sm={12} md={6} lg={3}></Col>
               <Col xs={12} sm={12} md={6} lg={6}>
+                {approval_status === "approved" ? (
+                  <>
+                    <Stack
+                      sx={{ width: "100%", textAlign: "left" }}
+                      spacing={2}
+                    >
+                      <Alert severity="warning">
+                        <strong>
+                          Caution! Modifying an already approved dataset will
+                          reset the approval status, and this dataset will be
+                          available only if approved again.
+                        </strong>
+                      </Alert>
+                    </Stack>
+                  </>
+                ) : (
+                  <></>
+                )}
                 {datasetname &&
                 reply &&
                 Geography &&
@@ -574,14 +599,16 @@ export default function EditDatasetParticipant() {
                     onClick={handleEditDatasetSubmit}
                     variant="contained"
                     className="submitbtn"
-                    type="submit">
+                    type="submit"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 ) : (
                   <Button
                     variant="outlined"
                     disabled
-                    className="disbalesubmitbtn">
+                    className="disbalesubmitbtn"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 )}
@@ -593,7 +620,8 @@ export default function EditDatasetParticipant() {
                 <Button
                   onClick={() => history.push("/participant/datasets")}
                   variant="outlined"
-                  className="cancelbtn">
+                  className="cancelbtn"
+                >
                   {screenlabels.common.cancel}
                 </Button>
               </Col>
