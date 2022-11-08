@@ -22,7 +22,13 @@ import { width } from "@mui/system";
 
 export default function DataSetForm(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  const fileTypes = ["csv", "xls", "xlsx"];
+  const privateFileTypes = ["csv", "xls", "xlsx"];
+  const publicFileTypes = privateFileTypes.concat([
+    "jpg",
+    "jpeg",
+    "pdf",
+    "png",
+  ]);
 
   return (
     <Container className="datasetform">
@@ -341,7 +347,8 @@ export default function DataSetForm(props) {
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
               value={props.value}
-              onChange={props.handleChange}>
+              onChange={props.handleChange}
+            >
               <FormControlLabel
                 value="3 months"
                 control={<Radio />}
@@ -424,7 +431,8 @@ export default function DataSetForm(props) {
             sm={12}
             md={6}
             lg={6}
-            className="FromDate addDatasetFromdate">
+            className="FromDate addDatasetFromdate"
+          >
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 inputFormat="dd/MM/yyyy"
@@ -448,7 +456,8 @@ export default function DataSetForm(props) {
             sm={12}
             md={6}
             lg={6}
-            className="toDate addDatasetTodate">
+            className="toDate addDatasetTodate"
+          >
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 inputFormat="dd/MM/yyyy"
@@ -486,7 +495,8 @@ export default function DataSetForm(props) {
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
             value={props.recordsvalue}
-            onChange={props.handleChangeRecords}>
+            onChange={props.handleChangeRecords}
+          >
             <FormControlLabel value="<100k" control={<Radio />} label="<100k" />
             <FormControlLabel
               value="100k-300k"
@@ -523,7 +533,8 @@ export default function DataSetForm(props) {
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
             value={props.availablevalue}
-            onChange={props.handleChangeAvailable}>
+            onChange={props.handleChangeAvailable}
+          >
             <FormControlLabel
               value="Available"
               control={<Radio />}
@@ -550,10 +561,14 @@ export default function DataSetForm(props) {
           <FileUploader
             handleChange={props.handleFileChange}
             name="file"
-            types={fileTypes}
+            types={props.isPublic ? publicFileTypes : privateFileTypes}
             children={
               <UploadDataset
-                uploaddes="Supports CSV and Excel file formats upto 2MB "
+                uploaddes={`Supports ${
+                  props.isPublic
+                    ? "CSV, PDF, JPG, JPEG, PNG, XLS and XLSX file formats upto 50 MB"
+                    : "CSV and XLSX file formats upto 2 MB "
+                }`}
                 uploadtitle="Upload Dataset"
               />
             }
@@ -571,8 +586,9 @@ export default function DataSetForm(props) {
             : ""}
         </p>
         <p className="oversizemb-uploadimglogo">
-          {props.file != null && props.file.size > 2097152
-            ? "File uploaded is more than 2MB!"
+          {props.file != null &&
+          props.file.size > (props.isPublic ? 52428800 : 2097152)
+            ? `File uploaded is more than ${props.isPublic ? 50 : 2} MB!`
             : ""}
           {props.fileValid}
         </p>

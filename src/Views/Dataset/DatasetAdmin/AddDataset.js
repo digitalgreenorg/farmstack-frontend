@@ -373,7 +373,8 @@ export default function AddDataset(props) {
           btntext={"ok"}
           heading={"You added a new dataset"}
           imageText={"Added Successfully!"}
-          msg={"Your dataset added in database."}></Success>
+          msg={"Your dataset added in database."}
+        ></Success>
       ) : (
         <div noValidate autoComplete="off">
           <DataSetForm
@@ -437,6 +438,7 @@ export default function AddDataset(props) {
             ageErrorMessage={ageErrorMessage}
             dataCaptureStartErrorMessage={dataCaptureStartErrorMessage}
             dataCaptureEndErrorMessage={dataCaptureEndErrorMessage}
+            // isPublic={true}
           />
 
           <Row>
@@ -464,14 +466,16 @@ export default function AddDataset(props) {
                   onClick={handleAddDatasetSubmit}
                   variant="contained"
                   className="submitbtn"
-                  type="submit">
+                  type="submit"
+                >
                   {screenlabels.common.submit}
                 </Button>
               ) : (
                 <Button
                   variant="outlined"
                   disabled
-                  className="disbalesubmitbtn">
+                  className="disbalesubmitbtn"
+                >
                   {screenlabels.common.submit}
                 </Button>
               )}
@@ -483,7 +487,8 @@ export default function AddDataset(props) {
               <Button
                 onClick={() => history.push("/datahub/datasets")}
                 variant="outlined"
-                className="cancelbtn">
+                className="cancelbtn"
+              >
                 {screenlabels.common.cancel}
               </Button>
             </Col>
