@@ -59,6 +59,7 @@ export default function AddDataset(props) {
   const [value, setValue] = React.useState("");
   const [recordsvalue, setrecordsvalue] = React.useState("");
   const [availablevalue, setavailablevalue] = React.useState("");
+  const [isPublic, setIsPublic] = useState("");
 
   //   const [value, setValue] = React.useState("3 months");
   //   const [recordsvalue, setrecordsvalue] = React.useState("100k");
@@ -148,6 +149,7 @@ export default function AddDataset(props) {
       bodyFormData.append("sample_dataset", file);
     }
     bodyFormData.append("connector_availability", availablevalue);
+    bodyFormData.append("is_public", isPublic);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
 
@@ -226,6 +228,12 @@ export default function AddDataset(props) {
   const handleChangeAvailable = (event) => {
     console.log(event.target.value);
     setavailablevalue(event.target.value);
+  };
+  const handleChangeIsPublic = (event) => {
+    console.log(event.target.value);
+    setIsPublic(event.target.value === "true" ? true : false);
+    // Reset file to upload
+    setFile(null);
   };
   const handleFileChange = (file) => {
     setFile(file);
@@ -381,7 +389,8 @@ export default function AddDataset(props) {
             props.successmsg
               ? props.successmsg
               : "Your dataset added in database."
-          }></Success>
+          }
+        ></Success>
       ) : (
         <>
           {props.isBackBtn ? (
@@ -390,7 +399,8 @@ export default function AddDataset(props) {
                 <span
                   onClick={() => {
                     history.push("/participant/datasets");
-                  }}>
+                  }}
+                >
                   <img
                     src={require("../../../Assets/Img/Vector.svg")}
                     alt="new"
@@ -400,7 +410,8 @@ export default function AddDataset(props) {
                   className="supportViewDetailsback"
                   onClick={() => {
                     history.push("/participant/datasets");
-                  }}>
+                  }}
+                >
                   {"Back"}
                 </span>
               </Col>
@@ -459,6 +470,8 @@ export default function AddDataset(props) {
               handleChangeRecords={handleChangeRecords}
               availablevalue={availablevalue}
               handleChangeAvailable={handleChangeAvailable}
+              isPublic={isPublic}
+              handleChangeIsPublic={handleChangeIsPublic}
               handleFileChange={handleFileChange}
               file={file}
               fileValid={fileValid}
@@ -497,14 +510,16 @@ export default function AddDataset(props) {
                     onClick={handleAddDatasetSubmit}
                     variant="contained"
                     className="submitbtn"
-                    type="submit">
+                    type="submit"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 ) : (
                   <Button
                     variant="outlined"
                     disabled
-                    className="disbalesubmitbtn">
+                    className="disbalesubmitbtn"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 )}
@@ -516,7 +531,8 @@ export default function AddDataset(props) {
                 <Button
                   onClick={props.cancelAction}
                   variant="outlined"
-                  className="cancelbtn">
+                  className="cancelbtn"
+                >
                   {props.cancelBtbnName
                     ? screenlabels.common.cancel
                     : screenlabels.common.finishLater}

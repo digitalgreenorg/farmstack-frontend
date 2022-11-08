@@ -38,6 +38,29 @@ export default function DataSetForm(props) {
         </Col>
       </Row>
       <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            value={props.isPublic}
+            onChange={props.handleChangeIsPublic}
+          >
+            <FormControlLabel
+              value={true}
+              control={<Radio />}
+              label={screenlabels.dataset.public}
+            />
+            <FormControlLabel
+              value={false}
+              control={<Radio />}
+              label={screenlabels.dataset.private}
+              className="private"
+            />
+          </RadioGroup>
+        </Col>
+      </Row>
+      <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
             // style={useStyles.inputwidth}
@@ -68,23 +91,6 @@ export default function DataSetForm(props) {
             error={props.descriptionErrorMessage ? true : false}
             helperText={props.descriptionErrorMessage}
           />
-
-          {/* <TextareaAutosize
-            className="description"
-            maxRows={4}
-            placeholder={screenlabels.dataset.description}
-            variant="filled"
-            defaultValue={props.reply}
-            maxLength={500}
-            width="100%"
-            onKeyDown={props.handledescriptionKeydown}
-            onChange={props.handleChangedescription}
-            style={{
-              border: "none !important",
-              "min-height": "50px",
-              "border-bottom": "1px solid #9AA1A9 !important",
-            }}
-          /> */}
         </Col>
       </Row>
       <Row>

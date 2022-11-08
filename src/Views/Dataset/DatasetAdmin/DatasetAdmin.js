@@ -1245,12 +1245,15 @@ export default function DatasetAdmin() {
         console.log("filter response:", response);
         let tempObject = { ...response.data };
         setviewdata(tempObject);
-        var tabelHeading = Object.keys(response.data.content[0]);
-        var temptabelKeys = [...tabelHeading];
-        settablekeys(temptabelKeys);
+        if (response.data.content) {
+          var tabelHeading = Object.keys(response.data.content[0]);
+          var temptabelKeys = [...tabelHeading];
+          settablekeys(temptabelKeys);
+        }
         changeView("isDataSetView");
       })
       .catch((e) => {
+        console.error(e);
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });

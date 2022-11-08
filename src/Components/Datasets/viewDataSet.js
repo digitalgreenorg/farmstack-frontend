@@ -313,6 +313,12 @@ export default function ViewDataSet(props) {
         <Col>
           <span className="secondmainheading">{"Connector availablity"}</span>
         </Col>
+        <Col>
+          <span className="secondmainheading">{"Data visibility"}</span>
+        </Col>
+        <Col>
+          <span className="secondmainheading"></span>
+        </Col>
       </Row>
       <Row
         style={{
@@ -327,6 +333,14 @@ export default function ViewDataSet(props) {
               ? props.rowdata.connector_availability
               : "N/A"}
           </span>
+        </Col>
+        <Col>
+          <span className="thirdmainheading">
+            {props.rowdata["is_public"] ? "Public" : "Private"}
+          </span>
+        </Col>
+        <Col>
+          <span className="thirdmainheading"></span>
         </Col>
       </Row>
       <Row className="supportViewDeatilsSecondRow"></Row>

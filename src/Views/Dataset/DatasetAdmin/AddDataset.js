@@ -59,6 +59,7 @@ export default function AddDataset(props) {
   const [value, setValue] = React.useState("");
   const [recordsvalue, setrecordsvalue] = React.useState("");
   const [availablevalue, setavailablevalue] = React.useState("");
+  const [isPublic, setIsPublic] = useState("");
 
   //   const [value, setValue] = React.useState("3 months");
   //   const [recordsvalue, setrecordsvalue] = React.useState("100k");
@@ -147,10 +148,10 @@ export default function AddDataset(props) {
       bodyFormData.append("sample_dataset", file);
     }
     bodyFormData.append("connector_availability", availablevalue);
+    bodyFormData.append("is_public", isPublic);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
     bodyFormData.append("approval_status", "approved");
-
     console.log("add dataset", bodyFormData);
     setIsLoader(true);
     HTTPService(
@@ -223,6 +224,13 @@ export default function AddDataset(props) {
   const handleChangeRecords = (event) => {
     console.log(event.target.value);
     setrecordsvalue(event.target.value);
+  };
+  const handleChangeIsPublic = (event) => {
+    console.log(event.target.value);
+    setIsPublic(event.target.value === "true" ? true : false);
+    // Set file to null whenever a public status is changed because the user could set
+    // a different filetype than allowed for that specific visibility setting
+    setFile(null);
   };
   const handleChangeAvailable = (event) => {
     console.log(event.target.value);
@@ -427,6 +435,8 @@ export default function AddDataset(props) {
             handleChangeRecords={handleChangeRecords}
             availablevalue={availablevalue}
             handleChangeAvailable={handleChangeAvailable}
+            isPublic={isPublic}
+            handleChangeIsPublic={handleChangeIsPublic}
             handleFileChange={handleFileChange}
             file={file}
             fileValid={fileValid}
@@ -438,7 +448,6 @@ export default function AddDataset(props) {
             ageErrorMessage={ageErrorMessage}
             dataCaptureStartErrorMessage={dataCaptureStartErrorMessage}
             dataCaptureEndErrorMessage={dataCaptureEndErrorMessage}
-            // isPublic={true}
           />
 
           <Row>
