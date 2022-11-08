@@ -32,6 +32,30 @@ export default function DataSetForm(props) {
         </Col>
       </Row>
       <Row>
+        {/* {console.log("This is the sample data",props)} */}
+        <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            value={props.dataAccessValue}
+            onChange={props.handleDataAccessAvailable}
+          >
+            <FormControlLabel
+              value="true"
+              control={<Radio />}
+              label={screenlabels.dataset.public}
+            />
+            <FormControlLabel
+              value="false"
+              control={<Radio />}
+              label={screenlabels.dataset.private}
+              className="private"
+            />
+          </RadioGroup>
+          </Col>
+      </Row>
+      <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
             // style={useStyles.inputwidth}
@@ -341,7 +365,8 @@ export default function DataSetForm(props) {
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
               value={props.value}
-              onChange={props.handleChange}>
+              onChange={props.handleChange}
+            >
               <FormControlLabel
                 value="3 months"
                 control={<Radio />}
@@ -424,7 +449,8 @@ export default function DataSetForm(props) {
             sm={12}
             md={6}
             lg={6}
-            className="FromDate addDatasetFromdate">
+            className="FromDate addDatasetFromdate"
+          >
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 inputFormat="dd/MM/yyyy"
@@ -448,7 +474,8 @@ export default function DataSetForm(props) {
             sm={12}
             md={6}
             lg={6}
-            className="toDate addDatasetTodate">
+            className="toDate addDatasetTodate"
+          >
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 inputFormat="dd/MM/yyyy"
@@ -486,7 +513,8 @@ export default function DataSetForm(props) {
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
             value={props.recordsvalue}
-            onChange={props.handleChangeRecords}>
+            onChange={props.handleChangeRecords}
+          >
             <FormControlLabel value="<100k" control={<Radio />} label="<100k" />
             <FormControlLabel
               value="100k-300k"
@@ -523,7 +551,8 @@ export default function DataSetForm(props) {
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
             value={props.availablevalue}
-            onChange={props.handleChangeAvailable}>
+            onChange={props.handleChangeAvailable}
+          >
             <FormControlLabel
               value="Available"
               control={<Radio />}

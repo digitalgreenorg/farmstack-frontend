@@ -59,6 +59,7 @@ export default function AddDataset(props) {
   const [value, setValue] = React.useState("");
   const [recordsvalue, setrecordsvalue] = React.useState("");
   const [availablevalue, setavailablevalue] = React.useState("");
+  const [dataAccessValue, setDataAccessValue] = React.useState("");
 
   //   const [value, setValue] = React.useState("3 months");
   //   const [recordsvalue, setrecordsvalue] = React.useState("100k");
@@ -150,7 +151,7 @@ export default function AddDataset(props) {
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
     bodyFormData.append("approval_status", "approved");
-
+    bodyFormData.append("is_public", dataAccessValue);
     console.log("add dataset", bodyFormData);
     setIsLoader(true);
     HTTPService(
@@ -223,6 +224,10 @@ export default function AddDataset(props) {
   const handleChangeRecords = (event) => {
     console.log(event.target.value);
     setrecordsvalue(event.target.value);
+  };
+  const handleDataAccessAvailable = (event) => {
+    console.log(event.target.value);
+    setDataAccessValue(event.target.value);
   };
   const handleChangeAvailable = (event) => {
     console.log(event.target.value);
@@ -373,7 +378,8 @@ export default function AddDataset(props) {
           btntext={"ok"}
           heading={"You added a new dataset"}
           imageText={"Added Successfully!"}
-          msg={"Your dataset added in database."}></Success>
+          msg={"Your dataset added in database."}
+        ></Success>
       ) : (
         <div noValidate autoComplete="off">
           <DataSetForm
@@ -425,7 +431,9 @@ export default function AddDataset(props) {
             recordsvalue={recordsvalue}
             handleChangeRecords={handleChangeRecords}
             availablevalue={availablevalue}
+            dataAccessValue={dataAccessValue}
             handleChangeAvailable={handleChangeAvailable}
+            handleDataAccessAvailable={handleDataAccessAvailable}
             handleFileChange={handleFileChange}
             file={file}
             fileValid={fileValid}
@@ -443,6 +451,7 @@ export default function AddDataset(props) {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {datasetname &&
+              dataAccessValue &&
               reply &&
               Geography &&
               !CheckEndDate &&
@@ -464,14 +473,16 @@ export default function AddDataset(props) {
                   onClick={handleAddDatasetSubmit}
                   variant="contained"
                   className="submitbtn"
-                  type="submit">
+                  type="submit"
+                >
                   {screenlabels.common.submit}
                 </Button>
               ) : (
                 <Button
                   variant="outlined"
                   disabled
-                  className="disbalesubmitbtn">
+                  className="disbalesubmitbtn"
+                >
                   {screenlabels.common.submit}
                 </Button>
               )}
@@ -483,7 +494,8 @@ export default function AddDataset(props) {
               <Button
                 onClick={() => history.push("/datahub/datasets")}
                 variant="outlined"
-                className="cancelbtn">
+                className="cancelbtn"
+              >
                 {screenlabels.common.cancel}
               </Button>
             </Col>
