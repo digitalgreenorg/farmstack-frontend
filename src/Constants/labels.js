@@ -154,7 +154,9 @@ const labels = {
       Diary: "Diary",
       Poultry: "Poultry",
       Other: "Other",
-
+      data_access:"Data access type",
+      private:"Private",
+      public:"Public",
       Soil_data: "Soil data",
       Weather_data: "Weather data",
       Research_data: "Research data",
