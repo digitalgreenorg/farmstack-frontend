@@ -253,9 +253,9 @@ export default function ViewDataSet(props) {
           "text-align": "left",
         }}
       >
-        <Col>
+        {/* <Col>
           <span className="secondmainheading">{"Age of actual data"}</span>
-        </Col>
+        </Col> */}
         <Col>
           <span className="secondmainheading">{"Data capture interval"}</span>
         </Col>
