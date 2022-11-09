@@ -66,6 +66,10 @@ export default function DatasetParticipant() {
   const [datasetList, setDatasetList] = useState([]);
   const [memberDatasetList, setMemberDatasetList] = useState([]);
 
+  const [dataAccessFilterDisplay, setDataAccessDisplay] = useState([
+    { index: 0, name: "Public", payloadName: true, isChecked: false },
+    { index: 1, name: "Private", payloadName: false, isChecked: false },
+  ]);
   // const [geoFilterMaster,setGeoFilterMaster] = useState([])
   const [geoFilterDisplay, setGeoFilterDisplay] = useState([]);
 
@@ -216,7 +220,8 @@ export default function DatasetParticipant() {
     // resetEnabledStatusFilter()
     // resetUrls()
 
-    if (filterName == screenlabels.dataset.geography) {
+    if (filterName === screenlabels.dataset.geography) {
+      resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.age);
       resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
@@ -224,7 +229,7 @@ export default function DatasetParticipant() {
 
       tempFilterDisplay = [...geoFilterDisplay];
       for (let i = 0; i < tempFilterDisplay.length; i++) {
-        if (tempFilterDisplay[i].index == index) {
+        if (tempFilterDisplay[i].index === index) {
           tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked;
         }
         if (tempFilterDisplay[i].isChecked) {
@@ -245,7 +250,27 @@ export default function DatasetParticipant() {
       // }
       // setGeoFilterMaster(tempFilterMaster)
       payload = buildFilterPayLoad("", getUserLocal(), payloadList, "", "", "");
-    } else if (filterName == screenlabels.dataset.age) {
+    } else if (filterName === "datavisiblity") {
+      resetFilterState(screenlabels.dataset.geography);
+      resetFilterState(screenlabels.dataset.age);
+      resetFilterState(screenlabels.dataset.crop);
+      resetFilterState(screenlabels.dataset.status);
+      resetFilterState(screenlabels.dataset.enabled);
+
+      tempFilterDisplay = [...dataAccessFilterDisplay];
+      for (let i = 0; i < tempFilterDisplay.length; i++) {
+        if (tempFilterDisplay[i].index === index) {
+          tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked;
+        }
+        if (tempFilterDisplay[i].isChecked) {
+          payloadList.push(tempFilterDisplay[i].payloadName);
+          isAnyFilterChecked = true;
+        }
+      }
+      setDataAccessDisplay(tempFilterDisplay);
+      payload = buildFilterPayLoad("", getUserLocal(), "", payloadList, "", "");
+    } else if (filterName === screenlabels.dataset.age) {
+      resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
@@ -253,7 +278,7 @@ export default function DatasetParticipant() {
 
       tempFilterDisplay = [...ageFilterDisplay];
       for (let i = 0; i < tempFilterDisplay.length; i++) {
-        if (tempFilterDisplay[i].index == index) {
+        if (tempFilterDisplay[i].index === index) {
           tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked;
         }
         if (tempFilterDisplay[i].isChecked) {
@@ -274,7 +299,8 @@ export default function DatasetParticipant() {
       // }
       // setAgeFilterMaster(tempFilterMaster)
       payload = buildFilterPayLoad("", getUserLocal(), "", payloadList, "", "");
-    } else if (filterName == screenlabels.dataset.crop) {
+    } else if (filterName === screenlabels.dataset.crop) {
+      resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
       resetFilterState(screenlabels.dataset.status);
@@ -303,7 +329,8 @@ export default function DatasetParticipant() {
       // }
       // setCropFilterMaster(tempFilterMaster)
       payload = buildFilterPayLoad("", getUserLocal(), "", "", payloadList, "");
-    } else if (filterName == screenlabels.dataset.status) {
+    } else if (filterName === screenlabels.dataset.status) {
+      resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
       resetFilterState(screenlabels.dataset.crop);
@@ -311,7 +338,7 @@ export default function DatasetParticipant() {
 
       tempFilterDisplay = [...statusFilter];
       for (let i = 0; i < tempFilterDisplay.length; i++) {
-        if (tempFilterDisplay[i].index == index) {
+        if (tempFilterDisplay[i].index === index) {
           tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked;
         }
         if (tempFilterDisplay[i].isChecked) {
@@ -322,7 +349,8 @@ export default function DatasetParticipant() {
       setStatusFilter(tempFilterDisplay);
 
       payload = buildFilterPayLoad("", getUserLocal(), "", "", "", payloadList);
-    } else if (filterName == screenlabels.dataset.enabled) {
+    } else if (filterName === screenlabels.dataset.enabled) {
+      resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
       resetFilterState(screenlabels.dataset.crop);
@@ -1040,6 +1068,7 @@ export default function DatasetParticipant() {
     createdAtRange,
     userId,
     geoPayload,
+    datavisiblityPayload,
     agePayload,
     cropPayload,
     statusPayload
@@ -1062,6 +1091,10 @@ export default function DatasetParticipant() {
     // }
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
+    }
+    if (datavisiblityPayload)
+    {
+        data["is_public__in"]=datavisiblityPayload;
     }
     if (cropPayload !== "") {
       data["crop_detail__in"] = cropPayload;
@@ -1104,7 +1137,7 @@ export default function DatasetParticipant() {
     setValue(newValue);
     setSearchDatasetVar({ val: "" });
 
-    if (newValue == "2") {
+    if (newValue === "2") {
       console.log("isMemberTab", isMemberTab);
       setFilterState({});
       setIsShowAll(true);
@@ -1592,6 +1625,7 @@ export default function DatasetParticipant() {
                   filterByDates={filterByDates}
                   handleGeoSearch={handleGeoSearch}
                   handleCropSearch={handleCropSearch}
+                  dataAccessFilterDisplay={dataAccessFilterDisplay}
                   geoFilterDisplay={geoFilterDisplay}
                   cropFilterDisplay={cropFilterDisplay}
                   ageFilterDisplay={ageFilterDisplay}
