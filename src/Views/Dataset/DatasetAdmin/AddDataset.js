@@ -59,7 +59,7 @@ export default function AddDataset(props) {
   const [value, setValue] = React.useState("");
   const [recordsvalue, setrecordsvalue] = React.useState("");
   const [availablevalue, setavailablevalue] = React.useState("");
-  const [dataAccessValue, setDataAccessValue] = React.useState("");
+  const [isPublic, setIsPublic] = useState("");
 
   //   const [value, setValue] = React.useState("3 months");
   //   const [recordsvalue, setrecordsvalue] = React.useState("100k");
@@ -148,10 +148,10 @@ export default function AddDataset(props) {
       bodyFormData.append("sample_dataset", file);
     }
     bodyFormData.append("connector_availability", availablevalue);
+    bodyFormData.append("is_public", isPublic);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
     bodyFormData.append("approval_status", "approved");
-    bodyFormData.append("is_public", dataAccessValue);
     console.log("add dataset", bodyFormData);
     setIsLoader(true);
     HTTPService(
@@ -225,9 +225,12 @@ export default function AddDataset(props) {
     console.log(event.target.value);
     setrecordsvalue(event.target.value);
   };
-  const handleDataAccessAvailable = (event) => {
+  const handleChangeIsPublic = (event) => {
     console.log(event.target.value);
-    setDataAccessValue(event.target.value);
+    setIsPublic(event.target.value === "true" ? true : false);
+    // Set file to null whenever a public status is changed because the user could set
+    // a different filetype than allowed for that specific visibility setting
+    setFile(null);
   };
   const handleChangeAvailable = (event) => {
     console.log(event.target.value);
@@ -431,9 +434,9 @@ export default function AddDataset(props) {
             recordsvalue={recordsvalue}
             handleChangeRecords={handleChangeRecords}
             availablevalue={availablevalue}
-            dataAccessValue={dataAccessValue}
             handleChangeAvailable={handleChangeAvailable}
-            handleDataAccessAvailable={handleDataAccessAvailable}
+            isPublic={isPublic}
+            handleChangeIsPublic={handleChangeIsPublic}
             handleFileChange={handleFileChange}
             file={file}
             fileValid={fileValid}
@@ -451,7 +454,6 @@ export default function AddDataset(props) {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {datasetname &&
-              dataAccessValue &&
               reply &&
               Geography &&
               !CheckEndDate &&

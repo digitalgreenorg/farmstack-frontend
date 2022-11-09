@@ -22,7 +22,13 @@ import { width } from "@mui/system";
 
 export default function DataSetForm(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  const fileTypes = ["csv", "xls", "xlsx"];
+  const privateFileTypes = ["csv", "xls", "xlsx"];
+  const publicFileTypes = privateFileTypes.concat([
+    "jpg",
+    "jpeg",
+    "pdf",
+    "png",
+  ]);
 
   return (
     <Container className="datasetform">
@@ -32,28 +38,27 @@ export default function DataSetForm(props) {
         </Col>
       </Row>
       <Row>
-        {/* {console.log("This is the sample data",props)} */}
         <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
-            value={props.dataAccessValue}
-            onChange={props.handleDataAccessAvailable}
+            value={props.isPublic}
+            onChange={props.handleChangeIsPublic}
           >
             <FormControlLabel
-              value="true"
+              value={true}
               control={<Radio />}
               label={screenlabels.dataset.public}
             />
             <FormControlLabel
-              value="false"
+              value={false}
               control={<Radio />}
               label={screenlabels.dataset.private}
               className="private"
             />
           </RadioGroup>
-          </Col>
+        </Col>
       </Row>
       <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
@@ -86,23 +91,6 @@ export default function DataSetForm(props) {
             error={props.descriptionErrorMessage ? true : false}
             helperText={props.descriptionErrorMessage}
           />
-
-          {/* <TextareaAutosize
-            className="description"
-            maxRows={4}
-            placeholder={screenlabels.dataset.description}
-            variant="filled"
-            defaultValue={props.reply}
-            maxLength={500}
-            width="100%"
-            onKeyDown={props.handledescriptionKeydown}
-            onChange={props.handleChangedescription}
-            style={{
-              border: "none !important",
-              "min-height": "50px",
-              "border-bottom": "1px solid #9AA1A9 !important",
-            }}
-          /> */}
         </Col>
       </Row>
       <Row>
@@ -579,10 +567,14 @@ export default function DataSetForm(props) {
           <FileUploader
             handleChange={props.handleFileChange}
             name="file"
-            types={fileTypes}
+            types={props.isPublic ? publicFileTypes : privateFileTypes}
             children={
               <UploadDataset
-                uploaddes="Supports CSV and Excel file formats upto 2MB "
+                uploaddes={`Supports ${
+                  props.isPublic
+                    ? "CSV, PDF, JPG, JPEG, PNG, XLS and XLSX file formats upto 50 MB"
+                    : "CSV and XLSX file formats upto 2 MB "
+                }`}
                 uploadtitle="Upload Dataset"
               />
             }
@@ -600,8 +592,9 @@ export default function DataSetForm(props) {
             : ""}
         </p>
         <p className="oversizemb-uploadimglogo">
-          {props.file != null && props.file.size > 2097152
-            ? "File uploaded is more than 2MB!"
+          {props.file != null &&
+          props.file.size > (props.isPublic ? 52428800 : 2097152)
+            ? `File uploaded is more than ${props.isPublic ? 50 : 2} MB!`
             : ""}
           {props.fileValid}
         </p>

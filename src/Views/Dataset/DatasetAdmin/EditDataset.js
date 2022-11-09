@@ -48,6 +48,7 @@ export default function EditDataset() {
   const [value, setValue] = React.useState("");
   const [recordsvalue, setrecordsvalue] = React.useState("");
   const [availablevalue, setavailablevalue] = React.useState("");
+  const [isPublic, setIsPublic] = React.useState("");
 
   //   date picker
   const [fromdate, setfromdate] = React.useState(null);
@@ -63,14 +64,16 @@ export default function EditDataset() {
   //   success screen
   const [isSuccess, setisSuccess] = useState(false);
 
-  const [nameErrorMessage, setnameErrorMessage] = useState(null)
-  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
-  const [categoryErrorMessage, setCategoryErrorMessage] = useState(null)
-  const [geographyErrorMessage, setGeographyErrorMessage] = useState(null)
-  const [cropDetailErrorMessage, setCropDetailErrorMessage] = useState(null)
-  const [ageErrorMessage, setAgeErrorMessage] = useState(null)
-  const [dataCaptureStartErrorMessage, setDataCaptureStartErrorMessage]= useState(null)
-  const [dataCaptureEndErrorMessage,setDataCaptureEndErrorMessage]= useState(null)
+  const [nameErrorMessage, setnameErrorMessage] = useState(null);
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null);
+  const [categoryErrorMessage, setCategoryErrorMessage] = useState(null);
+  const [geographyErrorMessage, setGeographyErrorMessage] = useState(null);
+  const [cropDetailErrorMessage, setCropDetailErrorMessage] = useState(null);
+  const [ageErrorMessage, setAgeErrorMessage] = useState(null);
+  const [dataCaptureStartErrorMessage, setDataCaptureStartErrorMessage] =
+    useState(null);
+  const [dataCaptureEndErrorMessage, setDataCaptureEndErrorMessage] =
+    useState(null);
 
   //   retrive id for dataset
   const { id } = useParams();
@@ -82,15 +85,15 @@ export default function EditDataset() {
     var userid = getUserMapId();
     console.log("user id", userid);
 
-    setnameErrorMessage(null); 
+    setnameErrorMessage(null);
     setDescriptionErrorMessage(null);
     setCategoryErrorMessage(null);
-    setGeographyErrorMessage(null); 
+    setGeographyErrorMessage(null);
     setCropDetailErrorMessage(null);
     setAgeErrorMessage(null);
-    setDataCaptureStartErrorMessage(null); 
-    setDataCaptureEndErrorMessage(null); 
-    setfileValid(null); 
+    setDataCaptureStartErrorMessage(null);
+    setDataCaptureEndErrorMessage(null);
+    setfileValid(null);
 
     const datefrom = new Date(fromdate);
     console.log(datefrom);
@@ -152,6 +155,7 @@ export default function EditDataset() {
     } else {
       bodyFormData.append("connector_availability", "");
     }
+    bodyFormData.append("is_public", isPublic);
     if (recordsvalue != null) {
       bodyFormData.append("dataset_size", recordsvalue);
     } else {
@@ -178,27 +182,46 @@ export default function EditDataset() {
       .catch((e) => {
         setIsLoader(false);
         //console.log(e.response.data.sample_dataset[0]);
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "name": setnameErrorMessage(errorMessages[i]); break;
-              case "description": setDescriptionErrorMessage(errorMessages[i]); break;
-              case "category": setCategoryErrorMessage(errorMessages[i]); break;
-              case "geography": setGeographyErrorMessage(errorMessages[i]); break;
-              case "crop_detail": setCropDetailErrorMessage(errorMessages[i]); break;
-              case "age_of_date": setAgeErrorMessage(errorMessages[i]); break;
-              case "data_capture_start": setDataCaptureStartErrorMessage(errorMessages[i]); break;
-              case "data_capture_end": setDataCaptureEndErrorMessage(errorMessages[i]); break;
-              case "sample_dataset": setfileValid(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "name":
+                setnameErrorMessage(errorMessages[i]);
+                break;
+              case "description":
+                setDescriptionErrorMessage(errorMessages[i]);
+                break;
+              case "category":
+                setCategoryErrorMessage(errorMessages[i]);
+                break;
+              case "geography":
+                setGeographyErrorMessage(errorMessages[i]);
+                break;
+              case "crop_detail":
+                setCropDetailErrorMessage(errorMessages[i]);
+                break;
+              case "age_of_date":
+                setAgeErrorMessage(errorMessages[i]);
+                break;
+              case "data_capture_start":
+                setDataCaptureStartErrorMessage(errorMessages[i]);
+                break;
+              case "data_capture_end":
+                setDataCaptureEndErrorMessage(errorMessages[i]);
+                break;
+              case "sample_dataset":
+                setfileValid(errorMessages[i]);
+                break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
 
         //setfileValid(e.response.data.sample_dataset[0]);
@@ -241,6 +264,7 @@ export default function EditDataset() {
         setValue(response.data.age_of_date);
         settodate(response.data.data_capture_end);
         setfromdate(response.data.data_capture_start);
+        setIsPublic(response.data.is_public);
 
         // console.log("picture", response.data.profile_picture);
         // setphonenumber(response.data.phone_number);
@@ -284,6 +308,12 @@ export default function EditDataset() {
     console.log(event.target.value);
     setavailablevalue(event.target.value);
   };
+  const handleChangeIsPublic = (event) => {
+    console.log(event.target.value);
+    setIsPublic(event.target.value === "true" ? true : false);
+    // Reset sample file to upload
+    setFile(null);
+  };
   const handleFileChange = (file) => {
     setFile(file);
     setfileValid("");
@@ -303,7 +333,7 @@ export default function EditDataset() {
   };
   const handledatasetnameKeydown = (e) => {
     handleUnwantedSpace(datasetname, e);
-  }
+  };
   const handleChangedescription = (e) => {
     console.log(e.target.value);
     validateInputField(e.target.value, RegexConstants.connector_name)
@@ -322,7 +352,7 @@ export default function EditDataset() {
 
   const handleGeographyKeydown = (e) => {
     handleUnwantedSpace(Geography, e);
-  }
+  };
 
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
@@ -332,7 +362,7 @@ export default function EditDataset() {
   };
   const handleCropKeydown = (e) => {
     handleUnwantedSpace(cropdetail, e);
-  }
+  };
   const handleChangeFromDate = (newValue) => {
     console.log(newValue);
     settodate(null);
@@ -413,7 +443,8 @@ export default function EditDataset() {
           btntext={"ok"}
           heading={"Dataset updated Successfully"}
           imageText={"Success!"}
-          msg={"Your dataset are updated."}></Success>
+          msg={"Your dataset are updated."}
+        ></Success>
       ) : (
         <form noValidate autoComplete="off" onSubmit={handleEditDatasetSubmit}>
           <DataSetForm
@@ -458,11 +489,13 @@ export default function EditDataset() {
             handleChangeRecords={handleChangeRecords}
             availablevalue={availablevalue}
             handleChangeAvailable={handleChangeAvailable}
+            isPublic={isPublic}
+            handleChangeIsPublic={handleChangeIsPublic}
             handleFileChange={handleFileChange}
             file={file}
             fileValid={fileValid}
-            nameErrorMessage = {nameErrorMessage}
-            descriptionErrorMessage= {descriptionErrorMessage}
+            nameErrorMessage={nameErrorMessage}
+            descriptionErrorMessage={descriptionErrorMessage}
             categoryErrorMessage={categoryErrorMessage}
             geographyErrorMessage={geographyErrorMessage}
             cropDetailErrorMessage={cropDetailErrorMessage}
@@ -494,14 +527,16 @@ export default function EditDataset() {
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
                   className="submitbtn"
-                  type="submit">
+                  type="submit"
+                >
                   {screenlabels.common.submit}
                 </Button>
               ) : (
                 <Button
                   variant="outlined"
                   disabled
-                  className="disbalesubmitbtn">
+                  className="disbalesubmitbtn"
+                >
                   {screenlabels.common.submit}
                 </Button>
               )}
@@ -513,7 +548,8 @@ export default function EditDataset() {
               <Button
                 onClick={() => history.push("/datahub/datasets")}
                 variant="outlined"
-                className="cancelbtn">
+                className="cancelbtn"
+              >
                 {screenlabels.common.cancel}
               </Button>
             </Col>
