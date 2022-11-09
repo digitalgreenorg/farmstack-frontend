@@ -181,7 +181,7 @@ export default function ViewDataSet(props) {
           <span className="secondmainheading">{"Geography"}</span>
         </Col>
         <Col>
-          <span className="secondmainheading">{"Crop detail"}</span>
+          <span className="secondmainheading">{"Value Chain"}</span>
         </Col>
         <Col>
           <span className="secondmainheading">{"Constantly updating"}</span>
