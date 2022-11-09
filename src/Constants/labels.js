@@ -161,7 +161,7 @@ const labels = {
       Weather_data: "Weather data",
       Research_data: "Research data",
       Geography: "Geography",
-      Crop_Detail: "Crop details",
+      Crop_Detail: "Value Chain",
       data: "Actual age of data",
       Constantly_updating: "Constantly updating",
       three: "3 months",
@@ -192,7 +192,7 @@ const labels = {
       organisation_name: "Organization name",
       published_on: "Published on",
       age_of_data: "Age of data",
-      crop_details: "Crop details",
+      crop_details: "Value Chain",
       add_dataset: "Add new dataset",
       add_dataset_text:
         "Add details about your dataset and make it discoverable to other users of our network.",
