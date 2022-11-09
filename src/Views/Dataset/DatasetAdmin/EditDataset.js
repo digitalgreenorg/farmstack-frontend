@@ -320,11 +320,11 @@ export default function EditDataset() {
     // setprofile_pic(file);
     console.log(file);
     console.log(typeof file);
-    if (file != null && file.size > 2097152) {
-      setfilesize(true);
-    } else {
-      setfilesize(false);
-    }
+    // if (file != null && file.size > 2097152) {
+    //   setfilesize(true);
+    // } else {
+    //   setfilesize(false);
+    // }
   };
   const handleChangedatasetname = (e) => {
     validateInputField(e.target.value, RegexConstants.connector_name)

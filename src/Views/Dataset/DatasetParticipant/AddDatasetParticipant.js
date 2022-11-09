@@ -4,12 +4,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import DataSetForm from "../../../Components/Datasets/DataSetForm";
 
-import $ from "jquery";
+import $, { type } from "jquery";
 import {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
   getUserMapId,
+  fileUpload,
   GetErrorHandlingRoute,
   GetErrorKey,
 } from "../../../Utils/Common";
@@ -145,15 +146,12 @@ export default function AddDataset(props) {
     if (todate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_end", todate.toISOString());
     }
-    if (file != null) {
-      bodyFormData.append("sample_dataset", file);
-    }
+    fileUpload(bodyFormData, file, "sample_dataset");
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("is_public", isPublic);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
 
-    console.log("add dataset", bodyFormData);
     setIsLoader(true);
     HTTPService(
       "POST",
