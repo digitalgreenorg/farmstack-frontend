@@ -48,6 +48,7 @@ export default function OrgRightside(props) {
   // // const [orgdeserror, serorgdeserror] = useState(false);
   const [orgdesc, setorgdesc] = useState("");
   const [isLoader, setIsLoader] = useState(false);
+  console.log( props.validOrgNumber, "KAKAKSANDKJDHBUDSBJVDSIUVBFSUYCBDSIUVDWBVDSBCVISDJFVYUDBDSIU")
 
   const [editorValue, setEditorValue] = React.useState(
     RichTextEditor.createValueFromString(orgdesc, "html")
@@ -103,7 +104,7 @@ export default function OrgRightside(props) {
           ) {
             props.isOrgWebsiteerror(false);
           }
-          props.setValidOrgnumber(response.data.organization.phone_number);
+          props.setValidOrgnumber(response.data.organization.phone_number ? response.data.organization.phone_number : "");
           if (response.data.organization.address) {
             props.setOrgAddress(response.data.organization.address.address);
             props.setOrgCity(response.data.organization.address.city);
@@ -457,7 +458,7 @@ export default function OrgRightside(props) {
       {isLoader ? <Loader /> : ""}
       <div className="orgheader">Organisation details</div>
       <div>
-        <form noValidate autoComplete="off" onSubmit={props.handleOrgSubmit}>
+        <div noValidate autoComplete="off">
           <div className="orgname">
             <TextField
               required
@@ -531,6 +532,7 @@ export default function OrgRightside(props) {
           </div>
           <div className="orgnumber">
             <MuiPhoneNumber
+              required
               defaultCountry={"in"}
               countryCodeEditable={false}
               style={{ width: "420px" }}
@@ -638,17 +640,22 @@ export default function OrgRightside(props) {
                   : props.setispincodeerror(false)
               }
               onKeyDown={(e) => {
-                if (e.key == "-" || e.key == "e" || e.key == "E" || e.key == "+") {
+                if (
+                  e.key == "-" ||
+                  e.key == "e" ||
+                  e.key == "E" ||
+                  e.key == "+"
+                ) {
                   e.preventDefault();
                 }
               }}
-              onChange={(e) =>{
-                if (e.target.value.length > 10) e.target.value = e.target.value.substring(0,10);
+              onChange={(e) => {
+                if (e.target.value.length > 10)
+                  e.target.value = e.target.value.substring(0, 10);
                 validateInputField(e.target.value, RegexConstants.PINCODE_REGEX)
                   ? props.setOrgPincode(e.target.value.trim())
-                  : e.preventDefault()
-                }
-              }
+                  : e.preventDefault();
+              }}
               // onChange={props.handlepincode}
               // inputRef={props.pincode}
               error={props.ispincodeerror}
@@ -683,7 +690,7 @@ export default function OrgRightside(props) {
                 ],
               }}
             /> */}
-            <p className="orgdestitle">
+            <p className="orgdestitle" style={{ position: "relative" }}>
               Organisation description<sup>*</sup>
             </p>
             <RichTextEditor
@@ -702,9 +709,30 @@ export default function OrgRightside(props) {
                 border: "1px solid black",
                 zIndex: 4,
               }}
-              error={props.orgDescriptionErrorMessage ? true : false}
-              helperText={props.orgDescriptionErrorMessage}
+              // error={props.orgDescriptionErrorMessage ? true : false}
+              // helperText={props.orgDescriptionErrorMessage}
             />
+
+            <span
+              style={{
+                position: "absolute",
+                bottom: "-150px",
+                left: "0px",
+                color: "#ff3d00",
+                textAlign: "left",
+                minWidth: "420px",
+                fontFamily: "Open Sans",
+                fontStyle: "normal",
+                fontWeight: "400",
+                fontSize: "12px",
+                lineHeight: "16px",
+              }}>
+              {props.orgDescriptionErrorMessage
+                ? props.orgDescriptionErrorMessage
+                : ""}
+            </span>
+            {/* <TextField style={{width:"100%",position:"absolute", bottom:"-145px",left:0, zIndex:"100", outline:"none", border:"none",}} error={props.orgDescriptionErrorMessage ? true : false} helperText={props.orgDescriptionErrorMessage}>
+                  </TextField> */}
           </div>
           {/* <div className="filesupload">
           <p className="uploadheader">Upload logo</p>
@@ -767,6 +795,7 @@ export default function OrgRightside(props) {
               <span className="signupbtnname">Next</span>
             </Button> */}
             {props.orgName &&
+            props.validOrgNumber.length > 8 &&
             !props.isOrgnameerror &&
             props.Orgemailbtn &&
             !props.isOrgmailerror &&
@@ -778,8 +807,13 @@ export default function OrgRightside(props) {
             props.orgPincode &&
             !props.ispincodeerror &&
             Orgdesbtn &&
-            props.orgfile ? (
-              <Button variant="contained" className="orgbtn" type="submit">
+            props.orgfile != null &&
+            props.orgfile.size < 2097152 ? (
+              <Button
+                onClick={props.handleOrgSubmit}
+                variant="contained"
+                className="orgbtn"
+                type="submit">
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
@@ -799,7 +833,7 @@ export default function OrgRightside(props) {
               </Button>
             </div>
           )}
-        </form>
+        </div>
       </div>
       <div className="footerimg1">
         <svg

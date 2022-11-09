@@ -142,7 +142,7 @@ export default function ProfileRightsideParticipant(props) {
     <>
     {isLoader? <Loader /> : ''}
     <Footerimg />
-      <div className="profileheader">Profile Details</div>
+      <div className="profileheader">Profile details</div>
       <div>
         <form
           noValidate
@@ -267,7 +267,7 @@ export default function ProfileRightsideParticipant(props) {
 
           <div>
             <Button variant="outlined" className="finishlaterbtn" type="button" onClick={props.finishLaterProfileScreen}>
-              Finish Later
+              Finish later
             </Button>
           </div>
         </form>

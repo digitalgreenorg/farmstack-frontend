@@ -37,10 +37,10 @@ export default function GuestUserDescription(props) {
         <Container style={{"margin-top": "50px", "margin-left": "180px", "margin-right":"180px"}}>
             <Row>
                 <Col xs={12} sm={12} md={12} lg={12}>
-                  <Tooltip TransitionComponent={Zoom} title={parse(description)}>
+                  {/* <Tooltip TransitionComponent={Zoom} title={parse(description)}> */}
 
-                <span className="fontweight400andfontsize16pxandcolor3D4A52 d-inline-block text-truncate width1000px classForPtag">{parse(description)}</span>
-                  </Tooltip>
+                <span className="fontweight400andfontsize16pxandcolor3D4A52 classForPtag">{parse(description)}</span>
+                  {/* </Tooltip> */}
                 </Col>
             </Row>
         </Container>

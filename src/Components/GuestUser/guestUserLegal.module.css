@@ -13,3 +13,9 @@
     cursor: pointer;
   }
 
+
+
+
+.legalButton:hover{
+  text-decoration: underline !important;
+}

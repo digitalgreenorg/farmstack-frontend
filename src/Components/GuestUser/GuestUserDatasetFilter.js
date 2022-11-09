@@ -11,6 +11,7 @@ import FilterCheckBox from '../../Components/Datasets/FilterCheckBox';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { SearchSharp } from '@mui/icons-material';
+import Search from '../Datasets/Search';
 
 export default function GuestUserDatasetFilter(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
@@ -30,12 +31,12 @@ export default function GuestUserDatasetFilter(props) {
             <div style={{"margin-left":"55px"}}>
             <span className="filterClearAll">
                         <Button
-                            style={{"font-style":"Open Sans","font-weight": "500","font-size": "13px","bottom":"4px","right":"-10px"}}
+                            style={{"font-style":"Open Sans","font-weight": "500","font-size": "14px","bottom":"5px","right":"-10px","text-transform":"none"}}
                             onClick={() => props.clearAllFilters()}
                             // variant="outlined"
                             // className="cancelbtn"
                             >
-                            Clear All
+                            Clear all
                         </Button></span>
             </div>
             </Col>
@@ -61,14 +62,19 @@ export default function GuestUserDatasetFilter(props) {
             </span>
             <span className="fontweight600andfontsize14pxandcolor3D4A52 supportalltexticon">{screenlabels.support.all}</span>
         </Row>}
+        <Row>
+        {props.isMemberTab ?<Search checkForRegex={props.checkForRegex} setSearchValOtherOrg={props.setSearchValOtherOrg}  setSearchDatasetVar={props.setSearchDatasetVar} searchDatasetVar={props.searchValOtherOrg} debounceOnChange={props.debounceOnChange} isLoadmore={false} isMemberTab={props.isMemberTab} /> : <Search checkForRegex={props.checkForRegex} setSearchDatasetVar={props.setSearchDatasetVar} searchDatasetVar={props.searchValMyOrg} debounceOnChange={props.debounceOnChange} setSearchValMyOrg={props.setSearchValMyOrg} isLoadmore={false} isMemberTab={props.isMemberTab} /> } 
+
+            {/* <Search checkForRegex={props.checkForRegex} setSearchDatasetVar={props.setSearchDatasetVar} searchDatasetVar={props.searchDatasetVar} debounceOnChange={props.debounceOnChange} isLoadmore={false} isMemberTab={props.isMemberTab}/> */}
+            </Row>
         <Row className={props.secondrow ? 'supportfilterthirdrowhighlight' : "supportfilterthirdrow"}>
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterthirdrowheadingtext">{screenlabels.support.date}</span>
           <span className="supportcardfromdate">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                      inputFormat="dd/MM/yyyy"
+                      inputFormat="dd/mm/yyyy"
                       disableFuture
-                      label="From Date *"
+                      label="From date *"
                       value={props.fromdate}
                       onChange={(newValue) => {
                           props.settodate(null)
@@ -90,10 +96,10 @@ export default function GuestUserDatasetFilter(props) {
           <span className="supportcardtodate">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                      inputFormat="dd/MM/yyyy"
+                      inputFormat="dd/mm/yyyy"
                       disabled={props.fromdate ? false : true}
                       disableFuture
-                      label="To Date *"
+                      label="To date *"
                       minDate={props.fromdate}
                       value={props.todate}
                       onChange={(newValue) => {
@@ -185,7 +191,7 @@ export default function GuestUserDatasetFilter(props) {
             value={props.geoSearchState}
             onChange={(e) => props.handleGeoSearch(e)}
             error={!props.isGeoSearchFound}
-            helperText={!props.isGeoSearchFound ? "Not Found" : ""}
+            helperText={!props.isGeoSearchFound ? "Not found" : ""}
           />
       </Row>
       {/* <Row> */}
@@ -266,7 +272,7 @@ export default function GuestUserDatasetFilter(props) {
             value={props.cropSearchState}
             onChange={(e) => props.handleCropSearch(e)}
             error={!props.isCropSearchFound}
-            helperText={!props.isCropSearchFound ? "Not Found" : ""}
+            helperText={!props.isCropSearchFound ? "Not found" : ""}
           />
       </Row>
       {/* <Row> */}

@@ -42,6 +42,7 @@ function EditParticipants(props) {
     const [isexisitinguseremail, setisexisitinguseremail] = useState(false)
     const [isSuccess, setisSuccess] = useState(false);
     const[isLoader, setIsLoader] = useState(false)
+    const [istrusted, setistrusted] = React.useState(false);
 
     const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
     const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
@@ -58,7 +59,7 @@ function EditParticipants(props) {
     }, []);
     const isValidURL = (string) => {
         console.log("dsvdsv", string)
-        var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        var res = string.match("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
         return (res !== null)
     };
     useEffect(() => {
@@ -79,6 +80,7 @@ function EditParticipants(props) {
             setuseremail(response.data.user.email)
             setorganisationlength(response.data.user.subscription)
             setidorg(response.data.organization_id)
+            setistrusted(response.data.user.approval_status)
         }).catch((e) => {
             setIsLoader(false);
             history.push(GetErrorHandlingRoute(e));
@@ -98,8 +100,8 @@ function EditParticipants(props) {
         setisorganisationemailerror(null)
 
         var bodyFormData = new FormData();
-        bodyFormData.append('email', useremail);
-        bodyFormData.append('org_email', orginsationemail);
+        bodyFormData.append('email', useremail.toLowerCase());
+        bodyFormData.append('org_email', orginsationemail.toLowerCase());
         bodyFormData.append('first_name', firstname);
         bodyFormData.append('last_name', lastname);
         bodyFormData.append('name', organisationname);
@@ -109,6 +111,7 @@ function EditParticipants(props) {
         bodyFormData.append('subscription', organisationlength);
         bodyFormData.append('role', 3);
         bodyFormData.append('id', idorg);
+        bodyFormData.append("approval_status", istrusted)
         console.log("dfdfdsf", bodyFormData)
         setIsLoader(true);
         HTTPService('PUT', UrlConstants.base_url + UrlConstants.participant + id + '/', bodyFormData, false, true).then((response) => {
@@ -139,6 +142,10 @@ function EditParticipants(props) {
             } //history.push(GetErrorHandlingRoute(e));
         });
     }
+    const handleistrusted = (event) => {
+        console.log(event.target.checked);
+        setistrusted(event.target.checked)
+      };
     return (
         <>
             {isLoader ? <Loader />: ''}
@@ -147,6 +154,7 @@ function EditParticipants(props) {
                     organisationname={organisationname}
                     setorganisationname={ref => { setorganisationname(ref) }}
                     orginsationemail={orginsationemail}
+                    handleistrusted={handleistrusted}
                     isorganisationemailerror={isorganisationemailerror}
                     setorginsationemail={ref => { setorginsationemail(ref); setisorganisationemailerror(!validator.isEmail(ref)) }}
                     countryvalue={countryvalue}
@@ -158,6 +166,7 @@ function EditParticipants(props) {
                     setwebsitelink={ref => { setwebsitelink(ref); setwebsitelinkerror(!isValidURL(ref)) }}
                     iswebsitelinkrerror={iswebsitelinkrerror}
                     organisationaddress={organisationaddress}
+                    istrusted={istrusted}
                     setorganisationaddress={ref => { setorganisationaddress(ref) }}
                     pincode={pincode}
                     setpincode={ref => { setpincode(ref) }}
@@ -174,6 +183,7 @@ function EditParticipants(props) {
                     first_heading={screenlabels.editparticipants.first_heading}
                     second_heading={screenlabels.editparticipants.second_heading}
                     third_heading={screenlabels.editparticipants.third_heading}
+                    fourth_heading={screenlabels.editparticipants.fourth_heading}
                     orgNameErrorMessage={orgNameErrorMessage}
                     orgEmailErrorMessage={orgEmailErrorMessage}
                     orgWebsiteErrorMessage={orgWebsiteErrorMessage}

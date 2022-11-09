@@ -30,15 +30,18 @@ import HandleSessionTimeout, {
   getUserMapId,
   GetErrorKey,
   validateInputField,
+  isParticipantRoute,
 } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
 import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
 import RegexConstants from "../../Constants/RegexConstants";
+import LeftintroParticipant from "../../Components/intros/LeftIntroParticipant";
+import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -88,6 +91,7 @@ export default function Login(props) {
     useState(timerDuration);
 
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     if (getTokenLocal() && isLoggedInUserAdmin()) {
@@ -103,7 +107,7 @@ export default function Login(props) {
     const emailString = email.current.value;
     const valid = validator.isEmail(email.current.value);
     console.log(valid);
-    const finalEmail = emailString.trim();
+    const finalEmail = emailString.trim().toLowerCase();
     console.log(finalEmail);
     if (!valid) {
       setError(true);
@@ -112,7 +116,11 @@ export default function Login(props) {
       let url = UrlConstant.base_url + UrlConstant.login;
       let data = {
         email: finalEmail,
+        role: isParticipantRoute(location.pathname) 
+          ? LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT 
+          : LocalStorageConstants.ROLES.DATAHUB_ADMIN
       };
+      console.log(data, "EMAILLLLLLLLL")
 
       setIsLoader(true);
 
@@ -641,7 +649,7 @@ export default function Login(props) {
 
     var bodyFormData = new FormData();
     bodyFormData.append("user_id", id);
-    bodyFormData.append("org_email", finalEmail);
+    bodyFormData.append("org_email", finalEmail.toLowerCase());
     bodyFormData.append("name", finalName);
     bodyFormData.append("website", orgWebsite);
     bodyFormData.append(
@@ -659,6 +667,7 @@ export default function Login(props) {
     for (const pair of bodyFormData.entries()) {
       console.log(`${pair[0]}, ${pair[1]}`);
     }
+    // console.log(bodyFormData, "EMAIL CHECK")
 
     if (!valid) {
       setisOrgmailerror(true);
@@ -749,7 +758,8 @@ export default function Login(props) {
   const handleOrgWebsite = (e) => {
     e.target.value = e.target.value.trim()
     setOrgWebsite(e.target.value)
-    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.WEBSITE_URL_REGEX))
+    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX)&&
+    !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX))
   };
 
   const handleOrgmail = (e) => {
@@ -779,7 +789,8 @@ export default function Login(props) {
 
   const handleOrgnumber = (value) => {
     console.log(value);
-    setValidOrgnumber(value);
+    
+    setValidOrgnumber(value ? value : "");
   };
 
   const handleOrgAddress = (e) => {
@@ -888,9 +899,8 @@ export default function Login(props) {
       ) : (
         <div>
           <h1 className="headertext">{screenlabels.login.signup_header}</h1>
-          <Leftintro />
+          {isParticipantRoute(location.pathname) ? <LeftintroParticipant /> : <Leftintro />}
           {isemail || isOtp ? <Rightintro /> : ""}
-
           {/* <Footerimg /> */}
           {isemail && (
             <SignupEmail

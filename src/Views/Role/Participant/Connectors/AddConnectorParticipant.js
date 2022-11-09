@@ -18,7 +18,7 @@ import Success from "../../../../Components/Success/Success";
 import Loader from "../../../../Components/Loader/Loader";
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
-
+import { useLocation } from "react-router-dom";
 import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
@@ -28,6 +28,7 @@ import HandleSessionTimeout, {
   setUserMapId,
   setOrgId,
   getOrgLocal,
+  isRoleName,
 } from "../../../../Utils/Common";
 
 const names = [
@@ -66,11 +67,12 @@ const useStyles = {
 
 export default function AddConnectorParticipant() {
   const history = useHistory();
+  const location = useLocation();
   //   dataset values
   const [datasets, setdatasets] = React.useState([]);
   const [department_variable, setdepartment_variable] = React.useState([]);
   const [project_variable, setproject_variable] = React.useState([
-    { id: "3526bd39-4514-43fe-bbc4-ee0980bde252", project_name: "default" },
+    { id: "3526bd39-4514-43fe-bbc4-ee0980bde252", project_name: "Default" },
   ]);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
@@ -171,7 +173,7 @@ export default function AddConnectorParticipant() {
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.project_list,
-      { department: event.target.value },
+      { department: event.target.value, org_id: getOrgLocal() },
       false,
       true
     )
@@ -354,7 +356,9 @@ export default function AddConnectorParticipant() {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/participant/connectors")}
+          okevent={() =>
+            history.push(isRoleName(location.pathname) + "connectors")
+          }
           route={"/participant/connectors"}
           imagename={"success"}
           btntext={"ok"}
@@ -364,9 +368,9 @@ export default function AddConnectorParticipant() {
             "The connector configuration is saved successfully and a request for a certificate has been sent to the admin. You may receive the certificate via email soon. "
           }></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+        <div noValidate autoComplete="off">
           <ConnectorForm
-            title={"Configure a new Connector"}
+            title={"Configure a new connector"}
             connector={connector}
             department={department}
             project={project}
@@ -413,7 +417,7 @@ export default function AddConnectorParticipant() {
               port ? (
                 <Button
                   style={useStyles.marginrowtop}
-                  //   onClick={() => addNewParticipants()}
+                  onClick={handleAddDatasetSubmit}
                   variant="contained"
                   className="submitbtn"
                   type="submit">
@@ -433,14 +437,16 @@ export default function AddConnectorParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/participant/connectors")}
+                onClick={() =>
+                  history.push(isRoleName(location.pathname) + "connectors")
+                }
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}
               </Button>
             </Col>
           </Row>
-        </form>
+        </div>
       )}
     </>
   );

@@ -17,7 +17,7 @@ body {
 margin: 0 auto;
 }
 button.disbalesubmitbtn {
-  text-transform: capitalize;
+  text-transform: none !important;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -34,7 +34,7 @@ button.disbalesubmitbtn {
   line-height: 19px;
 }
 button.cancelbtn {
-  text-transform: capitalize;
+  text-transform: none !important;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -52,7 +52,7 @@ button.cancelbtn {
   line-height: 19px;
 }
 button.editbtn {
-  text-transform: capitalize;
+  text-transform: none !important;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -71,7 +71,7 @@ button.editbtn {
 }
 button.submitbtn {
   width: 420px !important;
-  text-transform: capitalize;
+  text-transform: none !important;
   color: #ffffff;
   height: 42px;
   margin-top: 30px;
@@ -211,7 +211,7 @@ button.submitbtn:hover {
 .settingsTabs .Mui-selected {
   color: #ffffff !important;
   border-radius: 2px 0px 0px 0px;
-  text-transform: capitalize !important;
+  text-transform: none !important;
   background: #c09507;
   width: 220px;
   height: 42px;
@@ -255,9 +255,9 @@ button.submitbtn:hover {
 } */
 :not(.Mui-selected).MuiTab-root {
   background: #ffffff;
-  text-transform: capitalize !important;
+  text-transform: none !important;
   font-weight: 400 !important;
-  width: 220px;
+  width: 225px;
   border-left: 1px solid #d8af28 !important;
   border-right: 1px solid #d8af28 !important;
   border-top: 1px solid #d8af28 !important;
@@ -267,10 +267,29 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.MuiDataGrid-columnHeaders{
 
+  background-color: #FFDB64 !important;
+}
+.MuiTabs-root .MuiButtonBase-root{
+  width: 185px !important;
+
+  /* border: 1px solid red !important; */
+}
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+.downloadDataset{
+  color: #3491EE !important;
+}
+
+.downloadDataset:hover{
+  text-decoration: underline !important;
+}
+
+.MuiDataGrid-columnHeaderTitle{
+  text-transform: capitalize !important;
 }
 
 .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
@@ -294,7 +313,7 @@ input[type="number"] {
   font-size: 14px !important;
   line-height: 19px !important;
 }
-css-1wc848c-MuiFormHelperText-root {
+.css-1wc848c-MuiFormHelperText-root {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -310,7 +329,7 @@ css-1wc848c-MuiFormHelperText-root {
   line-height: 16px;
 }
 button.disbalesubmitbtnteam {
-  text-transform: capitalize;
+  text-transform: none !important;
   border-radius: 2px;
   box-shadow: none !important;
   background: #ffffff !important;
@@ -324,7 +343,7 @@ button.disbalesubmitbtnteam {
 }
 button.submitbtnteam {
   width: 420px !important;
-  text-transform: capitalize;
+  text-transform: none !important;
   color: #ffffff;
   height: 42px;
   margin-top: 200px;
@@ -344,7 +363,7 @@ button.submitbtn:hover {
   background-color: #ab8405 !important; */
 
 button.cancelbtnteam {
-  text-transform: capitalize;
+  text-transform: none !important;
   border-radius: 2px;
   background: #ffffff !important;
   width: 420px !important;
@@ -568,8 +587,59 @@ overflow: hidden;
 .classForPtag {
 /* border: 1px solid red; */
 /* width: 1000px; */
+margin: 0px auto;
+word-wrap: break-word;
 
 }
+.carousel-indicators {
+  position: absolute;
+  right: 0px;
+  bottom: 0;
+  left: 173px !important;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  margin-right: 15%;
+  margin-left: 15%;
+  list-style: none;
+  width: 72px !important;
+  /* border: 1px solid red; */
+}
+.carousel-control-next, .carousel-control-prev {
+z-index: 200 !important;
+ /* border: 1px solid red; */
+}
+.carousel-control-next{
+  right: 241px !important;
+  height: 200px !important;
+  top: 271px !important;
+  height: 30px !important;
+  width: 30px !important;
+  background-image: url("../Img/next.png");
+  background-repeat: no-repeat;
+  background-position:center !important ;
+
+}
+.carousel-control-prev{
+    background-image: url("../Img/back.png");
+    background-repeat: no-repeat;
+    left: 240px !important;
+    height: 200px !important;
+    top: 271px !important;
+    height: 30px !important;
+    width: 30px !important;
+    background-position:center !important ;
+
+}
+.carousel-control-prev-icon{
+   display: none !important;
+  }
+  .carousel-control-next-icon{
+  display: none !important;
+  
+}
+
 
 
 .cardheaderTitlespecifier .css-et1ao3-MuiTypography-root{
@@ -616,7 +686,7 @@ overflow: hidden;
 }
 
 .minHeightWithoutFooter{
-  min-height: 400px;
+  min-height: 500px;
   /* border: 1px solid green; */
 }
 
@@ -653,3 +723,121 @@ overflow: hidden;
 .hover{
   cursor: pointer;
 }
+.Departmentcard .MuiCardHeader-title {
+  padding-bottom: 1px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: #3d4a52;
+  line-height: 19px;
+  margin-left: 8px;
+}
+.Departmentcard .MuiCardHeader-subheader {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  margin-left: 8px;
+  /* identical to box height */
+
+  color: #000000;
+
+  opacity: 0.5;
+}
+button.submitbtndept {
+  width: 420px !important;
+  text-transform: none !important;
+  color: #ffffff;
+  margin-top: 80px;
+  height: 42px;
+  background: #c09507;
+  border-radius: 2px;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+  font-weight: 700;
+}
+button.submitbtndept:hover {
+  background-color: #ab8405 !important;
+}
+button.cancelbtndept {
+  text-transform: none !important;
+  border-radius: 2px;
+  background: #ffffff !important;
+  width: 420px !important;
+  height: 42px;
+  margin-top: 30px;
+  font-weight: 700;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  margin-bottom: 10px;
+  box-shadow: none !important;
+
+}
+button.disbalesubmitbtndept {
+  text-transform: none !important;
+  border-radius: 2px;
+  box-shadow: none !important;
+  background: #ffffff !important;
+  margin-top: 80px;
+  width: 420px !important;
+  height: 42px;
+  border: 1px solid #c09507 !important;
+  color: #585d60 !important;
+  opacity: 0.5;
+  font-weight: 700;
+}
+
+/* :not(.Mui-selected).MuiTab-root{
+  text-transform: none !important;
+
+} */
+
+
+.recharts-tooltip-wrapper{
+  border: none !important;
+}
+
+.recharts-default-tooltip{
+  border: none !important;
+}
+
+
+
+.text-capital{
+  text-transform: capitalize !important;
+}
+
+.supportcardsecondcolumn .supportEnableButton{
+  text-transform: none !important;
+}
+
+.searchBarForDataset{
+    /* border-left: 1px solid #d8af28 !important; */
+    /* border-right: 1px solid #d8af28 !important; */
+    /* border-top: 1px solid #d8af28 !important; */
+  /* border: 1px solid red; */
+  display: flex;
+  width: 100%;
+  padding: 10px 10px !important;
+  justify-content: right;
+  transition: width 2s;
+
+}
+
+/* .searchBarForDataset #filled-basic{ */
+ /* width: 100% !important; */
+ /* border: 1px solid red; */
+  /* transition: width 2s; */
+/* } */
+/* .searchBarForDataset #filled-basic:focus{ */
+ /* width: 800px !important; */
+ /* border: 1px solid green; */
+  /* transition: width 3s; */
+/* } */
+/* .searchBarForDataset #filled-basic:focus .searchBarForDataset{ */
+ /* width: 100% !important; */
+ /* border: 1px solid green; */
+  /* transition: width 3s; */
+/* } */

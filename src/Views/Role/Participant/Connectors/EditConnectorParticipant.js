@@ -8,6 +8,7 @@ import {
   fileUpload,
   GetErrorHandlingRoute,
   GetErrorKey,
+  isRoleName,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
@@ -21,7 +22,7 @@ import Loader from "../../../../Components/Loader/Loader";
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
 import { useParams } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 const names = [
   "Oliver Hansen",
   "Van Henry",
@@ -58,6 +59,7 @@ const useStyles = {
 
 export default function EditConnectorParticipant() {
   const history = useHistory();
+  const location = useLocation();
   const [datasets, setdatasets] = React.useState([]);
   const [department_variable, setdepartment_variable] = React.useState([]);
   const [project_variable, setproject_variable] = React.useState([]);
@@ -109,21 +111,15 @@ export default function EditConnectorParticipant() {
       .then((response) => {
         setIsLoader(false);
         console.log("get request for edit connector", response.data);
-        setconnectorName(response.data.connector_name);
-        setconnector(response.data.connector_type);
-        setproject(response.data.project);
-        setdepartment(response.data.department_details.id);
-        setdescription(response.data.connector_description);
-        setDataset(response.data.dataset);
-        setdocker(response.data.docker_image_url);
-        setport(response.data.application_port);
-        setFile(response.data.certificate);
 
         if (response.data.department_details.id) {
           HTTPService(
             "GET",
             UrlConstants.base_url + UrlConstants.project_list,
-            { department: department },
+            {
+              department: response.data.department_details.id,
+              org_id: getOrgLocal(),
+            },
             false,
             true
           )
@@ -138,12 +134,23 @@ export default function EditConnectorParticipant() {
             });
         }
 
+        setconnectorName(response.data.connector_name);
+        setconnector(response.data.connector_type);
+        setproject(response.data.project);
+        setdepartment(response.data.department_details.id);
+        setdescription(response.data.connector_description);
+        setDataset(response.data.dataset);
+        setdocker(response.data.docker_image_url);
+        setport(response.data.application_port);
+        setFile(response.data.certificate);
+
         // console.log(typeof typeof file);
         console.log(typeof response.data.certificate);
         console.log(response.data.connector_description);
         console.log(response.data.dataset_details.name);
         console.log(response.data.project_details.id);
         console.log(response.data.department_details.department_name);
+        console.log("nofdo", response.data.project);
 
         // datasets
         var id = getUserLocal();
@@ -235,7 +242,7 @@ export default function EditConnectorParticipant() {
     await HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.project_list,
-      { department: event.target.value },
+      { department: event.target.value, org_id: getOrgLocal() },
       false,
       true
     )
@@ -420,7 +427,9 @@ export default function EditConnectorParticipant() {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push("/participant/connectors")}
+          okevent={() =>
+            history.push(isRoleName(location.pathname) + "connectors")
+          }
           route={"/participant/connectors"}
           imagename={"success"}
           btntext={"ok"}
@@ -428,10 +437,7 @@ export default function EditConnectorParticipant() {
           imageText={"Success!"}
           msg={"The connector configuration is saved successfully. "}></Success>
       ) : (
-        <form
-          noValidate
-          autoComplete="off"
-          onSubmit={handleEditConnectorSubmit}>
+        <div noValidate autoComplete="off">
           <ConnectorForm
             title={"Update connector"}
             connector={connector}
@@ -480,7 +486,7 @@ export default function EditConnectorParticipant() {
               port &&
               file ? (
                 <Button
-                  //   onClick={() => addNewParticipants()}
+                  onClick={handleEditConnectorSubmit}
                   variant="contained"
                   className="submitbtn"
                   type="submit">
@@ -500,14 +506,16 @@ export default function EditConnectorParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push("/participant/connectors")}
+                onClick={() =>
+                  history.push(isRoleName(location.pathname) + "connectors")
+                }
                 variant="outlined"
                 className="cancelbtn">
                 {screenlabels.common.cancel}
               </Button>
             </Col>
           </Row>
-        </form>
+        </div>
       )}
     </>
   );

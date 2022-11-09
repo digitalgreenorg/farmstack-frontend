@@ -8,6 +8,8 @@ const RegexConstants = {
   PINCODE_REGEX: /^[0-9]{0,10}$/,
   WEBSITE_URL_REGEX:
     /^((https?|ftp|smtp):\/\/)?(www.)?[a-zA-Z0-9]+\.[a-zA-Z]+(\/[a-zA-Z0-9#]+\/?)*$/,
+  NEW_WEBSITE_REGEX: "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?", 
+  NEW_C_WEBSITE_REGEX: "^(HTTP[S]?:\\/\\/(WWW\\.)?|FTP:\\/\\/(WWW\\.)?|WWW\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?",
   NO_SPACE_REGEX: /^([^\s])*$/,
   //   DATE_SET_REGEX: /^$|^[A-za-z][0-9]?(([^\s])+(\s)?)*$/,
   // DATA_SET_REGEX: /^$|^[a-zA-Z][A-Za-z0-9_&@-]?(([^\s])+(\s)?)*$/,
@@ -19,6 +21,8 @@ const RegexConstants = {
   // DES_SET_REGEX: /^$|^[a-zA-Z][A-Za-z0-9]?(([^\s])+(\s)?)*$/
   DES_SET_REGEX: /^$|^[a-zA-Z0-9.][a-zA-Z0-9. ]*$/,
   city_name: /^$|^[a-zA-Z][a-zA-Z ]*$/,
+  address: /^$|^[a-zA-Z0-9#,][a-zA-Z0-9#, ]*$/,
+  NEW_NAME_REGEX: /^([a-zA-Z0-9]+\s?)*$/   //allows only one space and no spl characters allowed
 };
 
 export default RegexConstants;

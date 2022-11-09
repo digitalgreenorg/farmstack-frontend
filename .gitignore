@@ -25,3 +25,4 @@ yarn-error.log*
 Jenkinsfile
 
 package-lock.json
+.env.production

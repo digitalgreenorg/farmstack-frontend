@@ -10,7 +10,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UrlConstant from '../../Constants/UrlConstants';
 import HTTPService from '../../Services/HTTPService';
-import { GetErrorHandlingRoute } from '../../Utils/Common';
+import { debounce, GetErrorHandlingRoute, getOrgLocal } from '../../Utils/Common';
 import { useHistory } from 'react-router-dom';
 import { getUserLocal, getUserMapId } from '../../Utils/Common';
 import FileSaver from 'file-saver';
@@ -19,6 +19,8 @@ import './GuestUserDatasets.css'
 import GuestUserDatasetFilter from './GuestUserDatasetFilter';
 import GuestUserDatasetListing from './GuestUserDatasetListing';
 import ViewDataSet from '../Datasets/viewDataSet';
+import Axios from 'axios';
+import RegexConstants from '../../Constants/RegexConstants';
 export default function GuestUserDatasets() {
     const [isLoader, setIsLoader] = useState(false)
     const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
@@ -34,7 +36,10 @@ export default function GuestUserDatasets() {
     const [datasetUrl, setDatasetUrl] = useState(
         UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
     );
-
+  const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
+  const [searchDatasetVar, setSearchDatasetVar] = useState({val : ""})
+  const [searchValMyOrg, setSearchValMyOrg] = useState({val : ""})
+  const [searchValOtherOrg, setSearchValOtherOrg] = useState({val : ""})
     const [isShowAll, setIsShowAll] = useState(true)
     // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
     // const [isDisabledFilter, setIsDisabledFilter] = useState(false)
@@ -91,11 +96,12 @@ export default function GuestUserDatasets() {
     var payload = ""
     var adminUrl = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
     //var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
-
+    var guestUrl =UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest
     const resetUrls = () => {
         // setDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
         // setMemberDatasetUrl(UrlConstant.base_url + UrlConstant.dataset_list)
         adminUrl = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data
+         guestUrl =UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest
         //memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
     }
     const handleConstantyUpdateSwitch = (event) => {
@@ -370,6 +376,87 @@ export default function GuestUserDatasets() {
         setCropFilterDisplay(tempList)
     }
 
+    async function getSearchedData(val, isLoadMore, isMemberTab){
+        // console.log(val, "Here is value")
+        if(val.length < 3 && val !== "") val=""
+        // console.log(val)
+        let data = {}
+        setFilterState({})
+        // data['user_id'] = getUserLocal()
+        // data['org_id'] = getOrgLocal()
+        data[  "search_pattern"]= val.trim();
+        // if (isMemberTab) {
+        //     data['others'] = true
+        // } else {
+        //     data['others'] = false
+        // }
+
+        // let ans = await fetch("https://jsonplaceholder.typicode.com/posts")
+        // let data = await ans.json()
+        // console.log("DATAAA", data, datasetList, memberDatasetList, val)
+
+        // HTTPService(
+        //     "POST",
+        //     // "GET",
+        //     // isMemberTab ? memberDatasetUrl : datasetUrl,
+        //     // UrlConstant.base_url + "participant/datasets/search_datasets/",
+        //     UrlConstant.base_url + "microsite/datasets/search_datasets/",
+        //     data,
+        //     false,
+        //     true
+        // )
+        // console.log(isLoadMore)
+       let url =  !isLoadMore ? (guestUrl) : (datasetUrl)
+
+        Axios.post( url, data) .then((response) => {
+            setIsLoader(false);
+            console.log("response:", response)
+            console.log("datatset:", response.data.results)
+
+            if (response.data.next == null) {
+                setisShowLoadMoreButton(false)
+                setShowLoadMoreAdmin(false)
+                setShowLoadMoreMember(false)
+                setFilterState({})
+            } else {
+                setisShowLoadMoreButton(true)
+                console.log(value)
+                if (value == "1") {
+                    setDatasetUrl(response.data.next)
+                    // adminUrl = response.data.next
+                    setShowLoadMoreAdmin(true)
+                    setShowLoadMoreMember(false)
+                } else {
+                    //setMemberDatasetUrl(response.data.next)
+                    // memberUrl = response.data.next
+                    setShowLoadMoreAdmin(false)
+                    setShowLoadMoreMember(true)
+                }
+            }
+            let finalDataList = []
+            if (!isMemberTab) {
+                if (isLoadMore) {
+                    finalDataList = [...datasetList, ...response.data.results]
+                } else {
+                    finalDataList = [...response.data.results]
+                }
+                setDatasetList(finalDataList)
+            } else {
+                if (isLoadMore) {
+                    finalDataList = [...memberDatasetList, ...response.data.results]
+                } else {
+                    finalDataList = [...response.data.results]
+                }
+                setMemberDatasetList(finalDataList)
+            }
+        })
+        .catch((e) => {
+            console.log(e)
+            setIsLoader(false);
+            history.push(GetErrorHandlingRoute(e));
+        });
+}
+
     useEffect(() => {
         getFilters()
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
@@ -420,7 +507,10 @@ export default function GuestUserDatasets() {
 
 
     const getDatasetList = (isLoadMore) => {
-
+        if(searchValMyOrg.val){
+            getSearchedData(searchValMyOrg.val, isLoadMore,false)
+            return
+        }
         setIsLoader(true);
 
         if(!isLoadMore){
@@ -438,6 +528,7 @@ export default function GuestUserDatasets() {
         // if (isLoadMore){
         //     payload = {...filterState}
         // }
+        
         HTTPService(
             "POST",
             // "GET",
@@ -645,6 +736,16 @@ export default function GuestUserDatasets() {
                 //history.push(GetErrorHandlingRoute(e));
             });
     }
+    function checkForRegex(val,e){
+        if (val.match(RegexConstants.ORG_NAME_REGEX)) {
+            
+           !isMemberTab ?  setSearchValMyOrg({val : val}) :setSearchValOtherOrg({val : val}) ;
+            
+          }
+        
+          return;
+        // if()
+    }
     
     return (
         <>
@@ -667,6 +768,15 @@ export default function GuestUserDatasets() {
                     <Row className="supportfilterRow">
                         <Col className="supportfilterCOlumn">
                             <GuestUserDatasetFilter
+                                setSearchValMyOrg={setSearchValMyOrg}
+                                setSearchValOtherOrg={setSearchValOtherOrg}
+                                searchValMyOrg={searchValMyOrg}
+                                searchValOtherOrg={searchValOtherOrg}
+                                checkForRegex={checkForRegex}
+                                setSearchDatasetVar={setSearchDatasetVar}
+                                searchDatasetVar={searchDatasetVar}
+                                isMemberTab={isMemberTab}
+                                debounceOnChange={debounceOnChange}
                                 isShowAll={isShowAll}
                                 setIsShowAll={setIsShowAll}
                                 secondrow={secondrow}

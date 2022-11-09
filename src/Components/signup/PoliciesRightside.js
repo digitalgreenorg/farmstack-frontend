@@ -16,18 +16,23 @@ import Footer from "../Footer/Footer";
 export default function PoliciesRightside(props) {
   const [govLawdesc, setgovLawdesc] = useState("");
   const [govLawfile, setgovLawFile] = useState(null);
+  const [govLawdescbtn, setGovLawdescbtn] = useState(false);
 
   const [warrantiesdesc, setwarrantiesdesc] = useState("");
   const [warrantiesfile, setwarrantiesfile] = useState(null);
+  const [warrantiesdescbtn, setWarrantiesdescbtn] = useState(false);
 
   const [liabalitydesc, setliabalitydesc] = useState("");
   const [liabalityfile, setliabalityfile] = useState(null);
+  const [liabalitydescbtn, setLiabalitydescbtn] = useState(false);
 
   const [privacydesc, setprivacydesc] = useState("");
   const [privacyfile, setprivacyfile] = useState(null);
+  const [privacydescbtn, setPrivacydescbtn] = useState(false);
 
   const [termdesc, settermdesc] = useState("");
   const [termfile, settermfile] = useState(null);
+  const [termdescbtn, setTermdescbtn] = useState(false);
 
   const [policiesnextbutton, setpoliciesnextbutton] = useState(false);
 
@@ -84,6 +89,11 @@ export default function PoliciesRightside(props) {
   const handlegovLawChange = (value) => {
     setEditorgovLawValue(value);
     setgovLawdesc(value.toString("html"));
+    if (value.toString("html") !== "<p><br></p>") {
+      setGovLawdescbtn(true);
+    } else {
+      setGovLawdescbtn(false);
+    }
     console.log(value.toString("html"));
   };
   const handlegovLawFileChange = async (file) => {
@@ -138,6 +148,11 @@ export default function PoliciesRightside(props) {
   const handlewarrantiesChange = (value) => {
     seteditorwarrantiesValue(value);
     setwarrantiesdesc(value.toString("html"));
+    if (value.toString("html") !== "<p><br></p>") {
+      setWarrantiesdescbtn(true);
+    } else {
+      setWarrantiesdescbtn(false);
+    }
     // console.log(value.toString("html"));
     // warrantiesdesc.toString();
     console.log(warrantiesdesc.toString());
@@ -191,6 +206,11 @@ export default function PoliciesRightside(props) {
   const handleliabalityChange = (value) => {
     setEditorLiabalityValue(value);
     setliabalitydesc(value.toString("html"));
+    if (value.toString("html") !== "<p><br></p>") {
+      setLiabalitydescbtn(true);
+    } else {
+      setLiabalitydescbtn(false);
+    }
     console.log(value.toString("html"));
   };
 
@@ -243,6 +263,11 @@ export default function PoliciesRightside(props) {
   const handleprivacyChange = (value) => {
     setEditorprivacyValue(value);
     setprivacydesc(value.toString("html"));
+    if (value.toString("html") !== "<p><br></p>") {
+      setPrivacydescbtn(true);
+    } else {
+      setPrivacydescbtn(false);
+    }
     console.log(value.toString("html"));
   };
   const handleprivacyFileChange = async (file) => {
@@ -295,6 +320,11 @@ export default function PoliciesRightside(props) {
   const handletermChange = (value) => {
     setEditortermValue(value);
     settermdesc(value.toString("html"));
+    if (value.toString("html") !== "<p><br></p>") {
+      setTermdescbtn(true);
+    } else {
+      setTermdescbtn(false);
+    }
     console.log(value.toString("html"));
   };
 
@@ -875,11 +905,16 @@ export default function PoliciesRightside(props) {
           {/* <Button variant="contained" className="policiesbtn" type="submit">
             <span className="signupbtnname">Next</span>
           </Button> */}
-          {privacydesc.length > 0 &&
-          termdesc.length > 0 &&
-          govLawdesc.length > 0 &&
-          liabalitydesc.length > 0 &&
-          warrantiesdesc.length > 0 &&
+          {govLawdescbtn &&
+          warrantiesdescbtn &&
+          liabalitydescbtn &&
+          privacydescbtn &&
+          termdescbtn &&
+          privacydesc.length > 2 &&
+          termdesc.length > 2 &&
+          govLawdesc.length > 2 &&
+          liabalitydesc.length > 2 &&
+          warrantiesdesc.length > 2 &&
           govLawfile &&
           warrantiesfile &&
           liabalityfile &&
@@ -894,7 +929,7 @@ export default function PoliciesRightside(props) {
             </Button>
           )}
         </div>
-        <div>
+        {/* <div>
           <Button
             variant="outlined"
             className="finishlaterpoliciesbtn"
@@ -902,7 +937,7 @@ export default function PoliciesRightside(props) {
             onClick={finishLaterPoliciesScreen}>
             Finish later
           </Button>
-        </div>
+        </div> */}
       </form>
       <div className="footerimg2">
         <svg

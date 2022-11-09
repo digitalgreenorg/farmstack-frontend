@@ -41,12 +41,12 @@ export default function DataSetForm(props) {
             required
             width="100%"
             value={props.datasetname}
+            onKeyDown={props.handledatasetnameKeydown}
             onChange={props.handleChangedatasetname}
             label={screenlabels.dataset.name}
             error={props.nameErrorMessage ? true : false}
             helperText={props.nameErrorMessage}
           />
-          
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
@@ -191,6 +191,58 @@ export default function DataSetForm(props) {
         </Col>
       </Row>
       <Row>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Livestock}
+                onChange={props.handleChangeLivestock}
+              />
+            }
+            label={screenlabels.dataset.Livestock}
+            style={{ width: "100%" }}
+          />
+        </Col>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Diary}
+                onChange={props.handleChangeDiary}
+              />
+            }
+            label={screenlabels.dataset.Diary}
+            style={{ width: "100%" }}
+          />
+        </Col>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Poultry}
+                onChange={props.handleChangePoultry}
+              />
+            }
+            label={screenlabels.dataset.Poultry}
+            className="weather"
+            style={{ width: "100%" }}
+          />
+        </Col>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={props.Other}
+                onChange={props.handleChangeOther}
+              />
+            }
+            label={screenlabels.dataset.Other}
+            className="weather"
+            style={{ width: "100%" }}
+          />
+        </Col>
+      </Row>
+      <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
             // style={useStyles.inputwidth}
@@ -200,11 +252,11 @@ export default function DataSetForm(props) {
             required
             width="100%"
             value={props.Geography}
+            onKeyDown={props.handleGeographyKeydown}
             onChange={props.handleChangeGeography}
             label={screenlabels.dataset.Geography}
             error={props.geographyErrorMessage ? true : false}
             helperText={props.geographyErrorMessage}
-            
           />
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
@@ -215,6 +267,7 @@ export default function DataSetForm(props) {
             variant="filled"
             width="100%"
             value={props.cropdetail}
+            onKeyDown={props.handleCropKeydown}
             onChange={props.handleChangecropdetail}
             label={screenlabels.dataset.Crop_Detail}
             error={props.cropDetailErrorMessage ? true : false}
@@ -337,9 +390,7 @@ export default function DataSetForm(props) {
                     id="filled-basic"
                     variant="filled"
                     className="fromtextfield"
-                    
                   />
-                  
                 )}
                 error={props.dataCaptureStartErrorMessage ? true : false}
                 helperText={props.dataCaptureStartErrorMessage}
@@ -436,17 +487,17 @@ export default function DataSetForm(props) {
             name="row-radio-buttons-group"
             value={props.recordsvalue}
             onChange={props.handleChangeRecords}>
-            <FormControlLabel value="100k" control={<Radio />} label="100k" />
+            <FormControlLabel value="<100k" control={<Radio />} label="<100k" />
             <FormControlLabel
-              value="150k"
+              value="100k-300k"
               control={<Radio />}
-              label="150k"
+              label="100k-300k"
               className="record2"
             />
             <FormControlLabel
-              value="200k"
+              value="300k-500k"
               control={<Radio />}
-              label="200k"
+              label="300k-500k"
               className="record3"
             />
             <FormControlLabel
@@ -502,7 +553,7 @@ export default function DataSetForm(props) {
             types={fileTypes}
             children={
               <UploadDataset
-                uploaddes="Supports: CSV, Excel formats not more than 2MB file size"
+                uploaddes="Supports CSV and Excel file formats upto 2MB "
                 uploadtitle="Upload Dataset"
               />
             }

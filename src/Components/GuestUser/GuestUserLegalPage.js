@@ -14,7 +14,8 @@ import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import parse from "html-react-parser";
 import labels from "../../Constants/labels";
-import { downloadAttachment } from "../../Utils/Common";
+import { downloadAttachment, toTitleCase } from "../../Utils/Common";
+import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
 export default function GuestUserLegalPage({ legalData }) {
   const [value, setValue] = React.useState(1);
   const history = useHistory();
@@ -93,22 +94,24 @@ export default function GuestUserLegalPage({ legalData }) {
               indicatorColor="#C09507"
             >
               {legalData.map((eachLegalPolicy, index) => (
+                eachLegalPolicy.content && eachLegalPolicy.download ? 
                 <Tab
                   sx={{
                     minWidth: "220px",
                     background: "#C09507",
                     color: value == `${index + 1}` ? "white" : "black",
-                    textTransform: "capitalize",
+                    // textTransform: "capitalize",
                     fontSize: "14px",
                   }}
-                  label={eachLegalPolicy.title}
+                  label={(eachLegalPolicy.title)}
                   value={index + 1}
-                />
+                /> : ""
               ))}
             </TabList>
           </Box>
           <div style={{ marginTop: "50px" }}>
             {legalData.map((eachLegalPolicy, index) => (
+             eachLegalPolicy.content && eachLegalPolicy.download ? 
               <TabPanel sx={{ padding: "0", margin: "0" }} value={index + 1}>
                 <div
                   style={{
@@ -150,6 +153,7 @@ export default function GuestUserLegalPage({ legalData }) {
                           color: "#3491EE",
                           marginRight: "34px",
                         }}
+                        className={styles.legalButton}
                       >
                         {" "}
                         <img
@@ -175,6 +179,7 @@ export default function GuestUserLegalPage({ legalData }) {
                           fontWeight: "400",
                           color: "#3491EE",
                         }}
+                        className={styles.legalButton}
                       >
                         {" "}
                         <img
@@ -186,11 +191,11 @@ export default function GuestUserLegalPage({ legalData }) {
                           src={downloadIcon}
                           alt={eachLegalPolicy.title}
                         />{" "}
-                        <spna>Download document</spna>{" "}
+                        <span>Download document</span>{" "}
                       </a>
                     </div>
                   </div>
-                  <div
+                 {eachLegalPolicy.content ? <div
                     style={{
                       fontWeight: "400",
                       fontSize: "14px",
@@ -201,9 +206,11 @@ export default function GuestUserLegalPage({ legalData }) {
                     {" "}
                     {parse(`${eachLegalPolicy.content}`)}
                     {console.log(eachLegalPolicy.content, "eachLegalPolicy.content")}
-                  </div>
+                  </div> : ""} 
+                  
                 </div>
               </TabPanel>
+              : index ==0 ? <div style={{margin:"auto", display:"inline-block"}}><NoDataAvailable/></div>  : ""
             ))}
           </div>
         </TabContext>

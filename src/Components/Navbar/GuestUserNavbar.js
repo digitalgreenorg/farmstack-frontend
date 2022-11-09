@@ -64,7 +64,7 @@ const GuestUserNavBar = (props) => {
             style={{ width: "52px", height: "52px", "margin-left": "180px", "margin-top": "9px"}}
           />&nbsp;&nbsp;&nbsp;&nbsp;
           <span className="navtext fontweight400andfontsize16pxandcolor3D4A52">Call:&nbsp;
-          <a style={{color: 'black'}} href={'tel: ' + phoneNumber}>{phoneNumber}</a> -to register your grievance</span>
+          <a style={{color: 'black'}} href={'tel: ' + phoneNumber}>{phoneNumber}</a>- to register your grievance</span>
         </div> : <></> }
         <NavMenu>
           <NavLink to={'/legal'} activeStyle>
@@ -95,14 +95,15 @@ const GuestUserNavBar = (props) => {
           </NavLink>
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to="/signin">
-            &nbsp;&nbsp;{screenlabels.navbar.apply_for_participant}
+          <NavBtnLink to="/datahub/login">
+            <img src={require("../../Assets/Img/account.svg")} alt="new" />
+            &nbsp;&nbsp;{screenlabels.navbar.SigninAsAdmin}
           </NavBtnLink>
         </NavBtn>
         <NavBtn>
-          <NavBtnLink to="/login">
+          <NavBtnLink to="/participant/login">
             <img src={require("../../Assets/Img/account.svg")} alt="new" />
-            &nbsp;&nbsp;{screenlabels.navbar.Signin}
+            &nbsp;&nbsp;{screenlabels.navbar.SigninAsParticipant}
           </NavBtnLink>
         </NavBtn>
       </Nav>

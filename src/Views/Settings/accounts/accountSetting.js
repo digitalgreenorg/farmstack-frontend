@@ -58,9 +58,9 @@ export default function AccountSetting(props) {
   const [accnumberbtn, setaccnumberbtn] = useState(false);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
-  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
-  const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
-  const[phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null)
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState(null);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState(null);
+  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null);
 
   const history = useHistory();
 
@@ -114,6 +114,9 @@ export default function AccountSetting(props) {
     //   //   setispropfileemailerror(true);
     //   // }
   };
+  const phonenumcheck = (number) =>{
+    return number.length>=9
+  }
   const handleprofilenumber = (value) => {
     console.log(value);
     console.log(value.length);
@@ -124,7 +127,7 @@ export default function AccountSetting(props) {
     //   // } else {
     //   //   setispropfilenumbererror(true);
     //   // }
-    if (mobileNumberMinimunLengthCheck(value)) {
+    if (phonenumcheck(value)) {
       setaccnumberbtn(true);
     } else {
       setaccnumberbtn(false);
@@ -263,9 +266,9 @@ export default function AccountSetting(props) {
   return (
     <div className="accountsetting">
       {isLoader ? <Loader /> : ""}
-      <form noValidate autoComplete="off" onSubmit={handleAccountSettingSubmit}>
+      <div noValidate autoComplete="off" >
         <Row>
-          <span className="title">Account Settings</span>
+          <span className="title">Account settings</span>
         </Row>
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -291,7 +294,11 @@ export default function AccountSetting(props) {
               onChange={handleprofilfirstename}
               inputRef={profilefirstname}
               error={ispropfilefirstnameerror || firstNameErrorMessage}
-              helperText={(ispropfilefirstnameerror && !firstNameErrorMessage) ? "Enter Valid Name" : firstNameErrorMessage}
+              helperText={
+                ispropfilefirstnameerror && !firstNameErrorMessage
+                  ? "Enter Valid Name"
+                  : firstNameErrorMessage
+              }
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -310,7 +317,7 @@ export default function AccountSetting(props) {
               // }
               onChange={handleprofilelastname}
               inputRef={profilelastname}
-              error = {lastNameErrorMessage ? true : false}
+              error={lastNameErrorMessage ? true : false}
               helperText={lastNameErrorMessage}
               // error={ispropfilelastnameerror}
               // helperText={
@@ -352,8 +359,8 @@ export default function AccountSetting(props) {
               label={screenlabels.account_settings.contact}
               variant="filled"
               onChange={handleprofilenumber}
-              error = {phoneNumberErrorMessage ? true : false}
-              helperText = {phoneNumberErrorMessage}
+              error={phoneNumberErrorMessage ? true : false}
+              helperText={phoneNumberErrorMessage}
               // error={ispropfilenumbererror}
               // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />
@@ -368,7 +375,7 @@ export default function AccountSetting(props) {
               types={fileTypes}
               children={
                 <UploadProfileimg
-                  uploaddes="Supports: JPEG, PNG not more than 2MB file size"
+                  uploaddes="JPEG and PNG files upto 2 MB in size are supported."
                   uploadtitle="Upload Profile image"
                 />
               }
@@ -420,14 +427,15 @@ export default function AccountSetting(props) {
               //   <span className="signupbtnname">Submit</span>
               // </Button>
               <Button
-                //   onClick={() => addNewParticipants()}
+                onClick={handleAccountSettingSubmit}
                 variant="contained"
                 className="submitbtn"
+                style={{textTransform:"none"}}
                 type="submit">
                 {screenlabels.common.submit}
               </Button>
             ) : (
-              <Button variant="outlined" disabled className="disbalesubmitbtn">
+              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
@@ -440,6 +448,7 @@ export default function AccountSetting(props) {
             <Button
               variant="outlined"
               className="cancelbtn"
+              style={{textTransform:"none"}}
               type="button"
               onClick={accountsettingcancelbtn}>
               {screenlabels.common.cancel}
@@ -447,7 +456,7 @@ export default function AccountSetting(props) {
             {/* </div> */}
           </Col>
         </Row>
-      </form>
+      </div>
     </div>
   );
 }

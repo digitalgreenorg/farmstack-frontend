@@ -152,23 +152,23 @@ export default function PolicySettings(props) {
       .then((response) => {
         setIsLoader(false);
         console.log("response : ", response.data);
-        if (response.data.Content == null && response.data.Documents == null) {
+        if (response.data.content == null && response.data.documents == null) {
           setIsPostMethod(true);
           console.log("post");
         }
-
+     
         setGovLawFileUrl(
-          response.data.Documents ? response.data.Documents.governing_law : ""
-        );
-        setTermsFileUrl(response.data.Documents ? response.data.Documents : "");
+          response.data.documents ? response.data.documents.governing_law : ""
+              );
+        setTermsFileUrl(response.data.documents ? response.data.documents.tos : "");
         setPrivacyFileUrl(
-          response.data.Documents ? response.data.Documents : ""
+          response.data.documents ? response.data.documents.privacy_policy : ""
         );
         setLiabilityFileUrl(
-          response.data.Documents ? response.data.Documents : ""
+          response.data.documents ? response.data.documents.limitations_of_liabilities : ""
         );
         setWarrantyFileUrl(
-          response.data.Documents ? response.data.Documents : ""
+          response.data.documents ? response.data.documents.warranty : ""
         );
 
         console.log("govLawFileUrl", govLawFileUrl);
@@ -178,19 +178,19 @@ export default function PolicySettings(props) {
         console.log("warrantyFileUrl", warrantyFileUrl);
 
         setgovLawDesc(
-          response.data.Content ? response.data.Content.governing_law : ""
+          response.data.content ? response.data.content.governing_law : ""
         );
         setPrivacyDesc(
-          response.data.Content ? response.data.Content.privacy_policy : ""
+          response.data.content ? response.data.content.privacy_policy : ""
         );
-        setTermDesc(response.data.Content ? response.data.Content.tos : "");
+        setTermDesc(response.data.content ? response.data.content.tos : "");
         setLiabalityDesc(
-          response.data.Content
-            ? response.data.Content.limitations_of_liabilities
+          response.data.content
+            ? response.data.content.limitations_of_liabilities
             : ""
         );
         setWarrantiesDesc(
-          response.data.Content ? response.data.Content.warranty : ""
+          response.data.content ? response.data.content.warranty : ""
         );
 
         // console.log('govLawDesc',govLawDesc)
@@ -201,33 +201,35 @@ export default function PolicySettings(props) {
 
         setEditorGovLawValue(
           RichTextEditor.createValueFromString(
-            response.data.Content ? response.data.Content.governing_law : "",
+           response.data.content ? 
+            response.data.content.governing_law: "",
             "html"
           )
         );
         setEditorPrivacyValue(
           RichTextEditor.createValueFromString(
-            response.data.Content ? response.data.Content.privacy_policy : "",
+            response.data.content ? 
+            response.data.content.privacy_policy: "",
             "html"
           )
         );
         setEditorTermValue(
           RichTextEditor.createValueFromString(
-            response.data.Content ? response.data.Content.tos : "",
+            response.data.content ? response.data.content.tos : "",
             "html"
           )
         );
         setEditorLiabalityValue(
           RichTextEditor.createValueFromString(
-            response.data.Content
-              ? response.data.Content.limitations_of_liabilities
+            response.data.content
+              ? response.data.content.limitations_of_liabilities
               : "",
             "html"
           )
         );
         seteditorWarrantiesValue(
           RichTextEditor.createValueFromString(
-            response.data.Content ? response.data.Content.warranty : "",
+            response.data.content ? response.data.content.warranty : "",
             "html"
           )
         );
@@ -336,6 +338,7 @@ export default function PolicySettings(props) {
           console.log("gov law delete success");
           setgovLawFile(null);
           setgovuploadProgress(0);
+          setGovLawFileUrl("")
           // setEmail(false);
           // setError(false);
         } else {
@@ -415,6 +418,7 @@ export default function PolicySettings(props) {
           // setEmail(false);
           setwarrantiesfile(null);
           setwarrantyloadProgress(0);
+          setWarrantyFileUrl("");
           // setError(false);
         } else {
           // setError(true);
@@ -494,6 +498,7 @@ export default function PolicySettings(props) {
           // setEmail(false);
           setliabalityfile(null);
           setliabiltyloadProgress(0);
+          setLiabilityFileUrl("");
           // setError(false);
         } else {
           // setError(true);
@@ -573,6 +578,7 @@ export default function PolicySettings(props) {
           // setEmail(false);
           setprivacyfile(null);
           setprivacyProgress(0);
+          setPrivacyFileUrl("");
           // setError(false);
         } else {
           // setError(true);
@@ -651,6 +657,7 @@ export default function PolicySettings(props) {
           // setEmail(false);
           settermfile(null);
           settosloadProgress(0);
+          setTermsFileUrl("");
           // setError(false);
         } else {
           // setError(true);
@@ -736,7 +743,7 @@ export default function PolicySettings(props) {
       {isLoader ? <Loader /> : ""}
       <form noValidate autoComplete="off" onSubmit={handlePoliciesSubmit}>
         <Row style={useStyles.marginheading}>
-          <span style={useStyles.headingtext}>Upload Content</span>
+          <span style={useStyles.headingtext}>Upload content *</span>
         </Row>
         <Row style={useStyles.marginrow}>
           <Col xs="12" sm="6" md="6" lg="6">
@@ -767,8 +774,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Governing Laws (Optional)"
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload governing laws (Required)"
                 />
               }
             />
@@ -784,7 +791,7 @@ export default function PolicySettings(props) {
                 <Link
                   to={{ pathname: UrlConstant.base_url + govLawFileUrl }}
                   target="_blank">
-                  Governing Laws
+                  Governing laws
                 </Link>
               ) : (
                 "No file uploaded yet"
@@ -801,17 +808,18 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={govuploadProgress}
+                  value={govLawFileUrl ? 100 : govuploadProgress}
                   color="success"
                 />
-                <p className="govupper">{govuploadProgress}%</p>
+                <p className="govupper">{govLawFileUrl  ? "100" : govuploadProgress}%</p>
                 {/* <p>{govuploadProgress}%</p> */}
               </div>
               {/* <p className="govupclose"> */}
               <div style={useStyles.progresscancel}>
                 <p>
-                  {govLawFile && <CancelIcon onClick={handlegovupCancel} />}
-                </p>
+                  {(govLawFileUrl || govLawFile ) && 
+                  <CancelIcon onClick={handlegovupCancel} />}
+                </p> 
               </div>
             </div>
           </Col>
@@ -845,8 +853,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Warranties (Optional) "
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload warranties (Required) "
                 />
               }
               // maxSize={2}
@@ -876,16 +884,16 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={warrantyloadProgress}
+                  value={warrantyFileUrl ? 100 : warrantyloadProgress}
                   color="success"
                 />
                 {/* <p className="warrantyper">{warrantyloadProgress}%</p> */}
-                <p>{warrantyloadProgress}%</p>
+                <p>{warrantyFileUrl ? "100" : warrantyloadProgress}%</p>
               </div>
               <div style={useStyles.progresscancel}>
                 {/* <p className="warrantyclose"> */}
                 <p>
-                  {warrantiesFile && (
+                  {(warrantyFileUrl || warrantiesFile) && (
                     <CancelIcon onClick={handlewarrantyCancel} />
                   )}
                 </p>
@@ -922,8 +930,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Limitation of Liabilities (Optional) "
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload limitations of liabilities (Required) "
                 />
               }
               // maxSize={2}
@@ -940,7 +948,7 @@ export default function PolicySettings(props) {
                 <a
                   href={UrlConstant.base_url + liabilityFileUrl}
                   target="_blank">
-                  Limitation Of Liabilities
+                  Limitations of liabilities
                 </a>
               ) : (
                 "No file uploaded yet"
@@ -957,15 +965,15 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={liabiltyloadProgress}
+                  value={liabilityFileUrl ? 100 : liabiltyloadProgress}
                   color="success"
                 />
-                <p className="liabiltyper">{liabiltyloadProgress}%</p>
+                <p className="liabiltyper">{liabilityFileUrl ? "100" : liabiltyloadProgress}%</p>
               </div>
               <div style={useStyles.progresscancel}>
                 {/* <p className="liabiltyclose"> */}
                 <p>
-                  {liabalityFile && (
+                  {(liabilityFileUrl || liabalityFile) && (
                     <CancelIcon onClick={handleliabiltyCancel} />
                   )}
                 </p>
@@ -1002,8 +1010,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Privacy Policy (Optional) "
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload privacy policy (Required) "
                 />
               }
               // maxSize={2}
@@ -1018,7 +1026,7 @@ export default function PolicySettings(props) {
                 )
               ) : privacyFileUrl ? (
                 <a href={UrlConstant.base_url + privacyFileUrl} target="_blank">
-                  Privacy Policy
+                  Privacy policy
                 </a>
               ) : (
                 "No file uploaded yet"
@@ -1035,15 +1043,15 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={privacyProgress}
+                  value={privacyFileUrl ? 100 : privacyProgress}
                   color="success"
                 />
-                <p className="privacyper">{privacyProgress}%</p>
+                <p className="privacyper">{privacyFileUrl ? "100" : privacyProgress}%</p>
               </div>
               <div style={useStyles.progresscancel}>
                 {/* <p className="privacyclose"> */}
                 <p>
-                  {privacyFile && <CancelIcon onClick={handleprivacyCancel} />}
+                  {(privacyFile || privacyFileUrl) && <CancelIcon onClick={handleprivacyCancel} />}
                 </p>
               </div>
             </div>
@@ -1078,8 +1086,8 @@ export default function PolicySettings(props) {
               types={fileTypes}
               children={
                 <UploadPolicyFile
-                  uploaddes="Supports: .doc, .pdf 2MB file size"
-                  uploadtitle="Upload Terms of Use (Optional)"
+                  uploaddes="Supports: .doc, .pdf not more than 2MB file size"
+                  uploadtitle="Upload terms of use (Required)"
                 />
               }
               // maxSize={2}
@@ -1094,7 +1102,7 @@ export default function PolicySettings(props) {
                 )
               ) : termsFileUrl ? (
                 <a href={UrlConstant.base_url + termsFileUrl} target="_blank">
-                  Terms Of Use
+                  Terms of use
                 </a>
               ) : (
                 "No file uploaded yet"
@@ -1111,14 +1119,14 @@ export default function PolicySettings(props) {
               <div style={useStyles.progressbar}>
                 <LinearProgress
                   variant="determinate"
-                  value={tosloadProgress}
+                  value={termsFileUrl ? 100 : tosloadProgress}
                   color="success"
                 />
-                <p className="tosper">{tosloadProgress}%</p>
+                <p className="tosper">{termsFileUrl ? "100" : tosloadProgress}%</p>
               </div>
               <div style={useStyles.progresscancel}>
                 {/* <p className="tosclose"> */}
-                <p>{termFile && <CancelIcon onClick={handletosCancel} />}</p>
+                <p>{(termFile || termsFileUrl )&& <CancelIcon onClick={handletosCancel} />}</p>
               </div>
             </div>
           </Col>
@@ -1142,11 +1150,23 @@ export default function PolicySettings(props) {
             (privacyFile || privacyFileUrl) &&
             editorTermValue.getEditorState().getCurrentContent().hasText() &&
             (termFile || termsFileUrl) ? (
-              <Button variant="contained" className="submitbtn" type="submit">
-                <span className="signupbtnname">Submit</span>
+              <Button
+                variant="contained"
+                style={{ textTransform: "none" }}
+                className="submitbtn"
+                type="submit">
+                <span
+                  className="signupbtnname"
+                  style={{ textTransform: "none" }}>
+                  Submit
+                </span>
               </Button>
             ) : (
-              <Button variant="outlined" disabled className="disbalesubmitbtn">
+              <Button
+                variant="outlined"
+                style={{ textTransform: "none" }}
+                disabled
+                className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
@@ -1159,6 +1179,7 @@ export default function PolicySettings(props) {
               variant="outlined"
               className="cancelbtn"
               type="button"
+              style={{ textTransform: "none" }}
               onClick={policysettingcancelbtn}>
               Cancel
             </Button>

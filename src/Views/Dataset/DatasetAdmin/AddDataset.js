@@ -72,14 +72,16 @@ export default function AddDataset(props) {
   const [file, setFile] = useState(null);
   const [fileValid, setfileValid] = useState("");
 
-  const [nameErrorMessage, setnameErrorMessage] = useState(null)
-  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
-  const [categoryErrorMessage, setCategoryErrorMessage] = useState(null)
-  const [geographyErrorMessage, setGeographyErrorMessage] = useState(null)
-  const [cropDetailErrorMessage, setCropDetailErrorMessage] = useState(null)
-  const [ageErrorMessage, setAgeErrorMessage] = useState(null)
-  const [dataCaptureStartErrorMessage, setDataCaptureStartErrorMessage]= useState(null)
-  const [dataCaptureEndErrorMessage,setDataCaptureEndErrorMessage]= useState(null)
+  const [nameErrorMessage, setnameErrorMessage] = useState(null);
+  const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null);
+  const [categoryErrorMessage, setCategoryErrorMessage] = useState(null);
+  const [geographyErrorMessage, setGeographyErrorMessage] = useState(null);
+  const [cropDetailErrorMessage, setCropDetailErrorMessage] = useState(null);
+  const [ageErrorMessage, setAgeErrorMessage] = useState(null);
+  const [dataCaptureStartErrorMessage, setDataCaptureStartErrorMessage] =
+    useState(null);
+  const [dataCaptureEndErrorMessage, setDataCaptureEndErrorMessage] =
+    useState(null);
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -88,19 +90,19 @@ export default function AddDataset(props) {
 
   const handleAddDatasetSubmit = (e) => {
     e.preventDefault();
-    console.log("clicked on add dataset submit btn");
+    console.log("clicked on add dataset submit btn11");
     var id = getUserMapId();
     console.log("user id", id);
-
-    setnameErrorMessage(null); 
+    console.log("CHekckmkmc", fromdate, todate);
+    setnameErrorMessage(null);
     setDescriptionErrorMessage(null);
     setCategoryErrorMessage(null);
-    setGeographyErrorMessage(null); 
+    setGeographyErrorMessage(null);
     setCropDetailErrorMessage(null);
     setAgeErrorMessage(null);
-    setDataCaptureStartErrorMessage(null); 
-    setDataCaptureEndErrorMessage(null); 
-    setfileValid(null); 
+    setDataCaptureStartErrorMessage(null);
+    setDataCaptureEndErrorMessage(null);
+    setfileValid(null);
 
     var bodyFormData = new FormData();
     bodyFormData.append("name", datasetname);
@@ -116,6 +118,10 @@ export default function AddDataset(props) {
         soil_data: Soil_data,
         weather_data: Weather_data,
         research_data: Research_data,
+        livestock: Livestock,
+        diary: Diary,
+        poultry: Poultry,
+        other: Other,
       })
     );
     bodyFormData.append("geography", Geography);
@@ -163,27 +169,46 @@ export default function AddDataset(props) {
         setIsLoader(false);
         console.log(e);
         //console.log(e.response.data.sample_dataset[0]);
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "name": setnameErrorMessage(errorMessages[i]); break;
-              case "description": setDescriptionErrorMessage(errorMessages[i]); break;
-              case "category": setCategoryErrorMessage(errorMessages[i]); break;
-              case "geography": setGeographyErrorMessage(errorMessages[i]); break;
-              case "crop_detail": setCropDetailErrorMessage(errorMessages[i]); break;
-              case "age_of_date": setAgeErrorMessage(errorMessages[i]); break;
-              case "data_capture_start": setDataCaptureStartErrorMessage(errorMessages[i]); break;
-              case "data_capture_end": setDataCaptureEndErrorMessage(errorMessages[i]); break;
-              case "sample_dataset": setfileValid(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "name":
+                setnameErrorMessage(errorMessages[i]);
+                break;
+              case "description":
+                setDescriptionErrorMessage(errorMessages[i]);
+                break;
+              case "category":
+                setCategoryErrorMessage(errorMessages[i]);
+                break;
+              case "geography":
+                setGeographyErrorMessage(errorMessages[i]);
+                break;
+              case "crop_detail":
+                setCropDetailErrorMessage(errorMessages[i]);
+                break;
+              case "age_of_date":
+                setAgeErrorMessage(errorMessages[i]);
+                break;
+              case "data_capture_start":
+                setDataCaptureStartErrorMessage(errorMessages[i]);
+                break;
+              case "data_capture_end":
+                setDataCaptureEndErrorMessage(errorMessages[i]);
+                break;
+              case "sample_dataset":
+                setfileValid(errorMessages[i]);
+                break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
         //setfileValid(e.response.data.sample_dataset[0]);
         // history.push(GetErrorHandlingRoute(e));
@@ -209,13 +234,16 @@ export default function AddDataset(props) {
     setfileValid("");
   };
   const handleChangedatasetname = (e) => {
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setdatasetname(e.target.value)
       : e.preventDefault();
   };
+  const handledatasetnameKeydown = (e) => {
+    handleUnwantedSpace(datasetname, e);
+  };
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DES_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setreply(e.target.value)
       : e.preventDefault();
   };
@@ -224,15 +252,22 @@ export default function AddDataset(props) {
   };
   const handleChangeGeography = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.GEO_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setGeography(e.target.value)
       : e.preventDefault();
   };
+  const handleGeographyKeydown = (e) => {
+    handleUnwantedSpace(Geography, e);
+  };
+
   const handleChangecropdetail = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
+    validateInputField(e.target.value, RegexConstants.connector_name)
       ? setCropdetail(e.target.value)
       : e.preventDefault();
+  };
+  const handleCropKeydown = (e) => {
+    handleUnwantedSpace(cropdetail, e);
   };
   const handleChangeFromDate = (newValue) => {
     console.log(newValue);
@@ -271,6 +306,11 @@ export default function AddDataset(props) {
   const [Weather_data, setWeather_data] = React.useState(false);
   const [Research_data, setResearch_data] = React.useState(false);
 
+  const [Livestock, setLivestock] = React.useState(false);
+  const [Diary, setDiary] = React.useState(false);
+  const [Poultry, setPoultry] = React.useState(false);
+  const [Other, setOther] = React.useState(false);
+
   const handleChangeCropData = (event) => {
     console.log(event.target.checked);
     setCrop_data(event.target.checked);
@@ -301,8 +341,27 @@ export default function AddDataset(props) {
   };
   const handleChangeResearchData = (event) => {
     console.log(event.target.checked);
+
     setResearch_data(event.target.checked);
   };
+
+  const handleChangeLivestock = (event) => {
+    console.log(event.target.checked);
+    setLivestock(event.target.checked);
+  };
+  const handleChangeDiary = (event) => {
+    console.log(event.target.checked);
+    setDiary(event.target.checked);
+  };
+  const handleChangePoultry = (event) => {
+    console.log(event.target.checked);
+    setPoultry(event.target.checked);
+  };
+  const handleChangeOther = (event) => {
+    console.log(event.target.checked);
+    setOther(event.target.checked);
+  };
+
   return (
     <>
       {isLoader ? <Loader /> : ""}
@@ -316,16 +375,18 @@ export default function AddDataset(props) {
           imageText={"Added Successfully!"}
           msg={"Your dataset added in database."}></Success>
       ) : (
-        <form noValidate autoComplete="off" onSubmit={handleAddDatasetSubmit}>
+        <div noValidate autoComplete="off">
           <DataSetForm
             title={"Add Dataset"}
             reply={reply}
             datasetname={datasetname}
             handleChangedatasetname={handleChangedatasetname}
+            handledatasetnameKeydown={handledatasetnameKeydown}
             handleChangedescription={handleChangedescription}
             handledescriptionKeydown={handledescriptionKeydown}
             Crop_data={Crop_data}
             handleChangeCropData={handleChangeCropData}
+            handleCropKeydown={handleCropKeydown}
             Practice_data={Practice_data}
             handleChangePracticeData={handleChangePracticeData}
             Farmer_profile={Farmer_profile}
@@ -340,8 +401,17 @@ export default function AddDataset(props) {
             handleChangeWeatherData={handleChangeWeatherData}
             Research_data={Research_data}
             handleChangeResearchData={handleChangeResearchData}
+            Livestock={Livestock}
+            handleChangeLivestock={handleChangeLivestock}
+            Diary={Diary}
+            handleChangeDiary={handleChangeDiary}
+            Poultry={Poultry}
+            handleChangePoultry={handleChangePoultry}
+            Other={Other}
+            handleChangeOther={handleChangeOther}
             Geography={Geography}
             handleChangeGeography={handleChangeGeography}
+            handleGeographyKeydown={handleGeographyKeydown}
             cropdetail={cropdetail}
             handleChangecropdetail={handleChangecropdetail}
             Switchchecked={Switchchecked}
@@ -359,8 +429,8 @@ export default function AddDataset(props) {
             handleFileChange={handleFileChange}
             file={file}
             fileValid={fileValid}
-            nameErrorMessage = {nameErrorMessage}
-            descriptionErrorMessage= {descriptionErrorMessage}
+            nameErrorMessage={nameErrorMessage}
+            descriptionErrorMessage={descriptionErrorMessage}
             categoryErrorMessage={categoryErrorMessage}
             geographyErrorMessage={geographyErrorMessage}
             cropDetailErrorMessage={cropDetailErrorMessage}
@@ -385,9 +455,13 @@ export default function AddDataset(props) {
                 Cultivation_data == true ||
                 Soil_data == true ||
                 Weather_data == true ||
-                Research_data) ? (
+                Research_data == true ||
+                Livestock == true ||
+                Diary == true ||
+                Poultry == true ||
+                Other) ? (
                 <Button
-                  //   onClick={() => addNewParticipants()}
+                  onClick={handleAddDatasetSubmit}
                   variant="contained"
                   className="submitbtn"
                   type="submit">
@@ -414,7 +488,7 @@ export default function AddDataset(props) {
               </Button>
             </Col>
           </Row>
-        </form>
+        </div>
       )}
     </>
   );

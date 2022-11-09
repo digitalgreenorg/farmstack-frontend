@@ -6,7 +6,7 @@ import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 import HTTPService from "../Services/HTTPService";
 import FileSaver from "file-saver";
-
+import UrlConstant from "../Constants/UrlConstants";
 export const setTokenLocal = (token) => {
   localStorage.setItem(
     LocalStorageConstants.KEYS.JWTToken,
@@ -210,6 +210,8 @@ export const downloadAttachment = (uri, name) => {
   FileSaver.saveAs(uri, name)
 }
 
+
+
 export const GetErrorKey = (e, keyList) => {
   var errorKeys = []
   var errorMessages = []
@@ -222,15 +224,25 @@ export const GetErrorKey = (e, keyList) => {
   return [errorKeys, errorMessages]
 }
 
+
 export const getDockerHubURL = (dockerImageName) => {
   const [dockerImage, tag] = dockerImageName.split(':')
   return `https://hub.docker.com/r/${dockerImage}/${tag}`
 }
 export const openLinkInNewTab = (url) => {
+  console.log(url)
   if(url.includes("http")){
-    window.open(url,'_blank');
+    localStorage.setItem("show_data", JSON.stringify(url))
+    // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
+
+    // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
+    // history.push("connectors/detail")
   }else{
-    window.open("http://"+url,'_blank');
+    localStorage.setItem("show_data", JSON.stringify("http://"+ url))
+    // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
+    // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
+    // window.open("http://"+url,'_blank');
+    // history.push("connectors/detail")
   }
 }
 
@@ -240,8 +252,31 @@ export const mobileNumberMinimunLengthCheck = (number) =>{
 }
 
 export function toTitleCase(str) {
+  return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ""
+}
 
-      return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ""
-    
-  
+export const isParticipantRoute = (url) => {
+  console.log(url)
+  return url.toLowerCase().includes('/participant/')
+}
+
+export const isRoleName= (url) => {
+  console.log(url)
+  if(url.toLowerCase().includes('/participant/')){
+    return '/participant/'
+  }
+  if(url.toLowerCase().includes('/datahub/')){
+    return '/datahub/'
+  }
+}
+export function debounce(func, wait) {
+  let timeout;
+  return function(...args) {
+    const context = this;
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+      func.apply(context, args);
+    }, wait);
+  };
 }

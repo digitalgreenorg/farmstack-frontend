@@ -33,6 +33,7 @@ function ViewParticipants(props) {
     const [lastname, setlastname] = useState("");
     const [useremail, setuseremail] = useState("");
     const [organisationlength, setorganisationlength] = useState(3);
+    const [istrusted, setistrusted] = React.useState(false);
     const [isorganisationemailerror, setisorganisationemailerror] = useState(false);
     const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
     const [iswebsitelinkrerror, setwebsitelinkerror] = useState(false);
@@ -68,6 +69,7 @@ function ViewParticipants(props) {
             setlastname(response.data.user.last_name)
             setuseremail(response.data.user.email)
             setorganisationlength(response.data.user.subscription)
+            setistrusted(response.data.user.approval_status)
             console.log("otp valid", response.data);
         }).catch((e) => {
             setIsLoader(false);
@@ -121,6 +123,7 @@ function ViewParticipants(props) {
                         lastname={lastname}
                         useremail={useremail}
                         organisationlength={organisationlength}
+                        istrusted={istrusted}
                     >
                     </ViewParticipantForm>
                     <Row>
@@ -129,7 +132,7 @@ function ViewParticipants(props) {
                         <Col xs={12} sm={12} md={6} lg={6} >
 
                             <Button onClick={() => history.push('/datahub/participants/edit/' + id)} variant="outlined" className="editbtn">
-                                Edit Participant
+                                Edit participant
                          </Button>
                         </Col>
                     </Row>
@@ -138,7 +141,7 @@ function ViewParticipants(props) {
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
                             <Button variant="outlined" onClick={() => { setisDelete(true); setisSuccess(false); setisDeleteSuccess(false) }} className="cancelbtn">
-                                Delete Participant
+                                Delete participant
                 </Button>
 
                         </Col>

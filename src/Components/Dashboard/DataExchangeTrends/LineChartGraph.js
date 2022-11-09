@@ -241,8 +241,8 @@ const LineChartGraph = ({filterPeriod}) => {
           }}
         >
           {/* <CartesianGrid strokeDasharray="3 3" /> */}
-          <XAxis minTickGap={1}  domain={['dataMin', 'dataMax - 10' ]} tick={{ stroke: '#3D4A52' }} dataKey="connectors"  startOffset={0}  fontSize="10px" fontWeight={600}  strokeWidth={1} stroke='#E4E4E4' />
-          <YAxis minTickGap={1} tick={{ stroke: '#3D4A52' }}  allowDataOverflow={true}  fontSize="10px" fontWeight={600}  strokeWidth={1} stroke='#E4E4E4' />
+          <XAxis minTickGap={1}  domain={['dataMin', 'dataMax - 10' ]} tick={{ stroke: '#3D4A52' }} dataKey="connectors"  startOffset={0}  fontSize="10px" fontWeight={600}  strokeWidth={0.5}  />
+          <YAxis minTickGap={1} unit=" days" tick={{ stroke: '#3D4A52' }}  allowDataOverflow={true}  fontSize="10px" fontWeight={600}  strokeWidth={0.5} />
           <Tooltip content={<CustomTooltip />} payload={data} position={{  y: 50 }} itemStyle={{border:"none"}}  />
           {/* <Legend /> */}
           {/* <ReferenceLine x="Page C" stroke="#D73193" label="Max PV PAGE" /> */}

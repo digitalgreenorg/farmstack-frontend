@@ -5,13 +5,15 @@ import ConnectorCard from '../../Components/Connectors/ConnectorCard';
 import NoConnectorCard from '../../Components/Connectors/NoConnectorCard';
 import ConfigureConnectorCard from '../../Components/Connectors/ConfigureConnectorCard';
 import { useHistory } from 'react-router-dom';
-
+import {useLocation } from "react-router-dom";
+import { isRoleName } from '../../Utils/Common'
 export default function ConnectorListing(props) {
   const history = useHistory()
+  const location = useLocation()
   return (
     <div>
       <Row style={{"margin-left":"-20px","margin-top":"-20px"}}>
-        <ConfigureConnectorCard addevent={() => history.push("/participant/connectors/add")}/>
+        <ConfigureConnectorCard addevent={() => history.push(isRoleName(location.pathname)+"connectors/add")}/>
         {
           (!props.connectorList || props.connectorList.length ==0) &&
           <NoConnectorCard/>
@@ -46,8 +48,9 @@ export default function ConnectorListing(props) {
                   <Button
                       onClick={() => props.getConnectorList(true)}
                       variant="outlined"
-                      className="cancelbtn">
-                      Load More
+                      className="cancelbtn"
+                      style={{"text-transform":"none"}}>
+                      Load more
                   </Button>
               </Col>
           ) : (

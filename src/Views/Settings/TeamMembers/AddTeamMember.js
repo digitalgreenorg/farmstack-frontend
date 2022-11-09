@@ -50,7 +50,7 @@ function AddTeamMember(props) {
         let data={
             'first_name':firstname,
             'last_name': lastname,
-            'email':useremail,
+            'email':useremail.toLowerCase(),
             'role':userrole
         }
         setIsLoader(true);
@@ -110,11 +110,11 @@ function AddTeamMember(props) {
                         <Col xs={12} sm={12} md={6} lg={6} >
                             {(firstname && useremail && !isuseremailerror && userrole)
                                 ? (
-                                    <Button onClick={() => addNewMember()} variant="contained" className="submitbtnteam">
+                                    <Button onClick={() => addNewMember()} style={{textTransform:"none"}} variant="contained" className="submitbtnteam">
                                         {screenlabels.common.submit}
                                     </Button>
                                 ) : (
-                                    <Button variant="outlined" disabled className="disbalesubmitbtnteam">
+                                    <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtnteam">
                                         {screenlabels.common.submit}
                                     </Button>
                                 )}
@@ -124,7 +124,7 @@ function AddTeamMember(props) {
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => history.push('/datahub/settings/4')} variant="outlined" className="cancelbtnteam">
+                            <Button onClick={() => history.push('/datahub/settings/4')} style={{textTransform:"none"}} variant="outlined" className="cancelbtnteam">
                                 {screenlabels.common.cancel}
                             </Button>
                         </Col>
