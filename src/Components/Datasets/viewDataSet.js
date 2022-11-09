@@ -262,6 +262,9 @@ export default function ViewDataSet(props) {
         <Col>
           <span className="secondmainheading">{"Size of actual data"}</span>
         </Col>
+        <Col>
+          <span className="secondmainheading">{"Connector availablity"}</span>
+        </Col>
       </Row>
       <Row
         style={{
@@ -270,11 +273,11 @@ export default function ViewDataSet(props) {
           "text-align": "left",
         }}
       >
-        <Col>
+        {/* <Col>
           <span className="thirdmainheading">
             {props.rowdata.age_of_date ? props.rowdata.age_of_date : "N/A"}
           </span>
-        </Col>
+        </Col> */}
         <Col>
           {console.log(!props.rowdata.data_capture_start)}
           {console.log(!props.rowdata.data_capture_end)}
@@ -302,6 +305,13 @@ export default function ViewDataSet(props) {
             {props.rowdata.dataset_size ? props.rowdata.dataset_size : "N/A"}
           </span>
         </Col>
+        <Col>
+          <span className="thirdmainheading">
+            {props.rowdata.connector_availability
+              ? props.rowdata.connector_availability
+              : "N/A"}
+          </span>
+        </Col>
       </Row>
       <Row
         style={{
@@ -310,9 +320,6 @@ export default function ViewDataSet(props) {
           "text-align": "left",
         }}
       >
-        <Col>
-          <span className="secondmainheading">{"Connector availablity"}</span>
-        </Col>
         <Col>
           <span className="secondmainheading">{"Data visibility"}</span>
         </Col>
@@ -327,13 +334,6 @@ export default function ViewDataSet(props) {
           "text-align": "left",
         }}
       >
-        <Col>
-          <span className="thirdmainheading">
-            {props.rowdata.connector_availability
-              ? props.rowdata.connector_availability
-              : "N/A"}
-          </span>
-        </Col>
         <Col>
           <span className="thirdmainheading">
             {props.rowdata["is_public"] ? "Public" : "Private"}
