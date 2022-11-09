@@ -230,7 +230,7 @@ export default function DatasetAdmin() {
     // resetEnabledStatusFilter()
     // resetUrls()
 
-    if (filterName == screenlabels.dataset.geography) {
+    if (filterName === screenlabels.dataset.geography) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.age);
       resetFilterState(screenlabels.dataset.crop);
@@ -239,7 +239,7 @@ export default function DatasetAdmin() {
 
       tempFilterDisplay = [...geoFilterDisplay];
       for (let i = 0; i < tempFilterDisplay.length; i++) {
-        if (tempFilterDisplay[i].index == index) {
+        if (tempFilterDisplay[i].index === index) {
           tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked;
         }
         if (tempFilterDisplay[i].isChecked) {
@@ -895,10 +895,10 @@ export default function DatasetAdmin() {
       // "GET",
       // isMemberTab ? memberDatasetUrl : datasetUrl,
       !isLoadMore
-        ? value == "2"
+        ? value === "2"
           ? memberUrl
           : adminUrl
-        : value == "2"
+        : value === "2"
         ? memberDatasetUrl
         : datasetUrl,
       payload,
@@ -916,7 +916,7 @@ export default function DatasetAdmin() {
           setShowLoadMoreMember(false);
         } else {
           setisShowLoadMoreButton(true);
-          if (value == "1") {
+          if (value === "1") {
             setDatasetUrl(response.data.next);
             // adminUrl = response.data.next
             setShowLoadMoreAdmin(true);
@@ -1118,8 +1118,9 @@ export default function DatasetAdmin() {
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
-    if (datavisiblityPayload[0] === true || datavisiblityPayload[0] === false) {
-      data["is_public"] = datavisiblityPayload[0];
+    if (datavisiblityPayload)
+    {
+        data["is_public__in"]=datavisiblityPayload;
     }
     if (cropPayload !== "") {
       data["crop_detail__in"] = cropPayload;

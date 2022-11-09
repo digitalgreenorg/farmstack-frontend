@@ -227,6 +227,7 @@ export default function GuestUserDatasets() {
           isAnyFilterChecked = true;
         }
       }
+      console.log("ddddonee",payloadList);
       setDataAccessDisplay(tempFilterDisplay);
       payload = buildFilterPayLoad("", getUserLocal(), "", payloadList, "", "");
     } else if (filterName === screenlabels.dataset.age) {
@@ -424,7 +425,7 @@ export default function GuestUserDatasets() {
     setCropSearchState(searchText);
     var tempList = [...cropFilterDisplay];
     for (let i = 0; i < tempList.length; i++) {
-      if (searchText == "") {
+      if (searchText === "") {
         tempList[i].isDisplayed = true;
         searchFound = true;
       } else {
@@ -582,7 +583,7 @@ export default function GuestUserDatasets() {
 
     if (!isLoadMore) {
       resetUrls();
-      if (payload == "") {
+      if (payload === "") {
         payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "");
       }
     } else {
@@ -677,9 +678,9 @@ export default function GuestUserDatasets() {
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
-    if (datavisiblityPayload[0]===true||datavisiblityPayload[0]===false)
+    if (datavisiblityPayload)
     {
-        data["is_public"]=datavisiblityPayload[0]
+        data["is_public__in"]=datavisiblityPayload;
     }
     if (cropPayload !== "") {
       data["crop_detail__in"] = cropPayload;
