@@ -154,7 +154,9 @@ const labels = {
       Diary: "Diary",
       Poultry: "Poultry",
       Other: "Other",
-
+      data_access:"Data access type",
+      private:"Private",
+      public:"Public",
       Soil_data: "Soil data",
       Weather_data: "Weather data",
       Research_data: "Research data",
@@ -174,7 +176,7 @@ const labels = {
       Available: "Available",
       Not_Available: "Not available",
       Upload_dataset: " Upload sample datasets *",
-
+      visiblity: "Data Visibility",
       filter: "Filter",
       geography: "Geography",
       age: "Age",
@@ -196,6 +198,12 @@ const labels = {
         "Add details about your dataset and make it discoverable to other users of our network.",
       no_dataset_text1: "Currently, there are no datasets available.",
       no_dataset_text2: "Add your dataset.",
+      private_data_warning: "This table's sample dataset is solely meant to be used as a source of information."+
+                          "Despite the fact that accuracy is a goal,the steward is not accountable for the information. Please let" +
+                          "the admin know if you come across any information that you think is inaccurate." ,
+      public_data_warning: "This table's dataset is solely meant to be used as a source of information."+
+                          "Despite the fact that accuracy is a goal,the steward is not accountable for the information. Please let" +
+                          "the admin know if you come across any information that you think is inaccurate." 
     },
     dashboard: {
       organisation_details: "Organisation details",

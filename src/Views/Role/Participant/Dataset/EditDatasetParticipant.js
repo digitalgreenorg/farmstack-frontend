@@ -60,6 +60,7 @@ export default function EditDatasetParticipant() {
   const [fileValid, setfileValid] = useState("");
 
   const [approval_status, setApprovalStatus] = useState("");
+  const [isPublic, setIsPublic] = useState("");
 
   //   loader
   const [isLoader, setIsLoader] = useState(false);
@@ -156,6 +157,7 @@ export default function EditDatasetParticipant() {
     } else {
       bodyFormData.append("connector_availability", "");
     }
+    bodyFormData.append("is_public", isPublic);
     if (recordsvalue != null) {
       bodyFormData.append("dataset_size", recordsvalue);
     } else {
@@ -271,6 +273,7 @@ export default function EditDatasetParticipant() {
         setfromdate(response.data.data_capture_start);
 
         setApprovalStatus(response.data.approval_status);
+        setIsPublic(response.data.is_public);
 
         // console.log("picture", response.data.profile_picture);
         // setphonenumber(response.data.phone_number);
@@ -314,17 +317,23 @@ export default function EditDatasetParticipant() {
     console.log(event.target.value);
     setavailablevalue(event.target.value);
   };
+  const handleChangeIsPublic = (event) => {
+    console.log(event.target.value);
+    setIsPublic(event.target.value === "true" ? true : false);
+    // Reset sample file to upload
+    setFile(null);
+  };
   const handleFileChange = (file) => {
     setFile(file);
     setfileValid("");
     // setprofile_pic(file);
     console.log(file);
     console.log(typeof file);
-    if (file != null && file.size > 2097152) {
-      setfilesize(true);
-    } else {
-      setfilesize(false);
-    }
+    // if (file != null && file.size > 2097152) {
+    //   setfilesize(true);
+    // } else {
+    //   setfilesize(false);
+    // }
   };
   const handleChangedatasetname = (e) => {
     validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
@@ -541,6 +550,8 @@ export default function EditDatasetParticipant() {
               handleChangeRecords={handleChangeRecords}
               availablevalue={availablevalue}
               handleChangeAvailable={handleChangeAvailable}
+              isPublic={isPublic}
+              handleChangeIsPublic={handleChangeIsPublic}
               handleFileChange={handleFileChange}
               file={file}
               fileValid={fileValid}
@@ -580,7 +591,7 @@ export default function EditDatasetParticipant() {
                 Geography &&
                 !CheckEndDate &&
                 file &&
-                !filesize &&
+                // !filesize &&
                 //   (file ? file.size < 2097152 : false) &&
                 //   typeof file == "string" &&
                 (Crop_data == true ||

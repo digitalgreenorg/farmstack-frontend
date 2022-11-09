@@ -10,6 +10,7 @@ import {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
+  fileUpload,
   getUserMapId,
   GetErrorKey,
 } from "../../../Utils/Common";
@@ -59,6 +60,7 @@ export default function AddDataset(props) {
   const [value, setValue] = React.useState("");
   const [recordsvalue, setrecordsvalue] = React.useState("");
   const [availablevalue, setavailablevalue] = React.useState("");
+  const [isPublic, setIsPublic] = useState("");
 
   //   const [value, setValue] = React.useState("3 months");
   //   const [recordsvalue, setrecordsvalue] = React.useState("100k");
@@ -143,15 +145,12 @@ export default function AddDataset(props) {
     if (todate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_end", todate.toISOString());
     }
-    if (file != null) {
-      bodyFormData.append("sample_dataset", file);
-    }
+    fileUpload(bodyFormData, file, "sample_dataset");
     bodyFormData.append("connector_availability", availablevalue);
+    bodyFormData.append("is_public", isPublic);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
     bodyFormData.append("approval_status", "approved");
-
-    console.log("add dataset", bodyFormData);
     setIsLoader(true);
     HTTPService(
       "POST",
@@ -223,6 +222,13 @@ export default function AddDataset(props) {
   const handleChangeRecords = (event) => {
     console.log(event.target.value);
     setrecordsvalue(event.target.value);
+  };
+  const handleChangeIsPublic = (event) => {
+    console.log(event.target.value);
+    setIsPublic(event.target.value === "true" ? true : false);
+    // Set file to null whenever a public status is changed because the user could set
+    // a different filetype than allowed for that specific visibility setting
+    setFile(null);
   };
   const handleChangeAvailable = (event) => {
     console.log(event.target.value);
@@ -373,7 +379,8 @@ export default function AddDataset(props) {
           btntext={"ok"}
           heading={"You added a new dataset"}
           imageText={"Added Successfully!"}
-          msg={"Your dataset added in database."}></Success>
+          msg={"Your dataset added in database."}
+        ></Success>
       ) : (
         <div noValidate autoComplete="off">
           <DataSetForm
@@ -426,6 +433,8 @@ export default function AddDataset(props) {
             handleChangeRecords={handleChangeRecords}
             availablevalue={availablevalue}
             handleChangeAvailable={handleChangeAvailable}
+            isPublic={isPublic}
+            handleChangeIsPublic={handleChangeIsPublic}
             handleFileChange={handleFileChange}
             file={file}
             fileValid={fileValid}
@@ -447,7 +456,7 @@ export default function AddDataset(props) {
               Geography &&
               !CheckEndDate &&
               file &&
-              file.size < 2097152 &&
+              // file.size < 2097152 &&
               (Crop_data == true ||
                 Practice_data == true ||
                 Farmer_profile == true ||
@@ -464,14 +473,16 @@ export default function AddDataset(props) {
                   onClick={handleAddDatasetSubmit}
                   variant="contained"
                   className="submitbtn"
-                  type="submit">
+                  type="submit"
+                >
                   {screenlabels.common.submit}
                 </Button>
               ) : (
                 <Button
                   variant="outlined"
                   disabled
-                  className="disbalesubmitbtn">
+                  className="disbalesubmitbtn"
+                >
                   {screenlabels.common.submit}
                 </Button>
               )}
@@ -483,7 +494,8 @@ export default function AddDataset(props) {
               <Button
                 onClick={() => history.push("/datahub/datasets")}
                 variant="outlined"
-                className="cancelbtn">
+                className="cancelbtn"
+              >
                 {screenlabels.common.cancel}
               </Button>
             </Col>
