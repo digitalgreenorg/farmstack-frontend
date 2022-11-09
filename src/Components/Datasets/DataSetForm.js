@@ -314,12 +314,12 @@ export default function DataSetForm(props) {
         </Col>
       </Row>
       <Row>
-        <Col xs={12} sm={12} md={9} lg={9}>
+        {/* <Col xs={12} sm={12} md={9} lg={9}>
           <span className="AddDatasetageheading">
             {screenlabels.dataset.data}
           </span>
-        </Col>
-        <Col xs={12} sm={12} md={3} lg={3}>
+        </Col> */}
+        {/* <Col xs={12} sm={12} md={3} lg={3}>
           <FormControlLabel
             value="start"
             control={
@@ -333,9 +333,9 @@ export default function DataSetForm(props) {
             labelPlacement="start"
             className="constantswitch"
           />
-        </Col>
+        </Col> */}
       </Row>
-      <Row>
+      {/* <Row>
         <Col xs={12} sm={12} md={12} lg={12} className="radiobtns">
           {props.Switchchecked ? (
             <RadioGroup
@@ -407,12 +407,27 @@ export default function DataSetForm(props) {
             </RadioGroup>
           )}
         </Col>
-      </Row>
+      </Row> */}
       <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
+        <Col xs={12} sm={12} md={6} lg={6}>
           <span className="AddDatasetsecondaryheading">
             {screenlabels.dataset.Interval}
           </span>
+        </Col>
+        <Col xs={12} sm={12} md={6} lg={6}>
+          <FormControlLabel
+            value="start"
+            control={
+              <Switch
+                checked={props.Switchchecked}
+                onChange={props.handleChangeSwitch}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            }
+            label={screenlabels.dataset.Constantly_updating}
+            labelPlacement="start"
+            className="constantswitch"
+          />
         </Col>
       </Row>
       {props.Switchchecked ? (
