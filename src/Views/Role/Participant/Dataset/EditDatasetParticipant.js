@@ -329,11 +329,11 @@ export default function EditDatasetParticipant() {
     // setprofile_pic(file);
     console.log(file);
     console.log(typeof file);
-    if (file != null && file.size > 2097152) {
-      setfilesize(true);
-    } else {
-      setfilesize(false);
-    }
+    // if (file != null && file.size > 2097152) {
+    //   setfilesize(true);
+    // } else {
+    //   setfilesize(false);
+    // }
   };
   const handleChangedatasetname = (e) => {
     validateInputField(e.target.value, RegexConstants.DATA_SET_REGEX)
@@ -591,7 +591,7 @@ export default function EditDatasetParticipant() {
                 Geography &&
                 !CheckEndDate &&
                 file &&
-                !filesize &&
+                // !filesize &&
                 //   (file ? file.size < 2097152 : false) &&
                 //   typeof file == "string" &&
                 (Crop_data == true ||

@@ -10,6 +10,7 @@ import {
   validateInputField,
   handleUnwantedSpace,
   HandleSessionTimeout,
+  fileUpload,
   getUserMapId,
   GetErrorKey,
 } from "../../../Utils/Common";
@@ -144,15 +145,12 @@ export default function AddDataset(props) {
     if (todate != null && Switchchecked == false) {
       bodyFormData.append("data_capture_end", todate.toISOString());
     }
-    if (file != null) {
-      bodyFormData.append("sample_dataset", file);
-    }
+    fileUpload(bodyFormData, file, "sample_dataset");
     bodyFormData.append("connector_availability", availablevalue);
     bodyFormData.append("is_public", isPublic);
     bodyFormData.append("dataset_size", recordsvalue);
     bodyFormData.append("user_map", id);
     bodyFormData.append("approval_status", "approved");
-    console.log("add dataset", bodyFormData);
     setIsLoader(true);
     HTTPService(
       "POST",
@@ -458,7 +456,7 @@ export default function AddDataset(props) {
               Geography &&
               !CheckEndDate &&
               file &&
-              file.size < 2097152 &&
+              // file.size < 2097152 &&
               (Crop_data == true ||
                 Practice_data == true ||
                 Farmer_profile == true ||
