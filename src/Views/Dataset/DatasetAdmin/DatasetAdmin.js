@@ -1118,8 +1118,9 @@ export default function DatasetAdmin() {
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
-    if (datavisiblityPayload[0] === true || datavisiblityPayload[0] === false) {
-      data["is_public"] = datavisiblityPayload[0];
+    if (datavisiblityPayload)
+    {
+        data["is_public__in"]=datavisiblityPayload;
     }
     if (cropPayload !== "") {
       data["crop_detail__in"] = cropPayload;

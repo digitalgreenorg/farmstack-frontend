@@ -1205,7 +1205,7 @@ export default function DatasetParticipant() {
   const changeView = (keyname) => {
     let tempfilterObject = { ...screenView };
     Object.keys(tempfilterObject).forEach(function (key) {
-      if (key != keyname) {
+      if (key !== keyname) {
         tempfilterObject[key] = false;
       } else {
         tempfilterObject[key] = true;
