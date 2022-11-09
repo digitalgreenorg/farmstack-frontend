@@ -1226,7 +1226,7 @@ export default function DatasetAdmin() {
     } else {
       getMyDataset(false);
     }
-    // getDatasetList(false)
+    getDatasetList(false)
   };
 
   const filterByDates = () => {
