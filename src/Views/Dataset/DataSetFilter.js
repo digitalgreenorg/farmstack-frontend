@@ -11,8 +11,8 @@ import FilterCheckBox from "../../Components/Datasets/FilterCheckBox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { SearchSharp } from "@mui/icons-material";
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { InputAdornment } from '@material-ui/core';
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { InputAdornment } from "@material-ui/core";
 import Search from "../../Components/Datasets/Search";
 export default function DataSetFilter(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -55,7 +55,8 @@ export default function DataSetFilter(props) {
         // <Row onClick={() => props.filterRow('all', false, 'all')} className="supportfiltersecondrow">
         <Row
           onClick={() => props.getAllDataSets()}
-          className="supportfiltersecondrow">
+          className="supportfiltersecondrow"
+        >
           <span className="supportallicon">
             <img src={require("../../Assets/Img/filter.svg")} alt="new" />
           </span>
@@ -67,7 +68,8 @@ export default function DataSetFilter(props) {
         // <Row onClick={() => props.filterRow('all', true, 'all')} className="supportfiltersecondrowbold">
         <Row
           onClick={() => props.getAllDataSets()}
-          className="supportfiltersecondrowbold">
+          className="supportfiltersecondrowbold"
+        >
           <span className="supportallicon">
             <img src={require("../../Assets/Img/filter_bold.svg")} alt="new" />
           </span>
@@ -76,9 +78,29 @@ export default function DataSetFilter(props) {
           </span>
         </Row>
       )}
-      <Row> 
-       {props.isMemberTab ?<Search checkForRegex={props.checkForRegex} setSearchValOtherOrg={props.setSearchValOtherOrg}  setSearchDatasetVar={props.setSearchDatasetVar} searchDatasetVar={props.searchValOtherOrg} debounceOnChange={props.debounceOnChange} isLoadmore={false} isMemberTab={props.isMemberTab} /> : <Search checkForRegex={props.checkForRegex} setSearchDatasetVar={props.setSearchDatasetVar} searchDatasetVar={props.searchValMyOrg} debounceOnChange={props.debounceOnChange} setSearchValMyOrg={props.setSearchValMyOrg} isLoadmore={false} isMemberTab={props.isMemberTab} /> } 
-      {/* <span className='searchBarForDataset' > 
+      <Row>
+        {props.isMemberTab ? (
+          <Search
+            checkForRegex={props.checkForRegex}
+            setSearchValOtherOrg={props.setSearchValOtherOrg}
+            setSearchDatasetVar={props.setSearchDatasetVar}
+            searchDatasetVar={props.searchValOtherOrg}
+            debounceOnChange={props.debounceOnChange}
+            isLoadmore={false}
+            isMemberTab={props.isMemberTab}
+          />
+        ) : (
+          <Search
+            checkForRegex={props.checkForRegex}
+            setSearchDatasetVar={props.setSearchDatasetVar}
+            searchDatasetVar={props.searchValMyOrg}
+            debounceOnChange={props.debounceOnChange}
+            setSearchValMyOrg={props.setSearchValMyOrg}
+            isLoadmore={false}
+            isMemberTab={props.isMemberTab}
+          />
+        )}
+        {/* <span className='searchBarForDataset' > 
       
       <TextField
           id="filled-basic"
@@ -91,14 +113,14 @@ export default function DataSetFilter(props) {
           // className="signupemail"
           onChange={e => props.debounceOnChange(e.target.value,props.isLoadmore, props.isMemberTab)}
   /></span> */}
-
       </Row>
       <Row
         className={
           props.secondrow
             ? "supportfilterthirdrowhighlight"
             : "supportfilterthirdrow"
-        }>
+        }
+      >
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterthirdrowheadingtext">
           {screenlabels.support.date}
         </span>
@@ -150,7 +172,8 @@ export default function DataSetFilter(props) {
             <Button
               onClick={() => props.filterByDates()}
               variant="contained"
-              className="enabledatesubmitbtn">
+              className="enabledatesubmitbtn"
+            >
               Submit
             </Button>
           </span>
@@ -162,7 +185,7 @@ export default function DataSetFilter(props) {
           </span>
         )}
       </Row>
-      
+
       {props.showMemberFilters && (
         <Row className="supportfiltersecondrowbold">
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
@@ -222,6 +245,20 @@ export default function DataSetFilter(props) {
                 handleCheckListFilterChange={() => props.handleEnableStatusFilter(screenlabels.dataset.disbaled)}
             />
         } */}
+      <Row className="supportfiltersecondrowbold">
+        <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          {"Data Visiblity"}
+        </span>
+      </Row>
+      {props.dataAccessFilterDisplay.map((datavisiblity) => (
+        <FilterCheckBox
+          label={datavisiblity.name}
+          checked={datavisiblity.isChecked}
+          handleCheckListFilterChange={() =>
+            props.handleFilterChange(datavisiblity.index, "datavisiblity")
+          }
+        />
+      ))}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/geography.svg")} alt="new" />
