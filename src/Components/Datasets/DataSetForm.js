@@ -53,7 +53,7 @@ export default function DataSetForm(props) {
               className="private"
             />
           </RadioGroup>
-          </Col>
+        </Col>
       </Row>
       <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
@@ -268,20 +268,46 @@ export default function DataSetForm(props) {
       </Row>
       <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
-          <TextField
-            // style={useStyles.inputwidth}
-            className="name"
-            id="filled-basic"
-            variant="filled"
-            required
-            width="100%"
-            value={props.Geography}
-            onKeyDown={props.handleGeographyKeydown}
-            onChange={props.handleChangeGeography}
-            label={screenlabels.dataset.Geography}
-            error={props.geographyErrorMessage ? true : false}
-            helperText={props.geographyErrorMessage}
-          />
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12}>
+              <span className="AddDatasetsecondaryheading">
+                {screenlabels.dataset.Geography}
+              </span>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                required
+                value={props.Geography}
+                onChange={props.handleChangeGeography}
+                error={props.geographyErrorMessage ? true : false}
+                helperText={props.geographyErrorMessage}
+              >
+                <FormControlLabel
+                  value="ETHIOPIA"
+                  control={<Radio />}
+                  label="Ethiopia"
+                  className="record1"
+                />
+                <FormControlLabel
+                  value="INDIA"
+                  control={<Radio />}
+                  label="India"
+                  className="record2"
+                />
+                <FormControlLabel
+                  value="KENYA"
+                  control={<Radio />}
+                  label="Kenya"
+                  className="record3"
+                />
+              </RadioGroup>
+            </Col>
+          </Row>
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
