@@ -594,9 +594,6 @@ export default function DatasetAdmin() {
     //     payload["search_pattern"] = searchDatasetVar
     // }
     // }
-
-    console.log(searchUrl, memberDatasetUrl);
-
     HTTPService(
       "POST",
       // "GET",
@@ -955,7 +952,7 @@ export default function DatasetAdmin() {
   const getMyDataset = (isLoadMore) => {
     setIsLoader(true);
     console.log(searchDatasetVar.val, "HERRE");
-    if (searchValMyOrg.val != "") {
+    if (searchValMyOrg.val !== "") {
       fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore);
       return;
     }
@@ -1027,7 +1024,7 @@ export default function DatasetAdmin() {
     }
     if (!isLoadMore) {
       resetUrls();
-      if (payload == "") {
+      if (payload === "") {
         // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         payload = {};
         payload["user_id"] = getUserLocal();
