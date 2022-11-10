@@ -327,7 +327,7 @@ export default function GuestUserDatasetFilter(props) {
         />
       </Row>
       {/* <Row> */}
-      {props.ageFilterDisplay &&
+      {/* {props.ageFilterDisplay &&
         props.ageFilterDisplay.map((ageFilter) => (
           <FilterCheckBox
             label={ageFilter.name}
@@ -339,7 +339,7 @@ export default function GuestUserDatasetFilter(props) {
               )
             }
           />
-        ))}
+        ))} */}
       {/* </Row> */}
       {/* <Row>
         {props.ageList && props.ageList.map((age) => (

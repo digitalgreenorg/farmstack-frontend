@@ -1406,8 +1406,8 @@ export default function DatasetAdmin() {
             tabelkeys={tablekeys}
           ></ViewDataSet>
           {isAdminView &&
-          viewdata.approval_status == "for_review" &&
-          viewdata.user_id == getUserLocal() ? (
+          viewdata.approval_status === "for_review" &&
+          viewdata.user_id === getUserLocal() ? (
             <>
               <Row>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
@@ -1476,7 +1476,7 @@ export default function DatasetAdmin() {
                 <></>
               )}
 
-              {viewdata.approval_status == "rejected" ? (
+              {viewdata.approval_status === "rejected" ? (
                 <>
                   <Row>
                     <Col xs={12} sm={12} md={6} lg={3}></Col>

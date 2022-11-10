@@ -334,7 +334,7 @@ export default function DataSetFilter(props) {
         />
       </Row>
       {/* <Row> */}
-      {props.ageFilterDisplay &&
+      {/* {props.ageFilterDisplay &&
         props.ageFilterDisplay.map((ageFilter) => (
           <FilterCheckBox
             label={ageFilter.name}
@@ -346,7 +346,7 @@ export default function DataSetFilter(props) {
               )
             }
           />
-        ))}
+        ))} */}
       {/* </Row> */}
       {/* <Row>
         {props.ageList && props.ageList.map((age) => (
