@@ -45,13 +45,12 @@ export default function ViewConnectorDetails(props) {
   const [isLoader, setIsLoader] = useState(false);
 
   const datasetDetailPage = (url) => {
-      openLinkInNewTab(url)
-      history.push("connectors/detail")
-  }
+    openLinkInNewTab(url);
+    history.push("connectors/detail");
+  };
   const redirectToNewPage = (url) => {
-      window.open(url, "_blank")
-  }
-
+    window.open(url, "_blank");
+  };
 
   return (
     <>
@@ -268,48 +267,94 @@ export default function ViewConnectorDetails(props) {
               </span>
             </Row>
 
-            <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
-                <Col>
-                    <Tooltip title={props.data['connector_description']}>
-                        <Row style={useStyles.datasetdescription}>
-                            <span className="thirdmainheading">{props.data['connector_description'] ? props.data['connector_description'] : 'N/A'}</span>
-                        </Row>
+            <Row
+              style={{
+                "margin-left": "79px",
+                "margin-top": "5px",
+                "text-align": "left",
+              }}
+            >
+              <Col>
+                <Tooltip title={props.data["connector_description"]}>
+                  <Row style={useStyles.datasetdescription}>
+                    <span className="thirdmainheading">
+                      {props.data["connector_description"]
+                        ? props.data["connector_description"]
+                        : "N/A"}
+                    </span>
+                  </Row>
+                </Tooltip>
+              </Col>
+              {props.data["connector_status"] != "install certificate" ? (
+                <>
+                  <Col>
+                    <Tooltip title={props.data["certificate"]}>
+                      <Row style={useStyles.datasetdescription}>
+                        <span className="thirdmainheading">
+                          {props.data["certificate"]}
+                        </span>
+                      </Row>
                     </Tooltip>
-                </Col>
-                {props.data['connector_status'] != 'install certificate' ? <><Col>
-                    <Tooltip title={props.data['certificate']}>
-                        <Row style={useStyles.datasetdescription}>
-                            <span className="thirdmainheading">{props.data['certificate']}</span>
-                        </Row>
-                    </Tooltip>
-                </Col>
-                    <Col>
-                        <span className="thirdmainheading">{""}</span>
-                    </Col></> : <></>}
+                  </Col>
+                  <Col>
+                    <span className="thirdmainheading">{""}</span>
+                  </Col>
+                </>
+              ) : (
+                <></>
+              )}
             </Row>
-            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'unpaired' || props.data['connector_status'] == 'rejected') ? <><Row className="marginrowtop8px"></Row><Row>
-                <Col xs={12} sm={12} md={6} lg={3} >
-                </Col>
-                <Col xs={12} sm={12} md={6} lg={6} >
-                    <Button onClick={() => props.edit()} variant="outlined" className="submitbtn">
-                        Update Connector
+            {props.data["connector_type"] == "Consumer" &&
+            (props.data["connector_status"] == "unpaired" ||
+              props.data["connector_status"] == "rejected") ? (
+              <>
+                <Row className="marginrowtop8px"></Row>
+                <Row>
+                  <Col xs={12} sm={12} md={6} lg={3}></Col>
+                  <Col xs={12} sm={12} md={6} lg={6}>
+                    <Button
+                      onClick={() => props.edit()}
+                      variant="outlined"
+                      className="submitbtn"
+                    >
+                      Update Connector
                     </Button>
-                </Col>
-            </Row>
+                  </Col>
+                </Row>
                 <Row className="margin">
-                    <Col xs={12} sm={12} md={6} lg={3} >
-                    </Col>
-                    <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => props.delete()} style={{ "margin-top": "0px" }} variant="outlined" className="editbtn">
-                            Delete Connector
-                        </Button>
-                    </Col>
-                </Row><Row className="marginrowtop8px"></Row></> : <></>}
+                  <Col xs={12} sm={12} md={6} lg={3}></Col>
+                  <Col xs={12} sm={12} md={6} lg={6}>
+                    <Button
+                      onClick={() => props.delete()}
+                      style={{ "margin-top": "0px" }}
+                      variant="outlined"
+                      className="editbtn"
+                    >
+                      Delete Connector
+                    </Button>
+                  </Col>
+                </Row>
+                <Row className="marginrowtop8px"></Row>
+              </>
+            ) : (
+              <></>
+            )}
             <Row className="supportViewDeatilsSecondRow"></Row>
-            {(props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'awaiting for approval' || props.data['connector_status'] == 'paired')) ? <><Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                <span className="mainheading">{props.data['connector_status'] == 'awaiting for approval' ? "Pending with" : "Paired with"}</span>
-
-            </Row>
+            {props.data["connector_type"] == "Consumer" &&
+            (props.data["connector_status"] == "awaiting for approval" ||
+              props.data["connector_status"] == "paired") ? (
+              <>
+                <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
+                  <span className="mainheading">
+                    {props.data["connector_status"] == "awaiting for approval"
+                      ? "Pending with"
+                      : "Paired with"}
+                  </span>
+                </Row>
+              </>
+            ) : (
+              <></>
+            )}
           </Tooltip>
         </Col>
         {props.data["connector_status"] != "install certificate" ? (
@@ -530,70 +575,171 @@ export default function ViewConnectorDetails(props) {
                       : ""}
                   </span>
                 </Row>
-                <Row style={{ "margin-left": "79px", "margin-top": "30px", "text-align": "left" }}>
+                <Row
+                  style={{
+                    "margin-left": "79px",
+                    "margin-top": "30px",
+                    "text-align": "left",
+                  }}
+                >
+                  <Col>
+                    <span className="secondmainheading">
+                      {"Participant organisation name"}
+                    </span>
+                  </Col>
+                  <Col>
+                    <span className="secondmainheading">
+                      {"Participant organisation website"}
+                    </span>
+                  </Col>
+                  {props.data["connector_status"] == "paired" ? (
                     <Col>
-                        <span className="secondmainheading">{"Participant organisation name"}</span>
+                      <span className="secondmainheading">{"View Data"}</span>
                     </Col>
-                    <Col>
-                        <span className="secondmainheading">{"Participant organisation website"}</span>
-                    </Col>
-                    {props.data['connector_status'] == 'paired' ? <Col>
-                        <span className="secondmainheading">{"View Data"}</span>
-                    </Col> : <Col></Col>}
-
+                  ) : (
+                    <Col></Col>
+                  )}
                 </Row>
-                <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
+                <Row
+                  style={{
+                    "margin-left": "79px",
+                    "margin-top": "5px",
+                    "text-align": "left",
+                  }}
+                >
+                  <Col>
+                    <Tooltip
+                      title={
+                        props.providerdata["organization_details"]
+                          ? props.providerdata["organization_details"]["name"]
+                          : ""
+                      }
+                    >
+                      <Row style={useStyles.datasetdescription}>
+                        <span className="thirdmainheading">
+                          {props.providerdata["organization_details"]
+                            ? props.providerdata["organization_details"]["name"]
+                            : ""}
+                        </span>
+                      </Row>
+                    </Tooltip>
+                  </Col>
+                  <Col>
+                    <Tooltip
+                      title={
+                        props.providerdata["organization_details"]
+                          ? props.providerdata["organization_details"][
+                              "website"
+                            ]
+                          : ""
+                      }
+                    >
+                      <Row style={useStyles.datasetdescription}>
+                        {props.providerdata["organization_details"] ? (
+                          <span
+                            className="thirdmainheading dockerImageURL"
+                            onClick={() => {
+                              openLinkInNewTab(
+                                props.providerdata["organization_details"][
+                                  "website"
+                                ]
+                              );
+                            }}
+                          >
+                            {props.providerdata["organization_details"]
+                              ? props.providerdata["organization_details"][
+                                  "website"
+                                ]
+                              : ""}
+                          </span>
+                        ) : (
+                          <span>{""}</span>
+                        )}
+                      </Row>
+                    </Tooltip>
+                  </Col>
+                  {props.data["connector_status"] == "paired" ? (
                     <Col>
-                        <Tooltip title={props.providerdata['organization_details'] ? props.providerdata['organization_details']['name'] : ''}>
-                            <Row style={useStyles.datasetdescription}>
-                                <span className="thirdmainheading">{props.providerdata['organization_details'] ? props.providerdata['organization_details']['name'] : ''}</span>
-                            </Row>
-                        </Tooltip>
+                      <Tooltip
+                        title={
+                          props.providerdata["ports"]
+                            ? UrlConstants.view_data_connector +
+                              props.data["ports"]["consumer_app"] +
+                              "/"
+                            : ""
+                        }
+                      >
+                        <Row style={useStyles.datasetdescription}>
+                          {props.providerdata["ports"] ? (
+                            <span
+                              className="thirdmainheading dockerImageURL"
+                              onClick={() => {
+                                redirectToNewPage(
+                                  UrlConstants.view_data_connector +
+                                    props.data["ports"]["consumer_app"] +
+                                    "/"
+                                );
+                                // datasetDetailPage(
+                                //   UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.data['ports']['consumer_app']
+                                // );
+                              }}
+                              //  onClick={() => { datasetDetailPage(UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.providerdata['ports']['consumer_app'] ) }}
+                            >
+                              {props.providerdata["ports"] ? "Click here" : ""}
+                            </span>
+                          ) : (
+                            <span>{""}</span>
+                          )}
+                          {/* {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { history.push("connectors/detail") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>} */}
+                        </Row>
+                      </Tooltip>
                     </Col>
-                    <Col>
-                        <Tooltip title={props.providerdata['organization_details'] ? props.providerdata['organization_details']['website'] : ''}>
-                            <Row style={useStyles.datasetdescription}>
-                                {props.providerdata['organization_details'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { openLinkInNewTab(props.providerdata['organization_details']['website']) }}>{props.providerdata['organization_details'] ? props.providerdata['organization_details']['website'] : ''}</span> : <span>{""}</span>}
-                            </Row>
-                        </Tooltip>
-                    </Col>
-                    {props.data['connector_status'] == 'paired' ? <Col>
-                        <Tooltip title={props.providerdata['ports'] ? UrlConstants.view_data_connector + props.data['ports']['consumer_app'] + "/" : ''}>
-                            <Row style={useStyles.datasetdescription}>
-                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL"
-                                    onClick={() => {
-                                        redirectToNewPage(UrlConstants.view_data_connector + props.data['ports']['consumer_app'] + "/")
-                                        // datasetDetailPage(
-                                        //   UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.data['ports']['consumer_app']
-                                        // );
-                                    }}
-                                //  onClick={() => { datasetDetailPage(UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.providerdata['ports']['consumer_app'] ) }}
-                                >{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
-                                {/* {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { history.push("connectors/detail") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>} */}
-                            </Row>
-                        </Tooltip>
-                    </Col> : <Col></Col>}
+                  ) : (
+                    <Col></Col>
+                  )}
                 </Row>
-                <Row className="supportViewDeatilsSecondRow"></Row></> : <></>}
-            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'paired') ? <><Row>
-                <Col xs={12} sm={12} md={6} lg={3} >
-                </Col>
-                <Col xs={12} sm={12} md={6} lg={6} >
-                    <Button onClick={() => props.approveReject(props.providerdata['id'], 'unpaired')} variant="outlined" className="submitbtn">
+                <Row className="supportViewDeatilsSecondRow"></Row> : <></>}
+              </Tooltip>
+              {props.data["connector_type"] == "Consumer" &&
+              props.data["connector_status"] == "paired" ? (
+                <>
+                  <Row>
+                    <Col xs={12} sm={12} md={6} lg={3}></Col>
+                    <Col xs={12} sm={12} md={6} lg={6}>
+                      <Button
+                        onClick={() =>
+                          props.approveReject(
+                            props.providerdata["id"],
+                            "unpaired"
+                          )
+                        }
+                        variant="outlined"
+                        className="submitbtn"
+                      >
                         Unpair
-                    </Button>
-                </Col>
-            </Row>
-                <Row className="margin">
-                    <Col xs={12} sm={12} md={6} lg={3} >
+                      </Button>
                     </Col>
-                    <Col xs={12} sm={12} md={6} lg={6} >
-                        <Button onClick={() => props.cancel()} style={{ "margin-top": "0px" }} variant="outlined" className="editbtn">
-                            Cancel
-                        </Button>
+                  </Row>
+                  <Row className="margin">
+                    <Col xs={12} sm={12} md={6} lg={3}></Col>
+                    <Col xs={12} sm={12} md={6} lg={6}>
+                      <Button
+                        onClick={() => props.cancel()}
+                        style={{ "margin-top": "0px" }}
+                        variant="outlined"
+                        className="editbtn"
+                      >
+                        Cancel
+                      </Button>
                     </Col>
-                </Row><Row className="marginrowtop8px"></Row></> : <></>}
-
+                  </Row>
+                  <Row className="marginrowtop8px"></Row>
+                </>
+              ) : (
+                <></>
+              )}
+            </Col>
+          </Row>
         </>
       ) : (
         <></>
