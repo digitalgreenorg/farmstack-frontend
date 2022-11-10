@@ -100,32 +100,29 @@ export const handleNameFieldEntry = (fieldValue, e) => {
 };
 
 export const GetErrorHandlingRoute = (e) => {
-  var errorMessage = '';
-  if(e.response && e.response.data && e.response.data.message){
-    errorMessage = e.response.data.message
-  }
-  else if (e.response && e.response.data){
-    try{
-      JSON.parse(e.response.data)
-      errorMessage = String(e.response.data)
-    }
-    catch(e){
-      if (e.response){
-        errorMessage = e.response.statusText
-      }
-      else{
-        errorMessage = 'Unknown'
+  var errorMessage = "";
+  if (e.response && e.response.data && e.response.data.message) {
+    errorMessage = e.response.data.message;
+  } else if (e.response && e.response.data) {
+    try {
+      JSON.parse(e.response.data);
+      errorMessage = String(e.response.data);
+    } catch (e) {
+      if (e.response) {
+        errorMessage = e.response.statusText;
+      } else {
+        errorMessage = "Unknown";
       }
     }
+  } else if (e.response) {
+    errorMessage = e.response.statusText;
+  } else {
+    errorMessage = "unknown";
   }
-  else if (e.response){
-    errorMessage = e.response.statusText
-  }
-  else{
-    errorMessage = 'unknown'
-  }
-  setErrorLocal({'ErrorCode': e.response ? e.response.status : 'unknown', 
-  'ErrorMessage': errorMessage});
+  setErrorLocal({
+    ErrorCode: e.response ? e.response.status : "unknown",
+    ErrorMessage: errorMessage,
+  });
   if (
     e.response != null &&
     e.response != undefined &&
@@ -134,6 +131,7 @@ export const GetErrorHandlingRoute = (e) => {
     console.log(e.response.status);
     return "/sessionexpired";
   } else {
+    console.log(e.response);
     return "/error";
   }
 };
@@ -152,7 +150,6 @@ export const setErrorLocal = (error) => {
 };
 export const getErrorLocal = () => {
   return JSON.parse(localStorage.getItem(LocalStorageConstants.KEYS.error));
-
 };
 
 export const isLoggedInUserAdmin = () => {
@@ -177,101 +174,99 @@ export const fileUpload = (bodyFormData, file, Key) => {
   }
 };
 
-export const dateTimeFormat = (datetime,istime) => {
-  const today = new Date(datetime)
-  var y = today.getFullYear()
-  var m = (today.getMonth() + 1).toString().padStart(2, "0")
-  var d = today.getDate().toString().padStart(2, "0")
-  var h = today.getHours()
-  var mi =(today.getMinutes()<10?'0':'')+today.getMinutes()
+export const dateTimeFormat = (datetime, istime) => {
+  const today = new Date(datetime);
+  var y = today.getFullYear();
+  var m = (today.getMonth() + 1).toString().padStart(2, "0");
+  var d = today.getDate().toString().padStart(2, "0");
+  var h = today.getHours();
+  var mi = (today.getMinutes() < 10 ? "0" : "") + today.getMinutes();
   var s = today.getSeconds();
-  if(istime){
+  if (istime) {
     let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
-    return format
-  }else{
-    let format = d + "/" + m + "/" + y
-    return format
+    return format;
+  } else {
+    let format = d + "/" + m + "/" + y;
+    return format;
   }
-  
 };
 
 export const flushLocalstorage = () => {
-  Object.keys(LocalStorageConstants.KEYS).map((key,i)=>{
-    console.log(key); 
+  Object.keys(LocalStorageConstants.KEYS).map((key, i) => {
+    console.log(key);
     if (localStorage.getItem(key)) {
-      localStorage.removeItem(key)
+      localStorage.removeItem(key);
     }
   });
-}
-
-
+};
 
 export const downloadAttachment = (uri, name) => {
-  FileSaver.saveAs(uri, name)
-}
-
-
+  FileSaver.saveAs(uri, name);
+};
 
 export const GetErrorKey = (e, keyList) => {
-  var errorKeys = []
-  var errorMessages = []
-  for (var key of keyList){
-    if (e.response && e.response.status === 400 && e.response.data && e.response.data[key]){
-      errorKeys.push(key)
-      errorMessages.push(e.response.data[key][0])
+  var errorKeys = [];
+  var errorMessages = [];
+  for (var key of keyList) {
+    if (
+      e.response &&
+      e.response.status === 400 &&
+      e.response.data &&
+      e.response.data[key]
+    ) {
+      errorKeys.push(key);
+      errorMessages.push(e.response.data[key][0]);
     }
   }
-  return [errorKeys, errorMessages]
-}
-
+  return [errorKeys, errorMessages];
+};
 
 export const getDockerHubURL = (dockerImageName) => {
-  const [dockerImage, tag] = dockerImageName.split(':')
-  return `https://hub.docker.com/r/${dockerImage}/${tag}`
-}
+  const [dockerImage, tag] = dockerImageName.split(":");
+  return `https://hub.docker.com/r/${dockerImage}/${tag}`;
+};
 export const openLinkInNewTab = (url) => {
-  console.log(url)
-  if(url.includes("http")){
-    localStorage.setItem("show_data", JSON.stringify(url))
+  console.log(url);
+  if (url.includes("http")) {
+    localStorage.setItem("show_data", JSON.stringify(url));
     // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
 
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // history.push("connectors/detail")
-  }else{
-    localStorage.setItem("show_data", JSON.stringify("http://"+ url))
+  } else {
+    localStorage.setItem("show_data", JSON.stringify("http://" + url));
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
     // window.open("http://"+url,'_blank');
     // history.push("connectors/detail")
   }
-}
+};
 
-
-export const mobileNumberMinimunLengthCheck = (number) =>{
-  return number.length>=10
-}
+export const mobileNumberMinimunLengthCheck = (number) => {
+  return number.length >= 10;
+};
 
 export function toTitleCase(str) {
-  return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ""
+  return str ? str[0].toUpperCase() + str.substr(1).toLowerCase() : "";
 }
 
 export const isParticipantRoute = (url) => {
-  console.log(url)
-  return url.toLowerCase().includes('/participant/')
-}
+  console.log(url);
+  return url.toLowerCase().includes("/participant/");
+};
 
-export const isRoleName= (url) => {
-  console.log(url)
-  if(url.toLowerCase().includes('/participant/')){
-    return '/participant/'
+export const isRoleName = (url) => {
+  console.log(url);
+  if (url.toLowerCase().includes("/participant/")) {
+    return "/participant/";
   }
-  if(url.toLowerCase().includes('/datahub/')){
-    return '/datahub/'
+  if (url.toLowerCase().includes("/datahub/")) {
+    return "/datahub/";
   }
-}
+};
 export function debounce(func, wait) {
   let timeout;
-  return function(...args) {
+  return function (...args) {
     const context = this;
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => {
