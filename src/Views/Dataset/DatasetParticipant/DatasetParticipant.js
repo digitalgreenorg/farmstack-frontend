@@ -192,6 +192,7 @@ export default function DatasetParticipant() {
     setFilterState(data);
     payload = data;
     resetDateFilters();
+    resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
@@ -386,7 +387,7 @@ export default function DatasetParticipant() {
   const resetFilterState = (filterName) => {
     var tempfilterMaster = [];
     var tempFilerDisplay = [];
-    if (filterName == screenlabels.dataset.geography) {
+    if (filterName === screenlabels.dataset.geography) {
       // tempfilterMaster = [...geoFilterMaster]
       // for(let i=0; i<tempfilterMaster.length; i++){
       //     tempfilterMaster[i].isChecked = false
@@ -400,7 +401,16 @@ export default function DatasetParticipant() {
       }
       setGeoFilterDisplay(tempFilerDisplay);
       setGeoSearchState("");
-    } else if (filterName == screenlabels.dataset.age) {
+    }
+    else if (filterName === "datavisiblity") {
+      tempFilerDisplay = [...dataAccessFilterDisplay];
+      for (let i = 0; i < tempFilerDisplay.length; i++) {
+        tempFilerDisplay[i].isChecked = false;
+        tempFilerDisplay[i].isDisplayed = true;
+      }
+      setDataAccessDisplay(tempFilerDisplay);
+    }   
+    else if (filterName ===screenlabels.dataset.age) {
       // tempfilterMaster = [...ageFilterMaster]
       // for(let i=0; i<tempfilterMaster.length; i++){
       //     tempfilterMaster[i].isChecked = false
@@ -413,7 +423,7 @@ export default function DatasetParticipant() {
         tempFilerDisplay[i].isDisplayed = true;
       }
       setAgeFilterDisplay(tempFilerDisplay);
-    } else if (filterName == screenlabels.dataset.crop) {
+    } else if (filterName === screenlabels.dataset.crop) {
       // tempfilterMaster = [...cropFilterMaster]
       // for(let i=0; i<tempfilterMaster.length; i++){
       //     tempfilterMaster[i].isChecked = false
@@ -427,14 +437,14 @@ export default function DatasetParticipant() {
       }
       setCropFilterDisplay(tempFilerDisplay);
       setCropSearchState("");
-    } else if (filterName == screenlabels.dataset.status) {
+    } else if (filterName === screenlabels.dataset.status) {
       tempFilerDisplay = [...statusFilter];
       for (let i = 0; i < tempFilerDisplay.length; i++) {
         tempFilerDisplay[i].isChecked = false;
         // tempFilerDisplay[i].isDisplayed = true
       }
       setStatusFilter(tempFilerDisplay);
-    } else if (filterName == screenlabels.dataset.enabled) {
+    } else if (filterName === screenlabels.dataset.enabled) {
       tempFilerDisplay = [...enableStatusFilter];
       tempFilerDisplay[0].isChecked = false;
       tempFilerDisplay[1].isChecked = false;
@@ -474,7 +484,7 @@ export default function DatasetParticipant() {
     setGeoSearchState(searchText);
     var tempList = [...geoFilterDisplay];
     for (let i = 0; i < tempList.length; i++) {
-      if (searchText == "") {
+      if (searchText === "") {
         tempList[i].isDisplayed = true;
         searchFound = true;
       } else {
@@ -1167,6 +1177,7 @@ export default function DatasetParticipant() {
     resetDateFilters();
     setConstantyUpdateSwitch(false);
     // resetUrls()
+    resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.crop);
@@ -1184,10 +1195,12 @@ export default function DatasetParticipant() {
   };
 
   const getAllDataSets = () => {
+    resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
+    resetFilterState(screenlabels.dataset.enabled);
     // resetUrls()
 
     setConstantyUpdateSwitch(false);
@@ -1213,6 +1226,7 @@ export default function DatasetParticipant() {
 
     setIsShowAll(false);
     setConstantyUpdateSwitch(false);
+    resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.crop);

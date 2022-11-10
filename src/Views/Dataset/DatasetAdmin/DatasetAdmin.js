@@ -202,6 +202,7 @@ export default function DatasetAdmin() {
     setFilterState(data);
     payload = data;
     resetDateFilters();
+    resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
@@ -1155,7 +1156,7 @@ export default function DatasetAdmin() {
     setSearchDatasetVar({ val: "" });
     // resetInputSearch()
     resetDateFilters();
-    if (newValue == "2") {
+    if (newValue === "2") {
       console.log("isMemberTab", isMemberTab);
       setIsMemberTab(!isMemberTab);
       // getMemberFilter()
@@ -1189,6 +1190,7 @@ export default function DatasetAdmin() {
     setConstantyUpdateSwitch(false);
     resetDateFilters();
     // resetUrls()
+    resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.crop);
@@ -1207,10 +1209,12 @@ export default function DatasetAdmin() {
   };
 
   const getAllDataSets = () => {
+    resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
+    resetFilterState(screenlabels.dataset.enabled);
     // resetUrls()
 
     setConstantyUpdateSwitch(false);

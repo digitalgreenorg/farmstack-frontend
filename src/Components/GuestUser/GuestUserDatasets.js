@@ -746,6 +746,7 @@ export default function GuestUserDatasets() {
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
+    
     // resetUrls()
 
     setConstantyUpdateSwitch(false);
