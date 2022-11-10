@@ -353,7 +353,7 @@ export default function GuestUserDatasetFilter(props) {
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/crop.svg")} alt="new" />
-          &nbsp;&nbsp;{screenlabels.dataset.crop}
+          &nbsp;&nbsp;{screenlabels.dataset.Value_Chain}
         </span>
       </Row>
       <Row className="supportfiltersecondrowbold">
