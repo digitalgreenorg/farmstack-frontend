@@ -233,7 +233,7 @@ export default function AddDataset(props) {
     console.log(event.target.value);
     setIsPublic(event.target.value === "true" ? true : false);
     // Reset file to upload
-    setavailablevalue("Not Available");
+    if (isPublic) setavailablevalue("Not Available");
     setFile(null);
   };
   const handleFileChange = (file) => {
