@@ -736,13 +736,10 @@ export default function ViewConnectorDetails(props) {
                       <span
                         className="thirdmainheading dockerImageURL"
                         onClick={() => {
-                          openLinkInNewTab(
-                            props.providerdata["ports"]
-                              ? UrlConstants.view_data_connector +
-                                  props.providerdata["ports"]["consumer_app"]
-                              : ""
-                          );
-                        }}
+                            datasetDetailPage(
+                              UrlConstants.base_url_without_slash_view_data+props.data['ports']['consumer_app']
+                            );
+                          }}
                       >
                         {props.providerdata["ports"] ? "Click here" : ""}
                       </span>
