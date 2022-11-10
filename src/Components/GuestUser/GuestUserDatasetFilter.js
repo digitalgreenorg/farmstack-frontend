@@ -261,7 +261,7 @@ export default function GuestUserDatasetFilter(props) {
               src={require("../../Assets/Img/crop.svg")}
               alt="new"
             />
-            &nbsp;&nbsp;{screenlabels.dataset.crop}</span>
+            &nbsp;&nbsp;{"Value chain"}</span>
       </Row>
       <Row className="supportfiltersecondrowbold">
           <TextField 
