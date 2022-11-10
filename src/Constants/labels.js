@@ -151,7 +151,7 @@ const labels = {
       Land_records: "Land records",
       Cultivation_data: "Cultivation data",
       Livestock: "Livestock",
-      Diary: "Diary",
+      Diary: "Dairy",
       Poultry: "Poultry",
       Other: "Other",
       data_access: "Data access type",
