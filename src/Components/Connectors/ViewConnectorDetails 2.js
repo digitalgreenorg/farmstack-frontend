@@ -40,9 +40,12 @@ export default function ViewConnectorDetails(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const [isLoader, setIsLoader] = useState(false)
 
-    const datasetDetailPage = (url)=>{
+    const datasetDetailPage = (url) => {
         openLinkInNewTab(url)
         history.push("connectors/detail")
+    }
+    const redirectToNewPage = (url) => {
+        window.open(url, "_blank")
     }
 
     return (
@@ -211,13 +214,13 @@ export default function ViewConnectorDetails(props) {
                         <span className="thirdmainheading">{""}</span>
                     </Col></> : <></>}
             </Row>
-            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'unpaired'||props.data['connector_status'] == 'rejected') ? <><Row className="marginrowtop8px"></Row><Row>
+            {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'unpaired' || props.data['connector_status'] == 'rejected') ? <><Row className="marginrowtop8px"></Row><Row>
                 <Col xs={12} sm={12} md={6} lg={3} >
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <Button onClick={() => props.edit()} variant="outlined" className="submitbtn">
                         Update Connector
-                                </Button>
+                    </Button>
                 </Col>
             </Row>
                 <Row className="margin">
@@ -226,7 +229,7 @@ export default function ViewConnectorDetails(props) {
                     <Col xs={12} sm={12} md={6} lg={6} >
                         <Button onClick={() => props.delete()} style={{ "margin-top": "0px" }} variant="outlined" className="editbtn">
                             Delete Connector
-                         </Button>
+                        </Button>
                     </Col>
                 </Row><Row className="marginrowtop8px"></Row></> : <></>}
             <Row className="supportViewDeatilsSecondRow"></Row>
@@ -344,9 +347,9 @@ export default function ViewConnectorDetails(props) {
                     <Col>
                         <span className="secondmainheading">{"Participant organisation website"}</span>
                     </Col>
-                    {props.data['connector_status'] == 'paired'?<Col>
+                    {props.data['connector_status'] == 'paired' ? <Col>
                         <span className="secondmainheading">{"View Data"}</span>
-                    </Col>:<Col></Col>}
+                    </Col> : <Col></Col>}
 
                 </Row>
                 <Row style={{ "margin-left": "79px", "margin-top": "5px", "text-align": "left" }}>
@@ -364,14 +367,22 @@ export default function ViewConnectorDetails(props) {
                             </Row>
                         </Tooltip>
                     </Col>
-                    {props.data['connector_status'] == 'paired'?<Col>
-                        <Tooltip title={props.providerdata['ports'] ? UrlConstants.view_data_connector +props.providerdata['ports']['consumer_app']+"/show_data" : ''}>
+                    {props.data['connector_status'] == 'paired' ? <Col>
+                        <Tooltip title={props.providerdata['ports'] ? UrlConstants.view_data_connector + props.data['ports']['consumer_app'] + "/" : ''}>
                             <Row style={useStyles.datasetdescription}>
-                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { datasetDetailPage(UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.providerdata['ports']['consumer_app'] ) }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
+                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL"
+                                    onClick={() => {
+                                        redirectToNewPage(UrlConstants.view_data_connector + props.data['ports']['consumer_app'] + "/")
+                                        // datasetDetailPage(
+                                        //   UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.data['ports']['consumer_app']
+                                        // );
+                                    }}
+                                //  onClick={() => { datasetDetailPage(UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.providerdata['ports']['consumer_app'] ) }}
+                                >{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
                                 {/* {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { history.push("connectors/detail") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>} */}
                             </Row>
                         </Tooltip>
-                    </Col>:<Col></Col>}
+                    </Col> : <Col></Col>}
                 </Row>
                 <Row className="supportViewDeatilsSecondRow"></Row></> : <></>}
             {props.data['connector_type'] == 'Consumer' && (props.data['connector_status'] == 'paired') ? <><Row>
@@ -389,7 +400,7 @@ export default function ViewConnectorDetails(props) {
                     <Col xs={12} sm={12} md={6} lg={6} >
                         <Button onClick={() => props.cancel()} style={{ "margin-top": "0px" }} variant="outlined" className="editbtn">
                             Cancel
-                         </Button>
+                        </Button>
                     </Col>
                 </Row><Row className="marginrowtop8px"></Row></> : <></>}
         </>
