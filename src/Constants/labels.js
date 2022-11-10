@@ -162,6 +162,7 @@ const labels = {
       Research_data: "Research data",
       Geography: "Geography",
       Crop_Detail: "Value Chain",
+      Value_Chain:"Value chain",
       data: "Actual age of data",
       Constantly_updating: "Constantly updating",
       three: "3 months",
