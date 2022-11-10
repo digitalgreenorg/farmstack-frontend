@@ -66,7 +66,7 @@ export default function DataSetListing(props) {
           )
           // <AddCard firstText={screenlabels.addparticipants.firstText} secondText={screenlabels.addparticipants.secondText} addevent={() => history.push('/datahub/participants/add')}></AddCard>
         }
-        {(!props.datasetList || props.datasetList.length == 0) && (
+        {(!props.datasetList || props.datasetList.length === 0) && (
           <NoDatasetCard
             firstText={screenlabels.dataset.no_dataset_text1}
             secondText={screenlabels.dataset.no_dataset_text2}></NoDatasetCard>
@@ -77,9 +77,7 @@ export default function DataSetListing(props) {
               isMemberTab={props.isMemberTab}
               title={dataset.name}
               orgName={dataset.organization.name}
-              ageOfData={
-                dataset.age_of_date ? dataset.age_of_date : "N/A"
-              }
+              visiblity={dataset.is_public}
               publishedon={dataset.created_at}
               cropDetail={
                 dataset.crop_detail ? dataset.crop_detail : "N/A"

@@ -36,7 +36,7 @@ export default function GuestUserDatasetListing(props) {
                         isMemberTab={props.isMemberTab}
                         title={dataset.name}
                         orgName={dataset.organization.name}
-                        ageOfData={dataset.age_of_date}
+                        visiblity={dataset.is_public}
                         publishedon={dataset.updated_at}
                         cropDetail={dataset.crop_detail}
                         geography={dataset.geography}

@@ -618,7 +618,7 @@ export default function GuestUserDatasets() {
           setFilterState({});
         } else {
           setisShowLoadMoreButton(true);
-          if (value == "1") {
+          if (value === "1") {
             setDatasetUrl(response.data.next);
             // adminUrl = response.data.next
             setShowLoadMoreAdmin(true);
@@ -913,7 +913,7 @@ export default function GuestUserDatasets() {
                       <GuestUserDatasetListing
                         datasetList={datasetList}
                         isShowLoadMoreButton={showLoadMoreAdmin}
-                        isMemberTab={value == "2"}
+                        isMemberTab={value === "2"}
                         getDatasetList={getDatasetList}
                         viewCardDetails={(id) => viewCardDetails(id, true)}
                       />

@@ -159,7 +159,7 @@ export default function GuestUserDatasetCard(props) {
         </Row>
         <Row>
           <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
-            {screenlabels.dataset.age_of_data}
+            {"Data Visiblity"}
           </Col>
           <Col
             className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn width173px"
@@ -170,9 +170,9 @@ export default function GuestUserDatasetCard(props) {
         <Row className="supportcardmargintop">
           <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
 
-             <Tooltip TransitionComponent={Zoom} title={props.ageOfData == "" ? "N/A" : props.ageOfData}>
+             <Tooltip TransitionComponent={Zoom} title={props.visiblity ? "Public" : "Private"}>
                     <div style={{maxWidth: "135px"}} className="d-inline-block text-truncate"> 
-                      {props.ageOfData == "" ? "N/A" : props.ageOfData}
+                      {props.visiblity ? "Public" : "Private"}
                     </div>
              </Tooltip>
            
