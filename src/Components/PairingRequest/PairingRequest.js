@@ -356,6 +356,7 @@ const PairingRequest = (props) => {
                         // datasetDetailPage(
                         //   UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.data['ports']['consumer_app']
                         // );
+
                       }}
                     // onClick={() => {
                     //   datasetDetailPage(
