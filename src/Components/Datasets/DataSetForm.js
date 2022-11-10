@@ -603,7 +603,9 @@ export default function DataSetForm(props) {
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">
-            {screenlabels.dataset.Upload_dataset}
+            {props.isPublic
+              ? screenlabels.dataset.upload_public_dataset
+              : screenlabels.dataset.Upload_dataset}
           </span>
         </Col>
       </Row>

@@ -237,21 +237,17 @@ export default function GuestUserDatasetFilter(props) {
           {"Data Visiblity"}
         </span>
       </Row>
-      {props.dataAccessFilterDisplay.map(
-          (datavisiblity) =>
-           (
-              <FilterCheckBox
-                label={datavisiblity.name}
-                checked={datavisiblity.isChecked}
-                handleCheckListFilterChange={() =>
-                  props.handleFilterChange(
-                    datavisiblity.index,
-                   "datavisiblity"
-                  )
-                }
-              />
-            )
-        )}
+      {props.dataAccessFilterDisplay
+        ? props.dataAccessFilterDisplay.map((datavisiblity) => (
+            <FilterCheckBox
+              label={datavisiblity.name}
+              checked={datavisiblity.isChecked}
+              handleCheckListFilterChange={() =>
+                props.handleFilterChange(datavisiblity.index, "datavisiblity")
+              }
+            />
+          ))
+        : ""}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/geography.svg")} alt="new" />
