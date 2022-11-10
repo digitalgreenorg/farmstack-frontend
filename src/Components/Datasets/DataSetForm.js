@@ -566,36 +566,40 @@ export default function DataSetForm(props) {
           </RadioGroup>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
-          <span className="AddDatasetsecondaryheading">
-            {screenlabels.dataset.Availablity}
-          </span>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-            value={props.availablevalue}
-            onChange={props.handleChangeAvailable}
-          >
-            <FormControlLabel
-              value="Available"
-              control={<Radio />}
-              label={screenlabels.dataset.Available}
-            />
-            <FormControlLabel
-              value="Not Available"
-              control={<Radio />}
-              label="Not Available"
-              className="notavaiable"
-            />
-          </RadioGroup>
-        </Col>
-      </Row>
+
+      <div style={{ display: props.isPublic ? "none" : "" }}>
+        <Row>
+          <Col xs={12} sm={12} md={12} lg={12}>
+            <span className="AddDatasetsecondaryheading">
+              {screenlabels.dataset.Availablity}
+            </span>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} sm={12} md={12} lg={12} className="recordradiobtns">
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={props.availablevalue}
+              onChange={props.handleChangeAvailable}
+            >
+              <FormControlLabel
+                value="Available"
+                control={<Radio />}
+                label={screenlabels.dataset.Available}
+              />
+              <FormControlLabel
+                value="Not Available"
+                control={<Radio />}
+                label="Not Available"
+                className="notavaiable"
+              />
+            </RadioGroup>
+          </Col>
+        </Row>
+      </div>
+
       <Row>
         <Col xs={12} sm={12} md={12} lg={12}>
           <span className="AddDatasetsecondaryheading">

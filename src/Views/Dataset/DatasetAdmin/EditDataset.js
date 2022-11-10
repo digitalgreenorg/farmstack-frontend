@@ -312,6 +312,7 @@ export default function EditDataset() {
     console.log(event.target.value);
     setIsPublic(event.target.value === "true" ? true : false);
     // Reset sample file to upload
+    if (isPublic) setavailablevalue("Not Available");
     setFile(null);
   };
   const handleFileChange = (file) => {

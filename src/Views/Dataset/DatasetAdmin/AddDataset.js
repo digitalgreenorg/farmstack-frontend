@@ -228,6 +228,7 @@ export default function AddDataset(props) {
     setIsPublic(event.target.value === "true" ? true : false);
     // Set file to null whenever a public status is changed because the user could set
     // a different filetype than allowed for that specific visibility setting
+    if (isPublic) setavailablevalue("Not Available");
     setFile(null);
   };
   const handleChangeAvailable = (event) => {
