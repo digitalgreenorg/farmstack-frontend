@@ -566,7 +566,7 @@ export default function DataSetForm(props) {
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
-              value={props.isPublic ? "Not Available" : props.availablevalue}
+              value={props.availablevalue}
               onChange={props.handleChangeAvailable}
             >
               <FormControlLabel
