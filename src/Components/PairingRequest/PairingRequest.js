@@ -352,7 +352,7 @@ const PairingRequest = (props) => {
                       className="thirdmainheading dockerImageURL"
                       onClick={() => {
                         datasetDetailPage(
-                          UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.data['ports']['consumer_app']
+                          UrlConstants.base_url_without_slash_view_data+props.data['ports']['consumer_app']
                         );
                       }}
                       >
