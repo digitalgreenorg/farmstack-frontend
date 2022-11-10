@@ -741,10 +741,12 @@ export default function GuestUserDatasets() {
   };
 
   const getAllDataSets = () => {
+    resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
+    
     // resetUrls()
 
     setConstantyUpdateSwitch(false);
