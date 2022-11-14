@@ -1116,9 +1116,8 @@ export default function DatasetAdmin() {
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
-    if (datavisiblityPayload)
-    {
-        data["is_public__in"]=datavisiblityPayload;
+    if (datavisiblityPayload) {
+      data["is_public__in"] = datavisiblityPayload;
     }
     if (cropPayload !== "") {
       data["crop_detail__in"] = cropPayload;
@@ -1227,7 +1226,7 @@ export default function DatasetAdmin() {
     } else {
       getMyDataset(false);
     }
-    getDatasetList(false)
+    getDatasetList(false);
   };
 
   const filterByDates = () => {
@@ -1406,9 +1405,7 @@ export default function DatasetAdmin() {
             rowdata={viewdata}
             tabelkeys={tablekeys}
           ></ViewDataSet>
-          {isAdminView &&
-          viewdata.approval_status === "for_review" &&
-          viewdata.user_id === getUserLocal() ? (
+          {isAdminView && viewdata.user_id === getUserLocal() ? (
             <>
               <Row>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>

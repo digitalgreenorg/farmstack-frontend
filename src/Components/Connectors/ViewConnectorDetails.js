@@ -698,7 +698,7 @@ export default function ViewConnectorDetails(props) {
                     <Col></Col>
                   )}
                 </Row>
-                <Row className="supportViewDeatilsSecondRow"></Row> : <></>}
+                <Row className="supportViewDeatilsSecondRow"></Row> : <></>
               </Tooltip>
               {props.data["connector_type"] == "Consumer" &&
               props.data["connector_status"] == "paired" ? (
