@@ -401,16 +401,14 @@ export default function DatasetParticipant() {
       }
       setGeoFilterDisplay(tempFilerDisplay);
       setGeoSearchState("");
-    }
-    else if (filterName === "datavisiblity") {
+    } else if (filterName === "datavisiblity") {
       tempFilerDisplay = [...dataAccessFilterDisplay];
       for (let i = 0; i < tempFilerDisplay.length; i++) {
         tempFilerDisplay[i].isChecked = false;
         tempFilerDisplay[i].isDisplayed = true;
       }
       setDataAccessDisplay(tempFilerDisplay);
-    }   
-    else if (filterName ===screenlabels.dataset.age) {
+    } else if (filterName === screenlabels.dataset.age) {
       // tempfilterMaster = [...ageFilterMaster]
       // for(let i=0; i<tempfilterMaster.length; i++){
       //     tempfilterMaster[i].isChecked = false
@@ -1102,9 +1100,8 @@ export default function DatasetParticipant() {
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
-    if (datavisiblityPayload)
-    {
-        data["is_public__in"]=datavisiblityPayload;
+    if (datavisiblityPayload) {
+      data["is_public__in"] = datavisiblityPayload;
     }
     if (cropPayload !== "") {
       data["crop_detail__in"] = cropPayload;
@@ -1387,8 +1384,7 @@ export default function DatasetParticipant() {
             tabelkeys={tablekeys}
           ></ViewDataSet>
           <>
-            {(viewdata.approval_status == "for_review" ||
-              viewdata.approval_status == "approved") &&
+            {viewdata.approval_status !== "rejected" &&
             viewdata.user_id == getUserLocal() ? (
               <>
                 <Row>

@@ -1116,9 +1116,8 @@ export default function DatasetAdmin() {
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
-    if (datavisiblityPayload)
-    {
-        data["is_public__in"]=datavisiblityPayload;
+    if (datavisiblityPayload) {
+      data["is_public__in"] = datavisiblityPayload;
     }
     if (cropPayload !== "") {
       data["crop_detail__in"] = cropPayload;
@@ -1227,7 +1226,7 @@ export default function DatasetAdmin() {
     } else {
       getMyDataset(false);
     }
-    getDatasetList(false)
+    getDatasetList(false);
   };
 
   const filterByDates = () => {
@@ -1407,7 +1406,7 @@ export default function DatasetAdmin() {
             tabelkeys={tablekeys}
           ></ViewDataSet>
           {isAdminView &&
-          viewdata.approval_status === "for_review" &&
+          viewdata.approval_status !== "rejected" &&
           viewdata.user_id === getUserLocal() ? (
             <>
               <Row>
@@ -1440,163 +1439,109 @@ export default function DatasetAdmin() {
           ) : (
             <></>
           )}
-          {!isAdminView ? (
-            <>
-              {viewdata.approval_status == "for_review" ? (
-                <>
-                  <Row>
-                    <Col xs={12} sm={12} md={6} lg={3}></Col>
-                    <Col xs={12} sm={12} md={6} lg={6}>
-                      <Button
-                        onClick={() => {
-                          changeView("isApprove");
-                        }}
-                        variant="contained"
-                        className="submitbtn"
-                      >
-                        Approve Dataset
-                      </Button>
-                    </Col>
-                  </Row>
-                  <Row className="margin">
-                    <Col xs={12} sm={12} md={6} lg={3}></Col>
-                    <Col xs={12} sm={12} md={6} lg={6}>
-                      <Button
-                        onClick={() => changeView("isDisapprove")}
-                        style={{ "margin-top": "0px" }}
-                        variant="outlined"
-                        className="editbtn"
-                      >
-                        Disapprove Dataset
-                      </Button>
-                    </Col>
-                  </Row>
-                  <Row className="marginrowtop8px"></Row>
-                </>
-              ) : (
-                <></>
-              )}
+          {/* No need to check if it's admin view here. All these options should be available
+          as this is a dedicated UI for the admin.  */}
+          {/* {!isAdminView ? ( */}
+          <>
+            {viewdata.approval_status == "for_review" ? (
+              <>
+                <Row>
+                  <Col xs={12} sm={12} md={6} lg={3}></Col>
+                  <Col xs={12} sm={12} md={6} lg={6}>
+                    <Button
+                      onClick={() => {
+                        changeView("isApprove");
+                      }}
+                      variant="contained"
+                      className="submitbtn"
+                    >
+                      Approve Dataset
+                    </Button>
+                  </Col>
+                </Row>
+                <Row className="margin">
+                  <Col xs={12} sm={12} md={6} lg={3}></Col>
+                  <Col xs={12} sm={12} md={6} lg={6}>
+                    <Button
+                      onClick={() => changeView("isDisapprove")}
+                      style={{ "margin-top": "0px" }}
+                      variant="outlined"
+                      className="editbtn"
+                    >
+                      Disapprove Dataset
+                    </Button>
+                  </Col>
+                </Row>
+                <Row className="marginrowtop8px"></Row>
+              </>
+            ) : (
+              <></>
+            )}
 
-              {viewdata.approval_status === "rejected" ? (
-                <>
-                  <Row>
-                    <Col xs={12} sm={12} md={6} lg={3}></Col>
-                    <Col xs={12} sm={12} md={6} lg={6}>
-                      <Button
-                        onClick={() => {
-                          changeView("isApprove");
-                        }}
-                        variant="contained"
-                        className="submitbtn"
-                      >
-                        Approve Dataset
-                      </Button>
-                    </Col>
-                  </Row>
-                  <Row className="marginrowtop8px"></Row>
-                </>
-              ) : (
-                <></>
-              )}
+            {viewdata.approval_status === "rejected" ? (
+              <>
+                <Row>
+                  <Col xs={12} sm={12} md={6} lg={3}></Col>
+                  <Col xs={12} sm={12} md={6} lg={6}>
+                    <Button
+                      onClick={() => {
+                        changeView("isApprove");
+                      }}
+                      variant="contained"
+                      className="submitbtn"
+                    >
+                      Approve Dataset
+                    </Button>
+                  </Col>
+                </Row>
+                <Row className="marginrowtop8px"></Row>
+              </>
+            ) : (
+              <></>
+            )}
 
-              {viewdata.approval_status == "approved" && viewdata.is_enabled ? (
-                <>
-                  <Row>
-                    <Col xs={12} sm={12} md={6} lg={3}></Col>
-                    <Col xs={12} sm={12} md={6} lg={6}>
-                      <Button
-                        onClick={() => changeView("isDisable")}
-                        variant="outlined"
-                        className="editbtn"
-                      >
-                        Disable dataset
-                      </Button>
-                    </Col>
-                  </Row>
-                  <Row className="marginrowtop8px"></Row>
-                </>
-              ) : (
-                <></>
-              )}
-              {viewdata.approval_status == "approved" &&
-              !viewdata.is_enabled ? (
-                <>
-                  <Row>
-                    <Col xs={12} sm={12} md={6} lg={3}></Col>
-                    <Col xs={12} sm={12} md={6} lg={6}>
-                      <Button
-                        onClick={() => changeView("isEnable")}
-                        variant="outlined"
-                        className="editbtn"
-                      >
-                        Enable dataset
-                      </Button>
-                    </Col>
-                  </Row>{" "}
-                  <Row className="marginrowtop8px"></Row>
-                </>
-              ) : (
-                <></>
-              )}
-              {/* <Row>
-                        <span style={{ width: "700px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span><span className="fontweight400andfontsize14pxandcolor3D4A52" style={{"margin-top":"-11px"}}>{"or"}</span><span style={{ width: "724px", border: "1px solid rgba(238, 238, 238, 0.5)", height: "0px" }}></span>
-                    </Row>
-                    <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                        <span className="mainheading">{"Request changes"}</span>
-                    </Row>
-                    <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                        {false ? <Avatar
-                            src={""}
-                            sx={{ width: 56, height: 56 }}
-                        /> : <Avatar sx={{ bgcolor: "#c09507", width: 56, height: 56 }} aria-label="recipe">{"s"}</Avatar>}<span className="thirdmainheading" style={{ "margin-left": "8px" }}>{viewdata.organization['name']}</span><span className="requestChange" style={{ "margin-left": "8px" }}>{"  " + dateTimeFormat(viewdata['updated_at'],true)}</span>
-                    </Row>
-                    <Row style={{ "margin-left": "93px"}}>
-                        <span className="thirdmainheading" style={{ "margin-left": "64px", "margin-top": "-23px"}}>{"sdsdfsd"}</span>
-                    </Row>
-                    <Row style={{ "margin-left": "93px", "margin-top": "30px" }}>
-                        <TextField
-                            id="outlined-multiline-flexible"
-                            label="Replay"
-                            multiline
-                            maxRows={10}
-                            value={requestchange}
-                            onChange={(e) => setrequestchange(e.target.value)}
-                            variant="filled"
-                            style={{
-                                width: "93%", "margin-left": "60px",
-                                "margin-right": "70px"
-                            }}
-                        />
-                    </Row>
-                    <Row>
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            {(requestchange)
-                                ? (
-                                    <Button onClick={() => { requestChangeDataset()}} variant="contained" className="submitbtn">
-                                        {screenlabels.common.submit}
-                                    </Button>
-                                ) : (
-                                    <Button variant="outlined" disabled className="disbalesubmitbtn">
-                                        {screenlabels.common.submit}
-                                    </Button>
-                                )}
-                        </Col>
-                    </Row>
-                    <Row className="marginrowtop8px">
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => setrequestchange("")} variant="outlined" className="cancelbtn">
-                                {screenlabels.common.cancel}
-                            </Button>
-                        </Col>
-                    </Row> */}
-            </>
-          ) : (
+            {viewdata.approval_status == "approved" && viewdata.is_enabled ? (
+              <>
+                <Row>
+                  <Col xs={12} sm={12} md={6} lg={3}></Col>
+                  <Col xs={12} sm={12} md={6} lg={6}>
+                    <Button
+                      onClick={() => changeView("isDisable")}
+                      variant="outlined"
+                      className="editbtn"
+                    >
+                      Disable dataset
+                    </Button>
+                  </Col>
+                </Row>
+                <Row className="marginrowtop8px"></Row>
+              </>
+            ) : (
+              <></>
+            )}
+            {viewdata.approval_status == "approved" && !viewdata.is_enabled ? (
+              <>
+                <Row>
+                  <Col xs={12} sm={12} md={6} lg={3}></Col>
+                  <Col xs={12} sm={12} md={6} lg={6}>
+                    <Button
+                      onClick={() => changeView("isEnable")}
+                      variant="outlined"
+                      className="editbtn"
+                    >
+                      Enable dataset
+                    </Button>
+                  </Col>
+                </Row>{" "}
+                <Row className="marginrowtop8px"></Row>
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+          {/* ) : (
             <></>
-          )}
+          )} */}
         </>
       ) : (
         ""
