@@ -359,7 +359,15 @@ export default function DatasetAdmin() {
       }
       setStatusFilter(tempFilterDisplay);
 
-      payload = buildFilterPayLoad("", getUserLocal(), "", "", "", payloadList);
+      payload = buildFilterPayLoad(
+        "",
+        getUserLocal(),
+        "",
+        "",
+        "",
+        "",
+        payloadList
+      );
     } else if (filterName === screenlabels.dataset.enabled) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
