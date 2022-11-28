@@ -39,7 +39,7 @@ function AddParticipants(props) {
   const [firstname, setfirstname] = useState("");
   const [lastname, setlastname] = useState("");
   const [useremail, setuseremail] = useState("");
-  const [organisationlength, setorganisationlength] = useState(3);
+  // const [organisationlength, setorganisationlength] = useState(3);
   const [istrusted, setistrusted] = React.useState(false);
   const [isorganisationemailerror, setisorganisationemailerror] =
     useState(false);
@@ -58,7 +58,7 @@ function AddParticipants(props) {
   const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
   const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
   const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
-  const[orgSubscriptionErrorMessage, setOrgSubscriptionErrorMessage] = useState(null)
+  // const[orgSubscriptionErrorMessage, setOrgSubscriptionErrorMessage] = useState(null)
   
 
   const isValidURL = (string) => {
@@ -78,7 +78,7 @@ function AddParticipants(props) {
     setOrgNameErrorMessage(null)
     setOrgEmailErrorMessage(null)
     setOrgWebsiteErrorMessage(null)
-    setOrgSubscriptionErrorMessage(null)
+    // setOrgSubscriptionErrorMessage(null)
     setisorganisationemailerror(null)
 
     var bodyFormData = new FormData();
@@ -98,7 +98,7 @@ function AddParticipants(props) {
       })
     );
     bodyFormData.append("approval_status", istrusted)
-    bodyFormData.append("subscription", organisationlength);
+    // bodyFormData.append("subscription", organisationlength);
     bodyFormData.append("role", 3);
     setIsLoader(true);
     HTTPService(
@@ -128,7 +128,7 @@ function AddParticipants(props) {
               case "name": setOrgNameErrorMessage(errorMessages[i]); break;
               case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
               case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
-              case "subscription": setOrgSubscriptionErrorMessage(errorMessages[i]); break;
+              // case "subscription": setOrgSubscriptionErrorMessage(errorMessages[i]); break;
               default: history.push(GetErrorHandlingRoute(e)); break;
             }
           }
@@ -215,10 +215,10 @@ function AddParticipants(props) {
               }}
               isuseremailerror={isuseremailerror}
               isexisitinguseremail={isexisitinguseremail}
-              organisationlength={organisationlength}
-              setorganisationlength={(ref) => {
-                setorganisationlength(ref);
-              }}
+              // organisationlength={organisationlength}
+              // setorganisationlength={(ref) => {
+              //   setorganisationlength(ref);
+              // }}
               first_heading={screenlabels.addparticipants.first_heading}
               second_heading={screenlabels.addparticipants.second_heading}
               third_heading={
@@ -232,7 +232,7 @@ function AddParticipants(props) {
               orgNameErrorMessage={orgNameErrorMessage}
               orgEmailErrorMessage={orgEmailErrorMessage}
               orgWebsiteErrorMessage={orgWebsiteErrorMessage}
-              orgSubscriptionErrorMessage={orgSubscriptionErrorMessage}
+              // orgSubscriptionErrorMessage={orgSubscriptionErrorMessage}
               ></ParticipantForm>
             <Row>
               <Col xs={12} sm={12} md={6} lg={3}></Col>
@@ -248,8 +248,9 @@ function AddParticipants(props) {
                 pincode &&
                 firstname &&
                 useremail &&
-                !isuseremailerror &&
-                organisationlength ? (
+                !isuseremailerror ?
+                // organisationlength
+                 (
                   <Button
                     onClick={() => addNewParticipants()}
                     variant="contained"
