@@ -13,10 +13,11 @@ import validator from "validator";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 
-import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
+import { adminNotFoundRoute, GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
 
 export default function GuestUserContact(props) {
   // var validator = require('validator');
+  const [adminNotFound, setAdminNotFound] = useState(false)
   const history = useHistory();
   const [isLoader, setIsLoader] = useState(false);
   const [allFieldCorrect, setAllFieldCorrect] = useState(false);
@@ -179,21 +180,28 @@ export default function GuestUserContact(props) {
         console.log(response)
         const admin = response.data.user
         const organization = response.data.organization
-        console.log(admin, organization)
-        // console.log(admin)
+        const message = response.data.message
+        // console.log(admin, organization)
+        // console.log(organization)
+         console.log(admin)
+         console.log(message)
         setIsLoader(false);
+        const adminerror = (e) => {
+          history.push(adminNotFoundRoute(e))
+        }
         // console.log({admin_name: admin.first_name,org_name:organization.org_description,address:`${organization.address.address}, ${admin.address.city}`,phone_number:organization.phone_number,admin_email:admin.email,country:organization.address.country,city:organization.address.city,website:organization.website,admin_phone:admin.phone_number,admin_pin_code:organization.address.pincode,email_id:organization.org_email})
-        setDatahubUserDetails({admin_name: admin.first_name,org_name:organization.name,address:`${organization.address.address}, ${organization.address.city}`,phone_number:organization.phone_number,admin_email:admin.email,country:organization.address.country,city:organization.address.city,website:organization.website,admin_phone:admin.phone_number,admin_pin_code:organization.address.pincode,email_id:organization.org_email
-    })
+        setDatahubUserDetails((admin == null) ? setAdminNotFound(adminerror)
+        : ({admin_name: admin.first_name, org_name:organization.name,address:`${organization.address.address}, ${organization.address.city}`,phone_number:organization.phone_number,admin_email:admin.email,country:organization.address.country,city:organization.address.city,website:organization.website,admin_phone:admin.phone_number,admin_pin_code:organization.address.pincode,email_id:organization.org_email
         // setIsSuccess(true);
       })
+        )
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
         // setisexisitinguseremail(true);
-        history.push(GetErrorHandlingRoute(e));
+       history.push(GetErrorHandlingRoute(e));
       });
-  };
+  })};
 
   useEffect(() => {
     getDatahubAdminDetails()
