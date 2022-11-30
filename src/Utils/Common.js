@@ -276,3 +276,28 @@ export function debounce(func, wait) {
     }, wait);
   };
 }
+export const adminNotFoundRoute = (e) => {
+  var errorMessage = '';
+  if(e.response && e.response.data && e.response.data.message){
+    errorMessage = e.response.data.message
+  }
+
+  else if (e.response){
+    errorMessage = e.response.statusText
+  }
+  else{
+    errorMessage = 'Admin not found'
+  }
+  setErrorLocal({'ErrorCode': e.response ? e.response.status : 'Admin not found', 
+  'ErrorMessage': errorMessage});
+  if (
+    e.response != null &&
+    e.response != undefined &&
+    e.response.status == HTTP_CONSTANTS.SESSION_TIMEOUT
+  ) {
+    console.log(e.response.status);
+    return "/sessionexpired";
+  } else {
+    return "/error";
+  }
+};

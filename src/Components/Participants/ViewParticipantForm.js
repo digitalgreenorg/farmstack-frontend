@@ -187,23 +187,25 @@ export default function ViewParticipantForm(props) {
             </Row>
             <hr className="separatorline"/>
             <Row style={useStyles.marginrowtop}>
-                <Col xs={12} sm={12} md={12} lg={12}  style={useStyles.left}>
+                {/* <Col xs={12} sm={12} md={12} lg={12}  style={useStyles.left}>
                     <span className="mainheading" style={{"margin-top": "-37px"}}>
                         {screenlabels.viewparticipants.third_heading}
                     </span>
-                </Col>
-                <Col xs={12} sm={12} md={12} lg={12} >
-                <span className="mainheading" style={useStyles.fourthhead}>
+                </Col> */}
+                <Col xs={12} sm={12} md={12} lg={12} style={{"float":"left", "text-align":"left", "margin-top":"-32px"}}>
+                <span className="mainheading" style={{"margin-top": "-37px"}}>
                     {screenlabels.viewparticipants.fourth_heading}
                 </span>
-                <span  style={useStyles.Fourthhead}>
+                </Col>
+                <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
+                    <span className="thirdmainheading d-inline-block text-truncate width300px_mt5px">
                     {props.istrusted ? "Yes" : "No"}
                 </span>
                 </Col>
                 
             </Row>
             <Row style={useStyles.marginrowtop}>
-                <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
+                {/* <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
                     <span className="secondmainheading" style={{"float":"left", "text-align":"left", "margin-top":"-62px"}}>
                     {screenlabels.viewparticipants.subscripiton_length}
                     </span>
@@ -216,7 +218,7 @@ export default function ViewParticipantForm(props) {
                     </span>
                     </Tooltip>
 
-                </Col>
+                </Col> */}
             </Row>
             <hr className="separatorline"/>
         </>

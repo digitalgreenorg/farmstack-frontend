@@ -200,16 +200,16 @@ export default function ParticipantForm(props) {
             <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
             <Row style={useStyles.marginrowtop}>
             <Col xs={12} sm={12} md={12} lg={12}>
-                <span className="mainheading" style={{float: 'left', 'margin-left': '15px', 'margin-top': '5px'}}>
+                {/* <span className="mainheading" style={{float: 'left', 'margin-left': '15px', 'margin-top': '5px'}}>
                     {props.third_heading}
-                </span>
-                <span className="mainheading" style={{float: 'left', 'margin-left': '41px', 'margin-top': '5px'}}>
+                </span> */}
+                <span className="mainheading" style={{float: 'left', 'margin-left': '15px', 'margin-top': '5px'}}>
                     {props.fourth_heading}
                 </span>
             </Col>
             </Row>
             <Row style={useStyles.marginrowtop}>
-                <Col xs={12} sm={12} md={6} lg={6} >
+                {/* <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         select
                         margin="normal"
@@ -227,13 +227,13 @@ export default function ParticipantForm(props) {
                         <MenuItem value={1}>1 month</MenuItem>
                         <MenuItem value={3}>3 month</MenuItem>
                         <MenuItem value={6}>6 month</MenuItem>
-                        <MenuItem value={12}>12 month</MenuItem>
+                        <MenuItem value={12}>12 month</MenuItem> */}
 
                         {/* error={props.orgSubscriptionErrorMessage ? true: false}
                         helperText={props.orgSubscriptionErrorMessage} */}
 
-                    </TextField>
-                </Col>
+                    {/* </TextField>
+                </Col> */}
                 <Col xs={12} sm={12} md={6} lg={6} >
                 <FormControlLabel
             control={

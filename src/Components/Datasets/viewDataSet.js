@@ -260,7 +260,7 @@ export default function ViewDataSet(props) {
           <span className="secondmainheading">{"Data capture interval"}</span>
         </Col>
         <Col>
-          <span className="secondmainheading">{"Size of actual data"}</span>
+          <span className="secondmainheading">{"Number of Rows"}</span>
         </Col>
         <Col>
           <span className="secondmainheading">{"Connector availablity"}</span>
