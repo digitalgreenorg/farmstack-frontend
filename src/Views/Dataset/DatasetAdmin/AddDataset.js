@@ -250,7 +250,7 @@ export default function AddDataset(props) {
   };
   const handleChangedescription = (e) => {
     console.log(e.target.value);
-    validateInputField(e.target.value, RegexConstants.connector_name)
+    validateInputField(e.target.value, RegexConstants.ORG_NAME_REGEX)
       ? setreply(e.target.value)
       : e.preventDefault();
   };

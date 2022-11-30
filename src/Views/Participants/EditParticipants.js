@@ -34,7 +34,7 @@ function EditParticipants(props) {
     const [lastname, setlastname] = useState("");
     const [useremail, setuseremail] = useState("");
     const [idorg, setidorg] = useState("");
-    const [organisationlength, setorganisationlength] = useState(3);
+    // const [organisationlength, setorganisationlength] = useState(3);
     const [isorganisationemailerror, setisorganisationemailerror] = useState(false);
     const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
     const [iswebsitelinkrerror, setwebsitelinkerror] = useState(false);
@@ -51,7 +51,7 @@ function EditParticipants(props) {
     const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
     const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
     const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
-    const[orgSubscriptionErrorMessage, setOrgSubscriptionErrorMessage] = useState(null)
+    // const[orgSubscriptionErrorMessage, setOrgSubscriptionErrorMessage] = useState(null)
 
     const history = useHistory();
     const { id } = useParams()
@@ -78,7 +78,7 @@ function EditParticipants(props) {
             setfirstname(response.data.user.first_name)
             setlastname(response.data.user.last_name)
             setuseremail(response.data.user.email)
-            setorganisationlength(response.data.user.subscription)
+            // setorganisationlength(response.data.user.subscription)
             setidorg(response.data.organization_id)
             setistrusted(response.data.user.approval_status)
         }).catch((e) => {
@@ -96,7 +96,7 @@ function EditParticipants(props) {
         setOrgNameErrorMessage(null)
         setOrgEmailErrorMessage(null)
         setOrgWebsiteErrorMessage(null)
-        setOrgSubscriptionErrorMessage(null)
+        // setOrgSubscriptionErrorMessage(null)
         setisorganisationemailerror(null)
 
         var bodyFormData = new FormData();
@@ -108,7 +108,7 @@ function EditParticipants(props) {
         bodyFormData.append('phone_number', contactnumber);
         bodyFormData.append('website', websitelink);
         bodyFormData.append('address', JSON.stringify({ "address": organisationaddress, "country": countryvalue, "pincode": pincode }));
-        bodyFormData.append('subscription', organisationlength);
+        // bodyFormData.append('subscription', organisationlength);
         bodyFormData.append('role', 3);
         bodyFormData.append('id', idorg);
         bodyFormData.append("approval_status", istrusted)
@@ -132,7 +132,7 @@ function EditParticipants(props) {
                     case "name": setOrgNameErrorMessage(errorMessages[i]); break;
                     case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
                     case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
-                    case "subscription": setOrgSubscriptionErrorMessage(errorMessages[i]); break;
+                    // case "subscription": setOrgSubscriptionErrorMessage(errorMessages[i]); break;
                     default: history.push(GetErrorHandlingRoute(e)); break;
                     }
                 }
@@ -178,23 +178,23 @@ function EditParticipants(props) {
                     setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)); setisexisitinguseremail(false)}}
                     isuseremailerror={isuseremailerror}
                     isexisitinguseremail={isexisitinguseremail}
-                    organisationlength={organisationlength}
-                    setorganisationlength={ref => { setorganisationlength(ref) }}
+                    // organisationlength={organisationlength}
+                    // setorganisationlength={ref => { setorganisationlength(ref) }}
                     first_heading={screenlabels.editparticipants.first_heading}
                     second_heading={screenlabels.editparticipants.second_heading}
-                    third_heading={screenlabels.editparticipants.third_heading}
+                    // third_heading={screenlabels.editparticipants.third_heading}
                     fourth_heading={screenlabels.editparticipants.fourth_heading}
                     orgNameErrorMessage={orgNameErrorMessage}
                     orgEmailErrorMessage={orgEmailErrorMessage}
                     orgWebsiteErrorMessage={orgWebsiteErrorMessage}
-                    orgSubscriptionErrorMessage={orgSubscriptionErrorMessage}
+                    // orgSubscriptionErrorMessage={orgSubscriptionErrorMessage}
                 >
                 </ParticipantForm>
                     <Row>
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            {(organisationname && orginsationemail && !isorganisationemailerror && countryvalue && contactnumber.length==15 && websitelink && !iswebsitelinkrerror && organisationaddress && pincode && firstname && useremail && !isuseremailerror && organisationlength)
+                            {(organisationname && orginsationemail && !isorganisationemailerror && countryvalue && contactnumber.length==15 && websitelink && !iswebsitelinkrerror && organisationaddress && pincode && firstname && useremail && !isuseremailerror)
                                 ? (
                                     <Button onClick={() => addNewParticipants()} variant="contained" className="submitbtn">
                                         {screenlabels.common.submit}

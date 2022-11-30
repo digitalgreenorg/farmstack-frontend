@@ -32,7 +32,7 @@ function ViewParticipants(props) {
     const [firstname, setfirstname] = useState("");
     const [lastname, setlastname] = useState("");
     const [useremail, setuseremail] = useState("");
-    const [organisationlength, setorganisationlength] = useState(3);
+    // const [organisationlength, setorganisationlength] = useState(3);
     const [istrusted, setistrusted] = React.useState(false);
     const [isorganisationemailerror, setisorganisationemailerror] = useState(false);
     const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
@@ -68,7 +68,7 @@ function ViewParticipants(props) {
             setfirstname(response.data.user.first_name)
             setlastname(response.data.user.last_name)
             setuseremail(response.data.user.email)
-            setorganisationlength(response.data.user.subscription)
+            // setorganisationlength(response.data.user.subscription)
             setistrusted(response.data.user.approval_status)
             console.log("otp valid", response.data);
         }).catch((e) => {
@@ -122,7 +122,7 @@ function ViewParticipants(props) {
                         firstname={firstname}
                         lastname={lastname}
                         useremail={useremail}
-                        organisationlength={organisationlength}
+                        // organisationlength={organisationlength}
                         istrusted={istrusted}
                     >
                     </ViewParticipantForm>
