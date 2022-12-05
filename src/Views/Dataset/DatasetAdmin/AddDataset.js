@@ -70,7 +70,6 @@ export default function AddDataset(props) {
   const [fromdate, setfromdate] = React.useState(null);
   const [todate, settodate] = React.useState(null);
   const [CheckEndDate, setCheckEndDate] = useState(false);
-
   const [file, setFile] = useState(null);
   const [fileValid, setfileValid] = useState("");
 
@@ -300,7 +299,9 @@ export default function AddDataset(props) {
 
   const handleChangeSwitch = (event) => {
     console.log("switch", event.target.checked);
-    setSwitchchecked(event.target.checked);
+    setSwitchchecked(event.target.checked); 
+    settodate(null);
+    setfromdate(null);
   };
 
   //   checkbox
@@ -456,7 +457,8 @@ export default function AddDataset(props) {
               reply &&
               Geography &&
               !CheckEndDate &&
-              file &&
+              file &&    
+             ( Switchchecked || fromdate) &&  
               // file.size < 2097152 &&
               (Crop_data == true ||
                 Practice_data == true ||

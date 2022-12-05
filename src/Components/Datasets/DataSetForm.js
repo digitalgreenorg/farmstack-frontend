@@ -438,6 +438,7 @@ export default function DataSetForm(props) {
                 inputFormat="dd/MM/yyyy"
                 disabled
                 value={props.fromdate}
+                onChange={props.handleChangeFromDate}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -463,6 +464,7 @@ export default function DataSetForm(props) {
                     id="filled-basic"
                     variant="filled"
                     className="totextfield"
+                    disabled
                   />
                 )}
                 error={props.dataCaptureEndErrorMessage ? true : false}
@@ -493,6 +495,7 @@ export default function DataSetForm(props) {
                     id="filled-basic"
                     variant="filled"
                     className="fromtextfield"
+                    aria-readonly
                   />
                 )}
               />

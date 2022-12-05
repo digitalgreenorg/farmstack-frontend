@@ -172,7 +172,7 @@ const labels = {
       Interval: "Data capture interval",
       Start_Date: "Start date ",
       End_Date: "End date ",
-      Records: " Number of rows (records)",
+      Records: " Number of rows ",
       Availablity: "Connector availablity",
       Available: "Available",
       Not_Available: "Not available",
