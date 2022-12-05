@@ -70,8 +70,6 @@ export default function AddDataset(props) {
   const [fromdate, setfromdate] = React.useState(null);
   const [todate, settodate] = React.useState(null);
   const [CheckEndDate, setCheckEndDate] = useState(false);
-  const [checkStartDate, setCheckStartDate] = useState(false);
-
   const [file, setFile] = useState(null);
   const [fileValid, setfileValid] = useState("");
 

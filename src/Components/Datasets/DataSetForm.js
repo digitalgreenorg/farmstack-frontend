@@ -438,7 +438,6 @@ export default function DataSetForm(props) {
                 inputFormat="dd/MM/yyyy"
                 disabled
                 value={props.fromdate}
-                readOnly
                 onChange={props.handleChangeFromDate}
                 renderInput={(params) => (
                   <TextField
@@ -446,9 +445,6 @@ export default function DataSetForm(props) {
                     id="filled-basic"
                     variant="filled"
                     className="fromtextfield"
-                    // disabled={true} 
-                    // readOnly={true}
-                    // onFocus={e => e.target.blur()}
                   />
                 )}
                 error={props.dataCaptureStartErrorMessage ? true : false}
