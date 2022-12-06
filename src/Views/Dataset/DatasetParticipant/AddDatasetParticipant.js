@@ -291,8 +291,6 @@ export default function AddDataset(props) {
   const handleChangeSwitch = (event) => {
     console.log("switch", event.target.checked);
     setSwitchchecked(event.target.checked);
-    setfromdate(null);
-    settodate(null);
   };
 
   //   checkbox
@@ -482,7 +480,6 @@ export default function AddDataset(props) {
                 Geography &&
                 !CheckEndDate &&
                 file &&
-                (Switchchecked || fromdate) &&
                 file.size < 2097152 &&
                 (Crop_data == true ||
                   Practice_data == true ||
