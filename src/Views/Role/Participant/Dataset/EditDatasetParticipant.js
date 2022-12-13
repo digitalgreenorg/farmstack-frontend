@@ -169,7 +169,7 @@ export default function EditDatasetParticipant() {
     setIsLoader(true);
     HTTPService(
       "PUT",
-      UrlConstants.base_url + UrlConstants.datasetparticipant + id + "/",
+      UrlConstants.base_url + UrlConstants.dataset + id + "/",
       bodyFormData,
       true,
       true
