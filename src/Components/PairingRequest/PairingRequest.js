@@ -333,7 +333,7 @@ const PairingRequest = (props) => {
               <Tooltip
                 title={
                   props.data["ports"]
-                    ? UrlConstants.REACT_APP_BASEURL_without_slash_view_data + props.data['ports']['consumer_app']
+                    ? UrlConstants.view_data_connector + props.data['ports']['consumer_app']
                     : ""
                 }>
                 <div
@@ -350,11 +350,12 @@ const PairingRequest = (props) => {
                       className="thirdmainheading dockerImageURL"
                       onClick={() => {
                         datasetDetailPage(
-                          UrlConstants.REACT_APP_BASEURL_without_slash_view_data + props.data['ports']['consumer_app']
+                          UrlConstants.view_data_connector + props.data['ports']['consumer_app']
                         );
                       }}
                     >
                       {props.data["ports"] ? "Click here" : ""}
+                      {/* provider  */}
                     </span>
                   ) : (
                     <span>{""}</span>
