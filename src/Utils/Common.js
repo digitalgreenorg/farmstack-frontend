@@ -7,6 +7,7 @@ import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 import HTTPService from "../Services/HTTPService";
 import FileSaver from "file-saver";
 import UrlConstant from "../Constants/UrlConstants";
+import { Wind } from "react-bootstrap-icons";
 export const setTokenLocal = (token) => {
   localStorage.setItem(
     LocalStorageConstants.KEYS.JWTToken,
@@ -101,31 +102,33 @@ export const handleNameFieldEntry = (fieldValue, e) => {
 
 export const GetErrorHandlingRoute = (e) => {
   var errorMessage = '';
-  if(e.response && e.response.data && e.response.data.message){
+  if (e.response && e.response.data && e.response.data.message) {
     errorMessage = e.response.data.message
   }
-  else if (e.response && e.response.data){
-    try{
+  else if (e.response && e.response.data) {
+    try {
       JSON.parse(e.response.data)
       errorMessage = String(e.response.data)
     }
-    catch(e){
-      if (e.response){
+    catch (e) {
+      if (e.response) {
         errorMessage = e.response.statusText
       }
-      else{
+      else {
         errorMessage = 'Unknown'
       }
     }
   }
-  else if (e.response){
+  else if (e.response) {
     errorMessage = e.response.statusText
   }
-  else{
+  else {
     errorMessage = 'unknown'
   }
-  setErrorLocal({'ErrorCode': e.response ? e.response.status : 'unknown', 
-  'ErrorMessage': errorMessage});
+  setErrorLocal({
+    'ErrorCode': e.response ? e.response.status : 'unknown',
+    'ErrorMessage': errorMessage
+  });
   if (
     e.response != null &&
     e.response != undefined &&
@@ -158,7 +161,7 @@ export const getErrorLocal = () => {
 export const isLoggedInUserAdmin = () => {
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-        LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
+    LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
     : false;
 };
 
@@ -166,7 +169,7 @@ export const isLoggedInUserParticipant = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-        LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
+    LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
     : false;
 };
 
@@ -177,27 +180,27 @@ export const fileUpload = (bodyFormData, file, Key) => {
   }
 };
 
-export const dateTimeFormat = (datetime,istime) => {
+export const dateTimeFormat = (datetime, istime) => {
   const today = new Date(datetime)
   var y = today.getFullYear()
   var m = (today.getMonth() + 1).toString().padStart(2, "0")
   var d = today.getDate().toString().padStart(2, "0")
   var h = today.getHours()
-  var mi =(today.getMinutes()<10?'0':'')+today.getMinutes()
+  var mi = (today.getMinutes() < 10 ? '0' : '') + today.getMinutes()
   var s = today.getSeconds();
-  if(istime){
+  if (istime) {
     let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
     return format
-  }else{
+  } else {
     let format = d + "/" + m + "/" + y
     return format
   }
-  
+
 };
 
 export const flushLocalstorage = () => {
-  Object.keys(LocalStorageConstants.KEYS).map((key,i)=>{
-    console.log(key); 
+  Object.keys(LocalStorageConstants.KEYS).map((key, i) => {
+    console.log(key);
     if (localStorage.getItem(key)) {
       localStorage.removeItem(key)
     }
@@ -215,8 +218,8 @@ export const downloadAttachment = (uri, name) => {
 export const GetErrorKey = (e, keyList) => {
   var errorKeys = []
   var errorMessages = []
-  for (var key of keyList){
-    if (e.response && e.response.status === 400 && e.response.data && e.response.data[key]){
+  for (var key of keyList) {
+    if (e.response && e.response.status === 400 && e.response.data && e.response.data[key]) {
       errorKeys.push(key)
       errorMessages.push(e.response.data[key][0])
     }
@@ -231,14 +234,16 @@ export const getDockerHubURL = (dockerImageName) => {
 }
 export const openLinkInNewTab = (url) => {
   console.log(url)
-  if(url.includes("http")){
+  if (url.includes("http")) {
     localStorage.setItem("show_data", JSON.stringify(url))
+    window.open(url)
     // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
 
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // history.push("connectors/detail")
-  }else{
-    localStorage.setItem("show_data", JSON.stringify("http://"+ url))
+  } else {
+    localStorage.setItem("show_data", JSON.stringify("http://" + url))
+    window.open("http://" + url)
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
     // window.open("http://"+url,'_blank');
@@ -247,8 +252,8 @@ export const openLinkInNewTab = (url) => {
 }
 
 
-export const mobileNumberMinimunLengthCheck = (number) =>{
-  return number.length>=10
+export const mobileNumberMinimunLengthCheck = (number) => {
+  return number.length >= 10
 }
 
 export function toTitleCase(str) {
@@ -260,18 +265,18 @@ export const isParticipantRoute = (url) => {
   return url.toLowerCase().includes('/participant/')
 }
 
-export const isRoleName= (url) => {
+export const isRoleName = (url) => {
   console.log(url)
-  if(url.toLowerCase().includes('/participant/')){
+  if (url.toLowerCase().includes('/participant/')) {
     return '/participant/'
   }
-  if(url.toLowerCase().includes('/datahub/')){
+  if (url.toLowerCase().includes('/datahub/')) {
     return '/datahub/'
   }
 }
 export function debounce(func, wait) {
   let timeout;
-  return function(...args) {
+  return function (...args) {
     const context = this;
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => {

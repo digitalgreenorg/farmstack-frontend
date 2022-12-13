@@ -48,11 +48,11 @@ const PairingRequest = (props) => {
   //     port_number: "1044",
   //     project_name: "Default",
   //   };
-  const datasetDetailPage = (url)=>{
+  const datasetDetailPage = (url) => {
     console.log(url)
     openLinkInNewTab(url)
-    history.push("connectors/detail")
-}
+    // history.push("connectors/detail")
+  }
 
   return (
     <div style={{}} className={styles.mainPairRequest}>
@@ -169,8 +169,8 @@ const PairingRequest = (props) => {
               title={
                 props.data["connector_details"]
                   ? getDockerHubURL(
-                      props.data["connector_details"]["docker_image_url"]
-                    )
+                    props.data["connector_details"]["docker_image_url"]
+                  )
                   : ""
               }>
               <div
@@ -334,8 +334,8 @@ const PairingRequest = (props) => {
                 title={
                   props.data["ports"]
                     ? UrlConstants.view_data_connector +
-                      props.data["ports"]["consumer_app"] +
-                      "/show_data"
+                    props.data["ports"]["consumer_app"] +
+                    "/show_data"
                     : ""
                 }>
                 <div
@@ -352,10 +352,10 @@ const PairingRequest = (props) => {
                       className="thirdmainheading dockerImageURL"
                       onClick={() => {
                         datasetDetailPage(
-                          UrlConstants.base_url_without_slash +"/participant/connectors/show_data/?port=" +props.data['ports']['consumer_app']
+                          UrlConstants.REACT_APP_BASEURL_without_slash_view_data + props.data['ports']['consumer_app']
                         );
                       }}
-                      >
+                    >
                       {props.data["ports"] ? "Click here" : ""}
                     </span>
                   ) : (
@@ -386,25 +386,25 @@ const PairingRequest = (props) => {
       ) : (
         <></>
       )}
-      {props.data["connector_pair_status"] == "paired" ? 
-         <><Row>
-         <Col xs={12} sm={12} md={6} lg={3} >
-         </Col>
-         <Col xs={12} sm={12} md={6} lg={6} >
-             <Button onClick={() => props.approveReject(props.data["id"], 'unpaired')} variant="outlined" className="submitbtn">
-                 Unpair
+      {props.data["connector_pair_status"] == "paired" ?
+        <><Row>
+          <Col xs={12} sm={12} md={6} lg={3} >
+          </Col>
+          <Col xs={12} sm={12} md={6} lg={6} >
+            <Button onClick={() => props.approveReject(props.data["id"], 'unpaired')} variant="outlined" className="submitbtn">
+              Unpair
+            </Button>
+          </Col>
+        </Row>
+          <Row className="margin">
+            <Col xs={12} sm={12} md={6} lg={3} >
+            </Col>
+            <Col xs={12} sm={12} md={6} lg={6} >
+              <Button onClick={() => props.cancel()} style={{ "margin-top": "0px" }} variant="outlined" className="editbtn">
+                Cancel
               </Button>
-         </Col>
-     </Row>
-         <Row className="margin">
-             <Col xs={12} sm={12} md={6} lg={3} >
-             </Col>
-             <Col xs={12} sm={12} md={6} lg={6} >
-                 <Button onClick={() => props.cancel()} style={{ "margin-top": "0px" }} variant="outlined" className="editbtn">
-                     Cancel
-                  </Button>
-             </Col>
-         </Row><Row className="marginrowtop8px"></Row></> : <></>}
+            </Col>
+          </Row><Row className="marginrowtop8px"></Row></> : <></>}
       {/* //   <div>
       //     <button
       //       className={styles.approvebutton}
