@@ -155,7 +155,7 @@ export default function GuestUserDatasetFilter(props) {
             />
           </LocalizationProvider>
         </span>
-        {props.fromdate && props.todate ? (
+        {props.fromdate && props.todate && (props.fromdate <= props.todate) ? (
           <span className="supportsubmitbrn">
             <Button
               onClick={() => props.filterByDates()}
