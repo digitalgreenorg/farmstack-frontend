@@ -51,6 +51,7 @@ const PairingRequest = (props) => {
   const datasetDetailPage = (url) => {
     console.log(url)
     openLinkInNewTab(url)
+    window.open("connectors/detail")
     // history.push("connectors/detail")
   }
 
@@ -333,7 +334,7 @@ const PairingRequest = (props) => {
               <Tooltip
                 title={
                   props.data["ports"]
-                    ? UrlConstants.view_data_connector + props.data['ports']['consumer_app']
+                    ? UrlConstants.base_url + "participant/connectors/show_data/?port=" + props.data['ports']['consumer_app']
                     : ""
                 }>
                 <div
@@ -350,12 +351,14 @@ const PairingRequest = (props) => {
                       className="thirdmainheading dockerImageURL"
                       onClick={() => {
                         datasetDetailPage(
-                          UrlConstants.view_data_connector + props.data['ports']['consumer_app']
+                          // UrlConstants.view_data_connector + props.data['ports']['consumer_app']
+                          //"https://datahubtest.farmstack.co/be/participant/connectors/show_data/?port=9020"
+                          UrlConstants.base_url + "participant/connectors/show_data/?port=" + props.data['ports']['consumer_app']
                         );
                       }}
                     >
                       {props.data["ports"] ? "Click here" : ""}
-                      {/* provider  */}
+                      {/*datahub provider  */}
                     </span>
                   ) : (
                     <span>{""}</span>

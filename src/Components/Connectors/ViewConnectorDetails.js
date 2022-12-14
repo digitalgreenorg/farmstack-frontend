@@ -43,6 +43,8 @@ export default function ViewConnectorDetails(props) {
     const datasetDetailPage = (url) => {
         openLinkInNewTab(url)
         // history.push("connectors/detail")
+        window.open("connectors/detail")
+
     }
 
     return (
@@ -365,10 +367,10 @@ export default function ViewConnectorDetails(props) {
                         </Tooltip>
                     </Col>
                     {props.data['connector_status'] == 'paired' ? <Col>
-                        <Tooltip title={props.providerdata['ports'] ? UrlConstants.view_data_connector + props.providerdata['ports']['consumer_app'] : ''}>
+                        <Tooltip title={props.providerdata['ports'] ? UrlConstants.base_url + "participant/connectors/show_data/?port=" + props.providerdata['ports']['consumer_app'] : ''}>
                             <Row style={useStyles.datasetdescription}>
-                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { datasetDetailPage(UrlConstants.view_data_connector + props.providerdata['ports']['consumer_app']) }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
-                                {/* consumer */}
+                                {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { datasetDetailPage(UrlConstants.base_url + "participant/connectors/show_data/?port=" + props.providerdata['ports']['consumer_app']) }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>}
+                                {/* datahub consumer */}
                                 {/* {props.providerdata['ports'] ? <span className="thirdmainheading dockerImageURL" onClick={() => { history.push("connectors/detail") }}>{props.providerdata["ports"] ? "Click here" : ""}</span> : <span>{""}</span>} */}
                             </Row>
                         </Tooltip>

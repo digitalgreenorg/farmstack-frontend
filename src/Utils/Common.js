@@ -237,14 +237,14 @@ export const openLinkInNewTab = (url) => {
   // window.open(url)
   if (url.includes("http")) {
     localStorage.setItem("show_data", JSON.stringify(url))
-    window.open(url)
+    // window.open(url)
     // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
 
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // history.push("connectors/detail")
   } else {
     localStorage.setItem("show_data", JSON.stringify("http://" + url))
-    window.open("http://" + url)
+    // window.open("http://" + url)
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
     // window.open("http://"+url,'_blank');
