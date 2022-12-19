@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import labels from "../../Constants/labels";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -15,6 +15,19 @@ import Search from "../Datasets/Search";
 
 export default function GuestUserDatasetFilter(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
+  useEffect(() => {
+    setTimeout(() => {
+      $(".supportcardfromdate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+      $(".supportcardtodate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+    }, 100);
+    ;
+  }, []);
 
   return (
     <div>
@@ -121,7 +134,7 @@ export default function GuestUserDatasetFilter(props) {
               value={props.fromdate}
               onChange={(newValue) => {
                 props.settodate(null);
-                props.setfromdate(newValue);
+                props.setfromdate(newValue);              
                 //   props.setIsShowAll(false)
                 props.resetFilterState(screenlabels.dataset.geography);
                 props.resetFilterState(screenlabels.dataset.age);
@@ -129,11 +142,11 @@ export default function GuestUserDatasetFilter(props) {
                 props.resetFilterState(screenlabels.dataset.status);
                 props.resetFilterState(screenlabels.dataset.enabled);
                 setTimeout(() => {
-                  $(".supportcardtodate input.MuiInputBase-input").attr(
-                    "disabled",
-                    "disabled"
-                  );
-                }, 100);
+                   $(".supportcardtodate input.MuiInputBase-input").attr(
+                     "disabled",
+                     "disabled"
+                 );
+                 }, 100);
               }}
               renderInput={(params) => <TextField {...params} />}
             />

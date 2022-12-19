@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import labels from "../../Constants/labels";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -16,6 +16,19 @@ import { InputAdornment } from "@material-ui/core";
 import Search from "../../Components/Datasets/Search";
 export default function DataSetFilter(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
+  useEffect(() => {
+    setTimeout(() => {
+      $(".supportcardfromdate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+      $(".supportcardtodate input.MuiInputBase-input").attr(
+        "disabled",
+        "disabled"
+      );
+    }, 100);
+    ;
+  }, []);
 
   return (
     <div>
