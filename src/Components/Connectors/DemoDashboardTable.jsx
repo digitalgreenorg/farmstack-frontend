@@ -33,7 +33,7 @@ const DemoDashboardTable = () => {
     ).then((response) => {
       setData(response.data)
       // localStorage.removeItem("show_data")
-      console.log(response)
+      // console.log(response)
       let val = []
 
       for (let key in response.data[0]) {
