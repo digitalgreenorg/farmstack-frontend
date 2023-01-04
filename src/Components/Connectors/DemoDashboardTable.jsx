@@ -18,7 +18,6 @@ const DemoDashboardTable = () => {
   const history = useHistory()
   const [isError, setError] = useState(false)
   const [isLoading, setLoader] = useState(false)
-  console.log("checking")
   let urlToHit = JSON.parse(localStorage.getItem("show_data"))
 
 
