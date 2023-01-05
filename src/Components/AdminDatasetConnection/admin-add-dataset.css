@@ -1,0 +1,35 @@
+#admin_add_dataset_main_container .Mui-selected {
+    background-color: #c09507 !important;
+    color: white !important;
+    text-transform: none;
+}
+
+.main_heading_row {
+    text-align: left;
+}
+
+.Main_heading_add_dataset {
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.connect_btn {
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid #c09507;
+    width: 80%;
+}
+
+.connect_btn:hover {
+    background-color: #c09507 !important;
+    color: white !important;
+    border: 1px solid #c09507;
+}
+
+.textfield_row {
+    text-align: left !important;
+}
+
+.database_img {
+    transition: all 2s;
+}

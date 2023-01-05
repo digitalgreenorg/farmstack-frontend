@@ -299,7 +299,7 @@ export default function AddDataset(props) {
 
   const handleChangeSwitch = (event) => {
     console.log("switch", event.target.checked);
-    setSwitchchecked(event.target.checked); 
+    setSwitchchecked(event.target.checked);
     settodate(null);
     setfromdate(null);
   };
@@ -454,24 +454,24 @@ export default function AddDataset(props) {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {datasetname &&
-              reply &&
-              Geography &&
-              !CheckEndDate &&
-              file &&    
-             ( Switchchecked || fromdate) &&  
-              // file.size < 2097152 &&
-              (Crop_data == true ||
-                Practice_data == true ||
-                Farmer_profile == true ||
-                Land_records == true ||
-                Cultivation_data == true ||
-                Soil_data == true ||
-                Weather_data == true ||
-                Research_data == true ||
-                Livestock == true ||
-                Diary == true ||
-                Poultry == true ||
-                Other) ? (
+                reply &&
+                Geography &&
+                !CheckEndDate &&
+                file &&
+                (Switchchecked || fromdate) &&
+                // file.size < 2097152 &&
+                (Crop_data == true ||
+                  Practice_data == true ||
+                  Farmer_profile == true ||
+                  Land_records == true ||
+                  Cultivation_data == true ||
+                  Soil_data == true ||
+                  Weather_data == true ||
+                  Research_data == true ||
+                  Livestock == true ||
+                  Diary == true ||
+                  Poultry == true ||
+                  Other) ? (
                 <Button
                   onClick={handleAddDatasetSubmit}
                   variant="contained"
