@@ -57,9 +57,11 @@ const UrlConstant = {
   datahub_dashboard: "datahub/dashboard/",
   add_project: "/participant/project/",
   project_listing_page_url: "participant/project/project_list/",
-  search_dataset_end_point_admin :  "datahub/datasets/search_datasets/",
-  search_dataset_end_point_participant :  "participant/datasets/search_datasets/",
-  search_dataset_end_point_guest :  "microsite/datasets/search_datasets/"
+  search_dataset_end_point_admin: "datahub/datasets/search_datasets/",
+  search_dataset_end_point_participant: "participant/datasets/search_datasets/",
+  search_dataset_end_point_guest: "microsite/datasets/search_datasets/",
+
+  connectionToDBEndPoint: ""
 };
 
 export default UrlConstant;
