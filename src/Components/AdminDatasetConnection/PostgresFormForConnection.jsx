@@ -7,7 +7,7 @@ import PasswordIcon from '@mui/icons-material/Password';
 import LanguageIcon from '@mui/icons-material/Language';
 import CableIcon from '@mui/icons-material/Cable';
 import NoDatasetCard from '../Datasets/NoDatasetCard';
-import Connection from './Connection';
+import Connection from './ConnectionProgressGif';
 const PostgresFormForConnection = ({ handleMetadata }) => {
   //state to toggle the form to export state
   const [isConnected, setIsConnected] = useState(false)

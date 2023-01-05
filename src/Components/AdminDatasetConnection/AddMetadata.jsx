@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import FaceIcon from '@mui/icons-material/Face';
 import RichTextEditor from 'react-rte';
 
-const Admin_add_metadata = () => {
+const AddMetadata = () => {
     const [govLawDesc, setgovLawDesc] = useState("");
 
     const toolbarConfig = {
@@ -82,4 +82,4 @@ const Admin_add_metadata = () => {
     )
 }
 
-export default Admin_add_metadata
+export default AddMetadata

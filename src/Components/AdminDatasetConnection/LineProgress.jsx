@@ -1,10 +1,10 @@
 import { LinearProgress } from '@mui/material'
 import React from 'react'
 
-const Connection_loader = () => {
+const LineProgress = () => {
     return (
         <><LinearProgress color="primary" /></>
     )
 }
 
-export default Connection_loader
+export default LineProgress

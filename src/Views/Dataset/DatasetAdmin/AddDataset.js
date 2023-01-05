@@ -23,7 +23,6 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstants from "../../../Constants/UrlConstants";
 import Loader from "../../../Components/Loader/Loader";
 import Success from "../../../Components/Success/Success";
-import Admin_add_dataset from "../../../Components/AdminDatasetConnection/Admin_add_dataset";
 
 const useStyles = {
   btncolor: {
@@ -384,130 +383,128 @@ export default function AddDataset(props) {
           imageText={"Added Successfully!"}
           msg={"Your dataset added in database."}
         ></Success>
-      ) :
-        //  (
-        //   <div noValidate autoComplete="off">
-        //     <DataSetForm
-        //       title={"Add Dataset"}
-        //       reply={reply}
-        //       datasetname={datasetname}
-        //       handleChangedatasetname={handleChangedatasetname}
-        //       handledatasetnameKeydown={handledatasetnameKeydown}
-        //       handleChangedescription={handleChangedescription}
-        //       handledescriptionKeydown={handledescriptionKeydown}
-        //       Crop_data={Crop_data}
-        //       handleChangeCropData={handleChangeCropData}
-        //       handleCropKeydown={handleCropKeydown}
-        //       Practice_data={Practice_data}
-        //       handleChangePracticeData={handleChangePracticeData}
-        //       Farmer_profile={Farmer_profile}
-        //       handleChangeFarmer_profile={handleChangeFarmer_profile}
-        //       Land_records={Land_records}
-        //       handleChangeLand_records={handleChangeLand_records}
-        //       Cultivation_data={Cultivation_data}
-        //       handleChangeCultivationData={handleChangeCultivationData}
-        //       Soil_data={Soil_data}
-        //       handleChangeSoilData={handleChangeSoilData}
-        //       Weather_data={Weather_data}
-        //       handleChangeWeatherData={handleChangeWeatherData}
-        //       Research_data={Research_data}
-        //       handleChangeResearchData={handleChangeResearchData}
-        //       Livestock={Livestock}
-        //       handleChangeLivestock={handleChangeLivestock}
-        //       Diary={Diary}
-        //       handleChangeDiary={handleChangeDiary}
-        //       Poultry={Poultry}
-        //       handleChangePoultry={handleChangePoultry}
-        //       Other={Other}
-        //       handleChangeOther={handleChangeOther}
-        //       Geography={Geography}
-        //       handleChangeGeography={handleChangeGeography}
-        //       handleGeographyKeydown={handleGeographyKeydown}
-        //       cropdetail={cropdetail}
-        //       handleChangecropdetail={handleChangecropdetail}
-        //       Switchchecked={Switchchecked}
-        //       handleChangeSwitch={handleChangeSwitch}
-        //       value={value}
-        //       handleChange={handleChange}
-        //       fromdate={fromdate}
-        //       handleChangeFromDate={handleChangeFromDate}
-        //       todate={todate}
-        //       handleChangeToDate={handleChangeToDate}
-        //       recordsvalue={recordsvalue}
-        //       handleChangeRecords={handleChangeRecords}
-        //       availablevalue={availablevalue}
-        //       handleChangeAvailable={handleChangeAvailable}
-        //       isPublic={isPublic}
-        //       handleChangeIsPublic={handleChangeIsPublic}
-        //       handleFileChange={handleFileChange}
-        //       file={file}
-        //       fileValid={fileValid}
-        //       nameErrorMessage={nameErrorMessage}
-        //       descriptionErrorMessage={descriptionErrorMessage}
-        //       categoryErrorMessage={categoryErrorMessage}
-        //       geographyErrorMessage={geographyErrorMessage}
-        //       cropDetailErrorMessage={cropDetailErrorMessage}
-        //       ageErrorMessage={ageErrorMessage}
-        //       dataCaptureStartErrorMessage={dataCaptureStartErrorMessage}
-        //       dataCaptureEndErrorMessage={dataCaptureEndErrorMessage}
-        //     />
+      ) : (
+        <div noValidate autoComplete="off">
+          <DataSetForm
+            title={"Add Dataset"}
+            reply={reply}
+            datasetname={datasetname}
+            handleChangedatasetname={handleChangedatasetname}
+            handledatasetnameKeydown={handledatasetnameKeydown}
+            handleChangedescription={handleChangedescription}
+            handledescriptionKeydown={handledescriptionKeydown}
+            Crop_data={Crop_data}
+            handleChangeCropData={handleChangeCropData}
+            handleCropKeydown={handleCropKeydown}
+            Practice_data={Practice_data}
+            handleChangePracticeData={handleChangePracticeData}
+            Farmer_profile={Farmer_profile}
+            handleChangeFarmer_profile={handleChangeFarmer_profile}
+            Land_records={Land_records}
+            handleChangeLand_records={handleChangeLand_records}
+            Cultivation_data={Cultivation_data}
+            handleChangeCultivationData={handleChangeCultivationData}
+            Soil_data={Soil_data}
+            handleChangeSoilData={handleChangeSoilData}
+            Weather_data={Weather_data}
+            handleChangeWeatherData={handleChangeWeatherData}
+            Research_data={Research_data}
+            handleChangeResearchData={handleChangeResearchData}
+            Livestock={Livestock}
+            handleChangeLivestock={handleChangeLivestock}
+            Diary={Diary}
+            handleChangeDiary={handleChangeDiary}
+            Poultry={Poultry}
+            handleChangePoultry={handleChangePoultry}
+            Other={Other}
+            handleChangeOther={handleChangeOther}
+            Geography={Geography}
+            handleChangeGeography={handleChangeGeography}
+            handleGeographyKeydown={handleGeographyKeydown}
+            cropdetail={cropdetail}
+            handleChangecropdetail={handleChangecropdetail}
+            Switchchecked={Switchchecked}
+            handleChangeSwitch={handleChangeSwitch}
+            value={value}
+            handleChange={handleChange}
+            fromdate={fromdate}
+            handleChangeFromDate={handleChangeFromDate}
+            todate={todate}
+            handleChangeToDate={handleChangeToDate}
+            recordsvalue={recordsvalue}
+            handleChangeRecords={handleChangeRecords}
+            availablevalue={availablevalue}
+            handleChangeAvailable={handleChangeAvailable}
+            isPublic={isPublic}
+            handleChangeIsPublic={handleChangeIsPublic}
+            handleFileChange={handleFileChange}
+            file={file}
+            fileValid={fileValid}
+            nameErrorMessage={nameErrorMessage}
+            descriptionErrorMessage={descriptionErrorMessage}
+            categoryErrorMessage={categoryErrorMessage}
+            geographyErrorMessage={geographyErrorMessage}
+            cropDetailErrorMessage={cropDetailErrorMessage}
+            ageErrorMessage={ageErrorMessage}
+            dataCaptureStartErrorMessage={dataCaptureStartErrorMessage}
+            dataCaptureEndErrorMessage={dataCaptureEndErrorMessage}
+          />
 
-        //     <Row>
-        //       <Col xs={12} sm={12} md={6} lg={3}></Col>
-        //       <Col xs={12} sm={12} md={6} lg={6}>
-        //         {datasetname &&
-        //         reply &&
-        //         Geography &&
-        //         !CheckEndDate &&
-        //         file &&    
-        //        ( Switchchecked || fromdate) &&  
-        //         (Crop_data == true ||
-        //           Practice_data == true ||
-        //           Farmer_profile == true ||
-        //           Land_records == true ||
-        //           Cultivation_data == true ||
-        //           Soil_data == true ||
-        //           Weather_data == true ||
-        //           Research_data == true ||
-        //           Livestock == true ||
-        //           Diary == true ||
-        //           Poultry == true ||
-        //           Other) ? (
-        //           <Button
-        //             onClick={handleAddDatasetSubmit}
-        //             variant="contained"
-        //             className="submitbtn"
-        //             type="submit"
-        //           >
-        //             {screenlabels.common.submit}
-        //           </Button>
-        //         ) : (
-        //           <Button
-        //             variant="outlined"
-        //             disabled
-        //             className="disbalesubmitbtn"
-        //           >
-        //             {screenlabels.common.submit}
-        //           </Button>
-        //         )}
-        //       </Col>
-        //     </Row>
-        //     <Row style={useStyles.marginrowtop8px}>
-        //       <Col xs={12} sm={12} md={6} lg={3}></Col>
-        //       <Col xs={12} sm={12} md={6} lg={6}>
-        //         <Button
-        //           onClick={() => history.push("/datahub/datasets")}
-        //           variant="outlined"
-        //           className="cancelbtn"
-        //         >
-        //           {screenlabels.common.cancel}
-        //         </Button>
-        //       </Col>
-        //     </Row>
-        //   </div>
-        // )
-        (<div><Admin_add_dataset /></div>)
-      }
+          <Row>
+            <Col xs={12} sm={12} md={6} lg={3}></Col>
+            <Col xs={12} sm={12} md={6} lg={6}>
+              {datasetname &&
+                reply &&
+                Geography &&
+                !CheckEndDate &&
+                file &&
+                (Switchchecked || fromdate) &&
+                // file.size < 2097152 &&
+                (Crop_data == true ||
+                  Practice_data == true ||
+                  Farmer_profile == true ||
+                  Land_records == true ||
+                  Cultivation_data == true ||
+                  Soil_data == true ||
+                  Weather_data == true ||
+                  Research_data == true ||
+                  Livestock == true ||
+                  Diary == true ||
+                  Poultry == true ||
+                  Other) ? (
+                <Button
+                  onClick={handleAddDatasetSubmit}
+                  variant="contained"
+                  className="submitbtn"
+                  type="submit"
+                >
+                  {screenlabels.common.submit}
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  disabled
+                  className="disbalesubmitbtn"
+                >
+                  {screenlabels.common.submit}
+                </Button>
+              )}
+            </Col>
+          </Row>
+          <Row style={useStyles.marginrowtop8px}>
+            <Col xs={12} sm={12} md={6} lg={3}></Col>
+            <Col xs={12} sm={12} md={6} lg={6}>
+              <Button
+                onClick={() => history.push("/datahub/datasets")}
+                variant="outlined"
+                className="cancelbtn"
+              >
+                {screenlabels.common.cancel}
+              </Button>
+            </Col>
+          </Row>
+        </div>
+      )}
     </>
   );
 }

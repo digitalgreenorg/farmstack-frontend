@@ -7,7 +7,7 @@ import PasswordIcon from '@mui/icons-material/Password';
 import LanguageIcon from '@mui/icons-material/Language';
 import CableIcon from '@mui/icons-material/Cable';
 import NoDatasetCard from '../Datasets/NoDatasetCard';
-import Connection from './Connection';
+import Connection from './ConnectionProgressGif';
 import HTTPService from '../../Services/HTTPService';
 import Loader from '../Loader/Loader';
 import UrlConstant from '../../Constants/UrlConstants';

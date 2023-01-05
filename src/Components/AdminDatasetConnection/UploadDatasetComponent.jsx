@@ -8,7 +8,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import MysqlFormForConnection from './MysqlFormForConnection';
 import PostgresFormForConnection from './PostgresFormForConnection';
 import UploadDataset from '../Datasets/UploadDataset';
-const Admin_upload_dataset = ({ handleMetadata }) => {
+const UploadDatasetComponent = ({ handleMetadata }) => {
     const [value, setValue] = React.useState('1');
 
     const handleChange = (event, newValue) => {
@@ -50,4 +50,4 @@ const Admin_upload_dataset = ({ handleMetadata }) => {
     )
 }
 
-export default Admin_upload_dataset
+export default UploadDatasetComponent

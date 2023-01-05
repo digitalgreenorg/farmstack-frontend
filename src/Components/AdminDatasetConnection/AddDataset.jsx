@@ -5,10 +5,10 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Admin_upload_dataset from './Admin_upload_dataset';
-import Admin_add_metadata from './Admin_add_metadata';
-import "./Admin_add_dataset.css"
-const Admin_add_dataset = () => {
+import Admin_upload_dataset from './UploadDatasetComponent';
+import Admin_add_metadata from './AddMetadata';
+import "./admin-add-dataset.css"
+const AddDataset = () => {
     const [value, setValue] = React.useState('1');
 
     const handleChange = (event, newValue) => {
@@ -37,4 +37,4 @@ const Admin_add_dataset = () => {
     )
 }
 
-export default Admin_add_dataset
+export default AddDataset
