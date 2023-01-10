@@ -60,7 +60,7 @@
   },
   "scripts": {
     "start": "env-cmd -f .env.production react-scripts start",
-    "build": "env-cmd -f .env.production react-scripts build",
+    "build": "env-cmd -f --max_old_space_size=4096 .env.production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
