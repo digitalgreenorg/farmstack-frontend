@@ -23,7 +23,8 @@ const AddDataset = () => {
         }
     )
     const [allFiles, setAllFiles] = useState([localUploaded])
-
+    const [mysqlFileList, setMysqlFileList] = useState([])
+    const [postgresFileList, setPostgresFileList] = useState([])
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -64,7 +65,9 @@ const AddDataset = () => {
                                 <Tab disabled label="Add metadata" value="2" />
                             </TabList>
                         </Box>
-                        <TabPanel value="1"><Admin_upload_dataset setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
+                        <TabPanel value="1"><Admin_upload_dataset
+                            mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
+                            setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
                         <TabPanel value="2"><Admin_add_metadata /></TabPanel>
                         {/* <TabPanel value="3">Item Three</TabPanel> */}
                     </TabContext>

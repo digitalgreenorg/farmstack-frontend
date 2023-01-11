@@ -27,7 +27,7 @@ import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Tree from '../Catergories/Tree';
 import Axios from 'axios';
-const MysqlFormForConnection = ({ handleMetadata, setAllFiles, datasetname, allFiles }) => {
+const MysqlFormForConnection = ({ handleMetadata, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList }) => {
   const history = useHistory();
   //exported file name
   const [exportedFileName, setExportedFileName] = useState("")
@@ -254,18 +254,19 @@ const MysqlFormForConnection = ({ handleMetadata, setAllFiles, datasetname, allF
     //   true,
     //   false
     // )
+    let newFormData = new FormData({
+      col: [...selectedColumns],
+      file_name: query,
+      dataset_name: datasetname,
+      source: "mysql",
+      table_name: table_name
+    })
 
     let token = getTokenLocal();
     Axios({
       method: method,
       url: UrlConstant.base_url + UrlConstant.send_columns_to_export,
-      data: {
-        col: [...selectedColumns],
-        file_name: query,
-        dataset_name: datasetname,
-        source: "mysql",
-        table_name: table_name
-      },
+      data: newFormData,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -280,7 +281,7 @@ const MysqlFormForConnection = ({ handleMetadata, setAllFiles, datasetname, allF
         setSelectedTable("")
 
         setExportedFiles([...res.data])
-        // setAllFiles([...res.data])
+        setMysqlFileList([...res.data])
         //if error occurs Alert will be shown as Snackbar
         setMessageForSnackBar("File exported successfully!")
         setErrorOrSuccess("success")
@@ -561,7 +562,7 @@ const MysqlFormForConnection = ({ handleMetadata, setAllFiles, datasetname, allF
               : ""}
             {!isExported ? <Connection isConnected={isConnected} /> :
               <List>
-                {exportedFiles.map((item, index) => {
+                {mysqlFileList?.map((item, index) => {
                   return <ListItem>
                     <ListItemAvatar>
                       <Avatar>
@@ -583,13 +584,13 @@ const MysqlFormForConnection = ({ handleMetadata, setAllFiles, datasetname, allF
         <Row className='textfield_row'>
           {!isExported ?
             <Col lg={6} sm={12}>
-              <Button disabled={(exportedFileName != "" && selectedTable.name != "") ? false : true} onClick={() => {
+              <Button disabled={(exportedFileName != "" && selectedTable.name != "" && datasetname != "") ? false : true} onClick={() => {
                 sendingColumnsSelected()
               }} className='connect_btn'>Export to XLS</Button>
               <Button onClick={(e) => { disconnectTheDatabase() }} className='disconnect_btn'>Disconnect</Button>
             </Col> :
             <Col lg={6} sm={12}>
-              <Button disabled={(exportedFileName != "" && selectedTable != "") ? false : true} onClick={() => {
+              <Button disabled={(exportedFileName != "" && selectedTable != "" && datasetname != "") ? false : true} onClick={() => {
                 sendingColumnsSelected()
               }} className='connect_btn'>Export to XLS</Button>
               <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>
