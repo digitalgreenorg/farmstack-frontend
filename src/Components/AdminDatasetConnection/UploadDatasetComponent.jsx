@@ -10,7 +10,8 @@ import PostgresFormForConnection from './PostgresFormForConnection';
 import UploadDataset from '../Datasets/UploadDataset';
 import AccordionForUploadedFileDetails from './AccordionForUploadedFileDetails';
 import ListForUploadedFiles from './ListForUploadedFiles';
-const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname }) => {
+import LocalMachineUploadDataset from './LocalMachineUploadDataset';
+const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname }) => {
     const [value, setValue] = React.useState('1');
 
 
@@ -47,14 +48,15 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                         </Box>
                         <TabPanel value="1" >
                             <Row >
-                                <Col lg={6} sm={12}>
-                                    <UploadDataset localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleMetadata} />
+                                <Col lg={12} sm={12}>
+                                    <LocalMachineUploadDataset datasetname={datasetname} setdatasetname={setdatasetname} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleMetadata} />
+                                    {/* <UploadDataset localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleMetadata} /> */}
                                 </Col>
-                                <Col lg={6} sm={12}>
+                                {/* <Col lg={6} sm={12}>
                                     {allFiles.map((eachCat, index) => {
                                         return <AccordionForUploadedFileDetails data={eachCat} />
                                     })}
-                                </Col>
+                                </Col> */}
                             </Row>
                         </TabPanel>
                         <TabPanel value="2">

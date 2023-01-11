@@ -20,7 +20,7 @@ const AddDataset = () => {
         {
             title: "Files uploaded",
             data: ["first_file.csv", "second_file.pdf", "third_file.xlsx", "asas", "Qwqwqwqwqw", "qwqwqwqw", "qwqwqwqwq", "qwqwqwq"]
-        },
+        }
     )
     const [allFiles, setAllFiles] = useState([localUploaded])
 
@@ -64,7 +64,7 @@ const AddDataset = () => {
                                 <Tab disabled label="Add metadata" value="2" />
                             </TabList>
                         </Box>
-                        <TabPanel value="1"><Admin_upload_dataset datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
+                        <TabPanel value="1"><Admin_upload_dataset setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
                         <TabPanel value="2"><Admin_add_metadata /></TabPanel>
                         {/* <TabPanel value="3">Item Three</TabPanel> */}
                     </TabContext>
