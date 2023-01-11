@@ -113,6 +113,18 @@
   /*padding-left: 21%;
   padding-top: 2%;*/
 }
+.datasetform .uploadfiles{
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #3d4a52;
+  float: left;
+  /*margin-left: 20%;*/
+  margin-top: 3%;
+  margin-bottom: 3%;
+  text-align: left;
+}
 
 .datasetform .toDate {
   /*padding-top: 2%;
@@ -159,11 +171,46 @@
   align-items: center;
 }
 .uploaddatasetname {
-  text-align: center;
+  text-align: left;
   width: 100%;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #3d4a52;
+  float: left;
 }
 
 .fileUpload {
   width: 100% !important;
   float: left !important;
 }
+.fileUpload.is-disabled{
+  border: none !important;
+}
+.datasetFormTab {
+   width:732px; 
+   margin-left: -15px;
+}
+.headSpace{
+  /* padding-bottom: 10px; */
+  margin-top: 200x;
+  padding-top: -20px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #3d4a52;
+  float: left;
+  text-align: left;
+  margin-bottom: 30px;
+}
+.uploadList{
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+
+

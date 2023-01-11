@@ -5,6 +5,9 @@ const UrlConstant = {
 
   base_url:
     Window?.ENV_VARS?.REACT_APP_BASEURL || process.env.REACT_APP_BASEURL,
+    // "https://datahubethdev.farmstack.co/",
+    // "https://6e07-106-51-85-143.in.ngrok.io/",
+
   base_url_without_slash:
     Window?.ENV_VARS?.REACT_APP_BASEURL_without_slash ||
     process.env.REACT_APP_BASEURL_without_slash,
@@ -36,6 +39,8 @@ const UrlConstant = {
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
   datasetparticipant: "participant/datasets/",
+  dataseteth: "datahub/dataset/v2/temp_datasets/",
+  datasetethcancel: "datahub/dataset/v2/temp_datasets/?delete_dir=True",
   onboarded: "accounts/login/onboarded/",
 
   guest_organization_details: "microsite/admin_organization/",

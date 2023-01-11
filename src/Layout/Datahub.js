@@ -16,7 +16,7 @@ import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
 import Settings from "../Views/Settings/Settings/Settings";
 import Support from "../Views/Support/Support";
-// import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
+import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
 import DatasetAdmin from '../Views/Dataset/DatasetAdmin/DatasetAdmin'
 import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
@@ -34,7 +34,7 @@ import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Projec
 import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
-import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
+// import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
