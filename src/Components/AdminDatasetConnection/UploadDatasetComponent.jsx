@@ -11,7 +11,7 @@ import UploadDataset from '../Datasets/UploadDataset';
 import AccordionForUploadedFileDetails from './AccordionForUploadedFileDetails';
 import ListForUploadedFiles from './ListForUploadedFiles';
 import LocalMachineUploadDataset from './LocalMachineUploadDataset';
-const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname }) => {
+const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList }) => {
     const [value, setValue] = React.useState('1');
 
 
@@ -49,7 +49,10 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                         <TabPanel value="1" >
                             <Row >
                                 <Col lg={12} sm={12}>
-                                    <LocalMachineUploadDataset datasetname={datasetname} setdatasetname={setdatasetname} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleMetadata} />
+                                    <LocalMachineUploadDataset
+                                        mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
+
+                                        datasetname={datasetname} setdatasetname={setdatasetname} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleMetadata} />
                                     {/* <UploadDataset localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleMetadata} /> */}
                                 </Col>
                                 {/* <Col lg={6} sm={12}>
@@ -60,8 +63,12 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                             </Row>
                         </TabPanel>
                         <TabPanel value="2">
-                            <MysqlFormForConnection datasetname={datasetname} setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
-                        <TabPanel value="3"><PostgresFormForConnection setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
+                            <MysqlFormForConnection
+                                mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
+                                datasetname={datasetname} setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
+                        <TabPanel value="3"><PostgresFormForConnection
+                            mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
+                            setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         {/* <TabPanel value="3">Item Three</TabPanel> */}
                     </TabContext>
                 </Col>
