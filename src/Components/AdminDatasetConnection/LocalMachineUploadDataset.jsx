@@ -42,9 +42,11 @@ const useStyles = {
 };
 
 export default function LocalMachineUploadDataset(props) {
+  const { datasetname, setdatasetname } = props
+
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  const [datasetname, setdatasetname] = useState("");
+  // const [datasetname, setdatasetname] = useState("");
   const [uploadFile, setFile] = useState([]);
   const [fileValid, setfileValid] = useState("");
   const [datasetNameError, setDatasetNameError] = useState(null);
@@ -65,12 +67,13 @@ export default function LocalMachineUploadDataset(props) {
     console.log("clicked on add dataset submit btn11");
     setfileValid(null);
     var bodyFormData = new FormData();
-    bodyFormData.append( "dataset_name", datasetname)
+    bodyFormData.append("dataset_name", datasetname)
     //  var fileList = [...uploadFile]
     //  console.log(fileList)
     currentFileList.forEach(item => {
-      bodyFormData.append( "datasets", item )});
-    bodyFormData.append("source" , "file")
+      bodyFormData.append("datasets", item)
+    });
+    bodyFormData.append("source", "file")
     HTTPService(
       "POST",
       UrlConstants.base_url + UrlConstants.dataseteth,
@@ -81,34 +84,36 @@ export default function LocalMachineUploadDataset(props) {
       setIsLoader(false)
       console.log("files uploaded");
     }).catch((e) => {
-          setIsLoader(false);
-          console.log(e);
-          var returnValues = GetErrorKey(e, bodyFormData.keys());
-          var errorKeys = returnValues[0];
-          var errorMessages = returnValues[1];
-          if (errorKeys.length > 0) {
-            for (var i = 0; i < errorKeys.length; i++) {
-              switch (errorKeys[i]) { case "dataset_name":
+      setIsLoader(false);
+      console.log(e);
+      var returnValues = GetErrorKey(e, bodyFormData.keys());
+      var errorKeys = returnValues[0];
+      var errorMessages = returnValues[1];
+      if (errorKeys.length > 0) {
+        for (var i = 0; i < errorKeys.length; i++) {
+          switch (errorKeys[i]) {
+            case "dataset_name":
               setDatasetNameError(errorMessages[i]);
               break;
             case "datasets":
               setDataSetFileError(errorMessages[i]);
               break;
-              default:
-                history.push(GetErrorHandlingRoute(e));
-                break;}
-            } 
-          } else {
-          history.push(GetErrorHandlingRoute(e));
-          } 
-        });
-    };
+            default:
+              history.push(GetErrorHandlingRoute(e));
+              break;
+          }
+        }
+      } else {
+        history.push(GetErrorHandlingRoute(e));
+      }
+    });
+  };
 
   const handleDeleteDatasetList = (filename, item) => {
     var bodyFormData = new FormData();
-   
-    bodyFormData.append("file_name", filename )
-    bodyFormData.append ("dataset_name", datasetname)
+
+    bodyFormData.append("file_name", filename)
+    bodyFormData.append("dataset_name", datasetname)
     bodyFormData.append("source", "file")
     HTTPService(
       "DELETE",
@@ -120,32 +125,32 @@ export default function LocalMachineUploadDataset(props) {
       .then((response) => {
         console.log("FILE DELETED!");
         if (response.status === 204) {
-         console.log("file deleted")
-        var filteredArray= uploadFile.filter((item) => item.name !== filename)
-        setFile(filteredArray)
+          console.log("file deleted")
+          var filteredArray = uploadFile.filter((item) => item.name !== filename)
+          setFile(filteredArray)
         }
         // setFile(null)
       })
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-          history.push(GetErrorHandlingRoute(e));
-        }
+        history.push(GetErrorHandlingRoute(e));
+      }
       );
   };
-  
+
   const handleFileChange = (fileIncoming) => {
-    var currentFileList =  [...uploadFile, ...fileIncoming]
+    var currentFileList = [...uploadFile, ...fileIncoming]
     if (setdatasetname != null) {
-    setFile(currentFileList)
-    handleAddDatasetFile(currentFileList)
-    console.log(currentFileList);
-    }else {
+      setFile(currentFileList)
+      handleAddDatasetFile(currentFileList)
+      console.log(currentFileList);
+    } else {
       console.log("no dataset name given")
     };
-    
+
     setfileValid("");
-    
+
   };
   const handleChangedatasetname = (e) => {
     validateInputField(e.target.value, RegexConstants.connector_name)
@@ -158,7 +163,7 @@ export default function LocalMachineUploadDataset(props) {
   const handleResetForm = () => {
     setdatasetname("")
     var bodyFormData = new FormData();
-     bodyFormData.append ("dataset_name", datasetname)
+    bodyFormData.append("dataset_name", datasetname)
     HTTPService(
       "DELETE",
       UrlConstants.base_url + UrlConstants.datasetethcancel,
@@ -170,15 +175,15 @@ export default function LocalMachineUploadDataset(props) {
         console.log("FILE DELETED!");
         if (response.status === 204) {
           setFile(response.data)
-           setdatasetname("")
+          setdatasetname("")
         }
         // setFile(null)
       })
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-          history.push(GetErrorHandlingRoute(e));
-        }
+        history.push(GetErrorHandlingRoute(e));
+      }
       );
   };
   return (
@@ -197,30 +202,30 @@ export default function LocalMachineUploadDataset(props) {
       ) : (
         <div noValidate autoComplete="off">
           <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
-          <span className="AddDatasetmainheading">{props.title}</span>
-        </Col>
-      </Row>
-      <Row>
-        <Col className="datasetFormTab">
-          <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
-            <Box>
-              <TabContext value={value} className="tabstyle">
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                  <TabList
-                    //   onChange={handleTabChange}
-                    aria-label="lab API tabs example"
-                  >
-                    <Tab label="Upload dataset" value="1" />
-                    <Tab label="Add metadata" value="2" />
-                  </TabList>
+            <Col xs={12} sm={12} md={12} lg={12}>
+              <span className="AddDatasetmainheading">{props.title}</span>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="datasetFormTab">
+              <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
+                <Box>
+                  {/* <TabContext value={value} className="tabstyle">
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <TabList
+                        //   onChange={handleTabChange}
+                        aria-label="lab API tabs example"
+                      >
+                        <Tab label="Upload dataset" value="1" />
+                        <Tab label="Add metadata" value="2" />
+                      </TabList>
+                    </Box>
+                  </TabContext> */}
                 </Box>
-              </TabContext>
-            </Box>
-          </Col>
-        </Col>
-      </Row>
-      <Row>
+              </Col>
+            </Col>
+          </Row>
+          {/* <Row>
         <Col xs={12} sm={12} md={6} lg={6}>
           <TextField
              style={{"width" : "1050px"}}
@@ -237,104 +242,104 @@ export default function LocalMachineUploadDataset(props) {
             helperText={datasetNameError}
           />
         </Col>
-        </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
-          <span className="uploadfiles">Upload files</span>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
-          <span className="headSpace">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </span>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12} id="FileUploadId">
-          <FileUploader
-            handleChange={handleFileChange}
-            disabled={!datasetname}
-            name="file"
-            multiple={true}
-            maxSize={50}
-            types={fileTypes}
-            children={
-              <UploadDataset
-                uploaddes={`Supports
-                XLS, XLSX, CSV, PDF, JPEG, JPG, PNG, TIFF file formats up to 50MB per file
-                  `} 
-                uploadtitle="Upload Dataset"
-              /> 
-            }
-            classes="fileUpload"
-          /> 
-        </Col>
-      </Row>
-      <Row xs={12} sm={12} md={12} lg={12} >
-       {uploadFile  ?
-       ( <ol className="uploaddatasetname" >
-        {/* {uploadFile.name} */}
-         {Object.keys(uploadFile).map((key, index) => (
-          <li className="uploadList" key={index}> 
-          <Row xs={12} sm={12} md={6} lg={6}>
-           <Col style={{width: "100px"}}> 
-           { uploadFile[key].name} 
-
-           </Col>
-            
-            <Col style={{"marginLeft": "100px" }}>
-            {uploadFile[key].name &&
-            <CancelIcon  
-            onClick={()=>handleDeleteDatasetList(uploadFile[key].name)}/>}
+        </Row> */}
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12}>
+              <span className="uploadfiles">Upload files</span>
             </Col>
-            </Row>
-            </li>
-        ) )} 
-        </ol> )
+          </Row>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12}>
+              <span className="headSpace">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </span>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12} id="FileUploadId">
+              <FileUploader
+                handleChange={handleFileChange}
+                disabled={!datasetname}
+                name="file"
+                multiple={true}
+                maxSize={50}
+                types={fileTypes}
+                children={
+                  <UploadDataset
+                    uploaddes={`Supports
+                XLS, XLSX, CSV, PDF, JPEG, JPG, PNG, TIFF file formats up to 50MB per file
+                  `}
+                    uploadtitle="Upload Dataset"
+                  />
+                }
+                classes="fileUpload"
+              />
+            </Col>
+          </Row>
+          <Row xs={12} sm={12} md={12} lg={12} >
+            {uploadFile ?
+              (<ol className="uploaddatasetname" >
+                {/* {uploadFile.name} */}
+                {Object.keys(uploadFile).map((key, index) => (
+                  <li className="uploadList" key={index}>
+                    <Row xs={12} sm={12} md={6} lg={6}>
+                      <Col style={{ width: "100px" }}>
+                        {uploadFile[key].name}
 
-        :( "" )}
-        <p className="oversizemb-uploadimglogo">
-          {uploadFile != null &&
-            uploadFile.size > 52428800
-            ? `File uploaded is more than 50MB!`
-            : ""}
-          {fileValid}
-        </p>
-      </Row>
+                      </Col>
+
+                      <Col style={{ "marginLeft": "100px" }}>
+                        {uploadFile[key].name &&
+                          <CancelIcon
+                            onClick={() => handleDeleteDatasetList(uploadFile[key].name)} />}
+                      </Col>
+                    </Row>
+                  </li>
+                ))}
+              </ol>)
+
+              : ("")}
+            <p className="oversizemb-uploadimglogo">
+              {uploadFile != null &&
+                uploadFile.size > 52428800
+                ? `File uploaded is more than 50MB!`
+                : ""}
+              {fileValid}
+            </p>
+          </Row>
 
           <Row>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {
-              (uploadFile.length !== 0 )&& 
-              datasetname
-              ? 
-                (
-                <Button
-                  onClick={""}
-                  variant="contained"
-                  className="submitbtn"
-                  type="submit"
-                >
-                  Next
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  disabled
-                  className="disbalesubmitbtn"
-                >
-                  Next
-                </Button>
-              )}
+                (uploadFile.length !== 0) &&
+                  datasetname
+                  ?
+                  (
+                    <Button
+                      onClick={""}
+                      variant="contained"
+                      className="submitbtn"
+                      type="submit"
+                    >
+                      Next
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outlined"
+                      disabled
+                      className="disbalesubmitbtn"
+                    >
+                      Next
+                    </Button>
+                  )}
             </Col>
           </Row>
           <Row style={useStyles.marginrowtop8px}>
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={()=> handleResetForm()}
+                onClick={() => handleResetForm()}
                 variant="outlined"
                 className="cancelbtn"
               >

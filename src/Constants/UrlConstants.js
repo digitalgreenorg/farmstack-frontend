@@ -63,7 +63,9 @@ const UrlConstant = {
   search_dataset_end_point_participant: "participant/datasets/search_datasets/",
   search_dataset_end_point_guest: "microsite/datasets/search_datasets/",
 
-  connectionToDBEndPoint: ""
+  connection_to_db_end_point: "participant/database/database_config/",
+  get_column_from_table_name: "participant/database/database_col_names/",
+  send_columns_to_export: "participant/database/database_xls_file/"
 };
 
 export default UrlConstant;
