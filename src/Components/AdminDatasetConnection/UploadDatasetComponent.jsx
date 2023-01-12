@@ -50,8 +50,6 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                             <Row >
                                 <Col lg={12} sm={12}>
                                     <LocalMachineUploadDataset
-                                        mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
-
                                         datasetname={datasetname} setdatasetname={setdatasetname} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleMetadata} />
                                     {/* <UploadDataset localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleMetadata} /> */}
                                 </Col>
@@ -64,6 +62,7 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                         </TabPanel>
                         <TabPanel value="2">
                             <MysqlFormForConnection
+                                localUploaded={localUploaded}
                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                                 datasetname={datasetname} setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         <TabPanel value="3"><PostgresFormForConnection

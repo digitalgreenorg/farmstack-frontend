@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
-const AccordionForUploadedFileDetails = ({ data }) => {
+const AccordionForUploadedFileDetails = ({ data, title }) => {
     console.log(data)
     return (
         <Accordion>
@@ -13,12 +13,12 @@ const AccordionForUploadedFileDetails = ({ data }) => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
             >
-                <Typography>  {data?.title}  <span style={{ height: "20px", width: "30px", backgroundColor: "green", color: "white", borderRadius: "2px" }}>{data?.data?.length}</span> </Typography>
+                <Typography>  {title}  <span style={{ height: "20px", width: "30px", backgroundColor: "green", color: "white", borderRadius: "2px" }}>{data?.length}</span> </Typography>
             </AccordionSummary>
             <AccordionDetails>
                 <Typography style={{ maxHeight: "300px", overflowY: "scroll" }}>
                     <ul>
-                        {data?.data?.map((item) => {
+                        {data?.map((item) => {
                             console.log(data, item)
                             return <ListItem>
                                 <ListItemAvatar>
@@ -27,11 +27,11 @@ const AccordionForUploadedFileDetails = ({ data }) => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary={item} secondary="Jan 9, 2014" />
-                                <IconButton edge="end" aria-label="delete">
+                                {/* <IconButton edge="end" aria-label="delete">
                                     <DeleteOutlinedIcon
-                                        // onClick={() => handleDeleteExportedFile(item, index)} 
+                                        onClick={() => handleDeleteExportedFile(item, index)} 
                                         color='warning' />
-                                </IconButton>
+                                </IconButton> */}
                                 <Divider />
                             </ListItem>
                         })}
