@@ -17,12 +17,9 @@ const AddDataset = () => {
     const [nameErrorMessage, setnameErrorMessage] = useState(null);
     const [datasetname, setdatasetname] = useState("");
     const [localUploaded, setLocalUploaded] = useState(
-        {
-            title: "Files uploaded",
-            data: ["first_file.csv", "second_file.pdf", "third_file.xlsx", "asas", "Qwqwqwqwqw", "qwqwqwqw", "qwqwqwqwq", "qwqwqwq"]
-        }
+        []
     )
-    const [allFiles, setAllFiles] = useState([localUploaded])
+    const [allFiles, setAllFiles] = useState([])
     const [mysqlFileList, setMysqlFileList] = useState([])
     const [postgresFileList, setPostgresFileList] = useState([])
     const handleChange = (event, newValue) => {
@@ -58,7 +55,6 @@ const AddDataset = () => {
             <Row>
                 <Col lg={12} sm={12}>
                     <TabContext value={value}>
-
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <TabList aria-label="lab API tabs example">
                                 <Tab onClick={(e) => handleChange(e, '1')} label="Upload dataset" value="1" />

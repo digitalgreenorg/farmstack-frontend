@@ -42,7 +42,7 @@ const useStyles = {
 };
 
 export default function LocalMachineUploadDataset(props) {
-  const { datasetname, setdatasetname } = props
+  const { datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded } = props
 
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -82,6 +82,8 @@ export default function LocalMachineUploadDataset(props) {
       true
     ).then((response) => {
       setIsLoader(false)
+      setLocalUploaded([...response.data.datasets])
+      // setLocalUploaded([response.datasets])
       console.log("files uploaded");
     }).catch((e) => {
       setIsLoader(false);
@@ -128,6 +130,7 @@ export default function LocalMachineUploadDataset(props) {
           console.log("file deleted")
           var filteredArray = uploadFile.filter((item) => item.name !== filename)
           setFile(filteredArray)
+          setLocalUploaded(filteredArray)
         }
         // setFile(null)
       })
@@ -280,18 +283,17 @@ export default function LocalMachineUploadDataset(props) {
             {uploadFile ?
               (<ol className="uploaddatasetname" >
                 {/* {uploadFile.name} */}
-                {Object.keys(uploadFile).map((key, index) => (
+                {localUploaded?.map((fileName, index) => (
                   <li className="uploadList" key={index}>
                     <Row xs={12} sm={12} md={6} lg={6}>
                       <Col style={{ width: "100px" }}>
-                        {uploadFile[key].name}
-
+                        {fileName}
                       </Col>
 
                       <Col style={{ "marginLeft": "100px" }}>
-                        {uploadFile[key].name &&
+                        {fileName &&
                           <CancelIcon
-                            onClick={() => handleDeleteDatasetList(uploadFile[key].name)} />}
+                            onClick={() => handleDeleteDatasetList(fileName)} />}
                       </Col>
                     </Row>
                   </li>
@@ -312,17 +314,17 @@ export default function LocalMachineUploadDataset(props) {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               {
-                (uploadFile.length !== 0) &&
+                (localUploaded?.length !== 0) &&
                   datasetname
                   ?
                   (
                     <Button
-                      onClick={""}
                       variant="contained"
                       className="submitbtn"
                       type="submit"
+                      onClick={(e) => handleMetadata(e, '2')}
                     >
-                      Next
+                      Add metadata
                     </Button>
                   ) : (
                     <Button
@@ -330,7 +332,7 @@ export default function LocalMachineUploadDataset(props) {
                       disabled
                       className="disbalesubmitbtn"
                     >
-                      Next
+                      Add metadata
                     </Button>
                   )}
             </Col>

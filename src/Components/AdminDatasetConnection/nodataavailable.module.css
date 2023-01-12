@@ -8,5 +8,6 @@
 }
 
 .rightSideIndicator span {
-    background-color: blue !important;
+    /* background-color: blue !important; */
+    /* border: 1px solid red !important; */
 }
