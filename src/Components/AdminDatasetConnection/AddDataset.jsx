@@ -27,6 +27,9 @@ import RichTextEditor from 'react-rte';
 import AddMetadata from './AddMetadata';
 import $ from "jquery";
 import Loader from '../Loader/Loader';
+import CloseIcon from '@mui/icons-material/Close';
+
+import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Skeleton } from '@mui/material'
 
 //stepper steps label
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
@@ -40,7 +43,13 @@ const AddDataset = () => {
     const [mysqlFileList, setMysqlFileList] = useState([])
     const [postgresFileList, setPostgresFileList] = useState([])
     const [isLoading, setIsLoader] = useState(false)
+    const [isSubmitted, setIsSubmitted] = useState(false)
     const history = useHistory()
+
+    //states for the alert if any error occurs at any point in the form of snackbar
+    const [messageForSnackBar, setMessageForSnackBar] = useState("")
+    const [errorOrSuccess, setErrorOrSuccess] = useState("error") //options --> "error", "info", "success", "warning"
+
     //tab changer from upload dataset to add metadata
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -457,10 +466,20 @@ const AddDataset = () => {
             .then((response) => {
                 setIsLoader(false);
                 // setisSuccess(true);
+                setIsSubmitted(true)
                 console.log("dataset uploaded!");
+
+                //if error occurs Alert will be shown as Snackbar
+                setMessageForSnackBar("Dataset uploaded successfully")
+                setErrorOrSuccess("success")
+                handleClick()
             })
             .catch((e) => {
                 setIsLoader(false);
+                //if error occurs Alert will be shown as Snackbar
+                setMessageForSnackBar("Dataset uploaded failed")
+                setErrorOrSuccess("error")
+                handleClick()
                 console.log(e);
                 //console.log(e.response.data.sample_dataset[0]);
                 var returnValues = GetErrorKey(e, bodyFormData.keys());
@@ -510,6 +529,34 @@ const AddDataset = () => {
     };
 
 
+    //toast for error
+    const [open, setOpen] = React.useState(false);
+    //handling toast
+    const handleClick = () => {
+        setOpen(true);
+    };
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    //action for toast
+    const action = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
+
+
 
 
     useEffect(() => {
@@ -520,6 +567,14 @@ const AddDataset = () => {
     return (
         <Container id='admin_add_dataset_main_container'>
             {isLoading ? <Loader /> : ""}
+            <Snackbar
+                open={open}
+                autoHideDuration={4000}
+                onClose={handleClose}
+                action={action}
+            >
+                <Alert autoHideDuration={4000} onClose={handleClose} sx={{ width: '100%' }} severity={errorOrSuccess}>{messageForSnackBar}</Alert>
+            </Snackbar>
             <Row className='main_heading_row'>
                 <Col lg={3} sm={6}>
                     <span className='Main_heading_add_dataset'>Add dataset</span>
@@ -585,6 +640,7 @@ const AddDataset = () => {
 
                                     <div className="invite-participant-text-editor policyrte">
                                         <RichTextEditor
+                                            placeholder='Dataset description'
                                             toolbarConfig={toolbarConfig}
                                             value={editorGovLawValue}
                                             onChange={handlegovLawChange}
@@ -638,8 +694,8 @@ const AddDataset = () => {
                                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                     <Button
                                         color="inherit"
-                                        disabled={activeStep === 0}
-                                        onClick={handleBack}
+                                        // disabled={activeStep === 0}
+                                        onClick={activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
                                         sx={{ mr: 1 }}
                                     >
                                         Back
@@ -651,7 +707,7 @@ const AddDataset = () => {
                                         </Button>
                                     )} */}
 
-                                    <Button disabled={(activeStep == 0 && datasetname != "") ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0) ? false : true)} onClick={handleNext}>
+                                    <Button disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
                                         {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                     </Button>
                                 </Box>

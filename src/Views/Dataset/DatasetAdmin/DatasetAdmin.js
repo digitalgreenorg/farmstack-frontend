@@ -34,6 +34,8 @@ import UrlConstants from "../../../Constants/UrlConstants";
 import Button from "@mui/material/Button";
 import "./DatasetAdmin.css";
 import RegexConstants from "../../../Constants/RegexConstants";
+import ListDataset from "../ListDataset";
+
 
 export default function DatasetAdmin() {
   const [searchInputValue, setSearchInputValue] = useState("");
@@ -1386,6 +1388,37 @@ export default function DatasetAdmin() {
     return;
     // if()
   }
+
+
+  // fetching the dataset by get req with the cat and sub created with sql/ local/ PostgresFormForConnection...
+
+  function GetAllDatasetUploaded() {
+    let url = UrlConstant.base_url + UrlConstant.admin_dataset_new_dataset_v2;
+    let method = "GET"
+    let payload = new FormData()
+    // payload.append("", )
+    // payload.append("", )
+    // payload.append("", )
+    HTTPService(
+      method,
+      url,
+      payload,
+      false,
+      true,
+      false
+    ).then((response) => {
+      console.log(response, "GET")
+    }).catch((err) => {
+      console.log(err, "ERROR")
+    })
+  }
+
+  useEffect(() => {
+    GetAllDatasetUploaded()
+  }, [])
+
+
+
   return (
     <>
       {isLoader ? <Loader /> : ""}
@@ -1828,7 +1861,16 @@ export default function DatasetAdmin() {
                                                     onChange={e => debounceOnChange(e.target.value)}
                                             /></span> */}
                       <TabPanel value="1">
-                        <DataSetListing
+                        {/* <DataSetListing
+                          datasetList={datasetList}
+                          isShowLoadMoreButton={showLoadMoreAdmin}
+                          isMemberTab={isMemberTab}
+                          getDatasetList={
+                            isMemberTab ? getMemberDatasets : getMyDataset
+                          }
+                          viewCardDetails={(id) => viewCardDetails(id, true)}
+                        /> */}
+                        <ListDataset
                           datasetList={datasetList}
                           isShowLoadMoreButton={showLoadMoreAdmin}
                           isMemberTab={isMemberTab}

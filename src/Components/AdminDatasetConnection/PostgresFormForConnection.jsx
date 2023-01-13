@@ -27,7 +27,7 @@ import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Tree from '../Catergories/Tree';
 import Axios from 'axios';
-const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc }) => {
+const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
   const history = useHistory();
   //exported file name
   const [exportedFileName, setExportedFileName] = useState("")
@@ -386,8 +386,9 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
         </Col>
         <Col lg={6} sm={12} style={{ textAlign: "center" }}>
           <>
-            <Tooltip title={isConnected ? `Connected to ${connectionData.db_name}` : `Not connected`}>
+            <Tooltip title={isConnected ? `Connected to ${connectionData.db_name}` : ""}>
               <span>
+                {isConnected ? `Connected to ${connectionData.db_name}` : `Not connected`}
                 <img style={{ height: "30px", width: "30px" }} src={bellboygif} alt="database" />
                 <span style={{ textDecoration: "line-through", color: isConnected ? "green" : "red", transition: "all 3s", background: isConnected ? "green" : "red", minWidth: isConnected ? "90px" : "10px", display: "inline-block", minHeight: "3px" }}></span>
                 {isConnected ? <CheckIcon color='success' /> : <ClearIcon color='warning' />}
@@ -452,12 +453,12 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
       </Row>
         <Row className='textfield_row' >
           <Col lg={6} sm={12}>
-            {localUploaded?.length > 0 && <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>}
+            {/* {localUploaded?.length > 0 && <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>} */}
             <Button
               id='connect_btn_id'
               disabled={(connectionData.db_name.trim() != "" && connectionData.db_password.trim() != "" && connectionData.host_address.trim() != "" && connectionData.port.trim() != "" && connectionData.user_name.trim() != "" && datasetname != "") ? false : true}
               className='connect_btn green_btn_for_connect' onClick={tryToConnect}>Connect </Button>
-            <Button id='cancel_btn_id' className='connect_btn' onClick={() => history.push("/datahub/datasets")}> Cancel </Button>
+            <Button id='cancel_btn_id' className='connect_btn' onClick={() => cancelForm()}> Cancel </Button>
           </Col>
         </Row></> : <>
         <Row className='textfield_row'>
@@ -497,8 +498,6 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
 
           </Col>
           <Col lg={6} sm={12} style={{ textAlign: "center" }} >
-            <Row>
-            </Row>
             {isConnected && loader ? <>
               <Skeleton variant="circular">
                 <Avatar />
@@ -515,14 +514,14 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
 
           {(!isExported) ?
             <Col lg={6} sm={12}>
-              {localUploaded?.length > 0 && <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>}
+              {/* {localUploaded?.length > 0 && <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>} */}
               <Button disabled={(exportedFileName != "" && selectedTable.name != "" && datasetname != "") ? false : true} onClick={() => {
                 sendingColumnsSelected()
               }} className='connect_btn'>Export to XLS</Button>
               <Button onClick={(e) => { disconnectTheDatabase() }} className='disconnect_btn'>Disconnect</Button>
             </Col> :
             <Col lg={6} sm={12}>
-              <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>
+              {/* <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button> */}
               <Button disabled={(exportedFileName != "" && selectedTable != "" && datasetname != "") ? false : true} onClick={() => {
                 sendingColumnsSelected()
               }} className='connect_btn'>Export to XLS</Button>

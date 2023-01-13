@@ -202,7 +202,7 @@ export default function LocalMachineUploadDataset(props) {
         ></Success>
       ) : (
         <div noValidate autoComplete="off">
-          <Row>
+          <Row style={{ height: "236px" }}>
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader

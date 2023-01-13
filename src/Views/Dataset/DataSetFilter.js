@@ -55,8 +55,8 @@ export default function DataSetFilter(props) {
                   "text-transform": "none",
                 }}
                 onClick={() => props.clearAllFilters()}
-                // variant="outlined"
-                // className="cancelbtn"
+              // variant="outlined"
+              // className="cancelbtn"
               >
                 Clear all
               </Button>
@@ -180,7 +180,7 @@ export default function DataSetFilter(props) {
             />
           </LocalizationProvider>
         </span>
-        {props.fromdate && props.todate && (props.fromdate <= props.todate)? (
+        {props.fromdate && props.todate && (props.fromdate <= props.todate) ? (
           <span className="supportsubmitbrn">
             <Button
               onClick={() => props.filterByDates()}
@@ -265,14 +265,14 @@ export default function DataSetFilter(props) {
       </Row>
       {props.dataAccessFilterDisplay
         ? props.dataAccessFilterDisplay.map((datavisiblity) => (
-            <FilterCheckBox
-              label={datavisiblity.name}
-              checked={datavisiblity.isChecked}
-              handleCheckListFilterChange={() =>
-                props.handleFilterChange(datavisiblity.index, "datavisiblity")
-              }
-            />
-          ))
+          <FilterCheckBox
+            label={datavisiblity.name}
+            checked={datavisiblity.isChecked}
+            handleCheckListFilterChange={() =>
+              props.handleFilterChange(datavisiblity.index, "datavisiblity")
+            }
+          />
+        ))
         : ""}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">

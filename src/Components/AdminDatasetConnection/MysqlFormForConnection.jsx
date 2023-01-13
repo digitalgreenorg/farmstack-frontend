@@ -103,6 +103,7 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
         //if error occurs Alert will be shown as Snackbar
         setMessageForSnackBar("Connection establishment done!")
         setErrorOrSuccess("success")
+        handleClick()
         setLoader(false)
         setSpinner(false)
 
@@ -386,8 +387,9 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
         </Col>
         <Col lg={6} sm={12} style={{ textAlign: "center" }}>
           <>
-            <Tooltip title={isConnected ? `Connected to ${connectionData.db_name}` : `Not connected`}>
+            <Tooltip title={isConnected ? `Connected to ${connectionData.db_name}` : ""}>
               <span>
+                {isConnected ? `Connected to ${connectionData.db_name}` : `Not connected`}
                 <img style={{ height: "30px", width: "30px" }} src={bellboygif} alt="database" />
                 <span style={{ textDecoration: "line-through", color: isConnected ? "green" : "red", transition: "all 3s", background: isConnected ? "green" : "red", minWidth: isConnected ? "90px" : "10px", display: "inline-block", minHeight: "3px" }}></span>
                 {isConnected ? <CheckIcon color='success' /> : <ClearIcon color='warning' />}
@@ -452,7 +454,7 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
       </Row>
         <Row className='textfield_row' >
           <Col lg={6} sm={12}>
-            {localUploaded?.length > 0 && <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>}
+            {/* {localUploaded?.length > 0 && <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>} */}
             <Button
               id='connect_btn_id'
               disabled={(connectionData.db_name.trim() != "" && connectionData.db_password.trim() != "" && connectionData.host_address.trim() != "" && connectionData.port.trim() != "" && connectionData.user_name.trim() != "" && datasetname != "") ? false : true}

@@ -192,10 +192,13 @@ const AddMetadata = (props) => {
                     </Col>
                 </Row>
             )}
-            <Row>
-                {/* <Col lg={12} > */}
-                <Stack sx={{ width: "100%", textAlign: "left" }} spacing={2}>
+            <Row style={{ marginTop: "20px" }}>
+                <Col lg={1} >
+                    {/* <Stack sx={{ width: "100%", textAlign: "left" }} spacing={2}> */}
                     <Checkbox checked={conscent} onChange={(e) => setConscent(e.target.checked)} />
+                    {/* </Stack> */}
+                </Col>
+                <Col lg={11}>
                     <Alert severity="warning">
                         {/* <AlertTitle style={{ textAlign: "left" }}>Warning</AlertTitle> */}
                         {/* This is a warning alert —{" "} */}
@@ -207,8 +210,7 @@ const AddMetadata = (props) => {
                             that you think is inaccurate.
                         </strong>
                     </Alert>
-                </Stack>
-                {/* </Col> */}
+                </Col>
             </Row>
             <Row>
                 <Col>

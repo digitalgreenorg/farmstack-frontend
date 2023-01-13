@@ -35,7 +35,7 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                             </TabList>
                         </Box>
                         <TabPanel value="1" >
-                            <Row >
+                            <Row style={{ marginTop: "50px" }} >
                                 <Col lg={12} sm={12}>
                                     <LocalMachineUploadDataset
                                         cancelForm={cancelForm}
