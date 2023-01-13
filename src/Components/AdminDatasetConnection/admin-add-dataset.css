@@ -95,3 +95,8 @@
     color: white !important;
     background-color: green !important;
 }
+
+.MuiSvgIcon-root {
+    /* background-color: #c09507 !important; */
+    color: #c09507 !important;
+}
