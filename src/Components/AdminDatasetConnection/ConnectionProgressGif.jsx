@@ -32,10 +32,10 @@ const ConnectionProgressGif = ({ isConnected, loader, mysqlFileList, localUpload
                     <AccordionForUploadedFileDetails loader={loader} source={"file"} datasetname={datasetname} deleteFunc={deleteFunc} title={"Local files"} data={localUploaded} />
                 </Col> : ""}
 
-                {mysqlFileList.length > 0 ? <Col lg={12} sm={12}>
+                {mysqlFileList.length > 0 ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
                     <AccordionForUploadedFileDetails source={"mysql"} datasetname={datasetname} deleteFunc={deleteFunc} title={"Mysql"} data={mysqlFileList} />
                 </Col> : ""}
-                {postgresFileList.length > 0 ? <Col lg={12} sm={12}>
+                {postgresFileList.length > 0 ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
                     <AccordionForUploadedFileDetails source={"postgres"} datasetname={datasetname} deleteFunc={deleteFunc} title={"Postgres"} data={postgresFileList} />
                 </Col> : ""}
                 {/* <AccordionForUploadedFileDetails data={mysqlFileList} /> */}

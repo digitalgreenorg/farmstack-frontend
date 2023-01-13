@@ -435,8 +435,8 @@ const AddDataset = () => {
         //     bodyFormData.append("crop_detail", cropdetail);
         // }
         bodyFormData.append("constantly_update", Switchchecked);
-        bodyFormData.append("data_capture_start", fromdate.toISOString());
-        bodyFormData.append("data_capture_end", todate.toISOString());
+        bodyFormData.append("data_capture_start", fromdate ? fromdate.toISOString() : "");
+        bodyFormData.append("data_capture_end", todate ? todate.toISOString() : "");
         // bodyFormData.append("age_of_date", value);
         // if (Switchchecked == true) {
         //     bodyFormData.append("age_of_date", "");
@@ -678,6 +678,7 @@ const AddDataset = () => {
 
                                 {activeStep == 2 ?
                                     <AddMetadata
+                                        isSubmitted={isSubmitted}
                                         handleChangeGeography={handleChangeGeography}
                                         handleAddDatasetSubmit={handleAddDatasetSubmit}
                                         conscent={conscent}
