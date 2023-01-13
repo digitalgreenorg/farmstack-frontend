@@ -16,7 +16,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { useHistory } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { getTokenLocal, validateInputField } from '../../Utils/Common';
+import { GetErrorHandlingRoute, getTokenLocal, validateInputField } from '../../Utils/Common';
 import RegexConstants from '../../Constants/RegexConstants';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -27,7 +27,7 @@ import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Tree from '../Catergories/Tree';
 import Axios from 'axios';
-const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList }) => {
+const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
   const history = useHistory();
   //exported file name
   const [exportedFileName, setExportedFileName] = useState("")
@@ -97,24 +97,6 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
       false,
       true,
       false).then((res) => {
-
-        // var now = new Date();
-        // now.setTime(now.getTime() + 1 * 3600 * 1000);
-        // document.cookie = "db_name=" + connectionData.db_name + '; expires=' + now.toUTCString() + '; path=/';
-        // document.cookie = "db_password=" + connectionData.db_password + '; expires=' + now.toUTCString() + '; path=/';
-        // document.cookie = "user_name=" + connectionData.user_name + '; expires=' + now.toUTCString() + '; path=/';
-        // document.cookie = "host=" + connectionData.host_address + '; expires=' + now.toUTCString() + '; path=/';
-        // document.cookie = "port=" + connectionData.port + '; expires=' + now.toUTCString() + '; path=/';
-
-        // let cookiesData = {
-        //   database: connectionData.db_name,
-        //   username: connectionData.user_name,
-        //   password: connectionData.db_password,
-        //   host: connectionData.host_address,
-        //   port: connectionData.port
-        // }
-        // handleCookies(cookiesData)
-
         console.log(res)
         setDbData([...res.data])
         setIsConnected(true)
@@ -130,23 +112,20 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
         console.log(err)
         setLoader(false)
         setSpinner(false)
-        // console.log(connectionData)
 
         //setting the cookies upon the successfull response with the validity of 1 hour or till the time metadata and dataset upload done
-        let cookiesData = {
-          database: "",
-          username: "",
-          password: "",
-          host: "",
+        let dataForReset = {
+          db_name: "",
+          user_name: "",
+          db_password: "",
+          host_address: "",
           port: ""
         }
 
         //clear input fields
-        // setConnectionData({
-        //   ...connectionData, ...cookiesData
-        // })
-        //setting the cookies with the cookiesData object
-        // handleCookies(cookiesData)
+        setConnectionData({
+          ...connectionData, ...dataForReset
+        })
 
         //if error occurs Alert will be shown as Snackbar
         setMessageForSnackBar("Connection establishment failed!")
@@ -172,9 +151,6 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
   //action for toast
   const action = (
     <React.Fragment>
-      {/* <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button> */}
       <IconButton
         size="small"
         aria-label="close"
@@ -196,18 +172,6 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
     let method = 'POST'
     setLoader(true)
     setSelectedTable(query);
-    // generateColumns(["cl112121212", "cl1212122", "cl12121213", "cl12124", "cl12125", "cl12126", "cl12127", "cl12128", "cl91212", "cl10"])
-
-    // HTTPService(
-    //   method,
-    //   UrlConstant.base_url + UrlConstant.get_column_from_table_name,
-    //   { table_name: query },
-    //   false,
-    //   true,
-    //   false
-    // )
-
-
 
     let token = getTokenLocal();
     Axios({
@@ -245,14 +209,7 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
     for (let i = 0; i < allColumns.length; i++) {
       if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
     }
-    // HTTPService(
-    //   method,
-    //   UrlConstant.base_url + UrlConstant.send_columns_to_export,
-    //   // { col: [...selectedColumns], xls_file_name: query },
-    //   false,
-    //   true,
-    //   false
-    // )
+
     let newFormData = new FormData()
 
     newFormData.append("col", JSON.stringify(selectedColumns))
@@ -322,37 +279,46 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
     setAllColumns([...newAllCol])
   }
 
+  //deleting the file uploaded/exported
+  const handleDeleteDatasetList = (filename, source, datasetname) => {
+    var bodyFormData = new FormData();
 
-  //reset column selected
-  const resetColumnSelected = () => {
-    let newAllCol = []
-    for (let i = 0; i < allColumns.length; i++) {
-      let newColObj = { checked: false, value: allColumns[i].value }
-      newAllCol.push(newColObj)
-    }
-    setAllColumns([...newAllCol])
-  }
+    bodyFormData.append("file_name", filename)
+    bodyFormData.append("dataset_name", datasetname)
+    bodyFormData.append("source", source)
+    HTTPService(
+      "DELETE",
+      UrlConstant.base_url + UrlConstant.dataseteth,
+      bodyFormData,
+      true,
+      true
+    )
+      .then((response) => {
+        console.log("FILE DELETED!");
+        if (response.status === 204) {
+          console.log("file deleted")
+          var filteredArray = mysqlFileList.filter((item) => item.name !== filename)
+          setExportedFiles(filteredArray)
+          setMysqlFileList(filteredArray)
+        }
+      })
+      .catch((e) => {
+        setLoader(false);
+        console.log(e);
+        history.push(GetErrorHandlingRoute(e));
+      }
+      );
+  };
+
+
 
   // disconnect the databse and remove the creds from cookies
   const disconnectTheDatabase = () => {
-    // var now = new Date();
-    // now.setTime(now.getTime() + 1 * 3600 * 1000);
-    // document.cookie = "db_name=" + "" + '; expires=' + now.toUTCString() + '; path=/';
-    // document.cookie = "db_password=" + "" + '; expires=' + now.toUTCString() + '; path=/';
-    // document.cookie = "user_name=" + "" + '; expires=' + now.toUTCString() + '; path=/';
-    // document.cookie = "port=" + "" + '; expires=' + now.toUTCString() + '; path=/';
     setIsConnected(false)
 
   }
 
-  //function to clear or set the cookies
-  function handleCookies(data) {
-    // for (const [key, value] of Object.entries(data)) {
-    // var now = new Date();
-    // now.setTime(now.getTime() + 1 * 3600 * 1000);
-    // document.cookie = "conn_details" + "=" + data + '; expires=' + now.toUTCString() + '; path=/';
-    // }
-  }
+
 
   //delete the exported filesf
   function handleDeleteExportedFile(item) {
@@ -391,17 +357,15 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
       })
   }
 
+  //accordion change handler
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpand = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
   useEffect(() => {
-    // var cookies = document.cookie.split(';');
-    // for (let i = 0; i < cookies.length; i++) {
-    //   let key = cookies[i].split("=")[0]
-    //   let value = cookies[i].split("=")[1];
-    //   if (key.trim() == "db_name" && value.length > 0) {
-    //     setIsConnected(true);
-    //     return
-    //   } else {
-    //   }
-    // }
+
     setLoader(false)
   }, [])
   return (
@@ -422,13 +386,15 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
         </Col>
         <Col lg={6} sm={12} style={{ textAlign: "center" }}>
           <>
-            {isConnected ? <> Connected to <span style={{ fontWeight: "600", }}>  {connectionData.db_name} </span> database <span></span> </> : <>Not connected to any database</>}
-            <img style={{ height: "30px", width: "30px" }} src={bellboygif} alt="database" />
-            <span style={{ textDecoration: "line-through", color: isConnected ? "green" : "red", transition: "all 3s", background: isConnected ? "green" : "red", minWidth: isConnected ? "90px" : "10px", display: "inline-block", minHeight: "3px" }}></span>
-            {isConnected ? <CheckIcon color='success' /> : <ClearIcon color='warning' />}
-            <span style={{ textDecoration: "line-through", color: isConnected ? "green" : "red", transition: "all 3s", background: isConnected ? "green" : "red", minWidth: isConnected ? "10px" : "90px", display: "inline-block", minHeight: "3px" }}></span>
-            {/* <span style={{ textDecoration: "line-through", width: "20px", color: isConnected ? "green" : "red", transition: "all 3s" }}>..........</span> */}
-            <img style={{ height: "30px", width: "30px" }} src={databasegif} alt="database" />
+            <Tooltip title={isConnected ? `Connected to ${connectionData.db_name}` : `Not connected`}>
+              <span>
+                <img style={{ height: "30px", width: "30px" }} src={bellboygif} alt="database" />
+                <span style={{ textDecoration: "line-through", color: isConnected ? "green" : "red", transition: "all 3s", background: isConnected ? "green" : "red", minWidth: isConnected ? "90px" : "10px", display: "inline-block", minHeight: "3px" }}></span>
+                {isConnected ? <CheckIcon color='success' /> : <ClearIcon color='warning' />}
+                <span style={{ textDecoration: "line-through", color: isConnected ? "green" : "red", transition: "all 3s", background: isConnected ? "green" : "red", minWidth: isConnected ? "10px" : "90px", display: "inline-block", minHeight: "3px" }}></span>
+                <img style={{ height: "30px", width: "30px" }} src={databasegif} alt="database" />
+              </span>
+            </Tooltip>
           </>
         </Col>
 
@@ -482,7 +448,7 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
             }}
             style={{ width: "80%" }} id="port" value={connectionData.port} onChange={handleConnectionData} label="Port" name='port' variant="standard" />
         </Col>
-        <Col lg={6} sm={12}> <Connection mysqlFileList={mysqlFileList} postgresFileList={postgresFileList} localUploaded={localUploaded} loader={loader} isConnected={isConnected} /></Col>
+        <Col lg={6} sm={12}> <Connection deleteFunc={deleteFunc} datasetname={datasetname} deleteMysqlFile={handleDeleteDatasetList} mysqlFileList={mysqlFileList} postgresFileList={postgresFileList} localUploaded={localUploaded} loader={loader} isConnected={isConnected} /></Col>
       </Row>
         <Row className='textfield_row' >
           <Col lg={6} sm={12}>
@@ -491,7 +457,7 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
               id='connect_btn_id'
               disabled={(connectionData.db_name.trim() != "" && connectionData.db_password.trim() != "" && connectionData.host_address.trim() != "" && connectionData.port.trim() != "" && connectionData.user_name.trim() != "" && datasetname != "") ? false : true}
               className='connect_btn green_btn_for_connect' onClick={tryToConnect}>Connect </Button>
-            <Button id='cancel_btn_id' className='connect_btn' onClick={() => history.push("/datahub/datasets")}> Cancel </Button>
+            <Button id='cancel_btn_id' className='connect_btn' onClick={() => cancelForm()}> Cancel </Button>
           </Col>
         </Row></> : <>
         <Row className='textfield_row'>
@@ -531,28 +497,6 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
 
           </Col>
           <Col lg={6} sm={12} style={{ textAlign: "center" }} >
-            {/* <Row>
-              <Col lg={3} sm={12}>
-                {isConnected ? <Paper className="paperForTotal" sx={{ padding: "10px", display: "inline" }} elevation={3} >Total no of tables : {dbData.length}</Paper> : ""}
-              </Col>
-              <Col lg={6} sm={12}>
-                {isConnected && selectedTable ? <Paper className="paperForTotal" sx={{ padding: "10px", display: "inline", marginLeft: "0px" }} elevation={3} >No of columns in {selectedTable} : {allColumns.length} </Paper> : ""}
-              </Col>
-              <Col lg={3} sm={12}>
-              {isConnected && selectedTable ? <Paper className="paperForTotal" sx={{ padding: "10px", display: "inline", marginLeft: "0px" }} elevation={3} >No of columns in {selectedTable} : {allColumns.length} </Paper> : ""}
-              </Col>
-
-              <Col lg={1} sm={12}>
-                <Tooltip title={isConnected ? "Connected" : "Not connected"}>
-                  {isConnected ? <div className="statusInsidePaper" elevation={1} >
-                    <span style={{ backgroundColor: isConnected ? "green" : "red", borderRadius: "50%", textAlign: "center" }}> {loader ? <img height="20px" width="20px" src={circleloader} alt="loading" /> : isConnected ? <CheckOutlinedIcon style={{ color: "white" }} /> : <CloseOutlinedIcon style={{ color: "white" }} />} </span>
-                  </div> : ""}
-                </Tooltip>
-              </Col>
-            </Row> */}
-            <Row>
-            </Row>
-            {/* {isConnected ? <Paper elevation={3} ></Paper> : ""} */}
             {isConnected && loader ? <>
               <Skeleton variant="circular">
                 <Avatar />
@@ -560,24 +504,8 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
               <Skeleton variant="rectangular" width={210} height={60} />
             </>
               : ""}
-            {!isExported ? <Connection postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} /> :
-              <List>
-                {mysqlFileList?.map((item, index) => {
-                  return <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <DescriptionOutlinedIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={item} secondary="Jan 9, 2014" />
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteOutlinedIcon onClick={() => handleDeleteExportedFile(item, index)} color='warning' />
-                    </IconButton>
-                    <Divider />
-                  </ListItem>
-                })}
-
-              </List>
+            {!isExported ? <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} /> :
+              <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} />
             }
           </Col>
         </Row>
@@ -585,14 +513,14 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
 
           {(!isExported) ?
             <Col lg={6} sm={12}>
-              {localUploaded?.length > 0 && <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>}
+              {/* {localUploaded?.length > 0 && <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>} */}
               <Button disabled={(exportedFileName != "" && selectedTable.name != "" && datasetname != "") ? false : true} onClick={() => {
                 sendingColumnsSelected()
               }} className='connect_btn'>Export to XLS</Button>
               <Button onClick={(e) => { disconnectTheDatabase() }} className='disconnect_btn'>Disconnect</Button>
             </Col> :
             <Col lg={6} sm={12}>
-              <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button>
+              {/* <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button> */}
               <Button disabled={(exportedFileName != "" && selectedTable != "" && datasetname != "") ? false : true} onClick={() => {
                 sendingColumnsSelected()
               }} className='connect_btn'>Export to XLS</Button>

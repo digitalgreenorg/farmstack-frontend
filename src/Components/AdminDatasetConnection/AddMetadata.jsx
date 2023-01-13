@@ -1,81 +1,226 @@
-import { InputAdornment, TextField } from '@mui/material'
+import { Alert, Checkbox, FormControlLabel, InputAdornment, Stack, Switch, TextField } from '@mui/material'
 import React, { useState } from 'react'
-import { Col, Row } from 'react-bootstrap'
-import FaceIcon from '@mui/icons-material/Face';
-import RichTextEditor from 'react-rte';
+import { Button, Col, Row } from 'react-bootstrap'
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import CategorySelector from './CategorySelector';
+import { useEffect } from 'react';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import labels from '../../Constants/labels';
 
-const AddMetadata = () => {
-    const [govLawDesc, setgovLawDesc] = useState("");
+const AddMetadata = (props) => {
+    const { handleChangeCategory, category, subCategoryNameList, categoryNameList, handleSubCategory, subCategory, geography, handleChangeGeography, conscent, setConscent, handleAddDatasetSubmit } = props
+    const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
-    const toolbarConfig = {
-        // Optionally specify the groups to display (displayed in the order listed).
-        display: [
-            "INLINE_STYLE_BUTTONS",
-            "BLOCK_TYPE_BUTTONS",
-            //   "LINK_BUTTONS",
-            "BLOCK_TYPE_DROPDOWN",
-            //   "HISTORY_BUTTONS",
-        ],
-        INLINE_STYLE_BUTTONS: [
-            { label: "Bold", style: "BOLD", className: "custom-css-class" },
-            { label: "Italic", style: "ITALIC" },
-            { label: "Underline", style: "UNDERLINE" },
-        ],
-        BLOCK_TYPE_DROPDOWN: [
-            { label: "Normal", style: "unstyled" },
-            { label: "Heading Large", style: "header-one" },
-            { label: "Heading Medium", style: "header-two" },
-            { label: "Heading Small", style: "header-three" },
-        ],
-        BLOCK_TYPE_BUTTONS: [
-            { label: "UL", style: "unordered-list-item" },
-            { label: "OL", style: "ordered-list-item" },
-        ],
-    };
+    useEffect(() => {
 
-    const [editorGovLawValue, setEditorGovLawValue] = React.useState(
-        RichTextEditor.createValueFromString(govLawDesc, "html")
-    );
-
-    const handlegovLawChange = (value) => {
-        setEditorGovLawValue(value);
-        setgovLawDesc(value.toString("html"));
-        console.log(value.toString("html"));
-    };
+    }, [categoryNameList])
     return (
         <>
             <Row>
                 <Col lg={12}>
-                    <TextField
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <FaceIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                        style={{ width: "80%" }} id="standard-basic" label="User name" variant="standard" />
+
                 </Col>
-                <Col xs="12" sm="6" md="6" lg="12">
-                    <div className="invite-participant-text-editor policyrte">
-                        <RichTextEditor
-                            toolbarConfig={toolbarConfig}
-                            value={editorGovLawValue}
-                            onChange={handlegovLawChange}
-                            required
-                            id="body-text"
-                            name="bodyText"
-                            type="string"
-                            multiline
-                            variant="filled"
-                            style={{
-                                minHeight: 410,
-                                //   width: 420,
-                                border: "1px solid black",
-                                //   zIndex: 4,
-                            }}
-                        />
-                    </div>
+                <Col xs="12" sm="6" md="6" lg="4">
+                    {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={category}
+                            onChange={handleChange}
+                            label="Category"
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={10}></MenuItem>
+                            <MenuItem value={20}></MenuItem>
+                            <MenuItem value={30}></MenuItem>
+                        </Select>
+                    </FormControl> */}
+
+                    <CategorySelector heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} />
+                </Col>
+                <Col xs="12" sm="6" md="6" lg="4">
+                    <CategorySelector heading={"Sub category"} handler={handleSubCategory} category={subCategory} list={subCategoryNameList} />
+                </Col>
+                <Col xs="12" sm="6" md="6" lg="4">
+                    <FormControl sx={{ m: 1, width: "300px" }}>
+                        <InputLabel id="demo-simple-select-standard-label">Geography</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={geography}
+                            onChange={handleChangeGeography}
+                            label="Geography"
+                        >
+                            {/* <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem> */}
+                            <MenuItem value={"in"}>India</MenuItem>
+                            <MenuItem value={"eth"}>Ethiopia</MenuItem>
+                            <MenuItem value={"ken"}>Kenya</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Col>
+
+            </Row>
+            <Row>
+                <Col xs={12} sm={12} md={6} lg={6}>
+                    <span className="AddDatasetsecondaryheading">
+                        {screenlabels.dataset.Interval}
+                    </span>
+                </Col>
+                <Col xs={12} sm={12} md={6} lg={6}>
+                    <FormControlLabel
+                        value="start"
+                        control={
+                            <Switch
+                                checked={props.Switchchecked}
+                                onChange={props.handleChangeSwitch}
+                                inputProps={{ "aria-label": "controlled" }}
+                            />
+                        }
+                        label={screenlabels.dataset.Constantly_updating}
+                        labelPlacement="start"
+                        className="constantswitch"
+                    />
+                </Col>
+            </Row>
+            {props.Switchchecked ? (
+                <Row>
+                    <Col xs={12} sm={12} md={6} lg={6} className="FromDate">
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                inputFormat="dd/MM/yyyy"
+                                disabled
+                                value={props.fromdate}
+                                onChange={props.handleChangeFromDate}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        id="filled-basic"
+                                        variant="filled"
+                                        className="fromtextfield"
+                                    />
+                                )}
+                                error={props.dataCaptureStartErrorMessage ? true : false}
+                                helperText={props.dataCaptureStartErrorMessage}
+                            />
+                        </LocalizationProvider>
+                    </Col>
+                    <Col xs={12} sm={12} md={6} lg={6} className="toDate">
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                disabled
+                                value={props.todate}
+                                inputFormat="dd/MM/yyyy"
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        id="filled-basic"
+                                        variant="filled"
+                                        className="totextfield"
+                                        disabled
+                                    />
+                                )}
+                                error={props.dataCaptureEndErrorMessage ? true : false}
+                                helperText={props.dataCaptureEndErrorMessage}
+                            />
+                        </LocalizationProvider>
+                    </Col>
+                </Row>
+            ) : (
+                <Row>
+                    <Col
+                        xs={12}
+                        sm={12}
+                        md={6}
+                        lg={6}
+                        className="FromDate addDatasetFromdate"
+                    >
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                inputFormat="dd/MM/yyyy"
+                                disableFuture
+                                label={screenlabels.dataset.Start_Date}
+                                value={props.fromdate}
+                                onChange={props.handleChangeFromDate}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        id="filled-basic"
+                                        variant="filled"
+                                        className="fromtextfield"
+                                        aria-readonly
+                                    />
+                                )}
+                            />
+                        </LocalizationProvider>
+                    </Col>
+                    <Col
+                        xs={12}
+                        sm={12}
+                        md={6}
+                        lg={6}
+                        className="toDate addDatasetTodate"
+                    >
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                inputFormat="dd/MM/yyyy"
+                                disabled={props.fromdate ? false : true}
+                                disableFuture
+                                label={screenlabels.dataset.End_Date}
+                                minDate={props.fromdate}
+                                value={props.todate}
+                                onChange={props.handleChangeToDate}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        id="filled-basic"
+                                        variant="filled"
+                                        className="totextfield"
+                                    />
+                                )}
+                            />
+                        </LocalizationProvider>
+                    </Col>
+                </Row>
+            )}
+            <Row>
+                {/* <Col lg={12} > */}
+                <Stack sx={{ width: "100%", textAlign: "left" }} spacing={2}>
+                    <Checkbox checked={conscent} onChange={(e) => setConscent(e.target.checked)} />
+                    <Alert severity="warning">
+                        {/* <AlertTitle style={{ textAlign: "left" }}>Warning</AlertTitle> */}
+                        {/* This is a warning alert —{" "} */}
+                        <strong>
+                            This table's sample dataset is solely meant to be used as a
+                            source of information. Despite the fact that accuracy is a
+                            goal, the steward is not accountable for the information.
+                            Please let the admin know if you come across any information
+                            that you think is inaccurate.
+                        </strong>
+                    </Alert>
+                </Stack>
+                {/* </Col> */}
+            </Row>
+            <Row>
+                <Col>
+                    <Button
+                        onClick={handleAddDatasetSubmit}
+                        variant="contained"
+                        className="submitbtn"
+                        type="submit"
+                        disabled={!conscent}
+                    >
+                        {screenlabels.common.submit}
+                    </Button>
                 </Col>
             </Row>
         </>

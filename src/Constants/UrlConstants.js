@@ -65,7 +65,8 @@ const UrlConstant = {
 
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",
-  send_columns_to_export: "participant/database/database_xls_file/"
+  send_columns_to_export: "participant/database/database_xls_file/",
+  admin_dataset_new_dataset_v2: "datahub/dataset/v2/"
 };
 
 export default UrlConstant;

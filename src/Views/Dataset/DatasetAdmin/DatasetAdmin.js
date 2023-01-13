@@ -166,7 +166,7 @@ export default function DatasetAdmin() {
   const [filterState, setFilterState] = useState({});
 
   var payload = "";
-  var adminUrl = UrlConstant.base_url + UrlConstant.dataset_list;
+  var adminUrl = UrlConstant.base_url + UrlConstant.admin_dataset_new_dataset_v2;
   var memberUrl = UrlConstant.base_url + UrlConstant.dataset_list;
   var searchUrl =
     UrlConstant.base_url + UrlConstant.search_dataset_end_point_admin;
@@ -905,8 +905,8 @@ export default function DatasetAdmin() {
           ? memberUrl
           : adminUrl
         : value === "2"
-        ? memberDatasetUrl
-        : datasetUrl,
+          ? memberDatasetUrl
+          : datasetUrl,
       payload,
       false,
       true
@@ -1414,8 +1414,8 @@ export default function DatasetAdmin() {
             tabelkeys={tablekeys}
           ></ViewDataSet>
           {isAdminView &&
-          viewdata.approval_status !== "rejected" &&
-          viewdata.user_id === getUserLocal() ? (
+            viewdata.approval_status !== "rejected" &&
+            viewdata.user_id === getUserLocal() ? (
             <>
               <Row>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
@@ -1795,7 +1795,7 @@ export default function DatasetAdmin() {
                   isCropSearchFound={isCropSearchFound}
                   constantyUpdateSwitch={constantyUpdateSwitch}
                   handleConstantyUpdateSwitch={handleConstantyUpdateSwitch}
-                  // setConstantyUpdateSwitch={setConstantyUpdateSwitch}
+                // setConstantyUpdateSwitch={setConstantyUpdateSwitch}
                 />
               </Col>
               <Col className="supportSecondCOlumn">
