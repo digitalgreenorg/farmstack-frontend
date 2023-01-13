@@ -76,11 +76,12 @@ export default function DataSetListing(props) {
             <DataSetCard
               isMemberTab={props.isMemberTab}
               title={dataset.name}
+              constantly_update={dataset.constantly_update}
               orgName={dataset.organization.name}
               visiblity={dataset.is_public}
               publishedon={dataset.created_at}
               cropDetail={
-                dataset.crop_detail ? dataset.crop_detail : "N/A"
+                "N/A"
               }
               geography={dataset.geography}
               orgLogo={dataset.organization.logo}
@@ -129,7 +130,7 @@ export default function DataSetListing(props) {
               onClick={() => props.getDatasetList(true)}
               variant="outlined"
               className="cancelbtn"
-              style={{"text-transform":"none"}}>
+              style={{ "text-transform": "none" }}>
               Load more
             </Button>
           </Col>

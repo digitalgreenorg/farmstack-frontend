@@ -13,7 +13,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import labels from '../../Constants/labels';
 
 const AddMetadata = (props) => {
-    const { handleChangeCategory, category, subCategoryNameList, categoryNameList, handleSubCategory, subCategory, geography, handleChangeGeography, conscent, setConscent, handleAddDatasetSubmit } = props
+    const { handleChangeCategory, category, subCategoryNameList, categoryNameList, handleSubCategory, subCategory, geography, handleChangeGeography, conscent, setConscent, handleAddDatasetSubmit, isSubmitted } = props
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
     useEffect(() => {
@@ -62,9 +62,9 @@ const AddMetadata = (props) => {
                             {/* <MenuItem value="">
                                 <em>None</em>
                             </MenuItem> */}
-                            <MenuItem value={"in"}>India</MenuItem>
-                            <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                            <MenuItem value={"ken"}>Kenya</MenuItem>
+                            <MenuItem value={"India"}>India</MenuItem>
+                            <MenuItem value={"Ethiopia"}>Ethiopia</MenuItem>
+                            <MenuItem value={"Kenya"}>Kenya</MenuItem>
                         </Select>
                     </FormControl>
                 </Col>
@@ -219,7 +219,7 @@ const AddMetadata = (props) => {
                         variant="contained"
                         className="submitbtn"
                         type="submit"
-                        disabled={!conscent}
+                        disabled={(conscent && geography != "" && subCategory?.length > 0 && (!props.Switchchecked ? props.fromdate && props.todate : props.Switchchecked)) && !isSubmitted ? false : true}
                     >
                         {screenlabels.common.submit}
                     </Button>

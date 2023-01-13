@@ -258,12 +258,12 @@ export default function DataSetFilter(props) {
                 handleCheckListFilterChange={() => props.handleEnableStatusFilter(screenlabels.dataset.disbaled)}
             />
         } */}
-      <Row className="supportfiltersecondrowbold">
+      {/* <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           {"Data Visiblity"}
         </span>
-      </Row>
-      {props.dataAccessFilterDisplay
+      </Row> */}
+      {/* {props.dataAccessFilterDisplay
         ? props.dataAccessFilterDisplay.map((datavisiblity) => (
           <FilterCheckBox
             label={datavisiblity.name}
@@ -273,7 +273,7 @@ export default function DataSetFilter(props) {
             }
           />
         ))
-        : ""}
+        : ""} */}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/geography.svg")} alt="new" />
@@ -327,12 +327,12 @@ export default function DataSetFilter(props) {
         ))}  
       </Row>
        */}
-      <Row className="supportfiltersecondrowbold">
+      {/* <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/calendar.svg")} alt="new" />
           &nbsp;&nbsp;{screenlabels.dataset.age}
         </span>
-      </Row>
+      </Row> */}
       <Row style={{ "margin-left": "-3px", "margin-top": "10px" }}>
         <FormControlLabel
           value="start"
@@ -378,7 +378,7 @@ export default function DataSetFilter(props) {
           &nbsp;&nbsp;{screenlabels.dataset.Value_Chain}
         </span>
       </Row>
-      <Row className="supportfiltersecondrowbold">
+      {/* <Row className="supportfiltersecondrowbold">
         <TextField
           style={{
             width: "100%",
@@ -395,9 +395,9 @@ export default function DataSetFilter(props) {
           error={!props.isCropSearchFound}
           helperText={!props.isCropSearchFound ? "Not found" : ""}
         />
-      </Row>
+      </Row> */}
       {/* <Row> */}
-      {props.cropFilterDisplay &&
+      {/* {props.cropFilterDisplay &&
         props.cropFilterDisplay.map(
           (cropFilter) =>
             cropFilter.isDisplayed && (
@@ -412,7 +412,7 @@ export default function DataSetFilter(props) {
                 }
               />
             )
-        )}
+        )} */}
       {/* </Row> */}
       {/* <Row>
         {props.cropList && props.cropList.map((crop) => (

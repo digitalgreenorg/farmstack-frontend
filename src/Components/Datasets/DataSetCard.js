@@ -67,12 +67,12 @@ const useStyles = {
     "font-weight": "400",
     "font-size": "14px",
     "line-height": "19px",
-    overflow: "hidden",
-    "text-overflow": "ellipsis",
     display: "-webkit-box",
-    "-webkit-line-clamp": "1",
+    "-webkit-line-clamp": "3",
     "-webkit-box-orient": "vertical",
     "text-align": "left",
+    overflow: "hidden",
+    "max-height": "60px"
   },
 };
 export default function DataSetCard(props) {
@@ -90,49 +90,48 @@ export default function DataSetCard(props) {
       onMouseEnter={() => setisshowbutton(true)}
       onMouseLeave={() => setisshowbutton(false)}
     >
-      <Tooltip TransitionComponent={Zoom} title={props.title}>
-        <div className="cardheaderTitlespecifier text-truncate">
-          <CardHeader
-            avatar={
-              props.orgLogo ? (
-                <Avatar
-                  alt="Remy Sharp"
-                  src={UrlConstants.base_url_without_slash + props.orgLogo}
-                  sx={{ width: 54, height: 54 }}
-                />
-              ) : (
-                <Avatar
-                  sx={{ bgcolor: "#c09507", width: 54, height: 54 }}
-                  aria-label="recipe"
-                >
-                  {props.orgName.charAt(0)}
-                </Avatar>
-              )
-            }
-            // title={props.data.subject}
-            // tooltip={<Tooltip title={props.title}>{props.title}</Tooltip>}
-            title={props.title}
-            style={{
-              "background-color": "#f8f9fa",
-              padding: "9px",
-              "text-align": "left",
-              overflow: "hidden",
-              "text-overflow": "ellipsis",
-            }}
-          />
-        </div>
-      </Tooltip>
+      {/* <Tooltip TransitionComponent={Zoom} title={props.title}> */}
+      <div className="cardheaderTitlespecifier text-truncate">
+        <CardHeader
+          avatar={
+            props.orgLogo ? (
+              <Avatar
+                alt="Remy Sharp"
+                src={UrlConstants.base_url_without_slash + props.orgLogo}
+                sx={{ width: 54, height: 54 }}
+              />
+            ) : (
+              <Avatar
+                sx={{ bgcolor: "#c09507", width: 54, height: 54 }}
+                aria-label="recipe"
+              >
+                {props.orgName.charAt(0)}
+              </Avatar>
+            )
+          }
+          // title={props.data.subject}
+          // tooltip={<Tooltip title={props.title}>{props.title}</Tooltip>}
+          title={props.title}
+          style={{
+            "background-color": "#f8f9fa",
+            padding: "9px",
+            "text-align": "left",
+            overflow: "hidden",
+            "text-overflow": "ellipsis",
+          }}
+        />
+      </div>
+      {/* </Tooltip> */}
 
       <CardContent>
         <Row style={useStyles.datasetdescription}>
-          <Tooltip TransitionComponent={Zoom} title={props.description}>
-            <span
-              style={{ maxWidth: "300px" }}
-              className="d-inline-block text-truncate"
-            >
-              {props.description}
-            </span>
-          </Tooltip>
+          {/* <Tooltip TransitionComponent={Zoom} title={props.description}> */}
+          <span
+            style={{ maxWidth: "300px" }}
+          >
+            {props.description}
+          </span>
+          {/* </Tooltip> */}
         </Row>
         <Row>
           {props.isMemberTab ? (
@@ -152,28 +151,28 @@ export default function DataSetCard(props) {
         <Row className="supportcardmargintop">
           {props.isMemberTab ? (
             <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-              <Tooltip TransitionComponent={Zoom} title={props.orgName}>
-                <div
-                  style={{ maxWidth: "150px" }}
-                  className="d-inline-block text-truncate"
-                >
-                  {props.orgName}
-                </div>
-              </Tooltip>
+              {/* <Tooltip TransitionComponent={Zoom} title={props.orgName}> */}
+              <div
+                style={{ maxWidth: "150px" }}
+                className="d-inline-block text-truncate"
+              >
+                {props.orgName}
+              </div>
+              {/* </Tooltip> */}
             </Col>
           ) : (
             <Col
               style={{ zIndex: 10 }}
               className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumngeo"
             >
-              <Tooltip TransitionComponent={Zoom} title={props.geography}>
-                <div
-                  style={{ maxWidth: "150px" }}
-                  className="d-inline-block text-truncate"
-                >
-                  {props.geography}
-                </div>
-              </Tooltip>
+              {/* <Tooltip TransitionComponent={Zoom} title={props.geography}> */}
+              <div
+                style={{ maxWidth: "150px" }}
+                className="d-inline-block text-truncate"
+              >
+                {props.geography}
+              </div>
+              {/* </Tooltip> */}
             </Col>
           )}
           {/* <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"> */}
@@ -212,26 +211,26 @@ export default function DataSetCard(props) {
                 </Row> */}
         <Row>
           <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-          {"Data Visiblity"}
+            {"constantly update"}
           </Col>
           <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-            {screenlabels.dataset.crop_details}
+            {/* {screenlabels.dataset.crop_details} */}
           </Col>
         </Row>
         <Row className="supportcardmargintop">
           <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
-            <Tooltip
+            {/* <Tooltip
               TransitionComponent={Zoom}
               title={props.visiblity ? "Public" : "Private"}
+            > */}
+            <div
+              style={{ maxWidth: "135px" }}
+              className="d-inline-block text-truncate"
             >
-              <div
-                style={{ maxWidth: "135px" }}
-                className="d-inline-block text-truncate"
-              >  
-                {/* {console.log("validdityyy",props.visiblity)} */}
-                {props.visiblity ? "Public" : "Private"}
-              </div>
-            </Tooltip>
+              {/* {console.log("validdityyy",props.visiblity)} */}
+              {props.constantly_update ? "Yes" : "No"}
+            </div>
+            {/* </Tooltip> */}
           </Col>
           <Col
             style={{
@@ -241,14 +240,14 @@ export default function DataSetCard(props) {
             }}
             className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"
           >
-            <Tooltip TransitionComponent={Zoom} title={props.cropDetail}>
-              <span
-                style={{ maxWidth: "150px" }}
-                className="d-inline-block text-truncate"
-              >
-                {props.cropDetail}
-              </span>
-            </Tooltip>
+            {/* <Tooltip TransitionComponent={Zoom} title={""}> */}
+            <span
+              style={{ maxWidth: "150px" }}
+              className="d-inline-block text-truncate"
+            >
+              {/* {props.cropDetail} */}
+            </span>
+            {/* </Tooltip> */}
           </Col>
         </Row>
         {/* <Row>
@@ -317,17 +316,17 @@ export default function DataSetCard(props) {
           style={
             !props.isMemberTab
               ? {
-                  "margin-top": "30px",
-                  width: "150px",
-                  marginLeft: "170px",
-                  zIndex: "11",
-                }
+                "margin-top": "30px",
+                width: "150px",
+                marginLeft: "170px",
+                zIndex: "11",
+              }
               : {
-                  "margin-top": "-50px",
-                  width: "150px",
-                  marginLeft: "170px",
-                  zIndex: "11",
-                }
+                "margin-top": "-50px",
+                width: "150px",
+                marginLeft: "170px",
+                zIndex: "11",
+              }
           }
         >
           {isshowbutton ? (
