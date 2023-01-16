@@ -841,3 +841,53 @@ button.disbalesubmitbtndept {
  /* border: 1px solid green; */
   /* transition: width 3s; */
 /* } */
+.viewdatasetsecondheading {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1px;
+  line-height: 138.69%;
+  /* or 22px */
+
+  /* headings */
+
+  color: #3d4a52;
+}
+
+.separatorlineview {
+  margin-left: -200px;
+  margin-right: -200px;
+  margin-top: 30px;
+  border-top: 1px solid rgba(237, 22, 22, 0.5);
+}
+.downloadfiles {
+  margin-top: 30px;
+} 
+.downloadfiles :hover{
+  color: #3491EE !important
+}
+.solid{
+  border-left: 1px solid #bbb;
+  width: 300px;
+  margin-left: -100px;
+  margin-top: 50px;
+  
+}
+.horizontal{
+  border-left: 1px solid #bbb;
+  height: 300px;
+}
+.thirdmainheadingview {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 138.69%;
+  /* or 19px */
+
+  /* headings */
+
+  color: white;
+  align-items: center;
+  text-align: center;
+}
