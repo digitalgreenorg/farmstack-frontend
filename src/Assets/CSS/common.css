@@ -877,3 +877,17 @@ button.disbalesubmitbtndept {
   border-left: 1px solid #bbb;
   height: 300px;
 }
+.thirdmainheadingview {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 138.69%;
+  /* or 19px */
+
+  /* headings */
+
+  color: white;
+  align-items: center;
+  text-align: center;
+}

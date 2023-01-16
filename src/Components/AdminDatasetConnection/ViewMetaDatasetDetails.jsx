@@ -107,28 +107,28 @@ export default function ViewMetaDatasetDetails(props) {
             <Col style={{ "margin-top": "40px" }}>
                 <Row className="secondmainheading">Category</Row>
                 {category.map((data) => (
-                    <Row key={category} value={category} className="thirdmainheading" style={{ "text-align": "center", "alignItems": "center", "margin-top": "10px", "border-radius": "10px", "border": "2px solid #83A9C9", "background": "#83A9C9", "width": "150px", "height": "40px" }}>
+                    <Row className="thirdmainheadingview" style={{ "text-align": "center", "alignItems": "center", "margin-top": "10px", "border-radius": "10px", "border": "2px solid #83A9C9", "background": "#83A9C9", "width": "150px", "height": "40px" }}>
                         {data.category}</Row>))}
             </Col>
             <Col style={{ "margin-top": "40px" }}>
                 <Row className="secondmainheading">Sub Category</Row>
                 {category.map((item1) => item1.children.map((item2) => (
-                    <Row className="thirdmainheading" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #8AA7AD", "background": "#8AA7AD", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #8AA7AD", "background": "#8AA7AD", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
                         {item2.sub_category}</Row>)))}
             </Col>
             <Col style={{ "margin-top": "40px" }}>
                 <Row className="secondmainheading">Geography</Row>
-                <Row className="thirdmainheading" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #9ABA8F", "background": "#9ABA8F", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                <Row className="thirdmainheadingview" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #9ABA8F", "background": "#9ABA8F", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
                     {geography}</Row>
             </Col>
             <Col style={{ "margin-top": "40px" }}>
                 <Row className="secondmainheading">Freshness of Data</Row>
-                <Row className="thirdmainheading" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #DFC780", "background": "#DFC780", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                <Row className="thirdmainheadingview" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #DFC780", "background": "#DFC780", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
                     {constantlyupdate ? "Yes" : "No"}</Row>
             </Col>
             <Col style={{ "margin-top": "40px" }}>
                 <Row className="secondmainheading">Data Capture Interval</Row>
-                <Row className="thirdmainheading" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #D9B082", "background": "#D9B082", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                <Row className="thirdmainheadingview" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #D9B082", "background": "#D9B082", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
                     <span>{fromdate ? fromdate : "NA"}</span>
                     <span>{toDate}</span>
                 </Row>
@@ -259,7 +259,7 @@ export default function ViewMetaDatasetDetails(props) {
 
 
                 </Row>
-                <Col className="thirdmainheading" style={{ "marginLeft": "-17px", "margin-top": "30px" }}>
+                <Col className="thirdmainheadingview" style={{ "marginLeft": "-17px", "margin-top": "30px" }}>
                     <Col>
                         <Avatar alt="Remy Sharp"
                             // className='css-v8h2xp-MuiAvatar-root'
@@ -286,7 +286,7 @@ export default function ViewMetaDatasetDetails(props) {
 
             <Col style={{ "marginLeft": "60px", "margin-top": "30px" }}>
                 <Row style={{ "marginLeft": "-550px", "margin-top": "25px" }}>ROOT USER DETAILS</Row>
-                <Col className="thirdmainheading" style={{ "marginLeft": "-550px", "margin-top": "38px" }}>
+                <Col className="thirdmainheadingview" style={{ "marginLeft": "-550px", "margin-top": "38px" }}>
                     <Row>{userdetails.first_name}</Row>
                     <Row>{userdetails.last_name}</Row>
                     <Row>{userdetails.email}</Row>
