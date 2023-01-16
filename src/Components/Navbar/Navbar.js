@@ -121,7 +121,7 @@ const Navbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.datasets}
           </NavLink>
-          <NavLink to="/datahub/connectors" activeStyle>
+          {/* <NavLink to="/datahub/connectors" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/connectors.svg")}
@@ -133,7 +133,7 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/datahub/support" activeStyle>
             <img
               className="boldimage"
