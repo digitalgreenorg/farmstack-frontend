@@ -28,10 +28,10 @@ const UrlConstant = {
   policies_files_upload: "datahub/drop_document/",
   policies_save_upload: "datahub/save_documents/",
   delete_policies_drop_document: "datahub/drop_document/delete/",
-  dataset_filter: "datahub/datasets/filters_data/",
-  dataset_filter_participant: "participant/datasets/filters_data/",
-  dataset_list: "datahub/datasets/dataset_filters/",
-  dataset_participant_list: "participant/datasets/dataset_filters/",
+  dataset_filter: "datahub/dataset/v2/filters_data/",
+  dataset_filter_participant: "datahub/dataset/v2/filters_data/",
+  dataset_list: "datahub/dataset/v2/dataset_filters/",
+  dataset_participant_list: "datahub/dataset/v2/dataset_filters/",
   department: "participant/department/",
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
@@ -60,11 +60,14 @@ const UrlConstant = {
   datahub_dashboard: "datahub/dashboard/",
   add_project: "/participant/project/",
   project_listing_page_url: "participant/project/project_list/",
-  search_dataset_end_point_admin: "datahub/datasets/search_datasets/",
-  search_dataset_end_point_participant: "participant/datasets/search_datasets/",
+  search_dataset_end_point_admin: "datahub/dataset/v2/search_datasets/",
+  search_dataset_end_point_participant: "datahub/dataset/v2/search_datasets/",
   search_dataset_end_point_guest: "microsite/datasets/search_datasets/",
 
-  connectionToDBEndPoint: ""
+  connection_to_db_end_point: "participant/database/database_config/",
+  get_column_from_table_name: "participant/database/database_col_names/",
+  send_columns_to_export: "participant/database/database_xls_file/",
+  admin_dataset_new_dataset_v2: "datahub/dataset/v2/"
 };
 
 export default UrlConstant;

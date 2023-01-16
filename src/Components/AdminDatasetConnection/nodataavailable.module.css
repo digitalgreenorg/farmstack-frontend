@@ -1,9 +1,13 @@
 .nodatamainbox {
     /* border: 1px solid red; */
-    width: 640px;
     height: 317px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.rightSideIndicator span {
+    /* background-color: blue !important; */
+    /* border: 1px solid red !important; */
 }

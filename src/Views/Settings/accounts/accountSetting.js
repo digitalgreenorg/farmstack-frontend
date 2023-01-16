@@ -114,8 +114,8 @@ export default function AccountSetting(props) {
     //   //   setispropfileemailerror(true);
     //   // }
   };
-  const phonenumcheck = (number) =>{
-    return number.length>=9
+  const phonenumcheck = (number) => {
+    return number.length >= 9
   }
   const handleprofilenumber = (value) => {
     console.log(value);
@@ -174,6 +174,7 @@ export default function AccountSetting(props) {
     // bodyFormData.append("profile_picture", file);
 
     // file upload
+    console.log(file)
     fileUpload(bodyFormData, file, "profile_picture");
 
     console.log("branding data", bodyFormData);
@@ -319,10 +320,10 @@ export default function AccountSetting(props) {
               inputRef={profilelastname}
               error={lastNameErrorMessage ? true : false}
               helperText={lastNameErrorMessage}
-              // error={ispropfilelastnameerror}
-              // helperText={
-              //   ispropfilelastnameerror ? "Enter Valid last name" : ""
-              // }
+            // error={ispropfilelastnameerror}
+            // helperText={
+            //   ispropfilelastnameerror ? "Enter Valid last name" : ""
+            // }
             />
           </Col>
         </Row>
@@ -341,10 +342,10 @@ export default function AccountSetting(props) {
               inputProps={{ readOnly: true }}
               //   defaultValue={validemail}
               disabled
-              // error={props.ispropfileemailerror}
-              // helperText={
-              //   props.ispropfileemailerror ? "Enter Valid Email id" : ""
-              // }
+            // error={props.ispropfileemailerror}
+            // helperText={
+            //   props.ispropfileemailerror ? "Enter Valid Email id" : ""
+            // }
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -361,8 +362,8 @@ export default function AccountSetting(props) {
               onChange={handleprofilenumber}
               error={phoneNumberErrorMessage ? true : false}
               helperText={phoneNumberErrorMessage}
-              // error={ispropfilenumbererror}
-              // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
+            // error={ispropfilenumbererror}
+            // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
             />
           </Col>
         </Row>
@@ -379,7 +380,7 @@ export default function AccountSetting(props) {
                   uploadtitle="Upload Profile image"
                 />
               }
-              //   maxSize={2}
+            //   maxSize={2}
             />
           </Col>
         </Row>
@@ -419,10 +420,10 @@ export default function AccountSetting(props) {
               <span className="">Submit</span>
             </Button> */}
             {!ispropfilefirstnameerror &&
-            !accfilesize &&
-            accfirstnamebtn &&
-            file != null &&
-            accnumberbtn ? (
+              !accfilesize &&
+              accfirstnamebtn &&
+              file != null &&
+              accnumberbtn ? (
               // <Button variant="contained" className="submitbtn" type="submit">
               //   <span className="signupbtnname">Submit</span>
               // </Button>
@@ -430,12 +431,12 @@ export default function AccountSetting(props) {
                 onClick={handleAccountSettingSubmit}
                 variant="contained"
                 className="submitbtn"
-                style={{textTransform:"none"}}
+                style={{ textTransform: "none" }}
                 type="submit">
                 {screenlabels.common.submit}
               </Button>
             ) : (
-              <Button variant="outlined" style={{textTransform:"none"}} disabled className="disbalesubmitbtn">
+              <Button variant="outlined" style={{ textTransform: "none" }} disabled className="disbalesubmitbtn">
                 Submit
               </Button>
             )}
@@ -448,7 +449,7 @@ export default function AccountSetting(props) {
             <Button
               variant="outlined"
               className="cancelbtn"
-              style={{textTransform:"none"}}
+              style={{ textTransform: "none" }}
               type="button"
               onClick={accountsettingcancelbtn}>
               {screenlabels.common.cancel}
