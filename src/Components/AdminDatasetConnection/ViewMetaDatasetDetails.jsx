@@ -259,7 +259,7 @@ export default function ViewMetaDatasetDetails(props) {
 
 
                 </Row>
-                <Col className="thirdmainheadingview" style={{ "marginLeft": "-17px", "margin-top": "30px" }}>
+                <Col className="thirdmainheading" style={{ "marginLeft": "-17px", "margin-top": "30px" }}>
                     <Col>
                         <Avatar alt="Remy Sharp"
                             // className='css-v8h2xp-MuiAvatar-root'
@@ -286,7 +286,7 @@ export default function ViewMetaDatasetDetails(props) {
 
             <Col style={{ "marginLeft": "60px", "margin-top": "30px" }}>
                 <Row style={{ "marginLeft": "-550px", "margin-top": "25px" }}>ROOT USER DETAILS</Row>
-                <Col className="thirdmainheadingview" style={{ "marginLeft": "-550px", "margin-top": "38px" }}>
+                <Col className="thirdmainheading" style={{ "marginLeft": "-550px", "margin-top": "38px" }}>
                     <Row>{userdetails.first_name}</Row>
                     <Row>{userdetails.last_name}</Row>
                     <Row>{userdetails.email}</Row>
