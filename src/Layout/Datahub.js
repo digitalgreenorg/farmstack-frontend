@@ -35,6 +35,7 @@ import DepartmentSettings from "../Views/Settings/ParticipantSettings/Department
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
+import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -148,6 +149,11 @@ function Datahub(props) {
                 exact
                 path="/datahub/connectors/detail"
                 component={DemoDashboardTable}
+              />
+              <Route
+              exact
+              path="/datahub/dataset/view/:id"
+              component={ViewMetaDatasetDetails}
               />
             </Switch>
           </div>

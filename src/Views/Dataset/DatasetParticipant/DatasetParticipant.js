@@ -1263,8 +1263,8 @@ export default function DatasetParticipant() {
   };
   const viewCardDetails = (id, flag) => {
     setid(id);
-    setIsLoader(true);
-    setisAdminView(flag);
+    // setIsLoader(true);
+    // setisAdminView(flag);
     history.push("/participant/dataset/view/" + id)
     // HTTPService(
     //   "GET",

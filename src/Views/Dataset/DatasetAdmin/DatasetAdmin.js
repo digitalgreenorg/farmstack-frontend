@@ -1286,7 +1286,7 @@ export default function DatasetAdmin() {
   const viewCardDetails = (id, flag) => {
     setid(id);
     // setIsLoader(true);
-    setisAdminView(flag);
+    // setisAdminView(flag);
     history.push("/datahub/dataset/view/" + id)
     // HTTPService(
     //   "GET",
