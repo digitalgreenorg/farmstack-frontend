@@ -46,6 +46,20 @@ const AddDataset = () => {
     const [isSubmitted, setIsSubmitted] = useState(false)
     const history = useHistory()
 
+
+    const [lengthOfSubCat, setLengthOfSubCat] = useState(0)
+    const [SubCatList, setSubCatList] = React.useState([]);
+
+    const handleChangeSubCatList = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setSubCatList(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
     const [allCatFetched, setAllCatFetched] = useState({})
     const [selectedCat, setSelectedCat] = useState({})
     const [selectedSubCat, setSelectedSubCat] = useState([])
@@ -586,12 +600,15 @@ const AddDataset = () => {
         // console.log(selectedCat[parent], "Selected")
         let arr = [...selectedCat[parent]]
         if (checked) {
+
+            setLengthOfSubCat((prev) => prev + 1)
             console.log(arr)
             arr.push(value)
         } else {
 
             const index = arr.indexOf(value);
             if (index > -1) { // only splice array when item is found
+                setLengthOfSubCat((prev) => prev - 1)
                 arr.splice(index, 1); // 2nd parameter means remove one item only
             }
         }
@@ -726,9 +743,10 @@ const AddDataset = () => {
                                         selectedSubCat={selectedSubCat}
                                         setSelectedSubCat={setSelectedSubCat}
                                         allCatFetched={allCatFetched}
+                                        SubCatList={SubCatList}
                                         handleSubCategoryListForFinal={handleSubCategoryListForFinal}
-
-
+                                        finalJson={finalJson}
+                                        lengthOfSubCat={lengthOfSubCat}
                                         isSubmitted={isSubmitted}
                                         handleChangeGeography={handleChangeGeography}
                                         handleAddDatasetSubmit={handleAddDatasetSubmit}
@@ -741,7 +759,7 @@ const AddDataset = () => {
                                         handleChangeFromDate={handleChangeFromDate}
                                         todate={todate}
                                         handleChangeToDate={handleChangeToDate}
-
+                                        handleChangeSubCatList={handleChangeSubCatList}
                                         categoryNameList={categoryNameList}
                                         handleChangeCategory={handleChangeCategory}
                                         category={category}

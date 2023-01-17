@@ -214,7 +214,7 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
     newFormData.append("col", JSON.stringify(selectedColumns))
     newFormData.append("file_name", query)
     newFormData.append("dataset_name", datasetname)
-    newFormData.append("source", "mysql")
+    newFormData.append("source", "postgresql")
     newFormData.append("table_name", table_name)
 
     let token = getTokenLocal();
@@ -236,7 +236,7 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
         setSelectedTable("")
 
         setExportedFiles([...res.data])
-        setMysqlFileList([...res.data])
+        setPostgresFileList([...res.data])
         //if error occurs Alert will be shown as Snackbar
         setMessageForSnackBar("File exported successfully!")
         setErrorOrSuccess("success")
@@ -296,9 +296,9 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
         console.log("FILE DELETED!");
         if (response.status === 204) {
           console.log("file deleted")
-          var filteredArray = mysqlFileList.filter((item) => item.name !== filename)
+          var filteredArray = postgresFileList.filter((item) => item.name !== filename)
           setExportedFiles(filteredArray)
-          setMysqlFileList(filteredArray)
+          setPostgresFileList(filteredArray)
         }
       })
       .catch((e) => {

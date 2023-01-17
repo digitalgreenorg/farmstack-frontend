@@ -1,4 +1,4 @@
-import { Alert, Checkbox, FormControlLabel, InputAdornment, ListItemText, OutlinedInput, Stack, Switch, TextField } from '@mui/material'
+import { Alert, Checkbox, FormControlLabel, InputAdornment, List, ListItem, ListItemText, OutlinedInput, Stack, Switch, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import InputLabel from '@mui/material/InputLabel';
@@ -19,7 +19,7 @@ const MenuProps = {
     PaperProps: {
         style: {
             maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
+            width: 200,
         },
     },
 };
@@ -32,19 +32,22 @@ const AddMetadata = (props) => {
         setSelectedCat,
         selectedSubCat,
         setSelectedSubCat,
-        allCatFetched, handleSubCategoryListForFinal } = props
+        handleChangeSubCatList, SubCatList,
+        allCatFetched, handleSubCategoryListForFinal, finalJson, lengthOfSubCat } = props
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
-
+    let sublist = []
+    let catList = Object.keys(finalJson)
+    for (let i = 0; i < catList.length; i++) {
+        sublist = [...sublist, ...finalJson[catList[i]]]
+    }
     useEffect(() => {
 
     }, [categoryNameList])
     return (
         <>
-            <Row>
-                <Col lg={12}>
+            <Row style={{ height: "200px" }}>
 
-                </Col>
-                <Col xs="12" sm="6" md="6" lg="4">
+                <Col xs="12" sm="6" md="6" lg="3">
                     {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
                         <Select
@@ -64,15 +67,16 @@ const AddMetadata = (props) => {
                     </FormControl> */}
 
                     <CategorySelector selectedCat={selectedCat} heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} />
-                </Col>
-                <Col xs="12" sm="6" md="6" lg="4">
 
-                    <FormControl sx={{ m: 1, width: 300 }}>
+                </Col>
+                <Col xs="12" sm="6" md="6" lg="3">
+
+                    <FormControl sx={{ m: 1, width: 250 }}>
                         <InputLabel id="demo-multiple-checkbox-label">{"Sub categories"}</InputLabel>
-                        <Select name="" id="">
+                        <Select name="sub_category" id="sub_cat">
                             {Object.keys(selectedCat).map((key) => {
                                 return allCatFetched[key].map((sub) => {
-                                    return <span style={{ display: "flex", justifyContent: "space-evenly" }}><Checkbox onClick={(e) => handleSubCategoryListForFinal(e.target.checked, sub, key)} />
+                                    return <span style={{ display: "flex", justifyContent: "space-evenly" }}><Checkbox checked={sublist.includes(sub)} onClick={(e) => handleSubCategoryListForFinal(e.target.checked, sub, key)} />
                                         <MenuItem value={sub}>{sub}</MenuItem>
                                     </span>
                                 })
@@ -96,8 +100,8 @@ const AddMetadata = (props) => {
                     </FormControl>
                     {/* <CategorySelector heading={"Sub category"} handler={handleSubCategory} category={subCategory} list={subCategoryNameList} /> */}
                 </Col>
-                <Col xs="12" sm="6" md="6" lg="4">
-                    <FormControl sx={{ m: 1, width: "300px" }}>
+                <Col xs="12" sm="6" md="6" lg="3">
+                    <FormControl sx={{ m: 1, width: "250px" }}>
                         <InputLabel id="demo-simple-select-standard-label">Geography</InputLabel>
                         <Select
                             labelId="demo-simple-select-standard-label"
@@ -116,6 +120,30 @@ const AddMetadata = (props) => {
                     </FormControl>
                 </Col>
 
+                <Col xs="12" sm="6" md="6" lg="3">
+                    {/* Selected Subcategory
+                    <ul>
+                        
+                    </ul> */}
+
+                    <label htmlFor="">Selected Category list</label>
+                    <List sx={{
+                        width: '100%',
+                        maxWidth: 360,
+                        bgcolor: 'background.paper',
+                        position: 'relative',
+                        overflow: 'auto',
+                        maxHeight: 150,
+
+                        '& ul': { padding: 0 },
+                    }} >
+                        {Object.keys(finalJson).map((key) => finalJson[key].map((eachSub) => {
+                            return <ListItem>
+                                <span>{`${eachSub} from ${key} category`}</span> {" "}
+                            </ListItem>
+                        }))}
+                    </List>
+                </Col>
             </Row>
             <Row>
                 <Col xs={12} sm={12} md={6} lg={6}>
