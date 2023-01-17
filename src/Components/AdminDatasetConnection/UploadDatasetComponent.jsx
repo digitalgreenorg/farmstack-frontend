@@ -54,6 +54,7 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                                 datasetname={datasetname} setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         <TabPanel value="3"><PostgresFormForConnection
                             cancelForm={cancelForm}
+                            datasetname={datasetname}
                             deleteFunc={deleteFunc}
                             localUploaded={localUploaded}
                             mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
