@@ -600,7 +600,6 @@ const AddDataset = () => {
         // console.log(selectedCat[parent], "Selected")
         let arr = [...selectedCat[parent]]
         if (checked) {
-
             setLengthOfSubCat((prev) => prev + 1)
             console.log(arr)
             arr.push(value)
@@ -738,6 +737,7 @@ const AddDataset = () => {
 
                                 {activeStep == 2 ?
                                     <AddMetadata
+                                        datasetname={datasetname}
                                         selectedCat={selectedCat}
                                         setSelectedCat={setSelectedCat}
                                         selectedSubCat={selectedSubCat}
