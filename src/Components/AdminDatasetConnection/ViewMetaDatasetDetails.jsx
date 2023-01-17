@@ -26,7 +26,7 @@ export default function ViewMetaDatasetDetails(props) {
 
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     const [datasetdescription, setDatasetDescription] = useState("")
-    const [category, setCategory] = useState([])
+    const [category, setCategory] = useState({})
     const [geography, setGeography] = useState(null);
     const [constantlyupdate, setconstantlyupdate] = useState(null);
     const [fromdate, setFromdate] = useState(null)
@@ -49,8 +49,8 @@ export default function ViewMetaDatasetDetails(props) {
         setFileDataLoaded(true)
     }, [fileData])
 
-    let url = UrlConstant.base_url + UrlConstant.datasetview + id + '/';
     const getMetaData = () => {
+        let url = UrlConstant.base_url + UrlConstant.datasetview + id + '/';
         console.log("get details of the form")
         setLoader(true)
         HTTPService(
@@ -62,7 +62,7 @@ export default function ViewMetaDatasetDetails(props) {
         ).then((response) => {
             setLoader(false)
             console.log(response.data)
-            setCategory(response.data.category)
+            setCategory({ ...response.data.category })
             setGeography(response.data.geography)
             setconstantlyupdate(response.data.constantly_update)
             setFromdate(response.data.data_capture_start)
@@ -106,15 +106,15 @@ export default function ViewMetaDatasetDetails(props) {
         <Row style={{ "marginLeft": "96px", "margin-right": "73px" }}>
             <Col style={{ "margin-top": "40px" }}>
                 <Row className="secondmainheading">Category</Row>
-                {category.map((data) => (
+                {Object.keys(category).map((key) => (
                     <Row className="thirdmainheadingview" style={{ "text-align": "center", "alignItems": "center", "margin-top": "10px", "border-radius": "10px", "border": "2px solid #83A9C9", "background": "#83A9C9", "width": "150px", "height": "40px" }}>
-                        {data.category}</Row>))}
+                        {key}</Row>))}
             </Col>
             <Col style={{ "margin-top": "40px" }}>
                 <Row className="secondmainheading">Sub Category</Row>
-                {category.map((item1) => item1.children.map((item2) => (
+                {Object.keys(category).map((key) => category[key].map((value) => (
                     <Row className="thirdmainheadingview" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #8AA7AD", "background": "#8AA7AD", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
-                        {item2.sub_category}</Row>)))}
+                        {value}</Row>)))}
             </Col>
             <Col style={{ "margin-top": "40px" }}>
                 <Row className="secondmainheading">Geography</Row>
@@ -141,7 +141,7 @@ export default function ViewMetaDatasetDetails(props) {
                     Description
                 </Row>
                 <Row className="thirdmainheading" style={{ "textAlign": "left", "marginLeft": "50px", "marginTop": "30px", "margin-right": "73px", }}>
-                    {datasetdescription}
+                    {parse(datasetdescription)}
                 </Row>
             </Col>
         </Row>

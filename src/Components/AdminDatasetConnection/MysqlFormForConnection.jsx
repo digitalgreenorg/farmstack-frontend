@@ -18,14 +18,10 @@ import { useHistory } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { GetErrorHandlingRoute, getTokenLocal, validateInputField } from '../../Utils/Common';
 import RegexConstants from '../../Constants/RegexConstants';
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import circleloader from "../../Assets/Img/circleloader.gif"
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
-import Tree from '../Catergories/Tree';
 import Axios from 'axios';
 const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
   const history = useHistory();
@@ -530,7 +526,6 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
             </Col>}
         </Row>
       </>}
-      {/* <Tree /> */}
     </>
   )
 }

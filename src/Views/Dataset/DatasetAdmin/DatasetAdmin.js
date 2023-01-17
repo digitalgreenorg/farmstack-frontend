@@ -1285,32 +1285,33 @@ export default function DatasetAdmin() {
   };
   const viewCardDetails = (id, flag) => {
     setid(id);
-    setIsLoader(true);
-    setisAdminView(flag);
-    HTTPService(
-      "GET",
-      UrlConstant.base_url + UrlConstant.dataset + id + "/",
-      "",
-      false,
-      true
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log("filter response:", response);
-        let tempObject = { ...response.data };
-        setviewdata(tempObject);
-        if (response.data.content) {
-          var tabelHeading = Object.keys(response.data.content[0]);
-          var temptabelKeys = [...tabelHeading];
-          settablekeys(temptabelKeys);
-        }
-        changeView("isDataSetView");
-      })
-      .catch((e) => {
-        console.error(e);
-        setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
-      });
+    // setIsLoader(true);
+    // setisAdminView(flag);
+    history.push("/datahub/dataset/view/" + id)
+    // HTTPService(
+    //   "GET",
+    //   UrlConstant.base_url + UrlConstant.dataset + id + "/",
+    //   "",
+    //   false,
+    //   true
+    // )
+    //   .then((response) => {
+    //     setIsLoader(false);
+    //     console.log("filter response:", response);
+    //     let tempObject = { ...response.data };
+    //     setviewdata(tempObject);
+    //     if (response.data.content) {
+    //       var tabelHeading = Object.keys(response.data.content[0]);
+    //       var temptabelKeys = [...tabelHeading];
+    //       settablekeys(temptabelKeys);
+    //     }
+    //     changeView("isDataSetView");
+    //   })
+    //   .catch((e) => {
+    //     console.error(e);
+    //     setIsLoader(false);
+    //     history.push(GetErrorHandlingRoute(e));
+    //   });
   };
   const deletedataset = () => {
     setIsLoader(true);

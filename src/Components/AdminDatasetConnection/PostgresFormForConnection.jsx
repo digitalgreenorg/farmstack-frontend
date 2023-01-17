@@ -25,7 +25,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
-import Tree from '../Catergories/Tree';
 import Axios from 'axios';
 const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
   const history = useHistory();
@@ -82,12 +81,12 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
 
     //building the body for request object
     let bodyData = {
-      database: connectionData.db_name,
-      username: connectionData.user_name,
+      dbname: connectionData.db_name,
+      user: connectionData.user_name,
       password: connectionData.db_password,
       host: connectionData.host_address,
       port: connectionData.port,
-      "database_type": "mysql"
+      "database_type": "postgresql"
     }
 
     //Making the post request for getting all the table list
@@ -215,7 +214,7 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
     newFormData.append("col", JSON.stringify(selectedColumns))
     newFormData.append("file_name", query)
     newFormData.append("dataset_name", datasetname)
-    newFormData.append("source", "mysql")
+    newFormData.append("source", "postgresql")
     newFormData.append("table_name", table_name)
 
     let token = getTokenLocal();
@@ -237,7 +236,7 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
         setSelectedTable("")
 
         setExportedFiles([...res.data])
-        setMysqlFileList([...res.data])
+        setPostgresFileList([...res.data])
         //if error occurs Alert will be shown as Snackbar
         setMessageForSnackBar("File exported successfully!")
         setErrorOrSuccess("success")
@@ -297,9 +296,9 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
         console.log("FILE DELETED!");
         if (response.status === 204) {
           console.log("file deleted")
-          var filteredArray = mysqlFileList.filter((item) => item.name !== filename)
+          var filteredArray = postgresFileList.filter((item) => item.name !== filename)
           setExportedFiles(filteredArray)
-          setMysqlFileList(filteredArray)
+          setPostgresFileList(filteredArray)
         }
       })
       .catch((e) => {
