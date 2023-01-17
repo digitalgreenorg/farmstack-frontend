@@ -165,7 +165,7 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
 
   //on change of table name from a particular table name from select drop down
   const handleChange = (event) => {
-
+    console.log(datasetname)
     //making a get request for a particular table name to get the list of columns for rendering and selecting purpose
     let query = event.target.value;
     let method = 'POST'

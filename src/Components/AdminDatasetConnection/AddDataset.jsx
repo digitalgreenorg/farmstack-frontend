@@ -184,7 +184,7 @@ const AddDataset = () => {
 
     //Cancelling and deleteing the files temp stored in server
     const handleResetForm = () => {
-        setdatasetname("")
+        // setdatasetname("")
         var bodyFormData = new FormData();
         bodyFormData.append("dataset_name", datasetname)
         HTTPService(
