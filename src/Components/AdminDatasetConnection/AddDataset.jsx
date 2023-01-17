@@ -46,9 +46,13 @@ const AddDataset = () => {
     const [isSubmitted, setIsSubmitted] = useState(false)
     const history = useHistory()
 
+    const [allCatFetched, setAllCatFetched] = useState({})
+    const [selectedCat, setSelectedCat] = useState({})
+    const [selectedSubCat, setSelectedSubCat] = useState([])
     //states for the alert if any error occurs at any point in the form of snackbar
     const [messageForSnackBar, setMessageForSnackBar] = useState("")
     const [errorOrSuccess, setErrorOrSuccess] = useState("error") //options --> "error", "info", "success", "warning"
+    const [finalJson, setMainJson] = useState({})
 
     //tab changer from upload dataset to add metadata
     const handleChange = (event, newValue) => {
@@ -240,6 +244,7 @@ const AddDataset = () => {
     const [category, setCategory] = useState([])
 
     const handleChangeCategory = (event) => {
+        setMainJson({})
         const {
             target: { value },
         } = event;
@@ -247,6 +252,7 @@ const AddDataset = () => {
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
+        console.log(value)
         handleChangeCategoryForSubCategory(value)
     };
 
@@ -256,7 +262,7 @@ const AddDataset = () => {
 
     const [subCategory, setSubCategory] = useState([])
 
-    const handleSubCategory = (event) => {
+    const handleSubCategory = (event, parent) => {
         const {
             target: { value },
         } = event;
@@ -280,8 +286,13 @@ const AddDataset = () => {
             true,
             true
         ).then((response) => {
-            categoryCreator(response.data)
-            setMainCategoryList([...response.data])
+            // categoryCreator(response.data)
+
+            setAllCatFetched({ ...response.data })
+            let arr = Object.keys(response.data)
+            setCategoryNameList([...arr])
+            setMainCategoryList([...arr])
+            console.log(arr, "ARR")
         }).catch((e) => {
             console.log(e);
             // var returnValues = GetErrorKey(e, payload.keys());
@@ -316,25 +327,39 @@ const AddDataset = () => {
     }
 
     function handleChangeCategoryForSubCategory(selectectedCatList) {
-        console.log(mainCategoryList, "asbaudvasbauhb")
-        let subCatList = []
-        for (let i = 0; i < mainCategoryList.length; i++) {
-            for (let j = 0; j < selectectedCatList.length; j++) {
-                console.log(selectectedCatList[j], mainCategoryList[i])
-                if (selectectedCatList[j] == mainCategoryList[i].category) {
-                    subCatList.push(...mainCategoryList[i].children);
-                    break;
-                }
-            }
+        // allCatFetched
+        let obj = {}
+        for (let i = 0; i < selectectedCatList.length; i++) {
+            console.log(selectectedCatList[i])
+            obj[selectectedCatList[i]] = []
         }
-        let subCatListForSetting = []
-        console.log(subCatList, "nssusuususus")
-        for (let i = 0; i < subCatList.length; i++) {
-            console.log(subCatList.sub_category)
-            subCatListForSetting.push(subCatList[i].sub_category)
-        }
+        console.log(selectectedCatList)
 
-        setSubCategoryNameList([...subCatListForSetting])
+        setSelectedCat(obj)
+        let subCatList = []
+
+        for (let i = 0; i < selectectedCatList.length; i++) {
+            // let obj = {}
+            // parent: selectectedCatList[i]
+            subCatList = [...subCatList, ...allCatFetched[selectectedCatList[i]]]
+        }
+        // for (let i = 0; i < mainCategoryList.length; i++) {
+        // for (let j = 0; j < selectectedCatList.length; j++) {
+        //     console.log(selectectedCatList[j], mainCategoryList[i])
+        //     if (selectectedCatList[j] == mainCategoryList[i].category) {
+        //         subCatList.push(...mainCategoryList[i].children);
+        //         break;
+        //     }
+        // }
+        // }
+        // let subCatListForSetting = []
+
+        // for (let i = 0; i < subCatList.length; i++) {
+        //     console.log(subCatList.sub_category)
+        //     subCatListForSetting.push(subCatList[i].sub_category)
+        // }
+        console.log(subCatList)
+        setSubCategoryNameList([...subCatList])
     }
 
 
@@ -405,7 +430,7 @@ const AddDataset = () => {
     }
 
     const handleAddDatasetSubmit = (e) => {
-
+        console.log(finalJson, "Main")
         let selectedCategory = generateCategoryAndSubCat()
 
         e.preventDefault();
@@ -426,7 +451,7 @@ const AddDataset = () => {
         var bodyFormData = new FormData();
         bodyFormData.append("name", datasetname);
         bodyFormData.append("description", govLawDesc);
-        bodyFormData.append("category", JSON.stringify(selectedCategory));
+        bodyFormData.append("category", JSON.stringify(finalJson));
         bodyFormData.append("user_map", id);
         bodyFormData.append("geography", geography);
         // if (cropdetail == null) {
@@ -556,6 +581,24 @@ const AddDataset = () => {
         </React.Fragment>
     );
 
+    const handleSubCategoryListForFinal = (checked, value, parent) => {
+        console.log(checked, value, parent)
+        // console.log(selectedCat[parent], "Selected")
+        let arr = [...selectedCat[parent]]
+        if (checked) {
+            console.log(arr)
+            arr.push(value)
+        } else {
+
+            const index = arr.indexOf(value);
+            if (index > -1) { // only splice array when item is found
+                arr.splice(index, 1); // 2nd parameter means remove one item only
+            }
+        }
+        setSelectedCat({ ...selectedCat, [parent]: arr })
+        setMainJson({ ...selectedCat, [parent]: arr })
+        console.log(finalJson, "FINAL JSON")
+    }
 
 
 
@@ -678,6 +721,14 @@ const AddDataset = () => {
 
                                 {activeStep == 2 ?
                                     <AddMetadata
+                                        selectedCat={selectedCat}
+                                        setSelectedCat={setSelectedCat}
+                                        selectedSubCat={selectedSubCat}
+                                        setSelectedSubCat={setSelectedSubCat}
+                                        allCatFetched={allCatFetched}
+                                        handleSubCategoryListForFinal={handleSubCategoryListForFinal}
+
+
                                         isSubmitted={isSubmitted}
                                         handleChangeGeography={handleChangeGeography}
                                         handleAddDatasetSubmit={handleAddDatasetSubmit}
@@ -690,8 +741,31 @@ const AddDataset = () => {
                                         handleChangeFromDate={handleChangeFromDate}
                                         todate={todate}
                                         handleChangeToDate={handleChangeToDate}
-                                        categoryNameList={categoryNameList} handleChangeCategory={handleChangeCategory} category={category} subCategoryNameList={subCategoryNameList} handleSubCategory={handleSubCategory} subCategory={subCategory} />
+
+                                        categoryNameList={categoryNameList}
+                                        handleChangeCategory={handleChangeCategory}
+                                        category={category}
+                                        subCategoryNameList={subCategoryNameList}
+                                        handleSubCategory={handleSubCategory}
+                                        subCategory={subCategory} />
                                     : ""}
+                                {/* {activeStep == 2 ?
+                                    <AddMetadata
+                                        isSubmitted={isSubmitted}
+                                        handleChangeGeography={handleChangeGeography}
+                                        handleAddDatasetSubmit={handleAddDatasetSubmit}
+                                        conscent={conscent}
+                                        setConscent={setConscent}
+                                        handleChangeSwitch={handleChangeSwitch}
+                                        Switchchecked={Switchchecked}
+                                        handleChangedatasetname={handleChangedatasetname}
+                                        fromdate={fromdate}
+                                        handleChangeFromDate={handleChangeFromDate}
+                                        todate={todate}
+                                        handleChangeToDate={handleChangeToDate}
+                                        
+                                        categoryNameList={categoryNameList} handleChangeCategory={handleChangeCategory} category={category} subCategoryNameList={subCategoryNameList} handleSubCategory={handleSubCategory} subCategory={subCategory} />
+                                    : ""} */}
                                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                     <Button
                                         color="inherit"

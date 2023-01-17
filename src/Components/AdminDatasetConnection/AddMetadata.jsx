@@ -1,4 +1,4 @@
-import { Alert, Checkbox, FormControlLabel, InputAdornment, Stack, Switch, TextField } from '@mui/material'
+import { Alert, Checkbox, FormControlLabel, InputAdornment, ListItemText, OutlinedInput, Stack, Switch, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import InputLabel from '@mui/material/InputLabel';
@@ -12,8 +12,27 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import labels from '../../Constants/labels';
 
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
+
+
 const AddMetadata = (props) => {
-    const { handleChangeCategory, category, subCategoryNameList, categoryNameList, handleSubCategory, subCategory, geography, handleChangeGeography, conscent, setConscent, handleAddDatasetSubmit, isSubmitted } = props
+    const { handleChangeCategory, category, subCategoryNameList, categoryNameList, handleSubCategory, subCategory, geography, handleChangeGeography, conscent, setConscent, handleAddDatasetSubmit, isSubmitted,
+        selectedCat,
+        setSelectedCat,
+        selectedSubCat,
+        setSelectedSubCat,
+        allCatFetched, handleSubCategoryListForFinal } = props
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
     useEffect(() => {
@@ -44,10 +63,38 @@ const AddMetadata = (props) => {
                         </Select>
                     </FormControl> */}
 
-                    <CategorySelector heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} />
+                    <CategorySelector selectedCat={selectedCat} heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} />
                 </Col>
                 <Col xs="12" sm="6" md="6" lg="4">
-                    <CategorySelector heading={"Sub category"} handler={handleSubCategory} category={subCategory} list={subCategoryNameList} />
+
+                    <FormControl sx={{ m: 1, width: 300 }}>
+                        <InputLabel id="demo-multiple-checkbox-label">{"Sub categories"}</InputLabel>
+                        <Select name="" id="">
+                            {Object.keys(selectedCat).map((key) => {
+                                return allCatFetched[key].map((sub) => {
+                                    return <span style={{ display: "flex", justifyContent: "space-evenly" }}><Checkbox onClick={(e) => handleSubCategoryListForFinal(e.target.checked, sub, key)} />
+                                        <MenuItem value={sub}>{sub}</MenuItem>
+                                    </span>
+                                })
+
+                            })}
+                            {/* {Object.keys(allCatFetched).map((key) => {
+                                if (category.includes(key)) {
+                                    console.log(allCatFetched[key], key)
+                                    allCatFetched[key].map((sub_cat) => {
+                                        
+                                    })
+                                }
+                            })} */}
+                            {/* {category.map(()=>{
+                                allCatFetched
+                            })} */}
+                            {/* {Object.keys(selectedCat).map((key)=>{
+
+                            })} */}
+                        </Select>
+                    </FormControl>
+                    {/* <CategorySelector heading={"Sub category"} handler={handleSubCategory} category={subCategory} list={subCategoryNameList} /> */}
                 </Col>
                 <Col xs="12" sm="6" md="6" lg="4">
                     <FormControl sx={{ m: 1, width: "300px" }}>
@@ -219,7 +266,7 @@ const AddMetadata = (props) => {
                         variant="contained"
                         className="submitbtn"
                         type="submit"
-                        disabled={(conscent && geography != "" && subCategory?.length > 0 && (!props.Switchchecked ? props.fromdate && props.todate : props.Switchchecked)) && !isSubmitted ? false : true}
+                        disabled={(conscent && geography != "" && (!props.Switchchecked ? props.fromdate && props.todate : props.Switchchecked)) && !isSubmitted ? false : true}
                     >
                         {screenlabels.common.submit}
                     </Button>

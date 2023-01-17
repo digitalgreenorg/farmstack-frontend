@@ -22,7 +22,7 @@ const MenuProps = {
 
 
 export default function MultipleSelectCheckmarks(props) {
-  const { handler, category, list, heading } = props
+  const { handler, category, list, heading, selectedCat } = props
 
 
 
