@@ -129,7 +129,7 @@ export default function DataSetCard(props) {
           <span
             style={{ maxWidth: "300px" }}
           >
-            {props.description}
+            {parse(props.description)}
           </span>
           {/* </Tooltip> */}
         </Row>

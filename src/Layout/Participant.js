@@ -27,6 +27,7 @@ import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project
 import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
+import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 
 function Participant(props) {
   return (
@@ -121,6 +122,11 @@ function Participant(props) {
                 exact
                 path="/participant/connectors/detail"
                 component={DemoDashboardTable}
+              />
+               <Route
+              exact
+              path="/participant/dataset/view/:id"
+              component={ViewMetaDatasetDetails}
               />
             </Switch>
           </div>

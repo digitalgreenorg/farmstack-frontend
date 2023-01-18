@@ -22,14 +22,14 @@ const MenuProps = {
 
 
 export default function MultipleSelectCheckmarks(props) {
-  const { handler, category, list, heading } = props
+  const { handler, category, list, heading, selectedCat } = props
 
 
 
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl sx={{ m: 1, width: 250 }}>
         <InputLabel id="demo-multiple-checkbox-label">{heading}</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
