@@ -59,6 +59,7 @@ const UrlConstant = {
   microsite_theme: "/microsite/theme/",
   datahub_dashboard: "datahub/dashboard/",
   add_project: "/participant/project/",
+  register_participant: "accounts/self_register/",
   project_listing_page_url: "participant/project/project_list/",
   search_dataset_end_point_admin: "datahub/dataset/v2/search_datasets/",
   search_dataset_end_point_participant: "datahub/dataset/v2/search_datasets/",
