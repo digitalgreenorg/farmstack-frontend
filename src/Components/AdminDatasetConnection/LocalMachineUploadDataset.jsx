@@ -261,7 +261,7 @@ export default function LocalMachineUploadDataset(props) {
                   )}
             </Col> */}
           {/* </Row> */}
-          <Row style={useStyles.marginrowtop8px}>
+          {/* <Row style={useStyles.marginrowtop8px}>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
                 onClick={() => cancelForm()}
@@ -270,7 +270,7 @@ export default function LocalMachineUploadDataset(props) {
                 Cancel
               </Button>
             </Col>
-          </Row>
+          </Row> */}
         </div>
       )}
     </>

@@ -30,11 +30,13 @@ import Loader from '../Loader/Loader';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Skeleton } from '@mui/material'
+import Success from '../Success/Success';
 
 //stepper steps label
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 
-const AddDataset = () => {
+const AddDataset = (props) => {
+    const { isDatasetEditModeOn } = props
     const [value, setValue] = React.useState('1');
     const [nameErrorMessage, setnameErrorMessage] = useState(null);
     const [datasetname, setdatasetname] = useState("");
@@ -67,6 +69,22 @@ const AddDataset = () => {
     const [messageForSnackBar, setMessageForSnackBar] = useState("")
     const [errorOrSuccess, setErrorOrSuccess] = useState("error") //options --> "error", "info", "success", "warning"
     const [finalJson, setMainJson] = useState({})
+
+
+    //error states for the variable during the complete add dataset flow
+    const [errorDatasetName, seteErrorDatasetName] = useState("")
+
+    const [errorDatabaseNameMysql, seteErrorDatabaseNameMysql] = useState("")
+    const [errorDatabaseUserNameMysql, seteErrorDatabseUserNameMysql] = useState("")
+    const [errorPasswordMysql, seteErrorUserNameMysql] = useState("")
+    const [errorHostMysql, seteErrorHostMysql] = useState("")
+    const [errorPortMysql, seteErrorPortMysql] = useState("")
+
+    const [errorDatabaseNamePostgres, seteErrorDatabaseNamePostgres] = useState("")
+    const [errorDatabaseUserNamePostgres, seteErrorDatabseUserNamePostgres] = useState("")
+    const [errorPasswordPostges, seteErrorUserNamePostgres] = useState("")
+    const [errorHostPostges, seteErrorHostPostgres] = useState("")
+    const [errorPortPostges, seteErrorPortPostgres] = useState("")
 
     //tab changer from upload dataset to add metadata
     const handleChange = (event, newValue) => {
@@ -295,7 +313,7 @@ const AddDataset = () => {
 
         HTTPService(
             "GET",
-            "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/category/",
+            UrlConstant.base_url + UrlConstant.add_category_edit_category,
             "",
             true,
             true
@@ -471,7 +489,7 @@ const AddDataset = () => {
         // if (cropdetail == null) {
         bodyFormData.append("crop_detail", "");
         // } else {
-        //     bodyFormData.append("crop_detail", cropdetail);
+        // bodyFormData.append("crop_detail", cropdetail);
         // }
         bodyFormData.append("constantly_update", Switchchecked);
         bodyFormData.append("data_capture_start", fromdate ? fromdate.toISOString() : "");
@@ -617,31 +635,96 @@ const AddDataset = () => {
     }
 
 
+    //Get datasetDetails to pre populate so that user can delete
+    function getAllDataForTheDataset(datasetId) {
+        let url = UrlConstant.base_url + UrlConstant.datasetview + datasetId + '/';
+        let method = "GET"
+        HTTPService(
+            method,
+            url,
+            "",
+            false,
+            false
+        ).then((response) => {
+            console.log(response.data)
+            let data = response.data
+            setdatasetname(data.name)
+            setgovLawDesc(data.description ? data.description : "")
+            setEditorGovLawValue(
+                RichTextEditor.createValueFromString(
+                    data.description ?
+                        data.description : "",
+                    "html"
+                )
+            );
+            setSwitchchecked(data.constantly_update)
+            settodate(data.data_capture_start)
+            setfromdate(data.data_capture_end)
+            setGeography(data.geography)
+            let completeCategoryAndSub = data.category
+            let arr = Object.keys(completeCategoryAndSub)
+            setCategory([...arr])
+
+
+            // setconstantlyupdate(response.data.constantly_update)s
+            // setCategory({ ...response.data.category })
+            // setGeography(response.data.geography)
+            // setFromdate(response.data.data_capture_start)
+            // setToDate(response.data.data_capture_end)
+            // setDatasetDescription(response.data.description)
+            // setfileData(response.data.datasets)
+            // setOrgDetail(response.data.organization)
+            // setorgdes(response.data.organization.org_description)
+            // setUserDetails(response.data.user)
+        }).catch((e) => {
+            // setLoader(false);
+            history.push(GetErrorHandlingRoute(e));
+        }
+
+        )
+    }
+
+
 
     useEffect(() => {
+
         getAllCategoryAndSubCategory()
+        // if (isDatasetEditModeOn) {
+        let datasetId = "295f841d-1353-46d5-918e-14e87b56fc72"
+        // getAllDataForTheDataset(datasetId)
+        // }
     }, [])
 
 
     return (
         <Container id='admin_add_dataset_main_container'>
             {isLoading ? <Loader /> : ""}
-            <Snackbar
-                open={open}
-                autoHideDuration={4000}
-                onClose={handleClose}
-                action={action}
-            >
-                <Alert autoHideDuration={4000} onClose={handleClose} sx={{ width: '100%' }} severity={errorOrSuccess}>{messageForSnackBar}</Alert>
-            </Snackbar>
-            <Row className='main_heading_row'>
-                <Col lg={3} sm={6}>
-                    <span className='Main_heading_add_dataset'>Add dataset</span>
-                </Col>
+            {isSubmitted ? <Success
+                okevent={() => history.push("/datahub/datasets")}
+                route={"datahub/participants"}
+                imagename={"success"}
+                btntext={"ok"}
+                heading={"Dataset updated Successfully"}
+                imageText={"Success!"}
+                msg={"Your dataset are updated."}
+            ></Success> : <>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={handleClose}
+                    action={action}
+                >
+                    <Alert autoHideDuration={4000} onClose={handleClose} sx={{ width: '100%' }} severity={errorOrSuccess}>{messageForSnackBar}</Alert>
+                </Snackbar>
+                <Row className='main_heading_row'>
+                    <Col lg={3} sm={6}>
+                        <span className='Main_heading_add_dataset'>Add dataset</span>
+                    </Col>
 
-            </Row>
-            <Row style={{ margin: "20px 0px", padding: "0px" }}>
-                {/* <Col style={{ margin: "0px", padding: "0px" }} lg={3} sm={6}>
+
+                </Row>
+                <Row style={{ margin: "20px 0px", padding: "0px" }}>
+                    {/* <Col style={{ margin: "0px", padding: "0px" }} lg={3} sm={6}>
                     <TextField
                         value={datasetname}
                         onKeyDown={handledatasetnameKeydown}
@@ -650,124 +733,125 @@ const AddDataset = () => {
                         helperText={nameErrorMessage}
                         label="Dataset name" variant='standard' className='dataset_name_class' id='dataset_name' placeholder='Enter the dataset name' />
                 </Col> */}
-            </Row>
-            <Row>
-                <Col lg={12} sm={12}>
+                </Row>
+                <Row>
+                    <Col lg={12} sm={12}>
 
-                    <Box>
-                        <Stepper activeStep={activeStep}>
-                            {steps.map((label, index) => {
-                                const stepProps = {};
-                                const labelProps = {};
-                                if (isStepOptional(index)) {
-                                    labelProps.optional = (
-                                        <Typography variant="caption">  <div> Atleast one is required </div>  </Typography>
+                        <Box>
+                            <Stepper activeStep={activeStep}>
+                                {steps.map((label, index) => {
+                                    const stepProps = {};
+                                    const labelProps = {};
+                                    if (isStepOptional(index)) {
+                                        labelProps.optional = (
+                                            <Typography variant="caption">  <div> Atleast one is required </div>  </Typography>
+                                        );
+                                    }
+                                    if (isStepSkipped(index)) {
+                                        stepProps.completed = false;
+                                    }
+                                    return (
+                                        <Step key={label} {...stepProps}>
+                                            <StepLabel {...labelProps}>{label}</StepLabel>
+
+                                        </Step>
                                     );
-                                }
-                                if (isStepSkipped(index)) {
-                                    stepProps.completed = false;
-                                }
-                                return (
-                                    <Step key={label} {...stepProps}>
-                                        <StepLabel {...labelProps}>{label}</StepLabel>
+                                })}
+                            </Stepper> {activeStep === steps.length ? (
+                                <React.Fragment>
+                                    <Typography sx={{ mt: 2, mb: 1 }}>
+                                        All steps completed - you&apos;re finished
+                                    </Typography>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                        <Box sx={{ flex: '1 1 auto' }} />
+                                        <Button onClick={handleReset}>Reset</Button>
+                                    </Box>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    {/* <Typography sx={{ mt: 2, mb: 1 }}> {activeStep == 0 ? "Please provide the dataset name to enable the further steps" : ""}</Typography> */}
+                                    {activeStep == 0 ? <Col style={{ margin: "50px auto 150px auto", padding: "0px" }} lg={12} sm={12}>
+                                        <TextField
+                                            style={{ marginBottom: "20px" }}
+                                            value={datasetname}
+                                            onKeyDown={handledatasetnameKeydown}
+                                            onChange={handleChangedatasetname}
+                                            error={nameErrorMessage ? true : false}
+                                            helperText={nameErrorMessage}
+                                            label="Dataset name" variant='filled' className='dataset_name_class' id='dataset_name' placeholder='Enter the dataset name' />
 
-                                    </Step>
-                                );
-                            })}
-                        </Stepper> {activeStep === steps.length ? (
-                            <React.Fragment>
-                                <Typography sx={{ mt: 2, mb: 1 }}>
-                                    All steps completed - you&apos;re finished
-                                </Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                    <Box sx={{ flex: '1 1 auto' }} />
-                                    <Button onClick={handleReset}>Reset</Button>
-                                </Box>
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>
-                                {/* <Typography sx={{ mt: 2, mb: 1 }}> {activeStep == 0 ? "Please provide the dataset name to enable the further steps" : ""}</Typography> */}
-                                {activeStep == 0 ? <Col style={{ margin: "50px auto 150px auto", padding: "0px" }} lg={12} sm={12}>
-                                    <TextField
-                                        style={{ marginBottom: "20px" }}
-                                        value={datasetname}
-                                        onKeyDown={handledatasetnameKeydown}
-                                        onChange={handleChangedatasetname}
-                                        error={nameErrorMessage ? true : false}
-                                        helperText={nameErrorMessage}
-                                        label="Dataset name" variant='filled' className='dataset_name_class' id='dataset_name' placeholder='Enter the dataset name' />
+                                        <div className="invite-participant-text-editor policyrte">
+                                            <RichTextEditor
+                                                placeholder='Dataset description'
+                                                toolbarConfig={toolbarConfig}
+                                                value={editorGovLawValue}
+                                                onChange={handlegovLawChange}
+                                                required
+                                                id="body-text"
+                                                name="bodyText"
+                                                type="string"
+                                                multiline
+                                                variant="filled"
+                                                style={{
+                                                    minHeight: 410,
+                                                    //   width: 420,
+                                                    border: "1px solid black",
+                                                    //   zIndex: 4,
+                                                }}
+                                            />
+                                        </div>
 
-                                    <div className="invite-participant-text-editor policyrte">
-                                        <RichTextEditor
-                                            placeholder='Dataset description'
-                                            toolbarConfig={toolbarConfig}
-                                            value={editorGovLawValue}
-                                            onChange={handlegovLawChange}
-                                            required
-                                            id="body-text"
-                                            name="bodyText"
-                                            type="string"
-                                            multiline
-                                            variant="filled"
-                                            style={{
-                                                minHeight: 410,
-                                                //   width: 420,
-                                                border: "1px solid black",
-                                                //   zIndex: 4,
-                                            }}
-                                        />
-                                    </div>
+                                    </Col> : ""}
 
-                                </Col> : ""}
+                                    {activeStep == 1 ?
+                                        <TabContext value={value}>
+                                            <Box >
+                                                <TabList style={{ display: "none" }} aria-label="lab API tabs example">
+                                                    <Tab onClick={(e) => handleChange(e, '1')} label="Upload dataset" value="1" />
+                                                    <Tab disabled label="Add metadata" value="2" />
+                                                </TabList>
+                                            </Box>
+                                            <TabPanel value="1"><Admin_upload_dataset cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
+                                                mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
+                                                setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
+                                            <TabPanel value="2"></TabPanel>
+                                        </TabContext>
+                                        : ""}
 
-                                {activeStep == 1 ?
-                                    <TabContext value={value}>
-                                        <Box >
-                                            <TabList style={{ display: "none" }} aria-label="lab API tabs example">
-                                                <Tab onClick={(e) => handleChange(e, '1')} label="Upload dataset" value="1" />
-                                                <Tab disabled label="Add metadata" value="2" />
-                                            </TabList>
-                                        </Box>
-                                        <TabPanel value="1"><Admin_upload_dataset cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
-                                            mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
-                                            setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
-                                        <TabPanel value="2"></TabPanel>
-                                    </TabContext>
-                                    : ""}
-
-                                {activeStep == 2 ?
-                                    <AddMetadata
-                                        datasetname={datasetname}
-                                        selectedCat={selectedCat}
-                                        setSelectedCat={setSelectedCat}
-                                        selectedSubCat={selectedSubCat}
-                                        setSelectedSubCat={setSelectedSubCat}
-                                        allCatFetched={allCatFetched}
-                                        SubCatList={SubCatList}
-                                        handleSubCategoryListForFinal={handleSubCategoryListForFinal}
-                                        finalJson={finalJson}
-                                        lengthOfSubCat={lengthOfSubCat}
-                                        isSubmitted={isSubmitted}
-                                        handleChangeGeography={handleChangeGeography}
-                                        handleAddDatasetSubmit={handleAddDatasetSubmit}
-                                        conscent={conscent}
-                                        setConscent={setConscent}
-                                        handleChangeSwitch={handleChangeSwitch}
-                                        Switchchecked={Switchchecked}
-                                        handleChangedatasetname={handleChangedatasetname}
-                                        fromdate={fromdate}
-                                        handleChangeFromDate={handleChangeFromDate}
-                                        todate={todate}
-                                        handleChangeToDate={handleChangeToDate}
-                                        handleChangeSubCatList={handleChangeSubCatList}
-                                        categoryNameList={categoryNameList}
-                                        handleChangeCategory={handleChangeCategory}
-                                        category={category}
-                                        subCategoryNameList={subCategoryNameList}
-                                        handleSubCategory={handleSubCategory}
-                                        subCategory={subCategory} />
-                                    : ""}
-                                {/* {activeStep == 2 ?
+                                    {activeStep == 2 ?
+                                        <AddMetadata
+                                            geography={geography}
+                                            datasetname={datasetname}
+                                            selectedCat={selectedCat}
+                                            setSelectedCat={setSelectedCat}
+                                            selectedSubCat={selectedSubCat}
+                                            setSelectedSubCat={setSelectedSubCat}
+                                            allCatFetched={allCatFetched}
+                                            SubCatList={SubCatList}
+                                            handleSubCategoryListForFinal={handleSubCategoryListForFinal}
+                                            finalJson={finalJson}
+                                            lengthOfSubCat={lengthOfSubCat}
+                                            isSubmitted={isSubmitted}
+                                            handleChangeGeography={handleChangeGeography}
+                                            handleAddDatasetSubmit={handleAddDatasetSubmit}
+                                            conscent={conscent}
+                                            setConscent={setConscent}
+                                            handleChangeSwitch={handleChangeSwitch}
+                                            Switchchecked={Switchchecked}
+                                            handleChangedatasetname={handleChangedatasetname}
+                                            fromdate={fromdate}
+                                            handleChangeFromDate={handleChangeFromDate}
+                                            todate={todate}
+                                            handleChangeToDate={handleChangeToDate}
+                                            handleChangeSubCatList={handleChangeSubCatList}
+                                            categoryNameList={categoryNameList}
+                                            handleChangeCategory={handleChangeCategory}
+                                            category={category}
+                                            subCategoryNameList={subCategoryNameList}
+                                            handleSubCategory={handleSubCategory}
+                                            subCategory={subCategory} />
+                                        : ""}
+                                    {/* {activeStep == 2 ?
                                     <AddMetadata
                                         isSubmitted={isSubmitted}
                                         handleChangeGeography={handleChangeGeography}
@@ -784,37 +868,38 @@ const AddDataset = () => {
                                         
                                         categoryNameList={categoryNameList} handleChangeCategory={handleChangeCategory} category={category} subCategoryNameList={subCategoryNameList} handleSubCategory={handleSubCategory} subCategory={subCategory} />
                                     : ""} */}
-                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                    <Button
-                                        color="inherit"
-                                        // disabled={activeStep === 0}
-                                        onClick={activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
-                                        sx={{ mr: 1 }}
-                                    >
-                                        Back
-                                    </Button>
-                                    <Box sx={{ flex: '1 1 auto' }} />
-                                    {/* {(isStepOptional(activeStep) && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0)) && (
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                        <Button
+                                            color="inherit"
+                                            // disabled={activeStep === 0}
+                                            onClick={activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
+                                            sx={{ mr: 1 }}
+                                        >
+                                            Back
+                                        </Button>
+                                        <Box sx={{ flex: '1 1 auto' }} />
+                                        {activeStep != 0 && !isSubmitted ? <Button style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
+                                        <Box sx={{ flex: '1 1 auto' }} />
+                                        {/* {(isStepOptional(activeStep) && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0)) && (
                                         <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                                             Add metadata
                                         </Button>
                                     )} */}
 
-                                    <Button disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
-                                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                    </Button>
-                                </Box>
-                            </React.Fragment>
-                        )}
-                    </Box>
+                                        {activeStep == 2 ? "" : <Button disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
+                                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                        </Button>}
+                                    </Box>
+                                </React.Fragment>
+                            )}
+                        </Box>
 
 
 
-                </Col>
-            </Row>
-            <Row>
-
-            </Row>
+                    </Col>
+                </Row>
+                <Row>
+                </Row></>}
         </Container>
     )
 }
