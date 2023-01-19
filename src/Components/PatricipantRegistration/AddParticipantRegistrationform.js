@@ -169,7 +169,16 @@ function AddParticipantsRegistrationform(props) {
     <>
       {isLoader ? <Loader /> : ""}
       <Container style={useStyles.marginrowtop}>
-          <>
+           {isSuccess ? (
+          <Success
+            okevent={() => history.push("/home")}
+            route={"/home"}
+            imagename={"success"}
+            btntext={"ok"}
+            heading={"You are registered as a Participant!"}
+            imageText={"Added"}
+            msg={"Click ok to Login."}></Success>
+        ) : ( <>
           <Snackbar
         open={open}
         autoHideDuration={4000}
@@ -281,22 +290,17 @@ function AddParticipantsRegistrationform(props) {
             <Row style={useStyles.marginrowtop8px}>
               <Col xs={12} sm={12} md={6} lg={3}></Col>
               <Col xs={12} sm={12} md={6} lg={6}>
-                {messageForSnackBar ? (<Button
-                  onClick={() => history.push("/home")}
-                  variant="outlined"
-                  className="cancelbtn">
-                  {"OK"}
-                </Button>): (
                 <Button
                   onClick={() => history.push("/home")}
                   variant="outlined"
                   className="cancelbtn">
                   {screenlabels.common.cancel}
                 </Button>
-                )}
               </Col>
             </Row>
           </>
+        )
+                }
       </Container>
     </>
   );
