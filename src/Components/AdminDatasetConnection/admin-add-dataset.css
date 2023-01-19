@@ -5,7 +5,7 @@
 }
 
 .dataset_name_class {
-    width: 500px;
+    width: 80%;
 }
 
 .main_heading_row {
@@ -100,3 +100,16 @@
     /* background-color: #c09507 !important; */
     color: #c09507 !important;
 }
+
+.MuiStepConnector-horizontal.Mui-completed,
+.MuiStepConnector-horizontal.Mui-active,
+.MuiStepConnector-horizontal.Mui-active span,
+.MuiStepConnector-horizontal.Mui-completed span {
+    border: 1px solid #c09507 !important;
+    background-color: #c09507 !important;
+}
+
+/* .Mui-completed {
+    font-weight: 600 !important;
+    font-size: 20px !important;
+} */

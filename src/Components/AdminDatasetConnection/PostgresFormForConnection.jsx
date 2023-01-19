@@ -457,7 +457,7 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
               id='connect_btn_id'
               disabled={(connectionData.db_name.trim() != "" && connectionData.db_password.trim() != "" && connectionData.host_address.trim() != "" && connectionData.port.trim() != "" && connectionData.user_name.trim() != "" && datasetname != "") ? false : true}
               className='connect_btn green_btn_for_connect' onClick={tryToConnect}>Connect </Button>
-            <Button id='cancel_btn_id' className='connect_btn' onClick={() => cancelForm()}> Cancel </Button>
+            {/* <Button id='cancel_btn_id' className='connect_btn' onClick={() => cancelForm()}> Cancel </Button> */}
           </Col>
         </Row></> : <>
         <Row className='textfield_row'>
