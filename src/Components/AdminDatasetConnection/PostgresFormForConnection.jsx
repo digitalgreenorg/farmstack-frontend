@@ -26,7 +26,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Axios from 'axios';
-const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
+const PostgresFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
   const history = useHistory();
   //exported file name
   const [exportedFileName, setExportedFileName] = useState("")
@@ -218,9 +218,15 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
     newFormData.append("table_name", table_name)
 
     let token = getTokenLocal();
+    let url = ""
+    if (isDatasetEditModeOn) {
+      url = UrlConstant.base_url + UrlConstant.send_columns_to_export + "?dataset_exists=True"
+    } else {
+      url = UrlConstant.base_url + UrlConstant.send_columns_to_export
+    }
     Axios({
       method: method,
-      url: UrlConstant.base_url + UrlConstant.send_columns_to_export,
+      url,
       data: newFormData,
       headers: {
         "Content-Type": "application/json",

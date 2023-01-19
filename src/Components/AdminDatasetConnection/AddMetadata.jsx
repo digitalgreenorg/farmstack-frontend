@@ -147,10 +147,10 @@ const AddMetadata = (props) => {
             </Row>
             <Row>
                 <Col xs={12} sm={12} md={6} lg={6}>
-                    <span className="AddDatasetsecondaryheading">
-                        {screenlabels.dataset.Interval}
-                    </span>
                 </Col>
+                <span className="AddDatasetsecondaryheading">
+                    {screenlabels.dataset.Interval}
+                </span>
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <FormControlLabel
                         value="start"

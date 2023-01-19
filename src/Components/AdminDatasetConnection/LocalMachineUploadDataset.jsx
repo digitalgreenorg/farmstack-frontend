@@ -44,7 +44,7 @@ const useStyles = {
 };
 
 export default function LocalMachineUploadDataset(props) {
-  const { datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm } = props
+  const { isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm } = props
 
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -77,9 +77,16 @@ export default function LocalMachineUploadDataset(props) {
       bodyFormData.append("datasets", item)
     });
     bodyFormData.append("source", "file")
+
+    let url = ""
+    if (isDatasetEditModeOn) {
+      url = UrlConstants.base_url + UrlConstants.dataseteth + "?dataset_exists=True"
+    } else {
+      url = UrlConstants.base_url + UrlConstants.dataseteth
+    }
     HTTPService(
       "POST",
-      UrlConstants.base_url + UrlConstants.dataseteth,
+      url,
       bodyFormData,
       true,
       true
@@ -146,8 +153,9 @@ export default function LocalMachineUploadDataset(props) {
   };
 
   const handleFileChange = (fileIncoming) => {
+    console.log("chnegsing", fileIncoming)
     var currentFileList = [...uploadFile, ...fileIncoming]
-    if (setdatasetname != null) {
+    if (datasetname != null) {
       setFile(currentFileList)
       handleAddDatasetFile(currentFileList)
       currentFileList = []
@@ -206,7 +214,7 @@ export default function LocalMachineUploadDataset(props) {
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader
-                handleChange={handleFileChange}
+                handleChange={(e) => handleFileChange(e)}
                 disabled={!datasetname}
                 name="file"
                 multiple={true}
