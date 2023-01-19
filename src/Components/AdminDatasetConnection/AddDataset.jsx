@@ -665,6 +665,7 @@ const AddDataset = (props) => {
             let arr = Object.keys(completeCategoryAndSub)
             setCategory([...arr])
 
+
             // setconstantlyupdate(response.data.constantly_update)s
             // setCategory({ ...response.data.category })
             // setGeography(response.data.geography)
@@ -690,7 +691,7 @@ const AddDataset = (props) => {
         getAllCategoryAndSubCategory()
         // if (isDatasetEditModeOn) {
         let datasetId = "295f841d-1353-46d5-918e-14e87b56fc72"
-        getAllDataForTheDataset(datasetId)
+        // getAllDataForTheDataset(datasetId)
         // }
     }, [])
 
