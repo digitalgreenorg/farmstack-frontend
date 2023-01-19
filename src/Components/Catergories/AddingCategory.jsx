@@ -11,6 +11,8 @@ import { Button, Divider, Input } from 'antd';
 import { PlusOutlined, SubnodeOutlined } from '@ant-design/icons'
 import { minHeight } from '@mui/system'
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
+import { message, Space } from 'antd';
+
 const AddingCategory = (props) => {
     const { isOnborading, showBrandingScreen, isaccesstoken } = props
     const [catname, setCatName] = useState("")
@@ -27,11 +29,21 @@ const AddingCategory = (props) => {
 
     const history = useHistory()
     const [loading, setLoading] = useState(false)
+
+    //messages
+    const [messageApi, contextHolder] = message.useMessage();
+    const success = (text) => {
+        messageApi.open({
+            type: 'success',
+            content: text,
+        });
+    };
     function addCategory() {
         let isAlreadyIncluded = Object.keys(allCat).includes(catname)
         if (!isAlreadyIncluded) {
             setAllCat({ ...allCat, [catname]: [] })
             setCatName("")
+            success("Category added!")
         }
     }
     function addSubCategory() {
@@ -40,6 +52,7 @@ const AddingCategory = (props) => {
             setAllCat({ ...allCat, [selectedCat]: [...allCat[selectedCat], subCatname] })
             setCatName("")
             setSubCatName("")
+            success("Sub category added!")
         }
     }
 
@@ -60,6 +73,8 @@ const AddingCategory = (props) => {
                 console.log(res)
                 if (isOnborading) {
                     showBrandingScreen()
+                } else {
+                    success("Saved!")
                 }
             }).catch((e) => {
                 setLoading(false);
@@ -72,14 +87,20 @@ const AddingCategory = (props) => {
         setLoading(true)
         let url = UrlConstant.base_url + UrlConstant.add_category_edit_category
         let method = "GET"
-        HTTPService(method, url, "", false, true, isaccesstoken).then((res) => {
+        HTTPService(method, url, "", false, true, isOnborading ? isaccesstoken : false).then((res) => {
             setLoading(false)
             console.log(res.data)
-            setAllCat({ ...res.data })
+            let dataObj = Object.keys(res.data)
+            if (dataObj && dataObj.length > 0) {
+                setAllCat({ ...res.data })
+            } else {
+                setAllCat({})
+            }
         }).catch((e) => {
             setLoading(false)
             console.log(e)
-            history.push(GetErrorHandlingRoute(e))
+            setAllCat({})
+            // history.push(GetErrorHandlingRoute(e))
         })
     }
 
@@ -92,6 +113,7 @@ const AddingCategory = (props) => {
         setSelectCatForDeleteSubCat("")
         setSelectForSubCatForDelete("")
         setAllCat({ ...allCategory })
+        success("Category deleted!")
     }
     const deleteSubCategory = () => {
         //deleting the cat ==>   const [selectCatForDeleteSubCat, setSelectCatForDeleteSubCat] = useState("")
@@ -108,6 +130,7 @@ const AddingCategory = (props) => {
                     setSelectForSubCatForDelete("")
                     setSelectCatForDeleteSubCat("")
                     setAllCat({ ...allCat })
+                    success("Sub category deleted!")
                 }
 
             }
@@ -126,8 +149,10 @@ const AddingCategory = (props) => {
         setSelectCatForDeleteSubCat("")
         setSelectForSubCatForDelete("")
         setSelectCatForDelete("")
+        setRanamedCategoryname("")
         console.log(newObj)
         setAllCat({ ...newObj })
+        success(`Category ${selectCatForDelete} renamed to ${renamedCategoryName}`)
     }
     useEffect(() => {
         console.log("isOnboradinsdsdas", isOnborading)
@@ -138,6 +163,7 @@ const AddingCategory = (props) => {
     return (
         <>
             <Container>
+                {contextHolder}
                 {loading ? <Loader /> : ""}
                 <Row style={{ height: "300px" }}>
                     <Col lg={4} sm={12} >
@@ -152,7 +178,7 @@ const AddingCategory = (props) => {
                             <Input label={"Category"} placeholder="Category name" variant="filled" value={catname} onChange={(e) => setCatName(e.target.value)} />
                         </Row>
                         <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <Button onClick={addCategory}>Add Category</Button>
+                            <Button disabled={catname ? false : true} onClick={addCategory}>Add Category</Button>
                         </Row>
 
                     </Col>
@@ -178,7 +204,7 @@ const AddingCategory = (props) => {
                             <Input label={"Sub category"} placeholder="Sub category name" variant="filled" value={subCatname} onChange={(e) => setSubCatName(e.target.value)} />
                         </Row>
                         <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <Button onClick={addSubCategory}>Add Sub Category</Button>
+                            <Button disabled={selectedCat && subCatname ? false : true} onClick={addSubCategory}>Add Sub Category</Button>
                         </Row>
 
                     </Col>
@@ -226,10 +252,10 @@ const AddingCategory = (props) => {
                         </Row>
                         <Row style={{ margin: "10px 20px 10px 0px" }}>
                             <Col lg={6} sm={6}>
-                                <Button danger onClick={deleteCategory}>Delete category</Button>
+                                <Button disabled={selectCatForDelete ? false : true} danger onClick={deleteCategory}>Delete category</Button>
                             </Col>
                             <Col lg={6} sm={6} >
-                                <Button onClick={renameCategory}>Rename category</Button>
+                                <Button disabled={selectCatForDelete && renamedCategoryName ? false : true} onClick={renameCategory}>Rename category</Button>
                             </Col>
                         </Row>
                     </Col>
@@ -265,7 +291,7 @@ const AddingCategory = (props) => {
                             </FormControl>
                         </Row>
                         <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <Button danger onClick={deleteSubCategory}>Delete sub category</Button>
+                            <Button disabled={selectCatForDeleteSubCat && selectSubCatForDelete ? false : true} danger onClick={deleteSubCategory}>Delete sub category</Button>
                         </Row>
                     </Col>
                     <Col lg={3} sm={12}>
