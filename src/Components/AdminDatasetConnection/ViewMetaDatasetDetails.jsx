@@ -108,31 +108,31 @@ export default function ViewMetaDatasetDetails(props) {
                 </Col>
             </Row>
             <Row style={{ "marginLeft": "96px", "margin-right": "73px" }}>
-                <Col style={{ "margin-top": "40px" }}>
-                    <Row className="secondmainheading">Category</Row>
+                <Col style={{ "margin-top": "40px", }}>
+                    <Row className="secondmainheading" >Category</Row>
                     {Object.keys(category).map((key) => (
-                        <Row className="thirdmainheadingview" style={{ "text-align": "center", "alignItems": "center", "margin-top": "10px", "border-radius": "10px", "border": "2px solid #83A9C9", "background": "#83A9C9", "width": "150px", "height": "40px" }}>
+                        <Row className="thirdmainheadingview" style={{ textAlign: "center", display: "flex", justifyContent: "center", border: "1px solid red", "alignItems": "center", "margin-top": "10px", "border-radius": "10px", "border": "2px solid #83A9C9", "background": "#83A9C9", "width": "150px", "height": "40px" }}>
                             {key}</Row>))}
                 </Col>
                 <Col style={{ "margin-top": "40px" }}>
                     <Row className="secondmainheading">Sub Category</Row>
                     {Object.keys(category).map((key) => category[key].map((value) => (
-                        <Row className="thirdmainheadingview" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #8AA7AD", "background": "#8AA7AD", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                        <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #8AA7AD", "background": "#8AA7AD", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
                             {value}</Row>)))}
                 </Col>
                 <Col style={{ "margin-top": "40px" }}>
                     <Row className="secondmainheading">Geography</Row>
-                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #9ABA8F", "background": "#9ABA8F", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #9ABA8F", "background": "#9ABA8F", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
                         {geography}</Row>
                 </Col>
                 <Col style={{ "margin-top": "40px" }}>
                     <Row className="secondmainheading">Freshness of Data</Row>
-                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #DFC780", "background": "#DFC780", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #DFC780", "background": "#DFC780", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
                         {constantlyupdate ? "Yes" : "No"}</Row>
                 </Col>
                 <Col style={{ "margin-top": "40px" }}>
                     <Row className="secondmainheading">Data Capture Interval</Row>
-                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", "border-radius": "10px", "border": "2px solid #D9B082", "background": "#D9B082", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #D9B082", "background": "#D9B082", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
                         <span>{fromdate ? fromdate : "NA"}</span>
                         <span>{toDate}</span>
                     </Row>

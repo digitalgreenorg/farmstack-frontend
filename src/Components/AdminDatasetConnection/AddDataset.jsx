@@ -28,7 +28,7 @@ import AddMetadata from './AddMetadata';
 import $ from "jquery";
 import Loader from '../Loader/Loader';
 import CloseIcon from '@mui/icons-material/Close';
-
+import axios from "axios"
 import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Skeleton } from '@mui/material'
 import Success from '../Success/Success';
 
@@ -517,6 +517,8 @@ const AddDataset = (props) => {
         // bodyFormData.append("user_map", id);
         // bodyFormData.append("approval_status", "approved");
         setIsLoader(true);
+        let obj = { "name": datasetname, description: govLawDesc, category: JSON.stringify(finalJson), user_map: id, geography: geography, deleted: JSON.stringify(idsForFilesDeleted), constantly_update: Switchchecked, data_capture_start: fromdate ? fromdate.toISOString() : "", data_capture_end: todate ? todate.toISOString() : "" }
+
         let url = ""
         let method = ""
         if (isDatasetEditModeOn) {
@@ -526,12 +528,18 @@ const AddDataset = (props) => {
             method = "POST"
             url = UrlConstant.base_url + UrlConstant.datasetview
         }
+        // axios.put(url, obj, {
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         Authorization: "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc0MTk0NzIyLCJpYXQiOjE2NzQxMDgzMjIsImp0aSI6IjhlOTQwY2E5YmQ1YTQ2Yzk4ODM1ZDg3MzJhODA2NTMxIiwidXNlcl9pZCI6IjBmNzZjYjkwLTIzOTQtNDk5Yi05YjYwLWJmNGNhZDM3NTFhNCJ9.btRvdNHElIAyCqmabsOWswS7CjtPnba_-JwqQcx6eIg",
+        //     }
+        // })
         HTTPService(
             method,
             url,
             bodyFormData,
             false,
-            true
+            true, false
         )
             .then((response) => {
                 setIsLoader(false);
@@ -539,7 +547,7 @@ const AddDataset = (props) => {
                 setIsSubmitted(true)
                 console.log("dataset uploaded!");
 
-                //if error occurs Alert will be shown as Snackbar
+                //if error occurs Success message will be shown as Snackbar
                 setMessageForSnackBar("Dataset uploaded successfully")
                 setErrorOrSuccess("success")
                 handleClick()
@@ -844,7 +852,11 @@ const AddDataset = (props) => {
                                                     <Tab disabled label="Add metadata" value="2" />
                                                 </TabList>
                                             </Box>
-                                            <TabPanel value="1"><Admin_upload_dataset isDatasetEditModeOn={isDatasetEditModeOn} handleDeleteDatasetFileInFrontend={handleDeleteDatasetFileInFrontend} listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit} cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
+                                            <TabPanel value="1"><Admin_upload_dataset
+                                                setMessageForSnackBar={setMessageForSnackBar}
+                                                setErrorOrSuccess={setErrorOrSuccess}
+                                                handleClick={handleClick}
+                                                isDatasetEditModeOn={isDatasetEditModeOn} handleDeleteDatasetFileInFrontend={handleDeleteDatasetFileInFrontend} listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit} cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
                                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                                                 setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
                                             <TabPanel value="2"></TabPanel>

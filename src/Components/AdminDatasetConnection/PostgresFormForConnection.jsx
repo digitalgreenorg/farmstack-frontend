@@ -26,6 +26,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Axios from 'axios';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 const PostgresFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
   const history = useHistory();
   //exported file name
@@ -39,6 +40,13 @@ const PostgresFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localU
   const [loader, setLoader] = useState(true)
   const [spinner, setSpinner] = useState(true)
 
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   //connection details
   const [connectionData, setConnectionData] = useState({
@@ -426,15 +434,28 @@ const PostgresFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localU
             }}
             style={{ width: "80%" }} id="user_name" label="User name" value={connectionData.user_name} onChange={handleConnectionData} name='user_name' variant="standard" />
           <TextField
+            type={showPassword ? 'text' : 'password'}
+
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <PasswordIcon />
                 </InputAdornment>
               ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
-            style={{ width: "80%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" type={"password"} variant="standard" />
-
+            style={{ width: "80%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" variant="standard" />
           <TextField
             InputProps={{
               startAdornment: (

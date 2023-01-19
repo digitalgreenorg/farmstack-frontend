@@ -15,7 +15,9 @@ import ConnectionProgressGif from './ConnectionProgressGif';
 import { List, ListItem, ListItemText } from '@mui/material';
 import { DeleteOutlined } from '@ant-design/icons';
 
-const UploadDatasetComponent = ({ isDatasetEditModeOn, handleDeleteDatasetFileInFrontend, listOfFilesExistInDbForEdit, handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
+const UploadDatasetComponent = ({ setMessageForSnackBar,
+    setErrorOrSuccess,
+    handleClick, isDatasetEditModeOn, handleDeleteDatasetFileInFrontend, listOfFilesExistInDbForEdit, handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
     //tab handler ---> local machine upload, mysql and posgres
     const [value, setValue] = React.useState('1');
     const handleChange = (event, newValue) => {
@@ -41,6 +43,9 @@ const UploadDatasetComponent = ({ isDatasetEditModeOn, handleDeleteDatasetFileIn
                             <Row style={{ marginTop: "50px" }} >
                                 <Col lg={12} sm={12}>
                                     <LocalMachineUploadDataset
+                                        setMessageForSnackBar={setMessageForSnackBar}
+                                        setErrorOrSuccess={setErrorOrSuccess}
+                                        handleClick={handleClick}
                                         isDatasetEditModeOn={isDatasetEditModeOn}
                                         cancelForm={cancelForm}
                                         deleteFunc={deleteFunc}
@@ -51,6 +56,7 @@ const UploadDatasetComponent = ({ isDatasetEditModeOn, handleDeleteDatasetFileIn
                         </TabPanel>
                         <TabPanel value="2">
                             <MysqlFormForConnection
+
                                 cancelForm={cancelForm}
                                 deleteFunc={deleteFunc}
                                 localUploaded={localUploaded}
