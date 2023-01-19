@@ -61,7 +61,7 @@ const GuestUserNavBar = (props) => {
           <img className="image"
             src={require("../../Assets/Img/call_icon.png")}
             alt="call"
-            style={{ width: "52px", height: "52px", "margin-left": "50px", "margin-top": "9px"}}
+            style={{ width: "52px", height: "52px", "margin-left": "-50px", "margin-top": "9px"}}
           />&nbsp;&nbsp;&nbsp;&nbsp;
           <span className="navtext fontweight400andfontsize16pxandcolor3D4A52">Call:&nbsp;
           <a style={{color: 'black'}} href={'tel: ' + phoneNumber}>{phoneNumber}</a>- to register your grievance</span>
@@ -109,7 +109,7 @@ const GuestUserNavBar = (props) => {
         <NavBtn>
           <NavBtnLink to="/participantregistration">
             <img src={require("../../Assets/Img/account.svg")} alt="new" />
-            &nbsp;&nbsp;{"Register"}
+            &nbsp;&nbsp;{"Register as participant"}
           </NavBtnLink>
         </NavBtn>
       </Nav>
