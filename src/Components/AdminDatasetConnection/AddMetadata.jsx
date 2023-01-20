@@ -45,17 +45,13 @@ const AddMetadata = (props) => {
 
     const options = [
     ]
-    for (let i = 0; i < subCategoryNameList.length; i++) {
-        options.push({ label: subCategoryNameList[i], value: subCategoryNameList[i] })
-    }
+    // for(let i=0; i<Object)
 
-    {
-        Object.keys(finalJson).map((key) => finalJson[key].map((eachSub) => {
-            return <ListItem>
-                <span>{`${eachSub} from ${key} category`}</span> {" "}
-            </ListItem>
-        }))
-    }
+    // for (let i = 0; i < allCatFetched.length; i++) {
+    //     options.push({ label: subCategoryNameList[i], value: subCategoryNameList[i]  })
+    // }
+
+
 
 
     // const handleChange = (value = []) => {
