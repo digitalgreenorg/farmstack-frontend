@@ -31,6 +31,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios"
 import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Skeleton } from '@mui/material'
 import Success from '../Success/Success';
+import CategorySelectorList from './CategorySelectorList';
 
 //stepper steps label
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
@@ -52,10 +53,8 @@ const AddDataset = (props) => {
     const [lengthOfSubCat, setLengthOfSubCat] = useState(0)
     const [SubCatList, setSubCatList] = React.useState([]);
 
-    const handleChangeSubCatList = (event) => {
-        const {
-            target: { value },
-        } = event;
+    const handleChangeSubCatList = (value) => {
+        console.log("Value1212", value)
         setSubCatList(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
@@ -276,10 +275,12 @@ const AddDataset = (props) => {
     const [category, setCategory] = useState([])
 
     const handleChangeCategory = (event) => {
+        console.log(event)
         setMainJson({})
-        const {
-            target: { value },
-        } = event;
+        const value = event
+        // const {
+        //     target: { value },
+        // } = event;
         setCategory(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
@@ -368,6 +369,7 @@ const AddDataset = (props) => {
         console.log(selectectedCatList)
 
         setSelectedCat(obj)
+        setMainJson({ ...obj })
         let subCatList = []
 
         for (let i = 0; i < selectectedCatList.length; i++) {
@@ -398,11 +400,12 @@ const AddDataset = (props) => {
     //handle geography
     const [geography, setGeography] = React.useState('');
 
-    const handleChangeGeography = (e) => {
-        console.log(e.target.value);
-        validateInputField(e.target.value, RegexConstants.connector_name)
-            ? setGeography(e.target.value)
-            : e.preventDefault();
+    const handleChangeGeography = (value) => {
+        console.log(value);
+        setGeography(value)
+        // validateInputField(value, RegexConstants.connector_name)
+        //     ? setGeography(value) : ""
+        //     ;
     };
 
     const [fromdate, setfromdate] = React.useState(null);
@@ -946,7 +949,9 @@ const AddDataset = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                </Row></>}
+                </Row>
+                {/* <CategorySelectorList /> */}
+            </>}
         </Container>
     )
 }

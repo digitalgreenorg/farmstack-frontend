@@ -4,13 +4,15 @@ import { Button, Col, Row } from 'react-bootstrap'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+// import Select from '@mui/material/Select';
 import CategorySelector from './CategorySelector';
 import { useEffect } from 'react';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import labels from '../../Constants/labels';
+import CategorySelectorList from './CategorySelectorList';
+import { Select } from 'antd';
 
 
 const ITEM_HEIGHT = 48;
@@ -40,7 +42,25 @@ const AddMetadata = (props) => {
     for (let i = 0; i < catList.length; i++) {
         sublist = [...sublist, ...finalJson[catList[i]]]
     }
-    Object.keys(finalJson)
+
+    const options = [
+    ]
+    for (let i = 0; i < subCategoryNameList.length; i++) {
+        options.push({ label: subCategoryNameList[i], value: subCategoryNameList[i] })
+    }
+
+    {
+        Object.keys(finalJson).map((key) => finalJson[key].map((eachSub) => {
+            return <ListItem>
+                <span>{`${eachSub} from ${key} category`}</span> {" "}
+            </ListItem>
+        }))
+    }
+
+
+    // const handleChange = (value = []) => {
+    //     handleChangeSubCatList()
+    // };
     useEffect(() => {
 
     }, [categoryNameList])
@@ -67,15 +87,29 @@ const AddMetadata = (props) => {
                         </Select>
                     </FormControl> */}
 
-                    <CategorySelector selectedCat={selectedCat} heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} />
+                    {/* <CategorySelector selectedCat={selectedCat} heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} /> */}
+                    <CategorySelectorList selectedCat={selectedCat} heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} />
 
                 </Col>
                 <Col xs="12" sm="6" md="6" lg="3">
 
-                    <FormControl sx={{ m: 1, width: 250 }}>
-                        <InputLabel id="demo-multiple-checkbox-label">{"Sub categories"}</InputLabel>
 
-                        <Select name="sub_category" id="sub_cat" >
+                    <label htmlFor="">Sub categories</label>
+                    <Select
+                        mode="tags"
+                        placeholder="Please select"
+                        // defaultValue={[]}
+                        value={SubCatList}
+                        onChange={handleChangeSubCatList}
+                        style={{ width: '100%' }}
+                        options={options}
+                        maxTagCount='responsive'
+                    />
+
+                    <FormControl sx={{ m: 1, width: 250 }}>
+                        {/* <InputLabel id="demo-multiple-checkbox-label">{"Sub categories"}</InputLabel> */}
+
+                        {/* <Select name="sub_category" id="sub_cat" >
                             {Object.keys(selectedCat).map((key) => {
                                 return allCatFetched[key].map((sub) => {
                                     return <span style={{ display: "flex", justifyContent: "space-evenly" }}><Checkbox checked={sublist.includes(sub)} onClick={(e) => handleSubCategoryListForFinal(e.target.checked, sub, key)} />
@@ -83,8 +117,9 @@ const AddMetadata = (props) => {
                                     </span>
                                 })
 
-                            })}
-                            {/* {Object.keys(allCatFetched).map((key) => {
+                            })} */}
+
+                        {/* {Object.keys(allCatFetched).map((key) => {
                                 if (category.includes(key)) {
                                     console.log(allCatFetched[key], key)
                                     allCatFetched[key].map((sub_cat) => {
@@ -92,34 +127,44 @@ const AddMetadata = (props) => {
                                     })
                                 }
                             })} */}
-                            {/* {category.map(()=>{
+                        {/* {category.map(()=>{
                                 allCatFetched
                             })} */}
-                            {/* {Object.keys(selectedCat).map((key)=>{
+                        {/* {Object.keys(selectedCat).map((key)=>{
 
                             })} */}
-                        </Select>
+                        {/* </Select> */}
                     </FormControl>
                     {/* <CategorySelector heading={"Sub category"} handler={handleSubCategory} category={subCategory} list={subCategoryNameList} /> */}
                 </Col>
                 <Col xs="12" sm="6" md="6" lg="3">
-                    <FormControl sx={{ m: 1, width: "250px" }}>
-                        <InputLabel id="demo-simple-select-standard-label">Geography</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            value={geography}
-                            onChange={handleChangeGeography}
-                            label="Geography"
-                        >
-                            {/* <MenuItem value="">
+                    {/* <FormControl sx={{ m: 1, width: "250px" }}> */}
+                    {/* <InputLabel id="demo-simple-select-standard-label">Geography</InputLabel> */}
+                    <label htmlFor="">Geography</label>
+                    <Select
+                        // mode="tags"
+                        placeholder="Please select geography"
+                        style={{ width: '100%' }}
+                        maxTagCount='responsive'
+                        // labelId="demo-simple-select-standard-label"
+                        // id="demo-simple-select-standard"
+                        value={geography}
+                        onChange={handleChangeGeography}
+                        options={[
+                            { value: "India", label: "India" },
+                            { value: "Ethiopia", label: "Ethiopia" },
+                            { value: "Kenya", label: "Kenya" }
+                        ]}
+                    // label="Geography"
+                    >
+                        {/* <MenuItem value="">
                                 <em>None</em>
                             </MenuItem> */}
-                            <MenuItem value={"India"}>India</MenuItem>
-                            <MenuItem value={"Ethiopia"}>Ethiopia</MenuItem>
-                            <MenuItem value={"Kenya"}>Kenya</MenuItem>
-                        </Select>
-                    </FormControl>
+                        {/* <MenuItem value={"India"}>India</MenuItem>
+                        <MenuItem value={"Ethiopia"}>Ethiopia</MenuItem>
+                        <MenuItem value={"Kenya"}>Kenya</MenuItem> */}
+                    </Select>
+                    {/* </FormControl> */}
                 </Col>
 
                 <Col xs="12" sm="6" md="6" lg="3">
