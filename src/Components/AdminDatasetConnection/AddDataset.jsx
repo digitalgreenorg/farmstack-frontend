@@ -368,6 +368,7 @@ const AddDataset = (props) => {
         console.log(selectectedCatList)
 
         setSelectedCat(obj)
+        setMainJson({ ...obj })
         let subCatList = []
 
         for (let i = 0; i < selectectedCatList.length; i++) {
