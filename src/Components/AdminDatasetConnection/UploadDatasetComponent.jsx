@@ -56,13 +56,14 @@ const UploadDatasetComponent = ({ setMessageForSnackBar,
                         </TabPanel>
                         <TabPanel value="2">
                             <MysqlFormForConnection
-
+                                isDatasetEditModeOn={isDatasetEditModeOn}
                                 cancelForm={cancelForm}
                                 deleteFunc={deleteFunc}
                                 localUploaded={localUploaded}
                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                                 datasetname={datasetname} setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         <TabPanel value="3"><PostgresFormForConnection
+                            isDatasetEditModeOn={isDatasetEditModeOn}
                             cancelForm={cancelForm}
                             datasetname={datasetname}
                             deleteFunc={deleteFunc}
