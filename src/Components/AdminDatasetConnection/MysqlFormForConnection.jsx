@@ -1,4 +1,4 @@
-import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, TextField, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Tooltip, Skeleton } from '@mui/material'
+import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, TextField, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Tooltip, Skeleton, OutlinedInput } from '@mui/material'
 import React, { useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import StorageIcon from '@mui/icons-material/Storage';
@@ -23,7 +23,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Axios from 'axios';
-const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
+import { Visibility, VisibilityOff } from '@material-ui/icons';
+const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
   const history = useHistory();
   //exported file name
   const [exportedFileName, setExportedFileName] = useState("")
@@ -36,6 +37,13 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
   const [loader, setLoader] = useState(true)
   const [spinner, setSpinner] = useState(true)
 
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   //connection details
   const [connectionData, setConnectionData] = useState({
@@ -216,9 +224,16 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
     newFormData.append("table_name", table_name)
 
     let token = getTokenLocal();
+
+    let url = ""
+    if (isDatasetEditModeOn) {
+      url = UrlConstant.base_url + UrlConstant.send_columns_to_export + "?dataset_exists=True"
+    } else {
+      url = UrlConstant.base_url + UrlConstant.send_columns_to_export
+    }
     Axios({
       method: method,
-      url: UrlConstant.base_url + UrlConstant.send_columns_to_export,
+      url,
       data: newFormData,
       headers: {
         "Content-Type": "application/json",
@@ -417,15 +432,62 @@ const MysqlFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, da
               ),
             }}
             style={{ width: "80%" }} id="user_name" label="User name" value={connectionData.user_name} onChange={handleConnectionData} name='user_name' variant="standard" />
+          {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+
+            startAdornment={
+              <InputAdornment position="start">
+                <PasswordIcon />
+              </InputAdornment>
+            }
+
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            style={{ width: "80%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" variant="standard"
+          /> */}
+
           <TextField
+            // startAdornment={
+            //   <InputAdornment position="start">
+            //     <PasswordIcon />
+            //   </InputAdornment>
+            // }
+            type={showPassword ? 'text' : 'password'}
+            // endAdornment={
+            //   <InputAdornment position="end">
+
+            //   </InputAdornment>}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <PasswordIcon />
                 </InputAdornment>
               ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
-            style={{ width: "80%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" type={"password"} variant="standard" />
+            style={{ width: "80%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" variant="standard" />
 
           <TextField
             InputProps={{

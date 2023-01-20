@@ -44,7 +44,9 @@ const useStyles = {
 };
 
 export default function LocalMachineUploadDataset(props) {
-  const { datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm } = props
+  const { setMessageForSnackBar,
+    setErrorOrSuccess,
+    handleClick, isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm } = props
 
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -77,9 +79,16 @@ export default function LocalMachineUploadDataset(props) {
       bodyFormData.append("datasets", item)
     });
     bodyFormData.append("source", "file")
+
+    let url = ""
+    if (isDatasetEditModeOn) {
+      url = UrlConstants.base_url + UrlConstants.dataseteth + "?dataset_exists=True"
+    } else {
+      url = UrlConstants.base_url + UrlConstants.dataseteth
+    }
     HTTPService(
       "POST",
-      UrlConstants.base_url + UrlConstants.dataseteth,
+      url,
       bodyFormData,
       true,
       true
@@ -87,26 +96,35 @@ export default function LocalMachineUploadDataset(props) {
       setIsLoader(false)
       setLocalUploaded([...localUploaded, ...response.data.datasets])
       // setLocalUploaded([response.datasets])
+      setMessageForSnackBar("Dataset file uploaded successfuly!")
+      setErrorOrSuccess("success")
+      handleClick()
       console.log("files uploaded");
     }).catch((e) => {
       setIsLoader(false);
       console.log(e);
+
+      handleClick()
       var returnValues = GetErrorKey(e, bodyFormData.keys());
       var errorKeys = returnValues[0];
       var errorMessages = returnValues[1];
+      setErrorOrSuccess("error")
       if (errorKeys.length > 0) {
         for (var i = 0; i < errorKeys.length; i++) {
           switch (errorKeys[i]) {
             case "dataset_name":
               setDatasetNameError(errorMessages[i]);
+              setMessageForSnackBar(errorMessages[i])
               break;
             case "datasets":
               setDataSetFileError(errorMessages[i]);
+              setMessageForSnackBar(errorMessages[i])
               break;
             default:
               history.push(GetErrorHandlingRoute(e));
               break;
           }
+          handleClick()
         }
       } else {
         history.push(GetErrorHandlingRoute(e));
@@ -146,8 +164,9 @@ export default function LocalMachineUploadDataset(props) {
   };
 
   const handleFileChange = (fileIncoming) => {
+    console.log("chnegsing", fileIncoming)
     var currentFileList = [...uploadFile, ...fileIncoming]
-    if (setdatasetname != null) {
+    if (datasetname != null) {
       setFile(currentFileList)
       handleAddDatasetFile(currentFileList)
       currentFileList = []
@@ -206,7 +225,7 @@ export default function LocalMachineUploadDataset(props) {
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader
-                handleChange={handleFileChange}
+                handleChange={(e) => handleFileChange(e)}
                 disabled={!datasetname}
                 name="file"
                 multiple={true}
