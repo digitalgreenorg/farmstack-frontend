@@ -5,7 +5,7 @@ import { Select } from 'antd'
 
 
 const CategorySelectorList = (props) => {
-    const { handler, category, list, heading, selectedCat } = props
+    const { handler, category, list, heading, selectedCat, newSelectedCategory } = props
     const options = [
     ]
     for (let i = 0; i < list.length; i++) {
@@ -24,7 +24,7 @@ const CategorySelectorList = (props) => {
                 mode="tags"
                 placeholder="Please select"
                 // defaultValue={[]}
-                value={category}
+                value={newSelectedCategory}
                 onChange={handler}
                 style={{ width: '100%' }}
                 options={options}
