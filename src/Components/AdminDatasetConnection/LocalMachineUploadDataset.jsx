@@ -30,7 +30,9 @@ import { TabContext } from "@mui/lab";
 import { FileUploader } from "react-drag-drop-files";
 import ConnectionProgressGif from "./ConnectionProgressGif";
 import axios from "axios";
-import {LinearProgress} from "@mui/material";
+import { LinearProgress } from "@mui/material";
+import { IconButton } from "@mui/material";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 const useStyles = {
   btncolor: {
@@ -46,7 +48,9 @@ const useStyles = {
 
 export default function LocalMachineUploadDataset(props) {
   let accesstoken = getTokenLocal();
-  const { datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm } = props
+  const { setMessageForSnackBar,
+    setErrorOrSuccess,
+    handleClick, isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm } = props
 
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -77,24 +81,15 @@ export default function LocalMachineUploadDataset(props) {
     console.log("clicked on add dataset submit btn11");
     setIsLoader(true)
     setfileValid(null);
-
-    // const options = {
-    //   onUploadProgress: (progressEvent) => {
-    //     console.log(progressEvent.loaded);
-    //     const { loaded, total } = progressEvent;
-    //     let percent = Math.floor((loaded * 100) / total);
-    //     console.log(`${loaded}kb of ${total}kb | ${percent}%`);
-    //     setProgress(percent);
-    //   },
-    //   headers: {
-    //     "content-type": "multipart/form-data",
-    //     Authorization: `Bearer ${accesstoken}`,
-    //   },
-    // };
-    let url = UrlConstants.base_url + UrlConstants.dataseteth;
+    let url = ""
+    if (isDatasetEditModeOn) {
+      url = UrlConstants.base_url + UrlConstants.dataseteth + "?dataset_exists=True"
+    } else {
+      url = UrlConstants.base_url + UrlConstants.dataseteth
+    }
     var bodyFormData = new FormData();
     // bodyFormData.append("dataset_name", datasetname)
-    currentFileList.map(async(item, index) => {
+    currentFileList.map(async (item, index) => {
       bodyFormData.append("datasets", item)
       bodyFormData.append("source", "file")
       bodyFormData.append("dataset_name", datasetname)
@@ -124,7 +119,10 @@ export default function LocalMachineUploadDataset(props) {
             setLocalUploaded([...localUploaded, ...response.data.datasets])
             console.log("files uploaded");
             bodyFormData.delete("datasets")
-            
+            setMessageForSnackBar("Dataset file uploaded successfuly!")
+            setErrorOrSuccess("success")
+            handleClick()
+
           }).catch((e) => {
             setIsLoader(false);
             console.log(e);
@@ -136,14 +134,17 @@ export default function LocalMachineUploadDataset(props) {
                 switch (errorKeys[i]) {
                   case "dataset_name":
                     setDatasetNameError(errorMessages[i]);
+                    setMessageForSnackBar(errorMessages[i])
                     break;
                   case "datasets":
                     setDataSetFileError(errorMessages[i]);
+                    setMessageForSnackBar(errorMessages[i])
                     break;
                   default:
                     history.push(GetErrorHandlingRoute(e));
                     break;
                 }
+                handleClick()
               }
             } else {
               history.push(GetErrorHandlingRoute(e));
@@ -152,16 +153,15 @@ export default function LocalMachineUploadDataset(props) {
       }
 
     });
-   // bodyFormData.append("source", "file")
 
   }
 
-  const handleDeleteDatasetList = (filename, source, datasetname) => {
+  const handleDeleteDatasetList = (filename, item) => {
     var bodyFormData = new FormData();
 
     bodyFormData.append("file_name", filename)
     bodyFormData.append("dataset_name", datasetname)
-    bodyFormData.append("source", source)
+    bodyFormData.append("source", "file")
     HTTPService(
       "DELETE",
       UrlConstants.base_url + UrlConstants.dataseteth,
@@ -175,7 +175,7 @@ export default function LocalMachineUploadDataset(props) {
           console.log("file deleted")
           var filteredArray = uploadFile.filter((item) => item.name !== filename)
           setFile(filteredArray)
-          setLocalUploaded(filteredArray)
+          // setLocalUploaded(filteredArray)
         }
         // setFile(null)
       })
@@ -188,8 +188,9 @@ export default function LocalMachineUploadDataset(props) {
   };
 
   const handleFileChange = (fileIncoming) => {
+    console.log("chnegsing", fileIncoming)
     var currentFileList = [...uploadFile, ...fileIncoming]
-    if (setdatasetname != null) {
+    if (datasetname != null) {
       setFile(currentFileList)
       handleAddDatasetFile(currentFileList)
 
@@ -230,7 +231,6 @@ export default function LocalMachineUploadDataset(props) {
   // };
   return (
     <>
-      {/* {isLoader ? <Loader /> : ""} */}
       {isSuccess ? (
         <Success
           okevent={() => history.push("/datahub/datasets")}
@@ -247,7 +247,7 @@ export default function LocalMachineUploadDataset(props) {
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader
-                handleChange={handleFileChange}
+                handleChange={(e) => handleFileChange(e)}
                 disabled={!datasetname}
                 name="file"
                 multiple={true}
@@ -266,18 +266,28 @@ export default function LocalMachineUploadDataset(props) {
             </Col>
 
             <Col>
-              <Row style={{ maxHeight: "300px", overflowY: "scroll" }}>
+              <Row style={{ maxHeight: "300px", overflowY: "scroll", maxWidth: "500px" }}>
                 {uploadFile ?
                   (<ol className="uploaddatasetname">
                     {uploadFile.map((item) => {
-                      return (<>
+                      return (<> 
+                      <Row>
+                      <Col>
                         <li className="uploadList">
                           {item.name}
                         </li>
+                        </Col>
+                        <Col>
+                        <IconButton edge="end" aria-label="delete">
+                          <DeleteOutlinedIcon
+                            onClick={() => handleDeleteDatasetList(item.name)}
+                            color='warning' />
+                        </IconButton>
+                        </Col>
+                        </Row>
                         <LinearProgress variant="determine" value={item?.progress ? item?.progress : 0} key={key} color="success" />
-                        <p>{item?.progress  ? item?.progress : 0}%</p>
+                        <p>{item?.progress ? item?.progress : 0}%</p>
                       </>
-
                       )
                     })}
                   </ol>)
@@ -286,10 +296,10 @@ export default function LocalMachineUploadDataset(props) {
               </Row>
 
             </Col>
-            <Row xs={12} sm={12} md={12} lg={6}>
+            {/* <Row xs={12} sm={12} md={12} lg={6}>
               <ConnectionProgressGif loader={isLoader} datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} mysqlFileList={mysqlFileList} localUploaded={localUploaded}
                 progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} />
-            </Row>
+            </Row> */}
           </Row>
           {/* <Row> */}
           {/* <Col xs={12} sm={12} md={6} lg={6}>

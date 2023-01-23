@@ -28,7 +28,7 @@ import AddMetadata from './AddMetadata';
 import $ from "jquery";
 import Loader from '../Loader/Loader';
 import CloseIcon from '@mui/icons-material/Close';
-
+import axios from "axios"
 import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Skeleton } from '@mui/material'
 import Success from '../Success/Success';
 
@@ -36,7 +36,7 @@ import Success from '../Success/Success';
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 
 const AddDataset = (props) => {
-    const { isDatasetEditModeOn } = props
+    const { isDatasetEditModeOn, datasetId } = props
     const [value, setValue] = React.useState('1');
     const [nameErrorMessage, setnameErrorMessage] = useState(null);
     const [datasetname, setdatasetname] = useState("");
@@ -47,7 +47,7 @@ const AddDataset = (props) => {
     const [isLoading, setIsLoader] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
     const history = useHistory()
-
+    const [listOfFilesExistInDbForEdit, setListOfFilesExistInDbForEdit] = useState([])
 
     const [lengthOfSubCat, setLengthOfSubCat] = useState(0)
     const [SubCatList, setSubCatList] = React.useState([]);
@@ -368,6 +368,7 @@ const AddDataset = (props) => {
         console.log(selectectedCatList)
 
         setSelectedCat(obj)
+        setMainJson({ ...obj })
         let subCatList = []
 
         for (let i = 0; i < selectectedCatList.length; i++) {
@@ -487,7 +488,11 @@ const AddDataset = (props) => {
         bodyFormData.append("user_map", id);
         bodyFormData.append("geography", geography);
         // if (cropdetail == null) {
-        bodyFormData.append("crop_detail", "");
+        // bodyFormData.append("crop_detail", "");
+        //if edit mode is on then one extra key has to be apended so that they can delete the mentioned file as per the id
+        if (isDatasetEditModeOn) {
+            bodyFormData.append("deleted", JSON.stringify(idsForFilesDeleted))
+        }
         // } else {
         // bodyFormData.append("crop_detail", cropdetail);
         // }
@@ -513,12 +518,29 @@ const AddDataset = (props) => {
         // bodyFormData.append("user_map", id);
         // bodyFormData.append("approval_status", "approved");
         setIsLoader(true);
+        let obj = { "name": datasetname, description: govLawDesc, category: JSON.stringify(finalJson), user_map: id, geography: geography, deleted: JSON.stringify(idsForFilesDeleted), constantly_update: Switchchecked, data_capture_start: fromdate ? fromdate.toISOString() : "", data_capture_end: todate ? todate.toISOString() : "" }
+
+        let url = ""
+        let method = ""
+        if (isDatasetEditModeOn) {
+            method = "PUT"
+            url = UrlConstant.base_url + UrlConstant.datasetview + datasetId + "/"
+        } else {
+            method = "POST"
+            url = UrlConstant.base_url + UrlConstant.datasetview
+        }
+        // axios.put(url, obj, {
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         Authorization: "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc0MTk0NzIyLCJpYXQiOjE2NzQxMDgzMjIsImp0aSI6IjhlOTQwY2E5YmQ1YTQ2Yzk4ODM1ZDg3MzJhODA2NTMxIiwidXNlcl9pZCI6IjBmNzZjYjkwLTIzOTQtNDk5Yi05YjYwLWJmNGNhZDM3NTFhNCJ9.btRvdNHElIAyCqmabsOWswS7CjtPnba_-JwqQcx6eIg",
+        //     }
+        // })
         HTTPService(
-            "POST",
-            UrlConstant.base_url + "/datahub/dataset/v2/",
+            method,
+            url,
             bodyFormData,
-            true,
-            true
+            false,
+            true, false
         )
             .then((response) => {
                 setIsLoader(false);
@@ -526,7 +548,7 @@ const AddDataset = (props) => {
                 setIsSubmitted(true)
                 console.log("dataset uploaded!");
 
-                //if error occurs Alert will be shown as Snackbar
+                //if error occurs Success message will be shown as Snackbar
                 setMessageForSnackBar("Dataset uploaded successfully")
                 setErrorOrSuccess("success")
                 handleClick()
@@ -657,14 +679,17 @@ const AddDataset = (props) => {
                     "html"
                 )
             );
+            console.log(new Date(data.data_capture_start), data.data_capture_start)
             setSwitchchecked(data.constantly_update)
-            settodate(data.data_capture_start)
-            setfromdate(data.data_capture_end)
+            settodate(new Date(data.data_capture_start))
+            setfromdate(new Date(data.data_capture_end))
             setGeography(data.geography)
             let completeCategoryAndSub = data.category
             let arr = Object.keys(completeCategoryAndSub)
+            setMainJson({ ...completeCategoryAndSub })
             setCategory([...arr])
-
+            console.log(data.datasets, "DATASETS")
+            setListOfFilesExistInDbForEdit([...data.datasets])
 
             // setconstantlyupdate(response.data.constantly_update)s
             // setCategory({ ...response.data.category })
@@ -685,14 +710,31 @@ const AddDataset = (props) => {
     }
 
 
+    //
+    const [idsForFilesDeleted, setIdsForFilesDeleted] = useState([])
+    function handleDeleteDatasetFileInFrontend(e, id) {
+        console.log(id)
+        let newArr = [...listOfFilesExistInDbForEdit]
+
+        // if (id > -1) { // only splice array when item is found
+        //     newArr.splice(id, 1); // 2nd parameter means remove one item only
+        // }
+        newArr = newArr.filter((item) => {
+            return item.id != id
+        })
+
+        setIdsForFilesDeleted([...idsForFilesDeleted, id])
+        setListOfFilesExistInDbForEdit([...newArr])
+    }
+
+
 
     useEffect(() => {
 
         getAllCategoryAndSubCategory()
-        // if (isDatasetEditModeOn) {
-        let datasetId = "295f841d-1353-46d5-918e-14e87b56fc72"
-        // getAllDataForTheDataset(datasetId)
-        // }
+        if (isDatasetEditModeOn) {
+            getAllDataForTheDataset(datasetId)
+        }
     }, [])
 
 
@@ -772,6 +814,7 @@ const AddDataset = (props) => {
                                     {/* <Typography sx={{ mt: 2, mb: 1 }}> {activeStep == 0 ? "Please provide the dataset name to enable the further steps" : ""}</Typography> */}
                                     {activeStep == 0 ? <Col style={{ margin: "50px auto 150px auto", padding: "0px" }} lg={12} sm={12}>
                                         <TextField
+                                            disabled={isDatasetEditModeOn ? true : false}
                                             style={{ marginBottom: "20px" }}
                                             value={datasetname}
                                             onKeyDown={handledatasetnameKeydown}
@@ -811,7 +854,11 @@ const AddDataset = (props) => {
                                                     <Tab disabled label="Add metadata" value="2" />
                                                 </TabList>
                                             </Box>
-                                            <TabPanel value="1"><Admin_upload_dataset cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
+                                            <TabPanel value="1"><Admin_upload_dataset
+                                                setMessageForSnackBar={setMessageForSnackBar}
+                                                setErrorOrSuccess={setErrorOrSuccess}
+                                                handleClick={handleClick}
+                                                isDatasetEditModeOn={isDatasetEditModeOn} handleDeleteDatasetFileInFrontend={handleDeleteDatasetFileInFrontend} listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit} cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
                                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                                                 setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
                                             <TabPanel value="2"></TabPanel>
@@ -820,6 +867,8 @@ const AddDataset = (props) => {
 
                                     {activeStep == 2 ?
                                         <AddMetadata
+                                            listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit}
+                                            handleDeleteDatasetFileInFrontend={handleDeleteDatasetFileInFrontend}
                                             geography={geography}
                                             datasetname={datasetname}
                                             selectedCat={selectedCat}
@@ -886,7 +935,7 @@ const AddDataset = (props) => {
                                         </Button>
                                     )} */}
 
-                                        {activeStep == 2 ? "" : <Button disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
+                                        {activeStep == 2 ? "" : <Button disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
                                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                         </Button>}
                                     </Box>

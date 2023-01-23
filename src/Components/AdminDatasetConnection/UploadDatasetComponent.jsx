@@ -12,14 +12,19 @@ import AccordionForUploadedFileDetails from './AccordionForUploadedFileDetails';
 import ListForUploadedFiles from './ListForUploadedFiles';
 import LocalMachineUploadDataset from './LocalMachineUploadDataset';
 import ConnectionProgressGif from './ConnectionProgressGif';
-const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
+import { List, ListItem, ListItemText } from '@mui/material';
+import { DeleteOutlined } from '@ant-design/icons';
+
+const UploadDatasetComponent = ({ setMessageForSnackBar,
+    setErrorOrSuccess,
+    handleClick, isDatasetEditModeOn, handleDeleteDatasetFileInFrontend, listOfFilesExistInDbForEdit, handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
     //tab handler ---> local machine upload, mysql and posgres
     const [value, setValue] = React.useState('1');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
-
+    console.log("ListItem", listOfFilesExistInDbForEdit)
+    console.log("ITEM is hereeee")
     return (
         <>
             <Row style={{ marginTop: "25px" }}>
@@ -38,6 +43,10 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                             <Row style={{ marginTop: "50px" }} >
                                 <Col lg={12} sm={12}>
                                     <LocalMachineUploadDataset
+                                        setMessageForSnackBar={setMessageForSnackBar}
+                                        setErrorOrSuccess={setErrorOrSuccess}
+                                        handleClick={handleClick}
+                                        isDatasetEditModeOn={isDatasetEditModeOn}
                                         cancelForm={cancelForm}
                                         deleteFunc={deleteFunc}
                                         datasetname={datasetname} postgresFileList={postgresFileList} mysqlFileList={mysqlFileList} setdatasetname={setdatasetname} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleMetadata} />
@@ -47,12 +56,14 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                         </TabPanel>
                         <TabPanel value="2">
                             <MysqlFormForConnection
+                                isDatasetEditModeOn={isDatasetEditModeOn}
                                 cancelForm={cancelForm}
                                 deleteFunc={deleteFunc}
                                 localUploaded={localUploaded}
                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                                 datasetname={datasetname} setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         <TabPanel value="3"><PostgresFormForConnection
+                            isDatasetEditModeOn={isDatasetEditModeOn}
                             cancelForm={cancelForm}
                             datasetname={datasetname}
                             deleteFunc={deleteFunc}
@@ -60,8 +71,28 @@ const UploadDatasetComponent = ({ handleMetadata, setLocalUploaded, localUploade
                             mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                             setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                     </TabContext>
+
                 </Col>
             </Row>
+            {listOfFilesExistInDbForEdit.length > 0 ? <Row>
+                <Col lg={6} sm={12}>
+                    <label htmlFor="">Files associated</label>
+                    <List style={{ maxHeight: "300px", overflowY: "scroll", }}>
+                        {listOfFilesExistInDbForEdit.map((item, index) => {
+                            console.log("ListItem", listOfFilesExistInDbForEdit)
+                            let nameOfFile = item.file.split("/")
+                            return <ListItem style={{ display: "flex", justifyContent: "left", alignItems: "center" }}> <span>
+
+                                <ListItemText primary={nameOfFile[nameOfFile.length - 1]} secondary={item.source ? item.source : ""} />
+                            </span>
+                                <span>
+                                    <DeleteOutlined onClick={(e) => handleDeleteDatasetFileInFrontend(e, item.id ? item.id : index)} style={{ color: "red", marginLeft: "30px" }} />
+                                </span>
+                            </ListItem>
+                        })}
+                    </List>
+                </Col>
+            </Row> : ""}
         </>
     )
 }

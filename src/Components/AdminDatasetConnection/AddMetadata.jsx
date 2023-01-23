@@ -40,6 +40,7 @@ const AddMetadata = (props) => {
     for (let i = 0; i < catList.length; i++) {
         sublist = [...sublist, ...finalJson[catList[i]]]
     }
+    Object.keys(finalJson)
     useEffect(() => {
 
     }, [categoryNameList])
@@ -73,7 +74,8 @@ const AddMetadata = (props) => {
 
                     <FormControl sx={{ m: 1, width: 250 }}>
                         <InputLabel id="demo-multiple-checkbox-label">{"Sub categories"}</InputLabel>
-                        <Select name="sub_category" id="sub_cat">
+
+                        <Select name="sub_category" id="sub_cat" >
                             {Object.keys(selectedCat).map((key) => {
                                 return allCatFetched[key].map((sub) => {
                                     return <span style={{ display: "flex", justifyContent: "space-evenly" }}><Checkbox checked={sublist.includes(sub)} onClick={(e) => handleSubCategoryListForFinal(e.target.checked, sub, key)} />
@@ -147,10 +149,10 @@ const AddMetadata = (props) => {
             </Row>
             <Row>
                 <Col xs={12} sm={12} md={6} lg={6}>
-                    <span className="AddDatasetsecondaryheading">
-                        {screenlabels.dataset.Interval}
-                    </span>
                 </Col>
+                <span className="AddDatasetsecondaryheading">
+                    {screenlabels.dataset.Interval}
+                </span>
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <FormControlLabel
                         value="start"
