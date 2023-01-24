@@ -15,7 +15,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import circleloader from "../../Assets/Img/circleloader.gif"
 import AccordionForUploadedFileDetails from './AccordionForUploadedFileDetails';
 import { handleDeleteFile } from './Utils';
-const ConnectionProgressGif = ({ isConnected, loader, mysqlFileList, localUploaded, postgresFileList, deleteFunc, datasetname, deleteMysqlFile, deletePostgresFile }) => {
+const ConnectionProgressGif = ({ isConnected, loader, mysqlFileList, localUploaded, postgresFileList, deleteFunc, datasetname, deleteMysqlFile, deletePostgresFile, progress, setProgress, uploadFile, key }) => {
     const useStyles = {
         // cardcolor: {background:"#FCFCFC", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px", "margin-top": "20px","padding-top":"50px" },
         // togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "1px solid #ebd79c", cursor: "pointer", height: "355px", width: "346px", "margin-left": "20px","margin-top": "20px","padding-top":"50px" },
@@ -29,7 +29,8 @@ const ConnectionProgressGif = ({ isConnected, loader, mysqlFileList, localUpload
         <div className={styles.nodatamainbox}>
             <Row className='rightSideIndicator'>
                 {localUploaded.length > 0 ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
-                    <AccordionForUploadedFileDetails loader={loader} source={"file"} datasetname={datasetname} deleteFunc={deleteFunc} title={"Local files"} data={localUploaded} />
+                    <AccordionForUploadedFileDetails loader={loader} source={"file"} datasetname={datasetname} deleteFunc={deleteFunc} title={"Local files"} data={localUploaded}
+               progress={progress} setProgress={setProgress} uploadFile={uploadFile} key={key} />
                 </Col> : ""}
 
                 {mysqlFileList.length > 0 ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
