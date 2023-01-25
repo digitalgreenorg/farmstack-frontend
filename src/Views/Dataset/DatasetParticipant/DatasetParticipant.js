@@ -259,7 +259,7 @@ export default function DatasetParticipant() {
   };
 
   const filterByCategory = () => {
-    payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "", "", {
+    payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "", {
       category: categoryFilterValue,
       subcategory: subcategoryFilterValue,
     });

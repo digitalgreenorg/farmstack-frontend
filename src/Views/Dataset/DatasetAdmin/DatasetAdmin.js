@@ -269,7 +269,7 @@ export default function DatasetAdmin() {
   };
 
   const filterByCategory = () => {
-    payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "", "", {
+    payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "", {
       category: categoryFilterValue,
       subcategory: subcategoryFilterValue,
     });
