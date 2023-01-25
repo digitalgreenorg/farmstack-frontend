@@ -40,7 +40,7 @@ export default function PolicySettings(props) {
       border: "2px solid #c09507",
       color: "black",
     },
-    tabmargin: { "margin-left": "17%" },
+    tabmargin: { "margin": "0px auto" },
     // marginrowtop: {"margin-top": "5%", "margin-bottom": "20px"},
     marginheading: { "margin-top": "2.5%", "margin-bottom": "1%" },
     marginrow: { "margin-bottom": "5%" },
@@ -156,10 +156,10 @@ export default function PolicySettings(props) {
           setIsPostMethod(true);
           console.log("post");
         }
-     
+
         setGovLawFileUrl(
           response.data.documents ? response.data.documents.governing_law : ""
-              );
+        );
         setTermsFileUrl(response.data.documents ? response.data.documents.tos : "");
         setPrivacyFileUrl(
           response.data.documents ? response.data.documents.privacy_policy : ""
@@ -201,15 +201,15 @@ export default function PolicySettings(props) {
 
         setEditorGovLawValue(
           RichTextEditor.createValueFromString(
-           response.data.content ? 
-            response.data.content.governing_law: "",
+            response.data.content ?
+              response.data.content.governing_law : "",
             "html"
           )
         );
         setEditorPrivacyValue(
           RichTextEditor.createValueFromString(
-            response.data.content ? 
-            response.data.content.privacy_policy: "",
+            response.data.content ?
+              response.data.content.privacy_policy : "",
             "html"
           )
         );
@@ -811,15 +811,15 @@ export default function PolicySettings(props) {
                   value={govLawFileUrl ? 100 : govuploadProgress}
                   color="success"
                 />
-                <p className="govupper">{govLawFileUrl  ? "100" : govuploadProgress}%</p>
+                <p className="govupper">{govLawFileUrl ? "100" : govuploadProgress}%</p>
                 {/* <p>{govuploadProgress}%</p> */}
               </div>
               {/* <p className="govupclose"> */}
               <div style={useStyles.progresscancel}>
                 <p>
-                  {(govLawFileUrl || govLawFile ) && 
-                  <CancelIcon onClick={handlegovupCancel} />}
-                </p> 
+                  {(govLawFileUrl || govLawFile) &&
+                    <CancelIcon onClick={handlegovupCancel} />}
+                </p>
               </div>
             </div>
           </Col>
@@ -857,7 +857,7 @@ export default function PolicySettings(props) {
                   uploadtitle="Upload warranties (Required) "
                 />
               }
-              // maxSize={2}
+            // maxSize={2}
             />
             {/* <p className="filename"> */}
             <p style={useStyles.uploadMessage}>
@@ -934,7 +934,7 @@ export default function PolicySettings(props) {
                   uploadtitle="Upload limitations of liabilities (Required) "
                 />
               }
-              // maxSize={2}
+            // maxSize={2}
             />
             {/* <p className="filename"> */}
             <p style={useStyles.uploadMessage}>
@@ -1014,7 +1014,7 @@ export default function PolicySettings(props) {
                   uploadtitle="Upload privacy policy (Required) "
                 />
               }
-              // maxSize={2}
+            // maxSize={2}
             />
             {/* <p className="filename"> */}
             <p style={useStyles.uploadMessage}>
@@ -1090,7 +1090,7 @@ export default function PolicySettings(props) {
                   uploadtitle="Upload terms of use (Required)"
                 />
               }
-              // maxSize={2}
+            // maxSize={2}
             />
             {/* <p className="filename"> */}
             <p style={useStyles.uploadMessage}>
@@ -1126,7 +1126,7 @@ export default function PolicySettings(props) {
               </div>
               <div style={useStyles.progresscancel}>
                 {/* <p className="tosclose"> */}
-                <p>{(termFile || termsFileUrl )&& <CancelIcon onClick={handletosCancel} />}</p>
+                <p>{(termFile || termsFileUrl) && <CancelIcon onClick={handletosCancel} />}</p>
               </div>
             </div>
           </Col>
@@ -1135,21 +1135,21 @@ export default function PolicySettings(props) {
           <Col xs={12} sm={12} md={6} lg={3}></Col>
           <Col xs={12} sm={12} md={6} lg={6}>
             {editorGovLawValue.getEditorState().getCurrentContent().hasText() &&
-            (govLawFile || govLawFileUrl) &&
-            editorWarrantiesValue
-              .getEditorState()
-              .getCurrentContent()
-              .hasText() &&
-            (warrantiesFile || warrantyFileUrl) &&
-            editorLiabalityValue
-              .getEditorState()
-              .getCurrentContent()
-              .hasText() &&
-            (liabalityFile || liabilityFileUrl) &&
-            editorPrivacyValue.getEditorState().getCurrentContent().hasText() &&
-            (privacyFile || privacyFileUrl) &&
-            editorTermValue.getEditorState().getCurrentContent().hasText() &&
-            (termFile || termsFileUrl) ? (
+              (govLawFile || govLawFileUrl) &&
+              editorWarrantiesValue
+                .getEditorState()
+                .getCurrentContent()
+                .hasText() &&
+              (warrantiesFile || warrantyFileUrl) &&
+              editorLiabalityValue
+                .getEditorState()
+                .getCurrentContent()
+                .hasText() &&
+              (liabalityFile || liabilityFileUrl) &&
+              editorPrivacyValue.getEditorState().getCurrentContent().hasText() &&
+              (privacyFile || privacyFileUrl) &&
+              editorTermValue.getEditorState().getCurrentContent().hasText() &&
+              (termFile || termsFileUrl) ? (
               <Button
                 variant="contained"
                 style={{ textTransform: "none" }}

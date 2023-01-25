@@ -38,6 +38,7 @@ const UrlConstant = {
   dataseteth: "datahub/dataset/v2/temp_datasets/",
   datasetethcancel: "datahub/dataset/v2/temp_datasets/?delete_dir=True",
   datasetview: "datahub/dataset/v2/",
+  datasetview_guest: "microsite/datasets/",
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
 

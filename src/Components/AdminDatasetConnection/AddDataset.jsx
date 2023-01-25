@@ -87,17 +87,6 @@ const AddDataset = (props) => {
     //error states for the variable during the complete add dataset flow
     const [errorDatasetName, seteErrorDatasetName] = useState("")
 
-    const [errorDatabaseNameMysql, seteErrorDatabaseNameMysql] = useState("")
-    const [errorDatabaseUserNameMysql, seteErrorDatabseUserNameMysql] = useState("")
-    const [errorPasswordMysql, seteErrorUserNameMysql] = useState("")
-    const [errorHostMysql, seteErrorHostMysql] = useState("")
-    const [errorPortMysql, seteErrorPortMysql] = useState("")
-
-    const [errorDatabaseNamePostgres, seteErrorDatabaseNamePostgres] = useState("")
-    const [errorDatabaseUserNamePostgres, seteErrorDatabseUserNamePostgres] = useState("")
-    const [errorPasswordPostges, seteErrorUserNamePostgres] = useState("")
-    const [errorHostPostges, seteErrorHostPostgres] = useState("")
-    const [errorPortPostges, seteErrorPortPostgres] = useState("")
 
     //tab changer from upload dataset to add metadata
     const handleChange = (event, newValue) => {
@@ -765,8 +754,6 @@ const AddDataset = (props) => {
                     <Col lg={3} sm={6}>
                         <span className='Main_heading_add_dataset'>Add dataset</span>
                     </Col>
-
-
                 </Row>
                 <Row style={{ margin: "20px 0px", padding: "0px" }}>
                     {/* <Col style={{ margin: "0px", padding: "0px" }} lg={3} sm={6}>
@@ -822,8 +809,8 @@ const AddDataset = (props) => {
                                             value={datasetname}
                                             onKeyDown={handledatasetnameKeydown}
                                             onChange={handleChangedatasetname}
-                                            error={nameErrorMessage ? true : false}
-                                            helperText={nameErrorMessage}
+                                            error={errorDatasetName ? true : false}
+                                            helperText={errorDatasetName ? errorDatasetName : ""}
                                             label="Dataset name" variant='filled' className='dataset_name_class' id='dataset_name' placeholder='Enter the dataset name' />
 
                                         <div className="invite-participant-text-editor policyrte">
@@ -858,6 +845,8 @@ const AddDataset = (props) => {
                                                 </TabList>
                                             </Box>
                                             <TabPanel value="1"><Admin_upload_dataset
+                                                handleTab={setActiveStep}
+                                                seteErrorDatasetName={seteErrorDatasetName}
                                                 setMessageForSnackBar={setMessageForSnackBar}
                                                 setErrorOrSuccess={setErrorOrSuccess}
                                                 handleClick={handleClick}
@@ -926,6 +915,7 @@ const AddDataset = (props) => {
                                     : ""} */}
                                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                         <Button
+                                            id='back_button'
                                             color="inherit"
                                             // disabled={activeStep === 0}
                                             onClick={activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
@@ -934,7 +924,7 @@ const AddDataset = (props) => {
                                             Back
                                         </Button>
                                         <Box sx={{ flex: '1 1 auto' }} />
-                                        {activeStep != 0 && !isSubmitted ? <Button style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
+                                        {activeStep != 0 && !isSubmitted ? <Button id='cancel_button' style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
                                         <Box sx={{ flex: '1 1 auto' }} />
                                         {/* {(isStepOptional(activeStep) && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0)) && (
                                         <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
@@ -942,7 +932,7 @@ const AddDataset = (props) => {
                                         </Button>
                                     )} */}
 
-                                        {activeStep == 2 ? "" : <Button disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
+                                        {activeStep == 2 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
                                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                         </Button>}
                                     </Box>

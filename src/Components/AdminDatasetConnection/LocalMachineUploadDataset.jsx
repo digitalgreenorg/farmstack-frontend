@@ -44,8 +44,8 @@ const useStyles = {
 };
 
 export default function LocalMachineUploadDataset(props) {
-  const { setMessageForSnackBar,
-    setErrorOrSuccess,
+  const { setMessageForSnackBar, handleTab,
+    setErrorOrSuccess, seteErrorDatasetName,
     handleClick, isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm } = props
 
   const history = useHistory();
@@ -103,8 +103,6 @@ export default function LocalMachineUploadDataset(props) {
     }).catch((e) => {
       setIsLoader(false);
       console.log(e);
-
-      handleClick()
       var returnValues = GetErrorKey(e, bodyFormData.keys());
       var errorKeys = returnValues[0];
       var errorMessages = returnValues[1];
@@ -113,18 +111,19 @@ export default function LocalMachineUploadDataset(props) {
         for (var i = 0; i < errorKeys.length; i++) {
           switch (errorKeys[i]) {
             case "dataset_name":
-              setDatasetNameError(errorMessages[i]);
-              setMessageForSnackBar(errorMessages[i])
+              seteErrorDatasetName(errorMessages[i]);
+              // setMessageForSnackBar(errorMessages[i])
+              handleTab(0)
               break;
             case "datasets":
               setDataSetFileError(errorMessages[i]);
               setMessageForSnackBar(errorMessages[i])
               break;
             default:
-              history.push(GetErrorHandlingRoute(e));
+              setMessageForSnackBar("Some error occurred during uploading!")
+              handleClick()
               break;
           }
-          handleClick()
         }
       } else {
         history.push(GetErrorHandlingRoute(e));
@@ -225,6 +224,7 @@ export default function LocalMachineUploadDataset(props) {
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader
+                id="file_uploader_locally"
                 handleChange={(e) => handleFileChange(e)}
                 disabled={!datasetname}
                 name="file"

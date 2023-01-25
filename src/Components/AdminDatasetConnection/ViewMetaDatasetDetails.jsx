@@ -19,12 +19,13 @@ import { Avatar } from '@mui/material';
 import FileDownloadSharpIcon from '@mui/icons-material/FileDownloadSharp';
 import parse from 'html-react-parser'
 import AddDataset from './AddDataset';
-
-
+import { Image } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 
 
 export default function ViewMetaDatasetDetails(props) {
-
+    const { userType } = props
+    const [visible, setVisible] = useState(false);
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     const [datasetdescription, setDatasetDescription] = useState("")
     const [category, setCategory] = useState({})
@@ -42,7 +43,7 @@ export default function ViewMetaDatasetDetails(props) {
     const [orgdes, setorgdes] = useState("")
     const [isEditModeOn, setIsEditModeOn] = useState(false)
     const fileTypes = ["XLS", "xlsx", "CSV", "PDF", "JPEG", "JPG", "PNG", "TIFF"]
-
+    const [previewImage, setPreviewImage] = useState("")
     useEffect(() => {
         getMetaData()
     }, [])
@@ -52,8 +53,12 @@ export default function ViewMetaDatasetDetails(props) {
     }, [fileData])
 
     const getMetaData = () => {
-        let url = UrlConstant.base_url + UrlConstant.datasetview + id + '/';
-        console.log("get details of the form")
+        let url = ""
+        if (userType == "guest") {
+            url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + '/';
+        } else {
+            url = UrlConstant.base_url + UrlConstant.datasetview + id + '/';
+        }
         setLoader(true)
         HTTPService(
             "GET",
@@ -103,21 +108,21 @@ export default function ViewMetaDatasetDetails(props) {
 
             </Row>
             <Row>
-                <Col className="mainheading" xs={12} sm={12} md={12} lg={12} style={{ textAlign: "left", "marginLeft": "98px", "margin-top": "50px" }}>
+                <Col className="mainheading" xs={12} sm={12} md={12} lg={12} style={{ textAlign: "left", paddingLeft: "98px", "margin-top": "50px" }}>
                     <span>Agricultural Practices Video Dissemintion Data</span>
                 </Col>
             </Row>
             <Row style={{ "marginLeft": "96px", "margin-right": "73px" }}>
-                <Col style={{ "margin-top": "40px", }}>
-                    <Row className="secondmainheading" >Category</Row>
+                <Col style={{ "margin-top": "40px", maxHeight: "300px", overflowY: "scroll", textAlign: "center", marginRight: "10px" }}>
+                    <Row className="secondmainheading" style={{ position: "sticky", top: "0", background: "white" }} >Category</Row>
                     {Object.keys(category).map((key) => (
-                        <Row className="thirdmainheadingview" style={{ textAlign: "center", display: "flex", justifyContent: "center", border: "1px solid red", "alignItems": "center", "margin-top": "10px", "border-radius": "10px", "border": "2px solid #83A9C9", "background": "#83A9C9", "width": "150px", "height": "40px" }}>
+                        <Row className="thirdmainheadingview" style={{ textAlign: "center", display: "flex", justifyContent: "center", border: "1px solid red", "alignItems": "center", "margin-top": "10px", "border-radius": "10px", "border": "2px solid #83A9C9", "background": "#83A9C9", "width": "150px", "height": "40px", textTransform: "capitalize" }}>
                             {key}</Row>))}
                 </Col>
-                <Col style={{ "margin-top": "40px" }}>
-                    <Row className="secondmainheading">Sub Category</Row>
+                <Col style={{ "margin-top": "40px", maxHeight: "300px", overflowY: "scroll", textAlign: "center", marginRight: "10px" }}>
+                    <Row className="secondmainheading" style={{ position: "sticky", top: "0", background: "white" }}>Sub Category</Row>
                     {Object.keys(category).map((key) => category[key].map((value) => (
-                        <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #8AA7AD", "background": "#8AA7AD", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                        <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #8AA7AD", "background": "#8AA7AD", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", textTransform: "capitalize" }}>
                             {value}</Row>)))}
                 </Col>
                 <Col style={{ "margin-top": "40px" }}>
@@ -133,8 +138,8 @@ export default function ViewMetaDatasetDetails(props) {
                 <Col style={{ "margin-top": "40px" }}>
                     <Row className="secondmainheading">Data Capture Interval</Row>
                     <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #D9B082", "background": "#D9B082", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
-                        <span>{fromdate ? fromdate : "NA"}</span>
-                        <span>{toDate}</span>
+                        <span>From : {fromdate ? new Date(fromdate).toISOString().substring(0, 10) : "NA"}</span>
+                        <span> To : {toDate ? new Date(toDate).toISOString().substring(0, 10) : "NA"}</span>
                     </Row>
                 </Col>
 
@@ -145,7 +150,7 @@ export default function ViewMetaDatasetDetails(props) {
                         Description
                     </Row>
                     <Row className="thirdmainheading" style={{ "textAlign": "left", "marginLeft": "50px", "marginTop": "30px", "margin-right": "73px", }}>
-                        {parse(datasetdescription)}
+                        {datasetdescription ? parse(datasetdescription) : ""}
                     </Row>
                 </Col>
             </Row>
@@ -235,26 +240,54 @@ export default function ViewMetaDatasetDetails(props) {
                     </Table>
                 </Col>
             </Row>
-            <Row >
-                <Row className='downloadfiles' >
-                    {fileData.map((downloadfile) => (
-                        <Row
-                            //   className="supportViewDetailsback"
-                            className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
-                            style={{ "margin-top": "10px", cursor: "pointer", "marginLeft": "130px" }}
-                            onClick={() =>
+            <Row>
+                {fileData.map((downloadfile) => (
+                    <Row
+
+                        style={{ "margin-top": "10px", "marginLeft": "130px", display: "flex", alignItems: "center" }}
+
+                    >
+                        <span >
+                            <FileDownloadSharpIcon />
+                            {userType == "guest" && <span>{downloadfile?.file ? downloadfile.file : ""} </span>}
+                            {userType != "guest" && <span>{downloadfile?.file ? downloadfile.file.split("/")[5] : ""}
+                            </span>}
+                        </span>
+                        {userType !== "guest" && <span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+                            <Button onClick={() =>
                                 downloadAttachment(UrlConstant.base_url + downloadfile.file, downloadfile.file.split("/")[5])
+                            } type="primary" shape="round"  ><DownloadOutlined /></Button>
+
+                            {(downloadfile.file.endsWith("png") || downloadfile.file.endsWith("jpg")) &&
+                                <>
+                                    <Button style={{ textTransform: "capitalize", color: "white" }} onClick={() => {
+                                        setPreviewImage(UrlConstant.base_url + downloadfile.file)
+                                        setVisible(true)
+                                    }
+                                    }>
+                                        Preview
+                                    </Button>
+                                </>
+
                             }
-                        >
-                            <FileDownloadSharpIcon
-                                style={{ marginRight: "20px" }} />
-                            <Row>{downloadfile.file.split("/")[5]}
-                                <hr className="separatorline" />
-                                {/* m */}
-                            </Row>
-                        </Row>))}
-                    <hr className="separatorline" />
-                </Row>
+                            <Image
+                                width={200}
+                                style={{ display: 'none' }}
+                                src={previewImage}
+                                preview={{
+                                    visible,
+                                    // scaleStep,
+                                    src: `${previewImage}`,
+                                    onVisibleChange: (value) => {
+                                        setPreviewImage("")
+                                        setVisible(value);
+                                    },
+                                }}
+                            />
+                        </span>}
+                    </Row>))}
+
             </Row>
             <Row style={{ "margin-left": "20px" }}>
                 <Col style={{ "marginLeft": "30px", "margin-top": "50px" }}>
@@ -268,14 +301,14 @@ export default function ViewMetaDatasetDetails(props) {
                             <Avatar alt="Remy Sharp"
                                 // className='css-v8h2xp-MuiAvatar-root'
                                 style={{ "margin-left": "-40" }}
-                                src={UrlConstant.base_url + orgdetail.logo}
+                                src={orgdetail.logo}
                                 sx={{ width: 44, height: 44 }} />
                         </Col>
                         <Col style={{ "margin-left": "90px", "marginTop": "-30px" }}>
-                            <Row>{orgdetail.name}</Row>
-                            <Row>{orgdetail.org_email}</Row>
-                            <Row style={{ "margin-bottom": "-15px" }}>{parse(orgdes)}</Row>
-                            <Row>{orgdetail.phone_number}</Row>
+                            <Row>{orgdetail?.name}</Row>
+                            <Row>{orgdetail?.org_email}</Row>
+                            {/* <Row style={{ "margin-bottom": "-15px" }}>{parse(orgdes)}</Row> */}
+                            <Row>{orgdetail?.phone_number}</Row>
                             <Row>{orgdetail?.address?.city}</Row>
                             <Row>{orgdetail?.address?.country}</Row>
                             <Row>{orgdetail?.address?.address}</Row>
@@ -291,14 +324,14 @@ export default function ViewMetaDatasetDetails(props) {
                 <Col style={{ "marginLeft": "60px", "margin-top": "30px" }}>
                     <Row style={{ "marginLeft": "-550px", "margin-top": "25px" }}>ROOT USER DETAILS</Row>
                     <Col className="thirdmainheading" style={{ "marginLeft": "-550px", "margin-top": "38px" }}>
-                        <Row>{userdetails.first_name}</Row>
-                        <Row>{userdetails.last_name}</Row>
-                        <Row>{userdetails.email}</Row>
+                        <Row>{userdetails?.first_name}</Row>
+                        <Row>{userdetails?.last_name}</Row>
+                        <Row>{userdetails?.email}</Row>
                     </Col>
                 </Col>
             </Row>
             <Row className="marginrowtop8px"></Row>
-            <Row>
+            {userType !== "guest" && <Row>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <Button
@@ -310,7 +343,7 @@ export default function ViewMetaDatasetDetails(props) {
                         Edit
                     </Button>
                 </Col>
-            </Row>
+            </Row>}
             <Row className="margin">
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                 <Col xs={12} sm={12} md={6} lg={6}>

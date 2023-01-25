@@ -21,6 +21,8 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "caniuse-lite": "^1.0.30001444",
+    "echarts": "5.1.2",
+    "echarts-for-react": "3.0.1",
     "env-cmd": "^10.1.0",
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
