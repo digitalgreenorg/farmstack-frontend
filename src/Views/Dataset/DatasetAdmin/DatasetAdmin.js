@@ -32,6 +32,7 @@ import UrlConstants from "../../../Constants/UrlConstants";
 import Button from "@mui/material/Button";
 import "./DatasetAdmin.css";
 import RegexConstants from "../../../Constants/RegexConstants";
+import ListDataset from "../ListDataset";
 
 export default function DatasetAdmin() {
   const [searchInputValue, setSearchInputValue] = useState("");
@@ -66,8 +67,7 @@ export default function DatasetAdmin() {
   const [isShowAll, setIsShowAll] = useState(true);
 
   const [geoSearchState, setGeoSearchState] = useState("");
-
-  const [cropSearchState, setCropSearchState] = useState("");
+  // const [cropSearchState, setCropSearchState] = useState("");
 
   const [datasetList, setDatasetList] = useState([]);
   const [memberDatasetList, setMemberDatasetList] = useState([]);
@@ -88,7 +88,13 @@ export default function DatasetAdmin() {
   const [geoFilterDisplay, setGeoFilterDisplay] = useState([]);
 
   // const [cropFilterMaster, setCropFilterMaster] = useState([])
-  const [cropFilterDisplay, setCropFilterDisplay] = useState([]);
+  // const [cropFilterDisplay, setCropFilterDisplay] = useState([]);
+
+  // const [ageFilterMaster, setAgeFilterMaster] = useState([
+  //                                     {index:0,name:"3 Months",isChecked:false},
+  //                                     {index:1,name:"6 Months",isChecked:false},
+  //                                     {index:2,name:"9 Months",isChecked:false},
+  //                                     {index:3,name:"Constantly Updating",isChecked:false}])
 
   const [ageFilterDisplay, setAgeFilterDisplay] = useState([
     { index: 0, name: "3 Months", payloadName: "3 months", isChecked: false },
@@ -137,7 +143,7 @@ export default function DatasetAdmin() {
   ]);
 
   const [isGeoSearchFound, setIsGeoSearchFound] = useState(true);
-  const [isCropSearchFound, setIsCropSearchFound] = useState(true);
+  // const [isCropSearchFound, setIsCropSearchFound] = useState(true);
 
   const [screenView, setscreenView] = useState({
     isDataSetFilter: true,
@@ -201,7 +207,7 @@ export default function DatasetAdmin() {
     resetDateFilters();
     resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.age);
-    resetFilterState(screenlabels.dataset.crop);
+    // resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
     resetFilterState(screenlabels.dataset.enabled);
     resetFilterState(screenlabels.dataset.geography);
@@ -287,7 +293,7 @@ export default function DatasetAdmin() {
     if (filterName === screenlabels.dataset.geography) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.age);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
       resetFilterState(screenlabels.dataset.enabled);
 
@@ -307,7 +313,7 @@ export default function DatasetAdmin() {
     } else if (filterName === "datavisiblity") {
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
       resetFilterState(screenlabels.dataset.enabled);
 
@@ -326,7 +332,7 @@ export default function DatasetAdmin() {
     } else if (filterName === screenlabels.dataset.age) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
       resetFilterState(screenlabels.dataset.enabled);
 
@@ -343,31 +349,43 @@ export default function DatasetAdmin() {
       setAgeFilterDisplay(tempFilterDisplay);
 
       payload = buildFilterPayLoad("", getUserLocal(), "", payloadList, "", "");
-    } else if (filterName == screenlabels.dataset.crop) {
+    }
+    // else if (filterName == screenlabels.dataset.crop) {
+    //   resetFilterState("datavisiblity");
+    //   resetFilterState(screenlabels.dataset.geography);
+    //   resetFilterState(screenlabels.dataset.age);
+    //   resetFilterState(screenlabels.dataset.status);
+    //   resetFilterState(screenlabels.dataset.enabled);
+
+    //   tempFilterDisplay = [...cropFilterDisplay];
+    //   for (let i = 0; i < tempFilterDisplay.length; i++) {
+    //     if (tempFilterDisplay[i].index == index) {
+    //       tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked;
+    //     }
+    //     if (tempFilterDisplay[i].isChecked) {
+    //       payloadList.push(tempFilterDisplay[i].name);
+    //       isAnyFilterChecked = true;
+    //     }
+    //   }
+    //   setCropFilterDisplay(tempFilterDisplay);
+
+    //   // tempFilterMaster = [...cropFilterMaster]
+    //   // for(let i =0; i<tempFilterMaster.length; i++){
+    //   //     if(tempFilterMaster[i].index == index){
+    //   //         tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
+    //   //     }
+    //   //     if(tempFilterMaster[i].isChecked){
+    //   //         payloadList.push(tempFilterMaster[i].name)
+    //   //     }
+    //   // }
+    //   // setCropFilterMaster(tempFilterMaster)
+    //   payload = buildFilterPayLoad("", getUserLocal(), "", "", payloadList, "");
+    // }
+    else if (filterName === screenlabels.dataset.status) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
-      resetFilterState(screenlabels.dataset.status);
-      resetFilterState(screenlabels.dataset.enabled);
-
-      tempFilterDisplay = [...cropFilterDisplay];
-      for (let i = 0; i < tempFilterDisplay.length; i++) {
-        if (tempFilterDisplay[i].index == index) {
-          tempFilterDisplay[i].isChecked = !tempFilterDisplay[i].isChecked;
-        }
-        if (tempFilterDisplay[i].isChecked) {
-          payloadList.push(tempFilterDisplay[i].name);
-          isAnyFilterChecked = true;
-        }
-      }
-      setCropFilterDisplay(tempFilterDisplay);
-
-      payload = buildFilterPayLoad("", getUserLocal(), "", "", payloadList, "");
-    } else if (filterName === screenlabels.dataset.status) {
-      resetFilterState("datavisiblity");
-      resetFilterState(screenlabels.dataset.geography);
-      resetFilterState(screenlabels.dataset.age);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.enabled);
 
       tempFilterDisplay = [...statusFilter];
@@ -395,7 +413,7 @@ export default function DatasetAdmin() {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
 
       tempFilterDisplay = [...enableStatusFilter];
@@ -456,15 +474,23 @@ export default function DatasetAdmin() {
         tempFilerDisplay[i].isDisplayed = true;
       }
       setAgeFilterDisplay(tempFilerDisplay);
-    } else if (filterName == screenlabels.dataset.crop) {
-      tempFilerDisplay = [...cropFilterDisplay];
-      for (let i = 0; i < tempFilerDisplay.length; i++) {
-        tempFilerDisplay[i].isChecked = false;
-        tempFilerDisplay[i].isDisplayed = true;
-      }
-      setCropFilterDisplay(tempFilerDisplay);
-      setCropSearchState("");
-    } else if (filterName == screenlabels.dataset.status) {
+    }
+    //  else if (filterName == screenlabels.dataset.crop) {
+    //   // tempfilterMaster = [...cropFilterMaster]
+    //   // for(let i=0; i<tempfilterMaster.length; i++){
+    //   //     tempfilterMaster[i].isChecked = false
+    //   // }
+    //   // setCropFilterMaster(tempfilterMaster)
+
+    //   tempFilerDisplay = [...cropFilterDisplay];
+    //   for (let i = 0; i < tempFilerDisplay.length; i++) {
+    //     tempFilerDisplay[i].isChecked = false;
+    //     tempFilerDisplay[i].isDisplayed = true;
+    //   }
+    //   setCropFilterDisplay(tempFilerDisplay);
+    //   setCropSearchState("");
+    // }
+    else if (filterName == screenlabels.dataset.status) {
       tempFilerDisplay = [...statusFilter];
       for (let i = 0; i < tempFilerDisplay.length; i++) {
         tempFilerDisplay[i].isChecked = false;
@@ -743,29 +769,29 @@ export default function DatasetAdmin() {
       });
   }
 
-  const handleCropSearch = (e) => {
-    var searchFound = false;
-    const searchText = e.target.value;
-    setCropSearchState(searchText);
-    var tempList = [...cropFilterDisplay];
-    for (let i = 0; i < tempList.length; i++) {
-      if (searchText == "") {
-        tempList[i].isDisplayed = true;
-        searchFound = true;
-      } else {
-        if (
-          !tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())
-        ) {
-          tempList[i].isDisplayed = false;
-        } else {
-          searchFound = true;
-          tempList[i].isDisplayed = true;
-        }
-      }
-    }
-    setIsCropSearchFound(searchFound);
-    setCropFilterDisplay(tempList);
-  };
+  // const handleCropSearch = (e) => {
+  //   var searchFound = false;
+  //   const searchText = e.target.value;
+  //   setCropSearchState(searchText);
+  //   var tempList = [...cropFilterDisplay];
+  //   for (let i = 0; i < tempList.length; i++) {
+  //     if (searchText == "") {
+  //       tempList[i].isDisplayed = true;
+  //       searchFound = true;
+  //     } else {
+  //       if (
+  //         !tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())
+  //       ) {
+  //         tempList[i].isDisplayed = false;
+  //       } else {
+  //         searchFound = true;
+  //         tempList[i].isDisplayed = true;
+  //       }
+  //     }
+  //   }
+  //   setIsCropSearchFound(searchFound);
+  //   setCropFilterDisplay(tempList);
+  // };
 
   useEffect(() => {
     getFilters();
@@ -805,8 +831,24 @@ export default function DatasetAdmin() {
         console.log("filter response:", response);
 
         var geoFilterInput = response.data.geography;
-
-        var cropFilterInput = response.data.crop_detail;
+        // var geoFilter = []
+        // for(var i =0; i<geoFilterInput.length; i++){
+        //     var data = {}
+        //     data['index'] = i;
+        //     data['name'] = geoFilterInput[i]
+        //     data['isChecked'] = false
+        //     geoFilter.push(data)
+        // }
+        // console.log("crop:",response.data.crop_detail)
+        // var cropFilterInput = response.data.crop_detail;
+        // var cropFilter = []
+        // for(var i =0; i<cropFilterInput.length; i++){
+        //     var data = {}
+        //     data['index'] = i;
+        //     data['name'] = cropFilterInput[i]
+        //     data['isChecked'] = false
+        //     cropFilter.push(data)
+        // }
 
         let catAndSubcatFilterInput = response.data.category_detail || {};
 
@@ -834,12 +876,17 @@ export default function DatasetAdmin() {
         setGeoFilterDisplay(initFilter(geoFilterInput));
 
         // setCropFilterMaster(initFilter(cropFilterInput))
-        setCropFilterDisplay(initFilter(cropFilterInput));
+        // setCropFilterDisplay(initFilter(cropFilterInput));
 
         resetFilterState(screenlabels.dataset.age);
         resetFilterState(screenlabels.dataset.status);
         resetFilterState(screenlabels.dataset.enabled);
         setConstantyUpdateSwitch(false);
+
+        // console.log("geoFilterMaster", geoFilterMaster)
+        console.log("geoFilterDisplay", geoFilterDisplay);
+        // console.log("cropFilterMaster",cropFilterMaster)
+        // console.log("cropFilterDisplay", cropFilterDisplay);
       })
       .catch((e) => {
         setIsLoader(false);
@@ -1055,7 +1102,7 @@ export default function DatasetAdmin() {
     geoPayload,
     datavisiblityPayload,
     agePayload,
-    cropPayload,
+    // cropPayload,
     statusPayload,
     catAndSubcat = null
   ) => {
@@ -1092,10 +1139,15 @@ export default function DatasetAdmin() {
     if (datavisiblityPayload) {
       data["is_public__in"] = datavisiblityPayload;
     }
-    if (cropPayload !== "") {
-      data["crop_detail__in"] = cropPayload;
-    }
+    // if (cropPayload !== "") {
+    //   data["crop_detail__in"] = cropPayload;
+    // }
     if (agePayload !== "") {
+      // if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
+      //     agePayload.splice(agePayload.length-1)
+      //     data['constantly_update'] = true
+      // }
+      // if (agePayload.length>0) {
       data["age_of_date__in"] = agePayload;
     }
     if (statusPayload !== "") {
@@ -1162,7 +1214,7 @@ export default function DatasetAdmin() {
     resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
-    resetFilterState(screenlabels.dataset.crop);
+    // resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
     resetFilterState(screenlabels.dataset.enabled);
     // resetEnabledStatusFilter()
@@ -1181,7 +1233,7 @@ export default function DatasetAdmin() {
     resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
-    resetFilterState(screenlabels.dataset.crop);
+    // resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
     resetFilterState(screenlabels.dataset.enabled);
     // resetUrls()
@@ -1211,7 +1263,7 @@ export default function DatasetAdmin() {
     setConstantyUpdateSwitch(false);
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
-    resetFilterState(screenlabels.dataset.crop);
+    // resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
     // resetUrls()
 
@@ -1244,32 +1296,33 @@ export default function DatasetAdmin() {
   };
   const viewCardDetails = (id, flag) => {
     setid(id);
-    setIsLoader(true);
-    setisAdminView(flag);
-    HTTPService(
-      "GET",
-      UrlConstant.base_url + UrlConstant.dataset + id + "/",
-      "",
-      false,
-      true
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log("filter response:", response);
-        let tempObject = { ...response.data };
-        setviewdata(tempObject);
-        if (response.data.content) {
-          var tabelHeading = Object.keys(response.data.content[0]);
-          var temptabelKeys = [...tabelHeading];
-          settablekeys(temptabelKeys);
-        }
-        changeView("isDataSetView");
-      })
-      .catch((e) => {
-        console.error(e);
-        setIsLoader(false);
-        history.push(GetErrorHandlingRoute(e));
-      });
+    // setIsLoader(true);
+    // setisAdminView(flag);
+    history.push("/datahub/dataset/view/" + id);
+    // HTTPService(
+    //   "GET",
+    //   UrlConstant.base_url + UrlConstant.dataset + id + "/",
+    //   "",
+    //   false,
+    //   true
+    // )
+    //   .then((response) => {
+    //     setIsLoader(false);
+    //     console.log("filter response:", response);
+    //     let tempObject = { ...response.data };
+    //     setviewdata(tempObject);
+    //     if (response.data.content) {
+    //       var tabelHeading = Object.keys(response.data.content[0]);
+    //       var temptabelKeys = [...tabelHeading];
+    //       settablekeys(temptabelKeys);
+    //     }
+    //     changeView("isDataSetView");
+    //   })
+    //   .catch((e) => {
+    //     console.error(e);
+    //     setIsLoader(false);
+    //     history.push(GetErrorHandlingRoute(e));
+    //   });
   };
   const deletedataset = () => {
     setIsLoader(true);
@@ -1351,6 +1404,29 @@ export default function DatasetAdmin() {
     return;
     // if()
   }
+
+  // fetching the dataset by get req with the cat and sub created with sql/ local/ PostgresFormForConnection...
+
+  function GetAllDatasetUploaded() {
+    let url = UrlConstant.base_url + UrlConstant.admin_dataset_new_dataset_v2;
+    let method = "GET";
+    let payload = new FormData();
+    // payload.append("", )
+    // payload.append("", )
+    // payload.append("", )
+    HTTPService(method, url, payload, false, true, false)
+      .then((response) => {
+        console.log(response, "GET");
+      })
+      .catch((err) => {
+        console.log(err, "ERROR");
+      });
+  }
+
+  useEffect(() => {
+    GetAllDatasetUploaded();
+  }, []);
+
   return (
     <>
       {isLoader ? <Loader /> : ""}
@@ -1734,7 +1810,7 @@ export default function DatasetAdmin() {
                   getAllDataSets={getAllDataSets}
                   filterByDates={filterByDates}
                   handleGeoSearch={handleGeoSearch}
-                  handleCropSearch={handleCropSearch}
+                  // handleCropSearch={handleCropSearch}
                   dataAccessFilterDisplay={dataAccessFilterDisplay}
                   // Props for category filter
                   categoryFilterOptions={categoryFilterOptions}
@@ -1745,12 +1821,12 @@ export default function DatasetAdmin() {
                   filterByCategory={filterByCategory}
                   // End of catagory filter props
                   geoFilterDisplay={geoFilterDisplay}
-                  cropFilterDisplay={cropFilterDisplay}
+                  // cropFilterDisplay={cropFilterDisplay}
                   ageFilterDisplay={ageFilterDisplay}
                   handleFilterChange={handleFilterChange}
                   resetFilterState={resetFilterState}
                   geoSearchState={geoSearchState}
-                  cropSearchState={cropSearchState}
+                  // cropSearchState={cropSearchState}
                   clearAllFilters={clearAllFilters}
                   showMemberFilters={value == "2"}
                   // isEnabledFilter={isEnabledFilter}
@@ -1765,7 +1841,7 @@ export default function DatasetAdmin() {
                   // resetUrls={resetUrls}
                   enableStatusFilter={enableStatusFilter}
                   isGeoSearchFound={isGeoSearchFound}
-                  isCropSearchFound={isCropSearchFound}
+                  // isCropSearchFound={isCropSearchFound}
                   constantyUpdateSwitch={constantyUpdateSwitch}
                   handleConstantyUpdateSwitch={handleConstantyUpdateSwitch}
                   // setConstantyUpdateSwitch={setConstantyUpdateSwitch}

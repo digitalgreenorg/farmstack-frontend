@@ -21,6 +21,7 @@ import SessionExpired from "./Components/SessionExpired/SessionExpired";
 import GuestUserHome from "./Views/GuestUser/GuestUserHome";
 import GuestUserLegal from "./Views/GuestUser/GuestUserLegal";
 import GuestUserContact from "./Views/GuestUser/GuestUserContact";
+import AddParticipantRegistrationForm from "./Components/PatricipantRegistration/AddParticipantRegistrationform"
 function App() {
   return (
     <React.Fragment>
@@ -41,6 +42,7 @@ function App() {
           <Route exact path="/home" component={GuestUserHome} />
           <Route exact path="/legal" component={GuestUserLegal} />
           <Route exact path="/contact" component={GuestUserContact} />
+          <Route exact path="/participantregistration" component={AddParticipantRegistrationForm} />
           <Redirect from="/" to="/home" />
         </Switch>
       </Router>

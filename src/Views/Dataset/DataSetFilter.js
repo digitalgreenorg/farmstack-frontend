@@ -246,17 +246,17 @@ export default function DataSetFilter(props) {
           {"Data Visiblity"}
         </span>
       </Row>
-      {props.dataAccessFilterDisplay
+      {/* {props.dataAccessFilterDisplay
         ? props.dataAccessFilterDisplay.map((datavisiblity) => (
-            <FilterCheckBox
-              label={datavisiblity.name}
-              checked={datavisiblity.isChecked}
-              handleCheckListFilterChange={() =>
-                props.handleFilterChange(datavisiblity.index, "datavisiblity")
-              }
-            />
-          ))
-        : ""}
+          <FilterCheckBox
+            label={datavisiblity.name}
+            checked={datavisiblity.isChecked}
+            handleCheckListFilterChange={() =>
+              props.handleFilterChange(datavisiblity.index, "datavisiblity")
+            }
+          />
+        ))
+        : ""} */}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/category.svg")} alt="new" />
@@ -358,12 +358,12 @@ export default function DataSetFilter(props) {
               />
             )
         )}
-      <Row className="supportfiltersecondrowbold">
+      {/*       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/calendar.svg")} alt="new" />
           &nbsp;&nbsp;{screenlabels.dataset.age}
         </span>
-      </Row>
+      </Row> */}
       <Row style={{ "margin-left": "-3px", "margin-top": "10px" }}>
         <FormControlLabel
           value="start"
@@ -385,7 +385,7 @@ export default function DataSetFilter(props) {
           &nbsp;&nbsp;{screenlabels.dataset.Value_Chain}
         </span>
       </Row>
-      <Row className="supportfiltersecondrowbold">
+      {/* <Row className="supportfiltersecondrowbold">
         <TextField
           style={{
             width: "100%",
@@ -418,7 +418,17 @@ export default function DataSetFilter(props) {
                 }
               />
             )
-        )}
+        )} */}
+      {/* </Row> */}
+      {/* <Row>
+        {props.cropList && props.cropList.map((crop) => (
+            <FilterCheckBox
+                label={crop}
+                checked={props.cropCheckStateList[props.cropMasterList.findIndex((c)=> c == crop)]}
+                handleCheckListFilterChange={() => props.handleCheckListFilterChange("crop",props.cropMasterList.findIndex((c)=> c == crop))}
+            />
+        ))}  
+      </Row> */}
     </div>
   );
 }
