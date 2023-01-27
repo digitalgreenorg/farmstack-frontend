@@ -325,8 +325,8 @@ const AddingCategory = (props) => {
                                 <Button disabled={selectCatForDeleteSubCat && selectSubCatForDelete ? false : true} danger onClick={deleteSubCategory}>Delete sub category</Button>
                             </Row>
                         </div>
-                        <Button style={{ width: "100%" }} onClick={handleSavingCategoryAndSubCat}>
-                            Save changes
+                        <Button id='save_category' style={{ width: "100%" }} onClick={handleSavingCategoryAndSubCat}>
+                            {(isOnborading && Object.keys(allCat).length) < 0 ? "Skip" : (isOnborading && Object.keys(allCat).length) > 0 ? "Save changes and proceed" : "Save changes"}
                         </Button>
                     </Col>
                     {/* <Col lg={1} sm={12}>
