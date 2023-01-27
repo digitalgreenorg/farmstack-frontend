@@ -28,13 +28,18 @@ import AddMetadata from './AddMetadata';
 import $ from "jquery";
 import Loader from '../Loader/Loader';
 import CloseIcon from '@mui/icons-material/Close';
-
+import axios from "axios"
 import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Skeleton } from '@mui/material'
+import Success from '../Success/Success';
+// import CategorySelectorList from './CategorySelectorList';
 
 //stepper steps label
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 
-const AddDataset = () => {
+const AddDataset = (props) => {
+    const { isDatasetEditModeOn, datasetId, } = props
+    const [uploadFile, setFile] = useState([]);
+    const [progress, setProgress] = useState([])
     const [value, setValue] = React.useState('1');
     const [nameErrorMessage, setnameErrorMessage] = useState(null);
     const [datasetname, setdatasetname] = useState("");
@@ -42,22 +47,36 @@ const AddDataset = () => {
     const [allFiles, setAllFiles] = useState([])
     const [mysqlFileList, setMysqlFileList] = useState([])
     const [postgresFileList, setPostgresFileList] = useState([])
+    const [LiveApiFileList, setLiveApiFileList] = useState([])
     const [isLoading, setIsLoader] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
     const history = useHistory()
-
+    const [listOfFilesExistInDbForEdit, setListOfFilesExistInDbForEdit] = useState([])
+    const [key, setKey] = useState("")
 
     const [lengthOfSubCat, setLengthOfSubCat] = useState(0)
     const [SubCatList, setSubCatList] = React.useState([]);
 
-    const handleChangeSubCatList = (event) => {
-        const {
-            target: { value },
-        } = event;
+
+    const [newSelectedCategory, setNewSelectedCategory] = useState([])
+    const [newSelectedSubCategory, setNewSelectedSubCategory] = useState([])
+
+
+
+    const handleChangeSubCatList = (value) => {
+        console.log("Value1212", value)
+
         setSubCatList(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
+        setNewSelectedSubCategory(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+
+
+
     };
 
     const [allCatFetched, setAllCatFetched] = useState({})
@@ -67,6 +86,11 @@ const AddDataset = () => {
     const [messageForSnackBar, setMessageForSnackBar] = useState("")
     const [errorOrSuccess, setErrorOrSuccess] = useState("error") //options --> "error", "info", "success", "warning"
     const [finalJson, setMainJson] = useState({})
+
+
+    //error states for the variable during the complete add dataset flow
+    const [errorDatasetName, seteErrorDatasetName] = useState("")
+    const [errorDatasetDescription, setDescriptionErrorMessage] = useState("")
 
     //tab changer from upload dataset to add metadata
     const handleChange = (event, newValue) => {
@@ -103,13 +127,22 @@ const AddDataset = () => {
             if (source == "file") {
                 let filteredArray = localUploaded.filter((item) => item != filename)
                 setLocalUploaded([...filteredArray])
+                let updatedArray = uploadFile.filter((item) => item.name !== filename)
+                setFile(updatedArray)
+
             } else if (source == "mysql") {
                 let filteredArray = mysqlFileList.filter((item) => item != filename)
                 setMysqlFileList([...filteredArray])
             } else if (source == "postgres") {
                 let filteredArray = postgresFileList.filter((item) => item != filename)
                 setPostgresFileList([...filteredArray])
+            } else if (source == "liveapi") {
+                let filteredArray = LiveApiFileList.filter((item) => item != filename)
+                setLiveApiFileList([...filteredArray])
             }
+            // var filteredArray = uploadFile.filter((item) => item.name !== filename)
+            // setFile(filteredArray)
+            // setKey(Math.random())
 
         }).catch((e) => {
             console.log(e);
@@ -258,11 +291,17 @@ const AddDataset = () => {
     const [category, setCategory] = useState([])
 
     const handleChangeCategory = (event) => {
+        console.log(event)
         setMainJson({})
-        const {
-            target: { value },
-        } = event;
+        const value = event
+        // const {
+        //     target: { value },
+        // } = event;
         setCategory(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+        setNewSelectedCategory(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
@@ -295,7 +334,7 @@ const AddDataset = () => {
 
         HTTPService(
             "GET",
-            "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/category/",
+            UrlConstant.base_url + UrlConstant.add_category_edit_category,
             "",
             true,
             true
@@ -350,12 +389,13 @@ const AddDataset = () => {
         console.log(selectectedCatList)
 
         setSelectedCat(obj)
+        setMainJson({ ...obj })
         let subCatList = []
 
-        for (let i = 0; i < selectectedCatList.length; i++) {
+        for (let i = 0; i < selectectedCatList?.length; i++) {
             // let obj = {}
             // parent: selectectedCatList[i]
-            subCatList = [...subCatList, ...allCatFetched[selectectedCatList[i]]]
+            subCatList = [...subCatList, ...allCatFetched[selectectedCatList[i]] ? allCatFetched[selectectedCatList[i]] : []]
         }
         // for (let i = 0; i < mainCategoryList.length; i++) {
         // for (let j = 0; j < selectectedCatList.length; j++) {
@@ -380,11 +420,12 @@ const AddDataset = () => {
     //handle geography
     const [geography, setGeography] = React.useState('');
 
-    const handleChangeGeography = (e) => {
-        console.log(e.target.value);
-        validateInputField(e.target.value, RegexConstants.connector_name)
-            ? setGeography(e.target.value)
-            : e.preventDefault();
+    const handleChangeGeography = (value) => {
+        console.log(value);
+        setGeography(value)
+        // validateInputField(value, RegexConstants.connector_name)
+        //     ? setGeography(value) : ""
+        //     ;
     };
 
     const [fromdate, setfromdate] = React.useState(null);
@@ -446,6 +487,13 @@ const AddDataset = () => {
     const handleAddDatasetSubmit = (e) => {
         console.log(finalJson, "Main")
         let selectedCategory = generateCategoryAndSubCat()
+        let objForFinalSend = { ...finalJson }
+
+        for (let i = 0; i < SubCatList.length; i++) {
+            let parent = SubCatList[i].split("-")[0] //parent == category
+            let child = SubCatList[i].split("-")[1] // child == sub category
+            objForFinalSend[parent] = [...finalJson[parent], child]
+        }
 
         e.preventDefault();
         console.log("clicked on add dataset submit btn11");
@@ -461,46 +509,42 @@ const AddDataset = () => {
         // setDataCaptureStartErrorMessage(null);
         // setDataCaptureEndErrorMessage(null);
         // setfileValid(null);
-
+        console.log(objForFinalSend, "FINAL CATEGORY")
         var bodyFormData = new FormData();
         bodyFormData.append("name", datasetname);
         bodyFormData.append("description", govLawDesc);
-        bodyFormData.append("category", JSON.stringify(finalJson));
+        bodyFormData.append("category", JSON.stringify(objForFinalSend));
         bodyFormData.append("user_map", id);
         bodyFormData.append("geography", geography);
-        // if (cropdetail == null) {
-        bodyFormData.append("crop_detail", "");
-        // } else {
-        //     bodyFormData.append("crop_detail", cropdetail);
-        // }
+
+        //if edit mode is on then one extra key has to be apended so that they can delete the mentioned file as per the id
+        if (isDatasetEditModeOn) {
+            bodyFormData.append("deleted", JSON.stringify(idsForFilesDeleted))
+        }
+
         bodyFormData.append("constantly_update", Switchchecked);
         bodyFormData.append("data_capture_start", fromdate ? fromdate.toISOString() : "");
         bodyFormData.append("data_capture_end", todate ? todate.toISOString() : "");
-        // bodyFormData.append("age_of_date", value);
-        // if (Switchchecked == true) {
-        //     bodyFormData.append("age_of_date", "");
-        // } else {
-        //     bodyFormData.append("age_of_date", value);
-        // }
-        // if (fromdate != null && Switchchecked == false) {
-        //     bodyFormData.append("data_capture_start", fromdate.toISOString());
-        // }
-        // if (todate != null && Switchchecked == false) {
-        //     bodyFormData.append("data_capture_end", todate.toISOString());
-        // }
-        // fileUpload(bodyFormData, file, "sample_dataset");
-        // bodyFormData.append("connector_availability", "availablevalue");
-        // bodyFormData.append("is_public", "isPublic");
-        // bodyFormData.append("dataset_size", "recordsvalue");
-        // bodyFormData.append("user_map", id);
-        // bodyFormData.append("approval_status", "approved");
+
         setIsLoader(true);
+        let obj = { "name": datasetname, description: govLawDesc, category: JSON.stringify(finalJson), user_map: id, geography: geography, deleted: JSON.stringify(idsForFilesDeleted), constantly_update: Switchchecked, data_capture_start: fromdate ? fromdate.toISOString() : "", data_capture_end: todate ? todate.toISOString() : "" }
+
+        let url = ""
+        let method = ""
+        if (isDatasetEditModeOn) {
+            method = "PUT"
+            url = UrlConstant.base_url + UrlConstant.datasetview + datasetId + "/"
+        } else {
+            method = "POST"
+            url = UrlConstant.base_url + UrlConstant.datasetview
+        }
+
         HTTPService(
-            "POST",
-            UrlConstant.base_url + "/datahub/dataset/v2/",
+            method,
+            url,
             bodyFormData,
-            true,
-            true
+            false,
+            true, false
         )
             .then((response) => {
                 setIsLoader(false);
@@ -508,7 +552,7 @@ const AddDataset = () => {
                 setIsSubmitted(true)
                 console.log("dataset uploaded!");
 
-                //if error occurs Alert will be shown as Snackbar
+                //if error occurs Success message will be shown as Snackbar
                 setMessageForSnackBar("Dataset uploaded successfully")
                 setErrorOrSuccess("success")
                 handleClick()
@@ -528,10 +572,13 @@ const AddDataset = () => {
                     for (var i = 0; i < errorKeys.length; i++) {
                         switch (errorKeys[i]) {
                             case "name":
+                                seteErrorDatasetName(errorMessages[i])
+                                setValue('1')
                                 // setnameErrorMessage(errorMessages[i]);
                                 break;
                             case "description":
-                                // setDescriptionErrorMessage(errorMessages[i]);
+                                setDescriptionErrorMessage(errorMessages[i]);
+                                setValue('1')
                                 break;
                             case "category":
                                 // setCategoryErrorMessage(errorMessages[i]);
@@ -617,31 +664,115 @@ const AddDataset = () => {
     }
 
 
+    //Get datasetDetails to pre populate so that user can delete
+    function getAllDataForTheDataset(datasetId) {
+        let url = UrlConstant.base_url + UrlConstant.datasetview + datasetId + '/';
+        let method = "GET"
+        HTTPService(
+            method,
+            url,
+            "",
+            false,
+            false
+        ).then((response) => {
+            console.log(response.data)
+            let data = response.data
+            setdatasetname(data.name)
+            setgovLawDesc(data.description ? data.description : "")
+            setEditorGovLawValue(
+                RichTextEditor.createValueFromString(
+                    data.description ?
+                        data.description : "",
+                    "html"
+                )
+            );
+            console.log(new Date(data.data_capture_start), data.data_capture_start)
+            setSwitchchecked(data.constantly_update)
+            settodate(new Date(data.data_capture_start))
+            setfromdate(new Date(data.data_capture_end))
+            setGeography(data.geography)
+            let completeCategoryAndSub = data.category
+            let arr = Object.keys(completeCategoryAndSub)
+            setMainJson({ ...completeCategoryAndSub })
+            setCategory([...arr])
+            setNewSelectedCategory([...arr])
+            console.log(data.datasets, "DATASETS")
+            setListOfFilesExistInDbForEdit([...data.datasets])
+
+            // setconstantlyupdate(response.data.constantly_update)s
+            // setCategory({ ...response.data.category })
+            // setGeography(response.data.geography)
+            // setFromdate(response.data.data_capture_start)
+            // setToDate(response.data.data_capture_end)
+            // setDatasetDescription(response.data.description)
+            // setfileData(response.data.datasets)
+            // setOrgDetail(response.data.organization)
+            // setorgdes(response.data.organization.org_description)
+            // setUserDetails(response.data.user)
+        }).catch((e) => {
+            // setLoader(false);
+            history.push(GetErrorHandlingRoute(e));
+        }
+
+        )
+    }
+
+
+    //
+    const [idsForFilesDeleted, setIdsForFilesDeleted] = useState([])
+    function handleDeleteDatasetFileInFrontend(e, id) {
+        console.log(id)
+        let newArr = [...listOfFilesExistInDbForEdit]
+
+        // if (id > -1) { // only splice array when item is found
+        //     newArr.splice(id, 1); // 2nd parameter means remove one item only
+        // }
+        newArr = newArr.filter((item) => {
+            return item.id != id
+        })
+
+        setIdsForFilesDeleted([...idsForFilesDeleted, id])
+        setListOfFilesExistInDbForEdit([...newArr])
+    }
+
+
 
     useEffect(() => {
+
         getAllCategoryAndSubCategory()
+        if (isDatasetEditModeOn) {
+            getAllDataForTheDataset(datasetId)
+        }
     }, [])
 
 
     return (
         <Container id='admin_add_dataset_main_container'>
             {isLoading ? <Loader /> : ""}
-            <Snackbar
-                open={open}
-                autoHideDuration={4000}
-                onClose={handleClose}
-                action={action}
-            >
-                <Alert autoHideDuration={4000} onClose={handleClose} sx={{ width: '100%' }} severity={errorOrSuccess}>{messageForSnackBar}</Alert>
-            </Snackbar>
-            <Row className='main_heading_row'>
-                <Col lg={3} sm={6}>
-                    <span className='Main_heading_add_dataset'>Add dataset</span>
-                </Col>
-
-            </Row>
-            <Row style={{ margin: "20px 0px", padding: "0px" }}>
-                {/* <Col style={{ margin: "0px", padding: "0px" }} lg={3} sm={6}>
+            {isSubmitted ? <Success
+                okevent={() => history.push("/datahub/datasets")}
+                route={"datahub/participants"}
+                imagename={"success"}
+                btntext={"ok"}
+                heading={"Dataset updated Successfully"}
+                imageText={"Success!"}
+                msg={"Your dataset are updated."}
+            ></Success> : <>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={handleClose}
+                    action={action}
+                >
+                    <Alert autoHideDuration={4000} onClose={handleClose} sx={{ width: '100%' }} severity={errorOrSuccess}>{messageForSnackBar}</Alert>
+                </Snackbar>
+                <Row className='main_heading_row'>
+                    <Col lg={3} sm={6}>
+                        <span className='Main_heading_add_dataset'>Add dataset</span>
+                    </Col>
+                </Row>
+                <Row style={{ margin: "20px 0px", padding: "0px" }}>
+                    {/* <Col style={{ margin: "0px", padding: "0px" }} lg={3} sm={6}>
                     <TextField
                         value={datasetname}
                         onKeyDown={handledatasetnameKeydown}
@@ -650,124 +781,148 @@ const AddDataset = () => {
                         helperText={nameErrorMessage}
                         label="Dataset name" variant='standard' className='dataset_name_class' id='dataset_name' placeholder='Enter the dataset name' />
                 </Col> */}
-            </Row>
-            <Row>
-                <Col lg={12} sm={12}>
+                </Row>
+                <Row>
+                    <Col lg={12} sm={12}>
 
-                    <Box>
-                        <Stepper activeStep={activeStep}>
-                            {steps.map((label, index) => {
-                                const stepProps = {};
-                                const labelProps = {};
-                                if (isStepOptional(index)) {
-                                    labelProps.optional = (
-                                        <Typography variant="caption">  <div> Atleast one is required </div>  </Typography>
+                        <Box>
+                            <Stepper activeStep={activeStep}>
+                                {steps.map((label, index) => {
+                                    const stepProps = {};
+                                    const labelProps = {};
+                                    if (isStepOptional(index)) {
+                                        labelProps.optional = (
+                                            <Typography variant="caption">  <div> Atleast one is required </div>  </Typography>
+                                        );
+                                    }
+                                    if (isStepSkipped(index)) {
+                                        stepProps.completed = false;
+                                    }
+                                    return (
+                                        <Step key={label} {...stepProps}>
+                                            <StepLabel {...labelProps}>{label}</StepLabel>
+
+                                        </Step>
                                     );
-                                }
-                                if (isStepSkipped(index)) {
-                                    stepProps.completed = false;
-                                }
-                                return (
-                                    <Step key={label} {...stepProps}>
-                                        <StepLabel {...labelProps}>{label}</StepLabel>
+                                })}
+                            </Stepper> {activeStep === steps.length ? (
+                                <React.Fragment>
+                                    <Typography sx={{ mt: 2, mb: 1 }}>
+                                        All steps completed - you&apos;re finished
+                                    </Typography>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                        <Box sx={{ flex: '1 1 auto' }} />
+                                        <Button onClick={handleReset}>Reset</Button>
+                                    </Box>
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    {/* <Typography sx={{ mt: 2, mb: 1 }}> {activeStep == 0 ? "Please provide the dataset name to enable the further steps" : ""}</Typography> */}
+                                    {activeStep == 0 ? <Col style={{ margin: "50px auto 150px auto", padding: "0px" }} lg={12} sm={12}>
+                                        <TextField
+                                            disabled={isDatasetEditModeOn ? true : false}
+                                            style={{ marginBottom: "20px" }}
+                                            value={datasetname}
+                                            onKeyDown={handledatasetnameKeydown}
+                                            onChange={handleChangedatasetname}
+                                            error={errorDatasetName ? true : false}
+                                            helperText={errorDatasetName ? errorDatasetName : ""}
+                                            label="Dataset name" variant='filled' className='dataset_name_class' id='dataset_name' placeholder='Enter the dataset name' />
 
-                                    </Step>
-                                );
-                            })}
-                        </Stepper> {activeStep === steps.length ? (
-                            <React.Fragment>
-                                <Typography sx={{ mt: 2, mb: 1 }}>
-                                    All steps completed - you&apos;re finished
-                                </Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                    <Box sx={{ flex: '1 1 auto' }} />
-                                    <Button onClick={handleReset}>Reset</Button>
-                                </Box>
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>
-                                {/* <Typography sx={{ mt: 2, mb: 1 }}> {activeStep == 0 ? "Please provide the dataset name to enable the further steps" : ""}</Typography> */}
-                                {activeStep == 0 ? <Col style={{ margin: "50px auto 150px auto", padding: "0px" }} lg={12} sm={12}>
-                                    <TextField
-                                        style={{ marginBottom: "20px" }}
-                                        value={datasetname}
-                                        onKeyDown={handledatasetnameKeydown}
-                                        onChange={handleChangedatasetname}
-                                        error={nameErrorMessage ? true : false}
-                                        helperText={nameErrorMessage}
-                                        label="Dataset name" variant='filled' className='dataset_name_class' id='dataset_name' placeholder='Enter the dataset name' />
+                                        <div className="invite-participant-text-editor policyrte">
+                                            <RichTextEditor
+                                                placeholder='Dataset description'
+                                                toolbarConfig={toolbarConfig}
+                                                value={editorGovLawValue}
+                                                onChange={handlegovLawChange}
+                                                required
+                                                id="body-text"
+                                                name="bodyText"
+                                                type="string"
+                                                multiline
+                                                variant="filled"
+                                                style={{
+                                                    minHeight: 410,
+                                                    //   width: 420,
+                                                    border: "1px solid black",
+                                                    //   zIndex: 4,
+                                                }}
+                                                error={errorDatasetDescription ? true : false}
+                                                helperText={errorDatasetDescription ? errorDatasetDescription : ""}
 
-                                    <div className="invite-participant-text-editor policyrte">
-                                        <RichTextEditor
-                                            placeholder='Dataset description'
-                                            toolbarConfig={toolbarConfig}
-                                            value={editorGovLawValue}
-                                            onChange={handlegovLawChange}
-                                            required
-                                            id="body-text"
-                                            name="bodyText"
-                                            type="string"
-                                            multiline
-                                            variant="filled"
-                                            style={{
-                                                minHeight: 410,
-                                                //   width: 420,
-                                                border: "1px solid black",
-                                                //   zIndex: 4,
-                                            }}
-                                        />
-                                    </div>
+                                            />
+                                        </div>
 
-                                </Col> : ""}
+                                    </Col> : ""}
 
-                                {activeStep == 1 ?
-                                    <TabContext value={value}>
-                                        <Box >
-                                            <TabList style={{ display: "none" }} aria-label="lab API tabs example">
-                                                <Tab onClick={(e) => handleChange(e, '1')} label="Upload dataset" value="1" />
-                                                <Tab disabled label="Add metadata" value="2" />
-                                            </TabList>
-                                        </Box>
-                                        <TabPanel value="1"><Admin_upload_dataset cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
-                                            mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
-                                            setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
-                                        <TabPanel value="2"></TabPanel>
-                                    </TabContext>
-                                    : ""}
+                                    {activeStep == 1 ?
+                                        <TabContext value={value}>
+                                            <Box >
+                                                <TabList style={{ display: "none" }} aria-label="lab API tabs example">
+                                                    <Tab onClick={(e) => handleChange(e, '1')} label="Upload dataset" value="1" />
+                                                    <Tab disabled label="Add metadata" value="2" />
+                                                </TabList>
+                                            </Box>
+                                            <TabPanel value="1"><Admin_upload_dataset
+                                                handleTab={setActiveStep}
+                                                seteErrorDatasetName={seteErrorDatasetName}
+                                                uploadFile={uploadFile}
+                                                setFile={setFile}
+                                                progress={progress}
+                                                setProgress={setProgress}
+                                                setMessageForSnackBar={setMessageForSnackBar}
+                                                setErrorOrSuccess={setErrorOrSuccess}
+                                                handleClick={handleClick}
+                                                isDatasetEditModeOn={isDatasetEditModeOn} handleDeleteDatasetFileInFrontend={handleDeleteDatasetFileInFrontend} listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit} cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
+                                                mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
+                                                setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange}
+                                                key={key} setKey={setKey}
+                                                LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
+                                            /></TabPanel>
+                                            <TabPanel value="2"></TabPanel>
+                                        </TabContext>
+                                        : ""}
 
-                                {activeStep == 2 ?
-                                    <AddMetadata
-                                        datasetname={datasetname}
-                                        selectedCat={selectedCat}
-                                        setSelectedCat={setSelectedCat}
-                                        selectedSubCat={selectedSubCat}
-                                        setSelectedSubCat={setSelectedSubCat}
-                                        allCatFetched={allCatFetched}
-                                        SubCatList={SubCatList}
-                                        handleSubCategoryListForFinal={handleSubCategoryListForFinal}
-                                        finalJson={finalJson}
-                                        lengthOfSubCat={lengthOfSubCat}
-                                        isSubmitted={isSubmitted}
-                                        handleChangeGeography={handleChangeGeography}
-                                        handleAddDatasetSubmit={handleAddDatasetSubmit}
-                                        conscent={conscent}
-                                        setConscent={setConscent}
-                                        handleChangeSwitch={handleChangeSwitch}
-                                        Switchchecked={Switchchecked}
-                                        handleChangedatasetname={handleChangedatasetname}
-                                        fromdate={fromdate}
-                                        handleChangeFromDate={handleChangeFromDate}
-                                        todate={todate}
-                                        handleChangeToDate={handleChangeToDate}
-                                        handleChangeSubCatList={handleChangeSubCatList}
-                                        categoryNameList={categoryNameList}
-                                        handleChangeCategory={handleChangeCategory}
-                                        category={category}
-                                        subCategoryNameList={subCategoryNameList}
-                                        handleSubCategory={handleSubCategory}
-                                        subCategory={subCategory} />
-                                    : ""}
-                                {/* {activeStep == 2 ?
+                                    {activeStep == 2 ?
+                                        <AddMetadata
+
+                                            setNewSelectedSubCategory={setNewSelectedSubCategory}
+                                            newSelectedCategory={newSelectedCategory}
+                                            newSelectedSubCategory={newSelectedSubCategory}
+                                            listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit}
+                                            handleDeleteDatasetFileInFrontend={handleDeleteDatasetFileInFrontend}
+                                            geography={geography}
+                                            datasetname={datasetname}
+                                            selectedCat={selectedCat}
+                                            setSelectedCat={setSelectedCat}
+                                            selectedSubCat={selectedSubCat}
+                                            setSelectedSubCat={setSelectedSubCat}
+                                            allCatFetched={allCatFetched}
+                                            SubCatList={SubCatList}
+                                            handleSubCategoryListForFinal={handleSubCategoryListForFinal}
+                                            finalJson={finalJson}
+                                            lengthOfSubCat={lengthOfSubCat}
+                                            isSubmitted={isSubmitted}
+                                            handleChangeGeography={handleChangeGeography}
+                                            handleAddDatasetSubmit={handleAddDatasetSubmit}
+                                            conscent={conscent}
+                                            setConscent={setConscent}
+                                            handleChangeSwitch={handleChangeSwitch}
+                                            Switchchecked={Switchchecked}
+                                            handleChangedatasetname={handleChangedatasetname}
+                                            fromdate={fromdate}
+                                            handleChangeFromDate={handleChangeFromDate}
+                                            todate={todate}
+                                            handleChangeToDate={handleChangeToDate}
+                                            handleChangeSubCatList={handleChangeSubCatList}
+                                            categoryNameList={categoryNameList}
+                                            handleChangeCategory={handleChangeCategory}
+                                            category={category}
+                                            subCategoryNameList={subCategoryNameList}
+                                            handleSubCategory={handleSubCategory}
+                                            subCategory={subCategory} />
+                                        : ""}
+                                    {/* {activeStep == 2 ?
                                     <AddMetadata
                                         isSubmitted={isSubmitted}
                                         handleChangeGeography={handleChangeGeography}
@@ -784,37 +939,41 @@ const AddDataset = () => {
                                         
                                         categoryNameList={categoryNameList} handleChangeCategory={handleChangeCategory} category={category} subCategoryNameList={subCategoryNameList} handleSubCategory={handleSubCategory} subCategory={subCategory} />
                                     : ""} */}
-                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                    <Button
-                                        color="inherit"
-                                        // disabled={activeStep === 0}
-                                        onClick={activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
-                                        sx={{ mr: 1 }}
-                                    >
-                                        Back
-                                    </Button>
-                                    <Box sx={{ flex: '1 1 auto' }} />
-                                    {/* {(isStepOptional(activeStep) && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0)) && (
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                        <Button
+                                            id='back_button'
+                                            color="inherit"
+                                            // disabled={activeStep === 0}
+                                            onClick={activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
+                                            sx={{ mr: 1 }}
+                                        >
+                                            Back
+                                        </Button>
+                                        <Box sx={{ flex: '1 1 auto' }} />
+                                        {activeStep != 0 && !isSubmitted ? <Button id='cancel_button' style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
+                                        <Box sx={{ flex: '1 1 auto' }} />
+                                        {/* {(isStepOptional(activeStep) && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0)) && (
                                         <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                                             Add metadata
                                         </Button>
                                     )} */}
 
-                                    <Button disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
-                                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                    </Button>
-                                </Box>
-                            </React.Fragment>
-                        )}
-                    </Box>
+                                        {activeStep == 2 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
+                                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                        </Button>}
+                                    </Box>
+                                </React.Fragment>
+                            )}
+                        </Box>
 
 
 
-                </Col>
-            </Row>
-            <Row>
-
-            </Row>
+                    </Col>
+                </Row>
+                <Row>
+                </Row>
+                {/* <CategorySelectorList /> */}
+            </>}
         </Container>
     )
 }
