@@ -2,7 +2,7 @@
 FROM node:14 as build-image
 WORKDIR /app
 COPY . ./
-RUN npm install
+RUN npm install --force
 RUN npm run build
 
 # copy static files and run nginx server
