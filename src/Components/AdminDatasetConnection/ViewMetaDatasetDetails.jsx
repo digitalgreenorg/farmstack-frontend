@@ -319,11 +319,11 @@ export default function ViewMetaDatasetDetails(props) {
                                         <Col style={{ "margin-left": "90px", "marginTop": "-30px" }}>
                                             <Row>{orgdetail.name}</Row>
                                             <Row>{orgdetail.org_email}</Row>
-                                            <Row style={{ "margin-bottom": "-15px" }}>{orgdes ? parse(orgdes) : orgdes}</Row>
+                                            <Row style={{ "margin-bottom": "-15px", "textAlign": "left", "marginRight": "120px"  }}>{orgdes ? parse(orgdes) : orgdes}</Row>
                                             <Row>{orgdetail.phone_number}</Row>
                                             <Row>{orgdetail?.address?.city}</Row>
                                             <Row>{orgdetail?.address?.country}</Row>
-                                            <Row>{orgdetail?.address?.address}</Row>
+                                            <Row style={{"marginRight" : "160px", "textAlign": "left"}}>{orgdetail?.address?.address}</Row>
                                             <Row>{orgdetail?.address?.pincode}</Row>
                                         </Col>
                                     </Col>
