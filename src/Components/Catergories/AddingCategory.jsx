@@ -41,9 +41,9 @@ const AddingCategory = (props) => {
 
     //messages
     const [messageApi, contextHolder] = message.useMessage();
-    const success = (text) => {
+    const success = (text, type) => {
         messageApi.open({
-            type: 'success',
+            type: type,
             content: text,
             duration: 2,
         });
@@ -53,7 +53,9 @@ const AddingCategory = (props) => {
         if (!isAlreadyIncluded) {
             setAllCat({ ...allCat, [catname]: [] })
             setCatName("")
-            success("Category added!")
+            success("Category added!", "success")
+        } else {
+            success("Category already exist!", "error")
         }
     }
     function addSubCategory() {
@@ -62,7 +64,9 @@ const AddingCategory = (props) => {
             setAllCat({ ...allCat, [selectedCat]: [...allCat[selectedCat], subCatname] })
             setCatName("")
             setSubCatName("")
-            success("Sub category added!")
+            success("Sub category added!", "success")
+        } else {
+            success("Sub category already exist!", "error")
         }
     }
 
@@ -84,7 +88,7 @@ const AddingCategory = (props) => {
                 if (isOnborading) {
                     showBrandingScreen()
                 } else {
-                    success("Saved!")
+                    success("Saved!", "success")
                 }
             }).catch((e) => {
                 setLoading(false);
@@ -123,7 +127,7 @@ const AddingCategory = (props) => {
         setSelectCatForDeleteSubCat("")
         setSelectForSubCatForDelete("")
         setAllCat({ ...allCategory })
-        success("Category deleted!")
+        success("Category deleted!", "success")
     }
     const deleteSubCategory = () => {
         //deleting the cat ==>   const [selectCatForDeleteSubCat, setSelectCatForDeleteSubCat] = useState("")
@@ -140,7 +144,7 @@ const AddingCategory = (props) => {
                     setSelectForSubCatForDelete("")
                     setSelectCatForDeleteSubCat("")
                     setAllCat({ ...allCat })
-                    success("Sub category deleted!")
+                    success("Sub category deleted!", "success")
                 }
 
             }
@@ -162,7 +166,7 @@ const AddingCategory = (props) => {
         setRanamedCategoryname("")
         console.log(newObj)
         setAllCat({ ...newObj })
-        success(`Category ${selectCatForDelete} renamed to ${renamedCategoryName}`)
+        success(`Category ${selectCatForDelete} renamed to ${renamedCategoryName}`, "success")
     }
 
     const treeData = [
