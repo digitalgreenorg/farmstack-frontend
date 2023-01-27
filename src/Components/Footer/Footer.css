@@ -9,7 +9,8 @@
     padding-top: 30px;
     margin: 0px;
 }
-.footerlink{
+
+.footerlink {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
@@ -18,12 +19,17 @@
     color: #FFFFFF;
     /*margin-left: 100px;*/
 }
-.footerlink:hover{
+
+.footerlink:hover {
     color: white;
     text-decoration: none;
     cursor: pointer;
 }
 
-.footerlink .footerlinkdisabled{
+.footerlink .footerlinkdisabled {
     pointer-events: none;
+}
+
+.footer .row {
+    margin: 0px !important;
 }

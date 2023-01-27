@@ -8,11 +8,19 @@ import HTTPService from '../../Services/HTTPService'
 import { GetErrorHandlingRoute } from '../../Utils/Common'
 import Loader from '../Loader/Loader'
 import { Button, Divider, Input } from 'antd';
-import { PlusOutlined, SubnodeOutlined } from '@ant-design/icons'
+import {
+    DownOutlined, PlusOutlined, SubnodeOutlined,
+    FrownFilled,
+    FrownOutlined,
+    MehOutlined,
+    SmileOutlined,
+} from '@ant-design/icons'
 import { minHeight } from '@mui/system'
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { message, Space } from 'antd';
-
+import { Tree } from 'antd';
+import { DataNode } from 'antd/es/tree';
+import Echarts from './Echarts'
 const AddingCategory = (props) => {
     const { isOnborading, showBrandingScreen, isaccesstoken } = props
     const [catname, setCatName] = useState("")
@@ -23,6 +31,7 @@ const AddingCategory = (props) => {
     const [selectCatForDelete, setSelectCatForDelete] = useState("")
     const [selectCatForDeleteSubCat, setSelectCatForDeleteSubCat] = useState("")
     const [selectSubCatForDelete, setSelectForSubCatForDelete] = useState("")
+
 
     //
     const [renamedCategoryName, setRanamedCategoryname] = useState("")
@@ -36,6 +45,7 @@ const AddingCategory = (props) => {
         messageApi.open({
             type: 'success',
             content: text,
+            duration: 2,
         });
     };
     function addCategory() {
@@ -154,6 +164,42 @@ const AddingCategory = (props) => {
         setAllCat({ ...newObj })
         success(`Category ${selectCatForDelete} renamed to ${renamedCategoryName}`)
     }
+
+    const treeData = [
+        // {
+        //     title: 'parent 1',
+        //     key: '0-0',
+        //     icon: <SmileOutlined />,
+        //     children: [
+        //         {
+        //             title: 'leaf',
+        //             key: '0-0-0',
+        //             icon: <MehOutlined />,
+        //         },
+        //         {
+        //             title: 'leaf',
+        //             key: '0-0-1',
+        //             icon: ({ selected }) => (selected ? <FrownFilled /> : <FrownOutlined />),
+        //         },
+        //     ],
+        // },
+    ];
+    // let index = 0
+    // for (const [key, value] of Object.entries(allCat)) {
+    //     let obj = {}
+    //     let subcat = []
+    //     obj.title = key
+    //     obj.key = index++
+    //     console.log(value)
+    //     for (let i = 0; i < value.length; i++) {
+    //         let childObj = {}
+    //         childObj.title = value[i]
+    //         subcat.push(childObj)
+    //     }
+    //     obj.children = subcat
+    //     console.log(obj)
+    //     treeData.push(obj)
+    // }
     useEffect(() => {
         console.log("isOnboradinsdsdas", isOnborading)
         if (!isOnborading) {
@@ -162,54 +208,141 @@ const AddingCategory = (props) => {
     }, [])
     return (
         <>
-            <Container>
+            <div >
                 {contextHolder}
                 {loading ? <Loader /> : ""}
-                <Row style={{ height: "300px" }}>
-                    <Col lg={4} sm={12} >
+                <Row >
+                    <Col lg={3} sm={12} style={{ borderRight: "2px solid #c09507" }} >
+                        <div style={{ borderBottom: "2px solid #c09507" }}>
 
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <label htmlFor="">Add category</label>
-                            <Button style={{ background: "green", color: "white", marginLeft: "5px" }} shape="circle">
-                                +
-                            </Button>
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <Input label={"Category"} placeholder="Category name" variant="filled" value={catname} onChange={(e) => setCatName(e.target.value)} />
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <Button disabled={catname ? false : true} onClick={addCategory}>Add Category</Button>
-                        </Row>
+                            {/* <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                <label htmlFor=""><Button style={{ background: "green", color: "white" }}>Add category</Button></label>
+                                <Button style={{ background: "green", color: "white", marginLeft: "5px" }} shape="circle">
+                                    +
+                                </Button>
+                            </Row> */}
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                <Input label={"Category"} placeholder="Category name" variant="filled" value={catname} onChange={(e) => setCatName(e.target.value)} />
+                            </Row>
+                            <Row style={{ margin: "10px 20px 10px 0px", }}>
+                                <Button style={{ background: catname ? "green" : "none", color: catname ? "white" : "" }} disabled={catname ? false : true} onClick={addCategory}>Add Category</Button>
+                            </Row>
+                        </div>
+                        <div style={{ borderBottom: "2px solid #c09507" }}>
 
+
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                {/* <label htmlFor="">Add sub category</label> */}
+                                {/* <Button style={{ background: "green", color: "white", display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "5px" }} shape="circle">
+                                    <SubnodeOutlined />
+                                </Button> */}
+                            </Row>
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                                    <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
+                                    <Select label={"Category"} name="cat" id="cat" value={selectedCat} onChange={(e) => setSelectedCat(e.target.value)}>
+                                        {/* <option value={""}>{""}</option> */}
+                                        {Object.keys(allCat).map((eachCategory) => {
+                                            return <MenuItem value={eachCategory}>{eachCategory}</MenuItem>
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            </Row>
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                <Input label={"Sub category"} placeholder="Sub category name" variant="filled" value={subCatname} onChange={(e) => setSubCatName(e.target.value)} />
+                            </Row>
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                <Button style={{ background: selectedCat && subCatname ? "green" : "none", color: selectedCat && subCatname ? "white" : "" }} disabled={selectedCat && subCatname ? false : true} onClick={addSubCategory}>Add Sub Category</Button>
+                            </Row>
+                        </div>
+                        <div style={{ borderBottom: "2px solid #c09507" }}>
+
+
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                {/* <label htmlFor="">Delete category</label> */}
+                                {/* <Button style={{ background: "red", color: "white", marginLeft: "5px" }} shape="circle">
+                                    -
+                                </Button> */}
+                            </Row>
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                                    <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
+                                    <Select label={"Category"} name="cat" id="cat" value={selectCatForDelete} onChange={(e) => setSelectCatForDelete(e.target.value)}>
+                                        {Object.keys(allCat).map((eachCategory) => {
+                                            return <MenuItem value={eachCategory}>{eachCategory}</MenuItem>
+                                        })}
+                                    </Select>
+                                </FormControl>
+
+                            </Row>
+                            <Row id='rowForRenameCategory' style={{ margin: "10px 20px 10px 0px" }}>
+                                <Input label={"Sub category"} placeholder="New category name" variant="filled" value={renamedCategoryName} onChange={(e) => setRanamedCategoryname(e.target.value)} />
+                            </Row>
+                            <Row style={{ margin: "10px 20px 10px 0px", display: "flex", justifyContent: "space-evenly" }}>
+                                {/* <Col > */}
+                                <Button style={{ background: selectCatForDelete ? "red" : "none", color: selectCatForDelete ? "white" : "", width: "130px" }} disabled={selectCatForDelete ? false : true} danger onClick={deleteCategory}>Delete category</Button>
+                                {/* </Col> */}
+                                {/* <Col  > */}
+                                <Button style={{ width: "135px" }} disabled={selectCatForDelete && renamedCategoryName ? false : true} onClick={renameCategory}>Rename category</Button>
+                                {/* </Col> */}
+                            </Row>
+                        </div>
+                        <div >
+
+
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                {/* <label htmlFor="">Delete sub category</label> */}
+                                {/* <Button style={{ background: "red", color: "white", marginLeft: "5px" }} shape="circle">
+                                    -
+                                </Button> */}
+                            </Row>
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                                    <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
+                                    <Select label={"Category"} name="cat" id="cat" value={selectCatForDeleteSubCat} onChange={(e) => setSelectCatForDeleteSubCat(e.target.value)}>
+                                        {/* <option value={""}>{""}</option> */}
+                                        {Object.keys(allCat).map((eachCategory) => {
+                                            return <MenuItem value={eachCategory}>{eachCategory}</MenuItem>
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            </Row>
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+
+                                <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                                    <InputLabel id="demo-simple-select-standard-label">Sub category</InputLabel>
+                                    <Select label={"Category"} name="cat" id="cat" value={selectSubCatForDelete} onChange={(e) => setSelectForSubCatForDelete(e.target.value)}>
+                                        {selectCatForDeleteSubCat && allCat[selectCatForDeleteSubCat].map((eachSub) => {
+                                            return <MenuItem value={eachSub}>
+                                                {eachSub}
+                                            </MenuItem>
+                                        })}
+                                    </Select>
+                                </FormControl>
+
+                            </Row>
+                            <Row style={{ margin: "10px 20px 10px 0px" }}>
+                                <Button disabled={selectCatForDeleteSubCat && selectSubCatForDelete ? false : true} danger onClick={deleteSubCategory}>Delete sub category</Button>
+                            </Row>
+                        </div>
+                        <Button style={{ width: "100%" }} onClick={handleSavingCategoryAndSubCat}>
+                            Save changes
+                        </Button>
                     </Col>
-                    <Col lg={4} sm={12}>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <label htmlFor="">Add sub category</label>
-                            <Button style={{ background: "green", color: "white", display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "5px" }} shape="circle">
-                                <SubnodeOutlined />
-                            </Button>
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <FormControl variant="standard" sx={{ minWidth: "100%" }}>
-                                <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
-                                <Select label={"Category"} name="cat" id="cat" value={selectedCat} onChange={(e) => setSelectedCat(e.target.value)}>
-                                    {/* <option value={""}>{""}</option> */}
-                                    {Object.keys(allCat).map((eachCategory) => {
-                                        return <MenuItem value={eachCategory}>{eachCategory}</MenuItem>
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <Input label={"Sub category"} placeholder="Sub category name" variant="filled" value={subCatname} onChange={(e) => setSubCatName(e.target.value)} />
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <Button disabled={selectedCat && subCatname ? false : true} onClick={addSubCategory}>Add Sub Category</Button>
-                        </Row>
+                    {/* <Col lg={1} sm={12}>
 
-                    </Col>
-                    <Col lg={3} sm={12}>
-                        <label htmlFor="">Sub category list</label>
+                    </Col> */}
+                    <Col lg={9} sm={12} sty>
+                        <label htmlFor="">All categories</label>
+                        {/* <Tree
+                            showIcon
+                            defaultExpandAll
+                            defaultSelectedKeys={['0-0-0']}
+                            switcherIcon={<DownOutlined />}
+                            treeData={treeData}
+                        /> */}
+                        <Echarts allCat={allCat} />
+                        {/* <label htmlFor="">Sub category list</label>
                         <List sx={{
                             width: '100%',
                             maxWidth: 360,
@@ -225,95 +358,23 @@ const AddingCategory = (props) => {
                                     {eachSub}
                                 </ListItem>
                             })}
-                        </List>
+                        </List> */}
                     </Col>
                 </Row>
-                <Row>
-                    <Col lg={4} sm={12}>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <label htmlFor="">Delete category</label>
-                            <Button style={{ background: "red", color: "white", marginLeft: "5px" }} shape="circle">
-                                -
-                            </Button>
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <FormControl variant="standard" sx={{ minWidth: "100%" }}>
-                                <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
-                                <Select label={"Category"} name="cat" id="cat" value={selectCatForDelete} onChange={(e) => setSelectCatForDelete(e.target.value)}>
-                                    {Object.keys(allCat).map((eachCategory) => {
-                                        return <MenuItem value={eachCategory}>{eachCategory}</MenuItem>
-                                    })}
-                                </Select>
-                            </FormControl>
+                {/* <Row>
+                    <Col lg={3} sm={12}>
 
-                        </Row>
-                        <Row id='rowForRenameCategory' style={{ margin: "10px 20px 10px 0px" }}>
-                            <Input label={"Sub category"} placeholder="New category name" variant="filled" value={renamedCategoryName} onChange={(e) => setRanamedCategoryname(e.target.value)} />
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <Col lg={6} sm={6}>
-                                <Button disabled={selectCatForDelete ? false : true} danger onClick={deleteCategory}>Delete category</Button>
-                            </Col>
-                            <Col lg={6} sm={6} >
-                                <Button disabled={selectCatForDelete && renamedCategoryName ? false : true} onClick={renameCategory}>Rename category</Button>
-                            </Col>
-                        </Row>
                     </Col>
-                    <Col lg={4} sm={12}>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <label htmlFor="">Delete sub category</label>
-                            <Button style={{ background: "red", color: "white", marginLeft: "5px" }} shape="circle">
-                                -
-                            </Button>
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <FormControl variant="standard" sx={{ minWidth: "100%" }}>
-                                <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
-                                <Select label={"Category"} name="cat" id="cat" value={selectCatForDeleteSubCat} onChange={(e) => setSelectCatForDeleteSubCat(e.target.value)}>
-                                    {/* <option value={""}>{""}</option> */}
-                                    {Object.keys(allCat).map((eachCategory) => {
-                                        return <MenuItem value={eachCategory}>{eachCategory}</MenuItem>
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
+                    <Col lg={3} sm={12}>
 
-                            <FormControl variant="standard" sx={{ minWidth: "100%" }}>
-                                <InputLabel id="demo-simple-select-standard-label">Sub category</InputLabel>
-                                <Select label={"Category"} name="cat" id="cat" value={selectSubCatForDelete} onChange={(e) => setSelectForSubCatForDelete(e.target.value)}>
-                                    {selectCatForDeleteSubCat && allCat[selectCatForDeleteSubCat].map((eachSub) => {
-                                        return <MenuItem value={eachSub}>
-                                            {eachSub}
-                                        </MenuItem>
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Row>
-                        <Row style={{ margin: "10px 20px 10px 0px" }}>
-                            <Button disabled={selectCatForDeleteSubCat && selectSubCatForDelete ? false : true} danger onClick={deleteSubCategory}>Delete sub category</Button>
-                        </Row>
                     </Col>
                     <Col lg={3} sm={12}>
                     </Col>
-                </Row>
+                </Row> */}
 
 
-                <Row>
-                    <Col lg={9} sm={12}>
-                        {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                        <InputLabel id="demo-simple-select-standard-label">Sub category</InputLabel>
-                        <Select name="subcat" id="subcat" value={subCatname} onChange={(e) => setSelectedCat(e.target.value)}>
-                            
-                        </Select>
-                    </FormControl> */}
-                        <button className='submitbtn' onClick={handleSavingCategoryAndSubCat}>
-                            Submit
-                        </button>
-                    </Col>
-                </Row>
-            </Container>
 
+            </div>
         </>
 
     )

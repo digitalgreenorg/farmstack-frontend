@@ -37,7 +37,7 @@ const useStyles = {
   cardcolor: {
     border: "1px solid #E4E4E4",
     "box-shadow": "none",
-    cursor: "pointer",
+    // cursor: "pointer",
     height: "355px",
     "border-radius": "2px",
     width: "346px",
@@ -46,7 +46,7 @@ const useStyles = {
   togglecardcolor: {
     "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)",
     border: "1px solid #ebd79c",
-    cursor: "pointer",
+    // cursor: "pointer",
     height: "355px",
     width: "346px",
     "margin-left": "20px",
@@ -68,7 +68,7 @@ const useStyles = {
     "font-size": "14px",
     "line-height": "19px",
     display: "-webkit-box",
-    "-webkit-line-clamp": "3",
+    "-webkit-line-clamp": "2",
     "-webkit-box-orient": "vertical",
     "text-align": "left",
     overflow: "hidden",
@@ -127,7 +127,7 @@ export default function DataSetCard(props) {
         <Row style={useStyles.datasetdescription}>
           {/* <Tooltip TransitionComponent={Zoom} title={props.description}> */}
           <span
-            style={{ maxWidth: "300px" }}
+            style={{ maxWidth: "300px", height: "40px", display: "block" }}
           >
             {parse(props.description)}
           </span>

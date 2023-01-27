@@ -19,6 +19,8 @@ import { Avatar } from '@mui/material';
 import FileDownloadSharpIcon from '@mui/icons-material/FileDownloadSharp';
 import parse from 'html-react-parser'
 import AddDataset from './AddDataset';
+import { Image } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import Delete from '../../Components/Delete/Delete'
 import Success from "../../Components/Success/Success"
 
@@ -26,7 +28,8 @@ import Success from "../../Components/Success/Success"
 
 
 export default function ViewMetaDatasetDetails(props) {
-
+    const { userType } = props
+    const [visible, setVisible] = useState(false);
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     const [datasetdescription, setDatasetDescription] = useState("")
     const [category, setCategory] = useState({})
@@ -47,7 +50,7 @@ export default function ViewMetaDatasetDetails(props) {
     const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
     const [success, setisSuccess] = useState(false)
     const fileTypes = ["XLS", "xlsx", "CSV", "PDF", "JPEG", "JPG", "PNG", "TIFF"]
-
+    const [previewImage, setPreviewImage] = useState("")
     useEffect(() => {
         getMetaData()
     }, [])
@@ -57,8 +60,12 @@ export default function ViewMetaDatasetDetails(props) {
     }, [fileData])
 
     const getMetaData = () => {
-        let url = UrlConstant.base_url + UrlConstant.datasetview + id + '/';
-        console.log("get details of the form")
+        let url = ""
+        if (userType == "guest") {
+            url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + '/';
+        } else {
+            url = UrlConstant.base_url + UrlConstant.datasetview + id + '/';
+        }
         setLoader(true)
         HTTPService(
             "GET",
@@ -138,10 +145,10 @@ export default function ViewMetaDatasetDetails(props) {
                         {!isEditModeOn ? <>
                             <Row>
                                 <Col className="supportViewDetailsbackimage">
-                                    <span onClick={() => history.push("/datahub/datasets")}>
+                                    <span onClick={() => history.push(userType != "guest" ? "/datahub/datasets" : "/home")}>
                                         <img src={require("../../Assets/Img/Vector.svg")} alt="new" />
                                     </span>
-                                    <span className="supportViewDetailsback" onClick={() => history.push("/datahub/datasets")}>
+                                    <span className="supportViewDetailsback" onClick={() => history.push(userType != "guest" ? "/datahub/datasets" : "/home")}>
                                         {"Back"}
                                     </span>
                                 </Col>
@@ -195,7 +202,7 @@ export default function ViewMetaDatasetDetails(props) {
                                         Description
                                     </Row>
                                     <Row className="thirdmainheading" style={{ "textAlign": "left", "marginLeft": "50px", "marginTop": "30px", "margin-right": "73px", }}>
-                                    {datasetdescription  ?  parse(datasetdescription) : datasetdescription }
+                                        {datasetdescription ? parse(datasetdescription) : datasetdescription}
                                     </Row>
                                 </Col>
                             </Row>
@@ -247,7 +254,7 @@ export default function ViewMetaDatasetDetails(props) {
                                                                         {Object.keys(itm2).map((itm3, i) => {
                                                                             return i !== 0 ? <TableCell> {itm3} </TableCell> : ""
                                                                         })
-                                                                    }
+                                                                        }
                                                                     </TableRow>
                                                                 )
                                                             }
@@ -286,14 +293,14 @@ export default function ViewMetaDatasetDetails(props) {
                                         <Row
                                             //   className="supportViewDetailsback"
                                             className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
-                                            style={{ "margin-top": "10px", cursor: "pointer", "marginLeft": "130px" }}
+                                            style={{ "margin-top": "10px", "marginLeft": "130px", cursor: `${userType != "guest" ? "pointer" : ""}` }}
                                             onClick={() =>
-                                                downloadAttachment(UrlConstant.base_url + downloadfile.file, downloadfile.file.split("/")[5])
+                                                userType != "guest" ? downloadAttachment(UrlConstant.base_url + downloadfile.file, downloadfile.file.split("/")[5]) : ""
                                             }
                                         >
                                             <FileDownloadSharpIcon
                                                 style={{ marginRight: "20px" }} />
-                                            <Row>{downloadfile.file.split("/")[5]}
+                                            <Row>{userType != "guest" ? downloadfile.file.split("/")[5] : downloadfile.file}
                                                 <hr className="separatorline" />
                                                 {/* m */}
                                             </Row>
@@ -343,7 +350,7 @@ export default function ViewMetaDatasetDetails(props) {
                                 </Col>
                             </Row>
                             <Row className="marginrowtop8px"></Row>
-                            <Row>
+                            {userType != "guest" && <Row>
                                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                                 <Col xs={12} sm={12} md={6} lg={6}>
                                     <Button
@@ -355,8 +362,8 @@ export default function ViewMetaDatasetDetails(props) {
                                         Edit
                                     </Button>
                                 </Col>
-                            </Row>
-                            <Row className="margin">
+                            </Row>}
+                            {userType != "guest" && <Row className="margin">
                                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                                 <Col xs={12} sm={12} md={6} lg={6}>
                                     <Button
@@ -368,7 +375,7 @@ export default function ViewMetaDatasetDetails(props) {
                                         Delete
                                     </Button>
                                 </Col>
-                            </Row>
+                            </Row>}
                             <Row className="marginrowtop8px"></Row>
                         </> : <AddDataset isDatasetEditModeOn={isEditModeOn} datasetId={id} />}
                     </>

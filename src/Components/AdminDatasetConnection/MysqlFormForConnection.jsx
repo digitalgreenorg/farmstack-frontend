@@ -16,7 +16,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { useHistory } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { GetErrorHandlingRoute, getTokenLocal, validateInputField } from '../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, getTokenLocal, validateInputField } from '../../Utils/Common';
 import RegexConstants from '../../Constants/RegexConstants';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -24,7 +24,7 @@ import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Axios from 'axios';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList, progress, setProgress, uploadFile, setFile, key }) => {
+const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, handleTab, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList, progress, setProgress, uploadFile, setFile, key }) => {
   const history = useHistory();
   //exported file name
   const [exportedFileName, setExportedFileName] = useState("")
@@ -59,6 +59,14 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
   const [isExported, setIsExported] = useState(false)
   const [exportedFiles, setExportedFiles] = useState([
   ])
+
+  //error for form
+  const [errorDatabaseNameMysql, seteErrorDatabaseNameMysql] = useState("")
+  const [errorDatabaseUserNameMysql, seteErrorDatabseUserNameMysql] = useState("")
+  const [errorPasswordMysql, seteErrorUserNameMysql] = useState("")
+  const [errorHostMysql, seteErrorHostMysql] = useState("")
+  const [errorPortMysql, seteErrorPortMysql] = useState("")
+
 
   //List of tables after successfull connection to DB
   const [dbData, setDbData] = useState([])
@@ -127,16 +135,40 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
           port: ""
         }
 
-        //clear input fields
-        setConnectionData({
-          ...connectionData, ...dataForReset
-        })
+        // //clear input fields
+        // setConnectionData({
+        //   ...connectionData, ...dataForReset
+        // })
 
-        //if error occurs Alert will be shown as Snackbar
-        setMessageForSnackBar("Connection establishment failed!")
-        setErrorOrSuccess("error")
-        handleClick() //toggling toast
-        setIsConnected(false) // move to table form
+
+
+        var returnValues = GetErrorKey(err, ["database", "username", "password", "host", "port"])
+        var errorKeys = returnValues[0]
+        var errorMessages = returnValues[1]
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            console.log(errorKeys[i])
+            switch (errorKeys[i]) {
+              case "database": seteErrorDatabaseNameMysql(errorMessages[i]); break;
+              case "username": seteErrorDatabseUserNameMysql(errorMessages[i]); break;
+              case "password": seteErrorUserNameMysql(errorMessages[i]); break;
+              case "host": seteErrorHostMysql(errorMessages[i]); break;
+              case "port": seteErrorPortMysql(errorMessages[i]); break;
+              //if error occurs Alert will be shown as Snackbar
+              default: setMessageForSnackBar("Connection establishment failed!")
+                setErrorOrSuccess("error")
+                handleClick(); break;
+            }
+          }
+        }
+        else {
+          //if error occurs Alert will be shown as Snackbar
+          setMessageForSnackBar("Connection establishment failed!")
+          setErrorOrSuccess("error")
+          handleClick() //toggling toast
+          setIsConnected(false) // move to table form
+        }
+
       })
   }
 
@@ -250,7 +282,8 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
 
         setExportedFiles([...res.data])
         setMysqlFileList([...res.data])
-        //if error occurs Alert will be shown as Snackbar
+
+        //if success occurs Alert will be shown as Snackbar
         setMessageForSnackBar("File exported successfully!")
         setErrorOrSuccess("success")
         handleClick()
@@ -264,10 +297,40 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
         setIsExported(false)
         setLoader(false)
         console.log(err)
-        //if error occurs Alert will be shown as Snackbar
-        setMessageForSnackBar("File export failed!")
+        var returnValues = GetErrorKey(err, newFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
         setErrorOrSuccess("error")
-        handleClick()
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "dataset_name":
+                seteErrorDatasetName(errorMessages[i]);
+                // setMessageForSnackBar(errorMessages[i])
+                handleTab(0)
+                break;
+              case "datasets":
+                // setDataSetFileError(errorMessages[i]);
+                setMessageForSnackBar(errorMessages[i])
+                handleClick()
+
+                break;
+              default:
+                setMessageForSnackBar("Some error occurred during exporting!")
+                handleClick()
+                break;
+            }
+          }
+        } else {
+          setMessageForSnackBar("Some error occurred during exporting!")
+          handleClick()
+        }
+
+
+        //if error occurs Alert will be shown as Snackbar
+        // setMessageForSnackBar("File export failed!")
+        // setErrorOrSuccess("error")
+        // handleClick()
       })
   }
 
@@ -415,6 +478,8 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
       {!isConnected ? <> <Row className='textfield_row'>
         <Col lg={6} sm={12}>
           <TextField
+            error={errorDatabaseNameMysql ? true : false}
+            helperText={errorDatabaseNameMysql ? errorDatabaseNameMysql : ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -422,8 +487,10 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
                 </InputAdornment>
               ),
             }}
-            style={{ width: "80%" }} id="db_name" value={connectionData.db_name} onChange={handleConnectionData} label="Database name" variant="standard" name='db_name' />
+            style={{ width: "100%" }} id="db_name" value={connectionData.db_name} onChange={handleConnectionData} label="Database name" variant="standard" name='db_name' />
           <TextField
+            error={errorDatabaseUserNameMysql ? true : false}
+            helperText={errorDatabaseUserNameMysql ? errorDatabaseUserNameMysql : ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -431,7 +498,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
                 </InputAdornment>
               ),
             }}
-            style={{ width: "80%" }} id="user_name" label="User name" value={connectionData.user_name} onChange={handleConnectionData} name='user_name' variant="standard" />
+            style={{ width: "100%" }} id="user_name" label="User name" value={connectionData.user_name} onChange={handleConnectionData} name='user_name' variant="standard" />
           {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput
 
@@ -454,7 +521,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
                 </IconButton>
               </InputAdornment>
             }
-            style={{ width: "80%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" variant="standard"
+            style={{ width: "100%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" variant="standard"
           /> */}
 
           <TextField
@@ -466,8 +533,11 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
             type={showPassword ? 'text' : 'password'}
             // endAdornment={
             //   <InputAdornment position="end">
+            // errorDatabaseUserNameMysql,
 
             //   </InputAdornment>}
+            error={errorPasswordMysql ? true : false}
+            helperText={errorPasswordMysql ? errorPasswordMysql : ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -487,9 +557,11 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
                 </InputAdornment>
               ),
             }}
-            style={{ width: "80%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" variant="standard" />
+            style={{ width: "100%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" variant="standard" />
 
           <TextField
+            error={errorHostMysql ? true : false}
+            helperText={errorHostMysql ? errorHostMysql : ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -497,8 +569,10 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
                 </InputAdornment>
               ),
             }}
-            style={{ width: "80%" }} id="host_address" value={connectionData.host_address} onChange={handleConnectionData} label="Host/IP address" name='host_address' variant="standard" />
+            style={{ width: "100%" }} id="host_address" value={connectionData.host_address} onChange={handleConnectionData} label="Host/IP address" name='host_address' variant="standard" />
           <TextField
+            error={errorPortMysql ? true : false}
+            helperText={errorPortMysql ? errorPortMysql : ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -506,10 +580,10 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
                 </InputAdornment>
               ),
             }}
-            style={{ width: "80%" }} id="port" value={connectionData.port} onChange={handleConnectionData} label="Port" name='port' variant="standard" />
+            style={{ width: "100%" }} id="port" value={connectionData.port} onChange={handleConnectionData} label="Port" name='port' variant="standard" />
         </Col>
         <Col lg={6} sm={12}> <Connection deleteFunc={deleteFunc} datasetname={datasetname} deleteMysqlFile={handleDeleteDatasetList} mysqlFileList={mysqlFileList} postgresFileList={postgresFileList} localUploaded={localUploaded} loader={loader} isConnected={isConnected} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
-        progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key}/></Col>
+          progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} /></Col>
       </Row>
         <Row className='textfield_row' >
           <Col lg={6} sm={12}>
@@ -523,7 +597,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
         </Row></> : <>
         <Row className='textfield_row'>
           <Col lg={6} sm={12} >
-            <FormControl style={{ width: "80%" }}>
+            <FormControl style={{ width: "100%" }}>
               <InputLabel id="demo-simple-select-label">Table name</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -538,7 +612,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
               </Select>
             </FormControl>
             {selectedTable ? <label htmlFor="">Select the columns:</label> : ""}
-            <FormGroup style={{ height: "160px", overflow: "scroll", width: "80%" }}>
+            <FormGroup style={{ height: "160px", overflow: "scroll", width: "100%" }}>
               {allColumns.length > 0 && allColumns.map((eachCol, index) => {
                 console.log(eachCol)
                 return <FormControlLabel control={<Checkbox key={index} onChange={(e) => handleCheckBoxCheck(e, eachCol)} checked={eachCol.checked} />} label={eachCol.value} />
@@ -550,7 +624,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
                 return (eachColSelected.checked ? <Chip label={eachColSelected.value} /> : "")
               })}
             </div>
-            <TextField style={{ width: "80%" }} id="exportedFileName" value={exportedFileName} onChange={(e) => {
+            <TextField style={{ width: "100%" }} id="exportedFileName" value={exportedFileName} onChange={(e) => {
               validateInputField(e.target.value, RegexConstants.NO_SPACE_REGEX)
                 ? setExportedFileName(e.target.value)
                 : e.preventDefault()
@@ -565,7 +639,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
               <Skeleton variant="rectangular" width={210} height={60} />
             </>
               : ""}
-            {!isExported ? <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key}/> :
+            {!isExported ? <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} /> :
               <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} />
             }
           </Col>
@@ -578,14 +652,14 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
               <Button disabled={(exportedFileName != "" && selectedTable.name != "" && datasetname != "") ? false : true} onClick={() => {
                 sendingColumnsSelected()
               }} className='connect_btn'>Export to XLS</Button>
-              <Button onClick={(e) => { disconnectTheDatabase() }} className='disconnect_btn'>Disconnect</Button>
+              <Button id='disconnect_button' onClick={(e) => { disconnectTheDatabase() }} className='disconnect_btn'>Disconnect</Button>
             </Col> :
             <Col lg={6} sm={12}>
               {/* <Button onClick={(e) => handleMetadata(e, '2')} className='connect_btn'>Add metadata</Button> */}
-              <Button disabled={(exportedFileName != "" && selectedTable != "" && datasetname != "") ? false : true} onClick={() => {
+              <Button id='export_to_xls' disabled={(exportedFileName != "" && selectedTable != "" && datasetname != "") ? false : true} onClick={() => {
                 sendingColumnsSelected()
               }} className='connect_btn'>Export to XLS</Button>
-              <Button onClick={(e) => { disconnectTheDatabase() }} className='disconnect_btn'>Disconnect</Button>
+              <Button id='disconnect_button' onClick={(e) => { disconnectTheDatabase() }} className='disconnect_btn'>Disconnect</Button>
             </Col>}
         </Row>
       </>}
