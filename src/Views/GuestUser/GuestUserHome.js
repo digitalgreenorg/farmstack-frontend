@@ -5,6 +5,7 @@ import Footer from "../../Components/Footer/Footer";
 import GuestUserBanner from "../../Components/GuestUser/GuestUserBanner";
 import GuestUserDatasets from "../../Components/GuestUser/GuestUserDatasets";
 import GuestUserDescription from "../../Components/GuestUser/GuestUserDescription";
+import NoDatasetGuestUserPage from "../../Components/GuestUser/NoDatasetGuestUserPage";
 import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
 import Success from "../../Components/Success/Success";
@@ -34,6 +35,7 @@ export default function GuestUserHome(props) {
       <GuestUserBanner />
       <GuestUserDescription />
       <GuestUserDatasets />
+      <NoDatasetGuestUserPage/>
       <Footer disableHomeLink={true}/>
     </div>
   );
