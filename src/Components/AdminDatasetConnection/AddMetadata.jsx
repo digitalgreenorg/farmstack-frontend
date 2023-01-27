@@ -4,14 +4,20 @@ import { Button, Col, Row } from 'react-bootstrap'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+// import Select from '@mui/material/Select';
 import CategorySelector from './CategorySelector';
 import { useEffect } from 'react';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import labels from '../../Constants/labels';
+import CategorySelectorList from './CategorySelectorList';
+import { Select } from 'antd';
+import { DatePicker, Space } from 'antd';
+import { DatePickerProps } from 'antd';
+import dayjs from 'dayjs';
 
+const { RangePicker } = DatePicker;
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -32,48 +38,84 @@ const AddMetadata = (props) => {
         setSelectedCat,
         selectedSubCat,
         setSelectedSubCat,
-        handleChangeSubCatList, SubCatList,
+        handleChangeSubCatList, SubCatList, newSelectedCategory, newSelectedSubCategory, setNewSelectedSubCategory,
         allCatFetched, handleSubCategoryListForFinal, finalJson, lengthOfSubCat } = props
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     let sublist = []
     let catList = Object.keys(finalJson)
+    console.log(finalJson)
     for (let i = 0; i < catList.length; i++) {
-        sublist = [...sublist, ...finalJson[catList[i]]]
-    }
-    useEffect(() => {
+        console.log(catList[i])
+        for (let j = 0; j < finalJson[catList[i]]?.length; j++) {
+            console.log(finalJson[catList[i]][j])
+            sublist.push(catList[i] + "-" + finalJson[catList[i]][j])
 
-    }, [categoryNameList])
+        }
+        // sublist = [...sublist, ...]
+    }
+    console.log(sublist, props.fromdate, props.todate, props.Switchchecked)
+
+    const options = [
+    ]
+
+    for (let i = 0; i < catList.length; i++) {
+        console.log(allCatFetched)
+        for (let j = 0; j < allCatFetched[catList[i]]?.length; j++) {
+            let obj = { label: allCatFetched[catList[i]][j], value: catList[i] + "-" + allCatFetched[catList[i]][j] }
+            options.push(obj)
+        }
+    }
+
+    const onChange = (date, dateString) => {
+        props.handleChangeFromDate(new Date(dateString[0]))
+        props.handleChangeToDate(new Date(dateString[1]))
+    };
+
+    console.log("OPTIONS", options)
+
+    // for (let i = 0; i < allCatFetched.length; i++) {
+    //     options.push({ label: subCategoryNameList[i], value: subCategoryNameList[i]  })
+    // }
+
+
+
+
+    // const handleChange = (value = []) => {
+    //     handleChangeSubCatList()
+    // };
+    useEffect(() => {
+        setNewSelectedSubCategory([...sublist])
+    }, [])
     return (
         <>
-            <Row style={{ height: "200px" }}>
+            <Row style={{}}>
 
-                <Col xs="12" sm="6" md="6" lg="3">
-                    {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                        <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            value={category}
-                            onChange={handleChange}
-                            label="Category"
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={10}></MenuItem>
-                            <MenuItem value={20}></MenuItem>
-                            <MenuItem value={30}></MenuItem>
-                        </Select>
-                    </FormControl> */}
+                <Col xs="12" sm="6" md="6" lg="4">
 
-                    <CategorySelector selectedCat={selectedCat} heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} />
+
+                    {/* <CategorySelector selectedCat={selectedCat} heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} /> */}
+                    <CategorySelectorList newSelectedCategory={newSelectedCategory} selectedCat={selectedCat} heading={"Category"} handler={handleChangeCategory} category={category} list={categoryNameList} />
 
                 </Col>
-                <Col xs="12" sm="6" md="6" lg="3">
+                <Col xs="12" sm="6" md="6" lg="4">
+
+
+                    <label htmlFor="">Sub categories</label>
+                    <Select
+                        mode="tags"
+                        placeholder="Please select"
+                        // defaultValue={[]}
+                        value={newSelectedSubCategory}
+                        onChange={handleChangeSubCatList}
+                        style={{ width: '100%' }}
+                        options={options}
+                        maxTagCount='responsive'
+                    />
 
                     <FormControl sx={{ m: 1, width: 250 }}>
-                        <InputLabel id="demo-multiple-checkbox-label">{"Sub categories"}</InputLabel>
-                        <Select name="sub_category" id="sub_cat">
+                        {/* <InputLabel id="demo-multiple-checkbox-label">{"Sub categories"}</InputLabel> */}
+
+                        {/* <Select name="sub_category" id="sub_cat" >
                             {Object.keys(selectedCat).map((key) => {
                                 return allCatFetched[key].map((sub) => {
                                     return <span style={{ display: "flex", justifyContent: "space-evenly" }}><Checkbox checked={sublist.includes(sub)} onClick={(e) => handleSubCategoryListForFinal(e.target.checked, sub, key)} />
@@ -81,8 +123,9 @@ const AddMetadata = (props) => {
                                     </span>
                                 })
 
-                            })}
-                            {/* {Object.keys(allCatFetched).map((key) => {
+                            })} */}
+
+                        {/* {Object.keys(allCatFetched).map((key) => {
                                 if (category.includes(key)) {
                                     console.log(allCatFetched[key], key)
                                     allCatFetched[key].map((sub_cat) => {
@@ -90,41 +133,48 @@ const AddMetadata = (props) => {
                                     })
                                 }
                             })} */}
-                            {/* {category.map(()=>{
+                        {/* {category.map(()=>{
                                 allCatFetched
                             })} */}
-                            {/* {Object.keys(selectedCat).map((key)=>{
+                        {/* {Object.keys(selectedCat).map((key)=>{
 
                             })} */}
-                        </Select>
+                        {/* </Select> */}
                     </FormControl>
                     {/* <CategorySelector heading={"Sub category"} handler={handleSubCategory} category={subCategory} list={subCategoryNameList} /> */}
                 </Col>
-                <Col xs="12" sm="6" md="6" lg="3">
-                    <FormControl sx={{ m: 1, width: "250px" }}>
-                        <InputLabel id="demo-simple-select-standard-label">Geography</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            value={geography}
-                            onChange={handleChangeGeography}
-                            label="Geography"
-                        >
-                            {/* <MenuItem value="">
+                <Col xs="12" sm="6" md="6" lg="4">
+                    {/* <FormControl sx={{ m: 1, width: "250px" }}> */}
+                    {/* <InputLabel id="demo-simple-select-standard-label">Geography</InputLabel> */}
+                    <label htmlFor="">Geography</label>
+                    <Select
+                        // mode="tags"
+                        placeholder="Please select geography"
+                        style={{ width: '100%' }}
+                        maxTagCount='responsive'
+                        // labelId="demo-simple-select-standard-label"
+                        // id="demo-simple-select-standard"
+                        value={geography}
+                        onChange={handleChangeGeography}
+                        options={[
+                            { value: "India", label: "India" },
+                            { value: "Ethiopia", label: "Ethiopia" },
+                            { value: "Kenya", label: "Kenya" }
+                        ]}
+                    // label="Geography"
+                    >
+                        {/* <MenuItem value="">
                                 <em>None</em>
                             </MenuItem> */}
-                            <MenuItem value={"India"}>India</MenuItem>
-                            <MenuItem value={"Ethiopia"}>Ethiopia</MenuItem>
-                            <MenuItem value={"Kenya"}>Kenya</MenuItem>
-                        </Select>
-                    </FormControl>
+                        {/* <MenuItem value={"India"}>India</MenuItem>
+                        <MenuItem value={"Ethiopia"}>Ethiopia</MenuItem>
+                        <MenuItem value={"Kenya"}>Kenya</MenuItem> */}
+                    </Select>
+                    {/* </FormControl> */}
                 </Col>
 
-                <Col xs="12" sm="6" md="6" lg="3">
-                    {/* Selected Subcategory
-                    <ul>
-                        
-                    </ul> */}
+                {/* <Col xs="12" sm="6" md="6" lg="3">
+                    
 
                     <label htmlFor="">Selected Category list</label>
                     <List sx={{
@@ -143,34 +193,44 @@ const AddMetadata = (props) => {
                             </ListItem>
                         }))}
                     </List>
-                </Col>
+                </Col> */}
             </Row>
             <Row>
-                <Col xs={12} sm={12} md={6} lg={6}>
-                    <span className="AddDatasetsecondaryheading">
+                <Col xs={12} sm={12} md={6} lg={3}></Col>
+                <Col xs={12} sm={12} md={6} lg={6} style={{ textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center" }} >
+                    <Row style={{ textAlign: "center", display: "inline-block" }}>
+                        {/* <span className=""> */}
                         {screenlabels.dataset.Interval}
-                    </span>
+                        {/* </span> */}
+                    </Row>
+                    <Row style={{ textAlign: "center", display: "inline-block" }}>
+                        <FormControlLabel
+                            value="start"
+                            control={
+                                <Switch
+                                    checked={props.Switchchecked}
+                                    onChange={props.handleChangeSwitch}
+                                    inputProps={{ "aria-label": "controlled" }}
+                                />
+                            }
+                            label={screenlabels.dataset.Constantly_updating}
+                            labelPlacement="start"
+                            className=""
+                        />
+                    </Row>
+                    <Row style={{ textAlign: "center", display: "inline-block" }}>
+                        <RangePicker allowClear={false} inputReadOnly value={(props.fromdate && props.todate) ? [dayjs(props.fromdate), dayjs(props.todate)] : ""}
+                            disabled={props.Switchchecked ? true : false} onChange={onChange} />
+                    </Row>
                 </Col>
-                <Col xs={12} sm={12} md={6} lg={6}>
-                    <FormControlLabel
-                        value="start"
-                        control={
-                            <Switch
-                                checked={props.Switchchecked}
-                                onChange={props.handleChangeSwitch}
-                                inputProps={{ "aria-label": "controlled" }}
-                            />
-                        }
-                        label={screenlabels.dataset.Constantly_updating}
-                        labelPlacement="start"
-                        className="constantswitch"
-                    />
-                </Col>
+                <Col xs={12} sm={12} md={6} lg={3}></Col>
+
             </Row>
-            {props.Switchchecked ? (
-                <Row>
-                    <Col xs={12} sm={12} md={6} lg={6} className="FromDate">
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+            {/* {props.Switchchecked ? ( */}
+            {/* <Row> */}
+            {/* <Col xs={12} sm={12} md={6} lg={12} className="FromDate"> */}
+            {/* <RangePicker disabled onChange={onChange} /> */}
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 inputFormat="dd/MM/yyyy"
                                 disabled
@@ -187,10 +247,10 @@ const AddMetadata = (props) => {
                                 error={props.dataCaptureStartErrorMessage ? true : false}
                                 helperText={props.dataCaptureStartErrorMessage}
                             />
-                        </LocalizationProvider>
-                    </Col>
-                    <Col xs={12} sm={12} md={6} lg={6} className="toDate">
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        </LocalizationProvider> */}
+            {/* </Col> */}
+            {/* <Col xs={12} sm={12} md={6} lg={6} className="toDate"> */}
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 disabled
                                 value={props.todate}
@@ -207,20 +267,21 @@ const AddMetadata = (props) => {
                                 error={props.dataCaptureEndErrorMessage ? true : false}
                                 helperText={props.dataCaptureEndErrorMessage}
                             />
-                        </LocalizationProvider>
-                    </Col>
-                </Row>
-            ) : (
-                <Row>
-                    <Col
-                        xs={12}
-                        sm={12}
-                        md={6}
-                        lg={6}
-                        className="FromDate addDatasetFromdate"
-                    >
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
+                        </LocalizationProvider> */}
+            {/* </Col> */}
+            {/* </Row> */}
+            {/* ) : ( */}
+            {/* <Row>
+                <Col
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    lg={12}
+                    className="FromDate addDatasetFromdate"
+                >
+                    <RangePicker onChange={onChange} /> */}
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}> */}
+            {/* <DatePicker
                                 inputFormat="dd/MM/yyyy"
                                 disableFuture
                                 label={screenlabels.dataset.Start_Date}
@@ -235,17 +296,17 @@ const AddMetadata = (props) => {
                                         aria-readonly
                                     />
                                 )}
-                            />
-                        </LocalizationProvider>
-                    </Col>
-                    <Col
-                        xs={12}
-                        sm={12}
-                        md={6}
-                        lg={6}
-                        className="toDate addDatasetTodate"
-                    >
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            /> */}
+            {/* </LocalizationProvider> */}
+            {/* </Col> */}
+            {/* <Col
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    lg={6}
+                    className="toDate addDatasetTodate"
+                > */}
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 inputFormat="dd/MM/yyyy"
                                 disabled={props.fromdate ? false : true}
@@ -263,10 +324,10 @@ const AddMetadata = (props) => {
                                     />
                                 )}
                             />
-                        </LocalizationProvider>
-                    </Col>
-                </Row>
-            )}
+                        </LocalizationProvider> */}
+            {/* </Col>
+            </Row> */}
+            {/* )} */}
             <Row style={{ marginTop: "20px" }}>
                 <Col lg={1} >
                     {/* <Stack sx={{ width: "100%", textAlign: "left" }} spacing={2}> */}

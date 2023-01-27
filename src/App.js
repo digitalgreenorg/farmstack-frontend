@@ -21,6 +21,9 @@ import SessionExpired from "./Components/SessionExpired/SessionExpired";
 import GuestUserHome from "./Views/GuestUser/GuestUserHome";
 import GuestUserLegal from "./Views/GuestUser/GuestUserLegal";
 import GuestUserContact from "./Views/GuestUser/GuestUserContact";
+import AddParticipantRegistrationForm from "./Components/PatricipantRegistration/AddParticipantRegistrationform"
+import ViewMetaDatasetDetails from "./Components/AdminDatasetConnection/ViewMetaDatasetDetails";
+import Viewdetails from "./Components/GuestUser/Viewdetails";
 function App() {
   return (
     <React.Fragment>
@@ -39,8 +42,10 @@ function App() {
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error" component={Error} />
           <Route exact path="/home" component={GuestUserHome} />
+          <Route exact path="/home/viewdataset/:id" component={Viewdetails} />
           <Route exact path="/legal" component={GuestUserLegal} />
           <Route exact path="/contact" component={GuestUserContact} />
+          <Route exact path="/participantregistration" component={AddParticipantRegistrationForm} />
           <Redirect from="/" to="/home" />
         </Switch>
       </Router>

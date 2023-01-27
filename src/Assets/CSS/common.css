@@ -985,3 +985,8 @@ button.disbalesubmitbtndept {
   align-items: center;
   text-align: center;
 }
+
+.ant-message-notice-content {
+  position: absolute !important;
+  left: 0px !important;
+}

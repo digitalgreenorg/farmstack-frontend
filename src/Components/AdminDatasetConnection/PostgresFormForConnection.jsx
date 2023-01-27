@@ -16,7 +16,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { useHistory } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { GetErrorHandlingRoute, getTokenLocal, validateInputField } from '../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, getTokenLocal, validateInputField } from '../../Utils/Common';
 import RegexConstants from '../../Constants/RegexConstants';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -26,7 +26,9 @@ import ClearIcon from '@mui/icons-material/Clear';
 import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Axios from 'axios';
-const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
+import { Visibility, VisibilityOff } from '@material-ui/icons';
+const PostgresFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, handleTab, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList,
+  progress, setProgress, uploadFile, setFile, key }) => {
   const history = useHistory();
   //exported file name
   const [exportedFileName, setExportedFileName] = useState("")
@@ -39,6 +41,19 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
   const [loader, setLoader] = useState(true)
   const [spinner, setSpinner] = useState(true)
 
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const [errorDatabaseNamePostgres, seteErrorDatabaseNamePostgres] = useState("")
+  const [errorDatabaseUserNamePostgres, seteErrorDatabseUserNamePostgres] = useState("")
+  const [errorPasswordPostges, seteErrorUserNamePostgres] = useState("")
+  const [errorHostPostges, seteErrorHostPostgres] = useState("")
+  const [errorPortPostges, seteErrorPortPostgres] = useState("")
 
   //connection details
   const [connectionData, setConnectionData] = useState({
@@ -122,15 +137,41 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
         }
 
         //clear input fields
-        setConnectionData({
-          ...connectionData, ...dataForReset
-        })
+        // setConnectionData({
+        //   ...connectionData, ...dataForReset
+        // })
+        var returnValues = GetErrorKey(err, ["database", "username", "password", "host", "port"])
+        var errorKeys = returnValues[0]
+        var errorMessages = returnValues[1]
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            console.log(errorKeys[i])
+            switch (errorKeys[i]) {
+              case "database": seteErrorDatabaseNamePostgres(errorMessages[i]); break;
+              case "username": seteErrorDatabseUserNamePostgres(errorMessages[i]); break;
+              case "password": seteErrorUserNamePostgres(errorMessages[i]); break;
+              case "host": seteErrorHostPostgres(errorMessages[i]); break;
+              case "port": seteErrorPortPostgres(errorMessages[i]); break;
+              //if error occurs Alert will be shown as Snackbar
+              default: setMessageForSnackBar("Connection establishment failed!")
+                setErrorOrSuccess("error")
+                handleClick(); break;
+            }
+          }
+        }
+        else {
+          //if error occurs Alert will be shown as Snackbar
+          setMessageForSnackBar("Connection establishment failed!")
+          setErrorOrSuccess("error")
+          handleClick() //toggling toast
+          setIsConnected(false) // move to table form
+        }
 
-        //if error occurs Alert will be shown as Snackbar
-        setMessageForSnackBar("Connection establishment failed!")
-        setErrorOrSuccess("error")
-        handleClick() //toggling toast
-        setIsConnected(false) // move to table form
+        // //if error occurs Alert will be shown as Snackbar
+        // setMessageForSnackBar("Connection establishment failed!")
+        // setErrorOrSuccess("error")
+        // handleClick() //toggling toast
+        // setIsConnected(false) // move to table form
       })
   }
 
@@ -218,9 +259,15 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
     newFormData.append("table_name", table_name)
 
     let token = getTokenLocal();
+    let url = ""
+    if (isDatasetEditModeOn) {
+      url = UrlConstant.base_url + UrlConstant.send_columns_to_export + "?dataset_exists=True"
+    } else {
+      url = UrlConstant.base_url + UrlConstant.send_columns_to_export
+    }
     Axios({
       method: method,
-      url: UrlConstant.base_url + UrlConstant.send_columns_to_export,
+      url,
       data: newFormData,
       headers: {
         "Content-Type": "application/json",
@@ -251,10 +298,39 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
         setIsExported(false)
         setLoader(false)
         console.log(err)
-        //if error occurs Alert will be shown as Snackbar
-        setMessageForSnackBar("File export failed!")
+
+        var returnValues = GetErrorKey(err, newFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
         setErrorOrSuccess("error")
-        handleClick()
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "dataset_name":
+                seteErrorDatasetName(errorMessages[i]);
+                // setMessageForSnackBar(errorMessages[i])
+                handleTab(0)
+                break;
+              case "datasets":
+                // setDataSetFileError(errorMessages[i]);
+                setMessageForSnackBar(errorMessages[i])
+                handleClick()
+
+                break;
+              default:
+                setMessageForSnackBar("Some error occurred during exporting!")
+                handleClick()
+                break;
+            }
+          }
+        } else {
+          setMessageForSnackBar("Some error occurred during exporting!")
+          handleClick()
+        }
+        // //if error occurs Alert will be shown as Snackbar
+        // setMessageForSnackBar("File export failed!")
+        // setErrorOrSuccess("error")
+        // handleClick()
       })
   }
 
@@ -402,6 +478,8 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
       {!isConnected ? <> <Row className='textfield_row'>
         <Col lg={6} sm={12}>
           <TextField
+            error={errorDatabaseNamePostgres ? true : false}
+            helperText={errorDatabaseNamePostgres ? errorDatabaseNamePostgres : ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -409,8 +487,10 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
                 </InputAdornment>
               ),
             }}
-            style={{ width: "80%" }} id="db_name" value={connectionData.db_name} onChange={handleConnectionData} label="Database name" variant="standard" name='db_name' />
+            style={{ width: "100%" }} id="db_name" value={connectionData.db_name} onChange={handleConnectionData} label="Database name" variant="standard" name='db_name' />
           <TextField
+            error={errorDatabaseUserNamePostgres ? true : false}
+            helperText={errorDatabaseUserNamePostgres ? errorDatabaseUserNamePostgres : ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -418,18 +498,35 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
                 </InputAdornment>
               ),
             }}
-            style={{ width: "80%" }} id="user_name" label="User name" value={connectionData.user_name} onChange={handleConnectionData} name='user_name' variant="standard" />
+            style={{ width: "100%" }} id="user_name" label="User name" value={connectionData.user_name} onChange={handleConnectionData} name='user_name' variant="standard" />
           <TextField
+            error={errorPasswordPostges ? true : false}
+            helperText={errorPasswordPostges ? errorPasswordPostges : ""}
+            type={showPassword ? 'text' : 'password'}
+
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <PasswordIcon />
                 </InputAdornment>
               ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
-            style={{ width: "80%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" type={"password"} variant="standard" />
-
+            style={{ width: "100%" }} id="db_password" name="db_password" value={connectionData.db_password} onChange={handleConnectionData} label="Password" variant="standard" />
           <TextField
+            error={errorHostPostges ? true : false}
+            helperText={errorHostPostges ? errorHostPostges : ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -437,8 +534,10 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
                 </InputAdornment>
               ),
             }}
-            style={{ width: "80%" }} id="host_address" value={connectionData.host_address} onChange={handleConnectionData} label="Host/IP address" name='host_address' variant="standard" />
+            style={{ width: "100%" }} id="host_address" value={connectionData.host_address} onChange={handleConnectionData} label="Host/IP address" name='host_address' variant="standard" />
           <TextField
+            error={errorPortPostges ? true : false}
+            helperText={errorPortPostges ? errorPortPostges : ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -446,9 +545,10 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
                 </InputAdornment>
               ),
             }}
-            style={{ width: "80%" }} id="port" value={connectionData.port} onChange={handleConnectionData} label="Port" name='port' variant="standard" />
+            style={{ width: "100%" }} id="port" value={connectionData.port} onChange={handleConnectionData} label="Port" name='port' variant="standard" />
         </Col>
-        <Col lg={6} sm={12}> <Connection deleteFunc={deleteFunc} datasetname={datasetname} deleteMysqlFile={handleDeleteDatasetList} mysqlFileList={mysqlFileList} postgresFileList={postgresFileList} localUploaded={localUploaded} loader={loader} isConnected={isConnected} /></Col>
+        <Col lg={6} sm={12}> <Connection deleteFunc={deleteFunc} datasetname={datasetname} deleteMysqlFile={handleDeleteDatasetList} mysqlFileList={mysqlFileList} postgresFileList={postgresFileList} localUploaded={localUploaded} loader={loader} isConnected={isConnected} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
+          progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} /></Col>
       </Row>
         <Row className='textfield_row' >
           <Col lg={6} sm={12}>
@@ -457,12 +557,12 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
               id='connect_btn_id'
               disabled={(connectionData.db_name.trim() != "" && connectionData.db_password.trim() != "" && connectionData.host_address.trim() != "" && connectionData.port.trim() != "" && connectionData.user_name.trim() != "" && datasetname != "") ? false : true}
               className='connect_btn green_btn_for_connect' onClick={tryToConnect}>Connect </Button>
-            <Button id='cancel_btn_id' className='connect_btn' onClick={() => cancelForm()}> Cancel </Button>
+            {/* <Button id='cancel_btn_id' className='connect_btn' onClick={() => cancelForm()}> Cancel </Button> */}
           </Col>
         </Row></> : <>
         <Row className='textfield_row'>
           <Col lg={6} sm={12} >
-            <FormControl style={{ width: "80%" }}>
+            <FormControl style={{ width: "100%" }}>
               <InputLabel id="demo-simple-select-label">Table name</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -477,7 +577,7 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
               </Select>
             </FormControl>
             {selectedTable ? <label htmlFor="">Select the columns:</label> : ""}
-            <FormGroup style={{ height: "160px", overflow: "scroll", width: "80%" }}>
+            <FormGroup style={{ height: "160px", overflow: "scroll", width: "100%" }}>
               {allColumns.length > 0 && allColumns.map((eachCol, index) => {
                 console.log(eachCol)
                 return <FormControlLabel control={<Checkbox key={index} onChange={(e) => handleCheckBoxCheck(e, eachCol)} checked={eachCol.checked} />} label={eachCol.value} />
@@ -489,7 +589,7 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
                 return (eachColSelected.checked ? <Chip label={eachColSelected.value} /> : "")
               })}
             </div>
-            <TextField style={{ width: "80%" }} id="exportedFileName" value={exportedFileName} onChange={(e) => {
+            <TextField style={{ width: "100%" }} id="exportedFileName" value={exportedFileName} onChange={(e) => {
               validateInputField(e.target.value, RegexConstants.NO_SPACE_REGEX)
                 ? setExportedFileName(e.target.value)
                 : e.preventDefault()
@@ -504,8 +604,8 @@ const PostgresFormForConnection = ({ handleMetadata, localUploaded, setAllFiles,
               <Skeleton variant="rectangular" width={210} height={60} />
             </>
               : ""}
-            {!isExported ? <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} /> :
-              <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} />
+            {!isExported ? <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} /> :
+              <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} />
             }
           </Col>
         </Row>
