@@ -31,6 +31,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios"
 import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Skeleton } from '@mui/material'
 import Success from '../Success/Success';
+import CategorySelectorList from './CategorySelectorList';
 
 //stepper steps label
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
@@ -56,14 +57,26 @@ const AddDataset = (props) => {
     const [lengthOfSubCat, setLengthOfSubCat] = useState(0)
     const [SubCatList, setSubCatList] = React.useState([]);
 
-    const handleChangeSubCatList = (event) => {
-        const {
-            target: { value },
-        } = event;
+
+    const [newSelectedCategory, setNewSelectedCategory] = useState([])
+    const [newSelectedSubCategory, setNewSelectedSubCategory] = useState([])
+
+
+
+    const handleChangeSubCatList = (value) => {
+        console.log("Value1212", value)
+
         setSubCatList(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
+        setNewSelectedSubCategory(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+
+
+
     };
 
     const [allCatFetched, setAllCatFetched] = useState({})
@@ -77,18 +90,8 @@ const AddDataset = (props) => {
 
     //error states for the variable during the complete add dataset flow
     const [errorDatasetName, seteErrorDatasetName] = useState("")
+    const [errorDatasetDescription, setDescriptionErrorMessage] = useState("")
 
-    const [errorDatabaseNameMysql, seteErrorDatabaseNameMysql] = useState("")
-    const [errorDatabaseUserNameMysql, seteErrorDatabseUserNameMysql] = useState("")
-    const [errorPasswordMysql, seteErrorUserNameMysql] = useState("")
-    const [errorHostMysql, seteErrorHostMysql] = useState("")
-    const [errorPortMysql, seteErrorPortMysql] = useState("")
-
-    const [errorDatabaseNamePostgres, seteErrorDatabaseNamePostgres] = useState("")
-    const [errorDatabaseUserNamePostgres, seteErrorDatabseUserNamePostgres] = useState("")
-    const [errorPasswordPostges, seteErrorUserNamePostgres] = useState("")
-    const [errorHostPostges, seteErrorHostPostgres] = useState("")
-    const [errorPortPostges, seteErrorPortPostgres] = useState("")
 
     //tab changer from upload dataset to add metadata
     const handleChange = (event, newValue) => {
@@ -127,16 +130,16 @@ const AddDataset = (props) => {
                 setLocalUploaded([...filteredArray])
                 let updatedArray = uploadFile.filter((item) => item.name !== filename)
                 setFile(updatedArray)
-                
+
             } else if (source == "mysql") {
                 let filteredArray = mysqlFileList.filter((item) => item != filename)
                 setMysqlFileList([...filteredArray])
             } else if (source == "postgres") {
                 let filteredArray = postgresFileList.filter((item) => item != filename)
                 setPostgresFileList([...filteredArray])
-            } else if (source == "liveapi"){
-                 let filteredArray = LiveApiFileList.filter((item) => item != filename)
-                 setLiveApiFileList([...filteredArray])
+            } else if (source == "liveapi") {
+                let filteredArray = LiveApiFileList.filter((item) => item != filename)
+                setLiveApiFileList([...filteredArray])
             }
             // var filteredArray = uploadFile.filter((item) => item.name !== filename)
             // setFile(filteredArray)
@@ -292,11 +295,17 @@ const AddDataset = (props) => {
     const [category, setCategory] = useState([])
 
     const handleChangeCategory = (event) => {
+        console.log(event)
         setMainJson({})
-        const {
-            target: { value },
-        } = event;
+        const value = event
+        // const {
+        //     target: { value },
+        // } = event;
         setCategory(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+        setNewSelectedCategory(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
@@ -387,10 +396,10 @@ const AddDataset = (props) => {
         setMainJson({ ...obj })
         let subCatList = []
 
-        for (let i = 0; i < selectectedCatList.length; i++) {
+        for (let i = 0; i < selectectedCatList?.length; i++) {
             // let obj = {}
             // parent: selectectedCatList[i]
-            subCatList = [...subCatList, ...allCatFetched[selectectedCatList[i]]]
+            subCatList = [...subCatList, ...allCatFetched[selectectedCatList[i]] ? allCatFetched[selectectedCatList[i]] : []]
         }
         // for (let i = 0; i < mainCategoryList.length; i++) {
         // for (let j = 0; j < selectectedCatList.length; j++) {
@@ -415,11 +424,12 @@ const AddDataset = (props) => {
     //handle geography
     const [geography, setGeography] = React.useState('');
 
-    const handleChangeGeography = (e) => {
-        console.log(e.target.value);
-        validateInputField(e.target.value, RegexConstants.connector_name)
-            ? setGeography(e.target.value)
-            : e.preventDefault();
+    const handleChangeGeography = (value) => {
+        console.log(value);
+        setGeography(value)
+        // validateInputField(value, RegexConstants.connector_name)
+        //     ? setGeography(value) : ""
+        //     ;
     };
 
     const [fromdate, setfromdate] = React.useState(null);
@@ -481,6 +491,13 @@ const AddDataset = (props) => {
     const handleAddDatasetSubmit = (e) => {
         console.log(finalJson, "Main")
         let selectedCategory = generateCategoryAndSubCat()
+        let objForFinalSend = { ...finalJson }
+
+        for (let i = 0; i < SubCatList.length; i++) {
+            let parent = SubCatList[i].split("-")[0] //parent == category
+            let child = SubCatList[i].split("-")[1] // child == sub category
+            objForFinalSend[parent] = [...finalJson[parent], child]
+        }
 
         e.preventDefault();
         console.log("clicked on add dataset submit btn11");
@@ -496,43 +513,23 @@ const AddDataset = (props) => {
         // setDataCaptureStartErrorMessage(null);
         // setDataCaptureEndErrorMessage(null);
         // setfileValid(null);
-
+        console.log(objForFinalSend, "FINAL CATEGORY")
         var bodyFormData = new FormData();
         bodyFormData.append("name", datasetname);
         bodyFormData.append("description", govLawDesc);
-        bodyFormData.append("category", JSON.stringify(finalJson));
+        bodyFormData.append("category", JSON.stringify(objForFinalSend));
         bodyFormData.append("user_map", id);
         bodyFormData.append("geography", geography);
-        // if (cropdetail == null) {
-        // bodyFormData.append("crop_detail", "");
+
         //if edit mode is on then one extra key has to be apended so that they can delete the mentioned file as per the id
         if (isDatasetEditModeOn) {
             bodyFormData.append("deleted", JSON.stringify(idsForFilesDeleted))
         }
-        // } else {
-        // bodyFormData.append("crop_detail", cropdetail);
-        // }
+
         bodyFormData.append("constantly_update", Switchchecked);
         bodyFormData.append("data_capture_start", fromdate ? fromdate.toISOString() : "");
         bodyFormData.append("data_capture_end", todate ? todate.toISOString() : "");
-        // bodyFormData.append("age_of_date", value);
-        // if (Switchchecked == true) {
-        //     bodyFormData.append("age_of_date", "");
-        // } else {
-        //     bodyFormData.append("age_of_date", value);
-        // }
-        // if (fromdate != null && Switchchecked == false) {
-        //     bodyFormData.append("data_capture_start", fromdate.toISOString());
-        // }
-        // if (todate != null && Switchchecked == false) {
-        //     bodyFormData.append("data_capture_end", todate.toISOString());
-        // }
-        // fileUpload(bodyFormData, file, "sample_dataset");
-        // bodyFormData.append("connector_availability", "availablevalue");
-        // bodyFormData.append("is_public", "isPublic");
-        // bodyFormData.append("dataset_size", "recordsvalue");
-        // bodyFormData.append("user_map", id);
-        // bodyFormData.append("approval_status", "approved");
+
         setIsLoader(true);
         let obj = { "name": datasetname, description: govLawDesc, category: JSON.stringify(finalJson), user_map: id, geography: geography, deleted: JSON.stringify(idsForFilesDeleted), constantly_update: Switchchecked, data_capture_start: fromdate ? fromdate.toISOString() : "", data_capture_end: todate ? todate.toISOString() : "" }
 
@@ -545,12 +542,7 @@ const AddDataset = (props) => {
             method = "POST"
             url = UrlConstant.base_url + UrlConstant.datasetview
         }
-        // axios.put(url, obj, {
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         Authorization: "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc0MTk0NzIyLCJpYXQiOjE2NzQxMDgzMjIsImp0aSI6IjhlOTQwY2E5YmQ1YTQ2Yzk4ODM1ZDg3MzJhODA2NTMxIiwidXNlcl9pZCI6IjBmNzZjYjkwLTIzOTQtNDk5Yi05YjYwLWJmNGNhZDM3NTFhNCJ9.btRvdNHElIAyCqmabsOWswS7CjtPnba_-JwqQcx6eIg",
-        //     }
-        // })
+
         HTTPService(
             method,
             url,
@@ -572,9 +564,7 @@ const AddDataset = (props) => {
             .catch((e) => {
                 setIsLoader(false);
                 //if error occurs Alert will be shown as Snackbar
-                setMessageForSnackBar("Dataset uploaded failed")
-                setErrorOrSuccess("error")
-                handleClick()
+
                 console.log(e);
                 //console.log(e.response.data.sample_dataset[0]);
                 var returnValues = GetErrorKey(e, bodyFormData.keys());
@@ -584,10 +574,13 @@ const AddDataset = (props) => {
                     for (var i = 0; i < errorKeys.length; i++) {
                         switch (errorKeys[i]) {
                             case "name":
+                                seteErrorDatasetName(errorMessages[i])
+                                setActiveStep('0')
                                 // setnameErrorMessage(errorMessages[i]);
                                 break;
                             case "description":
-                                // setDescriptionErrorMessage(errorMessages[i]);
+                                setDescriptionErrorMessage(errorMessages[i]);
+                                setActiveStep('0')
                                 break;
                             case "category":
                                 // setCategoryErrorMessage(errorMessages[i]);
@@ -611,12 +604,16 @@ const AddDataset = (props) => {
                                 // setfileValid(errorMessages[i]);
                                 break;
                             default:
-                                history.push(GetErrorHandlingRoute(e));
+                                setMessageForSnackBar("Dataset uploaded failed")
+                                setErrorOrSuccess("error")
+                                handleClick()
                                 break;
                         }
                     }
                 } else {
-                    history.push(GetErrorHandlingRoute(e));
+                    setMessageForSnackBar("Dataset uploaded failed")
+                    setErrorOrSuccess("error")
+                    handleClick()
                 }
                 //setfileValid(e.response.data.sample_dataset[0]);
                 // history.push(GetErrorHandlingRoute(e));
@@ -704,6 +701,7 @@ const AddDataset = (props) => {
             let arr = Object.keys(completeCategoryAndSub)
             setMainJson({ ...completeCategoryAndSub })
             setCategory([...arr])
+            setNewSelectedCategory([...arr])
             console.log(data.datasets, "DATASETS")
             setListOfFilesExistInDbForEdit([...data.datasets])
 
@@ -778,8 +776,6 @@ const AddDataset = (props) => {
                     <Col lg={3} sm={6}>
                         <span className='Main_heading_add_dataset'>Add dataset</span>
                     </Col>
-
-
                 </Row>
                 <Row style={{ margin: "20px 0px", padding: "0px" }}>
                     {/* <Col style={{ margin: "0px", padding: "0px" }} lg={3} sm={6}>
@@ -835,8 +831,8 @@ const AddDataset = (props) => {
                                             value={datasetname}
                                             onKeyDown={handledatasetnameKeydown}
                                             onChange={handleChangedatasetname}
-                                            error={nameErrorMessage ? true : false}
-                                            helperText={nameErrorMessage}
+                                            error={errorDatasetName ? true : false}
+                                            helperText={errorDatasetName ? errorDatasetName : ""}
                                             label="Dataset name" variant='filled' className='dataset_name_class' id='dataset_name' placeholder='Enter the dataset name' />
 
                                         <div className="invite-participant-text-editor policyrte">
@@ -859,6 +855,7 @@ const AddDataset = (props) => {
                                                     //   zIndex: 4,
                                                 }}
                                             />
+                                            <span style={{ color: "red", fontSize: "10px", display: "flex", textAlign: "left" }}>{errorDatasetDescription ? errorDatasetDescription : ""}</span>
                                         </div>
 
                                     </Col> : ""}
@@ -872,6 +869,8 @@ const AddDataset = (props) => {
                                                 </TabList>
                                             </Box>
                                             <TabPanel value="1"><Admin_upload_dataset
+                                                handleTab={setActiveStep}
+                                                seteErrorDatasetName={seteErrorDatasetName}
                                                 uploadFile={uploadFile}
                                                 setFile={setFile}
                                                 progress={progress}
@@ -881,16 +880,20 @@ const AddDataset = (props) => {
                                                 handleClick={handleClick}
                                                 isDatasetEditModeOn={isDatasetEditModeOn} handleDeleteDatasetFileInFrontend={handleDeleteDatasetFileInFrontend} listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit} cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
                                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
-                                                setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} 
-                                                 key={key} setKey={setKey}
+                                                setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange}
+                                                key={key} setKey={setKey}
                                                 LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
-                                                /></TabPanel>
+                                            /></TabPanel>
                                             <TabPanel value="2"></TabPanel>
                                         </TabContext>
                                         : ""}
 
                                     {activeStep == 2 ?
                                         <AddMetadata
+
+                                            setNewSelectedSubCategory={setNewSelectedSubCategory}
+                                            newSelectedCategory={newSelectedCategory}
+                                            newSelectedSubCategory={newSelectedSubCategory}
                                             listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit}
                                             handleDeleteDatasetFileInFrontend={handleDeleteDatasetFileInFrontend}
                                             geography={geography}
@@ -943,6 +946,7 @@ const AddDataset = (props) => {
                                     : ""} */}
                                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                         <Button
+                                            id='back_button'
                                             color="inherit"
                                             // disabled={activeStep === 0}
                                             onClick={activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
@@ -951,7 +955,7 @@ const AddDataset = (props) => {
                                             Back
                                         </Button>
                                         <Box sx={{ flex: '1 1 auto' }} />
-                                        {activeStep != 0 && !isSubmitted ? <Button style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
+                                        {activeStep != 0 && !isSubmitted ? <Button id='cancel_button' style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
                                         <Box sx={{ flex: '1 1 auto' }} />
                                         {/* {(isStepOptional(activeStep) && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0)) && (
                                         <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
@@ -959,7 +963,7 @@ const AddDataset = (props) => {
                                         </Button>
                                     )} */}
 
-                                        {activeStep == 2 ? "" : <Button disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
+                                        {activeStep == 2 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
                                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                         </Button>}
                                     </Box>
@@ -972,7 +976,9 @@ const AddDataset = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                </Row></>}
+                </Row>
+                {/* <CategorySelectorList /> */}
+            </>}
         </Container>
     )
 }

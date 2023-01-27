@@ -49,9 +49,9 @@ const useStyles = {
 
 export default function LocalMachineUploadDataset(props) {
   let accesstoken = getTokenLocal();
-  const { setMessageForSnackBar, source,
-    setErrorOrSuccess, progress, setProgress, uploadFile, setFile, key, setKey,
-    handleClick, isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm,  LiveApiFileList, setLiveApiFileList } = props
+  const { setMessageForSnackBar, handleTab, source,
+    setErrorOrSuccess, progress, seteErrorDatasetName, setProgress, uploadFile, setFile, key, setKey,
+    handleClick, isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList } = props
 
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -130,22 +130,24 @@ export default function LocalMachineUploadDataset(props) {
             var returnValues = GetErrorKey(e, bodyFormData.keys());
             var errorKeys = returnValues[0];
             var errorMessages = returnValues[1];
+            setErrorOrSuccess("error")
             if (errorKeys.length > 0) {
               for (var i = 0; i < errorKeys.length; i++) {
                 switch (errorKeys[i]) {
                   case "dataset_name":
-                    setDatasetNameError(errorMessages[i]);
-                    setMessageForSnackBar(errorMessages[i])
+                    seteErrorDatasetName(errorMessages[i]);
+                    // setMessageForSnackBar(errorMessages[i])
+                    handleTab(0)
                     break;
                   case "datasets":
                     setDataSetFileError(errorMessages[i]);
                     setMessageForSnackBar(errorMessages[i])
                     break;
                   default:
-                    history.push(GetErrorHandlingRoute(e));
+                    setMessageForSnackBar("Some error occurred during uploading!")
+                    handleClick()
                     break;
                 }
-                handleClick()
               }
             } else {
               history.push(GetErrorHandlingRoute(e));
@@ -176,7 +178,7 @@ export default function LocalMachineUploadDataset(props) {
           console.log("file deleted")
           var filteredArray = uploadFile.filter((item) => item.name !== filename)
           setFile(filteredArray)
-         // setLocalUploaded(filteredArray)
+          // setLocalUploaded(filteredArray)
         }
         // setFile(null)
       })
@@ -247,6 +249,7 @@ export default function LocalMachineUploadDataset(props) {
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader
+                id="file_uploader_locally"
                 handleChange={(e) => handleFileChange(e)}
                 disabled={!datasetname}
                 name="file"
@@ -264,13 +267,13 @@ export default function LocalMachineUploadDataset(props) {
                 classes="fileUpload"
               />
             </Col>
-{/* 
+            {/* 
             <Col>
             {(uploadFile.length != 0) && localUploaded?
             (<Accordion>
               <Row style={{ maxHeight: "300px", overflowY: "scroll", maxWidth: "500px" }}> */}
-                {/* {uploadFile ? */}
-                  {/* <ol className="uploaddatasetname">
+            {/* {uploadFile ? */}
+            {/* <ol className="uploaddatasetname">
                     {uploadFile.map((item) => {
                       return (<> 
                       <Row key={key}>
@@ -284,7 +287,7 @@ export default function LocalMachineUploadDataset(props) {
                           <DeleteOutlinedIcon
                             onClick={() => (deleteFunc(datasetname, source, item.name))}
                             color='warning' /> */}
-                        {/* </IconButton>
+            {/* </IconButton>
                         </Col>
                         </Row>
                         <LinearProgress variant="determine" value={item?.progress ? item?.progress : 0} key={key} color="success" />
@@ -300,7 +303,7 @@ export default function LocalMachineUploadDataset(props) {
             </Col> */}
             <Col xs={12} sm={12} md={12} lg={6}>
               <ConnectionProgressGif loader={isLoader} datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} mysqlFileList={mysqlFileList} localUploaded={localUploaded}
-                progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key}  LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} />
+                progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} />
             </Col>
           </Row>
           {/* <Row> */}
