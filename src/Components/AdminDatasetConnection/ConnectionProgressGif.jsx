@@ -13,9 +13,13 @@ import { LinearProgress } from '@mui/material';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import circleloader from "../../Assets/Img/circleloader.gif"
+import FileUploaderDetailsAccordian from './FileUploaderDetailsAccordian';
 import AccordionForUploadedFileDetails from './AccordionForUploadedFileDetails';
 import { handleDeleteFile } from './Utils';
-const ConnectionProgressGif = ({ isConnected, loader, mysqlFileList, localUploaded, postgresFileList, deleteFunc, datasetname, deleteMysqlFile, deletePostgresFile, progress, setProgress, uploadFile, key }) => {
+
+const ConnectionProgressGif = ({ isConnected, loader, mysqlFileList, localUploaded, 
+    postgresFileList, deleteFunc, datasetname, deleteMysqlFile, deletePostgresFile, 
+    progress, setProgress, uploadFile, key, setLiveApiFileList, LiveApiFileList, apifield, setApifield}) => {
     const useStyles = {
         // cardcolor: {background:"#FCFCFC", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px", "margin-top": "20px","padding-top":"50px" },
         // togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "1px solid #ebd79c", cursor: "pointer", height: "355px", width: "346px", "margin-left": "20px","margin-top": "20px","padding-top":"50px" },
@@ -28,10 +32,14 @@ const ConnectionProgressGif = ({ isConnected, loader, mysqlFileList, localUpload
     return (
         <div className={styles.nodatamainbox}>
             <Row className='rightSideIndicator'>
-                {localUploaded.length > 0 ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
+                {uploadFile.length > 0 ?  <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
+                    <FileUploaderDetailsAccordian datasetname={datasetname} deleteFunc={deleteFunc} progress={progress} setProgress={setProgress} title={"Local files"} uploadFile={uploadFile} key={key}
+                    loader={loader} source={"file"} />
+                </Col> : ""}
+                {/* {(localUploaded.length > 0 ) ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
                     <AccordionForUploadedFileDetails loader={loader} source={"file"} datasetname={datasetname} deleteFunc={deleteFunc} title={"Local files"} data={localUploaded}
                progress={progress} setProgress={setProgress} uploadFile={uploadFile} key={key} />
-                </Col> : ""}
+                </Col> : ""} */}
 
                 {mysqlFileList.length > 0 ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
                     <AccordionForUploadedFileDetails source={"mysql"} datasetname={datasetname} deleteFunc={deleteFunc} title={"Mysql"} data={mysqlFileList} />
@@ -39,7 +47,10 @@ const ConnectionProgressGif = ({ isConnected, loader, mysqlFileList, localUpload
                 {postgresFileList.length > 0 ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
                     <AccordionForUploadedFileDetails source={"postgresql"} datasetname={datasetname} deleteFunc={deleteFunc} title={"Postgres"} data={postgresFileList} />
                 </Col> : ""}
-                {/* <AccordionForUploadedFileDetails data={mysqlFileList} /> */}
+                {LiveApiFileList.length > 0 ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
+                    <AccordionForUploadedFileDetails source={"liveapi"} datasetname={datasetname} deleteFunc={deleteFunc} title={"liveapi"} data={LiveApiFileList} />
+                </Col> : ""}
+                
             </Row>
             <Row>
 

@@ -33,6 +33,7 @@ import axios from "axios";
 import { LinearProgress } from "@mui/material";
 import { IconButton } from "@mui/material";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { Accordion } from "@mui/material";
 
 const useStyles = {
   btncolor: {
@@ -48,25 +49,25 @@ const useStyles = {
 
 export default function LocalMachineUploadDataset(props) {
   let accesstoken = getTokenLocal();
-  const { setMessageForSnackBar,
-    setErrorOrSuccess,
-    handleClick, isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm } = props
+  const { setMessageForSnackBar, source,
+    setErrorOrSuccess, progress, setProgress, uploadFile, setFile, key, setKey,
+    handleClick, isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm,  LiveApiFileList, setLiveApiFileList } = props
 
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   // const [datasetname, setdatasetname] = useState("");
-  const [uploadFile, setFile] = useState([]);
+  // const [uploadFile, setFile] = useState([]);
   const [fileValid, setfileValid] = useState("")
   const [datasetNameError, setDatasetNameError] = useState(null);
   const [datasetFileError, setDataSetFileError] = useState(null)
   //   loader
   const [isLoader, setIsLoader] = useState(false);
-  const [progress, setProgress] = useState([])
+  // const [progress, setProgress] = useState([])
   //   success screen
   const [isSuccess, setisSuccess] = useState(false);
   const fileTypes = ["XLS", "xlsx", "CSV", "PDF", "JPEG", "JPG", "PNG", "TIFF"]
   const [value, setValue] = useState("1");
-  const [key, setKey] = useState("")
+  // const [key, setKey] = useState("")
 
   useEffect(() => {
     setdatasetname(datasetname);
@@ -99,7 +100,7 @@ export default function LocalMachineUploadDataset(props) {
           const { loaded, total } = progressEvent;
           let percent = Math.floor((loaded * 100) / total);
           console.log(`${loaded}kb of ${total}kb | ${percent}%`);
-          // setProgress(percent);
+          setProgress(percent)
           currentFileList[index].progress = percent;
           setFile(currentFileList)
           setKey(Math.random())
@@ -175,7 +176,7 @@ export default function LocalMachineUploadDataset(props) {
           console.log("file deleted")
           var filteredArray = uploadFile.filter((item) => item.name !== filename)
           setFile(filteredArray)
-          // setLocalUploaded(filteredArray)
+         // setLocalUploaded(filteredArray)
         }
         // setFile(null)
       })
@@ -193,12 +194,11 @@ export default function LocalMachineUploadDataset(props) {
     if (datasetname != null) {
       setFile(currentFileList)
       handleAddDatasetFile(currentFileList)
-
       console.log(currentFileList);
     } else {
       console.log("no dataset name given")
     };
-
+    setFile(uploadFile)
     setfileValid("");
 
   };
@@ -264,14 +264,16 @@ export default function LocalMachineUploadDataset(props) {
                 classes="fileUpload"
               />
             </Col>
-
+{/* 
             <Col>
-              <Row style={{ maxHeight: "300px", overflowY: "scroll", maxWidth: "500px" }}>
-                {uploadFile ?
-                  (<ol className="uploaddatasetname">
+            {(uploadFile.length != 0) && localUploaded?
+            (<Accordion>
+              <Row style={{ maxHeight: "300px", overflowY: "scroll", maxWidth: "500px" }}> */}
+                {/* {uploadFile ? */}
+                  {/* <ol className="uploaddatasetname">
                     {uploadFile.map((item) => {
                       return (<> 
-                      <Row>
+                      <Row key={key}>
                       <Col>
                         <li className="uploadList">
                           {item.name}
@@ -280,9 +282,9 @@ export default function LocalMachineUploadDataset(props) {
                         <Col>
                         <IconButton edge="end" aria-label="delete">
                           <DeleteOutlinedIcon
-                            onClick={() => handleDeleteDatasetList(item.name)}
-                            color='warning' />
-                        </IconButton>
+                            onClick={() => (deleteFunc(datasetname, source, item.name))}
+                            color='warning' /> */}
+                        {/* </IconButton>
                         </Col>
                         </Row>
                         <LinearProgress variant="determine" value={item?.progress ? item?.progress : 0} key={key} color="success" />
@@ -290,16 +292,16 @@ export default function LocalMachineUploadDataset(props) {
                       </>
                       )
                     })}
-                  </ol>)
-
-                  : ("")}
+                  </ol>
               </Row>
-
-            </Col>
-            {/* <Row xs={12} sm={12} md={12} lg={6}>
+              </Accordion> )
+              : ("")}
+                 
+            </Col> */}
+            <Col xs={12} sm={12} md={12} lg={6}>
               <ConnectionProgressGif loader={isLoader} datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} mysqlFileList={mysqlFileList} localUploaded={localUploaded}
-                progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} />
-            </Row> */}
+                progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key}  LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} />
+            </Col>
           </Row>
           {/* <Row> */}
           {/* <Col xs={12} sm={12} md={6} lg={6}>

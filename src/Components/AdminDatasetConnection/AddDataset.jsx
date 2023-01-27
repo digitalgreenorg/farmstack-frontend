@@ -36,7 +36,9 @@ import Success from '../Success/Success';
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 
 const AddDataset = (props) => {
-    const { isDatasetEditModeOn, datasetId } = props
+    const { isDatasetEditModeOn, datasetId, } = props
+    const [uploadFile, setFile] = useState([]);
+    const [progress, setProgress] = useState([])
     const [value, setValue] = React.useState('1');
     const [nameErrorMessage, setnameErrorMessage] = useState(null);
     const [datasetname, setdatasetname] = useState("");
@@ -44,10 +46,12 @@ const AddDataset = (props) => {
     const [allFiles, setAllFiles] = useState([])
     const [mysqlFileList, setMysqlFileList] = useState([])
     const [postgresFileList, setPostgresFileList] = useState([])
+    const [LiveApiFileList, setLiveApiFileList] = useState([])
     const [isLoading, setIsLoader] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
     const history = useHistory()
     const [listOfFilesExistInDbForEdit, setListOfFilesExistInDbForEdit] = useState([])
+    const [key, setKey] = useState("")
 
     const [lengthOfSubCat, setLengthOfSubCat] = useState(0)
     const [SubCatList, setSubCatList] = React.useState([]);
@@ -121,13 +125,22 @@ const AddDataset = (props) => {
             if (source == "file") {
                 let filteredArray = localUploaded.filter((item) => item != filename)
                 setLocalUploaded([...filteredArray])
+                let updatedArray = uploadFile.filter((item) => item.name !== filename)
+                setFile(updatedArray)
+                
             } else if (source == "mysql") {
                 let filteredArray = mysqlFileList.filter((item) => item != filename)
                 setMysqlFileList([...filteredArray])
             } else if (source == "postgres") {
                 let filteredArray = postgresFileList.filter((item) => item != filename)
                 setPostgresFileList([...filteredArray])
+            } else if (source == "liveapi"){
+                 let filteredArray = LiveApiFileList.filter((item) => item != filename)
+                 setLiveApiFileList([...filteredArray])
             }
+            // var filteredArray = uploadFile.filter((item) => item.name !== filename)
+            // setFile(filteredArray)
+            // setKey(Math.random())
 
         }).catch((e) => {
             console.log(e);
@@ -855,12 +868,19 @@ const AddDataset = (props) => {
                                                 </TabList>
                                             </Box>
                                             <TabPanel value="1"><Admin_upload_dataset
+                                                uploadFile={uploadFile}
+                                                setFile={setFile}
+                                                progress={progress}
+                                                setProgress={setProgress}
                                                 setMessageForSnackBar={setMessageForSnackBar}
                                                 setErrorOrSuccess={setErrorOrSuccess}
                                                 handleClick={handleClick}
                                                 isDatasetEditModeOn={isDatasetEditModeOn} handleDeleteDatasetFileInFrontend={handleDeleteDatasetFileInFrontend} listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit} cancelForm={handleResetForm} deleteFunc={deleteHandlerForFile}
                                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
-                                                setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} /></TabPanel>
+                                                setdatasetname={setdatasetname} datasetname={datasetname} setAllFiles={setAllFiles} allFiles={allFiles} localUploaded={localUploaded} setLocalUploaded={setLocalUploaded} handleMetadata={handleChange} 
+                                                 key={key} setKey={setKey}
+                                                LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
+                                                /></TabPanel>
                                             <TabPanel value="2"></TabPanel>
                                         </TabContext>
                                         : ""}
