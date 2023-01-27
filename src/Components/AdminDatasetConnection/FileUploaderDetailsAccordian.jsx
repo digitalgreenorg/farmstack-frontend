@@ -10,8 +10,14 @@ export default function FileUploaderDetailsAccordian({ data, title, deleteFunc, 
     return ( <>
             <Col>
             {/* {(uploadFile.length != 0) && localUploaded? */}
-           { uploadFile ?
-            (<Accordion>
+           <Accordion defaultExpanded={true}>
+               <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+            ></AccordionSummary>
+             { uploadFile ?
+             (<AccordionDetails>
               <Row style={{ maxHeight: "200px", overflowY: "scroll", }}>
                 {/* {uploadFile ? */}
                   <ol className="uploaddatasetname">
@@ -38,10 +44,11 @@ export default function FileUploaderDetailsAccordian({ data, title, deleteFunc, 
                     })}
                   </ol>
               </Row>
-              </Accordion> )
-              : ("")}
+              </AccordionDetails>) : ("")}
+              </Accordion> 
+
                  
             </Col>
 </>
     )
-}
+                  }
