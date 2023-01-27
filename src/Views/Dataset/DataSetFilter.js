@@ -10,9 +10,7 @@ import $ from "jquery";
 import FilterCheckBox from "../../Components/Datasets/FilterCheckBox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { SearchSharp } from "@mui/icons-material";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { InputAdornment } from "@material-ui/core";
+import Select from "react-select";
 import Search from "../../Components/Datasets/Search";
 export default function DataSetFilter(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -27,7 +25,6 @@ export default function DataSetFilter(props) {
         "disabled"
       );
     }, 100);
-    ;
   }, []);
 
   return (
@@ -55,8 +52,8 @@ export default function DataSetFilter(props) {
                   "text-transform": "none",
                 }}
                 onClick={() => props.clearAllFilters()}
-              // variant="outlined"
-              // className="cancelbtn"
+                // variant="outlined"
+                // className="cancelbtn"
               >
                 Clear all
               </Button>
@@ -180,7 +177,7 @@ export default function DataSetFilter(props) {
             />
           </LocalizationProvider>
         </span>
-        {props.fromdate && props.todate && (props.fromdate <= props.todate) ? (
+        {props.fromdate && props.todate && props.fromdate <= props.todate ? (
           <span className="supportsubmitbrn">
             <Button
               onClick={() => props.filterByDates()}
@@ -242,27 +239,13 @@ export default function DataSetFilter(props) {
             }
           />
         ))}
-      {/* {props.showMemberFilters &&
-        
-            <FilterCheckBox
-                label={screenlabels.dataset.enabled}
-                checked={props.isEnabledFilter}
-                handleCheckListFilterChange={() => props.handleEnableStatusFilter(screenlabels.dataset.enabled)}
-            />
-        }
-        {props.showMemberFilters &&
-        
-            <FilterCheckBox
-                label={screenlabels.dataset.disbaled}
-                checked={props.isDisabledFilter}
-                handleCheckListFilterChange={() => props.handleEnableStatusFilter(screenlabels.dataset.disbaled)}
-            />
-        } */}
-      {/* <Row className="supportfiltersecondrowbold">
+      <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img src={require("../../Assets/Img/visibility.svg")} alt="new" />
+          &nbsp;&nbsp;
           {"Data Visiblity"}
         </span>
-      </Row> */}
+      </Row>
       {/* {props.dataAccessFilterDisplay
         ? props.dataAccessFilterDisplay.map((datavisiblity) => (
           <FilterCheckBox
@@ -274,6 +257,65 @@ export default function DataSetFilter(props) {
           />
         ))
         : ""} */}
+      <Row className="supportfiltersecondrowbold">
+        <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img src={require("../../Assets/Img/category.svg")} alt="new" />
+          &nbsp;&nbsp;
+          {screenlabels.dataset.category}
+        </span>
+      </Row>
+      <Select
+        isMulti
+        name="Categories"
+        options={props.categoryFilterOptions ? props.categoryFilterOptions : []}
+        onChange={props.handleCategoryFilterChange}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        value={props.categoryFilterValue}
+      />
+      <Row className="supportfiltersecondrowbold">
+        <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img src={require("../../Assets/Img/subcategory.svg")} alt="new" />
+          &nbsp;&nbsp;
+          {screenlabels.dataset.subcategory}
+        </span>
+      </Row>
+      <Select
+        isMulti
+        name="Subcategories"
+        options={
+          props.subcategoryFilterOptions ? props.subcategoryFilterOptions : []
+        }
+        onChange={props.handleCategoryFilterChange}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        value={props.subcategoryFilterValue}
+        noOptionsMessage={() => "Select a category first"}
+      />
+      <Row>
+        {props.categoryFilterValue.length &&
+        props.subcategoryFilterValue.length ? (
+          <span className="supportsubmitbrn" style={{ marginTop: "15px" }}>
+            <Button
+              onClick={() => props.filterByCategory()}
+              variant="contained"
+              className="enabledatesubmitbtn"
+            >
+              Submit
+            </Button>
+          </span>
+        ) : (
+          <span className="supportsubmitbrn">
+            <Button
+              variant="outlined"
+              className="disbaledatesubmitbtn"
+              style={{ marginTop: "15px" }}
+            >
+              Submit
+            </Button>
+          </span>
+        )}
+      </Row>
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/geography.svg")} alt="new" />
@@ -316,18 +358,7 @@ export default function DataSetFilter(props) {
               />
             )
         )}
-      {/* </Row> */}
-      {/* <Row>
-        {props.geographyList && props.geographyList.map((geography) => (
-            <FilterCheckBox
-                label={geography}
-                checked={props.geoCheckStateList[props.geoMasterList.findIndex((geo)=> geo == geography)]}
-                handleCheckListFilterChange={() => props.handleCheckListFilterChange("geography",props.geoMasterList.findIndex((geo)=> geo == geography))}
-            />
-        ))}  
-      </Row>
-       */}
-      {/* <Row className="supportfiltersecondrowbold">
+      {/*       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/calendar.svg")} alt="new" />
           &nbsp;&nbsp;{screenlabels.dataset.age}
@@ -348,30 +379,6 @@ export default function DataSetFilter(props) {
           className="constantswitch"
         />
       </Row>
-      {/* <Row> */}
-      {/* {props.ageFilterDisplay &&
-        props.ageFilterDisplay.map((ageFilter) => (
-          <FilterCheckBox
-            label={ageFilter.name}
-            checked={ageFilter.isChecked}
-            handleCheckListFilterChange={() =>
-              props.handleFilterChange(
-                ageFilter.index,
-                screenlabels.dataset.age
-              )
-            }
-          />
-        ))} */}
-      {/* </Row> */}
-      {/* <Row>
-        {props.ageList && props.ageList.map((age) => (
-            <FilterCheckBox
-                label={age}
-                checked={props.ageCheckStateList[props.ageMasterList.findIndex((a)=> a == age)]}
-                handleCheckListFilterChange={() => props.handleCheckListFilterChange("age",props.ageMasterList.findIndex((a)=> a == age))}
-            />
-        ))}  
-      </Row> */}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/crop.svg")} alt="new" />
@@ -395,9 +402,8 @@ export default function DataSetFilter(props) {
           error={!props.isCropSearchFound}
           helperText={!props.isCropSearchFound ? "Not found" : ""}
         />
-      </Row> */}
-      {/* <Row> */}
-      {/* {props.cropFilterDisplay &&
+      </Row>
+      {props.cropFilterDisplay &&
         props.cropFilterDisplay.map(
           (cropFilter) =>
             cropFilter.isDisplayed && (
