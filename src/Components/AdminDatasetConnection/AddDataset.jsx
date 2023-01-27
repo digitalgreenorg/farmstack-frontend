@@ -90,6 +90,7 @@ const AddDataset = (props) => {
 
     //error states for the variable during the complete add dataset flow
     const [errorDatasetName, seteErrorDatasetName] = useState("")
+    const [errorDatasetDescription, setDescriptionErrorMessage] = useState("")
 
 
     //tab changer from upload dataset to add metadata
@@ -560,9 +561,7 @@ const AddDataset = (props) => {
             .catch((e) => {
                 setIsLoader(false);
                 //if error occurs Alert will be shown as Snackbar
-                setMessageForSnackBar("Dataset uploaded failed")
-                setErrorOrSuccess("error")
-                handleClick()
+
                 console.log(e);
                 //console.log(e.response.data.sample_dataset[0]);
                 var returnValues = GetErrorKey(e, bodyFormData.keys());
@@ -572,10 +571,13 @@ const AddDataset = (props) => {
                     for (var i = 0; i < errorKeys.length; i++) {
                         switch (errorKeys[i]) {
                             case "name":
+                                seteErrorDatasetName(errorMessages[i])
+                                setActiveStep('0')
                                 // setnameErrorMessage(errorMessages[i]);
                                 break;
                             case "description":
-                                // setDescriptionErrorMessage(errorMessages[i]);
+                                setDescriptionErrorMessage(errorMessages[i]);
+                                setActiveStep('0')
                                 break;
                             case "category":
                                 // setCategoryErrorMessage(errorMessages[i]);
@@ -599,12 +601,16 @@ const AddDataset = (props) => {
                                 // setfileValid(errorMessages[i]);
                                 break;
                             default:
-                                history.push(GetErrorHandlingRoute(e));
+                                setMessageForSnackBar("Dataset uploaded failed")
+                                setErrorOrSuccess("error")
+                                handleClick()
                                 break;
                         }
                     }
                 } else {
-                    history.push(GetErrorHandlingRoute(e));
+                    setMessageForSnackBar("Dataset uploaded failed")
+                    setErrorOrSuccess("error")
+                    handleClick()
                 }
                 //setfileValid(e.response.data.sample_dataset[0]);
                 // history.push(GetErrorHandlingRoute(e));
@@ -845,6 +851,7 @@ const AddDataset = (props) => {
                                                     //   zIndex: 4,
                                                 }}
                                             />
+                                            <span style={{ color: "red", fontSize: "10px", display: "flex", textAlign: "left" }}>{errorDatasetDescription ? errorDatasetDescription : ""}</span>
                                         </div>
 
                                     </Col> : ""}
