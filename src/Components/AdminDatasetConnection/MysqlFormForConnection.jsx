@@ -24,7 +24,7 @@ import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Axios from 'axios';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
+const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList, progress, setProgress, uploadFile, setFile, key }) => {
   const history = useHistory();
   //exported file name
   const [exportedFileName, setExportedFileName] = useState("")
@@ -508,7 +508,8 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
             }}
             style={{ width: "80%" }} id="port" value={connectionData.port} onChange={handleConnectionData} label="Port" name='port' variant="standard" />
         </Col>
-        <Col lg={6} sm={12}> <Connection deleteFunc={deleteFunc} datasetname={datasetname} deleteMysqlFile={handleDeleteDatasetList} mysqlFileList={mysqlFileList} postgresFileList={postgresFileList} localUploaded={localUploaded} loader={loader} isConnected={isConnected} /></Col>
+        <Col lg={6} sm={12}> <Connection deleteFunc={deleteFunc} datasetname={datasetname} deleteMysqlFile={handleDeleteDatasetList} mysqlFileList={mysqlFileList} postgresFileList={postgresFileList} localUploaded={localUploaded} loader={loader} isConnected={isConnected} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
+        progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key}/></Col>
       </Row>
         <Row className='textfield_row' >
           <Col lg={6} sm={12}>
@@ -564,8 +565,8 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, handleMetadata, localUplo
               <Skeleton variant="rectangular" width={210} height={60} />
             </>
               : ""}
-            {!isExported ? <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} /> :
-              <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} />
+            {!isExported ? <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key}/> :
+              <Connection datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} isConnected={isConnected} mysqlFileList={mysqlFileList} localUploaded={localUploaded} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} />
             }
           </Col>
         </Row>

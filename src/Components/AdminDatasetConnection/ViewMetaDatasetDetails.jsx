@@ -195,7 +195,7 @@ export default function ViewMetaDatasetDetails(props) {
                                         Description
                                     </Row>
                                     <Row className="thirdmainheading" style={{ "textAlign": "left", "marginLeft": "50px", "marginTop": "30px", "margin-right": "73px", }}>
-                                        {parse(datasetdescription)}
+                                    {datasetdescription  ?  parse(datasetdescription) : datasetdescription }
                                     </Row>
                                 </Col>
                             </Row>
@@ -319,7 +319,7 @@ export default function ViewMetaDatasetDetails(props) {
                                         <Col style={{ "margin-left": "90px", "marginTop": "-30px" }}>
                                             <Row>{orgdetail.name}</Row>
                                             <Row>{orgdetail.org_email}</Row>
-                                            <Row style={{ "margin-bottom": "-15px" }}>{parse(orgdes)}</Row>
+                                            <Row style={{ "margin-bottom": "-15px" }}>{orgdes ? parse(orgdes) : orgdes}</Row>
                                             <Row>{orgdetail.phone_number}</Row>
                                             <Row>{orgdetail?.address?.city}</Row>
                                             <Row>{orgdetail?.address?.country}</Row>
