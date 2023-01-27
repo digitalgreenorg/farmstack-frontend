@@ -55,11 +55,14 @@ export default function DatasetParticipant() {
   const [searchValOtherOrg, setSearchValOtherOrg] = useState({ val: "" });
 
   const [isShowAll, setIsShowAll] = useState(true);
-  // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
-  // const [isDisabledFilter, setIsDisabledFilter] = useState(false)
-  // const [forReviewFilter, setForReviewFilter] = useState(false)
-  // const [rejectedFilter, setRejectedFilter] = useState(false)
-  // const [approvedFilter, setApprovedFilter] = useState(false)
+
+  const [categoryFilterOptions, setCategoryFilterOptions] = useState([]);
+  const [masterSubcategoryFilterOptions, setMasterSubcategoryFilterOptions] =
+    useState([]);
+  const [subcategoryFilterOptions, setSubcategoryFilterOptions] = useState([]);
+  const [categoryFilterValue, setCategoryFilterValue] = useState([]);
+  const [subcategoryFilterValue, setSubcategoryFilterValue] = useState([]);
+
   const [geoSearchState, setGeoSearchState] = useState("");
   // const [cropSearchState, setCropSearchState] = useState("");
 
@@ -208,6 +211,62 @@ export default function DatasetParticipant() {
     }
   };
 
+  const handleCategoryFilterChange = (value, action) => {
+    // Get which field triggred the event
+    const input_field = action.name;
+
+    if (input_field === "Categories") {
+      setCategoryFilterValue(value);
+      switch (action.action) {
+        case "select-option":
+          // Add more subcategories (children of the selected category) to the subcategories option list
+          const selected_option = action.option;
+          let additional_subcategories = masterSubcategoryFilterOptions.filter(
+            (subcategory) => subcategory.category === selected_option.value
+          );
+          setSubcategoryFilterOptions([
+            ...subcategoryFilterOptions,
+            ...additional_subcategories,
+          ]);
+
+          break;
+        case "remove-value":
+        case "pop-value":
+          // Remove subcategories that belong to the removed category
+          const popped_option = action.removedValue;
+          // Remove subcategory options that belong to the removed category
+          setSubcategoryFilterOptions(
+            subcategoryFilterOptions.filter(
+              (subcategory) => subcategory.category !== popped_option.value
+            )
+          );
+          // Remove selected subcategories that belong to the removed category
+          setSubcategoryFilterValue(
+            subcategoryFilterValue.filter(
+              (subcategory) => subcategory.category !== popped_option.value
+            )
+          );
+          break;
+        case "clear":
+          // Clear all subcategory options
+          setSubcategoryFilterOptions([]);
+          setSubcategoryFilterValue([]);
+          break;
+      }
+    } else if (input_field === "Subcategories") {
+      setSubcategoryFilterValue(value);
+    }
+  };
+
+  const filterByCategory = () => {
+    payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "", {
+      category: categoryFilterValue,
+      subcategory: subcategoryFilterValue,
+    });
+    if (isMemberTab) getMemberDatasets(false);
+    else getMyDataset(false);
+  };
+
   const handleFilterChange = (index, filterName) => {
     // var tempFilterMaster = []
     var isAnyFilterChecked = false;
@@ -331,7 +390,7 @@ export default function DatasetParticipant() {
     //   // }
     //   // setCropFilterMaster(tempFilterMaster)
     //   payload = buildFilterPayLoad("", getUserLocal(), "", "", payloadList, "");
-    // } 
+    // }
     else if (filterName === screenlabels.dataset.status) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
@@ -438,7 +497,7 @@ export default function DatasetParticipant() {
     //   }
     //   setCropFilterDisplay(tempFilerDisplay);
     //   setCropSearchState("");
-    // } 
+    // }
     else if (filterName === screenlabels.dataset.status) {
       tempFilerDisplay = [...statusFilter];
       for (let i = 0; i < tempFilerDisplay.length; i++) {
@@ -811,27 +870,32 @@ export default function DatasetParticipant() {
         setIsLoader(false);
         console.log("filter response:", response);
 
-        // console.log("geography:", response.data.geography);
-
         var geoFilterInput = response.data.geography;
-        // var geoFilter = []
-        // for(var i =0; i<geoFilterInput.length; i++){
-        //     var data = {}
-        //     data['index'] = i;
-        //     data['name'] = geoFilterInput[i]
-        //     data['isChecked'] = false
-        //     geoFilter.push(data)
-        // }
-        // console.log("crop:",response.data.crop_detail)
+
         // var cropFilterInput = response.data.crop_detail;
-        // var cropFilter = []
-        // for(var i =0; i<cropFilterInput.length; i++){
-        //     var data = {}
-        //     data['index'] = i;
-        //     data['name'] = cropFilterInput[i]
-        //     data['isChecked'] = false
-        //     cropFilter.push(data)
-        // }
+
+        let catAndSubcatFilterInput = response.data.category_detail || {};
+
+        let tempCategory = [];
+        let tempSubcategory = [];
+
+        Object.keys(catAndSubcatFilterInput).forEach((cat) => {
+          let category = {};
+
+          category.value = category.label = cat;
+          tempCategory.push(category);
+
+          catAndSubcatFilterInput[cat].forEach((sub_cat) => {
+            let subcategory = {};
+            subcategory.category = cat;
+            subcategory.value = subcategory.label = sub_cat;
+            tempSubcategory.push(subcategory);
+          });
+          // delete category.children;
+        });
+
+        setCategoryFilterOptions(tempCategory);
+        setMasterSubcategoryFilterOptions(tempSubcategory);
 
         // console.log("tempGepList",geoFilter)
         // setGeoFilterMaster(initFilter(geoFilterInput))
@@ -885,8 +949,8 @@ export default function DatasetParticipant() {
           ? memberUrl
           : adminUrl
         : value == "2"
-          ? memberDatasetUrl
-          : datasetUrl,
+        ? memberDatasetUrl
+        : datasetUrl,
       payload,
       false,
       true
@@ -1083,7 +1147,8 @@ export default function DatasetParticipant() {
     datavisiblityPayload,
     agePayload,
     // cropPayload,
-    statusPayload
+    statusPayload,
+    catAndSubcat = null
   ) => {
     let data = {};
     setFilterState({});
@@ -1098,9 +1163,21 @@ export default function DatasetParticipant() {
     } else {
       data["others"] = false;
     }
-    // if (isMemberTab){
-    //     data['org_id'] = getOrgLocal()
-    // }
+
+    if (catAndSubcat !== null) {
+      data["category"] = [];
+      for (const category of catAndSubcat["category"]) {
+        data["category"].push({ [category.value]: [] });
+      }
+
+      for (const subcategory of catAndSubcat["subcategory"]) {
+        for (const cat of data["category"]) {
+          const key = Object.keys(cat)[0];
+          if (key === subcategory.category) cat[key].push(subcategory.value);
+        }
+      }
+    }
+
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
@@ -1173,11 +1250,17 @@ export default function DatasetParticipant() {
     setsecondrow(false);
   };
 
+  const resetCatAndSubcatFilters = () => {
+    setSubcategoryFilterValue([]);
+    setSubcategoryFilterOptions([]);
+    setCategoryFilterValue([]);
+  };
+
   const clearAllFilters = () => {
     setIsShowAll(true);
     resetDateFilters();
     setConstantyUpdateSwitch(false);
-    // resetUrls()
+    resetCatAndSubcatFilters();
     resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
@@ -1265,7 +1348,7 @@ export default function DatasetParticipant() {
     setid(id);
     // setIsLoader(true);
     // setisAdminView(flag);
-    history.push("/participant/dataset/view/" + id)
+    history.push("/participant/dataset/view/" + id);
     // HTTPService(
     //   "GET",
     //   UrlConstant.base_url + UrlConstant.datasetparticipant + id + "/",
@@ -1390,7 +1473,7 @@ export default function DatasetParticipant() {
           ></ViewDataSet>
           <>
             {viewdata.approval_status !== "rejected" &&
-              viewdata.user_id == getUserLocal() ? (
+            viewdata.user_id == getUserLocal() ? (
               <>
                 <Row>
                   <Col xs={12} sm={12} md={6} lg={3}></Col>
@@ -1644,6 +1727,14 @@ export default function DatasetParticipant() {
                   handleGeoSearch={handleGeoSearch}
                   // handleCropSearch={handleCropSearch}
                   dataAccessFilterDisplay={dataAccessFilterDisplay}
+                  // Props for category filter
+                  categoryFilterOptions={categoryFilterOptions}
+                  subcategoryFilterOptions={subcategoryFilterOptions}
+                  categoryFilterValue={categoryFilterValue}
+                  subcategoryFilterValue={subcategoryFilterValue}
+                  handleCategoryFilterChange={handleCategoryFilterChange}
+                  filterByCategory={filterByCategory}
+                  // End of catagory filter props
                   geoFilterDisplay={geoFilterDisplay}
                   // cropFilterDisplay={cropFilterDisplay}
                   ageFilterDisplay={ageFilterDisplay}
