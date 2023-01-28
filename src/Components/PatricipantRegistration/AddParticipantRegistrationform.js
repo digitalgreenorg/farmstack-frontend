@@ -264,7 +264,7 @@ function AddParticipantsRegistrationform(props) {
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
-                pincode &&
+                (pincode.length >= 5) &&
                 firstname &&
                 useremail &&
                 !isuseremailerror &&
