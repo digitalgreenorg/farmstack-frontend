@@ -136,13 +136,13 @@ export default function LiveApiConnection(props) {
              value={authkey}
              onChange={(e) => setAuthKey(e.target.value == "" ? `Bearer ${e.target.value}` : e.target.value)} 
              label="Authentication Key" name='host_address' variant="standard" />
-              <Col lg={6} sm={12} className='textfield_row'>
+              <Col lg={6} sm={12} className='textfield_row' style={{"marginTop": "100px", "marginLeft": "-10px"}}>
               <Button
               id='connect_btn_id'
               disabled={(apifield && authkey) ? false : true}
               className='connect_btn green_btn_for_connect' 
               onClick={() => { handleconnectLiveAPI()}}
-              style={{ width: "180%", marginTop: "80px", marginLeft: "-10px"}} 
+              style={{ width: "180%", marginRight: "-25px"}} 
               >
               Convert to Excel </Button>
               </Col>

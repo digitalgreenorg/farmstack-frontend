@@ -1295,10 +1295,14 @@ export default function DatasetAdmin() {
     setscreenView(tempfilterObject);
   };
   const viewCardDetails = (id, flag) => {
+    console.log(id, flag)
+
+    if (id) {
     setid(id);
+    }
     // setIsLoader(true);
     // setisAdminView(flag);
-    history.push("/datahub/dataset/view/" + id);
+    history.push("/datahub/dataset/view/" + id, {flag});
     // HTTPService(
     //   "GET",
     //   UrlConstant.base_url + UrlConstant.dataset + id + "/",
