@@ -26,33 +26,31 @@ import Success from "../../Components/Success/Success"
 import { useLocation } from 'react-router-dom';
 
 
-
-
 export default function ViewMetaDatasetDetails(props) {
-    const { userType, isMemberTab } = props
+    const { userType, isMemberTab } = props;
     const [visible, setVisible] = useState(false);
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
-    const [datasetdescription, setDatasetDescription] = useState("")
-    const [category, setCategory] = useState({})
+    const [datasetdescription, setDatasetDescription] = useState("");
+    const [category, setCategory] = useState({});
     const [geography, setGeography] = useState(null);
     const [constantlyupdate, setconstantlyupdate] = useState(null);
-    const [fromdate, setFromdate] = useState(null)
-    const [toDate, setToDate] = useState(null)
+    const [fromdate, setFromdate] = useState(null);
+    const [toDate, setToDate] = useState(null);
     const [isFileDataLoaded, setFileDataLoaded] = useState(false);
-    const [isLoading, setLoader] = useState(false)
-    const { id } = useParams()
+    const [isLoading, setLoader] = useState(false);
+    const { id } = useParams();
     const history = useHistory();
-    const [fileData, setfileData] = useState([])
-    const [orgdetail, setOrgDetail] = useState("")
-    const [userdetails, setUserDetails] = useState("")
-    const [orgdes, setorgdes] = useState("")
-    const [isEditModeOn, setIsEditModeOn] = useState(false)
-    const [isDelete, setIsDelete] = useState(false)
+    const [fileData, setfileData] = useState([]);
+    const [orgdetail, setOrgDetail] = useState("");
+    const [userdetails, setUserDetails] = useState("");
+    const [orgdes, setorgdes] = useState("");
+    const [isEditModeOn, setIsEditModeOn] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
     const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
-    const [success, setisSuccess] = useState(false)
-    const fileTypes = ["XLS", "xlsx", "CSV", "PDF", "JPEG", "JPG", "PNG", "TIFF"]
-    const [previewImage, setPreviewImage] = useState("")
-    const location = useLocation()
+    const [success, setisSuccess] = useState(false);
+    const fileTypes = ["XLS", "xlsx", "CSV", "PDF", "JPEG", "JPG", "PNG", "TIFF"];
+    const [previewImage, setPreviewImage] = useState("");
+    const location = useLocation();
 
     console.log(location.state, "location")
     useEffect(() => {
@@ -153,7 +151,8 @@ export default function ViewMetaDatasetDetails(props) {
                                     <span onClick={() => history.push(userType != "guest" ? "/datahub/datasets" : "/home")}>
                                         <img src={require("../../Assets/Img/Vector.svg")} alt="new" />
                                     </span>
-                                    <span className="supportViewDetailsback" onClick={() => history.push(userType != "guest" ? "/datahub/datasets" : "/home")}>
+                                    <span className="supportViewDetailsback" 
+                                    onClick={() => history.push(userType != "guest" ? "/datahub/datasets" : "/home")}>
                                         {"Back"}
                                     </span>
                                 </Col>
@@ -165,7 +164,8 @@ export default function ViewMetaDatasetDetails(props) {
 
                             </Row>
                             <Row>
-                                <Col className="mainheading" xs={12} sm={12} md={12} lg={12} style={{ textAlign: "left", "marginLeft": "98px", "margin-top": "50px" }}>
+                                <Col className="mainheading" xs={12} sm={12} md={12} lg={12}
+                                 style={{ textAlign: "left", "marginLeft": "98px", "margin-top": "50px" }}>
                                     <span>Agricultural Practices Video Dissemintion Data</span>
                                 </Col>
                             </Row>
@@ -173,28 +173,79 @@ export default function ViewMetaDatasetDetails(props) {
                                 <Col style={{ "margin-top": "40px", }}>
                                     <Row className="secondmainheading" >Category</Row>
                                     {Object.keys(category).map((key) => (
-                                        <Row className="thirdmainheadingview" style={{ textAlign: "center", display: "flex", justifyContent: "center", border: "1px solid red", "alignItems": "center", "margin-top": "10px", "border-radius": "10px", "border": "2px solid #83A9C9", "background": "#83A9C9", "width": "150px", "height": "40px" }}>
+                                        <Row className="thirdmainheadingview" 
+                                        style={{ textAlign: "center", 
+                                        display: "flex", 
+                                        justifyContent: "center", 
+                                        border: "1px solid red", 
+                                        "alignItems": "center", 
+                                        "margin-top": "10px", 
+                                        "border-radius": "10px", 
+                                        "border": "2px solid #83A9C9", 
+                                        "background": "#83A9C9", 
+                                        "width": "150px", 
+                                        "height": "40px" }}>
                                             {key}</Row>))}
                                 </Col>
                                 <Col style={{ "margin-top": "40px" }}>
                                     <Row className="secondmainheading">Sub Category</Row>
                                     {Object.keys(category).map((key) => category[key].map((value) => (
-                                        <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #8AA7AD", "background": "#8AA7AD", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                                        <Row className="thirdmainheadingview" 
+                                        style={{ "margin-top": "10px", 
+                                        display: "flex", 
+                                        justifyContent: "center", 
+                                        "border-radius": "10px",
+                                         "border": "2px solid #8AA7AD", 
+                                         "background": "#8AA7AD",
+                                         "width": "150px",
+                                         "height": "40px",
+                                        "text-align": "center", 
+                                        "alignItems": "center", }}>
                                             {value}</Row>)))}
                                 </Col>
                                 <Col style={{ "margin-top": "40px" }}>
                                     <Row className="secondmainheading">Geography</Row>
-                                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #9ABA8F", "background": "#9ABA8F", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                                    <Row className="thirdmainheadingview" 
+                                    style={{ "margin-top": "10px", 
+                                    display: "flex",
+                                    justifyContent: "center", 
+                                    "border-radius": "10px", 
+                                    "border": "2px solid #9ABA8F", 
+                                    "background": "#9ABA8F", 
+                                    "width": "150px", 
+                                    "height": "40px", 
+                                    "text-align": "center", 
+                                    "alignItems": "center", }}>
                                         {geography}</Row>
                                 </Col>
                                 <Col style={{ "margin-top": "40px" }}>
                                     <Row className="secondmainheading">Freshness of Data</Row>
-                                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #DFC780", "background": "#DFC780", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                                    <Row className="thirdmainheadingview" 
+                                    style={{ "margin-top": "10px", 
+                                    display: "flex", 
+                                    justifyContent: "center", 
+                                    "border-radius": "10px", 
+                                    "border": "2px solid #DFC780", 
+                                    "background": "#DFC780", 
+                                    "width": "150px", 
+                                    "height": "40px", 
+                                    "text-align": "center", 
+                                    "alignItems": "center", }}>
                                         {constantlyupdate ? "Yes" : "No"}</Row>
                                 </Col>
                                 <Col style={{ "margin-top": "40px" }}>
                                     <Row className="secondmainheading">Data Capture Interval</Row>
-                                    <Row className="thirdmainheadingview" style={{ "margin-top": "10px", display: "flex", justifyContent: "center", "border-radius": "10px", "border": "2px solid #D9B082", "background": "#D9B082", "width": "150px", "height": "40px", "text-align": "center", "alignItems": "center", }}>
+                                    <Row className="thirdmainheadingview" 
+                                    style={{ "margin-top": "10px", 
+                                    display: "flex", 
+                                    justifyContent: "center", 
+                                    "border-radius": "10px", 
+                                    "border": "2px solid #D9B082", 
+                                    "background": "#D9B082", 
+                                    "width": "150px", 
+                                    "height": "40px", 
+                                    "text-align": "center", 
+                                    "alignItems": "center", }}>
                                         <span>{fromdate ? fromdate : "NA"}</span>
                                         <span>{toDate}</span>
                                     </Row>
@@ -203,10 +254,18 @@ export default function ViewMetaDatasetDetails(props) {
                             </Row>
                             <Row style={{ "margin-left": "32px" }}>
                                 <Col>
-                                    <Row className="mainheading" style={{ "textAlign": "left", "marginLeft": "50px", "marginTop": "50px", "margin-right": "73px", }}>
+                                    <Row className="mainheading" 
+                                    style={{ "textAlign": "left", 
+                                    "marginLeft": "50px", 
+                                    "marginTop": "50px", 
+                                    "margin-right": "73px", }}>
                                         Description
                                     </Row>
-                                    <Row className="thirdmainheading" style={{ "textAlign": "left", "marginLeft": "50px", "marginTop": "30px", "margin-right": "73px", }}>
+                                    <Row className="thirdmainheading" 
+                                    style={{ "textAlign": "left", 
+                                    "marginLeft": "50px", 
+                                    "marginTop": "30px", 
+                                    "margin-right": "73px", }}>
                                         {datasetdescription ? parse(datasetdescription) : datasetdescription}
                                     </Row>
                                 </Col>
@@ -231,7 +290,6 @@ export default function ViewMetaDatasetDetails(props) {
                                     </Alert>
                                 </Stack>
                             </Row>
-
                             <Row
                                 style={{
                                     border: "1px solid #DFDFDF",
@@ -261,7 +319,7 @@ export default function ViewMetaDatasetDetails(props) {
                                                                             return i !== 0 ? <TableCell> {itm3} </TableCell> : ""
                                                                         })
                                                                         }
-                                                                    </TableRow>
+                                                                 </TableRow>
                                                                 )
                                                             }
                                                         })}
@@ -295,7 +353,9 @@ export default function ViewMetaDatasetDetails(props) {
                                         <Row
                                             //   className="supportViewDetailsback"
                                             className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
-                                            style={{ "margin-top": "10px", "marginLeft": "130px", cursor: `${userType != "guest" ? "pointer" : ""}` }}
+                                            style={{ "margin-top": "10px", 
+                                            "marginLeft": "130px",
+                                            cursor: `${userType != "guest" ? "pointer" : ""}` }}
                                             onClick={() =>
                                                 downloadAttachment(UrlConstant.base_url + downloadfile.file, downloadfile.file.split("/")[5]) 
                                             }
@@ -315,8 +375,6 @@ export default function ViewMetaDatasetDetails(props) {
                                 <Col style={{ "marginLeft": "30px", "margin-top": "50px" }}>
                                     <Row className="secondmainheading">
                                         <Col style={{ "margin-left": "-130px" }}>ORGANISATION</Col>
-
-
                                     </Row>
                                     <Col className="thirdmainheading" style={{ "marginLeft": "-17px", "margin-top": "30px" }}>
                                         <Col>
@@ -327,13 +385,21 @@ export default function ViewMetaDatasetDetails(props) {
                                                 sx={{ width: 44, height: 44 }} />
                                         </Col>
                                         <Col style={{ "margin-left": "90px", "marginTop": "-30px"}}>
-                                            <Row style={{"width": "200px", "textAlign": "left",}}>{orgdetail.name}</Row>
-                                            <Row style={{"textAlign": "left", "marginRight": "120px", "width": "200px", "word-break": "break-all" }}>{orgdetail.org_email}</Row>
-                                            <Row style={{ "margin-bottom": "-15px", "textAlign": "left", "marginRight": "120px", "width": "200px"}}>{orgdes ? parse(orgdes) : orgdes}</Row>
+                                            <Row style={{"width": "200px", "textAlign": "left",}}>
+                                            {orgdetail.name}</Row>
+                                            <Row style={{"textAlign": "left", 
+                                            "marginRight": "120px", "width": "200px", 
+                                            "word-break": "break-all" }}>{orgdetail.org_email}</Row>
+                                            <Row style={{ "margin-bottom": "-15px", 
+                                            "textAlign": "left", 
+                                            "marginRight": "120px", 
+                                            "width": "200px"}}>{orgdes ? parse(orgdes) : orgdes}</Row>
                                             <Row>{orgdetail.phone_number}</Row>
                                             <Row>{orgdetail?.address?.city}</Row>
                                             <Row>{orgdetail?.address?.country}</Row>
-                                            <Row style={{ "marginRight": "160px", "textAlign": "left", "width": "200px" }}>{orgdetail?.address?.address}</Row>
+                                            <Row style={{ "marginRight": "160px", 
+                                            "textAlign": "left", 
+                                            "width": "200px" }}>{orgdetail?.address?.address}</Row>
                                             <Row>{orgdetail?.address?.pincode}</Row>
                                         </Col>
                                     </Col>
@@ -344,8 +410,10 @@ export default function ViewMetaDatasetDetails(props) {
                                 }} className='horizontal'></div></Col>
 
                                 <Col style={{ "marginLeft": "80px", "margin-top": "30px" }}>
-                                    <Row style={{ "marginLeft": "-550px", "margin-top": "25px" }}>ROOT USER DETAILS</Row>
-                                    <Col className="thirdmainheading" style={{ "marginLeft": "-550px", "margin-top": "38px" }}>
+                                    <Row style={{ "marginLeft": "-550px", "margin-top": "25px" }}>
+                                        ROOT USER DETAILS</Row>
+                                    <Col className="thirdmainheading" 
+                                    style={{ "marginLeft": "-550px", "margin-top": "38px" }}>
                                         <Row>{userdetails.first_name}</Row>
                                         <Row>{userdetails.last_name}</Row>
                                         <Row>{userdetails.email}</Row>
@@ -361,7 +429,6 @@ export default function ViewMetaDatasetDetails(props) {
                                             onClick={() => setIsEditModeOn(true)}
                                             variant="outlined"
                                             className="submitbtn"
-
                                         >
                                             Edit
                                         </Button>}
