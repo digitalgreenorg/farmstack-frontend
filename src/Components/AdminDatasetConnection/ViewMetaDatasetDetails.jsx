@@ -6,7 +6,7 @@ import labels from "../../Constants/labels";
 import Loader from '../Loader/Loader';
 import HTTPService from '../../Services/HTTPService';
 import { useParams, useHistory } from 'react-router-dom';
-import { GetErrorHandlingRoute, downloadAttachment } from '../../Utils/Common';
+import { GetErrorHandlingRoute, downloadAttachment, isLoggedInUserAdmin, isLoggedInUserParticipant } from '../../Utils/Common';
 import UrlConstant from '../../Constants/UrlConstants';
 import { Stack } from '@mui/material';
 import Table from "@mui/material/Table";
@@ -23,12 +23,13 @@ import { Image } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import Delete from '../../Components/Delete/Delete'
 import Success from "../../Components/Success/Success"
+import { useLocation } from 'react-router-dom';
 
 
 
 
 export default function ViewMetaDatasetDetails(props) {
-    const { userType } = props
+    const { userType, isMemberTab } = props
     const [visible, setVisible] = useState(false);
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     const [datasetdescription, setDatasetDescription] = useState("")
@@ -51,6 +52,9 @@ export default function ViewMetaDatasetDetails(props) {
     const [success, setisSuccess] = useState(false)
     const fileTypes = ["XLS", "xlsx", "CSV", "PDF", "JPEG", "JPG", "PNG", "TIFF"]
     const [previewImage, setPreviewImage] = useState("")
+    const location = useLocation()
+
+    console.log(location.state, "location")
     useEffect(() => {
         getMetaData()
     }, [])
@@ -58,6 +62,7 @@ export default function ViewMetaDatasetDetails(props) {
     useEffect(() => {
         setFileDataLoaded(true)
     }, [fileData])
+console.log(isMemberTab, "isMemberTab")
 
     const getMetaData = () => {
         let url = ""
@@ -353,6 +358,7 @@ export default function ViewMetaDatasetDetails(props) {
                             {userType != "guest" && <Row>
                                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                                 <Col xs={12} sm={12} md={6} lg={6}>
+                                {!location?.state?.flag ? " " :
                                     <Button
                                         onClick={() => setIsEditModeOn(true)}
                                         variant="outlined"
@@ -360,12 +366,13 @@ export default function ViewMetaDatasetDetails(props) {
 
                                     >
                                         Edit
-                                    </Button>
+                                    </Button>}
                                 </Col>
                             </Row>}
                             {userType != "guest" && <Row className="margin">
                                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                                 <Col xs={12} sm={12} md={6} lg={6}>
+                                {!location?.state?.flag ? " " :
                                     <Button
                                         onClick={() => { setIsDelete(true); setisSuccess(false); setisDeleteSuccess(false) }}
                                         style={{ "margin-top": "0px" }}
@@ -373,7 +380,7 @@ export default function ViewMetaDatasetDetails(props) {
                                         className="editbtn"
                                     >
                                         Delete
-                                    </Button>
+                                    </Button> }
                                 </Col>
                             </Row>}
                             <Row className="marginrowtop8px"></Row>
