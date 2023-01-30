@@ -185,14 +185,14 @@ export default function ViewParticipantForm(props) {
 
                 </Col>
             </Row>
-            <hr className="separatorline"/>
-            <Row style={useStyles.marginrowtop}>
+            {/* <hr className="separatorline"/> */}
+            {/* <Row style={useStyles.marginrowtop}> */}
                 {/* <Col xs={12} sm={12} md={12} lg={12}  style={useStyles.left}>
                     <span className="mainheading" style={{"margin-top": "-37px"}}>
                         {screenlabels.viewparticipants.third_heading}
                     </span>
                 </Col> */}
-                <Col xs={12} sm={12} md={12} lg={12} style={{"float":"left", "text-align":"left", "margin-top":"-32px"}}>
+                {/* <Col xs={12} sm={12} md={12} lg={12} style={{"float":"left", "text-align":"left", "margin-top":"-32px"}}>
                 <span className="mainheading" style={{"margin-top": "-37px"}}>
                     {screenlabels.viewparticipants.fourth_heading}
                 </span>
@@ -203,8 +203,8 @@ export default function ViewParticipantForm(props) {
                 </span>
                 </Col>
                 
-            </Row>
-            <Row style={useStyles.marginrowtop}>
+            </Row> */}
+            {/* <Row style={useStyles.marginrowtop}> */}
                 {/* <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
                     <span className="secondmainheading" style={{"float":"left", "text-align":"left", "margin-top":"-62px"}}>
                     {screenlabels.viewparticipants.subscripiton_length}
@@ -219,7 +219,7 @@ export default function ViewParticipantForm(props) {
                     </Tooltip>
 
                 </Col> */}
-            </Row>
+            {/* </Row> */}
             <hr className="separatorline"/>
         </>
     );

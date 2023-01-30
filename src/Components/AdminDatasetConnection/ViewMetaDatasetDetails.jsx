@@ -62,7 +62,7 @@ export default function ViewMetaDatasetDetails(props) {
     useEffect(() => {
         setFileDataLoaded(true)
     }, [fileData])
-console.log(isMemberTab, "isMemberTab")
+    console.log(isMemberTab, "isMemberTab")
 
     const getMetaData = () => {
         let url = ""
@@ -250,6 +250,7 @@ console.log(isMemberTab, "isMemberTab")
                                     >
                                         <TableHead>
                                             {isFileDataLoaded && fileData.map(itm1 => {
+                                                console.log('item before tablerow', itm1)
                                                 return (
                                                     <>
                                                         {itm1.content.map((itm2, i) => {
@@ -265,14 +266,10 @@ console.log(isMemberTab, "isMemberTab")
                                                             }
                                                         })}
                                                     </>
-
                                                 )
                                             })}
-
-
                                         </TableHead>
-                                        <TableBody>
-
+                                         <TableBody>
                                             {isFileDataLoaded && fileData.map(itm1 => {
                                                 return itm1.content.map(itm2 => {
                                                     return (
@@ -285,31 +282,32 @@ console.log(isMemberTab, "isMemberTab")
                                                         </TableRow>
                                                     )
                                                 })
-
                                             })}
-
                                         </TableBody>
                                     </Table>
                                 </Col>
                             </Row>
                             <Row >
                                 <Row className='downloadfiles' >
+                                {userType != "guest" ?
+                                <>
                                     {fileData.map((downloadfile) => (
                                         <Row
                                             //   className="supportViewDetailsback"
                                             className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
                                             style={{ "margin-top": "10px", "marginLeft": "130px", cursor: `${userType != "guest" ? "pointer" : ""}` }}
                                             onClick={() =>
-                                                userType != "guest" ? downloadAttachment(UrlConstant.base_url + downloadfile.file, downloadfile.file.split("/")[5]) : ""
+                                                downloadAttachment(UrlConstant.base_url + downloadfile.file, downloadfile.file.split("/")[5]) 
                                             }
                                         >
                                             <FileDownloadSharpIcon
                                                 style={{ marginRight: "20px" }} />
-                                            <Row>{userType != "guest" ? downloadfile.file.split("/")[5] : downloadfile.file}
+                                            <Row>{downloadfile.file.split("/")[5]} 
                                                 <hr className="separatorline" />
                                                 {/* m */}
                                             </Row>
-                                        </Row>))}
+                                        </Row>))} 
+                                        </> : " " }
                                     <hr className="separatorline" />
                                 </Row>
                             </Row>
@@ -328,24 +326,24 @@ console.log(isMemberTab, "isMemberTab")
                                                 src={UrlConstant.base_url + orgdetail.logo}
                                                 sx={{ width: 44, height: 44 }} />
                                         </Col>
-                                        <Col style={{ "margin-left": "90px", "marginTop": "-30px" }}>
-                                            <Row>{orgdetail.name}</Row>
-                                            <Row>{orgdetail.org_email}</Row>
-                                            <Row style={{ "margin-bottom": "-15px", "textAlign": "left", "marginRight": "120px"  }}>{orgdes ? parse(orgdes) : orgdes}</Row>
+                                        <Col style={{ "margin-left": "90px", "marginTop": "-30px"}}>
+                                            <Row style={{"width": "200px", "textAlign": "left",}}>{orgdetail.name}</Row>
+                                            <Row style={{"textAlign": "left", "marginRight": "120px", "width": "200px", "word-break": "break-all" }}>{orgdetail.org_email}</Row>
+                                            <Row style={{ "margin-bottom": "-15px", "textAlign": "left", "marginRight": "120px", "width": "200px"}}>{orgdes ? parse(orgdes) : orgdes}</Row>
                                             <Row>{orgdetail.phone_number}</Row>
                                             <Row>{orgdetail?.address?.city}</Row>
                                             <Row>{orgdetail?.address?.country}</Row>
-                                            <Row style={{"marginRight" : "160px", "textAlign": "left"}}>{orgdetail?.address?.address}</Row>
+                                            <Row style={{ "marginRight": "160px", "textAlign": "left", "width": "200px" }}>{orgdetail?.address?.address}</Row>
                                             <Row>{orgdetail?.address?.pincode}</Row>
                                         </Col>
                                     </Col>
                                 </Col>
                                 <Col><div style={{
-                                    marginLeft: "-100px",
+                                    marginLeft: "-150px",
                                     marginTop: "40px"
                                 }} className='horizontal'></div></Col>
 
-                                <Col style={{ "marginLeft": "60px", "margin-top": "30px" }}>
+                                <Col style={{ "marginLeft": "80px", "margin-top": "30px" }}>
                                     <Row style={{ "marginLeft": "-550px", "margin-top": "25px" }}>ROOT USER DETAILS</Row>
                                     <Col className="thirdmainheading" style={{ "marginLeft": "-550px", "margin-top": "38px" }}>
                                         <Row>{userdetails.first_name}</Row>
@@ -358,29 +356,29 @@ console.log(isMemberTab, "isMemberTab")
                             {userType != "guest" && <Row>
                                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                                 <Col xs={12} sm={12} md={6} lg={6}>
-                                {!location?.state?.flag ? " " :
-                                    <Button
-                                        onClick={() => setIsEditModeOn(true)}
-                                        variant="outlined"
-                                        className="submitbtn"
+                                    {!location?.state?.flag ? " " :
+                                        <Button
+                                            onClick={() => setIsEditModeOn(true)}
+                                            variant="outlined"
+                                            className="submitbtn"
 
-                                    >
-                                        Edit
-                                    </Button>}
+                                        >
+                                            Edit
+                                        </Button>}
                                 </Col>
                             </Row>}
                             {userType != "guest" && <Row className="margin">
                                 <Col xs={12} sm={12} md={6} lg={3}></Col>
                                 <Col xs={12} sm={12} md={6} lg={6}>
-                                {!location?.state?.flag ? " " :
-                                    <Button
-                                        onClick={() => { setIsDelete(true); setisSuccess(false); setisDeleteSuccess(false) }}
-                                        style={{ "margin-top": "0px" }}
-                                        variant="outlined"
-                                        className="editbtn"
-                                    >
-                                        Delete
-                                    </Button> }
+                                    {!location?.state?.flag ? " " :
+                                        <Button
+                                            onClick={() => { setIsDelete(true); setisSuccess(false); setisDeleteSuccess(false) }}
+                                            style={{ "margin-top": "0px" }}
+                                            variant="outlined"
+                                            className="editbtn"
+                                        >
+                                            Delete
+                                        </Button>}
                                 </Col>
                             </Row>}
                             <Row className="marginrowtop8px"></Row>

@@ -39,7 +39,7 @@ const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 const AddDataset = (props) => {
     const { isDatasetEditModeOn, datasetId, } = props
     const [uploadFile, setFile] = useState([]);
-    const [progress, setProgress] = useState([])
+    const [progress, setProgress] = useState(0)
     const [value, setValue] = React.useState('1');
     const [nameErrorMessage, setnameErrorMessage] = useState(null);
     const [datasetname, setdatasetname] = useState("");
@@ -963,7 +963,7 @@ const AddDataset = (props) => {
                                         </Button>
                                     )} */}
 
-                                        {activeStep == 2 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
+                                        {activeStep == 2 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || LiveApiFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
                                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                         </Button>}
                                     </Box>

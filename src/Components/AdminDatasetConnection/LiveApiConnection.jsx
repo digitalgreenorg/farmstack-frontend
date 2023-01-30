@@ -144,7 +144,7 @@ export default function LiveApiConnection(props) {
               onClick={() => { handleconnectLiveAPI()}}
               style={{ width: "180%", marginRight: "-25px"}} 
               >
-              Convert to Excel </Button>
+              Fetch data </Button>
               </Col>
               </Col>
               <Col>
