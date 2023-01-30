@@ -1345,10 +1345,12 @@ export default function DatasetParticipant() {
     setscreenView(tempfilterObject);
   };
   const viewCardDetails = (id, flag) => {
+    if(id) {
     setid(id);
+    }
     // setIsLoader(true);
     // setisAdminView(flag);
-    history.push("/participant/dataset/view/" + id);
+    history.push("/participant/dataset/view/" + id, {flag});
     // HTTPService(
     //   "GET",
     //   UrlConstant.base_url + UrlConstant.datasetparticipant + id + "/",
@@ -1783,7 +1785,7 @@ export default function DatasetParticipant() {
                           getDatasetList={
                             isMemberTab ? getMemberDatasets : getMyDataset
                           }
-                          viewCardDetails={(id) => viewCardDetails(id, false)}
+                          viewCardDetails={(id) => viewCardDetails(id, true)}
                         />
                       </TabPanel>
                       <TabPanel value="2">

@@ -280,7 +280,10 @@ const AddDataset = (props) => {
     const [editorGovLawValue, setEditorGovLawValue] = React.useState(
         RichTextEditor.createValueFromString(govLawDesc, "html")
     );
-
+    const isValidURL = (string) => {
+        var res = string.match(RegexConstants.connector_name);
+        return res !== null;
+      };
     const handlegovLawChange = (value) => {
         setEditorGovLawValue(value);
         setgovLawDesc(value.toString("html"));
@@ -837,6 +840,7 @@ const AddDataset = (props) => {
                                                 placeholder='Dataset description'
                                                 toolbarConfig={toolbarConfig}
                                                 value={editorGovLawValue}
+                                                onKeyDown={handledatasetnameKeydown}
                                                 onChange={handlegovLawChange}
                                                 required
                                                 id="body-text"

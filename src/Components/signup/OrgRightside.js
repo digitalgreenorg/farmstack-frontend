@@ -804,7 +804,7 @@ export default function OrgRightside(props) {
             props.orgCity &&
             !props.isOrgcityerror &&
             props.Orgcountrybtn &&
-            props.orgPincode &&
+            props.orgPincode.length >= 5 &&
             !props.ispincodeerror &&
             Orgdesbtn &&
             props.orgfile != null &&

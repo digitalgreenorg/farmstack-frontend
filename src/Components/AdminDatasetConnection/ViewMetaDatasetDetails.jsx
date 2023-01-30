@@ -6,7 +6,12 @@ import labels from "../../Constants/labels";
 import Loader from "../Loader/Loader";
 import HTTPService from "../../Services/HTTPService";
 import { useParams, useHistory } from "react-router-dom";
-import { GetErrorHandlingRoute, downloadAttachment } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  downloadAttachment,
+  isLoggedInUserAdmin,
+  isLoggedInUserParticipant,
+} from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import { Stack } from "@mui/material";
 import Table from "@mui/material/Table";
@@ -23,9 +28,10 @@ import { Image } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import Delete from "../../Components/Delete/Delete";
 import Success from "../../Components/Success/Success";
+import { useLocation } from "react-router-dom";
 
 export default function ViewMetaDatasetDetails(props) {
-  const { userType } = props;
+  const { userType, isMemberTab } = props;
   const [visible, setVisible] = useState(false);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [datasetdescription, setDatasetDescription] = useState("");
@@ -48,6 +54,8 @@ export default function ViewMetaDatasetDetails(props) {
   const [success, setisSuccess] = useState(false);
   const fileTypes = ["XLS", "xlsx", "CSV", "PDF", "JPEG", "JPG", "PNG", "TIFF"];
   const [previewImage, setPreviewImage] = useState("");
+  const location = useLocation();
+
   useEffect(() => {
     getMetaData();
   }, []);
@@ -386,8 +394,6 @@ export default function ViewMetaDatasetDetails(props) {
                       overflow: "scroll",
                     }}
                   >
-                    {/* { 
-        //    fileTypes = ["XLS" && "xlsx" && "CSV" ] ?  */}
                     <Col>
                       <Table
                         aria-label="simple table"
@@ -467,7 +473,6 @@ export default function ViewMetaDatasetDetails(props) {
                                 ? downloadfile.file.split("/")[5]
                                 : downloadfile.file}
                               <hr className="separatorline" />
-                              {/* m */}
                             </Row>
                           </Row>
                         ))}
@@ -500,13 +505,23 @@ export default function ViewMetaDatasetDetails(props) {
                         >
                           <Row>{orgdetail.name}</Row>
                           <Row>{orgdetail.org_email}</Row>
-                          <Row style={{ "margin-bottom": "-15px" }}>
+                          <Row
+                            style={{
+                              "margin-bottom": "-15px",
+                              textAlign: "left",
+                              marginRight: "120px",
+                            }}
+                          >
                             {orgdes ? parse(orgdes) : orgdes}
                           </Row>
                           <Row>{orgdetail.phone_number}</Row>
                           <Row>{orgdetail?.address?.city}</Row>
                           <Row>{orgdetail?.address?.country}</Row>
-                          <Row>{orgdetail?.address?.address}</Row>
+                          <Row
+                            style={{ marginRight: "160px", textAlign: "left" }}
+                          >
+                            {orgdetail?.address?.address}
+                          </Row>
                           <Row>{orgdetail?.address?.pincode}</Row>
                         </Col>
                       </Col>
@@ -520,7 +535,6 @@ export default function ViewMetaDatasetDetails(props) {
                         className="horizontal"
                       ></div>
                     </Col>
-
                     <Col style={{ marginLeft: "60px", "margin-top": "30px" }}>
                       <Row
                         style={{ marginLeft: "-550px", "margin-top": "25px" }}
@@ -542,13 +556,17 @@ export default function ViewMetaDatasetDetails(props) {
                     <Row>
                       <Col xs={12} sm={12} md={6} lg={3}></Col>
                       <Col xs={12} sm={12} md={6} lg={6}>
-                        <Button
-                          onClick={() => setIsEditModeOn(true)}
-                          variant="outlined"
-                          className="submitbtn"
-                        >
-                          Edit
-                        </Button>
+                        {!location?.state?.flag ? (
+                          " "
+                        ) : (
+                          <Button
+                            onClick={() => setIsEditModeOn(true)}
+                            variant="outlined"
+                            className="submitbtn"
+                          >
+                            Edit
+                          </Button>
+                        )}
                       </Col>
                     </Row>
                   )}
@@ -556,18 +574,22 @@ export default function ViewMetaDatasetDetails(props) {
                     <Row className="margin">
                       <Col xs={12} sm={12} md={6} lg={3}></Col>
                       <Col xs={12} sm={12} md={6} lg={6}>
-                        <Button
-                          onClick={() => {
-                            setIsDelete(true);
-                            setisSuccess(false);
-                            setisDeleteSuccess(false);
-                          }}
-                          style={{ "margin-top": "0px" }}
-                          variant="outlined"
-                          className="editbtn"
-                        >
-                          Delete
-                        </Button>
+                        {!location?.state?.flag ? (
+                          " "
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              setIsDelete(true);
+                              setisSuccess(false);
+                              setisDeleteSuccess(false);
+                            }}
+                            style={{ "margin-top": "0px" }}
+                            variant="outlined"
+                            className="editbtn"
+                          >
+                            Delete
+                          </Button>
+                        )}
                       </Col>
                     </Row>
                   )}

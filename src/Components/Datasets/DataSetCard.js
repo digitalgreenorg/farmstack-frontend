@@ -16,7 +16,7 @@ import Button from "@mui/material/Button";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import UrlConstants from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useState } from "react";
 import ReactTooltip from "react-tooltip";
 import { getUserLocal, getUserMapId, dateTimeFormat } from "../../Utils/Common";
@@ -24,6 +24,7 @@ import { Tooltip, Zoom } from "@mui/material";
 import parse from "html-react-parser";
 // import successIcon from "../../Assets/Img/successiconsvg.svg"
 import success from "../../Assets/Img/successiconsvg.svg";
+import ViewMetaDatasetDetails from "../AdminDatasetConnection/ViewMetaDatasetDetails";
 
 const useStyles = {
   btncolor: {
@@ -82,8 +83,10 @@ export default function DataSetCard(props) {
   let newimg = document.createElement("img");
   newimg.src = success;
   newimg.alt = "hello";
+  const [show, setShow] = useState(false)
 
   return (
+    <>
     <Card
       className={props.margingtop}
       style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor}
@@ -335,7 +338,7 @@ export default function DataSetCard(props) {
               className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
             >
               <Button
-                onClick={() => props.viewCardDetails()}
+                onClick={() => {props.viewCardDetails(" ", props.isMemberTab)}}
                 variant="outlined"
                 style={useStyles.btncolor}
               >
@@ -348,5 +351,11 @@ export default function DataSetCard(props) {
         </Row>
       </CardContent>
     </Card>
+    {/* {show ? <ViewMetaDatasetDetails 
+
+      isMemberTab = {"props.isMemberTab"}
+      /> : " " } */}
+    
+    </>
   );
 }
