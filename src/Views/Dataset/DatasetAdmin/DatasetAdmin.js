@@ -27,15 +27,12 @@ import {
 import ViewDataSet from "../../../Components/Datasets/viewDataSet";
 import Success from "../../../Components/Success/Success";
 import Delete from "../../../Components/Delete/Delete";
-import TextField from "@mui/material/TextField";
-import Avatar from "@mui/material/Avatar";
 import FileSaver from "file-saver";
 import UrlConstants from "../../../Constants/UrlConstants";
 import Button from "@mui/material/Button";
 import "./DatasetAdmin.css";
 import RegexConstants from "../../../Constants/RegexConstants";
 import ListDataset from "../ListDataset";
-
 
 export default function DatasetAdmin() {
   const [searchInputValue, setSearchInputValue] = useState("");
@@ -68,11 +65,7 @@ export default function DatasetAdmin() {
   );
 
   const [isShowAll, setIsShowAll] = useState(true);
-  // const [isEnabledFilter, setIsEnabledFilter] = useState(false)
-  // const [isDisabledFilter, setIsDisabledFilter] = useState(false)
-  // const [forReviewFilter, setForReviewFilter] = useState(false)
-  // const [rejectedFilter, setRejectedFilter] = useState(false)
-  // const [approvedFilter, setApprovedFilter] = useState(false)
+
   const [geoSearchState, setGeoSearchState] = useState("");
   // const [cropSearchState, setCropSearchState] = useState("");
 
@@ -83,6 +76,14 @@ export default function DatasetAdmin() {
     { index: 0, name: "Public", payloadName: true, isChecked: false },
     { index: 1, name: "Private", payloadName: false, isChecked: false },
   ]);
+
+  const [categoryFilterOptions, setCategoryFilterOptions] = useState([]);
+  const [masterSubcategoryFilterOptions, setMasterSubcategoryFilterOptions] =
+    useState([]);
+  const [subcategoryFilterOptions, setSubcategoryFilterOptions] = useState([]);
+  const [categoryFilterValue, setCategoryFilterValue] = useState([]);
+  const [subcategoryFilterValue, setSubcategoryFilterValue] = useState([]);
+
   // const [geoFilterMaster,setGeoFilterMaster] = useState([])
   const [geoFilterDisplay, setGeoFilterDisplay] = useState([]);
 
@@ -220,6 +221,62 @@ export default function DatasetAdmin() {
     }
   };
 
+  const handleCategoryFilterChange = (value, action) => {
+    // Get which field triggred the event
+    const input_field = action.name;
+
+    if (input_field === "Categories") {
+      setCategoryFilterValue(value);
+      switch (action.action) {
+        case "select-option":
+          // Add more subcategories (children of the selected category) to the subcategories option list
+          const selected_option = action.option;
+          let additional_subcategories = masterSubcategoryFilterOptions.filter(
+            (subcategory) => subcategory.category === selected_option.value
+          );
+          setSubcategoryFilterOptions([
+            ...subcategoryFilterOptions,
+            ...additional_subcategories,
+          ]);
+
+          break;
+        case "remove-value":
+        case "pop-value":
+          // Remove subcategories that belong to the removed category
+          const popped_option = action.removedValue;
+          // Remove subcategory options that belong to the removed category
+          setSubcategoryFilterOptions(
+            subcategoryFilterOptions.filter(
+              (subcategory) => subcategory.category !== popped_option.value
+            )
+          );
+          // Remove selected subcategories that belong to the removed category
+          setSubcategoryFilterValue(
+            subcategoryFilterValue.filter(
+              (subcategory) => subcategory.category !== popped_option.value
+            )
+          );
+          break;
+        case "clear":
+          // Clear all subcategory options
+          setSubcategoryFilterOptions([]);
+          setSubcategoryFilterValue([]);
+          break;
+      }
+    } else if (input_field === "Subcategories") {
+      setSubcategoryFilterValue(value);
+    }
+  };
+
+  const filterByCategory = () => {
+    payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "", {
+      category: categoryFilterValue,
+      subcategory: subcategoryFilterValue,
+    });
+    if (isMemberTab) getMemberDatasets(false);
+    else getMyDataset(false);
+  };
+
   const handleFilterChange = (index, filterName) => {
     // var tempFilterMaster = []
     var isAnyFilterChecked = false;
@@ -252,16 +309,6 @@ export default function DatasetAdmin() {
       }
       setGeoFilterDisplay(tempFilterDisplay);
 
-      // tempFilterMaster = [...geoFilterMaster]
-      // for(let i =0; i<tempFilterMaster.length; i++){
-      //     if(tempFilterMaster[i].index == index){
-      //         tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
-      //     }
-      //     if(tempFilterMaster[i].isChecked){
-      //         payloadList.push(tempFilterMaster[i].name)
-      //     }
-      // }
-      // setGeoFilterMaster(tempFilterMaster)
       payload = buildFilterPayLoad("", getUserLocal(), payloadList, "", "", "");
     } else if (filterName === "datavisiblity") {
       resetFilterState(screenlabels.dataset.geography);
@@ -301,16 +348,6 @@ export default function DatasetAdmin() {
       }
       setAgeFilterDisplay(tempFilterDisplay);
 
-      // tempFilterMaster = [...ageFilterMaster]
-      // for(let i =0; i<tempFilterMaster.length; i++){
-      //     if(tempFilterMaster[i].index == index){
-      //         tempFilterMaster[i].isChecked = !tempFilterMaster[i].isChecked
-      //     }
-      //     if(tempFilterMaster[i].isChecked){
-      //         payloadList.push(tempFilterMaster[i].name)
-      //     }
-      // }
-      // setAgeFilterMaster(tempFilterMaster)
       payload = buildFilterPayLoad("", getUserLocal(), "", payloadList, "", "");
     }
     // else if (filterName == screenlabels.dataset.crop) {
@@ -343,7 +380,7 @@ export default function DatasetAdmin() {
     //   // }
     //   // setCropFilterMaster(tempFilterMaster)
     //   payload = buildFilterPayLoad("", getUserLocal(), "", "", payloadList, "");
-    // } 
+    // }
     else if (filterName === screenlabels.dataset.status) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
@@ -406,15 +443,16 @@ export default function DatasetAdmin() {
   };
 
   const resetFilterState = (filterName) => {
-    var tempfilterMaster = [];
     var tempFilerDisplay = [];
     if (filterName == screenlabels.dataset.geography) {
-      // tempfilterMaster = [...geoFilterMaster]
-      // for(let i=0; i<tempfilterMaster.length; i++){
-      //     tempfilterMaster[i].isChecked = false
-      // }
-      // setGeoFilterMaster(tempfilterMaster)
-
+      tempFilerDisplay = [...geoFilterDisplay];
+      for (let i = 0; i < tempFilerDisplay.length; i++) {
+        tempFilerDisplay[i].isChecked = false;
+        tempFilerDisplay[i].isDisplayed = true;
+      }
+      setGeoFilterDisplay(tempFilerDisplay);
+      setGeoSearchState("");
+    } else if (filterName == screenlabels.dataset.geography) {
       tempFilerDisplay = [...geoFilterDisplay];
       for (let i = 0; i < tempFilerDisplay.length; i++) {
         tempFilerDisplay[i].isChecked = false;
@@ -430,12 +468,6 @@ export default function DatasetAdmin() {
       }
       setDataAccessDisplay(tempFilerDisplay);
     } else if (filterName === screenlabels.dataset.age) {
-      // tempfilterMaster = [...ageFilterMaster]
-      // for(let i=0; i<tempfilterMaster.length; i++){
-      //     tempfilterMaster[i].isChecked = false
-      // }
-      // setAgeFilterMaster(tempfilterMaster)
-
       tempFilerDisplay = [...ageFilterDisplay];
       for (let i = 0; i < tempFilerDisplay.length; i++) {
         tempFilerDisplay[i].isChecked = false;
@@ -462,7 +494,6 @@ export default function DatasetAdmin() {
       tempFilerDisplay = [...statusFilter];
       for (let i = 0; i < tempFilerDisplay.length; i++) {
         tempFilerDisplay[i].isChecked = false;
-        // tempFilerDisplay[i].isDisplayed = true
       }
       setStatusFilter(tempFilerDisplay);
     } else if (filterName == screenlabels.dataset.enabled) {
@@ -472,33 +503,6 @@ export default function DatasetAdmin() {
       setEnableStatusFilter(tempFilerDisplay);
     }
   };
-
-  // const resetEnabledStatusFilter = () => {
-  //     setIsEnabledFilter(false)
-  //     setIsDisabledFilter(false)
-  // }
-
-  // const handleEnableStatusFilter = (filterName) => {
-
-  //     //reset other filters and states
-  //     setIsShowAll(false)
-  //     resetDateFilters()
-  //     // resetUrls()
-  //     resetFilterState(screenlabels.dataset.geography)
-  //     resetFilterState(screenlabels.dataset.age)
-  //     resetFilterState(screenlabels.dataset.crop)
-  //     resetFilterState(screenlabels.dataset.status)
-
-  //     if (filterName == screenlabels.dataset.enabled) {
-  //         setIsEnabledFilter(!isEnabledFilter)
-  //         setIsDisabledFilter(false)
-  //     } else {
-  //         setIsEnabledFilter(false)
-  //         setIsDisabledFilter(!isDisabledFilter)
-  //     }
-  //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-  //     getDatasetList(false)
-  // }
 
   const handleGeoSearch = (e) => {
     var searchFound = false;
@@ -538,10 +542,6 @@ export default function DatasetAdmin() {
     } else {
       data["others"] = false;
     }
-
-    // let ans = await fetch("https://jsonplaceholder.typicode.com/posts")
-    // let data = await ans.json()
-    // console.log("DATAAA", data, datasetList, memberDatasetList, val)
 
     HTTPService(
       "POST",
@@ -604,11 +604,6 @@ export default function DatasetAdmin() {
     payload["others"] = true;
     payload["search_pattern"] = searchValOtherOrg.val.trim();
 
-    // setFilterState(payload)
-    // if(searchDatasetVar){
-    //     payload["search_pattern"] = searchDatasetVar
-    // }
-    // }
     HTTPService(
       "POST",
       // "GET",
@@ -835,8 +830,6 @@ export default function DatasetAdmin() {
         setIsLoader(false);
         console.log("filter response:", response);
 
-        // console.log("geography:", response.data.geography);
-
         var geoFilterInput = response.data.geography;
         // var geoFilter = []
         // for(var i =0; i<geoFilterInput.length; i++){
@@ -857,8 +850,29 @@ export default function DatasetAdmin() {
         //     cropFilter.push(data)
         // }
 
-        // console.log("tempGepList",geoFilter)
-        // setGeoFilterMaster(initFilter(geoFilterInput))
+        let catAndSubcatFilterInput = response.data.category_detail || {};
+
+        let tempCategory = [];
+        let tempSubcategory = [];
+
+        Object.keys(catAndSubcatFilterInput).forEach((cat) => {
+          let category = {};
+
+          category.value = category.label = cat;
+          tempCategory.push(category);
+
+          catAndSubcatFilterInput[cat].forEach((sub_cat) => {
+            let subcategory = {};
+            subcategory.category = cat;
+            subcategory.value = subcategory.label = sub_cat;
+            tempSubcategory.push(subcategory);
+          });
+          // delete category.children;
+        });
+
+        setCategoryFilterOptions(tempCategory);
+        setMasterSubcategoryFilterOptions(tempSubcategory);
+
         setGeoFilterDisplay(initFilter(geoFilterInput));
 
         // setCropFilterMaster(initFilter(cropFilterInput))
@@ -911,8 +925,8 @@ export default function DatasetAdmin() {
           ? memberUrl
           : adminUrl
         : value === "2"
-          ? memberDatasetUrl
-          : datasetUrl,
+        ? memberDatasetUrl
+        : datasetUrl,
       payload,
       false,
       true
@@ -985,14 +999,6 @@ export default function DatasetAdmin() {
       payload = { ...filterState };
     }
 
-    // setIsLoader(true);
-    // if (payload == "") {
-    //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-    //     payload['others'] = false
-    // }
-    // if(isLoadMore){
-    //     payload = {...filterState}
-    // }
     HTTPService(
       "POST",
       // "GET",
@@ -1040,7 +1046,6 @@ export default function DatasetAdmin() {
     if (!isLoadMore) {
       resetUrls();
       if (payload === "") {
-        // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -1048,27 +1053,13 @@ export default function DatasetAdmin() {
         console.log("payload", searchDatasetVar);
 
         setFilterState(payload);
-        // if(searchDatasetVar){
-        //     payload["search_pattern"] = searchDatasetVar
-        // }
       }
     } else {
       payload = { ...filterState };
     }
 
-    // setIsLoader(true);
-    // if (payload == "") {
-    //     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
-    //     payload['others'] = true
-    // }
-    // if(isLoadMore){
-    //     payload = {...filterState}
-    // }
-
     HTTPService(
       "POST",
-      // "GET",
-      // isMemberTab ? memberDatasetUrl : datasetUrl,
       !isLoadMore ? memberUrl : memberDatasetUrl,
       payload,
       false,
@@ -1112,7 +1103,8 @@ export default function DatasetAdmin() {
     datavisiblityPayload,
     agePayload,
     // cropPayload,
-    statusPayload
+    statusPayload,
+    catAndSubcat = null
   ) => {
     let data = {};
     setFilterState({});
@@ -1127,6 +1119,20 @@ export default function DatasetAdmin() {
     } else {
       data["others"] = false;
     }
+    if (catAndSubcat !== null) {
+      data["category"] = [];
+      for (const category of catAndSubcat["category"]) {
+        data["category"].push({ [category.value]: [] });
+      }
+
+      for (const subcategory of catAndSubcat["subcategory"]) {
+        for (const cat of data["category"]) {
+          const key = Object.keys(cat)[0];
+          if (key === subcategory.category) cat[key].push(subcategory.value);
+        }
+      }
+    }
+
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
@@ -1143,7 +1149,6 @@ export default function DatasetAdmin() {
       // }
       // if (agePayload.length>0) {
       data["age_of_date__in"] = agePayload;
-      // }
     }
     if (statusPayload !== "") {
       data["approval_status__in"] = statusPayload;
@@ -1155,6 +1160,7 @@ export default function DatasetAdmin() {
     setFilterState(data);
     return data;
   };
+
   function resetInputSearch() {
     setSearchDatasetVar({ val: "" });
     console.log(searchDatasetVar);
@@ -1184,7 +1190,6 @@ export default function DatasetAdmin() {
       setIsMemberTab(!isMemberTab);
       getMyDataset(false);
     }
-    console.log("isMemberTab", isMemberTab);
 
     console.log("isMemberTab", isMemberTab);
   };
@@ -1195,11 +1200,17 @@ export default function DatasetAdmin() {
     setsecondrow(false);
   };
 
+  const resetCatAndSubcatFilters = () => {
+    setSubcategoryFilterValue([]);
+    setSubcategoryFilterOptions([]);
+    setCategoryFilterValue([]);
+  };
+
   const clearAllFilters = () => {
     setIsShowAll(true);
     setConstantyUpdateSwitch(false);
     resetDateFilters();
-    // resetUrls()
+    resetCatAndSubcatFilters();
     resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
@@ -1284,10 +1295,14 @@ export default function DatasetAdmin() {
     setscreenView(tempfilterObject);
   };
   const viewCardDetails = (id, flag) => {
+    console.log(id, flag)
+
+    if (id) {
     setid(id);
+    }
     // setIsLoader(true);
     // setisAdminView(flag);
-    history.push("/datahub/dataset/view/" + id)
+    history.push("/datahub/dataset/view/" + id, {flag});
     // HTTPService(
     //   "GET",
     //   UrlConstant.base_url + UrlConstant.dataset + id + "/",
@@ -1394,35 +1409,27 @@ export default function DatasetAdmin() {
     // if()
   }
 
-
   // fetching the dataset by get req with the cat and sub created with sql/ local/ PostgresFormForConnection...
 
   function GetAllDatasetUploaded() {
     let url = UrlConstant.base_url + UrlConstant.admin_dataset_new_dataset_v2;
-    let method = "GET"
-    let payload = new FormData()
+    let method = "GET";
+    let payload = new FormData();
     // payload.append("", )
     // payload.append("", )
     // payload.append("", )
-    HTTPService(
-      method,
-      url,
-      payload,
-      false,
-      true,
-      false
-    ).then((response) => {
-      console.log(response, "GET")
-    }).catch((err) => {
-      console.log(err, "ERROR")
-    })
+    HTTPService(method, url, payload, false, true, false)
+      .then((response) => {
+        console.log(response, "GET");
+      })
+      .catch((err) => {
+        console.log(err, "ERROR");
+      });
   }
 
   useEffect(() => {
-    GetAllDatasetUploaded()
-  }, [])
-
-
+    GetAllDatasetUploaded();
+  }, []);
 
   return (
     <>
@@ -1452,8 +1459,8 @@ export default function DatasetAdmin() {
             tabelkeys={tablekeys}
           ></ViewDataSet>
           {isAdminView &&
-            viewdata.approval_status !== "rejected" &&
-            viewdata.user_id === getUserLocal() ? (
+          viewdata.approval_status !== "rejected" &&
+          viewdata.user_id === getUserLocal() ? (
             <>
               <Row>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
@@ -1809,6 +1816,14 @@ export default function DatasetAdmin() {
                   handleGeoSearch={handleGeoSearch}
                   // handleCropSearch={handleCropSearch}
                   dataAccessFilterDisplay={dataAccessFilterDisplay}
+                  // Props for category filter
+                  categoryFilterOptions={categoryFilterOptions}
+                  subcategoryFilterOptions={subcategoryFilterOptions}
+                  categoryFilterValue={categoryFilterValue}
+                  subcategoryFilterValue={subcategoryFilterValue}
+                  handleCategoryFilterChange={handleCategoryFilterChange}
+                  filterByCategory={filterByCategory}
+                  // End of catagory filter props
                   geoFilterDisplay={geoFilterDisplay}
                   // cropFilterDisplay={cropFilterDisplay}
                   ageFilterDisplay={ageFilterDisplay}
@@ -1833,7 +1848,7 @@ export default function DatasetAdmin() {
                   // isCropSearchFound={isCropSearchFound}
                   constantyUpdateSwitch={constantyUpdateSwitch}
                   handleConstantyUpdateSwitch={handleConstantyUpdateSwitch}
-                // setConstantyUpdateSwitch={setConstantyUpdateSwitch}
+                  // setConstantyUpdateSwitch={setConstantyUpdateSwitch}
                 />
               </Col>
               <Col className="supportSecondCOlumn">

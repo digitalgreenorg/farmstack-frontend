@@ -88,6 +88,8 @@
 .green_btn_for_connect {
     border: 1px solid green !important;
     color: green !important;
+    margin: 0px auto !important;
+    display: block !important;
 }
 
 .green_btn_for_connect:hover {

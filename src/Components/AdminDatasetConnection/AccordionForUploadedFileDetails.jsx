@@ -7,7 +7,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 const AccordionForUploadedFileDetails = ({ data, title, deleteFunc, source, datasetname, loader }) => {
     console.log(data)
     return (
-        <Accordion>
+        <Accordion defaultExpanded={true}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"

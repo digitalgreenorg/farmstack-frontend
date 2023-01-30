@@ -84,18 +84,18 @@ export default function GuestUserDatasetCard(props) {
       style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor}
       onMouseEnter={() => setisshowbutton(true)}
       onMouseLeave={() => setisshowbutton(false)}>
-      <Tooltip title={props.title}>
+      {/* <Tooltip title={props.title}> */}
       <div className='cardheaderTitlespecifier text-truncate'>
         <CardHeader
           avatar={
             props.orgLogo ? (
               <Avatar
-              alt="Remy Sharp"
-              src={UrlConstants.base_url_without_slash + props.orgLogo}
-              sx={{ width: 54, height: 54 }}
+                alt="Remy Sharp"
+                src={UrlConstants.base_url_without_slash + props.orgLogo}
+                sx={{ width: 54, height: 54 }}
               />
-              ) : (
-                <Avatar
+            ) : (
+              <Avatar
                 sx={{ bgcolor: "#c09507", width: 54, height: 54 }}
                 aria-label="recipe">
                 {props.orgName.charAt(0)}
@@ -104,7 +104,7 @@ export default function GuestUserDatasetCard(props) {
           }
           // title={props.data.subject}
           // tooltip={<Tooltip title={props.title}>{props.title}</Tooltip>}
-          title={props.title} 
+          title={props.title}
           subheader={parse(`<img className="successIconInsideCardheader" src=${successIcon} alt="hello" />`)}
           style={{
             "background-color": "#f8f9fa",
@@ -113,20 +113,20 @@ export default function GuestUserDatasetCard(props) {
             overflow: "hidden",
             "text-overflow": "ellipsis",
           }}
-          > </CardHeader>
-          </div>
-      </Tooltip>
+        > </CardHeader>
+      </div>
+      {/* </Tooltip> */}
       <CardContent>
-          <Row style={useStyles.datasetdescription}>
-        <Tooltip TransitionComponent={Zoom} title={props.description}>
+        <Row style={useStyles.datasetdescription}>
+          {/* <Tooltip TransitionComponent={Zoom} title={props.description}> */}
 
-          <span style={{maxWidth: "300px"}} className="d-inline-block text-truncate">
+          <span style={{ maxWidth: "300px" }} className="d-inline-block text-truncate">
 
             {props.description}
-            </span> 
-        </Tooltip>
+          </span>
+          {/* </Tooltip> */}
 
-            </Row>
+        </Row>
         <Row>
           <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
             {screenlabels.dataset.organisation_name}
@@ -139,12 +139,12 @@ export default function GuestUserDatasetCard(props) {
         </Row>
         <Row className="supportcardmargintop">
           <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
-            <Tooltip TransitionComponent={Zoom} title={props.orgName}>
-                  <div style={{maxWidth: "135px"}} className="d-inline-block text-truncate">
+            {/* <Tooltip TransitionComponent={Zoom} title={props.orgName}> */}
+            <div style={{ maxWidth: "135px" }} className="d-inline-block text-truncate">
 
-                    {props.orgName}
-                  </div>
-            </Tooltip>
+              {props.orgName}
+            </div>
+            {/* </Tooltip> */}
           </Col>
           <Col
             style={{
@@ -157,7 +157,7 @@ export default function GuestUserDatasetCard(props) {
             {props.publishedon ? dateTimeFormat(props.publishedon, true) : "NA"}
           </Col>
         </Row>
-        <Row>
+        {/* <Row>
           <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
             {"Data Visiblity"}
           </Col>
@@ -166,35 +166,49 @@ export default function GuestUserDatasetCard(props) {
             style={{ textAlign: "left" }}>
             {screenlabels.dataset.crop_details}
           </Col>
+        </Row>  */}
+        <Row>
+          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+            {"constantly update"}
+          </Col>
+          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+            {/* {screenlabels.dataset.crop_details} */}
+          </Col>
         </Row>
         <Row className="supportcardmargintop">
           <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
-
-             <Tooltip TransitionComponent={Zoom} title={props.visiblity ? "Public" : "Private"}>
-                    <div style={{maxWidth: "135px"}} className="d-inline-block text-truncate"> 
-                      {props.visiblity ? "Public" : "Private"}
-                    </div>
-             </Tooltip>
-           
+            {/* <Tooltip
+              TransitionComponent={Zoom}
+              title={props.visiblity ? "Public" : "Private"}
+            > */}
+            <div
+              style={{ maxWidth: "135px" }}
+              className="d-inline-block text-truncate"
+            >
+              {/* {console.log("validdityyy",props.visiblity)} */}
+              {props.constantly_update ? "Yes" : "No"}
+            </div>
+            {/* </Tooltip> */}
           </Col>
-         
-            <Col
-              style={{
-                "padding-right": "4px",
-                color: "#3D4A52",
-                "text-transform": "capitalize",
-                textAlign: "left",
-              }}
-              className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata width173px">
-                 <Tooltip TransitionComponent={Zoom} title={props.cropDetail == "" ? "N/A" : props.cropDetail}>
-                    <div style={{maxWidth: "135px"}} className="d-inline-block text-truncate"> 
-                    {props.cropDetail == "" ? "N/A" : props.cropDetail}
-                    </div>
-             </Tooltip>
-              
-            </Col>
-          
+          <Col
+            style={{
+              "padding-right": "4px",
+              color: "#3D4A52",
+              "text-transform": "capitalize",
+            }}
+            className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"
+          >
+            {/* <Tooltip TransitionComponent={Zoom} title={""}> */}
+            <span
+              style={{ maxWidth: "150px" }}
+              className="d-inline-block text-truncate"
+            >
+              {/* {props.cropDetail} */}
+            </span>
+            {/* </Tooltip> */}
+          </Col>
         </Row>
+
         <Row>
           <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
             {screenlabels.dataset.geography}
@@ -202,15 +216,15 @@ export default function GuestUserDatasetCard(props) {
         </Row>
         <Row className="supportcardmargintop">
           <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
-          <Tooltip TransitionComponent={Zoom} title={props.geography}>
-                    <div style={{maxWidth: "135px"}} className="d-inline-block text-truncate"> 
-                    {props.geography}
-                    </div>
-             </Tooltip>
-            
+            {/* <Tooltip TransitionComponent={Zoom} title={props.geography}> */}
+            <div style={{ maxWidth: "135px" }} className="d-inline-block text-truncate">
+              {props.geography}
+            </div>
+            {/* </Tooltip> */}
+
           </Col>
           {isshowbutton ? (
-            <Col 
+            <Col
               className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn width173px"
               style={{ textAlign: "left" }}>
               <Button
@@ -218,8 +232,8 @@ export default function GuestUserDatasetCard(props) {
                 onClick={() => props.viewCardDetails()}
                 variant="outlined"
                 style={useStyles.btncolor}>
-               {/* {toTitleCase(`View details`)} */}
-               View details
+                {/* {toTitleCase(`View details`)} */}
+                View details
               </Button>
 
             </Col>
