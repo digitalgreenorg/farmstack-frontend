@@ -59,7 +59,7 @@ export default function ViewMetaDatasetDetails(props) {
 
     useEffect(() => {
         setFileDataLoaded(true)
-    }, [fileData])
+    }, [])
     console.log(isMemberTab, "isMemberTab")
 
     const getMetaData = () => {
@@ -158,14 +158,19 @@ export default function ViewMetaDatasetDetails(props) {
                                 </Col>
                             </Row>
                             <Row className='main_heading_row'>
-                                <Col lg={3} sm={6} style={{ marginLeft: "99px", marginTop: "50px", }}>
-                                    <span className='Main_heading_add_dataset'>Dataset Details</span>
+                                <Col lg={3} sm={6} 
+                                style={{ marginLeft: "99px", 
+                                marginTop: "50px", }}>
+                                    <span className='Main_heading_add_dataset'>
+                                        Dataset Details</span>
                                 </Col>
 
                             </Row>
                             <Row>
                                 <Col className="mainheading" xs={12} sm={12} md={12} lg={12}
-                                 style={{ textAlign: "left", "marginLeft": "98px", "margin-top": "50px" }}>
+                                 style={{ textAlign: "left", 
+                                 "marginLeft": "98px", 
+                                 "margin-top": "50px" }}>
                                     <span>Agricultural Practices Video Dissemintion Data</span>
                                 </Col>
                             </Row>
@@ -199,8 +204,8 @@ export default function ViewMetaDatasetDetails(props) {
                                          "background": "#8AA7AD",
                                          "width": "150px",
                                          "height": "40px",
-                                        "text-align": "center", 
-                                        "alignItems": "center", }}>
+                                         "text-align": "center", 
+                                         "alignItems": "center", }}>
                                             {value}</Row>)))}
                                 </Col>
                                 <Col style={{ "margin-top": "40px" }}>
