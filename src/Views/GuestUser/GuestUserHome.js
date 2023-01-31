@@ -5,6 +5,7 @@ import Footer from "../../Components/Footer/Footer";
 import GuestUserBanner from "../../Components/GuestUser/GuestUserBanner";
 import GuestUserDatasets from "../../Components/GuestUser/GuestUserDatasets";
 import GuestUserDescription from "../../Components/GuestUser/GuestUserDescription";
+import NoDatasetGuestUserPage from "../../Components/GuestUser/NoDatasetGuestUserPage";
 import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
 import Success from "../../Components/Success/Success";
@@ -26,14 +27,23 @@ const useStyles = {
 export default function GuestUserHome(props) {
   //   loader
   const [isLoader, setIsLoader] = useState(false);
+  const [noDatasetGuestUserPage, setNoDatasetGuestUserPage] = useState(false)
 
   return (
     <div className="center_keeping_conatiner">
       {isLoader ? <Loader /> : ""}
       <GuestUserNavBar />
-      <GuestUserBanner />
-      <GuestUserDescription />
-      <GuestUserDatasets />
+      {
+        noDatasetGuestUserPage ? <>
+        <NoDatasetGuestUserPage/> 
+        </>
+        :
+        <>
+        <GuestUserBanner setNoDatasetGuestUserPage={setNoDatasetGuestUserPage}/>
+        <GuestUserDescription />
+        <GuestUserDatasets />
+        </>
+      }
       <Footer disableHomeLink={true}/>
     </div>
   );
