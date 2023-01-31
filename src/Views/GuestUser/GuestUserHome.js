@@ -27,15 +27,23 @@ const useStyles = {
 export default function GuestUserHome(props) {
   //   loader
   const [isLoader, setIsLoader] = useState(false);
+  const [noDatasetGuestUserPage, setNoDatasetGuestUserPage] = useState(false)
 
   return (
     <div className="center_keeping_conatiner">
       {isLoader ? <Loader /> : ""}
       <GuestUserNavBar />
-      <GuestUserBanner />
-      <GuestUserDescription />
-      <GuestUserDatasets />
-      {/* <NoDatasetGuestUserPage/> */}
+      {
+        noDatasetGuestUserPage ? <>
+        <NoDatasetGuestUserPage/> 
+        </>
+        :
+        <>
+        <GuestUserBanner setNoDatasetGuestUserPage={setNoDatasetGuestUserPage}/>
+        <GuestUserDescription />
+        <GuestUserDatasets />
+        </>
+      }
       <Footer disableHomeLink={true}/>
     </div>
   );

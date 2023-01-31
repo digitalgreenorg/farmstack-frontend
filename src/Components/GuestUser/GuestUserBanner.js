@@ -38,6 +38,13 @@ export default function GuestUserBanner(props) {
           let bannerImageUrl = UrlConstant.base_url_without_slash + response.data.organization.hero_image;
           setBannerImage(bannerImageUrl)
         }*/
+        console.log('home page guest_organization_details res', response)
+        if(response.data.organization==null){
+          props.setNoDatasetGuestUserPage(true)
+        }
+        else if(response.data.organization!=null){
+          props.setNoDatasetGuestUserPage(false)
+        }
         if (response.data.organization.logo){
           let logoImageUrl = UrlConstant.base_url_without_slash + response.data.organization.logo;
           setLogoImage(logoImageUrl)
