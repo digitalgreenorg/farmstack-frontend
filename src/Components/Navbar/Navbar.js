@@ -18,7 +18,7 @@ import "./Navbar.css";
 import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
-
+import farmstackLogo from "../../Assets/Img/farmstack.jpg"
 const Navbar = (props) => {
   const [profile, setprofile] = useState(null);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -76,8 +76,8 @@ const Navbar = (props) => {
       <Nav id="datahubnavbar">
         {/* <Bars /> */}
         <img
-          src={require("../../Assets/Img/farmstack.jpg").default}
-          alt="new"
+          src={farmstackLogo}
+          alt="farmstack"
           style={{ width: "139.35px", height: "18.99px", "margin-top": "26px" }}
         />
         <NavMenu>
