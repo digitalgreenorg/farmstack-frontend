@@ -64,7 +64,7 @@ const AddDataset = (props) => {
 
 
     const handleChangeSubCatList = (value) => {
-        console.log("Value1212", value)
+        console.log("Value1212121", value)
 
         setSubCatList(
             // On autofill we get a stringified value.
@@ -386,11 +386,12 @@ const AddDataset = (props) => {
     function handleChangeCategoryForSubCategory(selectectedCatList) {
         // allCatFetched
         let obj = {}
+        setNewSelectedSubCategory([])
         for (let i = 0; i < selectectedCatList.length; i++) {
             console.log(selectectedCatList[i])
             obj[selectectedCatList[i]] = []
         }
-        console.log(selectectedCatList)
+        // console.log(selectectedCatList)
 
         setSelectedCat(obj)
         setMainJson({ ...obj })
@@ -490,16 +491,20 @@ const AddDataset = (props) => {
 
     const handleAddDatasetSubmit = (e) => {
         console.log(finalJson, "Main")
-        let selectedCategory = generateCategoryAndSubCat()
-        let objForFinalSend = { ...finalJson }
-
-        for (let i = 0; i < SubCatList.length; i++) {
+        e.preventDefault();
+        // let selectedCategory = generateCategoryAndSubCat()
+        // let objForFinalSend = { ...finalJson }
+        let mainObj = {}
+        for (let i = 0; i < newSelectedCategory.length; i++) {
+            mainObj[newSelectedCategory[i]] = []
+        }
+        console.log(newSelectedSubCategory, newSelectedCategory)
+        for (let i = 0; i < newSelectedSubCategory.length; i++) {
             let parent = SubCatList[i].split("-")[0] //parent == category
             let child = SubCatList[i].split("-")[1] // child == sub category
-            objForFinalSend[parent] = [...finalJson[parent], child]
+            mainObj[parent] = [...mainObj[parent], child]
         }
 
-        e.preventDefault();
         console.log("clicked on add dataset submit btn11");
         var id = getUserMapId();
         console.log("user id", id);
@@ -513,11 +518,11 @@ const AddDataset = (props) => {
         // setDataCaptureStartErrorMessage(null);
         // setDataCaptureEndErrorMessage(null);
         // setfileValid(null);
-        console.log(objForFinalSend, "FINAL CATEGORY")
+        console.log(mainObj, "FINAL CATEGORY")
         var bodyFormData = new FormData();
         bodyFormData.append("name", datasetname);
         bodyFormData.append("description", govLawDesc);
-        bodyFormData.append("category", JSON.stringify(objForFinalSend));
+        bodyFormData.append("category", JSON.stringify(mainObj));
         bodyFormData.append("user_map", id);
         bodyFormData.append("geography", geography);
 

@@ -102,7 +102,7 @@ const AddMetadata = (props) => {
 
                     <label htmlFor="">Sub categories</label>
                     <Select
-                        mode="tags"
+                        mode="multiple"
                         placeholder="Please select"
                         // defaultValue={[]}
                         value={newSelectedSubCategory}
