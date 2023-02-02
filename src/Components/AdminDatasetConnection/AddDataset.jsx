@@ -283,7 +283,7 @@ const AddDataset = (props) => {
     const isValidURL = (string) => {
         var res = string.match(RegexConstants.connector_name);
         return res !== null;
-      };
+    };
     const handlegovLawChange = (value) => {
         setEditorGovLawValue(value);
         setgovLawDesc(value.toString("html"));
@@ -562,6 +562,7 @@ const AddDataset = (props) => {
                 handleClick()
             })
             .catch((e) => {
+                setIsSubmitted(false)
                 setIsLoader(false);
                 //if error occurs Alert will be shown as Snackbar
 
@@ -575,12 +576,12 @@ const AddDataset = (props) => {
                         switch (errorKeys[i]) {
                             case "name":
                                 seteErrorDatasetName(errorMessages[i])
-                                setActiveStep('0')
+                                setActiveStep(0)
                                 // setnameErrorMessage(errorMessages[i]);
                                 break;
                             case "description":
                                 setDescriptionErrorMessage(errorMessages[i]);
-                                setActiveStep('0')
+                                setActiveStep(0)
                                 break;
                             case "category":
                                 // setCategoryErrorMessage(errorMessages[i]);
@@ -647,6 +648,8 @@ const AddDataset = (props) => {
             </IconButton>
         </React.Fragment>
     );
+
+
 
     const handleSubCategoryListForFinal = (checked, value, parent) => {
         console.log(checked, value, parent)
