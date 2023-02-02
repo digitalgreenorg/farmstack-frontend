@@ -192,6 +192,7 @@ export default function ViewMetaDatasetDetails(props) {
                                         "height": "40px" }}>
                                             {key}</Row>))}
                                 </Col>
+                                
                                 <Col style={{ "margin-top": "40px" }}>
                                     <Row className="secondmainheading">Sub Category</Row>
                                     {Object.keys(category).map((key) => category[key].map((value) => (
@@ -206,7 +207,7 @@ export default function ViewMetaDatasetDetails(props) {
                                          "height": "40px",
                                          "text-align": "center", 
                                          "alignItems": "center", }}>
-                                            {value}</Row>)))}
+                                            {value.length > 0 ? value : " "}</Row>)))} 
                                 </Col>
                                 <Col style={{ "margin-top": "40px" }}>
                                     <Row className="secondmainheading">Geography</Row>
@@ -347,7 +348,7 @@ export default function ViewMetaDatasetDetails(props) {
                                                 })
                                             })}
                                         </TableBody>
-                                    </Table>
+                                      </Table>
                                 </Col>
                             </Row>
                             <Row >
@@ -386,7 +387,7 @@ export default function ViewMetaDatasetDetails(props) {
                                             <Avatar alt="Remy Sharp"
                                                 // className='css-v8h2xp-MuiAvatar-root'
                                                 style={{ "margin-left": "-40" }}
-                                                src={UrlConstant.base_url + orgdetail.logo}
+                                                src={orgdetail.logo}
                                                 sx={{ width: 44, height: 44 }} />
                                         </Col>
                                         <Col style={{ "margin-left": "90px", "marginTop": "-30px"}}>
@@ -399,7 +400,7 @@ export default function ViewMetaDatasetDetails(props) {
                                             "textAlign": "left", 
                                             "marginRight": "120px", 
                                             "width": "200px"}}>{orgdes ? parse(orgdes) : orgdes}</Row>
-                                            <Row>{orgdetail.phone_number}</Row>
+                                            <Row>{orgdetail?.phone_number}</Row>
                                             <Row>{orgdetail?.address?.city}</Row>
                                             <Row>{orgdetail?.address?.country}</Row>
                                             <Row style={{ "marginRight": "160px", 
