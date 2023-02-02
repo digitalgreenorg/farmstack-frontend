@@ -83,6 +83,8 @@ const AddingCategory = (props) => {
                 setSelectedCat("")
                 setCatName("")
                 setSubCatName("")
+                setSelectForSubCatForDelete("")
+                setSelectCatForDeleteSubCat("")
                 localStorage.setItem("new_cat", bodyFormData)
                 console.log(res)
                 if (isOnborading) {

@@ -207,7 +207,7 @@ export default function ViewMetaDatasetDetails(props) {
                                          "height": "40px",
                                          "text-align": "center", 
                                          "alignItems": "center", }}>
-                                            {value.length > 0 ? value : " "}</Row>)))} 
+                                            {value.length > 0 ? value : "N/A"}</Row>)))} 
                                 </Col>
                                 <Col style={{ "margin-top": "40px" }}>
                                     <Row className="secondmainheading">Geography</Row>
@@ -308,14 +308,15 @@ export default function ViewMetaDatasetDetails(props) {
                                 {/* { 
         //    fileTypes = ["XLS" && "xlsx" && "CSV" ] ?  */}
                                 <Col>
-                                    <Table
+                                {isFileDataLoaded && fileData.map(itm1 => {
+                                   return (  <Table
                                         aria-label="simple table"
                                         style={{ overflow: "scroll", width: "1300px" }}
                                     >
                                         <TableHead>
-                                            {isFileDataLoaded && fileData.map(itm1 => {
-                                                console.log('item before tablerow', itm1)
-                                                return (
+                                            {/* {isFileDataLoaded && fileData.map(itm1 => { */}
+                                                {/* console.log('item before tablerow', itm1) */}
+                                               
                                                     <>
                                                         {itm1.content.map((itm2, i) => {
                                                             if (i === 0) {
@@ -330,25 +331,26 @@ export default function ViewMetaDatasetDetails(props) {
                                                             }
                                                         })}
                                                     </>
-                                                )
-                                            })}
-                                        </TableHead>
+                                                
+                                            {/* // })} */}
+                                        </TableHead> 
                                          <TableBody>
-                                            {isFileDataLoaded && fileData.map(itm1 => {
-                                                return itm1.content.map(itm2 => {
-                                                    return (
-                                                        <TableRow>
+                                            {/* {isFileDataLoaded && fileData.map(itm1 => { */}
+                                                {/* return itm1.content.map(itm2 => { */}
+                                                     {itm1.content.map(itm2 => {
+                                                        return(<TableRow>
                                                             {
                                                                 Object.values(itm2).map((itm3, i) => {
                                                                     return i !== 0 ? <TableCell> {itm3} </TableCell> : ""
                                                                 })
                                                             }
                                                         </TableRow>
-                                                    )
-                                                })
-                                            })}
+                                 ) } )}
+                                                
+
                                         </TableBody>
                                       </Table>
+                                     ) })}
                                 </Col>
                             </Row>
                             <Row >
