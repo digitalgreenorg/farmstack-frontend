@@ -192,7 +192,20 @@ export default function LocalMachineUploadDataset(props) {
 
   const handleFileChange = (fileIncoming) => {
     console.log("chnegsing", fileIncoming)
+    
+    let isInCommingFileDuplicate = false
+    
+    uploadFile.forEach(file => {
+      // console.log('in for each',file.name,incomi)
+      if(file.name==fileIncoming[0].name){
+        isInCommingFileDuplicate = true
+        console.log("File is duplicate")
+      }
+    });
+    if(isInCommingFileDuplicate) return
+    
     var currentFileList = [...uploadFile, ...fileIncoming]
+    
     if (datasetname != null) {
       setFile(currentFileList)
       handleAddDatasetFile(currentFileList)
