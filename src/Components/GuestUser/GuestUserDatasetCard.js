@@ -121,8 +121,7 @@ export default function GuestUserDatasetCard(props) {
           {/* <Tooltip TransitionComponent={Zoom} title={props.description}> */}
 
           <span style={{ maxWidth: "300px" }} className="d-inline-block text-truncate">
-
-            {props.description}
+            {props.description ? parse(props.description) : props.description}
           </span>
           {/* </Tooltip> */}
 

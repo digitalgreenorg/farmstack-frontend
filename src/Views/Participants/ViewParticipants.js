@@ -123,7 +123,7 @@ function ViewParticipants(props) {
                         lastname={lastname}
                         useremail={useremail}
                         // organisationlength={organisationlength}
-                        istrusted={istrusted}
+                        // istrusted={istrusted}
                     >
                     </ViewParticipantForm>
                     <Row>

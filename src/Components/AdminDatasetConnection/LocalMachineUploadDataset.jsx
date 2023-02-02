@@ -153,7 +153,7 @@ export default function LocalMachineUploadDataset(props) {
               history.push(GetErrorHandlingRoute(e));
             }
           });
-      }
+      } 
 
     });
 
@@ -212,8 +212,9 @@ export default function LocalMachineUploadDataset(props) {
       console.log(currentFileList);
     } else {
       console.log("no dataset name given")
+      setMessageForSnackBar("Some error occurred during uploading!")
     };
-    setFile(uploadFile)
+    // setFile(uploadFile)
     setfileValid("");
 
   };
@@ -258,16 +259,16 @@ export default function LocalMachineUploadDataset(props) {
         ></Success>
       ) : (
         <div noValidate autoComplete="off">
-          <Row style={{ height: "236px" }}>
+          <Row style={{ height: "236px", marginBottom: "50px" }}>
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader
                 id="file_uploader_locally"
-                handleChange={(e) => handleFileChange(e)}
                 disabled={!datasetname}
                 name="file"
                 multiple={true}
-                maxSize={50}
+                // maxSize={50}
+                handleChange={(e) => handleFileChange(e)}
                 types={fileTypes}
                 children={
                   <UploadDataset
@@ -279,7 +280,18 @@ export default function LocalMachineUploadDataset(props) {
                 }
                 classes="fileUpload"
               />
+                <p>
+              {/* uploadFile.size 
+                ? "File uploaded is more than 50MB!"
+                : ""} */}
+                {/* <h1>hi hello</h1> */}
+            </p>
             </Col>
+            {/* <p>
+              {uploadFile.size > 2097152
+                ? "File uploaded is more than 50MB!"
+                : ""}
+            </p> */}
             {/* 
             <Col>
             {(uploadFile.length != 0) && localUploaded?
@@ -314,11 +326,20 @@ export default function LocalMachineUploadDataset(props) {
               : ("")}
                  
             </Col> */}
-            <Col xs={12} sm={12} md={12} lg={6}>
+            <Col xs={12} sm={12} md={12} lg={6} style={{}}>
               <ConnectionProgressGif loader={isLoader} datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} mysqlFileList={mysqlFileList} localUploaded={localUploaded}
                 progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} />
             </Col>
           </Row>
+          {uploadFile ? 
+           <Row>
+            {uploadFile.map((item) => {
+               console.log("item", item.size)
+              return (
+              <p>{item != null && item.size > 52428800 ? "file size is more than 50MB" : " "}</p>)
+            })}
+          </Row>  : " "}
+        
           {/* <Row> */}
           {/* <Col xs={12} sm={12} md={6} lg={6}>
               {

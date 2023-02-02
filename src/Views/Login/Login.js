@@ -16,6 +16,7 @@ import ProfileRightside from "../../Components/signup/ProfileRightside";
 import OrgRightside from "../../Components/signup/OrgRightside";
 import PoliciesRightside from "../../Components/signup/PoliciesRightside";
 import BrandingRightside from "../../Components/signup/BrandingRightside";
+import AddDataset from "../../Components/AdminDatasetConnection/AddDataset";
 import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
@@ -869,7 +870,7 @@ export default function Login(props) {
       } else {
         setOnBoardedTrue();
         setTokenLocal(isaccesstoken);
-        props.history.push("/participant/datasets");
+        props.history.push("/participant/datasets/add");
       }
       //props.history.push('/loginadddatasetparticipant');
     }
@@ -881,20 +882,20 @@ export default function Login(props) {
       <SignInHeader></SignInHeader>
       {isDataSet && isLoggedInUserParticipant() ? (
         <div>
-          <AddDatasetParticipant
+          <AddDataset
             isaccesstoken={isaccesstoken}
             okAction={() => {
               setOnBoardedTrue();
               setTokenLocal(isaccesstoken);
-              history.push("/participant/datasets");
+              history.push("/participant/datasets/add");
             }}
             cancelAction={() => {
               setOnBoardedTrue();
               setTokenLocal(isaccesstoken);
-              history.push("/participant/datasets");
+              history.push("/participant/datasets/add");
             }}
           />
-          <div style={{ position: "absolute", top: "1800px" }}>
+          <div style={{ position: "absolute" }}>
             <Footer />
           </div>
         </div>

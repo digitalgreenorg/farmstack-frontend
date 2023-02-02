@@ -203,9 +203,9 @@ export default function ParticipantForm(props) {
                 {/* <span className="mainheading" style={{float: 'left', 'margin-left': '15px', 'margin-top': '5px'}}>
                     {props.third_heading}
                 </span> */}
-                <span className="mainheading" style={{float: 'left', 'margin-left': '15px', 'margin-top': '5px'}}>
+                {/* <span className="mainheading" style={{float: 'left', 'margin-left': '15px', 'margin-top': '5px'}}>
                     {props.fourth_heading}
-                </span>
+                </span> */}
             </Col>
             </Row>
             <Row style={useStyles.marginrowtop}>
@@ -234,7 +234,7 @@ export default function ParticipantForm(props) {
 
                     {/* </TextField>
                 </Col> */}
-                <Col xs={12} sm={12} md={6} lg={6} >
+                {/* <Col xs={12} sm={12} md={6} lg={6} >
                 <FormControlLabel
             control={
               <Checkbox
@@ -246,7 +246,7 @@ export default function ParticipantForm(props) {
             label={screenlabels.addparticipants.is_trusted}
             style={{ "width": "100%", "float": "left", "margin-left": "8px", "margin-top": "-10px", "fontFamily": "open-sans", "font-size": "14px"}}
           />
-                </Col>
+                </Col> */}
                 
             </Row>
             <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>

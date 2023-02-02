@@ -39,7 +39,7 @@ const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 const AddDataset = (props) => {
     const { isDatasetEditModeOn, datasetId, } = props
     const [uploadFile, setFile] = useState([]);
-    const [progress, setProgress] = useState([])
+    const [progress, setProgress] = useState(0)
     const [value, setValue] = React.useState('1');
     const [nameErrorMessage, setnameErrorMessage] = useState(null);
     const [datasetname, setdatasetname] = useState("");
@@ -280,7 +280,10 @@ const AddDataset = (props) => {
     const [editorGovLawValue, setEditorGovLawValue] = React.useState(
         RichTextEditor.createValueFromString(govLawDesc, "html")
     );
-
+    const isValidURL = (string) => {
+        var res = string.match(RegexConstants.connector_name);
+        return res !== null;
+    };
     const handlegovLawChange = (value) => {
         setEditorGovLawValue(value);
         setgovLawDesc(value.toString("html"));
@@ -559,6 +562,7 @@ const AddDataset = (props) => {
                 handleClick()
             })
             .catch((e) => {
+                setIsSubmitted(false)
                 setIsLoader(false);
                 //if error occurs Alert will be shown as Snackbar
 
@@ -572,12 +576,12 @@ const AddDataset = (props) => {
                         switch (errorKeys[i]) {
                             case "name":
                                 seteErrorDatasetName(errorMessages[i])
-                                setActiveStep('0')
+                                setActiveStep(0)
                                 // setnameErrorMessage(errorMessages[i]);
                                 break;
                             case "description":
                                 setDescriptionErrorMessage(errorMessages[i]);
-                                setActiveStep('0')
+                                setActiveStep(0)
                                 break;
                             case "category":
                                 // setCategoryErrorMessage(errorMessages[i]);
@@ -644,6 +648,8 @@ const AddDataset = (props) => {
             </IconButton>
         </React.Fragment>
     );
+
+
 
     const handleSubCategoryListForFinal = (checked, value, parent) => {
         console.log(checked, value, parent)
@@ -837,6 +843,7 @@ const AddDataset = (props) => {
                                                 placeholder='Dataset description'
                                                 toolbarConfig={toolbarConfig}
                                                 value={editorGovLawValue}
+                                                onKeyDown={handledatasetnameKeydown}
                                                 onChange={handlegovLawChange}
                                                 required
                                                 id="body-text"
@@ -959,7 +966,7 @@ const AddDataset = (props) => {
                                         </Button>
                                     )} */}
 
-                                        {activeStep == 2 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
+                                        {activeStep == 2 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || LiveApiFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
                                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                         </Button>}
                                     </Box>
