@@ -48,8 +48,7 @@ const useStyles = {
 };
 
 export default function LocalMachineUploadDataset(props) {
-  let accesstoken = getTokenLocal();
-  const { setMessageForSnackBar, handleTab, source,
+  const { setMessageForSnackBar, handleTab, source, isaccesstoken,
     setErrorOrSuccess, progress, seteErrorDatasetName, setProgress, uploadFile, setFile, key, setKey,
     handleClick, isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList } = props
 
@@ -57,6 +56,7 @@ export default function LocalMachineUploadDataset(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   // const [datasetname, setdatasetname] = useState("");
   // const [uploadFile, setFile] = useState([]);
+  const [sizeismore, setSizeIsMore] = useState(false)
   const [fileValid, setfileValid] = useState("")
   const [datasetNameError, setDatasetNameError] = useState(null);
   const [datasetFileError, setDataSetFileError] = useState(null)
@@ -89,6 +89,7 @@ export default function LocalMachineUploadDataset(props) {
       url = UrlConstants.base_url + UrlConstants.dataseteth
     }
     var bodyFormData = new FormData();
+    let accesstoken =  isaccesstoken || getTokenLocal();
     // bodyFormData.append("dataset_name", datasetname)
     currentFileList.map(async (item, index) => {
       bodyFormData.append("datasets", item)
@@ -111,7 +112,7 @@ export default function LocalMachineUploadDataset(props) {
           Authorization: `Bearer ${accesstoken}`,
         },
       };
-      if (currentFileList) {
+      if (item.size < 52428800) {
         await axios
           .post(url, bodyFormData, options)
           .then((response) => {
@@ -123,6 +124,7 @@ export default function LocalMachineUploadDataset(props) {
             setMessageForSnackBar("Dataset file uploaded successfuly!")
             setErrorOrSuccess("success")
             handleClick()
+            setSizeIsMore(false)
 
           }).catch((e) => {
             setIsLoader(false);
@@ -153,7 +155,10 @@ export default function LocalMachineUploadDataset(props) {
               history.push(GetErrorHandlingRoute(e));
             }
           });
-      } 
+      } else {
+        setSizeIsMore(true)
+        setIsLoader(true)
+      }
 
     });
 
@@ -267,55 +272,11 @@ export default function LocalMachineUploadDataset(props) {
                 }
                 classes="fileUpload"
               />
-                <p>
-              {/* uploadFile.size 
-                ? "File uploaded is more than 50MB!"
-                : ""} */}
-                {/* <h1>hi hello</h1> */}
-            </p>
             </Col>
-            {/* <p>
-              {uploadFile.size > 2097152
-                ? "File uploaded is more than 50MB!"
-                : ""}
-            </p> */}
-            {/* 
-            <Col>
-            {(uploadFile.length != 0) && localUploaded?
-            (<Accordion>
-              <Row style={{ maxHeight: "300px", overflowY: "scroll", maxWidth: "500px" }}> */}
-            {/* {uploadFile ? */}
-            {/* <ol className="uploaddatasetname">
-                    {uploadFile.map((item) => {
-                      return (<> 
-                      <Row key={key}>
-                      <Col>
-                        <li className="uploadList">
-                          {item.name}
-                        </li>
-                        </Col>
-                        <Col>
-                        <IconButton edge="end" aria-label="delete">
-                          <DeleteOutlinedIcon
-                            onClick={() => (deleteFunc(datasetname, source, item.name))}
-                            color='warning' /> */}
-            {/* </IconButton>
-                        </Col>
-                        </Row>
-                        <LinearProgress variant="determine" value={item?.progress ? item?.progress : 0} key={key} color="success" />
-                        <p>{item?.progress ? item?.progress : 0}%</p>
-                      </>
-                      )
-                    })}
-                  </ol>
-              </Row>
-              </Accordion> )
-              : ("")}
-                 
-            </Col> */}
             <Col xs={12} sm={12} md={12} lg={6}>
               <ConnectionProgressGif loader={isLoader} datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} mysqlFileList={mysqlFileList} localUploaded={localUploaded}
-                progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} />
+                progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} 
+                sizeismore={sizeismore} setSizeIsMore={setSizeIsMore}/>
             </Col>
           </Row>
           {uploadFile ? 
@@ -326,41 +287,6 @@ export default function LocalMachineUploadDataset(props) {
               <p>{item != null && item.size > 52428800 ? "file size is more than 50MB" : " "}</p>)
             })}
           </Row>  : " "}
-        
-          {/* <Row> */}
-          {/* <Col xs={12} sm={12} md={6} lg={6}>
-              {
-                (localUploaded?.length !== 0) &&
-                  datasetname
-                  ?
-                  (
-                    <Button
-                      className="connect_btn"
-                      type="submit"
-                      onClick={(e) => handleMetadata(e, '2')}
-                    >
-                      Add metadata
-                    </Button>
-                  ) : (
-                    <Button
-                      disabled
-                      className="connect_btn"
-                    >
-                      Add metadata
-                    </Button>
-                  )}
-            </Col> */}
-          {/* </Row> */}
-          {/* <Row style={useStyles.marginrowtop8px}>
-            <Col xs={12} sm={12} md={6} lg={6}>
-              <Button
-                onClick={() => cancelForm()}
-                className="connect_btn"
-              >
-                Cancel
-              </Button>
-            </Col>
-          </Row> */}
         </div>
       )}
     </>

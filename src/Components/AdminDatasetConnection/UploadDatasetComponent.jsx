@@ -18,7 +18,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, handleTab, progress, setProgress, uploadFile, setFile,
     setErrorOrSuccess, source, key, setKey, setLiveApiFileList, LiveApiFileList,
-    handleClick, isDatasetEditModeOn, handleDeleteDatasetFileInFrontend, listOfFilesExistInDbForEdit, handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
+    handleClick, isDatasetEditModeOn, handleDeleteDatasetFileInFrontend, listOfFilesExistInDbForEdit, handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm, isaccesstoken }) => {
     //tab handler ---> local machine upload, mysql and posgres
     const [value, setValue] = React.useState('1');
     const handleChange = (event, newValue) => {
@@ -45,6 +45,8 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                             <Row style={{ marginTop: "50px" }} >
                                 <Col lg={12} sm={12}>
                                     <LocalMachineUploadDataset
+                                    
+                                       isaccesstoken={isaccesstoken}
                                         handleTab={handleTab}
                                         seteErrorDatasetName={seteErrorDatasetName}
                                         setMessageForSnackBar={setMessageForSnackBar}
@@ -68,6 +70,7 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                         </TabPanel>
                         <TabPanel value="2">
                             <MysqlFormForConnection
+                                isaccesstoken={isaccesstoken}
                                 handleTab={handleTab}
                                 seteErrorDatasetName={seteErrorDatasetName}
                                 cancelForm={cancelForm}
@@ -78,6 +81,7 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                                 datasetname={datasetname} setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         <TabPanel value="3"><PostgresFormForConnection
+                            isaccesstoken={isaccesstoken}
                             handleTab={handleTab}
                             seteErrorDatasetName={seteErrorDatasetName}
                             isDatasetEditModeOn={isDatasetEditModeOn}
@@ -90,6 +94,7 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                             mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                             setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         <TabPanel value="4"><LiveApiConnection
+                            isaccesstoken={isaccesstoken}
                             LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
                             cancelForm={cancelForm}
                             datasetname={datasetname}
