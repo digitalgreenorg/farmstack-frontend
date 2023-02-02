@@ -386,11 +386,12 @@ const AddDataset = (props) => {
     function handleChangeCategoryForSubCategory(selectectedCatList) {
         // allCatFetched
         let obj = {}
+        setNewSelectedSubCategory([])
         for (let i = 0; i < selectectedCatList.length; i++) {
             console.log(selectectedCatList[i])
             obj[selectectedCatList[i]] = []
         }
-        console.log(selectectedCatList)
+        // console.log(selectectedCatList)
 
         setSelectedCat(obj)
         setMainJson({ ...obj })
