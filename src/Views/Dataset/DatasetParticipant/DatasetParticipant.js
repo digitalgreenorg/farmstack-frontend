@@ -44,7 +44,7 @@ export default function DatasetParticipant() {
   );
   //   const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
   const debounceOnChange = React.useCallback(
-    debounce(isMemberTab ? getSearchedData : getSearchOtherData, 1000),
+    debounce(!isMemberTab ? getSearchedData : getSearchOtherData, 1000),
     []
   );
   const [searchDatasetUrl, setSearchDatasetUrl] = useState(
@@ -805,15 +805,25 @@ export default function DatasetParticipant() {
         console.log("datatset:", response.data.results);
 
         if (response.data.next == null) {
-          // setisShowLoadMoreButton(false)
+          setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          setShowLoadMoreMember(false);
+          console.log(showLoadMoreMember)
+          if (!isMemberTab) {
+
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false)
+          }
           setFilterState({});
         } else {
-          // setisShowLoadMoreButton(true)
+          setisShowLoadMoreButton(true)
           setDatasetUrl(response.data.next);
           // memberUrl = response.data.next
-          setShowLoadMoreMember(true);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(true);
+          } else {
+            setShowLoadMoreMember(true)
+          }
         }
         let finalDataList = [];
         if (isLoadMore) {
@@ -949,8 +959,8 @@ export default function DatasetParticipant() {
           ? memberUrl
           : adminUrl
         : value == "2"
-        ? memberDatasetUrl
-        : datasetUrl,
+          ? memberDatasetUrl
+          : datasetUrl,
       payload,
       false,
       true
@@ -1345,12 +1355,12 @@ export default function DatasetParticipant() {
     setscreenView(tempfilterObject);
   };
   const viewCardDetails = (id, flag) => {
-    if(id) {
-    setid(id);
+    if (id) {
+      setid(id);
     }
     // setIsLoader(true);
     // setisAdminView(flag);
-    history.push("/participant/dataset/view/" + id, {flag});
+    history.push("/participant/dataset/view/" + id, { flag });
     // HTTPService(
     //   "GET",
     //   UrlConstant.base_url + UrlConstant.datasetparticipant + id + "/",
@@ -1475,7 +1485,7 @@ export default function DatasetParticipant() {
           ></ViewDataSet>
           <>
             {viewdata.approval_status !== "rejected" &&
-            viewdata.user_id == getUserLocal() ? (
+              viewdata.user_id == getUserLocal() ? (
               <>
                 <Row>
                   <Col xs={12} sm={12} md={6} lg={3}></Col>

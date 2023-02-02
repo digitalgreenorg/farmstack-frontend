@@ -47,8 +47,9 @@ export default function DatasetAdmin() {
   const [todate, settodate] = useState(null);
   const history = useHistory();
   const [isMemberTab, setIsMemberTab] = useState(false);
+  console.log("isMemberTab", isMemberTab)
   const debounceOnChange = React.useCallback(
-    debounce(isMemberTab ? getSearchedData : getSearchOtherData, 1000),
+    debounce(!isMemberTab ? getSearchedData : getSearchOtherData, 1000),
     []
   );
   const [searchDatasetVar, setSearchDatasetVar] = useState({ val: "" });
@@ -557,7 +558,7 @@ export default function DatasetAdmin() {
         setIsLoader(false);
         console.log("response:", response);
         console.log("datatset:", response.data.results);
-
+        console.log("calling other search")
         if (response.data.next == null) {
           // setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
@@ -713,6 +714,11 @@ export default function DatasetAdmin() {
     // console.log(val)
     let data = {};
     setFilterState({});
+    // resetFilterState("datavisiblity");
+    resetFilterState(screenlabels.dataset.geography);
+    // resetFilterState(screenlabels.dataset.age);
+    // // resetFilterState(screenlabels.dataset.crop);
+    // resetFilterState(screenlabels.dataset.status);
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
     data["search_pattern"] = val.trim();
@@ -736,17 +742,27 @@ export default function DatasetAdmin() {
         setIsLoader(false);
         console.log("response:", response);
         console.log("datatset:", response.data.results);
-
+        console.log(response.data.next, "NEXT Vaalue")
         if (response.data.next == null) {
-          // setisShowLoadMoreButton(false)
+          setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          setShowLoadMoreMember(false);
+          console.log(showLoadMoreMember)
+          if (!isMemberTab) {
+
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false)
+          }
           setFilterState({});
         } else {
-          // setisShowLoadMoreButton(true)
+          setisShowLoadMoreButton(true)
           setDatasetUrl(response.data.next);
           // memberUrl = response.data.next
-          setShowLoadMoreMember(true);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(true);
+          } else {
+            setShowLoadMoreMember(true)
+          }
         }
         let finalDataList = [];
         if (isLoadMore) {
@@ -925,8 +941,8 @@ export default function DatasetAdmin() {
           ? memberUrl
           : adminUrl
         : value === "2"
-        ? memberDatasetUrl
-        : datasetUrl,
+          ? memberDatasetUrl
+          : datasetUrl,
       payload,
       false,
       true
@@ -1456,8 +1472,8 @@ export default function DatasetAdmin() {
             tabelkeys={tablekeys}
           ></ViewDataSet>
           {isAdminView &&
-          viewdata.approval_status !== "rejected" &&
-          viewdata.user_id === getUserLocal() ? (
+            viewdata.approval_status !== "rejected" &&
+            viewdata.user_id === getUserLocal() ? (
             <>
               <Row>
                 <Col xs={12} sm={12} md={6} lg={3}></Col>
@@ -1845,7 +1861,7 @@ export default function DatasetAdmin() {
                   // isCropSearchFound={isCropSearchFound}
                   constantyUpdateSwitch={constantyUpdateSwitch}
                   handleConstantyUpdateSwitch={handleConstantyUpdateSwitch}
-                  // setConstantyUpdateSwitch={setConstantyUpdateSwitch}
+                // setConstantyUpdateSwitch={setConstantyUpdateSwitch}
                 />
               </Col>
               <Col className="supportSecondCOlumn">
