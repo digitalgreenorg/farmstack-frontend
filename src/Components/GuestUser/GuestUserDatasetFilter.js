@@ -262,31 +262,6 @@ export default function GuestUserDatasetFilter(props) {
         : ""} */}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-          <img src={require("../../Assets/Img/geography.svg")} alt="new" />
-          &nbsp;&nbsp;
-          {screenlabels.dataset.geography}
-        </span>
-      </Row>
-      <Row className="supportfiltersecondrowbold">
-        <TextField
-          style={{
-            width: "100%",
-            "margin-left": "10px",
-            "margin-right": "10px",
-            "text-align": "left",
-            color: "#3D4A52",
-          }}
-          id="filled-basic"
-          variant="filled"
-          label={screenlabels.dataset.search}
-          value={props.geoSearchState}
-          onChange={(e) => props.handleGeoSearch(e)}
-          error={!props.isGeoSearchFound}
-          helperText={!props.isGeoSearchFound ? "Not found" : ""}
-        />
-      </Row>
-      <Row className="supportfiltersecondrowbold">
-        <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/category.svg")} alt="new" />
           &nbsp;&nbsp;
           {screenlabels.dataset.category}
@@ -343,6 +318,31 @@ export default function GuestUserDatasetFilter(props) {
             </Button>
           </span>
         )}
+      </Row>
+      <Row className="supportfiltersecondrowbold">
+        <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img src={require("../../Assets/Img/geography.svg")} alt="new" />
+          &nbsp;&nbsp;
+          {screenlabels.dataset.geography}
+        </span>
+      </Row>
+      <Row className="supportfiltersecondrowbold">
+        <TextField
+          style={{
+            width: "100%",
+            "margin-left": "10px",
+            "margin-right": "10px",
+            "text-align": "left",
+            color: "#3D4A52",
+          }}
+          id="filled-basic"
+          variant="filled"
+          label={screenlabels.dataset.search}
+          value={props.geoSearchState}
+          onChange={(e) => props.handleGeoSearch(e)}
+          error={!props.isGeoSearchFound}
+          helperText={!props.isGeoSearchFound ? "Not found" : ""}
+        />
       </Row>
       {props.geoFilterDisplay &&
         props.geoFilterDisplay.map(
