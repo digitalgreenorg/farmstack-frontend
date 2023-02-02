@@ -76,6 +76,7 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                                 cancelForm={cancelForm}
                                 deleteFunc={deleteFunc}
                                 localUploaded={localUploaded}
+                                isDatasetEditModeOn={isDatasetEditModeOn}
                                 progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key}
                                 LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
@@ -95,6 +96,7 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                             setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         <TabPanel value="4"><LiveApiConnection
                             isaccesstoken={isaccesstoken}
+                            isDatasetEditModeOn={isDatasetEditModeOn}
                             LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
                             cancelForm={cancelForm}
                             datasetname={datasetname}

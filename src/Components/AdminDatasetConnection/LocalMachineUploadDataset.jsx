@@ -197,7 +197,20 @@ export default function LocalMachineUploadDataset(props) {
 
   const handleFileChange = (fileIncoming) => {
     console.log("chnegsing", fileIncoming)
+    
+    let isInCommingFileDuplicate = false
+    
+    uploadFile.forEach(file => {
+      // console.log('in for each',file.name,incomi)
+      if(file.name==fileIncoming[0].name){
+        isInCommingFileDuplicate = true
+        console.log("File is duplicate")
+      }
+    });
+    if(isInCommingFileDuplicate) return
+    
     var currentFileList = [...uploadFile, ...fileIncoming]
+    
     if (datasetname != null) {
       setFile(currentFileList)
       handleAddDatasetFile(currentFileList)
@@ -251,7 +264,7 @@ export default function LocalMachineUploadDataset(props) {
         ></Success>
       ) : (
         <div noValidate autoComplete="off">
-          <Row style={{ height: "236px" }}>
+          <Row style={{ height: "236px", marginBottom: "50px" }}>
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader
