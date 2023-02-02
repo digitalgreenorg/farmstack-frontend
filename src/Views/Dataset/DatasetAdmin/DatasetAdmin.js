@@ -622,13 +622,23 @@ export default function DatasetAdmin() {
         if (response.data.next == null) {
           // setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          setShowLoadMoreMember(false);
+          // setShowLoadMoreMember(false);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false)
+          }
           setFilterState({});
         } else {
           // setisShowLoadMoreButton(true)
           setMemberDatasetUrl(response.data.next);
           // memberUrl = response.data.next
-          setShowLoadMoreMember(true);
+          // setShowLoadMoreMember(true);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(true);
+          } else {
+            setShowLoadMoreMember(true)
+          }
         }
         let finalDataList = [];
         if (isLoadMore) {
@@ -683,15 +693,26 @@ export default function DatasetAdmin() {
         if (response.data.next == null) {
           // setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          setShowLoadMoreMember(false);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false)
+          }
+          // setShowLoadMoreMember(false);
           setFilterState({});
         } else {
           // setisShowLoadMoreButton(true)
           setDatasetUrl(response.data.next);
           // memberUrl = response.data.next
-          setShowLoadMoreMember(true);
+          // setShowLoadMoreMember(true);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(true);
+          } else {
+            setShowLoadMoreMember(true)
+          }
         }
         let finalDataList = [];
+        console.log(datasetList, datasetList.length)
         if (isLoadMore) {
           finalDataList = [...datasetList, ...response.data.results];
         } else {
@@ -711,11 +732,10 @@ export default function DatasetAdmin() {
     // console.log(val, "Here is value")
 
     if (val.length < 3 && val !== "") val = "";
-    // console.log(val)
     let data = {};
     setFilterState({});
     // resetFilterState("datavisiblity");
-    resetFilterState(screenlabels.dataset.geography);
+    // resetFilterState(screenlabels.dataset.geography);
     // resetFilterState(screenlabels.dataset.age);
     // // resetFilterState(screenlabels.dataset.crop);
     // resetFilterState(screenlabels.dataset.status);
@@ -727,6 +747,9 @@ export default function DatasetAdmin() {
     } else {
       data["others"] = false;
     }
+    // if(!searchUrl.includes("page=")){
+    //   let firstArray = []
+    // }
 
     HTTPService(
       "POST",
@@ -744,19 +767,26 @@ export default function DatasetAdmin() {
         console.log("datatset:", response.data.results);
         console.log(response.data.next, "NEXT Vaalue")
         if (response.data.next == null) {
-          setisShowLoadMoreButton(false)
+          // setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          console.log(showLoadMoreMember)
+          console.log(showLoadMoreMember, isMemberTab)
           if (!isMemberTab) {
-
             setShowLoadMoreAdmin(false);
           } else {
             setShowLoadMoreMember(false)
           }
           setFilterState({});
         } else {
-          setisShowLoadMoreButton(true)
-          setDatasetUrl(response.data.next);
+          // setisShowLoadMoreButton(true)
+          // if (isMemberTab) {
+          //   
+          // }
+          if (isMemberTab) {
+            setMemberDatasetUrl(response.data.next)
+          } else {
+            setDatasetUrl(response.data.next);
+          }
+          // setDatasetUrl(response.data.next);
           // memberUrl = response.data.next
           if (!isMemberTab) {
             setShowLoadMoreAdmin(true);
@@ -764,9 +794,14 @@ export default function DatasetAdmin() {
             setShowLoadMoreMember(true)
           }
         }
+        // console.log(datasetList, response.data.results, memberDatasetList)
         let finalDataList = [];
         if (isLoadMore) {
-          finalDataList = [...datasetList, ...response.data.results];
+          if (isMemberTab) {
+            finalDataList = [...memberDatasetList, ...response.data.results];
+          } else {
+            finalDataList = [...datasetList, ...response.data.results];
+          }
         } else {
           finalDataList = [...response.data.results];
           console.log(finalDataList);
@@ -1223,6 +1258,9 @@ export default function DatasetAdmin() {
   };
 
   const clearAllFilters = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     setIsShowAll(true);
     setConstantyUpdateSwitch(false);
     resetDateFilters();
@@ -1807,6 +1845,7 @@ export default function DatasetAdmin() {
             <Row className="supportfilterRow">
               <Col className="supportfilterCOlumn">
                 <DataSetFilter
+
                   setSearchValMyOrg={setSearchValMyOrg}
                   setSearchValOtherOrg={setSearchValOtherOrg}
                   searchValMyOrg={searchValMyOrg}
