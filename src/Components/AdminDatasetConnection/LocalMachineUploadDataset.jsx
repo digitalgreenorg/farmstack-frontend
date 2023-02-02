@@ -246,7 +246,7 @@ export default function LocalMachineUploadDataset(props) {
         ></Success>
       ) : (
         <div noValidate autoComplete="off">
-          <Row style={{ height: "236px" }}>
+          <Row style={{ height: "236px", marginBottom: "50px" }}>
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader
@@ -313,7 +313,7 @@ export default function LocalMachineUploadDataset(props) {
               : ("")}
                  
             </Col> */}
-            <Col xs={12} sm={12} md={12} lg={6}>
+            <Col xs={12} sm={12} md={12} lg={6} style={{}}>
               <ConnectionProgressGif loader={isLoader} datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} mysqlFileList={mysqlFileList} localUploaded={localUploaded}
                 progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} />
             </Col>
