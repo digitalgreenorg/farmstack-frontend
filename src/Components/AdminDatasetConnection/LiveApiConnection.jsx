@@ -6,15 +6,18 @@ import CloseIcon from '@mui/icons-material/Close';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
 import KeyOutlinedIcon from '@mui/icons-material/KeyOutlined';
 import Axios from 'axios';
-import { GetErrorHandlingRoute, getTokenLocal } from "../../Utils/Common";
+import { GetErrorHandlingRoute, getTokenLocal, validateInputField } from "../../Utils/Common";
 import Loader from "../Loader/Loader";
 import { BodyText } from "react-bootstrap-icons";
 import UrlConstant from "../../Constants/UrlConstants";
 import ConnectionProgressGif from "./ConnectionProgressGif";
+import { UserOutlined } from "@ant-design/icons";
+import Person2Icon from '@mui/icons-material/Person2';
+import RegexConstants from "../../Constants/RegexConstants";
 
 export default function LiveApiConnection(props) {
   const { isDatasetEditModeOn, LiveApiFileList, setLiveApiFileList, cancelForm, datasetname, deleteFunc, localUploaded, mysqlFileList,
-    setPostgresFileList, setMysqlFileList, postgresFileList, setAllFiles, handleMetadata, progress, setProgress, uploadFile, setFile, key } = props
+    setPostgresFileList, setMysqlFileList, postgresFileList, setAllFiles, handleMetadata, progress, setProgress, uploadFile, setFile, key, isaccesstoken } = props
   const [apifield, setApifield] = useState("")
   const [authkey, setAuthKey] = useState("")
   const [isConnected, setIsConnected] = useState(false)
@@ -23,6 +26,8 @@ export default function LiveApiConnection(props) {
   const [messageForSnackBar, setMessageForSnackBar] = useState("")
   const [errorOrSuccess, setErrorOrSuccess] = useState("error")
   const [open, setOpen] = React.useState(false);
+  const [fileName, setFileName] = useState("")
+
   //handling toast
   const handleClick = () => {
     setOpen(true);
@@ -56,12 +61,12 @@ export default function LiveApiConnection(props) {
     var method = "POST"
     setLoader(true)
     let bodyFormData = new FormData()
-    bodyFormData.append("dataset_name", "datasetname")
-    bodyFormData.append("file_name", "shruthi1")
+    bodyFormData.append("dataset_name", datasetname)
+    bodyFormData.append("file_name", fileName)
     bodyFormData.append("source", "live_api")
     bodyFormData.append("api_key", authkey)
     bodyFormData.append("url", apifield)
-    let accesstoken = getTokenLocal();
+    let accesstoken =  isaccesstoken || getTokenLocal();
     let url = ""
     if (isDatasetEditModeOn) {
       url = UrlConstant.base_url + UrlConstant.live_api + "?dataset_exists=True"
@@ -115,6 +120,19 @@ export default function LiveApiConnection(props) {
       </Row>
       <Row className='textfield_row'>
         <Col lg={6} sm={12}>
+          <TextField
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person2Icon />
+                </InputAdornment>
+              ),
+            }}
+            style={{ width: "80%", marginTop: "20px" }} id="api"
+            value={fileName}
+            onChange={(e) => setFileName(e.target.value.trim())}
+            label="File name" name='file_name' variant="standard"
+          />
           <TextField
             InputProps={{
               startAdornment: (
