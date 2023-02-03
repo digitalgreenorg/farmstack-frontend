@@ -57,44 +57,10 @@ export default function ViewMetaDatasetDetails(props) {
     getMetaData()
   }, [])
 
-    useEffect(() => {
-        setFileDataLoaded(true)
-    }, [])
-    console.log(isMemberTab, "isMemberTab")
-
-    const getMetaData = () => {
-        let url = ""
-        if (userType == "guest") {
-            url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + '/';
-        } else {
-            url = UrlConstant.base_url + UrlConstant.datasetview + id + '/';
-        }
-        setLoader(true)
-        HTTPService(
-            "GET",
-            url,
-            "",
-            false,
-            true
-        ).then((response) => {
-            setLoader(false)
-            console.log(response.data)
-            setCategory({ ...response.data.category })
-            setGeography(response.data.geography)
-            setconstantlyupdate(response.data.constantly_update)
-            setFromdate(response.data.data_capture_start)
-            setToDate(response.data.data_capture_end)
-            setDatasetDescription(response.data.description)
-            setfileData(response.data.datasets)
-            setOrgDetail(response.data.organization)
-            setorgdes(response.data.organization.org_description)
-            setUserDetails(response.data.user)
-        }).catch((e) => {
-            setLoader(false);
-            history.push(GetErrorHandlingRoute(e));
-        }
-
-        )
+  useEffect(() => {
+    setFileDataLoaded(true)
+  }, [])
+  console.log(isMemberTab, "isMemberTab")
 
   const getMetaData = () => {
     let url = ""
