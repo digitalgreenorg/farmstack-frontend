@@ -9,7 +9,7 @@ import Admin_upload_dataset from './UploadDatasetComponent';
 import Admin_add_metadata from './AddMetadata';
 import "./admin-add-dataset.css"
 import { TextField, Tooltip } from '@material-ui/core';
-import { GetErrorHandlingRoute, GetErrorKey, getUserMapId, handleUnwantedSpace, validateInputField } from '../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, getUserMapId, handleUnwantedSpace, validateInputField, getTokenLocal, isLoggedInUserParticipant} from '../../Utils/Common';
 import RegexConstants from '../../Constants/RegexConstants';
 import ListForUploadedFiles from './ListForUploadedFiles';
 import { handleDeleteFile } from './Utils';
@@ -37,7 +37,7 @@ import CategorySelectorList from './CategorySelectorList';
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 
 const AddDataset = (props) => {
-    const { isDatasetEditModeOn, datasetId, } = props
+    const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction} = props
     const [uploadFile, setFile] = useState([]);
     const [progress, setProgress] = useState(0)
     const [value, setValue] = React.useState('1');
@@ -436,14 +436,18 @@ const AddDataset = (props) => {
 
 
     async function getAllCategoryAndSubCategory(datasetname, source, filename) {
+    
+        let checkforAccess = isaccesstoken? isaccesstoken : false;
 
-
-        HTTPService(
+      HTTPService(
             "GET",
             UrlConstant.base_url + UrlConstant.add_category_edit_category,
             "",
             true,
-            true
+            true,
+            checkforAccess
+            
+
         ).then((response) => {
             // categoryCreator(response.data)
 
@@ -628,18 +632,18 @@ const AddDataset = (props) => {
         bodyFormData.append("user_map", id);
         bodyFormData.append("geography", geography);
 
+
         //if edit mode is on then one extra key has to be apended so that they can delete the mentioned file as per the id
         if (isDatasetEditModeOn) {
             bodyFormData.append("deleted", JSON.stringify(idsForFilesDeleted))
         }
-
         bodyFormData.append("constantly_update", Switchchecked);
         bodyFormData.append("data_capture_start", fromdate ? fromdate.toISOString() : "");
         bodyFormData.append("data_capture_end", todate ? todate.toISOString() : "");
 
-        setIsLoader(true);
         let obj = { "name": datasetname, description: govLawDesc, category: JSON.stringify(finalJson), user_map: id, geography: geography, deleted: JSON.stringify(idsForFilesDeleted), constantly_update: Switchchecked, data_capture_start: fromdate ? fromdate.toISOString() : "", data_capture_end: todate ? todate.toISOString() : "" }
-
+        let accesstoken = getTokenLocal();
+        let usermapid = getUserMapId();
         let url = ""
         let method = ""
         if (isDatasetEditModeOn) {
@@ -649,15 +653,21 @@ const AddDataset = (props) => {
             method = "POST"
             url = UrlConstant.base_url + UrlConstant.datasetview
         }
+        let checkforAcess = isaccesstoken ?  isaccesstoken : false;
+        setIsLoader(true);
 
         HTTPService(
             method,
             url,
             bodyFormData,
             false,
-            true, false
-        )
-            .then((response) => {
+            true, 
+            checkforAcess,
+        ).then((response) => {
+            if(isLoggedInUserParticipant() && isaccesstoken) {
+                setIsLoader(false)
+                setOnBoardedTrue()
+            }else{
                 setIsLoader(false);
                 // setisSuccess(true);
                 setIsSubmitted(true)
@@ -667,7 +677,7 @@ const AddDataset = (props) => {
                 setMessageForSnackBar("Dataset uploaded successfully")
                 setErrorOrSuccess("success")
                 handleClick()
-            })
+     } })
             .catch((e) => {
                 setIsSubmitted(false)
                 setIsLoader(false);
@@ -845,7 +855,7 @@ const AddDataset = (props) => {
         <Container id='admin_add_dataset_main_container'>
             {isLoading ? <Loader /> : ""}
             {isSubmitted ? <Success
-                okevent={() => history.push("/datahub/datasets")}
+                okevent={() => isLoggedInUserParticipant() ? history.push("/participant/datasets/") : history.push("/datahub/datasets")}
                 route={"datahub/participants"}
                 imagename={"success"}
                 btntext={"ok"}
@@ -958,6 +968,7 @@ const AddDataset = (props) => {
                                                 </TabList>
                                             </Box>
                                             <TabPanel value="1"><Admin_upload_dataset
+                                                isaccesstoken={isaccesstoken}
                                                 handleTab={setActiveStep}
                                                 seteErrorDatasetName={seteErrorDatasetName}
                                                 uploadFile={uploadFile}
@@ -979,7 +990,7 @@ const AddDataset = (props) => {
 
                                     {activeStep == 2 ?
                                         <AddMetadata
-
+                                        isaccesstoken={isaccesstoken}
                                             setNewSelectedSubCategory={setNewSelectedSubCategory}
                                             newSelectedCategory={newSelectedCategory}
                                             newSelectedSubCategory={newSelectedSubCategory}
@@ -1043,6 +1054,16 @@ const AddDataset = (props) => {
                                         >
                                             Back
                                         </Button>
+                                        {isLoggedInUserParticipant() && isaccesstoken ?
+                                        <Button
+                                        style={{"marginLeft": "400px"}}
+                                            id='back_button'
+                                            color="inherit"
+                                            onClick={cancelAction}
+                                            sx={{ mr: 1 }}
+                                        >
+                                            Finish Later
+                                        </Button>  : " " }
                                         <Box sx={{ flex: '1 1 auto' }} />
                                         {activeStep != 0 && !isSubmitted ? <Button id='cancel_button' style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
                                         <Box sx={{ flex: '1 1 auto' }} />

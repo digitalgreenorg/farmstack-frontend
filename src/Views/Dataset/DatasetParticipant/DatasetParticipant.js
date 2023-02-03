@@ -690,13 +690,23 @@ export default function DatasetParticipant() {
         if (response.data.next == null) {
           // setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          setShowLoadMoreMember(false);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false)
+          }
           setFilterState({});
         } else {
           // setisShowLoadMoreButton(true)
           setMemberDatasetUrl(response.data.next);
+
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(true);
+          } else {
+            setShowLoadMoreMember(true)
+          }
           // memberUrl = response.data.next
-          setShowLoadMoreMember(true);
+          // setShowLoadMoreMember(true);
         }
         let finalDataList = [];
         if (isLoadMore) {
@@ -750,13 +760,23 @@ export default function DatasetParticipant() {
         if (response.data.next == null) {
           // setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          setShowLoadMoreMember(false);
+          // setShowLoadMoreMember(false);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false)
+          }
           setFilterState({});
         } else {
           // setisShowLoadMoreButton(true)
           setDatasetUrl(response.data.next);
           // memberUrl = response.data.next
-          setShowLoadMoreMember(true);
+          // setShowLoadMoreMember(true);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(true);
+          } else {
+            setShowLoadMoreMember(true)
+          }
         }
         let finalDataList = [];
         if (isLoadMore) {
@@ -809,15 +829,19 @@ export default function DatasetParticipant() {
           // setShowLoadMoreAdmin(false)
           console.log(showLoadMoreMember)
           if (!isMemberTab) {
-
             setShowLoadMoreAdmin(false);
           } else {
             setShowLoadMoreMember(false)
           }
           setFilterState({});
         } else {
-          setisShowLoadMoreButton(true)
-          setDatasetUrl(response.data.next);
+          // setisShowLoadMoreButton(true)
+          // setDatasetUrl(response.data.next);
+          if (isMemberTab) {
+            setMemberDatasetUrl(response.data.next)
+          } else {
+            setDatasetUrl(response.data.next);
+          }
           // memberUrl = response.data.next
           if (!isMemberTab) {
             setShowLoadMoreAdmin(true);
@@ -827,7 +851,11 @@ export default function DatasetParticipant() {
         }
         let finalDataList = [];
         if (isLoadMore) {
-          finalDataList = [...datasetList, ...response.data.results];
+          if (isMemberTab) {
+            finalDataList = [...memberDatasetList, ...response.data.results];
+          } else {
+            finalDataList = [...datasetList, ...response.data.results];
+          }
         } else {
           finalDataList = [...response.data.results];
           console.log(finalDataList);
@@ -1014,7 +1042,7 @@ export default function DatasetParticipant() {
 
   const getMyDataset = (isLoadMore) => {
     setIsLoader(true);
-    if (searchValMyOrg.val) {
+    if (searchValMyOrg.val && isLoadMore) {
       fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore);
       return;
     }
@@ -1081,7 +1109,7 @@ export default function DatasetParticipant() {
 
   const getMemberDatasets = (isLoadMore) => {
     setIsLoader(true);
-    if (searchValOtherOrg.val) {
+    if (searchValOtherOrg.val && isLoadMore) {
       fetchSearchDataWithLoadMoreButtonMember(isLoadMore);
       return;
     }
@@ -1267,6 +1295,9 @@ export default function DatasetParticipant() {
   };
 
   const clearAllFilters = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     setIsShowAll(true);
     resetDateFilters();
     setConstantyUpdateSwitch(false);
