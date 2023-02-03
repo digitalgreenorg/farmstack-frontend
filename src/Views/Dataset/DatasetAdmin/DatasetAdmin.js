@@ -1032,7 +1032,7 @@ export default function DatasetAdmin() {
   const getMyDataset = (isLoadMore) => {
     setIsLoader(true);
     console.log(searchDatasetVar.val, "HERRE");
-    if (searchValMyOrg.val !== "") {
+    if (searchValMyOrg.val && isLoadMore) {
       fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore);
       return;
     }
@@ -1090,7 +1090,7 @@ export default function DatasetAdmin() {
   const getMemberDatasets = (isLoadMore) => {
     setIsLoader(true);
     console.log("payload", searchDatasetVar);
-    if (searchValOtherOrg.val) {
+    if (searchValOtherOrg.val && isLoadMore) {
       fetchSearchDataWithLoadMoreButtonMember(isLoadMore);
       return;
     }

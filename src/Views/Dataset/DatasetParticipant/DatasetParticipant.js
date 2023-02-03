@@ -1042,7 +1042,7 @@ export default function DatasetParticipant() {
 
   const getMyDataset = (isLoadMore) => {
     setIsLoader(true);
-    if (searchValMyOrg.val) {
+    if (searchValMyOrg.val && isLoadMore) {
       fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore);
       return;
     }
@@ -1109,7 +1109,7 @@ export default function DatasetParticipant() {
 
   const getMemberDatasets = (isLoadMore) => {
     setIsLoader(true);
-    if (searchValOtherOrg.val) {
+    if (searchValOtherOrg.val && isLoadMore) {
       fetchSearchDataWithLoadMoreButtonMember(isLoadMore);
       return;
     }
