@@ -1295,6 +1295,9 @@ export default function DatasetParticipant() {
   };
 
   const clearAllFilters = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     setIsShowAll(true);
     resetDateFilters();
     setConstantyUpdateSwitch(false);
