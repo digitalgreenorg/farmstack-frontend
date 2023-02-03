@@ -14,7 +14,7 @@ import ConnectionProgressGif from "./ConnectionProgressGif";
 
 export default function LiveApiConnection(props) {
   const { isDatasetEditModeOn, LiveApiFileList, setLiveApiFileList, cancelForm, datasetname, deleteFunc, localUploaded, mysqlFileList,
-    setPostgresFileList, setMysqlFileList, postgresFileList, setAllFiles, handleMetadata, progress, setProgress, uploadFile, setFile, key } = props
+    setPostgresFileList, setMysqlFileList, postgresFileList, setAllFiles, handleMetadata, progress, setProgress, uploadFile, setFile, key, isaccesstoken } = props
   const [apifield, setApifield] = useState("")
   const [authkey, setAuthKey] = useState("")
   const [isConnected, setIsConnected] = useState(false)
@@ -61,7 +61,7 @@ export default function LiveApiConnection(props) {
     bodyFormData.append("source", "live_api")
     bodyFormData.append("api_key", authkey)
     bodyFormData.append("url", apifield)
-    let accesstoken = getTokenLocal();
+    let accesstoken =  isaccesstoken || getTokenLocal();
     let url = ""
     if (isDatasetEditModeOn) {
       url = UrlConstant.base_url + UrlConstant.live_api + "?dataset_exists=True"

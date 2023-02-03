@@ -883,22 +883,23 @@ export default function Login(props) {
       {isDataSet && isLoggedInUserParticipant() ? (
         <div>
           <AddDataset
-            isaccesstoken={isaccesstoken}
-            okAction={() => {
-              setOnBoardedTrue();
-              setTokenLocal(isaccesstoken);
-              history.push("/participant/datasets/add");
-            }}
+             isaccesstoken={isaccesstoken}
+             setOnBoardedTrue={setOnBoardedTrue}
+            // okAction={() => {
+            //   setOnBoardedTrue();
+            //   setTokenLocal(isaccesstoken);
+            //   history.push("/participant/datasets/add");
+            // }}
             cancelAction={() => {
               setOnBoardedTrue();
               setTokenLocal(isaccesstoken);
-              history.push("/participant/datasets/add");
+              history.push("/participant/datasets/");
             }}
           />
           <div style={{ position: "absolute" }}>
             <Footer />
           </div>
-        </div>
+          </div>
       ) : (
         <div>
           {!isCategorySetup && <h1 className="headertext">{screenlabels.login.signup_header}</h1>}
