@@ -21,7 +21,7 @@ const CategorySelectorList = (props) => {
         <div>
             <label htmlFor="">Categories</label>
             <Select
-                mode="tags"
+                mode="multiple"
                 placeholder="Please select"
                 // defaultValue={[]}
                 value={newSelectedCategory}

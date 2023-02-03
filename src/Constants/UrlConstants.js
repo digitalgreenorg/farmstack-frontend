@@ -36,6 +36,7 @@ const UrlConstant = {
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
   dataseteth: "datahub/dataset/v2/temp_datasets/",
+  check_dataset_name_and_description_in_database: "datahub/dataset/v2/validate_dataset/",
   datasetethcancel: "datahub/dataset/v2/temp_datasets/?delete_dir=True",
   datasetview: "datahub/dataset/v2/",
   datasetview_guest: "microsite/datasets/",

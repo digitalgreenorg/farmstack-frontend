@@ -64,7 +64,7 @@ const AddDataset = (props) => {
 
 
     const handleChangeSubCatList = (value) => {
-        console.log("Value1212", value)
+        console.log("Value1212121", value)
 
         setSubCatList(
             // On autofill we get a stringified value.
@@ -100,6 +100,7 @@ const AddDataset = (props) => {
 
     //dataset name handler
     const handleChangedatasetname = (e) => {
+        seteErrorDatasetName("")
         validateInputField(e.target.value, RegexConstants.connector_name)
             ? setdatasetname(e.target.value)
             : e.preventDefault();
@@ -182,7 +183,107 @@ const AddDataset = (props) => {
         return skipped.has(step);
     };
 
+
+    const checkDatasetNameExistInDatabase = () =>{
+
+        var bodyFormData = new FormData();
+        bodyFormData.append("dataset_name", datasetname);
+        bodyFormData.append("description", govLawDesc);
+
+        let url = ""
+        if (isDatasetEditModeOn) {
+            url = UrlConstant.base_url + UrlConstant.check_dataset_name_and_description_in_database + "?dataset_exists=True"
+        } else {
+            url = UrlConstant.base_url + UrlConstant.check_dataset_name_and_description_in_database
+        }
+        console.log("checkDatasetNameExistInDatabase",activeStep,            bodyFormData,
+        )
+        HTTPService(
+            "POST",
+            url,
+            bodyFormData,
+            false,
+            true,
+            false
+        )
+            .then((response) => {
+                setIsLoader(false);
+                // setisSuccess(true);
+                // setIsSubmitted(true)
+                // console.log("dataset uploaded!");
+
+                // //if error occurs Success message will be shown as Snackbar
+                // setMessageForSnackBar("Dataset uploaded successfully")
+                // setErrorOrSuccess("success")
+                // handleClick()
+            })
+            .catch((e) => {
+                setIsSubmitted(false)
+                setIsLoader(false);
+                //if error occurs Alert will be shown as Snackbar
+
+                console.log(e);
+                //console.log(e.response.data.sample_dataset[0]);
+                var returnValues = GetErrorKey(e, bodyFormData.keys());
+                var errorKeys = returnValues[0];
+                var errorMessages = returnValues[1];
+                if (errorKeys.length > 0) {
+                    for (var i = 0; i < errorKeys.length; i++) {
+                        switch (errorKeys[i]) {
+                            case "dataset_name":
+                                seteErrorDatasetName(errorMessages[i])
+                                setActiveStep(0)
+                                // setnameErrorMessage(errorMessages[i]);
+                                break;
+                            case "description":
+                                setDescriptionErrorMessage(errorMessages[i]);
+                                setActiveStep(0)
+                                break;
+                            case "category":
+                                // setCategoryErrorMessage(errorMessages[i]);
+                                break;
+                            case "geography":
+                                // setGeographyErrorMessage(errorMessages[i]);
+                                break;
+                            case "crop_detail":
+                                // setCropDetailErrorMessage(errorMessages[i]);
+                                break;
+                            case "age_of_date":
+                                // setAgeErrorMessage(errorMessages[i]);
+                                break;
+                            case "data_capture_start":
+                                // setDataCaptureStartErrorMessage(errorMessages[i]);
+                                break;
+                            case "data_capture_end":
+                                // setDataCaptureEndErrorMessage(errorMessages[i]);
+                                break;
+                            case "sample_dataset":
+                                // setfileValid(errorMessages[i]);
+                                break;
+                            default:
+                                setMessageForSnackBar("Dataset uploaded failed")
+                                setErrorOrSuccess("error")
+                                handleClick()
+                                break;
+                        }
+                    }
+                } else {
+                    setMessageForSnackBar("Dataset uploaded failed")
+                    setErrorOrSuccess("error")
+                    handleClick()
+                }
+                //setfileValid(e.response.data.sample_dataset[0]);
+                // history.push(GetErrorHandlingRoute(e));
+            });
+    }
+
     const handleNext = () => {
+        console.log('onclick of next active step', activeStep)
+
+        if(activeStep==0){
+            checkDatasetNameExistInDatabase()
+        }
+
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
@@ -285,6 +386,7 @@ const AddDataset = (props) => {
         return res !== null;
     };
     const handlegovLawChange = (value) => {
+        setDescriptionErrorMessage("")
         setEditorGovLawValue(value);
         setgovLawDesc(value.toString("html"));
         console.log(value.toString("html"));
@@ -386,11 +488,12 @@ const AddDataset = (props) => {
     function handleChangeCategoryForSubCategory(selectectedCatList) {
         // allCatFetched
         let obj = {}
+        setNewSelectedSubCategory([])
         for (let i = 0; i < selectectedCatList.length; i++) {
             console.log(selectectedCatList[i])
             obj[selectectedCatList[i]] = []
         }
-        console.log(selectectedCatList)
+        // console.log(selectectedCatList)
 
         setSelectedCat(obj)
         setMainJson({ ...obj })
@@ -490,16 +593,20 @@ const AddDataset = (props) => {
 
     const handleAddDatasetSubmit = (e) => {
         console.log(finalJson, "Main")
-        let selectedCategory = generateCategoryAndSubCat()
-        let objForFinalSend = { ...finalJson }
-
-        for (let i = 0; i < SubCatList.length; i++) {
+        e.preventDefault();
+        // let selectedCategory = generateCategoryAndSubCat()
+        // let objForFinalSend = { ...finalJson }
+        let mainObj = {}
+        for (let i = 0; i < newSelectedCategory.length; i++) {
+            mainObj[newSelectedCategory[i]] = []
+        }
+        console.log(newSelectedSubCategory, newSelectedCategory)
+        for (let i = 0; i < newSelectedSubCategory.length; i++) {
             let parent = SubCatList[i].split("-")[0] //parent == category
             let child = SubCatList[i].split("-")[1] // child == sub category
-            objForFinalSend[parent] = [...finalJson[parent], child]
+            mainObj[parent] = [...mainObj[parent], child]
         }
 
-        e.preventDefault();
         console.log("clicked on add dataset submit btn11");
         var id = getUserMapId();
         console.log("user id", id);
@@ -513,11 +620,11 @@ const AddDataset = (props) => {
         // setDataCaptureStartErrorMessage(null);
         // setDataCaptureEndErrorMessage(null);
         // setfileValid(null);
-        console.log(objForFinalSend, "FINAL CATEGORY")
+        console.log(mainObj, "FINAL CATEGORY")
         var bodyFormData = new FormData();
         bodyFormData.append("name", datasetname);
         bodyFormData.append("description", govLawDesc);
-        bodyFormData.append("category", JSON.stringify(objForFinalSend));
+        bodyFormData.append("category", JSON.stringify(mainObj));
         bodyFormData.append("user_map", id);
         bodyFormData.append("geography", geography);
 
@@ -583,29 +690,8 @@ const AddDataset = (props) => {
                                 setDescriptionErrorMessage(errorMessages[i]);
                                 setActiveStep(0)
                                 break;
-                            case "category":
-                                // setCategoryErrorMessage(errorMessages[i]);
-                                break;
-                            case "geography":
-                                // setGeographyErrorMessage(errorMessages[i]);
-                                break;
-                            case "crop_detail":
-                                // setCropDetailErrorMessage(errorMessages[i]);
-                                break;
-                            case "age_of_date":
-                                // setAgeErrorMessage(errorMessages[i]);
-                                break;
-                            case "data_capture_start":
-                                // setDataCaptureStartErrorMessage(errorMessages[i]);
-                                break;
-                            case "data_capture_end":
-                                // setDataCaptureEndErrorMessage(errorMessages[i]);
-                                break;
-                            case "sample_dataset":
-                                // setfileValid(errorMessages[i]);
-                                break;
                             default:
-                                setMessageForSnackBar("Dataset uploaded failed")
+                                setMessageForSnackBar("Something went wrong")
                                 setErrorOrSuccess("error")
                                 handleClick()
                                 break;
