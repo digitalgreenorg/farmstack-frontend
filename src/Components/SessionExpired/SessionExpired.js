@@ -73,7 +73,7 @@ export default function SessionExpired(props) {
                 </Row>
                 <Row style={useStyles.marginrowtop70}>
                     <Col xs={12} sm={12} md={12} lg={12} >
-                        <Button  onClick={()=> isLoggedInUserParticipant() === "datahub_admin" ? history.push("/datahub/login") : history.push("/participant/login") } variant="contained" className="submitbtn">
+                        <Button  onClick={()=> history.push("/home")} variant="contained" className="submitbtn">
                             <span>Sign in</span>
                         </Button>
                     </Col>

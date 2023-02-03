@@ -75,7 +75,7 @@ export default function ViewMetaDatasetDetails(props) {
             url,
             "",
             false,
-            false
+            true
         ).then((response) => {
             setLoader(false)
             console.log(response.data)
