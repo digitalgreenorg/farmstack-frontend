@@ -9,7 +9,7 @@ import Admin_upload_dataset from './UploadDatasetComponent';
 import Admin_add_metadata from './AddMetadata';
 import "./admin-add-dataset.css"
 import { TextField, Tooltip } from '@material-ui/core';
-import { GetErrorHandlingRoute, GetErrorKey, getUserMapId, handleUnwantedSpace, validateInputField, getTokenLocal, isLoggedInUserParticipant} from '../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, getUserMapId, handleUnwantedSpace, validateInputField, getTokenLocal, isLoggedInUserParticipant } from '../../Utils/Common';
 import RegexConstants from '../../Constants/RegexConstants';
 import ListForUploadedFiles from './ListForUploadedFiles';
 import { handleDeleteFile } from './Utils';
@@ -37,7 +37,7 @@ import CategorySelectorList from './CategorySelectorList';
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 
 const AddDataset = (props) => {
-    const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction} = props
+    const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction } = props
     const [uploadFile, setFile] = useState([]);
     const [progress, setProgress] = useState(0)
     const [value, setValue] = React.useState('1');
@@ -184,7 +184,7 @@ const AddDataset = (props) => {
     };
 
 
-    const checkDatasetNameExistInDatabase = () =>{
+    const checkDatasetNameExistInDatabase = () => {
 
         var bodyFormData = new FormData();
         bodyFormData.append("dataset_name", datasetname);
@@ -196,7 +196,7 @@ const AddDataset = (props) => {
         } else {
             url = UrlConstant.base_url + UrlConstant.check_dataset_name_and_description_in_database
         }
-        console.log("checkDatasetNameExistInDatabase",activeStep,            bodyFormData,
+        console.log("checkDatasetNameExistInDatabase", activeStep, bodyFormData,
         )
         HTTPService(
             "POST",
@@ -280,7 +280,7 @@ const AddDataset = (props) => {
     const handleNext = () => {
         console.log('onclick of next active step', activeStep)
 
-        if(activeStep==0){
+        if (activeStep == 0) {
             checkDatasetNameExistInDatabase()
         }
 
@@ -436,17 +436,17 @@ const AddDataset = (props) => {
 
 
     async function getAllCategoryAndSubCategory(datasetname, source, filename) {
-    
-        let checkforAccess = isaccesstoken? isaccesstoken : false;
 
-      HTTPService(
+        let checkforAccess = isaccesstoken ? isaccesstoken : false;
+
+        HTTPService(
             "GET",
             UrlConstant.base_url + UrlConstant.add_category_edit_category,
             "",
             true,
             true,
             checkforAccess
-            
+
 
         ).then((response) => {
             // categoryCreator(response.data)
@@ -653,7 +653,7 @@ const AddDataset = (props) => {
             method = "POST"
             url = UrlConstant.base_url + UrlConstant.datasetview
         }
-        let checkforAcess = isaccesstoken ?  isaccesstoken : false;
+        let checkforAcess = isaccesstoken ? isaccesstoken : false;
         setIsLoader(true);
 
         HTTPService(
@@ -661,13 +661,13 @@ const AddDataset = (props) => {
             url,
             bodyFormData,
             false,
-            true, 
+            true,
             checkforAcess,
         ).then((response) => {
-            if(isLoggedInUserParticipant() && isaccesstoken) {
+            if (isLoggedInUserParticipant() && isaccesstoken) {
                 setIsLoader(false)
                 setOnBoardedTrue()
-            }else{
+            } else {
                 setIsLoader(false);
                 // setisSuccess(true);
                 setIsSubmitted(true)
@@ -677,7 +677,8 @@ const AddDataset = (props) => {
                 setMessageForSnackBar("Dataset uploaded successfully")
                 setErrorOrSuccess("success")
                 handleClick()
-     } })
+            }
+        })
             .catch((e) => {
                 setIsSubmitted(false)
                 setIsLoader(false);
@@ -778,7 +779,7 @@ const AddDataset = (props) => {
             url,
             "",
             false,
-            false
+            true
         ).then((response) => {
             console.log(response.data)
             let data = response.data
@@ -990,7 +991,7 @@ const AddDataset = (props) => {
 
                                     {activeStep == 2 ?
                                         <AddMetadata
-                                        isaccesstoken={isaccesstoken}
+                                            isaccesstoken={isaccesstoken}
                                             setNewSelectedSubCategory={setNewSelectedSubCategory}
                                             newSelectedCategory={newSelectedCategory}
                                             newSelectedSubCategory={newSelectedSubCategory}
@@ -1055,15 +1056,15 @@ const AddDataset = (props) => {
                                             Back
                                         </Button>
                                         {isLoggedInUserParticipant() && isaccesstoken ?
-                                        <Button
-                                        style={{"marginLeft": "400px"}}
-                                            id='back_button'
-                                            color="inherit"
-                                            onClick={cancelAction}
-                                            sx={{ mr: 1 }}
-                                        >
-                                            Finish Later
-                                        </Button>  : " " }
+                                            <Button
+                                                style={{ "marginLeft": "400px" }}
+                                                id='back_button'
+                                                color="inherit"
+                                                onClick={cancelAction}
+                                                sx={{ mr: 1 }}
+                                            >
+                                                Finish Later
+                                            </Button> : " "}
                                         <Box sx={{ flex: '1 1 auto' }} />
                                         {activeStep != 0 && !isSubmitted ? <Button id='cancel_button' style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
                                         <Box sx={{ flex: '1 1 auto' }} />
