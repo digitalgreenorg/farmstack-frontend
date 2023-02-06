@@ -151,6 +151,7 @@ export default function GuestUserDatasets() {
     guestUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
     //memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
+    setDatasetUrl(adminUrl)
   };
   const handleConstantyUpdateSwitch = (event) => {
     console.log(event.target.checked);
@@ -391,6 +392,9 @@ export default function GuestUserDatasets() {
   };
 
   const resetFilterState = (filterName) => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     var tempfilterMaster = [];
     var tempFilerDisplay = [];
     if (filterName === screenlabels.dataset.geography) {
@@ -508,7 +512,10 @@ export default function GuestUserDatasets() {
 
   async function getSearchedData(val, isLoadMore, isMemberTab) {
     // console.log(val, "Here is value")
-    if (val.length < 3 && val !== "") val = "";
+    if (val.length < 3 && val !== "") {
+      val = "";
+      setDatasetUrl(adminUrl)
+    }
     // console.log(val)
     let data = {};
     setFilterState({});
@@ -660,7 +667,7 @@ export default function GuestUserDatasets() {
   };
 
   const getDatasetList = (isLoadMore) => {
-    if (searchValMyOrg.val) {
+    if (searchValMyOrg.val && isLoadMore) {
       getSearchedData(searchValMyOrg.val, isLoadMore, false);
       return;
     }
@@ -822,6 +829,10 @@ export default function GuestUserDatasets() {
   };
 
   const clearAllFilters = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
+    console.log("RESET")
     setIsShowAll(true);
     resetDateFilters();
     setConstantyUpdateSwitch(false);
@@ -830,12 +841,16 @@ export default function GuestUserDatasets() {
     resetFilterState(screenlabels.dataset.age);
     resetFilterState(screenlabels.dataset.status);
     resetFilterState(screenlabels.dataset.enabled);
-
+    // setDatasetUrl(adminUrl)
+    resetUrls()
     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "");
     getDatasetList(false);
   };
 
   const getAllDataSets = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
