@@ -37,8 +37,8 @@ import CategorySelectorList from './CategorySelectorList';
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 
 const AddDataset = (props) => {
-    const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction, onBoardingPage } = props
-    console.log('props in add dataset', props, onBoardingPage)
+    const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction, setTokenLocal, onBoardingPage } = props
+    
     const [uploadFile, setFile] = useState([]);
     const [progress, setProgress] = useState(0)
     const [value, setValue] = React.useState('1');
@@ -668,6 +668,9 @@ const AddDataset = (props) => {
             if (isLoggedInUserParticipant() && isaccesstoken) {
                 setIsLoader(false)
                 setOnBoardedTrue()
+                setTokenLocal(isaccesstoken)
+                setIsSubmitted(true)
+                history.push("/participant/datasets/")
             } else {
                 setIsLoader(false);
                 // setisSuccess(true);

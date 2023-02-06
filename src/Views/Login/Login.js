@@ -559,6 +559,9 @@ export default function Login(props) {
       .then((response) => {
         setIsLoader(false);
         console.log("onboarded true response", response.data);
+        // if (isLoggedInUserParticipant()) {
+        //   history.push("/participant/datasets/");
+        // }
       })
       .catch((e) => {
         setIsLoader(false);
@@ -885,8 +888,9 @@ export default function Login(props) {
         <div>
           <AddDataset
             onBoardingPage={onBoardingPage}
-             isaccesstoken={isaccesstoken}
-             setOnBoardedTrue={setOnBoardedTrue}
+            isaccesstoken={isaccesstoken}
+            setOnBoardedTrue={setOnBoardedTrue}
+            setTokenLocal={setTokenLocal}
             // okAction={() => {
             //   setOnBoardedTrue();
             //   setTokenLocal(isaccesstoken);
@@ -895,13 +899,14 @@ export default function Login(props) {
             cancelAction={() => {
               setOnBoardedTrue();
               setTokenLocal(isaccesstoken);
-              history.push("/participant/datasets/");
+              history.push("/participant/datasets");
+              // history.push("/participant/datasets");
             }}
           />
           <div style={{ position: "absolute" }}>
             <Footer />
           </div>
-          </div>
+        </div>
       ) : (
         <div>
           {!isCategorySetup && <h1 className="headertext">{screenlabels.login.signup_header}</h1>}
