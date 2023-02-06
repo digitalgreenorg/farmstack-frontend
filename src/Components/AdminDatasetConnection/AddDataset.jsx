@@ -607,8 +607,9 @@ const AddDataset = (props) => {
         }
         console.log(newSelectedSubCategory, newSelectedCategory)
         for (let i = 0; i < newSelectedSubCategory.length; i++) {
-            let parent = SubCatList[i].split("-")[0] //parent == category
-            let child = SubCatList[i].split("-")[1] // child == sub category
+            // console.log(newSelectedSubCategory[i].split("-"))
+            let parent = newSelectedSubCategory[i].split("-")[0] //parent == category
+            let child = newSelectedSubCategory[i].split("-")[1] // child == sub category
             mainObj[parent] = [...mainObj[parent], child]
         }
 
