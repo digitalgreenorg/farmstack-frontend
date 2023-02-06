@@ -191,6 +191,9 @@ const AddDataset = (props) => {
         bodyFormData.append("dataset_name", datasetname);
         bodyFormData.append("description", govLawDesc);
 
+        let checkforAccess = isaccesstoken ? isaccesstoken : false;
+
+
         let url = ""
         if (isDatasetEditModeOn) {
             url = UrlConstant.base_url + UrlConstant.check_dataset_name_and_description_in_database + "?dataset_exists=True"
@@ -205,7 +208,7 @@ const AddDataset = (props) => {
             bodyFormData,
             false,
             true,
-            false
+            checkforAccess
         )
             .then((response) => {
                 setIsLoader(false);
