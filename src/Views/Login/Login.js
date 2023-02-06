@@ -92,6 +92,7 @@ export default function Login(props) {
   const timerDuration = 120000;
   const [remainingCounterTime, setRemainingCounterTime] =
     useState(timerDuration);
+  const onBoardingPage = true
 
   const history = useHistory();
   const location = useLocation();
@@ -886,6 +887,7 @@ export default function Login(props) {
       {isDataSet && isLoggedInUserParticipant() ? (
         <div>
           <AddDataset
+            onBoardingPage={onBoardingPage}
             isaccesstoken={isaccesstoken}
             setOnBoardedTrue={setOnBoardedTrue}
             setTokenLocal={setTokenLocal}
