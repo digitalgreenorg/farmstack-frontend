@@ -9,7 +9,7 @@ import Admin_upload_dataset from './UploadDatasetComponent';
 import Admin_add_metadata from './AddMetadata';
 import "./admin-add-dataset.css"
 import { TextField, Tooltip } from '@material-ui/core';
-import { GetErrorHandlingRoute, GetErrorKey, getUserMapId, handleUnwantedSpace, validateInputField, getTokenLocal, isLoggedInUserParticipant } from '../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, getUserMapId, handleUnwantedSpace, validateInputField, getTokenLocal, isLoggedInUserParticipant, getRoleLocal } from '../../Utils/Common';
 import RegexConstants from '../../Constants/RegexConstants';
 import ListForUploadedFiles from './ListForUploadedFiles';
 import { handleDeleteFile } from './Utils';
@@ -37,7 +37,8 @@ import CategorySelectorList from './CategorySelectorList';
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 
 const AddDataset = (props) => {
-    const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction } = props
+    const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction, onBoardingPage } = props
+    console.log('props in add dataset', props, onBoardingPage)
     const [uploadFile, setFile] = useState([]);
     const [progress, setProgress] = useState(0)
     const [value, setValue] = React.useState('1');
@@ -1050,7 +1051,7 @@ const AddDataset = (props) => {
                                             id='back_button'
                                             color="inherit"
                                             // disabled={activeStep === 0}
-                                            onClick={activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
+                                            onClick={ activeStep == 0 && onBoardingPage  && getRoleLocal()  == "datahub_participant_root" ? () => history.push("/participant/login") : activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
                                             sx={{ mr: 1 }}
                                         >
                                             Back
