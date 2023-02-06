@@ -75,10 +75,11 @@ export default function ViewMetaDatasetDetails(props) {
       url,
       "",
       false,
-      true
+      userType == "guest" ? false : true
     ).then((response) => {
       setLoader(false)
       console.log(response.data)
+
       setCategory({ ...response.data.category })
       setGeography(response.data.geography)
       setconstantlyupdate(response.data.constantly_update)
@@ -331,7 +332,7 @@ export default function ViewMetaDatasetDetails(props) {
                   {isFileDataLoaded && fileData.map(itm1 => {
                     return (<Row style={{ maxHeight: "500px", marginTop: "15px", padding: "0px 20px" }}>
 
-                      <label> File name : {itm1.file.split("/")[5]}</label>
+                      {itm1?.file ? <label>  File name : {itm1?.file?.split("/")[5]}</label> : ""}
                       <Table
                         aria-label="simple table"
                         style={{ overflowX: "scroll", width: "1300px", border: "1px solid" }}
@@ -340,7 +341,7 @@ export default function ViewMetaDatasetDetails(props) {
                           {/* {isFileDataLoaded && fileData.map(itm1 => { */}
                           {/* console.log('item before tablerow', itm1) */}
                           <>
-                            {itm1.content.map((itm2, i) => {
+                            {itm1?.content?.map((itm2, i) => {
                               if (i === 0) {
                                 return (
                                   <TableRow>
@@ -359,7 +360,7 @@ export default function ViewMetaDatasetDetails(props) {
                         <TableBody>
                           {/* {isFileDataLoaded && fileData.map(itm1 => { */}
                           {/* return itm1.content.map(itm2 => { */}
-                          {itm1.content.map(itm2 => {
+                          {itm1?.content?.map(itm2 => {
                             return (<TableRow>
                               {
                                 Object.values(itm2).map((itm3, i) => {
@@ -391,12 +392,12 @@ export default function ViewMetaDatasetDetails(props) {
                             cursor: `${userType != "guest" ? "pointer" : ""}`
                           }}
                           onClick={() =>
-                            downloadAttachment(UrlConstant.base_url + downloadfile.file, downloadfile.file.split("/")[5])
+                            downloadAttachment(UrlConstant.base_url + downloadfile?.file ? downloadfile?.file : "", downloadfile?.file?.split("/")[5])
                           }
                         >
                           <FileDownloadSharpIcon
                             style={{ marginRight: "20px" }} />
-                          <Row>{downloadfile.file.split("/")[5]}
+                          <Row>{downloadfile?.file?.split("/")[5]}
                             {/* <hr className="separatorline" /> */}
                             {/* m */}
                           </Row>
