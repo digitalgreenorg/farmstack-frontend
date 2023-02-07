@@ -71,7 +71,13 @@ const AddMetadata = (props) => {
         props.handleChangeToDate(new Date(dateString[1]))
     };
 
+    const disabledDate = (current) => {
+        // Can not select days before today and today
+        return current && current.valueOf() > Date.now();
+      }
+
     console.log("OPTIONS", options)
+    console.log('newSelectedSubCategory, newSelectedCategory', newSelectedSubCategory, newSelectedCategory)
 
     // for (let i = 0; i < allCatFetched.length; i++) {
     //     options.push({ label: subCategoryNameList[i], value: subCategoryNameList[i]  })
@@ -84,6 +90,7 @@ const AddMetadata = (props) => {
     //     handleChangeSubCatList()
     // };
     useEffect(() => {
+        sublist = newSelectedSubCategory
         setNewSelectedSubCategory([...sublist])
     }, [])
     return (
@@ -219,7 +226,7 @@ const AddMetadata = (props) => {
                         />
                     </Row>
                     <Row style={{ textAlign: "center", display: "inline-block" }}>
-                        <RangePicker allowClear={false} inputReadOnly value={(props.fromdate && props.todate) ? [dayjs(props.fromdate), dayjs(props.todate)] : ""}
+                        <RangePicker disabledDate={disabledDate} allowClear={false} inputReadOnly value={(props.fromdate && props.todate) ? [dayjs(props.fromdate), dayjs(props.todate)] : ""}
                             disabled={props.Switchchecked ? true : false} onChange={onChange} />
                     </Row>
                 </Col>
