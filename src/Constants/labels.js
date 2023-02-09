@@ -361,8 +361,8 @@ const labels = {
       third_delete_msg: "The project will no longer present in your account.",
     },
     coSteward: {
-      add_coStweward: "Add new Co-Steward",
-      add_coStweward_text2:  "Add details about your Co-Steward and make it discoverable to other users of pour network.",
+      add_co_steward: "Add new Co-Steward",
+      add_co_steward_description:  "Add details about your Co-Steward and make it discoverable to other users of pour network.",
     }
   },
 };

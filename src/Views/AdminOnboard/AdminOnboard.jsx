@@ -124,8 +124,8 @@ export default function AdminOnboard(props) {
                 <Row style={useStyles.marginrowtop10px}>
                   <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>
                     <AddCard
-                      firstText={screenlabels.coSteward.add_coStweward}
-                      secondText={screenlabels.coSteward.add_coStweward_text2}
+                      firstText={screenlabels.coSteward.add_co_steward}
+                      secondText={screenlabels.coSteward.add_co_steward_description}
                       addevent={() =>
                         history.push("/datahub/participants/add")
                       }></AddCard>
