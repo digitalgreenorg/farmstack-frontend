@@ -93,17 +93,29 @@ export default function LocalMachineUploadDataset(props) {
     var bodyFormData = new FormData();
     let accesstoken =  isaccesstoken || getTokenLocal();
     const isValidFile = currentFileList.every(item => item.size < 52428800);
-    currentFileList.map(async (item, index) => {
-      bodyFormData.append("datasets", item)
+    console.log('currentFileList before upload dataset api call', currentFileList)
+
+    for(let index = currentFileList.length-1; index>=0; index--){
+      
+      let item = currentFileList[index]
+      console.log('index and item before reverse loop call',item, index)
+
+      ApiCallToUploadAllDataset(item,index)
+
+    }
+
+      async function ApiCallToUploadAllDataset (item, index) {
+        bodyFormData.append("datasets", item)
         bodyFormData.append("source", "file")
         bodyFormData.append("dataset_name", datasetname)
+        console.log('dataset name in payload',datasetname,item, bodyFormData)
         const options = {
           onUploadProgress: (progressEvent) => {
             console.log(progressEvent.loaded);
             const { loaded, total } = progressEvent;
             let percent = Math.floor((loaded * 100) / total);
             console.log(`${loaded}kb of ${total}kb | ${percent}%`);
-            setProgress(percent)
+              setProgress(percent)
             currentFileList[index].progress = percent;
             setFile(currentFileList)
             setKey(Math.random())
@@ -161,9 +173,10 @@ export default function LocalMachineUploadDataset(props) {
               history.push(GetErrorHandlingRoute(e));
             }
           });
-      } 
-    });
+      
+    };
   }
+}
 
   const handleDeleteDatasetList = (filename, item) => {
     var bodyFormData = new FormData();
