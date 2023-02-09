@@ -7,7 +7,7 @@ import {
   Redirect,
   withRouter,
 } from "react-router-dom";
-import AdminOnboard from "../Views/AdminOnboard/AdminOnboard";
+import ParticipantCoStewardManagement from "../Views/ParticipantCoSteward/ParticipantCoStewardManagement"
 import Participants from "../Views/Participants/Participants";
 import AddParticipants from "../Views/Participants/AddParticipants";
 import EditParticipants from "../Views/Participants/EditParticipants";
@@ -159,7 +159,7 @@ function Datahub(props) {
               <Route
               exact
               path="/datahub/participants"
-              component={AdminOnboard}
+              component={ParticipantCoStewardManagement}
               />
             </Switch>
           </div>
