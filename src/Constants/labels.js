@@ -360,6 +360,10 @@ const labels = {
       second_delete_msg: "This action will delete the project from the system.",
       third_delete_msg: "The project will no longer present in your account.",
     },
+    coSteward: {
+      add_coStweward: "Add new Co-Steward",
+      add_coStweward_text2:  "Add details about your Co-Steward and make it discoverable to other users of pour network.",
+    }
   },
 };
 export default labels;

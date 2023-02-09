@@ -7,6 +7,7 @@ import {
   Redirect,
   withRouter,
 } from "react-router-dom";
+import AdminOnboard from "../Views/AdminOnboard/AdminOnboard";
 import Participants from "../Views/Participants/Participants";
 import AddParticipants from "../Views/Participants/AddParticipants";
 import EditParticipants from "../Views/Participants/EditParticipants";
@@ -74,11 +75,11 @@ function Datahub(props) {
                 path="/datahub/participants/invite"
                 component={InviteParticipants}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/participants"
                 component={Participants}
-              />
+              /> */}
               {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
               <Route exact path="/datahub/datasets/add" component={AddDataset} />
               <Route
@@ -154,6 +155,11 @@ function Datahub(props) {
               exact
               path="/datahub/dataset/view/:id"
               component={ViewMetaDatasetDetails}
+              />
+              <Route
+              exact
+              path="/datahub/participants"
+              component={AdminOnboard}
               />
             </Switch>
           </div>
