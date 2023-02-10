@@ -133,7 +133,7 @@ function Participant(props) {
           <Footer />
         </div>
       ) : (
-        props.history.push("/participant/login")
+        props.history.push("/login")
       )}
     </>
   );

@@ -68,7 +68,7 @@ const Navbar = (props) => {
     localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
     localStorage.removeItem(LocalStorageConstants.KEYS.user);
     */
-    history.push("/datahub/login");
+    history.push("/login");
   };
   return (
     <>

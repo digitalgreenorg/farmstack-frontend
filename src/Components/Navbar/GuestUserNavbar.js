@@ -18,6 +18,8 @@ import "./Navbar.css";
 import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
 import {GetErrorHandlingRoute} from "../../Utils/Common";
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 const GuestUserNavBar = (props) => {
   const [profile, setprofile] = useState(null);
@@ -55,6 +57,8 @@ const GuestUserNavBar = (props) => {
     <>
       {isLoader ? <Loader />: ''}
       <Nav id="datahubnavbar">
+    <Row >
+    <Col xs={8} sm={8} md={8} lg={8} className='navbar_col' >
         {/* <Bars /> */}
         {phoneNumber ?
         <div>
@@ -94,24 +98,37 @@ const GuestUserNavBar = (props) => {
             &nbsp;&nbsp;{screenlabels.navbar.contact}
           </NavLink>
         </NavMenu>
-        <NavBtn>
+        </Col>
+        {/* <NavBtn>
           <NavBtnLink to="/datahub/login">
             <img src={require("../../Assets/Img/account.svg")} alt="new" />
             &nbsp;&nbsp;{screenlabels.navbar.SigninAsAdmin}
           </NavBtnLink>
-        </NavBtn>
-        <NavBtn>
+        </NavBtn> */}
+        
+        {/* <NavBtn>
           <NavBtnLink to="/participant/login">
             <img src={require("../../Assets/Img/account.svg")} alt="new" />
             &nbsp;&nbsp;{screenlabels.navbar.SigninAsParticipant}
           </NavBtnLink>
-        </NavBtn>
+          
+        </NavBtn> */}
+        <Col xs={4} sm={4} md={4} lg={4} className='navbar_col navbar_right_col' >
         <NavBtn>
           <NavBtnLink to="/participantregistration">
             <img src={require("../../Assets/Img/account.svg")} alt="new" />
-            &nbsp;&nbsp;{"Register as participant"}
+            &nbsp;&nbsp;{"Register"}
           </NavBtnLink>
         </NavBtn>
+        <NavBtn>
+          <NavBtnLink to="/login">
+            <img src={require("../../Assets/Img/account.svg")} alt="new" />
+            &nbsp;&nbsp;{screenlabels.navbar.Login}
+          </NavBtnLink>
+          
+        </NavBtn>
+        </Col>
+        </Row>
       </Nav>
     </>
   );
