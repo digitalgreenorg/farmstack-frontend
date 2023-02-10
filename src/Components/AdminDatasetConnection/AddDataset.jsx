@@ -1073,7 +1073,7 @@ const AddDataset = (props) => {
                                             id='back_button'
                                             color="inherit"
                                             // disabled={activeStep === 0}
-                                            onClick={ activeStep == 0 && onBoardingPage  && getRoleLocal()  == "datahub_participant_root" ? () => history.push("/participant/login") : activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
+                                            onClick={ activeStep == 0 && onBoardingPage  && getRoleLocal()  == "datahub_participant_root" ? () => history.push("/login") : activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
                                             sx={{ mr: 1 }}
                                         >
                                             Back
