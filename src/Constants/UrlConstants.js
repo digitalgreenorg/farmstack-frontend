@@ -72,7 +72,8 @@ const UrlConstant = {
   send_columns_to_export: "participant/database/database_xls_file/",
   admin_dataset_new_dataset_v2: "datahub/dataset/v2/",
   live_api: "participant/database/database_live_api_export/",
-  add_category_edit_category: "datahub/dataset/v2/category/"
+  add_category_edit_category: "datahub/dataset/v2/category/",
+  co_steward_add: "datahub/participant/"
 };
 
 export default UrlConstant;

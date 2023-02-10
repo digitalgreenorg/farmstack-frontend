@@ -7,6 +7,7 @@ import {
   Redirect,
   withRouter,
 } from "react-router-dom";
+import AddCoSteward from "../Components/CoSteward/AddCoSteward";
 import ParticipantCoStewardManagement from "../Views/ParticipantCoSteward/ParticipantCoStewardManagement"
 import Participants from "../Views/Participants/Participants";
 import AddParticipants from "../Views/Participants/AddParticipants";
@@ -160,6 +161,11 @@ function Datahub(props) {
               exact
               path="/datahub/participants"
               component={ParticipantCoStewardManagement}
+              />
+               <Route
+              exact
+              path="/datahub/participants/addcosteward"
+              component={AddCoSteward}
               />
             </Switch>
           </div>
