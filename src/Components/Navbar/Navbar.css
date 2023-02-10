@@ -67,3 +67,10 @@ color: #A3B0B8;
 .navlink.active:hover {
 	color: #3D4A52;
 }
+.navbar_col{
+  display: flex;
+}
+.navbar_right_col{
+  flex-direction: row-reverse;
+  width: 700px;
+}

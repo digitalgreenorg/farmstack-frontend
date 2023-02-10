@@ -21,6 +21,7 @@ const labels = {
       Signin: "Sign in",
       SigninAsAdmin: "Login as admin",
       SigninAsParticipant: "Login as participant",
+      Login: "Login",
       helpline: "1800 1100 1200 1912",
       legal: "Legal",
       contact: "Contact",

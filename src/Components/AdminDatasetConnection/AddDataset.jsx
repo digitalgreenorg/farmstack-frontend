@@ -496,7 +496,7 @@ const AddDataset = (props) => {
     function handleChangeCategoryForSubCategory(selectectedCatList) {
         // allCatFetched
         let obj = {}
-        setNewSelectedSubCategory([])
+        // setNewSelectedSubCategory([])
         for (let i = 0; i < selectectedCatList.length; i++) {
             console.log(selectectedCatList[i])
             obj[selectectedCatList[i]] = []
@@ -512,6 +512,21 @@ const AddDataset = (props) => {
             // parent: selectectedCatList[i]
             subCatList = [...subCatList, ...allCatFetched[selectectedCatList[i]] ? allCatFetched[selectectedCatList[i]] : []]
         }
+        let subCategoryValueAfterDeletingCategory = []
+
+        // forEach will remove all sub category which is not sub category of selcted category
+        subCatList.forEach((item)=>{
+            for(let i of newSelectedSubCategory){
+                console.log('newSelectedSubCategory i', i,subCatList,i.split('-')[1],item,newSelectedSubCategory)
+                // i value is category name + "-" + sub category name or sub category name
+                 i = i.split('-')[1] || i.split('-')[0]
+                if(i==item){
+                subCategoryValueAfterDeletingCategory.push(i)
+                }
+            }
+        })
+        setNewSelectedSubCategory(subCategoryValueAfterDeletingCategory)
+
         // for (let i = 0; i < mainCategoryList.length; i++) {
         // for (let j = 0; j < selectectedCatList.length; j++) {
         //     console.log(selectectedCatList[j], mainCategoryList[i])
@@ -1058,7 +1073,7 @@ const AddDataset = (props) => {
                                             id='back_button'
                                             color="inherit"
                                             // disabled={activeStep === 0}
-                                            onClick={ activeStep == 0 && onBoardingPage  && getRoleLocal()  == "datahub_participant_root" ? () => history.push("/participant/login") : activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
+                                            onClick={ activeStep == 0 && onBoardingPage  && getRoleLocal()  == "datahub_participant_root" ? () => history.push("/login") : activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
                                             sx={{ mr: 1 }}
                                         >
                                             Back

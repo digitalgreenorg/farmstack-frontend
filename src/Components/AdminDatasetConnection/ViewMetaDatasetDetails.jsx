@@ -83,8 +83,8 @@ export default function ViewMetaDatasetDetails(props) {
       setCategory({ ...response.data.category })
       setGeography(response.data.geography)
       setconstantlyupdate(response.data.constantly_update)
-      setFromdate(response.data.data_capture_start.split('T')[0])
-      setToDate(response.data.data_capture_end.split('T')[0])
+      setFromdate(response.data.data_capture_start?.split('T')[0])
+      setToDate(response.data.data_capture_end?.split('T')[0])
       setDatasetDescription(response.data.description)
       setfileData(response.data.datasets)
       setOrgDetail(response.data.organization)
@@ -92,6 +92,7 @@ export default function ViewMetaDatasetDetails(props) {
       setUserDetails(response.data.user)
     }).catch((e) => {
       setLoader(false);
+      console.log('error while loading dataset', e)
       history.push(GetErrorHandlingRoute(e));
     }
 
