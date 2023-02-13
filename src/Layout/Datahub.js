@@ -7,6 +7,8 @@ import {
   Redirect,
   withRouter,
 } from "react-router-dom";
+import AddCoSteward from "../Components/CoSteward/AddCoSteward";
+import ParticipantCoStewardManagement from "../Views/ParticipantCoSteward/ParticipantCoStewardManagement"
 import Participants from "../Views/Participants/Participants";
 import AddParticipants from "../Views/Participants/AddParticipants";
 import EditParticipants from "../Views/Participants/EditParticipants";
@@ -74,11 +76,11 @@ function Datahub(props) {
                 path="/datahub/participants/invite"
                 component={InviteParticipants}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/participants"
                 component={Participants}
-              />
+              /> */}
               {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
               <Route exact path="/datahub/datasets/add" component={AddDataset} />
               <Route
@@ -155,12 +157,22 @@ function Datahub(props) {
               path="/datahub/dataset/view/:id"
               component={ViewMetaDatasetDetails}
               />
+              <Route
+              exact
+              path="/datahub/participants"
+              component={ParticipantCoStewardManagement}
+              />
+               <Route
+              exact
+              path="/datahub/participants/addcosteward"
+              component={AddCoSteward}
+              />
             </Switch>
           </div>
           <Footer />
         </div>
       ) : (
-        props.history.push("/datahub/login")
+        props.history.push("/login")
       )}
     </>
   );

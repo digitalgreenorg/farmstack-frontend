@@ -7,6 +7,7 @@ import { Row, Col } from "react-bootstrap";
 
 export default function FileUploaderDetailsAccordian({ data, title, deleteFunc, source, datasetname, loader, key, setKey, uploadFile, localUploaded }) {
 
+  console.log('uploaded file', uploadFile)
     return ( 
            <Accordion defaultExpanded={true}>
                <AccordionSummary
@@ -24,7 +25,9 @@ export default function FileUploaderDetailsAccordian({ data, title, deleteFunc, 
              (<AccordionDetails>
               <Typography style={{ maxHeight: "300px", overflowY: "scroll" , overflowX: "hidden"}}>
                   <ol className="uploaddatasetname">
-                    {uploadFile.map((item) => {
+                    {uploadFile.map((item,index) => {
+
+                      console.log('index and item while rendring progress component', index, item, item?.progress)
                       return (<> 
                       <Row key={key}>
                       {/* <Col> */}
@@ -43,10 +46,10 @@ export default function FileUploaderDetailsAccordian({ data, title, deleteFunc, 
                         </IconButton>
                         {/* </Col> */}
                         {/* </Row> */}
-                        <LinearProgress variant="determine" value={item?.progress ? item?.progress : 0} key={key} color="success"
+                        <LinearProgress variant="determine" value={item?.progress && index==uploadFile.length-1 ? item?.progress : item?.progress && index<uploadFile.length-1 ? 100 : 0} key={key} color="success"
                         style={{width : "350px"}} />
                         </Row>
-                        <p>{item?.progress ? item?.progress : 0}%</p>
+                        <p>{item?.progress && index==uploadFile.length-1 ? item?.progress : item?.progress && index<uploadFile.length-1 ? 100 : 0}%</p>
                       </>
                       )
                     })}
