@@ -120,9 +120,9 @@ export default function Login(props) {
       let url = UrlConstant.base_url + UrlConstant.login;
       let data = {
         email: finalEmail,
-        role: isParticipantRoute(location.pathname)
-          ? LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT
-          : LocalStorageConstants.ROLES.DATAHUB_ADMIN
+        // role: isParticipantRoute(location.pathname)
+        //   ? LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT
+        //   : LocalStorageConstants.ROLES.DATAHUB_ADMIN
       };
       console.log(data, "EMAILLLLLLLLL")
 
