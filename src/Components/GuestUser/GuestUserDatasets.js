@@ -60,9 +60,17 @@ export default function GuestUserDatasets() {
   const [memberDatasetList, setMemberDatasetList] = useState([]);
 
   const [dataAccessFilterDisplay, setDataAccessDisplay] = useState([
-    { index:0,name: "Public" ,payloadName:true,isChecked:false},
-    { index:1,name: "Private",payloadName:false,isChecked:false},
+    { index: 0, name: "Public", payloadName: true, isChecked: false },
+    { index: 1, name: "Private", payloadName: false, isChecked: false },
   ]);
+
+  const [categoryFilterOptions, setCategoryFilterOptions] = useState([]);
+  const [masterSubcategoryFilterOptions, setMasterSubcategoryFilterOptions] =
+    useState([]);
+  const [subcategoryFilterOptions, setSubcategoryFilterOptions] = useState([]);
+  const [categoryFilterValue, setCategoryFilterValue] = useState([]);
+  const [subcategoryFilterValue, setSubcategoryFilterValue] = useState([]);
+
   // const [geoFilterMaster,setGeoFilterMaster] = useState([])
   const [geoFilterDisplay, setGeoFilterDisplay] = useState([]);
 
@@ -143,6 +151,7 @@ export default function GuestUserDatasets() {
     guestUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
     //memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
+    setDatasetUrl(adminUrl)
   };
   const handleConstantyUpdateSwitch = (event) => {
     console.log(event.target.checked);
@@ -165,13 +174,68 @@ export default function GuestUserDatasets() {
     payload = data;
     resetDateFilters();
     resetFilterState(screenlabels.dataset.age);
-    resetFilterState(screenlabels.dataset.crop);
+    // resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
     resetFilterState(screenlabels.dataset.enabled);
     resetFilterState(screenlabels.dataset.geography);
 
     setConstantyUpdateSwitch(event.target.checked);
 
+    getDatasetList(false);
+  };
+
+  const handleCategoryFilterChange = (value, action) => {
+    // Get which field triggred the event
+    const input_field = action.name;
+
+    if (input_field === "Categories") {
+      setCategoryFilterValue(value);
+      switch (action.action) {
+        case "select-option":
+          // Add more subcategories (children of the selected category) to the subcategories option list
+          const selected_option = action.option;
+          let additional_subcategories = masterSubcategoryFilterOptions.filter(
+            (subcategory) => subcategory.category === selected_option.value
+          );
+          setSubcategoryFilterOptions([
+            ...subcategoryFilterOptions,
+            ...additional_subcategories,
+          ]);
+
+          break;
+        case "remove-value":
+        case "pop-value":
+          // Remove subcategories that belong to the removed category
+          const popped_option = action.removedValue;
+          // Remove subcategory options that belong to the removed category
+          setSubcategoryFilterOptions(
+            subcategoryFilterOptions.filter(
+              (subcategory) => subcategory.category !== popped_option.value
+            )
+          );
+          // Remove selected subcategories that belong to the removed category
+          setSubcategoryFilterValue(
+            subcategoryFilterValue.filter(
+              (subcategory) => subcategory.category !== popped_option.value
+            )
+          );
+          break;
+        case "clear":
+          // Clear all subcategory options
+          setSubcategoryFilterOptions([]);
+          setSubcategoryFilterValue([]);
+          break;
+      }
+    } else if (input_field === "Subcategories") {
+      setSubcategoryFilterValue(value);
+    }
+  };
+
+  const filterByCategory = () => {
+    payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "", {
+      category: categoryFilterValue,
+      subcategory: subcategoryFilterValue,
+    });
     getDatasetList(false);
   };
 
@@ -191,7 +255,7 @@ export default function GuestUserDatasets() {
     if (filterName === screenlabels.dataset.geography) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.age);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
       resetFilterState(screenlabels.dataset.enabled);
 
@@ -205,15 +269,14 @@ export default function GuestUserDatasets() {
           isAnyFilterChecked = true;
         }
       }
-      
+
       setGeoFilterDisplay(tempFilterDisplay);
 
       payload = buildFilterPayLoad("", getUserLocal(), payloadList, "", "", "");
-      
     } else if (filterName === "datavisiblity") {
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
       resetFilterState(screenlabels.dataset.enabled);
 
@@ -227,13 +290,13 @@ export default function GuestUserDatasets() {
           isAnyFilterChecked = true;
         }
       }
-      console.log("ddddonee",payloadList);
+      console.log("ddddonee", payloadList);
       setDataAccessDisplay(tempFilterDisplay);
       payload = buildFilterPayLoad("", getUserLocal(), "", payloadList, "", "");
     } else if (filterName === screenlabels.dataset.age) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
       resetFilterState(screenlabels.dataset.enabled);
 
@@ -260,7 +323,7 @@ export default function GuestUserDatasets() {
       // }
       // setAgeFilterMaster(tempFilterMaster)
       payload = buildFilterPayLoad("", getUserLocal(), "", payloadList, "", "");
-    } else if (filterName === screenlabels.dataset.crop) {
+      // } else if (filterName === screenlabels.dataset.crop) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
@@ -277,14 +340,14 @@ export default function GuestUserDatasets() {
           isAnyFilterChecked = true;
         }
       }
-      setCropFilterDisplay(tempFilterDisplay);
+      // setCropFilterDisplay(tempFilterDisplay);
 
       payload = buildFilterPayLoad("", getUserLocal(), "", "", payloadList, "");
     } else if (filterName === screenlabels.dataset.status) {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.enabled);
 
       tempFilterDisplay = [...statusFilter];
@@ -304,7 +367,7 @@ export default function GuestUserDatasets() {
       resetFilterState("datavisiblity");
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
-      resetFilterState(screenlabels.dataset.crop);
+      // resetFilterState(screenlabels.dataset.crop);
       resetFilterState(screenlabels.dataset.status);
 
       tempFilterDisplay = [...enableStatusFilter];
@@ -329,9 +392,12 @@ export default function GuestUserDatasets() {
   };
 
   const resetFilterState = (filterName) => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     var tempfilterMaster = [];
     var tempFilerDisplay = [];
-    if (filterName ===screenlabels.dataset.geography) {
+    if (filterName === screenlabels.dataset.geography) {
       // tempfilterMaster = [...geoFilterMaster]
       // for(let i=0; i<tempfilterMaster.length; i++){
       //     tempfilterMaster[i].isChecked = false
@@ -346,14 +412,13 @@ export default function GuestUserDatasets() {
       setGeoFilterDisplay(tempFilerDisplay);
       setGeoSearchState("");
     } else if (filterName === "datavisiblity") {
-        tempFilerDisplay = [...dataAccessFilterDisplay];
-        for (let i = 0; i < tempFilerDisplay.length; i++) {
-          tempFilerDisplay[i].isChecked = false;
-          tempFilerDisplay[i].isDisplayed = true;
-        }
-        setDataAccessDisplay(tempFilerDisplay);
-    }   
-    else if (filterName === screenlabels.dataset.age) {
+      tempFilerDisplay = [...dataAccessFilterDisplay];
+      for (let i = 0; i < tempFilerDisplay.length; i++) {
+        tempFilerDisplay[i].isChecked = false;
+        tempFilerDisplay[i].isDisplayed = true;
+      }
+      setDataAccessDisplay(tempFilerDisplay);
+    } else if (filterName === screenlabels.dataset.age) {
       // tempfilterMaster = [...ageFilterMaster]
       // for(let i=0; i<tempfilterMaster.length; i++){
       //     tempfilterMaster[i].isChecked = false
@@ -366,20 +431,20 @@ export default function GuestUserDatasets() {
         tempFilerDisplay[i].isDisplayed = true;
       }
       setAgeFilterDisplay(tempFilerDisplay);
-    } else if (filterName === screenlabels.dataset.crop) {
+      // } else if (filterName === screenlabels.dataset.crop) {
       // tempfilterMaster = [...cropFilterMaster]
       // for(let i=0; i<tempfilterMaster.length; i++){
       //     tempfilterMaster[i].isChecked = false
       // }
       // setCropFilterMaster(tempfilterMaster)
 
-      tempFilerDisplay = [...cropFilterDisplay];
-      for (let i = 0; i < tempFilerDisplay.length; i++) {
-        tempFilerDisplay[i].isChecked = false;
-        tempFilerDisplay[i].isDisplayed = true;
-      }
-      setCropFilterDisplay(tempFilerDisplay);
-      setCropSearchState("");
+      // tempFilerDisplay = [...cropFilterDisplay];
+      // for (let i = 0; i < tempFilerDisplay.length; i++) {
+      //   tempFilerDisplay[i].isChecked = false;
+      //   tempFilerDisplay[i].isDisplayed = true;
+      // }
+      // setCropFilterDisplay(tempFilerDisplay);
+      // setCropSearchState("");
     } else if (filterName === screenlabels.dataset.status) {
       tempFilerDisplay = [...statusFilter];
       for (let i = 0; i < tempFilerDisplay.length; i++) {
@@ -419,35 +484,38 @@ export default function GuestUserDatasets() {
     setGeoFilterDisplay(tempList);
   };
 
-  const handleCropSearch = (e) => {
-    var searchFound = false;
-    const searchText = e.target.value;
-    setCropSearchState(searchText);
-    var tempList = [...cropFilterDisplay];
-    for (let i = 0; i < tempList.length; i++) {
-      if (searchText === "") {
-        tempList[i].isDisplayed = true;
-        searchFound = true;
-      } else {
-        if (
-          tempList[i].name &&
-          tempList[i].name.length > 0 &&
-          !tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())
-        ) {
-          tempList[i].isDisplayed = false;
-        } else {
-          searchFound = true;
-          tempList[i].isDisplayed = true;
-        }
-      }
-    }
-    setIsCropSearchFound(searchFound);
-    setCropFilterDisplay(tempList);
-  };
+  // const handleCropSearch = (e) => {
+  //   var searchFound = false;
+  //   const searchText = e.target.value;
+  //   setCropSearchState(searchText);
+  //   var tempList = [...cropFilterDisplay];
+  //   for (let i = 0; i < tempList.length; i++) {
+  //     if (searchText === "") {
+  //       tempList[i].isDisplayed = true;
+  //       searchFound = true;
+  //     } else {
+  //       if (
+  //         tempList[i].name &&
+  //         tempList[i].name.length > 0 &&
+  //         !tempList[i].name.toUpperCase().startsWith(searchText.toUpperCase())
+  //       ) {
+  //         tempList[i].isDisplayed = false;
+  //       } else {
+  //         searchFound = true;
+  //         tempList[i].isDisplayed = true;
+  //       }
+  //     }
+  //   }
+  //   setIsCropSearchFound(searchFound);
+  //   setCropFilterDisplay(tempList);
+  // };
 
   async function getSearchedData(val, isLoadMore, isMemberTab) {
     // console.log(val, "Here is value")
-    if (val.length < 3 && val !== "") val = "";
+    if (val.length < 3 && val !== "") {
+      val = "";
+      setDatasetUrl(adminUrl)
+    }
     // console.log(val)
     let data = {};
     setFilterState({});
@@ -536,7 +604,7 @@ export default function GuestUserDatasets() {
   const getFilters = () => {
     setIsLoader(true);
     HTTPService(
-      "GET",
+      "POST",
       UrlConstant.base_url + UrlConstant.guest_dataset_filters,
       "",
       false,
@@ -545,12 +613,36 @@ export default function GuestUserDatasets() {
       .then((response) => {
         setIsLoader(false);
         console.log("filter response:", response);
+
+        let catAndSubcatFilterInput = response.data.category_detail || {};
+
+        let tempCategory = [];
+        let tempSubcategory = [];
+
+        Object.keys(catAndSubcatFilterInput).forEach((cat) => {
+          let category = {};
+
+          category.value = category.label = cat;
+          tempCategory.push(category);
+
+          catAndSubcatFilterInput[cat].forEach((sub_cat) => {
+            let subcategory = {};
+            subcategory.category = cat;
+            subcategory.value = subcategory.label = sub_cat;
+            tempSubcategory.push(subcategory);
+          });
+          // delete category.children;
+        });
+
+        setCategoryFilterOptions(tempCategory);
+        setMasterSubcategoryFilterOptions(tempSubcategory);
+
         var geoFilterInput = response.data.geography;
-        var cropFilterInput = response.data.crop_detail;
+        // var cropFilterInput = response.data.crop_detail;
         setGeoFilterDisplay(initFilter(geoFilterInput));
-        setCropFilterDisplay(initFilter(cropFilterInput));
+        // setCropFilterDisplay(initFilter(cropFilterInput));
         console.log("geoFilterDisplay", geoFilterDisplay);
-        console.log("cropFilterDisplay", cropFilterDisplay);
+        // console.log("cropFilterDisplay", cropFilterDisplay);
         setConstantyUpdateSwitch(false);
       })
       .catch((e) => {
@@ -575,7 +667,7 @@ export default function GuestUserDatasets() {
   };
 
   const getDatasetList = (isLoadMore) => {
-    if (searchValMyOrg.val) {
+    if (searchValMyOrg.val && isLoadMore) {
       getSearchedData(searchValMyOrg.val, isLoadMore, false);
       return;
     }
@@ -660,31 +752,37 @@ export default function GuestUserDatasets() {
     geoPayload,
     datavisiblityPayload,
     agePayload,
-    cropPayload,
-    statusPayload
+    // cropPayload,
+    statusPayload,
+    catAndSubcat = null
   ) => {
     let data = {};
     if (createdAtRange !== "") {
       data["updated_at__range"] = createdAtRange;
     }
-    //data['user_id'] = userId
-    // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
-    /*
-        if (isMemberTab) {
-            data['others'] = true
-        } else {
-            data['others'] = false
-        }*/
+
+    if (catAndSubcat !== null) {
+      data["category"] = [];
+      for (const category of catAndSubcat["category"]) {
+        data["category"].push({ [category.value]: [] });
+      }
+
+      for (const subcategory of catAndSubcat["subcategory"]) {
+        for (const cat of data["category"]) {
+          const key = Object.keys(cat)[0];
+          if (key === subcategory.category) cat[key].push(subcategory.value);
+        }
+      }
+    }
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
-    if (datavisiblityPayload)
-    {
-        data["is_public__in"]=datavisiblityPayload;
+    if (datavisiblityPayload) {
+      data["is_public__in"] = datavisiblityPayload;
     }
-    if (cropPayload !== "") {
-      data["crop_detail__in"] = cropPayload;
-    }
+    // if (cropPayload !== "") {
+    //   data["crop_detail__in"] = cropPayload;
+    // }
     if (agePayload !== "") {
       // if(ageFilterDisplay[ageFilterDisplay.length-1].isChecked){
       //     agePayload.splice(agePayload.length-1)
@@ -724,29 +822,41 @@ export default function GuestUserDatasets() {
     setsecondrow(false);
   };
 
+  const resetCatAndSubcatFilters = () => {
+    setSubcategoryFilterValue([]);
+    setSubcategoryFilterOptions([]);
+    setCategoryFilterValue([]);
+  };
+
   const clearAllFilters = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
+    console.log("RESET")
     setIsShowAll(true);
     resetDateFilters();
     setConstantyUpdateSwitch(false);
-    // resetUrls()
+    resetCatAndSubcatFilters();
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
-    resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
     resetFilterState(screenlabels.dataset.enabled);
-    // resetEnabledStatusFilter()
-
+    // setDatasetUrl(adminUrl)
+    resetUrls()
     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "");
     getDatasetList(false);
   };
 
   const getAllDataSets = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
-    resetFilterState(screenlabels.dataset.crop);
+    // resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
-    
+
     // resetUrls()
 
     setConstantyUpdateSwitch(false);
@@ -768,7 +878,7 @@ export default function GuestUserDatasets() {
     setIsShowAll(false);
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
-    resetFilterState(screenlabels.dataset.crop);
+    // resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
     setConstantyUpdateSwitch(false);
     // resetUrls()
@@ -796,29 +906,30 @@ export default function GuestUserDatasets() {
     }*/
   const viewCardDetails = (id, flag) => {
     setid(id);
-    setIsLoader(true);
-    setisAdminView(flag);
-    HTTPService(
-      "GET",
-      UrlConstant.base_url + UrlConstant.dataset + id + "/",
-      "",
-      false,
-      false
-    )
-      .then((response) => {
-        setIsLoader(false);
-        console.log("filter response:", response);
-        let tempObject = { ...response.data };
-        setviewdata(tempObject);
-        var tabelHeading = Object.keys(response.data.content[0]);
-        var temptabelKeys = [...tabelHeading];
-        settablekeys(temptabelKeys);
-        //changeView('isDataSetView')
-      })
-      .catch((e) => {
-        setIsLoader(false);
-        //history.push(GetErrorHandlingRoute(e));
-      });
+    history.push("/home/viewdataset/" + id);
+    // setIsLoader(true);
+    // setisAdminView(flag);
+    // HTTPService(
+    //   "GET",
+    //   UrlConstant.base_url + UrlConstant.dataset + id + "/",
+    //   "",
+    //   false,
+    //   false
+    // )
+    //   .then((response) => {
+    //     setIsLoader(false);
+    //     console.log("filter response:", response);
+    //     let tempObject = { ...response.data };
+    //     setviewdata(tempObject);
+    //     var tabelHeading = Object.keys(response.data.content[0]);
+    //     var temptabelKeys = [...tabelHeading];
+    //     settablekeys(temptabelKeys);
+    //     //changeView('isDataSetView')
+    //   })
+    //   .catch((e) => {
+    //     setIsLoader(false);
+    //     //history.push(GetErrorHandlingRoute(e));
+    //   });
   };
   function checkForRegex(val, e) {
     if (val.match(RegexConstants.ORG_NAME_REGEX)) {
@@ -838,7 +949,7 @@ export default function GuestUserDatasets() {
       {Object.keys(viewdata).length > 0 ? (
         <>
           <div className="guestdiv">
-            <ViewDataSet
+            {/* <ViewDataSet
               downloadAttachment={(uri) => downloadAttachment(uri)}
               back={() => {
                 setviewdata({});
@@ -846,7 +957,7 @@ export default function GuestUserDatasets() {
               }}
               rowdata={viewdata}
               tabelkeys={tablekeys}
-            ></ViewDataSet>
+            ></ViewDataSet> */}
           </div>
         </>
       ) : (
@@ -876,15 +987,23 @@ export default function GuestUserDatasets() {
                       getAllDataSets={getAllDataSets}
                       filterByDates={filterByDates}
                       handleGeoSearch={handleGeoSearch}
-                      handleCropSearch={handleCropSearch}
+                      // handleCropSearch={handleCropSearch}
+                      // Props for category filter
+                      categoryFilterOptions={categoryFilterOptions}
+                      subcategoryFilterOptions={subcategoryFilterOptions}
+                      categoryFilterValue={categoryFilterValue}
+                      subcategoryFilterValue={subcategoryFilterValue}
+                      handleCategoryFilterChange={handleCategoryFilterChange}
+                      filterByCategory={filterByCategory}
+                      // End of catagory filter props
                       geoFilterDisplay={geoFilterDisplay}
                       dataAccessFilterDisplay={dataAccessFilterDisplay}
-                      cropFilterDisplay={cropFilterDisplay}
+                      // cropFilterDisplay={cropFilterDisplay}
                       ageFilterDisplay={ageFilterDisplay}
                       handleFilterChange={handleFilterChange}
                       resetFilterState={resetFilterState}
                       geoSearchState={geoSearchState}
-                      cropSearchState={cropSearchState}
+                      // cropSearchState={cropSearchState}
                       clearAllFilters={clearAllFilters}
                       showMemberFilters={value == "2"}
                       // isEnabledFilter={isEnabledFilter}
@@ -899,7 +1018,7 @@ export default function GuestUserDatasets() {
                       // resetUrls={resetUrls}
                       enableStatusFilter={enableStatusFilter}
                       isGeoSearchFound={isGeoSearchFound}
-                      isCropSearchFound={isCropSearchFound}
+                      // isCropSearchFound={isCropSearchFound}
                       constantyUpdateSwitch={constantyUpdateSwitch}
                       handleConstantyUpdateSwitch={handleConstantyUpdateSwitch}
                     />

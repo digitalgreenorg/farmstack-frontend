@@ -16,6 +16,7 @@ import ProfileRightside from "../../Components/signup/ProfileRightside";
 import OrgRightside from "../../Components/signup/OrgRightside";
 import PoliciesRightside from "../../Components/signup/PoliciesRightside";
 import BrandingRightside from "../../Components/signup/BrandingRightside";
+import AddDataset from "../../Components/AdminDatasetConnection/AddDataset";
 import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
@@ -42,6 +43,7 @@ import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParti
 import RegexConstants from "../../Constants/RegexConstants";
 import LeftintroParticipant from "../../Components/intros/LeftIntroParticipant";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
+import AddingCategory from "../../Components/Catergories/AddingCategory";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -66,6 +68,7 @@ export default function Login(props) {
   const [isPolicies, setisPolicies] = useState(false);
   const [isBranding, setisBranding] = useState(false);
   const [isDataSet, setIsDataSet] = useState(false);
+  const [isCategorySetup, setIsCategorySetup] = useState(false);
   const [isaccesstoken, setisaccesstoken] = useState(false);
   //const [userid, setUserId] = useState(false)
 
@@ -89,6 +92,7 @@ export default function Login(props) {
   const timerDuration = 120000;
   const [remainingCounterTime, setRemainingCounterTime] =
     useState(timerDuration);
+  const onBoardingPage = true
 
   const history = useHistory();
   const location = useLocation();
@@ -116,9 +120,9 @@ export default function Login(props) {
       let url = UrlConstant.base_url + UrlConstant.login;
       let data = {
         email: finalEmail,
-        role: isParticipantRoute(location.pathname) 
-          ? LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT 
-          : LocalStorageConstants.ROLES.DATAHUB_ADMIN
+        // role: isParticipantRoute(location.pathname)
+        //   ? LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT
+        //   : LocalStorageConstants.ROLES.DATAHUB_ADMIN
       };
       console.log(data, "EMAILLLLLLLLL")
 
@@ -555,6 +559,9 @@ export default function Login(props) {
       .then((response) => {
         setIsLoader(false);
         console.log("onboarded true response", response.data);
+        // if (isLoggedInUserParticipant()) {
+        //   history.push("/participant/datasets/");
+        // }
       })
       .catch((e) => {
         setIsLoader(false);
@@ -599,9 +606,9 @@ export default function Login(props) {
 
   const [isLoader, setIsLoader] = useState(false);
 
-  const[orgWebsite, setOrgWebsite] = useState('')
-  const[isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false)
-  const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
+  const [orgWebsite, setOrgWebsite] = useState('')
+  const [isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false)
+  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
 
   // const [Orgdesbtn, setOrgdesbtn] = useState(false);
 
@@ -621,9 +628,9 @@ export default function Login(props) {
     e.preventDefault();
 
     setOrgNameErrorMessage(null)
-    setOrgEmailErrorMessage (null)
-    setOrgPhoneNumberErrorMessage (null)
-    setOrgDescriptionErrorMessage (null)
+    setOrgEmailErrorMessage(null)
+    setOrgPhoneNumberErrorMessage(null)
+    setOrgDescriptionErrorMessage(null)
     setOrgWebsiteErrorMessage(null)
 
     // email validation
@@ -717,9 +724,9 @@ export default function Login(props) {
           var returnValues = GetErrorKey(e, bodyFormData.keys())
           var errorKeys = returnValues[0]
           var errorMessages = returnValues[1]
-          if (errorKeys.length > 0){
-            for (var i=0; i<errorKeys.length; i++){
-              switch(errorKeys[i]){
+          if (errorKeys.length > 0) {
+            for (var i = 0; i < errorKeys.length; i++) {
+              switch (errorKeys[i]) {
                 case "phone_number": setOrgPhoneNumberErrorMessage(errorMessages[i]); break;
                 case "name": setOrgNameErrorMessage(errorMessages[i]); break;
                 case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
@@ -758,8 +765,8 @@ export default function Login(props) {
   const handleOrgWebsite = (e) => {
     e.target.value = e.target.value.trim()
     setOrgWebsite(e.target.value)
-    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX)&&
-    !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX))
+    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX) &&
+      !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX))
   };
 
   const handleOrgmail = (e) => {
@@ -789,7 +796,7 @@ export default function Login(props) {
 
   const handleOrgnumber = (value) => {
     console.log(value);
-    
+
     setValidOrgnumber(value ? value : "");
   };
 
@@ -867,7 +874,7 @@ export default function Login(props) {
       } else {
         setOnBoardedTrue();
         setTokenLocal(isaccesstoken);
-        props.history.push("/participant/datasets");
+        props.history.push("/participant/datasets/add");
       }
       //props.history.push('/loginadddatasetparticipant');
     }
@@ -879,27 +886,32 @@ export default function Login(props) {
       <SignInHeader></SignInHeader>
       {isDataSet && isLoggedInUserParticipant() ? (
         <div>
-          <AddDatasetParticipant
+          <AddDataset
+            onBoardingPage={onBoardingPage}
             isaccesstoken={isaccesstoken}
-            okAction={() => {
-              setOnBoardedTrue();
-              setTokenLocal(isaccesstoken);
-              history.push("/participant/datasets");
-            }}
+            setOnBoardedTrue={setOnBoardedTrue}
+            setTokenLocal={setTokenLocal}
+            // okAction={() => {
+            //   setOnBoardedTrue();
+            //   setTokenLocal(isaccesstoken);
+            //   history.push("/participant/datasets/add");
+            // }}
             cancelAction={() => {
               setOnBoardedTrue();
               setTokenLocal(isaccesstoken);
               history.push("/participant/datasets");
+              // history.push("/participant/datasets");
             }}
           />
-          <div style={{ position: "absolute", top: "1800px" }}>
+          <div style={{ position: "absolute" }}>
             <Footer />
           </div>
         </div>
       ) : (
         <div>
-          <h1 className="headertext">{screenlabels.login.signup_header}</h1>
-          {isParticipantRoute(location.pathname) ? <LeftintroParticipant /> : <Leftintro />}
+          {!isCategorySetup && <h1 className="headertext">{screenlabels.login.signup_header}</h1>}
+          {(isParticipantRoute(location.pathname) && !isCategorySetup) ? <LeftintroParticipant /> : !isCategorySetup ? <Leftintro /> : ""}
+
           {isemail || isOtp ? <Rightintro /> : ""}
           {/* <Footerimg /> */}
           {isemail && (
@@ -935,30 +947,30 @@ export default function Login(props) {
           )}
           {isProfile && isLoggedInUserAdmin() && (
             <ProfileRightside
-            handleprofileSubmit={handleprofileSubmit}
-            handleprofilfirstename={handleprofilfirstename}
-            handleprofilelastname={handleprofilelastname}
-            handleprofilenumber={handleprofilenumber}
-            ispropfilefirstnameerror={ispropfilefirstnameerror}
-            ispropfilelastnameerror={ispropfilelastnameerror}
-            ispropfileemailerror={ispropfileemailerror}
-            profilenextbutton={profilenextbutton}
-            profilefirstname={profilefirstname}
-            profilelastname={profilelastname}
-            profileemail={profileemail}
-            validemail={validemail}
-            finishLaterProfileScreen={finishLaterProfileScreen}
-            isaccesstoken={isaccesstoken}
-            firstNameErrorMessage={firstNameErrorMessage}
-            lastNameErrorMessage={lastNameErrorMessage}
-            emailErrorMessage={emailErrorMessage}
-            phoneNumberErrorMessage={phoneNumberErrorMessage}
-            setProfileFirstName={setProfileFirstName}
-            setProfileLastName={setProfileLastName}
-            setValidnumber={setValidnumber}
-            profilephone={validNumber}
-            setprofilenextbutton={setprofilenextbutton}
-            userid={getUserLocal()}
+              handleprofileSubmit={handleprofileSubmit}
+              handleprofilfirstename={handleprofilfirstename}
+              handleprofilelastname={handleprofilelastname}
+              handleprofilenumber={handleprofilenumber}
+              ispropfilefirstnameerror={ispropfilefirstnameerror}
+              ispropfilelastnameerror={ispropfilelastnameerror}
+              ispropfileemailerror={ispropfileemailerror}
+              profilenextbutton={profilenextbutton}
+              profilefirstname={profilefirstname}
+              profilelastname={profilelastname}
+              profileemail={profileemail}
+              validemail={validemail}
+              finishLaterProfileScreen={finishLaterProfileScreen}
+              isaccesstoken={isaccesstoken}
+              firstNameErrorMessage={firstNameErrorMessage}
+              lastNameErrorMessage={lastNameErrorMessage}
+              emailErrorMessage={emailErrorMessage}
+              phoneNumberErrorMessage={phoneNumberErrorMessage}
+              setProfileFirstName={setProfileFirstName}
+              setProfileLastName={setProfileLastName}
+              setValidnumber={setValidnumber}
+              profilephone={validNumber}
+              setprofilenextbutton={setprofilenextbutton}
+              userid={getUserLocal()}
             />
           )}
           {isProfile && isLoggedInUserParticipant() && (
@@ -1069,7 +1081,7 @@ export default function Login(props) {
               isaccesstoken={isaccesstoken}
               showBrandingScreen={() => {
                 setisPolicies(false);
-                setisBranding(true);
+                setIsCategorySetup(true)
               }}
             />
           )}
@@ -1082,7 +1094,13 @@ export default function Login(props) {
           )}
         </div>
       )}
-      <div style={{ position: "absolute", bottom: 0 }}>{/* <Footer/> */}</div>
+      {/* <div style={{ position: "absolute", bottom: 0 }}><Footer/></div> */}
+      {isCategorySetup && isLoggedInUserAdmin() && (
+        <AddingCategory isaccesstoken={isaccesstoken} showBrandingScreen={() => {
+          setIsCategorySetup(false)
+          setisBranding(true);
+        }} isOnborading={true} />
+      )}
     </div>
   );
 }

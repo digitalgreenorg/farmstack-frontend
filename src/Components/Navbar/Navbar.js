@@ -17,12 +17,12 @@ import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
-import {GetErrorHandlingRoute} from "../../Utils/Common";
-
+import { GetErrorHandlingRoute } from "../../Utils/Common";
+import farmstackLogo from "../../Assets/Img/farmstack.jpg"
 const Navbar = (props) => {
   const [profile, setprofile] = useState(null);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  const[isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false)
 
   let history = useHistory();
 
@@ -32,7 +32,7 @@ const Navbar = (props) => {
     setIsLoader(true);
     await HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.profile + id + "/",'',
+      UrlConstant.base_url + UrlConstant.profile + id + "/", '',
       false,
       true
     )
@@ -68,20 +68,20 @@ const Navbar = (props) => {
     localStorage.removeItem(LocalStorageConstants.KEYS.JWTToken);
     localStorage.removeItem(LocalStorageConstants.KEYS.user);
     */
-    history.push("/datahub/login");
+    history.push("/login");
   };
   return (
     <>
-      {isLoader ? <Loader />: ''}
+      {isLoader ? <Loader /> : ''}
       <Nav id="datahubnavbar">
         {/* <Bars /> */}
         <img
-          src={require("../../Assets/Img/farmstack.jpg")}
-          alt="new"
-          style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
+          src={farmstackLogo}
+          alt="farmstack"
+          style={{ width: "139.35px", height: "18.99px", "margin-top": "26px" }}
         />
         <NavMenu>
-      
+
           <NavLink to="/datahub/dashboard" activeStyle>
             <img
               className="boldimage"
@@ -121,7 +121,7 @@ const Navbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.datasets}
           </NavLink>
-          <NavLink to="/datahub/connectors" activeStyle>
+          {/* <NavLink to="/datahub/connectors" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/connectors.svg")}
@@ -133,7 +133,7 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/datahub/support" activeStyle>
             <img
               className="boldimage"

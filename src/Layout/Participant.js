@@ -26,6 +26,8 @@ import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/Pro
 import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
 import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
+import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
+import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 
 function Participant(props) {
   return (
@@ -46,10 +48,15 @@ function Participant(props) {
                 component={ConnectorParticipant}
               />
               <Route exact path="/participant/home" component={Home} />
-              <Route
+              {/* <Route
                 exact
                 path="/participant/datasets/add"
                 component={AddDataSetParticipant}
+              /> */}
+              <Route
+                exact
+                path="/participant/datasets/add"
+                component={AddDataset}
               />
               <Route
                 exact
@@ -111,17 +118,22 @@ function Participant(props) {
                 path="/participant/settings/viewproject/:id"
                 component={ProjectDetailView}
               />
+              <Route
+                exact
+                path="/participant/connectors/detail"
+                component={DemoDashboardTable}
+              />
                <Route
               exact
-              path="/participant/connectors/detail"
-              component={DemoDashboardTable}
-            />
+              path="/participant/dataset/view/:id"
+              component={ViewMetaDatasetDetails}
+              />
             </Switch>
           </div>
           <Footer />
         </div>
       ) : (
-        props.history.push("/participant/login")
+        props.history.push("/login")
       )}
     </>
   );

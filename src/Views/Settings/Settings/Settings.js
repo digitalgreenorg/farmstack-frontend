@@ -29,6 +29,8 @@ import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import DepartmentSettingsCard from "../ParticipantSettings/DepartmentSettingsCard";
 import ProjectListing from "../ParticipantSettings/Project/ProjectListing";
 import DepartmentListing from "../Department/DepartmentListing";
+import AdminCategorySetupAndEdit from "../../../Components/Catergories/AdminCategorySetupAndEdit";
+import AddingCategory from "../../../Components/Catergories/AddingCategory";
 
 const useStyles = {
   btncolor: {
@@ -154,6 +156,7 @@ function Settings(props) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    history.push(newValue)
   };
   return (
     <div
@@ -284,6 +287,7 @@ function Settings(props) {
                     <Tab label="Customize design" value="5" />
                     <Tab label="Department" value="6" />
                     <Tab label="Project" value="7" />
+                    <Tab label="Categories" value="8" />
                   </TabList>
                 </Box>
                 <TabPanel value="1">
@@ -359,7 +363,7 @@ function Settings(props) {
                     {isShowLoadMoreButton ? (
                       <Col xs={12} sm={12} md={6} lg={6}>
                         <Button
-                          style={{textTransform:"none"}}
+                          style={{ textTransform: "none" }}
                           onClick={() => getMemberList()}
                           variant="outlined"
                           className="cancelbtn">
@@ -379,12 +383,12 @@ function Settings(props) {
                     }}
                   />
                 </TabPanel>
-                
+
                 {/* <TabPanel value="6"></TabPanel> */}
 
                 <TabPanel value="6">
-                    <DepartmentListing/>
-                {/* <Row>
+                  <DepartmentListing />
+                  {/* <Row>
                     <span style={useStyles.departmentword}>My departments</span>
                   </Row>
                   <Row>
@@ -420,9 +424,12 @@ function Settings(props) {
                     ))}
                   </Row> */}
 
-                </TabPanel> 
+                </TabPanel>
                 <TabPanel value="7">
                   <ProjectListing />
+                </TabPanel>
+                <TabPanel value="8">
+                  <AddingCategory />
                 </TabPanel>
               </TabContext>
             </Box>
