@@ -329,10 +329,11 @@ export default function ViewMetaDatasetDetails(props) {
               >
                 {/* { 
         //    fileTypes = ["XLS" && "xlsx" && "CSV" ] ?  */}
+
+
                 <Col >
                   {isFileDataLoaded && fileData.map(itm1 => {
-                    return (<Row style={{ maxHeight: "500px", marginTop: "15px", padding: "0px 20px" }}>
-
+                    return (itm1?.content?.length > 0 && <Row style={{ maxHeight: "500px", marginTop: "15px", padding: "0px 20px" }}>
                       {itm1?.file ? <label>  File name : {itm1?.file?.split("/")[5]}</label> : ""}
                       <Table
                         aria-label="simple table"
@@ -347,7 +348,7 @@ export default function ViewMetaDatasetDetails(props) {
                                 return (
                                   <TableRow>
                                     {Object.keys(itm2).map((itm3, i) => {
-                                      return i !== 0 ? <TableCell> {itm3} </TableCell> : ""
+                                      return <TableCell> {itm3} </TableCell>
                                     })
                                     }
                                   </TableRow>
@@ -355,8 +356,6 @@ export default function ViewMetaDatasetDetails(props) {
                               }
                             })}
                           </>
-
-                          {/* // })} */}
                         </TableHead>
                         <TableBody>
                           {/* {isFileDataLoaded && fileData.map(itm1 => { */}
@@ -365,7 +364,8 @@ export default function ViewMetaDatasetDetails(props) {
                             return (<TableRow>
                               {
                                 Object.values(itm2).map((itm3, i) => {
-                                  return i !== 0 ? <TableCell> {itm3} </TableCell> : ""
+                                  console.log(itm3, "Values in view")
+                                  return <TableCell> {`${itm3}`} </TableCell>
                                 })
                               }
                             </TableRow>
