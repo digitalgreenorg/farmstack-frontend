@@ -43,7 +43,7 @@ export default function GuestUserBanner(props) {
           setBannerImage(bannerImageUrl)
         }*/
         console.log("home page guest_organization_details res", response);
-        if (response.data.organization == null) {
+        if (response.data.organization === null) {
           props.setNoDatasetGuestUserPage(true);
         } else {
           props.setNoDatasetGuestUserPage(false);

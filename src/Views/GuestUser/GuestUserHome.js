@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "../../Components/Footer/Footer";
 import GuestUserBanner from "../../Components/GuestUser/GuestUserBanner";
 import GuestUserDatasets from "../../Components/GuestUser/GuestUserDatasets";
@@ -8,6 +8,8 @@ import NoDatasetGuestUserPage from "../../Components/GuestUser/NoDatasetGuestUse
 import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
 import THEME_COLORS from "../../Constants/ColorConstants";
+import HTTPService from "../../Services/HTTPService";
+import UrlConstant from "../../Constants/UrlConstants";
 import "./GuestUserHome.css";
 
 // const useStyles = {
@@ -25,13 +27,43 @@ import "./GuestUserHome.css";
 export default function GuestUserHome(props) {
   //   loader
   const [isLoader, setIsLoader] = useState(false);
-  const [noDatasetGuestUserPage, setNoDatasetGuestUserPage] = useState(false);
-
+  const [farmstackLogo,setFarmstackLogo] = useState(true);
+  const [noDatasetGuestUserPage, setNoDatasetGuestUserPage] = useState(true);
+  useEffect(() => {
+    setIsLoader(true);
+    HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.guest_organization_details,
+      "",
+      false,
+      false
+    )
+      .then((response) => {
+        setIsLoader(false); /*
+        if (response.data.organization.hero_image){
+          let bannerImageUrl = UrlConstant.base_url_without_slash + response.data.organization.hero_image;
+          setBannerImage(bannerImageUrl)
+        }*/
+        console.log("ereeeetew", response.data.organization);
+        if (response.data.organization.status) {
+          setFarmstackLogo(false);
+          props.setNoDatasetGuestUserPage(true);
+        } else {
+          props.setNoDatasetGuestUserPage(false);
+        }
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        //history.push(GetErrorHandlingRoute(e));
+      });
+  }, []);
+  console.log("Onboarded uuuuuu",farmstackLogo);
   return (
     <div className="center_keeping_conatiner">
       {isLoader ? <Loader /> : ""}
-      <GuestUserNavBar />
-      {noDatasetGuestUserPage ? (
+    
+      <GuestUserNavBar farmstacklogo={farmstackLogo}/>
+      {farmstackLogo ? (
         <>
           <NoDatasetGuestUserPage />
         </>
