@@ -76,9 +76,23 @@ const AddDataset = (props) => {
             typeof value === 'string' ? value.split(',') : value,
         );
 
-
+        addSubCatInMainObj(value)
 
     };
+    function addSubCatInMainObj(value) {
+        let mainObj = {}
+        for (let i = 0; i < newSelectedCategory.length; i++) {
+            mainObj[newSelectedCategory[i]] = []
+        }
+        console.log(value, newSelectedCategory)
+        for (let i = 0; i < value.length; i++) {
+            // console.log(newSelectedSubCategory[i].split("-"))
+            let parent = value[i].split("-")[0] //parent == category
+            let child = value[i].split("-")[1] // child == sub category
+            mainObj[parent] = [...mainObj[parent], child]
+        }
+        setMainJson({ ...mainObj })
+    }
 
     const [allCatFetched, setAllCatFetched] = useState({})
     const [selectedCat, setSelectedCat] = useState({})
@@ -402,7 +416,7 @@ const AddDataset = (props) => {
 
     const handleChangeCategory = (event) => {
         console.log(event)
-        setMainJson({})
+        // setMainJson({})
         const value = event
         // const {
         //     target: { value },
@@ -494,38 +508,58 @@ const AddDataset = (props) => {
     }
 
     function handleChangeCategoryForSubCategory(selectectedCatList) {
-        // allCatFetched
-        let obj = {}
-        // setNewSelectedSubCategory([])
-        for (let i = 0; i < selectectedCatList.length; i++) {
-            console.log(selectectedCatList[i])
-            obj[selectectedCatList[i]] = []
+        console.log(selectectedCatList, "selectectedCatList")
+        let selectedMainObject = { ...finalJson }
+        let finalJsonsArr = Object.keys(selectedMainObject);
+        for (let i = 0; i < finalJsonsArr.length; i++) {
+            if (!selectectedCatList.includes(finalJsonsArr[i])) {
+                delete selectedMainObject[finalJsonsArr[i]];
+            }
         }
+        for (let i = 0; i < selectectedCatList.length; i++) {
+            if (!finalJsonsArr.includes(selectectedCatList[i])) {
+                selectedMainObject[selectectedCatList[i]] = []
+            }
+        }
+        console.log(selectedMainObject)
+        setMainJson({ ...selectedMainObject })
+        // allCatFetched
+        // let obj = {}
+        // // setNewSelectedSubCategory([])
+        // for (let i = 0; i < selectectedCatList.length; i++) {
+        //     console.log(selectectedCatList[i])
+        //     if(finalJson.hasOwnProperty(selectectedCatList[i])){
+        //         obj[selectectedCatList[i]] = []
+        //     }else{
+
+        //     }
+        //     obj[selectectedCatList[i]] = []
+        // }
         // console.log(selectectedCatList)
 
-        setSelectedCat(obj)
-        setMainJson({ ...obj })
-        let subCatList = []
+        // setSelectedCat(obj)
+        // setMainJson({ ...obj })
+        // let subCatList = []
 
-        for (let i = 0; i < selectectedCatList?.length; i++) {
-            // let obj = {}
-            // parent: selectectedCatList[i]
-            subCatList = [...subCatList, ...allCatFetched[selectectedCatList[i]] ? allCatFetched[selectectedCatList[i]] : []]
-        }
-        let subCategoryValueAfterDeletingCategory = []
+        // for (let i = 0; i < selectectedCatList?.length; i++) {
+        //     // let obj = {}
+        //     // parent: selectectedCatList[i]
+        //     subCatList = [...subCatList, ...allCatFetched[selectectedCatList[i]] ? allCatFetched[selectectedCatList[i]] : []]
+        // }
+        // let subCategoryValueAfterDeletingCategory = []
 
         // forEach will remove all sub category which is not sub category of selcted category
-        subCatList.forEach((item) => {
-            for (let i of newSelectedSubCategory) {
-                console.log('newSelectedSubCategory i', i, subCatList, i.split('-')[1], item, newSelectedSubCategory)
-                // i value is category name + "-" + sub category name or sub category name
-                i = i.split('-')[1] || i.split('-')[0]
-                if (i == item) {
-                    subCategoryValueAfterDeletingCategory.push(i)
-                }
-            }
-        })
-        setNewSelectedSubCategory(subCategoryValueAfterDeletingCategory)
+        // subCatList.forEach((item) => {
+        //     for (let i of newSelectedSubCategory) {
+        //         console.log('newSelectedSubCategory i', i, subCatList, i.split('-')[1], item, newSelectedSubCategory)
+        //         // i value is category name + "-" + sub category name or sub category name
+        //         i = i.split('-')[1] || i.split('-')[0]
+        //         if (i == item) {
+        //             subCategoryValueAfterDeletingCategory.push(i)
+        //         }
+        //     }
+        // })
+        // setNewSelectedSubCategory(subCategoryValueAfterDeletingCategory)
 
         // for (let i = 0; i < mainCategoryList.length; i++) {
         // for (let j = 0; j < selectectedCatList.length; j++) {
@@ -542,8 +576,8 @@ const AddDataset = (props) => {
         //     console.log(subCatList.sub_category)
         //     subCatListForSetting.push(subCatList[i].sub_category)
         // }
-        console.log(subCatList)
-        setSubCategoryNameList([...subCatList])
+        // console.log(subCatList)
+        // setSubCategoryNameList([...subCatList])
     }
 
 
