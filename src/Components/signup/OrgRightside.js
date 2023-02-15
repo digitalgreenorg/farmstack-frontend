@@ -88,7 +88,8 @@ export default function OrgRightside(props) {
           props.setOrgName(response.data.organization.name);
           props.setOrgMail(response.data.organization.org_email);
           props.setOrgWebsite(response.data.organization.website);
-          props.setOrgAddress(response.data.organization.address.address);
+          if (response.data.organization.address.address)
+            props.setOrgAddress(response.data.organization.address.address);
           props.setCountryValue(response.data.organization.address.country);
           props.setValidOrgnumber(response.data.organization.phone_number);
           props.setOrgPincode(response.data.organization.address.pincode);
