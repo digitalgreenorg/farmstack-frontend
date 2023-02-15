@@ -13,7 +13,7 @@ import UrlConstants from "../../Constants/UrlConstants";
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../Constants/RegexConstants";
-import HandleSessionTimeout, { GetErrorHandlingRoute, GetErrorKey, mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
+import HandleSessionTimeout, { GetErrorHandlingRoute, GetErrorKey, isLoggedInUserCoSteward, mobileNumberMinimunLengthCheck, validateInputField, getUserLocal } from "../../Utils/Common";
 import Loader from "../../Components/Loader/Loader";
 const useStyles = {
   btncolor: {
@@ -80,7 +80,7 @@ function AddParticipants(props) {
     setOrgWebsiteErrorMessage(null)
     // setOrgSubscriptionErrorMessage(null)
     setisorganisationemailerror(null)
-
+    var id = getUserLocal();
     var bodyFormData = new FormData();
     bodyFormData.append("email", useremail.toLowerCase());
     bodyFormData.append("org_email", orginsationemail.toLowerCase());
@@ -97,9 +97,12 @@ function AddParticipants(props) {
         pincode: pincode,
       })
     );
-    bodyFormData.append("approval_status", istrusted)
+    //bodyFormData.append("approval_status", istrusted)
     // bodyFormData.append("subscription", organisationlength);
     bodyFormData.append("role", 3);
+    if(isLoggedInUserCoSteward()){ 
+    bodyFormData.append("on_boarded_by", id) 
+    }
     setIsLoader(true);
     HTTPService(
       "POST",
@@ -111,6 +114,7 @@ function AddParticipants(props) {
       .then((response) => {
         setIsLoader(false);
         setisSuccess(true);
+        console.log(response)
       })
       .catch((e) => {
         setIsLoader(false);

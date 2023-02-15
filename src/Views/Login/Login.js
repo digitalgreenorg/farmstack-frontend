@@ -898,7 +898,15 @@ export default function Login(props) {
         setTokenLocal(isaccesstoken);
         props.history.push("/participant/datasets/add");
       }
+
       //props.history.push('/loginadddatasetparticipant');
+    }
+     if (isLoggedInUserCoSteward()){
+      console.log("costewardcheck")
+      setisOrg(false);
+      setOnBoardedTrue();
+      setTokenLocal(isaccesstoken);
+      props.history.push("/datahub/participants");
     }
   };
 

@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import AddCard from "../../Components/AddCard/AddCard";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import ParticipantsCards from "../../Components/Participants/ParticipantsCards";
+import Loader from "../../Components/Loader/Loader";
 const useStyles = {
   marginrowtoptab50px: { "margin-top": "50px" },
   marginrowtop: { "margin-top": "20px" },
@@ -172,6 +173,7 @@ const getParticipantListOfAdmin= () => {
     <div
       className="minHeight501pxsettingpagemaindiv"
       style={useStyles.background}>
+        {isLoader ? <Loader /> : ""}
       {!isLoggedInUserCoSteward() ? <>
         <Row style={useStyles.marginrowtoptab50px}>
           <Col xs={12} sm={12} md={12} lg={12} className="settingsTabs">
