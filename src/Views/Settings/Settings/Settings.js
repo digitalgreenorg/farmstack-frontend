@@ -23,7 +23,7 @@ import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
 import PolicySettings from "../PolicySettings/PolicySettings";
 import BrandingSetting from "../branding/BrandingSetting";
-import HandleSessionTimeout from "../../../Utils/Common";
+import HandleSessionTimeout, { isLoggedInUserCoSteward } from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import DepartmentSettingsCard from "../ParticipantSettings/DepartmentSettingsCard";
@@ -283,11 +283,13 @@ function Settings(props) {
                     <Tab label="Account settings" value="1" />
                     <Tab label="Organization settings" value="2" />
                     <Tab label="Policy settings" value="3" />
-                    <Tab label="Team members" value="4" />
+                    {!isLoggedInUserCoSteward() ?
+                    <Tab label="Team members" value="4" /> : "" }
                     <Tab label="Customize design" value="5" />
                     <Tab label="Department" value="6" />
                     <Tab label="Project" value="7" />
-                    <Tab label="Categories" value="8" />
+                    {!isLoggedInUserCoSteward() ?
+                    <Tab label="Categories" value="8" /> : " "}
                   </TabList>
                 </Box>
                 <TabPanel value="1">
