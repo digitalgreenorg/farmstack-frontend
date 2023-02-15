@@ -11,7 +11,7 @@ import labels from "../../Constants/labels";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
-import { flushLocalstorage, getUserLocal } from "../../Utils/Common";
+import { flushLocalstorage, getUserLocal, isLoggedInUserCoSteward } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
@@ -134,6 +134,7 @@ const Navbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
           </NavLink> */}
+          {!isLoggedInUserCoSteward() ?
           <NavLink to="/datahub/support" activeStyle>
             <img
               className="boldimage"
@@ -146,7 +147,7 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.Support}
-          </NavLink>
+          </NavLink> : <></> }
           <NavLink
             to="/datahub/settings"
             activeStyle
