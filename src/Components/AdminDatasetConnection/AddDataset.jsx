@@ -849,10 +849,14 @@ const AddDataset = (props) => {
                     "html"
                 )
             );
-            console.log(new Date(data.data_capture_start), data.data_capture_start)
+            console.log(data.data_capture_start, data.data_capture_end, "Dates")
             setSwitchchecked(data.constantly_update)
-            settodate(new Date(data.data_capture_start))
-            setfromdate(new Date(data.data_capture_end))
+            if (data.data_capture_end) {
+                setfromdate(data.data_capture_end ? new Date(data.data_capture_end) : null)
+            }
+            if (data.data_capture_start) {
+                settodate(data.data_capture_start ? new Date(data.data_capture_start) : null)
+            }
             setGeography(data.geography)
             let completeCategoryAndSub = data.category
             let arr = Object.keys(completeCategoryAndSub)
