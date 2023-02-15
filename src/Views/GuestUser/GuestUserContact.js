@@ -51,7 +51,7 @@ export default function GuestUserContact(props) {
 
   const handleChange = (e) => {
     // e.preventDefault()
-    if (e.target.name == "email") {
+    if (e.target.name === "email") {
       setEmailError(!validator.isEmail(e.target.value));
     }
     const updatedUser = { ...useDetails, [e.target.name]: e.target.value };
@@ -191,7 +191,6 @@ export default function GuestUserContact(props) {
       false,
       false
     ).then((response) => {
-      console.log(response);
       const admin = response.data.user;
       const organization = response.data.organization;
       const message = response.data.message;
