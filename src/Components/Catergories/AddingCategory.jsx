@@ -214,7 +214,7 @@ const AddingCategory = (props) => {
     }, [])
     return (
         <>
-            <div >
+            <div style={{ width: "95%", margin: "auto" }} >
                 {contextHolder}
                 {loading ? <Loader /> : ""}
                 <Row >

@@ -155,7 +155,7 @@ const AddDataset = (props) => {
             } else if (source == "postgresql") {
                 let filteredArray = postgresFileList.filter((item) => item != filename)
                 setPostgresFileList([...filteredArray])
-            } else if (source == "liveapi") {
+            } else if (source == "live_api") {
                 let filteredArray = LiveApiFileList.filter((item) => item != filename)
                 setLiveApiFileList([...filteredArray])
             }
