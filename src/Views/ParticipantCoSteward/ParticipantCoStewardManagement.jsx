@@ -139,13 +139,12 @@ export default function ParticipantCoStewardManagement(props) {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
-  }
-    };
+    }
       
   
 
   const getParticipantListOfCoSteward = () => {
-    setIsLoader(true);
+    setIsLoader(true)
 
     HTTPService(
       "GET",
@@ -172,6 +171,7 @@ export default function ParticipantCoStewardManagement(props) {
       });
 
   }
+
   
     const getParticipantListOfAdminLoadMore = () => {
     setIsLoader(true);
@@ -194,7 +194,7 @@ export default function ParticipantCoStewardManagement(props) {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
-    };
+    }
 
   const getCoStewardListOnloadMore = () => {
 
@@ -221,8 +221,8 @@ export default function ParticipantCoStewardManagement(props) {
       });
     };
   const getParticipantListofCostewardLoadMore = () => {
-    setIsLoader(true);
-    HTTPService("GET", coStewardParticipantUrl, "", false, true)
+     setIsLoader(true);
+     HTTPService("GET", coStewardParticipantUrl, "", false, true)
       .then((response) => {
         setIsLoader(false);
         console.log("otp valid", response.data);
@@ -241,7 +241,7 @@ export default function ParticipantCoStewardManagement(props) {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
-  };
+    }
   return (
     <div
       className="minHeight501pxsettingpagemaindiv"
@@ -443,3 +443,4 @@ export default function ParticipantCoStewardManagement(props) {
 
     </div>
   )
+    }
