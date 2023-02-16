@@ -90,7 +90,7 @@ export default function GuestUserContact(props) {
 
   // Axios Call for getting data from backend
   const addNewGuestUserData = () => {
-    setIsLoader(true)
+    setIsLoader(true);
 
     setFirstNameErrorMessage(null);
     setLastNameErrorMessage(null);
@@ -130,10 +130,9 @@ export default function GuestUserContact(props) {
 
     bodyFormData.append("contact_number", useDetails.contactNumber);
 
-    console.log("LENGTH", useDetails.contactNumber.length)
+    console.log("LENGTH", useDetails.contactNumber.length);
 
-
-    console.log(bodyFormData)
+    console.log(bodyFormData);
     HTTPService(
       "POST",
       UrlConstant.base_url + UrlConstant.microsite_contact_form,
@@ -143,7 +142,6 @@ export default function GuestUserContact(props) {
       false
     )
       .then((response) => {
-
         setIsLoader(false);
         setIsSuccess(true);
       })
