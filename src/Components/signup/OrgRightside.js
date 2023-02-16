@@ -68,7 +68,7 @@ export default function OrgRightside(props) {
     HTTPService(
       "GET",
       UrlConstant.base_url +
-        (isLoggedInUserParticipant()
+        ((isLoggedInUserParticipant() || isLoggedInUserCoSteward())
           ? UrlConstant.participant
           : UrlConstant.org) +
         id +
