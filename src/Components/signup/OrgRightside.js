@@ -82,17 +82,15 @@ export default function OrgRightside(props) {
     )
       .then((response) => {
         setIsLoader(false);
-        console.log("org data: ", response.data);
         // let addressdata=JSON.parse(response.data.organization.address)
         if (response.data.organization) {
-          props.setOrgName(response.data.organization.name);
-          props.setOrgMail(response.data.organization.org_email);
-          props.setOrgWebsite(response.data.organization.website);
-          if (response.data.organization.address.address)
-            props.setOrgAddress(response.data.organization.address.address);
-          props.setCountryValue(response.data.organization.address.country);
-          props.setValidOrgnumber(response.data.organization.phone_number);
-          props.setOrgPincode(response.data.organization.address.pincode);
+          props.setOrgName(response?.data?.organization?.name);
+          props.setOrgMail(response?.data?.organization?.org_email);
+          props.setOrgWebsite(response?.data?.organization?.website);
+          props.setOrgAddress(response?.data?.organization?.address?.address || JSON.parse(response?.data?.organization?.address)?.address);
+          props.setCountryValue(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country)
+          props.setValidOrgnumber(response?.data?.user?.phone_number);
+          props.setOrgPincode(response?.data?.organization?.address?.pincode ||  JSON.parse(response?.data?.organization?.address)?.pincode)
           if (
             response.data.organization.name &&
             response.data.organization.name.trim().length > 0
