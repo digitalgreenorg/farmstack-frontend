@@ -174,7 +174,7 @@ export default function ViewMetaDatasetDetails(props) {
                 <Col className="mainheading" xs={12} sm={12} md={12} lg={12}
                   style={{
                     textAlign: "left",
-                    "marginLeft": "98px",
+                    "paddingLeft": "98px",
                     "margin-top": "50px"
                   }}>
                   <span>Agricultural Practices Video Dissemintion Data</span>
@@ -203,7 +203,7 @@ export default function ViewMetaDatasetDetails(props) {
 
                 <Col style={{ "margin-top": "40px" }}>
                   <Row className="secondmainheading">Sub Category</Row>
-                  {Object.keys(category).map((key) => category[key].map((value) => (
+                  {Object.keys(category).map((key) => category[key]?.map((value) => (
                     <Row className="thirdmainheadingview"
                       style={{
                         "margin-top": "10px",
@@ -333,16 +333,17 @@ export default function ViewMetaDatasetDetails(props) {
 
                 <Col >
                   {isFileDataLoaded && fileData.map(itm1 => {
-                    return (itm1?.content?.length > 0 && <Row style={{ maxHeight: "500px", marginTop: "15px", padding: "0px 20px" }}>
+                    return (itm1?.content?.length > 0 && <Row style={{ maxHeight: "500px", marginTop: "15px", padding: "0px 20px", }}>
                       {itm1?.file ? <label>  File name : {itm1?.file?.split("/")[5]}</label> : ""}
-                      <Table
-                        aria-label="simple table"
-                        style={{ overflowX: "scroll", width: "1300px", border: "1px solid" }}
-                      >
-                        <TableHead>
-                          {/* {isFileDataLoaded && fileData.map(itm1 => { */}
-                          {/* console.log('item before tablerow', itm1) */}
-                          <>
+                      <span style={{ overflowX: "scroll" }}>
+
+                        <Table
+                          style={{ width: "1300px", border: "1px solid" }}
+                        >
+                          <TableHead>
+                            {/* {isFileDataLoaded && fileData.map(itm1 => { */}
+                            {/* console.log('item before tablerow', itm1) */}
+
                             {itm1?.content?.map((itm2, i) => {
                               if (i === 0) {
                                 return (
@@ -355,26 +356,29 @@ export default function ViewMetaDatasetDetails(props) {
                                 )
                               }
                             })}
-                          </>
-                        </TableHead>
-                        <TableBody>
-                          {/* {isFileDataLoaded && fileData.map(itm1 => { */}
-                          {/* return itm1.content.map(itm2 => { */}
-                          {itm1?.content?.map(itm2 => {
-                            return (<TableRow>
-                              {
-                                Object.values(itm2).map((itm3, i) => {
-                                  console.log(itm3, "Values in view")
-                                  return <TableCell> {`${itm3}`} </TableCell>
-                                })
-                              }
-                            </TableRow>
-                            )
-                          })}
+
+                          </TableHead>
+                          <TableBody>
+                            {/* {isFileDataLoaded && fileData.map(itm1 => { */}
+                            {/* return itm1.content.map(itm2 => { */}
+                            {itm1?.content?.map(itm2 => {
+                              return (<TableRow>
+                                {
+                                  Object.values(itm2).map((itm3, i) => {
+                                    console.log(itm3, "Values in view")
+                                    return <TableCell> {`${itm3}`} </TableCell>
+                                  })
+                                }
+                              </TableRow>
+                              )
+                            })}
 
 
-                        </TableBody>
-                      </Table></Row>
+                          </TableBody>
+                        </Table>
+                      </span>
+
+                    </Row>
                     )
                   })}
                 </Col>
@@ -404,61 +408,46 @@ export default function ViewMetaDatasetDetails(props) {
                           </Row>
                         </Row>))}
                     </> : " "}
-                  <hr className="separatorline" />
+                  {/* <hr className="separatorline" /> */}
                 </span>
               </Row>
-              <Row style={{ "margin-left": "20px" }}>
-                <Col style={{ "marginLeft": "30px", "margin-top": "50px" }}>
-                  <Row className="secondmainheading">
-                    <Col style={{ "margin-left": "-130px" }}>ORGANISATION</Col>
+              <Row style={{ padding: "50px 100px" }} >
+                <Col style={{ maxWidth: "400px" }}  >
+                  <Row style={{ textAlign: "left", marginBottom: "20px" }}>
+                    <Col >ORGANISATION</Col>
                   </Row>
-                  <Col className="thirdmainheading" style={{ "marginLeft": "-17px", "margin-top": "30px" }}>
-                    <Col>
-                      <Avatar alt="Remy Sharp"
-                        // className='css-v8h2xp-MuiAvatar-root'
-                        style={{ "margin-left": "-40" }}
-                        src={orgdetail.logo}
-                        sx={{ width: 44, height: 44 }} />
-                    </Col>
-                    <Col style={{ "margin-left": "90px", "marginTop": "-30px" }}>
-                      <Row style={{ "width": "200px", "textAlign": "left", }}>
-                        {orgdetail.name}</Row>
-                      <Row style={{
-                        "textAlign": "left",
-                        "marginRight": "120px", "width": "200px",
-                        "word-break": "break-all"
-                      }}>{orgdetail.org_email}</Row>
-                      <Row style={{
-                        "margin-bottom": "-15px",
-                        "textAlign": "left",
-                        "marginRight": "120px",
-                        "width": "200px"
-                      }}>{orgdes ? parse(orgdes) : orgdes}</Row>
-                      <Row>{orgdetail?.phone_number}</Row>
-                      <Row>{orgdetail?.address?.city}</Row>
-                      <Row>{orgdetail?.address?.country}</Row>
-                      <Row style={{
-                        "marginRight": "160px",
-                        "textAlign": "left",
-                        "width": "200px"
-                      }}>{orgdetail?.address?.address}</Row>
-                      <Row>{orgdetail?.address?.pincode}</Row>
-                    </Col>
-                  </Col>
-                </Col>
-                <Col><div style={{
-                  marginLeft: "-150px",
-                  marginTop: "40px"
-                }} className='horizontal'></div></Col>
+                  <Row >
+                    <Col style={{ maxWidth: "50px" }} >
+                      <Row >
+                        <Avatar alt="Remy Sharp"
+                          // className='css-v8h2xp-MuiAvatar-root'
 
-                <Col style={{ "marginLeft": "80px", "margin-top": "30px" }}>
-                  <Row style={{ "marginLeft": "-550px", "margin-top": "25px" }}>
+                          src={orgdetail.logo}
+                          sx={{ width: 44, height: 44 }} />
+                      </Row></Col>
+                    <Col>
+                      <Row className='details' >
+                        {orgdetail.name}</Row>
+                      <Row className='details' >{orgdetail.org_email}</Row>
+                      <Row className='details' >{orgdes ? parse(orgdes) : orgdes}</Row>
+                      <Row className='details'>{orgdetail?.phone_number}</Row>
+                      <Row className='details'>{orgdetail?.address?.city}</Row>
+                      <Row className='details'>{orgdetail?.address?.country}</Row>
+                      <Row className='details'>{orgdetail?.address?.address}</Row>
+                      <Row className='details'>{orgdetail?.address?.pincode}</Row>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col style={{ border: "0.5px solid", maxWidth: "0px", padding: "0px", margin: "0px 50px" }}>
+                </Col>
+                <Col style={{ maxWidth: "400px" }} >
+                  <Row style={{ textAlign: "left", marginBottom: "20px" }}>
                     ROOT USER DETAILS</Row>
-                  <Col className="thirdmainheading"
-                    style={{ "marginLeft": "-550px", "margin-top": "38px" }}>
-                    <Row>{userdetails.first_name}</Row>
-                    <Row>{userdetails.last_name}</Row>
-                    <Row>{userdetails.email}</Row>
+                  <Col
+                  >
+                    <Row className='details'>{userdetails.first_name}</Row>
+                    <Row className='details'>{userdetails.last_name}</Row>
+                    <Row className='details'>{userdetails.email}</Row>
                   </Col>
                 </Col>
               </Row>

@@ -50,7 +50,7 @@ const AddMetadata = (props) => {
         console.log(catList[i])
         for (let j = 0; j < finalJson[catList[i]]?.length; j++) {
             console.log(finalJson[catList[i]][j])
-            if (allCatFetched[catList[i]].includes(finalJson[catList[i]][j])) {
+            if (allCatFetched[catList[i]]?.includes(finalJson[catList[i]][j])) {
                 sublist.push(catList[i] + "-" + finalJson[catList[i]][j])
             } else {
                 sublist.push(finalJson[catList[i]][j])

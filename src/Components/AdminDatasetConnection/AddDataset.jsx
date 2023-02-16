@@ -84,12 +84,14 @@ const AddDataset = (props) => {
         for (let i = 0; i < newSelectedCategory.length; i++) {
             mainObj[newSelectedCategory[i]] = []
         }
-        console.log(value, newSelectedCategory)
+        console.log(value, newSelectedCategory, mainObj)
         for (let i = 0; i < value.length; i++) {
             // console.log(newSelectedSubCategory[i].split("-"))
             let parent = value[i].split("-")[0] //parent == category
             let child = value[i].split("-")[1] // child == sub category
-            mainObj[parent] = [...mainObj[parent], child]
+            if (mainObj[parent]) {
+                mainObj[parent] = [...mainObj[parent], child]
+            }
         }
         setMainJson({ ...mainObj })
     }
@@ -340,12 +342,13 @@ const AddDataset = (props) => {
         // setdatasetname("")
         var bodyFormData = new FormData();
         bodyFormData.append("dataset_name", datasetname)
+        let checkforAccess = isaccesstoken ? isaccesstoken : false;
         HTTPService(
             "DELETE",
             UrlConstant.base_url + UrlConstant.datasetethcancel,
             bodyFormData,
             true,
-            true
+            true, checkforAccess
         )
             .then((response) => {
                 console.log("FILE DELETED!");
@@ -355,7 +358,11 @@ const AddDataset = (props) => {
                     setMysqlFileList([])
                     setPostgresFileList([])
                     setdatasetname("")
-                    history.push("/datahub/datasets")
+                    if (isLoggedInUserParticipant() && isaccesstoken) {
+                        cancelAction()
+                    } else {
+                        history.push("/datahub/datasets")
+                    }
                 }
                 // setFile(null)
             })
@@ -415,7 +422,7 @@ const AddDataset = (props) => {
     const [category, setCategory] = useState([])
 
     const handleChangeCategory = (event) => {
-        console.log(event)
+        console.log(event, "CHANGE CAT")
         // setMainJson({})
         const value = event
         // const {
@@ -653,17 +660,19 @@ const AddDataset = (props) => {
         e.preventDefault();
         // let selectedCategory = generateCategoryAndSubCat()
         // let objForFinalSend = { ...finalJson }
-        let mainObj = {}
-        for (let i = 0; i < newSelectedCategory.length; i++) {
-            mainObj[newSelectedCategory[i]] = []
-        }
-        console.log(newSelectedSubCategory, newSelectedCategory)
-        for (let i = 0; i < newSelectedSubCategory.length; i++) {
-            // console.log(newSelectedSubCategory[i].split("-"))
-            let parent = newSelectedSubCategory[i].split("-")[0] //parent == category
-            let child = newSelectedSubCategory[i].split("-")[1] // child == sub category
-            mainObj[parent] = [...mainObj[parent], child]
-        }
+        let mainObj = { ...finalJson }
+        // for (let i = 0; i < newSelectedCategory.length; i++) {
+        //     mainObj[newSelectedCategory[i]] = []
+        // }
+        // console.log(newSelectedSubCategory, newSelectedCategory)
+        // for (let i = 0; i < newSelectedSubCategory.length; i++) {
+        //     // console.log(newSelectedSubCategory[i].split("-"))
+        //     let parent = newSelectedSubCategory[i].split("-")[0] //parent == category
+        //     let child = newSelectedSubCategory[i].split("-")[1] // child == sub category
+        //     if (mainObj[parent]) {
+        //         mainObj[parent] = [...mainObj[parent], child]
+        //     }
+        // }
 
         console.log("clicked on add dataset submit btn11");
         var id = getUserMapId();
