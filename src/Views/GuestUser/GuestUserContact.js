@@ -13,7 +13,11 @@ import validator from "validator";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 
-import {adminNotFoundRoute, GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
+import {
+  adminNotFoundRoute,
+  GetErrorHandlingRoute,
+  GetErrorKey,
+} from "../../Utils/Common";
 
 export default function GuestUserContact(props) {
   // var validator = require('validator');
@@ -35,17 +39,19 @@ export default function GuestUserContact(props) {
     queryDescription: "",
   });
 
-  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
-  const[lastNameErrorMessage, setLastNameErrorMessage] = useState(null)
-  const[emailErrorMessage, setEmailErrorMessage] = useState(null)
-  const[contactNumberErrorMessage, setContactNumberErrorMessage] = useState(null)
-  const[subjectErrorMessage,setSubjectErrorMessage] = useState(null)
-  const[describeQueryErrorMessage, setDescribeQueryErrorMessage] = useState(null)
-  const[adminNotFound, setAdminNotFound] = useState(false)
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState(null);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState(null);
+  const [contactNumberErrorMessage, setContactNumberErrorMessage] =
+    useState(null);
+  const [subjectErrorMessage, setSubjectErrorMessage] = useState(null);
+  const [describeQueryErrorMessage, setDescribeQueryErrorMessage] =
+    useState(null);
+  const [adminNotFound, setAdminNotFound] = useState(false);
 
   const handleChange = (e) => {
     // e.preventDefault()
-    if (e.target.name == "email") {
+    if (e.target.name === "email") {
       setEmailError(!validator.isEmail(e.target.value));
     }
     const updatedUser = { ...useDetails, [e.target.name]: e.target.value };
@@ -79,14 +85,14 @@ export default function GuestUserContact(props) {
 
   // Axios Call for getting data from backend
   const addNewGuestUserData = () => {
-    setIsLoader(true)
+    setIsLoader(true);
 
     setFirstNameErrorMessage(null);
     setLastNameErrorMessage(null);
-    setEmailErrorMessage(null); 
-    setSubjectErrorMessage(null); 
-    setDescribeQueryErrorMessage(null); 
-    setContactNumberErrorMessage(null); 
+    setEmailErrorMessage(null);
+    setSubjectErrorMessage(null);
+    setDescribeQueryErrorMessage(null);
+    setContactNumberErrorMessage(null);
 
     // var bodyFormData1 = {
     //   "first_name": useDetails.firstName,
@@ -118,11 +124,10 @@ export default function GuestUserContact(props) {
     // // console.log(bodyFormData)
 
     bodyFormData.append("contact_number", useDetails.contactNumber);
-    
-    console.log("LENGTH" , useDetails.contactNumber.length )
 
+    console.log("LENGTH", useDetails.contactNumber.length);
 
-    console.log(bodyFormData)
+    console.log(bodyFormData);
     HTTPService(
       "POST",
       UrlConstant.base_url + UrlConstant.microsite_contact_form,
@@ -132,7 +137,6 @@ export default function GuestUserContact(props) {
       false
     )
       .then((response) => {
-        
         setIsLoader(false);
         setIsSuccess(true);
       })
@@ -140,32 +144,43 @@ export default function GuestUserContact(props) {
         setIsLoader(false);
         console.log(e);
 
-
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
-              case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
-              case "email": setEmailErrorMessage(errorMessages[i]); break;
-              case "subject": setSubjectErrorMessage(errorMessages[i]); break;
-              case "describe_query": setDescribeQueryErrorMessage(errorMessages[i]); break;
-              case "contact_number": setContactNumberErrorMessage(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              case "email":
+                setEmailErrorMessage(errorMessages[i]);
+                break;
+              case "subject":
+                setSubjectErrorMessage(errorMessages[i]);
+                break;
+              case "describe_query":
+                setDescribeQueryErrorMessage(errorMessages[i]);
+                break;
+              case "contact_number":
+                setContactNumberErrorMessage(errorMessages[i]);
+                break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
 
-  
         history.push(GetErrorHandlingRoute(e));
       });
   };
-  
+
   const getDatahubAdminDetails = () => {
     setIsLoader(true);
 
@@ -175,37 +190,48 @@ export default function GuestUserContact(props) {
       "",
       false,
       false
-    )
-      .then((response) => {
-        console.log(response)
-        const admin = response.data.user
-        const organization = response.data.organization
-        const message = response.data.message
-        // console.log(admin, organization)
-        console.log(admin)
-        console.log(organization)
-        console.log(message)
-        setIsLoader(false);
-        const adminErrorMessage = (e) => {
-          history.push(adminNotFoundRoute(e))
-        }
-        // console.log({admin_name: admin.first_name,org_name:organization.org_description,address:`${organization.address.address}, ${admin.address.city}`,phone_number:organization.phone_number,admin_email:admin.email,country:organization.address.country,city:organization.address.city,website:organization.website,admin_phone:admin.phone_number,admin_pin_code:organization.address.pincode,email_id:organization.org_email})
-        setDatahubUserDetails((admin == null) ? setAdminNotFound(adminErrorMessage)
-        :({admin_name: admin.first_name,org_name:organization.name,address:`${organization.address.address}, ${organization.address.city}`,phone_number:organization.phone_number,admin_email:admin.email,country:organization.address.country,city:organization.address.city,website:organization.website,admin_phone:admin.phone_number,admin_pin_code:organization.address.pincode,email_id:organization.org_email
-    })
+    ).then((response) => {
+      const admin = response.data.user;
+      const organization = response.data.organization;
+      const message = response.data.message;
+      // console.log(admin, organization)
+      console.log(admin);
+      console.log(organization);
+      console.log(message);
+      setIsLoader(false);
+      const adminErrorMessage = (e) => {
+        history.push(adminNotFoundRoute(e));
+      };
+      // console.log({admin_name: admin.first_name,org_name:organization.org_description,address:`${organization.address.address}, ${admin.address.city}`,phone_number:organization.phone_number,admin_email:admin.email,country:organization.address.country,city:organization.address.city,website:organization.website,admin_phone:admin.phone_number,admin_pin_code:organization.address.pincode,email_id:organization.org_email})
+      setDatahubUserDetails(
+        admin == null
+          ? setAdminNotFound(adminErrorMessage)
+          : {
+              admin_name: admin.first_name,
+              org_name: organization.name,
+              address: `${organization.address.address}, ${organization.address.city}`,
+              phone_number: organization.phone_number,
+              admin_email: admin.email,
+              country: organization.address.country,
+              city: organization.address.city,
+              website: organization.website,
+              admin_phone: admin.phone_number,
+              admin_pin_code: organization.address.pincode,
+              email_id: organization.org_email,
+            }
         // setIsSuccess(true);
-   )
-      .catch((e) => {
-        setIsLoader(false);
-        console.log(e);
-        // setisexisitinguseremail(true);
-        history.push(GetErrorHandlingRoute(e));
-      });
-  })};
+      )
+    }).catch((e) => {
+      setIsLoader(false);
+      console.log(e);
+      // setisexisitinguseremail(true);
+      history.push(GetErrorHandlingRoute(e));
+    });;
+  };
 
   useEffect(() => {
-    getDatahubAdminDetails()
-  },[]);
+    getDatahubAdminDetails();
+  }, []);
 
   return (
     <div className="center_keeping_conatiner">
@@ -247,7 +273,7 @@ export default function GuestUserContact(props) {
         />
       )}
 
-      <Footer disableContactLink={true}/>
+      <Footer disableContactLink={true} />
     </div>
   );
 }

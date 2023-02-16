@@ -37,22 +37,22 @@ export default function GuestUserBanner(props) {
       false
     )
       .then((response) => {
-        setIsLoader(false); /*
-        if (response.data.organization.hero_image){
-          let bannerImageUrl = UrlConstant.base_url_without_slash + response.data.organization.hero_image;
-          setBannerImage(bannerImageUrl)
-        }*/
-        console.log("home page guest_organization_details res", response);
-        if (response.data.organization == null) {
-          props.setNoDatasetGuestUserPage(true);
-        } else {
-          props.setNoDatasetGuestUserPage(false);
-        }
+        setIsLoader(false);
         if (response.data.organization.logo) {
           let logoImageUrl =
             UrlConstant.base_url_without_slash +
             response.data.organization.logo;
           setLogoImage(logoImageUrl);
+        }
+        /*
+        if (response.data.organization.hero_image){
+          let bannerImageUrl = UrlConstant.base_url_without_slash + response.data.organization.hero_image;
+          setBannerImage(bannerImageUrl)
+        }*/
+        if (response.data.organization == null) {
+          props.setNoDatasetGuestUserPage(true);
+        } else {
+          props.setNoDatasetGuestUserPage(false);
         }
       })
       .catch((e) => {
