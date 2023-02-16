@@ -38,6 +38,8 @@ import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
+import ViewCoSteward from "../Components/Participants/ViewCoSteword";
+import EditCoSteward from "../Components/Participants/EditCoSteward";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -50,7 +52,7 @@ function Datahub(props) {
           <Navbar />
           <div className="minHeight67vhDatahubPage">
             <Switch>
-              <Route
+            <Route
                 exact
                 path="/datahub/participants/view/:id"
                 component={ViewParticipants}
@@ -59,6 +61,16 @@ function Datahub(props) {
                 exact
                 path="/datahub/participants/edit/:id"
                 component={EditParticipants}
+              />
+              <Route
+                exact
+                path="/datahub/costeward/view/:id"
+                component={ViewCoSteward}
+              />
+              <Route
+                exact
+                path="/datahub/costeward/edit/:id"
+                component={EditCoSteward}
               />
               <Route
                 exact
