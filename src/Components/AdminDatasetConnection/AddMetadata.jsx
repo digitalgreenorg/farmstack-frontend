@@ -72,6 +72,8 @@ const AddMetadata = (props) => {
         }
     }
 
+   
+
     const onChange = (date, dateString) => {
         props.handleChangeFromDate(new Date(dateString[0]))
         props.handleChangeToDate(new Date(dateString[1]))
@@ -229,7 +231,7 @@ const AddMetadata = (props) => {
                         />
                     </Row>
                     <Row style={{ textAlign: "center", display: "inline-block" }}>
-                        <RangePicker allowClear={false} inputReadOnly value={(props.fromdate && props.todate) ? [dayjs(props.fromdate), dayjs(props.todate)] : ""}
+                        <RangePicker disabledDate={disabledDate}  allowClear={false} inputReadOnly value={(props.fromdate && props.todate) ? [dayjs(props.fromdate), dayjs(props.todate)] : ""}
                             disabled={props.Switchchecked ? true : false} onChange={onChange} />
                     </Row>
                 </Col>
