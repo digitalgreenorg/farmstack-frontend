@@ -22,7 +22,7 @@ import Support from "../Views/Support/Support";
 import DatasetAdmin from '../Views/Dataset/DatasetAdmin/DatasetAdmin'
 import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
-import { getTokenLocal, isLoggedInUserAdmin } from "../Utils/Common";
+import { getTokenLocal, isLoggedInUserAdmin, isLoggedInUserCoSteward } from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
 import Footer from "../Components/Footer/Footer";
 import Dashboard from "../Views/Dashboard/Dashboard";
@@ -46,7 +46,7 @@ function Datahub(props) {
   // }, []);
   return (
     <>
-      {(getTokenLocal() && isLoggedInUserAdmin()) ? (
+      {(getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserCoSteward()))? (
         <div className="center_keeping_conatiner">
 
           <Navbar />
@@ -177,7 +177,7 @@ function Datahub(props) {
                <Route
               exact
               path="/datahub/participants/addcosteward"
-              component={AddCoSteward}
+              component={AddCoSteward}      
               />
             </Switch>
           </div>

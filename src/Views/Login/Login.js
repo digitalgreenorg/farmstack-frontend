@@ -32,10 +32,11 @@ import HandleSessionTimeout, {
   GetErrorKey,
   validateInputField,
   isParticipantRoute,
+  isLoggedInUserCoSteward,
 } from "../../Utils/Common";
 import RichTextEditor from "react-rte";
 import countryList from "react-select-country-list";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, Redirect } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
@@ -101,8 +102,11 @@ export default function Login(props) {
     if (getTokenLocal() && isLoggedInUserAdmin()) {
       props.history.push("/datahub/participants");
     }
-    if (getTokenLocal() && isLoggedInUserParticipant()) {
+    else if (getTokenLocal() && isLoggedInUserParticipant()) {
       props.history.push("/participant/datasets");
+    }
+   else if (getTokenLocal() && isLoggedInUserCoSteward()) {
+      props.history.push("/datahub/participants");
     }
   }, []);
   const handleSubmit = async (e) => {
@@ -239,6 +243,9 @@ export default function Login(props) {
             console.log(
               "isLoggedInUserParticipant(): " + isLoggedInUserParticipant()
             );
+            console.log(
+              "isLoggedInUserCoSteward(): " + isLoggedInUserCoSteward()
+            );
 
             if (response.data.on_boarded) {
               setTokenLocal(response.data.access);
@@ -246,6 +253,9 @@ export default function Login(props) {
                 props.history.push("/datahub/participants");
               } else if (isLoggedInUserParticipant()) {
                 props.history.push("/participant/datasets");
+              }
+              else if (isLoggedInUserCoSteward()) {
+                props.history.push("/datahub/participants");
               }
             } else {
               setisaccesstoken(response.data.access);
@@ -697,21 +707,33 @@ export default function Login(props) {
           console.log(response.data.user_map);
           console.log(response.data.org_id);
           if (response.status === 201) {
-            setisPolicies(true);
-            setisOrg(false);
-            setUserMapId(response.data.user_map);
-            setOrgId(response.data.org_id);
-            setOrgIdState(response.data.org_id);
-
+               setisPolicies(true);   
+               setisOrg(false);
+               setUserMapId(response.data.user_map);
+               setOrgId(response.data.org_id);
+               setOrgIdState(response.data.org_id);
+      
             if (isLoggedInUserParticipant()) {
+              console.log("partcheck")
               if (getUserMapId()) {
+                console.log("datasetcheck")
                 setIsDataSet(true);
                 setisOrg(false);
               } else {
+                console.log("onboardtrueroute")
                 setOnBoardedTrue();
                 setTokenLocal(isaccesstoken);
               }
+            }else if (isLoggedInUserCoSteward()){
+              console.log("costewardcheck")
+              setOnBoardedTrue();
+              setTokenLocal(isaccesstoken);
+              console.log("isaccesstoken", isaccesstoken)
+              props.history.push("/datahub/participants");
+              // history.push("/datahub/participants")
+              // <Redirect push to="/"/>
             }
+
             // setEmail(false);
             // setError(false);
           } else {
@@ -876,7 +898,15 @@ export default function Login(props) {
         setTokenLocal(isaccesstoken);
         props.history.push("/participant/datasets/add");
       }
+
       //props.history.push('/loginadddatasetparticipant');
+    }
+     if (isLoggedInUserCoSteward()){
+      console.log("costewardcheck")
+      setisOrg(false);
+      setOnBoardedTrue();
+      setTokenLocal(isaccesstoken);
+      props.history.push("/datahub/participants");
     }
   };
 
@@ -973,7 +1003,7 @@ export default function Login(props) {
               userid={getUserLocal()}
             />
           )}
-          {isProfile && isLoggedInUserParticipant() && (
+          {isProfile && (isLoggedInUserParticipant() || isLoggedInUserCoSteward() )&& (
             <ProfileRightsideParticipant
               handleprofileSubmit={handleprofileSubmit}
               handleprofilfirstename={handleprofilfirstename}

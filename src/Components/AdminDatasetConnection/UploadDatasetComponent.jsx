@@ -45,8 +45,8 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                             <Row style={{ marginTop: "50px" }} >
                                 <Col lg={12} sm={12}>
                                     <LocalMachineUploadDataset
-                                    
-                                       isaccesstoken={isaccesstoken}
+
+                                        isaccesstoken={isaccesstoken}
                                         handleTab={handleTab}
                                         seteErrorDatasetName={seteErrorDatasetName}
                                         setMessageForSnackBar={setMessageForSnackBar}
@@ -118,9 +118,9 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                         {listOfFilesExistInDbForEdit.map((item, index) => {
                             console.log("ListItem", listOfFilesExistInDbForEdit)
                             let nameOfFile = item.file.split("/")
-                            return <ListItem style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center" }}> <span>
+                            return <ListItem style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "400px" }}> <span style={{}}>
 
-                                <ListItemText primary={nameOfFile[nameOfFile.length - 1]} secondary={item.source ? `Source - ${item.source}` : ""} />
+                                <ListItemText primary={index + ". " + nameOfFile[nameOfFile.length - 1]} secondary={item.source ? `Source - ${item.source}` : ""} />
                             </span>
                                 <span>
                                     <DeleteOutlined onClick={(e) => handleDeleteDatasetFileInFrontend(e, item.id ? item.id : index)} style={{ color: "red", marginLeft: "30px" }} />

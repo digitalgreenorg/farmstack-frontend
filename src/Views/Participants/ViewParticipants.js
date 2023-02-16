@@ -58,15 +58,14 @@ function ViewParticipants(props) {
         HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', '', false, true).then((response) => {
             setIsLoader(false);
             console.log("otp valid", response.data);
-            // let addressdata=JSON.parse(response.data.organization.address)
-            setorganisationname(response.data.organization.name)
-            setorganisationaddress(response.data.organization.address.address)
-            setorginsationemail(response.data.organization.org_email)
-            setcountryvalue(response.data.organization.address.country)
-            setcontactnumber(response.data.user.phone_number)
-            setwebsitelink(response.data.organization.website)
-            setpincode(response.data.organization.address.pincode)
-            setfirstname(response.data.user.first_name)
+            setorganisationname(response?.data?.organization?.name)
+            setorganisationaddress(response?.data?.organization?.address?.address || JSON.parse(response?.data?.organization?.address)?.address)
+            setorginsationemail(response?.data?.organization?.org_email)
+            setcountryvalue(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country)
+            setcontactnumber(response?.data?.user?.phone_number)
+            setwebsitelink(response?.data?.organization?.website)
+            setpincode(response?.data?.organization?.address?.pincode ||  JSON.parse(response?.data?.organization?.address)?.pincode)
+            setfirstname(response?.data?.user.first_name)
             setlastname(response.data.user.last_name)
             setuseremail(response.data.user.email)
             // setorganisationlength(response.data.user.subscription)

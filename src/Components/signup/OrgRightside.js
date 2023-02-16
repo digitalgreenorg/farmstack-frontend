@@ -27,6 +27,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
   handleAddressCharacters,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   validateInputField,
 } from "../../Utils/Common";
@@ -822,7 +823,7 @@ export default function OrgRightside(props) {
               </Button>
             )}
           </div>
-          {isLoggedInUserParticipant() && (
+          {(isLoggedInUserParticipant() || isLoggedInUserCoSteward() ) && (
             <div>
               <Button
                 variant="outlined"
