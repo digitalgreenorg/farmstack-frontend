@@ -282,10 +282,12 @@ function Settings(props) {
                     aria-label="lab API tabs example">
                     <Tab label="Account settings" value="1" />
                     <Tab label="Organization settings" value="2" />
-                    <Tab label="Policy settings" value="3" />
+                    {!isLoggedInUserCoSteward() ?
+                    <Tab label="Policy settings" value="3" /> : "" }
                     {!isLoggedInUserCoSteward() ?
                     <Tab label="Team members" value="4" /> : "" }
-                    <Tab label="Customize design" value="5" />
+                    {!isLoggedInUserCoSteward() ?
+                    <Tab label="Customize design" value="5" /> : "" }
                     <Tab label="Department" value="6" />
                     <Tab label="Project" value="7" />
                     {!isLoggedInUserCoSteward() ?
