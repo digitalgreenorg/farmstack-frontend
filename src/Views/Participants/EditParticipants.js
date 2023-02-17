@@ -146,6 +146,7 @@ function EditParticipants(props) {
         console.log(event.target.checked);
         setistrusted(event.target.checked)
       };
+
     return (
         <>
             {isLoader ? <Loader />: ''}
@@ -180,8 +181,8 @@ function EditParticipants(props) {
                     isexisitinguseremail={isexisitinguseremail}
                     // organisationlength={organisationlength}
                     // setorganisationlength={ref => { setorganisationlength(ref) }}
-                    first_heading={screenlabels.editparticipants.first_heading}
-                    second_heading={screenlabels.editparticipants.second_heading}
+                    first_heading={props.coSteward ? screenlabels.editcosteward.first_heading : screenlabels.editparticipants.first_heading}
+                    second_heading={props.coSteward ? screenlabels.editcosteward.second_heading : screenlabels.editparticipants.second_heading}
                     // third_heading={screenlabels.editparticipants.third_heading}
                     fourth_heading={screenlabels.editparticipants.fourth_heading}
                     orgNameErrorMessage={orgNameErrorMessage}

@@ -20,6 +20,9 @@ export default function ViewParticipantForm(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const options = useMemo(() => countryList().getData(), [])
     const history = useHistory();
+    // console.log('props in view details', props)
+
+    console.log('view details', props)
     return (
         <>
             <Row style={useStyles.marginrowtop}>
@@ -40,7 +43,7 @@ export default function ViewParticipantForm(props) {
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
                     <span  className="mainheading">
-                        {screenlabels.viewparticipants.first_heading}
+                        {props.coSteward ? screenlabels.viewCoSteward.first_heading : screenlabels.viewparticipants.first_heading}
                     </span>
                 </Col>
             </Row>
@@ -126,7 +129,7 @@ export default function ViewParticipantForm(props) {
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
                 <span className="mainheading">
-                    {screenlabels.viewparticipants.second_heading}
+                    { props.coSteward ? screenlabels.viewCoSteward.second_heading : screenlabels.viewparticipants.second_heading}
                 </span>
                 </Col>
             </Row>

@@ -132,6 +132,7 @@ export default function GuestUserDatasetFilter(props) {
               label="From date *"
               value={props.fromdate}
               onChange={(newValue) => {
+                console.log('date value on change', newValue)
                 props.settodate(null);
                 props.setfromdate(newValue);
                 //   props.setIsShowAll(false)
@@ -161,6 +162,7 @@ export default function GuestUserDatasetFilter(props) {
               minDate={props.fromdate}
               value={props.todate}
               onChange={(newValue) => {
+                console.log('end date value on change', newValue)
                 props.settodate(newValue);
               }}
               renderInput={(params) => <TextField {...params} />}

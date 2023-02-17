@@ -688,6 +688,7 @@ export default function GuestUserDatasets() {
     // if (isLoadMore){
     //     payload = {...filterState}
     // }
+    console.log('payload just before api call', payload)
 
     HTTPService(
       "POST",
@@ -758,6 +759,7 @@ export default function GuestUserDatasets() {
   ) => {
     let data = {};
     if (createdAtRange !== "") {
+      console.log('data range in creating payload', createdAtRange)
       data["updated_at__range"] = createdAtRange;
     }
 
@@ -874,6 +876,7 @@ export default function GuestUserDatasets() {
     let fromDateandToDate = [];
     fromDateandToDate.push(fromdate);
     fromDateandToDate.push(todate);
+    console.log('payload in date fillter api',fromDateandToDate, fromdate, todate)
 
     setIsShowAll(false);
     resetFilterState(screenlabels.dataset.geography);
