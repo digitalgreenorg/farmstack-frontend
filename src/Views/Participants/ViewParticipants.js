@@ -163,9 +163,7 @@ function ViewParticipants(props) {
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button variant="outlined" onClick={() => { setisDeleteCoSteward(true); setisSuccess(false); setisDeleteSuccess(false) }} className="cancelbtn">
-                                Delete Co-steward
-                          </Button>
+                           
 
                           {
                             props.coSteward ? <>
