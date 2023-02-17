@@ -79,6 +79,7 @@ function ViewParticipants(props) {
     const deleteParticipants = () => {
         setIsLoader(true);
         setisDelete(false);
+        setisDeleteCoSteward(false);
         setisSuccess(false);
         setisDeleteSuccess(true)
         HTTPService('DELETE', UrlConstants.base_url + UrlConstants.participant + id + '/', "", false, true).then((response) => {
@@ -124,7 +125,7 @@ function ViewParticipants(props) {
                     secondmsg={screenlabels.viewCoSteward.third_delete_msg}>
                 </Delete>
                     : <></>}
-                {isDeleteSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={`${ isDeleteCoSteward ? "Co-Steward deleted successfully !" : "Participant deleted successfully !"}`} imageText={"Deleted!"} msg={"You deleted a participant."}></Success> : <></>}
+                {isDeleteSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={`${ props.coSteward ? "Co-Steward deleted successfully !" : "Participant deleted successfully !"}`} imageText={"Deleted!"} msg={"You deleted a participant."}></Success> : <></>}
                 {isSuccess ? <>
                     <ViewParticipantForm
                     coSteward={props.coSteward}
