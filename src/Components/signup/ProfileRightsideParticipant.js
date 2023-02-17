@@ -14,7 +14,7 @@ import { LinearProgress } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useHistory } from "react-router-dom";
 import Loader from "../Loader/Loader";
-import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
+import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserCoSteward, isLoggedInUserParticipant } from "../../Utils/Common";
 import Footer from "../Footer/Footer";
 
 const fileTypes = ['JPEG', 'PNG', 'jpg']
@@ -35,7 +35,7 @@ export default function ProfileRightsideParticipant(props) {
   const nameRef = useRef();
 
   useEffect(() => {
-    if (isLoggedInUserParticipant())
+    if (isLoggedInUserParticipant() || isLoggedInUserCoSteward() )
     {
       var id = props.userid;
       setIsLoader(true);
