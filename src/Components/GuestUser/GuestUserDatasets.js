@@ -521,7 +521,7 @@ export default function GuestUserDatasets() {
     setFilterState({});
     // data['user_id'] = getUserLocal()
     // data['org_id'] = getOrgLocal()
-    data["search_pattern"] = val.trim();
+    data["name__icontains"] = val.trim();
     // if (isMemberTab) {
     //     data['others'] = true
     // } else {
