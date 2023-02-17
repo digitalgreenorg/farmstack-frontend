@@ -40,6 +40,7 @@ function ViewParticipants(props) {
     const [isuseremailerror, setisuseremailerror] = useState(false);
     const [isSuccess, setisSuccess] = useState(true);
     const [isDelete, setisDelete] = useState(false);
+    const [isDeleteCoSteward, setisDeleteCoSteward] = useState(false);
     const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
     const[isLoader, setIsLoader] = useState(false)
 
@@ -78,6 +79,7 @@ function ViewParticipants(props) {
     const deleteParticipants = () => {
         setIsLoader(true);
         setisDelete(false);
+        setisDeleteCoSteward(false);
         setisSuccess(false);
         setisDeleteSuccess(true)
         HTTPService('DELETE', UrlConstants.base_url + UrlConstants.participant + id + '/', "", false, true).then((response) => {
@@ -91,6 +93,8 @@ function ViewParticipants(props) {
             history.push(GetErrorHandlingRoute(e));
         });
     }
+   
+    console.log('view details', props)
     return (
         <>
             {isLoader ? <Loader />: ''}
@@ -108,9 +112,23 @@ function ViewParticipants(props) {
                     secondmsg={screenlabels?.viewparticipants?.third_delete_msg}>
                 </Delete>
                     : <></>}
-                {isDeleteSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Participant deleted successfully !"} imageText={"Deleted!"} msg={"You deleted a participant."}></Success> : <></>}
+                     {isDeleteCoSteward ? <Delete
+                    route={"login"}
+                    imagename={'delete'}
+                    firstbtntext={"Delete"}
+                    secondbtntext={"Cancel"}
+                    deleteEvent={() => deleteParticipants()}
+                    cancelEvent={() => { setisDeleteCoSteward(false); setisSuccess(true); setisDeleteSuccess(false) }}
+                    heading={screenlabels.viewCoSteward.delete_coSteward}
+                    imageText={screenlabels.viewCoSteward.delete_msg}
+                    firstmsg={screenlabels.viewCoSteward.second_delete_msg}
+                    secondmsg={screenlabels.viewCoSteward.third_delete_msg}>
+                </Delete>
+                    : <></>}
+                {isDeleteSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={`${ props.coSteward ? "Co-Steward deleted successfully !" : "Participant deleted successfully !"}`} imageText={"Deleted!"} msg={"You deleted a participant."}></Success> : <></>}
                 {isSuccess ? <>
                     <ViewParticipantForm
+                    coSteward={props.coSteward}
                         organisationname={organisationname}
                         orginsationemail={orginsationemail}
                         countryvalue={countryvalue}
@@ -129,19 +147,36 @@ function ViewParticipants(props) {
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-
-                            <Button onClick={() => history.push('/datahub/participants/edit/' + id)} variant="outlined" className="editbtn" id='editparticipantbtn'>
-                                Edit participant
+                        {
+                            props.coSteward ? <>
+                            <Button onClick={() => history.push('/datahub/costeward/edit/' + id)} variant="outlined" className="editbtn">
+                                Edit Co-steward
                          </Button>
+                            
+                            </> :
+                            <Button onClick={() => history.push('/datahub/participants/edit/' + id)} variant="outlined" className="editbtn">
+                            Edit Participants
+                         </Button>
+                        }
                         </Col>
                     </Row>
                     <Row style={useStyles.marginrowtop8px}>
                         <Col xs={12} sm={12} md={6} lg={3} >
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button variant="outlined" onClick={() => { setisDelete(true); setisSuccess(false); setisDeleteSuccess(false) }} className="cancelbtn" id="deletepartcipantbtn">
-                                Delete participant
-                </Button>
+                           
+
+                          {
+                            props.coSteward ? <>
+                           <Button variant="outlined" onClick={() => { setisDeleteCoSteward(true); setisSuccess(false); setisDeleteSuccess(false) }} className="cancelbtn">
+                                Delete Co-steward
+                          </Button>
+                            
+                            </> :
+                            <Button variant="outlined" onClick={() => { setisDelete(true); setisSuccess(false); setisDeleteSuccess(false) }} className="cancelbtn">
+                            Delete Participants
+                            </Button>
+                        }
 
                         </Col>
                     </Row></> : <></>}

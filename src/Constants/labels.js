@@ -54,6 +54,10 @@ const labels = {
       third_heading: "Edit participant's subscription length to the datahub",
       fourth_heading: "Edit participant's user type",
     },
+    editcosteward: {
+      first_heading: "Edit Co-Steward details",
+      second_heading: "Edit Co-Steward user details",
+    },
     viewparticipants: {
       first_heading: "Participant organisation details",
       second_heading: "Participant root user details",
@@ -75,6 +79,17 @@ const labels = {
         "The participant's account will be deleted from the system, together with the organization's information, users, datasets, and connectors.",
       third_delete_msg:
         "The participant's account in the datahub will no longer be accessible.",
+    },
+    viewCoSteward: {
+      first_heading: "Co-steward details",
+      second_heading: "Co-steward user details",
+      delete_coSteward: "Delete Co-Steward",
+      delete_msg: "Are you sure you want to delete the Co-Steward?",
+      second_delete_msg:
+        "The Co-Steward's account will be deleted from the system, together with the organization's information, users, datasets, and connectors.",
+      third_delete_msg:
+        "The Co-Steward's account in the datahub will no longer be accessible.",
+
     },
     inviteParticipants: {
       first_heading: "Invite participants",

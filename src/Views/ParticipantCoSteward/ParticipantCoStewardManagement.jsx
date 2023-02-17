@@ -59,19 +59,36 @@ export default function ParticipantCoStewardManagement(props) {
   const [istabView, setistabView] = useState(true);
   const [participantList, setparticipantList] = useState([]);
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
+  const [isCoStewardShowLoadMoreButton, setisCoStewardShowLoadMoreButton] = useState(false);
   const [participantUrl, setparticipantUrl] = useState("");
+  const [coStewardUrl, setCoStewardUrl] = useState("");
   const [isLoader, setIsLoader] = useState(false);
   const [participantListCoSteward, setParticipantListCoSteward] =useState([]);
   const [coStewardParticipantUrl, setcoStewardParticipantUrl] = useState("")
+  const [coStewardList, setCoStewardList] = useState([])
+  const [tab, setTab] = useState(1)
+;
 
+  useEffect(() => {
+    if(!participantList.length && tab==2){
+      getParticipantOnLoad()
+    }
+    if(!coStewardList.length && tab==1){
+      getCoStewardOnLoad()
+      console.log('calling costeward api')
+    }
+    
+    // getCoStewardOnLoad()
+  }, [tab]);
 
+  useEffect(() =>{
+    getParticipantListOfCoSteward()
+  }, [])
+ 
+  console.log('chdcking', tab, !participantList.length , !coStewardList.length)
+  
 
-useEffect(() =>{
-  getParticipantListOfAdmin()
-  getParticipantListOfCoSteward()
-}, [])
-
-const getParticipantListOfAdmin= () => {
+  const getParticipantOnLoad = ()=>{
     setIsLoader(true);
     HTTPService(
       "GET",
@@ -95,10 +112,39 @@ const getParticipantListOfAdmin= () => {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
-  };
+    }
+  
+
+  const getCoStewardOnLoad = ()=>{
+    setIsLoader(true);
+    HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.participant + '?co_steward=true',
+      "",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log(" co steward response", response.data,);
+        if (response.data.next == null) {
+          setisCoStewardShowLoadMoreButton(false);
+        } else {
+          setisCoStewardShowLoadMoreButton(true);
+          setCoStewardUrl(response.data.next);
+        }
+        setCoStewardList(response.data.results);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
+    }
+      
+  
 
   const getParticipantListOfCoSteward = () => {
-    setIsLoader(true);
+    setIsLoader(true)
 
     HTTPService(
       "GET",
@@ -109,6 +155,7 @@ const getParticipantListOfAdmin= () => {
     )
       .then((response) => {
         setIsLoader(false);
+        
         console.log("otp valid", response.data);
         if (response.data.next == null) {
           setisShowLoadMoreButton(false);
@@ -122,8 +169,11 @@ const getParticipantListOfAdmin= () => {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
+
   }
-  const getParticipantListOfAdminLoadMore = () => {
+
+  
+    const getParticipantListOfAdminLoadMore = () => {
     setIsLoader(true);
     HTTPService("GET", participantUrl, "", false, true)
       .then((response) => {
@@ -144,11 +194,35 @@ const getParticipantListOfAdmin= () => {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
-  };
+    }
 
-  const getParticipantListofCostewardLoadMore = () => {
+  const getCoStewardListOnloadMore = () => {
+
+    // let url = 
     setIsLoader(true);
-    HTTPService("GET", coStewardParticipantUrl, "", false, true)
+    HTTPService("GET", coStewardUrl, "", false, true)
+      .then((response) => {
+        setIsLoader(false);
+        console.log("respon", response.data, coStewardUrl, response.data.next);
+        if (response.data.next == null) {
+          setisCoStewardShowLoadMoreButton(false);
+        } else {
+          setisCoStewardShowLoadMoreButton(true);
+          setCoStewardUrl(response.data.next);
+        }
+        let datalist = coStewardList;
+        let finalDataList = [...datalist, ...response.data.results];
+        console.log(datalist);
+        setCoStewardList(finalDataList);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
+    };
+  const getParticipantListofCostewardLoadMore = () => {
+     setIsLoader(true);
+     HTTPService("GET", coStewardParticipantUrl, "", false, true)
       .then((response) => {
         setIsLoader(false);
         console.log("otp valid", response.data);
@@ -167,9 +241,8 @@ const getParticipantListOfAdmin= () => {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
-
-  }
-   return (
+    }
+  return (
     <div
       className="minHeight501pxsettingpagemaindiv"
       style={useStyles.background}>
@@ -182,21 +255,67 @@ const getParticipantListOfAdmin= () => {
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList onChange={handleChange}
                   aria-label="lab API tabs example">
-                  <Tab label="Co-Steward" value="1" />
-                  <Tab label="Participant" value="2" />
+                  <Tab onClick={()=>setTab(1)} label="Co-Steward" value="1" />
+                  <Tab onClick={()=>setTab(2)} label="Participant" value="2" />
                 </TabList>
               </Box>
               <TabPanel value="1">
+                  {/* <Col xs={12} sm={12} md={12} lg={12}>
+                  <Button
+                    onClick={() => history.push("/datahub/participants/invite")}
+                    style={useStyles.btncolor}>
+                    + Invite participants
+                  </Button>
+                </Col>  */}
                 <Row style={useStyles.marginrowtop10px}>
                   <Col xs={12} sm={6} md={4} lg={4} style={useStyles.marginrowtop10px}>
                     <AddCard
                       firstText={screenlabels.co_steward?.add_co_steward}
                       secondText={screenlabels.co_steward?.add_co_steward_description}
                       addevent={() =>
-                        history.push("/datahub/participants/addcosteward")
+                        history.push("/datahub/participants/add")
                       }></AddCard>
                   </Col>
+                  {coStewardList.map((rowData, index) => (
+            <Col
+              xs={12}
+              sm={6}
+              md={4}
+              lg={4}
+              style={useStyles.marginrowtop10px}>
+              <ParticipantsCards
+              coStewardTab={true}
+                viewDetailsRoute={'/datahub/costeward/'}
+                dataset={rowData.dataset_count}
+                connector={rowData.connector_count}
+                active={rowData.user.status ? "Active" : "Inactive"}
+                id={rowData.user_id}
+                profilepic={rowData.organization.logo}
+                firstname={rowData.user.first_name}
+                mainheading={rowData.organization.name}
+                subheading={
+                  rowData.user.first_name + " " + rowData.user.last_name
+                }
+                index={index}></ParticipantsCards>
+            </Col>
+          ))}  
                 </Row>
+                <Row style={{ "margin-top": "10px" }}>
+          <Col xs={12} sm={12} md={6} lg={3}></Col>
+          {isCoStewardShowLoadMoreButton ? (
+            <Col xs={12} sm={12} md={6} lg={6}>
+              <Button
+                onClick={() => getCoStewardListOnloadMore()}
+                variant="outlined"
+                className="cancelbtn"
+                style={{ "text-transform": "none" }}>
+                Load more
+              </Button>
+            </Col>
+          ) : (
+            <></>
+          )}
+        </Row>
 
               </TabPanel>
               <TabPanel value="2">
@@ -324,4 +443,4 @@ const getParticipantListOfAdmin= () => {
 
     </div>
   )
-}
+    }
