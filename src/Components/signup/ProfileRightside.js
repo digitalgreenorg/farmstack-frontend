@@ -154,16 +154,16 @@ export default function ProfileRightside(props) {
         if (response.data) {
           // let addressdata=JSON.parse(response.data.organization.address)
           props.setProfileFirstName(
-            response.data.first_name ? response.data.first_name : ""
+            response?.data?.first_name ? response?.data?.first_name : ""
           );
           props.setProfileLastName(
-            response.data.last_name ? response.data.last_name : ""
+            response?.data?.last_name ? response?.data?.last_name : ""
           );
           props.setValidnumber(
-            response.data.phone_number ? response.data.phone_number : ""
+            response?.data?.phone_number ? response?.data?.phone_number : ""
           );
 
-          if (response.data.first_name && response.data.first_name.length > 0) {
+          if (response?.data?.first_name && response?.data?.first_name?.length > 0) {
             props.setprofilenextbutton(true);
           }
         }
@@ -187,7 +187,7 @@ export default function ProfileRightside(props) {
           <div className="profilefirstname">
             <TextField
               required
-              id="filled-basic"
+              id="profile_firstname"
               label="First Name"
               variant="filled"
               style={{ width: "420px" }}
@@ -207,7 +207,7 @@ export default function ProfileRightside(props) {
           </div>
           <div className="profilelastname">
             <TextField
-              id="filled-basic"
+              id="profile_lastname"
               label="Last Name"
               variant="filled"
               style={{ width: "420px" }}
@@ -227,7 +227,7 @@ export default function ProfileRightside(props) {
           </div>
           <div className="profileemail">
             <TextField
-              id="filled-basic"
+              id="profile_email"
               label="Email"
               variant="filled"
               style={{ width: "420px" }}
@@ -251,7 +251,7 @@ export default function ProfileRightside(props) {
               defaultCountry={"in"}
               countryCodeEditable={false}
               style={{ width: "420px" }}
-              id="filled-basic"
+              id="profile_number"
               label="Contact Number"
               variant="filled"
               onChange={props.handleprofilenumber}
@@ -264,7 +264,7 @@ export default function ProfileRightside(props) {
           </div>
           <div>
             {props.profilenextbutton ? (
-              <Button variant="contained" className="profilebtn" type="submit">
+              <Button variant="contained" className="profilebtn" type="submit" id="next_btn">
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
@@ -276,6 +276,7 @@ export default function ProfileRightside(props) {
 
           <div>
             <Button
+              id="finish_laterbtn"
               variant="outlined"
               className="finishlaterbtn"
               type="button"

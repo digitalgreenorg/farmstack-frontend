@@ -537,7 +537,7 @@ export default function DatasetAdmin() {
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
-    data["search_pattern"] = val.trim();
+    data["name__icontains"] = val.trim();
     if (isMemberTab) {
       data["others"] = true;
     } else {
@@ -603,7 +603,7 @@ export default function DatasetAdmin() {
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
     payload["others"] = true;
-    payload["search_pattern"] = searchValOtherOrg.val.trim();
+    payload["name__icontains"] = searchValOtherOrg.val.trim();
 
     HTTPService(
       "POST",
@@ -668,11 +668,11 @@ export default function DatasetAdmin() {
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
     payload["others"] = false;
-    payload["search_pattern"] = searchValMyOrg.val.trim();
+    payload["name__icontains"] = searchValMyOrg.val.trim();
 
     // setFilterState(payload)
     // if(searchDatasetVar){
-    //     payload["search_pattern"] = searchDatasetVar
+    //     payload["name__icontains"] = searchDatasetVar
     // }
     // }
 
@@ -741,7 +741,7 @@ export default function DatasetAdmin() {
     // resetFilterState(screenlabels.dataset.status);
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
-    data["search_pattern"] = val.trim();
+    data["name__icontains"] = val.trim();
     if (isMemberTab) {
       data["others"] = true;
     } else {

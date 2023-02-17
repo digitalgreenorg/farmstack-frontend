@@ -63,9 +63,9 @@ const UrlConstant = {
   add_project: "/participant/project/",
   register_participant: "accounts/self_register/",
   project_listing_page_url: "participant/project/project_list/",
-  search_dataset_end_point_admin: "datahub/dataset/v2/search_datasets/",
-  search_dataset_end_point_participant: "datahub/dataset/v2/search_datasets/",
-  search_dataset_end_point_guest: "microsite/datasets/search_datasets/",
+  search_dataset_end_point_admin: "datahub/dataset/v2/dataset_filters/",
+  search_dataset_end_point_participant: "datahub/dataset/v2/dataset_filters/",
+  search_dataset_end_point_guest: "microsite/datasets/dataset_filters/",
 
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",
