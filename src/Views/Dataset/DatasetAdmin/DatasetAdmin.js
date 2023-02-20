@@ -171,7 +171,8 @@ export default function DatasetAdmin() {
 
   var payload = "";
   var adminUrl = UrlConstant.base_url + UrlConstant.dataset_list;
-  var memberUrl = UrlConstant.base_url + UrlConstant.costeward_onboarded_dataset;
+  var memberUrl =
+    UrlConstant.base_url + UrlConstant.costeward_onboarded_dataset;
   var searchUrl =
     UrlConstant.base_url + UrlConstant.search_dataset_end_point_admin;
   const resetUrls = () => {
@@ -865,12 +866,14 @@ export default function DatasetAdmin() {
     var payloadData = {};
     payloadData["user_id"] = getUserLocal();
     payloadData["org_id"] = getOrgLocal();
+    payloadData["on_boarded_by"] = getUserLocal();
     // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
-    if (isMemberTab) {
-      payloadData["others"] = true;
-    } else {
-      payloadData["others"] = false;
-    }
+    //commented since dataset filter is based on onboarded_by id not, others
+    // if (isMemberTab) {
+    //   payloadData["others"] = true;
+    // } else {
+    //   payloadData["others"] = false;
+    // }
     HTTPService(
       "POST",
       UrlConstant.base_url + UrlConstant.dataset_filter,
@@ -1030,9 +1033,9 @@ export default function DatasetAdmin() {
       });
   };
   //my organization dataset
-  const getMyDataset = (isLoadMore) => {
+  const getMyDataset = async (isLoadMore) => {
     setIsLoader(true);
-    console.log(searchDatasetVar.val, "My organization dataset");
+    // console.log(searchDatasetVar.val, "My organization dataset");
     if (searchValMyOrg.val && isLoadMore) {
       fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore);
       return;
@@ -1081,13 +1084,13 @@ export default function DatasetAdmin() {
         setDatasetList(finalDataList);
       })
       .catch((e) => {
-        console.log(e);
+        console.log("The error my orgnization", e);
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
   };
   //other organization dataset
-  const getMemberDatasets = (isLoadMore) => {
+  const getMemberDatasets = async (isLoadMore) => {
     setIsLoader(true);
     console.log("Other organizational", searchDatasetVar);
     if (searchValOtherOrg.val && isLoadMore) {
@@ -1096,7 +1099,7 @@ export default function DatasetAdmin() {
     }
     if (!isLoadMore) {
       resetUrls();
-      if (payload === "") {
+      if (payload == "") {
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -1118,8 +1121,8 @@ export default function DatasetAdmin() {
     )
       .then((response) => {
         setIsLoader(false);
-        console.log("response myorganization:", response);
-        console.log("datatset:", response.data.results);
+        console.log("Other organization reponse:", response);
+        console.log("Other organization datatset:", response.data.results);
 
         if (response.data.next == null) {
           // setisShowLoadMoreButton(false)
@@ -1141,7 +1144,7 @@ export default function DatasetAdmin() {
         setMemberDatasetList(finalDataList);
       })
       .catch((e) => {
-        console.log(e);
+        console.log("The error my other orgnization", e);
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
@@ -1224,15 +1227,16 @@ export default function DatasetAdmin() {
     // resetInputSearch()
     resetDateFilters();
     if (newValue === "2") {
-      console.log("isMemberTab", isMemberTab);
+      // console.log("isMemberTab", isMemberTab);
       setIsMemberTab(!isMemberTab);
       // getMemberFilter()
       setFilterState({});
       setIsShowAll(true);
       setConstantyUpdateSwitch(false);
       setSearchValMyOrg({ val: "" });
-      getMemberDatasets(false);
-      console.log("isMemberTab", isMemberTab);
+      // UseEffect call resets the member datasets state
+      // getMemberDatasets(false); 
+      // console.log("isMemberTab", isMemberTab);
     } else {
       setSearchValOtherOrg({ val: "" });
       setFilterState({});
@@ -1242,7 +1246,7 @@ export default function DatasetAdmin() {
       getMyDataset(false);
     }
 
-    console.log("isMemberTab", isMemberTab);
+    // console.log("isMemberTab", isMemberTab);
   };
 
   const resetDateFilters = () => {
