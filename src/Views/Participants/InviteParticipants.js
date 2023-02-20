@@ -38,7 +38,7 @@ function InviteParticipants(props) {
 
     const [emailErrorMessage, setEmailErrorMessage] = useState(null)
     const [descriptionErrorMessage, setDescriptionErrorMessage] = useState(null)
-
+    const [errorWhileEmailTyping, setErrorWhileTyping] = useState("")
     const toolbarConfig = {
         // Optionally specify the groups to display (displayed in the order listed).
         display: [
@@ -95,6 +95,7 @@ function InviteParticipants(props) {
             }
         });
     }
+   
     const handleOrgDesChange = (value) => {
         console.log("valuevalue", value)
 
@@ -124,7 +125,13 @@ function InviteParticipants(props) {
                                     emails={emails}
                                     onChange={(email) => setemails(email)}
                                     validateEmail={email => {
-                                        return isEmail(email); // return boolean
+                                         if(isEmail(email)){
+                                            setErrorWhileTyping(false)
+                                            return isEmail(email)
+                                         }else{
+                                            setErrorWhileTyping(true)
+                                            return isEmail(email)
+                                         }; 
                                     }}
                                     getLabel={(email: string, index: number, removeEmail: (index: number) => void,) => {
                                         return (
@@ -136,9 +143,10 @@ function InviteParticipants(props) {
                                             </div>
                                         );
                                     }}
-                                    error={emailErrorMessage ? true : false}
-                                    helperText={emailErrorMessage}
+                                    error={emailErrorMessage ? true : true}
+                                    helperText={"emailErrorMessage"}
                                 />
+                                <span style={{color:"red"}}>{errorWhileEmailTyping ? "Enter valid mail Id" : "" }</span>
                             </Col>
                         </Row>
                         <Row style={useStyles.marginrowtop}>

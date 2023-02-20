@@ -323,19 +323,19 @@ export default function ViewMetaDatasetDetails(props) {
                   "margin-top": "10px",
                   "margin-right": "70px",
                   // overflow: "scroll",
-                  maxHeight: "500px",
-                  overflow: "scroll"
+                  maxHeight: "700px",
+                  overflow: "hidden"
                 }}
               >
                 {/* { 
         //    fileTypes = ["XLS" && "xlsx" && "CSV" ] ?  */}
 
 
-                <Col >
+                <Col className='viewdetails_table' >
                   {isFileDataLoaded && fileData.map(itm1 => {
-                    return (itm1?.content?.length > 0 && <Row style={{ maxHeight: "500px", marginTop: "15px", padding: "0px 20px", }}>
+                    return (itm1?.content?.length > 0 && <Row style={{ padding: "10px" }}>
                       {itm1?.file ? <label>  File name : {itm1?.file?.split("/")[5]}</label> : ""}
-                      <span style={{ overflowX: "scroll" }}>
+                      <span style={{ maxHeight: "300px", marginTop: "15px", padding: "0px 20px", overflow: "auto" }}>
 
                         <Table
                           style={{ width: "1300px", border: "1px solid" }}

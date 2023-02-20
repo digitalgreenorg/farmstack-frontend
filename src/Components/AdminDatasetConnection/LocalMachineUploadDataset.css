@@ -249,4 +249,9 @@
   font-style: normal;
   color: #3d4a52;
   word-break: break-all;
+  text-align: left !important;
+}
+
+.viewdetails_table table td {
+  max-width: 100px;
 }
