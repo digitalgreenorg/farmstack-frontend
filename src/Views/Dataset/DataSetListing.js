@@ -7,6 +7,7 @@ import HTTPService from "../../Services/HTTPService";
 import { useHistory } from "react-router-dom";
 import {
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import AddDatasetCard from "../../Components/Datasets/AddDatasetCard";
@@ -47,7 +48,7 @@ export default function DataSetListing(props) {
     // } else if (getUserMapId() == null && isLoggedInUserParticipant()) {
 
     // }
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return "/datahub/datasets/add";
     } else if (isLoggedInUserParticipant()) {
       return "/participant/datasets/add";
