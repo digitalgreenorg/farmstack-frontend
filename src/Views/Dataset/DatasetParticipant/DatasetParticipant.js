@@ -253,6 +253,8 @@ export default function DatasetParticipant() {
           setSubcategoryFilterValue([]);
           break;
       }
+      // Reset dataset list to the original state if the category filter is empty
+      if (value.length === 0) getAllDataSets();
     } else if (input_field === "Subcategories") {
       setSubcategoryFilterValue(value);
     }
@@ -1345,12 +1347,12 @@ export default function DatasetParticipant() {
     setscreenView(tempfilterObject);
   };
   const viewCardDetails = (id, flag) => {
-    if(id) {
-    setid(id);
+    if (id) {
+      setid(id);
     }
     // setIsLoader(true);
     // setisAdminView(flag);
-    history.push("/participant/dataset/view/" + id, {flag});
+    history.push("/participant/dataset/view/" + id, { flag });
     // HTTPService(
     //   "GET",
     //   UrlConstant.base_url + UrlConstant.datasetparticipant + id + "/",

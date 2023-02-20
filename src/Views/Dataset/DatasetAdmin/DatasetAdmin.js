@@ -263,6 +263,8 @@ export default function DatasetAdmin() {
           setSubcategoryFilterValue([]);
           break;
       }
+      // Reset dataset list to the original state if the category filter is empty
+      if (value.length === 0) getAllDataSets();
     } else if (input_field === "Subcategories") {
       setSubcategoryFilterValue(value);
     }
@@ -988,7 +990,6 @@ export default function DatasetAdmin() {
     if (!isLoadMore) {
       resetUrls();
       if (payload == "") {
-        // payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "")
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -1214,12 +1215,9 @@ export default function DatasetAdmin() {
     resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
-    // resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
     resetFilterState(screenlabels.dataset.enabled);
-    // resetEnabledStatusFilter()
 
-    // setFilterState({})
     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "");
     if (isMemberTab) {
       getMemberDatasets(false);
@@ -1295,14 +1293,14 @@ export default function DatasetAdmin() {
     setscreenView(tempfilterObject);
   };
   const viewCardDetails = (id, flag) => {
-    console.log(id, flag)
+    console.log(id, flag);
 
     if (id) {
-    setid(id);
+      setid(id);
     }
     // setIsLoader(true);
     // setisAdminView(flag);
-    history.push("/datahub/dataset/view/" + id, {flag});
+    history.push("/datahub/dataset/view/" + id, { flag });
     // HTTPService(
     //   "GET",
     //   UrlConstant.base_url + UrlConstant.dataset + id + "/",
