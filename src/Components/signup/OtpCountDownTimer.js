@@ -37,6 +37,7 @@ export default function OtpCountDownTimer(props) {
         />
       </div>
       <button
+        id="resend-otpbtn"
         type="button"
         className={props.disable ? "disabledotp" : "resendotp"}
         onClick={props.hanleResendOTp}

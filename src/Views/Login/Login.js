@@ -140,9 +140,9 @@ export default function Login(props) {
           //   console.log(response.json());
           console.log(response.status);
           if (response.status === 201) {
-            console.log(response.data.id);
-            setprofileid(response.data.id);
-            setUserId(response.data.id);
+            console.log(response?.data?.id);
+            setprofileid(response?.data?.id);
+            setUserId(response?.data?.id);
             setEmail(false);
             setError(false);
             setuserSuspenderror(false);
@@ -235,9 +235,9 @@ export default function Login(props) {
           // }
 
           if (response.status === 201) {
-            setRoleLocal(response.data.role);
-            setUserMapId(response.data.user_map);
-            setOrgId(response.data.org_id);
+            setRoleLocal(response?.data?.role);
+            setUserMapId(response?.data?.user_map);
+            setOrgId(response?.data?.org_id);
             console.log(getRoleLocal());
             console.log("isLoggedInUserAdmin(): " + isLoggedInUserAdmin());
             console.log(
@@ -247,8 +247,8 @@ export default function Login(props) {
               "isLoggedInUserCoSteward(): " + isLoggedInUserCoSteward()
             );
 
-            if (response.data.on_boarded) {
-              setTokenLocal(response.data.access);
+            if (response?.data?.on_boarded) {
+              setTokenLocal(response?.data?.access);
               if (isLoggedInUserAdmin()) {
                 props.history.push("/datahub/participants");
               } else if (isLoggedInUserParticipant()) {
@@ -258,9 +258,9 @@ export default function Login(props) {
                 props.history.push("/datahub/participants");
               }
             } else {
-              setisaccesstoken(response.data.access);
+              setisaccesstoken(response?.data?.access);
 
-              setOrgIdState(response.data.org_id);
+              setOrgIdState(response?.data?.org_id);
               setOtpError(false);
               setisProfile(true);
               setisOtp(false);
@@ -709,9 +709,9 @@ export default function Login(props) {
           if (response.status === 201) {
                setisPolicies(true);   
                setisOrg(false);
-               setUserMapId(response.data.user_map);
-               setOrgId(response.data.org_id);
-               setOrgIdState(response.data.org_id);
+               setUserMapId(response?.data?.user_map);
+               setOrgId(response?.data?.org_id);
+               setOrgIdState(response?.data?.org_id);
       
             if (isLoggedInUserParticipant()) {
               console.log("partcheck")

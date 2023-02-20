@@ -14,7 +14,7 @@ export default function SignupOtp(props) {
       <form noValidate autoComplete="off" onSubmit={props.handleSubmitOtp}>
         <TextField
           type="number"
-          id="filled-basic"
+          id="fill_OTP"
           maxLength={6}
           inputProps={{ maxLength: 6 }}
           label="Enter 6 Digit OTP"
@@ -29,7 +29,7 @@ export default function SignupOtp(props) {
         />
         <div>
           {props.button ? (
-            <Button variant="contained" className="Signupbtn" type="submit">
+            <Button variant="contained" className="Signupbtn" type="submit" id='verify_otp'>
               <span className="signupbtnname">Verify</span>
             </Button>
           ) : (
