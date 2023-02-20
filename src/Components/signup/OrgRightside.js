@@ -48,7 +48,10 @@ export default function OrgRightside(props) {
   // // const [orgdeserror, serorgdeserror] = useState(false);
   const [orgdesc, setorgdesc] = useState("");
   const [isLoader, setIsLoader] = useState(false);
-  console.log( props.validOrgNumber, "KAKAKSANDKJDHBUDSBJVDSIUVBFSUYCBDSIUVDWBVDSBCVISDJFVYUDBDSIU")
+  console.log(
+    props.validOrgNumber,
+    "KAKAKSANDKJDHBUDSBJVDSIUVBFSUYCBDSIUVDWBVDSBCVISDJFVYUDBDSIU"
+  );
 
   const [editorValue, setEditorValue] = React.useState(
     RichTextEditor.createValueFromString(orgdesc, "html")
@@ -79,17 +82,21 @@ export default function OrgRightside(props) {
     )
       .then((response) => {
         setIsLoader(false);
-        console.log("org data: ", response.data);
         // let addressdata=JSON.parse(response.data.organization.address)
         if (response.data.organization) {
-          props.setOrgName(response.data.organization.name);
+          props.setOrgName(response?.data?.organization?.name);
+          props.setOrgMail(response?.data?.organization?.org_email);
+          props.setOrgWebsite(response?.data?.organization?.website);
+          props.setOrgAddress(response?.data?.organization?.address?.address || JSON.parse(response?.data?.organization?.address)?.address);
+          props.setCountryValue(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country)
+          props.setValidOrgnumber(response?.data?.user?.phone_number);
+          props.setOrgPincode(response?.data?.organization?.address?.pincode ||  JSON.parse(response?.data?.organization?.address)?.pincode)
           if (
             response.data.organization.name &&
             response.data.organization.name.trim().length > 0
           ) {
             props.setisOrgnameerror(false);
           }
-          props.setOrgMail(response.data.organization.org_email);
           if (
             response.data.organization.org_email &&
             response.data.organization.org_email.trim().length > 0
@@ -97,20 +104,16 @@ export default function OrgRightside(props) {
             props.setisOrgmailerror(false);
             props.setOrgemailbtn(true);
           }
-          props.setOrgWebsite(response.data.organization.website);
+
           if (
             response.data.organization.website &&
             response.data.organization.website.trim().length > 0
           ) {
             props.isOrgWebsiteerror(false);
           }
-          props.setValidOrgnumber(response.data.organization.phone_number ? response.data.organization.phone_number : "");
-          if (response.data.organization.address) {
-            props.setOrgAddress(response.data.organization.address.address);
-            props.setOrgCity(response.data.organization.address.city);
-            props.setCountryValue(response.data.organization.address.country);
-            props.setOrgPincode(response.data.organization.address.pincode);
 
+          if (response.data.organization.address) {
+            props.setOrgCity(response.data.organization.address.city);
             if (
               response.data.organization.address.address &&
               response.data.organization.address.address.trim().length > 0
@@ -606,7 +609,8 @@ export default function OrgRightside(props) {
               value={props.countryvalue}
               onChange={props.countrychangeHandler}
               isSearchable={true}
-              label="Country">
+              label="Country"
+            >
               {options.map((rowData, index) => (
                 <MenuItem value={rowData.label}>{rowData.label}</MenuItem>
               ))}
@@ -635,16 +639,16 @@ export default function OrgRightside(props) {
               style={{ width: "420px", zIndex: 0 }}
               value={props.orgPincode}
               onKeyUp={() =>
-                props.orgPincode == ""
+                props.orgPincode === ""
                   ? props.setispincodeerror(true)
                   : props.setispincodeerror(false)
               }
               onKeyDown={(e) => {
                 if (
-                  e.key == "-" ||
-                  e.key == "e" ||
-                  e.key == "E" ||
-                  e.key == "+"
+                  e.key === "-" ||
+                  e.key === "e" ||
+                  e.key === "E" ||
+                  e.key === "+"
                 ) {
                   e.preventDefault();
                 }
@@ -726,7 +730,8 @@ export default function OrgRightside(props) {
                 fontWeight: "400",
                 fontSize: "12px",
                 lineHeight: "16px",
-              }}>
+              }}
+            >
               {props.orgDescriptionErrorMessage
                 ? props.orgDescriptionErrorMessage
                 : ""}
@@ -813,7 +818,8 @@ export default function OrgRightside(props) {
                 onClick={props.handleOrgSubmit}
                 variant="contained"
                 className="orgbtn"
-                type="submit">
+                type="submit"
+              >
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
@@ -828,7 +834,8 @@ export default function OrgRightside(props) {
                 variant="outlined"
                 className="finishlaterorgbtn"
                 type="button"
-                onClick={props.finishLaterOrgScreen}>
+                onClick={props.finishLaterOrgScreen}
+              >
                 Finish later
               </Button>
             </div>
@@ -840,7 +847,8 @@ export default function OrgRightside(props) {
           width={150}
           height={127}
           fill="none"
-          xmlns="http://www.w3.org/2000/svg">
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <g opacity={0.1} fill="#E7B100">
             <circle cx={5.814} cy={5.728} r={5.728} />
             <circle cx={40.181} cy={5.728} r={5.728} />
