@@ -273,7 +273,7 @@ export default function ParticipantCoStewardManagement(props) {
                       firstText={screenlabels.co_steward?.add_co_steward}
                       secondText={screenlabels.co_steward?.add_co_steward_description}
                       addevent={() =>
-                        history.push("/datahub/participants/add")
+                        history.push("/datahub/participants/addcosteward")
                       }></AddCard>
                   </Col>
                   {coStewardList.map((rowData, index) => (
