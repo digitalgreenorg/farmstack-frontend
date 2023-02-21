@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../Components/Navbar/Navbar";
-import ParticipantForm from "../../Components/Participants/ParticipantForm";
 import Success from "../../Components/Success/Success";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -13,8 +11,10 @@ import UrlConstants from "../../Constants/UrlConstants";
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../Constants/RegexConstants";
-import HandleSessionTimeout, { GetErrorHandlingRoute, GetErrorKey, isLoggedInUserCoSteward, mobileNumberMinimunLengthCheck, validateInputField, getUserLocal } from "../../Utils/Common";
+import { GetErrorHandlingRoute, GetErrorKey, mobileNumberMinimunLengthCheck,} from "../../Utils/Common";
 import Loader from "../../Components/Loader/Loader";
+import CoStewardForm from "../CoSteward/CoStewardForm"
+
 const useStyles = {
   btncolor: {
     color: "white",
@@ -26,7 +26,7 @@ const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop8px: { "margin-top": "0px" },
 };
-function AddParticipants(props) {
+export default function AddCoSteward(props) {
   const history = useHistory();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [organisationname, setorganisationname] = useState("");
@@ -39,15 +39,12 @@ function AddParticipants(props) {
   const [firstname, setfirstname] = useState("");
   const [lastname, setlastname] = useState("");
   const [useremail, setuseremail] = useState("");
-  // const [organisationlength, setorganisationlength] = useState(3);
-  const [istrusted, setistrusted] = React.useState(false);
   const [isorganisationemailerror, setisorganisationemailerror] =
     useState(false);
   const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
   const [iswebsitelinkrerror, setwebsitelinkerror] = useState(false);
   const [isuseremailerror, setisuseremailerror] = useState(false);
   const [isexisitinguseremail, setisexisitinguseremail] = useState(false);
-  // const [ispincodeerror, setispincodeerror] = useState(false)
   const [isSuccess, setisSuccess] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
 
@@ -58,8 +55,6 @@ function AddParticipants(props) {
   const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
   const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
   const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
-  // const[orgSubscriptionErrorMessage, setOrgSubscriptionErrorMessage] = useState(null)
-  
 
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
@@ -69,7 +64,7 @@ function AddParticipants(props) {
     var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
     return res1 !== null;
   }
-  const addNewParticipants = () => {
+  const addNewCoSteward = () => {
 
     setFirstNameErrorMessage(null)
     setLastNameErrorMessage(null)
@@ -78,9 +73,8 @@ function AddParticipants(props) {
     setOrgNameErrorMessage(null)
     setOrgEmailErrorMessage(null)
     setOrgWebsiteErrorMessage(null)
-    // setOrgSubscriptionErrorMessage(null)
     setisorganisationemailerror(null)
-    var id = getUserLocal();
+
     var bodyFormData = new FormData();
     bodyFormData.append("email", useremail.toLowerCase());
     bodyFormData.append("org_email", orginsationemail.toLowerCase());
@@ -97,24 +91,18 @@ function AddParticipants(props) {
         pincode: pincode,
       })
     );
-    //bodyFormData.append("approval_status", istrusted)
-    // bodyFormData.append("subscription", organisationlength);
-    bodyFormData.append("role", 3);
-    if(isLoggedInUserCoSteward()){ 
-    bodyFormData.append("on_boarded_by", id) 
-    }
+    bodyFormData.append("role", 6);
     setIsLoader(true);
     HTTPService(
       "POST",
-      UrlConstants.base_url + UrlConstants.participant,
+      UrlConstants.base_url + UrlConstants.co_steward_add,
       bodyFormData,
       false,
       true
-    )
-      .then((response) => {
+    ).then((response) => {
         setIsLoader(false);
         setisSuccess(true);
-        console.log(response)
+        console.log(response, "response of costeward added")
       })
       .catch((e) => {
         setIsLoader(false);
@@ -132,7 +120,6 @@ function AddParticipants(props) {
               case "name": setOrgNameErrorMessage(errorMessages[i]); break;
               case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
               case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
-              // case "subscription": setOrgSubscriptionErrorMessage(errorMessages[i]); break;
               default: history.push(GetErrorHandlingRoute(e)); break;
             }
           }
@@ -140,14 +127,7 @@ function AddParticipants(props) {
         else{
           history.push(GetErrorHandlingRoute(e))
         }
-        //setisexisitinguseremail(true);
-        //history.push(GetErrorHandlingRoute(e));
       });
-  };
-
-  const handleistrusted = (event) => {
-    console.log(event.target.checked);
-    setistrusted(event.target.checked)
   };
   return (
     <>
@@ -159,12 +139,12 @@ function AddParticipants(props) {
             route={"datahub/participants"}
             imagename={"success"}
             btntext={"ok"}
-            heading={"Participant added successfully !"}
+            heading={"Co-Steward added successfully !"}
             imageText={"Added"}
-            msg={"You added a participant."}></Success>
+            msg={"You added a Co-Steward."}></Success>
         ) : (
           <>
-            <ParticipantForm
+            <CoStewardForm
               organisationname={organisationname}
               setorganisationname={(ref) => {
                 setorganisationname(ref);
@@ -196,13 +176,9 @@ function AddParticipants(props) {
                 setorganisationaddress(ref);
               }}
               pincode={pincode}
-              // setpincode={ref => { setpincode(ref); setispincodeerror(!validateInputField(ref,RegexConstants.PINCODE_REGEX)) }}
               setpincode={(ref) => {
                 setpincode(ref);
               }}
-              istrusted={istrusted}
-              handleistrusted={handleistrusted}
-              // ispincodeerror={ispincodeerror}
               firstname={firstname}
               setfirstname={(ref) => {
                 setfirstname(ref);
@@ -219,16 +195,11 @@ function AddParticipants(props) {
               }}
               isuseremailerror={isuseremailerror}
               isexisitinguseremail={isexisitinguseremail}
-              // organisationlength={organisationlength}
-              // setorganisationlength={(ref) => {
-              //   setorganisationlength(ref);
-              // }}
-              first_heading={screenlabels.addparticipants.first_heading}
-              second_heading={screenlabels.addparticipants.second_heading}
+              first_heading={screenlabels.co_steward?.first_heading}
+              second_heading={screenlabels.co_steward?.second_heading}
               third_heading={
-                screenlabels.addparticipants.third_heading
+                screenlabels.co_steward?.third_heading
               }
-              fourth_heading={screenlabels.addparticipants.fourth_heading}
               firstNameErrorMessage={firstNameErrorMessage}
               lastNameErrorMessage={lastNameErrorMessage}
               emailErrorMessage={emailErrorMessage}
@@ -236,8 +207,7 @@ function AddParticipants(props) {
               orgNameErrorMessage={orgNameErrorMessage}
               orgEmailErrorMessage={orgEmailErrorMessage}
               orgWebsiteErrorMessage={orgWebsiteErrorMessage}
-              // orgSubscriptionErrorMessage={orgSubscriptionErrorMessage}
-              ></ParticipantForm>
+              ></CoStewardForm>
             <Row>
               <Col xs={12} sm={12} md={6} lg={3}></Col>
               <Col xs={12} sm={12} md={6} lg={6}>
@@ -245,7 +215,7 @@ function AddParticipants(props) {
                 orginsationemail &&
                 !isorganisationemailerror &&
                 countryvalue &&
-               mobileNumberMinimunLengthCheck(contactnumber) &&
+                mobileNumberMinimunLengthCheck(contactnumber) &&
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
@@ -253,10 +223,9 @@ function AddParticipants(props) {
                 firstname &&
                 useremail &&
                 !isuseremailerror ?
-                // organisationlength ?
                  (
                   <Button
-                    onClick={() => addNewParticipants()}
+                    onClick={() => addNewCoSteward()}
                     variant="contained"
                     className="submitbtn">
                     {screenlabels.common.submit}
@@ -288,4 +257,3 @@ function AddParticipants(props) {
     </>
   );
 }
-export default AddParticipants;

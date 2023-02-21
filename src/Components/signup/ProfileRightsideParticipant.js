@@ -14,7 +14,7 @@ import { LinearProgress } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useHistory } from "react-router-dom";
 import Loader from "../Loader/Loader";
-import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
+import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserCoSteward, isLoggedInUserParticipant } from "../../Utils/Common";
 import Footer from "../Footer/Footer";
 
 const fileTypes = ['JPEG', 'PNG', 'jpg']
@@ -35,7 +35,7 @@ export default function ProfileRightsideParticipant(props) {
   const nameRef = useRef();
 
   useEffect(() => {
-    if (isLoggedInUserParticipant())
+    if (isLoggedInUserParticipant() || isLoggedInUserCoSteward() )
     {
       var id = props.userid;
       setIsLoader(true);
@@ -43,14 +43,14 @@ export default function ProfileRightsideParticipant(props) {
       .then((response) => {
           setIsLoader(false);
           console.log("otp valid", response.data);
-          if (response.data.user)
+          if (response?.data?.user)
           {
             // let addressdata=JSON.parse(response.data.organization.address)
-            props.setProfileFirstName(response.data.user.first_name);
-            props.setProfileLastName(response.data.user.last_name);
-            props.setValidnumber(response.data.user.phone_number);
+            props.setProfileFirstName(response?.data?.user?.first_name);
+            props.setProfileLastName(response?.data?.user?.last_name);
+            props.setValidnumber(response?.data?.user?.phone_number);
 
-            if (response.data.user.first_name && response.data.user.first_name.length > 0){
+            if (response?.data?.user?.first_name && response?.data?.user?.first_name.length > 0){
               props.setprofilenextbutton (true)
             }
 
@@ -167,7 +167,7 @@ export default function ProfileRightsideParticipant(props) {
           </div>
           <div className="profilelastname">
             <TextField
-              id="filled-basic"
+              id="profile_lastname"
               label="Last Name"
               variant="filled"
               style={{ width: "420px" }}
@@ -183,7 +183,7 @@ export default function ProfileRightsideParticipant(props) {
           </div>
           <div className="profileemail">
             <TextField
-              id="filled-basic"
+              id="profile_email"
               label="Email"
               variant="filled"
               style={{ width: "420px" }}
@@ -204,7 +204,7 @@ export default function ProfileRightsideParticipant(props) {
               defaultCountry={"in"}
               countryCodeEditable={false}
               style={{ width: "420px" }}
-              id="filled-basic"
+              id="profile_contactnumber"
               label="Contact Number"
               variant="filled"
               onChange={props.handleprofilenumber}
@@ -255,7 +255,7 @@ export default function ProfileRightsideParticipant(props) {
           */}
           <div>
             {props.profilenextbutton ? (
-              <Button variant="contained" className="profilebtn" type="submit">
+              <Button variant="contained" className="profilebtn" type="submit" id="profile_nextbtn">
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (

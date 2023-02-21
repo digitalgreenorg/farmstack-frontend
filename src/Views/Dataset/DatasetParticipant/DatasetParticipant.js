@@ -44,7 +44,7 @@ export default function DatasetParticipant() {
   );
   //   const debounceOnChange = React.useCallback(debounce(getSearchedData, 1000), []);
   const debounceOnChange = React.useCallback(
-    debounce(isMemberTab ? getSearchedData : getSearchOtherData, 1000),
+    debounce(!isMemberTab ? getSearchedData : getSearchOtherData, 1000),
     []
   );
   const [searchDatasetUrl, setSearchDatasetUrl] = useState(
@@ -598,7 +598,7 @@ export default function DatasetParticipant() {
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
-    data["search_pattern"] = val;
+    data["name__icontains"] = val;
     if (isMemberTab) {
       data["others"] = true;
     } else {
@@ -667,11 +667,11 @@ export default function DatasetParticipant() {
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
     payload["others"] = true;
-    payload["search_pattern"] = searchValOtherOrg.val.trim();
+    payload["name__icontains"] = searchValOtherOrg.val.trim();
 
     // setFilterState(payload)
     // if(searchDatasetVar){
-    //     payload["search_pattern"] = searchDatasetVar
+    //     payload["name__icontains"] = searchDatasetVar
     // }
     // }
 
@@ -692,13 +692,23 @@ export default function DatasetParticipant() {
         if (response.data.next == null) {
           // setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          setShowLoadMoreMember(false);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false)
+          }
           setFilterState({});
         } else {
           // setisShowLoadMoreButton(true)
           setMemberDatasetUrl(response.data.next);
+
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(true);
+          } else {
+            setShowLoadMoreMember(true)
+          }
           // memberUrl = response.data.next
-          setShowLoadMoreMember(true);
+          // setShowLoadMoreMember(true);
         }
         let finalDataList = [];
         if (isLoadMore) {
@@ -727,11 +737,11 @@ export default function DatasetParticipant() {
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
     payload["others"] = false;
-    payload["search_pattern"] = searchValMyOrg.val.trim();
+    payload["name__icontains"] = searchValMyOrg.val.trim();
 
     // setFilterState(payload)
     // if(searchDatasetVar){
-    //     payload["search_pattern"] = searchDatasetVar
+    //     payload["name__icontains"] = searchDatasetVar
     // }
     // }
 
@@ -752,13 +762,23 @@ export default function DatasetParticipant() {
         if (response.data.next == null) {
           // setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          setShowLoadMoreMember(false);
+          // setShowLoadMoreMember(false);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false)
+          }
           setFilterState({});
         } else {
           // setisShowLoadMoreButton(true)
           setDatasetUrl(response.data.next);
           // memberUrl = response.data.next
-          setShowLoadMoreMember(true);
+          // setShowLoadMoreMember(true);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(true);
+          } else {
+            setShowLoadMoreMember(true)
+          }
         }
         let finalDataList = [];
         if (isLoadMore) {
@@ -784,7 +804,7 @@ export default function DatasetParticipant() {
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
-    data["search_pattern"] = val;
+    data["name__icontains"] = val;
     if (isMemberTab) {
       data["others"] = true;
     } else {
@@ -807,19 +827,37 @@ export default function DatasetParticipant() {
         console.log("datatset:", response.data.results);
 
         if (response.data.next == null) {
-          // setisShowLoadMoreButton(false)
+          setisShowLoadMoreButton(false)
           // setShowLoadMoreAdmin(false)
-          setShowLoadMoreMember(false);
+          console.log(showLoadMoreMember)
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false)
+          }
           setFilterState({});
         } else {
           // setisShowLoadMoreButton(true)
-          setDatasetUrl(response.data.next);
+          // setDatasetUrl(response.data.next);
+          if (isMemberTab) {
+            setMemberDatasetUrl(response.data.next)
+          } else {
+            setDatasetUrl(response.data.next);
+          }
           // memberUrl = response.data.next
-          setShowLoadMoreMember(true);
+          if (!isMemberTab) {
+            setShowLoadMoreAdmin(true);
+          } else {
+            setShowLoadMoreMember(true)
+          }
         }
         let finalDataList = [];
         if (isLoadMore) {
-          finalDataList = [...datasetList, ...response.data.results];
+          if (isMemberTab) {
+            finalDataList = [...memberDatasetList, ...response.data.results];
+          } else {
+            finalDataList = [...datasetList, ...response.data.results];
+          }
         } else {
           finalDataList = [...response.data.results];
           console.log(finalDataList);
@@ -951,8 +989,8 @@ export default function DatasetParticipant() {
           ? memberUrl
           : adminUrl
         : value == "2"
-        ? memberDatasetUrl
-        : datasetUrl,
+          ? memberDatasetUrl
+          : datasetUrl,
       payload,
       false,
       true
@@ -1006,7 +1044,7 @@ export default function DatasetParticipant() {
 
   const getMyDataset = (isLoadMore) => {
     setIsLoader(true);
-    if (searchValMyOrg.val) {
+    if (searchValMyOrg.val && isLoadMore) {
       fetchSearchDataWithLoadMoreButtonMyOrg(isLoadMore);
       return;
     }
@@ -1073,7 +1111,7 @@ export default function DatasetParticipant() {
 
   const getMemberDatasets = (isLoadMore) => {
     setIsLoader(true);
-    if (searchValOtherOrg.val) {
+    if (searchValOtherOrg.val && isLoadMore) {
       fetchSearchDataWithLoadMoreButtonMember(isLoadMore);
       return;
     }
@@ -1259,6 +1297,9 @@ export default function DatasetParticipant() {
   };
 
   const clearAllFilters = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     setIsShowAll(true);
     resetDateFilters();
     setConstantyUpdateSwitch(false);
@@ -1307,8 +1348,11 @@ export default function DatasetParticipant() {
 
   const filterByDates = () => {
     let fromDateandToDate = [];
-    fromDateandToDate.push(fromdate);
-    fromDateandToDate.push(todate);
+    fromDateandToDate.push(new Date(fromdate.getTime() - (fromdate.getTimezoneOffset() * 60000)).toJSON());
+    // Adding 86400000 will add 1 more day in date (86400000 == 24hrs)
+    fromDateandToDate.push(new Date(todate.getTime() - (todate.getTimezoneOffset() * 60000) + 86400000).toJSON());
+    console.log('payload in date fillter api',fromDateandToDate, fromdate, todate)
+
 
     setIsShowAll(false);
     setConstantyUpdateSwitch(false);
@@ -1477,7 +1521,7 @@ export default function DatasetParticipant() {
           ></ViewDataSet>
           <>
             {viewdata.approval_status !== "rejected" &&
-            viewdata.user_id == getUserLocal() ? (
+              viewdata.user_id == getUserLocal() ? (
               <>
                 <Row>
                   <Col xs={12} sm={12} md={6} lg={3}></Col>

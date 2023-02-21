@@ -10,8 +10,8 @@ import $ from "jquery";
 import FilterCheckBox from "../../Components/Datasets/FilterCheckBox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { SearchSharp } from "@mui/icons-material";
 import Search from "../Datasets/Search";
+import Select from "react-select";
 
 export default function GuestUserDatasetFilter(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -26,7 +26,6 @@ export default function GuestUserDatasetFilter(props) {
         "disabled"
       );
     }, 100);
-    ;
   }, []);
 
   return (
@@ -54,8 +53,8 @@ export default function GuestUserDatasetFilter(props) {
                   "text-transform": "none",
                 }}
                 onClick={() => props.clearAllFilters()}
-              // variant="outlined"
-              // className="cancelbtn"
+                // variant="outlined"
+                // className="cancelbtn"
               >
                 Clear all
               </Button>
@@ -133,6 +132,7 @@ export default function GuestUserDatasetFilter(props) {
               label="From date *"
               value={props.fromdate}
               onChange={(newValue) => {
+                console.log('date value on change', newValue)
                 props.settodate(null);
                 props.setfromdate(newValue);
                 //   props.setIsShowAll(false)
@@ -162,13 +162,14 @@ export default function GuestUserDatasetFilter(props) {
               minDate={props.fromdate}
               value={props.todate}
               onChange={(newValue) => {
+                console.log('end date value on change', newValue)
                 props.settodate(newValue);
               }}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
         </span>
-        {props.fromdate && props.todate && (props.fromdate <= props.todate) ? (
+        {props.fromdate && props.todate && props.fromdate <= props.todate ? (
           <span className="supportsubmitbrn">
             <Button
               onClick={() => props.filterByDates()}
@@ -263,6 +264,65 @@ export default function GuestUserDatasetFilter(props) {
         : ""} */}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img src={require("../../Assets/Img/category.svg")} alt="new" />
+          &nbsp;&nbsp;
+          {screenlabels.dataset.category}
+        </span>
+      </Row>
+      <Select
+        isMulti
+        name="Categories"
+        options={props.categoryFilterOptions ? props.categoryFilterOptions : []}
+        onChange={props.handleCategoryFilterChange}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        value={props.categoryFilterValue}
+      />
+      <Row className="supportfiltersecondrowbold">
+        <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+          <img src={require("../../Assets/Img/subcategory.svg")} alt="new" />
+          &nbsp;&nbsp;
+          {screenlabels.dataset.subcategory}
+        </span>
+      </Row>
+      <Select
+        isMulti
+        name="Subcategories"
+        options={
+          props.subcategoryFilterOptions ? props.subcategoryFilterOptions : []
+        }
+        onChange={props.handleCategoryFilterChange}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        value={props.subcategoryFilterValue}
+        noOptionsMessage={() => "Select a category first"}
+      />
+      <Row>
+        {props.categoryFilterValue.length &&
+        props.subcategoryFilterValue.length ? (
+          <span className="supportsubmitbrn" style={{ marginTop: "15px" }}>
+            <Button
+              onClick={() => props.filterByCategory()}
+              variant="contained"
+              className="enabledatesubmitbtn"
+            >
+              Submit
+            </Button>
+          </span>
+        ) : (
+          <span className="supportsubmitbrn">
+            <Button
+              variant="outlined"
+              className="disbaledatesubmitbtn"
+              style={{ marginTop: "15px" }}
+            >
+              Submit
+            </Button>
+          </span>
+        )}
+      </Row>
+      <Row className="supportfiltersecondrowbold">
+        <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/geography.svg")} alt="new" />
           &nbsp;&nbsp;
           {screenlabels.dataset.geography}
@@ -286,7 +346,6 @@ export default function GuestUserDatasetFilter(props) {
           helperText={!props.isGeoSearchFound ? "Not found" : ""}
         />
       </Row>
-      {/* <Row> */}
       {props.geoFilterDisplay &&
         props.geoFilterDisplay.map(
           (geoFilter) =>
@@ -303,7 +362,6 @@ export default function GuestUserDatasetFilter(props) {
               />
             )
         )}
-      {/* </Row> */}
       {/* <Row>
         {props.geographyList && props.geographyList.map((geography) => (
             <FilterCheckBox

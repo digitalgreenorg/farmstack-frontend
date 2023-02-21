@@ -31,11 +31,15 @@ const UrlConstant = {
   dataset_filter: "datahub/dataset/v2/filters_data/",
   dataset_filter_participant: "datahub/dataset/v2/filters_data/",
   dataset_list: "datahub/dataset/v2/dataset_filters/",
+  costeward_onboarded_dataset: "datahub/dataset/v2/dataset_filters/",
+  //costeward_onboarded_dataset: "datahub/dataset/v2/filters_data/",
+  // dataset_list:"datahub/dataset/v2/filters_data/",
   dataset_participant_list: "datahub/dataset/v2/dataset_filters/",
   department: "participant/department/",
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
   dataseteth: "datahub/dataset/v2/temp_datasets/",
+  check_dataset_name_and_description_in_database: "datahub/dataset/v2/validate_dataset/",
   datasetethcancel: "datahub/dataset/v2/temp_datasets/?delete_dir=True",
   datasetview: "datahub/dataset/v2/",
   datasetview_guest: "microsite/datasets/",
@@ -62,16 +66,17 @@ const UrlConstant = {
   add_project: "/participant/project/",
   register_participant: "accounts/self_register/",
   project_listing_page_url: "participant/project/project_list/",
-  search_dataset_end_point_admin: "datahub/dataset/v2/search_datasets/",
-  search_dataset_end_point_participant: "datahub/dataset/v2/search_datasets/",
-  search_dataset_end_point_guest: "microsite/datasets/search_datasets/",
+  search_dataset_end_point_admin: "datahub/dataset/v2/dataset_filters/",
+  search_dataset_end_point_participant: "datahub/dataset/v2/dataset_filters/",
+  search_dataset_end_point_guest: "microsite/datasets/dataset_filters/",
 
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",
   send_columns_to_export: "participant/database/database_xls_file/",
   admin_dataset_new_dataset_v2: "datahub/dataset/v2/",
   live_api: "participant/database/database_live_api_export/",
-  add_category_edit_category: "datahub/dataset/v2/category/"
+  add_category_edit_category: "datahub/dataset/v2/category/",
+  co_steward_add: "datahub/participant/"
 };
 
 export default UrlConstant;

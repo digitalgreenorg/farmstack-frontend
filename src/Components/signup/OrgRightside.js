@@ -27,6 +27,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
   handleAddressCharacters,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   validateInputField,
 } from "../../Utils/Common";
@@ -67,7 +68,7 @@ export default function OrgRightside(props) {
     HTTPService(
       "GET",
       UrlConstant.base_url +
-        (isLoggedInUserParticipant()
+        ((isLoggedInUserParticipant() || isLoggedInUserCoSteward())
           ? UrlConstant.participant
           : UrlConstant.org) +
         id +
@@ -81,78 +82,78 @@ export default function OrgRightside(props) {
         setIsLoader(false);
         console.log("org data: ", response.data);
         // let addressdata=JSON.parse(response.data.organization.address)
-        if (response.data.organization) {
-          props.setOrgName(response.data.organization.name);
+        if (response?.data?.organization) {
+          props.setOrgName(response?.data?.organization?.name);
           if (
-            response.data.organization.name &&
-            response.data.organization.name.trim().length > 0
+            response?.data?.organization?.name &&
+            response?.data?.organization?.name.trim().length > 0
           ) {
             props.setisOrgnameerror(false);
           }
-          props.setOrgMail(response.data.organization.org_email);
+          props.setOrgMail(response?.data?.organization?.org_email);
           if (
-            response.data.organization.org_email &&
-            response.data.organization.org_email.trim().length > 0
+            response?.data?.organization?.org_email &&
+            response?.data?.organization?.org_email.trim().length > 0
           ) {
             props.setisOrgmailerror(false);
             props.setOrgemailbtn(true);
           }
-          props.setOrgWebsite(response.data.organization.website);
+          props.setOrgWebsite(response?.data?.organization?.website);
           if (
-            response.data.organization.website &&
-            response.data.organization.website.trim().length > 0
+            response?.data?.organization?.website &&
+            response?.data?.organization?.website.trim().length > 0
           ) {
             props.isOrgWebsiteerror(false);
           }
-          props.setValidOrgnumber(response.data.organization.phone_number ? response.data.organization.phone_number : "");
-          if (response.data.organization.address) {
-            props.setOrgAddress(response.data.organization.address.address);
-            props.setOrgCity(response.data.organization.address.city);
-            props.setCountryValue(response.data.organization.address.country);
-            props.setOrgPincode(response.data.organization.address.pincode);
+          props.setValidOrgnumber(response?.data?.organization?.phone_number ? response?.data?.organization?.phone_number : "");
+          if (response?.data?.organization?.address) {
+            props.setOrgAddress(response?.data?.organization?.address?.address);
+            props.setOrgCity(response?.data?.organization?.address?.city);
+            props.setCountryValue(response?.data?.organization?.address?.country);
+            props.setOrgPincode(response?.data?.organization?.address?.pincode);
 
             if (
-              response.data.organization.address.address &&
-              response.data.organization.address.address.trim().length > 0
+              response?.data?.organization?.address?.address &&
+              response?.data?.organization?.address?.address.trim().length > 0
             ) {
               props.setisOrgAddresserror(false);
             }
             if (
-              response.data.organization.address.city &&
-              response.data.organization.address.city.trim().length > 0
+              response?.data?.organization?.address?.city &&
+              response?.data?.organization?.address?.city.trim().length > 0
             ) {
               props.setisOrgcityerror(false);
             }
             if (
-              response.data.organization.address.country &&
-              response.data.organization.address.country.trim().length > 0
+              response?.data?.organization?.address?.country &&
+              response?.data?.organization?.address?.country.trim().length > 0
             ) {
               props.setOrgcountrybtn(true);
             }
             if (
-              response.data.organization.address.pincode &&
-              response.data.organization.address.pincode.trim().pincode > 0
+              response?.data?.organization?.address?.pincode &&
+              response?.data?.organization?.address?.pincode.trim().pincode > 0
             ) {
               props.setispincodeerror(false);
             }
           }
-          if (response.data.organization.org_description) {
+          if (response?.data?.organization?.org_description) {
             setEditorValue(
               RichTextEditor.createValueFromString(
-                response.data.organization.org_description,
+                response?.data?.organization?.org_description,
                 "html"
               )
             );
-            setorgdesc(response.data.organization.org_description);
-            props.textEditorData(response.data.organization.org_description);
+            setorgdesc(response?.data?.organization?.org_description);
+            props.textEditorData(response?.data?.organization?.org_description);
             if (
-              response.data.organization.org_description.toString("html") !==
+              response?.data?.organization?.org_description.toString("html") !==
               "<p><br></p>"
             ) {
               setOrgdesbtn(true);
             }
           }
-          props.setOrgId(response.data.organization.id);
+          props.setOrgId(response?.data?.organization.id);
         }
       })
       .catch((e) => {
@@ -822,7 +823,7 @@ export default function OrgRightside(props) {
               </Button>
             )}
           </div>
-          {isLoggedInUserParticipant() && (
+          {(isLoggedInUserParticipant() || isLoggedInUserCoSteward() ) && (
             <div>
               <Button
                 variant="outlined"

@@ -18,7 +18,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, handleTab, progress, setProgress, uploadFile, setFile,
     setErrorOrSuccess, source, key, setKey, setLiveApiFileList, LiveApiFileList,
-    handleClick, isDatasetEditModeOn, handleDeleteDatasetFileInFrontend, listOfFilesExistInDbForEdit, handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm }) => {
+    handleClick, isDatasetEditModeOn, handleDeleteDatasetFileInFrontend, listOfFilesExistInDbForEdit, handleMetadata, setLocalUploaded, localUploaded, allFiles, setAllFiles, datasetname, setdatasetname, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm, isaccesstoken }) => {
     //tab handler ---> local machine upload, mysql and posgres
     const [value, setValue] = React.useState('1');
     const handleChange = (event, newValue) => {
@@ -45,6 +45,8 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                             <Row style={{ marginTop: "50px" }} >
                                 <Col lg={12} sm={12}>
                                     <LocalMachineUploadDataset
+
+                                        isaccesstoken={isaccesstoken}
                                         handleTab={handleTab}
                                         seteErrorDatasetName={seteErrorDatasetName}
                                         setMessageForSnackBar={setMessageForSnackBar}
@@ -68,16 +70,19 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                         </TabPanel>
                         <TabPanel value="2">
                             <MysqlFormForConnection
+                                isaccesstoken={isaccesstoken}
                                 handleTab={handleTab}
                                 seteErrorDatasetName={seteErrorDatasetName}
                                 cancelForm={cancelForm}
                                 deleteFunc={deleteFunc}
                                 localUploaded={localUploaded}
+                                isDatasetEditModeOn={isDatasetEditModeOn}
                                 progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key}
                                 LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
                                 mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                                 datasetname={datasetname} setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         <TabPanel value="3"><PostgresFormForConnection
+                            isaccesstoken={isaccesstoken}
                             handleTab={handleTab}
                             seteErrorDatasetName={seteErrorDatasetName}
                             isDatasetEditModeOn={isDatasetEditModeOn}
@@ -90,6 +95,8 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                             mysqlFileList={mysqlFileList} setMysqlFileList={setMysqlFileList} postgresFileList={postgresFileList} setPostgresFileList={setPostgresFileList}
                             setAllFiles={setAllFiles} handleMetadata={handleMetadata} /></TabPanel>
                         <TabPanel value="4"><LiveApiConnection
+                            isaccesstoken={isaccesstoken}
+                            isDatasetEditModeOn={isDatasetEditModeOn}
                             LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList}
                             cancelForm={cancelForm}
                             datasetname={datasetname}
@@ -111,9 +118,9 @@ const UploadDatasetComponent = ({ setMessageForSnackBar, seteErrorDatasetName, h
                         {listOfFilesExistInDbForEdit.map((item, index) => {
                             console.log("ListItem", listOfFilesExistInDbForEdit)
                             let nameOfFile = item.file.split("/")
-                            return <ListItem style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center" }}> <span>
+                            return <ListItem style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "400px" }}> <span style={{}}>
 
-                                <ListItemText primary={nameOfFile[nameOfFile.length - 1]} secondary={item.source ? `Source - ${item.source}` : ""} />
+                                <ListItemText primary={index + ". " + nameOfFile[nameOfFile.length - 1]} secondary={item.source ? `Source - ${item.source}` : ""} />
                             </span>
                                 <span>
                                     <DeleteOutlined onClick={(e) => handleDeleteDatasetFileInFrontend(e, item.id ? item.id : index)} style={{ color: "red", marginLeft: "30px" }} />

@@ -21,6 +21,7 @@ const labels = {
       Signin: "Sign in",
       SigninAsAdmin: "Login as admin",
       SigninAsParticipant: "Login as participant",
+      Login: "Login",
       helpline: "1800 1100 1200 1912",
       legal: "Legal",
       contact: "Contact",
@@ -53,6 +54,10 @@ const labels = {
       third_heading: "Edit participant's subscription length to the datahub",
       fourth_heading: "Edit participant's user type",
     },
+    editcosteward: {
+      first_heading: "Edit Co-Steward details",
+      second_heading: "Edit Co-Steward user details",
+    },
     viewparticipants: {
       first_heading: "Participant organisation details",
       second_heading: "Participant root user details",
@@ -74,6 +79,17 @@ const labels = {
         "The participant's account will be deleted from the system, together with the organization's information, users, datasets, and connectors.",
       third_delete_msg:
         "The participant's account in the datahub will no longer be accessible.",
+    },
+    viewCoSteward: {
+      first_heading: "Co-steward details",
+      second_heading: "Co-steward user details",
+      delete_coSteward: "Delete Co-Steward",
+      delete_msg: "Are you sure you want to delete the Co-Steward?",
+      second_delete_msg:
+        "The Co-Steward's account will be deleted from the system, together with the organization's information, users, datasets, and connectors.",
+      third_delete_msg:
+        "The Co-Steward's account in the datahub will no longer be accessible.",
+
     },
     inviteParticipants: {
       first_heading: "Invite participants",
@@ -360,6 +376,22 @@ const labels = {
       second_delete_msg: "This action will delete the project from the system.",
       third_delete_msg: "The project will no longer present in your account.",
     },
+    co_steward: {
+      add_co_steward: "Add new Co-Steward",
+      add_co_steward_description:  "Add details about your Co-Steward and make it discoverable to other users of pour network.",
+      first_heading: "Co-Steward organisation details",
+      second_heading: "Co-Steward root user details",
+      third_heading: "Co-Steward's subscription length to the datahub",
+      organisation_name: "Organisation name",
+      email: "Email id",
+      website_link: "Website link",
+      organisation_address: "Organisation address",
+      country: "Country",
+      pincode: "PIN code",
+      first_name: "First name",
+      last_name: "Last name",
+      contact_number: "Contact number",
+    }
   },
 };
 export default labels;

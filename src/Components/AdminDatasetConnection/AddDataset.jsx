@@ -9,7 +9,7 @@ import Admin_upload_dataset from './UploadDatasetComponent';
 import Admin_add_metadata from './AddMetadata';
 import "./admin-add-dataset.css"
 import { TextField, Tooltip } from '@material-ui/core';
-import { GetErrorHandlingRoute, GetErrorKey, getUserMapId, handleUnwantedSpace, validateInputField } from '../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, getUserMapId, handleUnwantedSpace, validateInputField, getTokenLocal, isLoggedInUserParticipant, getRoleLocal } from '../../Utils/Common';
 import RegexConstants from '../../Constants/RegexConstants';
 import ListForUploadedFiles from './ListForUploadedFiles';
 import { handleDeleteFile } from './Utils';
@@ -37,7 +37,8 @@ import CategorySelectorList from './CategorySelectorList';
 const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
 
 const AddDataset = (props) => {
-    const { isDatasetEditModeOn, datasetId, } = props
+    const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction, setTokenLocal, onBoardingPage } = props
+
     const [uploadFile, setFile] = useState([]);
     const [progress, setProgress] = useState(0)
     const [value, setValue] = React.useState('1');
@@ -64,7 +65,7 @@ const AddDataset = (props) => {
 
 
     const handleChangeSubCatList = (value) => {
-        console.log("Value1212", value)
+        console.log("Value1212121", value)
 
         setSubCatList(
             // On autofill we get a stringified value.
@@ -100,6 +101,7 @@ const AddDataset = (props) => {
 
     //dataset name handler
     const handleChangedatasetname = (e) => {
+        seteErrorDatasetName("")
         validateInputField(e.target.value, RegexConstants.connector_name)
             ? setdatasetname(e.target.value)
             : e.preventDefault();
@@ -134,7 +136,7 @@ const AddDataset = (props) => {
             } else if (source == "mysql") {
                 let filteredArray = mysqlFileList.filter((item) => item != filename)
                 setMysqlFileList([...filteredArray])
-            } else if (source == "postgres") {
+            } else if (source == "postgresql") {
                 let filteredArray = postgresFileList.filter((item) => item != filename)
                 setPostgresFileList([...filteredArray])
             } else if (source == "liveapi") {
@@ -182,7 +184,110 @@ const AddDataset = (props) => {
         return skipped.has(step);
     };
 
+
+    const checkDatasetNameExistInDatabase = () => {
+
+        var bodyFormData = new FormData();
+        bodyFormData.append("dataset_name", datasetname);
+        bodyFormData.append("description", govLawDesc);
+
+        let checkforAccess = isaccesstoken ? isaccesstoken : false;
+
+
+        let url = ""
+        if (isDatasetEditModeOn) {
+            url = UrlConstant.base_url + UrlConstant.check_dataset_name_and_description_in_database + "?dataset_exists=True"
+        } else {
+            url = UrlConstant.base_url + UrlConstant.check_dataset_name_and_description_in_database
+        }
+        console.log("checkDatasetNameExistInDatabase", activeStep, bodyFormData,
+        )
+        HTTPService(
+            "POST",
+            url,
+            bodyFormData,
+            false,
+            true,
+            checkforAccess
+        )
+            .then((response) => {
+                setIsLoader(false);
+                // setisSuccess(true);
+                // setIsSubmitted(true)
+                // console.log("dataset uploaded!");
+
+                // //if error occurs Success message will be shown as Snackbar
+                // setMessageForSnackBar("Dataset uploaded successfully")
+                // setErrorOrSuccess("success")
+                // handleClick()
+            })
+            .catch((e) => {
+                setIsSubmitted(false)
+                setIsLoader(false);
+                //if error occurs Alert will be shown as Snackbar
+
+                console.log(e);
+                //console.log(e.response.data.sample_dataset[0]);
+                var returnValues = GetErrorKey(e, bodyFormData.keys());
+                var errorKeys = returnValues[0];
+                var errorMessages = returnValues[1];
+                if (errorKeys.length > 0) {
+                    for (var i = 0; i < errorKeys.length; i++) {
+                        switch (errorKeys[i]) {
+                            case "dataset_name":
+                                seteErrorDatasetName(errorMessages[i])
+                                setActiveStep(0)
+                                // setnameErrorMessage(errorMessages[i]);
+                                break;
+                            case "description":
+                                setDescriptionErrorMessage(errorMessages[i]);
+                                setActiveStep(0)
+                                break;
+                            case "category":
+                                // setCategoryErrorMessage(errorMessages[i]);
+                                break;
+                            case "geography":
+                                // setGeographyErrorMessage(errorMessages[i]);
+                                break;
+                            case "crop_detail":
+                                // setCropDetailErrorMessage(errorMessages[i]);
+                                break;
+                            case "age_of_date":
+                                // setAgeErrorMessage(errorMessages[i]);
+                                break;
+                            case "data_capture_start":
+                                // setDataCaptureStartErrorMessage(errorMessages[i]);
+                                break;
+                            case "data_capture_end":
+                                // setDataCaptureEndErrorMessage(errorMessages[i]);
+                                break;
+                            case "sample_dataset":
+                                // setfileValid(errorMessages[i]);
+                                break;
+                            default:
+                                setMessageForSnackBar("Dataset uploaded failed")
+                                setErrorOrSuccess("error")
+                                handleClick()
+                                break;
+                        }
+                    }
+                } else {
+                    setMessageForSnackBar("Dataset uploaded failed")
+                    setErrorOrSuccess("error")
+                    handleClick()
+                }
+                //setfileValid(e.response.data.sample_dataset[0]);
+                // history.push(GetErrorHandlingRoute(e));
+            });
+    }
+
     const handleNext = () => {
+        console.log('onclick of next active step', activeStep)
+
+        if (activeStep == 0) {
+            checkDatasetNameExistInDatabase()
+        }
+
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
@@ -283,8 +388,9 @@ const AddDataset = (props) => {
     const isValidURL = (string) => {
         var res = string.match(RegexConstants.connector_name);
         return res !== null;
-      };
+    };
     const handlegovLawChange = (value) => {
+        setDescriptionErrorMessage("")
         setEditorGovLawValue(value);
         setgovLawDesc(value.toString("html"));
         console.log(value.toString("html"));
@@ -335,13 +441,17 @@ const AddDataset = (props) => {
 
     async function getAllCategoryAndSubCategory(datasetname, source, filename) {
 
+        let checkforAccess = isaccesstoken ? isaccesstoken : false;
 
         HTTPService(
             "GET",
             UrlConstant.base_url + UrlConstant.add_category_edit_category,
             "",
             true,
-            true
+            true,
+            checkforAccess
+
+
         ).then((response) => {
             // categoryCreator(response.data)
 
@@ -386,11 +496,12 @@ const AddDataset = (props) => {
     function handleChangeCategoryForSubCategory(selectectedCatList) {
         // allCatFetched
         let obj = {}
+        // setNewSelectedSubCategory([])
         for (let i = 0; i < selectectedCatList.length; i++) {
             console.log(selectectedCatList[i])
             obj[selectectedCatList[i]] = []
         }
-        console.log(selectectedCatList)
+        // console.log(selectectedCatList)
 
         setSelectedCat(obj)
         setMainJson({ ...obj })
@@ -401,6 +512,21 @@ const AddDataset = (props) => {
             // parent: selectectedCatList[i]
             subCatList = [...subCatList, ...allCatFetched[selectectedCatList[i]] ? allCatFetched[selectectedCatList[i]] : []]
         }
+        let subCategoryValueAfterDeletingCategory = []
+
+        // forEach will remove all sub category which is not sub category of selcted category
+        subCatList.forEach((item) => {
+            for (let i of newSelectedSubCategory) {
+                console.log('newSelectedSubCategory i', i, subCatList, i.split('-')[1], item, newSelectedSubCategory)
+                // i value is category name + "-" + sub category name or sub category name
+                i = i.split('-')[1] || i.split('-')[0]
+                if (i == item) {
+                    subCategoryValueAfterDeletingCategory.push(i)
+                }
+            }
+        })
+        setNewSelectedSubCategory(subCategoryValueAfterDeletingCategory)
+
         // for (let i = 0; i < mainCategoryList.length; i++) {
         // for (let j = 0; j < selectectedCatList.length; j++) {
         //     console.log(selectectedCatList[j], mainCategoryList[i])
@@ -490,16 +616,21 @@ const AddDataset = (props) => {
 
     const handleAddDatasetSubmit = (e) => {
         console.log(finalJson, "Main")
-        let selectedCategory = generateCategoryAndSubCat()
-        let objForFinalSend = { ...finalJson }
-
-        for (let i = 0; i < SubCatList.length; i++) {
-            let parent = SubCatList[i].split("-")[0] //parent == category
-            let child = SubCatList[i].split("-")[1] // child == sub category
-            objForFinalSend[parent] = [...finalJson[parent], child]
+        e.preventDefault();
+        // let selectedCategory = generateCategoryAndSubCat()
+        // let objForFinalSend = { ...finalJson }
+        let mainObj = {}
+        for (let i = 0; i < newSelectedCategory.length; i++) {
+            mainObj[newSelectedCategory[i]] = []
+        }
+        console.log(newSelectedSubCategory, newSelectedCategory)
+        for (let i = 0; i < newSelectedSubCategory.length; i++) {
+            // console.log(newSelectedSubCategory[i].split("-"))
+            let parent = newSelectedSubCategory[i].split("-")[0] //parent == category
+            let child = newSelectedSubCategory[i].split("-")[1] // child == sub category
+            mainObj[parent] = [...mainObj[parent], child]
         }
 
-        e.preventDefault();
         console.log("clicked on add dataset submit btn11");
         var id = getUserMapId();
         console.log("user id", id);
@@ -513,26 +644,26 @@ const AddDataset = (props) => {
         // setDataCaptureStartErrorMessage(null);
         // setDataCaptureEndErrorMessage(null);
         // setfileValid(null);
-        console.log(objForFinalSend, "FINAL CATEGORY")
+        console.log(mainObj, "FINAL CATEGORY")
         var bodyFormData = new FormData();
         bodyFormData.append("name", datasetname);
         bodyFormData.append("description", govLawDesc);
-        bodyFormData.append("category", JSON.stringify(objForFinalSend));
+        bodyFormData.append("category", JSON.stringify(mainObj));
         bodyFormData.append("user_map", id);
         bodyFormData.append("geography", geography);
+
 
         //if edit mode is on then one extra key has to be apended so that they can delete the mentioned file as per the id
         if (isDatasetEditModeOn) {
             bodyFormData.append("deleted", JSON.stringify(idsForFilesDeleted))
         }
-
         bodyFormData.append("constantly_update", Switchchecked);
         bodyFormData.append("data_capture_start", fromdate ? fromdate.toISOString() : "");
         bodyFormData.append("data_capture_end", todate ? todate.toISOString() : "");
 
-        setIsLoader(true);
         let obj = { "name": datasetname, description: govLawDesc, category: JSON.stringify(finalJson), user_map: id, geography: geography, deleted: JSON.stringify(idsForFilesDeleted), constantly_update: Switchchecked, data_capture_start: fromdate ? fromdate.toISOString() : "", data_capture_end: todate ? todate.toISOString() : "" }
-
+        let accesstoken = getTokenLocal();
+        let usermapid = getUserMapId();
         let url = ""
         let method = ""
         if (isDatasetEditModeOn) {
@@ -542,15 +673,24 @@ const AddDataset = (props) => {
             method = "POST"
             url = UrlConstant.base_url + UrlConstant.datasetview
         }
+        let checkforAcess = isaccesstoken ? isaccesstoken : false;
+        setIsLoader(true);
 
         HTTPService(
             method,
             url,
             bodyFormData,
             false,
-            true, false
-        )
-            .then((response) => {
+            true,
+            checkforAcess,
+        ).then((response) => {
+            if (isLoggedInUserParticipant() && isaccesstoken) {
+                setIsLoader(false)
+                setOnBoardedTrue()
+                setTokenLocal(isaccesstoken)
+                setIsSubmitted(true)
+                history.push("/participant/datasets/")
+            } else {
                 setIsLoader(false);
                 // setisSuccess(true);
                 setIsSubmitted(true)
@@ -560,8 +700,10 @@ const AddDataset = (props) => {
                 setMessageForSnackBar("Dataset uploaded successfully")
                 setErrorOrSuccess("success")
                 handleClick()
-            })
+            }
+        })
             .catch((e) => {
+                setIsSubmitted(false)
                 setIsLoader(false);
                 //if error occurs Alert will be shown as Snackbar
 
@@ -575,36 +717,15 @@ const AddDataset = (props) => {
                         switch (errorKeys[i]) {
                             case "name":
                                 seteErrorDatasetName(errorMessages[i])
-                                setActiveStep('0')
+                                setActiveStep(0)
                                 // setnameErrorMessage(errorMessages[i]);
                                 break;
                             case "description":
                                 setDescriptionErrorMessage(errorMessages[i]);
-                                setActiveStep('0')
-                                break;
-                            case "category":
-                                // setCategoryErrorMessage(errorMessages[i]);
-                                break;
-                            case "geography":
-                                // setGeographyErrorMessage(errorMessages[i]);
-                                break;
-                            case "crop_detail":
-                                // setCropDetailErrorMessage(errorMessages[i]);
-                                break;
-                            case "age_of_date":
-                                // setAgeErrorMessage(errorMessages[i]);
-                                break;
-                            case "data_capture_start":
-                                // setDataCaptureStartErrorMessage(errorMessages[i]);
-                                break;
-                            case "data_capture_end":
-                                // setDataCaptureEndErrorMessage(errorMessages[i]);
-                                break;
-                            case "sample_dataset":
-                                // setfileValid(errorMessages[i]);
+                                setActiveStep(0)
                                 break;
                             default:
-                                setMessageForSnackBar("Dataset uploaded failed")
+                                setMessageForSnackBar("Something went wrong")
                                 setErrorOrSuccess("error")
                                 handleClick()
                                 break;
@@ -648,6 +769,8 @@ const AddDataset = (props) => {
         </React.Fragment>
     );
 
+
+
     const handleSubCategoryListForFinal = (checked, value, parent) => {
         console.log(checked, value, parent)
         // console.log(selectedCat[parent], "Selected")
@@ -679,7 +802,7 @@ const AddDataset = (props) => {
             url,
             "",
             false,
-            false
+            true
         ).then((response) => {
             console.log(response.data)
             let data = response.data
@@ -756,7 +879,7 @@ const AddDataset = (props) => {
         <Container id='admin_add_dataset_main_container'>
             {isLoading ? <Loader /> : ""}
             {isSubmitted ? <Success
-                okevent={() => history.push("/datahub/datasets")}
+                okevent={() => isLoggedInUserParticipant() ? history.push("/participant/datasets/") : history.push("/datahub/datasets")}
                 route={"datahub/participants"}
                 imagename={"success"}
                 btntext={"ok"}
@@ -869,6 +992,7 @@ const AddDataset = (props) => {
                                                 </TabList>
                                             </Box>
                                             <TabPanel value="1"><Admin_upload_dataset
+                                                isaccesstoken={isaccesstoken}
                                                 handleTab={setActiveStep}
                                                 seteErrorDatasetName={seteErrorDatasetName}
                                                 uploadFile={uploadFile}
@@ -890,7 +1014,7 @@ const AddDataset = (props) => {
 
                                     {activeStep == 2 ?
                                         <AddMetadata
-
+                                            isaccesstoken={isaccesstoken}
                                             setNewSelectedSubCategory={setNewSelectedSubCategory}
                                             newSelectedCategory={newSelectedCategory}
                                             newSelectedSubCategory={newSelectedSubCategory}
@@ -949,11 +1073,21 @@ const AddDataset = (props) => {
                                             id='back_button'
                                             color="inherit"
                                             // disabled={activeStep === 0}
-                                            onClick={activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
+                                            onClick={activeStep == 0 && onBoardingPage && getRoleLocal() == "datahub_participant_root" ? () => history.push("/login") : activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
                                             sx={{ mr: 1 }}
                                         >
                                             Back
                                         </Button>
+                                        {isLoggedInUserParticipant() && isaccesstoken ?
+                                            <Button
+                                                style={{ "marginLeft": "400px" }}
+                                                id='back_button'
+                                                color="inherit"
+                                                onClick={cancelAction}
+                                                sx={{ mr: 1 }}
+                                            >
+                                                Finish Later
+                                            </Button> : " "}
                                         <Box sx={{ flex: '1 1 auto' }} />
                                         {activeStep != 0 && !isSubmitted ? <Button id='cancel_button' style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
                                         <Box sx={{ flex: '1 1 auto' }} />

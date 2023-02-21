@@ -24,7 +24,7 @@ import databasegif from "../../Assets/Img/database.gif"
 import bellboygif from "../../Assets/Img/bellboy.gif"
 import Axios from 'axios';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, handleTab, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList, progress, setProgress, uploadFile, setFile, key }) => {
+const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, handleTab, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList, progress, setProgress, uploadFile, setFile, key, isaccesstoken }) => {
   const history = useHistory();
   //exported file name
   const [exportedFileName, setExportedFileName] = useState("")
@@ -101,14 +101,14 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
       port: connectionData.port,
       "database_type": "mysql"
     }
-
+    let checkforAcess = isaccesstoken ? isaccesstoken : false;
     //Making the post request for getting all the table list
     HTTPService('POST',
       UrlConstant.base_url + UrlConstant.connection_to_db_end_point,
       bodyData,
       false,
       true,
-      false).then((res) => {
+      checkforAcess).then((res) => {
         console.log(res)
         setDbData([...res.data])
         setIsConnected(true)
@@ -460,18 +460,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
           Please provide the database credentials
         </Col>
         <Col lg={6} sm={12} style={{ textAlign: "center" }}>
-          <>
-            <Tooltip title={isConnected ? `Connected to ${connectionData.db_name}` : ""}>
-              <span>
-                {isConnected ? `Connected to ${connectionData.db_name}` : `Not connected`}
-                <img style={{ height: "30px", width: "30px" }} src={bellboygif} alt="database" />
-                <span style={{ textDecoration: "line-through", color: isConnected ? "green" : "red", transition: "all 3s", background: isConnected ? "green" : "red", minWidth: isConnected ? "90px" : "10px", display: "inline-block", minHeight: "3px" }}></span>
-                {isConnected ? <CheckIcon color='success' /> : <ClearIcon color='warning' />}
-                <span style={{ textDecoration: "line-through", color: isConnected ? "green" : "red", transition: "all 3s", background: isConnected ? "green" : "red", minWidth: isConnected ? "10px" : "90px", display: "inline-block", minHeight: "3px" }}></span>
-                <img style={{ height: "30px", width: "30px" }} src={databasegif} alt="database" />
-              </span>
-            </Tooltip>
-          </>
+          {isConnected ? `Connected to ${connectionData.db_name}` : `Not connected`}
         </Col>
 
       </Row>

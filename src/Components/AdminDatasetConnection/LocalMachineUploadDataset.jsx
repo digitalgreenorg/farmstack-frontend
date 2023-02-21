@@ -34,6 +34,7 @@ import { LinearProgress } from "@mui/material";
 import { IconButton } from "@mui/material";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { Accordion } from "@mui/material";
+import { style } from "@mui/system";
 
 const useStyles = {
   btncolor: {
@@ -48,8 +49,7 @@ const useStyles = {
 };
 
 export default function LocalMachineUploadDataset(props) {
-  let accesstoken = getTokenLocal();
-  const { setMessageForSnackBar, handleTab, source,
+  const { setMessageForSnackBar, handleTab, source, isaccesstoken,
     setErrorOrSuccess, progress, seteErrorDatasetName, setProgress, uploadFile, setFile, key, setKey,
     handleClick, isDatasetEditModeOn, datasetname, setdatasetname, handleMetadata, setLocalUploaded, localUploaded, postgresFileList, mysqlFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList } = props
 
@@ -57,9 +57,10 @@ export default function LocalMachineUploadDataset(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   // const [datasetname, setdatasetname] = useState("");
   // const [uploadFile, setFile] = useState([]);
+  const [sizeismore, setSizeIsMore] = useState(false)
   const [fileValid, setfileValid] = useState("")
   const [datasetNameError, setDatasetNameError] = useState(null);
-  const [datasetFileError, setDataSetFileError] = useState(null)
+  const [datasetFileError, setDataSetFileError] = useState("");
   //   loader
   const [isLoader, setIsLoader] = useState(false);
   // const [progress, setProgress] = useState([])
@@ -69,14 +70,15 @@ export default function LocalMachineUploadDataset(props) {
   const [value, setValue] = useState("1");
   // const [key, setKey] = useState("")
 
-  useEffect(() => {
-    setdatasetname(datasetname);
-    setFile(uploadFile)
-  }, [datasetname, uploadFile])
+  // useEffect(() => {
+  //   // setdatasetname(datasetname);
+  //   // setFile(uploadFile)
+  // }, [datasetname, uploadFile])
 
-  useEffect(() => {
-    setProgress(progress);
-  }, [progress])
+  // useEffect(() => {
+
+  // }, [datasetFileError])
+
 
   const handleAddDatasetFile = (currentFileList) => {
     console.log("clicked on add dataset submit btn11");
@@ -89,29 +91,43 @@ export default function LocalMachineUploadDataset(props) {
       url = UrlConstants.base_url + UrlConstants.dataseteth
     }
     var bodyFormData = new FormData();
-    // bodyFormData.append("dataset_name", datasetname)
-    currentFileList.map(async (item, index) => {
-      bodyFormData.append("datasets", item)
-      bodyFormData.append("source", "file")
-      bodyFormData.append("dataset_name", datasetname)
-      const options = {
-        onUploadProgress: (progressEvent) => {
-          console.log(progressEvent.loaded);
-          const { loaded, total } = progressEvent;
-          let percent = Math.floor((loaded * 100) / total);
-          console.log(`${loaded}kb of ${total}kb | ${percent}%`);
-          setProgress(percent)
-          currentFileList[index].progress = percent;
-          setFile(currentFileList)
-          setKey(Math.random())
+    let accesstoken =  isaccesstoken || getTokenLocal();
+    const isValidFile = currentFileList.every(item => item.size < 52428800);
+    console.log('currentFileList before upload dataset api call', currentFileList)
 
-        },
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: `Bearer ${accesstoken}`,
-        },
-      };
-      if (currentFileList) {
+    for(let index = currentFileList.length-1; index>=0; index--){
+      
+      let item = currentFileList[index]
+      console.log('index and item before reverse loop call',item, index)
+
+      ApiCallToUploadAllDataset(item,index)
+
+    }
+
+      async function ApiCallToUploadAllDataset (item, index) {
+        bodyFormData.append("datasets", item)
+        bodyFormData.append("source", "file")
+        bodyFormData.append("dataset_name", datasetname)
+        console.log('dataset name in payload',datasetname,item, bodyFormData)
+        const options = {
+          onUploadProgress: (progressEvent) => {
+            console.log(progressEvent.loaded);
+            const { loaded, total } = progressEvent;
+            let percent = Math.floor((loaded * 100) / total);
+            console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+              setProgress(percent)
+            currentFileList[index].progress = percent;
+            setFile(currentFileList)
+            setKey(Math.random())
+  
+          },
+          headers: {
+            "content-type": "multipart/form-data",
+            Authorization: `Bearer ${accesstoken}`,
+          },
+        };
+     
+      if (item) {
         await axios
           .post(url, bodyFormData, options)
           .then((response) => {
@@ -119,10 +135,10 @@ export default function LocalMachineUploadDataset(props) {
             setIsLoader(false)
             setLocalUploaded([...localUploaded, ...response.data.datasets])
             console.log("files uploaded");
-            bodyFormData.delete("datasets")
             setMessageForSnackBar("Dataset file uploaded successfuly!")
             setErrorOrSuccess("success")
             handleClick()
+            setSizeIsMore(false)
 
           }).catch((e) => {
             setIsLoader(false);
@@ -130,18 +146,22 @@ export default function LocalMachineUploadDataset(props) {
             var returnValues = GetErrorKey(e, bodyFormData.keys());
             var errorKeys = returnValues[0];
             var errorMessages = returnValues[1];
-            setErrorOrSuccess("error")
+            console.log("errorkey", errorKeys)
             if (errorKeys.length > 0) {
+              // setDataSetFileError("file is biggggg")
               for (var i = 0; i < errorKeys.length; i++) {
-                switch (errorKeys[i]) {
+                console.log(errorMessages[i], errorKeys[i], "errormsg")
+                switch (errorKeys[i].trim()) {
                   case "dataset_name":
                     seteErrorDatasetName(errorMessages[i]);
                     // setMessageForSnackBar(errorMessages[i])
                     handleTab(0)
                     break;
                   case "datasets":
-                    setDataSetFileError(errorMessages[i]);
-                    setMessageForSnackBar(errorMessages[i])
+                    // alert(errorMessages[i])
+                    console.log(errorMessages[i], datasetFileError, "casecheck")
+                    //setDataSetFileError(errorMessages[i]) //not printing the message in UI, to fix this
+                    // setMessageForSnackBar(errorMessages[i])
                     break;
                   default:
                     setMessageForSnackBar("Some error occurred during uploading!")
@@ -153,11 +173,10 @@ export default function LocalMachineUploadDataset(props) {
               history.push(GetErrorHandlingRoute(e));
             }
           });
-      }
-
-    });
-
+      
+    };
   }
+}
 
   const handleDeleteDatasetList = (filename, item) => {
     var bodyFormData = new FormData();
@@ -192,15 +211,32 @@ export default function LocalMachineUploadDataset(props) {
 
   const handleFileChange = (fileIncoming) => {
     console.log("chnegsing", fileIncoming)
+    
+    let isInCommingFileDuplicate = false
+    
+    uploadFile.forEach(file => {
+      // console.log('in for each',file.name,incomi)
+      if(file.name==fileIncoming[0].name){
+        isInCommingFileDuplicate = true
+        console.log("File is duplicate")
+      }
+    });
+
+    if(isInCommingFileDuplicate) return
+    
     var currentFileList = [...uploadFile, ...fileIncoming]
+
     if (datasetname != null) {
-      setFile(currentFileList)
+       setFile(currentFileList)
       handleAddDatasetFile(currentFileList)
+      // setSizeIsMore(false)
       console.log(currentFileList);
+      
     } else {
       console.log("no dataset name given")
+      setMessageForSnackBar("Some error occurred during uploading!")
     };
-    setFile(uploadFile)
+    // setFile(uploadFile)
     setfileValid("");
 
   };
@@ -245,16 +281,17 @@ export default function LocalMachineUploadDataset(props) {
         ></Success>
       ) : (
         <div noValidate autoComplete="off">
-          <Row style={{ height: "236px" }}>
+          <Row style={{ height: "236px", marginBottom: "50px" }}>
             <Col xs={12} sm={12} md={12} lg={6}>
               <span className="AddDatasetmainheading">{props.title}</span>
               <FileUploader
                 id="file_uploader_locally"
-                handleChange={(e) => handleFileChange(e)}
                 disabled={!datasetname}
                 name="file"
                 multiple={true}
                 maxSize={50}
+                onSizeError={() => setDataSetFileError("Maximum file size allowed is 50MB")}       
+                handleChange={(e) => handleFileChange(e)}
                 types={fileTypes}
                 children={
                   <UploadDataset
@@ -267,81 +304,24 @@ export default function LocalMachineUploadDataset(props) {
                 classes="fileUpload"
               />
             </Col>
-            {/* 
-            <Col>
-            {(uploadFile.length != 0) && localUploaded?
-            (<Accordion>
-              <Row style={{ maxHeight: "300px", overflowY: "scroll", maxWidth: "500px" }}> */}
-            {/* {uploadFile ? */}
-            {/* <ol className="uploaddatasetname">
-                    {uploadFile.map((item) => {
-                      return (<> 
-                      <Row key={key}>
-                      <Col>
-                        <li className="uploadList">
-                          {item.name}
-                        </li>
-                        </Col>
-                        <Col>
-                        <IconButton edge="end" aria-label="delete">
-                          <DeleteOutlinedIcon
-                            onClick={() => (deleteFunc(datasetname, source, item.name))}
-                            color='warning' /> */}
-            {/* </IconButton>
-                        </Col>
-                        </Row>
-                        <LinearProgress variant="determine" value={item?.progress ? item?.progress : 0} key={key} color="success" />
-                        <p>{item?.progress ? item?.progress : 0}%</p>
-                      </>
-                      )
-                    })}
-                  </ol>
-              </Row>
-              </Accordion> )
-              : ("")}
-                 
-            </Col> */}
             <Col xs={12} sm={12} md={12} lg={6}>
               <ConnectionProgressGif loader={isLoader} datasetname={datasetname} deleteFunc={deleteFunc} postgresFileList={postgresFileList} mysqlFileList={mysqlFileList} localUploaded={localUploaded}
-                progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} />
+                progress={progress} setProgress={setProgress} uploadFile={uploadFile} setFile={setFile} key={key} LiveApiFileList={LiveApiFileList} setLiveApiFileList={setLiveApiFileList} 
+                sizeismore={sizeismore} setSizeIsMore={setSizeIsMore}/>
             </Col>
           </Row>
-          {/* <Row> */}
-          {/* <Col xs={12} sm={12} md={6} lg={6}>
-              {
-                (localUploaded?.length !== 0) &&
-                  datasetname
-                  ?
-                  (
-                    <Button
-                      className="connect_btn"
-                      type="submit"
-                      onClick={(e) => handleMetadata(e, '2')}
-                    >
-                      Add metadata
-                    </Button>
-                  ) : (
-                    <Button
-                      disabled
-                      className="connect_btn"
-                    >
-                      Add metadata
-                    </Button>
-                  )}
-            </Col> */}
-          {/* </Row> */}
-          {/* <Row style={useStyles.marginrowtop8px}>
-            <Col xs={12} sm={12} md={6} lg={6}>
-              <Button
-                onClick={() => cancelForm()}
-                className="connect_btn"
-              >
-                Cancel
-              </Button>
-            </Col>
-          </Row> */}
+          {/* {uploadFile ? 
+           <Row style={{"margin-top": "10px"}}>
+            {uploadFile.map((item) => {
+               console.log("item", item.size)
+              return (
+              <p style={{color: "red", marginLeft: "30px"}}>{item != null && sizeismore && item.size > 52428800 ? "file size is more than 50MB" : " "}</p>)
+            })}
+          </Row>  : " "} */}
+          {console.log("errormsg", datasetFileError)}
+              <Row style={{ color: "red", fontSize: "14px", textAlign: "left", marginTop: "-50px", marginLeft: "0PX"}}>{datasetFileError}</Row>
         </div>
-      )}
+     )} 
     </>
   );
 }

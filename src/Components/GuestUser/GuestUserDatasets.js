@@ -63,6 +63,14 @@ export default function GuestUserDatasets() {
     { index: 0, name: "Public", payloadName: true, isChecked: false },
     { index: 1, name: "Private", payloadName: false, isChecked: false },
   ]);
+
+  const [categoryFilterOptions, setCategoryFilterOptions] = useState([]);
+  const [masterSubcategoryFilterOptions, setMasterSubcategoryFilterOptions] =
+    useState([]);
+  const [subcategoryFilterOptions, setSubcategoryFilterOptions] = useState([]);
+  const [categoryFilterValue, setCategoryFilterValue] = useState([]);
+  const [subcategoryFilterValue, setSubcategoryFilterValue] = useState([]);
+
   // const [geoFilterMaster,setGeoFilterMaster] = useState([])
   const [geoFilterDisplay, setGeoFilterDisplay] = useState([]);
 
@@ -143,6 +151,7 @@ export default function GuestUserDatasets() {
     guestUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
     //memberUrl = UrlConstant.base_url + UrlConstant.dataset_list
+    setDatasetUrl(adminUrl)
   };
   const handleConstantyUpdateSwitch = (event) => {
     console.log(event.target.checked);
@@ -172,6 +181,61 @@ export default function GuestUserDatasets() {
 
     setConstantyUpdateSwitch(event.target.checked);
 
+    getDatasetList(false);
+  };
+
+  const handleCategoryFilterChange = (value, action) => {
+    // Get which field triggred the event
+    const input_field = action.name;
+
+    if (input_field === "Categories") {
+      setCategoryFilterValue(value);
+      switch (action.action) {
+        case "select-option":
+          // Add more subcategories (children of the selected category) to the subcategories option list
+          const selected_option = action.option;
+          let additional_subcategories = masterSubcategoryFilterOptions.filter(
+            (subcategory) => subcategory.category === selected_option.value
+          );
+          setSubcategoryFilterOptions([
+            ...subcategoryFilterOptions,
+            ...additional_subcategories,
+          ]);
+
+          break;
+        case "remove-value":
+        case "pop-value":
+          // Remove subcategories that belong to the removed category
+          const popped_option = action.removedValue;
+          // Remove subcategory options that belong to the removed category
+          setSubcategoryFilterOptions(
+            subcategoryFilterOptions.filter(
+              (subcategory) => subcategory.category !== popped_option.value
+            )
+          );
+          // Remove selected subcategories that belong to the removed category
+          setSubcategoryFilterValue(
+            subcategoryFilterValue.filter(
+              (subcategory) => subcategory.category !== popped_option.value
+            )
+          );
+          break;
+        case "clear":
+          // Clear all subcategory options
+          setSubcategoryFilterOptions([]);
+          setSubcategoryFilterValue([]);
+          break;
+      }
+    } else if (input_field === "Subcategories") {
+      setSubcategoryFilterValue(value);
+    }
+  };
+
+  const filterByCategory = () => {
+    payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "", {
+      category: categoryFilterValue,
+      subcategory: subcategoryFilterValue,
+    });
     getDatasetList(false);
   };
 
@@ -209,7 +273,6 @@ export default function GuestUserDatasets() {
       setGeoFilterDisplay(tempFilterDisplay);
 
       payload = buildFilterPayLoad("", getUserLocal(), payloadList, "", "", "");
-
     } else if (filterName === "datavisiblity") {
       resetFilterState(screenlabels.dataset.geography);
       resetFilterState(screenlabels.dataset.age);
@@ -329,6 +392,9 @@ export default function GuestUserDatasets() {
   };
 
   const resetFilterState = (filterName) => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     var tempfilterMaster = [];
     var tempFilerDisplay = [];
     if (filterName === screenlabels.dataset.geography) {
@@ -352,8 +418,7 @@ export default function GuestUserDatasets() {
         tempFilerDisplay[i].isDisplayed = true;
       }
       setDataAccessDisplay(tempFilerDisplay);
-    }
-    else if (filterName === screenlabels.dataset.age) {
+    } else if (filterName === screenlabels.dataset.age) {
       // tempfilterMaster = [...ageFilterMaster]
       // for(let i=0; i<tempfilterMaster.length; i++){
       //     tempfilterMaster[i].isChecked = false
@@ -447,13 +512,16 @@ export default function GuestUserDatasets() {
 
   async function getSearchedData(val, isLoadMore, isMemberTab) {
     // console.log(val, "Here is value")
-    if (val.length < 3 && val !== "") val = "";
+    if (val.length < 3 && val !== "") {
+      val = "";
+      setDatasetUrl(adminUrl)
+    }
     // console.log(val)
     let data = {};
     setFilterState({});
     // data['user_id'] = getUserLocal()
     // data['org_id'] = getOrgLocal()
-    data["search_pattern"] = val.trim();
+    data["name__icontains"] = val.trim();
     // if (isMemberTab) {
     //     data['others'] = true
     // } else {
@@ -545,6 +613,30 @@ export default function GuestUserDatasets() {
       .then((response) => {
         setIsLoader(false);
         console.log("filter response:", response);
+
+        let catAndSubcatFilterInput = response.data.category_detail || {};
+
+        let tempCategory = [];
+        let tempSubcategory = [];
+
+        Object.keys(catAndSubcatFilterInput).forEach((cat) => {
+          let category = {};
+
+          category.value = category.label = cat;
+          tempCategory.push(category);
+
+          catAndSubcatFilterInput[cat].forEach((sub_cat) => {
+            let subcategory = {};
+            subcategory.category = cat;
+            subcategory.value = subcategory.label = sub_cat;
+            tempSubcategory.push(subcategory);
+          });
+          // delete category.children;
+        });
+
+        setCategoryFilterOptions(tempCategory);
+        setMasterSubcategoryFilterOptions(tempSubcategory);
+
         var geoFilterInput = response.data.geography;
         // var cropFilterInput = response.data.crop_detail;
         setGeoFilterDisplay(initFilter(geoFilterInput));
@@ -575,7 +667,7 @@ export default function GuestUserDatasets() {
   };
 
   const getDatasetList = (isLoadMore) => {
-    if (searchValMyOrg.val) {
+    if (searchValMyOrg.val && isLoadMore) {
       getSearchedData(searchValMyOrg.val, isLoadMore, false);
       return;
     }
@@ -596,6 +688,7 @@ export default function GuestUserDatasets() {
     // if (isLoadMore){
     //     payload = {...filterState}
     // }
+    console.log('payload just before api call', payload)
 
     HTTPService(
       "POST",
@@ -661,20 +754,28 @@ export default function GuestUserDatasets() {
     datavisiblityPayload,
     agePayload,
     // cropPayload,
-    statusPayload
+    statusPayload,
+    catAndSubcat = null
   ) => {
     let data = {};
     if (createdAtRange !== "") {
+      console.log('data range in creating payload', createdAtRange)
       data["updated_at__range"] = createdAtRange;
     }
-    //data['user_id'] = userId
-    // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
-    /*
-        if (isMemberTab) {
-            data['others'] = true
-        } else {
-            data['others'] = false
-        }*/
+
+    if (catAndSubcat !== null) {
+      data["category"] = [];
+      for (const category of catAndSubcat["category"]) {
+        data["category"].push({ [category.value]: [] });
+      }
+
+      for (const subcategory of catAndSubcat["subcategory"]) {
+        for (const cat of data["category"]) {
+          const key = Object.keys(cat)[0];
+          if (key === subcategory.category) cat[key].push(subcategory.value);
+        }
+      }
+    }
     if (geoPayload !== "") {
       data["geography__in"] = geoPayload;
     }
@@ -723,23 +824,35 @@ export default function GuestUserDatasets() {
     setsecondrow(false);
   };
 
+  const resetCatAndSubcatFilters = () => {
+    setSubcategoryFilterValue([]);
+    setSubcategoryFilterOptions([]);
+    setCategoryFilterValue([]);
+  };
+
   const clearAllFilters = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
+    console.log("RESET")
     setIsShowAll(true);
     resetDateFilters();
     setConstantyUpdateSwitch(false);
-    // resetUrls()
+    resetCatAndSubcatFilters();
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
-    // resetFilterState(screenlabels.dataset.crop);
     resetFilterState(screenlabels.dataset.status);
     resetFilterState(screenlabels.dataset.enabled);
-    // resetEnabledStatusFilter()
-
+    // setDatasetUrl(adminUrl)
+    resetUrls()
     payload = buildFilterPayLoad("", getUserLocal(), "", "", "", "");
     getDatasetList(false);
   };
 
   const getAllDataSets = () => {
+    setSearchValOtherOrg({ ...searchValOtherOrg, val: "" })
+    setSearchValMyOrg({ ...searchValMyOrg, val: "" })
+    setSearchDatasetVar({ ...searchDatasetVar, val: "" })
     resetFilterState("datavisiblity");
     resetFilterState(screenlabels.dataset.geography);
     resetFilterState(screenlabels.dataset.age);
@@ -761,8 +874,11 @@ export default function GuestUserDatasets() {
 
   const filterByDates = () => {
     let fromDateandToDate = [];
-    fromDateandToDate.push(fromdate);
-    fromDateandToDate.push(todate);
+    fromDateandToDate.push(new Date(fromdate.getTime() - (fromdate.getTimezoneOffset() * 60000)).toJSON());
+    // Adding 86400000 will add 1 more day in date (86400000 == 24hrs)
+    fromDateandToDate.push(new Date(todate.getTime() - (todate.getTimezoneOffset() * 60000) + 86400000).toJSON());
+    console.log('payload in date fillter api',fromDateandToDate, fromdate, todate)
+
 
     setIsShowAll(false);
     resetFilterState(screenlabels.dataset.geography);
@@ -795,7 +911,7 @@ export default function GuestUserDatasets() {
     }*/
   const viewCardDetails = (id, flag) => {
     setid(id);
-    history.push("/home/viewdataset/" + id)
+    history.push("/home/viewdataset/" + id);
     // setIsLoader(true);
     // setisAdminView(flag);
     // HTTPService(
@@ -847,7 +963,6 @@ export default function GuestUserDatasets() {
               rowdata={viewdata}
               tabelkeys={tablekeys}
             ></ViewDataSet> */}
-
           </div>
         </>
       ) : (
@@ -878,6 +993,14 @@ export default function GuestUserDatasets() {
                       filterByDates={filterByDates}
                       handleGeoSearch={handleGeoSearch}
                       // handleCropSearch={handleCropSearch}
+                      // Props for category filter
+                      categoryFilterOptions={categoryFilterOptions}
+                      subcategoryFilterOptions={subcategoryFilterOptions}
+                      categoryFilterValue={categoryFilterValue}
+                      subcategoryFilterValue={subcategoryFilterValue}
+                      handleCategoryFilterChange={handleCategoryFilterChange}
+                      filterByCategory={filterByCategory}
+                      // End of catagory filter props
                       geoFilterDisplay={geoFilterDisplay}
                       dataAccessFilterDisplay={dataAccessFilterDisplay}
                       // cropFilterDisplay={cropFilterDisplay}

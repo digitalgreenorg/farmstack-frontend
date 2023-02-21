@@ -20,7 +20,8 @@ const useStyles = {
     inputwidthlastrow:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52', "margin-top": "-10px"},
     headingbold:{fontWeight: "bold"}
 };
-export default function ParticipantForm(props) {
+
+export default function CoStewardForm(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
     const options = useMemo(() => countryList().getData(), [])
 
@@ -37,12 +38,12 @@ export default function ParticipantForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         style={useStyles.inputwidth}
-                        id="org_name"
+                        id="filled-basic"
                         variant="filled"
                         required
                         value={props.organisationname}
                         onChange={(e) =>validateInputField(e.target.value,RegexConstants.ORG_NAME_REGEX)? props.setorganisationname(e.target.value): e.preventDefault()}
-                        label={screenlabels?.addparticipants?.organisation_name}
+                        label={screenlabels.co_steward?.organisation_name}
                         error={props.orgNameErrorMessage ? true: false}
                         helperText={props.orgNameErrorMessage}
                     />
@@ -50,12 +51,12 @@ export default function ParticipantForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                         style={useStyles.inputwidth}
-                        id="org_email"
+                        id="filled-basic"
                         variant="filled"
                         required
                         value={props.orginsationemail}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setorginsationemail(e.target.value.trim()) : e.preventDefault()}
-                        label={screenlabels?.addparticipants?.email}
+                        label={screenlabels.co_steward?.email}
                         error={props.isorganisationemailerror || props.orgEmailErrorMessage}
                         helperText={(props.isorganisationemailerror && !props.orgEmailErrorMessage) ? 
                             "Enter Valid Email id" : props.orgEmailErrorMessage}
@@ -65,13 +66,12 @@ export default function ParticipantForm(props) {
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
-                        id='org_website'
                         style={useStyles.inputwidth}
                         variant="filled"
                         required
                         value={props.websitelink}
                         onChange={(e) => props.setwebsitelink(e.target.value.trim())}
-                        label={screenlabels?.addparticipants?.website_link}
+                        label={screenlabels.co_steward?.website_link}
                         error={props.iswebsitelinkrerror || props.orgWebsiteErrorMessage}
                         helperText={(props.iswebsitelinkrerror && !props.orgWebsiteErrorMessage) 
                                     ? "Enter Valid Website Link" : props.orgEmailErrorMessage}
@@ -80,10 +80,10 @@ export default function ParticipantForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                         style={useStyles.inputwidth}
-                        id="org_address"
+                        id="filled-basic"
                         variant="filled"
                         required
-                        label={screenlabels?.addparticipants?.organisation_address}
+                        label={screenlabels.co_steward?.organisation_address}
                         value={props.organisationaddress}
                         onKeyDown={(e) => handleAddressCharacters(props.organisationaddress,e)}
                         onChange={(e) => props.setorganisationaddress(e.target.value)}
@@ -103,7 +103,7 @@ export default function ParticipantForm(props) {
                         value={props.countryvalue}
                         onChange={(e) => props.setcountryvalue(e.target.value)}
                         isSearchable={true}
-                        label={screenlabels?.addparticipants?.country}
+                        label={screenlabels.co_steward?.country}
                     >
                         {options.map((rowData, index) => (
                             <MenuItem value={rowData.label}>{rowData.label}</MenuItem>
@@ -113,17 +113,15 @@ export default function ParticipantForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                        style={useStyles.inputwidth}
-                        id="pincode"
+                        id="filled-basic"
                         variant="filled"
                         required
                         type="number"
-                        label={screenlabels?.addparticipants?.pincode}
+                        label={screenlabels.co_steward?.pincode}
                         value={props.pincode}
                         onKeyDown={(e) => {if(e.key == '-' || e.key == 'e' || e.key == 'E' || e.key == '+') {e.preventDefault()}}}
                         onChange={(e) => {if (e.target.value.length > 10) e.target.value = e.target.value.substring(0,10); 
                                           validateInputField(e.target.value,RegexConstants.PINCODE_REGEX) ? props.setpincode(e.target.value.trim()) : e.preventDefault()}}
-                        //error={props.ispincodeerror}
-                        // helperText={props.ispincodeerror ? "Enter Valid Pin Code" : ""}
                     />
                 </Col>
             </Row>
@@ -136,15 +134,14 @@ export default function ParticipantForm(props) {
             </Col>
             </Row>
             <Row style={useStyles.marginrowtop}>
-                <Col xs={12} sm={12} md={6} lg={6} id="firstname" >
+                <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         style={useStyles.inputwidth}
-                        id="first_name"
+                        id="filled-basic"
                         variant="filled"
                         required
-                        label={screenlabels?.addparticipants?.first_name}
+                        label={screenlabels.co_steward?.first_name}
                         value={props.firstname}
-                        // onKeyDown={(e) => handleNameFieldEntry(props.firstname,e)}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setfirstname(e.target.value.trim()) : e.preventDefault()}
                         error={props.firstNameErrorMessage ? true: false}
                         helperText={props.firstNameErrorMessage}
@@ -153,11 +150,10 @@ export default function ParticipantForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                         style={useStyles.inputwidth}
-                        id="last_name"
+                        id="filled-basic"
                         variant="filled"
-                        label={screenlabels?.addparticipants?.last_name}
+                        label={screenlabels.co_steward?.last_name}
                         value={props.lastname}
-                        // onKeyDown={(e) => handleNameFieldEntry(props.lastname,e)}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.TEXT_REGEX) ? props.setlastname(e.target.value.trim()) : e.preventDefault()}
                         error={props.lastNameErrorMessage ? true: false}
                         helperText={props.lastNameErrorMessage}
@@ -168,10 +164,10 @@ export default function ParticipantForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         style={useStyles.inputwidth}
-                        id="user_email"
+                        id="filled-basic"
                         variant="filled"
                         required
-                        label={screenlabels?.addparticipants?.email}
+                        label={screenlabels.co_steward?.email}
                         value={props.useremail}
                         onChange={(e) => validateInputField(e.target.value,RegexConstants.NO_SPACE_REGEX) ? props.setuseremail(e.target.value.trim()) : e.preventDefault()}
                         error={props.isuseremailerror || props.isexisitinguseremail || props.emailErrorMessage}
@@ -186,8 +182,8 @@ export default function ParticipantForm(props) {
                         defaultCountry={"in"}
                         countryCodeEditable={false}
                         style={useStyles.inputwidth}
-                        id="contact_number"
-                        label={screenlabels?.addparticipants?.contact_number}
+                        id="filled-basic"
+                        label={screenlabels.co_steward?.contact_number}
                         variant="filled"
                         required
                         value={props.contactnumber}
@@ -198,59 +194,6 @@ export default function ParticipantForm(props) {
                     />
                 </Col>
             </Row>
-            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
-            <Row style={useStyles.marginrowtop}>
-            <Col xs={12} sm={12} md={12} lg={12}>
-                {/* <span className="mainheading" style={{float: 'left', 'margin-left': '15px', 'margin-top': '5px'}}>
-                    {props.third_heading}
-                </span> */}
-                {/* <span className="mainheading" style={{float: 'left', 'margin-left': '15px', 'margin-top': '5px'}}>
-                    {props.fourth_heading}
-                </span> */}
-            </Col>
-            </Row>
-            <Row style={useStyles.marginrowtop}>
-                {/* <Col xs={12} sm={12} md={6} lg={6} >
-                    <TextField
-                        select
-                        margin="normal"
-                        variant="filled"
-                        required
-                        hiddenLabel="true"
-                        style={useStyles.inputwidthlastrow}
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        label=""
-                        value={props.organisationlength}
-                        alignItems="center"
-                        onChange={(e) => props.setorganisationlength(e.target.value)}
-                    >
-                        <MenuItem value={1}>1 month</MenuItem>
-                        <MenuItem value={3}>3 month</MenuItem>
-                        <MenuItem value={6}>6 month</MenuItem>
-                        <MenuItem value={12}>12 month</MenuItem> */}
-
-                        {/* error={props.orgSubscriptionErrorMessage ? true: false}
-                        helperText={props.orgSubscriptionErrorMessage} */}
-
-                    {/* </TextField>
-                </Col> */}
-                {/* <Col xs={12} sm={12} md={6} lg={6} >
-                <FormControlLabel
-            control={
-              <Checkbox
-                // style={useStyles.inputwidth}
-                checked={props.istrusted}
-                onChange={props.handleistrusted}
-              />
-            }
-            label={screenlabels.addparticipants.is_trusted}
-            style={{ "width": "100%", "float": "left", "margin-left": "8px", "margin-top": "-10px", "fontFamily": "open-sans", "font-size": "14px"}}
-          />
-                </Col> */}
-                
-            </Row>
-            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
-        </>
-    );
+           </>
+    )
 }
