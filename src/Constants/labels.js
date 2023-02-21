@@ -27,6 +27,7 @@ const labels = {
       contact: "Contact",
       apply_for_participant: "Apply for participant",
       Dashboard: "Dashboard",
+      integration: "Integration"
     },
     addparticipants: {
       first_heading: "Add participants organisation details",
