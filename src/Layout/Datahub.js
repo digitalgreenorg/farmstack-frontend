@@ -88,11 +88,11 @@ function Datahub(props) {
                 path="/datahub/participants/invite"
                 component={InviteParticipants}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/participants"
                 component={Participants}
-              />
+              /> */}
               {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
               <Route exact path="/datahub/datasets/add" component={AddDataset} />
               <Route
@@ -169,11 +169,11 @@ function Datahub(props) {
               path="/datahub/dataset/view/:id"
               component={ViewMetaDatasetDetails}
               />
-              {/* <Route
+              <Route
               exact
               path="/datahub/participants"
               component={ParticipantCoStewardManagement}
-              /> */}
+              />
                <Route 
               exact
               path="/datahub/participants/addcosteward"
