@@ -24,6 +24,7 @@ import GuestUserContact from "./Views/GuestUser/GuestUserContact";
 import AddParticipantRegistrationForm from "./Components/PatricipantRegistration/AddParticipantRegistrationform"
 import ViewMetaDatasetDetails from "./Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 import Viewdetails from "./Components/GuestUser/Viewdetails";
+import GuestUserMainHomePage from "./Views/GuestUser/GuestUserMainHomePage";
 function App() {
   return (
     <React.Fragment>
@@ -42,7 +43,7 @@ function App() {
           <Route path="/participant" component={Participant} />
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error" component={Error} />
-          <Route exact path="/home" component={GuestUserHome} />
+          <Route exact path="/home" component={GuestUserMainHomePage} />
           <Route exact path="/home/viewdataset/:id" component={Viewdetails} />
           <Route exact path="/legal" component={GuestUserLegal} />
           <Route exact path="/contact" component={GuestUserContact} />
