@@ -31,6 +31,7 @@ const useStyles = {
 export default function ParticipantsCards(props) {
   const [isshowbutton, setisshowbutton] = React.useState(false);
   const history = useHistory();
+  console.log('props in view details card ', props)
   return (
 
     <Card className="particaipancard" style={!isshowbutton?useStyles.cardcolor:useStyles.togglecardcolor} onMouseEnter={()=>setisshowbutton(true)} onMouseLeave={()=>setisshowbutton(false)}>
@@ -92,7 +93,7 @@ export default function ParticipantsCards(props) {
       */}
         {isshowbutton?<Row style={useStyles.marginrowtop}>
           <Col xs={12} sm={12} md={6} lg={6}>
-            <Button onClick={() => history.push('/datahub/participants/edit/'+props.id)} 
+            <Button onClick={() => history.push(`${ props.coStewardTab ? "/datahub/costeward/edit/" : "/datahub/participants/edit/"}`+props.id)} 
                     variant="outlined" style={useStyles.btncolor}
                     className="buttonremovebackgroundonhover">
               <img
@@ -102,7 +103,7 @@ export default function ParticipantsCards(props) {
             </Button>
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
-            <Button onClick={() => history.push('/datahub/participants/view/'+props.id)} variant="outlined" 
+            <Button onClick={() => history.push(`${ props.coStewardTab ? "/datahub/costeward/view/" : "/datahub/participants/view/"}`+props.id)} variant="outlined" 
                     style={useStyles.btnPosition}
                     className="buttonremovebackgroundonhover">
               View details

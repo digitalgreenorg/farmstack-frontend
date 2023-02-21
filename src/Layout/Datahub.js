@@ -22,7 +22,7 @@ import Support from "../Views/Support/Support";
 import DatasetAdmin from '../Views/Dataset/DatasetAdmin/DatasetAdmin'
 import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
-import { getTokenLocal, isLoggedInUserAdmin } from "../Utils/Common";
+import { getTokenLocal, isLoggedInUserAdmin, isLoggedInUserCoSteward } from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
 import Footer from "../Components/Footer/Footer";
 import Dashboard from "../Views/Dashboard/Dashboard";
@@ -38,19 +38,21 @@ import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
+import ViewCoSteward from "../Components/Participants/ViewCoSteword";
+import EditCoSteward from "../Components/Participants/EditCoSteward";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
   // }, []);
   return (
     <>
-      {(getTokenLocal() && isLoggedInUserAdmin()) ? (
+      {(getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserCoSteward()))? (
         <div className="center_keeping_conatiner">
 
           <Navbar />
           <div className="minHeight67vhDatahubPage">
             <Switch>
-              <Route
+            <Route
                 exact
                 path="/datahub/participants/view/:id"
                 component={ViewParticipants}
@@ -59,6 +61,16 @@ function Datahub(props) {
                 exact
                 path="/datahub/participants/edit/:id"
                 component={EditParticipants}
+              />
+              <Route
+                exact
+                path="/datahub/costeward/view/:id"
+                component={ViewCoSteward}
+              />
+              <Route
+                exact
+                path="/datahub/costeward/edit/:id"
+                component={EditCoSteward}
               />
               <Route
                 exact
@@ -76,11 +88,11 @@ function Datahub(props) {
                 path="/datahub/participants/invite"
                 component={InviteParticipants}
               />
-              {/* <Route
+              <Route
                 exact
                 path="/datahub/participants"
                 component={Participants}
-              /> */}
+              />
               {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
               <Route exact path="/datahub/datasets/add" component={AddDataset} />
               <Route
@@ -157,15 +169,15 @@ function Datahub(props) {
               path="/datahub/dataset/view/:id"
               component={ViewMetaDatasetDetails}
               />
-              <Route
+              {/* <Route
               exact
               path="/datahub/participants"
               component={ParticipantCoStewardManagement}
-              />
-               <Route
+              /> */}
+               <Route 
               exact
               path="/datahub/participants/addcosteward"
-              component={AddCoSteward}
+              component={AddCoSteward}      
               />
             </Switch>
           </div>

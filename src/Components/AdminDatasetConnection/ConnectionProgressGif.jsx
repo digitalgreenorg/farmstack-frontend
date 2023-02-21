@@ -48,7 +48,7 @@ const ConnectionProgressGif = ({ isConnected, loader, mysqlFileList, localUpload
                     <AccordionForUploadedFileDetails source={"postgresql"} datasetname={datasetname} deleteFunc={deleteFunc} title={"Postgres"} data={postgresFileList} />
                 </Col> : ""}
                 {LiveApiFileList.length > 0 ? <Col style={{ minWidth: "500px" }} lg={12} sm={12}>
-                    <AccordionForUploadedFileDetails source={"liveapi"} datasetname={datasetname} deleteFunc={deleteFunc} title={"liveapi"} data={LiveApiFileList} />
+                    <AccordionForUploadedFileDetails source={"live_api"} datasetname={datasetname} deleteFunc={deleteFunc} title={"liveapi"} data={LiveApiFileList} />
                 </Col> : ""}
 
             </Row>

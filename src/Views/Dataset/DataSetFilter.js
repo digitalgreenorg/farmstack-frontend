@@ -52,8 +52,8 @@ export default function DataSetFilter(props) {
                   "text-transform": "none",
                 }}
                 onClick={() => props.clearAllFilters()}
-                // variant="outlined"
-                // className="cancelbtn"
+              // variant="outlined"
+              // className="cancelbtn"
               >
                 Clear all
               </Button>
@@ -239,13 +239,13 @@ export default function DataSetFilter(props) {
             }
           />
         ))}
-      <Row className="supportfiltersecondrowbold">
+      {/* <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/visibility.svg")} alt="new" />
           &nbsp;&nbsp;
           {"Data Visiblity"}
         </span>
-      </Row>
+      </Row> */}
       {/* {props.dataAccessFilterDisplay
         ? props.dataAccessFilterDisplay.map((datavisiblity) => (
           <FilterCheckBox
@@ -294,7 +294,7 @@ export default function DataSetFilter(props) {
       />
       <Row>
         {props.categoryFilterValue.length &&
-        props.subcategoryFilterValue.length ? (
+          props.subcategoryFilterValue.length ? (
           <span className="supportsubmitbrn" style={{ marginTop: "15px" }}>
             <Button
               onClick={() => props.filterByCategory()}
@@ -358,12 +358,12 @@ export default function DataSetFilter(props) {
               />
             )
         )}
-      {/*       <Row className="supportfiltersecondrowbold">
+      <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/calendar.svg")} alt="new" />
           &nbsp;&nbsp;{screenlabels.dataset.age}
         </span>
-      </Row> */}
+      </Row>
       <Row style={{ "margin-left": "-3px", "margin-top": "10px" }}>
         <FormControlLabel
           value="start"
@@ -379,12 +379,12 @@ export default function DataSetFilter(props) {
           className="constantswitch"
         />
       </Row>
-      <Row className="supportfiltersecondrowbold">
+      {/* <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/crop.svg")} alt="new" />
           &nbsp;&nbsp;{screenlabels.dataset.Value_Chain}
         </span>
-      </Row>
+      </Row> */}
       {/* <Row className="supportfiltersecondrowbold">
         <TextField
           style={{

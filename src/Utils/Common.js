@@ -166,6 +166,13 @@ export const isLoggedInUserParticipant = () => {
         LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
     : false;
 };
+export const isLoggedInUserCoSteward = () => {
+  //return true;
+ return getRoleLocal()
+  ? getRoleLocal().toLowerCase() == 
+      LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase() 
+   : false;
+} ;
 
 // file upload
 export const fileUpload = (bodyFormData, file, Key) => {

@@ -521,7 +521,7 @@ export default function GuestUserDatasets() {
     setFilterState({});
     // data['user_id'] = getUserLocal()
     // data['org_id'] = getOrgLocal()
-    data["search_pattern"] = val.trim();
+    data["name__icontains"] = val.trim();
     // if (isMemberTab) {
     //     data['others'] = true
     // } else {
@@ -688,6 +688,7 @@ export default function GuestUserDatasets() {
     // if (isLoadMore){
     //     payload = {...filterState}
     // }
+    console.log('payload just before api call', payload)
 
     HTTPService(
       "POST",
@@ -758,6 +759,7 @@ export default function GuestUserDatasets() {
   ) => {
     let data = {};
     if (createdAtRange !== "") {
+      console.log('data range in creating payload', createdAtRange)
       data["updated_at__range"] = createdAtRange;
     }
 
@@ -872,8 +874,11 @@ export default function GuestUserDatasets() {
 
   const filterByDates = () => {
     let fromDateandToDate = [];
-    fromDateandToDate.push(fromdate);
-    fromDateandToDate.push(todate);
+    fromDateandToDate.push(new Date(fromdate.getTime() - (fromdate.getTimezoneOffset() * 60000)).toJSON());
+    // Adding 86400000 will add 1 more day in date (86400000 == 24hrs)
+    fromDateandToDate.push(new Date(todate.getTime() - (todate.getTimezoneOffset() * 60000) + 86400000).toJSON());
+    console.log('payload in date fillter api',fromDateandToDate, fromdate, todate)
+
 
     setIsShowAll(false);
     resetFilterState(screenlabels.dataset.geography);

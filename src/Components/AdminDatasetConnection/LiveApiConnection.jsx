@@ -66,7 +66,7 @@ export default function LiveApiConnection(props) {
     bodyFormData.append("source", "live_api")
     bodyFormData.append("api_key", authkey)
     bodyFormData.append("url", apifield)
-    let accesstoken =  isaccesstoken || getTokenLocal();
+    let accesstoken = isaccesstoken || getTokenLocal();
     let url = ""
     if (isDatasetEditModeOn) {
       url = UrlConstant.base_url + UrlConstant.live_api + "?dataset_exists=True"
@@ -161,7 +161,7 @@ export default function LiveApiConnection(props) {
           <Col lg={6} sm={12} className='textfield_row' style={{ "marginTop": "100px", "marginLeft": "-10px" }}>
             <Button
               id='connect_btn_id'
-              disabled={(apifield && authkey) ? false : true}
+              disabled={(apifield && authkey && fileName) ? false : true}
               className='connect_btn green_btn_for_connect'
               onClick={() => { handleconnectLiveAPI() }}
               style={{ width: "180%", marginRight: "-25px" }}
