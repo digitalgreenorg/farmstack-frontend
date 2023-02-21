@@ -1011,3 +1011,7 @@ button.disbalesubmitbtndept {
   border: 1px solid #E4E4E4 !important;
   height: 42px !important;
 }
+
+.react-multi-email input {
+  min-width: 500px !important;
+}

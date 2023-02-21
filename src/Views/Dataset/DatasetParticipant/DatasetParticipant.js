@@ -253,6 +253,8 @@ export default function DatasetParticipant() {
           setSubcategoryFilterValue([]);
           break;
       }
+      // Reset dataset list to the original state if the category filter is empty
+      if (value.length === 0) getAllDataSets();
     } else if (input_field === "Subcategories") {
       setSubcategoryFilterValue(value);
     }
@@ -596,7 +598,7 @@ export default function DatasetParticipant() {
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
-    data["search_pattern"] = val;
+    data["name__icontains"] = val;
     if (isMemberTab) {
       data["others"] = true;
     } else {
@@ -665,11 +667,11 @@ export default function DatasetParticipant() {
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
     payload["others"] = true;
-    payload["search_pattern"] = searchValOtherOrg.val.trim();
+    payload["name__icontains"] = searchValOtherOrg.val.trim();
 
     // setFilterState(payload)
     // if(searchDatasetVar){
-    //     payload["search_pattern"] = searchDatasetVar
+    //     payload["name__icontains"] = searchDatasetVar
     // }
     // }
 
@@ -735,11 +737,11 @@ export default function DatasetParticipant() {
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
     payload["others"] = false;
-    payload["search_pattern"] = searchValMyOrg.val.trim();
+    payload["name__icontains"] = searchValMyOrg.val.trim();
 
     // setFilterState(payload)
     // if(searchDatasetVar){
-    //     payload["search_pattern"] = searchDatasetVar
+    //     payload["name__icontains"] = searchDatasetVar
     // }
     // }
 
@@ -802,7 +804,7 @@ export default function DatasetParticipant() {
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
-    data["search_pattern"] = val;
+    data["name__icontains"] = val;
     if (isMemberTab) {
       data["others"] = true;
     } else {
@@ -1346,8 +1348,11 @@ export default function DatasetParticipant() {
 
   const filterByDates = () => {
     let fromDateandToDate = [];
-    fromDateandToDate.push(fromdate);
-    fromDateandToDate.push(todate);
+    fromDateandToDate.push(new Date(fromdate.getTime() - (fromdate.getTimezoneOffset() * 60000)).toJSON());
+    // Adding 86400000 will add 1 more day in date (86400000 == 24hrs)
+    fromDateandToDate.push(new Date(todate.getTime() - (todate.getTimezoneOffset() * 60000) + 86400000).toJSON());
+    console.log('payload in date fillter api',fromDateandToDate, fromdate, todate)
+
 
     setIsShowAll(false);
     setConstantyUpdateSwitch(false);

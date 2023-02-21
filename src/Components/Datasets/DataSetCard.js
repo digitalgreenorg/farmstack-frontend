@@ -87,110 +87,111 @@ export default function DataSetCard(props) {
 
   return (
     <>
-    <Card
-      className={props.margingtop}
-      style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor}
-      onMouseEnter={() => setisshowbutton(true)}
-      onMouseLeave={() => setisshowbutton(false)}
-    >
-      {/* <Tooltip TransitionComponent={Zoom} title={props.title}> */}
-      <div className="cardheaderTitlespecifier text-truncate">
-        <CardHeader
-          avatar={
-            props.orgLogo ? (
-              <Avatar
-                alt="Remy Sharp"
-                src={UrlConstants.base_url_without_slash + props.orgLogo}
-                sx={{ width: 54, height: 54 }}
-              />
-            ) : (
-              <Avatar
-                sx={{ bgcolor: "#c09507", width: 54, height: 54 }}
-                aria-label="recipe"
-              >
-                {props.orgName.charAt(0)}
-              </Avatar>
-            )
-          }
-          // title={props.data.subject}
-          // tooltip={<Tooltip title={props.title}>{props.title}</Tooltip>}
-          title={props.title}
-          style={{
-            "background-color": "#f8f9fa",
-            padding: "9px",
-            "text-align": "left",
-            overflow: "hidden",
-            "text-overflow": "ellipsis",
-          }}
-        />
-      </div>
-      {/* </Tooltip> */}
-
-      <CardContent>
-        <Row style={useStyles.datasetdescription}>
-          {/* <Tooltip TransitionComponent={Zoom} title={props.description}> */}
-          <span
-            style={{ maxWidth: "300px", height: "40px", display: "block" }}
-          >
-            {parse(props.description)}
-          </span>
-          {/* </Tooltip> */}
-        </Row>
-        <Row>
-          {props.isMemberTab ? (
-            <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-              {screenlabels.dataset.organisation_name}
-            </Col>
-          ) : (
-            <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-              {screenlabels.dataset.geography}
-            </Col>
-          )}
-          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-            {screenlabels.dataset.published_on}
-          </Col>
-        </Row>
-
-        <Row className="supportcardmargintop">
-          {props.isMemberTab ? (
-            <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-              {/* <Tooltip TransitionComponent={Zoom} title={props.orgName}> */}
-              <div
-                style={{ maxWidth: "150px" }}
-                className="d-inline-block text-truncate"
-              >
-                {props.orgName}
-              </div>
-              {/* </Tooltip> */}
-            </Col>
-          ) : (
-            <Col
-              style={{ zIndex: 10 }}
-              className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumngeo"
-            >
-              {/* <Tooltip TransitionComponent={Zoom} title={props.geography}> */}
-              <div
-                style={{ maxWidth: "150px" }}
-                className="d-inline-block text-truncate"
-              >
-                {props.geography}
-              </div>
-              {/* </Tooltip> */}
-            </Col>
-          )}
-          {/* <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"> */}
-          <Col
+      <Card
+        className={props.margingtop}
+        style={!isshowbutton ? useStyles.cardcolor : useStyles.togglecardcolor}
+        onMouseEnter={() => setisshowbutton(true)}
+        onMouseLeave={() => setisshowbutton(false)}
+      >
+        {/* <Tooltip TransitionComponent={Zoom} title={props.title}> */}
+        <div className="cardheaderTitlespecifier text-truncate">
+          <CardHeader
+            avatar={
+              props.orgLogo ? (
+                <Avatar
+                  alt="Remy Sharp"
+                  src={UrlConstants.base_url_without_slash + props.orgLogo}
+                  sx={{ width: 54, height: 54 }}
+                />
+              ) : (
+                <Avatar
+                  sx={{ bgcolor: "#c09507", width: 54, height: 54 }}
+                  aria-label="recipe"
+                >
+                  {props.orgName.charAt(0)}
+                </Avatar>
+              )
+            }
+            // title={props.data.subject}
+            // tooltip={<Tooltip title={props.title}>{props.title}</Tooltip>}
+            title={props.title}
             style={{
-              "font-size": "14px",
-              "font-weight": "400",
-              "text-transform": "capitalize",
+              "background-color": "#f8f9fa",
+              padding: "9px",
+              "text-align": "left",
+              overflow: "hidden",
+              "text-overflow": "ellipsis",
             }}
-            className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
-          >
-            {dateTimeFormat(props.publishedon, true)}
-          </Col>
-        </Row>
-        {/* <Row className="supportcardmargintop">
+          />
+        </div>
+        {/* </Tooltip> */}
+
+        <CardContent>
+          <Row style={useStyles.datasetdescription}>
+            {/* <Tooltip TransitionComponent={Zoom} title={props.description}> */}
+            <span
+              style={{ maxWidth: "300px", height: "40px", display: "block" }}
+            >
+              {props.description ? parse(props.description) : ""}
+            </span>
+            {/* </Tooltip> */}
+          </Row>
+          <Row>
+            {props.isMemberTab ? (
+              <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                {screenlabels.dataset.organisation_name}
+              </Col>
+            ) : (
+              <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                {screenlabels.dataset.geography}
+              </Col>
+            )}
+            <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+              {screenlabels.dataset.published_on}
+
+            </Col>
+          </Row>
+
+          <Row className="supportcardmargintop">
+            {props.isMemberTab ? (
+              <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                {/* <Tooltip TransitionComponent={Zoom} title={props.orgName}> */}
+                <div
+                  style={{ maxWidth: "150px" }}
+                  className="d-inline-block text-truncate"
+                >
+                  {props.orgName}
+                </div>
+                {/* </Tooltip> */}
+              </Col>
+            ) : (
+              <Col
+                style={{ zIndex: 10 }}
+                className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumngeo"
+              >
+                {/* <Tooltip TransitionComponent={Zoom} title={props.geography}> */}
+                <div
+                  style={{ maxWidth: "150px" }}
+                  className="d-inline-block text-truncate"
+                >
+                  {props.geography}
+                </div>
+                {/* </Tooltip> */}
+              </Col>
+            )}
+            {/* <Col style={{ color: "#FF3D00", "text-transform": "capitalize" }} className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"> */}
+            <Col
+              style={{
+                "font-size": "14px",
+                "font-weight": "400",
+                "text-transform": "capitalize",
+              }}
+              className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
+            >
+              {dateTimeFormat(props.publishedon, true)}
+            </Col>
+          </Row>
+          {/* <Row className="supportcardmargintop">
                     <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                         {props.data.organization.name}
                         Test Organisation Name 
@@ -212,48 +213,48 @@ export default function DataSetCard(props) {
                     </Col> 
                     : <></>}
                 </Row> */}
-        <Row>
-          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-            {"constantly update"}
-          </Col>
-          <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
-            {/* {screenlabels.dataset.crop_details} */}
-          </Col>
-        </Row>
-        <Row className="supportcardmargintop">
-          <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
-            {/* <Tooltip
+          <Row>
+            <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+              {"constantly update"}
+            </Col>
+            <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
+              {/* {screenlabels.dataset.crop_details} */}
+            </Col>
+          </Row>
+          <Row className="supportcardmargintop">
+            <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn width173px">
+              {/* <Tooltip
               TransitionComponent={Zoom}
               title={props.visiblity ? "Public" : "Private"}
             > */}
-            <div
-              style={{ maxWidth: "135px" }}
-              className="d-inline-block text-truncate"
+              <div
+                style={{ maxWidth: "135px" }}
+                className="d-inline-block text-truncate"
+              >
+                {/* {console.log("validdityyy",props.visiblity)} */}
+                {props.constantly_update ? "Yes" : "No"}
+              </div>
+              {/* </Tooltip> */}
+            </Col>
+            <Col
+              style={{
+                "padding-right": "4px",
+                color: "#3D4A52",
+                "text-transform": "capitalize",
+              }}
+              className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"
             >
-              {/* {console.log("validdityyy",props.visiblity)} */}
-              {props.constantly_update ? "Yes" : "No"}
-            </div>
-            {/* </Tooltip> */}
-          </Col>
-          <Col
-            style={{
-              "padding-right": "4px",
-              color: "#3D4A52",
-              "text-transform": "capitalize",
-            }}
-            className="fontweight400andfontsize14pxandcolor3D4A52 supportcardsecondcolumndata"
-          >
-            {/* <Tooltip TransitionComponent={Zoom} title={""}> */}
-            <span
-              style={{ maxWidth: "150px" }}
-              className="d-inline-block text-truncate"
-            >
-              {/* {props.cropDetail} */}
-            </span>
-            {/* </Tooltip> */}
-          </Col>
-        </Row>
-        {/* <Row>
+              {/* <Tooltip TransitionComponent={Zoom} title={""}> */}
+              <span
+                style={{ maxWidth: "150px" }}
+                className="d-inline-block text-truncate"
+              >
+                {/* {props.cropDetail} */}
+              </span>
+              {/* </Tooltip> */}
+            </Col>
+          </Row>
+          {/* <Row>
                     <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
                     Age of Data
                     </Col>
@@ -286,76 +287,76 @@ export default function DataSetCard(props) {
                     Sample_Category
                     </Col>
                 </Row> */}
-        {/* <Row style={{ "margin-top": "-58px" }}> */}
-        <Row>
-          {props.isMemberTab && (
-            <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-              {screenlabels.dataset.geography}
-            </Col>
-          )}
-        </Row>
-        <Row style={{ width: "150px" }} className="supportcardmargintop">
-          {props.isMemberTab ? (
-            <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
-              <Tooltip
-                onMouseEnter={() => console.log("Hover")}
-                placeholder="top-start"
-                TransitionComponent={Zoom}
-                title={props.geography}
-              >
-                <div
-                  style={{ maxWidth: "150px" }}
-                  className="d-inline-block text-truncate"
+          {/* <Row style={{ "margin-top": "-58px" }}> */}
+          <Row>
+            {props.isMemberTab && (
+              <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                {screenlabels.dataset.geography}
+              </Col>
+            )}
+          </Row>
+          <Row style={{ width: "150px" }} className="supportcardmargintop">
+            {props.isMemberTab ? (
+              <Col className="fontweight400andfontsize14pxandcolor3D4A52 supportcardfirstcolumn">
+                <Tooltip
+                  onMouseEnter={() => console.log("Hover")}
+                  placeholder="top-start"
+                  TransitionComponent={Zoom}
+                  title={props.geography}
                 >
-                  {props.geography}
-                </div>
-              </Tooltip>
-            </Col>
-          ) : (
-            <Col></Col>
-          )}
-        </Row>
-        <Row
-          style={
-            !props.isMemberTab
-              ? {
-                "margin-top": "30px",
-                width: "150px",
-                marginLeft: "170px",
-                zIndex: "11",
-              }
-              : {
-                "margin-top": "-50px",
-                width: "150px",
-                marginLeft: "170px",
-                zIndex: "11",
-              }
-          }
-        >
-          {isshowbutton ? (
-            <Col
-              lg={12}
-              className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
-            >
-              <Button
-                onClick={() => {props.viewCardDetails(" ", props.isMemberTab)}}
-                variant="outlined"
-                style={useStyles.btncolor}
+                  <div
+                    style={{ maxWidth: "150px" }}
+                    className="d-inline-block text-truncate"
+                  >
+                    {props.geography}
+                  </div>
+                </Tooltip>
+              </Col>
+            ) : (
+              <Col></Col>
+            )}
+          </Row>
+          <Row
+            style={
+              !props.isMemberTab
+                ? {
+                  "margin-top": "30px",
+                  width: "150px",
+                  marginLeft: "170px",
+                  zIndex: "11",
+                }
+                : {
+                  "margin-top": "-50px",
+                  width: "150px",
+                  marginLeft: "170px",
+                  zIndex: "11",
+                }
+            }
+          >
+            {isshowbutton ? (
+              <Col
+                lg={12}
+                className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
               >
-                View details
-              </Button>
-            </Col>
-          ) : (
-            <></>
-          )}
-        </Row>
-      </CardContent>
-    </Card>
-    {/* {show ? <ViewMetaDatasetDetails 
+                <Button
+                  onClick={() => { props.viewCardDetails(" ", props.isMemberTab) }}
+                  variant="outlined"
+                  style={useStyles.btncolor}
+                >
+                  View details
+                </Button>
+              </Col>
+            ) : (
+              <></>
+            )}
+          </Row>
+        </CardContent>
+      </Card>
+      {/* {show ? <ViewMetaDatasetDetails 
 
       isMemberTab = {"props.isMemberTab"}
       /> : " " } */}
-    
+
     </>
   );
 }

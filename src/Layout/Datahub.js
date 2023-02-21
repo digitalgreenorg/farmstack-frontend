@@ -175,7 +175,7 @@ function Datahub(props) {
               path="/datahub/participants"
               component={ParticipantCoStewardManagement}
               />
-               <Route
+               <Route 
               exact
               path="/datahub/participants/addcosteward"
               component={AddCoSteward}      

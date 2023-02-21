@@ -38,10 +38,10 @@ export default function SignupEmail(props) {
   return (
     <div>
       <Footerimg />
-      <form noValidate autoComplete="off" onSubmit={props.handleSubmit}>
+      <form noValidate autoComplete="off" onSubmit={props.handleSubmit} >
         <TextField
           required
-          id="filled-basic"
+          id="loginwithemail"
           label="Email"
           variant="filled"
           className="signupemail"
@@ -53,7 +53,7 @@ export default function SignupEmail(props) {
         />
         <div>
           {props.button ? (
-            <Button variant="contained" className="Signupbtn" type="submit">
+            <Button variant="contained" className="Signupbtn" type="submit" id="sendotp">
               <span className="signupbtnname">Send OTP to Email</span>
             </Button>
           ) : (

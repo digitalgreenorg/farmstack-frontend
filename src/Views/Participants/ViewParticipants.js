@@ -65,11 +65,11 @@ function ViewParticipants(props) {
             setcontactnumber(response?.data?.user?.phone_number)
             setwebsitelink(response?.data?.organization?.website)
             setpincode(response?.data?.organization?.address?.pincode ||  JSON.parse(response?.data?.organization?.address)?.pincode)
-            setfirstname(response?.data?.user.first_name)
-            setlastname(response.data.user.last_name)
-            setuseremail(response.data.user.email)
+            setfirstname(response?.data?.user?.first_name)
+            setlastname(response?.data?.user?.last_name)
+            setuseremail(response?.data?.user?.email)
             // setorganisationlength(response.data.user.subscription)
-            setistrusted(response.data.user.approval_status)
+            setistrusted(response?.data?.user?.approval_status)
             console.log("otp valid", response.data);
         }).catch((e) => {
             setIsLoader(false);
@@ -79,11 +79,12 @@ function ViewParticipants(props) {
     const deleteParticipants = () => {
         setIsLoader(true);
         setisDelete(false);
+        setisDeleteCoSteward(false);
         setisSuccess(false);
         setisDeleteSuccess(true)
         HTTPService('DELETE', UrlConstants.base_url + UrlConstants.participant + id + '/', "", false, true).then((response) => {
             setIsLoader(false);
-            console.log("otp valid", response.data);
+            console.log("otp valid", response?.data);
             setisDeleteSuccess(true)
             setisSuccess(false)
             setisDelete(false);
@@ -105,10 +106,10 @@ function ViewParticipants(props) {
                     secondbtntext={"Cancel"}
                     deleteEvent={() => deleteParticipants()}
                     cancelEvent={() => { setisDelete(false); setisSuccess(true); setisDeleteSuccess(false) }}
-                    heading={screenlabels.viewparticipants.delete_participant}
-                    imageText={screenlabels.viewparticipants.delete_msg}
-                    firstmsg={screenlabels.viewparticipants.second_delete_msg}
-                    secondmsg={screenlabels.viewparticipants.third_delete_msg}>
+                    heading={screenlabels?.viewparticipants?.delete_participant}
+                    imageText={screenlabels?.viewparticipants?.delete_msg}
+                    firstmsg={screenlabels?.viewparticipants?.second_delete_msg}
+                    secondmsg={screenlabels?.viewparticipants?.third_delete_msg}>
                 </Delete>
                     : <></>}
                      {isDeleteCoSteward ? <Delete
@@ -124,7 +125,7 @@ function ViewParticipants(props) {
                     secondmsg={screenlabels.viewCoSteward.third_delete_msg}>
                 </Delete>
                     : <></>}
-                {isDeleteSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={`${ isDeleteCoSteward ? "Co-Steward deleted successfully !" : "Participant deleted successfully !"}`} imageText={"Deleted!"} msg={"You deleted a participant."}></Success> : <></>}
+                {isDeleteSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={`${ props.coSteward ? "Co-Steward deleted successfully !" : "Participant deleted successfully !"}`} imageText={"Deleted!"} msg={"You deleted a participant."}></Success> : <></>}
                 {isSuccess ? <>
                     <ViewParticipantForm
                     coSteward={props.coSteward}
