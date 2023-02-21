@@ -990,3 +990,7 @@ button.disbalesubmitbtndept {
   position: absolute !important;
   left: 0px !important;
 }
+
+.react-multi-email input {
+  min-width: 500px !important;
+}

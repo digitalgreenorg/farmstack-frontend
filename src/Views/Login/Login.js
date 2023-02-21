@@ -45,6 +45,7 @@ import RegexConstants from "../../Constants/RegexConstants";
 import LeftintroParticipant from "../../Components/intros/LeftIntroParticipant";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import AddingCategory from "../../Components/Catergories/AddingCategory";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -603,10 +604,9 @@ export default function Login(props) {
   // );
   const [textEditorValue, settextEditorValue] = useState("");
 
-  const [validOrgNumber, setValidOrgnumber] = useState("");
+  const [validOrgNumber, setValidOrgnumber] = useState('');
   const [orgfile, setorgfile] = useState(null);
   const [orgmail, setOrgMail] = useState("");
-
   const [Orgnamebtn, setOrgnamebtn] = useState(false);
   const [Orgemailbtn, setOrgemailbtn] = useState(false);
   const [Orgaddressbtn, setOrgaddressbtn] = useState(false);
@@ -660,7 +660,6 @@ export default function Login(props) {
 
     // const pinCode = pincode.current.value;
     const finalpinCode = orgPincode;
-
     var id = getUserLocal();
     console.log("user id", id);
 
@@ -817,8 +816,6 @@ export default function Login(props) {
   };
 
   const handleOrgnumber = (value) => {
-    console.log(value);
-
     setValidOrgnumber(value ? value : "");
   };
 

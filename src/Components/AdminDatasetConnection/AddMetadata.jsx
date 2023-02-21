@@ -43,12 +43,18 @@ const AddMetadata = (props) => {
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     let sublist = []
     let catList = Object.keys(finalJson)
+
+    //finalJosn, allCatfecthed, 
     console.log(finalJson)
     for (let i = 0; i < catList.length; i++) {
         console.log(catList[i])
         for (let j = 0; j < finalJson[catList[i]]?.length; j++) {
             console.log(finalJson[catList[i]][j])
-            sublist.push(catList[i] + "-" + finalJson[catList[i]][j])
+            if (allCatFetched[catList[i]]?.includes(finalJson[catList[i]][j])) {
+                sublist.push(catList[i] + "-" + finalJson[catList[i]][j])
+            } else {
+                sublist.push(finalJson[catList[i]][j])
+            }
 
         }
         // sublist = [...sublist, ...]
@@ -66,18 +72,17 @@ const AddMetadata = (props) => {
         }
     }
 
+   
+
     const onChange = (date, dateString) => {
         props.handleChangeFromDate(new Date(dateString[0]))
         props.handleChangeToDate(new Date(dateString[1]))
     };
-
     const disabledDate = (current) => {
         // Can not select days before today and today
         return current && current.valueOf() > Date.now();
-      }
-
+    }
     console.log("OPTIONS", options)
-    console.log('newSelectedSubCategory, newSelectedCategory', newSelectedSubCategory, newSelectedCategory)
 
     // for (let i = 0; i < allCatFetched.length; i++) {
     //     options.push({ label: subCategoryNameList[i], value: subCategoryNameList[i]  })
@@ -90,9 +95,9 @@ const AddMetadata = (props) => {
     //     handleChangeSubCatList()
     // };
     useEffect(() => {
-        sublist = newSelectedSubCategory
+        console.log("SUBLIST", sublist)
         setNewSelectedSubCategory([...sublist])
-    }, [])
+    }, [newSelectedCategory])
     return (
         <>
             <Row style={{}}>
@@ -226,7 +231,7 @@ const AddMetadata = (props) => {
                         />
                     </Row>
                     <Row style={{ textAlign: "center", display: "inline-block" }}>
-                        <RangePicker disabledDate={disabledDate} allowClear={false} inputReadOnly value={(props.fromdate && props.todate) ? [dayjs(props.fromdate), dayjs(props.todate)] : ""}
+                        <RangePicker disabledDate={disabledDate}  allowClear={false} inputReadOnly value={(props.fromdate && props.todate) ? [dayjs(props.fromdate), dayjs(props.todate)] : ""}
                             disabled={props.Switchchecked ? true : false} onChange={onChange} />
                     </Row>
                 </Col>

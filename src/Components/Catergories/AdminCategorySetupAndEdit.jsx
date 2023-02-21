@@ -197,7 +197,7 @@ const AdminCategorySetupAndEdit = () => {
         <>
             <Container id='categories-main-container'>
                 {isLoader ? <Loader /> : ""}
-                <Row>
+                <Row style={{ border: "1px solid red" }}>
                     <Col lg={6} sm={12}>
                         <TreeViewComponent data={ListOfMainCategory} setData={setListMainCategory} />
                     </Col>
