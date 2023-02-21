@@ -148,6 +148,7 @@ export default function DataSetCard(props) {
             )}
             <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
               {screenlabels.dataset.published_on}
+
             </Col>
           </Row>
 

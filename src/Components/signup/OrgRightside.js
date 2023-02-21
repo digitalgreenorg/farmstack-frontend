@@ -27,6 +27,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
   handleAddressCharacters,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   validateInputField,
 } from "../../Utils/Common";
@@ -70,7 +71,7 @@ export default function OrgRightside(props) {
     HTTPService(
       "GET",
       UrlConstant.base_url +
-        (isLoggedInUserParticipant()
+        ((isLoggedInUserParticipant() || isLoggedInUserCoSteward())
           ? UrlConstant.participant
           : UrlConstant.org) +
         id +
@@ -83,6 +84,7 @@ export default function OrgRightside(props) {
       .then((response) => {
         setIsLoader(false);
         // let addressdata=JSON.parse(response.data.organization.address)
+
         if (response.data.organization) {
           props.setOrgName(response?.data?.organization?.name);
           props.setOrgMail(response?.data?.organization?.org_email);
@@ -91,71 +93,74 @@ export default function OrgRightside(props) {
           props.setCountryValue(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country)
           props.setValidOrgnumber(response?.data?.user?.phone_number);
           props.setOrgPincode(response?.data?.organization?.address?.pincode ||  JSON.parse(response?.data?.organization?.address)?.pincode)
+
           if (
-            response.data.organization.name &&
-            response.data.organization.name.trim().length > 0
+            response?.data?.organization?.name &&
+            response?.data?.organization?.name.trim().length > 0
           ) {
             props.setisOrgnameerror(false);
           }
+
           if (
-            response.data.organization.org_email &&
-            response.data.organization.org_email.trim().length > 0
+            response?.data?.organization?.org_email &&
+            response?.data?.organization?.org_email.trim().length > 0
           ) {
             props.setisOrgmailerror(false);
             props.setOrgemailbtn(true);
           }
 
           if (
-            response.data.organization.website &&
-            response.data.organization.website.trim().length > 0
+            response?.data?.organization?.website &&
+            response?.data?.organization?.website.trim().length > 0
           ) {
             props.isOrgWebsiteerror(false);
           }
 
           if (response.data.organization.address) {
             props.setOrgCity(response.data.organization.address.city);
+
             if (
-              response.data.organization.address.address &&
-              response.data.organization.address.address.trim().length > 0
+              response?.data?.organization?.address?.address &&
+              response?.data?.organization?.address?.address.trim().length > 0
             ) {
               props.setisOrgAddresserror(false);
             }
             if (
-              response.data.organization.address.city &&
-              response.data.organization.address.city.trim().length > 0
+              response?.data?.organization?.address?.city &&
+              response?.data?.organization?.address?.city.trim().length > 0
             ) {
               props.setisOrgcityerror(false);
             }
             if (
-              response.data.organization.address.country &&
-              response.data.organization.address.country.trim().length > 0
+              response?.data?.organization?.address?.country &&
+              response?.data?.organization?.address?.country.trim().length > 0
             ) {
               props.setOrgcountrybtn(true);
             }
             if (
-              response.data.organization.address.pincode &&
-              response.data.organization.address.pincode.trim().pincode > 0
+              response?.data?.organization?.address?.pincode &&
+              response?.data?.organization?.address?.pincode.trim().pincode > 0
             ) {
               props.setispincodeerror(false);
             }
           }
-          if (response.data.organization.org_description) {
+          if (response?.data?.organization?.org_description) {
             setEditorValue(
               RichTextEditor.createValueFromString(
-                response.data.organization.org_description,
+                response?.data?.organization?.org_description,
                 "html"
               )
             );
-            setorgdesc(response.data.organization.org_description);
-            props.textEditorData(response.data.organization.org_description);
+            setorgdesc(response?.data?.organization?.org_description);
+            props.textEditorData(response?.data?.organization?.org_description);
             if (
-              response.data.organization.org_description.toString("html") !==
+              response?.data?.organization?.org_description.toString("html") !==
               "<p><br></p>"
             ) {
               setOrgdesbtn(true);
             }
           }
-          props.setOrgId(response.data.organization.id);
+          props.setOrgId(response?.data?.organization.id);
         }
       })
       .catch((e) => {
@@ -828,7 +833,7 @@ export default function OrgRightside(props) {
               </Button>
             )}
           </div>
-          {isLoggedInUserParticipant() && (
+          {(isLoggedInUserParticipant() || isLoggedInUserCoSteward() ) && (
             <div>
               <Button
                 variant="outlined"

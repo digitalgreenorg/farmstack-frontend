@@ -69,12 +69,12 @@ function EditParticipants(props) {
             console.log("otp valid", response.data);
             // let addressdata=JSON.parse(response.data.organization.address)
             setorganisationname(response.data.organization.name)
-            setorganisationaddress(response.data.organization.address.address)
+            setorganisationaddress(response.data.organization.address.address ||  JSON.parse(response?.data?.organization?.address)?.address)
             setorginsationemail(response.data.organization.org_email)
-            setcountryvalue(response.data.organization.address.country)
+            setcountryvalue(response.data.organization.address.country || JSON.parse(response?.data?.organization?.address)?.country)
             setcontactnumber(response.data.user.phone_number)
             setwebsitelink(response.data.organization.website)
-            setpincode(response.data.organization.address.pincode)
+            setpincode(response.data.organization.address.pincode || JSON.parse(response?.data?.organization?.address)?.pincode)
             setfirstname(response.data.user.first_name)
             setlastname(response.data.user.last_name)
             setuseremail(response.data.user.email)
@@ -146,6 +146,7 @@ function EditParticipants(props) {
         console.log(event.target.checked);
         setistrusted(event.target.checked)
       };
+
     return (
         <>
             {isLoader ? <Loader />: ''}
@@ -180,8 +181,8 @@ function EditParticipants(props) {
                     isexisitinguseremail={isexisitinguseremail}
                     // organisationlength={organisationlength}
                     // setorganisationlength={ref => { setorganisationlength(ref) }}
-                    first_heading={screenlabels.editparticipants.first_heading}
-                    second_heading={screenlabels.editparticipants.second_heading}
+                    first_heading={props.coSteward ? screenlabels.editcosteward.first_heading : screenlabels.editparticipants.first_heading}
+                    second_heading={props.coSteward ? screenlabels.editcosteward.second_heading : screenlabels.editparticipants.second_heading}
                     // third_heading={screenlabels.editparticipants.third_heading}
                     fourth_heading={screenlabels.editparticipants.fourth_heading}
                     orgNameErrorMessage={orgNameErrorMessage}
