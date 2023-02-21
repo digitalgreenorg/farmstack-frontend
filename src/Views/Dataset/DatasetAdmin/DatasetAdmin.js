@@ -266,6 +266,8 @@ export default function DatasetAdmin() {
           setSubcategoryFilterValue([]);
           break;
       }
+      // Reset dataset list to the original state if the category filter is empty
+      if (value.length === 0) getAllDataSets();
     } else if (input_field === "Subcategories") {
       setSubcategoryFilterValue(value);
     }
