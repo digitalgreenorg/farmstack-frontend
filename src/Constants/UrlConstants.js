@@ -69,6 +69,8 @@ const UrlConstant = {
   search_dataset_end_point_admin: "datahub/dataset/v2/dataset_filters/",
   search_dataset_end_point_participant: "datahub/dataset/v2/dataset_filters/",
   search_dataset_end_point_guest: "microsite/datasets/dataset_filters/",
+  microsite_costeward_end_point: "microsite/participant/organizations/?co_steward=True",
+  microsite_participant_end_point: "microsite/participant/organizations/",
 
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",
@@ -83,6 +85,7 @@ const UrlConstant = {
   get_files_for_selected_datasets: "datahub/dataset_ops/datasets_file_names/",
   get_columns_for_selected_files: "datahub/dataset_ops/datasets_col_names/",
   joining_the_table: "datahub/dataset_ops/datasets_join_condition/"
+
 };
 
 export default UrlConstant;
