@@ -28,6 +28,7 @@ import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Projec
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
+import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 
 function Participant(props) {
   return (
@@ -128,6 +129,12 @@ function Participant(props) {
               path="/participant/dataset/view/:id"
               component={ViewMetaDatasetDetails}
               />
+                <Route
+              exact
+              path="/participant/integration"
+              >
+              <DatasetIntegration/>
+              </Route>
             </Switch>
           </div>
           <Footer />

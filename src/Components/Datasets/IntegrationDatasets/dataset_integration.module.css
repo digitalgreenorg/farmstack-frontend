@@ -1,0 +1,143 @@
+.select_dataset_logo {
+    text-align: left;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 138.69%;
+    /* identical to box height, or 28px */
+
+
+    /* headings */
+    color: #3D4A52;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.add_dataset_btn {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    /* identical to box height */
+
+
+    color: #3491EE;
+    cursor: pointer;
+}
+
+.add_dataset_btn_dis {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    /* identical to box height */
+
+
+    color: #4b6279;
+    cursor: default
+}
+
+
+
+.accordion_header {
+
+    font-family: 'Open Sans' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+    /* identical to box height, or 150% */
+
+
+    /* Text/Light/Primary */
+
+    color: #212B36;
+
+}
+
+.generate_btn_parent_col {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.generate_data_btn {
+    width: 200px !important;
+    height: 42px !important;
+    background: #C09507 !important;
+    color: white !important;
+    text-transform: none !important;
+    padding: 11.5px 23px;
+
+}
+
+.download_btn {
+    height: 16px !important;
+    width: 16px !important;
+    margin-right: 14px !important;
+}
+
+.table_head {
+    background: #F8F8F8;
+    border: 1px solid #E4E4E4;
+}
+
+.accordion_detail {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    align-items: center;
+    text-align: left;
+    padding: 10px 50px !important;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height, or 138% */
+
+
+    /* Text/Light/Primary */
+
+    color: #212B36;
+
+}
+
+.select_all_btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    padding: 0px 50px !important;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #212B36 !important;
+}
+
+.each_select_for_dataset {
+    margin: 15px 0px;
+}
+
+.generate_data_btn_dis {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    /* identical to box height */
+
+
+    background-color: #9aa7b5 !important;
+    cursor: auto !important;
+
+    width: 200px !important;
+    height: 42px !important;
+
+    color: white !important;
+    text-transform: none !important;
+    padding: 11.5px 23px;
+}
