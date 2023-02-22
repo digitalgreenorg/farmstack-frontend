@@ -67,17 +67,17 @@ const GuestUserNavBar = (props) => {
                 {/* <Bars /> */}
                 <NavMenu>
                   <Toolbar>
-                  <img
-                    src={Farmstack}
-                    alt="FarmStack"
-                    style={{
-                      "margin-left": "-9px",
-                      "margin-top": "9px",
-                    }}
-                    className="image"
-                  />
+                    <img
+                      src={Farmstack}
+                      alt="FarmStack"
+                      style={{
+                        "margin-left": "-9px",
+                        "margin-top": "9px",
+                      }}
+                      className="image"
+                    />
                   </Toolbar>
-                {/* </AppBar> */}
+                  {/* </AppBar> */}
 
                 </NavMenu>
               </Col>
@@ -112,7 +112,7 @@ const GuestUserNavBar = (props) => {
                     style={{
                       width: "52px",
                       height: "52px",
-                      "margin-left": "-50px",
+                      "margin-left": "50px",
                       "margin-top": "9px",
                     }}
                   />

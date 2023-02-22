@@ -7,13 +7,15 @@ import GuestUserDescription from "../../Components/GuestUser/GuestUserDescriptio
 import NoDatasetGuestUserPage from "../../Components/GuestUser/NoDatasetGuestUserPage";
 import Loader from "../../Components/Loader/Loader";
 import GuestUserNavBar from "../../Components/Navbar/GuestUserNavbar";
-import THEME_COLORS from "../../Constants/ColorConstants";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import "./GuestUserHome.css";
 import GuestMainPageCarousel from "../../Components/GuestUser/GuestUserMainPage/GuestMainPageCarousel";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import LeftRightDescription from "../../Components/GuestUser/GuestUserMainPage/LeftRightDescription";
+import ViewDetail from "../../Components/GuestUser/GuestUserMainPage/ViewDetail";
+
 // const useStyles = {
 //   btncolor: {
 //     color: "white",
@@ -34,6 +36,9 @@ export default function GuestUserMainHomePage(props) {
     const [costewardData, setCosteward] = useState([])
     const [participant, setParticipant] = useState([])
     const [datasets, setDatasets] = useState([])
+    const [isViewDetails, setIsViewDetails] = useState(false)
+    const [viewDetailData, setViewDetailData] = useState({})
+    const [isExploreDatasetViewOn, setIsExploreDatasetViewOn] = useState(false)
     const getAllDataOfParticipantAndCoSteward = (userType) => {
         HTTPService(
             userType == "dataset" ? "POST" : "GET",
@@ -107,7 +112,10 @@ export default function GuestUserMainHomePage(props) {
                     />
                     <GuestUserDescription />
                     {/* <GuestUserDatasets /> */}
-                    <GuestMainPageCarousel datasets={datasets} costewardData={costewardData} participant={participant} />
+                    {isViewDetails && <ViewDetail viewDetailData={viewDetailData} setIsViewDetails={setIsViewDetails} />}
+                    {isExploreDatasetViewOn && !isViewDetails && <GuestUserDatasets setIsExploreDatasetViewOn={setIsExploreDatasetViewOn} />}
+                    {!isExploreDatasetViewOn && !isViewDetails && <GuestMainPageCarousel setViewDetailData={setViewDetailData} setIsViewDetails={setIsViewDetails} setIsExploreDatasetViewOn={setIsExploreDatasetViewOn} datasets={datasets} costewardData={costewardData} participant={participant} />}
+                    {!isExploreDatasetViewOn && !isViewDetails && <LeftRightDescription setIsExploreDatasetViewOn={setIsExploreDatasetViewOn} />}
                 </>
             )}
             <Footer disableHomeLink={true} />
