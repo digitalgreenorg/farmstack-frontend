@@ -991,6 +991,43 @@ button.disbalesubmitbtndept {
   left: 0px !important;
 }
 
+.dataset_selector_in_integration .MuiSvgIcon-root {
+  color: #000000 !important;
+}
+
+.dataset_selector_in_integration .MuiCollapse-entered {
+  background: #FFFFFF !important;
+  box-shadow: 0px 20px 40px -4px rgb(145 158 171 / 16%) !important;
+  border-radius: 8px !important;
+}
+
+.accordion_for_columns_under_integration .accordion_detail .MuiSvgIcon-root,
+.accordion_for_columns_under_integration .select_all_btn .MuiSvgIcon-root {
+  color: #637381 !important;
+}
+
+.dataset_selector_in_integration .MuiDataGrid-columnHeaders {
+  background: #F8F8F8 !important;
+  border: 1px solid #E4E4E4 !important;
+  height: 42px !important;
+}
+
 .react-multi-email input {
   min-width: 500px !important;
+}
+
+.carousel_in_guest_user_main_page .slick-current {
+  /* height: 300px !important;
+  width: 400px !important; */
+  /* height: 300px; */
+
+}
+
+.carousel_in_guest_user_main_page .slick-arrow {
+  height: 50px !important;
+  width: 50px !important;
+  background-color: rgba(228, 228, 228, 1) !important;
+  z-index: 10;
+  border-radius: 10px !important;
+
 }

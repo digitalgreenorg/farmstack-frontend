@@ -40,6 +40,7 @@ import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 import ViewCoSteward from "../Components/Participants/ViewCoSteword";
 import EditCoSteward from "../Components/Participants/EditCoSteward";
+import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -88,11 +89,11 @@ function Datahub(props) {
                 path="/datahub/participants/invite"
                 component={InviteParticipants}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/participants"
                 component={Participants}
-              />
+              /> */}
               {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
               <Route exact path="/datahub/datasets/add" component={AddDataset} />
               <Route
@@ -169,16 +170,22 @@ function Datahub(props) {
               path="/datahub/dataset/view/:id"
               component={ViewMetaDatasetDetails}
               />
-              {/* <Route
+              <Route
               exact
               path="/datahub/participants"
               component={ParticipantCoStewardManagement}
-              /> */}
+              />
                <Route 
               exact
               path="/datahub/participants/addcosteward"
               component={AddCoSteward}      
               />
+               <Route
+              exact
+              path="/datahub/integration"     
+              >
+              <DatasetIntegration/>
+              </Route>
             </Switch>
           </div>
           <Footer />
