@@ -234,7 +234,6 @@ export default function GuestUserDatasetCard(props) {
                 {/* {toTitleCase(`View details`)} */}
                 View details
               </Button>
-
             </Col>
           ) : (
             <></>
