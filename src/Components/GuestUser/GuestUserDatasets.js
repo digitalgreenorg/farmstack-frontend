@@ -25,7 +25,11 @@ import GuestUserDatasetListing from "./GuestUserDatasetListing";
 import ViewDataSet from "../Datasets/viewDataSet";
 import Axios from "axios";
 import RegexConstants from "../../Constants/RegexConstants";
-export default function GuestUserDatasets() {
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import styles from "./guestUserLegal.module.css";
+
+export default function GuestUserDatasets(props) {
+  const { setIsExploreDatasetViewOn } = props
   const [isLoader, setIsLoader] = useState(false);
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
   const [showLoadMoreAdmin, setShowLoadMoreAdmin] = useState(false);
@@ -877,7 +881,7 @@ export default function GuestUserDatasets() {
     fromDateandToDate.push(new Date(fromdate.getTime() - (fromdate.getTimezoneOffset() * 60000)).toJSON());
     // Adding 86400000 will add 1 more day in date (86400000 == 24hrs)
     fromDateandToDate.push(new Date(todate.getTime() - (todate.getTimezoneOffset() * 60000) + 86400000).toJSON());
-    console.log('payload in date fillter api',fromDateandToDate, fromdate, todate)
+    console.log('payload in date fillter api', fromDateandToDate, fromdate, todate)
 
 
     setIsShowAll(false);
@@ -970,6 +974,18 @@ export default function GuestUserDatasets() {
           <div className="guestdiv">
             <Row className="supportfirstmaindiv">
               <Row className="supportmaindiv">
+                <Box
+                  onClick={() => setIsExploreDatasetViewOn(false)}
+                  className={styles.backButtonMainDiv + " back_btn_guest"}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "left",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <ArrowBackIcon></ArrowBackIcon>{" "}
+                  <span style={{ marginLeft: "14px" }}>{labels.en.common.back}</span>{" "}
+                </Box>
                 <Row className="supportfilterRow">
                   <Col className="supportfilterCOlumn">
                     <GuestUserDatasetFilter
