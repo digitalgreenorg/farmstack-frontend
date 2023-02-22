@@ -91,6 +91,9 @@ export default function OrgRightside(props) {
           props.setOrgWebsite(response?.data?.organization?.website);
           props.setOrgAddress(response?.data?.organization?.address?.address || JSON.parse(response?.data?.organization?.address)?.address);
           props.setCountryValue(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country)
+          if(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country){
+            props.setOrgcountrybtn(true);
+          }
           props.setValidOrgnumber(response?.data?.user?.phone_number);
           props.setOrgPincode(response?.data?.organization?.address?.pincode ||  JSON.parse(response?.data?.organization?.address)?.pincode)
 
