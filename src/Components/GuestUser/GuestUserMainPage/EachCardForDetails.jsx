@@ -7,7 +7,7 @@ import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import StorageIcon from '@mui/icons-material/Storage';
 import GroupsIcon from '@mui/icons-material/Groups';
 const EachCardForDetails = (props) => {
-    const { heading, no, address, icon, eachData } = props
+    const { heading, no, address, icon, eachData, setIsViewDetails, setViewDetailData } = props
     return (
         <span className={styles.main_card} >
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", }}>
@@ -47,6 +47,11 @@ const EachCardForDetails = (props) => {
                     </span>
                     <Button
                         variant="outlined"
+                        onClick={() => {
+                            setViewDetailData(eachData)
+                            setIsViewDetails(true)
+                        }
+                        }
                         className={styles.btncolor} >View details</Button>
                 </div>
             </div>
