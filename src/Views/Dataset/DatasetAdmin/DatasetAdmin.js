@@ -23,6 +23,7 @@ import {
   getUserLocal,
   getUserMapId,
   dateTimeFormat,
+  isLoggedInUserCoSteward,
 } from "../../../Utils/Common";
 import ViewDataSet from "../../../Components/Datasets/viewDataSet";
 import Success from "../../../Components/Success/Success";
@@ -542,6 +543,9 @@ export default function DatasetAdmin() {
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
     data["name__icontains"] = val.trim();
+    if(isLoggedInUserCoSteward()){
+    data["on_boarded_by"] = true
+    }
     if (isMemberTab) {
       data["others"] = true;
     } else {
@@ -608,6 +612,9 @@ export default function DatasetAdmin() {
     payload["org_id"] = getOrgLocal();
     payload["others"] = true;
     payload["name__icontains"] = searchValOtherOrg.val.trim();
+    if(isLoggedInUserCoSteward()) {
+      payload["on_boarded_by"] = true;
+    }
 
     HTTPService(
       "POST",
@@ -673,6 +680,9 @@ export default function DatasetAdmin() {
     payload["org_id"] = getOrgLocal();
     payload["others"] = false;
     payload["name__icontains"] = searchValMyOrg.val.trim();
+    if(isLoggedInUserCoSteward()) {
+      payload["on_boarded_by"] = true;
+    }
 
     // setFilterState(payload)
     // if(searchDatasetVar){
@@ -746,6 +756,9 @@ export default function DatasetAdmin() {
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
     data["name__icontains"] = val.trim();
+    if(isLoggedInUserCoSteward()) {
+      data["on_boarded_by"] = true;
+    }
     if (isMemberTab) {
       data["others"] = true;
     } else {
@@ -868,7 +881,9 @@ export default function DatasetAdmin() {
     var payloadData = {};
     payloadData["user_id"] = getUserLocal();
     payloadData["org_id"] = getOrgLocal();
-    payloadData["on_boarded_by"] = getUserLocal();
+    if(isLoggedInUserCoSteward()) {
+    payloadData["on_boarded_by"] = true;
+    }
     // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
     //commented since dataset filter is based on onboarded_by id not, others
     // if (isMemberTab) {
@@ -1050,6 +1065,9 @@ export default function DatasetAdmin() {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = false;
+        if(isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = true
+        }
         setFilterState(payload);
       }
     } else {
@@ -1106,7 +1124,9 @@ export default function DatasetAdmin() {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = false;
-        payload["on_boarded_by"] = getUserLocal();
+        if(isLoggedInUserCoSteward()) {
+        payload["on_boarded_by"] = true
+        }
         console.log("payload sent", payload);
         setFilterState(payload);
       }
@@ -1169,6 +1189,9 @@ export default function DatasetAdmin() {
     }
     data["user_id"] = userId;
     data["org_id"] = getOrgLocal();
+    if(isLoggedInUserCoSteward()) {
+      data["on_boarded_by"] = true
+    }
     // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
     if (isMemberTab) {
       data["others"] = true;
