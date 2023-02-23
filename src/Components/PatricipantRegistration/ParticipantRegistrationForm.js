@@ -211,18 +211,9 @@ export default function ParticipantRegistrationForm(props) {
                 </span>
             </Col>
             </Row>
-            <Row>
-            <Stack sx={{ width: "50%", textAlign: "left" }} spacing={2}>
-                  <Alert severity="warning">
-                    <strong>
-                      If you dont select your co-steward, you will be under steward network
-                    </strong>
-                  </Alert>
-                </Stack>
-            </Row>
             <Row style={useStyles.marginrowtop}>
             <Col xs={12} sm={12} md={6} lg={6} >
-            <FormControl variant="filled" sx={{ m: 1, width: 420 }}>
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }}  style={useStyles.inputwidth}>
               <InputLabel id="demo-simple-select-required-label">
                 {"Select Co-Steward"}
               </InputLabel>
@@ -230,20 +221,28 @@ export default function ParticipantRegistrationForm(props) {
                 labelId="demo-simple-select-required-label"
                 id="select_costeward"
                 value={props.selectCoSteward}
-                // onChange={props.handleChangeDataset}
+                onChange={props.handlelistofCosteward}
                 >
-                // {/* {props.datasets.map((dataset, index) => ( */}
-                  {/* <MenuItem >
-                    
-                  </MenuItem> */}
-                  <MenuItem></MenuItem>
+                 {/* {props.selectCoSteward.map((listofcosteward) => (
+                   <MenuItem value={listofcosteward}>
+                    {listofcosteward}
+                  </MenuItem> 
             
-                {/* ))} */}
+                 ))}  */}
                 </Select>
               </FormControl>
             </Col>
 
           </Row>
+          <Row>
+            <Stack sx={{ width: "48%", textAlign: "left", height: '48px', paddingLeft: "25px" }} spacing={2}>
+                  <Alert severity="warning">
+                    <strong>
+                      If you do not select your co-steward, you will be the part of Steward network
+                    </strong>
+                  </Alert>
+                </Stack>
+            </Row>
 
            </>
     )

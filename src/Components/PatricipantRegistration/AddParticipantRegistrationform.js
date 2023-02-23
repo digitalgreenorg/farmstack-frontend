@@ -63,6 +63,9 @@ function AddParticipantsRegistrationform(props) {
   const [errorOrSuccess, setErrorOrSuccess] = useState("error")
   const [selectCoSteward, setSelectCoSteward] = useState("")
 
+  useEffect(() => {
+    getListOfCostewards()
+  }, [])
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
     return res !== null;
@@ -95,7 +98,30 @@ function AddParticipantsRegistrationform(props) {
     </React.Fragment>
   );
 
-
+  const getListOfCostewards = () => {
+    setIsLoader(true);
+    HTTPService(
+      'GET', 
+       UrlConstants.base_url + UrlConstants.costewardlist_selfregister,
+       '', 
+       false, 
+       false,
+       false
+       )
+    .then((response) => {
+        setIsLoader(false);
+        console.log(response)
+        setSelectCoSteward(response.data.organization_name)
+        console.log("otp valid", response.data);
+    }).catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+    });
+};
+const handlelistofCosteward = (e) => {
+  console.log(e.target.value)
+  setSelectCoSteward(e.target.value)
+}
   const addNewParticipants = () => {
 
     setFirstNameErrorMessage(null)
@@ -253,6 +279,10 @@ function AddParticipantsRegistrationform(props) {
               orgNameErrorMessage={orgNameErrorMessage}
               orgEmailErrorMessage={orgEmailErrorMessage}
               orgWebsiteErrorMessage={orgWebsiteErrorMessage}
+              selectCoSteward={selectCoSteward}
+              setSelectCoSteward={setSelectCoSteward}
+              getListOfCostewards={getListOfCostewards}
+              handlelistofCosteward={handlelistofCosteward}
               ></ParticipantRegistrationForm>
             <Row>
               <Col xs={12} sm={12} md={6} lg={3}></Col>
