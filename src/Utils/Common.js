@@ -251,7 +251,7 @@ export const openLinkInNewTab = (url) => {
 };
 
 export const mobileNumberMinimunLengthCheck = (number) => {
-  return number.length >= 10;
+  return number.length == 15;
 };
 
 export function toTitleCase(str) {
