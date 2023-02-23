@@ -808,7 +808,7 @@ export default function OrgRightside(props) {
               <span className="signupbtnname">Next</span>
             </Button> */}
             {props.orgName &&
-            props.validOrgNumber.length > 8 &&
+            props.validOrgNumber.length == 15 &&
             !props.isOrgnameerror &&
             props.Orgemailbtn &&
             !props.isOrgmailerror &&
