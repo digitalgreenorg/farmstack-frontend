@@ -61,6 +61,7 @@ function AddParticipantsRegistrationform(props) {
   const [messageForSnackBar, setMessageForSnackBar] = useState("")
   const [messageForlogin, setMessageForLogin] = useState("")
   const [errorOrSuccess, setErrorOrSuccess] = useState("error")
+  const [selectCoSteward, setSelectCoSteward] = useState("")
 
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
