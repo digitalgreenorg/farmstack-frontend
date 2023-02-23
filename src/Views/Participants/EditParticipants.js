@@ -109,7 +109,7 @@ function EditParticipants(props) {
         bodyFormData.append('website', websitelink);
         bodyFormData.append('address', JSON.stringify({ "address": organisationaddress, "country": countryvalue, "pincode": pincode }));
         // bodyFormData.append('subscription', organisationlength);
-        bodyFormData.append('role', 6);
+        {props.coSteward ? bodyFormData.append('role', 6) : bodyFormData.append('role', 3)}
         bodyFormData.append('id', idorg);
         bodyFormData.append("approval_status", istrusted)
         console.log("dfdfdsf", bodyFormData)
