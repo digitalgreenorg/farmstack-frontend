@@ -71,7 +71,7 @@ export default function OrgRightside(props) {
     HTTPService(
       "GET",
       UrlConstant.base_url +
-        ((isLoggedInUserParticipant() || isLoggedInUserCoSteward())
+        (isLoggedInUserParticipant() || isLoggedInUserCoSteward()
           ? UrlConstant.participant
           : UrlConstant.org) +
         id +
@@ -89,13 +89,25 @@ export default function OrgRightside(props) {
           props.setOrgName(response?.data?.organization?.name);
           props.setOrgMail(response?.data?.organization?.org_email);
           props.setOrgWebsite(response?.data?.organization?.website);
-          props.setOrgAddress(response?.data?.organization?.address?.address || JSON.parse(response?.data?.organization?.address)?.address);
-          props.setCountryValue(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country)
-          if(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country){
+          props.setOrgAddress(
+            response?.data?.organization?.address?.address ||
+              JSON.parse(response?.data?.organization?.address)?.address
+          );
+          props.setCountryValue(
+            response?.data?.organization?.address?.country ||
+              JSON.parse(response?.data?.organization?.address)?.country
+          );
+          if (
+            response?.data?.organization?.address?.country ||
+            JSON.parse(response?.data?.organization?.address)?.country
+          ) {
             props.setOrgcountrybtn(true);
           }
           props.setValidOrgnumber(response?.data?.user?.phone_number);
-          props.setOrgPincode(response?.data?.organization?.address?.pincode ||  JSON.parse(response?.data?.organization?.address)?.pincode)
+          props.setOrgPincode(
+            response?.data?.organization?.address?.pincode ||
+              JSON.parse(response?.data?.organization?.address)?.pincode
+          );
 
           if (
             response?.data?.organization?.name &&
@@ -836,7 +848,7 @@ export default function OrgRightside(props) {
               </Button>
             )}
           </div>
-          {(isLoggedInUserParticipant() || isLoggedInUserCoSteward() ) && (
+          {(isLoggedInUserParticipant() || isLoggedInUserCoSteward()) && (
             <div>
               <Button
                 variant="outlined"
