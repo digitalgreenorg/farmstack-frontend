@@ -17,6 +17,7 @@ const UrlConstant = {
   login: "accounts/login/",
   otp: "accounts/otp/",
   participant: "datahub/participant/",
+  costewardlist_selfregister: "datahub/participant/get_list_co_steward/",
   support: "datahub/support/filters_tickets/",
   resolution: "datahub/support/",
   inviteparticipant: "datahub/send_invite/",
