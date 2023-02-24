@@ -64,7 +64,7 @@ export default function LiveApiConnection(props) {
     bodyFormData.append("dataset_name", datasetname)
     bodyFormData.append("file_name", fileName)
     bodyFormData.append("source", "live_api")
-    bodyFormData.append("api_key", authkey)
+    bodyFormData.append("api_key", "Bearer "+ authkey)
     bodyFormData.append("url", apifield)
     let accesstoken = isaccesstoken || getTokenLocal();
     let url = ""
@@ -156,7 +156,7 @@ export default function LiveApiConnection(props) {
             }}
             style={{ width: "80%", marginTop: "20px" }} id="auth_key"
             value={authkey}
-            onChange={(e) => setAuthKey(e.target.value == "" ? `Bearer ${e.target.value}` : e.target.value)}
+            onChange={(e) => setAuthKey(e.target.value)}
             label="Authentication Key" name='host_address' variant="standard" />
           <Col lg={6} sm={12} className='textfield_row' style={{ "marginTop": "100px", "marginLeft": "-10px" }}>
             <Button

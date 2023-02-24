@@ -128,7 +128,7 @@ export default function OrgRightside(props) {
             response?.data?.organization?.website &&
             response?.data?.organization?.website.trim().length > 0
           ) {
-            props.isOrgWebsiteerror(false);
+            props.setisOrgWebsiteerror(false);
           }
 
           if (response.data.organization.address) {
@@ -820,7 +820,7 @@ export default function OrgRightside(props) {
               <span className="signupbtnname">Next</span>
             </Button> */}
             {props.orgName &&
-            props.validOrgNumber.length == 15 &&
+            props.validOrgNumber?.length == 15 &&
             !props.isOrgnameerror &&
             props.Orgemailbtn &&
             !props.isOrgmailerror &&
@@ -829,11 +829,11 @@ export default function OrgRightside(props) {
             props.orgCity &&
             !props.isOrgcityerror &&
             props.Orgcountrybtn &&
-            props.orgPincode.length >= 5 &&
+            props.orgPincode?.length >= 5 &&
             !props.ispincodeerror &&
             Orgdesbtn &&
             props.orgfile != null &&
-            props.orgfile.size < 2097152 ? (
+            props.orgfile?.size < 2097152 ? (
               <Button
                 onClick={props.handleOrgSubmit}
                 variant="contained"
