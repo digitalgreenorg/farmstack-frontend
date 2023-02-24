@@ -1,12 +1,7 @@
-import { useHistory } from "react-router-dom";
 import LocalStorageConstants from "../Constants/LocalStorageConstants";
 import RegexConstants from "../Constants/RegexConstants";
-import React from "react";
-import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
-import HTTPService from "../Services/HTTPService";
 import FileSaver from "file-saver";
-import UrlConstant from "../Constants/UrlConstants";
 export const setTokenLocal = (token) => {
   localStorage.setItem(
     LocalStorageConstants.KEYS.JWTToken,
@@ -155,7 +150,7 @@ export const getErrorLocal = () => {
 export const isLoggedInUserAdmin = () => {
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
     : false;
 };
 
@@ -163,14 +158,14 @@ export const isLoggedInUserParticipant = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
     : false;
 };
 export const isLoggedInUserCoSteward = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
     : false;
 };
 
@@ -236,13 +231,13 @@ export const openLinkInNewTab = (url) => {
   console.log(url);
   if (url.includes("http")) {
     localStorage.setItem("show_data", JSON.stringify(url));
-    window.open(url, '_blank');
+    window.open(url, "_blank");
 
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // history.push("connectors/detail")
   } else {
     localStorage.setItem("show_data", JSON.stringify("http://" + url));
-    window.open(url, '_blank');
+    window.open(url, "_blank");
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
     // window.open("http://"+url,'_blank');
@@ -284,20 +279,17 @@ export function debounce(func, wait) {
   };
 }
 export const adminNotFoundRoute = (e) => {
-  var errorMessage = '';
+  var errorMessage = "";
   if (e.response && e.response.data && e.response.data.message) {
-    errorMessage = e.response.data.message
-  }
-
-  else if (e.response) {
-    errorMessage = e.response.statusText
-  }
-  else {
-    errorMessage = 'Admin not found'
+    errorMessage = e.response.data.message;
+  } else if (e.response) {
+    errorMessage = e.response.statusText;
+  } else {
+    errorMessage = "Admin not found";
   }
   setErrorLocal({
-    'ErrorCode': e.response ? e.response.status : 'Admin not found',
-    'ErrorMessage': errorMessage
+    ErrorCode: e.response ? e.response.status : "Admin not found",
+    ErrorMessage: errorMessage,
   });
   if (
     e.response != null &&
