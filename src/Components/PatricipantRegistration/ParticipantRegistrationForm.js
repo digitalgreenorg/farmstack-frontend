@@ -10,18 +10,17 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import countryList from "react-select-country-list";
 import MuiPhoneNumber from "material-ui-phone-number";
-import { FormControlLabel } from '@mui/material';
-import Checkbox from "@mui/material/Checkbox";
 import RegexConstants from '../../Constants/RegexConstants';
 import { Stack } from '@mui/material';
 import Alert from "@mui/material/Alert";
-import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validateInputField } from '../../Utils/Common';
-// import Select from 'react-select'
+import { handleAddressCharacters, validateInputField } from '../../Utils/Common';
+
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
     marginrowtop: {"margin-top": "30px"},
     marginrowtop50: {"margin-top": "50px"},
     inputwidth:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52'},
+    inputwidthcofield: {"margin-right" : "100px", width: "98%", "text-align": "left", height: '48px', color: '#3D4A52'},
     inputwidthlastrow:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52', "margin-top": "-10px"},
     headingbold:{fontWeight: "bold"}
 };
@@ -211,39 +210,35 @@ export default function ParticipantRegistrationForm(props) {
                 </span>
             </Col>
             </Row>
+            <Row>
+            <Stack sx={{ width: "97%", textAlign: "left", height: '48px', paddingLeft: "28px", paddingTop: "15px" }} spacing={2}>
+                  <Alert severity="warning">
+                    <strong>
+                      If you do not select your Co-Steward, you will be the part of Steward network
+                    </strong>
+                  </Alert>
+                </Stack>
+            </Row>
             <Row style={useStyles.marginrowtop}>
-            <Col xs={12} sm={12} md={6} lg={6} >
-            <FormControl variant="filled" sx={{ m: 1, width: 420 }}  style={useStyles.inputwidth}>
+            <Col xs={12} sm={12} md={12} lg={12}>
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }}  style={useStyles.inputwidthcofield}>
               <InputLabel id="demo-simple-select-required-label">
                 {"Select Co-Steward"}
               </InputLabel>
               <Select
                 labelId="demo-simple-select-required-label"
                 id="select_costeward"
-                value={props.selectCoSteward}
+                value={props.selectedCosteward}
                 onChange={props.handlelistofCosteward}
                 >
-                 {/* {props.selectCoSteward.map((listofcosteward) => (
-                   <MenuItem value={listofcosteward}>
-                    {listofcosteward}
-                  </MenuItem> 
-            
-                 ))}  */}
+                 {props.selectCoSteward.map((listofcosteward, index) => {
+                 return <MenuItem key={index} value={listofcosteward.user}> {listofcosteward.organization_name} </MenuItem>  
+                })} 
                 </Select>
               </FormControl>
             </Col>
 
           </Row>
-          <Row>
-            <Stack sx={{ width: "48%", textAlign: "left", height: '48px', paddingLeft: "25px" }} spacing={2}>
-                  <Alert severity="warning">
-                    <strong>
-                      If you do not select your co-steward, you will be the part of Steward network
-                    </strong>
-                  </Alert>
-                </Stack>
-            </Row>
-
            </>
     )
 }

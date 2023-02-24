@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../Components/Navbar/Navbar";
 import ParticipantRegistrationForm from "./ParticipantRegistrationForm";
 import Success from "../../Components/Success/Success";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import labels from "../../Constants/labels";
-// import Button from "@mui/material/Button";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstants from "../../Constants/UrlConstants";
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../Constants/RegexConstants";
-import HandleSessionTimeout, { GetErrorHandlingRoute, GetErrorKey, mobileNumberMinimunLengthCheck, validateInputField } from "../../Utils/Common";
+import { GetErrorHandlingRoute, GetErrorKey, mobileNumberMinimunLengthCheck } from "../../Utils/Common";
 import Loader from "../../Components/Loader/Loader";
 import { Snackbar, Button, IconButton, Alert  } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+
 const useStyles = {
   btncolor: {
     color: "white",
@@ -59,13 +58,14 @@ function AddParticipantsRegistrationform(props) {
   const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
   const [open, setOpen] = React.useState(false)
   const [messageForSnackBar, setMessageForSnackBar] = useState("")
-  const [messageForlogin, setMessageForLogin] = useState("")
   const [errorOrSuccess, setErrorOrSuccess] = useState("error")
-  const [selectCoSteward, setSelectCoSteward] = useState("")
+  const [selectCoSteward, setSelectCoSteward] = useState([])
+  const [selectedCosteward, setSelectedCosteward] = useState([])
 
   useEffect(() => {
     getListOfCostewards()
   }, [])
+
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
     return res !== null;
@@ -101,26 +101,26 @@ function AddParticipantsRegistrationform(props) {
   const getListOfCostewards = () => {
     setIsLoader(true);
     HTTPService(
-      'GET', 
+      'POST', 
        UrlConstants.base_url + UrlConstants.costewardlist_selfregister,
        '', 
        false, 
        false,
-       false
        )
     .then((response) => {
         setIsLoader(false);
         console.log(response)
-        setSelectCoSteward(response.data.organization_name)
-        console.log("otp valid", response.data);
+        setSelectCoSteward([...response.data])
+        console.log("response of costewards", response.data);
     }).catch((e) => {
+        setMessageForSnackBar("Get list of Co-Stewards failed!!!")
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
     });
 };
 const handlelistofCosteward = (e) => {
   console.log(e.target.value)
-  setSelectCoSteward(e.target.value)
+  setSelectedCosteward(e.target.value)
 }
   const addNewParticipants = () => {
 
@@ -141,6 +141,8 @@ const handlelistofCosteward = (e) => {
     bodyFormData.append("name", organisationname);
     bodyFormData.append("phone_number", contactnumber);
     bodyFormData.append("website", websitelink);
+    bodyFormData.append("on_boarded_by", selectedCosteward)
+    
     bodyFormData.append(
       "address",
       JSON.stringify({
@@ -158,10 +160,10 @@ const handlelistofCosteward = (e) => {
       false
     )
       .then((response) => {
+        console.log(response)
         setIsLoader(false);
         setisSuccess(true);
         setMessageForSnackBar("You are added as a Participant")
-        setMessageForLogin("Click OK to login as Participant")
         setErrorOrSuccess("success")
         handleClick()
       })
@@ -183,7 +185,7 @@ const handlelistofCosteward = (e) => {
               case "name": setOrgNameErrorMessage(errorMessages[i]); break;
               case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
               case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+              default: setMessageForSnackBar("Something went wrong"); break;
             }
           }
         }
@@ -283,6 +285,7 @@ const handlelistofCosteward = (e) => {
               setSelectCoSteward={setSelectCoSteward}
               getListOfCostewards={getListOfCostewards}
               handlelistofCosteward={handlelistofCosteward}
+              selectedCosteward={selectedCosteward}
               ></ParticipantRegistrationForm>
             <Row>
               <Col xs={12} sm={12} md={6} lg={3}></Col>
