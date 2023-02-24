@@ -141,10 +141,7 @@ const AddDataset = (props) => {
             payload,
             true,
             true,
-<<<<<<< HEAD
-=======
             checkforAccess
->>>>>>> 1ccee2c56870ec8441cc2c390112ae273047eb17
         ).then((response) => {
             console.log("RESPONSE", response)
             if (source == "file") {
