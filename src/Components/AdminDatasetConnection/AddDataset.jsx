@@ -134,13 +134,14 @@ const AddDataset = (props) => {
         payload.append("file_name", filename)
         payload.append("dataset_name", datasetname)
         console.log("PAYLOAD CREATED", payload)
-
+        let checkforAccess = isaccesstoken ? isaccesstoken : false;
         HTTPService(
             "DELETE",
             UrlConstant.base_url + UrlConstant.dataseteth,
             payload,
             true,
-            true
+            true,
+            checkforAccess
         ).then((response) => {
             console.log("RESPONSE", response)
             if (source == "file") {

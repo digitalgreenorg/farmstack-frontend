@@ -334,7 +334,8 @@ export default function ViewMetaDatasetDetails(props) {
                 <Col className='viewdetails_table' >
                   {isFileDataLoaded && fileData.map(itm1 => {
                     return (itm1?.content?.length > 0 && <Row style={{ padding: "10px" }}>
-                      {itm1?.file ? <label>  File name : {itm1?.file?.split("/")[5]}</label> : ""}
+                      {itm1?.file ? <label>  File name : {itm1?.file?.split("/").pop()}</label> : ""} 
+                      {itm1?.source? <label style={{"padding-left": "10px", "text-transform": "capitalize"}}>- {itm1?.source}</label> : ""} 
                       <span style={{ maxHeight: "300px", marginTop: "15px", padding: "0px 20px", overflow: "auto" }}>
 
                         <Table
@@ -397,12 +398,12 @@ export default function ViewMetaDatasetDetails(props) {
                             cursor: `${userType != "guest" ? "pointer" : ""}`
                           }}
                           onClick={() =>
-                            downloadAttachment(UrlConstant.base_url + downloadfile?.file ? downloadfile?.file : "", downloadfile?.file?.split("/")[5])
+                            downloadAttachment(UrlConstant.base_url + downloadfile?.file ? downloadfile?.file : "", downloadfile?.file?.split("/").pop())
                           }
                         >
                           <FileDownloadSharpIcon
                             style={{ marginRight: "20px" }} />
-                          <Row>{downloadfile?.file?.split("/")[5]}
+                          <Row>{downloadfile?.file?.split("/").pop()}
                             {/* <hr className="separatorline" /> */}
                             {/* m */}
                           </Row>
@@ -429,7 +430,7 @@ export default function ViewMetaDatasetDetails(props) {
                       <Row className='details' >
                         {orgdetail.name}</Row>
                       <Row className='details' >{orgdetail.org_email}</Row>
-                      <Row className='details' >{orgdes ? parse(orgdes) : orgdes}</Row>
+                      {/* <Row className='details' >{orgdes ? parse(orgdes) : orgdes}</Row> */}
                       <Row className='details'>{orgdetail?.phone_number}</Row>
                       <Row className='details'>{orgdetail?.address?.city}</Row>
                       <Row className='details'>{orgdetail?.address?.country}</Row>
