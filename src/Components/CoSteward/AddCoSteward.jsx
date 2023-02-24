@@ -15,6 +15,7 @@ import {
   GetErrorHandlingRoute,
   GetErrorKey,
   mobileNumberMinimunLengthCheck,
+  stringMinimumLengthCheck,
 } from "../../Utils/Common";
 import Loader from "../../Components/Loader/Loader";
 import CoStewardForm from "../CoSteward/CoStewardForm";
@@ -236,7 +237,7 @@ export default function AddCoSteward(props) {
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
-                pincode &&
+                stringMinimumLengthCheck(pincode, 5) &&
                 firstname &&
                 useremail &&
                 !isuseremailerror ? (

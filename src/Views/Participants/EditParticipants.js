@@ -13,7 +13,11 @@ import validator from "validator";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
-import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  stringMinimumLengthCheck,
+} from "../../Utils/Common";
 const useStyles = {
   btncolor: {
     color: "white",
@@ -314,7 +318,7 @@ function EditParticipants(props) {
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
-                pincode &&
+                stringMinimumLengthCheck(pincode, 5) &&
                 firstname &&
                 useremail &&
                 !isuseremailerror ? (
