@@ -29,6 +29,7 @@ import HandleSessionTimeout, {
   fileUpload,
   GetErrorHandlingRoute,
   validateInputField,
+  stringMinimumLengthCheck,
 } from "../../../../Utils/Common";
 import RegexConstants from "../../../../Constants/RegexConstants";
 // import {
@@ -713,7 +714,8 @@ export default function ParticipantOrganisationSetting(props) {
                 }
               }}
               isSearchable={true}
-              label={screenlabels.addparticipants.country}>
+              label={screenlabels.addparticipants.country}
+            >
               {options.map((rowData, index) => (
                 <MenuItem value={rowData.label}>{rowData.label}</MenuItem>
               ))}
@@ -749,7 +751,8 @@ export default function ParticipantOrganisationSetting(props) {
             marginTop: "20px",
             textAlign: "left",
             marginLeft: "-25px",
-          }}>
+          }}
+        >
           <Col xs={12} sm={12} md={12} lg={12}>
             <span className="orgdestitle">
               Organization description<sup>*</sup>
@@ -760,7 +763,8 @@ export default function ParticipantOrganisationSetting(props) {
           <Col xs={12} sm={12} md={12} lg={12}>
             <div
               className="invite-participant-text-editor orgrte"
-              style={{ display: "flex", flexDirection: "column" }}>
+              style={{ display: "flex", flexDirection: "column" }}
+            >
               <RichTextEditor
                 toolbarConfig={toolbarConfig}
                 value={editorValue}
@@ -790,7 +794,8 @@ export default function ParticipantOrganisationSetting(props) {
                   fontWeight: "400",
                   fontSize: "12px",
                   lineHeight: "16px",
-                }}>
+                }}
+              >
                 {orgDescriptionErrorMessage ? orgDescriptionErrorMessage : ""}
               </span>
             </div>
@@ -855,16 +860,16 @@ export default function ParticipantOrganisationSetting(props) {
             address &&
             email &&
             city &&
-            pincode &&
-            (phonenumber.length >= 9) &&
-            // orgfile.size < 2097152 &&
+            stringMinimumLengthCheck(pincode, 5) &&
+            phonenumber.length >= 9 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
               <Button
                 onClick={handleOrgSettingSubmit}
                 variant="contained"
                 className="submitbtn"
-                type="submit">
+                type="submit"
+              >
                 <span className="signupbtnname">Submit</span>
               </Button>
             ) : (
@@ -881,7 +886,8 @@ export default function ParticipantOrganisationSetting(props) {
               variant="outlined"
               className="cancelbtn"
               type="button"
-              onClick={orgsettingcancelbtn}>
+              onClick={orgsettingcancelbtn}
+            >
               Cancel
             </Button>
           </Col>
