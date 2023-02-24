@@ -153,17 +153,26 @@ const PostgresFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, 
               case "host": seteErrorHostPostgres(errorMessages[i]); break;
               case "port": seteErrorPortPostgres(errorMessages[i]); break;
               //if error occurs Alert will be shown as Snackbar
-              default: setMessageForSnackBar("Connection establishment failed!")
-                setErrorOrSuccess("error")
-                handleClick(); break;
+              default:
+                if (err?.response?.status == 401) {
+                  history.push(GetErrorHandlingRoute(err));
+                } else {
+                  setMessageForSnackBar("Connection establishment failed!")
+                  setErrorOrSuccess("error")
+                  handleClick(); break;
+                }
             }
           }
         }
         else {
           //if error occurs Alert will be shown as Snackbar
-          setMessageForSnackBar("Connection establishment failed!")
-          setErrorOrSuccess("error")
-          handleClick() //toggling toast
+          if (err?.response?.status == 401) {
+            history.push(GetErrorHandlingRoute(err));
+          } else {
+            setMessageForSnackBar("Connection establishment failed!")
+            setErrorOrSuccess("error")
+            handleClick();
+          }
           setIsConnected(false) // move to table form
         }
 
@@ -213,7 +222,7 @@ const PostgresFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, 
     setLoader(true)
     setSelectedTable(query);
 
-    let token = getTokenLocal();
+    let token = isaccesstoken ? isaccesstoken : getTokenLocal();
     Axios({
       method: method,
       url: UrlConstant.base_url + UrlConstant.get_column_from_table_name,
@@ -231,9 +240,13 @@ const PostgresFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, 
       }).catch((err) => {
         console.log(err)
         //if error occurs Alert will be shown as Snackbar
-        setMessageForSnackBar("Columns fetching failed. Please try again!") //error message set
-        setErrorOrSuccess("error") //error type set 
-        handleClick() //toggling toast
+        if (err?.response?.status == 401) {
+          history.push(GetErrorHandlingRoute(err));
+        } else {
+          setMessageForSnackBar(`Columns fetching failed with status code ${err?.response?.status ? err?.response?.status : "NA"} :. Please try again!`) //error message set
+          setErrorOrSuccess("error") //error type set 
+          handleClick() //toggling toast
+        }
         setLoader(false)
       })
   };
@@ -258,7 +271,8 @@ const PostgresFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, 
     newFormData.append("source", "postgresql")
     newFormData.append("table_name", table_name)
 
-    let token = getTokenLocal();
+    let token = isaccesstoken ? isaccesstoken : getTokenLocal();
+
     let url = ""
     if (isDatasetEditModeOn) {
       url = UrlConstant.base_url + UrlConstant.send_columns_to_export + "?dataset_exists=True"
@@ -318,14 +332,23 @@ const PostgresFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, 
 
                 break;
               default:
-                setMessageForSnackBar("Some error occurred during exporting!")
-                handleClick()
+                if (err?.response?.status == 401) {
+                  history.push(GetErrorHandlingRoute(err));
+                } else {
+                  setMessageForSnackBar("Some error occurred during exporting!")
+                  handleClick(); break;
+                }
+
                 break;
             }
           }
         } else {
-          setMessageForSnackBar("Some error occurred during exporting!")
-          handleClick()
+          if (err?.response?.status == 401) {
+            history.push(GetErrorHandlingRoute(err));
+          } else {
+            setMessageForSnackBar("Some error occurred during exporting!")
+            handleClick()
+          }
         }
         // //if error occurs Alert will be shown as Snackbar
         // setMessageForSnackBar("File export failed!")
@@ -445,7 +468,7 @@ const PostgresFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, 
   }, [])
   return (
     <>
-      {loader && isConnected ? <Loader /> : ""}
+      {loader ? <Loader /> : ""}
       <Snackbar
         open={open}
         autoHideDuration={4000}

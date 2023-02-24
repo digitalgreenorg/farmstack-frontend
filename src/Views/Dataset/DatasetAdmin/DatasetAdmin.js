@@ -15,14 +15,11 @@ import {
   debounce,
   GetErrorHandlingRoute,
   getOrgLocal,
-  handleUnwantedSpace,
-  validateInputField,
 } from "../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import {
   getUserLocal,
   getUserMapId,
-  dateTimeFormat,
   isLoggedInUserCoSteward,
 } from "../../../Utils/Common";
 import ViewDataSet from "../../../Components/Datasets/viewDataSet";
@@ -33,10 +30,8 @@ import UrlConstants from "../../../Constants/UrlConstants";
 import Button from "@mui/material/Button";
 import "./DatasetAdmin.css";
 import RegexConstants from "../../../Constants/RegexConstants";
-import ListDataset from "../ListDataset";
 
 export default function DatasetAdmin() {
-  const [searchInputValue, setSearchInputValue] = useState("");
   const [isLoader, setIsLoader] = useState(false);
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false);
   const [showLoadMoreAdmin, setShowLoadMoreAdmin] = useState(false);
@@ -48,7 +43,6 @@ export default function DatasetAdmin() {
   const [todate, settodate] = useState(null);
   const history = useHistory();
   const [isMemberTab, setIsMemberTab] = useState(false);
-  console.log("isMemberTab", isMemberTab);
   const debounceOnChange = React.useCallback(
     debounce(!isMemberTab ? getSearchedData : getSearchOtherData, 1000),
     []
@@ -543,8 +537,8 @@ export default function DatasetAdmin() {
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
     data["name__icontains"] = val.trim();
-    if(isLoggedInUserCoSteward()){
-    data["on_boarded_by"] = true
+    if (isLoggedInUserCoSteward()) {
+      data["on_boarded_by"] = true;
     }
     if (isMemberTab) {
       data["others"] = true;
@@ -612,7 +606,7 @@ export default function DatasetAdmin() {
     payload["org_id"] = getOrgLocal();
     payload["others"] = true;
     payload["name__icontains"] = searchValOtherOrg.val.trim();
-    if(isLoggedInUserCoSteward()) {
+    if (isLoggedInUserCoSteward()) {
       payload["on_boarded_by"] = true;
     }
 
@@ -680,7 +674,7 @@ export default function DatasetAdmin() {
     payload["org_id"] = getOrgLocal();
     payload["others"] = false;
     payload["name__icontains"] = searchValMyOrg.val.trim();
-    if(isLoggedInUserCoSteward()) {
+    if (isLoggedInUserCoSteward()) {
       payload["on_boarded_by"] = true;
     }
 
@@ -756,7 +750,7 @@ export default function DatasetAdmin() {
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
     data["name__icontains"] = val.trim();
-    if(isLoggedInUserCoSteward()) {
+    if (isLoggedInUserCoSteward()) {
       data["on_boarded_by"] = true;
     }
     if (isMemberTab) {
@@ -881,8 +875,8 @@ export default function DatasetAdmin() {
     var payloadData = {};
     payloadData["user_id"] = getUserLocal();
     payloadData["org_id"] = getOrgLocal();
-    if(isLoggedInUserCoSteward()) {
-    payloadData["on_boarded_by"] = true;
+    if (isLoggedInUserCoSteward()) {
+      payloadData["on_boarded_by"] = true;
     }
     // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
     //commented since dataset filter is based on onboarded_by id not, others
@@ -1065,8 +1059,8 @@ export default function DatasetAdmin() {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = false;
-        if(isLoggedInUserCoSteward()) {
-          payload["on_boarded_by"] = true
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = true;
         }
         setFilterState(payload);
       }
@@ -1124,8 +1118,8 @@ export default function DatasetAdmin() {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = false;
-        if(isLoggedInUserCoSteward()) {
-        payload["on_boarded_by"] = true
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = true;
         }
         console.log("payload sent", payload);
         setFilterState(payload);
@@ -1189,8 +1183,8 @@ export default function DatasetAdmin() {
     }
     data["user_id"] = userId;
     data["org_id"] = getOrgLocal();
-    if(isLoggedInUserCoSteward()) {
-      data["on_boarded_by"] = true
+    if (isLoggedInUserCoSteward()) {
+      data["on_boarded_by"] = true;
     }
     // data['user_id'] = "aaa35022-19a0-454f-9945-a44dca9d061d"
     if (isMemberTab) {
@@ -1260,7 +1254,7 @@ export default function DatasetAdmin() {
       setConstantyUpdateSwitch(false);
       setSearchValMyOrg({ val: "" });
       // UseEffect call resets the member datasets state
-      // getMemberDatasets(false); 
+      // getMemberDatasets(false);
       // console.log("isMemberTab", isMemberTab);
     } else {
       setSearchValOtherOrg({ val: "" });
@@ -1336,10 +1330,23 @@ export default function DatasetAdmin() {
 
   const filterByDates = () => {
     let fromDateandToDate = [];
-    fromDateandToDate.push(new Date(fromdate.getTime() - (fromdate.getTimezoneOffset() * 60000)).toJSON());
+    fromDateandToDate.push(
+      new Date(
+        fromdate.getTime() - fromdate.getTimezoneOffset() * 60000
+      ).toJSON()
+    );
     // Adding 86400000 will add 1 more day in date (86400000 == 24hrs)
-    fromDateandToDate.push(new Date(todate.getTime() - (todate.getTimezoneOffset() * 60000) + 86400000).toJSON());
-    console.log('payload in date fillter api',fromDateandToDate, fromdate, todate)
+    fromDateandToDate.push(
+      new Date(
+        todate.getTime() - todate.getTimezoneOffset() * 60000 + 86400000
+      ).toJSON()
+    );
+    console.log(
+      "payload in date fillter api",
+      fromDateandToDate,
+      fromdate,
+      todate
+    );
 
     setIsShowAll(false);
     setConstantyUpdateSwitch(false);
