@@ -111,7 +111,7 @@ export default function LiveApiConnection(props) {
       })
       .catch((error) => {
         setLoader(false);
-        setMessageForSnackBar(error.response.data);
+        setMessageForSnackBar(error.response?.data?.message);
         setErrorOrSuccess("error");
         handleClick();
       });
