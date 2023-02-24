@@ -11,9 +11,14 @@ import UrlConstants from "../../Constants/UrlConstants";
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../Constants/RegexConstants";
-import { GetErrorHandlingRoute, GetErrorKey, mobileNumberMinimunLengthCheck,} from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  mobileNumberMinimunLengthCheck,
+  stringMinimumLengthCheck,
+} from "../../Utils/Common";
 import Loader from "../../Components/Loader/Loader";
-import CoStewardForm from "../CoSteward/CoStewardForm"
+import CoStewardForm from "../CoSteward/CoStewardForm";
 
 const useStyles = {
   btncolor: {
@@ -48,13 +53,13 @@ export default function AddCoSteward(props) {
   const [isSuccess, setisSuccess] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
 
-  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
-  const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
-  const[emailErrorMessage, setEmailErrorMessage] = useState(null)
-  const[phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null)
-  const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
-  const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
-  const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState(null);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState(null);
+  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null);
+  const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
+  const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
+  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
 
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
@@ -63,17 +68,16 @@ export default function AddCoSteward(props) {
   const isValidCapsUrl = (string) => {
     var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
     return res1 !== null;
-  }
+  };
   const addNewCoSteward = () => {
-
-    setFirstNameErrorMessage(null)
-    setLastNameErrorMessage(null)
-    setEmailErrorMessage(null)
-    setPhoneNumberErrorMessage(null)
-    setOrgNameErrorMessage(null)
-    setOrgEmailErrorMessage(null)
-    setOrgWebsiteErrorMessage(null)
-    setisorganisationemailerror(null)
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setEmailErrorMessage(null);
+    setPhoneNumberErrorMessage(null);
+    setOrgNameErrorMessage(null);
+    setOrgEmailErrorMessage(null);
+    setOrgWebsiteErrorMessage(null);
+    setisorganisationemailerror(null);
 
     var bodyFormData = new FormData();
     bodyFormData.append("email", useremail.toLowerCase());
@@ -99,33 +103,48 @@ export default function AddCoSteward(props) {
       bodyFormData,
       false,
       true
-    ).then((response) => {
+    )
+      .then((response) => {
         setIsLoader(false);
         setisSuccess(true);
-        console.log(response, "response of costeward added")
+        console.log(response, "response of costeward added");
       })
       .catch((e) => {
         setIsLoader(false);
-        console.log(e);
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
-              case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
-              case "email": setEmailErrorMessage(errorMessages[i]); break;
-              case "phone_number": setPhoneNumberErrorMessage(errorMessages[i]); break;
-              case "name": setOrgNameErrorMessage(errorMessages[i]); break;
-              case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
-              case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              case "email":
+                setEmailErrorMessage(errorMessages[i]);
+                break;
+              case "phone_number":
+                setPhoneNumberErrorMessage(errorMessages[i]);
+                break;
+              case "name":
+                setOrgNameErrorMessage(errorMessages[i]);
+                break;
+              case "org_email":
+                setOrgEmailErrorMessage(errorMessages[i]);
+                break;
+              case "website":
+                setOrgWebsiteErrorMessage(errorMessages[i]);
+                break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
       });
   };
@@ -141,7 +160,8 @@ export default function AddCoSteward(props) {
             btntext={"ok"}
             heading={"Co-Steward added successfully !"}
             imageText={"Added"}
-            msg={"You added a Co-Steward."}></Success>
+            msg={"You added a Co-Steward."}
+          ></Success>
         ) : (
           <>
             <CoStewardForm
@@ -184,7 +204,7 @@ export default function AddCoSteward(props) {
                 setfirstname(ref);
               }}
               lastname={lastname}
-              setlastname={(ref) => {   
+              setlastname={(ref) => {
                 setlastname(ref);
               }}
               useremail={useremail}
@@ -197,9 +217,7 @@ export default function AddCoSteward(props) {
               isexisitinguseremail={isexisitinguseremail}
               first_heading={screenlabels.co_steward?.first_heading}
               second_heading={screenlabels.co_steward?.second_heading}
-              third_heading={
-                screenlabels.co_steward?.third_heading
-              }
+              third_heading={screenlabels.co_steward?.third_heading}
               firstNameErrorMessage={firstNameErrorMessage}
               lastNameErrorMessage={lastNameErrorMessage}
               emailErrorMessage={emailErrorMessage}
@@ -207,7 +225,7 @@ export default function AddCoSteward(props) {
               orgNameErrorMessage={orgNameErrorMessage}
               orgEmailErrorMessage={orgEmailErrorMessage}
               orgWebsiteErrorMessage={orgWebsiteErrorMessage}
-              ></CoStewardForm>
+            ></CoStewardForm>
             <Row>
               <Col xs={12} sm={12} md={6} lg={3}></Col>
               <Col xs={12} sm={12} md={6} lg={6}>
@@ -219,22 +237,23 @@ export default function AddCoSteward(props) {
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
-                pincode &&
+                stringMinimumLengthCheck(pincode, 5) &&
                 firstname &&
                 useremail &&
-                !isuseremailerror ?
-                 (
+                !isuseremailerror ? (
                   <Button
                     onClick={() => addNewCoSteward()}
                     variant="contained"
-                    className="submitbtn">
+                    className="submitbtn"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 ) : (
                   <Button
                     variant="outlined"
                     disabled
-                    className="disbalesubmitbtn">
+                    className="disbalesubmitbtn"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 )}
@@ -246,7 +265,8 @@ export default function AddCoSteward(props) {
                 <Button
                   onClick={() => history.push("/datahub/participants")}
                   variant="outlined"
-                  className="cancelbtn">
+                  className="cancelbtn"
+                >
                   {screenlabels.common.cancel}
                 </Button>
               </Col>

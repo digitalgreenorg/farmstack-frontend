@@ -71,7 +71,7 @@ export default function OrgRightside(props) {
     HTTPService(
       "GET",
       UrlConstant.base_url +
-        ((isLoggedInUserParticipant() || isLoggedInUserCoSteward())
+        (isLoggedInUserParticipant() || isLoggedInUserCoSteward()
           ? UrlConstant.participant
           : UrlConstant.org) +
         id +
@@ -89,13 +89,25 @@ export default function OrgRightside(props) {
           props.setOrgName(response?.data?.organization?.name);
           props.setOrgMail(response?.data?.organization?.org_email);
           props.setOrgWebsite(response?.data?.organization?.website);
-          props.setOrgAddress(response?.data?.organization?.address?.address || JSON.parse(response?.data?.organization?.address)?.address);
-          props.setCountryValue(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country)
-          if(response?.data?.organization?.address?.country ||  JSON.parse(response?.data?.organization?.address)?.country){
+          props.setOrgAddress(
+            response?.data?.organization?.address?.address ||
+              JSON.parse(response?.data?.organization?.address)?.address
+          );
+          props.setCountryValue(
+            response?.data?.organization?.address?.country ||
+              JSON.parse(response?.data?.organization?.address)?.country
+          );
+          if (
+            response?.data?.organization?.address?.country ||
+            JSON.parse(response?.data?.organization?.address)?.country
+          ) {
             props.setOrgcountrybtn(true);
           }
           props.setValidOrgnumber(response?.data?.user?.phone_number);
-          props.setOrgPincode(response?.data?.organization?.address?.pincode ||  JSON.parse(response?.data?.organization?.address)?.pincode)
+          props.setOrgPincode(
+            response?.data?.organization?.address?.pincode ||
+              JSON.parse(response?.data?.organization?.address)?.pincode
+          );
 
           if (
             response?.data?.organization?.name &&
@@ -116,7 +128,7 @@ export default function OrgRightside(props) {
             response?.data?.organization?.website &&
             response?.data?.organization?.website.trim().length > 0
           ) {
-            props.isOrgWebsiteerror(false);
+            props.setisOrgWebsiteerror(false);
           }
 
           if (response.data.organization.address) {
@@ -808,7 +820,7 @@ export default function OrgRightside(props) {
               <span className="signupbtnname">Next</span>
             </Button> */}
             {props.orgName &&
-            props.validOrgNumber.length == 15 &&
+            props.validOrgNumber?.length == 15 &&
             !props.isOrgnameerror &&
             props.Orgemailbtn &&
             !props.isOrgmailerror &&
@@ -817,11 +829,11 @@ export default function OrgRightside(props) {
             props.orgCity &&
             !props.isOrgcityerror &&
             props.Orgcountrybtn &&
-            props.orgPincode.length >= 5 &&
+            props.orgPincode?.length >= 5 &&
             !props.ispincodeerror &&
             Orgdesbtn &&
             props.orgfile != null &&
-            props.orgfile.size < 2097152 ? (
+            props.orgfile?.size < 2097152 ? (
               <Button
                 onClick={props.handleOrgSubmit}
                 variant="contained"
@@ -836,7 +848,7 @@ export default function OrgRightside(props) {
               </Button>
             )}
           </div>
-          {(isLoggedInUserParticipant() || isLoggedInUserCoSteward() ) && (
+          {(isLoggedInUserParticipant() || isLoggedInUserCoSteward()) && (
             <div>
               <Button
                 variant="outlined"

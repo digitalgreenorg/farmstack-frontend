@@ -9,6 +9,7 @@ import { Zoom } from '@material-ui/core';
 import labels from '../../../Constants/labels';
 import { Container } from 'react-bootstrap';
 import parse from "html-react-parser";
+import UrlConstant from '../../../Constants/UrlConstants';
 
 // import Select from 'react-select'
 const useStyles = {
@@ -59,7 +60,8 @@ export default function ViewDetail(props) {
                             <div style={{ textTransform: "capitalize" }}>{each ? each : ""}</div>
                             {each == "logo" ?
                                 <div style={{ maxWidth: "200px", overflowWrap: "anywhere" }}>
-                                    {props?.viewDetailData?.organization[each] ? <Avatar alt="Remy Sharp" src={each} /> : "NA"}
+                                    {console.log(UrlConstant.base_url_without_slash + props?.viewDetailData?.organization[each])}
+                                    {props?.viewDetailData?.organization[each] ? <Avatar sx={{ width: 100, height: 100 }} alt="Remy Sharp" src={UrlConstant.base_url_without_slash + props?.viewDetailData?.organization[each]} /> : "NA"}
                                 </div> :
                                 <div style={{ maxWidth: "200px", overflowWrap: "anywhere" }}>
                                     {props?.viewDetailData?.organization[each] ? ` ${props?.viewDetailData?.organization[each]}` : "NA"}
