@@ -254,4 +254,5 @@
 
 .viewdetails_table table td {
   max-width: 100px;
+  word-break: break-all !important;
 }

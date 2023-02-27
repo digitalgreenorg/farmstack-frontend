@@ -13,7 +13,14 @@ import UrlConstants from "../../Constants/UrlConstants";
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../Constants/RegexConstants";
-import HandleSessionTimeout, { GetErrorHandlingRoute, GetErrorKey, isLoggedInUserCoSteward, mobileNumberMinimunLengthCheck, validateInputField, getUserLocal } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  isLoggedInUserCoSteward,
+  mobileNumberMinimunLengthCheck,
+  getUserLocal,
+  stringMinimumLengthCheck,
+} from "../../Utils/Common";
 import Loader from "../../Components/Loader/Loader";
 const useStyles = {
   btncolor: {
@@ -51,15 +58,14 @@ function AddParticipants(props) {
   const [isSuccess, setisSuccess] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
 
-  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
-  const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
-  const[emailErrorMessage, setEmailErrorMessage] = useState(null)
-  const[phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null)
-  const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
-  const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
-  const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState(null);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState(null);
+  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null);
+  const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
+  const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
+  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
   // const[orgSubscriptionErrorMessage, setOrgSubscriptionErrorMessage] = useState(null)
-  
 
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
@@ -68,18 +74,17 @@ function AddParticipants(props) {
   const isValidCapsUrl = (string) => {
     var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
     return res1 !== null;
-  }
+  };
   const addNewParticipants = () => {
-
-    setFirstNameErrorMessage(null)
-    setLastNameErrorMessage(null)
-    setEmailErrorMessage(null)
-    setPhoneNumberErrorMessage(null)
-    setOrgNameErrorMessage(null)
-    setOrgEmailErrorMessage(null)
-    setOrgWebsiteErrorMessage(null)
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setEmailErrorMessage(null);
+    setPhoneNumberErrorMessage(null);
+    setOrgNameErrorMessage(null);
+    setOrgEmailErrorMessage(null);
+    setOrgWebsiteErrorMessage(null);
     // setOrgSubscriptionErrorMessage(null)
-    setisorganisationemailerror(null)
+    setisorganisationemailerror(null);
     var id = getUserLocal();
     var bodyFormData = new FormData();
     bodyFormData.append("email", useremail.toLowerCase());
@@ -100,8 +105,8 @@ function AddParticipants(props) {
     //bodyFormData.append("approval_status", istrusted)
     // bodyFormData.append("subscription", organisationlength);
     bodyFormData.append("role", 3);
-    if(isLoggedInUserCoSteward()){ 
-    bodyFormData.append("on_boarded_by", id) 
+    if (isLoggedInUserCoSteward()) {
+      bodyFormData.append("on_boarded_by", id);
     }
     setIsLoader(true);
     HTTPService(
@@ -114,31 +119,46 @@ function AddParticipants(props) {
       .then((response) => {
         setIsLoader(false);
         setisSuccess(true);
-        console.log(response)
+        console.log(response);
       })
       .catch((e) => {
         setIsLoader(false);
         console.log(e);
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
-              case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
-              case "email": setEmailErrorMessage(errorMessages[i]); break;
-              case "phone_number": setPhoneNumberErrorMessage(errorMessages[i]); break;
-              case "name": setOrgNameErrorMessage(errorMessages[i]); break;
-              case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
-              case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              case "email":
+                setEmailErrorMessage(errorMessages[i]);
+                break;
+              case "phone_number":
+                setPhoneNumberErrorMessage(errorMessages[i]);
+                break;
+              case "name":
+                setOrgNameErrorMessage(errorMessages[i]);
+                break;
+              case "org_email":
+                setOrgEmailErrorMessage(errorMessages[i]);
+                break;
+              case "website":
+                setOrgWebsiteErrorMessage(errorMessages[i]);
+                break;
               // case "subscription": setOrgSubscriptionErrorMessage(errorMessages[i]); break;
-              default: history.push(GetErrorHandlingRoute(e)); break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
         //setisexisitinguseremail(true);
         //history.push(GetErrorHandlingRoute(e));
@@ -147,7 +167,7 @@ function AddParticipants(props) {
 
   const handleistrusted = (event) => {
     console.log(event.target.checked);
-    setistrusted(event.target.checked)
+    setistrusted(event.target.checked);
   };
   return (
     <>
@@ -161,7 +181,8 @@ function AddParticipants(props) {
             btntext={"ok"}
             heading={"Participant added successfully !"}
             imageText={"Added"}
-            msg={"You added a participant."}></Success>
+            msg={"You added a participant."}
+          ></Success>
         ) : (
           <>
             <ParticipantForm
@@ -208,7 +229,7 @@ function AddParticipants(props) {
                 setfirstname(ref);
               }}
               lastname={lastname}
-              setlastname={(ref) => {   
+              setlastname={(ref) => {
                 setlastname(ref);
               }}
               useremail={useremail}
@@ -225,9 +246,7 @@ function AddParticipants(props) {
               // }}
               first_heading={screenlabels.addparticipants.first_heading}
               second_heading={screenlabels.addparticipants.second_heading}
-              third_heading={
-                screenlabels.addparticipants.third_heading
-              }
+              third_heading={screenlabels.addparticipants.third_heading}
               fourth_heading={screenlabels.addparticipants.fourth_heading}
               firstNameErrorMessage={firstNameErrorMessage}
               lastNameErrorMessage={lastNameErrorMessage}
@@ -237,7 +256,7 @@ function AddParticipants(props) {
               orgEmailErrorMessage={orgEmailErrorMessage}
               orgWebsiteErrorMessage={orgWebsiteErrorMessage}
               // orgSubscriptionErrorMessage={orgSubscriptionErrorMessage}
-              ></ParticipantForm>
+            ></ParticipantForm>
             <Row>
               <Col xs={12} sm={12} md={6} lg={3}></Col>
               <Col xs={12} sm={12} md={6} lg={6}>
@@ -245,27 +264,28 @@ function AddParticipants(props) {
                 orginsationemail &&
                 !isorganisationemailerror &&
                 countryvalue &&
-               mobileNumberMinimunLengthCheck(contactnumber) &&
+                mobileNumberMinimunLengthCheck(contactnumber) &&
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
-                pincode &&
+                stringMinimumLengthCheck(pincode, 5) &&
                 firstname &&
                 useremail &&
-                !isuseremailerror ?
-                // organisationlength ?
-                 (
+                !isuseremailerror ? (
+                  // organisationlength ?
                   <Button
                     onClick={() => addNewParticipants()}
                     variant="contained"
-                    className="submitbtn">
+                    className="submitbtn"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 ) : (
                   <Button
                     variant="outlined"
                     disabled
-                    className="disbalesubmitbtn">
+                    className="disbalesubmitbtn"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 )}
@@ -277,7 +297,8 @@ function AddParticipants(props) {
                 <Button
                   onClick={() => history.push("/datahub/participants")}
                   variant="outlined"
-                  className="cancelbtn">
+                  className="cancelbtn"
+                >
                   {screenlabels.common.cancel}
                 </Button>
               </Col>
