@@ -9,13 +9,11 @@ import DragHandleIcon from '@mui/icons-material/DragHandle';
 import { Button, CircularProgress } from '@mui/material';
 import { Cpu } from 'react-bootstrap-icons';
 const Join = (props) => {
-    const { circleLoad, listOfDatasetSelected, listOfFilesSelected, listOfDatsetFileAvailableForColumn, generateData, finalDataNeedToBeGenerated } = props
+    const { joinVal1, setJoinVal1, joinVal2, setJoinVal2, finalJoin, setFinalJoin, circleLoad, listOfDatasetSelected, listOfFilesSelected, listOfDatsetFileAvailableForColumn, generateData, finalDataNeedToBeGenerated } = props
     const [join, setJoin] = useState({})
-    const [joinVal1, setJoinVal1] = useState("")
-    const [joinVal2, setJoinVal2] = useState("")
+
     const [age, setAge] = React.useState('');
     const [joinType, setJoinType] = useState("")
-    const [finalJoin, setFinalJoin] = useState({})
     const handleChange = (event, source) => {
         console.log(event.target.value)
         if (source == "val1") {
@@ -98,10 +96,10 @@ const Join = (props) => {
                                     onChange={(e) => handleChange(e, "val1")}
                                     label="Primary dataset"
                                 >
-                                    <MenuItem value="">
+                                    {/* <MenuItem value="">
                                         <em>Clear</em>
-                                    </MenuItem>
-                                    {Object.keys(listOfDatsetFileAvailableForColumn).map((eachFile, index) => {
+                                    </MenuItem> */}
+                                    {listOfFilesSelected.map((eachFile, index) => {
                                         if (listOfFilesSelected.includes(eachFile)) {
                                             if (eachFile != joinVal1) {
                                                 return <MenuItem value={eachFile}>{eachFile.split("/")[eachFile.split("/").length - 1]}</MenuItem>
@@ -124,11 +122,11 @@ const Join = (props) => {
                                     onChange={(e) => handleChangeJoin(e, "join1")}
                                     label="Primary dataset colounm name"
                                 >
-                                    <MenuItem value="">
+                                    {/* <MenuItem value="">
                                         <em>Clear</em>
-                                    </MenuItem>
+                                    </MenuItem> */}
                                     {finalDataNeedToBeGenerated[joinVal1]?.map((eachFile, index) => {
-                                        return <MenuItem value={eachFile}>{eachFile}</MenuItem>
+                                        return <MenuItem value={eachFile + ""}>{eachFile}</MenuItem>
                                     })}
                                 </Select>
                             </FormControl>
@@ -150,9 +148,9 @@ const Join = (props) => {
                                     onChange={(e) => handleChange(e, "val2")}
                                     label="Primary dataset"
                                 >
-                                    <MenuItem value="">
+                                    {/* <MenuItem value="">
                                         <em>Clear</em>
-                                    </MenuItem>
+                                    </MenuItem> */}
                                     {Object.keys(listOfDatsetFileAvailableForColumn).map((eachFile, index) => {
                                         if (eachFile != joinVal1) {
                                             return <MenuItem value={eachFile}>{eachFile.split("/")[eachFile.split("/").length - 1]}</MenuItem>
@@ -174,11 +172,11 @@ const Join = (props) => {
                                     onChange={(e) => handleChangeJoin(e, "join2")}
                                     label="Primary dataset colounm name"
                                 >
-                                    <MenuItem value="">
+                                    {/* <MenuItem value="">
                                         <em>Clear</em>
-                                    </MenuItem>
+                                    </MenuItem> */}
                                     {finalDataNeedToBeGenerated[joinVal2]?.map((eachFile, index) => {
-                                        return <MenuItem value={eachFile}>{eachFile}</MenuItem>
+                                        return <MenuItem value={eachFile + ""}>{eachFile}</MenuItem>
                                     })}
                                 </Select>
                             </FormControl>

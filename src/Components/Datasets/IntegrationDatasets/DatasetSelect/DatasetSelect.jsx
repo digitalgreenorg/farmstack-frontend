@@ -13,6 +13,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { CheckLg } from 'react-bootstrap-icons';
+import { useEffect } from 'react';
 const DatasetSelect = (props) => {
     const { setFinalDataNeedToBeGenerated, finalDataNeedToBeGenerated, deleteTable, listOfFilesSelected, handleChangeFileNameSelector, noOfFileSelector, listOfFilesAvailableForSelect, allDatasetNameList, listOfDatasetSelected, handleChangeDatasetNameSelector, noOfDatasetSelector, handleClickSelectDataset, listOfDatsetFileAvailableForColumn } = props
     const [selectAll, setSelectAll] = useState(false)
@@ -66,7 +67,7 @@ const DatasetSelect = (props) => {
                     <Row>
                         <Col className={styles.select_file_main_col} lg="12">
                             <span >Select files</span>
-                            <span id='add_more_button' className={noOfDatasetSelector.length >= allDatasetNameList.length ? styles.add_dataset_btn_dis : styles.add_dataset_btn} onClick={() => handleClickSelectDataset("dataset")}>+ Add datasets</span>
+                            <span id='add_more_button' className={noOfDatasetSelector.length >= allDatasetNameList.length ? styles.add_dataset_btn_dis : styles.add_dataset_btn_dis} onClick={() => handleClickSelectDataset("dataset")}>+ Add datasets</span>
                         </Col>
                     </Row>
                 </Col>
@@ -86,9 +87,9 @@ const DatasetSelect = (props) => {
                                         label="Dataset name"
                                         onChange={(e) => handleChangeDatasetNameSelector(e, i, "dataset")}
                                     >
-                                        <MenuItem value="">
+                                        {/* <MenuItem value="">
                                             <em>Clear</em>
-                                        </MenuItem>
+                                        </MenuItem> */}
                                         {allDatasetNameList.map((eachDatasetName, index) => {
                                             // if (listOfDatasetSelected.includes(eachDatasetName.id)) {
                                             //     // console.log(eachDatasetName, "")
@@ -115,9 +116,9 @@ const DatasetSelect = (props) => {
                                         label="File name"
                                         onChange={(e) => handleChangeDatasetNameSelector(e, i, "file")}
                                     >
-                                        <MenuItem value="">
+                                        {/* <MenuItem value="">
                                             <em>Clear</em>
-                                        </MenuItem>
+                                        </MenuItem> */}
                                         {listOfFilesAvailableForSelect.map((eachDataset, index) => {
                                             console.log(eachDataset, listOfDatasetSelected, "CHECK")
                                             if (listOfDatasetSelected[i] == eachDataset.dataset) {
@@ -177,7 +178,7 @@ const DatasetSelect = (props) => {
                             </span> */}
                                 <AccordionDetails className={styles.accordion_detail + ' accordion_detail'}>
                                     {listOfDatsetFileAvailableForColumn[eachDatasetFile]?.length > 0 && listOfDatsetFileAvailableForColumn[eachDatasetFile]?.map((eachColumn, index) => {
-                                        return <FormControlLabel id={`select_col_` + eachColumn} control={<Checkbox onClick={(e) => handleChangeColumns(e, eachDatasetFile, eachColumn)} />} label={eachColumn} />
+                                        return <FormControlLabel id={`select_col_` + eachColumn} control={<Checkbox checked={finalDataNeedToBeGenerated[eachDatasetFile].includes(eachColumn + "")} onClick={(e) => handleChangeColumns(e, eachDatasetFile, eachColumn + "")} />} label={eachColumn} />
                                     })}
                                 </AccordionDetails>
                             </Accordion>
