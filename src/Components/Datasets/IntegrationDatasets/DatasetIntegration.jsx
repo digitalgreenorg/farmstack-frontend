@@ -8,12 +8,16 @@ import { useState } from 'react'
 import HTTPService from '../../../Services/HTTPService'
 import UrlConstant from '../../../Constants/UrlConstants'
 import Loader from '../../Loader/Loader'
-import { Alert, Button, Collapse, IconButton } from '@mui/material'
+import { Alert, Button, Collapse, IconButton, Snackbar } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
+import { CheckLg } from 'react-bootstrap-icons'
+import { GetErrorHandlingRoute, GetErrorKey } from '../../../Utils/Common'
+import { useHistory } from 'react-router-dom'
 const converter = require('json-2-csv')
 const fs = require('fs')
 
 const DatasetIntegration = () => {
+    const [allAvailableDatasetsAndFiles, setAllAvailableDatasetsAndFiles] = useState([])
 
     const [message, setMessage] = useState("")
     const [alertType, setAlertType] = useState("")
@@ -33,10 +37,14 @@ const DatasetIntegration = () => {
     const [finalDataNeedToBeGenerated, setFinalDataNeedToBeGenerated] = useState({})
     const [finalDatasetAfterIntegration, setFinalDatasetAfterIntegration] = useState([])
 
+    const [finalJoin, setFinalJoin] = useState({})
+    const [joinVal1, setJoinVal1] = useState("")
+    const [joinVal2, setJoinVal2] = useState("")
     //loader for every network request
     const [loader, setLoader] = useState(false)
     const [circleLoad, setCircleLoad] = useState(false)
 
+    const history = useHistory();
 
     const handleChangeDatasetNameSelector = (event, i, source) => {
         console.log(event.target.value, i, source)
@@ -45,17 +53,50 @@ const DatasetIntegration = () => {
             list_selected[i] = event.target.value
             console.log(list_selected, "list_selected")
             setListOfDatasetSelected([...list_selected]);
-            getFilesAssociatedForTheSelectedDatasets(source, list_selected)
+            let list_selected_file = [...listOfFilesSelected]
+            list_selected_file[i] = ""
+            setListOfFilesSelected([...list_selected_file]);
+            console.log(finalDataNeedToBeGenerated, "finalDataNeedToBeGenerated")
+            // setFinalDataNeedToBeGenerated({})
+            if (event.target.value) {
+                getFilesAssociatedForTheSelectedDatasets(source, list_selected)
+            }
+
         } else {
-            let list_selected = [...listOfFilesSelected]
-            list_selected[i] = event.target.value
-            console.log(list_selected, "file_selected")
-            setListOfFilesSelected([...list_selected]);
-            let newListForColumns = listOfFilesAvailableForSelect.filter((eachFile, index) => {
-                return list_selected.includes(eachFile.name)
-            })
-            // setListOfDatsetFileAvailableForColumn([...newListForColumns])
-            getFilesAssociatedForTheSelectedDatasets(source, list_selected)
+            if (event.target.value) {
+                let list_selected = [...listOfFilesSelected]
+                list_selected[i] = event.target.value
+                let res = getFilesAssociatedForTheSelectedDatasets(source, list_selected)
+                res.then((res) => {
+                    console.log(res, "RESPOSE")
+                    if (!res) {
+                        console.log(event, "TARGET")
+                        list_selected[i] = ""
+                        setListOfFilesSelected([...list_selected]);
+                        let data = { ...finalDataNeedToBeGenerated }
+                        let obj = { ...finalJoin }
+                        data[joinVal1] = []
+                        data[joinVal2] = []
+                        setJoinVal1("")
+                        setJoinVal2("")
+                        setFinalDataNeedToBeGenerated({ ...data })
+                        obj.first = ""
+                        obj.second = ""
+                        setFinalJoin({ ...obj })
+
+                    } else {
+                        setListOfFilesSelected([...list_selected]);
+                    }
+                    console.log(list_selected, "list_selectedlist_selectedlist_selectedlist_selectedlist_selected")
+                })
+
+
+            } else {
+                event.target.value = ""
+                let list_selected = [...listOfFilesSelected]
+                list_selected[i] = event.target.value
+                setListOfFilesSelected([...list_selected]);
+            }
         }
     };
     const handleChangeFileNameSelector = (event, i) => {
@@ -96,13 +137,17 @@ const DatasetIntegration = () => {
         HTTPService(method, url, "", false, true, false).then((res) => {
             setLoader(false)
             setAllDatasetNameList([...res.data])
-        }).catch((e) => {
+        }).catch((err) => {
+            // console.log(e.response)
             setAlertType("error")
-            setMessage("Error occurred! Dataset could not fetched.")
+            setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Error occurred! Dataset could not fetched.")
             setLoader(false)
+            if (err?.response.status == 401) {
+                history.push(GetErrorHandlingRoute(err));
+            }
         })
     }
-    const getFilesAssociatedForTheSelectedDatasets = (source, list) => {
+    const getFilesAssociatedForTheSelectedDatasets = async (source, list) => {
         list = list.filter((item) => item != "")
         setLoader(true)
         let url = ""
@@ -120,54 +165,99 @@ const DatasetIntegration = () => {
         }
         let method = "POST"
 
-        HTTPService(method, url, payload, false, true, false).then((res) => {
+        return await HTTPService(method, url, payload, false, true, false).then((res) => {
             setLoader(false)
             if (source == "dataset") {
                 setListOfFilesAvailableForSelect([...res.data])
             }
             else if (source == "file") {
-                // let allColumnsOfResponse = Object.keys(res?.data)
-                // let listForColumnsAvailable = []
-                // for (let i = 0; i < allColumnsOfResponse.length; i++) {
-                //     listForColumnsAvailable.push(...res.data[allColumnsOfResponse[i]])
-                // }
-                // setListOfFilesAvailableForSelect([
-                //     { name: res.data?.files1[0], columns: [] },
-                //     { name: res.data?.files2[0], columns: [] }
-                // ])
                 console.log(res.data)
                 setListOfDatsetFileAvailableForColumn(
                     { ...res.data }
                 )
+                let obj = {}
+                for (var key in res.data) {
+                    obj[key] = []
+                }
+                setFinalDataNeedToBeGenerated({ ...obj })
             }
-        }).catch((e) => {
-            setOpen(true);
-            setAlertType("error")
-            setMessage(e?.message ? e.message : "Some error occurred while generating!")
-            let id = setTimeout(() => {
-                setOpen(false);
-                return clearTimeout(id)
-            }, 2500)
-            // if (source == "dataset") {
-            //     setListOfFilesAvailableForSelect([
-            //         { file_name: "name_of_the file1", file: "path_of_the_file1" },
-            //         { file_name: "name_of_the file2", file: "path_of_the_file2" },
-            //         { file_name: "name_of_the file3", file: "path_of_the_file3" },
-            //         { file_name: "name_of_the file4", file: "path_of_the_file4" },
-            //         { file_name: "name_of_the file5", file: "path_of_the_file5" },
-            //         { file_name: "name_of_the file6", file: "path_of_the_file6" },
-            //         { file_name: "name_of_the file7", file: "path_of_the_file7" },
-            //         { file_name: "name_of_the file8", file: "path_of_the_file8" },
-            //     ])
-            // } else if (source == "file") {
-            //     setListOfDatsetFileAvailableForColumn(
-            //         {
-            //             path_of_the_file1: ["id", "mobile_number"],
-            //             path_of_the_file6: ["id", "phone_number"]
-            //         }
-            //     )
-            // }
+            return true
+        }).catch((err) => {
+            // setOpen(true);
+            // setAlertType("error")
+            setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Some error occurred while generating!")
+            // let id = setTimeout(() => {
+            //     setOpen(false);
+            //     return clearTimeout(id)
+            // }, 2500)
             setLoader(false)
+
+            var returnValues = GetErrorKey(err, ["datasets", "files"])
+            var errorKeys = returnValues[0]
+            var errorMessages = returnValues[1]
+            if (errorKeys.length > 0) {
+                for (var i = 0; i < errorKeys.length; i++) {
+                    console.log(errorKeys[i], errorMessages[i])
+                    let id;
+                    switch (errorKeys[i]) {
+                        case "datasets":
+                            console.log("under datasets")
+                            setOpen(true);
+                            setLoader(false)
+                            setAlertType("error")
+                            setMessage(errorMessages[i] ? errorMessages[i] : "Some error occurred while fetching files for selected dataset!")
+                            id = setTimeout(() => {
+                                setOpen(false);
+                                return clearTimeout(id)
+                            }, 2500)
+                            return false
+                        case "files": setOpen(true);
+                            console.log("under files")
+                            setLoader(false)
+                            setAlertType("error")
+                            setMessage(errorMessages[i] ? errorMessages[i] : "Some error occurred while fetching files for selected dataset!")
+                            id = setTimeout(() => {
+                                setOpen(false);
+                                return clearTimeout(id)
+                            }, 2500)
+                            return false
+                        default:
+                            console.log("under default")
+
+                            if (err?.response?.status == 401) {
+                                history.push(GetErrorHandlingRoute(err));
+                            } else {
+                                setOpen(true);
+                                setLoader(false)
+                                setAlertType("error")
+                                setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Some error occurred while generating!")
+                                let id = setTimeout(() => {
+                                    setOpen(false);
+                                    return clearTimeout(id)
+                                }, 2500)
+                            }
+                            return false
+
+                    }
+                }
+            }
+            else {
+                console.log("under else")
+
+                if (err?.response?.status == 401) {
+                    history.push(GetErrorHandlingRoute(err));
+                } else {
+                    setOpen(true);
+                    setLoader(false)
+                    setAlertType("error")
+                    setMessage(err?.response?.data?.error ? err.response.data.error : "Some error occurred while generating!")
+                    let id = setTimeout(() => {
+                        setOpen(false);
+                        return clearTimeout(id)
+                    }, 2500)
+                }
+            }
+            return false
         })
     }
     const deleteTable = (tableName, index) => {
@@ -183,7 +273,7 @@ const DatasetIntegration = () => {
         console.log(list_selected, tableName.name, index)
         setListOfFilesSelected([...list_selected]);
     }
-    const generateData = (left_on, right_on) => {
+    const generateData = (left_on, right_on, joinType) => {
         setLoader(true)
         let url = UrlConstant.base_url + UrlConstant.joining_the_table
         console.log(finalDataNeedToBeGenerated, "finalDataNeedToBeGenerated")
@@ -199,7 +289,7 @@ const DatasetIntegration = () => {
             "columns2": [
                 ...finalDataNeedToBeGenerated[secondFile]
             ],
-            "how": "left",
+            "how": joinType ? joinType : "left",
             "left_on": [left_on],
             "right_on": [right_on],
         }
@@ -219,7 +309,8 @@ const DatasetIntegration = () => {
             setOpen(true);
             setLoader(false)
             setAlertType("error")
-            setMessage(err?.message ? err.message : "Some error occurred while generating!")
+            console.log(err.response)
+            setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Some error occurred while generating!")
             let id = setTimeout(() => {
                 setOpen(false);
                 return clearTimeout(id)
@@ -287,7 +378,7 @@ const DatasetIntegration = () => {
                 </Col>
             </Row>
             <DatasetSelect finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated} deleteTable={deleteTable} listOfFilesSelected={listOfFilesSelected} handleChangeFileNameSelector={handleChangeFileNameSelector} noOfFileSelector={noOfFileSelector} listOfFilesAvailableForSelect={listOfFilesAvailableForSelect} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} handleClickSelectDataset={handleClickSelectDataset} noOfDatasetSelector={noOfDatasetSelector} listOfDatasetSelected={listOfDatasetSelected} allDatasetNameList={allDatasetNameList} handleChangeDatasetNameSelector={handleChangeDatasetNameSelector} />
-            <Join circleLoad={circleLoad} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} generateData={generateData} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} listOfDatasetSelected={listOfDatasetSelected} />
+            {listOfFilesSelected.length > 0 && <Join joinVal1={joinVal1} setJoinVal1={setJoinVal1} joinVal2={joinVal2} setJoinVal2={setJoinVal2} finalJoin={finalJoin} setFinalJoin={setFinalJoin} circleLoad={circleLoad} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} generateData={generateData} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} listOfDatasetSelected={listOfDatasetSelected} listOfFilesSelected={listOfFilesSelected} />}
             <Preview downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />
         </>
     )

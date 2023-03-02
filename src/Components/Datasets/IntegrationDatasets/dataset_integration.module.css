@@ -141,3 +141,16 @@
     text-transform: none !important;
     padding: 11.5px 23px;
 }
+
+.select_file_main_col {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.already_been_selected {}
+
+.disabled_option {
+    display: flex;
+    justify-content: space-between;
+}
