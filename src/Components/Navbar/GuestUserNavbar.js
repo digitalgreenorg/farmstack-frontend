@@ -1,36 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {
-  Nav,
-  NavLink,
-  Bars,
-  NavMenu,
-  NavBtn,
-  NavBtnLink,
-} from "./NavbarElements";
+import { Nav, NavLink, NavMenu, NavBtn, NavBtnLink } from "./NavbarElements";
 import labels from "../../Constants/labels";
-import LocalStorageConstants from "../../Constants/LocalStorageConstants";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
-import { flushLocalstorage, getUserLocal } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
-import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
-import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Farmstack from "../../Assets/Img/farmstack.jpg";
-import Toolbar from '@mui/material/Toolbar';
+import Toolbar from "@mui/material/Toolbar";
 
 const GuestUserNavBar = (props) => {
-  const [profile, setprofile] = useState(null);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [isLoader, setIsLoader] = useState(false);
-  const [linkClicked, setLinkClicked] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(null);
-
-  let history = useHistory();
 
   useEffect(() => {
     HTTPService(
@@ -78,7 +62,6 @@ const GuestUserNavBar = (props) => {
                     />
                   </Toolbar>
                   {/* </AppBar> */}
-
                 </NavMenu>
               </Col>
             </Row>
@@ -110,10 +93,9 @@ const GuestUserNavBar = (props) => {
                     src={require("../../Assets/Img/call_icon.png")}
                     alt="call"
                     style={{
-                      width: "52px",
-                      height: "52px",
-                      "margin-left": "50px",
-                      "margin-top": "9px",
+                      width: "42px",
+                      height: "42px",
+                      margin: "9px 0 9px 50px",
                     }}
                   />
                   &nbsp;&nbsp;&nbsp;&nbsp;

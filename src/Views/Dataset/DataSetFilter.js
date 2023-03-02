@@ -4,6 +4,7 @@ import labels from "../../Constants/labels";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { getRoleLocal } from "../../Utils/Common";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import $ from "jquery";
@@ -52,8 +53,8 @@ export default function DataSetFilter(props) {
                   "text-transform": "none",
                 }}
                 onClick={() => props.clearAllFilters()}
-              // variant="outlined"
-              // className="cancelbtn"
+                // variant="outlined"
+                // className="cancelbtn"
               >
                 Clear all
               </Button>
@@ -195,50 +196,57 @@ export default function DataSetFilter(props) {
           </span>
         )}
       </Row>
+      {/* {getRoleLocal() !== "datahub_co_steward" && (
+        <>
+          {props.showMemberFilters && (
+            <Row className="supportfiltersecondrowbold">
+              <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+                <img src={require("../../Assets/Img/status.svg")} alt="new" />
+                &nbsp;&nbsp;{screenlabels.dataset.status}
+              </span>
+            </Row>
+          )}
+          {props.showMemberFilters &&
+            props.statusFilter &&
+            props.statusFilter.map((status) => (
+              <FilterCheckBox
+                label={status.name}
+                checked={status.isChecked}
+                handleCheckListFilterChange={() =>
+                  props.handleFilterChange(
+                    status.index,
+                    screenlabels.dataset.status
+                  )
+                }
+              />
+            ))}
+          {props.showMemberFilters && (
+            <Row className="supportfiltersecondrowbold">
+              <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
+                <img
+                  src={require("../../Assets/Img/dataset_bold.svg")}
+                  alt="new"
+                />
+                &nbsp;&nbsp;{screenlabels.dataset.datasets}
+              </span>
+            </Row>
+          )}
+          {props.showMemberFilters &&
+            props.enableStatusFilter.map((filter) => (
+              <FilterCheckBox
+                label={filter.name}
+                checked={filter.isChecked}
+                handleCheckListFilterChange={() =>
+                  props.handleFilterChange(
+                    filter.index,
+                    screenlabels.dataset.enabled
+                  )
+                }
+              />
+            ))}
+        </>
+      )} */}
 
-      {props.showMemberFilters && (
-        <Row className="supportfiltersecondrowbold">
-          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-            <img src={require("../../Assets/Img/status.svg")} alt="new" />
-            &nbsp;&nbsp;{screenlabels.dataset.status}
-          </span>
-        </Row>
-      )}
-      {props.showMemberFilters &&
-        props.statusFilter &&
-        props.statusFilter.map((status) => (
-          <FilterCheckBox
-            label={status.name}
-            checked={status.isChecked}
-            handleCheckListFilterChange={() =>
-              props.handleFilterChange(
-                status.index,
-                screenlabels.dataset.status
-              )
-            }
-          />
-        ))}
-      {props.showMemberFilters && (
-        <Row className="supportfiltersecondrowbold">
-          <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-            <img src={require("../../Assets/Img/dataset_bold.svg")} alt="new" />
-            &nbsp;&nbsp;{screenlabels.dataset.datasets}
-          </span>
-        </Row>
-      )}
-      {props.showMemberFilters &&
-        props.enableStatusFilter.map((filter) => (
-          <FilterCheckBox
-            label={filter.name}
-            checked={filter.isChecked}
-            handleCheckListFilterChange={() =>
-              props.handleFilterChange(
-                filter.index,
-                screenlabels.dataset.enabled
-              )
-            }
-          />
-        ))}
       {/* <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
           <img src={require("../../Assets/Img/visibility.svg")} alt="new" />
@@ -294,7 +302,7 @@ export default function DataSetFilter(props) {
       />
       <Row>
         {props.categoryFilterValue.length &&
-          props.subcategoryFilterValue.length ? (
+        props.subcategoryFilterValue.length ? (
           <span className="supportsubmitbrn" style={{ marginTop: "15px" }}>
             <Button
               onClick={() => props.filterByCategory()}
