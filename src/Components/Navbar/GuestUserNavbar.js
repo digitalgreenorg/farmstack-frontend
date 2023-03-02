@@ -159,7 +159,7 @@ const GuestUserNavBar = (props) => {
                 
               </NavBtn> */}
             <Col xs={4} sm={4} md={4} lg={4} className="navbar_right_col">
-              {adminNotOnboarded ? 
+              {!adminNotOnboarded ? 
               <>
               <NavBtn>
                 <NavBtnLink to="/participantregistration">
