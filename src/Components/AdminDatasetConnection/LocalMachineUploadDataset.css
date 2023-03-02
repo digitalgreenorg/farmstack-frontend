@@ -255,3 +255,8 @@
 .viewdetails_table table td {
   max-width: 100px;
 }
+.mui_snackbar_in_live_api_classname > div :nth-child(2){
+   max-width: 1300px !important;
+    overflow: scroll !important;
+     height: 35px !important; 
+}
