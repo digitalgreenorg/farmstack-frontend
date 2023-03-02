@@ -15,6 +15,7 @@ const GuestUserNavBar = (props) => {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [isLoader, setIsLoader] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(null);
+  const [adminNotOnboarded, setAdminNotOnboarded] = useState(false);
 
   useEffect(() => {
     HTTPService(
@@ -32,6 +33,10 @@ const GuestUserNavBar = (props) => {
         ) {
           setPhoneNumber(response.data.organization.phone_number);
         }
+        if(response.data.organization == null) {
+          setAdminNotOnboarded(true)
+        }
+
       })
       .catch((e) => {
         setIsLoader(false);
@@ -154,6 +159,8 @@ const GuestUserNavBar = (props) => {
                 
               </NavBtn> */}
             <Col xs={4} sm={4} md={4} lg={4} className="navbar_right_col">
+              {adminNotOnboarded ? 
+              <>
               <NavBtn>
                 <NavBtnLink to="/participantregistration">
                   <img
@@ -163,7 +170,8 @@ const GuestUserNavBar = (props) => {
                   &nbsp;&nbsp;{"Register"}
                 </NavBtnLink>
               </NavBtn>
-              <NavBtn>
+              </> : "" }
+              <NavBtn> 
                 <NavBtnLink to="/login">
                   <img
                     src={require("../../Assets/Img/account.svg")}
