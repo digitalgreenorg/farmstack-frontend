@@ -59,10 +59,10 @@ const Join = (props) => {
             <Row>
                 <Col lg={2}>
                     <FormControl variant="standard" style={{ width: "80%" }}>
-                        <InputLabel id="demo-simple-select-standard-label">Primary dataset</InputLabel>
+                        <InputLabel id="primary_join_type_label">Join type</InputLabel>
                         <Select
                             labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
+                            id="primary_join_type_select"
                             value={joinType}
                             onChange={(e) => setJoinType(e.target.value)}
                             label="Primary dataset"
@@ -90,10 +90,10 @@ const Join = (props) => {
                     <Row>
                         <Col lg={6} sm={6}>
                             <FormControl variant="standard" style={{ width: "80%" }}>
-                                <InputLabel id="demo-simple-select-standard-label">Primary dataset</InputLabel>
+                                <InputLabel id="primary_dataset_label_for_join">Primary dataset</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-standard-label"
-                                    id="demo-simple-select-standard"
+                                    id="primary_dataset_select_for_join"
                                     value={joinVal1}
                                     onChange={(e) => handleChange(e, "val1")}
                                     label="Primary dataset"
@@ -118,8 +118,8 @@ const Join = (props) => {
                             <FormControl variant="standard" style={{ width: "80%" }}>
                                 <InputLabel id="demo-simple-select-standard-label">Primary dataset column name</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-standard-label"
-                                    id="demo-simple-select-standard"
+                                    labelId="primary_col_label_for_join"
+                                    id="primary_col_select_for_join"
                                     value={finalJoin.first}
                                     onChange={(e) => handleChangeJoin(e, "join1")}
                                     label="Primary dataset colounm name"
@@ -142,10 +142,10 @@ const Join = (props) => {
                     <Row>
                         <Col lg={6} sm={6}>
                             <FormControl variant="standard" style={{ width: "80%" }}>
-                                <InputLabel id="demo-simple-select-standard-label">Primary dataset</InputLabel>
+                                <InputLabel id="secondary_dataset_label_for_join">Primary dataset</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-standard-label"
-                                    id="demo-simple-select-standard"
+                                    id="secondary_dataset_select_for_join"
                                     value={joinVal2}
                                     onChange={(e) => handleChange(e, "val2")}
                                     label="Primary dataset"
@@ -166,10 +166,10 @@ const Join = (props) => {
                         </Col>
                         <Col lg={6} sm={6}>
                             <FormControl variant="standard" style={{ width: "80%" }}>
-                                <InputLabel id="demo-simple-select-standard-label">Primary dataset column name</InputLabel>
+                                <InputLabel id="secondary_col_label_for_join">Primary dataset column name</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-standard-label"
-                                    id="demo-simple-select-standard"
+                                    id="secondary_col_select_for_join"
                                     value={finalJoin.second}
                                     onChange={(e) => handleChangeJoin(e, "join2")}
                                     label="Primary dataset colounm name"
@@ -189,7 +189,7 @@ const Join = (props) => {
             <Row>
                 <Col lg={12} sm={12} className={styles.generate_btn_parent_col}>
                     {console.log(joinVal1, joinVal2, finalJoin)}
-                    <Button className={(joinType && joinVal1 && joinVal2 && finalJoin[joinVal1] && finalJoin[joinVal2] && Object.keys(finalJoin).length >= 2 && arr.length >= 2 && firstColms.length > 0 && secondColms.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={() => generateData(finalJoin[joinVal1], finalJoin[joinVal2], joinType)}>
+                    <Button id='generate_button' className={(joinType && joinVal1 && joinVal2 && finalJoin[joinVal1] && finalJoin[joinVal2] && Object.keys(finalJoin).length >= 2 && arr.length >= 2 && firstColms.length > 0 && secondColms.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={() => generateData(finalJoin[joinVal1], finalJoin[joinVal2], joinType)}>
                         Generate data
                     </Button>
                 </Col>

@@ -66,7 +66,7 @@ const DatasetSelect = (props) => {
                     <Row>
                         <Col className={styles.select_file_main_col} lg="12">
                             <span >Select files</span>
-                            <span className={noOfDatasetSelector.length >= allDatasetNameList.length ? styles.add_dataset_btn_dis : styles.add_dataset_btn} onClick={() => handleClickSelectDataset("dataset")}>+ Add datasets</span>
+                            <span id='add_more_button' className={noOfDatasetSelector.length >= allDatasetNameList.length ? styles.add_dataset_btn_dis : styles.add_dataset_btn} onClick={() => handleClickSelectDataset("dataset")}>+ Add datasets</span>
                         </Col>
                     </Row>
                 </Col>
@@ -107,10 +107,10 @@ const DatasetSelect = (props) => {
                         return <Row>
                             <Col key={i} lg={12} sm={12} sx={12} className={styles.each_select_for_dataset}>
                                 <FormControl variant="standard" fullWidth>
-                                    <InputLabel id="demo-simple-select-label">File name</InputLabel>
+                                    <InputLabel id="file_name_label">File name</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
+                                        id="file_name_selector"
                                         value={listOfFilesSelected[i]}
                                         label="File name"
                                         onChange={(e) => handleChangeDatasetNameSelector(e, i, "file")}
@@ -165,7 +165,7 @@ const DatasetSelect = (props) => {
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1a-content"
-                                    id="panel1a-header"
+                                    id="summary_id_accordion"
                                 >
                                     <Typography className={styles.accordion_header} sx={{ width: '80%', flexShrink: 0, textAlign: "left" }}>{eachDatasetFile.split("/")[eachDatasetFile.split("/").length - 1]}</Typography>
                                     {/* <Typography className={styles.accordion_delete} sx={{ width: '18%', textAlign: "right" }}>
@@ -177,7 +177,7 @@ const DatasetSelect = (props) => {
                             </span> */}
                                 <AccordionDetails className={styles.accordion_detail + ' accordion_detail'}>
                                     {listOfDatsetFileAvailableForColumn[eachDatasetFile]?.length > 0 && listOfDatsetFileAvailableForColumn[eachDatasetFile]?.map((eachColumn, index) => {
-                                        return <FormControlLabel control={<Checkbox onClick={(e) => handleChangeColumns(e, eachDatasetFile, eachColumn)} />} label={eachColumn} />
+                                        return <FormControlLabel id={`select_col_` + eachColumn} control={<Checkbox onClick={(e) => handleChangeColumns(e, eachDatasetFile, eachColumn)} />} label={eachColumn} />
                                     })}
                                 </AccordionDetails>
                             </Accordion>
