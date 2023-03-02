@@ -168,50 +168,6 @@ function EditParticipants(props) {
         setistrusted(event.target.checked)
       };
 
-<<<<<<< HEAD
-    return (
-        <>
-            {isLoader ? <Loader />: ''}
-            <Container style={useStyles.marginrowtop}>
-                {isSuccess ? <Success okevent={()=>history.push('/datahub/participants')} route={"datahub/participants"} imagename={'success'} btntext={"ok"} heading={"Changes are updated!"} imageText={"Updated"} msg={"Your changes are updated successfully."}></Success> : <><ParticipantForm
-                    organisationname={organisationname}
-                    setorganisationname={ref => { setorganisationname(ref) }}
-                    orginsationemail={orginsationemail}
-                    handleistrusted={handleistrusted}
-                    isorganisationemailerror={isorganisationemailerror}
-                    setorginsationemail={ref => { setorginsationemail(ref); setisorganisationemailerror(!validator.isEmail(ref)) }}
-                    countryvalue={countryvalue}
-                    setcountryvalue={ref => { setcountryvalue(ref) }}
-                    contactnumber={contactnumber}
-                    setcontactnumber={ref => { setcontactnumber(ref); console.log("sss", ref) }}
-                    iscontactnumbererror={iscontactnumbererror}
-                    websitelink={websitelink}
-                    setwebsitelink={ref => { setwebsitelink(ref); setwebsitelinkerror(!isValidURL(ref)) }}
-                    iswebsitelinkrerror={iswebsitelinkrerror}
-                    organisationaddress={organisationaddress}
-                    istrusted={istrusted}
-                    setorganisationaddress={ref => { setorganisationaddress(ref) }}
-                    pincode={pincode}
-                    setpincode={ref => { setpincode(ref) }}
-                    firstname={firstname}
-                    setfirstname={ref => { setfirstname(ref) }}
-                    lastname={lastname}
-                    setlastname={ref => { setlastname(ref) }}
-                    useremail={useremail}
-                    setuseremail={ref => { setuseremail(ref); setisuseremailerror(!validator.isEmail(ref)); setisexisitinguseremail(false)}}
-                    isuseremailerror={isuseremailerror}
-                    isexisitinguseremail={isexisitinguseremail}
-                    // organisationlength={organisationlength}
-                    // setorganisationlength={ref => { setorganisationlength(ref) }}
-                    first_heading={props.coSteward ? screenlabels.editcosteward.first_heading : screenlabels.editparticipants.first_heading}
-                    second_heading={props.coSteward ? screenlabels.editcosteward.second_heading : screenlabels.editparticipants.second_heading}
-                    // third_heading={screenlabels.editparticipants.third_heading}
-                    fourth_heading={screenlabels.editparticipants.fourth_heading}
-                    orgNameErrorMessage={orgNameErrorMessage}
-                    orgEmailErrorMessage={orgEmailErrorMessage}
-                    orgWebsiteErrorMessage={orgWebsiteErrorMessage}
-                    // orgSubscriptionErrorMessage={orgSubscriptionErrorMessage}
-=======
   return (
     <>
       {isLoader ? <Loader /> : ""}
@@ -345,35 +301,13 @@ function EditParticipants(props) {
                   onClick={() => history.push("/datahub/participants")}
                   variant="outlined"
                   className="cancelbtn"
->>>>>>> 8ed1c28fb991a6ab454bc81056cad46d79fe6b73
                 >
-                </ParticipantForm>
-                    <Row>
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            {(organisationname && orginsationemail && !isorganisationemailerror && countryvalue && contactnumber.length==15 && websitelink && !iswebsitelinkrerror && organisationaddress && pincode && firstname && useremail && !isuseremailerror)
-                                ? (
-                                    <Button onClick={() => addNewParticipants()} variant="contained" className="submitbtn">
-                                        {screenlabels.common.submit}
-                                    </Button>
-                                ) : (
-                                    <Button variant="outlined" disabled className="disbalesubmitbtn">
-                                        {screenlabels.common.submit}
-                                    </Button>
-                                )}
-                        </Col>
-                    </Row>
-                    <Row style={useStyles.marginrowtop8px}>
-                        <Col xs={12} sm={12} md={6} lg={3} >
-                        </Col>
-                        <Col xs={12} sm={12} md={6} lg={6} >
-                            <Button onClick={() => history.push('/datahub/participants')} variant="outlined" className="cancelbtn">
                                 {screenlabels.common.cancel}
                             </Button>
 
                         </Col>
-                    </Row></>}
+                    </Row>
+                    </>)}
             </Container>
         </>
 
