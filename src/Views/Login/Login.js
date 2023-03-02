@@ -46,6 +46,7 @@ import LeftintroParticipant from "../../Components/intros/LeftIntroParticipant";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import AddingCategory from "../../Components/Catergories/AddingCategory";
 import { ConsoleSqlOutlined } from "@ant-design/icons";
+import DataStandardization from "../../Components/signup/DataStandardization";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -72,6 +73,8 @@ export default function Login(props) {
   const [isDataSet, setIsDataSet] = useState(false);
   const [isCategorySetup, setIsCategorySetup] = useState(false);
   const [isaccesstoken, setisaccesstoken] = useState(false);
+  const [isDataStandardization, setIsDataStandardization] = useState(false)
+  console.log('isDataStandardization', isDataStandardization)
   //const [userid, setUserId] = useState(false)
 
   const [orgName, setOrgName] = useState("");
@@ -106,7 +109,7 @@ export default function Login(props) {
     else if (getTokenLocal() && isLoggedInUserParticipant()) {
       props.history.push("/participant/datasets");
     }
-   else if (getTokenLocal() && isLoggedInUserCoSteward()) {
+    else if (getTokenLocal() && isLoggedInUserCoSteward()) {
       props.history.push("/datahub/participants");
     }
   }, []);
@@ -264,6 +267,8 @@ export default function Login(props) {
               setOrgIdState(response?.data?.org_id);
               setOtpError(false);
               setisProfile(true);
+              // setIsDataStandardization(true)
+              // setIsDataStandardization(true)
               setisOtp(false);
             }
             // console.log(response.json());
@@ -706,12 +711,12 @@ export default function Login(props) {
           console.log(response.data.user_map);
           console.log(response.data.org_id);
           if (response.status === 201) {
-               setisPolicies(true);   
-               setisOrg(false);
-               setUserMapId(response?.data?.user_map);
-               setOrgId(response?.data?.org_id);
-               setOrgIdState(response?.data?.org_id);
-      
+            setisPolicies(true);
+            setisOrg(false);
+            setUserMapId(response?.data?.user_map);
+            setOrgId(response?.data?.org_id);
+            setOrgIdState(response?.data?.org_id);
+
             if (isLoggedInUserParticipant()) {
               console.log("partcheck")
               if (getUserMapId()) {
@@ -723,7 +728,7 @@ export default function Login(props) {
                 setOnBoardedTrue();
                 setTokenLocal(isaccesstoken);
               }
-            }else if (isLoggedInUserCoSteward()){
+            } else if (isLoggedInUserCoSteward()) {
               console.log("costewardcheck")
               setOnBoardedTrue();
               setTokenLocal(isaccesstoken);
@@ -898,7 +903,7 @@ export default function Login(props) {
 
       //props.history.push('/loginadddatasetparticipant');
     }
-     if (isLoggedInUserCoSteward()){
+    if (isLoggedInUserCoSteward()) {
       console.log("costewardcheck")
       setisOrg(false);
       setOnBoardedTrue();
@@ -936,8 +941,8 @@ export default function Login(props) {
         </div>
       ) : (
         <div>
-          {!isCategorySetup && <h1 className="headertext">{screenlabels.login.signup_header}</h1>}
-          {(isParticipantRoute(location.pathname) && !isCategorySetup) ? <LeftintroParticipant /> : !isCategorySetup ? <Leftintro /> : ""}
+          {!isCategorySetup && !isDataStandardization && <h1 className="headertext">{screenlabels.login.signup_header}</h1>}
+          {(isParticipantRoute(location.pathname) && !isCategorySetup && !isDataStandardization) ? <LeftintroParticipant /> : !isCategorySetup && !isDataStandardization ? <Leftintro /> : ""}
 
           {isemail || isOtp ? <Rightintro /> : ""}
           {/* <Footerimg /> */}
@@ -1000,7 +1005,7 @@ export default function Login(props) {
               userid={getUserLocal()}
             />
           )}
-          {isProfile && (isLoggedInUserParticipant() || isLoggedInUserCoSteward() )&& (
+          {isProfile && (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) && (
             <ProfileRightsideParticipant
               handleprofileSubmit={handleprofileSubmit}
               handleprofilfirstename={handleprofilfirstename}
@@ -1032,6 +1037,7 @@ export default function Login(props) {
           )}
           {isOrg ? (
             <OrgRightside
+              setisOrgWebsiteerror={setisOrgWebsiteerror}
               isOrgnameerror={isOrgnameerror}
               setisOrgnameerror={setisOrgnameerror}
               isOrgmailerror={isOrgmailerror}
@@ -1119,6 +1125,7 @@ export default function Login(props) {
               setOnBoardedTrue={setOnBoardedTrue}
             />
           )}
+          
         </div>
       )}
       {/* <div style={{ position: "absolute", bottom: 0 }}><Footer/></div> */}
@@ -1128,6 +1135,11 @@ export default function Login(props) {
           setisBranding(true);
         }} isOnborading={true} />
       )}
+      {
+            isDataStandardization && isLoggedInUserAdmin() && (
+              <DataStandardization/>
+            )
+      }
     </div>
   );
 }

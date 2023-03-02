@@ -1015,3 +1015,23 @@ button.disbalesubmitbtndept {
 .react-multi-email input {
   min-width: 500px !important;
 }
+
+.carousel_in_guest_user_main_page .slick-current {
+  /* height: 300px !important;
+  width: 400px !important; */
+  /* height: 300px; */
+
+}
+
+.carousel_in_guest_user_main_page .slick-arrow {
+  height: 50px !important;
+  width: 50px !important;
+  background-color: rgba(228, 228, 228, 1) !important;
+  z-index: 10;
+  border-radius: 10px !important;
+
+}
+
+.back_btn_guest .MuiSvgIcon-root {
+  color: #3491EE !important;
+}

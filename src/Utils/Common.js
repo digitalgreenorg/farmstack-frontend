@@ -1,12 +1,7 @@
-import { useHistory } from "react-router-dom";
 import LocalStorageConstants from "../Constants/LocalStorageConstants";
 import RegexConstants from "../Constants/RegexConstants";
-import React from "react";
-import ReactDOM from "react-dom";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
-import HTTPService from "../Services/HTTPService";
 import FileSaver from "file-saver";
-import UrlConstant from "../Constants/UrlConstants";
 export const setTokenLocal = (token) => {
   localStorage.setItem(
     LocalStorageConstants.KEYS.JWTToken,
@@ -168,11 +163,11 @@ export const isLoggedInUserParticipant = () => {
 };
 export const isLoggedInUserCoSteward = () => {
   //return true;
- return getRoleLocal()
-  ? getRoleLocal().toLowerCase() == 
-      LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase() 
-   : false;
-} ;
+  return getRoleLocal()
+    ? getRoleLocal().toLowerCase() ==
+        LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
+    : false;
+};
 
 // file upload
 export const fileUpload = (bodyFormData, file, Key) => {
@@ -236,13 +231,13 @@ export const openLinkInNewTab = (url) => {
   console.log(url);
   if (url.includes("http")) {
     localStorage.setItem("show_data", JSON.stringify(url));
-    window.open(url,'_blank');
+    window.open(url, "_blank");
 
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // history.push("connectors/detail")
   } else {
     localStorage.setItem("show_data", JSON.stringify("http://" + url));
-    window.open(url,'_blank');
+    window.open(url, "_blank");
     // window.open(UrlConstant.base_url_without_slash+ "/datahub/connectors/detail",'_blank');
     // window.open("http://localhost:3000/datahub/connectors/detail",'_blank');
     // window.open("http://"+url,'_blank');
@@ -251,7 +246,11 @@ export const openLinkInNewTab = (url) => {
 };
 
 export const mobileNumberMinimunLengthCheck = (number) => {
-  return number.length >= 10;
+  return number?.length >= 13;
+};
+
+export const stringMinimumLengthCheck = (str, len) => {
+  return str?.length >= len;
 };
 
 export function toTitleCase(str) {
@@ -284,19 +283,18 @@ export function debounce(func, wait) {
   };
 }
 export const adminNotFoundRoute = (e) => {
-  var errorMessage = '';
-  if(e.response && e.response.data && e.response.data.message){
-    errorMessage = e.response.data.message
+  var errorMessage = "";
+  if (e.response && e.response.data && e.response.data.message) {
+    errorMessage = e.response.data.message;
+  } else if (e.response) {
+    errorMessage = e.response.statusText;
+  } else {
+    errorMessage = "Admin not found";
   }
-
-  else if (e.response){
-    errorMessage = e.response.statusText
-  }
-  else{
-    errorMessage = 'Admin not found'
-  }
-  setErrorLocal({'ErrorCode': e.response ? e.response.status : 'Admin not found', 
-  'ErrorMessage': errorMessage});
+  setErrorLocal({
+    ErrorCode: e.response ? e.response.status : "Admin not found",
+    ErrorMessage: errorMessage,
+  });
   if (
     e.response != null &&
     e.response != undefined &&

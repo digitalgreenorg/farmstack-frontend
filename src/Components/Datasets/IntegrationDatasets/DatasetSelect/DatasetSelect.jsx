@@ -149,9 +149,9 @@ const DatasetSelect = (props) => {
                                     <DeleteIcon onClick={() => deleteTable(eachDatasetFile, index)} />
                                 </Typography> */}
                             </AccordionSummary>
-                            <span className={styles.select_all_btn + ' select_all_btn'}>
+                            {/* <span className={styles.select_all_btn + ' select_all_btn'}>
                                 <FormControlLabel onClick={() => changeAllSelect(eachDatasetFile)} control={<Checkbox />} label={"Select all"} />
-                            </span>
+                            </span> */}
                             <AccordionDetails className={styles.accordion_detail + ' accordion_detail'}>
                                 {listOfDatsetFileAvailableForColumn[eachDatasetFile]?.length > 0 && listOfDatsetFileAvailableForColumn[eachDatasetFile]?.map((eachColumn, index) => {
                                     return <FormControlLabel control={<Checkbox onClick={(e) => handleChangeColumns(e, eachDatasetFile, eachColumn)} />} label={eachColumn} />

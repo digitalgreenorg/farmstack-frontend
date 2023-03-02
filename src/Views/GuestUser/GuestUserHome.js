@@ -27,7 +27,7 @@ import "./GuestUserHome.css";
 export default function GuestUserHome(props) {
   //   loader
   const [isLoader, setIsLoader] = useState(false);
-  const [farmstackLogo,setFarmstackLogo] = useState(true);
+  const [farmstackLogo,setFarmstackLogo] = useState(false);
   const [noDatasetGuestUserPage, setNoDatasetGuestUserPage] = useState(true);
   useEffect(() => {
     setIsLoader(true);

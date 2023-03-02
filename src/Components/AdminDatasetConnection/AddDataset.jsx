@@ -32,9 +32,10 @@ import axios from "axios"
 import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Skeleton } from '@mui/material'
 import Success from '../Success/Success';
 import CategorySelectorList from './CategorySelectorList';
+import DataStandardizationInAddDataset from './DataStandardizationInAddDataset.js';
 
 //stepper steps label
-const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
+const steps = ['Dataset name', 'Create or upload dataset', 'Data standardization', 'Create a metadata'];
 
 const AddDataset = (props) => {
     const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction, setTokenLocal, onBoardingPage } = props
@@ -134,13 +135,14 @@ const AddDataset = (props) => {
         payload.append("file_name", filename)
         payload.append("dataset_name", datasetname)
         console.log("PAYLOAD CREATED", payload)
-
+        let checkforAccess = isaccesstoken ? isaccesstoken : false;
         HTTPService(
             "DELETE",
             UrlConstant.base_url + UrlConstant.dataseteth,
             payload,
             true,
-            true
+            true,
+            checkforAccess
         ).then((response) => {
             console.log("RESPONSE", response)
             if (source == "file") {
@@ -164,27 +166,44 @@ const AddDataset = (props) => {
             // setKey(Math.random())
 
         }).catch((e) => {
-            console.log(e);
-            // var returnValues = GetErrorKey(e, payload.keys());
-            // var errorKeys = returnValues[0];
-            // var errorMessages = returnValues[1];
-            // if (errorKeys.length > 0) {
-            //   for (var i = 0; i < errorKeys.length; i++) {
-            //     switch (errorKeys[i]) {
-            //       case "dataset_name":
-            //         setDatasetNameError(errorMessages[i]);
-            //         break;
-            //       case "datasets":
-            //         setDataSetFileError(errorMessages[i]);
-            //         break;
-            //       default:
-            //         history.push(GetErrorHandlingRoute(e));
-            //         break;
-            //     }
-            //   }
-            // } else {
-            //   history.push(GetErrorHandlingRoute(e));
-            // }
+            var returnValues = GetErrorKey(e, payload.keys());
+            var errorKeys = returnValues[0];
+            var errorMessages = returnValues[1];
+            if (errorKeys.length > 0) {
+                for (var i = 0; i < errorKeys.length; i++) {
+                    switch (errorKeys[i]) {
+                        case "dataset_name":
+                            // setDatasetNameError(errorMessages[i]);
+                            setMessageForSnackBar("Dataset deletion failed")
+                            setErrorOrSuccess("error")
+                            handleClick()
+                            break;
+                        case "file_name":
+                            // setDataSetFileError(errorMessages[i]);
+                            setMessageForSnackBar("Dataset deletion failed")
+                            setErrorOrSuccess("error")
+                            handleClick()
+                            break;
+                        default:
+                            if (e?.response?.status == 401) {
+                                history.push(GetErrorHandlingRoute(e));
+                            } else {
+                                setMessageForSnackBar("Dataset deletion failed")
+                                setErrorOrSuccess("error")
+                                handleClick()
+                            }
+                            break;
+                    }
+                }
+            } else {
+                if (e?.response?.status == 401) {
+                    history.push(GetErrorHandlingRoute(e));
+                } else {
+                    setMessageForSnackBar("Dataset deletion failed")
+                    setErrorOrSuccess("error")
+                    handleClick()
+                }
+            }
         });
     }
 
@@ -281,16 +300,23 @@ const AddDataset = (props) => {
                                 // setfileValid(errorMessages[i]);
                                 break;
                             default:
-                                setMessageForSnackBar("Dataset uploaded failed")
-                                setErrorOrSuccess("error")
-                                handleClick()
-                                break;
+                                if (e?.response?.status == 401) {
+                                    history.push(GetErrorHandlingRoute(e));
+                                } else {
+                                    setMessageForSnackBar("Dataset with this name already exist")
+                                    setErrorOrSuccess("error")
+                                    handleClick()
+                                }
                         }
                     }
                 } else {
-                    setMessageForSnackBar("Dataset uploaded failed")
-                    setErrorOrSuccess("error")
-                    handleClick()
+                    if (e?.response?.status == 401) {
+                        history.push(GetErrorHandlingRoute(e));
+                    } else {
+                        setMessageForSnackBar("Dataset with this name already exist")
+                        setErrorOrSuccess("error")
+                        handleClick()
+                    }
                 }
                 //setfileValid(e.response.data.sample_dataset[0]);
                 // history.push(GetErrorHandlingRoute(e));
@@ -1059,7 +1085,14 @@ const AddDataset = (props) => {
                                         </TabContext>
                                         : ""}
 
-                                    {activeStep == 2 ?
+                                        {
+                                            activeStep == 2 ?
+                                            <DataStandardizationInAddDataset/>
+                                            : 
+                                            ""
+                                        }
+
+                                    {activeStep == 3 ?
                                         <AddMetadata
                                             isaccesstoken={isaccesstoken}
                                             setNewSelectedSubCategory={setNewSelectedSubCategory}
@@ -1144,7 +1177,7 @@ const AddDataset = (props) => {
                                         </Button>
                                     )} */}
 
-                                        {activeStep == 2 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || LiveApiFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
+                                        {activeStep == 3 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || LiveApiFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : (activeStep==2)? false : true)} onClick={activeStep == 3 ? () => history.push("/datahub/datasets") : handleNext}>
                                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                         </Button>}
                                     </Box>
