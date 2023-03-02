@@ -4,19 +4,23 @@ import Col from 'react-bootstrap/Col'
 import THEME_COLORS from '../../Constants/ColorConstants'
 import labels from '../../Constants/labels';
 import TextField from "@mui/material/TextField";
-import MenuItem from '@mui/material/MenuItem';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import countryList from "react-select-country-list";
 import MuiPhoneNumber from "material-ui-phone-number";
-import { FormControlLabel } from '@mui/material';
-import Checkbox from "@mui/material/Checkbox";
 import RegexConstants from '../../Constants/RegexConstants';
-import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validateInputField } from '../../Utils/Common';
-// import Select from 'react-select'
+import { Stack } from '@mui/material';
+import Alert from "@mui/material/Alert";
+import { handleAddressCharacters, validateInputField } from '../../Utils/Common';
+
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
     marginrowtop: {"margin-top": "30px"},
     marginrowtop50: {"margin-top": "50px"},
     inputwidth:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52'},
+    inputwidthcofield: {"margin-right" : "100px", width: "98%", "text-align": "left", height: '48px', color: '#3D4A52'},
     inputwidthlastrow:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52', "margin-top": "-10px"},
     headingbold:{fontWeight: "bold"}
 };
@@ -37,7 +41,7 @@ export default function ParticipantRegistrationForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         style={useStyles.inputwidth}
-                        id="filled-basic"
+                        id="org_name"
                         variant="filled"
                         required
                         value={props.organisationname}
@@ -50,7 +54,7 @@ export default function ParticipantRegistrationForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                         style={useStyles.inputwidth}
-                        id="filled-basic"
+                        id="org_email"
                         variant="filled"
                         required
                         value={props.orginsationemail}
@@ -66,6 +70,7 @@ export default function ParticipantRegistrationForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         style={useStyles.inputwidth}
+                        id="org_website"
                         variant="filled"
                         required
                         value={props.websitelink}
@@ -79,7 +84,7 @@ export default function ParticipantRegistrationForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                         style={useStyles.inputwidth}
-                        id="filled-basic"
+                        id="org_address"
                         variant="filled"
                         required
                         label={screenlabels.addparticipants.organisation_address}
@@ -95,7 +100,7 @@ export default function ParticipantRegistrationForm(props) {
                     <TextField 
                         select
                         labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
+                        id="select_country"
                         style={useStyles.inputwidth}
                         variant="filled"
                         required
@@ -112,7 +117,7 @@ export default function ParticipantRegistrationForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                        style={useStyles.inputwidth}
-                        id="filled-basic"
+                        id="org_pincode"
                         variant="filled"
                         required
                         type="number"
@@ -138,7 +143,7 @@ export default function ParticipantRegistrationForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         style={useStyles.inputwidth}
-                        id="filled-basic"
+                        id="first_name"
                         variant="filled"
                         required
                         label={screenlabels.addparticipants.first_name}
@@ -152,7 +157,7 @@ export default function ParticipantRegistrationForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <TextField
                         style={useStyles.inputwidth}
-                        id="filled-basic"
+                        id="last_name"
                         variant="filled"
                         label={screenlabels.addparticipants.last_name}
                         value={props.lastname}
@@ -167,7 +172,7 @@ export default function ParticipantRegistrationForm(props) {
                 <Col xs={12} sm={12} md={6} lg={6} >
                     <TextField
                         style={useStyles.inputwidth}
-                        id="filled-basic"
+                        id="user_email"
                         variant="filled"
                         required
                         label={screenlabels.addparticipants.email}
@@ -185,7 +190,7 @@ export default function ParticipantRegistrationForm(props) {
                         defaultCountry={"in"}
                         countryCodeEditable={false}
                         style={useStyles.inputwidth}
-                        id="filled-basic"
+                        id="contact_number"
                         label={screenlabels.addparticipants.contact_number}
                         variant="filled"
                         required
@@ -197,6 +202,43 @@ export default function ParticipantRegistrationForm(props) {
                     />
                 </Col>
             </Row>
+            <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
+            <Row style={useStyles.marginrowtop}>
+            <Col xs={12} sm={12} md={12} lg={12}>
+                <span className="mainheading" style={{float: 'left', 'margin-left': '15px'}}>
+                    {"Select Your Co-Steward"}
+                </span>
+            </Col>
+            </Row>
+            <Row>
+            <Stack sx={{ width: "97%", textAlign: "left", height: '48px', paddingLeft: "28px", paddingTop: "15px" }} spacing={2}>
+                  <Alert severity="warning">
+                    <strong>
+                      If you do not select your Co-Steward, you will be the part of Steward network
+                    </strong>
+                  </Alert>
+                </Stack>
+            </Row>
+            <Row style={useStyles.marginrowtop}>
+            <Col xs={12} sm={12} md={12} lg={12}>
+            <FormControl variant="filled" sx={{ m: 1, width: 420 }}  style={useStyles.inputwidthcofield}>
+              <InputLabel id="demo-simple-select-required-label">
+                {"Select Co-Steward"}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="select_costeward"
+                value={props.selectedCosteward}
+                onChange={props.handlelistofCosteward}
+                >
+                 {props.selectCoSteward.map((listofcosteward, index) => {
+                 return <MenuItem key={index} value={listofcosteward.user}> {listofcosteward.organization_name} </MenuItem>  
+                })} 
+                </Select>
+              </FormControl>
+            </Col>
+
+          </Row>
            </>
     )
 }

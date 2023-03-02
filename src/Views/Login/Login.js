@@ -106,7 +106,7 @@ export default function Login(props) {
     else if (getTokenLocal() && isLoggedInUserParticipant()) {
       props.history.push("/participant/datasets");
     }
-   else if (getTokenLocal() && isLoggedInUserCoSteward()) {
+    else if (getTokenLocal() && isLoggedInUserCoSteward()) {
       props.history.push("/datahub/participants");
     }
   }, []);
@@ -706,12 +706,12 @@ export default function Login(props) {
           console.log(response.data.user_map);
           console.log(response.data.org_id);
           if (response.status === 201) {
-               setisPolicies(true);   
-               setisOrg(false);
-               setUserMapId(response?.data?.user_map);
-               setOrgId(response?.data?.org_id);
-               setOrgIdState(response?.data?.org_id);
-      
+            setisPolicies(true);
+            setisOrg(false);
+            setUserMapId(response?.data?.user_map);
+            setOrgId(response?.data?.org_id);
+            setOrgIdState(response?.data?.org_id);
+
             if (isLoggedInUserParticipant()) {
               console.log("partcheck")
               if (getUserMapId()) {
@@ -723,7 +723,7 @@ export default function Login(props) {
                 setOnBoardedTrue();
                 setTokenLocal(isaccesstoken);
               }
-            }else if (isLoggedInUserCoSteward()){
+            } else if (isLoggedInUserCoSteward()) {
               console.log("costewardcheck")
               setOnBoardedTrue();
               setTokenLocal(isaccesstoken);
@@ -898,7 +898,7 @@ export default function Login(props) {
 
       //props.history.push('/loginadddatasetparticipant');
     }
-     if (isLoggedInUserCoSteward()){
+    if (isLoggedInUserCoSteward()) {
       console.log("costewardcheck")
       setisOrg(false);
       setOnBoardedTrue();
@@ -1000,7 +1000,7 @@ export default function Login(props) {
               userid={getUserLocal()}
             />
           )}
-          {isProfile && (isLoggedInUserParticipant() || isLoggedInUserCoSteward() )&& (
+          {isProfile && (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) && (
             <ProfileRightsideParticipant
               handleprofileSubmit={handleprofileSubmit}
               handleprofilfirstename={handleprofilfirstename}
@@ -1032,6 +1032,7 @@ export default function Login(props) {
           )}
           {isOrg ? (
             <OrgRightside
+              setisOrgWebsiteerror={setisOrgWebsiteerror}
               isOrgnameerror={isOrgnameerror}
               setisOrgnameerror={setisOrgnameerror}
               isOrgmailerror={isOrgmailerror}

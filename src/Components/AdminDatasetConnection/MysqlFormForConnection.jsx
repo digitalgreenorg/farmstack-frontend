@@ -90,7 +90,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
   //Connection establishment to the given database details
   const tryToConnect = () => {
     setLoader(true)
-    setSpinner(true)
+    // setSpinner(true)
 
     //building the body for request object
     let bodyData = {
@@ -110,21 +110,21 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
       true,
       checkforAcess).then((res) => {
         console.log(res)
+        setLoader(false)
         setDbData([...res.data])
         setIsConnected(true)
         //if error occurs Alert will be shown as Snackbar
         setMessageForSnackBar("Connection establishment done!")
         setErrorOrSuccess("success")
         handleClick()
-        setLoader(false)
-        setSpinner(false)
+        // setSpinner(false)
 
 
       }).catch((err) => {
         //if any error occurs displaying the error toast 
         console.log(err)
         setLoader(false)
-        setSpinner(false)
+        // setSpinner(false)
 
         //setting the cookies upon the successfull response with the validity of 1 hour or till the time metadata and dataset upload done
         let dataForReset = {
@@ -134,13 +134,6 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
           host_address: "",
           port: ""
         }
-
-        // //clear input fields
-        // setConnectionData({
-        //   ...connectionData, ...dataForReset
-        // })
-
-
 
         var returnValues = GetErrorKey(err, ["database", "username", "password", "host", "port"])
         var errorKeys = returnValues[0]
@@ -155,17 +148,26 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
               case "host": seteErrorHostMysql(errorMessages[i]); break;
               case "port": seteErrorPortMysql(errorMessages[i]); break;
               //if error occurs Alert will be shown as Snackbar
-              default: setMessageForSnackBar("Connection establishment failed!")
-                setErrorOrSuccess("error")
-                handleClick(); break;
+              default:
+                if (err?.response?.status == 401) {
+                  history.push(GetErrorHandlingRoute(err));
+                } else {
+                  setMessageForSnackBar("Connection establishment failed!")
+                  setErrorOrSuccess("error")
+                  handleClick(); break;
+                }
+
             }
           }
         }
         else {
-          //if error occurs Alert will be shown as Snackbar
-          setMessageForSnackBar("Connection establishment failed!")
-          setErrorOrSuccess("error")
-          handleClick() //toggling toast
+          if (err?.response?.status == 401) {
+            history.push(GetErrorHandlingRoute(err));
+          } else {
+            setMessageForSnackBar("Connection establishment failed!")
+            setErrorOrSuccess("error")
+            handleClick();
+          }
           setIsConnected(false) // move to table form
         }
 
@@ -210,7 +212,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
     setLoader(true)
     setSelectedTable(query);
 
-    let token = getTokenLocal();
+    let token = isaccesstoken ? isaccesstoken : getTokenLocal();
     Axios({
       method: method,
       url: UrlConstant.base_url + UrlConstant.get_column_from_table_name,
@@ -226,12 +228,16 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
         generateColumns([...res.data])
         setLoader(false)
       }).catch((err) => {
+        setLoader(false)
         console.log(err)
         //if error occurs Alert will be shown as Snackbar
-        setMessageForSnackBar("Columns fetching failed. Please try again!") //error message set
-        setErrorOrSuccess("error") //error type set 
-        handleClick() //toggling toast
-        setLoader(false)
+        if (err?.response?.status == 401) {
+          history.push(GetErrorHandlingRoute(err));
+        } else {
+          setMessageForSnackBar(`Columns fetching failed with status code ${err?.response?.status ? err?.response?.status : "NA"} :. Please try again!`) //error message set
+          setErrorOrSuccess("error") //error type set 
+          handleClick() //toggling toast
+        }
       })
   };
 
@@ -255,7 +261,8 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
     newFormData.append("source", "mysql")
     newFormData.append("table_name", table_name)
 
-    let token = getTokenLocal();
+    let token = isaccesstoken ? isaccesstoken : getTokenLocal();
+
 
     let url = ""
     if (isDatasetEditModeOn) {
@@ -316,14 +323,24 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
 
                 break;
               default:
-                setMessageForSnackBar("Some error occurred during exporting!")
-                handleClick()
+                if (err?.response?.status == 401) {
+                  history.push(GetErrorHandlingRoute(err));
+                } else {
+                  setMessageForSnackBar(`Some error occurred during exporting with status code ${err?.response?.status ? err?.response?.status : "NA"} :. Please try again!`) //error message set
+                  setErrorOrSuccess("error") //error type set 
+                  handleClick() //toggling toast
+                }
                 break;
             }
           }
         } else {
-          setMessageForSnackBar("Some error occurred during exporting!")
-          handleClick()
+          if (err?.response?.status == 401) {
+            history.push(GetErrorHandlingRoute(err));
+          } else {
+            setMessageForSnackBar(`Some error occurred during exporting with status code ${err?.response?.status ? err?.response?.status : "NA"} :. Please try again!`) //error message set
+            setErrorOrSuccess("error") //error type set 
+            handleClick() //toggling toast
+          }
         }
 
 
@@ -445,7 +462,7 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
   }, [])
   return (
     <>
-      {loader && isConnected ? <Loader /> : ""}
+      {loader ? <Loader /> : ""}
       <Snackbar
         open={open}
         autoHideDuration={4000}

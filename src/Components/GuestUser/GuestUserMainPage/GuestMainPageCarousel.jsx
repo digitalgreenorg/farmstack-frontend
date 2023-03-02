@@ -5,10 +5,12 @@ import EachCardForDetails from "./EachCardForDetails";
 import icon from "../../../Assets/Img/bellboy.gif"
 import GuestUserDatasetCard from "../GuestUserDatasetCard";
 import styles from "./guest_user_main_page.module.css"
+import { useHistory } from "react-router-dom";
 
 export default function GuestMainPageCarousel(props) {
-    const { heading, costewardData, participant, datasets } = props
+    const { heading, costewardData, participant, datasets, setIsViewDetails, setViewDetailData } = props
     // render(props) {
+    const history = useHistory()
     const settings = {
         className: "center",
         centerMode: true,
@@ -35,11 +37,11 @@ export default function GuestMainPageCarousel(props) {
             <Container className="carousel_in_guest_user_main_page">
                 {/* <Row> */}
 
-                <h2 style={{ margin: "0px 0px 50px 0px" }} >{"Co-Stewards"}</h2>
+                <h2 style={{ margin: "10px 0px 50px 0px" }} >{"Co-Stewards"}</h2>
                 <Slider {...settings}>
                     {costewardData.map((each, i) => {
                         return <div>
-                            <EachCardForDetails eachData={each} heading="Participant" icon={icon} />
+                            <EachCardForDetails setViewDetailData={setViewDetailData} setIsViewDetails={setIsViewDetails} eachData={each} heading="Participant" icon={icon} />
                         </div>
                     })}
                 </Slider>
@@ -60,7 +62,7 @@ export default function GuestMainPageCarousel(props) {
                                 orgLogo={dataset.organization.logo}
                                 description={dataset.description}
                                 id={dataset.id}
-                                // viewCardDetails={() => props.viewCardDetails(dataset.id)}
+                                viewCardDetails={() => history.push("/home/viewdataset/" + dataset.id)}
                                 margingtop={"supportcard supportcardmargintop20px"}
                             />
                         </div>
@@ -72,7 +74,7 @@ export default function GuestMainPageCarousel(props) {
                 <Slider {...settings}>
                     {participant.map((each, i) => {
                         return <div>
-                            <EachCardForDetails eachData={each} heading="Participant" icon={icon} />
+                            <EachCardForDetails setViewDetailData={setViewDetailData} setIsViewDetails={setIsViewDetails} eachData={each} heading="Participant" icon={icon} />
                         </div>
                     })}
                 </Slider>

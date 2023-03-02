@@ -1031,3 +1031,7 @@ button.disbalesubmitbtndept {
   border-radius: 10px !important;
 
 }
+
+.back_btn_guest .MuiSvgIcon-root {
+  color: #3491EE !important;
+}

@@ -85,7 +85,7 @@ const Preview = (props) => {
             </Row>
             <Row>
                 <Col lg={12} sm={12} className={styles.generate_btn_parent_col}>
-                    <Button disabled={Object.keys(finalDatasetAfterIntegration).length > 0 ? false : true} className={Object.keys(finalDatasetAfterIntegration).length > 0 ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={() => downloadDocument()}>
+                    <Button id='download_button' disabled={Object.keys(finalDatasetAfterIntegration).length > 0 ? false : true} className={Object.keys(finalDatasetAfterIntegration).length > 0 ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={() => downloadDocument()}>
                         <img src={downloadIcon} alt="Download" className={styles.download_btn} /> <span>Download CSV file</span>
                     </Button>
                 </Col>
