@@ -459,7 +459,7 @@ export default function OrganisationSetting(props) {
     console.log(e.target.value);
     if (e.target.value > 10) e.target.value = e.target.value.substring(0, 10);
     var pincode = e.target.value;
-    if (pincode.length > 0) {
+    if (pincode.length >= 5) {
       setispincodeerror(false);
       setOrgpincodebtn(true);
       // setOrgnextbutton(true);

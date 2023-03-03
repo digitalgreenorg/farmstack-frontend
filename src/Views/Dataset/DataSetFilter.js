@@ -196,7 +196,7 @@ export default function DataSetFilter(props) {
           </span>
         )}
       </Row>
-      {getRoleLocal() !== "datahub_co_steward" && (
+      {/* {getRoleLocal() !== "datahub_co_steward" && (
         <>
           {props.showMemberFilters && (
             <Row className="supportfiltersecondrowbold">
@@ -245,7 +245,7 @@ export default function DataSetFilter(props) {
               />
             ))}
         </>
-      )}
+      )} */}
 
       {/* <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
