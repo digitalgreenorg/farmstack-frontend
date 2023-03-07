@@ -29,6 +29,7 @@ import {
   handleAddressCharacters,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  mobileNumberMinimunLengthCheck,
   validateInputField,
 } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
@@ -820,7 +821,7 @@ export default function OrgRightside(props) {
               <span className="signupbtnname">Next</span>
             </Button> */}
             {props.orgName &&
-            props.validOrgNumber?.length == 15 &&
+            mobileNumberMinimunLengthCheck(props.validOrgNumber) &&
             !props.isOrgnameerror &&
             props.Orgemailbtn &&
             !props.isOrgmailerror &&
