@@ -264,7 +264,7 @@ function AddParticipants(props) {
                 orginsationemail &&
                 !isorganisationemailerror &&
                 countryvalue &&
-                contactnumber.length >= 9 &&
+                mobileNumberMinimunLengthCheck(contactnumber)&&
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&

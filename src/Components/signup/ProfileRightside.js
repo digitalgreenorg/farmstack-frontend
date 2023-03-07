@@ -8,6 +8,7 @@ import Footerimg from "../../Components/signup/Footerimg";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import Footer from "../Footer/Footer";
+import { mobileNumberMinimunLengthCheck } from "../../Utils/Common";
 
 // import "react-phone-input-2/lib/material.css";
 
@@ -264,7 +265,7 @@ export default function ProfileRightside(props) {
           </div>
           <div>
             {props.profilenextbutton &&
-            props.profilephone.length >= 9? (
+            mobileNumberMinimunLengthCheck(props.profilephone)? (
               <Button variant="contained" className="profilebtn" type="submit" id="next_btn">
                 <span className="signupbtnname">Next</span>
               </Button>
