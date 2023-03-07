@@ -254,7 +254,8 @@ export default function ProfileRightsideParticipant(props) {
           </div>
           */}
           <div>
-            {props.profilenextbutton ? (
+            {props.profilenextbutton &&
+            props.profilephone.length >= 9 ? (
               <Button variant="contained" className="profilebtn" type="submit" id="profile_nextbtn">
                 <span className="signupbtnname">Next</span>
               </Button>

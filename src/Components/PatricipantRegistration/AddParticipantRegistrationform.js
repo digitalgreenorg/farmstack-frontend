@@ -294,7 +294,7 @@ const handlelistofCosteward = (e) => {
                 orginsationemail &&
                 !isorganisationemailerror &&
                 countryvalue &&
-               mobileNumberMinimunLengthCheck(contactnumber) &&
+               contactnumber.length >= 9 &&
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&

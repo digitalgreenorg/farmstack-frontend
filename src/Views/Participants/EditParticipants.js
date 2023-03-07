@@ -314,7 +314,7 @@ function EditParticipants(props) {
                 orginsationemail &&
                 !isorganisationemailerror &&
                 countryvalue &&
-                contactnumber.length == 15 &&
+                contactnumber.length >= 9 &&
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
