@@ -14,7 +14,7 @@ import { LinearProgress } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useHistory } from "react-router-dom";
 import Loader from "../Loader/Loader";
-import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserCoSteward, isLoggedInUserParticipant } from "../../Utils/Common";
+import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserCoSteward, isLoggedInUserParticipant, mobileNumberMinimunLengthCheck } from "../../Utils/Common";
 import Footer from "../Footer/Footer";
 
 const fileTypes = ['JPEG', 'PNG', 'jpg']
@@ -254,7 +254,8 @@ export default function ProfileRightsideParticipant(props) {
           </div>
           */}
           <div>
-            {props.profilenextbutton ? (
+            {props.profilenextbutton &&
+            mobileNumberMinimunLengthCheck(props.profilephone) ? (
               <Button variant="contained" className="profilebtn" type="submit" id="profile_nextbtn">
                 <span className="signupbtnname">Next</span>
               </Button>
