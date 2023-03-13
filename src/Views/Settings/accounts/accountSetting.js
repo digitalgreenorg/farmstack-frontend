@@ -27,10 +27,13 @@ import {
   validateInputField,
 } from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
-
+import PhoneInput from "react-phone-number-input";
+import { isValidPhoneNumber,isPossiblePhoneNumber } from "react-phone-number-input";
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop8px: { "margin-top": "0px" },
+  contact: {"padding-right": "330px", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", 
+  "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
 };
 
 export default function AccountSetting(props) {
@@ -349,7 +352,7 @@ export default function AccountSetting(props) {
             />
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
-            <MuiPhoneNumber
+            {/* <MuiPhoneNumber
               required
               countryCodeEditable={false}
               defaultCountry={"in"}
@@ -362,9 +365,21 @@ export default function AccountSetting(props) {
               onChange={handleprofilenumber}
               error={phoneNumberErrorMessage ? true : false}
               helperText={phoneNumberErrorMessage}
-            // error={ispropfilenumbererror}
-            // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
-            />
+            /> */}
+             <PhoneInput
+                    className="ContactNumberStyleAccount PhoneInputInput"
+                    defaultCountry="IN"
+                    international
+                    countryCallingCodeEditable={false}
+                    countrySelectProps={{ unicodeFlags: true }}
+                    value={phonenumber}
+                    onChange={handleprofilenumber}
+                    limitMaxLength={true}
+                    />
+                    <span style={useStyles.contact}>
+                    {phonenumber ? ((isValidPhoneNumber(phonenumber) || isPossiblePhoneNumber(phonenumber)) ? "" : 'Invalid phone number') : ''}
+                    </span>
+
           </Col>
         </Row>
         <Row>

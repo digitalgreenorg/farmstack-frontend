@@ -16,6 +16,8 @@ import { useHistory } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import {GetErrorHandlingRoute, getUserLocal, isLoggedInUserCoSteward, isLoggedInUserParticipant, mobileNumberMinimunLengthCheck } from "../../Utils/Common";
 import Footer from "../Footer/Footer";
+import PhoneInput from "react-phone-number-input";
+import { isValidPhoneNumber, isPossiblePhoneNumber } from "react-phone-number-input";
 
 const fileTypes = ['JPEG', 'PNG', 'jpg']
 
@@ -33,6 +35,9 @@ export default function ProfileRightsideParticipant(props) {
   let history = useHistory();
 
   const nameRef = useRef();
+  const useStyles = {
+    contact: {"padding-right":"300px" ,color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+  };
 
   useEffect(() => {
     if (isLoggedInUserParticipant() || isLoggedInUserCoSteward() )
@@ -200,7 +205,7 @@ export default function ProfileRightsideParticipant(props) {
             />
           </div>
           <div className="profilenumber">
-            <MuiPhoneNumber
+            {/* <MuiPhoneNumber
               defaultCountry={"in"}
               countryCodeEditable={false}
               style={{ width: "420px" }}
@@ -209,9 +214,21 @@ export default function ProfileRightsideParticipant(props) {
               variant="filled"
               onChange={props.handleprofilenumber}
               value={props.profilephone}
-              // error={ispropfilenumbererror}
-              // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
-            />
+            /> */}
+              <PhoneInput
+                    className="ContactNumberStyleOnboard PhoneInputInput"
+                    defaultCountry="IN"
+                    id="profile_contactnumber"
+                    international
+                    countryCallingCodeEditable={false}
+                    countrySelectProps={{ unicodeFlags: true }}
+                    value={props.profilephone}
+                    onChange={props.handleprofilenumber}
+                    limitMaxLength={true}
+                    />
+                    <span style={useStyles.contact}>
+                    {props.profilephone ? ((isValidPhoneNumber(props.profilephone) || isPossiblePhoneNumber(props.profilephone)) ? "" : 'Invalid phone number') : ''}
+                    </span>
           </div>
           {/*
           <div className="profileimg">
@@ -255,7 +272,7 @@ export default function ProfileRightsideParticipant(props) {
           */}
           <div>
             {props.profilenextbutton &&
-            mobileNumberMinimunLengthCheck(props.profilephone) ? (
+            props.profilephone ? (
               <Button variant="contained" className="profilebtn" type="submit" id="profile_nextbtn">
                 <span className="signupbtnname">Next</span>
               </Button>

@@ -9,6 +9,8 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import Footer from "../Footer/Footer";
 import { mobileNumberMinimunLengthCheck } from "../../Utils/Common";
+import PhoneInput from "react-phone-number-input";
+import { isValidPhoneNumber, isPossiblePhoneNumber } from "react-phone-number-input";
 
 // import "react-phone-input-2/lib/material.css";
 
@@ -16,6 +18,9 @@ import { mobileNumberMinimunLengthCheck } from "../../Utils/Common";
 // import "react-phone-input-2/lib/style.css";
 
 export default function ProfileRightside(props) {
+  const useStyles = {
+    contact: {"padding-right":"300px", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+  };
   // const profilefirstname = useRef();
   // const profilelastname = useRef();
   // const profileemail = useRef();
@@ -248,7 +253,7 @@ export default function ProfileRightside(props) {
             />
           </div>
           <div className="profilenumber">
-            <MuiPhoneNumber
+            {/* <MuiPhoneNumber
               defaultCountry={"in"}
               countryCodeEditable={false}
               style={{ width: "420px" }}
@@ -259,9 +264,21 @@ export default function ProfileRightside(props) {
               error={props.phoneNumberErrorMessage ? true : false}
               helperText={props.phoneNumberErrorMessage}
               value={props.profilephone}
-              // error={ispropfilenumbererror}
-              // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
-            />
+            /> */}
+            <PhoneInput
+                    className="ContactNumberStyle PhoneInputInput"
+                    defaultCountry="IN"
+                    id="profile_number"
+                    international
+                    countryCallingCodeEditable={false}
+                    countrySelectProps={{ unicodeFlags: true }}
+                    value={props.profilephone}
+                    onChange={props.handleprofilenumber}
+                    limitMaxLength={true}
+                    />
+                    <span style={useStyles.contact}>
+                    {props.profilephone ? ((isValidPhoneNumber(props.profilephone) || isPossiblePhoneNumber(props.profilephone)) ? "" : 'Invalid phone number') : ''}
+                    </span>
           </div>
           <div>
             {props.profilenextbutton &&

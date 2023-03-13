@@ -14,6 +14,8 @@ import RegexConstants from '../../Constants/RegexConstants';
 import { Stack } from '@mui/material';
 import Alert from "@mui/material/Alert";
 import { handleAddressCharacters, validateInputField } from '../../Utils/Common';
+import PhoneInput from 'react-phone-number-input';
+import { isValidPhoneNumber, isPossiblePhoneNumber } from 'react-phone-number-input';
 
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
@@ -22,7 +24,8 @@ const useStyles = {
     inputwidth:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52'},
     inputwidthcofield: {"margin-right" : "100px", width: "98%", "text-align": "left", height: '48px', color: '#3D4A52'},
     inputwidthlastrow:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52', "margin-top": "-10px"},
-    headingbold:{fontWeight: "bold"}
+    headingbold:{fontWeight: "bold"},
+    contact: {"text-align": "left", "padding-right": "370px", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
 };
 export default function ParticipantRegistrationForm(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
@@ -186,7 +189,7 @@ export default function ParticipantRegistrationForm(props) {
                     />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
-                    <MuiPhoneNumber
+                    {/* <MuiPhoneNumber
                         defaultCountry={"in"}
                         countryCodeEditable={false}
                         style={useStyles.inputwidth}
@@ -199,7 +202,20 @@ export default function ParticipantRegistrationForm(props) {
                         error={props.iscontactnumbererror || props.phoneNumberErrorMessage}
                         helperText={(props.iscontactnumbererror && !props.phoneNumberErrorMessage) 
                             ? "Enter Valid Number" : props.phoneNumberErrorMessage}
+                    /> */}
+                     <PhoneInput
+                    className="ContactNumberStyle PhoneInputInput"
+                    defaultCountry="IN"
+                    international
+                    countryCallingCodeEditable={false}
+                    countrySelectProps={{ unicodeFlags: true }}
+                    value={props.contactnumber}
+                    onChange={(e) => props.setcontactnumber(e)}
+                    limitMaxLength={true}
                     />
+                    <span style={useStyles.contact}>
+                    {props.contactnumber ? ((isValidPhoneNumber(props.contactnumber) || isPossiblePhoneNumber(props.contactnumber)) ? "" : 'Invalid phone number') : ''}
+                    </span>
                 </Col>
             </Row>
             <hr style={{'margin-left' : '-200px', 'margin-right' : '-200px','margin-top' : '30px', 'border-top': '1px solid rgba(238, 238, 238, 0.5)'}}/>
