@@ -1,7 +1,7 @@
 .data_standardization_cloumn_container{
     display: flex;
     justify-content: space-around;
-    padding-right: 200px;
+    /* padding-right: 200px; */
 }
 .data_standardization_title{
     display: flex;
@@ -15,6 +15,15 @@
     font-size: 18px;
 }
 .uploaded_data_column_name_title{
+    display: flex;
     font-weight: 400;
     font-size: 16px;
+    align-items: center;
+    max-width: 150px;
+    width: 100px;
+    word-wrap: break-word;
+}
+.uploaded_data_column_name_title_container{
+    display: flex;
+    align-items: center;   
 }
