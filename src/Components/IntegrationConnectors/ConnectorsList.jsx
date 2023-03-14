@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import ConnectorCard from "../IntegrationConnectors/ConnectorCard"
 import { Button } from "@mui/material";
+import THEME_COLORS from "../../Constants/ColorConstants";
 import Loader from "../Loader/Loader";
 import HTTPService from "../../Services/HTTPService";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
@@ -41,6 +42,7 @@ export default function ConnectorsList() {
       "font-weight": "700",
       "font-size": "14px",
       "align-item": "right",
+      "border-color": THEME_COLORS.THEME_COLOR,
     },
     cardtext: {
       color: "#A3B0B8",
