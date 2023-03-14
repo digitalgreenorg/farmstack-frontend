@@ -9,20 +9,23 @@ import Loader from "../Loader/Loader";
 import HTTPService from "../../Services/HTTPService";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
+import UrlConstant from "../../Constants/UrlConstants";
 export default function ConnectorsList() {
-  const [createdDate, setCreatedDate] = useState("");
-  const [connectorName, setConnectorName] = useState("");
-  const [description, setDesription] = useState("")
-  const [usedDatasets, setUsedDatasets] = useState("")
-  const [providers, setProviders] = useState("")
   const [isLoader, setIsLoader] = useState(false);
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
+  const [connectorList, setConnectorList] = useState([]);
+  const [connectorUrl, setConnectorUrl]= useState("");
   const history = useHistory()
+
+  useEffect(() => {
+    getListOfConnectors()
+  }, [])
+
   const getListOfConnectors = () => {
     setIsLoader(true);
     HTTPService(
       "GET",
-      
+      UrlConstant.base_url + UrlConstant.list_of_connectors,
       "",
       false,
       true
@@ -30,18 +33,43 @@ export default function ConnectorsList() {
       .then((response) => {
         setIsLoader(false);
         console.log("connectors list", response.data);
-        // if (response.data.next == null) {
-        //   setisShowLoadMoreButton(false);
-        // } else {
-        //   setisShowLoadMoreButton(true);
-        //   setparticipantUrl(response.data.next);
-        // }
-        // setparticipantList(response.data.results);
+        if (response.data.next == null) {
+          setisShowLoadMoreButton(false);
+        } else {
+          setConnectorUrl(response.data.next);
+          setisShowLoadMoreButton(true);
+        }
+        setConnectorList(response.data.results);
       })
       .catch((e) => {
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
       });
+  }
+
+  const connectorsListOnLoadMore = () => {
+    setIsLoader(true);
+    HTTPService(
+      "GET",
+      connectorUrl,
+      "",
+      false,
+      true
+    ).then((response) => {
+      setIsLoader(false);
+      if(response.data.next == null){
+        setisShowLoadMoreButton(false)
+      } else {
+        setisShowLoadMoreButton(true);
+        setConnectorUrl(response.data.next);
+      }
+      let initialList = connectorList;
+      let totalListOfConnectors = [...initialList, ...response.data.results];
+      setConnectorList(totalListOfConnectors);
+    }).catch((e) => {
+      setIsLoader(false);
+      history.push(GetErrorHandlingRoute(e));
+    })
   }
   const useStyles = {
     marginrowtoptab50px: { "margin-top": "50px" },
@@ -64,7 +92,6 @@ export default function ConnectorsList() {
       "font-weight": "700",
       "font-size": "14px",
       "align-item": "right",
-      "float": "right"
     }
 
 
@@ -83,7 +110,7 @@ export default function ConnectorsList() {
             {"List of Connectors"}
           </span>
         </Col>
-        <Col xs={12} sm={12} md={6} lg={6} style={{ paddingRight: "20px" }}>
+        <Col xs={12} sm={12} md={6} lg={6} style={{ textAlign: "right"}}>
           <Button
             InputProps={{
               startAdornment: (
@@ -109,93 +136,24 @@ export default function ConnectorsList() {
         </Col>
       </Row>
       <Row>
+           {connectorList.map((list, index) => (
             <Col xs={12} sm={6} md={4} lg={4}>
               <ConnectorCard
-                firsttext={"Last Updated on: 25/1/1998"}
-                secondtext={"Random string check for cards"}
-                descriptiontext={"API reference docs for the React Card component. Learn about the props, CSS, and other APIs of this exported module."}
-                useddataset={5}
-                providers={3}
+                firsttext={"Last Updated on: " + list.createdDate}
+                secondtext={list?.name}
+                useddataset={list?.usedDatasets}
+                providers={list?.providers}
+                index={index}
               >
               </ConnectorCard>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <ConnectorCard
-                firsttext={"Last Updated on: 25/1/1998"}
-                secondtext={"Random string check for cards"}
-                descriptiontext={"API reference docs for the React Card component. Learn about the props, CSS, and other APIs of this exported module."}
-                useddataset={5}
-                providers={3}
-              >
-              </ConnectorCard>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <ConnectorCard
-                firsttext={"Last Updated on: 25/1/1998"}
-                secondtext={"Random string check for cards"}
-                descriptiontext={"API reference docs for the React Card component. Learn about the props, CSS, and other APIs of this exported module."}
-                useddataset={5}
-                providers={3}
-              >
-              </ConnectorCard>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <ConnectorCard
-                firsttext={"Last Updated on: 25/1/1998"}
-                secondtext={"Random string check for cards"}
-                descriptiontext={"API reference docs for the React Card component. Learn about the props, CSS, and other APIs of this exported module."}
-                useddataset={5}
-                providers={3}
-              >
-              </ConnectorCard>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <ConnectorCard
-                firsttext={"Last Updated on: 25/1/1998"}
-                secondtext={"Random string check cards"}
-                descriptiontext={"API reference docs for the React Card component. Learn about the props, CSS, and other APIs of this exported module."}
-                useddataset={5}
-                providers={3}
-              >
-              </ConnectorCard>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <ConnectorCard
-                firsttext={"Last Updated on: 25/1/1998"}
-                secondtext={"Random string check cards"}
-                descriptiontext={"API reference docs for the React Card component. Learn about the props, CSS, and other APIs of this exported module."}
-                useddataset={13}
-                providers={3}
-              >
-              </ConnectorCard>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <ConnectorCard
-                firsttext={"Last Updated on: 25/1/1998"}
-                secondtext={"Random string check cards"}
-                descriptiontext={"API reference docs for the React Card component. Learn about the props, CSS, and other APIs of this exported module."}
-                useddataset={12}
-                providers={3}
-              >
-              </ConnectorCard>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <ConnectorCard
-                firsttext={"Last Updated on: 25/1/1998"}
-                secondtext={"Random string check cards"}
-                descriptiontext={"API reference docs for the React Card component. Learn about the props, CSS, and other APIs of this exported module."}
-                useddataset={11}
-                providers={3}
-              >
-              </ConnectorCard>
-            </Col>
+            </Col> ))}
           </Row>
           <Row style={{ "margin-top": "10px" }}>
                     <Col xs={12} sm={12} md={6} lg={3}></Col>
-                    {/* {isCoStewardShowLoadMoreButton ? ( */}
+                    {isShowLoadMoreButton ? (
                       <Col xs={12} sm={12} md={6} lg={6}>
                         <Button
-                          // onClick={() => getCoStewardListOnloadMore()}
+                          onClick={() => connectorsListOnLoadMore()}
                           variant="outlined"
                           className="cancelbtn"
                           style={{ "text-transform": "none" }}
@@ -203,9 +161,9 @@ export default function ConnectorsList() {
                           Load more
                         </Button>
                       </Col>
-                    {/* ) : (
+                     ) : (
                       <></>
-                    )} */}
+                    )} 
                   </Row>
     </div>
   )
