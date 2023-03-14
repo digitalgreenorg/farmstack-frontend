@@ -1,16 +1,12 @@
 import React from "react";
 import Card from "@mui/material/Card";
-import { useState } from "react";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "@mui/material/Button";
-import THEME_COLORS from "../../Constants/ColorConstants";
-import UrlConstants from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
+import { dateTimeFormat } from "../../Utils/Common";
 
 const useStyles = {
   marginrowtop: { "margin-top": "30px" },
@@ -38,7 +34,7 @@ const useStyles = {
   "line-height":"19px",  
   "textAlign": "left", 
   marginBottom: "20px" , 
-  "margin-top": "-20px",
+ 
   "overflow": "hidden", 
   "text-overflow": "ellipsis",
   "display": "-webkit-box",
@@ -54,7 +50,7 @@ const useStyles = {
     "line-height":"19px", 
     "textAlign": "left", 
   },
-    header: {height: "84px",
+    header: {height: "4px",
     "text-align": "left",
     "font-family": "Open Sans",
     "font-style": "normal",
@@ -62,7 +58,7 @@ const useStyles = {
     "font-size": "14px",
     "line-height": "19px",
     "color": "#9BA0A7",
-    "margin-top": "-40px"
+    
 },
 }
 
@@ -70,7 +66,8 @@ export default function ConnectorCard(props) {
   const history = useHistory();
   return (
     <Card
-      // onClick={() => history.push('/datahub/datasets')}
+    // To add view component of connector when the card is clicked
+      // onClick={() => history.push("")}   
       className="connectorCard"
     >
         <CardHeader
@@ -80,7 +77,7 @@ export default function ConnectorCard(props) {
             sx={{ width: 15, height: 15,}}
             ></Avatar>
           }
-          title={props.firsttext}
+          title={"Last Updated on: "+ dateTimeFormat(props.firsttext, true)}
           style={useStyles.header}
         />
       <CardContent>

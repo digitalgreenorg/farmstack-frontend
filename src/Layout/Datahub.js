@@ -41,6 +41,7 @@ import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMet
 import ViewCoSteward from "../Components/Participants/ViewCoSteword";
 import EditCoSteward from "../Components/Participants/EditCoSteward";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
+import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -130,7 +131,7 @@ function Datahub(props) {
               <Route exact path="/datahub/support" component={Support} />
               {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
               <Route exact path="/datahub/datasets" component={DatasetAdmin} />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/connectors/add"
                 component={AddConnectorParticipant}
@@ -144,7 +145,7 @@ function Datahub(props) {
                 exact
                 path="/datahub/connectors"
                 component={ConnectorParticipant}
-              />
+              /> */}
               <Route
                 exact
                 path="/datahub/settings/project/add"
@@ -185,6 +186,12 @@ function Datahub(props) {
               path="/datahub/integration"     
               >
               <DatasetIntegration/>
+              </Route>
+              <Route
+              exact
+              path="/datahub/connectors/list"
+              >
+              <ConnectorsList/>
               </Route>
             </Switch>
           </div>
