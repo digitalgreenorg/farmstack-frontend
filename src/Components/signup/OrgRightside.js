@@ -61,7 +61,7 @@ export default function OrgRightside(props) {
     RichTextEditor.createValueFromString(orgdesc, "html")
   );
   const useStyles = {
-    contact: {"padding-right":"300px", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+    contact: {float: "left", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
   };
   const orgNameRef = useRef();
   const orgMailRef = useRef();
@@ -583,7 +583,7 @@ export default function OrgRightside(props) {
                     limitMaxLength={true}
                     />
                     <span style={useStyles.contact}>
-                    {props.validOrgNumber ? ((isValidPhoneNumber(props.validOrgNumber) || isPossiblePhoneNumber(props.validOrgNumber)) ? "" : 'Invalid phone number') : ''}
+                    {props.validOrgNumber ? ((isValidPhoneNumber(props.validOrgNumber) && isPossiblePhoneNumber(props.validOrgNumber)) ? "" : 'Invalid phone number') : ''}
                     </span>
           </div>
           <div className="orgaddress">

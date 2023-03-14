@@ -1067,7 +1067,8 @@ button.disbalesubmitbtndept {
   background: #F1F1F1;
   width: 490px;
   height: 55px;
-  margin-left: 90px;
+  float: right;
+  margin-right: 30px;
   margin-top: 30px;
 }
 .ContactNumberStyleAccount{

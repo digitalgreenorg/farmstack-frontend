@@ -25,7 +25,7 @@ const useStyles = {
     inputwidthcofield: {"margin-right" : "100px", width: "98%", "text-align": "left", height: '48px', color: '#3D4A52'},
     inputwidthlastrow:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52', "margin-top": "-10px"},
     headingbold:{fontWeight: "bold"},
-    contact: {"text-align": "left", "padding-right": "370px", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+    contact: {float : "left", padding : "inherit", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
 };
 export default function ParticipantRegistrationForm(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
@@ -214,7 +214,7 @@ export default function ParticipantRegistrationForm(props) {
                     limitMaxLength={true}
                     />
                     <span style={useStyles.contact}>
-                    {props.contactnumber ? ((isValidPhoneNumber(props.contactnumber) || isPossiblePhoneNumber(props.contactnumber)) ? "" : 'Invalid phone number') : ''}
+                    {props.contactnumber ? ((isValidPhoneNumber(props.contactnumber) && isPossiblePhoneNumber(props.contactnumber)) ? "" : 'Invalid phone number') : ''}
                     </span>
                 </Col>
             </Row>

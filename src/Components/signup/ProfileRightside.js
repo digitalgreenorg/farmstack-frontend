@@ -19,7 +19,7 @@ import { isValidPhoneNumber, isPossiblePhoneNumber } from "react-phone-number-in
 
 export default function ProfileRightside(props) {
   const useStyles = {
-    contact: {"padding-right":"300px", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+    contact: {float: "left", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
   };
   // const profilefirstname = useRef();
   // const profilelastname = useRef();
@@ -277,7 +277,7 @@ export default function ProfileRightside(props) {
                     limitMaxLength={true}
                     />
                     <span style={useStyles.contact}>
-                    {props.profilephone ? ((isValidPhoneNumber(props.profilephone) || isPossiblePhoneNumber(props.profilephone)) ? "" : 'Invalid phone number') : ''}
+                    {props.profilephone ? ((isValidPhoneNumber(props.profilephone) && isPossiblePhoneNumber(props.profilephone)) ? "" : 'Invalid phone number') : ''}
                     </span>
           </div>
           <div>

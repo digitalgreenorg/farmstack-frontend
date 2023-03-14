@@ -32,7 +32,7 @@ import { isValidPhoneNumber,isPossiblePhoneNumber } from "react-phone-number-inp
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop8px: { "margin-top": "0px" },
-  contact: {"padding-right": "330px", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", 
+  contact: {float: "left", "padding-left": "60px", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", 
   "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
 };
 
@@ -377,7 +377,7 @@ export default function AccountSetting(props) {
                     limitMaxLength={true}
                     />
                     <span style={useStyles.contact}>
-                    {phonenumber ? ((isValidPhoneNumber(phonenumber) || isPossiblePhoneNumber(phonenumber)) ? "" : 'Invalid phone number') : ''}
+                    {phonenumber ? ((isValidPhoneNumber(phonenumber) && isPossiblePhoneNumber(phonenumber)) ? "" : 'Invalid phone number') : ''}
                     </span>
 
           </Col>
