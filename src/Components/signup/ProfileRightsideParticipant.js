@@ -36,7 +36,7 @@ export default function ProfileRightsideParticipant(props) {
 
   const nameRef = useRef();
   const useStyles = {
-    contact: {"float": "left" ,color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+    contact: {display: "flex", "flex-direction": "column", "align-items": "baseline", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
   };
 
   useEffect(() => {

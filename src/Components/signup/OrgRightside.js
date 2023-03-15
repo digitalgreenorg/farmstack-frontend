@@ -61,7 +61,7 @@ export default function OrgRightside(props) {
     RichTextEditor.createValueFromString(orgdesc, "html")
   );
   const useStyles = {
-    contact: {float: "left", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+    contact: {display: "flex", "text-align": "left", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
   };
   const orgNameRef = useRef();
   const orgMailRef = useRef();

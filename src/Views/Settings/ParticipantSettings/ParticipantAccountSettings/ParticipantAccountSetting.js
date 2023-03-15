@@ -32,7 +32,7 @@ import Loader from "../../../../Components/Loader/Loader";
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop8px: { "margin-top": "0px" },
-  contact: {float: "left", "padding-left": "60px",
+  contact: {
     "margin-top": "20px", color: "#ff3d00", "font-size": "12px", "font-weight": "400",
     "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"
   },
@@ -352,7 +352,7 @@ export default function ParticipantAccountSetting(props) {
             // }
             />
           </Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
+          <Col xs={12} sm={12} md={6} lg={6} style={{"text-align": "left", display: "flex", "flex-direction": "column", "align-items": "baseline",}}>
             {/* <MuiPhoneNumber
               required
               countryCodeEditable={false}

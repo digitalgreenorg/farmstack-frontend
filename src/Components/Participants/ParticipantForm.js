@@ -27,7 +27,7 @@ const useStyles = {
     inputwidth:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52'},
     inputwidthlastrow:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52', "margin-top": "-10px"},
     headingbold:{fontWeight: "bold"},
-    contact: {float: "left", "padding": "inherit", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+    contact: {color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
 };
 export default function ParticipantForm(props) {
     const [screenlabels, setscreenlabels] = useState(labels['en']);
@@ -190,7 +190,7 @@ export default function ParticipantForm(props) {
                                     "User is already registered with this email ID" : props.emailErrorMessage}
                     />
                 </Col>
-                <Col xs={12} sm={12} md={6} lg={6}>
+                <Col xs={12} sm={12} md={6} lg={6} style={{"text-align": "left", display: "flex", "flex-direction": "column", "align-items": "baseline",}}>
                     {/* <MuiPhoneNumber
                         defaultCountry={"in"}
                         countryCodeEditable={false}
@@ -208,7 +208,6 @@ export default function ParticipantForm(props) {
                     /> */}
                     <PhoneInput
                     className="ContactNumberStyle PhoneInputInput"
-                    placeholder="helloooooooooo"
                     defaultCountry="IN"
                     international
                     countryCallingCodeEditable={false}
