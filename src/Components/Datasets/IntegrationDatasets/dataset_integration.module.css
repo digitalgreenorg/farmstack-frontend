@@ -80,7 +80,7 @@
     /* outline-width: 8px;
     outline-offset: -8px; */
     height: 48px;
-    width: 100% !important;
+    /* width: 100% !important; */
     text-align: center;
 }
 
@@ -100,7 +100,7 @@
     color: #FF5630 !important;
     text-transform: none !important;
     height: 48px;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .delete_btn:hover {
@@ -232,7 +232,7 @@
 }
 
 .typeMainBox {
-    border: 2px solid #C09507;
+    border: 1px solid;
     width: 108px;
     height: 108px;
     background: #FFFFFF;
@@ -244,7 +244,7 @@
 }
 
 .stypeMainBox {
-    border: 2px solid green;
+    border: 2px solid #C09507;
     text-transform: capitalize;
     width: 108px;
     height: 108px;
@@ -268,6 +268,8 @@
 
 .selectedTypeImage {
     text-align: center;
+    height: 50px;
+    width: 50px;
 }
 
 .labelTypeJoin {}

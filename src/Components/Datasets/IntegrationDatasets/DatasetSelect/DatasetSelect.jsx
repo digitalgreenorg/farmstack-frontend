@@ -255,7 +255,7 @@ const DatasetSelect = (props) => {
                                     }
                                 </span>
                             }
-                            {index < completeData.length - 1 && <span onMouseOver={() => handleMoreDataShow(index, true)} style={{ border: index == indexShow && "1.5px solid #C09507" }} class={styles.vl} ></span>}
+                            {index < completeData.length - 1 && <span onMouseOver={(e) => handleMoreDataShow(index, true, e)} style={{ border: index == indexShow && "1.5px solid #C09507" }} class={styles.vl} ></span>}
                         </span>
                     })}
 

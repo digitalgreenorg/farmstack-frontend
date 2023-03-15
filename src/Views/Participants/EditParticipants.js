@@ -16,6 +16,7 @@ import Loader from "../../Components/Loader/Loader";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
+  mobileNumberMinimunLengthCheck,
   stringMinimumLengthCheck,
 } from "../../Utils/Common";
 const useStyles = {
@@ -314,7 +315,7 @@ function EditParticipants(props) {
                 orginsationemail &&
                 !isorganisationemailerror &&
                 countryvalue &&
-                contactnumber.length == 15 &&
+                mobileNumberMinimunLengthCheck(contactnumber) &&
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&

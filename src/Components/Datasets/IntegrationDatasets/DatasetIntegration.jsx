@@ -14,14 +14,15 @@ import { GetErrorHandlingRoute, GetErrorKey, goToTop } from '../../../Utils/Comm
 import { useHistory } from 'react-router-dom'
 import { Affix } from 'antd'
 import { AddIcCallOutlined } from '@material-ui/icons'
+import ConnectorsList from '../../IntegrationConnectors/ConnectorsList'
 const converter = require('json-2-csv')
 const fs = require('fs')
 
 const DatasetIntegration = (props) => {
 
-    const { isEditModeOn } = props
+    const { isEditModeOn, connectorIdForView } = props
     const [counterForIntegrator, setCounterForIntegration] = useState(2)
-    const [isDatasetIntegrationListModeOn, setIsDatasetIntegrationListModeOn] = useState(false)
+    const [isDatasetIntegrationListModeOn, setIsDatasetIntegrationListModeOn] = useState(true)
     const [top, setTop] = useState(10);
     const [orgList, setOrgList] = useState([])
     const [message, setMessage] = useState("")
@@ -54,6 +55,7 @@ const DatasetIntegration = (props) => {
 
     // const [listOfDatsetFileAvailableForColumn, setListOfDatsetFileAvailableForColumn] = useState([])
     const [finalDataNeedToBeGenerated, setFinalDataNeedToBeGenerated] = useState({})
+    const [integratedFilePath, setIntegratedFilePath] = useState("")
     const [finalDatasetAfterIntegration, setFinalDatasetAfterIntegration] = useState([])
     const [finalDatasetAfterSaving, setFinalDatasetAfterSaving] = useState([])
 
@@ -259,7 +261,10 @@ const DatasetIntegration = (props) => {
 
     //this function is being used to generate the data at first place, Save the generated data and delete the saved connectors
     const generateData = (index, condition,) => {
-
+        let connector_id = connectorId
+        if (condition == "view_details") {
+            connector_id = connectorIdForView
+        }
         //condition can be ===> [integrate, delete, save] any one of the listed elements
         setLoader(true)
         let url = ""
@@ -271,8 +276,8 @@ const DatasetIntegration = (props) => {
         for (let i = 0; i < completeData.length - 1; i++) {
             //Generating the payload as array of objects each object having data friom completeData and completeJoinData
             let obj = {
-                left_dataset_file_id: completeData[i]?.file_id,
-                right_dataset_file_id: completeData[i + 1]?.file_id,
+                left_dataset_file: completeData[i]?.file_id,
+                right_dataset_file: completeData[i + 1]?.file_id,
                 left_dataset_file_path: completeData[i]?.file_name,
                 right_dataset_file_path: completeData[i + 1]?.file_name,
                 condition: {
@@ -287,18 +292,22 @@ const DatasetIntegration = (props) => {
         let finalPayload
         let method
         if (condition == "save") {
-            finalPayload = { name: connectorData.name, description: connectorData.desc, map: payload }
+            finalPayload = { name: connectorData.name, description: connectorData.desc, maps: payload, integrated_file: integratedFilePath }
             url = UrlConstant.base_url + UrlConstant.integration_connectors // for saving
             method = "POST"
         } else if (condition == "integrate") {
-            finalPayload = payload
+            finalPayload = { name: connectorData.name, description: connectorData.desc, maps: payload }
             url = UrlConstant.base_url + UrlConstant.joining_the_table //for generating
             method = "POST"
-        } else if (condition == "delete" && connectorId) {
+        } else if (condition == "delete" && connector_id) {
             finalPayload = {}
-            url = UrlConstant.base_url + UrlConstant.integration_connectors + connectorId + "/"
-            method = "Delete"
-        } else {
+            url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/"
+            method = "DELETE"
+        } else if (condition == "view_details") {
+            url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/"
+            method = "GET"
+        }
+        else {
             setLoader(false)
             return
         }
@@ -307,9 +316,10 @@ const DatasetIntegration = (props) => {
 
             setLoader(false)
             if (condition == "integrate") {
-
-                setFinalDatasetAfterIntegration([...JSON.parse(res.data)])
-                let allKeys = JSON.parse(res.data)?.length > 0 ? Object.keys(JSON.parse(res.data)[0]) : []
+                console.log("inside integrate", res.data)
+                setIntegratedFilePath(res?.data?.integrated_file ? res?.data?.integrated_file : "")
+                setFinalDatasetAfterIntegration([...JSON.parse(res.data?.data)])
+                let allKeys = JSON.parse(res.data.data)?.length > 0 ? Object.keys(JSON.parse(res.data.data)[0]) : []
                 if (allKeys.length > 1) {
                     let arr = [...completeData]
                     let obj = arr[index + 1]
@@ -327,10 +337,12 @@ const DatasetIntegration = (props) => {
                 }
 
             } else if (condition == "save") {
+                console.log("inside save", res.data)
                 setConnectorId(res?.data?.id ? res.data.id : "")
                 setOpen(true);
                 setAlertType("success")
                 setMessage("Data saved successfully!")
+                setIsDatasetIntegrationListModeOn(true)
                 let id = setTimeout(() => {
                     setOpen(false);
                     return clearTimeout(id)
@@ -338,6 +350,7 @@ const DatasetIntegration = (props) => {
                 document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
 
             } else if (condition == "delete") {
+                console.log("inside delete", res)
                 setOpen(true);
                 setAlertType("success")
                 setMessage("Data deleted successfully!")
@@ -404,6 +417,7 @@ const DatasetIntegration = (props) => {
 
     useEffect(() => {
         getDataList("org_names")
+        // isEditModeOn ?
     }, [])
 
 
@@ -441,7 +455,7 @@ const DatasetIntegration = (props) => {
             </Container>
             {!isDatasetIntegrationListModeOn && <DatasetSelect integrateMore={integrateMore} empty={empty} setTemplate={setTemplate} template={template} counterForIntegrator={counterForIntegrator} resetAll={resetAll} generateData={generateData} orgList={orgList} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} setConnectorData={setConnectorData} setCompleteData={setCompleteData} completeData={completeData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated} handleClickSelectDataset={handleClickSelectDataset} handleChangeDatasetNameSelector={handleChangeDatasetNameSelector} />}
             {!isDatasetIntegrationListModeOn && completeData.length > 0 && <  Preview generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
-            {isDatasetIntegrationListModeOn && <span>listing</span>}
+            {isDatasetIntegrationListModeOn && <span><ConnectorsList setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} /></span>}
         </>
     )
 }
