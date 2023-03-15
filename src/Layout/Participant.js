@@ -124,16 +124,16 @@ function Participant(props) {
                 path="/participant/connectors/detail"
                 component={DemoDashboardTable}
               />
-               <Route
-              exact
-              path="/participant/dataset/view/:id"
-              component={ViewMetaDatasetDetails}
+              <Route
+                exact
+                path="/participant/dataset/view/:id"
+                component={ViewMetaDatasetDetails}
               />
-                <Route
-              exact
-              path="/participant/integration"
+              <Route
+                exact
+                path="/participant/connectors"
               >
-              <DatasetIntegration/>
+                <DatasetIntegration />
               </Route>
             </Switch>
           </div>
