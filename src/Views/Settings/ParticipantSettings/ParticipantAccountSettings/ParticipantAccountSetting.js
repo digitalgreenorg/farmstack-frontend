@@ -10,6 +10,8 @@ import { FileUploader } from "react-drag-drop-files";
 import labels from "../../../../Constants/labels";
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
+import PhoneInput from "react-phone-number-input";
+import { isValidPhoneNumber, isPossiblePhoneNumber } from "react-phone-number-input";
 import HandleSessionTimeout, {
   setTokenLocal,
   getTokenLocal,
@@ -30,6 +32,10 @@ import Loader from "../../../../Components/Loader/Loader";
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop8px: { "margin-top": "0px" },
+  contact: {
+    "margin-top": "20px", color: "#ff3d00", "font-size": "12px", "font-weight": "400",
+    "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"
+  },
 };
 
 export default function ParticipantAccountSetting(props) {
@@ -113,8 +119,8 @@ export default function ParticipantAccountSetting(props) {
     //   //   setispropfileemailerror(true);
     //   // }
   };
-  const phonenumcheck = (number) =>{
-    return number.length>=9
+  const phonenumcheck = (number) => {
+    return number.length >= 9
   };
   const handleprofilenumber = (value) => {
     console.log(value);
@@ -318,10 +324,10 @@ export default function ParticipantAccountSetting(props) {
               inputRef={profilelastname}
               error={lastNameErrorMessage ? true : false}
               helperText={lastNameErrorMessage}
-              // error={ispropfilelastnameerror}
-              // helperText={
-              //   ispropfilelastnameerror ? "Enter Valid last name" : ""
-              // }
+            // error={ispropfilelastnameerror}
+            // helperText={
+            //   ispropfilelastnameerror ? "Enter Valid last name" : ""
+            // }
             />
           </Col>
         </Row>
@@ -340,14 +346,14 @@ export default function ParticipantAccountSetting(props) {
               inputProps={{ readOnly: true }}
               //   defaultValue={validemail}
               disabled
-              // error={props.ispropfileemailerror}
-              // helperText={
-              //   props.ispropfileemailerror ? "Enter Valid Email id" : ""
-              // }
+            // error={props.ispropfileemailerror}
+            // helperText={
+            //   props.ispropfileemailerror ? "Enter Valid Email id" : ""
+            // }
             />
           </Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <MuiPhoneNumber
+          <Col xs={12} sm={12} md={6} lg={6} style={{"text-align": "left", display: "flex", "flex-direction": "column", "align-items": "baseline",}}>
+            {/* <MuiPhoneNumber
               required
               countryCodeEditable={false}
               defaultCountry={"in"}
@@ -360,9 +366,21 @@ export default function ParticipantAccountSetting(props) {
               onChange={handleprofilenumber}
               error={phoneNumberErrorMessage ? true : false}
               helperText={phoneNumberErrorMessage}
-              // error={ispropfilenumbererror}
-              // helperText={ispropfilenumbererror ? "Enter Valid Email id" : ""}
+            /> */}
+            <PhoneInput
+              className="phonenumber ContactNumberStyleAccount PhoneInputInput"
+              defaultCountry="IN"
+              international
+              countryCallingCodeEditable={false}
+              countrySelectProps={{ unicodeFlags: true }}
+              value={phonenumber}
+              onChange={handleprofilenumber}
+              limitMaxLength={true}
             />
+            <span style={useStyles.contact}>
+              {phonenumber ? ((isValidPhoneNumber(phonenumber) && isPossiblePhoneNumber(phonenumber)) ? "" : 'Invalid phone number') : ''}
+            </span>
+
           </Col>
         </Row>
         <Row>
@@ -398,12 +416,12 @@ export default function ParticipantAccountSetting(props) {
           <Col xs={12} sm={12} md={6} lg={3}></Col>
           <Col xs={12} sm={12} md={6} lg={6}>
             {!ispropfilefirstnameerror &&
-            !accfilesize &&
-            accfirstnamebtn &&
-            file != null &&
-            accnumberbtn ? (
-              <Button  onClick={handleAccountSettingSubmit}
-              variant="contained" className="submitbtn" type="submit">
+              !accfilesize &&
+              accfirstnamebtn &&
+              file != null &&
+              accnumberbtn ? (
+              <Button onClick={handleAccountSettingSubmit}
+                variant="contained" className="submitbtn" type="submit">
                 {screenlabels.common.submit}
               </Button>
             ) : (
@@ -429,3 +447,4 @@ export default function ParticipantAccountSetting(props) {
     </div>
   );
 }
+

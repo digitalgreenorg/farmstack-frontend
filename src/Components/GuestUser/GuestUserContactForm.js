@@ -20,6 +20,8 @@ import { yellow } from "@mui/material/colors";
 import { MuiThemeProvider, Zoom } from "@material-ui/core";
 import parse from "html-react-parser"
 import success from "../../Assets/Img/successiconsvg.svg"
+import PhoneInput from "react-phone-number-input";
+import { isValidPhoneNumber, isPossiblePhoneNumber } from "react-phone-number-input";
 const theme = createTheme({
   palette: {
     secondary: {
@@ -408,21 +410,14 @@ const GuestUserContactForm = ({
             // }
             />
           </Col>
-          <Col style={{ width: "100%", padding: 0 }}>
-
-            <MuiPhoneNumber
-              // autoComplete={false}
+          <Col style={{ width: "100%", padding: 0, "text-align": "initial" }}>
+             {/* <MuiPhoneNumber
               countryCodeEditable={false}
-
               name="contactNumber"
               defaultCountry={"in"}
               style={{ width: "100%", height: "49px" }}
-              //   style={useStyles.inputwidth}
-              //   placeholder={}
-
               id="filled-basic"
               variant="filled"
-              // color="false"
               label={guestUserConstants.guestUser.contact_number}
               required
               value={useDetails.contactNumber}
@@ -433,9 +428,27 @@ const GuestUserContactForm = ({
               }
               error={contactNumberErrorMessage ? true : false}
               helperText={contactNumberErrorMessage}
-            // error={iscontactnumbererror}
-            // helperText={iscontactnumbererror ? "Enter Valid Number" : ""}
+            /> */}
+            <PhoneInput
+              className="ContactNumberStyleGuest"
+              defaultCountry="IN"
+              international
+              countryCallingCodeEditable={false}
+              countrySelectProps={{ unicodeFlags: true }}
+              value={useDetails.contactNumber}
+              onChange={(value) =>
+                handleChange({
+                  target: { name: "contactNumber", value: value },
+                })
+              }
+              limitMaxLength={true}
             />
+            <span style={{
+              "margin-top": "20px", color: "#ff3d00", "font-size": "12px", "font-weight": "400",
+              "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"
+            }}>
+              {useDetails.contactNumber ? ((isValidPhoneNumber(useDetails.contactNumber) && isPossiblePhoneNumber(useDetails.contactNumber)) ? "" : 'Invalid phone number') : ''}
+            </span>
           </Col>
         </Row>
         <Row

@@ -14,6 +14,8 @@ import RichTextEditor from "react-rte";
 import { FileUploader } from "react-drag-drop-files";
 // import UploadBanner from "../../../Components/signup/UploadBanner";
 import UploadOrgBanner from "./../../organisation/UploadOrgBanner";
+import PhoneInput from "react-phone-number-input";
+import { isValidPhoneNumber, isPossiblePhoneNumber } from "react-phone-number-input";
 
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstant from "../../../../Constants/UrlConstants";
@@ -42,6 +44,7 @@ import Loader from "../../../../Components/Loader/Loader";
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop8px: { "margin-top": "0px" },
+  contact: {color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
 };
 
 export default function ParticipantOrganisationSetting(props) {
@@ -626,8 +629,8 @@ export default function ParticipantOrganisationSetting(props) {
               // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
             />
           </Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <MuiPhoneNumber
+          <Col xs={12} sm={12} md={6} lg={6}style={{display: "flex", "flex-direction": "column","align-items": "center"}}>
+            {/* <MuiPhoneNumber
               required
               defaultCountry={"in"}
               countryCodeEditable={false}
@@ -640,10 +643,20 @@ export default function ParticipantOrganisationSetting(props) {
               value={phonenumber}
               error={orgPhoneNumberErrorMessage ? true : false}
               helperText={orgPhoneNumberErrorMessage}
-              //   inputRef={profilenumber}
-              // error={isOrgnumbererror}
-              // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
-            />
+             /> */}
+              <PhoneInput
+                    className="email contactNumberStyleOrg PhoneInputInput"
+                    defaultCountry="IN"
+                    international
+                    countryCallingCodeEditable={false}
+                    countrySelectProps={{ unicodeFlags: true }}
+                    value={phonenumber}
+                    onChange={handleOrgnumber}
+                    limitMaxLength={true}
+                    />
+                     <span style={useStyles.contact}>
+                    {phonenumber ? ((isValidPhoneNumber(phonenumber) && isPossiblePhoneNumber(phonenumber)) ? "" : 'Invalid phone number') : ''}
+                     </span> 
           </Col>
         </Row>
         <Row>
@@ -896,3 +909,4 @@ export default function ParticipantOrganisationSetting(props) {
     </div>
   );
 }
+
