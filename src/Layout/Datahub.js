@@ -48,13 +48,13 @@ function Datahub(props) {
   // }, []);
   return (
     <>
-      {(getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserCoSteward()))? (
+      {(getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserCoSteward())) ? (
         <div className="center_keeping_conatiner">
 
           <Navbar />
           <div className="minHeight67vhDatahubPage">
             <Switch>
-            <Route
+              <Route
                 exact
                 path="/datahub/participants/view/:id"
                 component={ViewParticipants}
@@ -132,6 +132,21 @@ function Datahub(props) {
               <Route exact path="/datahub/datasets" component={DatasetAdmin} />
               <Route
                 exact
+                path="/datahub/connectors/add"
+                component={AddConnectorParticipant}
+              />
+              <Route
+                exact
+                path="/datahub/connectors/edit/:id"
+                component={EditConnectorParticipant}
+              />
+              {/* <Route
+                exact
+                path="/datahub/connectors"
+                component={ConnectorParticipant}
+              /> */}
+              <Route
+                exact
                 path="/datahub/settings/project/add"
                 component={AddProjectParticipant}
               />
@@ -151,31 +166,31 @@ function Datahub(props) {
                 component={DemoDashboardTable}
               />
               <Route
-              exact
-              path="/datahub/dataset/view/:id"
-              component={ViewMetaDatasetDetails}
+                exact
+                path="/datahub/dataset/view/:id"
+                component={ViewMetaDatasetDetails}
               />
               <Route
-              exact
-              path="/datahub/participants"
-              component={ParticipantCoStewardManagement}
+                exact
+                path="/datahub/participants"
+                component={ParticipantCoStewardManagement}
               />
-               <Route 
-              exact
-              path="/datahub/participants/addcosteward"
-              component={AddCoSteward}      
+              <Route
+                exact
+                path="/datahub/participants/addcosteward"
+                component={AddCoSteward}
               />
-               <Route
-              exact
-              path="/datahub/integration"     
+              <Route
+                exact
+                path="/datahub/connectors"
               >
-              <DatasetIntegration/>
+                <DatasetIntegration />
               </Route>
               <Route
-              exact
-              path="/datahub/connectors/list"
+                exact
+                path="/datahub/connectors/list"
               >
-              <ConnectorsList/>
+                <ConnectorsList />
               </Route>
             </Switch>
           </div>

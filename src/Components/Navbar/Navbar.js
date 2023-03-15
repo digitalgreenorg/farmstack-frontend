@@ -121,7 +121,7 @@ const Navbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.datasets}
           </NavLink>
-          <NavLink to="/datahub/integration" activeStyle>
+          <NavLink to="/datahub/connectors" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/dataset_bold.svg")}
@@ -132,9 +132,9 @@ const Navbar = (props) => {
               src={require("../../Assets/Img/datasets.svg")}
               alt="new"
             />
-            &nbsp;&nbsp;{screenlabels.navbar.integration}
-          </NavLink> 
-          <NavLink to="/datahub/connectors/list" activeStyle>
+            &nbsp;&nbsp;{screenlabels.navbar.connectors}
+          </NavLink>
+          {/* <NavLink to="/datahub/connectors" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/connectors.svg")}
@@ -146,21 +146,21 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
-          </NavLink>
+          </NavLink> */}
           {!isLoggedInUserCoSteward() ?
-          <NavLink to="/datahub/support" activeStyle>
-            <img
-              className="boldimage"
-              src={require("../../Assets/Img/support_bold.svg")}
-              alt="new"
-            />
-            <img
-              className="nonboldimage"
-              src={require("../../Assets/Img/support.svg")}
-              alt="new"
-            />
-            &nbsp;&nbsp;{screenlabels.navbar.Support}
-          </NavLink> : <></> }
+            <NavLink to="/datahub/support" activeStyle>
+              <img
+                className="boldimage"
+                src={require("../../Assets/Img/support_bold.svg")}
+                alt="new"
+              />
+              <img
+                className="nonboldimage"
+                src={require("../../Assets/Img/support.svg")}
+                alt="new"
+              />
+              &nbsp;&nbsp;{screenlabels.navbar.Support}
+            </NavLink> : <></>}
           <NavLink
             to="/datahub/settings"
             activeStyle

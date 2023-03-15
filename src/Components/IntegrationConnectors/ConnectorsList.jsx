@@ -12,7 +12,8 @@ import UrlConstant from "../../Constants/UrlConstants";
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
-export default function ConnectorsList() {
+export default function ConnectorsList(props) {
+  const { setIsDatasetIntegrationListModeOn } = props
   const [isLoader, setIsLoader] = useState(false);
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
   const [connectorList, setConnectorList] = useState([]);
@@ -27,7 +28,7 @@ export default function ConnectorsList() {
       "margin-left": "120px",
       "margin-right": "120px",
       background: "#FCFCFC",
-      
+
     },
     marginrowtop10px: { "margin-top": "30px" },
     marginrowtop50: { "margin-top": "50px" },
@@ -131,7 +132,7 @@ export default function ConnectorsList() {
         <Col xs={12} sm={12} md={6} lg={6} style={{ textAlign: "right" }}>
           <Button
             //  Button should render to add new connector component when click
-            // onClick={() =>}
+            onClick={() => setIsDatasetIntegrationListModeOn(false)}
             variant="outlined"
             style={useStyles.addButton}
           >
