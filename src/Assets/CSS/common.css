@@ -1035,3 +1035,21 @@ button.disbalesubmitbtndept {
 .back_btn_guest .MuiSvgIcon-root {
   color: #3491EE !important;
 }
+.connectorCard {
+  padding: 20px 40px 20px 5px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #3d4a52;
+  line-height: 19px;
+  border-radius: 10px;
+  width: 368px;
+  height: 178px;
+  margin: 30px 15px 15px 15px;
+  border : 1px solid #C0C7D1;
+}
+.connectorCard:hover {
+  border: 1px solid #c09507;
+  cursor: pointer;
+}
