@@ -14,8 +14,6 @@ import RichTextEditor from "react-rte";
 import { FileUploader } from "react-drag-drop-files";
 // import UploadBanner from "../../../Components/signup/UploadBanner";
 import UploadOrgBanner from "./../../organisation/UploadOrgBanner";
-import PhoneInput from "react-phone-number-input";
-import { isValidPhoneNumber, isPossiblePhoneNumber } from "react-phone-number-input";
 
 import HTTPService from "../../../../Services/HTTPService";
 import UrlConstant from "../../../../Constants/UrlConstants";

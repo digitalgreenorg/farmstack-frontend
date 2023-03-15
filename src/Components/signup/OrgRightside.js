@@ -2,8 +2,6 @@ import React, { useState, useRef, useMemo, useEffect } from "react";
 import "./OrgRightside.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import PhoneInput from "react-phone-number-input";
-import { isValidPhoneNumber, isPossiblePhoneNumber } from "react-phone-number-input";
 // import Select from "@mui/material/Select";
 
 import MuiPhoneNumber from "material-ui-phone-number";
@@ -60,9 +58,7 @@ export default function OrgRightside(props) {
   const [editorValue, setEditorValue] = React.useState(
     RichTextEditor.createValueFromString(orgdesc, "html")
   );
-  const useStyles = {
-    contact: {display: "flex", "text-align": "left", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
-  };
+
   const orgNameRef = useRef();
   const orgMailRef = useRef();
   // const OrgAddress = useRef();
@@ -559,7 +555,7 @@ export default function OrgRightside(props) {
             />
           </div>
           <div className="orgnumber">
-            {/* <MuiPhoneNumber
+            <MuiPhoneNumber
               required
               defaultCountry={"in"}
               countryCodeEditable={false}
@@ -571,20 +567,10 @@ export default function OrgRightside(props) {
               onChange={props.handleOrgnumber}
               error={props.orgPhoneNumberErrorMessage ? true : false}
               helperText={props.orgPhoneNumberErrorMessage}
-            /> */}
-             <PhoneInput
-                    className="ContactNumberStyleOnboard PhoneInputInput"
-                    defaultCountry="IN"
-                    international
-                    countryCallingCodeEditable={false}
-                    countrySelectProps={{ unicodeFlags: true }}
-                    value={props.validOrgNumber}
-                    onChange={props.handleOrgnumber}
-                    limitMaxLength={true}
-                    />
-                    <span style={useStyles.contact}>
-                    {props.validOrgNumber ? ((isValidPhoneNumber(props.validOrgNumber) && isPossiblePhoneNumber(props.validOrgNumber)) ? "" : 'Invalid phone number') : ''}
-                    </span>
+              //   inputRef={profilenumber}
+              // error={isOrgnumbererror}
+              // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
+            />
           </div>
           <div className="orgaddress">
             <TextField

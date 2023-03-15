@@ -133,8 +133,8 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.integration}
-          </NavLink>
-          {/* <NavLink to="/datahub/connectors" activeStyle>
+          </NavLink> 
+          <NavLink to="/datahub/connectors/list" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/connectors.svg")}
@@ -146,7 +146,7 @@ const Navbar = (props) => {
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
-          </NavLink> */}
+          </NavLink>
           {!isLoggedInUserCoSteward() ?
           <NavLink to="/datahub/support" activeStyle>
             <img

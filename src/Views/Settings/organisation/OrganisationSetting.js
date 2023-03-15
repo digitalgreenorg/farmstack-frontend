@@ -18,8 +18,6 @@ import { FormHelperText } from "@mui/material";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import parse from "html-react-parser";
-import PhoneInput from "react-phone-number-input";
-import { isValidPhoneNumber, isPossiblePhoneNumber } from "react-phone-number-input";
 
 import HandleSessionTimeout, {
   setTokenLocal,

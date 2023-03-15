@@ -10,8 +10,6 @@ import MuiPhoneNumber from "material-ui-phone-number";
 import { FormControlLabel } from '@mui/material';
 import Checkbox from "@mui/material/Checkbox";
 import RegexConstants from '../../Constants/RegexConstants';
-import PhoneInput from 'react-phone-number-input';
-import { isValidPhoneNumber, isPossiblePhoneNumber } from 'react-phone-number-input';
 import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validateInputField } from '../../Utils/Common';
 // import Select from 'react-select'
 const useStyles = {
@@ -20,8 +18,7 @@ const useStyles = {
     marginrowtop50: {"margin-top": "50px"},
     inputwidth:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52'},
     inputwidthlastrow:{width: "95%", "text-align": "left", height: '48px', color: '#3D4A52', "margin-top": "-10px"},
-    headingbold:{fontWeight: "bold"},
-    contact: {color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+    headingbold:{fontWeight: "bold"}
 };
 
 export default function CoStewardForm(props) {
@@ -180,8 +177,8 @@ export default function CoStewardForm(props) {
                                     "User is already registered with this email ID" : props.emailErrorMessage}
                     />
                 </Col>
-                <Col xs={12} sm={12} md={6} lg={6} style={{"text-align": "left", display: "flex", "flex-direction": "column", "align-items": "baseline",}}>
-                    {/* <MuiPhoneNumber
+                <Col xs={12} sm={12} md={6} lg={6}>
+                    <MuiPhoneNumber
                         defaultCountry={"in"}
                         countryCodeEditable={false}
                         style={useStyles.inputwidth}
@@ -194,20 +191,7 @@ export default function CoStewardForm(props) {
                         error={props.iscontactnumbererror || props.phoneNumberErrorMessage}
                         helperText={(props.iscontactnumbererror && !props.phoneNumberErrorMessage) 
                             ? "Enter Valid Number" : props.phoneNumberErrorMessage}
-                    /> */}
-                     <PhoneInput
-                    className="ContactNumberStyle PhoneInputInput"
-                    defaultCountry="IN"
-                    international
-                    countryCallingCodeEditable={false}
-                    countrySelectProps={{ unicodeFlags: true }}
-                    value={props.contactnumber}
-                    onChange={(e) => props.setcontactnumber(e)}
-                    limitMaxLength={true}
                     />
-                    <span style={useStyles.contact}>
-                    {props.contactnumber ? ((isValidPhoneNumber(props.contactnumber) && isPossiblePhoneNumber(props.contactnumber)) ? "" : 'Invalid phone number') : ''}
-                    </span>
                 </Col>
             </Row>
            </>

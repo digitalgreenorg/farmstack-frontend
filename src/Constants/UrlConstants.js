@@ -85,7 +85,8 @@ const UrlConstant = {
   get_dataset_name_list: "datahub/dataset_ops/datasets_names/",
   get_files_for_selected_datasets: "datahub/dataset_ops/datasets_file_names/",
   get_columns_for_selected_files: "datahub/dataset_ops/datasets_col_names/",
-  joining_the_table: "datahub/dataset_ops/datasets_join_condition/"
+  joining_the_table: "datahub/dataset_ops/datasets_join_condition/",
+  list_of_connectors: "connectors/",
 
 };
 

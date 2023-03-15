@@ -1035,30 +1035,19 @@ button.disbalesubmitbtndept {
 .back_btn_guest .MuiSvgIcon-root {
   color: #3491EE !important;
 }
-.ContactNumberStyle{
-  border-bottom: 1px solid #3a3a3a !important; 
-  border-radius: 2px;
-  color: #212529 !important;
-  background: #F1F1F1;
-  width: 520px;
-  height: 55px;
-  margin-left: 10px; 
-  margin-top: 0px;
-  font-size: 14px;
+.connectorCard {
+  padding: 20px 40px 20px 5px;
   font-family: "Open Sans";
+  font-style: normal;
   font-weight: 400;
-}
-.PhoneInputInput { 
-  height: 50px !important;
-  border-top: none !important;
-  border-right: none !important;
-  border-left:none !important;
-  border-bottom: none;
-  background: #F1F1F1 !important;
-  color: #3D4A52 !important;
   font-size: 14px;
-  font-family: "Open Sans";
-  font-weight: 400;
+  color: #3d4a52;
+  line-height: 19px;
+  border-radius: 10px;
+  width: 368px;
+  height: 178px;
+  margin: 30px 15px 15px 15px;
+  border : 1px solid #C0C7D1;
 }
 .contactNumberStyleOrg {
   border-bottom: 1px solid #3a3a3a !important; 
