@@ -44,7 +44,7 @@ import Loader from "../../../../Components/Loader/Loader";
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
   marginrowtop8px: { "margin-top": "0px" },
-  contact: {float : "left", "padding-left": "90px", color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
+  contact: {color: "#ff3d00" , "font-size": "12px", "font-weight": "400", "font-family": "Open-Sans", "font-style": "normal", "line-height": "16px"},
 };
 
 export default function ParticipantOrganisationSetting(props) {
@@ -629,7 +629,7 @@ export default function ParticipantOrganisationSetting(props) {
               // helperText={isOrgnumbererror ? "Enter Valid Number" : ""}
             />
           </Col>
-          <Col xs={12} sm={12} md={6} lg={6}>
+          <Col xs={12} sm={12} md={6} lg={6}style={{display: "flex", "flex-direction": "column","align-items": "center"}}>
             {/* <MuiPhoneNumber
               required
               defaultCountry={"in"}
@@ -645,7 +645,7 @@ export default function ParticipantOrganisationSetting(props) {
               helperText={orgPhoneNumberErrorMessage}
              /> */}
               <PhoneInput
-                    className="contactNumberStyleOrg PhoneInputInput"
+                    className="email contactNumberStyleOrg PhoneInputInput"
                     defaultCountry="IN"
                     international
                     countryCallingCodeEditable={false}

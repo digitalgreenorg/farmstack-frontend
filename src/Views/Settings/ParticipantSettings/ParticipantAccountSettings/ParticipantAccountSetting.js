@@ -368,7 +368,7 @@ export default function ParticipantAccountSetting(props) {
               helperText={phoneNumberErrorMessage}
             /> */}
             <PhoneInput
-              className="ContactNumberStyleAccount PhoneInputInput"
+              className="phonenumber ContactNumberStyleAccount PhoneInputInput"
               defaultCountry="IN"
               international
               countryCallingCodeEditable={false}
