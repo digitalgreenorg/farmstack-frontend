@@ -1044,7 +1044,6 @@ button.disbalesubmitbtndept {
   color: #3d4a52;
   line-height: 19px;
   border-radius: 10px;
-  gap: 20px;
   width: 368px;
   height: 178px;
   margin: 30px 15px 15px 15px;
@@ -1052,5 +1051,5 @@ button.disbalesubmitbtndept {
 }
 .connectorCard:hover {
   border: 1px solid #c09507;
- cursor: pointer;
+  cursor: pointer;
 }

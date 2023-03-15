@@ -129,23 +129,7 @@ function Datahub(props) {
               />
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
-              {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
               <Route exact path="/datahub/datasets" component={DatasetAdmin} />
-              {/* <Route
-                exact
-                path="/datahub/connectors/add"
-                component={AddConnectorParticipant}
-              />
-              <Route
-                exact
-                path="/datahub/connectors/edit/:id"
-                component={EditConnectorParticipant}
-              />
-              <Route
-                exact
-                path="/datahub/connectors"
-                component={ConnectorParticipant}
-              /> */}
               <Route
                 exact
                 path="/datahub/settings/project/add"

@@ -43,6 +43,7 @@ export default function ConnectorsList() {
       "font-size": "14px",
       "align-item": "right",
       "border-color": THEME_COLORS.THEME_COLOR,
+      "text-transform": "inherit"
     },
     cardtext: {
       color: "#A3B0B8",
@@ -56,9 +57,6 @@ export default function ConnectorsList() {
       'text-align': 'center',
     },
   }
-  useEffect(() => {
-    getListOfConnectors()
-  }, [])
 
   const getListOfConnectors = () => {
     setIsLoader(true);
@@ -112,6 +110,12 @@ export default function ConnectorsList() {
     })
   }
 
+
+  useEffect(() => {
+    getListOfConnectors()
+  }, [])
+
+
   return (
     <div
       className="minHeight501pxsettingpagemaindiv"
@@ -125,29 +129,13 @@ export default function ConnectorsList() {
           </span>
         </Col>
         <Col xs={12} sm={12} md={6} lg={6} style={{ textAlign: "right" }}>
-          {/* <Button
-            //  Button should render to List view of connector's component when click
-            onClick={() => setGridView(false)}
-            style={{ "color": "#c09507" }}
-            startIcon={<FormatListBulletedIcon />}
-            variant="text">
-            List View
-          </Button> */}
-          {/* <Button
-          //  Button should render to Grid view of connector's component when click
-            onClick={() => setGridView(true)}
-            style={{ "color": "#c09507", }}
-            startIcon={<ViewModuleIcon />}
-            variant="text">
-            Grid View
-          </Button> */}
           <Button
             //  Button should render to add new connector component when click
             // onClick={() =>}
             variant="outlined"
             style={useStyles.addButton}
           >
-            + New Connector
+            + New connector
           </Button>
         </Col>
       </Row>
