@@ -54,7 +54,7 @@
   margin-top: 30px;
   margin-bottom: 30px;
   font-weight: 700;
-  background: #c09507;
+  background: #c09507 !important;
   border: 2px solid #c09507 !important;
   box-shadow: none !important;
 }
