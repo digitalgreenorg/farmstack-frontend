@@ -1,144 +1,123 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import DatasetSelect from './DatasetSelect/DatasetSelect'
 import Join from './Join/Join'
 import Preview from './Preview/Preview'
 import styles from "./dataset_integration.module.css"
-import { useState } from 'react'
 import HTTPService from '../../../Services/HTTPService'
 import UrlConstant from '../../../Constants/UrlConstants'
 import Loader from '../../Loader/Loader'
-import { Alert, Button, Collapse, IconButton, Snackbar } from '@mui/material'
+import { Alert, Button, Collapse, Fab, IconButton, Snackbar } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import { CheckLg } from 'react-bootstrap-icons'
-import { GetErrorHandlingRoute, GetErrorKey } from '../../../Utils/Common'
+import { GetErrorHandlingRoute, GetErrorKey, goToTop } from '../../../Utils/Common'
 import { useHistory } from 'react-router-dom'
+import { Affix } from 'antd'
+import { AddIcCallOutlined } from '@material-ui/icons'
+import ConnectorsList from '../../IntegrationConnectors/ConnectorsList'
 const converter = require('json-2-csv')
 const fs = require('fs')
 
-const DatasetIntegration = () => {
-    const [allAvailableDatasetsAndFiles, setAllAvailableDatasetsAndFiles] = useState([])
+const DatasetIntegration = (props) => {
 
+    const { isEditModeOn, connectorIdForView } = props
+    const [counterForIntegrator, setCounterForIntegration] = useState(2)
+    const [isDatasetIntegrationListModeOn, setIsDatasetIntegrationListModeOn] = useState(true)
+    const [top, setTop] = useState(10);
+    const [orgList, setOrgList] = useState([])
     const [message, setMessage] = useState("")
     const [alertType, setAlertType] = useState("")
 
     const [open, setOpen] = React.useState(false);
-    //
-    const [noOfDatasetSelector, setNoOfDatasetSelector] = useState([])
-    const [listOfDatasetSelected, setListOfDatasetSelected] = useState([])
-    const [allDatasetNameList, setAllDatasetNameList] = useState([])
+    const [connectorId, setConnectorId] = useState("")
 
-    const [noOfFileSelector, setNoOfFileSelector] = useState([])
-    const [listOfFilesSelected, setListOfFilesSelected] = useState([])
-    const [listOfFilesAvailableForSelect, setListOfFilesAvailableForSelect] = useState([
+    const [template, setTemplate] = useState(
+        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+
+    )
+    const [empty, setEmptyTemplate] = useState(
+        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+    )
+
+
+
+    const [joinType, setJoinType] = useState("")
+
+    //This is main array which will have all the data with the format of template or empty
+    const [completeData, setCompleteData] = useState([
+
+        //In dev mode this is the dummy data 
+        // { org_id: "A", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c1", "c2", "c3"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        // { org_id: "B", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c4", "c5", "c6"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        // { org_id: "C", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c7", "c8", "c9"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
 
     ])
-    const [listOfDatsetFileAvailableForColumn, setListOfDatsetFileAvailableForColumn] = useState([])
-    const [finalDataNeedToBeGenerated, setFinalDataNeedToBeGenerated] = useState({})
-    const [finalDatasetAfterIntegration, setFinalDatasetAfterIntegration] = useState([])
 
-    const [finalJoin, setFinalJoin] = useState({})
-    const [joinVal1, setJoinVal1] = useState("")
-    const [joinVal2, setJoinVal2] = useState("")
+    // const [listOfDatsetFileAvailableForColumn, setListOfDatsetFileAvailableForColumn] = useState([])
+    const [finalDataNeedToBeGenerated, setFinalDataNeedToBeGenerated] = useState({})
+    const [integratedFilePath, setIntegratedFilePath] = useState("")
+    const [finalDatasetAfterIntegration, setFinalDatasetAfterIntegration] = useState([])
+    const [finalDatasetAfterSaving, setFinalDatasetAfterSaving] = useState([])
+
     //loader for every network request
     const [loader, setLoader] = useState(false)
-    const [circleLoad, setCircleLoad] = useState(false)
+
+    //connector data
+    const [connectorData, setConnectorData] = useState({
+        name: "", desc: ""
+    })
+
 
     const history = useHistory();
 
-    const handleChangeDatasetNameSelector = (event, i, source) => {
-        console.log(event.target.value, i, source)
-        if (source == "dataset") {
-            let list_selected = [...listOfDatasetSelected]
-            list_selected[i] = event.target.value
-            console.log(list_selected, "list_selected")
-            setListOfDatasetSelected([...list_selected]);
-            let list_selected_file = [...listOfFilesSelected]
-            list_selected_file[i] = ""
-            setListOfFilesSelected([...list_selected_file]);
-            console.log(finalDataNeedToBeGenerated, "finalDataNeedToBeGenerated")
-            // setFinalDataNeedToBeGenerated({})
+    const handleChangeDatasetNameSelector = (event, i, source, name) => {
+        if (source == "org") {
+            let res = getFilesAssociatedForTheSelectedDatasets(source, [], event.target.value, i, name)
+            return
+        }
+        else if (source == "dataset") {
             if (event.target.value) {
-                getFilesAssociatedForTheSelectedDatasets(source, list_selected)
+                let res = getFilesAssociatedForTheSelectedDatasets(source, [event.target.value], event.target.value, i)
             }
-
-        } else {
+        } else if (source == "file") {
             if (event.target.value) {
-                let list_selected = [...listOfFilesSelected]
-                list_selected[i] = event.target.value
-                let res = getFilesAssociatedForTheSelectedDatasets(source, list_selected)
-                res.then((res) => {
-                    console.log(res, "RESPOSE")
-                    if (!res) {
-                        console.log(event, "TARGET")
-                        list_selected[i] = ""
-                        setListOfFilesSelected([...list_selected]);
-                        let data = { ...finalDataNeedToBeGenerated }
-                        let obj = { ...finalJoin }
-                        data[joinVal1] = []
-                        data[joinVal2] = []
-                        setJoinVal1("")
-                        setJoinVal2("")
-                        setFinalDataNeedToBeGenerated({ ...data })
-                        obj.first = ""
-                        obj.second = ""
-                        setFinalJoin({ ...obj })
 
-                    } else {
-                        setListOfFilesSelected([...list_selected]);
-                    }
-                    console.log(list_selected, "list_selectedlist_selectedlist_selectedlist_selectedlist_selected")
+                let res = getFilesAssociatedForTheSelectedDatasets(source, [event.target.value], "", i)
+                res.then((res) => {
                 })
 
 
             } else {
-                event.target.value = ""
-                let list_selected = [...listOfFilesSelected]
-                list_selected[i] = event.target.value
-                setListOfFilesSelected([...list_selected]);
             }
         }
     };
-    const handleChangeFileNameSelector = (event, i) => {
-
-    };
     const handleClickSelectDataset = (source) => {
         if (source == "dataset") {
-            let selector = noOfDatasetSelector.length;
-            let selectedDataset = listOfDatasetSelected.length
-            let availableDataset = allDatasetNameList.length
-            if (selectedDataset != availableDataset) {
-                let max = +selector - +selectedDataset
-                console.log(max, selector, selectedDataset)
-                if (max <= 0 && !listOfDatasetSelected.includes("")) {
-                    setNoOfDatasetSelector([...noOfDatasetSelector, ""])
-                }
-            }
         } else {
-            let selector = noOfFileSelector.length;
-            let selectedDataset = listOfFilesSelected.length
-            let availableDataset = listOfFilesAvailableForSelect.length
-            if (selectedDataset != availableDataset) {
-                let max = +selector - +selectedDataset
-                console.log(max, selector, selectedDataset)
-                if (max <= 0 && !listOfFilesSelected.includes("")) {
-                    setNoOfFileSelector([...noOfFileSelector, ""])
-                }
-            }
         }
     }
 
 
 
-    const getListOfDatasetNames = () => {
+    const getDataList = (source, index) => {
         setLoader(true)
-        let url = UrlConstant.base_url + UrlConstant.get_dataset_name_list
-        let method = "GET"
+        let url = ""
+        let method
+        if (source == "org_names") {
+            url = UrlConstant.base_url + UrlConstant.get_org_name_list
+            method = "GET"
+        } else if (source == "dataset_names") {
+            url = UrlConstant.base_url + UrlConstant.get_dataset_name_list
+            method = "GET"
+        }
         HTTPService(method, url, "", false, true, false).then((res) => {
             setLoader(false)
-            setAllDatasetNameList([...res.data])
+            if (source == "org_names") {
+                setOrgList([...res.data])
+            } else if (source == "dataset_names") {
+                setTemplate({ ...template, dataset_list: [...res.data] })
+            }
         }).catch((err) => {
-            // console.log(e.response)
             setAlertType("error")
             setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Error occurred! Dataset could not fetched.")
             setLoader(false)
@@ -147,11 +126,12 @@ const DatasetIntegration = () => {
             }
         })
     }
-    const getFilesAssociatedForTheSelectedDatasets = async (source, list) => {
+    const getFilesAssociatedForTheSelectedDatasets = async (source, list, org, i) => {
         list = list.filter((item) => item != "")
         setLoader(true)
         let url = ""
         let payload = {}
+        let method = "POST"
         if (source == "dataset") {
             url = UrlConstant.base_url + UrlConstant.get_files_for_selected_datasets
             payload = {
@@ -162,27 +142,35 @@ const DatasetIntegration = () => {
             payload = {
                 files: [...list]
             }
-        }
-        let method = "POST"
+        } else if (source == "org") {
+            method = "GET"
+            url = UrlConstant.base_url + UrlConstant.get_dataset_name_list + "?org_id=" + org
+            payload = {
 
+            }
+        }
         return await HTTPService(method, url, payload, false, true, false).then((res) => {
             setLoader(false)
+
             if (source == "dataset") {
-                setListOfFilesAvailableForSelect([...res.data])
+
+                setTemplate({ ...template, dataset_name: res.data[0]?.dataset_name ? res.data[0].dataset_name : "N/A", dataset_id: org ? org : "", file_list: [...res.data] })
+
             }
             else if (source == "file") {
-                console.log(res.data)
-                setListOfDatsetFileAvailableForColumn(
-                    { ...res.data }
-                )
-                let obj = {}
+                let name = list[0]
+                let resArr = []
+                let fileId = res.data?.id ? res.data.id : ""
                 for (var key in res.data) {
-                    obj[key] = []
+                    resArr.push(res.data[key])
                 }
-                setFinalDataNeedToBeGenerated({ ...obj })
+                setTemplate({ ...template, file_id: fileId, file_name: name, availabeColumns: [...res.data[name]] })
+            } else if (source == "org") {
+                setTemplate({ ...template, dataset_list: [...res.data], org_id: org, org_name: res?.data?.length > 0 ? res.data[0]?.org_name : "" })
             }
             return true
         }).catch((err) => {
+            goToTop(0)
             // setOpen(true);
             // setAlertType("error")
             setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Some error occurred while generating!")
@@ -197,11 +185,9 @@ const DatasetIntegration = () => {
             var errorMessages = returnValues[1]
             if (errorKeys.length > 0) {
                 for (var i = 0; i < errorKeys.length; i++) {
-                    console.log(errorKeys[i], errorMessages[i])
                     let id;
                     switch (errorKeys[i]) {
                         case "datasets":
-                            console.log("under datasets")
                             setOpen(true);
                             setLoader(false)
                             setAlertType("error")
@@ -212,7 +198,6 @@ const DatasetIntegration = () => {
                             }, 2500)
                             return false
                         case "files": setOpen(true);
-                            console.log("under files")
                             setLoader(false)
                             setAlertType("error")
                             setMessage(errorMessages[i] ? errorMessages[i] : "Some error occurred while fetching files for selected dataset!")
@@ -222,8 +207,6 @@ const DatasetIntegration = () => {
                             }, 2500)
                             return false
                         default:
-                            console.log("under default")
-
                             if (err?.response?.status == 401) {
                                 history.push(GetErrorHandlingRoute(err));
                             } else {
@@ -237,12 +220,10 @@ const DatasetIntegration = () => {
                                 }, 2500)
                             }
                             return false
-
                     }
                 }
             }
             else {
-                console.log("under else")
 
                 if (err?.response?.status == 401) {
                     history.push(GetErrorHandlingRoute(err));
@@ -260,74 +241,159 @@ const DatasetIntegration = () => {
             return false
         })
     }
-    const deleteTable = (tableName, index) => {
-        let newArr = listOfDatsetFileAvailableForColumn.filter((each) => each.name != tableName.name)
-        setListOfDatsetFileAvailableForColumn([...newArr])
+    const resetAll = (main, connector, join, goback, func1, func2) => {
 
-        let list_selected = [...listOfFilesSelected]
-        console.log(list_selected, tableName.name, index)
-        list_selected.splice(index, 1)
-        // list_selected.filter((each) => {
-        //     return each != tableName.name
-        // })
-        console.log(list_selected, tableName.name, index)
-        setListOfFilesSelected([...list_selected]);
+        goToTop()
     }
-    const generateData = (left_on, right_on, joinType) => {
-        setLoader(true)
-        let url = UrlConstant.base_url + UrlConstant.joining_the_table
-        console.log(finalDataNeedToBeGenerated, "finalDataNeedToBeGenerated")
-        let arr = Object.keys(finalDataNeedToBeGenerated)
-        let firstFile = arr[0]
-        let secondFile = arr[1]
-        let payload = {
-            file_path1: firstFile,
-            "columns1": [
-                ...finalDataNeedToBeGenerated[firstFile]
-            ],
-            "file_path2": secondFile,
-            "columns2": [
-                ...finalDataNeedToBeGenerated[secondFile]
-            ],
-            "how": joinType ? joinType : "left",
-            "left_on": [left_on],
-            "right_on": [right_on],
+    // const deleteTable = (tableName, index) => {
+    // let newArr = listOfDatsetFileAvailableForColumn.filter((each) => each.name != tableName.name)
+    // setListOfDatsetFileAvailableForColumn([...newArr])
+
+    // let list_selected = [...listOfFilesSelected]
+    // //console.log(list_selected, tableName.name, index)
+    // list_selected.splice(index, 1)
+    // list_selected.filter((each) => {
+    //     return each != tableName.name
+    // })
+    // //console.log(list_selected, tableName.name, index)
+    // setListOfFilesSelected([...list_selected]);
+    // }
+
+    //this function is being used to generate the data at first place, Save the generated data and delete the saved connectors
+    const generateData = (index, condition,) => {
+        let connector_id = connectorId
+        if (condition == "view_details") {
+            connector_id = connectorIdForView
         }
-        let method = "POST"
-        HTTPService(method, url, payload, false, true, false).then((res) => {
+        //condition can be ===> [integrate, delete, save] any one of the listed elements
+        setLoader(true)
+        let url = ""
+
+        let payload = []
+
+
+
+        for (let i = 0; i < completeData.length - 1; i++) {
+            //Generating the payload as array of objects each object having data friom completeData and completeJoinData
+            let obj = {
+                left_dataset_file: completeData[i]?.file_id,
+                right_dataset_file: completeData[i + 1]?.file_id,
+                left_dataset_file_path: completeData[i]?.file_name,
+                right_dataset_file_path: completeData[i + 1]?.file_name,
+                condition: {
+                    right_selected: [...completeData[i + 1]?.columnsSelected], left_selected: [...completeData[i]?.columnsSelected],
+                    how: completeData[i]?.type ? completeData[i]?.type : "left",
+                    left_on: completeData[i]?.left_on,
+                    right_on: completeData[i]?.right_on
+                }
+            }
+            payload.push(obj)
+        }
+        let finalPayload
+        let method
+        if (condition == "save") {
+            finalPayload = { name: connectorData.name, description: connectorData.desc, maps: payload, integrated_file: integratedFilePath }
+            url = UrlConstant.base_url + UrlConstant.integration_connectors // for saving
+            method = "POST"
+        } else if (condition == "integrate") {
+            finalPayload = { name: connectorData.name, description: connectorData.desc, maps: payload }
+            url = UrlConstant.base_url + UrlConstant.joining_the_table //for generating
+            method = "POST"
+        } else if (condition == "delete" && connector_id) {
+            finalPayload = {}
+            url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/"
+            method = "DELETE"
+        } else if (condition == "view_details") {
+            url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/"
+            method = "GET"
+        }
+        else {
             setLoader(false)
-            console.log(JSON.parse(res.data))
-            setFinalDatasetAfterIntegration([...JSON.parse(res.data)])
-            setOpen(true);
-            setAlertType("success")
-            setMessage("Data generated successfully!")
-            let id = setTimeout(() => {
-                setOpen(false);
-                return clearTimeout(id)
-            }, 2500)
+            return
+        }
+        // console.table(finalPayload, "PAYLOAD")
+        HTTPService(method, url, finalPayload, false, true, false).then((res) => {
+
+            setLoader(false)
+            if (condition == "integrate") {
+                console.log("inside integrate", res.data)
+                setIntegratedFilePath(res?.data?.integrated_file ? res?.data?.integrated_file : "")
+                setFinalDatasetAfterIntegration([...JSON.parse(res.data?.data)])
+                let allKeys = JSON.parse(res.data.data)?.length > 0 ? Object.keys(JSON.parse(res.data.data)[0]) : []
+                if (allKeys.length > 1) {
+                    let arr = [...completeData]
+                    let obj = arr[index + 1]
+                    obj["left"] = [...allKeys]
+                    arr[index + 1] = { ...obj }
+                    setCompleteData([...arr])
+                    setOpen(true);
+                    setAlertType("success")
+                    setMessage("Data generated successfully!")
+                    let id = setTimeout(() => {
+                        setOpen(false);
+                        return clearTimeout(id)
+                    }, 2500)
+                    document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
+                }
+
+            } else if (condition == "save") {
+                console.log("inside save", res.data)
+                setConnectorId(res?.data?.id ? res.data.id : "")
+                setOpen(true);
+                setAlertType("success")
+                setMessage("Data saved successfully!")
+                setIsDatasetIntegrationListModeOn(true)
+                let id = setTimeout(() => {
+                    setOpen(false);
+                    return clearTimeout(id)
+                }, 2500)
+                document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
+
+            } else if (condition == "delete") {
+                console.log("inside delete", res)
+                setOpen(true);
+                setAlertType("success")
+                setMessage("Data deleted successfully!")
+                let id = setTimeout(() => {
+                    setOpen(false);
+                    return clearTimeout(id)
+                }, 2500)
+            }
+
+            // goToTop(2000)
         }).catch((err) => {
             setOpen(true);
             setLoader(false)
             setAlertType("error")
-            console.log(err.response)
             setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Some error occurred while generating!")
             let id = setTimeout(() => {
                 setOpen(false);
                 return clearTimeout(id)
             }, 2500)
+            goToTop(0)
         })
 
     }
 
+
+
+
+    //Download functionality
     const downloadDocument = () => {
         converter.json2csv(finalDatasetAfterIntegration, async (err, csv) => {
             if (err) {
                 throw err
             }
             // print CSV string
-            console.log(csv)
             download(csv)
         })
+    }
+
+    //number of integration handler
+    const integrateMore = (value) => {
+        if (counterForIntegrator == completeData.length) {
+            setCounterForIntegration((pre) => pre + value)
+        }
     }
 
     const download = (data) => {
@@ -340,48 +406,59 @@ const DatasetIntegration = () => {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-
+    }
+    const deleteConnector = () => {
+        setCompleteData([])
+        generateData(1, "delete")
+        setFinalDataNeedToBeGenerated([])
+        setIsDatasetIntegrationListModeOn(true)
     }
 
 
     useEffect(() => {
-        setNoOfDatasetSelector(["", ""])
-        setNoOfFileSelector(["", ""])
-        getListOfDatasetNames()
-
+        getDataList("org_names")
+        // isEditModeOn ?
     }, [])
 
 
     return (
         <>
             {loader ? <Loader /> : ""}
-            <Row>
-                <Col lg={9} sm={12} style={{ margin: "auto" }}>
-                    {open ? <Collapse in={open} > <Alert
-                        severity={alertType}
-                        action={
-                            <IconButton
-                                aria-label="close"
-                                color="inherit"
-                                size="small"
-                                onClick={() => {
-                                    setOpen(false);
-                                }}
-                            >
-                                <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                        }
-                        sx={{ mb: 2 }}
-                    >
-                        {message ? message : ""}
-                    </Alert> </Collapse> : ""}
-                </Col>
-            </Row>
-            <DatasetSelect finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated} deleteTable={deleteTable} listOfFilesSelected={listOfFilesSelected} handleChangeFileNameSelector={handleChangeFileNameSelector} noOfFileSelector={noOfFileSelector} listOfFilesAvailableForSelect={listOfFilesAvailableForSelect} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} handleClickSelectDataset={handleClickSelectDataset} noOfDatasetSelector={noOfDatasetSelector} listOfDatasetSelected={listOfDatasetSelected} allDatasetNameList={allDatasetNameList} handleChangeDatasetNameSelector={handleChangeDatasetNameSelector} />
-            {listOfFilesSelected.length > 0 && <Join joinVal1={joinVal1} setJoinVal1={setJoinVal1} joinVal2={joinVal2} setJoinVal2={setJoinVal2} finalJoin={finalJoin} setFinalJoin={setFinalJoin} circleLoad={circleLoad} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} generateData={generateData} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} listOfDatasetSelected={listOfDatasetSelected} listOfFilesSelected={listOfFilesSelected} />}
-            <Preview downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />
+            <Container style={{ marginTop: "0px" }}>
+                <Row style={{ margin: "0px auto" }}>
+                    <Col lg={12} sm={12}>
+                        {open ? <Collapse in={open}  >
+                            <Affix offsetTop={top}>
+                                <Alert
+                                    severity={alertType ? alertType : ""}
+                                    action={
+                                        <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => {
+                                                setOpen(false);
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="inherit" />
+                                        </IconButton>
+                                    }
+                                // sx={{ mb: 1 }}
+                                >
+                                    {message ? message : ""}
+                                </Alert>
+                            </Affix>
+                        </Collapse>
+                            : ""}
+                    </Col>
+                </Row>
+            </Container>
+            {!isDatasetIntegrationListModeOn && <DatasetSelect integrateMore={integrateMore} empty={empty} setTemplate={setTemplate} template={template} counterForIntegrator={counterForIntegrator} resetAll={resetAll} generateData={generateData} orgList={orgList} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} setConnectorData={setConnectorData} setCompleteData={setCompleteData} completeData={completeData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated} handleClickSelectDataset={handleClickSelectDataset} handleChangeDatasetNameSelector={handleChangeDatasetNameSelector} />}
+            {!isDatasetIntegrationListModeOn && completeData.length > 0 && <  Preview generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
+            {isDatasetIntegrationListModeOn && <span><ConnectorsList setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} /></span>}
         </>
     )
 }
 
 export default DatasetIntegration
+

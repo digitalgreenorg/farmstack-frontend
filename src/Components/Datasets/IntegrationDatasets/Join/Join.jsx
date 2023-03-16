@@ -6,193 +6,149 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import styles from "../dataset_integration.module.css"
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import { Button, CircularProgress } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { Cpu } from 'react-bootstrap-icons';
+import leftG from "../../../../Assets/Img/Join type/Color/Left.svg"
+import leftB from "../../../../Assets/Img/Join type/Normal state/left.svg"
+import rightB from "../../../../Assets/Img/Join type/Normal state/right.svg"
+import rightG from "../../../../Assets/Img/Join type/Color/right.svg"
+import fullB from "../../../../Assets/Img/Join type/Normal state/outer.svg"
+import fullG from "../../../../Assets/Img/Join type/Color/outer.svg"
+import innerB from "../../../../Assets/Img/Join type/Normal state/inner.svg"
+import innerG from "../../../../Assets/Img/Join type/Color/inner.svg"
+import CloseIcon from '@mui/icons-material/Close';
+import { Button } from 'antd';
 const Join = (props) => {
-    const { joinVal1, setJoinVal1, joinVal2, setJoinVal2, finalJoin, setFinalJoin, circleLoad, listOfDatasetSelected, listOfFilesSelected, listOfDatsetFileAvailableForColumn, generateData, finalDataNeedToBeGenerated } = props
-    const [join, setJoin] = useState({})
-
-    const [age, setAge] = React.useState('');
-    const [joinType, setJoinType] = useState("")
-    const handleChange = (event, source) => {
-        console.log(event.target.value)
-        if (source == "val1") {
-            setJoinVal1(event.target.value);
-        } else {
-            setJoinVal2(event.target.value)
-        }
-        if (finalJoin[event.target.value]) {
-            let obj = { ...finalJoin }
-            delete obj[event.target.value]
-            setFinalJoin(obj)
-        }
-        let list = [...Object.keys(listOfDatsetFileAvailableForColumn)];
-        let join1Obj = list.filter((each, index) => {
-            return each == event.target.value
-        })
-        let obj = { [event.target.value]: listOfDatsetFileAvailableForColumn[join1Obj[0]] }
-        setJoin({ ...obj, ...join })
-    };
-
+    const { handleMoreDataShow, indexShow, file_right, file_left, setCompleteJoinData, right_on, left_on, completedJoinData, type, left, right, index, each, resetAll, joinType, setJoinType, connectorData, setCompleteData, completeData, listOfDatsetFileAvailableForColumn, generateData } = props
+    const [joinTypeArr, setJoinTypeArr] = useState([
+        { name: "left", black: leftB, green: leftG },
+        { name: "right", black: rightB, green: rightG },
+        { name: "inner", black: innerB, green: innerG },
+        { name: "outer", black: fullB, green: fullG },
+    ])
     const handleChangeJoin = (e, source) => {
-        if (source == "join1") {
-            setFinalJoin({ ...finalJoin, [joinVal1]: e.target.value })
-        } else {
-            setFinalJoin({ ...finalJoin, [joinVal2]: e.target.value })
+        let arr = [...completeData]
+        let obj1 = { ...each }
+        const {
+            target: { value },
+        } = e;
+        // On autofill we get a stringified value.
+        if (typeof value === 'string') {
+            value.split(',')
         }
+        if (source == "join1") {
+            // console.log(value)
+            obj1["left_on"] = [...value]
+            arr[index] = { ...obj1 }
+        } else {
+            obj1["right_on"] = [...value]
+            arr[index] = { ...obj1 }
+        }
+
+        setCompleteData([...arr])
     }
-    console.log(listOfDatsetFileAvailableForColumn, "listOfDatsetFileAvailableForColumn")
-    let arr = Object.keys(finalDataNeedToBeGenerated)
-    let firstColms = finalDataNeedToBeGenerated[arr[0]]
-    let secondColms = finalDataNeedToBeGenerated[arr[1]]
+
+    const selectThisType = (name) => {
+        let arr = [...completeData]
+        let obj = { ...each }
+        // let arr1 = [...completedJoinData]
+        // let obj1 = { ...arr1[index - 1] }
+        obj["type"] = name
+        // arr1[index - 1] = { ...obj1 }
+        // setCompleteJoinData([...arr1])
+        // obj["joinTypeWithNextOrBack"] = name
+        // arr[index - 1] = { ...obj }
+        arr[index] = obj
+        setCompleteData([...arr])
+        setJoinType(name)
+    }
     useEffect(() => {
+        // console.log(index, "[index]", each)
     }, [])
     return (
-        <Container className='dataset_selector_in_integration'>
+        index == indexShow && <span className='dataset_selector_in_integration' >
             <Row>
-                <Col className={styles.select_dataset_logo} lg={8} sm={12} sx={12}>
+                <Col className={styles.select_dataset_logo} style={{ display: "flex", justifyContent: "space-between", padding: "10px 50px" }} lg={12} sm={12} sx={12}>
                     <span >Join</span>
+                    <span style={{ cursor: "pointer" }} ><CloseIcon onClick={(e) => handleMoreDataShow(indexShow, false, e)} className='deleteicon' color='secondary' /></span>
                 </Col>
             </Row>
-            <Row>
-                <Col lg={2}>
-                    <FormControl variant="standard" style={{ width: "80%" }}>
-                        <InputLabel id="primary_join_type_label">Join type</InputLabel>
+            <Row style={{ justifyContent: "center" }}>
+                <Col lg={5} sm={12} >
+                    <FormControl variant="outlined" style={{ width: "100%" }}>
+                        <InputLabel id="demo-simple-select-standard-label">Primary dataset column name</InputLabel>
+                        {/* {console.log(each)} */}
                         <Select
-                            labelId="demo-simple-select-standard-label"
-                            id="primary_join_type_select"
-                            value={joinType}
-                            onChange={(e) => setJoinType(e.target.value)}
-                            label="Primary dataset"
+                            labelId="primary_col_label_for_join"
+                            id="primary_col_select_for_join"
+                            value={each?.left_on ? each?.left_on : []}
+                            onChange={(e) => handleChangeJoin(e, "join1")}
+                            label="Primary dataset colounm name"
+                            multiple
                         >
-                            <MenuItem value="">
-                                <em>Clear</em>
-                            </MenuItem>
-                            <MenuItem value="left">
-                                Left
-                            </MenuItem>
-                            <MenuItem value="right">
-                                Right
-                            </MenuItem>
-                            <MenuItem value="inner">
-                                Inner
-                            </MenuItem>
-                            <MenuItem value="outer">
-                                Outer
-                            </MenuItem>
+                            {index == 0 && each.columnsSelected?.map((eachFile, ind_) => {
+                                return <MenuItem key={ind_} value={eachFile + ""}>{eachFile}</MenuItem>
+                            })}
+                            {index != 0 && each.left?.map((eachFile, ind_) => {
+                                return <MenuItem key={ind_} value={eachFile + ""}>{eachFile}</MenuItem>
+                            })}
                         </Select>
                     </FormControl>
-                </Col>
-
-                <Col lg={4} sm={12}>
-                    <Row>
-                        <Col lg={6} sm={6}>
-                            <FormControl variant="standard" style={{ width: "80%" }}>
-                                <InputLabel id="primary_dataset_label_for_join">Primary dataset</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-standard-label"
-                                    id="primary_dataset_select_for_join"
-                                    value={joinVal1}
-                                    onChange={(e) => handleChange(e, "val1")}
-                                    label="Primary dataset"
-                                >
-                                    {/* <MenuItem value="">
-                                        <em>Clear</em>
-                                    </MenuItem> */}
-                                    {listOfFilesSelected.map((eachFile, index) => {
-                                        if (listOfFilesSelected.includes(eachFile)) {
-                                            if (eachFile != joinVal1) {
-                                                return <MenuItem value={eachFile}>{eachFile.split("/")[eachFile.split("/").length - 1]}</MenuItem>
-                                            } else {
-                                                return <MenuItem disabled value={eachFile}>{eachFile.split("/")[eachFile.split("/").length - 1]}</MenuItem>
-
-                                            }
-                                        }
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Col>
-                        <Col lg={6} sm={6}>
-                            <FormControl variant="standard" style={{ width: "80%" }}>
-                                <InputLabel id="demo-simple-select-standard-label">Primary dataset column name</InputLabel>
-                                <Select
-                                    labelId="primary_col_label_for_join"
-                                    id="primary_col_select_for_join"
-                                    value={finalJoin.first}
-                                    onChange={(e) => handleChangeJoin(e, "join1")}
-                                    label="Primary dataset colounm name"
-                                >
-                                    {/* <MenuItem value="">
-                                        <em>Clear</em>
-                                    </MenuItem> */}
-                                    {finalDataNeedToBeGenerated[joinVal1]?.map((eachFile, index) => {
-                                        return <MenuItem value={eachFile + ""}>{eachFile}</MenuItem>
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Col>
-                    </Row>
+                    {/* </Col>
+                    </Row> */}
                 </Col>
                 <Col lg={1} sm={12} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <DragHandleIcon />
                 </Col>
-                <Col lg={4} sm={12}>
-                    <Row>
-                        <Col lg={6} sm={6}>
-                            <FormControl variant="standard" style={{ width: "80%" }}>
-                                <InputLabel id="secondary_dataset_label_for_join">Primary dataset</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-standard-label"
-                                    id="secondary_dataset_select_for_join"
-                                    value={joinVal2}
-                                    onChange={(e) => handleChange(e, "val2")}
-                                    label="Primary dataset"
-                                >
-                                    {/* <MenuItem value="">
-                                        <em>Clear</em>
-                                    </MenuItem> */}
-                                    {Object.keys(listOfDatsetFileAvailableForColumn).map((eachFile, index) => {
-                                        if (eachFile != joinVal1) {
-                                            return <MenuItem value={eachFile}>{eachFile.split("/")[eachFile.split("/").length - 1]}</MenuItem>
-                                        } else {
-                                            return <MenuItem disabled value={eachFile}>{eachFile.split("/")[eachFile.split("/").length - 1]}</MenuItem>
+                <Col lg={5} sm={12}>
+                    <FormControl variant="outlined" style={{ width: "100%" }}>
+                        <InputLabel id="secondary_col_label_for_join">Primary dataset column name</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="secondary_col_select_for_join"
+                            value={each?.right_on ? each?.right_on : []}
+                            onChange={(e) => handleChangeJoin(e, "join2")}
+                            label="Primary dataset colounm name"
+                            multiple
+                        >
+                            {completeData[index + 1]?.columnsSelected?.map((eachFile, ind_) => {
+                                if (completeData[index + 1]?.availabeColumns.includes(eachFile)) {
+                                    return <MenuItem key={ind_} value={eachFile + ""}>{eachFile}</MenuItem>
+                                }
+                            })}
+                        </Select>
+                    </FormControl>
 
-                                        }
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Col>
-                        <Col lg={6} sm={6}>
-                            <FormControl variant="standard" style={{ width: "80%" }}>
-                                <InputLabel id="secondary_col_label_for_join">Primary dataset column name</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-standard-label"
-                                    id="secondary_col_select_for_join"
-                                    value={finalJoin.second}
-                                    onChange={(e) => handleChangeJoin(e, "join2")}
-                                    label="Primary dataset colounm name"
-                                >
-                                    {/* <MenuItem value="">
-                                        <em>Clear</em>
-                                    </MenuItem> */}
-                                    {finalDataNeedToBeGenerated[joinVal2]?.map((eachFile, index) => {
-                                        return <MenuItem value={eachFile + ""}>{eachFile}</MenuItem>
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Col>
-                    </Row>
                 </Col>
             </Row>
-            <Row>
-                <Col lg={12} sm={12} className={styles.generate_btn_parent_col}>
-                    {console.log(joinVal1, joinVal2, finalJoin)}
-                    <Button id='generate_button' className={(joinType && joinVal1 && joinVal2 && finalJoin[joinVal1] && finalJoin[joinVal2] && Object.keys(finalJoin).length >= 2 && arr.length >= 2 && firstColms.length > 0 && secondColms.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={() => generateData(finalJoin[joinVal1], finalJoin[joinVal2], joinType)}>
-                        Generate data
-                    </Button>
-                </Col>
-            </Row>
-        </Container>
+            {/* <Col className={styles.select_dataset_logo} style={{ display: "flex", justifyContent: "left", padding: "0px 50px" }} lg={12} sm={12} sx={12}>
+                <span >Join type</span>
+            </Col> */}
+
+            {
+                completeData.length >= 2 && <Row style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <Col lg={12}>
+
+                        {joinTypeArr.map((eachT, ind) => {
+                            return <span key={ind} onClick={() => selectThisType(eachT.name)} className={each.type == eachT.name ? styles.stypeMainBox : styles.typeMainBox}>
+                                <div className={styles.selectedTypeMainBox}></div>
+                                <img className={styles.selectedTypeImage} src={each.type == eachT.name ? eachT.green : eachT.black} alt={eachT.name} />
+                                <div className={styles.labelTypeJoin}> {eachT.name}</div>
+                            </span>
+                        })}
+                    </Col>
+                    <Col lg={12} sm={12} className={styles.generate_btn_parent_col}>
+                        <Row style={{ textAlign: "center" }}>
+                            <Col lg={12}>
+                                <Button id='generate_button' className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={() => generateData(index, "integrate")}>
+                                    Preview
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            }
+        </span >
     )
 }
 

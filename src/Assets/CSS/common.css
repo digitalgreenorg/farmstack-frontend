@@ -995,6 +995,10 @@ button.disbalesubmitbtndept {
   color: #000000 !important;
 }
 
+.dataset_selector_in_integration .row {
+  margin-top: 0px !important;
+}
+
 .dataset_selector_in_integration .MuiCollapse-entered {
   background: #FFFFFF !important;
   box-shadow: 0px 20px 40px -4px rgb(145 158 171 / 16%) !important;
@@ -1002,7 +1006,8 @@ button.disbalesubmitbtndept {
 }
 
 .accordion_for_columns_under_integration .accordion_detail .MuiSvgIcon-root,
-.accordion_for_columns_under_integration .select_all_btn .MuiSvgIcon-root {
+.accordion_for_columns_under_integration .select_all_btn .MuiSvgIcon-root,
+.dataset_selector_in_integration .MuiSvgIcon-root {
   color: #637381 !important;
 }
 
@@ -1035,6 +1040,64 @@ button.disbalesubmitbtndept {
 .back_btn_guest .MuiSvgIcon-root {
   color: #3491EE !important;
 }
+
+.dataset_selector_in_integration .MuiFormControlLabel-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dataset_selector_in_integration .deleteicon {
+  cursor: pointer;
+}
+
+.dataset_selector_in_integration .deleteicon:hover {
+  color: red !important;
+}
+
+.deleteicon:hover .mainBoxInIntegration {
+  border: 1px solid red !important;
+}
+
+.dataset_integration_selectors .row {
+  background-color: #ab8405 !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.MuiInputLabel-asterisk {
+  color: red !important;
+}
+
+.all_selectors_as_sticky {
+  transition: all 0.2s;
+}
+
+.ant-affix .all_selectors_as_sticky {
+  box-shadow: 0px 2px 5px rgb(0 0 0 / 50%) !important;
+  /* width: 100vw !important; */
+  margin: 0px !important;
+  padding: 5px 0px !important;
+  border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+
+
+}
+
+.dataset_selector_in_integration .MuiDataGrid-row:nth-child(even) {
+  background-color: #F9EABC !important;
+  /* color: white; */
+  margin: 5px 0px;
+}
+
+.dataset_selector_in_integration .MuiDataGrid-row:nth-child(odd) {
+  background-color: #f7f4ebd3 !important;
+  /* color: white; */
+  padding: 5px 0px;
+}
+
 .connectorCard {
   padding: 20px 40px 20px 5px;
   font-family: "Open Sans";
@@ -1047,7 +1110,7 @@ button.disbalesubmitbtndept {
   width: 368px;
   height: 178px;
   margin: 30px 15px 15px 15px;
-  border : 1px solid #C0C7D1;
+  border: 1px solid #C0C7D1;
 }
 .contactNumberStyleOrg {
   border-bottom: 1px solid #3a3a3a !important; 
@@ -1085,4 +1148,9 @@ button.disbalesubmitbtndept {
   font-size: 14px;
   font-family: "Open Sans";
   font-weight: 400;
+}
+
+.connectorCard:hover {
+  border: 1px solid #c09507;
+  cursor: pointer;
 }
