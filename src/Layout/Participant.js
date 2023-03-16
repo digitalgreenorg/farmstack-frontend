@@ -29,6 +29,7 @@ import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
+import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 
 function Participant(props) {
   return (
@@ -43,11 +44,11 @@ function Participant(props) {
                 path="/participant/datasets"
                 component={DatasetParticipant}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/participant/connectors"
                 component={ConnectorParticipant}
-              />
+              /> */}
               <Route exact path="/participant/home" component={Home} />
               {/* <Route
                 exact
@@ -124,17 +125,24 @@ function Participant(props) {
                 path="/participant/connectors/detail"
                 component={DemoDashboardTable}
               />
-               <Route
-              exact
-              path="/participant/dataset/view/:id"
-              component={ViewMetaDatasetDetails}
+              <Route
+                exact
+                path="/participant/dataset/view/:id"
+                component={ViewMetaDatasetDetails}
               />
-                <Route
-              exact
-              path="/participant/integration"
+              <Route
+                exact
+                path="/participant/connectors"
               >
-              <DatasetIntegration/>
+                <DatasetIntegration />
               </Route>
+              {/* <Route
+              exact
+              path="/participant/connectors/list"
+              >
+              <ConnectorsList/>
+              </Route> */}
+
             </Switch>
           </div>
           <Footer />
