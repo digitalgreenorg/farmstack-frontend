@@ -44,11 +44,11 @@ function Participant(props) {
                 path="/participant/datasets"
                 component={DatasetParticipant}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/participant/connectors"
                 component={ConnectorParticipant}
-              />
+              /> */}
               <Route exact path="/participant/home" component={Home} />
               {/* <Route
                 exact
@@ -136,12 +136,12 @@ function Participant(props) {
               >
                 <DatasetIntegration />
               </Route>
-              <Route
+              {/* <Route
               exact
               path="/participant/connectors/list"
               >
               <ConnectorsList/>
-              </Route>
+              </Route> */}
 
             </Switch>
           </div>

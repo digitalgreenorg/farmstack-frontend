@@ -64,7 +64,7 @@ const DatasetIntegration = (props) => {
 
     //connector data
     const [connectorData, setConnectorData] = useState({
-        name: "", desc: ""
+        name: "", desc: "",
     })
 
 
@@ -243,7 +243,14 @@ const DatasetIntegration = (props) => {
     }
     const resetAll = (main, connector, join, goback, func1, func2) => {
 
-        goToTop()
+        // goToTop()
+        setConnectorId("")
+        setCounterForIntegration(2)
+        setCompleteData([])
+        setFinalDatasetAfterIntegration([])
+        setConnectorData({ name: "", desc: "" })
+        setIsDatasetIntegrationListModeOn(true)
+
     }
     // const deleteTable = (tableName, index) => {
     // let newArr = listOfDatsetFileAvailableForColumn.filter((each) => each.name != tableName.name)
@@ -338,16 +345,16 @@ const DatasetIntegration = (props) => {
 
             } else if (condition == "save") {
                 console.log("inside save", res.data)
-                setConnectorId(res?.data?.id ? res.data.id : "")
+                // setConnectorId(res?.data?.id ? res.data.id : "")
                 setOpen(true);
                 setAlertType("success")
                 setMessage("Data saved successfully!")
-                setIsDatasetIntegrationListModeOn(true)
+                resetAll()
                 let id = setTimeout(() => {
                     setOpen(false);
                     return clearTimeout(id)
                 }, 2500)
-                document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
+                // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
 
             } else if (condition == "delete") {
                 console.log("inside delete", res)
@@ -362,6 +369,7 @@ const DatasetIntegration = (props) => {
 
             // goToTop(2000)
         }).catch((err) => {
+            console.log(err)
             setOpen(true);
             setLoader(false)
             setAlertType("error")
@@ -408,10 +416,8 @@ const DatasetIntegration = (props) => {
         document.body.removeChild(a);
     }
     const deleteConnector = () => {
-        setCompleteData([])
         generateData(1, "delete")
-        setFinalDataNeedToBeGenerated([])
-        setIsDatasetIntegrationListModeOn(true)
+        resetAll()
     }
 
 
@@ -454,7 +460,7 @@ const DatasetIntegration = (props) => {
                 </Row>
             </Container>
             {!isDatasetIntegrationListModeOn && <DatasetSelect integrateMore={integrateMore} empty={empty} setTemplate={setTemplate} template={template} counterForIntegrator={counterForIntegrator} resetAll={resetAll} generateData={generateData} orgList={orgList} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} setConnectorData={setConnectorData} setCompleteData={setCompleteData} completeData={completeData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated} handleClickSelectDataset={handleClickSelectDataset} handleChangeDatasetNameSelector={handleChangeDatasetNameSelector} />}
-            {!isDatasetIntegrationListModeOn && completeData.length > 0 && <  Preview generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
+            {!isDatasetIntegrationListModeOn && completeData.length > 0 && <Preview generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
             {isDatasetIntegrationListModeOn && <span><ConnectorsList setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} /></span>}
         </>
     )

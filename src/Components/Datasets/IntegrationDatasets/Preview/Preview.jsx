@@ -28,7 +28,7 @@ function NoRowsOverlay() {
 }
 const Preview = (props) => {
 
-    const { generateData, setIsDatasetIntegrationListModeOn, deleteConnector, counterForIntegrator, completeData, isEditModeOn, integrateMore, resetAll, generatedConnectorData, finalDatasetAfterIntegration, downloadDocument } = props
+    const { connectorData, generateData, setIsDatasetIntegrationListModeOn, deleteConnector, counterForIntegrator, completeData, isEditModeOn, integrateMore, resetAll, generatedConnectorData, finalDatasetAfterIntegration, downloadDocument } = props
     const [col, setCol] = useState([])
     const [row, setRow] = useState([])
     useEffect(() => {
@@ -55,7 +55,7 @@ const Preview = (props) => {
             setCol([...val])
             setRow([...rowArr])
         }
-    }, [finalDatasetAfterIntegration])
+    }, [finalDatasetAfterIntegration,])
 
     return (
         <Container className='dataset_selector_in_integration'>
@@ -93,15 +93,15 @@ const Preview = (props) => {
             <Row style={{ textAlign: "left" }}>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
                     <div>File name</div>
-                    {/* <div className='text-truncate' >{generatedConnectorData?.file_name}.csv</div> */}
+                    <div className='text-truncate' >{connectorData?.name}.csv</div>
                 </Col>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
                     <div>Datasets</div>
-                    {/* <div className='text-truncate'>{generatedConnectorData.datasets?.map((each) => `${each}, `)}</div> */}
+                    <div style={{ width: "250px", height: "200px", overflowY: "auto" }}>{completeData?.map((each) => `${each.dataset_name}, `)}</div>
                 </Col>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
                     <div>No.of records</div>
-                    {/* <div className='text-truncate'>{generatedConnectorData?.no_of_records}</div> */}
+                    <div className='text-truncate'>{finalDatasetAfterIntegration?.length}</div>
                 </Col>
                 <Col lg={3} sm={12} className={styles.generate_btn_parent_col}>
                     {/* <Affix onChange={(affixed) => console.log(affixed, "read for dowload")} style={{ backgrond: "white", transition: "all 2s", visibility: counterForIntegrator != completeData.length ? "hidden" : "visible" }} offsetBottom={20}> */}
@@ -119,17 +119,17 @@ const Preview = (props) => {
             <hr />
             <Row style={{ marginTop: "50px" }}>
                 <Col lg={3}></Col>
-                <Col lg={2}>
-                    <Button resetAll={() => resetAll(true, true, true, true, setCol, setRow)} className={styles.cancelBtn}>Cancel</Button>
-                </Col>
-                <Col lg={3}>
+                <Col lg={9} style={{ display: "flex", justifyContent: "right", alignItems: "center", gap: "20px" }}>
+                    <Button onClick={() => resetAll(true, true, true, true, setCol, setRow)} className={styles.cancelBtn}>Cancel</Button>
+                    {/* </Col> */}
+                    {/* <Col lg={3}> */}
                     <Button onClick={() => integrateMore(1)} className={styles.generate_data_btn}>Integrate more datasets</Button>
-                </Col>
-                <Col lg={2}>
+                    {/* </Col> */}
+                    {/* <Col lg={2}> */}
                     {finalDatasetAfterIntegration.length > 0 &&
                         <Button onClick={() => generateData(1, "save")} className={styles.save_btn}>Save connector</Button>}
-                </Col>
-                <Col lg={2}>
+                    {/* </Col> */}
+                    {/* <Col lg={2}> */}
                     {true &&
                         <Button onClick={() => deleteConnector()} className={styles.delete_btn}>Delete connector</Button>}
                 </Col>

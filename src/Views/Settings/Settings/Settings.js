@@ -23,7 +23,7 @@ import OrganisationSetting from "../organisation/OrganisationSetting";
 import { useParams } from "react-router-dom";
 import PolicySettings from "../PolicySettings/PolicySettings";
 import BrandingSetting from "../branding/BrandingSetting";
-import HandleSessionTimeout, { isLoggedInUserCoSteward } from "../../../Utils/Common";
+import HandleSessionTimeout, { isLoggedInUserAdmin, isLoggedInUserCoSteward } from "../../../Utils/Common";
 import Loader from "../../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import DepartmentSettingsCard from "../ParticipantSettings/DepartmentSettingsCard";
@@ -31,6 +31,7 @@ import ProjectListing from "../ParticipantSettings/Project/ProjectListing";
 import DepartmentListing from "../Department/DepartmentListing";
 import AdminCategorySetupAndEdit from "../../../Components/Catergories/AdminCategorySetupAndEdit";
 import AddingCategory from "../../../Components/Catergories/AddingCategory";
+import StandardizationInOnbord from "../../../Components/Standardization/StandardizationInOnbording";
 
 const useStyles = {
   btncolor: {
@@ -288,10 +289,15 @@ function Settings(props) {
                     <Tab label="Team members" value="4" /> : "" }
                     {!isLoggedInUserCoSteward() ?
                     <Tab label="Customize design" value="5" /> : "" }
-                    <Tab label="Department" value="6" />
-                    <Tab label="Project" value="7" />
                     {!isLoggedInUserCoSteward() ?
-                    <Tab label="Categories" value="8" /> : " "}
+                    <Tab label="Categories" value="6" /> : " "}
+                    {
+                      isLoggedInUserAdmin() ?
+                      <Tab label="Data Standardization" value="7" /> 
+                      : ""
+                    }
+                    {/* <Tab label="Department" value="6" />
+                    // <Tab label="Project" value="7" /> */}
                   </TabList>
                 </Box>
                 <TabPanel value="1">
@@ -390,8 +396,8 @@ function Settings(props) {
 
                 {/* <TabPanel value="6"></TabPanel> */}
 
-                <TabPanel value="6">
-                  <DepartmentListing />
+                {/* <TabPanel value="6">
+                  <DepartmentListing /> */}
                   {/* <Row>
                     <span style={useStyles.departmentword}>My departments</span>
                   </Row>
@@ -428,12 +434,13 @@ function Settings(props) {
                     ))}
                   </Row> */}
 
+                {/* </TabPanel> */}
+                <TabPanel value="6">
+                  <AddingCategory />
                 </TabPanel>
                 <TabPanel value="7">
-                  <ProjectListing />
-                </TabPanel>
-                <TabPanel value="8">
-                  <AddingCategory />
+                  {/* <ProjectListing /> */}
+                  <StandardizationInOnbord inSettings={true}/>
                 </TabPanel>
               </TabContext>
             </Box>
