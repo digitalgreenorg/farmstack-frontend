@@ -16,6 +16,7 @@ import Loader from "../../Components/Loader/Loader";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
+  mobileNumberMinimunLengthCheck,
   stringMinimumLengthCheck,
 } from "../../Utils/Common";
 const useStyles = {
@@ -72,101 +73,147 @@ function EditParticipants(props) {
   const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
   // const[orgSubscriptionErrorMessage, setOrgSubscriptionErrorMessage] = useState(null)
 
-
-    const history = useHistory();
-    const { id } = useParams()
-    useEffect(() => {
-    }, []);
-    const isValidURL = (string) => {
-        console.log("dsvdsv", string)
-        var res = string.match("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
-        return (res !== null)
-    };
-    useEffect(() => {
-        setIsLoader(true);
-        HTTPService('GET', UrlConstants.base_url + UrlConstants.participant + id + '/', '', false, true).then((response) => {
-            setIsLoader(false);
-            console.log("otp valid", response.data);
-            // let addressdata=JSON.parse(response.data.organization.address)
-            setorganisationname(response.data.organization.name)
-            setorganisationaddress(response.data.organization.address.address ||  JSON.parse(response?.data?.organization?.address)?.address)
-            setorginsationemail(response.data.organization.org_email)
-            setcountryvalue(response.data.organization.address.country || JSON.parse(response?.data?.organization?.address)?.country)
-            setcontactnumber(response.data.user.phone_number)
-            setwebsitelink(response.data.organization.website)
-            setpincode(response.data.organization.address.pincode || JSON.parse(response?.data?.organization?.address)?.pincode)
-            setfirstname(response.data.user.first_name)
-            setlastname(response.data.user.last_name)
-            setuseremail(response.data.user.email)
-            // setorganisationlength(response.data.user.subscription)
-            setidorg(response.data.organization_id)
-            setistrusted(response.data.user.approval_status)
-        }).catch((e) => {
-            setIsLoader(false);
-            history.push(GetErrorHandlingRoute(e));
-        });
-    }, []);
-
-    const addNewParticipants = () => {
-
-        setFirstNameErrorMessage(null)
-        setLastNameErrorMessage(null)
-        setEmailErrorMessage(null)
-        setPhoneNumberErrorMessage(null)
-        setOrgNameErrorMessage(null)
-        setOrgEmailErrorMessage(null)
-        setOrgWebsiteErrorMessage(null)
-        // setOrgSubscriptionErrorMessage(null)
-        setisorganisationemailerror(null)
-
-        var bodyFormData = new FormData();
-        bodyFormData.append('email', useremail.toLowerCase());
-        bodyFormData.append('org_email', orginsationemail.toLowerCase());
-        bodyFormData.append('first_name', firstname);
-        bodyFormData.append('last_name', lastname);
-        bodyFormData.append('name', organisationname);
-        bodyFormData.append('phone_number', contactnumber);
-        bodyFormData.append('website', websitelink);
-        bodyFormData.append('address', JSON.stringify({ "address": organisationaddress, "country": countryvalue, "pincode": pincode }));
-        // bodyFormData.append('subscription', organisationlength);
-        bodyFormData.append('role', 3);
-        bodyFormData.append('id', idorg);
-        bodyFormData.append("approval_status", istrusted)
-        console.log("dfdfdsf", bodyFormData)
-        setIsLoader(true);
-        HTTPService('PUT', UrlConstants.base_url + UrlConstants.participant + id + '/', bodyFormData, false, true).then((response) => {
-            setIsLoader(false);
-            console.log("otp valid", response.data);
-            setisSuccess(true)
-        }).catch((e) => {
+  const history = useHistory();
+  const { id } = useParams();
+  useEffect(() => {}, []);
+  const isValidURL = (string) => {
+    var res = string.match(
+      "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?"
+    );
+    return res !== null;
+  };
+  useEffect(() => {
+    setIsLoader(true);
+    HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.participant + id + "/",
+      "",
+      false,
+      true
+    )
+      .then((response) => {
         setIsLoader(false);
-            var returnValues = GetErrorKey(e, bodyFormData.keys())
-            var errorKeys = returnValues[0]
-            var errorMessages = returnValues[1]
-            if (errorKeys.length > 0){
-                for (var i=0; i<errorKeys.length; i++){
-                    switch(errorKeys[i]){
-                    case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
-                    case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
-                    case "email": setEmailErrorMessage(errorMessages[i]); break;
-                    case "phone_number": setPhoneNumberErrorMessage(errorMessages[i]); break;
-                    case "name": setOrgNameErrorMessage(errorMessages[i]); break;
-                    case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
-                    case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
-                    // case "subscription": setOrgSubscriptionErrorMessage(errorMessages[i]); break;
-                    default: history.push(GetErrorHandlingRoute(e)); break;
-                    }
-                }
-            }
-            else{
-            history.push(GetErrorHandlingRoute(e))
-            } //history.push(GetErrorHandlingRoute(e));
-        });
+        console.log("otp valid", response.data);
+        // let addressdata=JSON.parse(response.data.organization.address)
+        setorganisationname(response.data.organization.name);
+        setorganisationaddress(
+          response.data.organization.address.address ||
+            JSON.parse(response?.data?.organization?.address)?.address
+        );
+        setorginsationemail(response.data.organization.org_email);
+        setcountryvalue(
+          response.data.organization.address.country ||
+            JSON.parse(response?.data?.organization?.address)?.country
+        );
+        setcontactnumber(response.data.user.phone_number);
+        setwebsitelink(response.data.organization.website);
+        setpincode(
+          response.data.organization.address.pincode ||
+            JSON.parse(response?.data?.organization?.address)?.pincode
+        );
+        setfirstname(response.data.user.first_name);
+        setlastname(response.data.user.last_name);
+        setuseremail(response.data.user.email);
+        // setorganisationlength(response.data.user.subscription)
+        setidorg(response.data.organization_id);
+        setistrusted(response.data.user.approval_status);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        history.push(GetErrorHandlingRoute(e));
+      });
+  }, []);
+
+  const addNewParticipants = () => {
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setEmailErrorMessage(null);
+    setPhoneNumberErrorMessage(null);
+    setOrgNameErrorMessage(null);
+    setOrgEmailErrorMessage(null);
+    setOrgWebsiteErrorMessage(null);
+    // setOrgSubscriptionErrorMessage(null)
+    setisorganisationemailerror(null);
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("email", useremail.toLowerCase());
+    bodyFormData.append("org_email", orginsationemail.toLowerCase());
+    bodyFormData.append("first_name", firstname);
+    bodyFormData.append("last_name", lastname);
+    bodyFormData.append("name", organisationname);
+    bodyFormData.append("phone_number", contactnumber);
+    bodyFormData.append("website", websitelink);
+    bodyFormData.append(
+      "address",
+      JSON.stringify({
+        address: organisationaddress,
+        country: countryvalue,
+        pincode: pincode,
+      })
+    );
+    // bodyFormData.append('subscription', organisationlength);
+    {
+      props.coSteward
+        ? bodyFormData.append("role", 6)
+        : bodyFormData.append("role", 3);
     }
-    const handleistrusted = (event) => {
-        console.log(event.target.checked);
-        setistrusted(event.target.checked)
-      };
+    bodyFormData.append("id", idorg);
+    bodyFormData.append("approval_status", istrusted);
+    setIsLoader(true);
+    HTTPService(
+      "PUT",
+      UrlConstants.base_url + UrlConstants.participant + id + "/",
+      bodyFormData,
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        setisSuccess(true);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              case "email":
+                setEmailErrorMessage(errorMessages[i]);
+                break;
+              case "phone_number":
+                setPhoneNumberErrorMessage(errorMessages[i]);
+                break;
+              case "name":
+                setOrgNameErrorMessage(errorMessages[i]);
+                break;
+              case "org_email":
+                setOrgEmailErrorMessage(errorMessages[i]);
+                break;
+              case "website":
+                setOrgWebsiteErrorMessage(errorMessages[i]);
+                break;
+              // case "subscription": setOrgSubscriptionErrorMessage(errorMessages[i]); break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
+            }
+          }
+        } else {
+          history.push(GetErrorHandlingRoute(e));
+        } //history.push(GetErrorHandlingRoute(e));
+      });
+  };
+  const handleistrusted = (event) => {
+    setistrusted(event.target.checked);
+  };
 
   return (
     <>
@@ -268,7 +315,7 @@ function EditParticipants(props) {
                 orginsationemail &&
                 !isorganisationemailerror &&
                 countryvalue &&
-                contactnumber.length == 15 &&
+                mobileNumberMinimunLengthCheck(contactnumber) &&
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
@@ -302,16 +349,14 @@ function EditParticipants(props) {
                   variant="outlined"
                   className="cancelbtn"
                 >
-                                {screenlabels.common.cancel}
-                            </Button>
-
-                        </Col>
-                    </Row>
-                    </>)}
-            </Container>
-        </>
-
-  
+                  {screenlabels.common.cancel}
+                </Button>
+              </Col>
+            </Row>
+          </>
+        )}
+      </Container>
+    </>
   );
 }
 export default EditParticipants;

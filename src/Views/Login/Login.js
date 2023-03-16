@@ -46,7 +46,7 @@ import LeftintroParticipant from "../../Components/intros/LeftIntroParticipant";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import AddingCategory from "../../Components/Catergories/AddingCategory";
 import { ConsoleSqlOutlined } from "@ant-design/icons";
-import DataStandardization from "../../Components/signup/DataStandardization";
+import StandardizationInOnbord from "../../Components/Standardization/StandardizationInOnbording";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -73,8 +73,7 @@ export default function Login(props) {
   const [isDataSet, setIsDataSet] = useState(false);
   const [isCategorySetup, setIsCategorySetup] = useState(false);
   const [isaccesstoken, setisaccesstoken] = useState(false);
-  const [isDataStandardization, setIsDataStandardization] = useState(false)
-  console.log('isDataStandardization', isDataStandardization)
+  const [isDataStandardization, setIsDataStandardization] = useState(false);
   //const [userid, setUserId] = useState(false)
 
   const [orgName, setOrgName] = useState("");
@@ -866,8 +865,9 @@ export default function Login(props) {
 
   const handlepincode = (e) => {
     console.log(e.target.value);
+    if (e.target.value > 10) e.target.value = e.target.value.substring(0, 10);
     var pincode = e.target.value;
-    if (pincode.length > 0) {
+    if (pincode.length >= 5) {
       setispincodeerror(false);
       setOrgpincodebtn(true);
       // setOrgnextbutton(true);
@@ -942,7 +942,7 @@ export default function Login(props) {
       ) : (
         <div>
           {!isCategorySetup && !isDataStandardization && <h1 className="headertext">{screenlabels.login.signup_header}</h1>}
-          {(isParticipantRoute(location.pathname) && !isCategorySetup && !isDataStandardization) ? <LeftintroParticipant /> : !isCategorySetup && !isDataStandardization ? <Leftintro /> : ""}
+          {(isParticipantRoute(location.pathname) && !isCategorySetup  && !isDataStandardization) ? <LeftintroParticipant /> : !isCategorySetup && !isDataStandardization ? <Leftintro /> : ""}
 
           {isemail || isOtp ? <Rightintro /> : ""}
           {/* <Footerimg /> */}
@@ -1132,13 +1132,19 @@ export default function Login(props) {
       {isCategorySetup && isLoggedInUserAdmin() && (
         <AddingCategory isaccesstoken={isaccesstoken} showBrandingScreen={() => {
           setIsCategorySetup(false)
-          setisBranding(true);
+          // setisBranding(true);
+          setIsDataStandardization(true)
         }} isOnborading={true} />
       )}
       {
-            isDataStandardization && isLoggedInUserAdmin() && (
-              <DataStandardization/>
-            )
+         isDataStandardization && isLoggedInUserAdmin() && (
+         <StandardizationInOnbord isaccesstoken={isaccesstoken} showBrandingScreen={() => {
+          setIsDataStandardization(false)
+          setisBranding(true);
+        }} isOnborading={true}/>
+        )
+        
+        
       }
     </div>
   );

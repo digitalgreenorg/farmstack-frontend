@@ -121,8 +121,8 @@ export default function LiveApiConnection(props) {
     <>
       {loader ? <Loader /> : ""}
       <Snackbar
-        style={{'maxWidth': "1300px"}}
-        className='mui_snackbar_in_live_api_classname'
+      style={{'maxWidth': "1300px"}} 
+      className='mui_snackbar_in_live_api_classname'
         open={open}
         autoHideDuration={4000}
         onClose={handleClose}

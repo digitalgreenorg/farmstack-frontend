@@ -62,7 +62,7 @@ const UrlConstant = {
   microsite_legal_documents: "/microsite/legal_documents/",
   consumer_paring_request: "participant/connectors_map/",
   provider_connectors: "participant/connectors/get_connectors/?dataset_id=",
-  microsite_theme: "/microsite/theme/",
+  microsite_theme: "microsite/theme/",
   datahub_dashboard: "datahub/dashboard/",
   add_project: "/participant/project/",
   register_participant: "accounts/self_register/",
@@ -82,10 +82,21 @@ const UrlConstant = {
   co_steward_add: "datahub/participant/",
 
   //integration
+  get_org_name_list: "datahub/dataset_ops/organization/",
   get_dataset_name_list: "datahub/dataset_ops/datasets_names/",
   get_files_for_selected_datasets: "datahub/dataset_ops/datasets_file_names/",
   get_columns_for_selected_files: "datahub/dataset_ops/datasets_col_names/",
-  joining_the_table: "datahub/dataset_ops/datasets_join_condition/"
+  joining_the_table: "datahub/dataset_ops/datasets_join_condition/",
+
+  // Standardization
+
+  standardization_post_data: "datahub/standardise/",
+  standardization_update_data: "datahub/standardise/update_standardisation_template/",
+  standardization_delete_category: "datahub/standardise/",
+  standardization_get_data: "datahub/standardise/",
+  joining_the_table: "connectors/integration/",
+  integration_connectors: "connectors/",
+  list_of_connectors: "connectors/",
 
 };
 

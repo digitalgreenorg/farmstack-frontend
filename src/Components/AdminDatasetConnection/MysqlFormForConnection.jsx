@@ -135,13 +135,6 @@ const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, han
           port: ""
         }
 
-        // //clear input fields
-        // setConnectionData({
-        //   ...connectionData, ...dataForReset
-        // })
-
-
-
         var returnValues = GetErrorKey(err, ["database", "username", "password", "host", "port"])
         var errorKeys = returnValues[0]
         var errorMessages = returnValues[1]
