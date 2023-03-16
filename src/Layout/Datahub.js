@@ -41,19 +41,20 @@ import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMet
 import ViewCoSteward from "../Components/Participants/ViewCoSteword";
 import EditCoSteward from "../Components/Participants/EditCoSteward";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
+import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
   // }, []);
   return (
     <>
-      {(getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserCoSteward()))? (
+      {(getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserCoSteward())) ? (
         <div className="center_keeping_conatiner">
 
           <Navbar />
           <div className="minHeight67vhDatahubPage">
             <Switch>
-            <Route
+              <Route
                 exact
                 path="/datahub/participants/view/:id"
                 component={ViewParticipants}
@@ -128,7 +129,6 @@ function Datahub(props) {
               />
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
-              {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
               <Route exact path="/datahub/datasets" component={DatasetAdmin} />
               <Route
                 exact
@@ -140,11 +140,11 @@ function Datahub(props) {
                 path="/datahub/connectors/edit/:id"
                 component={EditConnectorParticipant}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/connectors"
                 component={ConnectorParticipant}
-              />
+              /> */}
               <Route
                 exact
                 path="/datahub/settings/project/add"
@@ -166,25 +166,31 @@ function Datahub(props) {
                 component={DemoDashboardTable}
               />
               <Route
-              exact
-              path="/datahub/dataset/view/:id"
-              component={ViewMetaDatasetDetails}
+                exact
+                path="/datahub/dataset/view/:id"
+                component={ViewMetaDatasetDetails}
               />
               <Route
-              exact
-              path="/datahub/participants"
-              component={ParticipantCoStewardManagement}
+                exact
+                path="/datahub/participants"
+                component={ParticipantCoStewardManagement}
               />
-               <Route 
-              exact
-              path="/datahub/participants/addcosteward"
-              component={AddCoSteward}      
+              <Route
+                exact
+                path="/datahub/participants/addcosteward"
+                component={AddCoSteward}
               />
-               <Route
-              exact
-              path="/datahub/integration"     
+              <Route
+                exact
+                path="/datahub/connectors"
               >
-              <DatasetIntegration/>
+                <DatasetIntegration />
+              </Route>
+              <Route
+                exact
+                path="/datahub/connectors/list"
+              >
+                <ConnectorsList />
               </Route>
             </Switch>
           </div>

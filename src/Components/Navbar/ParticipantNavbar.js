@@ -95,7 +95,7 @@ const ParticipantNavbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.datasets}
           </NavLink>
-          <NavLink to="/participant/integration" activeStyle>
+          <NavLink to="/participant/connectors" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/dataset_bold.svg")}
@@ -106,9 +106,9 @@ const ParticipantNavbar = (props) => {
               src={require("../../Assets/Img/datasets.svg")}
               alt="new"
             />
-            &nbsp;&nbsp;{screenlabels.navbar.integration}
+            &nbsp;&nbsp;{screenlabels.navbar.connectors}
           </NavLink>
-          {/* <NavLink to="/participant/connectors" activeStyle>
+          {/* <NavLink to="/participant/connectors/list" activeStyle>
             <img
               className="boldimage"
               src={require("../../Assets/Img/connectors.svg")}

@@ -82,9 +82,11 @@ const UrlConstant = {
   co_steward_add: "datahub/participant/",
 
   //integration
+  get_org_name_list: "datahub/dataset_ops/organization/",
   get_dataset_name_list: "datahub/dataset_ops/datasets_names/",
   get_files_for_selected_datasets: "datahub/dataset_ops/datasets_file_names/",
   get_columns_for_selected_files: "datahub/dataset_ops/datasets_col_names/",
+<<<<<<< HEAD
   joining_the_table: "datahub/dataset_ops/datasets_join_condition/",
 
   // Standardization
@@ -93,6 +95,11 @@ const UrlConstant = {
   standardization_update_data: "datahub/standardise/update_standardisation_template/",
   standardization_delete_category: "datahub/standardise/",
   standardization_get_data: "datahub/standardise/"
+=======
+  joining_the_table: "connectors/integration/",
+  integration_connectors: "connectors/",
+  list_of_connectors: "connectors/",
+>>>>>>> c83a7a9e2ebad5ead3f6a03afa9c20ae5cbec2ce
 
 };
 
