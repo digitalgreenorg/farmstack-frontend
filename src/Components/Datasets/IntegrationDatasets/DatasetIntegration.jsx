@@ -345,7 +345,7 @@ const DatasetIntegration = (props) => {
 
             } else if (condition == "save") {
                 console.log("inside save", res.data)
-                setConnectorId(res?.data?.id ? res.data.id : "")
+                // setConnectorId(res?.data?.id ? res.data.id : "")
                 setOpen(true);
                 setAlertType("success")
                 setMessage("Data saved successfully!")
@@ -354,7 +354,7 @@ const DatasetIntegration = (props) => {
                     setOpen(false);
                     return clearTimeout(id)
                 }, 2500)
-                document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
+                // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
 
             } else if (condition == "delete") {
                 console.log("inside delete", res)
@@ -369,6 +369,7 @@ const DatasetIntegration = (props) => {
 
             // goToTop(2000)
         }).catch((err) => {
+            console.log(err)
             setOpen(true);
             setLoader(false)
             setAlertType("error")
