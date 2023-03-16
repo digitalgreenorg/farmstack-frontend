@@ -30,7 +30,7 @@ const useStyles = {
   "font-size": "24px",
   "font-style":"normal", 
   "width":"272px", 
-  "height": "19px", 
+  "height": "25px", 
   "line-height":"19px",  
   "text-align": "left", 
   "margin-bottom": "20px" , 
