@@ -46,6 +46,7 @@ import LeftintroParticipant from "../../Components/intros/LeftIntroParticipant";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import AddingCategory from "../../Components/Catergories/AddingCategory";
 import { ConsoleSqlOutlined } from "@ant-design/icons";
+import StandardizationInOnbord from "../../Components/Standardization/StandardizationInOnbording";
 export default function Login(props) {
   const [button, setButton] = useState(false);
   const email = useRef();
@@ -72,6 +73,7 @@ export default function Login(props) {
   const [isDataSet, setIsDataSet] = useState(false);
   const [isCategorySetup, setIsCategorySetup] = useState(false);
   const [isaccesstoken, setisaccesstoken] = useState(false);
+  const [isDataStandardization, setIsDataStandardization] = useState(false);
   //const [userid, setUserId] = useState(false)
 
   const [orgName, setOrgName] = useState("");
@@ -937,8 +939,8 @@ export default function Login(props) {
         </div>
       ) : (
         <div>
-          {!isCategorySetup && <h1 className="headertext">{screenlabels.login.signup_header}</h1>}
-          {(isParticipantRoute(location.pathname) && !isCategorySetup) ? <LeftintroParticipant /> : !isCategorySetup ? <Leftintro /> : ""}
+          {!isCategorySetup && !isDataStandardization && <h1 className="headertext">{screenlabels.login.signup_header}</h1>}
+          {(isParticipantRoute(location.pathname) && !isCategorySetup  && !isDataStandardization) ? <LeftintroParticipant /> : !isCategorySetup && !isDataStandardization ? <Leftintro /> : ""}
 
           {isemail || isOtp ? <Rightintro /> : ""}
           {/* <Footerimg /> */}
@@ -1127,9 +1129,18 @@ export default function Login(props) {
       {isCategorySetup && isLoggedInUserAdmin() && (
         <AddingCategory isaccesstoken={isaccesstoken} showBrandingScreen={() => {
           setIsCategorySetup(false)
-          setisBranding(true);
+          // setisBranding(true);
+          setIsDataStandardization(true)
         }} isOnborading={true} />
       )}
+      {
+         isDataStandardization && isLoggedInUserAdmin() && (
+         <StandardizationInOnbord isaccesstoken={isaccesstoken} showBrandingScreen={() => {
+          setIsDataStandardization(false)
+          setisBranding(true);
+        }} isOnborading={true}/>
+        )
+      }
     </div>
   );
 }
