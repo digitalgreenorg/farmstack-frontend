@@ -39,6 +39,14 @@ const CardDetail = (props) => {
 
     const handleDeleteCard = () => {
         let arr = [...completeData]
+        let obj
+        if (index != 0) {
+            obj = arr[index - 1]
+            obj["right_on"] = []
+            obj["type"] = ""
+            obj["next_left"] = []
+            arr[index - 1] = obj
+        }
         arr.splice(index, 1)
         setCompleteData([...arr])
         setTotalCounter((prev) => prev - 1)
@@ -58,7 +66,7 @@ const CardDetail = (props) => {
                         <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.dataset_name ? data.dataset_name : ""}</div></Col>
                     <Col lg={3}> <div>File name</div>
                         <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.file_name ? data.file_name.split("/")[data.file_name.split("/").length - 1] : ""}</div></Col>
-                    <Col style={{ textAlign: "right", }} lg={2}><DeleteIcon id="deleteFileBtn" color='secondary' onClick={handleDeleteCard} className={styles.deleteicon + " deleteicon"} /></Col>
+                    <Col lg={2}> <span style={{ borderRadius: "50%", minHeight: "34px", width: "34px", background: "white", display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "auto" }}>  <DeleteIcon fontSize='small' id="deleteFileBtn" color='secondary' onClick={handleDeleteCard} className={styles.deleteicon + " deleteicon"} /> </span></Col>
                 </Row>
                 <Row className={styles.selectAllRow}>
                     <Col lg={12}>

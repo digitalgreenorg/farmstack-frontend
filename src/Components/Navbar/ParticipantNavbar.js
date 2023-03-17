@@ -98,12 +98,12 @@ const ParticipantNavbar = (props) => {
           <NavLink to="/participant/connectors" activeStyle>
             <img
               className="boldimage"
-              src={require("../../Assets/Img/dataset_bold.svg")}
+              src={require("../../Assets/Img/connectors.svg")}
               alt="new"
             />
             <img
               className="nonboldimage"
-              src={require("../../Assets/Img/datasets.svg")}
+              src={require("../../Assets/Img/connector_non_bold.svg")}
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}

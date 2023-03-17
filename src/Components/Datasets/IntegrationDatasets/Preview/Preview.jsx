@@ -6,6 +6,7 @@ import download_data from "../../../../Assets/Img/download_data.svg";
 import { DataGrid } from '@mui/x-data-grid';
 import NoDataAvailable from '../../../Dashboard/NoDataAvailable/NoDataAvailable';
 import { Affix, Button } from 'antd';
+import { message, Popconfirm } from 'antd';
 
 
 function NoResultsOverlay() {
@@ -28,9 +29,20 @@ function NoRowsOverlay() {
 }
 const Preview = (props) => {
 
-    const { connectorData, generateData, setIsDatasetIntegrationListModeOn, deleteConnector, counterForIntegrator, completeData, isEditModeOn, integrateMore, resetAll, generatedConnectorData, finalDatasetAfterIntegration, downloadDocument } = props
+    const { isConditionForConnectorDataForSaveMet, isAllConditionForSaveMet, connectorData, generateData, setIsDatasetIntegrationListModeOn, deleteConnector, counterForIntegrator, completeData, isEditModeOn, integrateMore, resetAll, generatedConnectorData, finalDatasetAfterIntegration, downloadDocument } = props
     const [col, setCol] = useState([])
     const [row, setRow] = useState([])
+
+    const confirm = (e) => {
+        // console.log(e);
+        deleteConnector()
+        message.success('Connector deleted successfully!');
+    };
+
+    const cancel = (e) => {
+        // console.log(e);
+        message.error('Connector deletion cancelled!');
+    };
     useEffect(() => {
         if (finalDatasetAfterIntegration.length > 0) {
             let val = []
@@ -58,7 +70,7 @@ const Preview = (props) => {
     }, [finalDatasetAfterIntegration,])
 
     return (
-        <Container className='dataset_selector_in_integration'>
+        <Container style={{ background: "rgb(252, 252, 252)" }} className='dataset_selector_in_integration'>
             <Row id='previewTable' className={styles.select_dataset_logo}>
                 <Col lg={12} sm={12} sx={12}>
                     Preview
@@ -66,13 +78,13 @@ const Preview = (props) => {
             </Row>
             <Row style={{ marginBottom: "50px" }}>
                 <Col lg={12} sm={12}>
-                    <div style={{ height: 700, width: '100%' }}>
+                    <div style={{ height: 400, width: '100%' }}>
                         { }
                         <DataGrid
                             rows={row}
                             columns={col}
-                            pageSize={10}
-                            rowsPerPageOptions={[10]}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
                             // disableColumnFilter
                             // disableColumnMenu
                             // disableColumnSelector
@@ -97,7 +109,7 @@ const Preview = (props) => {
                 </Col>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
                     <div>Datasets</div>
-                    <div style={{ width: "250px", height: "200px", overflowY: "auto" }}>{completeData?.map((each) => `${each.dataset_name}, `)}</div>
+                    <ol style={{ width: "250px", height: "150px", overflowY: "auto", fontWeight: "600" }}>{completeData?.map((each) => <li> {each.dataset_name}</li>)}</ol>
                 </Col>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
                     <div>No.of records</div>
@@ -126,12 +138,26 @@ const Preview = (props) => {
                     <Button onClick={() => integrateMore(1)} className={styles.generate_data_btn}>Integrate more datasets</Button>
                     {/* </Col> */}
                     {/* <Col lg={2}> */}
-                    {finalDatasetAfterIntegration.length > 0 &&
-                        <Button onClick={() => generateData(1, "save")} className={styles.save_btn}>Save connector</Button>}
+                    {console.log(isConditionForConnectorDataForSaveMet, isAllConditionForSaveMet, "isAllConditionForSaveMet ")}
+                    {finalDatasetAfterIntegration.length > 0 && (isConditionForConnectorDataForSaveMet || (isAllConditionForSaveMet && isConditionForConnectorDataForSaveMet)) && completeData.length != 1 &&
+                        <Button onClick={() => generateData(completeData.length - 2, "save")} className={styles.save_btn}>Save connector</Button>}
                     {/* </Col> */}
                     {/* <Col lg={2}> */}
                     {true &&
-                        <Button onClick={() => deleteConnector()} className={styles.delete_btn}>Delete connector</Button>}
+                        <Popconfirm
+                            title="Delete the connector"
+                            description="Are you sure to delete this connector?"
+                            onConfirm={confirm}
+                            onCancel={cancel}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button
+                                //  onClick={() => deleteConnector()}
+                                className={styles.delete_btn}>Delete connector</Button>
+                        </Popconfirm>
+
+                    }
                 </Col>
             </Row>
         </Container >
