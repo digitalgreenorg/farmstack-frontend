@@ -16,6 +16,9 @@ import fullB from "../../../../Assets/Img/Join type/Normal state/outer.svg"
 import fullG from "../../../../Assets/Img/Join type/Color/outer.svg"
 import innerB from "../../../../Assets/Img/Join type/Normal state/inner.svg"
 import innerG from "../../../../Assets/Img/Join type/Color/inner.svg"
+
+import smallG from "../../../../Assets/Img/Join type/Color/Tick icon.svg"
+
 import CloseIcon from '@mui/icons-material/Close';
 import { Button } from 'antd';
 const Join = (props) => {
@@ -33,15 +36,15 @@ const Join = (props) => {
             target: { value },
         } = e;
         // On autofill we get a stringified value.
-        if (typeof value === 'string') {
-            value.split(',')
-        }
+        // if (typeof value === 'string') {
+        //     value.split(',')
+        // }
         if (source == "join1") {
-            // console.log(value)
-            obj1["left_on"] = [...value]
+            console.log(value)
+            obj1["left_on"] = [value]
             arr[index] = { ...obj1 }
         } else {
-            obj1["right_on"] = [...value]
+            obj1["right_on"] = [value]
             arr[index] = { ...obj1 }
         }
 
@@ -81,15 +84,15 @@ const Join = (props) => {
                         <Select
                             labelId="primary_col_label_for_join"
                             id="primary_col_select_for_join"
-                            value={each?.left_on ? each?.left_on : []}
+                            value={each?.left_on ? each?.left_on[0] : ""}
                             onChange={(e) => handleChangeJoin(e, "join1")}
                             label="Primary dataset colounm name"
-                            multiple
+                        // multiple
                         >
                             {index == 0 && each.columnsSelected?.map((eachFile, ind_) => {
                                 return <MenuItem key={ind_} value={eachFile + ""}>{eachFile}</MenuItem>
                             })}
-                            {index != 0 && each.left?.map((eachFile, ind_) => {
+                            {index != 0 && completeData[index - 1].next_left?.map((eachFile, ind_) => {
                                 return <MenuItem key={ind_} value={eachFile + ""}>{eachFile}</MenuItem>
                             })}
                         </Select>
@@ -106,10 +109,10 @@ const Join = (props) => {
                         <Select
                             labelId="demo-simple-select-standard-label"
                             id="secondary_col_select_for_join"
-                            value={each?.right_on ? each?.right_on : []}
+                            value={each?.right_on ? each?.right_on[0] : ""}
                             onChange={(e) => handleChangeJoin(e, "join2")}
                             label="Primary dataset colounm name"
-                            multiple
+                        // multiple
                         >
                             {completeData[index + 1]?.columnsSelected?.map((eachFile, ind_) => {
                                 if (completeData[index + 1]?.availabeColumns.includes(eachFile)) {
@@ -131,9 +134,9 @@ const Join = (props) => {
 
                         {joinTypeArr.map((eachT, ind) => {
                             return <span key={ind} onClick={() => selectThisType(eachT.name)} className={each.type == eachT.name ? styles.stypeMainBox : styles.typeMainBox}>
-                                <div className={styles.selectedTypeMainBox}></div>
+                                <div className={styles.selectedTypeMainBox}> {each.type == eachT.name && <img height={"20px"} width="20px" src={smallG} alt="ticked" />} </div>
                                 <img className={styles.selectedTypeImage} src={each.type == eachT.name ? eachT.green : eachT.black} alt={eachT.name} />
-                                <div className={styles.labelTypeJoin}> {eachT.name}</div>
+                                <span className={styles.labelTypeJoin}> {eachT.name}</span>
                             </span>
                         })}
                     </Col>

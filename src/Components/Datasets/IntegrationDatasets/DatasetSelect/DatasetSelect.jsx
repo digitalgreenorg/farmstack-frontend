@@ -15,7 +15,7 @@ import { Checkbox, Fab, FormControlLabel, TextField } from '@mui/material';
 import { CheckLg } from 'react-bootstrap-icons';
 import CardDetail from '../CardDetail/CardDetail';
 import { Button, Affix } from 'antd';
-import { handleUnwantedSpace, validateInputField } from '../../../../Utils/Common';
+import { dateTimeFormat, handleUnwantedSpace, validateInputField } from '../../../../Utils/Common';
 import RegexConstants from '../../../../Constants/RegexConstants';
 import Join from '../Join/Join';
 import leftG from "../../../../Assets/Img/Join type/Color/Left.svg"
@@ -27,14 +27,19 @@ import fullG from "../../../../Assets/Img/Join type/Color/outer.svg"
 import innerB from "../../../../Assets/Img/Join type/Normal state/inner.svg"
 import innerG from "../../../../Assets/Img/Join type/Color/inner.svg"
 import settinggif from "../../../../Assets/Img/setting.gif"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 const DatasetSelect = (props) => {
-    const { integrateMore, empty, template, setTemplate, counterForIntegrator, completedJoinData, setCompleteJoinData, resetAll, generateData, orgList, joinType, setJoinType, setCompleteData, setConnectorData, connectorData, completeData, setFinalDataNeedToBeGenerated, finalDataNeedToBeGenerated, listOfFilesSelected, allDatasetNameList, listOfDatasetSelected, handleChangeDatasetNameSelector, listOfDatsetFileAvailableForColumn, } = props
+    const { connectorTimeData, isEditModeOn, setIsConditionForConnectorDataForSaveMet, isEdited, setIsEdited, setIsEditModeOn, setIsDatasetIntegrationListModeOn, integrateMore, empty, template, setTemplate, counterForIntegrator, completedJoinData, setCompleteJoinData, resetAll, generateData, orgList, joinType, setJoinType, setCompleteData, setConnectorData, connectorData, completeData, setFinalDataNeedToBeGenerated, finalDataNeedToBeGenerated, listOfFilesSelected, allDatasetNameList, listOfDatasetSelected, handleChangeDatasetNameSelector, listOfDatsetFileAvailableForColumn, } = props
     const [errorConnectorName, setErrorConnectorName] = useState("")
     const [errorConnectorDesc, setErrorConnectorDesc] = useState("")
     const [show, setShow] = useState(false)
     const [indexShow, setIndex] = useState(-1)
     const handleChange = (e) => {
         let value = e.target.name
+        if (e.target.value) {
+            setIsConditionForConnectorDataForSaveMet(true)
+        }
         if (value == "name") {
             setErrorConnectorName("")
             validateInputField(e.target.value, RegexConstants.connector_name)
@@ -132,18 +137,33 @@ const DatasetSelect = (props) => {
     }
 
     return (
-        <Container className='dataset_selector_in_integration'>
-
+        <Container style={{ background: "rgb(252, 252, 252)" }} className='dataset_selector_in_integration'>
+            <Row style={{ marginBottom: "25px" }} >
+                <Col lg={12}
+                    onClick={() => {
+                        resetAll()
+                    }
+                    }
+                    className={styles.backButtonMainDiv + " backButtonMainDiv"}
+                >
+                    <ArrowBackIcon className={styles.backArrowIcon}></ArrowBackIcon>{" "}
+                    <div className={styles.backButtonText}>
+                        Back
+                    </div>
+                </Col>
+            </Row>
             <Row className={styles.select_dataset_logo}>
                 <Col lg={12}>
                     Dataset Integration details
+                    {isEditModeOn && <sub className={styles.subTime}>{"Last updated on: " + dateTimeFormat(connectorTimeData.last_updated, true)}</sub>}
                 </Col>
             </Row>
             <Row >
                 <Col lg={12}>
-                    <TextField onKeyDown={handleConnectorNameKeydown} error={errorConnectorName ? true : false}
+                    <TextField onKeyDown={handleConnectorNameKeydown} error={errorConnectorName ? true : false} disabled={isEditModeOn ? true : false}
                         helperText={errorConnectorName ? errorConnectorName : ""} style={{ marginBottom: "25px" }} value={connectorData.name} onChange={handleChange} name='name' fullWidth id="outlined-basic" label="Connector name" required autoFocus variant="outlined" />
                 </Col>
+
             </Row>
             <Row>
                 <Col lg={12}>
@@ -158,7 +178,7 @@ const DatasetSelect = (props) => {
                 </Col>
 
             </Row>
-            {counterForIntegrator === completeData.length && <div style={{ textAlign: "left" }} >Click on integrate more datasets to select files for integration.</div>}
+            {counterForIntegrator === completeData.length && <div style={{ textAlign: "left" }} >To choose other files for integration, click on integrate more datasets.</div>}
             <Row>
                 <Col lg={12} sm={12} sx={12}>
 
@@ -222,7 +242,7 @@ const DatasetSelect = (props) => {
                                 </FormControl>
                             </Col>
                             <Col lg={3}>
-                                <Button id='addMoreFileButton' disabled={template?.availabeColumns?.length > 0 ? false : true} onClick={addNewForm} className={styles.button}>Add</Button>
+                                <Button id='addMoreFileButton' disabled={connectorData.name && connectorData.desc && template?.availabeColumns?.length > 0 ? false : true} onClick={addNewForm} className={styles.button}>Add</Button>
                             </Col>
                         </Row>
                     </Affix>
@@ -241,20 +261,32 @@ const DatasetSelect = (props) => {
                         }
                     })} */}
                     {completeData?.length > 0 && completeData.map((each, index) => {
-                        return <span key={index} >
+                        return <span style={{ position: "relative" }} key={index} >
                             {<CardDetail completedJoinData={completedJoinData} setCompleteJoinData={setCompleteJoinData} setTotalCounter={setTotalCounter} orgList={orgList} completeData={completeData} setCompleteData={setCompleteData} data={each} index={index} />}
                             {index < completeData.length - 1 && <span style={{ border: index == indexShow && "1.5px solid #C09507" }} class={styles.vl} ></span>}
                             {index < completeData.length - 1 &&
-                                <span span id='settingIconForHover' onClick={(e) => handleMoreDataShow(index, true, e)} style={{ display: "flex", justifyContent: "center", alignItems: "center", cursor: !show ? "pointer" : "", height: `${show && index == indexShow ? "350px" : "50px"}`, overflow: "hidden", width: `${show && index == indexShow ? "700px" : "50px"}`, margin: "auto", backgroundRepeat: "no-repeat", backgroundSize: "50px 50px", backgroundPosition: "center", boxShadow: "0 3px 10px #ab840574", }} className={index == indexShow ? styles.hoveredOne : styles.alwaysHave}>
-                                    {<span>
-                                        {/* <ClickAwayListener onClickAway={(e) => handleMoreDataShow(index, false, e)} > */}
-                                        <Join handleMoreDataShow={handleMoreDataShow} indexShow={indexShow} index={index} each={each} next={completeData[index + 1]} resetAll={resetAll} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} completeData={completeData} setCompleteData={setCompleteData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} generateData={generateData} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} listOfDatasetSelected={listOfDatasetSelected} listOfFilesSelected={listOfFilesSelected} />
-                                        {/* </ClickAwayListener> */}
+                                <span span id='settingIconForHover' onClick={(e) => handleMoreDataShow(index, true, e)} style={{ display: "flex", justifyContent: "center", alignItems: "center", cursor: !show ? "pointer" : "", height: `${show && index == indexShow ? "350px" : "50px"}`, overflow: "hidden", width: `${show && index == indexShow ? "700px" : "50px"}`, margin: "auto", backgroundRepeat: "no-repeat", backgroundSize: "50px 50px", backgroundPosition: "center", }} className={index == indexShow ? styles.hoveredOne : styles.alwaysHave}>
+                                    {<span ><Join handleMoreDataShow={handleMoreDataShow} indexShow={indexShow} index={index} each={each} next={completeData[index + 1]} resetAll={resetAll} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} completeData={completeData} setCompleteData={setCompleteData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} generateData={generateData} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} listOfDatasetSelected={listOfDatasetSelected} listOfFilesSelected={listOfFilesSelected} />
                                         {indexShow != index && <img className={styles.settingGif} src={settinggif} alt="" />}
+                                    </span>}
+                                </span>}
+                            {index !== indexShow && index < completeData.length - 1 && <span style={{ position: "absolute", left: "40px", bottom: "23px", width: "514px", height: "112px", border: "1px solid #C09507", borderRadius: "10px", padding: "10px 20px" }}>
+                                <div style={{ textAlign: "left", marginBottom: "20px", fontWeight: "600" }}>Joined by</div>
+                                <div style={{ display: "flex", justifyContent: "left", alignItems: "center", gap: "50px", textAlign: "left" }}>
+                                    <span className={styles.detail_joins}>
+                                        <div > Left column </div>
+                                        <div>{each?.left_on?.length > 0 ? each?.left_on[0] : "Not selected"}</div>
                                     </span>
-                                    }
-                                </span>
-                            }
+                                    <span className={styles.detail_joins}>
+                                        <div>Right column </div>
+                                        <div> {each?.right_on?.length > 0 ? each?.right_on[0] : "Not selected"}</div>
+                                    </span>
+                                    <span className={styles.detail_joins}>
+                                        <div> Join type </div>
+                                        <div> {each?.type ? each?.type : "Not selected"}</div>
+                                    </span>
+                                </div>
+                            </span>}
                             {index < completeData.length - 1 && <span onMouseOver={(e) => handleMoreDataShow(index, true, e)} style={{ border: index == indexShow && "1.5px solid #C09507" }} class={styles.vl} ></span>}
                         </span>
                     })}
