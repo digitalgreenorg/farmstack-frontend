@@ -13,7 +13,7 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
 export default function ConnectorsList(props) {
-  const { setIsDatasetIntegrationListModeOn } = props
+  const { setConnectorTimeData, setIsEditModeOn, setConnectorIdForView, setIsDatasetIntegrationListModeOn } = props
   const [isLoader, setIsLoader] = useState(false);
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
   const [connectorList, setConnectorList] = useState([]);
@@ -154,6 +154,12 @@ export default function ConnectorsList(props) {
           {connectorList.map((list, index) => (
             <Col xs={12} sm={6} md={4} lg={4}>
               <ConnectorCard
+                click={() => {
+                  setConnectorTimeData({ last_updated: list.updated_at })
+                  setConnectorIdForView(list?.id ? list?.id : "")
+                  setIsDatasetIntegrationListModeOn(false)
+                  setIsEditModeOn(true)
+                }}
                 firsttext={list.updated_at}
                 secondtext={list?.name}
                 useddataset={list?.dataset_count}
