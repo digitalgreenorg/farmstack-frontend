@@ -50,13 +50,18 @@
   width: 172px !important;
   height: 48px !important;
   text-transform: none !important;
-  color: #ffffff;
+  color: #c09507 !important;
   margin-top: 30px;
   margin-bottom: 30px;
   font-weight: 700;
-  background: #c09507 !important;
+  background: #ffffff !important;
   border: 2px solid #c09507 !important;
   box-shadow: none !important;
+}
+.datapoint-add-button:hover{
+  background: #c09507 !important;
+  color: #ffffff !important;
+
 }
 .finish-later-button{
   border: none !important;
@@ -93,4 +98,7 @@
 #add-attribute-icon-id{
     color: black !important;
     /* font-size: small; */
+}
+.add-datapoint-svg{
+  cursor: pointer !important;
 }

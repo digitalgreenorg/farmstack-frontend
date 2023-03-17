@@ -371,6 +371,7 @@ const StandardizationInOnbord = (props) => {
             className="datapoint-add-button"
             id="add-datapoint-button"
             onClick={handleAddDatapoint}
+            disabled={!datapointName && !datapointDes }
           >
             Add
           </Button>
@@ -574,10 +575,11 @@ const StandardizationInOnbord = (props) => {
             <Button
               variant="contained"
               className="datapoint-add-button"
-              id="update-add-datapoint-button"
+              id="addte-add-datapoint-button"
               onClick={handleSubmit}
+              disabled={!allDatapoints.length}
             >
-              Update
+              Save
             </Button>
           </>
         ) : (
