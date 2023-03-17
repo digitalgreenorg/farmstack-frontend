@@ -1087,7 +1087,7 @@ const AddDataset = (props) => {
 
                                         {
                                             activeStep == 2 ?
-                                            <DataStandardizationInAddDataset/>
+                                            <DataStandardizationInAddDataset datasetname={datasetname}/>
                                             : 
                                             ""
                                         }

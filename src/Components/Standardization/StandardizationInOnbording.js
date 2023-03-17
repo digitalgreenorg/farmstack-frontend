@@ -135,6 +135,7 @@ const StandardizationInOnbord = (props) => {
       let tmpAllDatapoints = [...allDatapoints];
       tmpAllDatapoints.splice(index, 1);
       setAllDataPoints(tmpAllDatapoints);
+      success("Category deleted successfully.", "success");
     }
   };
 

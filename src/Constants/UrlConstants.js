@@ -94,6 +94,9 @@ const UrlConstant = {
   standardization_update_data: "datahub/standardise/update_standardisation_template/",
   standardization_delete_category: "datahub/standardise/",
   standardization_get_data: "datahub/standardise/",
+  standardization_get_all_file_name: "datahub/dataset/v2/temp_dataset_files/?dataset_name=",
+  standardization_get_file_columns: "datahub/dataset/v2/temp_dataset_file_columns/",
+
   joining_the_table: "connectors/integration/",
   integration_connectors: "connectors/",
   list_of_connectors: "connectors/",
