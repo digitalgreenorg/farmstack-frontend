@@ -19,6 +19,7 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import Loader from "../Loader/Loader";
 import { message, Space } from "antd";
+import RegexConstants from "../../Constants/RegexConstants";
 
 const StandardizationInOnbord = (props) => {
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
@@ -46,6 +47,17 @@ const StandardizationInOnbord = (props) => {
   };
 
   console.log("all datapoints", allDatapoints);
+
+  const handleDatapointCategoryName = (e) =>{
+
+    if(e.target.value.length<256 && e.target.value.match(RegexConstants.NEW_NAME_REGEX)) setDatapointName(e.target.value)
+  }
+
+  const handleDatapointCategoryDescription = (e) =>{
+
+    if(e.target.value.length<256 && e.target.value.match(RegexConstants.NEW_NAME_REGEX)) setDatapointDes(e.target.value)
+    
+  }
 
   const handleAddDatapoint = () => {
       if(!datapointName || !datapointDes ){
@@ -349,7 +361,7 @@ const StandardizationInOnbord = (props) => {
         <div className="data-point-input-box-container">
           <TextField
             value={datapointName}
-            onChange={(e) => setDatapointName(e.target.value)}
+            onChange={(e) => handleDatapointCategoryName(e)}
             className="datapoint-name-input-box"
             id="datapoint-name-input-box-id"
             label="Datapoint category name"
@@ -357,7 +369,7 @@ const StandardizationInOnbord = (props) => {
           />
           <TextField
             value={datapointDes}
-            onChange={(e) => e.target.value.length<256 ?  setDatapointDes(e.target.value) : ""}
+            onChange={(e) => handleDatapointCategoryDescription(e)}
             multiline
             size="small"
             className="datapoint-name-input-box-description"
