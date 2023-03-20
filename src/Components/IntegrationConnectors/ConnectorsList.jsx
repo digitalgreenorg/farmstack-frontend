@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
 
 export default function ConnectorsList(props) {
   const { setConnectorTimeData, setIsEditModeOn, setConnectorIdForView, setIsDatasetIntegrationListModeOn } = props
@@ -149,7 +150,7 @@ export default function ConnectorsList(props) {
           />
         </Col>
       </Row>
-      {gridView === true ? <>
+      {connectorList.length > 0 ? <>
         <Row>
           {connectorList.map((list, index) => (
             <Col xs={12} sm={6} md={4} lg={4}>
@@ -187,10 +188,10 @@ export default function ConnectorsList(props) {
           )}
         </Row>
       </> : <>
-        {/* list view component render here when list view button clicks */}
+        {/* If there is no connectors available this component will render */}
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12} style={{ marginTop: "100px" }}>
-            <span style={useStyles.cardtext}>"Currently, there are no connectors available in the list format"</span>
+          <Col xs={12} sm={12} md={12} lg={12} style={{display: "flex", alignItems: "center", flexDirection: "column"}}>
+          <NoDataAvailable />
           </Col>
         </Row>
       </>}
