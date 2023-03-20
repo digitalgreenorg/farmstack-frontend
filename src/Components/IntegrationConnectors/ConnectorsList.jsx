@@ -150,7 +150,7 @@ export default function ConnectorsList(props) {
           />
         </Col>
       </Row>
-      {connectorList.length < 0 ? <>
+      {connectorList.length > 0 ? <>
         <Row>
           {connectorList.map((list, index) => (
             <Col xs={12} sm={6} md={4} lg={4}>
