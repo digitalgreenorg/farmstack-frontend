@@ -244,7 +244,7 @@
 }
 
 .stypeMainBox {
-    border: 2px solid #C09507;
+    border: 1px solid #C09507;
     text-transform: capitalize;
     width: 108px;
     height: 108px;
@@ -253,7 +253,7 @@
     display: inline-block;
     cursor: pointer;
     box-shadow: 5px 10px 1px 0.5 #C09507;
-    background-color: #f0cd59b9;
+    /* background-color: #f0cd59b9; */
     margin: 12px;
 }
 
@@ -264,12 +264,13 @@
 
 .selectedTypeMainBox {
     text-align: right;
+    height: 20px;
 }
 
 .selectedTypeImage {
     text-align: center;
-    height: 50px;
-    width: 50px;
+    height: 55px;
+    width: 75px;
 }
 
 .labelTypeJoin {}
@@ -315,14 +316,15 @@
 
 .vl {
     border-left: 1px dashed #C09507;
-    height: 50px;
+    height: 54px;
+    display: inline-block;
 }
 
 .alwaysHave {
     transition: all 0.3s;
     display: block;
     height: 50px;
-    border: 1px solid black !important;
+    border: 0.5px solid black !important;
     border-radius: 50%;
 }
 
@@ -330,8 +332,8 @@
     transition: all 0.3s;
     display: block;
     height: 50px;
-    border: 1px solid black !important;
-    border-radius: 16px;
+    border: 0.5px solid black !important;
+    border-radius: 8px;
 }
 
 .settingGif {
@@ -403,6 +405,32 @@
     border: 1px solid black !important;
 }
 
+.backButtonMainDiv {
+    display: flex;
+    /* margin-left: 290px; */
+    /* justify-content: space-between; */
+    color: #3491ee !important;
+    align-items: center;
+    cursor: pointer;
+}
+
+.backButtonMainDiv .MuiSvgIcon-root {
+    color: #3491EE !important
+}
+
+.backArrowIcon {
+    width: 16px;
+    height: 16px;
+    margin-right: 14px;
+    cursor: pointer;
+}
+
+.backButtonText {
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
 /* .hideData {
     transition: all 2s;
     height: 0px;
@@ -427,3 +455,27 @@
     width: 400px;
     display: block;
 } */
+.detail_joins div:nth-child(1) {
+    /* font-family: Montserrat; */
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-transform: capitalize !important;
+}
+
+.detail_joins div:nth-child(2) {
+    /* font-family: 'Montserrat'; */
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    text-transform: capitalize !important;
+}
+
+.subTime {
+    all: unset !important;
+    font-weight: 400 !important;
+    margin-left: 20px !important;
+    font-size: 14px !important;
+}
