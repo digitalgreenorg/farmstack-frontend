@@ -149,7 +149,7 @@ export default function ConnectorsList(props) {
           />
         </Col>
       </Row>
-      {gridView === true ? <>
+      {connectorList.length > 0 ? <>
         <Row>
           {connectorList.map((list, index) => (
             <Col xs={12} sm={6} md={4} lg={4}>
@@ -190,7 +190,7 @@ export default function ConnectorsList(props) {
         {/* list view component render here when list view button clicks */}
         <Row>
           <Col xs={12} sm={12} md={12} lg={12} style={{ marginTop: "100px" }}>
-            <span style={useStyles.cardtext}>"Currently, there are no connectors available in the list format"</span>
+            <span style={useStyles.cardtext}>"Currently, there are no connectors at this moment"</span>
           </Col>
         </Row>
       </>}
