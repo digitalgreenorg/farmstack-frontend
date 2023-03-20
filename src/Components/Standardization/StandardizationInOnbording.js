@@ -19,6 +19,7 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import Loader from "../Loader/Loader";
 import { message, Space } from "antd";
+import RegexConstants from "../../Constants/RegexConstants";
 
 const StandardizationInOnbord = (props) => {
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
@@ -46,6 +47,17 @@ const StandardizationInOnbord = (props) => {
   };
 
   console.log("all datapoints", allDatapoints);
+
+  const handleDatapointCategoryName = (e) =>{
+
+    if(e.target.value.length<251 && e.target.value.match(RegexConstants.NEW_NAME_REGEX)) setDatapointName(e.target.value)
+  }
+
+  const handleDatapointCategoryDescription = (e) =>{
+
+    if(e.target.value.length<251 && e.target.value.match(RegexConstants.NEW_NAME_REGEX)) setDatapointDes(e.target.value)
+    
+  }
 
   const handleAddDatapoint = () => {
       if(!datapointName || !datapointDes ){
@@ -81,6 +93,9 @@ const StandardizationInOnbord = (props) => {
     allAttributesArrIndex,
     newValue
   ) => {
+    if(newValue.length>=251 || !newValue.match(RegexConstants.DATAPOINT_ATTRIBUTE_REGEX)){
+      return
+    }
     console.log("allAttribute in start of function", allAttributes);
     let tmpAllAttributes = { ...allAttributes };
 
@@ -93,6 +108,10 @@ const StandardizationInOnbord = (props) => {
     allAttributesArrIndex,
     newValue
   ) => {
+
+    if(newValue.length>=251 || !newValue.match(RegexConstants.NEW_NAME_REGEX)){
+      return
+    }
     console.log("allAttribute Des in start of function", allAttributesDes);
     let tmpAllAttributesDes = { ...allAttributesDes };
 
@@ -135,6 +154,11 @@ const StandardizationInOnbord = (props) => {
       let tmpAllDatapoints = [...allDatapoints];
       tmpAllDatapoints.splice(index, 1);
       setAllDataPoints(tmpAllDatapoints);
+
+      let tmpAllAttributes = {...allAttributes};
+      tmpAllAttributes[index] = []
+      setAllAttributes(tmpAllAttributes)
+      success("Category deleted successfully.", "success");
     }
   };
 
@@ -143,7 +167,9 @@ const StandardizationInOnbord = (props) => {
   const handleSubmit = () => {
     let payload = [...allDatapoints];
 
-    for (let index = 0; allAttributes[index]; index++) {
+    console.log('payload before setting up', payload)
+
+    for (let index = 0; allDatapoints[index]; index++) {
       let attributeObj = {};
       for (let i = 1; i < allAttributes[index].length; i++) {
         attributeObj[allAttributes[index][i]] = allAttributesDes[index][i];
@@ -273,6 +299,9 @@ const StandardizationInOnbord = (props) => {
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
+        let tmpAllAttributes = {...allAttributes};
+      tmpAllAttributes[index] = []
+      setAllAttributes(tmpAllAttributes)
         success("Category deleted successfully.", "success");
 
         let tmpAllDatapoints = [...allDatapoints];
@@ -348,7 +377,7 @@ const StandardizationInOnbord = (props) => {
         <div className="data-point-input-box-container">
           <TextField
             value={datapointName}
-            onChange={(e) => setDatapointName(e.target.value)}
+            onChange={(e) => handleDatapointCategoryName(e)}
             className="datapoint-name-input-box"
             id="datapoint-name-input-box-id"
             label="Datapoint category name"
@@ -356,7 +385,7 @@ const StandardizationInOnbord = (props) => {
           />
           <TextField
             value={datapointDes}
-            onChange={(e) => e.target.value.length<256 ?  setDatapointDes(e.target.value) : ""}
+            onChange={(e) => handleDatapointCategoryDescription(e)}
             multiline
             size="small"
             className="datapoint-name-input-box-description"
@@ -408,7 +437,7 @@ const StandardizationInOnbord = (props) => {
                   <AccordionDetails>
                     <div className="attribute-main-div">
                       {/* <h3>Farmer profile</h3> */}
-                      <p>{item.datapoint_description}</p>
+                      <p className="standardization-accordion-description">{item.datapoint_description}</p>
                       <div>
                         <TextField
                           className="datapoint-attribute-input-box"
@@ -586,7 +615,7 @@ const StandardizationInOnbord = (props) => {
           <>
             <Button
               variant="outlined"
-              className="datapoint-add-button finish-later-button"
+              className="finish-later-button"
               id="add-finish-later-datapoint-button"
               onClick={showBrandingScreen}
             >
