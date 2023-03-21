@@ -10,7 +10,7 @@ import Loader from '../../Loader/Loader'
 import { Alert, Button, Collapse, Fab, IconButton, Snackbar } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import { CheckLg } from 'react-bootstrap-icons'
-import { GetErrorHandlingRoute, GetErrorKey, goToTop } from '../../../Utils/Common'
+import { GetErrorHandlingRoute, GetErrorKey, getUserLocal, goToTop } from '../../../Utils/Common'
 import { useHistory } from 'react-router-dom'
 import { Affix } from 'antd'
 import { AddIcCallOutlined } from '@material-ui/icons'
@@ -372,7 +372,7 @@ const DatasetIntegration = (props) => {
         let finalPayload
         let method
         if (condition == "save") {
-            finalPayload = { name: connectorData.name, description: connectorData.desc, maps: payload, integrated_file: integratedFilePath }
+            finalPayload = { name: connectorData.name, description: connectorData.desc, user: getUserLocal(), maps: payload, integrated_file: integratedFilePath }
             if (isEditModeOn) {
                 url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/" // for saving     
                 method = "PUT"
