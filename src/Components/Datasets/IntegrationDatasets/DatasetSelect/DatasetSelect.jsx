@@ -200,7 +200,7 @@ const DatasetSelect = (props) => {
             <Row>
                 <Col lg={12}>
                     <TextField onKeyDown={handleConnectorNameKeydown} error={errorConnectorDesc ? true : false} style={{ marginBottom: "25px" }} required value={connectorData.desc} onChange={handleChange} multiline name='desc'
-                        helperText={errorConnectorDesc ? errorConnectorDesc : ""} rows={4} fullWidth placeholder='Connector description not more that 512 character' id="outlined-basic" label="Connector description" variant="outlined" />
+                        helperText={errorConnectorDesc ? errorConnectorDesc : ""} rows={4} fullWidth placeholder='Connector description not more that 512 character' id="outlined-basic" label="Connector description" variant="outlined" inputProps={{ maxLength: 512 }} />
                 </Col>
             </Row>
 

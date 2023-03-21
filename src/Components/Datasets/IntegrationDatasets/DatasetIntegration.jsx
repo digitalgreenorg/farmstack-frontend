@@ -182,6 +182,7 @@ const DatasetIntegration = (props) => {
             goToTop(0)
             // setOpen(true);
             // setAlertType("error")
+            console.log(err?.response?.data)
             setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Some error occurred while generating!")
             // let id = setTimeout(() => {
             //     setOpen(false);
@@ -222,6 +223,7 @@ const DatasetIntegration = (props) => {
                                 setOpen(true);
                                 setLoader(false)
                                 setAlertType("error")
+                                console.log(err?.response?.data)
                                 setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Some error occurred while generating!")
                                 let id = setTimeout(() => {
                                     setOpen(false);
@@ -240,6 +242,7 @@ const DatasetIntegration = (props) => {
                     setOpen(true);
                     setLoader(false)
                     setAlertType("error")
+                    console.log(err?.response?.data)
                     setMessage(err?.response?.data?.error ? err.response.data.error : "Some error occurred while generating!")
                     let id = setTimeout(() => {
                         setOpen(false);
@@ -472,11 +475,12 @@ const DatasetIntegration = (props) => {
             if (condition == "integrate") {
                 setIsAllConditionForSaveMet(false)
             }
-            console.log(err)
+            console.log(err.response.data)
+            console.log(Object.values(err?.response?.data)[0])
             setOpen(true);
             setLoader(false)
             setAlertType("error")
-            setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Some error occurred while generating!")
+            setMessage(err?.response?.data ? Object.values(err?.response?.data)[0] : "Some error occurred while generating!")
             let id = setTimeout(() => {
                 setOpen(false);
                 return clearTimeout(id)
