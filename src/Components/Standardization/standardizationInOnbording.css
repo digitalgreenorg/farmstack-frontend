@@ -122,3 +122,15 @@
 .add-datapoint-svg {
   cursor: pointer !important;
 }
+.update-category-button{
+  width: 90px !important;
+  height: 30px !important;
+  text-transform: none !important;
+  color: #c09507 !important;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-weight: 700;
+  background: #ffffff !important;
+  border: 2px solid #c09507 !important;
+  box-shadow: none !important;
+}
