@@ -143,7 +143,7 @@ const Join = (props) => {
                     <Col lg={12} sm={12} className={styles.generate_btn_parent_col}>
                         <Row style={{ textAlign: "center" }}>
                             <Col lg={12}>
-                                <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={() => generateData(index, "integrate")}>
+                                <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
                                     Preview
                                 </Button>
                             </Col>

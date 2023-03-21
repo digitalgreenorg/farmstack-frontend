@@ -334,8 +334,11 @@ const DatasetIntegration = (props) => {
     //this function is being used to generate the data at first place, Save the generated data and delete the saved connectors
     const generateData = (index, condition,) => {
         let connector_id = connectorId
+        let map_id
         if (condition == "view_details") {
             connector_id = connectorIdForView
+        } else if (condition == "delete_map_card" && isEditModeOn) {
+            map_id = completeData[index]["map_id"] ? completeData[index]["map_id"] : ""
         }
         //condition can be ===> [integrate, delete, save] any one of the listed elements
         setLoader(true)
@@ -344,9 +347,9 @@ const DatasetIntegration = (props) => {
         let payload = []
 
 
-        if (condition !== "view_details" && condition != "delete") {
+        // console.log(index, completeData, condition, "MAIN DATA")
+        if (condition !== "view_details" && condition != "delete" && condition != "delete_map_card") {
             for (let i = 0; i < index + 1; i++) {
-                console.log(index, i, completeData[i], "MAIN DATA")
                 //Generating the payload as array of objects each object having data friom completeData and completeJoinData
                 let obj = {
                     left_dataset_file: completeData[i]?.file_id,
@@ -381,7 +384,7 @@ const DatasetIntegration = (props) => {
                 method = "POST"
             }
         } else if (condition == "integrate") {
-            finalPayload = { name: connectorData.name, description: connectorData.desc, maps: payload }
+            finalPayload = { name: connectorData.name, description: connectorData.desc, user: getUserLocal(), maps: payload }
             if (isEditModeOn) {
                 url = UrlConstant.base_url + UrlConstant.joining_the_table + "?edit=True" //for generating
             } else {
@@ -396,12 +399,15 @@ const DatasetIntegration = (props) => {
             url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/"
             finalPayload = {}
             method = "GET"
-        }
-        else {
+        } else if (condition = "delete_map_card" && isEditModeOn && map_id) {
+            method = "DELETE"
+            url = UrlConstant.base_url + UrlConstant.integration_connectors + map_id + "/?maps=True"
+
+        } else {
             setLoader(false)
             return
         }
-        // console.table(finalPayload, "PAYLOAD")
+        console.table(finalPayload, "PAYLOAD")
         HTTPService(method, url, finalPayload, false, true, false).then((res) => {
 
             setLoader(false)

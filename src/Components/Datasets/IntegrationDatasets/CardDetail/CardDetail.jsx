@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
 const CardDetail = (props) => {
-    const { setCompleteJoinData, completedJoinData, setTotalCounter, orgList, data, setCompleteData, index, completeData } = props
+    const { generateData, setCompleteJoinData, completedJoinData, setTotalCounter, orgList, data, setCompleteData, index, completeData } = props
 
     const handleCheckColumns = (e, value) => {
         let arr = [...completeData]
@@ -39,6 +39,8 @@ const CardDetail = (props) => {
 
     const handleDeleteCard = () => {
         let arr = [...completeData]
+        generateData(index, "delete_map_card")
+        // .then(()=>{
         let obj
         if (index != 0) {
             obj = arr[index - 1]
@@ -50,6 +52,7 @@ const CardDetail = (props) => {
         arr.splice(index, 1)
         setCompleteData([...arr])
         setTotalCounter((prev) => prev - 1)
+        // })
     }
     useEffect(() => {
     })
