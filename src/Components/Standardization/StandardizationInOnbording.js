@@ -21,6 +21,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import Loader from "../Loader/Loader";
 import { message, Space } from "antd";
 import RegexConstants from "../../Constants/RegexConstants";
+import { handleUnwantedSpace } from "../../Utils/Common";
 
 const StandardizationInOnbord = (props) => {
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
@@ -61,8 +62,29 @@ const StandardizationInOnbord = (props) => {
 
   const handleDatapointCategoryDescription = (e) =>{
 
-    if(e.target.value.length<251 && e.target.value.match(RegexConstants.NEW_NAME_REGEX)) setDatapointDes(e.target.value)
+    if(e.target.value.length<251) setDatapointDes(e.target.value)
     
+  }
+
+  const handleNameField = (e) => {
+
+    handleUnwantedSpace(datapointName, e)
+  }
+
+  const handledescriptionKeydowndes = (e) => {
+
+    handleUnwantedSpace(datapointDes, e);
+
+  };
+
+  const handleAllAttributesName = (e) => {
+
+    handleUnwantedSpace(allAttributes, e)
+  }
+
+  const handleAllAttributesDes = (e) => {
+
+    handleUnwantedSpace(allAttributesDes, e)
   }
 
   const handleAddDatapoint = () => {
@@ -160,7 +182,7 @@ const StandardizationInOnbord = (props) => {
     newValue
   ) => {
 
-    if(newValue.length>=251 || !newValue.match(RegexConstants.NEW_NAME_REGEX)){
+    if(newValue.length>=251){
       return
     }
     setSaveButtonEnabled(true)
@@ -434,6 +456,7 @@ const StandardizationInOnbord = (props) => {
           required
             value={datapointName}
             onChange={(e) => handleDatapointCategoryName(e)}
+            onKeyDown={handleNameField}
             className="datapoint-name-input-box"
             id="datapoint-name-input-box-id"
             label="Datapoint category name"
@@ -445,6 +468,7 @@ const StandardizationInOnbord = (props) => {
           required
             value={datapointDes}
             onChange={(e) => handleDatapointCategoryDescription(e)}
+            onKeyDown={handledescriptionKeydowndes}
             multiline
             size="small"
             className="datapoint-name-input-box-description"
@@ -491,7 +515,7 @@ const StandardizationInOnbord = (props) => {
                       <TextField
                       value={item.datapoint_category}
                       required
-                      onChange={(e) => handleUpdateCategoryName(index,e.target.value)}
+                      onChange={(e) => handleUpdateCategoryName(index,e.target.value,e)}
                       className="datapoint-name-input-box"
                       id="datapoint-name-input-box-id"
                       label="Datapoint category name"
@@ -511,6 +535,7 @@ const StandardizationInOnbord = (props) => {
                       <IconButton>
                         <Button onClick={(e)=>{
                           // this funtion will make a particular index of editCategoryTitle array false 
+                          e.stopPropagation();
                           let tmp = [...editCategoryTitle]
                           tmp[index] = false
                           console.log('edit title', tmp, editCategoryTitle)
@@ -521,8 +546,9 @@ const StandardizationInOnbord = (props) => {
                     null
                     }
                     {/* <div> */}
-                    <IconButton onClick={() => {
+                    <IconButton onClick={(e) => {
                          // this funtion will make a particular index of editCategoryTitle array true 
+                         e.stopPropagation();
                          let tmp = [...editCategoryTitle]
                          tmp[index] = true
                          console.log('edit title', tmp, editCategoryTitle)
@@ -531,7 +557,10 @@ const StandardizationInOnbord = (props) => {
                       <EditIcon/>
                     </IconButton>
                       <IconButton
-                        onClick={(e) => handleDatapointCategoryDelete(index)}
+                        onClick={(e) =>{
+                        handleDatapointCategoryDelete(index)
+                        e.stopPropagation();
+                        }}
                       >
                         <DeleteOutlineIcon />
                       </IconButton>
@@ -552,6 +581,7 @@ const StandardizationInOnbord = (props) => {
                           onChange={(e) =>
                             hanldeAttributeInputChange(index, 0, e.target.value)
                           }
+                          onKeyDown={handleAllAttributesName}
                         />
                         <TextField
                         required
@@ -567,6 +597,7 @@ const StandardizationInOnbord = (props) => {
                               e.target.value
                             )
                           }
+                          onKeyDown={handleAllAttributesDes}
                         />
                         <span
                           className="add-datapoint-svg"
