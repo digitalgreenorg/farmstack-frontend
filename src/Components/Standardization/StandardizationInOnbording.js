@@ -491,7 +491,7 @@ const StandardizationInOnbord = (props) => {
                       <TextField
                       value={item.datapoint_category}
                       required
-                      onChange={(e) => handleUpdateCategoryName(index,e.target.value)}
+                      onChange={(e) => handleUpdateCategoryName(index,e.target.value,e)}
                       className="datapoint-name-input-box"
                       id="datapoint-name-input-box-id"
                       label="Datapoint category name"
@@ -511,6 +511,7 @@ const StandardizationInOnbord = (props) => {
                       <IconButton>
                         <Button onClick={(e)=>{
                           // this funtion will make a particular index of editCategoryTitle array false 
+                          e.stopPropagation();
                           let tmp = [...editCategoryTitle]
                           tmp[index] = false
                           console.log('edit title', tmp, editCategoryTitle)
@@ -521,8 +522,9 @@ const StandardizationInOnbord = (props) => {
                     null
                     }
                     {/* <div> */}
-                    <IconButton onClick={() => {
+                    <IconButton onClick={(e) => {
                          // this funtion will make a particular index of editCategoryTitle array true 
+                         e.stopPropagation();
                          let tmp = [...editCategoryTitle]
                          tmp[index] = true
                          console.log('edit title', tmp, editCategoryTitle)
@@ -531,7 +533,10 @@ const StandardizationInOnbord = (props) => {
                       <EditIcon/>
                     </IconButton>
                       <IconButton
-                        onClick={(e) => handleDatapointCategoryDelete(index)}
+                        onClick={(e) =>{
+                        handleDatapointCategoryDelete(index)
+                        e.stopPropagation();
+                        }}
                       >
                         <DeleteOutlineIcon />
                       </IconButton>
