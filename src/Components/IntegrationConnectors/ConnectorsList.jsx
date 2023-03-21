@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import Loader from "../Loader/Loader";
 import HTTPService from "../../Services/HTTPService";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import { GetErrorHandlingRoute, getUserLocal } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
@@ -64,7 +64,7 @@ export default function ConnectorsList(props) {
     setIsLoader(true);
     HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.list_of_connectors,
+      UrlConstant.base_url + UrlConstant.list_of_connectors + "?user=" + getUserLocal(),
       "",
       false,
       true
@@ -190,8 +190,8 @@ export default function ConnectorsList(props) {
       </> : <>
         {/* If there is no connectors available this component will render */}
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12} style={{display: "flex", alignItems: "center", flexDirection: "column"}}>
-          <NoDataAvailable />
+          <Col xs={12} sm={12} md={12} lg={12} style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+            <NoDataAvailable />
           </Col>
         </Row>
       </>}
