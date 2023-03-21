@@ -457,6 +457,7 @@ const StandardizationInOnbord = (props) => {
             value={datapointName}
             onChange={(e) => handleDatapointCategoryName(e)}
             onKeyDown={handleNameField}
+            inputProps={{ maxLength: 250 }}
             className="datapoint-name-input-box"
             id="datapoint-name-input-box-id"
             label="Datapoint category name"
@@ -469,6 +470,7 @@ const StandardizationInOnbord = (props) => {
             value={datapointDes}
             onChange={(e) => handleDatapointCategoryDescription(e)}
             onKeyDown={handledescriptionKeydowndes}
+            inputProps={{ maxLength: 250 }}
             multiline
             size="small"
             className="datapoint-name-input-box-description"
@@ -516,6 +518,7 @@ const StandardizationInOnbord = (props) => {
                       value={item.datapoint_category}
                       required
                       onChange={(e) => handleUpdateCategoryName(index,e.target.value,e)}
+                      inputProps={{ maxLength: 250 }}
                       className="datapoint-name-input-box"
                       id="datapoint-name-input-box-id"
                       label="Datapoint category name"
@@ -582,6 +585,7 @@ const StandardizationInOnbord = (props) => {
                             hanldeAttributeInputChange(index, 0, e.target.value)
                           }
                           onKeyDown={handleAllAttributesName}
+                          inputProps={{ maxLength: 250 }}
                         />
                         <TextField
                         required
@@ -598,6 +602,7 @@ const StandardizationInOnbord = (props) => {
                             )
                           }
                           onKeyDown={handleAllAttributesDes}
+                          inputProps={{ maxLength: 250 }}
                         />
                         <span
                           className="add-datapoint-svg"
