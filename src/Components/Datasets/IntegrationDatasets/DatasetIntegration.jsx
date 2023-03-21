@@ -399,7 +399,7 @@ const DatasetIntegration = (props) => {
             url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/"
             finalPayload = {}
             method = "GET"
-        } else if (condition = "delete_map_card" && isEditModeOn && map_id) {
+        } else if (condition == "delete_map_card" && isEditModeOn && map_id) {
             method = "DELETE"
             url = UrlConstant.base_url + UrlConstant.integration_connectors + map_id + "/?maps=True"
 
