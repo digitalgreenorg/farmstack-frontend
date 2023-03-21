@@ -41,11 +41,11 @@ const DatasetIntegration = (props) => {
     const [connectorIdForView, setConnectorIdForView] = useState("")
 
     const [template, setTemplate] = useState(
-        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: [] },
 
     )
     const [empty, setEmptyTemplate] = useState(
-        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: [] },
     )
 
 
@@ -330,6 +330,8 @@ const DatasetIntegration = (props) => {
 
     //this function is being used to generate the data at first place, Save the generated data and delete the saved connectors
     const generateData = (index, condition,) => {
+        console.log(index)
+        if (index < 0) return // no generation if index is less than
         let connector_id = connectorId
         if (condition == "view_details") {
             connector_id = connectorIdForView
