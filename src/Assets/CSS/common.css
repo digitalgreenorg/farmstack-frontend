@@ -1008,7 +1008,7 @@ button.disbalesubmitbtndept {
 .accordion_for_columns_under_integration .accordion_detail .MuiSvgIcon-root,
 .accordion_for_columns_under_integration .select_all_btn .MuiSvgIcon-root,
 .dataset_selector_in_integration .MuiSvgIcon-root {
-  color: #637381 !important;
+  color: #c09507 !important;
 }
 
 .dataset_selector_in_integration .MuiDataGrid-columnHeaders {
@@ -1116,4 +1116,12 @@ html {
 .connectorCard:hover {
   border: 1px solid #c09507;
   cursor: pointer;
+}
+
+.dataset_selector_in_integration .backButtonMainDiv .MuiSvgIcon-root {
+  color: #3491ee !important;
+}
+
+.dataset_selector_in_integration .Mui-focused {
+  /* border: 1px solid #ab8405 !important; */
 }

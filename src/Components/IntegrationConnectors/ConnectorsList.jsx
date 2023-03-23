@@ -6,14 +6,15 @@ import { Button } from "@mui/material";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import Loader from "../Loader/Loader";
 import HTTPService from "../../Services/HTTPService";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import { GetErrorHandlingRoute, getUserLocal } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
 
 export default function ConnectorsList(props) {
-  const { setIsDatasetIntegrationListModeOn } = props
+  const { setConnectorTimeData, setIsEditModeOn, setConnectorIdForView, setIsDatasetIntegrationListModeOn } = props
   const [isLoader, setIsLoader] = useState(false);
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
   const [connectorList, setConnectorList] = useState([]);
@@ -63,7 +64,7 @@ export default function ConnectorsList(props) {
     setIsLoader(true);
     HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.list_of_connectors,
+      UrlConstant.base_url + UrlConstant.list_of_connectors + "?user=" + getUserLocal(),
       "",
       false,
       true
@@ -149,11 +150,17 @@ export default function ConnectorsList(props) {
           />
         </Col>
       </Row>
-      {gridView === true ? <>
+      {connectorList.length > 0 ? <>
         <Row>
           {connectorList.map((list, index) => (
             <Col xs={12} sm={6} md={4} lg={4}>
               <ConnectorCard
+                click={() => {
+                  setConnectorTimeData({ last_updated: list.updated_at })
+                  setConnectorIdForView(list?.id ? list?.id : "")
+                  setIsDatasetIntegrationListModeOn(false)
+                  setIsEditModeOn(true)
+                }}
                 firsttext={list.updated_at}
                 secondtext={list?.name}
                 useddataset={list?.dataset_count}
@@ -181,10 +188,10 @@ export default function ConnectorsList(props) {
           )}
         </Row>
       </> : <>
-        {/* list view component render here when list view button clicks */}
+        {/* If there is no connectors available this component will render */}
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12} style={{ marginTop: "100px" }}>
-            <span style={useStyles.cardtext}>"Currently, there are no connectors available in the list format"</span>
+          <Col xs={12} sm={12} md={12} lg={12} style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+            <NoDataAvailable />
           </Col>
         </Row>
       </>}
