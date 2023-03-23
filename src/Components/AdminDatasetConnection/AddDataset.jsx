@@ -62,6 +62,8 @@ const AddDataset = (props) => {
 
     const [newSelectedCategory, setNewSelectedCategory] = useState([])
     const [newSelectedSubCategory, setNewSelectedSubCategory] = useState([])
+    const [allStandardisedFile, setAllStandardisedFile] = useState({})
+    const [standardisedFileLink, setStandardisedFileLink] = useState({})
 
 
 
@@ -729,6 +731,9 @@ const AddDataset = (props) => {
         bodyFormData.append("constantly_update", Switchchecked);
         bodyFormData.append("data_capture_start", fromdate ? fromdate.toISOString() : "");
         bodyFormData.append("data_capture_end", todate ? todate.toISOString() : "");
+        bodyFormData.append("standardisation_template", standardisedFileLink);
+        bodyFormData.append("standardisation_config", allStandardisedFile);
+
 
         let obj = { "name": datasetname, description: govLawDesc, category: JSON.stringify(finalJson), user_map: id, geography: geography, deleted: JSON.stringify(idsForFilesDeleted), constantly_update: Switchchecked, data_capture_start: fromdate ? fromdate.toISOString() : "", data_capture_end: todate ? todate.toISOString() : "" }
         let accesstoken = getTokenLocal();
@@ -1087,7 +1092,7 @@ const AddDataset = (props) => {
 
                                         {
                                             activeStep == 2 ?
-                                            <DataStandardizationInAddDataset datasetname={datasetname}/>
+                                        <DataStandardizationInAddDataset allStandardisedFile={allStandardisedFile} setAllStandardisedFile={setAllStandardisedFile} standardisedFileLink={standardisedFileLink} setStandardisedFileLink={setStandardisedFileLink} datasetname={datasetname} />
                                             : 
                                             ""
                                         }

@@ -5,7 +5,12 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import "./DataStandardizationInAddDataset.css";
 import Checkbox from "@mui/material/Checkbox";
-import { FormControlLabel, FormGroup } from "@mui/material";
+import {
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
+  Button,
+} from "@mui/material";
 import { Col, Row } from "react-bootstrap";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
@@ -14,23 +19,27 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import { message, Space } from "antd";
 
 const DataStandardizationInAddDataset = (props) => {
-
-  const {datasetname} = props;
+  const { datasetname, setAllStandardisedFile, allStandardisedFile, standardisedFileLink, setStandardisedFileLink } = props;
 
   const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([]);
   const [standardColumnNames, setStandardColumnNames] = useState([]);
-  const [allFileNames, setAllFileNames] = useState([])
-  const [fileName, setFileName] = useState("")
-  const [allStandardisedTempleteCategory, setAllStandardisedTempleteCategory] = useState([])
-  const [standardisedTempleteCategory, setStandardisedTempleteCategory] = useState([])
-  const [standardisedTempleteAttribute, setStandardisedTempleteAttribute] = useState([])
-  const [standardisedColum, setStandardisedColumn] = useState([])
-
+  const [allFileNames, setAllFileNames] = useState([]);
+  const [fileName, setFileName] = useState("");
+  const [fileNameError, setFileNameError] = useState("");
+  const [allStandardisedTempleteCategory, setAllStandardisedTempleteCategory] =
+    useState([]);
+  const [standardisedTempleteCategory, setStandardisedTempleteCategory] =
+    useState([]);
+  const [standardisedTempleteAttribute, setStandardisedTempleteAttribute] =
+    useState([]);
+  const [standardisedColum, setStandardisedColumn] = useState([]);
   const [checkBox, setCheckBox] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessages, setErrorMessage] = useState("");
-  
+  const [maskedColumns, setMaskedColumns] = useState([]);
+  const [standardisedFiles, setStandardisedFiles] = useState([]);
+
   const history = useHistory();
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -41,42 +50,64 @@ const DataStandardizationInAddDataset = (props) => {
       duration: 5,
     });
   };
-  
-  
-
 
   const handleChange = (e) => {
     console.log("handle change clicked");
     // setAge(e.target.value);
   };
 
-  const datapointCategoryChange = (value,index)=>{
-    let tmpArr = [...standardisedTempleteCategory]
-      tmpArr[index] = value
-      setStandardisedTempleteCategory(tmpArr)
-      console.log("standardisedTempleteCategory", standardisedTempleteCategory,tmpArr)
+  const datapointCategoryChange = (value, index) => {
 
-      let tmpColumn = [...standardisedTempleteAttribute]
-      tmpArr.forEach((attribute,index)=>{
-        console.log("attribute in for each",attribute)
-        if(attribute.datapoint_attributes) tmpColumn[index] = Object.keys(attribute.datapoint_attributes) 
-      })
-      setStandardisedTempleteAttribute(tmpColumn)
-      console.log("standardisedTempleteColumn",tmpColumn)
+    // first removing value of selected column
+    let tmpStandardisedColum = [...standardisedColum]
+    tmpStandardisedColum[index] = ""
+    setStandardisedColumn(tmpStandardisedColum)
 
+
+    let tmpArr = [...standardisedTempleteCategory];
+    tmpArr[index] = value;
+    setStandardisedTempleteCategory(tmpArr);
+    console.log(
+      "standardisedTempleteCategory",
+      standardisedTempleteCategory,
+      tmpArr
+    );
+
+    let tmpColumn = [...standardisedTempleteAttribute];
+    tmpArr.forEach((attribute, index) => {
+      console.log("attribute in for each", attribute);
+      if (attribute?.datapoint_attributes)
+        tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+    });
+    setStandardisedTempleteAttribute(tmpColumn);
+    console.log("standardisedTempleteColumn", tmpColumn);
+  };
+
+  const handleMaskedColumClicked = (columnName) =>{
+    let tmpMaskedColumns = [...maskedColumns];
+    if(!tmpMaskedColumns.includes(columnName)){
+      tmpMaskedColumns.push(columnName)
+    }else{
+      const index = tmpMaskedColumns.indexOf(columnName);
+      if (index > -1) {
+        tmpMaskedColumns.splice(index, 1); 
+      }
+    }
+    setMaskedColumns(tmpMaskedColumns);
+    console.log('masked colums ', tmpMaskedColumns)
   }
 
-  
-
-  const getAllFileNames = () =>{
-
-    let url = UrlConstant.base_url + UrlConstant.standardization_get_all_file_name + datasetname
+  const getAllFileNames = () => {
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.standardization_get_all_file_name +
+      datasetname;
     setIsLoading(true);
-    HTTPService("GET", url, false, false, true,)
+    HTTPService("GET", url, false, false, true)
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
-        setAllFileNames(response.data)
+        setAllFileNames(response.data);
       })
       .catch((e) => {
         setIsLoading(false);
@@ -99,7 +130,7 @@ const DataStandardizationInAddDataset = (props) => {
           );
         }
       });
-  }
+  };
 
   const getStandardiziedTemplate = () => {
     let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
@@ -111,13 +142,13 @@ const DataStandardizationInAddDataset = (props) => {
         console.log("response", response);
         if (response.status == 200) {
           setAllStandardisedTempleteCategory(response?.data);
-          let tmpArr = new Array(response?.data.length)
-          tmpArr.fill({})
-          setStandardisedTempleteCategory(tmpArr)
+          let tmpArr = new Array(response?.data.length);
+          tmpArr.fill({});
+          setStandardisedTempleteCategory(tmpArr);
 
           let tmpStandardisedColum = [...standardisedColum];
           tmpStandardisedColum.fill("");
-          setStandardisedColumn(tmpStandardisedColum)
+          setStandardisedColumn(tmpStandardisedColum);
 
           // let tmp = { ...allAttributes };
           // let tmpDes = { ...allAttributesDes };
@@ -163,19 +194,24 @@ const DataStandardizationInAddDataset = (props) => {
       });
   };
 
-  const getFileColumnNames = () =>{
-
-    let url = UrlConstant.base_url + UrlConstant.standardization_get_file_columns
-    let payload = {
-      file_path: fileName
+  const getFileColumnNames = () => {
+    let url =
+      UrlConstant.base_url + UrlConstant.standardization_get_file_columns;
+    if (!fileName) {
+      setFileNameError("Please select file name");
+      return;
     }
-    console.log('filename', fileName)
+
+    let payload = {
+      file_path: fileName,
+    };
+    console.log("filename", fileName);
     setIsLoading(true);
     HTTPService("POST", url, payload, false, true)
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
-        setKeysInUploadedDataset(response.data)
+        setKeysInUploadedDataset(response.data);
       })
       .catch((e) => {
         setIsLoading(false);
@@ -198,149 +234,266 @@ const DataStandardizationInAddDataset = (props) => {
           );
         }
       });
+  };
+
+  const handleStandaiseFile = () =>{
+
+    // saving standardised config
+
+    let tmpAllStandardisedFile = {...allStandardisedFile}
+    tmpAllStandardisedFile[fileName] = {
+      standardised_templete_category: standardisedTempleteCategory,
+      standardised_column: standardisedColum,
+      masked_columns: maskedColumns
+    }
+
+    setAllStandardisedFile(tmpAllStandardisedFile)
+    console.log('tmpAllStandardisedFile',tmpAllStandardisedFile)
+
+    // preparing payload
+
+    let  standardisationConfiguration = {}
+
+    keysInUploadedDataset.forEach((column,index)=>{
+      if(standardisedColum[index]){
+        standardisationConfiguration[column] = standardisedColum[index]
+      }
+    })
+
+    let payload = {
+      "mask_columns": maskedColumns,
+      "standardisation_configuration": standardisationConfiguration,
+      "file_path": fileName
+    }
+    let url = UrlConstant.base_url + UrlConstant.standardise_file
+    setIsLoading(true)
+    HTTPService("POST", url, payload, false, true)
+    .then((response) => {
+      setIsLoading(false);
+      console.log("response", response);
+      let tmpStandardisedFileLink ={...standardisedFileLink}
+      tmpStandardisedFileLink[fileName] = response?.data?.standardised_file_path
+      setStandardisedFileLink(tmpStandardisedFileLink);
+      success("File standardised successfully!", "success")
+    })
+    .catch((e) => {
+      setIsLoading(false);
+      //   success('Standardization template created successfully')
+      console.log(e);
+      if (
+        e.response != null &&
+        e.response != undefined &&
+        e.response.status === 401
+      ) {
+        setError(true);
+        history.push(GetErrorHandlingRoute(e));
+      } else {
+        setError(false);
+        success(
+          e.response.data && e.response.data.message
+            ? e.response.data.message
+            : "Something went wrong while getting file column names.",
+          "error"
+        );
+      }
+    });
+
   }
 
+  useEffect(() => {
+    getAllFileNames();
+    getStandardiziedTemplate();
+  }, []);
 
-  useEffect(()=>{
-    getAllFileNames()
-    getStandardiziedTemplate()
-  },[])
+  useEffect(() => {
+    getFileColumnNames();
+    setStandardisedTempleteCategory([])
+      setStandardisedColumn([])
+      setMaskedColumns([])
+    if(allStandardisedFile[fileName]){
+      console.log("allStandardisedFile[fileName]",allStandardisedFile[fileName], standardisedFileLink)
+      setStandardisedTempleteCategory(allStandardisedFile[fileName]?.standardised_templete_category)
+      setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
+      setMaskedColumns(allStandardisedFile[fileName]?.masked_columns)
+    }
+  }, [fileName]);
+  console.log("allFileNames", allFileNames);
+  console.log(
+    "all",
+    allStandardisedTempleteCategory,
+    standardisedTempleteAttribute,
+    allFileNames
+  );
 
-  useEffect(()=>{
-    getFileColumnNames()
-  },[fileName])
-  console.log('allFileNames',allFileNames)
-  console.log('all', allStandardisedTempleteCategory, standardisedTempleteAttribute, allFileNames)
+  console.log('all data',keysInUploadedDataset, standardisedTempleteCategory, standardisedColum)
   return (
     <div className="data-standardization-in-add-dataset-container">
       {contextHolder}
       <Row>
-      <Col xs={12} sm={12} md={12} lg={12}>
-              
-              <FormControl sx={{ m: 1, minWidth: 1100, maxWidth: 1100 }} size="small">
-                <InputLabel id="select-file-name-label-small">
-                  Select file name
-                </InputLabel>
-                <Select
-                  labelId="demo-select-small"
-                  id="select-file-name-small"
-                  // value={age}
-                  value={fileName}
-                  onChange={(e)=> {
-                    setFileName(e.target.value)
-
-                    console.log('file on chnage',fileName, e.target)
-                  }}
-                >
-                  {allFileNames?.map((item, index) => {
-                    console.log('file name in loop', item)
-                    return (
-                      
-                        <MenuItem  key={index} value={item}>{item}</MenuItem>
-                      
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Col>
+        <Col xs={12} sm={12} md={12} lg={12}>
+          <FormControl
+            sx={{ m: 1, minWidth: 1100, maxWidth: 1100 }}
+            size="small"
+          >
+            <InputLabel id="select-file-name-label-small">
+              Select file name
+            </InputLabel>
+            
+            <Select
+              labelId="demo-select-small"
+              id="select-file-name-small"
+              // value={age}
+              value={fileName}
+              error={fileNameError ? fileNameError : null}
+              onChange={(e) => {
+                setFileName(e.target.value);
+                setFileNameError("");
+                console.log("file on chnage", fileName, e.target);
+              }}
+            >
+              {allFileNames?.map((item, index) => {
+                console.log("file name in loop", item);
+                return (
+                  <MenuItem key={index} value={item}>
+                    {item}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+            <FormHelperText sx={{ color: "error.main" }}>
+              {fileNameError}
+            </FormHelperText>
+          </FormControl>
+        </Col>
       </Row>
-      <Row className="data_standardization_title">
-      {/* <div > */}
-      <Col className="uploaded-data-column-names" xs={4} sm={4} md={4} lg={4}>
-        <span>Uploaded Data Column Name</span>
-      </Col>
-      <Col xs={3} sm={3} md={3} lg={3}>
-        <span>Standard Data Calegory</span>
-      </Col>
-      <Col xs={3} sm={3} md={3} lg={3}>
-        <span>Standard Data Attribute</span>
-      </Col>
-      <Col xs={1} sm={1} md={1} lg={1}>
-        <span>Mask</span>
-      </Col>
-      
-      {/* </div> */}
+      {keysInUploadedDataset.length ? (
+        <Row className="data_standardization_title">
+          {/* <div > */}
+          <Col
+            className="uploaded-data-column-names"
+            xs={4}
+            sm={4}
+            md={4}
+            lg={4}
+          >
+            <span>Uploaded Data Column Name</span>
+          </Col>
+          <Col xs={3} sm={3} md={3} lg={3}>
+            <span>Standard Data Calegory</span>
+          </Col>
+          <Col xs={3} sm={3} md={3} lg={3}>
+            <span>Standard Data Attribute</span>
+          </Col>
+          <Col xs={1} sm={1} md={1} lg={1}>
+            <span>Mask</span>
+          </Col>
 
-      </Row>
+          {/* </div> */}
+        </Row>
+      ) : null}
       <div className="data_standardization_column">
-
-      
-      
-      {keysInUploadedDataset?.map((keyNames, index) => {
-        return (
-          <>
-            <Row className="data_standardization_cloumn_container">
-      <Col xs={4} sm={4} md={4} lg={4} className="uploaded_data_column_name_title_container">
-                
-                <span className="uploaded_data_column_name_title">
-                  {keyNames}
-                </span>
-              </Col>
-      <Col xs={3} sm={3} md={3} lg={3}>
-              
-                <FormControl sx={{ m: 1, minWidth: 200, maxWidth: 250 }} size="small">
-                  <InputLabel id="demo-select-small">
-                    Select datapoint category
-                  </InputLabel>
-                  <Select
-                    labelId="demo-select-small"
-                    id="demo-select-small"
-                    value={standardisedTempleteCategory?.[index]}
-                    onChange={(e)=> datapointCategoryChange(e.target.value, index) }
-                  >
-                    {allStandardisedTempleteCategory?.map((item, index) => {
-                      return (
-                          <MenuItem key={item} value={item}>{item.datapoint_category}</MenuItem>
-                        
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-              </Col>
-
-              <Col xs={3} sm={3} md={3} lg={3}>
-              
-              <FormControl sx={{ m: 1,  minWidth: 200, maxWidth: 250 }} size="small">
-                <InputLabel id="demo-select-small">
-                  Select column/key
-                </InputLabel>
-                <Select
-                  labelId="demo-select-small"
-                  id="demo-select-small"
-                  value={standardisedColum[index]}
-                  onChange={(e)=> {
-                    let tmpArr = [...standardisedColum]
-                    tmpArr[index] = e.target.value
-                    setStandardisedColumn(tmpArr)
-                  }
-                }
+        {keysInUploadedDataset?.map((keyNames, index) => {
+          return (
+            <>
+              <Row className="data_standardization_cloumn_container">
+                <Col
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  lg={4}
+                  className="uploaded_data_column_name_title_container"
                 >
-                  {standardisedTempleteAttribute[index]?.map((item, index) => {
-                    return (
-                        <MenuItem key={item} value={item}>{item}</MenuItem>
-                      
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Col>
-
-      <Col xs={1} sm={1} md={1} lg={1}>
-
-              <FormGroup>
-                <Checkbox onChange={() => setCheckBox(true)}/>
-                  {/* <FormControlLabel
-                    control={<Checkbox onChange={() => setCheckBox(true)} />}
-
-                  /> */}
-                </FormGroup>
+                  <span className="uploaded_data_column_name_title">
+                    {keyNames}
+                  </span>
                 </Col>
-            </Row>
-            <hr />
-          </>
-        );
-      })}
+                <Col xs={3} sm={3} md={3} lg={3}>
+                  <FormControl
+                    sx={{ m: 1, minWidth: 200, maxWidth: 250 }}
+                    size="small"
+                  >
+                    <InputLabel id="demo-select-small">
+                      Select datapoint category
+                    </InputLabel>
+                    <Select
+                      labelId="demo-select-small"
+                      id="demo-select-small"
+                      value={standardisedTempleteCategory?.[index] ? standardisedTempleteCategory?.[index] : ""}
+                      onChange={(e) =>
+                        datapointCategoryChange(e.target.value, index)
+                      }
+                    >
+                      {allStandardisedTempleteCategory?.map((item, index) => {
+                        return (
+                          <MenuItem key={item} value={item}>
+                            {item.datapoint_category}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                </Col>
+
+                <Col xs={3} sm={3} md={3} lg={3}>
+                  <FormControl
+                    sx={{ m: 1, minWidth: 200, maxWidth: 250 }}
+                    size="small"
+                  >
+                    <InputLabel id="demo-select-small">
+                      Select column/key
+                    </InputLabel>
+                    <Select
+                      labelId="demo-select-small"
+                      id="demo-select-small"
+                      value={standardisedColum[index] ? standardisedColum[index] : ""}
+                      onChange={(e) => {
+                        let tmpArr = [...standardisedColum];
+                        tmpArr[index] = e.target.value;
+                        setStandardisedColumn(tmpArr);
+                      }}
+                    >
+                      {standardisedTempleteAttribute[index]?.map(
+                        (item, index) => {
+                          return (
+                            <MenuItem key={item} value={item}>
+                              {item}
+                            </MenuItem>
+                          );
+                        }
+                      )}
+                    </Select>
+                  </FormControl>
+                </Col>
+
+                <Col xs={1} sm={1} md={1} lg={1}>
+                  <FormGroup>
+                    <Checkbox checked={maskedColumns.includes(keyNames)} onClick={(e)=>handleMaskedColumClicked(keyNames)} />
+                    {/* <FormControlLabel
+                    control={<Checkbox onChange={() => setCheckBox(true)} />}
+                  /> */}
+                  </FormGroup>
+                </Col>
+              </Row>
+              <hr />
+            </>
+          );
+        })}
       </div>
+      {keysInUploadedDataset.length ? (
+        <Row>
+          <Col
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+            className="standardization-button-container"
+          >
+            <Button onClick={handleStandaiseFile} id="standardise-file-button" style={{ color: "white", background: "#c09507" }}>
+              Standardise
+            </Button>
+          </Col>
+        </Row>
+      ) : null}
     </div>
   );
 };

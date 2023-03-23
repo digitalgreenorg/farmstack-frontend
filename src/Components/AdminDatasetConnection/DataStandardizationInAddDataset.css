@@ -53,3 +53,8 @@
     position: relative;
     overflow-x: hidden;
 }
+.standardization-button-container{
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 30px;
+}
