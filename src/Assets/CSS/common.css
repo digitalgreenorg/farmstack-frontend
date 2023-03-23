@@ -1131,3 +1131,7 @@ html {
 .dataset_selector_in_integration .Mui-focused {
   /* border: 1px solid #ab8405 !important; */
 }
+
+.ant-segmented-group label {
+  margin-bottom: 0px !important;
+}

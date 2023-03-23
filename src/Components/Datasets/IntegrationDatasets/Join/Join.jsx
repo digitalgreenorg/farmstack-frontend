@@ -23,14 +23,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Button, Segmented } from 'antd';
 import EachCardResult from '../EachCardsResult/EachCardResult';
 const Join = (props) => {
-    const { handleMoreDataShow, indexShow, result, file_right, file_left, setCompleteJoinData, right_on, left_on, completedJoinData, type, left, right, index, each, resetAll, joinType, setJoinType, connectorData, setCompleteData, completeData, listOfDatsetFileAvailableForColumn, generateData } = props
+    const { value, setValue, handleMoreDataShow, indexShow, result, file_right, file_left, setCompleteJoinData, right_on, left_on, completedJoinData, type, left, right, index, each, resetAll, joinType, setJoinType, connectorData, setCompleteData, completeData, listOfDatsetFileAvailableForColumn, generateData } = props
     const [joinTypeArr, setJoinTypeArr] = useState([
         { name: "left", black: leftB, green: leftG },
         { name: "right", black: rightB, green: rightG },
         { name: "inner", black: innerB, green: innerG },
         { name: "outer", black: fullB, green: fullG },
     ])
-    const [value, setValue] = useState('Join by');
     console.log("RESULT OF EACH", result)
     const handleChangeJoin = (e, source) => {
         let arr = [...completeData]
@@ -77,7 +76,7 @@ const Join = (props) => {
 
             <Row>
                 <Col className={styles.select_dataset_logo} style={{ display: "flex", justifyContent: "space-between", padding: "10px 50px" }} lg={12} sm={12} sx={12}>
-                    <span > {value == "Join by" ? "Join" : "Integrated data"}</span>
+                    <span > {value == "Join by" ? "Join" : "Integrated data preview"}</span>
                     <span style={{ cursor: "pointer" }} ><CloseIcon onClick={(e) => handleMoreDataShow(indexShow, false, e)} className='deleteicon' color='secondary' /></span>
                 </Col>
             </Row>
@@ -142,7 +141,7 @@ const Join = (props) => {
                     </Col> </Row>
                 }
 
-            </> : <Row style={{ justifyContent: "center", width: "650px" }}>
+            </> : <Row style={{ justifyContent: "center", width: "1000px" }}>
                 <Col lg={12} sm={12} >
                     <EachCardResult result={result} />
                 </Col>

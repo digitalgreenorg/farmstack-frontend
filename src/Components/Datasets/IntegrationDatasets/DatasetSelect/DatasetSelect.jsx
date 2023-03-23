@@ -35,6 +35,7 @@ const DatasetSelect = (props) => {
     const { connectorTimeData, isEditModeOn, setIsConditionForConnectorDataForSaveMet, isEdited, setIsEdited, setIsEditModeOn, setIsDatasetIntegrationListModeOn, integrateMore, empty, template, setTemplate, counterForIntegrator, completedJoinData, setCompleteJoinData, resetAll, generateData, orgList, joinType, setJoinType, setCompleteData, setConnectorData, connectorData, completeData, setFinalDataNeedToBeGenerated, finalDataNeedToBeGenerated, listOfFilesSelected, allDatasetNameList, listOfDatasetSelected, handleChangeDatasetNameSelector, listOfDatsetFileAvailableForColumn, } = props
     const [errorConnectorName, setErrorConnectorName] = useState("")
     const [errorConnectorDesc, setErrorConnectorDesc] = useState("")
+    const [value, setValue] = useState('Join by');
     const [show, setShow] = useState(false)
     const [indexShow, setIndex] = useState(-1)
     const ref1 = useRef(null);
@@ -285,8 +286,8 @@ const DatasetSelect = (props) => {
                             {<CardDetail generateData={generateData} completedJoinData={completedJoinData} setCompleteJoinData={setCompleteJoinData} setTotalCounter={setTotalCounter} orgList={orgList} completeData={completeData} setCompleteData={setCompleteData} data={each} index={index} />}
                             {index < completeData.length - 1 && <span style={{ border: index == indexShow && "1.5px solid #C09507" }} class={styles.vl} ></span>}
                             {index < completeData.length - 1 &&
-                                <span span id='settingIconForHover' onClick={(e) => handleMoreDataShow(index, true, e)} style={{ display: "flex", justifyContent: "center", alignItems: "center", cursor: !show ? "pointer" : "", height: `${show && index == indexShow ? "400px" : "50px"}`, overflow: "hidden", width: `${show && index == indexShow ? "700px" : "50px"}`, margin: "auto", backgroundRepeat: "no-repeat", backgroundSize: "50px 50px", backgroundPosition: "center", }} className={index == indexShow ? styles.hoveredOne : styles.alwaysHave}>
-                                    {<span ><Join result={each['result'] ? each['result'] : []} handleMoreDataShow={handleMoreDataShow} indexShow={indexShow} index={index} each={each} next={completeData[index + 1]} resetAll={resetAll} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} completeData={completeData} setCompleteData={setCompleteData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} generateData={generateData} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} listOfDatasetSelected={listOfDatasetSelected} listOfFilesSelected={listOfFilesSelected} />
+                                <span span id='settingIconForHover' onClick={(e) => handleMoreDataShow(index, true, e)} style={{ display: "flex", justifyContent: "center", alignItems: "center", cursor: !show ? "pointer" : "", height: `${show && index == indexShow ? "400px" : "50px"}`, overflow: "hidden", width: `${(show && index == indexShow && value == "Join by") ? "700px" : (show && index == indexShow) ? "1000px" : "50px"}`, margin: "auto", backgroundRepeat: "no-repeat", backgroundSize: "50px 50px", backgroundPosition: "center", }} className={index == indexShow ? styles.hoveredOne : styles.alwaysHave}>
+                                    {<span ><Join value={value} setValue={setValue} result={each['result'] ? each['result'] : []} handleMoreDataShow={handleMoreDataShow} indexShow={indexShow} index={index} each={each} next={completeData[index + 1]} resetAll={resetAll} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} completeData={completeData} setCompleteData={setCompleteData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} generateData={generateData} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} listOfDatasetSelected={listOfDatasetSelected} listOfFilesSelected={listOfFilesSelected} />
                                         {indexShow != index && <img className={styles.settingGif} src={settinggif} alt="" />}
                                     </span>}
                                 </span>}
@@ -308,9 +309,13 @@ const DatasetSelect = (props) => {
                                         </span>
                                     </div>
                                 </div>
-                                <span>
-                                    <img onClick={(e) => handleMoreDataShow(index, true, e, "table_result")} style={{ cursor: "pointer" }} src={analytics} height="50px" width={"50px"} alt="" />
-                                </span>
+                                <Button onClick={(e) => {
+                                    setValue("Integrated data")
+                                    handleMoreDataShow(index, true, e, "table_result")
+                                }} style={{ height: "auto" }} disabled={each["result"]?.length > 0 ? false : true}>
+                                    {console.log("each result", each["result"])}
+                                    <img style={{ cursor: "pointer", opacity: each["result"]?.length <= 0 ? 0.4 : 1 }} src={analytics} height="50px" width={"50px"} alt="" />
+                                </Button>
                             </span>}
                             {index < completeData.length - 1 && <span style={{ border: index == indexShow && "1.5px solid #C09507" }} class={styles.vl} ></span>}
                         </span>
