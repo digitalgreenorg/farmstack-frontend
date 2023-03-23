@@ -31,16 +31,13 @@ const useStyles = {
     "font-size": "24px",
     "font-style": "normal",
     "width": "272px",
-    "height": "19px",
+    "height": "25px",
     "line-height": "19px",
     "text-align": "left",
     "margin-bottom": "20px",
-
     "overflow": "hidden",
-    "text-overflow": "ellipsis",
-    "display": "-webkit-box",
-    "-webkit-line-clamp": "1",
-    "-webkit-box-orient": "vertical"
+    "textOverflow": "ellipsis",
+    "white-space": "nowrap",
   },
   cardDataUser: {
     "font-family": "Open Sans",
