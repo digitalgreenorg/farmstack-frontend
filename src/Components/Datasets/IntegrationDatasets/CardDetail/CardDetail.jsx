@@ -5,6 +5,7 @@ import styles from "./card_detail.module.css"
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
+import { Popconfirm, message } from 'antd';
 const CardDetail = (props) => {
     const { generateData, setCompleteJoinData, completedJoinData, setTotalCounter, orgList, data, setCompleteData, index, completeData } = props
 
@@ -25,6 +26,18 @@ const CardDetail = (props) => {
             setCompleteData([...arr])
         }
     }
+
+    const confirm = (e) => {
+        // console.log(e);
+        handleDeleteCard()
+        message.success('File deleted successfully!');
+    };
+
+    const cancel = (e) => {
+        // console.log(e);
+        message.error('File deletion cancelled!');
+    };
+
     const handleSelectAll = (e) => {
         let arr = [...completeData]
         let present_card = { ...data }
@@ -39,8 +52,8 @@ const CardDetail = (props) => {
 
     const handleDeleteCard = () => {
         let arr = [...completeData]
-        generateData(index - 1, "integrate")
-
+        generateData(index, "delete_map_card")
+        // .then(()=>{
         let obj
         if (index != 0) {
             obj = arr[index - 1]
@@ -52,6 +65,7 @@ const CardDetail = (props) => {
         arr.splice(index, 1)
         setCompleteData([...arr])
         setTotalCounter((prev) => prev - 1)
+        // })
     }
     useEffect(() => {
     })
@@ -68,7 +82,18 @@ const CardDetail = (props) => {
                         <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.dataset_name ? data.dataset_name : ""}</div></Col>
                     <Col lg={3}> <div>File name</div>
                         <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.file_name ? decodeURI(data.file_name.split("/")[data.file_name.split("/").length - 1]) : ""}</div></Col>
-                    <Col lg={2}> <span style={{ borderRadius: "50%", minHeight: "34px", width: "34px", background: "white", display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "auto" }}>  <DeleteIcon fontSize='small' id="deleteFileBtn" color='secondary' onClick={handleDeleteCard} className={styles.deleteicon + " deleteicon"} /> </span></Col>
+                    <Col lg={2}> <span style={{ borderRadius: "50%", minHeight: "34px", width: "34px", background: "white", display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "auto" }}>
+                        <Popconfirm
+                            title="Delete the dataset file"
+                            description="Are you sure to delete this dataset file?"
+                            onConfirm={confirm}
+                            onCancel={cancel}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <DeleteIcon fontSize='small' id="deleteFileBtn" color='secondary' className={styles.deleteicon + " deleteicon"} />
+                        </Popconfirm>
+                    </span></Col>
                 </Row>
                 <Row className={styles.selectAllRow}>
                     <Col lg={12}>

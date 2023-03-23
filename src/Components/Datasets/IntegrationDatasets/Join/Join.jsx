@@ -21,8 +21,9 @@ import smallG from "../../../../Assets/Img/Join type/Color/Tick icon.svg"
 
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Segmented } from 'antd';
+import EachCardResult from '../EachCardsResult/EachCardResult';
 const Join = (props) => {
-    const { handleMoreDataShow, indexShow, file_right, file_left, setCompleteJoinData, right_on, left_on, completedJoinData, type, left, right, index, each, resetAll, joinType, setJoinType, connectorData, setCompleteData, completeData, listOfDatsetFileAvailableForColumn, generateData } = props
+    const { handleMoreDataShow, indexShow, result, file_right, file_left, setCompleteJoinData, right_on, left_on, completedJoinData, type, left, right, index, each, resetAll, joinType, setJoinType, connectorData, setCompleteData, completeData, listOfDatsetFileAvailableForColumn, generateData } = props
     const [joinTypeArr, setJoinTypeArr] = useState([
         { name: "left", black: leftB, green: leftG },
         { name: "right", black: rightB, green: rightG },
@@ -30,7 +31,7 @@ const Join = (props) => {
         { name: "outer", black: fullB, green: fullG },
     ])
     const [value, setValue] = useState('Join by');
-
+    console.log("RESULT OF EACH", result)
     const handleChangeJoin = (e, source) => {
         let arr = [...completeData]
         let obj1 = { ...each }
@@ -81,8 +82,8 @@ const Join = (props) => {
                 </Col>
             </Row>
 
-            {value == "Join by" ?
-                <Row style={{ justifyContent: "center" }}>
+            {value == "Join by" ? <>
+                <Row style={{ justifyContent: "center", width: "650px" }}>
                     <Col lg={5} sm={12} >
                         <FormControl variant="outlined" style={{ width: "100%" }}>
                             <InputLabel id="demo-simple-select-standard-label">Primary dataset column name</InputLabel>
@@ -128,12 +129,8 @@ const Join = (props) => {
                             </Select>
                         </FormControl>
                     </Col>
-                </Row> :
-                "data"
-            }
-
-            {
-                completeData.length >= 2 && <Row Row style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                </Row>
+                {completeData.length >= 2 && <Row style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <Col lg={12}>
                         {joinTypeArr.map((eachT, ind) => {
                             return <span key={ind} onClick={() => selectThisType(eachT.name)} className={each.type == eachT.name ? styles.stypeMainBox : styles.typeMainBox}>
@@ -142,18 +139,31 @@ const Join = (props) => {
                                 <span className={styles.labelTypeJoin}> {eachT.name}</span>
                             </span>
                         })}
-                    </Col>
-                    <Col lg={12} sm={12} className={styles.generate_btn_parent_col}>
-                        <Row style={{ textAlign: "center" }}>
-                            <Col lg={12}>
-                                <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={() => generateData(index, "integrate")}>
-                                    Preview
-                                </Button>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            }
+                    </Col> </Row>
+                }
+
+            </> : <Row style={{ justifyContent: "center", width: "650px" }}>
+                <Col lg={12} sm={12} >
+                    <EachCardResult result={result} />
+                </Col>
+            </Row>}
+
+
+
+
+
+
+
+            <Row style={{ textAlign: "center" }}>
+                <Col lg={12}>
+                    {value == "Join by" ? <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
+                        Preview
+                    </Button> : <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
+                        Download
+                    </Button>}
+                </Col>
+            </Row>
+
         </span >
     )
 }

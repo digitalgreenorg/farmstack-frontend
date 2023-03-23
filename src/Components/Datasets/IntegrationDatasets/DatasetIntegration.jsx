@@ -10,7 +10,7 @@ import Loader from '../../Loader/Loader'
 import { Alert, Button, Collapse, Fab, IconButton, Snackbar } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import { CheckLg } from 'react-bootstrap-icons'
-import { GetErrorHandlingRoute, GetErrorKey, goToTop } from '../../../Utils/Common'
+import { GetErrorHandlingRoute, GetErrorKey, getUserLocal, goToTop } from '../../../Utils/Common'
 import { useHistory } from 'react-router-dom'
 import { Affix } from 'antd'
 import { AddIcCallOutlined } from '@material-ui/icons'
@@ -271,7 +271,7 @@ const DatasetIntegration = (props) => {
     }
     const completeDataGenerator = (maps) => {
         // { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
-
+        console.log(maps)
         let arr = []
         for (let i = 0; i < maps.length; i++) {
             let currentObj = {}
@@ -291,7 +291,7 @@ const DatasetIntegration = (props) => {
             currentObj["left"] = maps[i]?.condition?.left?.length > 0 ? maps[i]?.condition?.left : []
             currentObj["next_left"] = maps[i]?.condition?.left?.length > 0 ? maps[i]?.condition?.left : []
             currentObj["map_id"] = maps[i]?.id ? maps[i]?.id : null
-
+            currentObj["result"] = maps[i]?.condition?.result ? maps[i]?.condition?.result : []
             currentObj["availabeColumns"] = maps[i]?.condition?.left_available_columns?.length > 0 ? maps[i]?.condition?.left_available_columns : maps[i]?.condition?.left_selected
             arr[i] = currentObj
 
@@ -336,8 +336,11 @@ const DatasetIntegration = (props) => {
         console.log(index)
         if (index < 0) return // no generation if index is less than
         let connector_id = connectorId
+        let map_id
         if (condition == "view_details") {
             connector_id = connectorIdForView
+        } else if (condition == "delete_map_card" && isEditModeOn) {
+            map_id = completeData[index]["map_id"] ? completeData[index]["map_id"] : ""
         }
         //condition can be ===> [integrate, delete, save] any one of the listed elements
         setLoader(true)
@@ -346,9 +349,9 @@ const DatasetIntegration = (props) => {
         let payload = []
 
 
-        if (condition !== "view_details" && condition != "delete") {
+        // console.log(index, completeData, condition, "MAIN DATA")
+        if (condition !== "view_details" && condition != "delete" && condition != "delete_map_card") {
             for (let i = 0; i < index + 1; i++) {
-                console.log(index, i, completeData[i], "MAIN DATA")
                 //Generating the payload as array of objects each object having data friom completeData and completeJoinData
                 let obj = {
                     left_dataset_file: completeData[i]?.file_id,
@@ -356,6 +359,7 @@ const DatasetIntegration = (props) => {
                     left_dataset_file_path: completeData[i]?.file_name,
                     right_dataset_file_path: completeData[i + 1]?.file_name,
                     condition: {
+                        result: completeData[i]?.result?.length > 0 ? completeData[i]?.result : [],
                         left: completeData[i]?.next_left?.length > 0 ? completeData[i].next_left : [], right: completeData[i]?.right?.length > 0 ? completeData[i].right : [],
                         left_available_columns: completeData[i]?.availabeColumns?.length > 0 ? [...completeData[i]?.availabeColumns] : [],
                         right_available_columns: completeData[i + 1]?.availabeColumns?.length > 0 ? [...completeData[i + 1]?.availabeColumns] : [],
@@ -374,7 +378,7 @@ const DatasetIntegration = (props) => {
         let finalPayload
         let method
         if (condition == "save") {
-            finalPayload = { name: connectorData.name, description: connectorData.desc, maps: payload, integrated_file: integratedFilePath }
+            finalPayload = { name: connectorData.name, description: connectorData.desc, user: getUserLocal(), maps: payload, integrated_file: integratedFilePath }
             if (isEditModeOn) {
                 url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/" // for saving     
                 method = "PUT"
@@ -383,7 +387,7 @@ const DatasetIntegration = (props) => {
                 method = "POST"
             }
         } else if (condition == "integrate") {
-            finalPayload = { name: connectorData.name, description: connectorData.desc, maps: payload }
+            finalPayload = { name: connectorData.name, description: connectorData.desc, user: getUserLocal(), maps: payload }
             if (isEditModeOn) {
                 url = UrlConstant.base_url + UrlConstant.joining_the_table + "?edit=True" //for generating
             } else {
@@ -398,12 +402,15 @@ const DatasetIntegration = (props) => {
             url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/"
             finalPayload = {}
             method = "GET"
-        }
-        else {
+        } else if (condition == "delete_map_card" && isEditModeOn && map_id) {
+            method = "DELETE"
+            url = UrlConstant.base_url + UrlConstant.integration_connectors + map_id + "/?maps=True"
+
+        } else {
             setLoader(false)
             return
         }
-        // console.table(finalPayload, "PAYLOAD")
+        console.table(finalPayload, "PAYLOAD")
         HTTPService(method, url, finalPayload, false, true, false).then((res) => {
 
             setLoader(false)
@@ -417,12 +424,14 @@ const DatasetIntegration = (props) => {
                     let obj = arr[index + 1]
                     let first_obj = arr[index]
                     first_obj["next_left"] = [...allKeys]
+                    first_obj["result"] = [...JSON.parse(res.data?.data)]
                     obj["left"] = [...allKeys]
                     obj["left_on"] = []
                     console.log("HERE IS THE CALL", arr.length, index,)
                     if (arr.length > 2 && index != arr.length - 2) {
                         for (let i = index; i < arr.length; i++) {
                             arr["left_on"] = []
+                            arr["result"] = []
                         }
                         setIsAllConditionForSaveMet(false)
                     } else {

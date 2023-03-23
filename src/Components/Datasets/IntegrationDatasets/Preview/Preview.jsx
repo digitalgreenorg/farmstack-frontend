@@ -143,7 +143,7 @@ const Preview = (props) => {
                         <Button onClick={() => generateData(completeData.length - 2, "save")} className={styles.save_btn}>Save connector</Button>}
                     {/* </Col> */}
                     {/* <Col lg={2}> */}
-                    {true &&
+                    {isEditModeOn &&
                         <Popconfirm
                             title="Delete the connector"
                             description="Are you sure to delete this connector?"

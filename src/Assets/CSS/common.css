@@ -999,6 +999,10 @@ button.disbalesubmitbtndept {
   margin-top: 0px !important;
 }
 
+.dataset_selector_in_integration .ant-segmented-item-selected {
+  margin-bottom: 0px !important;
+}
+
 .dataset_selector_in_integration .MuiCollapse-entered {
   background: #FFFFFF !important;
   box-shadow: 0px 20px 40px -4px rgb(145 158 171 / 16%) !important;

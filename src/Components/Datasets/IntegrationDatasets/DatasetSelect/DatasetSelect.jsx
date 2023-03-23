@@ -280,19 +280,20 @@ const DatasetSelect = (props) => {
                     </Affix>
                     <hr />
                     {completeData?.length > 0 && completeData.map((each, index) => {
-                        return <span style={{ position: "relative", }} key={index} >
+                        console.log("EACH", each)
+                        return <span style={{ position: "relative" }} key={index} >
                             {<CardDetail generateData={generateData} completedJoinData={completedJoinData} setCompleteJoinData={setCompleteJoinData} setTotalCounter={setTotalCounter} orgList={orgList} completeData={completeData} setCompleteData={setCompleteData} data={each} index={index} />}
                             {index < completeData.length - 1 && <span style={{ border: index == indexShow && "1.5px solid #C09507" }} class={styles.vl} ></span>}
                             {index < completeData.length - 1 &&
-                                <span span id='settingIconForHover' onClick={(e) => handleMoreDataShow(index, true, e)} style={{ display: "flex", justifyContent: "center", alignItems: "center", cursor: !show ? "pointer" : "", height: `${show && index == indexShow ? "350px" : "50px"}`, overflow: "hidden", width: `${show && index == indexShow ? "700px" : "50px"}`, margin: "auto", backgroundRepeat: "no-repeat", backgroundSize: "50px 50px", backgroundPosition: "center", }} className={index == indexShow ? styles.hoveredOne : styles.alwaysHave}>
-                                    {<span ><Join handleMoreDataShow={handleMoreDataShow} indexShow={indexShow} index={index} each={each} next={completeData[index + 1]} resetAll={resetAll} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} completeData={completeData} setCompleteData={setCompleteData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} generateData={generateData} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} listOfDatasetSelected={listOfDatasetSelected} listOfFilesSelected={listOfFilesSelected} />
+                                <span span id='settingIconForHover' onClick={(e) => handleMoreDataShow(index, true, e)} style={{ display: "flex", justifyContent: "center", alignItems: "center", cursor: !show ? "pointer" : "", height: `${show && index == indexShow ? "400px" : "50px"}`, overflow: "hidden", width: `${show && index == indexShow ? "700px" : "50px"}`, margin: "auto", backgroundRepeat: "no-repeat", backgroundSize: "50px 50px", backgroundPosition: "center", }} className={index == indexShow ? styles.hoveredOne : styles.alwaysHave}>
+                                    {<span ><Join result={each['result'] ? each['result'] : []} handleMoreDataShow={handleMoreDataShow} indexShow={indexShow} index={index} each={each} next={completeData[index + 1]} resetAll={resetAll} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} completeData={completeData} setCompleteData={setCompleteData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} generateData={generateData} listOfDatsetFileAvailableForColumn={listOfDatsetFileAvailableForColumn} listOfDatasetSelected={listOfDatasetSelected} listOfFilesSelected={listOfFilesSelected} />
                                         {indexShow != index && <img className={styles.settingGif} src={settinggif} alt="" />}
                                     </span>}
                                 </span>}
                             {index !== indexShow && index < completeData.length - 1 && <span className={styles.eachSideJoinData} style={{ position: "absolute", left: "40px", bottom: "23px", width: "514px", height: "112px", border: "1px solid #C09507", borderRadius: "10px", padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <div style={{ width: "80%" }}>
                                     <div style={{ textAlign: "left", marginBottom: "20px", fontWeight: "600" }}>Joined by <BorderColorIcon onClick={(e) => handleMoreDataShow(index, true, e)} cursor="pointer" fontSize='small' /> </div>
-                                    <div style={{ display: "flex", justifyContent: "left", alignItems: "center", gap: "50px", textAlign: "left" }}>
+                                    <div style={{ display: "flex", justifyContent: "left", alignItems: "center", gap: "35px", textAlign: "left" }}>
                                         <span className={styles.detail_joins}>
                                             <div > Left column </div>
                                             <div>{each?.left_on?.length > 0 ? toTitleCase(each?.left_on[0]) : "Not selected"}</div>
