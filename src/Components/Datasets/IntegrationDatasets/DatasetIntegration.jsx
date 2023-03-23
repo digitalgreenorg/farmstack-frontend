@@ -15,6 +15,7 @@ import { useHistory } from 'react-router-dom'
 import { Affix } from 'antd'
 import { AddIcCallOutlined } from '@material-ui/icons'
 import ConnectorsList from '../../IntegrationConnectors/ConnectorsList'
+import FileSaver from 'file-saver'
 const converter = require('json-2-csv')
 const fs = require('fs')
 
@@ -56,15 +57,16 @@ const DatasetIntegration = (props) => {
     const [completeData, setCompleteData] = useState([
 
         //In dev mode this is the dummy data 
-        // { org_id: "A", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c1", "c2", "c3"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
-        // { org_id: "B", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c4", "c5", "c6"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
-        // { org_id: "C", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c7", "c8", "c9"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        { org_id: "A", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c1", "c2", "c3"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        { org_id: "B", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c4", "c5", "c6"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        { org_id: "C", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c7", "c8", "c9"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
 
     ])
 
     // const [listOfDatsetFileAvailableForColumn, setListOfDatsetFileAvailableForColumn] = useState([])
     const [finalDataNeedToBeGenerated, setFinalDataNeedToBeGenerated] = useState({})
     const [integratedFilePath, setIntegratedFilePath] = useState("")
+    const [noOfRecords, setNoOfRecords] = useState(0)
     const [finalDatasetAfterIntegration, setFinalDatasetAfterIntegration] = useState([])
     const [finalDatasetAfterSaving, setFinalDatasetAfterSaving] = useState([])
 
@@ -260,6 +262,7 @@ const DatasetIntegration = (props) => {
             setIsConditionForConnectorDataForSaveMet(false)
             setIsAllConditionForSaveMet(false)
         }
+        setTemplate({ ...empty })
         setConnectorId("")
         setCounterForIntegration(2)
         setCompleteData([])
@@ -323,6 +326,7 @@ const DatasetIntegration = (props) => {
         setConnectorId(dataForRender?.id)
         //file path setting
         setIntegratedFilePath(dataForRender?.integrated_file)
+        setNoOfRecords(dataForRender?.no_of_records ? dataForRender?.no_of_records : 0)
 
         //set already generated data
         setFinalDatasetAfterIntegration([...dataForRender?.data ? JSON.parse(dataForRender?.data) : []])
@@ -414,6 +418,8 @@ const DatasetIntegration = (props) => {
             if (condition == "integrate") {
                 console.log("inside integrate", res.data)
                 setIntegratedFilePath(res?.data?.integrated_file ? res?.data?.integrated_file : "")
+                setNoOfRecords(res?.data?.no_of_records ? res?.data?.no_of_records : 0)
+
                 setFinalDatasetAfterIntegration([...JSON.parse(res.data?.data)])
                 let allKeys = JSON.parse(res.data.data)?.length > 0 ? Object.keys(JSON.parse(res.data.data)[0]) : []
                 if (allKeys.length > 1) {
@@ -479,7 +485,7 @@ const DatasetIntegration = (props) => {
             if (condition == "integrate") {
                 setIsAllConditionForSaveMet(false)
             }
-            console.log(err.response.data)
+            // console.log(err.response.data)
             console.log(Object.values(err?.response?.data)[0])
             setOpen(true);
             setLoader(false)
@@ -504,13 +510,21 @@ const DatasetIntegration = (props) => {
 
     //Download functionality
     const downloadDocument = () => {
-        converter.json2csv(finalDatasetAfterIntegration, async (err, csv) => {
-            if (err) {
-                throw err
-            }
-            // print CSV string
-            download(csv)
-        })
+        // converter.json2csv(finalDatasetAfterIntegration, async (err, csv) => {
+        //     if (err) {
+        //         throw err
+        //     }
+        //     // print CSV string
+        //     download(csv)
+        // })
+        let uri
+        if (integratedFilePath[0] === "/") {
+            uri = UrlConstant.base_url_without_slash + integratedFilePath
+        } else {
+            uri = UrlConstant.base_url + integratedFilePath
+
+        }
+        FileSaver.saveAs(uri, connectorData.name ? connectorData.name : "Integrated_dataset");
     }
 
     //number of integration handler
@@ -578,7 +592,7 @@ const DatasetIntegration = (props) => {
                 </Row>
             </Container>
             {!isDatasetIntegrationListModeOn && <DatasetSelect connectorTimeData={connectorTimeData} isEditModeOn={isEditModeOn} setIsConditionForConnectorDataForSaveMet={setIsConditionForConnectorDataForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} setIsEditModeOn={setIsEditModeOn} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} integrateMore={integrateMore} empty={empty} setTemplate={setTemplate} template={template} counterForIntegrator={counterForIntegrator} resetAll={resetAll} generateData={generateData} orgList={orgList} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} setConnectorData={setConnectorData} setCompleteData={setCompleteData} completeData={completeData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated} handleClickSelectDataset={handleClickSelectDataset} handleChangeDatasetNameSelector={handleChangeDatasetNameSelector} />}
-            {!isDatasetIntegrationListModeOn && completeData.length > 0 && finalDatasetAfterIntegration?.length > 0 && < Preview isConditionForConnectorDataForSaveMet={isConditionForConnectorDataForSaveMet} isAllConditionForSaveMet={isAllConditionForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
+            {!isDatasetIntegrationListModeOn && completeData.length > 0 && finalDatasetAfterIntegration?.length > 0 && < Preview noOfRecords={noOfRecords} isConditionForConnectorDataForSaveMet={isConditionForConnectorDataForSaveMet} isAllConditionForSaveMet={isAllConditionForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
             {isDatasetIntegrationListModeOn && <span><ConnectorsList setConnectorTimeData={setConnectorTimeData} setIsEditModeOn={setIsEditModeOn} setConnectorIdForView={setConnectorIdForView} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} /></span>}
         </>
     )
