@@ -74,12 +74,12 @@ const Join = (props) => {
         index == indexShow && <span className='dataset_selector_in_integration' >
             <Segmented value={value} onChange={setValue} block options={["Join by", "Integrated data"]} />
 
-            <Row>
+            {value == "Join by" && <Row>
                 <Col className={styles.select_dataset_logo} style={{ display: "flex", justifyContent: "space-between", padding: "10px 50px" }} lg={12} sm={12} sx={12}>
                     <span > {value == "Join by" ? "Join" : "Integrated data preview"}</span>
                     <span style={{ cursor: "pointer" }} ><CloseIcon onClick={(e) => handleMoreDataShow(indexShow, false, e)} className='deleteicon' color='secondary' /></span>
                 </Col>
-            </Row>
+            </Row>}
 
             {value == "Join by" ? <>
                 <Row style={{ justifyContent: "center", width: "650px" }}>
@@ -146,18 +146,11 @@ const Join = (props) => {
                     <EachCardResult result={result} />
                 </Col>
             </Row>}
-
-
-
-
-
-
-
             <Row style={{ textAlign: "center" }}>
                 <Col lg={12}>
-                    {value == "Join by" ? <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
+                    {value == "Join by" ? <Button id='generate_button' disabled={each.type && each?.right_on?.length && connectorData.name && connectorData.desc > 0 && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
                         Preview
-                    </Button> : <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
+                    </Button> : <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 && result?.length ? true : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
                         Download
                     </Button>}
                 </Col>

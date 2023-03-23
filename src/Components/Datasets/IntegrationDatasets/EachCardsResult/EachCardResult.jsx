@@ -32,7 +32,7 @@ const EachCardResult = (props) => {
         }
     }, [result,])
     return (
-        <div style={{ height: 187, width: '100%', paddingBottom: 10 }}>
+        <div style={{ height: 270, width: '100%', paddingBottom: 10, paddingTop: 10 }}>
             <DataGrid
                 rows={row}
                 columns={col}
