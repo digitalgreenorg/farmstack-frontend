@@ -683,6 +683,9 @@ const AddDataset = (props) => {
         return main_list
     }
 
+    console.log("allStandardisedFile",allStandardisedFile, standardisedFileLink)
+
+
     const handleAddDatasetSubmit = (e) => {
         console.log(finalJson, "Main")
         e.preventDefault();
@@ -731,8 +734,9 @@ const AddDataset = (props) => {
         bodyFormData.append("constantly_update", Switchchecked);
         bodyFormData.append("data_capture_start", fromdate ? fromdate.toISOString() : "");
         bodyFormData.append("data_capture_end", todate ? todate.toISOString() : "");
-        bodyFormData.append("standardisation_template", standardisedFileLink);
-        bodyFormData.append("standardisation_config", allStandardisedFile);
+        console.log("allStandardisedFile",allStandardisedFile, standardisedFileLink)
+        bodyFormData.append("standardisation_template", JSON.stringify(standardisedFileLink));
+        bodyFormData.append("standardisation_config", JSON.stringify(allStandardisedFile));
 
 
         let obj = { "name": datasetname, description: govLawDesc, category: JSON.stringify(finalJson), user_map: id, geography: geography, deleted: JSON.stringify(idsForFilesDeleted), constantly_update: Switchchecked, data_capture_start: fromdate ? fromdate.toISOString() : "", data_capture_end: todate ? todate.toISOString() : "" }
