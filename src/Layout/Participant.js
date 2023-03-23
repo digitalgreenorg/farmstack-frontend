@@ -26,6 +26,7 @@ import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/Pro
 import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
 import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
+import ParticipantMain from "../Pages/ParticipantMain";
 
 function Participant(props) {
   return (
@@ -33,6 +34,7 @@ function Participant(props) {
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
           <ParticipantNavbar />
+          <ParticipantMain />
           <div className="minHeight67vhParticipantPage">
             <Switch>
               <Route
