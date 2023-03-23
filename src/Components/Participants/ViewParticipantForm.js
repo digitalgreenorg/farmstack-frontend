@@ -27,7 +27,8 @@ export default function ViewParticipantForm(props) {
         <>
             <Row style={useStyles.marginrowtop}>
                 <Col xs={12} sm={12} md={12} lg={12} style={useStyles.left}>
-                <div class="link" onClick={()=> history.push('/datahub/participants')}>
+                <div class="link" onClick={()=> history.push('/datahub/participants' +
+                  `?costeward=${props.coSteward == true}`)}>
                 <img
                     src={require('../../Assets/Img/back.svg')}
                     alt="new"

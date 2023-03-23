@@ -77,16 +77,6 @@ const StandardizationInOnbord = (props) => {
 
   };
 
-  const handleAllAttributesName = (e) => {
-
-    handleUnwantedSpace(allAttributes, e)
-  }
-
-  const handleAllAttributesDes = (e) => {
-
-    handleUnwantedSpace(allAttributesDes, e)
-  }
-
   const handleAddDatapoint = () => {
       if(!datapointName || !datapointDes ){
         return
@@ -263,7 +253,7 @@ const StandardizationInOnbord = (props) => {
       : UrlConstant.base_url + UrlConstant.standardization_post_data;
 
     setIsLoading(true);
-    HTTPService(method, url, payload, false, true, isaccesstoken)
+    HTTPService(method, url, payload, false, true, isOnborading ? isaccesstoken : false)
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
@@ -280,7 +270,9 @@ const StandardizationInOnbord = (props) => {
           if (isOnborading) {
             showBrandingScreen();
           }
+          else if (inSettings) {
           getStandardiziedTemplate()
+          }
         }
       })
       .catch((e) => {
@@ -290,7 +282,7 @@ const StandardizationInOnbord = (props) => {
         if (
           e.response != null &&
           e.response != undefined &&
-          e.response.status === 401
+          (e.response.status === 401 || e.response.status === 502)
         ) {
           setError(true);
           // success(
@@ -344,7 +336,7 @@ const StandardizationInOnbord = (props) => {
         if (
           e.response != null &&
           e.response != undefined &&
-          e.response.status === 401
+          (e.response.status === 401 || e.response.status === 502)
         ) {
           setError(true);
           // success(
@@ -392,7 +384,7 @@ const StandardizationInOnbord = (props) => {
         if (
           e.response != null &&
           e.response != undefined &&
-          e.response.status === 401
+          (e.response.status === 401 || e.response.status === 502)
         ) {
           setError(true);
           history.push(GetErrorHandlingRoute(e));
@@ -584,7 +576,6 @@ const StandardizationInOnbord = (props) => {
                           onChange={(e) =>
                             hanldeAttributeInputChange(index, 0, e.target.value)
                           }
-                          onKeyDown={handleAllAttributesName}
                           inputProps={{ maxLength: 250 }}
                         />
                         <TextField
@@ -601,7 +592,6 @@ const StandardizationInOnbord = (props) => {
                               e.target.value
                             )
                           }
-                          onKeyDown={handleAllAttributesDes}
                           inputProps={{ maxLength: 250 }}
                         />
                         <span
