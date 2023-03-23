@@ -130,11 +130,12 @@ const DatasetIntegration = (props) => {
             }
         }).catch((err) => {
             setAlertType("error")
-            setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Error occurred! Dataset could not fetched.")
-            // setLoader(false)
-            if (err?.response.status == 401) {
+            if (err?.response.status == 401 || err?.response.status == 502) {
                 history.push(GetErrorHandlingRoute(err));
+            } else {
+            setMessage(err?.response?.data?.error ? err?.response?.data?.error : "Error occurred! Dataset could not fetched.")
             }
+            // setLoader(false)
         })
     }
     const getFilesAssociatedForTheSelectedDatasets = async (source, list, org, i) => {
@@ -217,7 +218,7 @@ const DatasetIntegration = (props) => {
                             }, 2500)
                             return false
                         default:
-                            if (err?.response?.status == 401) {
+                            if (err?.response?.status == 401 || err?.response?.status == 502) {
                                 history.push(GetErrorHandlingRoute(err));
                             } else {
                                 setOpen(true);
@@ -236,7 +237,7 @@ const DatasetIntegration = (props) => {
             }
             else {
 
-                if (err?.response?.status == 401) {
+                if (err?.response?.status == 401 || err?.response?.status == 502) {
                     history.push(GetErrorHandlingRoute(err));
                 } else {
                     setOpen(true);
@@ -476,9 +477,12 @@ const DatasetIntegration = (props) => {
 
             // goToTop(2000)
         }).catch((err) => {
+            if (err?.response?.status == 401 || err?.response?.status == 502) {
+                history.push(GetErrorHandlingRoute(err));
+            } else {
             if (condition == "integrate") {
                 setIsAllConditionForSaveMet(false)
-            }
+            } 
             console.log(err.response.data)
             console.log(Object.values(err?.response?.data)[0])
             setOpen(true);
@@ -494,7 +498,7 @@ const DatasetIntegration = (props) => {
             //     setIsDatasetIntegrationListModeOn(true)
             // }
             goToTop(0)
-
+            }
         })
 
     }
