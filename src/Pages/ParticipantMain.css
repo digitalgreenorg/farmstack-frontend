@@ -90,6 +90,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 24px;
+    margin: 0 auto;
 }
 
 .button_style {
@@ -103,4 +104,276 @@
     border: 1px solid rgba(0, 171, 85, 0.48) !important;
     border-radius: 8px !important;
     color: #00AB55 !important;
+}
+
+.footer_content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.contact {
+    /* background: red; */
+}
+
+.links {
+    /* background: green; */
+}
+
+.staytuned {
+    /* background: dodgerblue; */
+}
+
+.footer_title {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.footer_light_text {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.footer_dark_text {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+}
+
+.link {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0038FF;
+
+}
+
+.button_text {
+    font-family: 'Montserrat' !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    line-height: 26px !important;
+}
+
+.input_field_subscribe {
+    border-radius: 8px !important;
+    width: 466px !important;
+    height: 56px;
+}
+
+.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+    padding-right: 0px !important;
+    border-radius: 8px !important;
+    border: 1px solid #00AB55 !important;
+}
+
+.input_field_subscribe .MuiOutlinedInput-root:hover {
+    border-color: #00AB55 !important;
+}
+
+.input_field_subscribe .MuiFormLabel-root.Mui-focused {
+    color: #00AB55 !important;
+}
+
+.input_field_subscribe .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #00AB55 !important;
+}
+
+
+@media only screen and (min-width: 600px) and (max-width: 900px) {
+    .title {
+        font-weight: 300;
+        font-size: 32px;
+        line-height: 60px;
+        text-align: center;
+        color: #585D60;
+    }
+
+    .description {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 27px;
+        text-align: center;
+        margin-top: 32px;
+        width: 700px;
+    }
+
+    .input_field {
+        margin-top: 40px !important;
+        width: 364px;
+        height: 44px;
+        border: 1px solid #919EAB;
+    }
+
+    .bold_title {
+        font-weight: 400;
+        font-size: 22px;
+        line-height: 39px;
+    }
+
+    .participants_card {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+        max-width: 100% !important;
+    }
+
+    .button_style {
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        line-height: 22px !important;
+        width: 360px !important;
+        height: 48px !important;
+    }
+
+    .footer_title {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    .footer_light_text {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .footer_dark_text {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .link {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .button_text {
+        font-weight: 700 !important;
+        font-size: 12px !important;
+        line-height: 22px !important;
+    }
+
+    .input_field_subscribe {
+        width: 364px !important;
+        height: 56px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    .title {
+        font-weight: 300;
+        font-size: 27px;
+        line-height: 60px;
+        text-align: center;
+        color: #585D60;
+    }
+
+    .description {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 27px;
+        text-align: center;
+        margin-top: 32px;
+        width: 700px;
+    }
+
+    .input_field {
+        margin-top: 40px !important;
+        width: 364px;
+        height: 44px;
+        border: 1px solid #919EAB;
+    }
+
+    .participants_card {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .card {
+        max-width: 100% !important;
+    }
+
+    .button_style {
+        font-weight: 700 !important;
+        font-size: 12px !important;
+        line-height: 22px !important;
+        width: 260px !important;
+        height: 48px !important;
+    }
+
+    .footer_title {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    .footer_light_text {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .footer_dark_text {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .link {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .button_text {
+        font-weight: 700 !important;
+        font-size: 12px !important;
+        line-height: 22px !important;
+    }
+
+    .input_field_subscribe {
+        width: 364px !important;
+        height: 56px;
+    }
+}
+
+/* short spacing styling */
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-2 {
+    margin-top: 2px;
+}
+
+.w-25 {
+    width: 25%
 }
