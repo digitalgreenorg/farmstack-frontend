@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Checkbox, Fab, FormControlLabel, TextField } from '@mui/material';
 import { CheckLg } from 'react-bootstrap-icons';
 import CardDetail from '../CardDetail/CardDetail';
-import { Button, Affix } from 'antd';
+import { Button, Affix, Alert } from 'antd';
 import { dateTimeFormat, handleUnwantedSpace, validateInputField } from '../../../../Utils/Common';
 import RegexConstants from '../../../../Constants/RegexConstants';
 import Join from '../Join/Join';
@@ -154,13 +154,13 @@ const DatasetSelect = (props) => {
             </Row>
             <Row className={styles.select_dataset_logo}>
                 <Col lg={12}>
-                    Dataset Integration details
+                    Dataset integration details
                     {isEditModeOn && <sub className={styles.subTime}>{"Last updated on: " + dateTimeFormat(connectorTimeData.last_updated, true)}</sub>}
                 </Col>
             </Row>
             <Row >
                 <Col lg={12}>
-                    <TextField onKeyDown={handleConnectorNameKeydown} error={errorConnectorName ? true : false} disabled={isEditModeOn ? true : false}
+                    <TextField inputProps={{ maxLength: 250 }} onKeyDown={handleConnectorNameKeydown} error={errorConnectorName ? true : false} disabled={isEditModeOn ? true : false}
                         helperText={errorConnectorName ? errorConnectorName : ""} style={{ marginBottom: "25px" }} value={connectorData.name} onChange={handleChange} name='name' fullWidth id="outlined-basic" label="Connector name" required autoFocus variant="outlined" />
                 </Col>
 
@@ -168,7 +168,7 @@ const DatasetSelect = (props) => {
             <Row>
                 <Col lg={12}>
                     <TextField onKeyDown={handleConnectorNameKeydown} error={errorConnectorDesc ? true : false} style={{ marginBottom: "25px" }} required value={connectorData.desc} onChange={handleChange} multiline name='desc'
-                        helperText={errorConnectorDesc ? errorConnectorDesc : ""} rows={4} fullWidth placeholder='Connector description not more that 512 character' id="outlined-basic" label="Connector description" variant="outlined" inputProps={{ maxLength: 512 }} />
+                        helperText={errorConnectorDesc ? errorConnectorDesc : ""} rows={4} fullWidth placeholder='Connector description not more that 512 character' id="outlined-basic" label="Connector description" variant="outlined" inputProps={{ maxLength: 250 }} />
                 </Col>
             </Row>
 
@@ -286,6 +286,9 @@ const DatasetSelect = (props) => {
                                         <div> {each?.type ? each?.type : "Not selected"}</div>
                                     </span>
                                 </div>
+                            </span>}
+                            {index !== indexShow && index < completeData.length - 1 && each.left_on?.length <= 0 && <span style={{ position: "absolute", right: "40px", bottom: "0px", width: "514px", height: "112px", borderRadius: "10px", padding: "10px 20px" }}>
+                                <Alert message="Please select join details to save the connector" type="error" />
                             </span>}
                             {index < completeData.length - 1 && <span onMouseOver={(e) => handleMoreDataShow(index, true, e)} style={{ border: index == indexShow && "1.5px solid #C09507" }} class={styles.vl} ></span>}
                         </span>

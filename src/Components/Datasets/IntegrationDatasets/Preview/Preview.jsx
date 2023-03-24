@@ -29,7 +29,7 @@ function NoRowsOverlay() {
 }
 const Preview = (props) => {
 
-    const { isConditionForConnectorDataForSaveMet, isAllConditionForSaveMet, connectorData, generateData, setIsDatasetIntegrationListModeOn, deleteConnector, counterForIntegrator, completeData, isEditModeOn, integrateMore, resetAll, generatedConnectorData, finalDatasetAfterIntegration, downloadDocument } = props
+    const { noOfRecords, isConditionForConnectorDataForSaveMet, isAllConditionForSaveMet, connectorData, generateData, setIsDatasetIntegrationListModeOn, deleteConnector, counterForIntegrator, completeData, isEditModeOn, integrateMore, resetAll, generatedConnectorData, finalDatasetAfterIntegration, downloadDocument } = props
     const [col, setCol] = useState([])
     const [row, setRow] = useState([])
 
@@ -112,8 +112,8 @@ const Preview = (props) => {
                     <ol style={{ width: "250px", height: "150px", overflowY: "auto", fontWeight: "600" }}>{completeData?.map((each) => <li> {each.dataset_name}</li>)}</ol>
                 </Col>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
-                    <div>No.of records</div>
-                    <div className='text-truncate'>{finalDatasetAfterIntegration?.length}</div>
+                    <div>No. of records</div>
+                    <div className='text-truncate'>{noOfRecords}</div>
                 </Col>
                 <Col lg={3} sm={12} className={styles.generate_btn_parent_col}>
                     {/* <Affix onChange={(affixed) => console.log(affixed, "read for dowload")} style={{ backgrond: "white", transition: "all 2s", visibility: counterForIntegrator != completeData.length ? "hidden" : "visible" }} offsetBottom={20}> */}
