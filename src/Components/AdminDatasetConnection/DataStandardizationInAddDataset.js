@@ -41,6 +41,7 @@ const DataStandardizationInAddDataset = (props) => {
   const [errorMessages, setErrorMessage] = useState("");
   const [maskedColumns, setMaskedColumns] = useState([]);
   const [standardisedFiles, setStandardisedFiles] = useState([]);
+  const [alreadyStanddardizedFiles,setAlreadyStanddardizedFiles] = useState([]);
 
   const history = useHistory();
   const [messageApi, contextHolder] = message.useMessage();
@@ -216,6 +217,8 @@ const DataStandardizationInAddDataset = (props) => {
       file_path: fileName,
       // is_standardised: true,
     };
+    if(alreadyStanddardizedFiles.includes(fileName)) payload['is_standardised'] = true
+    
     console.log("filename", fileName);
     setIsLoading(true);
     HTTPService("POST", url, payload, false, true)
@@ -313,11 +316,13 @@ const DataStandardizationInAddDataset = (props) => {
 
   const handleExistingStandardizedFiles = (fileNames) =>{
     let tmpAllFileName = [...fileNames]
+    let tmpAlreadyStanddardizedFiles = [...alreadyStanddardizedFiles]
     console.log('filename in handleExistingStandardizedFiles', allFileNames,tmpAllFileName )
     let tmpStandardized = {...allStandardisedFile}
 
     listOfFilesExistInDbForEdit.forEach((dataset,index)=>{
       tmpAllFileName.push(dataset.file)
+      tmpAlreadyStanddardizedFiles.push(dataset.file)
       console.log("tmpAllFileName in handleExistingStandardizedFiles", tmpAllFileName)
       if(Object.keys(dataset.standardisation_config).length){
         tmpStandardized[dataset.file] = dataset.standardisation_config
@@ -326,6 +331,7 @@ const DataStandardizationInAddDataset = (props) => {
     })
     setAllStandardisedFile(tmpStandardized)
     setAllFileNames(tmpAllFileName);
+    setAlreadyStanddardizedFiles(tmpAlreadyStanddardizedFiles)
   }
 
   useEffect(() => {
