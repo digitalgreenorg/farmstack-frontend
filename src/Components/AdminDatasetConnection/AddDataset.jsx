@@ -1096,7 +1096,15 @@ const AddDataset = (props) => {
 
                                         {
                                             activeStep == 2 ?
-                                        <DataStandardizationInAddDataset allStandardisedFile={allStandardisedFile} setAllStandardisedFile={setAllStandardisedFile} standardisedFileLink={standardisedFileLink} setStandardisedFileLink={setStandardisedFileLink} datasetname={datasetname} />
+                                        <DataStandardizationInAddDataset 
+                                        allStandardisedFile={allStandardisedFile}
+                                         setAllStandardisedFile={setAllStandardisedFile}
+                                        standardisedFileLink={standardisedFileLink}
+                                        setStandardisedFileLink={setStandardisedFileLink}
+                                        datasetname={datasetname}
+                                        listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit}
+                                        isDatasetEditModeOn={isDatasetEditModeOn}
+                                         />
                                             : 
                                             ""
                                         }

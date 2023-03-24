@@ -19,7 +19,9 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import { message, Space } from "antd";
 
 const DataStandardizationInAddDataset = (props) => {
-  const { datasetname, setAllStandardisedFile, allStandardisedFile, standardisedFileLink, setStandardisedFileLink } = props;
+  const { datasetname, setAllStandardisedFile, allStandardisedFile, standardisedFileLink, setStandardisedFileLink, listOfFilesExistInDbForEdit, isDatasetEditModeOn } = props;
+
+  console.log("type of ", typeof(listOfFilesExistInDbForEdit))
 
   const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([]);
   const [standardColumnNames, setStandardColumnNames] = useState([]);
@@ -57,6 +59,7 @@ const DataStandardizationInAddDataset = (props) => {
   };
 
   const datapointCategoryChange = (value, index) => {
+    console.log("value on change datapointCategoryChange", value)
 
     // first removing value of selected column
     let tmpStandardisedColum = [...standardisedColum]
@@ -98,6 +101,7 @@ const DataStandardizationInAddDataset = (props) => {
   }
 
   const getAllFileNames = () => {
+    // console.log("filename in getAllFileNames api call 1",allFileNames)
     let url =
       UrlConstant.base_url +
       UrlConstant.standardization_get_all_file_name +
@@ -105,9 +109,15 @@ const DataStandardizationInAddDataset = (props) => {
     setIsLoading(true);
     HTTPService("GET", url, false, false, true)
       .then((response) => {
+    // console.log("filename in getAllFileNames api call 2",allFileNames)
         setIsLoading(false);
         console.log("response", response);
-        setAllFileNames(response.data);
+        let tmpAllFileName = [...allFileNames,...response.data]
+        // console.log("filename in getAllFileNames api call 3", allFileNames,tmpAllFileName)
+        setAllFileNames(tmpAllFileName);
+        if(isDatasetEditModeOn){
+          handleExistingStandardizedFiles(tmpAllFileName)
+        }
       })
       .catch((e) => {
         setIsLoading(false);
@@ -227,7 +237,7 @@ const DataStandardizationInAddDataset = (props) => {
         } else {
           setError(false);
           success(
-            e.response.data && e.response.data.message
+            e?.response?.data && e.response?.data?.message
               ? e.response.data.message
               : "Something went wrong while getting file column names.",
             "error"
@@ -300,9 +310,34 @@ const DataStandardizationInAddDataset = (props) => {
 
   }
 
+  const handleExistingStandardizedFiles = (fileNames) =>{
+    let tmpAllFileName = [...fileNames]
+    console.log('filename in handleExistingStandardizedFiles', allFileNames,tmpAllFileName )
+    let tmpStandardized = {...allStandardisedFile}
+
+    listOfFilesExistInDbForEdit.forEach((dataset,index)=>{
+      tmpAllFileName.push(dataset.file)
+      console.log("tmpAllFileName in handleExistingStandardizedFiles", tmpAllFileName)
+      if(Object.keys(dataset.standardisation_config).length){
+        tmpStandardized[dataset.file] = dataset.standardisation_config
+      }
+      console.log("tmpStandardized in handleExistingStandardizedFiles",tmpStandardized)
+    })
+    setAllStandardisedFile(tmpStandardized)
+    setAllFileNames(tmpAllFileName);
+  }
+
   useEffect(() => {
     getAllFileNames();
     getStandardiziedTemplate();
+    console.log("isDatasetEditModeOn in standardistion", isDatasetEditModeOn)
+    // if(isDatasetEditModeOn){
+    //   handleExistingStandardizedFiles()
+    // }
+
+    
+    
+    
   }, []);
 
   useEffect(() => {
@@ -313,9 +348,37 @@ const DataStandardizationInAddDataset = (props) => {
     if(allStandardisedFile[fileName]){
       console.log("allStandardisedFile[fileName]",allStandardisedFile[fileName], standardisedFileLink)
       setStandardisedTempleteCategory(allStandardisedFile[fileName]?.standardised_templete_category)
-      setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
       setMaskedColumns(allStandardisedFile[fileName]?.masked_columns)
+      
+      // Chnage object reference
+      if(isDatasetEditModeOn){
+      let tmpArr = [...allStandardisedFile[fileName]?.standardised_templete_category];
+      tmpArr.forEach((attribute,index)=>{
+        allStandardisedTempleteCategory.forEach(((tmpAttribute)=>{
+          if(attribute?.id==tmpAttribute?.id){
+            tmpArr[index] = tmpAttribute
+          }
+          // console.log("checking true of false in useeffect",attribute.id==tmpAttribute.id,attribute.id,tmpAttribute.id,attribute)
+        }))
+      })
+      // tmpArr[index] = value;
+      setStandardisedTempleteCategory(tmpArr);
+      setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
+    
+    // getting attribute keys to show on render
+    let tmpColumn = [...standardisedTempleteAttribute];
+    tmpArr.forEach((attribute, index) => {
+      console.log("attribute in for each", attribute);
+      if (attribute?.datapoint_attributes)
+      tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+    });
+    setStandardisedTempleteAttribute(tmpColumn);
+  }
+
+  if(!isDatasetEditModeOn) setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
+
     }
+
   }, [fileName]);
   console.log("allFileNames", allFileNames);
   console.log(
@@ -325,7 +388,8 @@ const DataStandardizationInAddDataset = (props) => {
     allFileNames
   );
 
-  console.log('all data',keysInUploadedDataset, standardisedTempleteCategory, standardisedColum)
+  console.log('all data',keysInUploadedDataset, standardisedTempleteCategory, standardisedColum,maskedColumns)
+  console.log("listOfFilesExistInDbForEdit", listOfFilesExistInDbForEdit)
   return (
     <div className="data-standardization-in-add-dataset-container">
       {contextHolder}
@@ -354,7 +418,7 @@ const DataStandardizationInAddDataset = (props) => {
               {allFileNames?.map((item, index) => {
                 console.log("file name in loop", item);
                 return (
-                  <MenuItem key={index} value={item}>
+                  <MenuItem key={item} value={item}>
                     {item}
                   </MenuItem>
                 );
@@ -394,8 +458,8 @@ const DataStandardizationInAddDataset = (props) => {
       <div className="data_standardization_column">
         {keysInUploadedDataset?.map((keyNames, index) => {
           return (
-            <>
-              <Row className="data_standardization_cloumn_container">
+            <div key={index}>
+              <Row  className="data_standardization_cloumn_container">
                 <Col
                   xs={4}
                   sm={4}
@@ -418,14 +482,20 @@ const DataStandardizationInAddDataset = (props) => {
                     <Select
                       labelId="demo-select-small"
                       id="demo-select-small"
-                      value={standardisedTempleteCategory?.[index] ? standardisedTempleteCategory?.[index] : ""}
+                      value={
+                        standardisedTempleteCategory?.[index]
+                         ? standardisedTempleteCategory?.[index] :
+                          ""
+                        }
                       onChange={(e) =>
                         datapointCategoryChange(e.target.value, index)
                       }
                     >
-                      {allStandardisedTempleteCategory?.map((item, index) => {
+                    {/* { console.log(standardisedTempleteCategory?.[index],allStandardisedTempleteCategory, "THIS IS THE VVALUENBASBAHUSB")} */}
+                      {allStandardisedTempleteCategory?.map((item) => {
+                        // console.log("This is to check value of object reff",standardisedTempleteCategory?.[index]===item,standardisedTempleteCategory?.[index],item)
                         return (
-                          <MenuItem key={item} value={item}>
+                          <MenuItem key={item.datapoint_category} value={item}>
                             {item.datapoint_category}
                           </MenuItem>
                         );
@@ -452,6 +522,7 @@ const DataStandardizationInAddDataset = (props) => {
                         setStandardisedColumn(tmpArr);
                       }}
                     >
+                      {console.log("standardisedColum[index]",standardisedColum[index],standardisedTempleteAttribute[index])}
                       {standardisedTempleteAttribute[index]?.map(
                         (item, index) => {
                           return (
@@ -475,7 +546,7 @@ const DataStandardizationInAddDataset = (props) => {
                 </Col>
               </Row>
               <hr />
-            </>
+              </div>
           );
         })}
       </div>
