@@ -57,9 +57,9 @@ const DatasetIntegration = (props) => {
     const [completeData, setCompleteData] = useState([
 
         //In dev mode this is the dummy data 
-        { org_id: "A", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c1", "c2", "c3"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
-        { org_id: "B", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c4", "c5", "c6"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
-        { org_id: "C", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c7", "c8", "c9"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        // { org_id: "A", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c1", "c2", "c3"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        // { org_id: "B", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c4", "c5", "c6"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        // { org_id: "C", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c7", "c8", "c9"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
 
     ])
 
@@ -262,6 +262,8 @@ const DatasetIntegration = (props) => {
             setIsConditionForConnectorDataForSaveMet(false)
             setIsAllConditionForSaveMet(false)
         }
+        setIntegratedFilePath("")
+        setNoOfRecords(0)
         setTemplate({ ...empty })
         setConnectorId("")
         setCounterForIntegration(2)
@@ -325,7 +327,7 @@ const DatasetIntegration = (props) => {
         //set connector id for deleting the connector if user wants
         setConnectorId(dataForRender?.id)
         //file path setting
-        setIntegratedFilePath(dataForRender?.integrated_file)
+        setIntegratedFilePath(dataForRender?.integrated_file?.replace("/media", ""))
         setNoOfRecords(dataForRender?.no_of_records ? dataForRender?.no_of_records : 0)
 
         //set already generated data
