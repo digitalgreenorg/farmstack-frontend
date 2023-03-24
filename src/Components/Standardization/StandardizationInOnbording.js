@@ -128,23 +128,21 @@ const StandardizationInOnbord = (props) => {
     console.log('error array', accordionDatapointNameError)
 
       // Check if category name already exist or not
-      let returnFromFuntion = false
-      tmpAllDatapoints.forEach((category)=>{
-        if(category.datapoint_category === newValue) {
-          let tmpDatapointNameError = [...accordionDatapointNameError]
-          tmpDatapointNameError[index] = ` ${newValue} Category already exists!`
-          setAccordionDatapointNameError(tmpDatapointNameError)
-          returnFromFuntion = true;
-          return
-        }
-      })
-      if(returnFromFuntion) return
-
-      let tmpDatapointNameError = [...accordionDatapointNameError]
-          tmpDatapointNameError[index] = ""
-          setAccordionDatapointNameError(tmpDatapointNameError)
-
-    
+      //let returnFromFuntion = false
+      // tmpAllDatapoints.forEach((category)=>{
+      //   if(category.datapoint_category === newValue) {
+      //     let tmpDatapointNameError = [...accordionDatapointNameError]
+      //    // tmpDatapointNameError[index] = ` ${newValue} Category already exists!`
+      //     //setAccordionDatapointNameError(tmpDatapointNameError)
+      //     returnFromFuntion = true;
+      //     return
+      //   }
+      // })
+      // if(returnFromFuntion) return
+      // let tmpDatapointNameError = [...accordionDatapointNameError]
+      //     tmpDatapointNameError[index] = ""
+      //     setAccordionDatapointNameError(tmpDatapointNameError)
+ //commented out this error handling func, becoz it is handled in catch block of Submit   
     tmpAllDatapoints[index].datapoint_category = newValue;
     setAllDataPoints(tmpAllDatapoints);
   }
@@ -174,6 +172,9 @@ const StandardizationInOnbord = (props) => {
 
     if(newValue.length>=251){
       return
+    }
+    if(newValue == " "){
+      newValue.replace("")
     }
     setSaveButtonEnabled(true)
 
@@ -294,8 +295,8 @@ const StandardizationInOnbord = (props) => {
         } else {
           setError(false);
           success(
-            e.response.data && e.response.data.message
-              ? e.response.data.message
+            e.response.data
+              ? e.response.data
               : "Something went wrong.",
             "error"
           );
