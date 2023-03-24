@@ -214,6 +214,7 @@ const DataStandardizationInAddDataset = (props) => {
 
     let payload = {
       file_path: fileName,
+      // is_standardised: true,
     };
     console.log("filename", fileName);
     setIsLoading(true);
