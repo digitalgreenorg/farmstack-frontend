@@ -11,7 +11,7 @@ const EachCardResult = (props) => {
             let val = []
 
             for (let key in result[0]) {
-                let obj = { field: key, headerName: key, width: 150 }
+                let obj = { field: key, headerName: key }
                 val.push(obj)
             }
             let rowArr = []

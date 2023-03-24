@@ -151,7 +151,10 @@ const Join = (props) => {
                 <Col lg={12}>
                     {value == "Join by" ? <Button id='generate_button' disabled={each.type && each?.right_on?.length && connectorData.name && connectorData.desc && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
                         Preview
-                    </Button> : <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 && result?.length ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { downloadDocument(result) }}>
+                    </Button> : <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 && result?.length ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => {
+                        downloadDocument(result)
+                        handleMoreDataShow(indexShow, false, e)
+                    }}>
                         Download
                     </Button>}
                 </Col>
