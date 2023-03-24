@@ -329,10 +329,10 @@ const DatasetIntegration = (props) => {
         setConnectorId(dataForRender?.id)
         //file path setting
         setIntegratedFilePath(dataForRender?.integrated_file?.replace("/media", ""))
-        setNoOfRecords(dataForRender?.no_of_records ? dataForRender?.no_of_records : 0)
+        setNoOfRecords(dataForRender?.data?.no_of_records ? dataForRender?.data?.no_of_records : 0)
 
         //set already generated data
-        setFinalDatasetAfterIntegration([...dataForRender?.data ? JSON.parse(dataForRender?.data) : []])
+        setFinalDatasetAfterIntegration([...dataForRender?.data?.records ? JSON.parse(dataForRender?.data?.records) : []])
 
         //A function to generate complete Data from maps of dataForRender
         completeDataGenerator(dataForRender?.maps?.length > 0 ? dataForRender?.maps : [])
