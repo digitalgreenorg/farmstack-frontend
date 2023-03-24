@@ -332,7 +332,7 @@ const DatasetIntegration = (props) => {
         setNoOfRecords(dataForRender?.data?.no_of_records ? dataForRender?.data?.no_of_records : 0)
 
         //set already generated data
-        setFinalDatasetAfterIntegration([...dataForRender?.data?.records ? JSON.parse(dataForRender?.data?.records) : []])
+        setFinalDatasetAfterIntegration([...dataForRender?.data?.data ? (dataForRender?.data?.data) : []])
 
         //A function to generate complete Data from maps of dataForRender
         completeDataGenerator(dataForRender?.maps?.length > 0 ? dataForRender?.maps : [])
@@ -423,8 +423,8 @@ const DatasetIntegration = (props) => {
                 setIntegratedFilePath(res?.data?.integrated_file ? res?.data?.integrated_file : "")
                 setNoOfRecords(res?.data?.no_of_records ? res?.data?.no_of_records : 0)
 
-                setFinalDatasetAfterIntegration([...JSON.parse(res.data?.data)])
-                let allKeys = JSON.parse(res.data.data)?.length > 0 ? Object.keys(JSON.parse(res.data.data)[0]) : []
+                setFinalDatasetAfterIntegration([...res.data?.data?.data])
+                let allKeys = (res.data?.data?.data)?.length > 0 ? Object.keys((res.data.data.data)[0]) : []
                 if (allKeys.length > 1) {
                     let arr = [...completeData]
                     let obj = arr[index + 1]
@@ -434,8 +434,8 @@ const DatasetIntegration = (props) => {
                     obj["left_on"] = []
                     console.log("HERE IS THE CALL", arr.length, index,)
                     if (arr.length > 2 && index != arr.length - 2) {
-                        for (let i = index; i < arr.length; i++) {
-                            arr["left_on"] = []
+                        for (let i = index + 1; i < arr.length; i++) {
+                            arr[i]["left_on"] = []
                         }
                         setIsAllConditionForSaveMet(false)
                     } else {
@@ -530,7 +530,7 @@ const DatasetIntegration = (props) => {
             uri = UrlConstant.base_url + integratedFilePath
 
         }
-        FileSaver.saveAs(uri, connectorData.name ? connectorData.name : "Integrated_dataset");
+        download(uri, connectorData.name ? connectorData.name : "Integrated_dataset");
     }
 
     //number of integration handler
@@ -540,13 +540,11 @@ const DatasetIntegration = (props) => {
         }
     }
 
-    const download = (data) => {
-        const blob = new Blob([data], { type: 'text/csv' })
-        const url = window.URL.createObjectURL(blob);
+    const download = (url, connector_name) => {
         const a = document.createElement('a');
         a.setAttribute('hidden', '')
         a.setAttribute('href', url)
-        a.setAttribute('download', "Dataset.csv");
+        a.setAttribute('download', connector_name);
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -598,7 +596,7 @@ const DatasetIntegration = (props) => {
                 </Row>
             </Container>
             {!isDatasetIntegrationListModeOn && <DatasetSelect connectorTimeData={connectorTimeData} isEditModeOn={isEditModeOn} setIsConditionForConnectorDataForSaveMet={setIsConditionForConnectorDataForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} setIsEditModeOn={setIsEditModeOn} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} integrateMore={integrateMore} empty={empty} setTemplate={setTemplate} template={template} counterForIntegrator={counterForIntegrator} resetAll={resetAll} generateData={generateData} orgList={orgList} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} setConnectorData={setConnectorData} setCompleteData={setCompleteData} completeData={completeData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated} handleClickSelectDataset={handleClickSelectDataset} handleChangeDatasetNameSelector={handleChangeDatasetNameSelector} />}
-            {!isDatasetIntegrationListModeOn && completeData.length > 0 && finalDatasetAfterIntegration?.length > 0 && < Preview noOfRecords={noOfRecords} isConditionForConnectorDataForSaveMet={isConditionForConnectorDataForSaveMet} isAllConditionForSaveMet={isAllConditionForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
+            {!isDatasetIntegrationListModeOn && completeData.length > 0 && finalDatasetAfterIntegration?.length > 0 && < Preview integratedFilePath={integratedFilePath} noOfRecords={noOfRecords} isConditionForConnectorDataForSaveMet={isConditionForConnectorDataForSaveMet} isAllConditionForSaveMet={isAllConditionForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
             {isDatasetIntegrationListModeOn && <span><ConnectorsList setConnectorTimeData={setConnectorTimeData} setIsEditModeOn={setIsEditModeOn} setConnectorIdForView={setConnectorIdForView} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} /></span>}
         </>
     )
