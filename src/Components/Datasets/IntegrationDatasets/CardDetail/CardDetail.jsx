@@ -79,9 +79,9 @@ const CardDetail = (props) => {
                     </Col>
                     <Col lg={3}>
                         <div>Dataset name</div>
-                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.dataset_name ? data.dataset_name : ""}</div></Col>
+                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.dataset_name ? decodeURI(data.dataset_name) : ""}</div></Col>
                     <Col lg={3}> <div>File name</div>
-                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.file_name ? decodeURI(data.file_name.split("/")[data.file_name.split("/").length - 1]) : ""}</div></Col>
+                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.file_name ? decodeURI(data.file_name.split("/").at(-1) ? data.file_name.split("/").at(-1) : "") : ""}</div></Col>
                     <Col lg={2}> <span style={{ borderRadius: "50%", minHeight: "34px", width: "34px", background: "white", display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "auto" }}>
                         <Popconfirm
                             title="Delete the dataset file"

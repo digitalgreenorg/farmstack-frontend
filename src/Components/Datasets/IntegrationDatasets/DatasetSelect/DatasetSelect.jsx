@@ -187,7 +187,7 @@ const DatasetSelect = (props) => {
             </Row>
             <Row className={styles.select_dataset_logo}>
                 <Col lg={12}>
-                    Dataset Integration details
+                    Dataset integration details
                     {isEditModeOn && <sub className={styles.subTime}>{"Last updated on: " + dateTimeFormat(connectorTimeData.last_updated, true)}</sub>}
                 </Col>
             </Row>

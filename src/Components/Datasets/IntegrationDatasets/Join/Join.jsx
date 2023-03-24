@@ -22,6 +22,7 @@ import smallG from "../../../../Assets/Img/Join type/Color/Tick icon.svg"
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Segmented } from 'antd';
 import EachCardResult from '../EachCardsResult/EachCardResult';
+import { downloadDocument } from './utils';
 const Join = (props) => {
     const { value, setValue, handleMoreDataShow, indexShow, result, file_right, file_left, setCompleteJoinData, right_on, left_on, completedJoinData, type, left, right, index, each, resetAll, joinType, setJoinType, connectorData, setCompleteData, completeData, listOfDatsetFileAvailableForColumn, generateData } = props
     const [joinTypeArr, setJoinTypeArr] = useState([
@@ -148,9 +149,9 @@ const Join = (props) => {
             </Row>}
             <Row style={{ textAlign: "center" }}>
                 <Col lg={12}>
-                    {value == "Join by" ? <Button id='generate_button' disabled={each.type && each?.right_on?.length && connectorData.name && connectorData.desc > 0 && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
+                    {value == "Join by" ? <Button id='generate_button' disabled={each.type && each?.right_on?.length && connectorData.name && connectorData.desc && each?.left_on?.length > 0 ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
                         Preview
-                    </Button> : <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 && result?.length ? true : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { generateData(index, "integrate") }}>
+                    </Button> : <Button id='generate_button' disabled={each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0 && result?.length ? false : true} className={(each.type && each?.right_on?.length > 0 && each?.left_on?.length > 0) ? styles.generate_data_btn : styles.generate_data_btn_dis} onClick={(e) => { downloadDocument(result) }}>
                         Download
                     </Button>}
                 </Col>
