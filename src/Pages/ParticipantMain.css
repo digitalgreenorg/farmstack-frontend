@@ -175,21 +175,7 @@
 .input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
     padding-right: 0px !important;
     border-radius: 8px !important;
-    border: 1px solid #00AB55 !important;
 }
-
-.input_field_subscribe .MuiOutlinedInput-root:hover {
-    border-color: #00AB55 !important;
-}
-
-.input_field_subscribe .MuiFormLabel-root.Mui-focused {
-    color: #00AB55 !important;
-}
-
-.input_field_subscribe .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: #00AB55 !important;
-}
-
 
 @media only screen and (min-width: 600px) and (max-width: 900px) {
     .title {

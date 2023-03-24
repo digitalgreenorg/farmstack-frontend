@@ -124,7 +124,21 @@ const ParticipantMain = () => {
                         <div className='footer_light_text mb-30'>latest news, etc.,</div>
                         <div className='footer_light_text'>Our newsletter is sent once a month every first week.</div>
                         <div className='mt-20 mb-20'>
-                            <TextField className="input_field_subscribe" placeholder="Enter your e-mail id" variant='outlined'
+                            <TextField
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: '#00AB55'
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#00AB55'
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#00AB55'
+                                        },
+                                    }
+                                }}
+                                className="input_field_subscribe" placeholder="Enter your e-mail id" variant='outlined'
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position='end'>
