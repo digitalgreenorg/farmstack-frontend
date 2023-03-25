@@ -424,9 +424,12 @@ const DataStandardizationInAddDataset = (props) => {
             >
               {allFileNames?.map((item, index) => {
                 console.log("file name in loop", item);
+                let fileName = item.split('/')
                 return (
                   <MenuItem key={item} value={item}>
-                    {item}
+                    {
+                        fileName[fileName.length-1]
+                    }
                   </MenuItem>
                 );
               })}
