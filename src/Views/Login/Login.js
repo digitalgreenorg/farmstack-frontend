@@ -266,6 +266,8 @@ export default function Login(props) {
               setOrgIdState(response?.data?.org_id);
               setOtpError(false);
               setisProfile(true);
+              // setIsDataStandardization(true)
+              // setIsDataStandardization(true)
               setisOtp(false);
             }
             // console.log(response.json());
@@ -1123,6 +1125,7 @@ export default function Login(props) {
               setOnBoardedTrue={setOnBoardedTrue}
             />
           )}
+          
         </div>
       )}
       {/* <div style={{ position: "absolute", bottom: 0 }}><Footer/></div> */}
@@ -1140,6 +1143,8 @@ export default function Login(props) {
           setisBranding(true);
         }} isOnborading={true}/>
         )
+        
+        
       }
     </div>
   );
