@@ -279,6 +279,9 @@ const DataStandardizationInAddDataset = (props) => {
       "standardisation_configuration": standardisationConfiguration,
       "file_path": fileName
     }
+
+    if(alreadyStanddardizedFiles.includes(fileName)) payload['is_standardised'] = true
+
     let url = UrlConstant.base_url + UrlConstant.standardise_file
     setIsLoading(true)
     HTTPService("POST", url, payload, false, true)
