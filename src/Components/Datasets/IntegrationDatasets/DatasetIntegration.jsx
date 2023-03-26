@@ -27,7 +27,7 @@ const DatasetIntegration = (props) => {
 
     const [isConditionForConnectorDataForSaveMet, setIsConditionForConnectorDataForSaveMet] = useState(false)
     const [isAllConditionForSaveMet, setIsAllConditionForSaveMet] = useState(false)
-
+    const [temporaryDeletedCards, setTemporaryDeletedCards] = useState([])
     const [isDatasetIntegrationListModeOn, setIsDatasetIntegrationListModeOn] = useState(true)
     const [top, setTop] = useState(10);
     const [orgList, setOrgList] = useState([])
@@ -263,6 +263,7 @@ const DatasetIntegration = (props) => {
             setIsConditionForConnectorDataForSaveMet(false)
             setIsAllConditionForSaveMet(false)
         }
+        setTemporaryDeletedCards([])
         setIntegratedFilePath("")
         setNoOfRecords(0)
         setTemplate({ ...empty })
@@ -325,6 +326,9 @@ const DatasetIntegration = (props) => {
         setConnectorData({
             ...completeData, name: dataForRender?.name ? dataForRender?.name : "", desc: dataForRender?.description ? dataForRender?.description : ""
         })
+        if (dataForRender?.name && dataForRender?.description) {
+            setIsConditionForConnectorDataForSaveMet(true)
+        }
         //set connector id for deleting the connector if user wants
         setConnectorId(dataForRender?.id)
         //file path setting
@@ -339,20 +343,22 @@ const DatasetIntegration = (props) => {
     }
 
     //this function is being used to generate the data at first place, Save the generated data and delete the saved connectors
-    const generateData = (index, condition,) => {
+    const generateData = (index, condition, map_id) => {
         let connector_id = connectorId
-        let map_id
+        // let map_id
         if (condition == "view_details") {
             connector_id = connectorIdForView
-        } else if (condition == "delete_map_card" && isEditModeOn) {
-            map_id = completeData[index]["map_id"] ? completeData[index]["map_id"] : ""
         }
+        //  else if (condition == "delete_map_card" && isEditModeOn) {
+        //     map_id = completeData[index]["map_id"] ? completeData[index]["map_id"] : ""
+        //     setTemporaryDeletedCards([...temporaryDeletedCards, map_id])
+        //     return
+        // }
         //condition can be ===> [integrate, delete, save] any one of the listed elements
         setLoader(true)
         let url = ""
 
         let payload = []
-
 
         // console.log(index, completeData, condition, "MAIN DATA")
         if (condition !== "view_details" && condition != "delete" && condition != "delete_map_card") {
@@ -439,7 +445,7 @@ const DatasetIntegration = (props) => {
                         }
                         setIsAllConditionForSaveMet(false)
                     } else {
-                        setIsConditionForConnectorDataForSaveMet(true)
+                        // setIsConditionForConnectorDataForSaveMet(true)
                         setIsAllConditionForSaveMet(true)
                     }
                     arr[index] = { ...first_obj }
@@ -556,6 +562,7 @@ const DatasetIntegration = (props) => {
 
 
     useEffect(() => {
+
         getDataList("org_names")
         if (isEditModeOn && connectorIdForView) {
             generateData(0, "view_details")
@@ -595,8 +602,8 @@ const DatasetIntegration = (props) => {
                     </Col>
                 </Row>
             </Container>
-            {!isDatasetIntegrationListModeOn && <DatasetSelect connectorTimeData={connectorTimeData} isEditModeOn={isEditModeOn} setIsConditionForConnectorDataForSaveMet={setIsConditionForConnectorDataForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} setIsEditModeOn={setIsEditModeOn} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} integrateMore={integrateMore} empty={empty} setTemplate={setTemplate} template={template} counterForIntegrator={counterForIntegrator} resetAll={resetAll} generateData={generateData} orgList={orgList} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} setConnectorData={setConnectorData} setCompleteData={setCompleteData} completeData={completeData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated} handleClickSelectDataset={handleClickSelectDataset} handleChangeDatasetNameSelector={handleChangeDatasetNameSelector} />}
-            {!isDatasetIntegrationListModeOn && completeData.length > 0 && finalDatasetAfterIntegration?.length > 0 && < Preview integratedFilePath={integratedFilePath} noOfRecords={noOfRecords} isConditionForConnectorDataForSaveMet={isConditionForConnectorDataForSaveMet} isAllConditionForSaveMet={isAllConditionForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
+            {!isDatasetIntegrationListModeOn && <DatasetSelect setIsAllConditionForSaveMet={setIsAllConditionForSaveMet} temporaryDeletedCards={temporaryDeletedCards} setTemporaryDeletedCards={setTemporaryDeletedCards} connectorTimeData={connectorTimeData} isEditModeOn={isEditModeOn} setIsConditionForConnectorDataForSaveMet={setIsConditionForConnectorDataForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} setIsEditModeOn={setIsEditModeOn} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} integrateMore={integrateMore} empty={empty} setTemplate={setTemplate} template={template} counterForIntegrator={counterForIntegrator} resetAll={resetAll} generateData={generateData} orgList={orgList} joinType={joinType} setJoinType={setJoinType} connectorData={connectorData} setConnectorData={setConnectorData} setCompleteData={setCompleteData} completeData={completeData} finalDataNeedToBeGenerated={finalDataNeedToBeGenerated} setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated} handleClickSelectDataset={handleClickSelectDataset} handleChangeDatasetNameSelector={handleChangeDatasetNameSelector} />}
+            {!isDatasetIntegrationListModeOn && completeData.length > 0 && finalDatasetAfterIntegration?.length > 0 && < Preview temporaryDeletedCards={temporaryDeletedCards} integratedFilePath={integratedFilePath} noOfRecords={noOfRecords} isConditionForConnectorDataForSaveMet={isConditionForConnectorDataForSaveMet} isAllConditionForSaveMet={isAllConditionForSaveMet} isEdited={isEdited} setIsEdited={setIsEdited} generateData={generateData} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} deleteConnector={deleteConnector} counterForIntegrator={counterForIntegrator} completeData={completeData} isEditModeOn={isEditModeOn} integrateMore={integrateMore} resetAll={resetAll} connectorData={connectorData} downloadDocument={downloadDocument} finalDatasetAfterIntegration={finalDatasetAfterIntegration} />}
             {isDatasetIntegrationListModeOn && <span><ConnectorsList setConnectorTimeData={setConnectorTimeData} setIsEditModeOn={setIsEditModeOn} setConnectorIdForView={setConnectorIdForView} setIsDatasetIntegrationListModeOn={setIsDatasetIntegrationListModeOn} /></span>}
         </>
     )
