@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
 const CardDetail = (props) => {
-    const { generateData, setCompleteJoinData, completedJoinData, setTotalCounter, orgList, data, setCompleteData, index, completeData } = props
+    const { setIsAllConditionForSaveMet, temporaryDeletedCards, setTemporaryDeletedCards, generateData, setCompleteJoinData, completedJoinData, setTotalCounter, orgList, data, setCompleteData, index, completeData } = props
 
     const handleCheckColumns = (e, value) => {
         let arr = [...completeData]
@@ -39,7 +39,19 @@ const CardDetail = (props) => {
 
     const handleDeleteCard = () => {
         let arr = [...completeData]
-        generateData(index, "delete_map_card")
+        // generateData(index, "delete_map_card")
+
+        if ((index == arr.length - 1) && arr.length > 2) {
+            setIsAllConditionForSaveMet(true)
+        } else {
+            setIsAllConditionForSaveMet(false)
+        }
+        let deleteArr = []
+        if (index != arr.length - 1) {
+            deleteArr.push(completeData[index]["map_id"])
+        }
+        setTemporaryDeletedCards([...temporaryDeletedCards, ...deleteArr])
+        console.log(temporaryDeletedCards)
         // .then(()=>{
         let obj
         if (index != 0) {
@@ -66,9 +78,9 @@ const CardDetail = (props) => {
                     </Col>
                     <Col lg={3}>
                         <div>Dataset name</div>
-                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.dataset_name ? data.dataset_name : ""}</div></Col>
+                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.dataset_name ? decodeURI(data.dataset_name) : ""}</div></Col>
                     <Col lg={3}> <div>File name</div>
-                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.file_name ? data.file_name.split("/")[data.file_name.split("/").length - 1] : ""}</div></Col>
+                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.file_name ? decodeURI(data.file_name.split("/")[data.file_name.split("/").length - 1]) : ""}</div></Col>
                     <Col lg={2}> <span style={{ borderRadius: "50%", minHeight: "34px", width: "34px", background: "white", display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "auto" }}>  <DeleteIcon fontSize='small' id="deleteFileBtn" color='secondary' onClick={handleDeleteCard} className={styles.deleteicon + " deleteicon"} /> </span></Col>
                 </Row>
                 <Row className={styles.selectAllRow}>

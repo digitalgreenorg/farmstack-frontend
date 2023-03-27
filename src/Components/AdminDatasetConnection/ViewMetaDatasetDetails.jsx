@@ -388,7 +388,10 @@ export default function ViewMetaDatasetDetails(props) {
                 <span className='downloadfiles' >
                   {userType != "guest" ?
                     <>
-                      {fileData.map((downloadfile) => (
+                      {fileData.map((downloadfile) => {
+                        console.log('downloadfile',downloadfile)
+                        let filePathToDownload = downloadfile?.standardised_file ? downloadfile?.standardised_file : ""
+                        return(
                         <Row
                           //   className="supportViewDetailsback"
                           className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
@@ -398,16 +401,17 @@ export default function ViewMetaDatasetDetails(props) {
                             cursor: `${userType != "guest" ? "pointer" : ""}`
                           }}
                           onClick={() =>
-                            downloadAttachment(UrlConstant.base_url + downloadfile?.file ? downloadfile?.file : "", downloadfile?.file?.split("/").pop())
+                            downloadAttachment(`${UrlConstant.base_url}${filePathToDownload}`, "")
                           }
                         >
                           <FileDownloadSharpIcon
                             style={{ marginRight: "20px" }} />
-                          <Row>{downloadfile?.file?.split("/").pop()}
+                          <Row>{downloadfile?.standardised_file?.split("/").pop()}
                             {/* <hr className="separatorline" /> */}
                             {/* m */}
                           </Row>
-                        </Row>))}
+                        </Row>
+                        )})}
                     </> : " "}
                   {/* <hr className="separatorline" /> */}
                 </span>
