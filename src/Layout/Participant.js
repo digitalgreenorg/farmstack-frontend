@@ -30,14 +30,11 @@ import ParticipantMain from "../Pages/ParticipantMain";
 import DataSets from "../Pages/DataSets";
 
 function Participant(props) {
-
   return (
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
           <ParticipantNavbar />
-          {/* <ParticipantMain /> */}
-          <DataSets />
           <div className="minHeight67vhParticipantPage">
             <Switch>
               <Route
@@ -45,6 +42,18 @@ function Participant(props) {
                 path="/participant/datasets"
                 component={DatasetParticipant}
               />
+              {/* temporary routes added - start */}
+              <Route
+                exact
+                path="/participant/new_datasets"
+                component={DataSets}
+              />
+              <Route
+                exact
+                path="/participant/new_participants"
+                component={ParticipantMain}
+              />
+              {/* end */}
               <Route
                 exact
                 path="/participant/connectors"

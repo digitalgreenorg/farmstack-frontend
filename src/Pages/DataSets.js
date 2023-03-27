@@ -1,5 +1,7 @@
-import { Box, Button, Card, Divider, IconButton, InputAdornment, TextField } from '@mui/material';
 import React, { useState } from 'react'
+import { Box, Button, Card, Divider, IconButton, InputAdornment, TextField } from '@mui/material';
+import { useHistory } from "react-router-dom";
+import { isLoggedInUserAdmin, isLoggedInUserParticipant } from '../Utils/Common'
 import './DataSets.css';
 
 const cardSx = {
@@ -9,8 +11,19 @@ const cardSx = {
         cursor: 'pointer'
     }
 };
-const DataSets = () => {
+const DataSets = (props) => {
+    const history = useHistory();
     const [state, setState] = useState([0, 1, 2, 3, 4, 5])
+
+    const addDataset = () => {
+        // if (isLoggedInUserAdmin()) {
+        //     return "/datahub/datasets/add";
+        // } else if (isLoggedInUserParticipant()) {
+        //     return "/participant/datasets/add";
+        // }
+        console.log(props);
+        console.log(history);
+    }
     return (
         <>
             <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -21,7 +34,21 @@ const DataSets = () => {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac neque quis metus pretium tempus.
                     </div>
                 </div>
-                <TextField className='input_field' placeholder="Search dataset.."
+                <TextField
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                borderColor: '#919EAB'
+                            },
+                            '&:hover fieldset': {
+                                borderColor: '#919EAB'
+                            },
+                            '&.Mui-focused fieldset': {
+                                borderColor: '#919EAB'
+                            },
+                        }
+                    }}
+                    className='input_field' placeholder="Search dataset.."
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position='start'>
@@ -61,6 +88,15 @@ const DataSets = () => {
                 <Box sx={{ marginLeft: '144px', marginRight: '144px' }}>
                     <div className='bold_title'>Datasets</div>
                     <div className='datasets_card'>
+                        <Card className='card cursor-pointer' sx={cardSx} onClick={() => history.push(addDataset())}>
+                            <div className='add_new_dataset'>Add New DataSet</div>
+                            <div>
+                                <img src={require('../Assets/Img/add_new.svg')} alt="add" />
+                            </div>
+                            <div className='add_new_dataset_text'>
+                                Add details about your dataset.
+                            </div>
+                        </Card>
                         {state.map((s) => (
                             <Card className='card' sx={cardSx}>
                                 <div className='published'>
@@ -90,7 +126,7 @@ const DataSets = () => {
                             </Card>
                         ))}
                     </div>
-                    <Button variant="contained" className='button_style'>View all datasets</Button>
+                    <Button variant="contained" className='d_button_style'>View all datasets</Button>
                 </Box>
             </Box>
             <Divider />

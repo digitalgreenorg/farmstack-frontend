@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom';
 import { Box, Button, Card, Divider, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
-// import { makeStyles } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import './ParticipantMain.css'
 import ControlledAccordion from '../Components/Accordion/Accordion';
+import './ParticipantMain.css'
 
 const cardSx = {
     maxWidth: 368, height: 314, border: '1px solid #F2F3F5', borderRadius: '16px',
@@ -33,6 +33,7 @@ const cardSx = {
 //     },
 //   },
 const ParticipantMain = () => {
+    const history = useHistory();
     const [state, setState] = useState([0, 1, 2, 3, 4, 5])
     const [data, setData] = useState([
         {
@@ -70,6 +71,8 @@ const ParticipantMain = () => {
             panel: 'panel4'
         }
     ])
+    // console.log(props);
+    console.log(history);
     return (
         <>
             <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -80,7 +83,21 @@ const ParticipantMain = () => {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac neque quis metus pretium tempus.
                     </div>
                 </div>
-                <TextField className='input_field' placeholder="Search dataset.."
+                <TextField
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                borderColor: '#919EAB'
+                            },
+                            '&:hover fieldset': {
+                                borderColor: '#919EAB'
+                            },
+                            '&.Mui-focused fieldset': {
+                                borderColor: '#919EAB'
+                            },
+                        }
+                    }}
+                    className='input_field' placeholder="Search dataset.."
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position='start'>
