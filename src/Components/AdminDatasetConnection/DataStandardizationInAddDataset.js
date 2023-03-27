@@ -325,12 +325,13 @@ const DataStandardizationInAddDataset = (props) => {
 
     listOfFilesExistInDbForEdit.forEach((dataset,index)=>{
       tmpAllFileName.push(dataset.file)
-      tmpAlreadyStanddardizedFiles.push(dataset.file)
-      console.log("tmpAllFileName in handleExistingStandardizedFiles", tmpAllFileName)
+
+      // console.log("tmpAllFileName in handleExistingStandardizedFiles", tmpAllFileName)
       if(Object.keys(dataset.standardisation_config).length){
+        tmpAlreadyStanddardizedFiles.push(dataset.file)
         tmpStandardized[dataset.file] = dataset.standardisation_config
       }
-      console.log("tmpStandardized in handleExistingStandardizedFiles",tmpStandardized)
+      // console.log("tmpStandardized in handleExistingStandardizedFiles",tmpStandardized)
     })
     setAllStandardisedFile(tmpStandardized)
     setAllFileNames(tmpAllFileName);
