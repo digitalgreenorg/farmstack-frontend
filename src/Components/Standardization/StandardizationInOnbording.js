@@ -163,8 +163,11 @@ const StandardizationInOnbord = (props) => {
       let tmpDatapointNameError = [...accordionDatapointNameError];
       tmpDatapointNameError[index] = "";
       setAccordionDatapointNameError(tmpDatapointNameError);
-     
       handleUpdateCategoryName(index, newCategoryName);
+      let tmp = [...editCategoryTitle]
+      tmp[index] = false
+      console.log('edit title', tmp, editCategoryTitle)
+      setEditCategoryTitle(tmp)
 
     }
   };
