@@ -3,6 +3,7 @@ import { Box, Button, Card, Divider, IconButton, InputAdornment, TextField } fro
 import { useHistory } from "react-router-dom";
 import { isLoggedInUserAdmin, isLoggedInUserParticipant } from '../Utils/Common'
 import './DataSets.css';
+import FooterNew from '../Components/Footer/FooterNew';
 
 const cardSx = {
     maxWidth: 368, height: 190, border: '1px solid #C0C7D1', borderRadius: '10px',
@@ -130,6 +131,7 @@ const DataSets = (props) => {
                 </Box>
             </Box>
             <Divider />
+            <FooterNew />
         </>
     )
 }
