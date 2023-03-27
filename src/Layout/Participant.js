@@ -27,14 +27,17 @@ import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project
 import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 import ParticipantMain from "../Pages/ParticipantMain";
+import DataSets from "../Pages/DataSets";
 
 function Participant(props) {
+
   return (
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
           <ParticipantNavbar />
-          <ParticipantMain />
+          {/* <ParticipantMain /> */}
+          <DataSets />
           <div className="minHeight67vhParticipantPage">
             <Switch>
               <Route
@@ -113,11 +116,11 @@ function Participant(props) {
                 path="/participant/settings/viewproject/:id"
                 component={ProjectDetailView}
               />
-               <Route
-              exact
-              path="/participant/connectors/detail"
-              component={DemoDashboardTable}
-            />
+              <Route
+                exact
+                path="/participant/connectors/detail"
+                component={DemoDashboardTable}
+              />
             </Switch>
           </div>
           <Footer />

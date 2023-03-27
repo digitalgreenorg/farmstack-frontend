@@ -3,6 +3,7 @@ import { Box, Button, Card, Divider, IconButton, InputAdornment, TextField, Typo
 // import { makeStyles } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import './ParticipantMain.css'
+import ControlledAccordion from '../Components/Accordion/Accordion';
 
 const cardSx = {
     maxWidth: 368, height: 314, border: '1px solid #F2F3F5', borderRadius: '16px',
@@ -33,7 +34,42 @@ const cardSx = {
 //   },
 const ParticipantMain = () => {
     const [state, setState] = useState([0, 1, 2, 3, 4, 5])
-
+    const [data, setData] = useState([
+        {
+            title: 'Rice',
+            details: ['Brown Rice', 'White Rice', 'Samba Rice',
+                'Basmati Rice', 'Jasmine Rice', 'Susi Rice',
+                'Mogra Rice', 'Arborio Rice', 'Red Cargo Rice',
+                'blank Rice', 'White Rice', 'Samba Rice'
+            ],
+            panel: 'panel1'
+        },
+        {
+            title: 'Wheat',
+            details: ['Brown Wheat', 'White Wheat', 'Samba Wheat',
+                'Basmati Wheat', 'Jasmine Wheat', 'Susi Wheat',
+                'Mogra Wheat', 'Arborio Wheat', 'Red Cargo Wheat',
+                'blank Wheat', 'White Wheat', 'Samba Wheat'
+            ],
+            panel: 'panel2'
+        },
+        {
+            title: 'Tomato',
+            details: [
+                'Red Tomato', 'Blue Tomato', 'Green Tomato',
+                'Orange Tomato', 'Small Tomato'
+            ],
+            panel: 'panel3'
+        },
+        {
+            title: 'Coconut',
+            details: [
+                'Green Coconut', 'Brown Coconut', 'Indian Coconut',
+                'Natural Coconut', 'Unnatural Coconut'
+            ],
+            panel: 'panel4'
+        }
+    ])
     return (
         <>
             <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -161,6 +197,7 @@ const ParticipantMain = () => {
                         </div>
                     </div>
                 </div>
+                <ControlledAccordion data={data} />
             </Box>
         </>
     )
