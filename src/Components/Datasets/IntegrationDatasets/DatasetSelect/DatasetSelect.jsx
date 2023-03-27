@@ -30,22 +30,30 @@ import settinggif from "../../../../Assets/Img/setting.gif"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const DatasetSelect = (props) => {
-    const { connectorTimeData, isEditModeOn, setIsConditionForConnectorDataForSaveMet, isEdited, setIsEdited, setIsEditModeOn, setIsDatasetIntegrationListModeOn, integrateMore, empty, template, setTemplate, counterForIntegrator, completedJoinData, setCompleteJoinData, resetAll, generateData, orgList, joinType, setJoinType, setCompleteData, setConnectorData, connectorData, completeData, setFinalDataNeedToBeGenerated, finalDataNeedToBeGenerated, listOfFilesSelected, allDatasetNameList, listOfDatasetSelected, handleChangeDatasetNameSelector, listOfDatsetFileAvailableForColumn, } = props
+    const { setIsAllConditionForSaveMet, temporaryDeletedCards, setTemporaryDeletedCards, connectorTimeData, isEditModeOn, setIsConditionForConnectorDataForSaveMet, isEdited, setIsEdited, setIsEditModeOn, setIsDatasetIntegrationListModeOn, integrateMore, empty, template, setTemplate, counterForIntegrator, completedJoinData, setCompleteJoinData, resetAll, generateData, orgList, joinType, setJoinType, setCompleteData, setConnectorData, connectorData, completeData, setFinalDataNeedToBeGenerated, finalDataNeedToBeGenerated, listOfFilesSelected, allDatasetNameList, listOfDatasetSelected, handleChangeDatasetNameSelector, listOfDatsetFileAvailableForColumn, } = props
     const [errorConnectorName, setErrorConnectorName] = useState("")
     const [errorConnectorDesc, setErrorConnectorDesc] = useState("")
     const [show, setShow] = useState(false)
     const [indexShow, setIndex] = useState(-1)
     const handleChange = (e) => {
         let value = e.target.name
-        if (e.target.value) {
-            setIsConditionForConnectorDataForSaveMet(true)
-        }
         if (value == "name") {
+            if (e.target.value && connectorData.desc) {
+                setIsConditionForConnectorDataForSaveMet(true)
+            } else {
+                setIsConditionForConnectorDataForSaveMet(false)
+
+            }
             setErrorConnectorName("")
             validateInputField(e.target.value, RegexConstants.connector_name)
                 ? setConnectorData({ ...connectorData, [e.target.name]: e.target.value })
                 : e.preventDefault();
         } else {
+            if (e.target.value && connectorData.name) {
+                setIsConditionForConnectorDataForSaveMet(true)
+            } else {
+                setIsConditionForConnectorDataForSaveMet(false)
+            }
             setErrorConnectorDesc("")
             validateInputField(e.target.value, RegexConstants.connector_name)
                 ? setConnectorData({ ...connectorData, [e.target.name]: e.target.value })
@@ -139,7 +147,7 @@ const DatasetSelect = (props) => {
     return (
         <Container style={{ background: "rgb(252, 252, 252)" }} className='dataset_selector_in_integration'>
             <Row style={{ marginBottom: "25px" }} >
-                <Col lg={12}
+                <Col lg={1}
                     onClick={() => {
                         resetAll()
                     }
@@ -262,7 +270,7 @@ const DatasetSelect = (props) => {
                     })} */}
                     {completeData?.length > 0 && completeData.map((each, index) => {
                         return <span style={{ position: "relative" }} key={index} >
-                            {<CardDetail generateData={generateData} completedJoinData={completedJoinData} setCompleteJoinData={setCompleteJoinData} setTotalCounter={setTotalCounter} orgList={orgList} completeData={completeData} setCompleteData={setCompleteData} data={each} index={index} />}
+                            {<CardDetail setIsAllConditionForSaveMet={setIsAllConditionForSaveMet} temporaryDeletedCards={temporaryDeletedCards} setTemporaryDeletedCards={setTemporaryDeletedCards} generateData={generateData} completedJoinData={completedJoinData} setCompleteJoinData={setCompleteJoinData} setTotalCounter={setTotalCounter} orgList={orgList} completeData={completeData} setCompleteData={setCompleteData} data={each} index={index} />}
                             {index < completeData.length - 1 && <span style={{ border: index == indexShow && "1.5px solid #C09507" }} class={styles.vl} ></span>}
                             {index < completeData.length - 1 &&
                                 <span span id='settingIconForHover' onClick={(e) => handleMoreDataShow(index, true, e)} style={{ display: "flex", justifyContent: "center", alignItems: "center", cursor: !show ? "pointer" : "", height: `${show && index == indexShow ? "350px" : "50px"}`, overflow: "hidden", width: `${show && index == indexShow ? "700px" : "50px"}`, margin: "auto", backgroundRepeat: "no-repeat", backgroundSize: "50px 50px", backgroundPosition: "center", }} className={index == indexShow ? styles.hoveredOne : styles.alwaysHave}>
