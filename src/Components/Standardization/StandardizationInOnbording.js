@@ -159,6 +159,11 @@ const StandardizationInOnbord = (props) => {
       errorofnewValue[index] = `"${newCategoryName}" is already taken. Please choose a different name.`;
       setAccordionDatapointNameError(errorofnewValue);
       
+    }else if (newCategoryName === ""){
+      let errorofnewValue = [...accordionDatapointNameError]
+      errorofnewValue[index] = "This field may not be blank"
+      setAccordionDatapointNameError(errorofnewValue)
+      
     } else {
       let tmpDatapointNameError = [...accordionDatapointNameError];
       tmpDatapointNameError[index] = "";
@@ -247,7 +252,7 @@ const StandardizationInOnbord = (props) => {
       let tmpAllDatapoints = [...allDatapoints];
       tmpAllDatapoints.splice(index, 1);
       setAllDataPoints(tmpAllDatapoints);
-
+      
       let tmpAllAttributes = {...allAttributes};
       tmpAllAttributes[index] = []
       setAllAttributes(tmpAllAttributes)
