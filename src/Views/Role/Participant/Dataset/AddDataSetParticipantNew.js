@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Box, Tab, Tabs } from '@mui/material';
 import { useHistory } from "react-router-dom";
 import { getTokenLocal } from "../../../../Utils/Common";
-import './AddDataSetParticipantNew.css';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -29,7 +28,7 @@ const AddDataSetParticipantNew = () => {
     };
     return (
         <Box>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', borderBottom: '1px solid #3D4A52 !important' }}>
                 <Tabs
                     className='tabs'
                     sx={{
