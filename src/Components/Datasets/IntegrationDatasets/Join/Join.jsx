@@ -73,12 +73,13 @@ const Join = (props) => {
     }, [])
     return (
         index == indexShow && <span className='dataset_selector_in_integration' >
-            <Segmented value={value} onChange={setValue} block options={["Join by", "Integrated data"]} />
-
+            <div style={{ display: "flex" }}>
+                <Segmented style={{ flex: 3.5 }} value={value} onChange={setValue} block options={["Join by", "Integrated data"]} />
+                <span style={{ cursor: "pointer", flex: 0.5 }} ><CloseIcon onClick={(e) => handleMoreDataShow(indexShow, false, e)} className='deleteicon' color='secondary' /></span>
+            </div>
             {value == "Join by" && <Row>
                 <Col className={styles.select_dataset_logo} style={{ display: "flex", justifyContent: "space-between", padding: "10px 50px" }} lg={12} sm={12} sx={12}>
                     <span > {value == "Join by" ? "Join" : "Integrated data preview"}</span>
-                    <span style={{ cursor: "pointer" }} ><CloseIcon onClick={(e) => handleMoreDataShow(indexShow, false, e)} className='deleteicon' color='secondary' /></span>
                 </Col>
             </Row>}
 
@@ -91,7 +92,7 @@ const Join = (props) => {
                             <Select
                                 labelId="primary_col_label_for_join"
                                 id="primary_col_select_for_join"
-                                value={each?.left_on ? each?.left_on[0] : ""}
+                                value={each?.left_on?.length > 0 ? each?.left_on[0] : ""}
                                 onChange={(e) => handleChangeJoin(e, "join1")}
                                 label="Primary dataset colounm name"
                             // multiple

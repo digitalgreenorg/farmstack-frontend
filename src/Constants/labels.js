@@ -392,6 +392,10 @@ const labels = {
       first_name: "First name",
       last_name: "Last name",
       contact_number: "Contact number",
+    },
+    data_satandardization: {
+      submit_button: "Submit",
+      clear_button: 'Clear',
     }
   },
 };

@@ -5,9 +5,8 @@ import styles from "./card_detail.module.css"
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
-import { Popconfirm, message } from 'antd';
 const CardDetail = (props) => {
-    const { generateData, setCompleteJoinData, completedJoinData, setTotalCounter, orgList, data, setCompleteData, index, completeData } = props
+    const { setIsAllConditionForSaveMet, temporaryDeletedCards, setTemporaryDeletedCards, generateData, setCompleteJoinData, completedJoinData, setTotalCounter, orgList, data, setCompleteData, index, completeData } = props
 
     const handleCheckColumns = (e, value) => {
         let arr = [...completeData]
@@ -26,18 +25,6 @@ const CardDetail = (props) => {
             setCompleteData([...arr])
         }
     }
-
-    const confirm = (e) => {
-        // console.log(e);
-        handleDeleteCard()
-        message.success('File deleted successfully!');
-    };
-
-    const cancel = (e) => {
-        // console.log(e);
-        message.error('File deletion cancelled!');
-    };
-
     const handleSelectAll = (e) => {
         let arr = [...completeData]
         let present_card = { ...data }
@@ -52,7 +39,14 @@ const CardDetail = (props) => {
 
     const handleDeleteCard = () => {
         let arr = [...completeData]
-        generateData(index, "delete_map_card")
+        // generateData(index, "delete_map_card")
+
+        if ((index == arr.length - 1) && arr.length > 2) {
+            setIsAllConditionForSaveMet(true)
+        } else {
+            setIsAllConditionForSaveMet(false)
+        }
+        console.log(temporaryDeletedCards)
         // .then(()=>{
         let obj
         if (index != 0) {
@@ -63,6 +57,17 @@ const CardDetail = (props) => {
             arr[index - 1] = obj
         }
         arr.splice(index, 1)
+
+        let deleteArr = []
+        let start = index == 0 ? index : index - 1
+        for (let i = start; i < completeData.length; i++) {
+            if (!temporaryDeletedCards?.includes(completeData[i]["map_id"]) && completeData[i]["map_id"]) {
+                deleteArr.push(completeData[i]["map_id"])
+            }
+        }
+        setTemporaryDeletedCards([...temporaryDeletedCards, ...deleteArr])
+
+
         setCompleteData([...arr])
         setTotalCounter((prev) => prev - 1)
         // })
@@ -81,19 +86,8 @@ const CardDetail = (props) => {
                         <div>Dataset name</div>
                         <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.dataset_name ? decodeURI(data.dataset_name) : ""}</div></Col>
                     <Col lg={3}> <div>File name</div>
-                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.file_name ? decodeURI(data.file_name.split("/").at(-1) ? data.file_name.split("/").at(-1) : "") : ""}</div></Col>
-                    <Col lg={2}> <span style={{ borderRadius: "50%", minHeight: "34px", width: "34px", background: "white", display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "auto" }}>
-                        <Popconfirm
-                            title="Delete the dataset file"
-                            description="Are you sure to delete this dataset file?"
-                            onConfirm={confirm}
-                            onCancel={cancel}
-                            okText="Yes"
-                            cancelText="No"
-                        >
-                            <DeleteIcon fontSize='small' id="deleteFileBtn" color='secondary' className={styles.deleteicon + " deleteicon"} />
-                        </Popconfirm>
-                    </span></Col>
+                        <div className='d-inline-block text-truncate' style={{ maxWidth: "250px" }}>{data?.file_name ? decodeURI(data.file_name.split("/")[data.file_name.split("/").length - 1]) : ""}</div></Col>
+                    <Col lg={2}> <span style={{ borderRadius: "50%", minHeight: "34px", width: "34px", background: "white", display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "auto" }}>  <DeleteIcon fontSize='small' id="deleteFileBtn" color='secondary' onClick={handleDeleteCard} className={styles.deleteicon + " deleteicon"} /> </span></Col>
                 </Row>
                 <Row className={styles.selectAllRow}>
                     <Col lg={12}>

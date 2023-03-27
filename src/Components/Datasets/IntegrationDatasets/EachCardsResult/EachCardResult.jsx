@@ -11,7 +11,7 @@ const EachCardResult = (props) => {
             let val = []
 
             for (let key in result[0]) {
-                let obj = { field: key, headerName: key }
+                let obj = { field: key, headerName: key, width: "150" }
                 val.push(obj)
             }
             let rowArr = []
@@ -39,6 +39,7 @@ const EachCardResult = (props) => {
                 pageSize={5}
                 rowsPerPageOptions={[5]}
                 hideFooter
+
             // components={{ NoRowsOverlay, NoResultsOverlay }}
             />
         </div>
