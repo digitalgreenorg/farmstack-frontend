@@ -28,6 +28,7 @@ import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Projec
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 import ParticipantMain from "../Pages/ParticipantMain";
 import DataSets from "../Pages/DataSets";
+import AddDataSetParticipantNew from "../Views/Role/Participant/Dataset/AddDataSetParticipantNew";
 
 function Participant(props) {
   return (
@@ -52,6 +53,11 @@ function Participant(props) {
                 exact
                 path="/participant/new_participants"
                 component={ParticipantMain}
+              />
+              <Route
+                exact
+                path="/participant/new_datasets/add"
+                component={AddDataSetParticipantNew}
               />
               {/* end */}
               <Route

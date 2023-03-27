@@ -17,13 +17,11 @@ const DataSets = (props) => {
     const [state, setState] = useState([0, 1, 2, 3, 4, 5])
 
     const addDataset = () => {
-        // if (isLoggedInUserAdmin()) {
-        //     return "/datahub/datasets/add";
-        // } else if (isLoggedInUserParticipant()) {
-        //     return "/participant/datasets/add";
-        // }
-        console.log(props);
-        console.log(history);
+        if (isLoggedInUserAdmin()) {
+            return "/datahub/datasets/add";
+        } else if (isLoggedInUserParticipant()) {
+            return "/participant/new_datasets/add";
+        }
     }
     return (
         <>
