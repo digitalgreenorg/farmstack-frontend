@@ -203,6 +203,7 @@ export const flushLocalstorage = () => {
 };
 
 export const downloadAttachment = (uri, name) => {
+  console.log("click on download", uri, name)
   FileSaver.saveAs(uri, name);
 };
 
