@@ -59,7 +59,7 @@
     color: #00AB55;
     width: 287px;
     text-align: start;
-    margin: 0px 41px 30px 40px;
+    margin: 0px 41px 30px 40px !important;
 }
 
 .content_text {

@@ -67,12 +67,12 @@ const DataSets = () => {
                                     <img src={require('../Assets/Img/globe.svg')} alt="globe" />
                                     <span className='published_text'>Published on: 28/03/2022</span>
                                 </div>
-                                <div className='content_title'>Soil parameter</div>
+                                <div className='d_content_title'>Soil parameter</div>
                                 <div className='organisation'>
                                     <img src={require('../Assets/Img/organisation.svg')} alt="organisation" />
                                     <span className='organisation_text'>EATA</span>
                                 </div>
-                                <div className='content_text'>
+                                <div className='d_content_text'>
                                     <div className='category'>
                                         <img src={require('../Assets/Img/category.svg')} alt="category" />
                                         <span className='category_text'>Wheat</span>
