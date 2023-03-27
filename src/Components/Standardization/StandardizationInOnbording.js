@@ -145,30 +145,6 @@ const StandardizationInOnbord = (props) => {
     tmpAllDatapoints[index].datapoint_category = newValue;
     setAllDataPoints(tmpAllDatapoints);
   }
-  // const handleNameExistsUpdate = (index, newValue) => {
-  //   let tmp = [...editCategoryTitle]
-  //   tmp[index] = false
-  //   console.log('edit title', tmp, editCategoryTitle)
-  //   setEditCategoryTitle(tmp)  
-  //   let tmpAllDatapoints = [...allDatapoints];
-  //   //let checkName = [...editCategoryTitle]
-  //   //Check if category name already exist or not
-  //   let returnFromFunction = false
-  //   console.log("chekkkkkkkk", tmpAllDatapoints)
-  //     tmpAllDatapoints.forEach((category)=>{
-  //       if(category.datapoint_category === newValue){
-  //         let errorofnewValue = [...accordionDatapointNameError]
-  //         errorofnewValue[index] = newValue + "is cannot update which is already exists"
-  //         setAccordionDatapointNameError(errorofnewValue)
-  //         returnFromFunction = true;
-  //         return
-  //       }
-  //     })
-  //     if(returnFromFunction) return
-  //     let errorofnewValue = [...accordionDatapointNameError]
-  //     errorofnewValue[index] = ""
-  //     setAccordionDatapointNameError(errorofnewValue)
-  // }
   const handleNameExistsUpdate = (index, newValue) => {
     let tmpAllDatapoints = [...allDatapoints];
     let newCategoryName = newValue.trim();
