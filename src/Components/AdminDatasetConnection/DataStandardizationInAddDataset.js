@@ -279,6 +279,9 @@ const DataStandardizationInAddDataset = (props) => {
       "standardisation_configuration": standardisationConfiguration,
       "file_path": fileName
     }
+
+    if(alreadyStanddardizedFiles.includes(fileName)) payload['is_standardised'] = true
+
     let url = UrlConstant.base_url + UrlConstant.standardise_file
     setIsLoading(true)
     HTTPService("POST", url, payload, false, true)
@@ -322,12 +325,13 @@ const DataStandardizationInAddDataset = (props) => {
 
     listOfFilesExistInDbForEdit.forEach((dataset,index)=>{
       tmpAllFileName.push(dataset.file)
-      tmpAlreadyStanddardizedFiles.push(dataset.file)
-      console.log("tmpAllFileName in handleExistingStandardizedFiles", tmpAllFileName)
+
+      // console.log("tmpAllFileName in handleExistingStandardizedFiles", tmpAllFileName)
       if(Object.keys(dataset.standardisation_config).length){
+        tmpAlreadyStanddardizedFiles.push(dataset.file)
         tmpStandardized[dataset.file] = dataset.standardisation_config
       }
-      console.log("tmpStandardized in handleExistingStandardizedFiles",tmpStandardized)
+      // console.log("tmpStandardized in handleExistingStandardizedFiles",tmpStandardized)
     })
     setAllStandardisedFile(tmpStandardized)
     setAllFileNames(tmpAllFileName);
