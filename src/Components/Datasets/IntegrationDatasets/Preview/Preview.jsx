@@ -109,7 +109,7 @@ const Preview = (props) => {
                 </Col>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
                     <div>Datasets</div>
-                    <ol style={{ width: "250px", height: "150px", overflowY: "auto", fontWeight: "600" }}>{completeData?.map((each) => <li> {each.dataset_name}</li>)}</ol>
+                    <ol style={{ width: "250px", height: "150px", overflowY: "auto", fontWeight: "600", wordWrap: "break-word" }}>{completeData?.map((each) => <li> {each.dataset_name + " - " + decodeURI(each.file_name.split("/").at(-1))} <hr /></li>)}</ol>
                 </Col>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
                     <div>No. of records</div>
