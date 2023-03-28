@@ -61,6 +61,7 @@ const CardDetail = (props) => {
         let deleteArr = []
         let start = index == 0 ? index : index - 1
         for (let i = start; i < completeData.length; i++) {
+            console.log(index, i, temporaryDeletedCards)
             if (!temporaryDeletedCards?.includes(completeData[i]["map_id"]) && completeData[i]["map_id"]) {
                 deleteArr.push(completeData[i]["map_id"])
             }

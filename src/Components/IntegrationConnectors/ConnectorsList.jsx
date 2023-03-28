@@ -132,15 +132,15 @@ export default function ConnectorsList(props) {
           </span>
         </Col>
         <Col xs={12} sm={12} md={6} lg={2} style={{ textAlign: "right" }}>
-          <button
+          <Button
             //  Button should render to add new connector component when click
             onClick={() => setIsDatasetIntegrationListModeOn(false)}
-            // variant="outlined"
-            // style={useStyles.addButton}
-            class="button-87" role="button"
+            variant="outlined"
+            style={useStyles.addButton}
+          // class="button-87" role="button"
           >
             + New connector
-          </button>
+          </Button>
         </Col>
       </Row>
       <Row>
