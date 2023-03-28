@@ -16,7 +16,7 @@ import { Select } from 'antd';
 import { DatePicker, Space } from 'antd';
 import { DatePickerProps } from 'antd';
 import dayjs from 'dayjs';
-
+import "./admin-add-dataset.css"
 const { RangePicker } = DatePicker;
 
 const ITEM_HEIGHT = 48;
@@ -72,7 +72,7 @@ const AddMetadata = (props) => {
         }
     }
 
-   
+
 
     const onChange = (date, dateString) => {
         props.handleChangeFromDate(new Date(dateString[0]))
@@ -231,7 +231,7 @@ const AddMetadata = (props) => {
                         />
                     </Row>
                     <Row style={{ textAlign: "center", display: "inline-block" }}>
-                        <RangePicker disabledDate={disabledDate}  allowClear={false} inputReadOnly value={(props.fromdate && props.todate) ? [dayjs(props.fromdate), dayjs(props.todate)] : ""}
+                        <RangePicker disabledDate={disabledDate} allowClear={false} inputReadOnly value={(props.fromdate && props.todate) ? [dayjs(props.fromdate), dayjs(props.todate)] : ""}
                             disabled={props.Switchchecked ? true : false} onChange={onChange} />
                     </Row>
                 </Col>
@@ -365,7 +365,7 @@ const AddMetadata = (props) => {
                     <Button
                         onClick={handleAddDatasetSubmit}
                         variant="contained"
-                        className="submitbtn"
+                        className="submit_btn"
                         type="submit"
                         disabled={(conscent && geography != "" && (!props.Switchchecked ? props.fromdate && props.todate : props.Switchchecked)) && !isSubmitted ? false : true}
                     >
