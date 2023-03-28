@@ -16,6 +16,7 @@ const accordionTitleStyle = {
 
 const UploadFile = () => {
     const [selectedUploadType, setSelectedUploadType] = useState('file_upload');
+    const [selectedPanel, setSelectedPanel] = useState();
     const [file, setFile] = useState();
     const [files, setFiles] = useState([]);
     const [sqlFiles, setSqlFiles] = useState([]);
@@ -113,6 +114,21 @@ const UploadFile = () => {
     const handleUpload = () => {
 
     }
+
+    const getPanel = () => {
+        if (selectedUploadType === 'file_upload') {
+            return 1;
+        } else if (selectedUploadType === 'mysql') {
+            return 2;
+        } else if (selectedUploadType === 'postgres') {
+            return 3;
+        } else if (selectedUploadType === 'sqlite') {
+            return 4;
+        } else if (selectedUploadType === 'rest_api') {
+            return 5;
+        }
+    }
+
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -267,7 +283,7 @@ const UploadFile = () => {
                         marginBottom: '20px'
                     }}>List of files upload</Typography>
                     <Box>
-                        <ControlledAccordion data={getAccordionData()} isCustomStyle={true} width={'466px'} titleStyle={accordionTitleStyle} />
+                        <ControlledAccordion data={getAccordionData()} isCustomStyle={true} width={'466px'} titleStyle={accordionTitleStyle} selectedPanelIndex={getPanel()} />
                     </Box>
                 </div>
             </Box>

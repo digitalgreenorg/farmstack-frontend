@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './Accordion.css'
@@ -26,13 +26,18 @@ const accordionSummaryStyle = {
     "gridTemplateColumns": "repeat(4, 1fr)"
 }
 
-const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle }) => {
+const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle, selectedPanelIndex }) => {
 
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(selectedPanelIndex ? selectedPanelIndex : false);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
+    console.log(selectedPanelIndex)
+
+    useEffect(() => {
+        setExpanded(selectedPanelIndex ? selectedPanelIndex : false)
+    }, [selectedPanelIndex])
 
     return (
         <div style={{ width: isCustomStyle && width }}>
