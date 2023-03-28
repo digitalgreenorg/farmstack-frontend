@@ -133,8 +133,8 @@
 }
 
 .button_main_box .next_btn:disabled {
-    color: rgba(255, 255, 255, 0.45) !important;
-    background-color: grey !important;
+    color: rgba(128, 128, 128, 0.78) !important;
+    background-color: rgba(128, 128, 128, 0.58) !important;
     border-color: grey !important;
 }
 
