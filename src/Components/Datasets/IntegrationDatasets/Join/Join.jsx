@@ -75,7 +75,7 @@ const Join = (props) => {
         index == indexShow && <span className='dataset_selector_in_integration' >
             <div style={{ display: "flex" }}>
                 <Segmented style={{ flex: 3.5 }} value={value} onChange={setValue} block options={["Join by", "Integrated data"]} />
-                <span style={{ cursor: "pointer", flex: 0.5 }} ><CloseIcon onClick={(e) => handleMoreDataShow(indexShow, false, e)} className='deleteicon' color='secondary' /></span>
+                <span style={{ cursor: "pointer", flex: 0.5, textAlign: "right" }} ><CloseIcon onClick={(e) => handleMoreDataShow(indexShow, false, e)} className='deleteicon' color='secondary' /></span>
             </div>
             {value == "Join by" && <Row>
                 <Col className={styles.select_dataset_logo} style={{ display: "flex", justifyContent: "space-between", padding: "10px 50px" }} lg={12} sm={12} sx={12}>
@@ -143,7 +143,7 @@ const Join = (props) => {
                     </Col> </Row>
                 }
 
-            </> : <Row style={{ justifyContent: "center", width: "1000px" }}>
+            </> : <Row style={{ justifyContent: "center", width: "900px" }}>
                 <Col lg={12} sm={12} >
                     <EachCardResult result={result} />
                 </Col>
