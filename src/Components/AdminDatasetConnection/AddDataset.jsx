@@ -32,9 +32,10 @@ import axios from "axios"
 import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Skeleton } from '@mui/material'
 import Success from '../Success/Success';
 import CategorySelectorList from './CategorySelectorList';
+import DataStandardizationInAddDataset from './DataStandardizationInAddDataset.js';
 
 //stepper steps label
-const steps = ['Dataset name', 'Create or upload dataset', 'Create a metadata'];
+const steps = ['Dataset name', 'Create or upload dataset', 'Data standardization', 'Create a metadata'];
 
 const AddDataset = (props) => {
     const { isDatasetEditModeOn, datasetId, isaccesstoken, setOnBoardedTrue, cancelAction, setTokenLocal, onBoardingPage } = props
@@ -61,6 +62,8 @@ const AddDataset = (props) => {
 
     const [newSelectedCategory, setNewSelectedCategory] = useState([])
     const [newSelectedSubCategory, setNewSelectedSubCategory] = useState([])
+    const [allStandardisedFile, setAllStandardisedFile] = useState({})
+    const [standardisedFileLink, setStandardisedFileLink] = useState({})
 
 
 
@@ -680,6 +683,9 @@ const AddDataset = (props) => {
         return main_list
     }
 
+    console.log("allStandardisedFile", allStandardisedFile, standardisedFileLink)
+
+
     const handleAddDatasetSubmit = (e) => {
         console.log(finalJson, "Main")
         e.preventDefault();
@@ -728,6 +734,10 @@ const AddDataset = (props) => {
         bodyFormData.append("constantly_update", Switchchecked);
         bodyFormData.append("data_capture_start", fromdate ? fromdate.toISOString() : "");
         bodyFormData.append("data_capture_end", todate ? todate.toISOString() : "");
+        console.log("allStandardisedFile", allStandardisedFile, standardisedFileLink)
+        bodyFormData.append("standardisation_template", JSON.stringify(standardisedFileLink));
+        bodyFormData.append("standardisation_config", JSON.stringify(allStandardisedFile));
+
 
         let obj = { "name": datasetname, description: govLawDesc, category: JSON.stringify(finalJson), user_map: id, geography: geography, deleted: JSON.stringify(idsForFilesDeleted), constantly_update: Switchchecked, data_capture_start: fromdate ? fromdate.toISOString() : "", data_capture_end: todate ? todate.toISOString() : "" }
         let accesstoken = getTokenLocal();
@@ -1019,7 +1029,7 @@ const AddDataset = (props) => {
                             ) : (
                                 <React.Fragment>
                                     {/* <Typography sx={{ mt: 2, mb: 1 }}> {activeStep == 0 ? "Please provide the dataset name to enable the further steps" : ""}</Typography> */}
-                                    {activeStep == 0 ? <Col style={{ margin: "50px auto 150px auto", padding: "0px" }} lg={12} sm={12}>
+                                    {activeStep == 0 ? <Col style={{ margin: "50px auto 50px auto", padding: "0px" }} lg={12} sm={12}>
                                         <TextField
                                             disabled={isDatasetEditModeOn ? true : false}
                                             style={{ marginBottom: "20px" }}
@@ -1084,7 +1094,22 @@ const AddDataset = (props) => {
                                         </TabContext>
                                         : ""}
 
-                                    {activeStep == 2 ?
+                                    {
+                                        activeStep == 2 ?
+                                            <DataStandardizationInAddDataset
+                                                allStandardisedFile={allStandardisedFile}
+                                                setAllStandardisedFile={setAllStandardisedFile}
+                                                standardisedFileLink={standardisedFileLink}
+                                                setStandardisedFileLink={setStandardisedFileLink}
+                                                datasetname={datasetname}
+                                                listOfFilesExistInDbForEdit={listOfFilesExistInDbForEdit}
+                                                isDatasetEditModeOn={isDatasetEditModeOn}
+                                            />
+                                            :
+                                            ""
+                                    }
+
+                                    {activeStep == 3 ?
                                         <AddMetadata
                                             isaccesstoken={isaccesstoken}
                                             setNewSelectedSubCategory={setNewSelectedSubCategory}
@@ -1140,10 +1165,10 @@ const AddDataset = (props) => {
                                         
                                         categoryNameList={categoryNameList} handleChangeCategory={handleChangeCategory} category={category} subCategoryNameList={subCategoryNameList} handleSubCategory={handleSubCategory} subCategory={subCategory} />
                                     : ""} */}
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Box className='button_main_box' sx={{ display: 'flex', flexDirection: 'row', padding: "10px 80px" }}>
                                         <Button
                                             id='back_button'
-                                            color="inherit"
+                                            className='back_btn'
                                             // disabled={activeStep === 0}
                                             onClick={activeStep == 0 && onBoardingPage && getRoleLocal() == "datahub_participant_root" ? () => history.push("/login") : activeStep == 0 ? () => history.push("/datahub/datasets") : handleBack}
                                             sx={{ mr: 1 }}
@@ -1161,7 +1186,7 @@ const AddDataset = (props) => {
                                                 Finish Later
                                             </Button> : " "}
                                         <Box sx={{ flex: '1 1 auto' }} />
-                                        {activeStep != 0 && !isSubmitted ? <Button id='cancel_button' style={{ color: "white", background: "#c09507" }} onClick={handleResetForm}>Cancel</Button> : ""}
+                                        {activeStep != 0 && !isSubmitted ? <Button id='cancel_button' className='cancel_btn' onClick={handleResetForm}>Cancel</Button> : ""}
                                         <Box sx={{ flex: '1 1 auto' }} />
                                         {/* {(isStepOptional(activeStep) && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0)) && (
                                         <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
@@ -1169,7 +1194,7 @@ const AddDataset = (props) => {
                                         </Button>
                                     )} */}
 
-                                        {activeStep == 2 ? <Button disabled ></Button> : <Button id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || LiveApiFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : true)} onClick={activeStep == 2 ? () => history.push("/datahub/datasets") : handleNext}>
+                                        {activeStep == 3 ? <Button disabled ></Button> : <Button className='next_btn' id='next_button' disabled={(activeStep == 0 && datasetname != "" && editorGovLawValue.getEditorState().getCurrentContent().hasText()) ? false : (activeStep == 1 && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0 || LiveApiFileList.length > 0 || listOfFilesExistInDbForEdit.length > 0) ? false : isSubmitted ? false : (activeStep == 2) ? false : true)} onClick={activeStep == 3 ? () => history.push("/datahub/datasets") : handleNext}>
                                             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                         </Button>}
                                     </Box>

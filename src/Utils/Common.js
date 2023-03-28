@@ -150,7 +150,7 @@ export const getErrorLocal = () => {
 export const isLoggedInUserAdmin = () => {
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-        LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
+    LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
     : false;
 };
 
@@ -158,14 +158,14 @@ export const isLoggedInUserParticipant = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-        LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
+    LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
     : false;
 };
 export const isLoggedInUserCoSteward = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-        LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
+    LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
     : false;
 };
 
@@ -203,6 +203,7 @@ export const flushLocalstorage = () => {
 };
 
 export const downloadAttachment = (uri, name) => {
+  console.log("click on download", uri, name)
   FileSaver.saveAs(uri, name);
 };
 
@@ -246,7 +247,7 @@ export const openLinkInNewTab = (url) => {
 };
 
 export const mobileNumberMinimunLengthCheck = (number) => {
-  return number?.length >= 13;
+  return number?.length >= 9;
 };
 
 export const stringMinimumLengthCheck = (str, len) => {
@@ -306,3 +307,9 @@ export const adminNotFoundRoute = (e) => {
     return "/error";
   }
 };
+
+//function to scroll on top
+export function goToTop(no) {
+  document.body.scrollTop = no ? no : 0; // For Safari
+  document.documentElement.scrollTop = no ? no : 0; // For Chrome, Firefox, IE and Opera
+}
