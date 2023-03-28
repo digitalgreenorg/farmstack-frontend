@@ -5,6 +5,7 @@ import { getTokenLocal } from "../../../../Utils/Common";
 import './AddDataSetParticipantNew.css';
 import FooterNew from '../../../../Components/Footer/FooterNew';
 import BasicDetails from '../../../../Components/Datasets/TabComponents/BasicDetails';
+import UploadFile from '../../../../Components/Datasets/TabComponents/UploadFile';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -24,7 +25,7 @@ function TabPanel(props) {
 
 const AddDataSetParticipantNew = () => {
     const history = useHistory();
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(1);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -75,7 +76,7 @@ const AddDataSetParticipantNew = () => {
                     <BasicDetails />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    Item Two
+                    <UploadFile />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     Item Three

@@ -926,6 +926,10 @@ button.disbalesubmitbtndept {
   margin-top: 10px;
 }
 
+.mb-10 {
+  margin-bottom: 10px;
+}
+
 .mb-30 {
   margin-bottom: 30px;
 }
@@ -936,6 +940,10 @@ button.disbalesubmitbtndept {
 
 .mt-2 {
   margin-top: 2px;
+}
+
+.ml-20 {
+  margin-left: 20px;
 }
 
 .w-25 {
