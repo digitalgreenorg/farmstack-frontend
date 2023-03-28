@@ -1116,12 +1116,17 @@ html {
   width: 368px;
   height: 178px;
   margin: 30px 15px 15px 15px;
-  border: 1px solid #C0C7D1;
+  border: 1px solid #FFDB64;
+  outline: none;
+
 }
 
 .connectorCard:hover {
-  border: 1px solid #c09507;
+  box-shadow: 0px 4px 20px rgba(216, 175, 40, 0.28);
+  /* border: 1px solid red; */
+  border: 1px solid #FFDB64;
   cursor: pointer;
+
 }
 
 .dataset_selector_in_integration .backButtonMainDiv .MuiSvgIcon-root {

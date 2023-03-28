@@ -57,9 +57,9 @@ const DatasetIntegration = (props) => {
     const [completeData, setCompleteData] = useState([
 
         //In dev mode this is the dummy data 
-        { org_id: "A", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c1", "c2", "c3"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: [] },
-        { org_id: "B", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c4", "c5", "c6"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: [{ name: "kanhaiya", age: "26" }] },
-        { org_id: "C", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c7", "c8", "c9"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: [] },
+        // { org_id: "A", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c1", "c2", "c3"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        // { org_id: "B", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c4", "c5", "c6"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        // { org_id: "C", dataset_list: ["d1", "d2", "d3"], file_list: ["f1", "f2", "f3"], org_name: "org_nameA", dataset_id: "id", dataset_name: "dataset_name1", file_name: "file_name1", availabeColumns: ["c7", "c8", "c9"], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
 
     ])
 
@@ -278,7 +278,7 @@ const DatasetIntegration = (props) => {
     }
     const completeDataGenerator = (maps) => {
         // { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
-        console.log(maps)
+
         let arr = []
         for (let i = 0; i < maps.length; i++) {
             let currentObj = {}
@@ -501,7 +501,7 @@ const DatasetIntegration = (props) => {
                     setIsAllConditionForSaveMet(false)
                 }
                 console.log(err)
-                // console.log(Object.values(err))
+                // console.log(Object.values(err?.response?.data)[0])
                 setOpen(true);
                 setLoader(false)
                 setAlertType("error")

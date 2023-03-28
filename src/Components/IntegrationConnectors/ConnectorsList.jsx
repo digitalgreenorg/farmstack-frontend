@@ -12,6 +12,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
+import "./cards.css"
 
 export default function ConnectorsList(props) {
   const { setConnectorTimeData, setIsEditModeOn, setConnectorIdForView, setIsDatasetIntegrationListModeOn } = props
@@ -125,20 +126,21 @@ export default function ConnectorsList(props) {
     >
       {isLoader ? <Loader /> : ""}
       <Row style={useStyles.marginrowtop50}>
-        <Col xs={12} sm={12} md={6} lg={6} style={{ "text-align": "left" }}>
+        <Col xs={12} sm={12} md={6} lg={10} style={{ "text-align": "left" }}>
           <span className="mainheading">
             {"List of Connectors"}
           </span>
         </Col>
-        <Col xs={12} sm={12} md={6} lg={6} style={{ textAlign: "right" }}>
-          <Button
+        <Col xs={12} sm={12} md={6} lg={2} style={{ textAlign: "right" }}>
+          <button
             //  Button should render to add new connector component when click
             onClick={() => setIsDatasetIntegrationListModeOn(false)}
-            variant="outlined"
-            style={useStyles.addButton}
+            // variant="outlined"
+            // style={useStyles.addButton}
+            class="button-87" role="button"
           >
             + New connector
-          </Button>
+          </button>
         </Col>
       </Row>
       <Row>
