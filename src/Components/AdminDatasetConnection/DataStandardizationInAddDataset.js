@@ -504,7 +504,7 @@ const DataStandardizationInAddDataset = (props) => {
                       onChange={(e) =>
                         datapointCategoryChange(e.target.value, index)
                       }
-                    >
+                    ><MenuItem value=""><em>None</em></MenuItem>
                     {/* { console.log(standardisedTempleteCategory?.[index],allStandardisedTempleteCategory, "THIS IS THE VVALUENBASBAHUSB")} */}
                       {allStandardisedTempleteCategory?.map((item) => {
                         // console.log("This is to check value of object reff",standardisedTempleteCategory?.[index]===item,standardisedTempleteCategory?.[index],item)

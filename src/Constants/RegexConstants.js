@@ -23,7 +23,7 @@ const RegexConstants = {
   city_name: /^$|^[a-zA-Z][a-zA-Z ]*$/,
   address: /^$|^[a-zA-Z0-9#,][a-zA-Z0-9#, ]*$/,
   NEW_NAME_REGEX: /^([a-zA-Z0-9]+\s?)*$/,   //allows only one space and no spl characters allowed
-  DATAPOINT_ATTRIBUTE_REGEX: /^([a-zA-Z0-9_]+)*$/ //   accepts only 1 spl charecter "_" and no spl characters and no space
+  DATAPOINT_ATTRIBUTE_REGEX:  /^$|^[a-zA-Z0-9][a-zA-Z0-9_ ]*$/,//   accepts only 1 spl charecter "_" and no spl characters and no space
 };
 
 export default RegexConstants;
