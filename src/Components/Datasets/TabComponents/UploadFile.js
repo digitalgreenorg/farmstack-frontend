@@ -216,61 +216,68 @@ const UploadFile = () => {
                         }}>Rest API</Typography>
                 </div>
                 <div className='browse_style'>
-                    <div className='cursor-pointer'>
-                        <FileUploader
-                            handleChange={handleFileChange}
-                            children={
-                                <img className='cursor-pointer' src={require("../../../Assets/Img/Upload.svg")} />
-                            }
-                        />
-                    </div>
-                    <div className='list_files mt-20'>
-                        {files?.map((item, index) => (
-                            <>
-                                <File index={index} name={item.name} size={item.size} handleDelete={handleDelete} type={"file_upload"} />
-                            </>
-                        ))}
-                        {files && files.length > 0 ?
-                            <Box sx={{ marginTop: '31px', textAlign: 'end' }}>
-                                <Button
-                                    sx={{
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: 700,
-                                        fontSize: '16px',
-                                        width: "44px",
-                                        height: "48px",
-                                        border: "none",
-                                        borderRadius: "8px",
-                                        color: "#00AB55",
-                                        textTransform: 'none',
-                                        '&:hover': {
-                                            background: 'none',
-                                            border: "none"
-                                        }
-                                    }}
-                                    variant='outlined' onClick={() => setFiles([])}>Clear</Button>
-                                <Button
-                                    sx={{
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: 700,
-                                        fontSize: '16px',
-                                        width: "171px",
-                                        height: "48px",
-                                        border: "1px solid rgba(0, 171, 85, 0.48)",
-                                        borderRadius: "8px",
-                                        color: "#00AB55",
-                                        textTransform: 'none',
-                                        marginLeft: '60px',
-                                        '&:hover': {
-                                            background: 'none',
-                                            border: "1px solid rgba(0, 171, 85, 0.48)"
-                                        }
-                                    }}
-                                    variant='outlined' onClick={() => handleUpload()}>Upload</Button>
-                            </Box>
-                            : <></>}
+                    {selectedUploadType === 'file_upload' ?
+                        <>
+                            <div className='cursor-pointer'>
+                                <FileUploader
+                                    handleChange={handleFileChange}
+                                    children={
+                                        <img className='cursor-pointer' src={require("../../../Assets/Img/Upload.svg")} />
+                                    }
+                                />
+                            </div>
+                            <div className='list_files mt-20'>
+                                {files?.map((item, index) => (
+                                    <>
+                                        <File index={index} name={item.name} size={item.size} handleDelete={handleDelete} type={"file_upload"} />
+                                    </>
+                                ))}
+                                {files && files.length > 0 ?
+                                    <Box sx={{ marginTop: '31px', textAlign: 'end' }}>
+                                        <Button
+                                            sx={{
+                                                fontFamily: 'Montserrat',
+                                                fontWeight: 700,
+                                                fontSize: '16px',
+                                                width: "44px",
+                                                height: "48px",
+                                                border: "none",
+                                                borderRadius: "8px",
+                                                color: "#00AB55",
+                                                textTransform: 'none',
+                                                '&:hover': {
+                                                    background: 'none',
+                                                    border: "none"
+                                                }
+                                            }}
+                                            variant='outlined' onClick={() => setFiles([])}>Clear</Button>
+                                        <Button
+                                            sx={{
+                                                fontFamily: 'Montserrat',
+                                                fontWeight: 700,
+                                                fontSize: '16px',
+                                                width: "171px",
+                                                height: "48px",
+                                                border: "1px solid rgba(0, 171, 85, 0.48)",
+                                                borderRadius: "8px",
+                                                color: "#00AB55",
+                                                textTransform: 'none',
+                                                marginLeft: '60px',
+                                                '&:hover': {
+                                                    background: 'none',
+                                                    border: "1px solid rgba(0, 171, 85, 0.48)"
+                                                }
+                                            }}
+                                            variant='outlined' onClick={() => handleUpload()}>Upload</Button>
+                                    </Box>
+                                    : <></>}
 
-                    </div>
+                            </div>
+                        </>
+                        :
+                        <></>
+                    }
+
                 </div>
                 <div className='list_upload_style'>
                     <Typography sx={{
