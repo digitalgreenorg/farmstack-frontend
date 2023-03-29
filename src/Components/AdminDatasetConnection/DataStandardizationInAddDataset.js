@@ -19,7 +19,7 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import { message, Space } from "antd";
 
 const DataStandardizationInAddDataset = (props) => {
-  const { datasetname, setAllStandardisedFile, allStandardisedFile, standardisedFileLink, setStandardisedFileLink, listOfFilesExistInDbForEdit, isDatasetEditModeOn } = props;
+  const { datasetname, setAllStandardisedFile, allStandardisedFile, standardisedFileLink, setStandardisedFileLink, listOfFilesExistInDbForEdit, isDatasetEditModeOn, isaccesstoken} = props;
 
   console.log("type of ", typeof(listOfFilesExistInDbForEdit))
 
@@ -108,7 +108,9 @@ const DataStandardizationInAddDataset = (props) => {
       UrlConstant.standardization_get_all_file_name +
       datasetname;
     setIsLoading(true);
-    HTTPService("GET", url, false, false, true)
+    let checkforAccess = isaccesstoken ? isaccesstoken : false;
+
+    HTTPService("GET", url, false, false, true, checkforAccess)
       .then((response) => {
     // console.log("filename in getAllFileNames api call 2",allFileNames)
         setIsLoading(false);
@@ -145,9 +147,10 @@ const DataStandardizationInAddDataset = (props) => {
 
   const getStandardiziedTemplate = () => {
     let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
+    let checkforAccess = isaccesstoken ? isaccesstoken : false;
 
     setIsLoading(true);
-    HTTPService("GET", url, false, false, true)
+    HTTPService("GET", url, false, false, true, checkforAccess)
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
@@ -217,11 +220,12 @@ const DataStandardizationInAddDataset = (props) => {
       file_path: fileName,
       // is_standardised: true,
     };
+    let checkforAccess = isaccesstoken ? isaccesstoken : false;
     if(alreadyStanddardizedFiles.includes(fileName)) payload['is_standardised'] = true
     
     console.log("filename", fileName);
     setIsLoading(true);
-    HTTPService("POST", url, payload, false, true)
+    HTTPService("POST", url, payload, false, true, checkforAccess)
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
@@ -281,10 +285,11 @@ const DataStandardizationInAddDataset = (props) => {
     }
 
     if(alreadyStanddardizedFiles.includes(fileName)) payload['is_standardised'] = true
-
+    
     let url = UrlConstant.base_url + UrlConstant.standardise_file
     setIsLoading(true)
-    HTTPService("POST", url, payload, false, true)
+    let checkforAccess = isaccesstoken ? isaccesstoken : false;
+    HTTPService("POST", url, payload, false, true, checkforAccess)
     .then((response) => {
       setIsLoading(false);
       console.log("response", response);
@@ -362,7 +367,7 @@ const DataStandardizationInAddDataset = (props) => {
       setMaskedColumns(allStandardisedFile[fileName]?.masked_columns)
       
       // Chnage object reference
-      if(isDatasetEditModeOn){
+      // if(isDatasetEditModeOn){
       let tmpArr = [...allStandardisedFile[fileName]?.standardised_templete_category];
       tmpArr.forEach((attribute,index)=>{
         allStandardisedTempleteCategory.forEach(((tmpAttribute)=>{
@@ -384,9 +389,9 @@ const DataStandardizationInAddDataset = (props) => {
       tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
     });
     setStandardisedTempleteAttribute(tmpColumn);
-  }
+  // }
 
-  if(!isDatasetEditModeOn) setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
+  // if(!isDatasetEditModeOn) setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
 
     }
 
@@ -504,7 +509,7 @@ const DataStandardizationInAddDataset = (props) => {
                       onChange={(e) =>
                         datapointCategoryChange(e.target.value, index)
                       }
-                    >
+                    ><MenuItem value=""><em>None</em></MenuItem>
                     {/* { console.log(standardisedTempleteCategory?.[index],allStandardisedTempleteCategory, "THIS IS THE VVALUENBASBAHUSB")} */}
                       {allStandardisedTempleteCategory?.map((item) => {
                         // console.log("This is to check value of object reff",standardisedTempleteCategory?.[index]===item,standardisedTempleteCategory?.[index],item)
