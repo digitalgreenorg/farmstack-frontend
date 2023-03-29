@@ -4,13 +4,8 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CheckBoxWithText from './CheckBoxWithText';
 
-const BasicDetails = () => {
+const BasicDetails = ({ dataSetName, setDataSetName, dataSetDescription, setDataSetDescription, fromDate, setFromDate, toDate, setToDate, isUpdating, setIsUpdating, validator }) => {
 
-    const [dataSetName, setDataSetName] = useState('');
-    const [dataSetDescription, setDataSetDescription] = useState('');
-    const [fromDate, setFromDate] = useState('');
-    const [toDate, setToDate] = useState('');
-    const [isUpdating, setIsUpdating] = useState(false);
     const limitChar = 512;
 
     const handleDescription = (e) => {
@@ -54,7 +49,7 @@ const BasicDetails = () => {
                             textAlign: 'left'
                         }}
                     >
-                        {(dataSetName !== null && dataSetName !== undefined && dataSetName !== '') ? '' : 'Please enter the dataset name is a mandatory field.'}
+                        {(validator && (dataSetName === null || dataSetName == undefined || dataSetName === '')) ? 'Please enter the dataset name is a mandatory field.' : ''}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
@@ -163,7 +158,7 @@ const BasicDetails = () => {
                                                 textAlign: 'left'
                                             }}
                                         >
-                                            {(toDate !== null && toDate !== undefined && toDate !== '') ? '' : 'Please enter the start date of the data capture interval.'}
+                                            {(!validator && (!fromDate !== null || !fromDate !== undefined || !fromDate !== '')) ? '' : 'Please enter the start date of the data capture interval.'}
                                         </Typography>
                                     }
                                 />
@@ -224,7 +219,7 @@ const BasicDetails = () => {
                                                 textAlign: 'left'
                                             }}
                                         >
-                                            {(toDate !== null && toDate !== undefined && toDate !== '') ? '' : 'Please enter the end date of the data capture interval.'}
+                                            {(!validator && (!toDate !== null || !toDate !== undefined || !toDate !== '')) ? '' : 'Please enter the end date of the data capture interval.'}
                                         </Typography>
                                     }
                                 />

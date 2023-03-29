@@ -27,7 +27,7 @@ const ApiConfiguration = (props) => {
                             textAlign: 'left'
                         }}
                     >
-                        {(props.api !== null && props.api !== undefined && props.api !== '') ? '' : 'Please enter the api is a mandatory field.'}
+                        {(!props.validator && (!props.api !== null || !props.api !== undefined || !props.api !== '')) ? '' : 'Please enter the api is a mandatory field.'}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
@@ -62,7 +62,7 @@ const ApiConfiguration = (props) => {
                             textAlign: 'left'
                         }}
                     >
-                        {(props.authToken !== null && props.authToken !== undefined && props.authToken !== '') ? '' : 'Please enter the auth token is a mandatory field.'}
+                        {(!props.validator && (!props.authToken !== null || !props.authToken !== undefined || !props.authToken !== '')) ? '' : 'Please enter the auth token is a mandatory field.'}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
@@ -85,23 +85,6 @@ const ApiConfiguration = (props) => {
                 onChange={(e) => props.setAuthToken(e.target.value)}
             />
             <Box sx={{ marginTop: '31px', textAlign: 'end' }}>
-                <Button
-                    sx={{
-                        fontFamily: 'Montserrat',
-                        fontWeight: 700,
-                        fontSize: '16px',
-                        width: "44px",
-                        height: "48px",
-                        border: "none",
-                        borderRadius: "8px",
-                        color: "#00AB55",
-                        textTransform: 'none',
-                        '&:hover': {
-                            background: 'none',
-                            border: "none"
-                        }
-                    }}
-                    variant='outlined' onClick={() => props.handleClearFields()}>Clear</Button>
                 <Button
                     sx={{
                         fontFamily: 'Montserrat',
@@ -134,7 +117,7 @@ const ApiConfiguration = (props) => {
                             textAlign: 'left'
                         }}
                     >
-                        {(props.exportFileName !== null && props.exportFileName !== undefined && props.exportFileName !== '') ? '' : 'Please enter the export file name is a mandatory field.'}
+                        {(!props.validator && (!props.exportFileName !== null || !props.exportFileName !== undefined || !props.exportFileName !== '')) ? '' : 'Please enter the export file name is a mandatory field.'}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
@@ -161,19 +144,37 @@ const ApiConfiguration = (props) => {
                     sx={{
                         fontFamily: 'Montserrat',
                         fontWeight: 700,
-                        fontSize: '13px',
-                        width: "144px",
+                        fontSize: '16px',
+                        width: "44px",
                         height: "48px",
-                        background: "#00AB55",
+                        border: "none",
                         borderRadius: "8px",
+                        color: "#00AB55",
                         textTransform: 'none',
-                        marginLeft: '50px',
                         '&:hover': {
-                            backgroundColor: '#00AB55',
-                            color: '#fffff',
+                            background: 'none',
+                            border: "none"
                         }
                     }}
-                    variant='contained' onClick={() => props.handleExport()}>Export to json</Button>
+                    variant='outlined' onClick={() => props.handleDisconnect()}>Disconnect</Button>
+                <Button
+                    sx={{
+                        fontFamily: 'Montserrat',
+                        fontWeight: 700,
+                        fontSize: '16px',
+                        width: "171px",
+                        height: "48px",
+                        border: "1px solid rgba(0, 171, 85, 0.48)",
+                        borderRadius: "8px",
+                        color: "#00AB55",
+                        textTransform: 'none',
+                        marginLeft: '60px',
+                        '&:hover': {
+                            background: 'none',
+                            border: "1px solid rgba(0, 171, 85, 0.48)"
+                        }
+                    }}
+                    variant='outlined' onClick={() => props.handleExport()}>Export to json</Button>
             </Box>
         </Box>
     )

@@ -26,6 +26,21 @@ function TabPanel(props) {
 const AddDataSetParticipantNew = () => {
     const history = useHistory();
     const [value, setValue] = useState(1);
+    const [validator, setValidator] = useState(false)
+
+    // Basic Details
+    const [dataSetName, setDataSetName] = useState('');
+    const [dataSetDescription, setDataSetDescription] = useState('');
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('');
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    // Upload File
+    const [files, setFiles] = useState([]);
+    const [sqlFiles, setSqlFiles] = useState([]);
+    const [postgresFiles, setPostgresFiles] = useState([]);
+    const [sqLiteFiles, setSqLiteFiles] = useState([]);
+    const [restApifiles, setRestApiFiles] = useState([]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -73,10 +88,34 @@ const AddDataSetParticipantNew = () => {
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    <BasicDetails />
+                    <BasicDetails
+                        dataSetName={dataSetName}
+                        setDataSetName={setDataSetName}
+                        dataSetDescription={dataSetDescription}
+                        setDataSetDescription={setDataSetDescription}
+                        fromDate={fromDate}
+                        setFromDate={setFromDate}
+                        toDate={toDate}
+                        setToDate={setToDate}
+                        isUpdating={isUpdating}
+                        setIsUpdating={setIsUpdating}
+                        validator={validator}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <UploadFile />
+                    <UploadFile
+                        files={files}
+                        setFiles={setFiles}
+                        sqlFiles={sqlFiles}
+                        setSqlFiles={setSqlFiles}
+                        postgresFiles={postgresFiles}
+                        setPostgresFiles={setPostgresFiles}
+                        sqLiteFiles={sqLiteFiles}
+                        setSqLiteFiles={setSqLiteFiles}
+                        restApifiles={restApifiles}
+                        setRestApiFiles={setRestApiFiles}
+                        validator={validator}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     Item Three

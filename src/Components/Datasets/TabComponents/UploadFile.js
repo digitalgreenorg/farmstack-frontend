@@ -18,15 +18,10 @@ const accordionTitleStyle = {
     "color": "#212B36 !important"
 }
 
-const UploadFile = () => {
+const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, setPostgresFiles, sqLiteFiles, setSqLiteFiles, restApifiles, setRestApiFiles, validator }) => {
     const [selectedUploadType, setSelectedUploadType] = useState('file_upload');
     const [selectedPanel, setSelectedPanel] = useState();
     const [file, setFile] = useState();
-    const [files, setFiles] = useState([]);
-    const [sqlFiles, setSqlFiles] = useState([]);
-    const [postgresFiles, setPostgresFiles] = useState([]);
-    const [sqLiteFiles, setSqLiteFiles] = useState([]);
-    const [restApifiles, setRestApiFiles] = useState([]);
 
     const [mySqlUserName, setMySqlUserName] = useState()
     const [mySqlPassword, setMySqlPassword] = useState()
@@ -223,6 +218,8 @@ const UploadFile = () => {
             setIsPostgresConnected(false)
         } else if (selectedUploadType === 'sqlite') {
             setIsSqLiteConnected(false)
+        } else if (selectedUploadType === 'rest_api') {
+            setIsApiConnected(false)
         }
     }
 
@@ -405,6 +402,7 @@ const UploadFile = () => {
                                     handleCheckBox={handleCheckBox}
                                     handleClearFields={handleClearFields}
                                     handleConnect={handleConnect}
+                                    validator={validator}
                                     dbName={'MySQL'}
                                 />
                                 : <TableImport
@@ -415,6 +413,7 @@ const UploadFile = () => {
                                     setFileName={setFileName}
                                     handleDisconnect={handleDisconnect}
                                     handleImport={handleImport}
+                                    validator={validator}
                                     menus={sqlTables}
                                 />
                             }
@@ -437,6 +436,7 @@ const UploadFile = () => {
                                     handleCheckBox={handleCheckBox}
                                     handleClearFields={handleClearFields}
                                     handleConnect={handleConnect}
+                                    validator={validator}
                                     dbName={'Postgres'}
                                 />
                                 : <TableImport
@@ -447,6 +447,7 @@ const UploadFile = () => {
                                     setFileName={setFileName}
                                     handleDisconnect={handleDisconnect}
                                     handleImport={handleImport}
+                                    validator={validator}
                                     menus={postgresTables}
                                 />
                             }
@@ -469,6 +470,7 @@ const UploadFile = () => {
                                     handleCheckBox={handleCheckBox}
                                     handleClearFields={handleClearFields}
                                     handleConnect={handleConnect}
+                                    validator={validator}
                                     dbName={'SQLite'}
                                 />
                                 : <TableImport
@@ -479,6 +481,7 @@ const UploadFile = () => {
                                     setFileName={setFileName}
                                     handleDisconnect={handleDisconnect}
                                     handleImport={handleImport}
+                                    validator={validator}
                                     menus={sqLiteTables}
                                 />
                             }
@@ -497,7 +500,9 @@ const UploadFile = () => {
                                 setExportFileName={setExportFileName}
                                 handleClearFields={handleClearFields}
                                 handleConnect={handleConnect}
+                                handleDisconnect={handleDisconnect}
                                 handleExport={handleExport}
+                                validator={validator}
                             />
                         </> : <></>}
                 </div>

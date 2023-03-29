@@ -40,7 +40,7 @@ const DbConfiguration = (props) => {
                             textAlign: 'left'
                         }}
                     >
-                        {(props.userName !== null && props.userName !== undefined && props.userName !== '') ? '' : 'Please enter the username is a mandatory field.'}
+                        {(!props.validator && (!props.userName !== null || !props.userName !== undefined || !props.userName !== '')) ? '' : 'Please enter the username is a mandatory field.'}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
@@ -75,7 +75,7 @@ const DbConfiguration = (props) => {
                             textAlign: 'left'
                         }}
                     >
-                        {(props.password !== null && props.password !== undefined && props.password !== '') ? '' : 'Username or Password combination seems to be incorrect.'}
+                        {(!props.validator && (!props.password !== null || !props.password !== undefined || !props.password !== '')) ? '' : 'Username or Password combination seems to be incorrect.'}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
@@ -110,7 +110,7 @@ const DbConfiguration = (props) => {
                             textAlign: 'left'
                         }}
                     >
-                        {(props.dbUrl !== null && props.dbUrl !== undefined && props.dbUrl !== '') ? '' : 'We are unable to find the database host. Please check and enter a valid URL.'}
+                        {(!props.validator && (!props.dbUrl !== null || !props.dbUrl !== undefined || !props.dbUrl !== '')) ? '' : 'We are unable to find the database host. Please check and enter a valid URL.'}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
@@ -145,7 +145,7 @@ const DbConfiguration = (props) => {
                             textAlign: 'left'
                         }}
                     >
-                        {(props.port !== null && props.port !== undefined && props.port !== '') ? '' : 'There seems to be an issue with the port number. It is either incorrect of not open for connections.'}
+                        {(!props.validator && (!props.port !== null || !props.port !== undefined || !props.port !== '')) ? '' : 'There seems to be an issue with the port number. It is either incorrect of not open for connections.'}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
