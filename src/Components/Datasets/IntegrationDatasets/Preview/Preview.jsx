@@ -73,7 +73,7 @@ const Preview = (props) => {
         <Container style={{ background: "rgb(252, 252, 252)" }} className='dataset_selector_in_integration'>
             <Row id='previewTable' className={styles.select_dataset_logo}>
                 <Col lg={12} sm={12} sx={12}>
-                    Preview
+                    Final preview
                 </Col>
             </Row>
             <Row style={{ marginBottom: "50px" }}>
@@ -151,7 +151,7 @@ const Preview = (props) => {
                         }} className={styles.save_btn}>Save connector</Button>}
                     {/* </Col> */}
                     {/* <Col lg={2}> */}
-                    {true &&
+                    {isEditModeOn &&
                         <Popconfirm
                             title="Delete the connector"
                             description="Are you sure to delete this connector?"
