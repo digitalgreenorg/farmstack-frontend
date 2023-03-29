@@ -73,7 +73,7 @@ const Preview = (props) => {
         <Container style={{ background: "rgb(252, 252, 252)" }} className='dataset_selector_in_integration'>
             <Row id='previewTable' className={styles.select_dataset_logo}>
                 <Col lg={12} sm={12} sx={12}>
-                    Preview
+                    Final preview
                 </Col>
             </Row>
             <Row style={{ marginBottom: "50px" }}>
@@ -109,7 +109,7 @@ const Preview = (props) => {
                 </Col>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
                     <div>Datasets</div>
-                    <ol style={{ width: "250px", height: "150px", overflowY: "auto", fontWeight: "600" }}>{completeData?.map((each) => <li> {each.dataset_name}</li>)}</ol>
+                    <ol style={{ width: "250px", height: "150px", overflowY: "auto", fontWeight: "600", wordWrap: "break-word" }}>{completeData?.map((each) => <li> {each.dataset_name + " - " + decodeURI(each.file_name.split("/").at(-1))} <hr /></li>)}</ol>
                 </Col>
                 <Col lg={3} sm={12} className={styles.data_before_download}>
                     <div>No. of records</div>
@@ -151,7 +151,7 @@ const Preview = (props) => {
                         }} className={styles.save_btn}>Save connector</Button>}
                     {/* </Col> */}
                     {/* <Col lg={2}> */}
-                    {true &&
+                    {isEditModeOn &&
                         <Popconfirm
                             title="Delete the connector"
                             description="Are you sure to delete this connector?"

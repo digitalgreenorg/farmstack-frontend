@@ -120,34 +120,67 @@ const StandardizationInOnbord = (props) => {
     setDatapointName("");
     setDatapointDes("");
   };
-
-  const handleUpdateCategoryName = (index,newValue) =>{
+    const handleUpdateCategoryName = (index,newValue) =>{
     setSaveButtonEnabled(true)
 
     let tmpAllDatapoints = [...allDatapoints];
     console.log('error array', accordionDatapointNameError)
 
-      // Check if category name already exist or not
-      let returnFromFuntion = false
-      tmpAllDatapoints.forEach((category)=>{
-        if(category.datapoint_category === newValue) {
-          let tmpDatapointNameError = [...accordionDatapointNameError]
-          tmpDatapointNameError[index] = ` ${newValue} Category already exists!`
-          setAccordionDatapointNameError(tmpDatapointNameError)
-          returnFromFuntion = true;
-          return
-        }
-      })
-      if(returnFromFuntion) return
+      //Check if category name already exist or not
+      // let returnFromFuntion = false
+      // tmpAllDatapoints.forEach((category)=>{
+      //   if(category.datapoint_category === newValue) {
+      //     let tmpDatapointNameError = [...accordionDatapointNameError]
+        //tmpDatapointNameError[index] = ` ${newValue} Category already exists!`
+      //     setAccordionDatapointNameError(tmpDatapointNameError)
+      //     returnFromFuntion = true;
+      //     return
+      //   }
+      // })
+      // if(returnFromFuntion) return
+      // let tmpDatapointNameError = [...accordionDatapointNameError]
+      //     tmpDatapointNameError[index] = ""
+      //     setAccordionDatapointNameError(tmpDatapointNameError)
+    if(newValue.length<51 && newValue.match(RegexConstants.NEW_NAME_REGEX)){
+      tmpAllDatapoints[index].datapoint_category = newValue;
+      setAllDataPoints(tmpAllDatapoints);
+    }else{
+      return
+    }
 
-      let tmpDatapointNameError = [...accordionDatapointNameError]
-          tmpDatapointNameError[index] = ""
-          setAccordionDatapointNameError(tmpDatapointNameError)
-
-    
-    tmpAllDatapoints[index].datapoint_category = newValue;
-    setAllDataPoints(tmpAllDatapoints);
   }
+  const handleNameExistsUpdate = (index, newValue) => {
+    let tmpAllDatapoints = [...allDatapoints];
+    let newCategoryName = newValue.trim();
+  
+    // Check if category name already exists or not
+    let categoryAlreadyExists = tmpAllDatapoints.some((category, i) => {
+      return i !== index && category.datapoint_category === newCategoryName;
+    });
+  
+    if (categoryAlreadyExists) {
+      let errorofnewValue = [...accordionDatapointNameError];
+      errorofnewValue[index] = `"${newCategoryName}" is already taken. Please choose a different name.`;
+      setAccordionDatapointNameError(errorofnewValue);
+      
+    }else if (newCategoryName === ""){
+      let errorofnewValue = [...accordionDatapointNameError]
+      errorofnewValue[index] = "This field may not be blank"
+      setAccordionDatapointNameError(errorofnewValue)
+      
+    } else {
+      let tmpDatapointNameError = [...accordionDatapointNameError];
+      tmpDatapointNameError[index] = "";
+      setAccordionDatapointNameError(tmpDatapointNameError);
+      handleUpdateCategoryName(index, newCategoryName);
+      let tmp = [...editCategoryTitle]
+      tmp[index] = false
+      console.log('edit title', tmp, editCategoryTitle)
+      setEditCategoryTitle(tmp)
+
+    }
+  };
+  
 
   const hanldeAttributeInputChange = (
     index,
@@ -174,6 +207,9 @@ const StandardizationInOnbord = (props) => {
 
     if(newValue.length>=251){
       return
+    }
+    if(newValue == " "){
+      newValue.replace("")
     }
     setSaveButtonEnabled(true)
 
@@ -220,7 +256,7 @@ const StandardizationInOnbord = (props) => {
       let tmpAllDatapoints = [...allDatapoints];
       tmpAllDatapoints.splice(index, 1);
       setAllDataPoints(tmpAllDatapoints);
-
+      
       let tmpAllAttributes = {...allAttributes};
       tmpAllAttributes[index] = []
       setAllAttributes(tmpAllAttributes)
@@ -294,8 +330,8 @@ const StandardizationInOnbord = (props) => {
         } else {
           setError(false);
           success(
-            e.response.data && e.response.data.message
-              ? e.response.data.message
+            e.response.data
+              ? e.response.data
               : "Something went wrong.",
             "error"
           );
@@ -528,14 +564,9 @@ const StandardizationInOnbord = (props) => {
                     }{
                       editCategoryTitle[index]  ?
                       <IconButton>
-                        <Button onClick={(e)=>{
-                          // this funtion will make a particular index of editCategoryTitle array false 
-                          e.stopPropagation();
-                          let tmp = [...editCategoryTitle]
-                          tmp[index] = false
-                          console.log('edit title', tmp, editCategoryTitle)
-                          setEditCategoryTitle(tmp)
-                          }} className="update-category-button" >Update</Button>
+                        <Button onClick={() => handleNameExistsUpdate(index, item.datapoint_category)}
+                          // this funtion will make a particular index of editCategoryTitle array false       
+                          className="update-category-button" >Update</Button>
                       </IconButton>
                     : 
                     null

@@ -46,11 +46,6 @@ const CardDetail = (props) => {
         } else {
             setIsAllConditionForSaveMet(false)
         }
-        let deleteArr = []
-        if (index != arr.length - 1) {
-            deleteArr.push(completeData[index]["map_id"])
-        }
-        setTemporaryDeletedCards([...temporaryDeletedCards, ...deleteArr])
         console.log(temporaryDeletedCards)
         // .then(()=>{
         let obj
@@ -62,6 +57,18 @@ const CardDetail = (props) => {
             arr[index - 1] = obj
         }
         arr.splice(index, 1)
+
+        let deleteArr = []
+        let start = index == 0 ? index : index - 1
+        for (let i = start; i < completeData.length; i++) {
+            console.log(index, i, temporaryDeletedCards)
+            if (!temporaryDeletedCards?.includes(completeData[i]["map_id"]) && completeData[i]["map_id"]) {
+                deleteArr.push(completeData[i]["map_id"])
+            }
+        }
+        setTemporaryDeletedCards([...temporaryDeletedCards, ...deleteArr])
+
+
         setCompleteData([...arr])
         setTotalCounter((prev) => prev - 1)
         // })

@@ -999,6 +999,10 @@ button.disbalesubmitbtndept {
   margin-top: 0px !important;
 }
 
+.dataset_selector_in_integration .ant-segmented-item-selected {
+  margin-bottom: 0px !important;
+}
+
 .dataset_selector_in_integration .MuiCollapse-entered {
   background: #FFFFFF !important;
   box-shadow: 0px 20px 40px -4px rgb(145 158 171 / 16%) !important;
@@ -1055,6 +1059,8 @@ button.disbalesubmitbtndept {
   color: red !important;
 }
 
+
+
 .deleteicon:hover .mainBoxInIntegration {
   border: 1px solid red !important;
 }
@@ -1110,12 +1116,17 @@ html {
   width: 368px;
   height: 178px;
   margin: 30px 15px 15px 15px;
-  border: 1px solid #C0C7D1;
+  border: 1px solid #FFDB64;
+  outline: none;
+
 }
 
 .connectorCard:hover {
-  border: 1px solid #c09507;
+  box-shadow: 0px 4px 20px rgba(216, 175, 40, 0.28);
+  /* border: 1px solid red; */
+  border: 1px solid #FFDB64;
   cursor: pointer;
+
 }
 
 .dataset_selector_in_integration .backButtonMainDiv .MuiSvgIcon-root {
@@ -1124,4 +1135,8 @@ html {
 
 .dataset_selector_in_integration .Mui-focused {
   /* border: 1px solid #ab8405 !important; */
+}
+
+.ant-segmented-group label {
+  margin-bottom: 0px !important;
 }

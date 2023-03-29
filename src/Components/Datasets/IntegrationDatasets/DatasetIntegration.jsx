@@ -42,11 +42,11 @@ const DatasetIntegration = (props) => {
     const [connectorIdForView, setConnectorIdForView] = useState("")
 
     const [template, setTemplate] = useState(
-        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: [] },
 
     )
     const [empty, setEmptyTemplate] = useState(
-        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "" },
+        { org_id: "", dataset_list: [], file_list: [], org_name: "", dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [], columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: [] },
     )
 
 
@@ -259,10 +259,10 @@ const DatasetIntegration = (props) => {
     const resetAll = (main, connector, join, goback, func1, func2) => {
 
         // goToTop()
-        if (isEditModeOn) {
-            setIsConditionForConnectorDataForSaveMet(false)
-            setIsAllConditionForSaveMet(false)
-        }
+        // if (isEditModeOn) {
+        setIsConditionForConnectorDataForSaveMet(false)
+        setIsAllConditionForSaveMet(false)
+        // }
         setTemporaryDeletedCards([])
         setIntegratedFilePath("")
         setNoOfRecords(0)
@@ -298,7 +298,7 @@ const DatasetIntegration = (props) => {
             currentObj["left"] = maps[i]?.condition?.left?.length > 0 ? maps[i]?.condition?.left : []
             currentObj["next_left"] = maps[i]?.condition?.left?.length > 0 ? maps[i]?.condition?.left : []
             currentObj["map_id"] = maps[i]?.id ? maps[i]?.id : null
-
+            currentObj["result"] = maps[i]?.condition?.result ? maps[i]?.condition?.result : []
             currentObj["availabeColumns"] = maps[i]?.condition?.left_available_columns?.length > 0 ? maps[i]?.condition?.left_available_columns : maps[i]?.condition?.left_selected
             arr[i] = currentObj
 
@@ -370,6 +370,7 @@ const DatasetIntegration = (props) => {
                     left_dataset_file_path: completeData[i]?.file_name,
                     right_dataset_file_path: completeData[i + 1]?.file_name,
                     condition: {
+                        result: completeData[i]?.result?.length > 0 ? completeData[i]?.result : [],
                         left: completeData[i]?.next_left?.length > 0 ? completeData[i].next_left : [], right: completeData[i]?.right?.length > 0 ? completeData[i].right : [],
                         left_available_columns: completeData[i]?.availabeColumns?.length > 0 ? [...completeData[i]?.availabeColumns] : [],
                         right_available_columns: completeData[i + 1]?.availabeColumns?.length > 0 ? [...completeData[i + 1]?.availabeColumns] : [],
@@ -436,12 +437,14 @@ const DatasetIntegration = (props) => {
                     let obj = arr[index + 1]
                     let first_obj = arr[index]
                     first_obj["next_left"] = [...allKeys]
+                    first_obj["result"] = [...(res.data?.data.data)]
                     obj["left"] = [...allKeys]
                     obj["left_on"] = []
                     console.log("HERE IS THE CALL", arr.length, index,)
                     if (arr.length > 2 && index != arr.length - 2) {
                         for (let i = index + 1; i < arr.length; i++) {
                             arr[i]["left_on"] = []
+                            arr[i]["result"] = []
                         }
                         setIsAllConditionForSaveMet(false)
                     } else {
@@ -458,7 +461,7 @@ const DatasetIntegration = (props) => {
                         setOpen(false);
                         return clearTimeout(id)
                     }, 2500)
-                    document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
+                    // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
                 }
 
             } else if (condition == "save") {
@@ -497,8 +500,8 @@ const DatasetIntegration = (props) => {
                 if (condition == "integrate") {
                     setIsAllConditionForSaveMet(false)
                 }
-                console.log(err.response.data)
-                console.log(Object.values(err?.response?.data)[0])
+                console.log(err)
+                // console.log(Object.values(err?.response?.data)[0])
                 setOpen(true);
                 setLoader(false)
                 setAlertType("error")
