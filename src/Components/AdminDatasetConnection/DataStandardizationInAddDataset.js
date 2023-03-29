@@ -362,7 +362,7 @@ const DataStandardizationInAddDataset = (props) => {
       setMaskedColumns(allStandardisedFile[fileName]?.masked_columns)
       
       // Chnage object reference
-      if(isDatasetEditModeOn){
+      // if(isDatasetEditModeOn){
       let tmpArr = [...allStandardisedFile[fileName]?.standardised_templete_category];
       tmpArr.forEach((attribute,index)=>{
         allStandardisedTempleteCategory.forEach(((tmpAttribute)=>{
@@ -384,9 +384,9 @@ const DataStandardizationInAddDataset = (props) => {
       tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
     });
     setStandardisedTempleteAttribute(tmpColumn);
-  }
+  // }
 
-  if(!isDatasetEditModeOn) setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
+  // if(!isDatasetEditModeOn) setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
 
     }
 
