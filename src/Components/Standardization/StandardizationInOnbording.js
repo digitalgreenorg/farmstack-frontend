@@ -57,7 +57,7 @@ const StandardizationInOnbord = (props) => {
   const handleDatapointCategoryName = (e) =>{
 
     setDatapointNameError("")
-    if(e.target.value.length<51 && e.target.value.match(RegexConstants.NEW_NAME_REGEX)) setDatapointName(e.target.value)
+    if(e.target.value.length<51 && e.target.value.match(RegexConstants.connector_name)) setDatapointName(e.target.value)
   }
 
   const handleDatapointCategoryDescription = (e) =>{
