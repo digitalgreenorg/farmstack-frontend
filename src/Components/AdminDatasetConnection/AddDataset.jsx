@@ -1097,6 +1097,7 @@ const AddDataset = (props) => {
                                     {
                                         activeStep == 2 ?
                                             <DataStandardizationInAddDataset
+                                                isaccesstoken={isaccesstoken}
                                                 allStandardisedFile={allStandardisedFile}
                                                 setAllStandardisedFile={setAllStandardisedFile}
                                                 standardisedFileLink={standardisedFileLink}
