@@ -41,7 +41,7 @@ const Categorise = (props) => {
                 textAlign: 'left'
             }}>Categories</Typography>
             <div className='mt-30'>
-                <ControlledAccordion data={data} customBorder={true} showDeleteIcon={true} />
+                <ControlledAccordion data={data} customBorder={true} showDeleteIcon={true} customPadding={true} />
             </div>
             <Box className='d-flex mt-50'>
                 <Box>

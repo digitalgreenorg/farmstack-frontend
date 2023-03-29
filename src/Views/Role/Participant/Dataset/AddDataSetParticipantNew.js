@@ -55,7 +55,7 @@ const AddDataSetParticipantNew = () => {
     }
 
     const handleSubmit = () => {
-
+        history.push('/participant/new_datasets')
     }
 
     return (

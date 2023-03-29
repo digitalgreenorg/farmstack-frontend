@@ -919,33 +919,45 @@ button.disbalesubmitbtndept {
 /* short spacing styling */
 
 .mt-20 {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
 
 .mt-10 {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .mb-10 {
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
 }
 
 .mb-30 {
-  margin-bottom: 30px;
+  margin-bottom: 30px !important;
 }
 
 .mb-20 {
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
 }
 
 .mt-2 {
-  margin-top: 2px;
+  margin-top: 2px !important;
+}
+
+.ml-10 {
+  margin-left: 10px !important;
 }
 
 .ml-20 {
-  margin-left: 20px;
+  margin-left: 20px !important;
+}
+
+.mt-30 {
+  margin-top: 30px !important;
 }
 
 .w-25 {
-  width: 25%
+  width: 25% !important;
+}
+
+.mr-55 {
+  margin-right: 55px !important;
 }
