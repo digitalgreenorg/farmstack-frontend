@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, TextField, Typography } from '@mui/material';
 import './UploadFile.css';
 import { FileUploader } from 'react-drag-drop-files';
 import ControlledAccordion from '../../Accordion/Accordion';
 import File from './File';
 import EmptyFile from './EmptyFile';
+import CheckBoxWithText from './CheckBoxWithText';
+import DbConfiguration from './DbConfiguration';
+import TableImport from './TableImport';
 
 const accordionTitleStyle = {
     "fontFamily": "'Montserrat' !important",
@@ -23,6 +26,35 @@ const UploadFile = () => {
     const [postgresFiles, setPostgresFiles] = useState([]);
     const [sqLiteFiles, setSqLiteFiles] = useState([]);
     const [restApifiles, setRestApiFiles] = useState([]);
+
+    const [mySqlUserName, setMySqlUserName] = useState()
+    const [mySqlPassword, setMySqlPassword] = useState()
+    const [mySqlDbUrl, setMySqlDbUrl] = useState()
+    const [mySqlPort, setMySqlPort] = useState()
+    const [isMySqlSaveCreds, setIsMySqlSaveCreds] = useState(false)
+
+    const [postgresUserName, setPostgresUserName] = useState()
+    const [postgresPassword, setPostgresPassword] = useState()
+    const [postgresDbUrl, setPostgresDbUrl] = useState()
+    const [postgresPort, setPostgresPort] = useState()
+    const [isPostgresSaveCreds, setIsPostgresSaveCreds] = useState(false)
+
+    const [sqLiteUserName, setSqLiteUserName] = useState()
+    const [sqLitePassword, setSqLitePassword] = useState()
+    const [sqLiteDbUrl, setSqLiteDbUrl] = useState()
+    const [sqLitePort, setSqLitePort] = useState()
+    const [isSqLiteSaveCreds, setIsSqLiteSaveCreds] = useState(false)
+
+    const [isMySqlConnected, setIsMySqlConnected] = useState(false)
+    const [isPostgresConnected, setIsPostgresConnected] = useState(false)
+    const [isSqLiteConnected, setIsSqLiteConnected] = useState(false)
+
+    const [fileName, setFileName] = useState()
+    const [tableName, setTableName] = useState()
+
+    const [sqlTables, setSqlTables] = useState(["1_Person.csv"])
+    const [postgresTables, setPostgresTables] = useState(["1_Cap.csv"])
+    const [sqLiteTables, setSqLiteTables] = useState(["1_User.xlsx"])
 
     const handleFileChange = (file) => {
         setFile(file);
@@ -129,6 +161,68 @@ const UploadFile = () => {
         }
     }
 
+    const handleCheckBox = () => {
+        if (selectedUploadType === 'mysql') {
+            setIsMySqlSaveCreds(!isMySqlSaveCreds)
+        } else if (selectedUploadType === 'postgres') {
+            setIsPostgresSaveCreds(!isPostgresSaveCreds)
+        } else if (selectedUploadType === 'sqlite') {
+            setIsSqLiteSaveCreds(!isSqLiteSaveCreds)
+        }
+    }
+
+    const handleClearFields = () => {
+        if (selectedUploadType === 'mysql') {
+            setMySqlUserName("")
+            setMySqlPassword("")
+            setMySqlDbUrl("")
+            setMySqlPort("")
+            setIsMySqlSaveCreds(false)
+        } else if (selectedUploadType === 'postgres') {
+            setPostgresUserName("")
+            setPostgresPassword("")
+            setPostgresDbUrl("")
+            setPostgresPort("")
+            setIsPostgresSaveCreds(false)
+        } else if (selectedUploadType === 'sqlite') {
+            setSqLiteUserName("")
+            setSqLitePassword("")
+            setSqLiteDbUrl("")
+            setSqLitePort("")
+            setIsSqLiteSaveCreds(false)
+        }
+
+    }
+
+    const handleConnenct = () => {
+        if (selectedUploadType === 'mysql') {
+            setIsMySqlConnected(true)
+        } else if (selectedUploadType === 'postgres') {
+            setIsPostgresConnected(true)
+        } else if (selectedUploadType === 'sqlite') {
+            setIsSqLiteConnected(true)
+        }
+    }
+
+    const handleDisconnect = () => {
+        if (selectedUploadType === 'mysql') {
+            setIsMySqlConnected(false)
+        } else if (selectedUploadType === 'postgres') {
+            setIsPostgresConnected(false)
+        } else if (selectedUploadType === 'sqlite') {
+            setIsSqLiteConnected(false)
+        }
+    }
+
+    const handleImport = () => {
+        if (selectedUploadType === 'mysql') {
+            setSqlFiles([])
+        } else if (selectedUploadType === 'postgres') {
+            setPostgresFiles([])
+        } else if (selectedUploadType === 'sqlite') {
+            setSqLiteFiles([])
+        }
+    }
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -216,6 +310,7 @@ const UploadFile = () => {
                         }}>Rest API</Typography>
                 </div>
                 <div className='browse_style'>
+                    {/* for File Upload */}
                     {selectedUploadType === 'file_upload' ?
                         <>
                             <div className='cursor-pointer'>
@@ -277,7 +372,102 @@ const UploadFile = () => {
                         :
                         <></>
                     }
-
+                    {/* for MySql */}
+                    {selectedUploadType === 'mysql' ?
+                        <>
+                            {!isMySqlConnected ?
+                                <DbConfiguration
+                                    userName={mySqlUserName}
+                                    setUserName={setMySqlUserName}
+                                    password={mySqlPassword}
+                                    setPassword={setMySqlPassword}
+                                    dbUrl={mySqlDbUrl}
+                                    setDbUrl={setMySqlDbUrl}
+                                    port={mySqlPort}
+                                    setPort={setMySqlPort}
+                                    handleCheckBox={handleCheckBox}
+                                    handleClearFields={handleClearFields}
+                                    handleConnenct={handleConnenct}
+                                    dbName={'MySQL'}
+                                />
+                                : <TableImport
+                                    dbName={'MySQL'}
+                                    tableName={tableName}
+                                    setTableName={setTableName}
+                                    fileName={fileName}
+                                    setFileName={setFileName}
+                                    handleDisconnect={handleDisconnect}
+                                    handleImport={handleImport}
+                                    menus={sqlTables}
+                                />
+                            }
+                        </>
+                        : <></>
+                    }
+                    {/* for Postgres */}
+                    {selectedUploadType === 'postgres' ?
+                        <>
+                            {!isPostgresConnected ?
+                                <DbConfiguration
+                                    userName={postgresUserName}
+                                    setUserName={setPostgresUserName}
+                                    password={postgresPassword}
+                                    setPassword={setPostgresPassword}
+                                    dbUrl={postgresDbUrl}
+                                    setDbUrl={setPostgresPassword}
+                                    port={postgresPort}
+                                    setPort={setPostgresPassword}
+                                    handleCheckBox={handleCheckBox}
+                                    handleClearFields={handleClearFields}
+                                    handleConnenct={handleConnenct}
+                                    dbName={'Postgres'}
+                                />
+                                : <TableImport
+                                    dbName={'Postgres'}
+                                    tableName={tableName}
+                                    setTableName={setTableName}
+                                    fileName={fileName}
+                                    setFileName={setFileName}
+                                    handleDisconnect={handleDisconnect}
+                                    handleImport={handleImport}
+                                    menus={postgresTables}
+                                />
+                            }
+                        </>
+                        : <></>
+                    }
+                    {/* for SQLite */}
+                    {selectedUploadType === 'sqlite' ?
+                        <>
+                            {!isPostgresConnected ?
+                                <DbConfiguration
+                                    userName={sqLiteUserName}
+                                    setUserName={setSqLiteUserName}
+                                    password={sqLitePassword}
+                                    setPassword={setSqLitePassword}
+                                    dbUrl={sqLiteDbUrl}
+                                    setDbUrl={setSqLiteDbUrl}
+                                    port={sqLitePort}
+                                    setPort={setSqLitePort}
+                                    handleCheckBox={handleCheckBox}
+                                    handleClearFields={handleClearFields}
+                                    handleConnenct={handleConnenct}
+                                    dbName={'SQLite'}
+                                />
+                                : <TableImport
+                                    dbName={'SQLite'}
+                                    tableName={tableName}
+                                    setTableName={setTableName}
+                                    fileName={fileName}
+                                    setFileName={setFileName}
+                                    handleDisconnect={handleDisconnect}
+                                    handleImport={handleImport}
+                                    menus={sqLiteTables}
+                                />
+                            }
+                        </>
+                        : <></>
+                    }
                 </div>
                 <div className='list_upload_style'>
                     <Typography sx={{

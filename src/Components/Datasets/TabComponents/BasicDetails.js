@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Checkbox, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import CheckBoxWithText from './CheckBoxWithText';
 
 const BasicDetails = () => {
 
@@ -9,6 +10,7 @@ const BasicDetails = () => {
     const [dataSetDescription, setDataSetDescription] = useState('');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
+    const [isUpdating, setIsUpdating] = useState(false);
     const limitChar = 512;
 
     const handleDescription = (e) => {
@@ -23,6 +25,10 @@ const BasicDetails = () => {
 
     const handleToDate = (value) => {
         setToDate(value);
+    }
+
+    const handleCheckBox = () => {
+        setIsUpdating(!isUpdating)
     }
 
     return (
@@ -227,28 +233,7 @@ const BasicDetails = () => {
                     </LocalizationProvider>
                 </div>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '4px' }}>
-                <div>
-                    <Checkbox
-                        sx={{
-                            '&.Mui-checked': {
-                                color: '#00AB55 !important',
-                            },
-                        }}
-                    />
-                </div>
-                <Typography
-                    sx={{
-                        fontFamily: "Montserrat !important",
-                        fontWeight: "400",
-                        fontSize: "16px",
-                        lineHeight: "22px",
-                        color: "#212B36",
-                        textAlign: 'left',
-                        marginLeft: '5px'
-                    }}
-                >Constantly updating</Typography>
-            </Box>
+            <CheckBoxWithText text={'Constantly updating'} handleCheckBox={handleCheckBox} />
         </div>
     )
 }
