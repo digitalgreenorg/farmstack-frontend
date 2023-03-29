@@ -72,6 +72,7 @@ const BasicDetails = () => {
                     }
                 }}
                 placeholder='Dataset name'
+                label='Dataset name'
                 value={dataSetName}
                 onChange={(e) => setDataSetName(e.target.value)}
             />
@@ -96,6 +97,7 @@ const BasicDetails = () => {
                     }
                 }}
                 placeholder='Dataset description not more that 512 character '
+                label='Dataset description not more that 512 character '
                 value={dataSetDescription}
                 onChange={(e) => handleDescription(e)}
             />

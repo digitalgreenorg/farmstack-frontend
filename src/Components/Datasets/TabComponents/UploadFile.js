@@ -8,6 +8,7 @@ import EmptyFile from './EmptyFile';
 import CheckBoxWithText from './CheckBoxWithText';
 import DbConfiguration from './DbConfiguration';
 import TableImport from './TableImport';
+import ApiConfiguration from './ApiConfiguration';
 
 const accordionTitleStyle = {
     "fontFamily": "'Montserrat' !important",
@@ -45,9 +46,14 @@ const UploadFile = () => {
     const [sqLitePort, setSqLitePort] = useState()
     const [isSqLiteSaveCreds, setIsSqLiteSaveCreds] = useState(false)
 
+    const [api, setApi] = useState();
+    const [authToken, setAuthToken] = useState();
+    const [exportFileName, setExportFileName] = useState();
+
     const [isMySqlConnected, setIsMySqlConnected] = useState(false)
     const [isPostgresConnected, setIsPostgresConnected] = useState(false)
     const [isSqLiteConnected, setIsSqLiteConnected] = useState(false)
+    const [isApiConnected, setIsApiConnected] = useState(false)
 
     const [fileName, setFileName] = useState()
     const [tableName, setTableName] = useState()
@@ -190,17 +196,23 @@ const UploadFile = () => {
             setSqLiteDbUrl("")
             setSqLitePort("")
             setIsSqLiteSaveCreds(false)
+        } else if (selectedUploadType === 'rest_api') {
+            setApi("")
+            setAuthToken("")
+            setExportFileName("")
         }
 
     }
 
-    const handleConnenct = () => {
+    const handleConnect = () => {
         if (selectedUploadType === 'mysql') {
             setIsMySqlConnected(true)
         } else if (selectedUploadType === 'postgres') {
             setIsPostgresConnected(true)
         } else if (selectedUploadType === 'sqlite') {
             setIsSqLiteConnected(true)
+        } else if (selectedUploadType === 'rest_api') {
+            setIsApiConnected(true)
         }
     }
 
@@ -223,6 +235,11 @@ const UploadFile = () => {
             setSqLiteFiles([])
         }
     }
+
+    const handleExport = () => {
+
+    }
+
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -387,7 +404,7 @@ const UploadFile = () => {
                                     setPort={setMySqlPort}
                                     handleCheckBox={handleCheckBox}
                                     handleClearFields={handleClearFields}
-                                    handleConnenct={handleConnenct}
+                                    handleConnect={handleConnect}
                                     dbName={'MySQL'}
                                 />
                                 : <TableImport
@@ -419,7 +436,7 @@ const UploadFile = () => {
                                     setPort={setPostgresPassword}
                                     handleCheckBox={handleCheckBox}
                                     handleClearFields={handleClearFields}
-                                    handleConnenct={handleConnenct}
+                                    handleConnect={handleConnect}
                                     dbName={'Postgres'}
                                 />
                                 : <TableImport
@@ -439,7 +456,7 @@ const UploadFile = () => {
                     {/* for SQLite */}
                     {selectedUploadType === 'sqlite' ?
                         <>
-                            {!isPostgresConnected ?
+                            {!isSqLiteConnected ?
                                 <DbConfiguration
                                     userName={sqLiteUserName}
                                     setUserName={setSqLiteUserName}
@@ -451,7 +468,7 @@ const UploadFile = () => {
                                     setPort={setSqLitePort}
                                     handleCheckBox={handleCheckBox}
                                     handleClearFields={handleClearFields}
-                                    handleConnenct={handleConnenct}
+                                    handleConnect={handleConnect}
                                     dbName={'SQLite'}
                                 />
                                 : <TableImport
@@ -468,6 +485,21 @@ const UploadFile = () => {
                         </>
                         : <></>
                     }
+                    {/* for Rest API */}
+                    {selectedUploadType === 'rest_api' ?
+                        <>
+                            <ApiConfiguration
+                                api={api}
+                                setApi={setApi}
+                                authToken={authToken}
+                                setAuthToken={setAuthToken}
+                                exportFileName={exportFileName}
+                                setExportFileName={setExportFileName}
+                                handleClearFields={handleClearFields}
+                                handleConnect={handleConnect}
+                                handleExport={handleExport}
+                            />
+                        </> : <></>}
                 </div>
                 <div className='list_upload_style'>
                     <Typography sx={{

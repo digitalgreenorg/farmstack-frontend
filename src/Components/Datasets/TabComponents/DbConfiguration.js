@@ -58,6 +58,7 @@ const DbConfiguration = (props) => {
                     }
                 }}
                 placeholder='User name'
+                label='User name'
                 value={props.userName}
                 onChange={(e) => props.setUserName(e.target.value)}
             />
@@ -92,6 +93,7 @@ const DbConfiguration = (props) => {
                     }
                 }}
                 placeholder='Password'
+                label='Password'
                 value={props.password}
                 onChange={(e) => props.setPassword(e.target.value)}
             />
@@ -126,6 +128,7 @@ const DbConfiguration = (props) => {
                     }
                 }}
                 placeholder='Database host URL'
+                label='Database host URL'
                 value={props.dbUrl}
                 onChange={(e) => props.setDbUrl(e.target.value)}
             />
@@ -160,6 +163,7 @@ const DbConfiguration = (props) => {
                     }
                 }}
                 placeholder='Port'
+                label='Port'
                 value={props.port}
                 onChange={(e) => props.setPort(e.target.value)}
             />
@@ -199,7 +203,7 @@ const DbConfiguration = (props) => {
                             border: "1px solid rgba(0, 171, 85, 0.48)"
                         }
                     }}
-                    variant='outlined' onClick={() => props.handleConnenct()}>Connect</Button>
+                    variant='outlined' onClick={() => props.handleConnect()}>Connect</Button>
             </Box>
         </div>
     )
