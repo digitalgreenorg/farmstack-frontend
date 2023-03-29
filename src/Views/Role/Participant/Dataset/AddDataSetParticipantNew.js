@@ -6,6 +6,8 @@ import './AddDataSetParticipantNew.css';
 import FooterNew from '../../../../Components/Footer/FooterNew';
 import BasicDetails from '../../../../Components/Datasets/TabComponents/BasicDetails';
 import UploadFile from '../../../../Components/Datasets/TabComponents/UploadFile';
+import Categorise from '../../../../Components/Datasets/TabComponents/Categorise';
+import UsagePolicy from '../../../../Components/Datasets/TabComponents/UsagePolicy';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -25,7 +27,7 @@ function TabPanel(props) {
 
 const AddDataSetParticipantNew = () => {
     const history = useHistory();
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(0);
     const [validator, setValidator] = useState(false)
 
     // Basic Details
@@ -118,13 +120,13 @@ const AddDataSetParticipantNew = () => {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    Item Three
+
                 </TabPanel>
                 <TabPanel value={value} index={3}>
-                    Item Four
+                    <Categorise />
                 </TabPanel>
                 <TabPanel value={value} index={4}>
-                    Item Five
+                    <UsagePolicy />
                 </TabPanel>
                 <Divider sx={{ border: '1px solid #ABABAB', marginTop: '59px' }} />
                 <Box className='d-flex justify-content-end' sx={{ marginTop: '50px', marginBottom: '100px' }}>
