@@ -133,13 +133,13 @@ export default function DataSetCard(props) {
         <CardContent>
           <Row style={useStyles.datasetdescription}>
             {/* <Tooltip TransitionComponent={Zoom} title={props.description}> */}
-            <span
+            <p
             className="dataset-description-in-dataset-details"
             
               style={{ maxWidth: "300px", height: "40px", display: "block", }}
             >
               {props.description ? parse(props.description) : ""}
-            </span>
+            </p>
             {/* </Tooltip> */}
           </Row>
           <Row>
