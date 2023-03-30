@@ -178,3 +178,10 @@
   text-overflow: ellipsis;
   width: 300px;
 } 
+.cardheaderTitlespecifier span{
+  display: inline-block;
+  overflow: hidden;
+  max-height: 60px;
+  text-overflow: ellipsis;
+  width: 250px;
+}
