@@ -4,7 +4,7 @@ import './FileTable.css'
 
 const FileTable = () => {
     return (
-        <Box className='b-1'>
+        <Box className='b-1 w-100vw'>
             <Box className='d-flex justify-content-between file_table_column_bg'>
                 <div className='file_table_column p-10 w-100'>ID</div>
                 <div className='file_table_column b_left p-10 w-100'>State</div>
@@ -12,6 +12,8 @@ const FileTable = () => {
                 <div className='file_table_column b_left p-10 w-100'>Taluk</div>
                 <div className='file_table_column b_left p-10 w-100'>Village</div>
                 <div className='file_table_column  b_left p-10 w-100'>Development group</div>
+                <div className='file_table_column b_left p-10 w-100'>Plot Information</div>
+                <div className='file_table_column b_left p-10 w-100'>Plot Information</div>
                 <div className='file_table_column b_left p-10 w-100'>Plot Information</div>
             </Box>
             <Box className='d-flex justify-content-between file_table_row_bg'>
@@ -21,6 +23,8 @@ const FileTable = () => {
                 <div className='file_table_row b_left p-10 w-100'>{"Taluk"}</div>
                 <div className='file_table_row b_left p-10 w-100'>{"Village"}</div>
                 <div className='file_table_row  b_left p-10 w-100'>{"Development group"}</div>
+                <div className='file_table_row b_left p-10 w-100'>{"Plot Information"}</div>
+                <div className='file_table_row b_left p-10 w-100'>{"Plot Information"}</div>
                 <div className='file_table_row b_left p-10 w-100'>{"Plot Information"}</div>
             </Box>
         </Box>

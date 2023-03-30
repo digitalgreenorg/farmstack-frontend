@@ -1,7 +1,7 @@
 import { Divider, Typography } from '@mui/material';
 import React from 'react'
 
-const File = ({ index, name, size, handleDelete, type, showDeleteIcon }) => {
+const File = ({ index, name, size, handleDelete, type, showDeleteIcon, isTables }) => {
 
     const getSizeInMb = (size) => {
         let converted = size / Math.pow(1024, 2);
@@ -13,7 +13,7 @@ const File = ({ index, name, size, handleDelete, type, showDeleteIcon }) => {
     return (
         <div>
             <div key={index} className='d-flex align-items-center'>
-                <img style={{ marginLeft: '20px' }} src={require("../../../Assets/Img/file.svg")} />
+                <img style={{ marginLeft: isTables ? '' : '20px' }} src={require("../../../Assets/Img/file.svg")} />
                 <Typography
                     sx={{
                         fontFamily: "Montserrat !important",

@@ -27,17 +27,19 @@
 }
 
 .b_right {
-    /* border-right: 1px solid rgba(238, 238, 238, 0.5); */
-    border-right: 1px solid black;
+    border-right: 1px solid rgba(238, 238, 238, 0.5);
 }
 
 .b_left {
-    /* border-left: 1px solid rgba(238, 238, 238, 0.5); */
-    border-left: 1px solid black;
+    border-left: 1px solid rgba(238, 238, 238, 0.5);
 }
 
 .p-10 {
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.w-100vw {
+    width: 100vw;
 }

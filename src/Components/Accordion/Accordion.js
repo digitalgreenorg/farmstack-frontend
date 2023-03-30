@@ -26,7 +26,7 @@ const accordionSummaryStyle = {
     "gridTemplateColumns": "repeat(4, 1fr)"
 }
 
-const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle, selectedPanelIndex, customBorder, showDeleteIcon, customPadding }) => {
+const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle, selectedPanelIndex, customBorder, showDeleteIcon, customPadding, isTables }) => {
 
     const [expanded, setExpanded] = useState(selectedPanelIndex ? selectedPanelIndex : false);
 
@@ -66,7 +66,7 @@ const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle, selectedP
                             </Box>
                         </AccordionSummary>
                         <AccordionDetails >
-                            <Box sx={isCustomStyle ? { padding: "8px 0px 16px !important" } : accordionSummaryStyle}>
+                            <Box sx={(isCustomStyle || isTables) ? { padding: "8px 0px 16px !important" } : accordionSummaryStyle}>
                                 {acc?.details?.map((detail) => (
                                     <Box sx={detailsStyle}>
                                         {detail}

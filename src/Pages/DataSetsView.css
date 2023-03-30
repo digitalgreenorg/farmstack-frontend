@@ -37,3 +37,7 @@
 .mt-3 {
     margin-top: 3px !important;
 }
+
+.overflow_x_scroll {
+    overflow-x: auto;
+}

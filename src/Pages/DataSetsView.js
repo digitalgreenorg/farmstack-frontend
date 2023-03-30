@@ -4,6 +4,7 @@ import './DataSetsView.css'
 import ControlledAccordion from '../Components/Accordion/Accordion'
 import File from '../Components/Datasets/TabComponents/File'
 import FileTable from '../Components/Datasets/FileTable'
+import FileWithAction from '../Components/Datasets/FileWithAction'
 
 const DataSetsView = ({ }) => {
     const [categories, setCategories] = useState([
@@ -34,7 +35,14 @@ const DataSetsView = ({ }) => {
         {
             panel: 1,
             title: 'Uploaded Files',
-            details: []
+            details: [
+                <Box>
+                    <FileWithAction />
+                    <Box className='text-left mt-20 w-100 overflow_x_scroll'>
+                        <FileTable />
+                    </Box>
+                </Box>
+            ]
         },
         {
             panel: 2,
@@ -109,35 +117,7 @@ const DataSetsView = ({ }) => {
                     the information. Please let the admin know if you have any information you think is inaccurate.
                 </Typography>
                 <Box className='mt-20'>
-                    <ControlledAccordion data={files} />
-                </Box>
-                <Box className='mt-20'>
-                    <Box className='d-flex'>
-                        <File index={1} name={'DataSet.csv'} size={657489} showDeleteIcon={false} type={'file_upload'} />
-                        <Box>
-                            <Button
-                                sx={{
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: 700,
-                                    fontSize: '15px',
-                                    width: "220px",
-                                    height: "48px",
-                                    border: "1px solid rgba(0, 171, 85, 0.48)",
-                                    borderRadius: "8px",
-                                    color: "#00AB55",
-                                    textTransform: 'none',
-                                    marginLeft: '100px',
-                                    '&:hover': {
-                                        background: 'none',
-                                        border: "1px solid rgba(0, 171, 85, 0.48)"
-                                    }
-                                }}
-                                variant='outlined'>Login to Download</Button>
-                        </Box>
-                    </Box>
-                    <Box className='text-left ml-20 mt-20'>
-                        <FileTable />
-                    </Box>
+                    <ControlledAccordion data={files} isTables={true} />
                 </Box>
             </Box>
         </Box>
