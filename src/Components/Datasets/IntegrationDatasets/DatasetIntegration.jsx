@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import DatasetSelect from './DatasetSelect/DatasetSelect'
 import Join from './Join/Join'
@@ -563,6 +563,7 @@ const DatasetIntegration = (props) => {
         generateData(1, "delete")
         resetAll()
     }
+
 
 
     useEffect(() => {
