@@ -957,6 +957,7 @@ const AddDataset = (props) => {
     }, [])
 
 
+
     return (
         <Container id='admin_add_dataset_main_container'>
             {isLoading ? <Loader /> : ""}
@@ -1187,7 +1188,7 @@ const AddDataset = (props) => {
                                                 Finish Later
                                             </Button> : " "}
                                         <Box sx={{ flex: '1 1 auto' }} />
-                                        {activeStep != 0 && !isSubmitted ? <Button id='cancel_button' className='cancel_btn' onClick={handleResetForm}>Cancel</Button> : ""}
+                                        {!onBoardingPage && activeStep != 0 && !isSubmitted ? <Button id='cancel_button' className='cancel_btn' onClick={handleResetForm}>Cancel</Button> : ""}
                                         <Box sx={{ flex: '1 1 auto' }} />
                                         {/* {(isStepOptional(activeStep) && (localUploaded.length > 0 || mysqlFileList.length > 0 || postgresFileList.length > 0)) && (
                                         <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
