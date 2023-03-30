@@ -28,7 +28,7 @@ function TabPanel(props) {
 
 const AddDataSetParticipantNew = () => {
     const history = useHistory();
-    const [value, setValue] = useState(2);
+    const [value, setValue] = useState(0);
     const [validator, setValidator] = useState(false)
 
     // Basic Details

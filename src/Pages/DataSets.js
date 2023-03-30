@@ -6,6 +6,7 @@ import './DataSets.css';
 import FooterNew from '../Components/Footer/FooterNew';
 import AddDataSetCardNew from '../Components/Datasets/AddDataSetCardNew';
 import DataSetCardNew from '../Components/Datasets/DataSetCardNew';
+import DataSetsTab from '../Components/Datasets/DataSetsTab/DataSetsTab';
 
 const cardSx = {
     maxWidth: 368, height: 190, border: '1px solid #C0C7D1', borderRadius: '10px',
@@ -85,18 +86,7 @@ const DataSets = (props) => {
             </Box>
             <Divider />
             {/* section-2 */}
-            <Box sx={{ padding: "40px", maxWidth: "100%" }}>
-                <Box sx={{ marginLeft: '144px', marginRight: '144px' }}>
-                    <div className='bold_title'>Datasets</div>
-                    <div className='datasets_card'>
-                        <AddDataSetCardNew history={history} addDataset={addDataset} />
-                        {state.map((s) => (
-                            <DataSetCardNew />
-                        ))}
-                    </div>
-                    <Button variant="contained" className='d_button_style'>View all datasets</Button>
-                </Box>
-            </Box>
+            <DataSetsTab history={history} addDataset={addDataset} state={state} />
             <Divider />
             <FooterNew />
         </>

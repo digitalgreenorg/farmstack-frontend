@@ -36,6 +36,35 @@ const UsagePolicy = (props) => {
                 color: "#000000",
                 textAlign: 'left'
             }}>Usage policy</Typography>
+            <Box className='text-left mt-30'>
+                <FormControl fullWidth sx={{ width: '368px' }}>
+                    <InputLabel>File name</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={props.tableName}
+                        onChange={props.setTableName}
+                        sx={{
+                            textAlign: 'left',
+                            '.MuiOutlinedInput-notchedOutline': {
+                                borderColor: '#919EAB',
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                borderColor: '#919EAB',
+                            },
+                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                                borderColor: '#919EAB',
+                            }
+                        }}
+                        label="File name"
+                        placeholder='File name'
+                    >
+                        {props.menus?.map((menu) => (
+                            <MenuItem value={menu}>{menu}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </Box>
             <Typography className='mt-50' sx={{
                 fontFamily: "Montserrat !important",
                 fontWeight: "600",

@@ -2,7 +2,7 @@ import { Card } from '@mui/material';
 import React from 'react'
 
 const cardSx = {
-    maxWidth: 368, height: 190, border: '1px solid #C0C7D1', borderRadius: '10px',
+    maxWidth: 368, height: 190, border: '1px solid #2CD37F', borderRadius: '10px',
     "&:hover": {
         boxShadow: '-40px 40px 80px rgba(145, 158, 171, 0.16)',
         cursor: 'pointer'
