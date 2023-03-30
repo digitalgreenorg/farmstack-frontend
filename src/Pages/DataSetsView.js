@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Card, Typography } from '@mui/material'
 import './DataSetsView.css'
 import ControlledAccordion from '../Components/Accordion/Accordion'
 import File from '../Components/Datasets/TabComponents/File'
@@ -118,6 +118,14 @@ const DataSetsView = ({ }) => {
                 </Typography>
                 <Box className='mt-20'>
                     <ControlledAccordion data={files} isTables={true} />
+                </Box>
+                <div className='bold_title mt-50'>{"Organisation Details"}</div>
+                <Box>
+                    <Card className='organisation_icon_card'>
+                        <Box className='d-flex h-100 align-items-center'>
+                            <img src={require('../Assets/Img/footer_logo.svg')} alt="footerLogo" />
+                        </Box>
+                    </Card>
                 </Box>
             </Box>
         </Box>
