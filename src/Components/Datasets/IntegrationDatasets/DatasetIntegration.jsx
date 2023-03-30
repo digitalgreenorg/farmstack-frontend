@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import DatasetSelect from './DatasetSelect/DatasetSelect'
 import Join from './Join/Join'
@@ -380,7 +380,8 @@ const DatasetIntegration = (props) => {
                         right_on: completeData[i]?.right_on
                     }
                 }
-                if (isEditModeOn) {
+                // console.log(temporaryDeletedCards, completeData[i]?.map_id, "completeData[i]?.map_id")
+                if (isEditModeOn && !temporaryDeletedCards.includes(completeData[i]?.map_id)) {
                     obj["id"] = completeData[i]?.map_id ? completeData[i]?.map_id : null
                 }
                 payload.push(obj)
@@ -562,6 +563,7 @@ const DatasetIntegration = (props) => {
         generateData(1, "delete")
         resetAll()
     }
+
 
 
     useEffect(() => {
