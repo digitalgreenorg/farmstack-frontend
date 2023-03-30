@@ -68,12 +68,16 @@ const useStyles = {
     "font-weight": "400",
     "font-size": "14px",
     "line-height": "19px",
-    display: "-webkit-box",
+    "display": "-webkit-box",
     "-webkit-line-clamp": "2",
     "-webkit-box-orient": "vertical",
     "text-align": "left",
-    overflow: "hidden",
-    "max-height": "60px"
+    "overflow": "hidden",
+    "max-height": "60px",
+    "text-overflow": "ellipsis",
+    "overflow": "hidden",
+    "display": "inline-block",
+    "width": "300px",
   },
 };
 export default function DataSetCard(props) {
@@ -129,11 +133,13 @@ export default function DataSetCard(props) {
         <CardContent>
           <Row style={useStyles.datasetdescription}>
             {/* <Tooltip TransitionComponent={Zoom} title={props.description}> */}
-            <span
-              style={{ maxWidth: "300px", height: "40px", display: "block" }}
+            <p
+            className="dataset-description-in-dataset-details"
+            
+              style={{ maxWidth: "300px", height: "40px", display: "block", }}
             >
               {props.description ? parse(props.description) : ""}
-            </span>
+            </p>
             {/* </Tooltip> */}
           </Row>
           <Row>
