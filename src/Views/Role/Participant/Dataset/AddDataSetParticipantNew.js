@@ -8,6 +8,7 @@ import BasicDetails from '../../../../Components/Datasets/TabComponents/BasicDet
 import UploadFile from '../../../../Components/Datasets/TabComponents/UploadFile';
 import Categorise from '../../../../Components/Datasets/TabComponents/Categorise';
 import UsagePolicy from '../../../../Components/Datasets/TabComponents/UsagePolicy';
+import Standardise from '../../../../Components/Datasets/TabComponents/Standardise';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -27,7 +28,7 @@ function TabPanel(props) {
 
 const AddDataSetParticipantNew = () => {
     const history = useHistory();
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(2);
     const [validator, setValidator] = useState(false)
 
     // Basic Details
@@ -120,7 +121,7 @@ const AddDataSetParticipantNew = () => {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-
+                    <Standardise />
                 </TabPanel>
                 <TabPanel value={value} index={3}>
                     <Categorise />

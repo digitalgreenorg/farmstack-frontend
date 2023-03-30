@@ -54,6 +54,11 @@ const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle, selectedP
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel4bh-content"
                             id="panel4bh-header"
+                            sx={{
+                                '&.MuiAccordionSummary-root': {
+                                    borderBottom: (customBorder && expanded === acc.panel) ? '1px solid #919EAB' : ''
+                                }
+                            }}
                         >
                             <Box className={showDeleteIcon ? 'w-100 d-flex justify-content-between' : ''} >
                                 <Typography sx={isCustomStyle ? titleStyle : accordionTitleStyle}>{acc.title}</Typography>
@@ -61,7 +66,6 @@ const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle, selectedP
                             </Box>
                         </AccordionSummary>
                         <AccordionDetails >
-                            {customBorder ? <Divider sx={{ border: '1px solid #919EAB' }} /> : <></>}
                             <Box sx={isCustomStyle ? { padding: "8px 0px 16px !important" } : accordionSummaryStyle}>
                                 {acc?.details?.map((detail) => (
                                     <Box sx={detailsStyle}>

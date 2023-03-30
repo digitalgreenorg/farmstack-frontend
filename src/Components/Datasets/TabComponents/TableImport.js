@@ -27,6 +27,7 @@ const TableImport = (props) => {
                 Please refer <span style={{ textDecoration: 'underline', color: '#0038FF' }}>help</span> section to know how to connect to {props.dbName}.
             </Typography>
             <FormControl fullWidth>
+                <InputLabel>Select table</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -44,10 +45,13 @@ const TableImport = (props) => {
                             borderColor: '#919EAB',
                         }
                     }}
+                    label="Select table"
+                    placeholder='Select table'
                 >
                     {props.menus?.map((menu) => (
                         <MenuItem value={menu}>{menu}</MenuItem>
                     ))}
+
                 </Select>
             </FormControl>
             <Typography sx={{
