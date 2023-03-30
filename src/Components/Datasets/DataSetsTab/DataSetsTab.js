@@ -85,7 +85,6 @@ const DataSetsTab = ({ history, addDataset, state }) => {
                         <DataSetsTitleView title={'Other organisation datasets'} isGrid={isGridOther} setIsGrid={setIsGridOther} history={history} addDataset={addDataset} />
                         {isGridOther ?
                             <div className='datasets_card'>
-                                {/* <AddDataSetCardNew history={history} addDataset={addDataset} /> */}
                                 {state.map((s) => (
                                     <DataSetCardNew />
                                 ))}

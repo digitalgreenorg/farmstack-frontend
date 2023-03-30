@@ -1,0 +1,39 @@
+.view_agriculture_heading {
+    font-family: 'Montserrat' !important;
+    font-weight: 700 !important;
+    font-size: 26px !important;
+    line-height: 36.06px !important;
+    color: #3D4A52 !important;
+}
+
+.view_datasets_light_text {
+    font-family: 'Montserrat' !important;
+    font-weight: 400 !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+    color: #000000 !important;
+}
+
+.view_datasets_bold_text {
+    font-family: 'Montserrat' !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+    color: #000000 !important;
+}
+
+.ml-134 {
+    margin-left: 134px !important;
+}
+
+.mt-38 {
+    margin-top: 38px !important;
+}
+
+.mt-25 {
+    margin-top: 25px !important;
+}
+
+.mt-3 {
+    margin-top: 3px !important;
+}

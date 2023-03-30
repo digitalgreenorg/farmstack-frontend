@@ -93,7 +93,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
         const prepareFile = (data, type) => {
             if (data) {
                 let arr = data?.map((item, index) => {
-                    return <File index={index} name={item.name} size={item.size} handleDelete={handleDelete} type={type} />
+                    return <File index={index} name={item.name} size={item.size} handleDelete={handleDelete} type={type} showDeleteIcon={true} />
                 })
                 return arr;
             } else {
@@ -338,7 +338,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                             <div className='list_files mt-20'>
                                 {files?.map((item, index) => (
                                     <>
-                                        <File index={index} name={item.name} size={item.size} handleDelete={handleDelete} type={"file_upload"} />
+                                        <File index={index} name={item.name} size={item.size} handleDelete={handleDelete} type={"file_upload"} showDeleteIcon={true} />
                                     </>
                                 ))}
                                 {files && files.length > 0 ?

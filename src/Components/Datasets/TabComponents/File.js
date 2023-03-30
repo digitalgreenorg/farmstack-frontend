@@ -1,7 +1,7 @@
 import { Divider, Typography } from '@mui/material';
 import React from 'react'
 
-const File = ({ index, name, size, handleDelete, type }) => {
+const File = ({ index, name, size, handleDelete, type, showDeleteIcon }) => {
 
     const getSizeInMb = (size) => {
         let converted = size / Math.pow(1024, 2);
@@ -29,11 +29,18 @@ const File = ({ index, name, size, handleDelete, type }) => {
                     }}
                 >{index + 1 + "_" + name} </Typography>
                 <span style={{ color: "#ABABAB", marginLeft: '4px' }}>({getSizeInMb(size) + 'MB'})</span>
-                <div style={{ marginRight: '25px', display: 'flex', justifyContent: 'end', width: '100%' }}>
-                    <img className='cursor-pointer' onClick={() => handleClick(index, type)} src={require("../../../Assets/Img/delete_dark.svg")} />
-                </div>
+                {showDeleteIcon ?
+                    <div style={{ marginRight: '25px', display: 'flex', justifyContent: 'end', width: '100%' }}>
+                        <img className='cursor-pointer' onClick={() => handleClick(index, type)} src={require("../../../Assets/Img/delete_dark.svg")} />
+                    </div>
+                    : <></>
+                }
+
             </div>
-            <Divider sx={{ marginTop: "10px", marginBottom: "10px" }} />
+            {showDeleteIcon ?
+                <Divider sx={{ marginTop: "10px", marginBottom: "10px" }} />
+                : <></>
+            }
         </div>
     )
 }
