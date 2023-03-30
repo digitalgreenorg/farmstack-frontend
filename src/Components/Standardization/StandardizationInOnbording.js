@@ -57,7 +57,7 @@ const StandardizationInOnbord = (props) => {
   const handleDatapointCategoryName = (e) =>{
 
     setDatapointNameError("")
-    if(e.target.value.length<51 && e.target.value.match(RegexConstants.NEW_NAME_REGEX)) setDatapointName(e.target.value)
+    if(e.target.value.length<51 && e.target.value.match(RegexConstants.connector_name)) setDatapointName(e.target.value)
   }
 
   const handleDatapointCategoryDescription = (e) =>{
@@ -141,9 +141,13 @@ const StandardizationInOnbord = (props) => {
       // let tmpDatapointNameError = [...accordionDatapointNameError]
       //     tmpDatapointNameError[index] = ""
       //     setAccordionDatapointNameError(tmpDatapointNameError)
+    if(newValue.length<51 && newValue.match(RegexConstants.NEW_NAME_REGEX)){
+      tmpAllDatapoints[index].datapoint_category = newValue;
+      setAllDataPoints(tmpAllDatapoints);
+    }else{
+      return
+    }
 
-    tmpAllDatapoints[index].datapoint_category = newValue;
-    setAllDataPoints(tmpAllDatapoints);
   }
   const handleNameExistsUpdate = (index, newValue) => {
     let tmpAllDatapoints = [...allDatapoints];
