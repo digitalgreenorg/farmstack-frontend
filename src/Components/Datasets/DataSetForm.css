@@ -167,3 +167,10 @@
   width: 100% !important;
   float: left !important;
 }
+.dataset-description-in-dataset-details strong{
+  display: inline-block;
+    overflow: hidden;
+    max-height: 60px;
+    text-overflow: ellipsis;
+    width: 300px;
+}

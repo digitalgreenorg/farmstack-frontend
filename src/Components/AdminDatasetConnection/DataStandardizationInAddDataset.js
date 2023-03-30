@@ -148,6 +148,7 @@ const DataStandardizationInAddDataset = (props) => {
   const getStandardiziedTemplate = () => {
     let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
     let checkforAccess = isaccesstoken ? isaccesstoken : false;
+    console.log("checkforAccess",checkforAccess)
 
     setIsLoading(true);
     HTTPService("GET", url, false, false, true, checkforAccess)
