@@ -4,6 +4,7 @@ import './DataSetsTab.css'
 import AddDataSetCardNew from '../AddDataSetCardNew';
 import DataSetCardNew from '../DataSetCardNew';
 import DataSetsTitleView from './DataSetsTitleView';
+import DataSetsListView from '../DataSetsListView';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -26,6 +27,7 @@ const DataSetsTab = ({ history, addDataset, state }) => {
     const [isGrid, setIsGrid] = useState(true)
     const [isGridOther, setIsGridOther] = useState(true)
     const [isGridSteward, setIsGridSteward] = useState(true)
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -64,37 +66,49 @@ const DataSetsTab = ({ history, addDataset, state }) => {
                 </Box>
                 <TabPanel value={value} index={0}>
                     <Box className='mb-100'>
-                        <DataSetsTitleView title={'My organisation datasets'} isGrid={isGrid} setIsGrid={setIsGrid} />
-                        <div className='datasets_card'>
-                            <AddDataSetCardNew history={history} addDataset={addDataset} />
-                            {state.map((s) => (
-                                <DataSetCardNew />
-                            ))}
-                        </div>
+                        <DataSetsTitleView title={'My organisation datasets'} isGrid={isGrid} setIsGrid={setIsGrid} history={history} addDataset={addDataset} />
+                        {isGrid ?
+                            <div className='datasets_card'>
+                                <AddDataSetCardNew history={history} addDataset={addDataset} />
+                                {state.map((s) => (
+                                    <DataSetCardNew />
+                                ))}
+                            </div>
+                            :
+                            <DataSetsListView datasets={state} />
+                        }
                         <Button variant="outlined" className='d_button_style'>Load more</Button>
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Box className='mb-100'>
-                        <DataSetsTitleView title={'Other organisation datasets'} isGrid={isGridOther} setIsGrid={setIsGridOther} />
-                        <div className='datasets_card'>
-                            <AddDataSetCardNew history={history} addDataset={addDataset} />
-                            {state.map((s) => (
-                                <DataSetCardNew />
-                            ))}
-                        </div>
+                        <DataSetsTitleView title={'Other organisation datasets'} isGrid={isGridOther} setIsGrid={setIsGridOther} history={history} addDataset={addDataset} />
+                        {isGridOther ?
+                            <div className='datasets_card'>
+                                {/* <AddDataSetCardNew history={history} addDataset={addDataset} /> */}
+                                {state.map((s) => (
+                                    <DataSetCardNew />
+                                ))}
+                            </div>
+                            :
+                            <DataSetsListView datasets={state} />
+                        }
                         <Button variant="outlined" className='d_button_style'>Load more</Button>
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <Box className='mb-100'>
-                        <DataSetsTitleView title={'Co-steward datasets'} isGrid={isGridSteward} setIsGrid={setIsGridOther} />
-                        <div className='datasets_card'>
-                            <AddDataSetCardNew history={history} addDataset={addDataset} />
-                            {state.map((s) => (
-                                <DataSetCardNew />
-                            ))}
-                        </div>
+                        <DataSetsTitleView title={'Co-steward datasets'} isGrid={isGridSteward} setIsGrid={setIsGridSteward} history={history} addDataset={addDataset} />
+                        {isGridSteward ?
+                            <div className='datasets_card'>
+                                <AddDataSetCardNew history={history} addDataset={addDataset} />
+                                {state.map((s) => (
+                                    <DataSetCardNew />
+                                ))}
+                            </div>
+                            :
+                            <DataSetsListView datasets={state} />
+                        }
                         <Button variant="outlined" className='d_button_style'>Load more</Button>
                     </Box>
                 </TabPanel>

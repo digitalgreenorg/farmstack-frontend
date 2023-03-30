@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Typography } from '@mui/material'
 
-const DataSetsTitleView = ({ title, isGrid, setIsGrid }) => {
+const DataSetsTitleView = ({ title, isGrid, setIsGrid, history, addDataset }) => {
     return (
         <div className='d-flex justify-content-between'>
             <div className='bold_title'>{title}</div>
@@ -18,24 +18,26 @@ const DataSetsTitleView = ({ title, isGrid, setIsGrid }) => {
                         color: isGrid ? '#00AB55' : '#3D4A52'
                     }}>Grid view</Typography>
                 </div>
-                {!isGrid ?
+                {(!isGrid && (title === 'My organisation datasets' || title === 'Co-steward datasets')) ?
                     <div className='d-flex'>
-                        <Button sx={{
-                            fontFamily: 'Montserrat !important',
-                            fontWeight: 700,
-                            fontSize: '15px',
-                            width: "149px",
-                            height: "48px",
-                            border: "1px solid rgba(0, 171, 85, 0.48)",
-                            borderRadius: "8px",
-                            color: "#FFFFFF",
-                            background: "#00AB55",
-                            textTransform: 'none',
-                            marginLeft: '52px',
-                            '&:hover': {
-                                background: '#00AB55'
-                            }
-                        }}>+  New dataset</Button>
+                        <Button
+                            onClick={() => history.push(addDataset())}
+                            sx={{
+                                fontFamily: 'Montserrat !important',
+                                fontWeight: 700,
+                                fontSize: '15px',
+                                width: "149px",
+                                height: "48px",
+                                border: "1px solid rgba(0, 171, 85, 0.48)",
+                                borderRadius: "8px",
+                                color: "#FFFFFF",
+                                background: "#00AB55",
+                                textTransform: 'none',
+                                marginLeft: '52px',
+                                '&:hover': {
+                                    background: '#00AB55'
+                                }
+                            }}>+  New dataset</Button>
                     </div>
                     : <></>
                 }
