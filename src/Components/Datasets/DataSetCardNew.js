@@ -2,16 +2,16 @@ import { Card } from '@mui/material'
 import React from 'react'
 
 const cardSx = {
-    maxWidth: 368, height: 190, border: '1px solid #C0C7D1', borderRadius: '10px',
+    maxWidth: 368, height: 190, border: '1px solid #C0C7D1', borderRadius: '10px', cursor: 'pointer',
     "&:hover": {
         boxShadow: '-40px 40px 80px rgba(145, 158, 171, 0.16)',
         cursor: 'pointer',
         border: '1px solid #2CD37F'
     }
 };
-const DataSetCardNew = () => {
+const DataSetCardNew = ({ history }) => {
     return (
-        <Card className='card' sx={cardSx}>
+        <Card className='card' sx={cardSx} onClick={() => history.push('/participant/new_datasets/view')}>
             <div className='published'>
                 <img src={require('../../Assets/Img/globe.svg')} alt="globe" />
                 <span className='published_text'>Published on: 28/03/2022</span>

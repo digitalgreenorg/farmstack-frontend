@@ -42,6 +42,18 @@
     overflow-x: auto;
 }
 
+.w-313 {
+    width: 313px;
+}
+
+.ml-79 {
+    margin-left: 79px;
+}
+
+.ml-39 {
+    margin-left: 39px;
+}
+
 .organisation_icon_card {
     width: 172px !important;
     height: 172px !important;

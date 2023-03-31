@@ -71,11 +71,11 @@ const DataSetsTab = ({ history, addDataset, state }) => {
                             <div className='datasets_card'>
                                 <AddDataSetCardNew history={history} addDataset={addDataset} />
                                 {state.map((s) => (
-                                    <DataSetCardNew />
+                                    <DataSetCardNew history={history} />
                                 ))}
                             </div>
                             :
-                            <DataSetsListView datasets={state} />
+                            <DataSetsListView datasets={state} history={history} />
                         }
                         <Button variant="outlined" className='d_button_style'>Load more</Button>
                     </Box>
@@ -86,11 +86,11 @@ const DataSetsTab = ({ history, addDataset, state }) => {
                         {isGridOther ?
                             <div className='datasets_card'>
                                 {state.map((s) => (
-                                    <DataSetCardNew />
+                                    <DataSetCardNew history={history} />
                                 ))}
                             </div>
                             :
-                            <DataSetsListView datasets={state} />
+                            <DataSetsListView datasets={state} history={history} />
                         }
                         <Button variant="outlined" className='d_button_style'>Load more</Button>
                     </Box>
@@ -102,11 +102,11 @@ const DataSetsTab = ({ history, addDataset, state }) => {
                             <div className='datasets_card'>
                                 <AddDataSetCardNew history={history} addDataset={addDataset} />
                                 {state.map((s) => (
-                                    <DataSetCardNew />
+                                    <DataSetCardNew history={history} />
                                 ))}
                             </div>
                             :
-                            <DataSetsListView datasets={state} />
+                            <DataSetsListView datasets={state} history={history} />
                         }
                         <Button variant="outlined" className='d_button_style'>Load more</Button>
                     </Box>
