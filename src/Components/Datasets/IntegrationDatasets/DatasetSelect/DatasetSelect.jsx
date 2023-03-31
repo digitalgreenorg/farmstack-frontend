@@ -38,9 +38,7 @@ const DatasetSelect = (props) => {
     const [value, setValue] = useState('Join by');
     const [show, setShow] = useState(false)
     const [indexShow, setIndex] = useState(-1)
-    const ref1 = useRef(null);
-    const ref2 = useRef(null);
-    const ref3 = useRef(null);
+
     const handleChange = (e) => {
         let value = e.target.name
         if (value == "name") {
@@ -152,30 +150,7 @@ const DatasetSelect = (props) => {
         }
 
     }
-    const [open, setOpen] = useState(true);
-    const steps = [
-        {
-            title: 'Upload File',
-            description: 'Put your files here.',
-            cover: (
-                <img
-                    alt="tour.png"
-                    src="https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png"
-                />
-            ),
-            target: () => ref1.current,
-        },
-        {
-            title: 'Save',
-            description: 'Save your changes.',
-            target: () => ref2.current,
-        },
-        {
-            title: 'Other Actions',
-            description: 'Click to see other actions.',
-            target: () => ref3.current,
-        },
-    ];
+
 
     return (
         <Container style={{ background: "rgb(252, 252, 252)" }} className='dataset_selector_in_integration'>
@@ -199,7 +174,7 @@ const DatasetSelect = (props) => {
                     {isEditModeOn && <sub className={styles.subTime}>{"Last updated on: " + dateTimeFormat(connectorTimeData.last_updated, true)}</sub>}
                 </Col>
             </Row>
-            <Row ref={ref1} >
+            <Row >
                 <Col lg={12}>
                     <TextField inputProps={{ maxLength: 250 }} onKeyDown={handleConnectorNameKeydown} error={errorConnectorName ? true : false} disabled={isEditModeOn ? true : false}
                         helperText={errorConnectorName ? errorConnectorName : ""} style={{ marginBottom: "25px" }} value={connectorData.name} onChange={handleChange} name='name' fullWidth id="outlined-basic" label="Connector name" required autoFocus variant="outlined" />
@@ -224,7 +199,7 @@ const DatasetSelect = (props) => {
                 <Col lg={12} sm={12} sx={12}>
 
                     <Affix style={{ backgrond: "white", transition: "all 2s", display: counterForIntegrator == completeData.length ? "none" : "block" }} offsetTop={top}>
-                        <Row className={styles.selectors + " all_selectors_as_sticky"} ref={ref2}>
+                        <Row className={styles.selectors + " all_selectors_as_sticky"} >
                             <Col lg={3}>
                                 <FormControl variant="outlined" fullWidth style={{ cursor: completeData.length == counterForIntegrator + 1 ? "not-allowed" : "pointer" }}>
                                     <InputLabel id="org_name_label">Organization name <span className='MuiInputLabel-asterisk'>*</span></InputLabel>
@@ -301,7 +276,7 @@ const DatasetSelect = (props) => {
                                 </span>}
                             {index !== indexShow && index < completeData.length - 1 && <span className={styles.eachSideJoinData} style={{ position: "absolute", left: "40px", bottom: "23px", width: "514px", height: "112px", border: "1px solid #C09507", borderRadius: "10px", padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <div style={{ width: "80%" }}>
-                                    <div style={{ textAlign: "left", marginBottom: "20px", fontWeight: "600" }}>Joined by <BorderColorIcon onClick={(e) => handleMoreDataShow(index, true, e)} cursor="pointer" fontSize='small' /> </div>
+                                    <div style={{ textAlign: "left", marginBottom: "20px", fontWeight: "600" }}>Joined by <BorderColorIcon className={styles.edit_btn} onClick={(e) => handleMoreDataShow(index, true, e)} cursor="pointer" fontSize='large' /> </div>
                                     <div style={{ display: "flex", justifyContent: "left", alignItems: "center", gap: "35px", textAlign: "left" }}>
                                         <span className={styles.detail_joins}>
                                             <div > Left column </div>
@@ -317,13 +292,15 @@ const DatasetSelect = (props) => {
                                         </span>
                                     </div>
                                 </div>
+                                {/* <span className={styles.result_btn_shortcut_outer}> */}
                                 <Button onClick={(e) => {
                                     setValue("Integrated data")
                                     handleMoreDataShow(index, true, e, "table_result")
-                                }} style={{ height: "auto" }} disabled={each["result"]?.length > 0 ? false : true}>
+                                }} className={styles.result_btn_shortcut} disabled={each["result"]?.length > 0 ? false : true}>
                                     {console.log("each result", each["result"])}
                                     <img style={{ cursor: "pointer", opacity: each["result"]?.length <= 0 ? 0.4 : 1 }} src={analytics} height="50px" width={"50px"} alt="" />
                                 </Button>
+                                {/* </span> */}
                             </span>}
                             {index !== indexShow && index < completeData.length - 1 && each.left_on?.length <= 0 && <span style={{ position: "absolute", right: "40px", bottom: "0px", width: "514px", height: "112px", borderRadius: "10px", padding: "10px 20px" }}>
                                 <Alert message="Please select join details to save the connector" type="error" />
