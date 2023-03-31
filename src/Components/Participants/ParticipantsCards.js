@@ -17,6 +17,7 @@ import THEME_COLORS from "../../Constants/ColorConstants";
 import UrlConstants from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import { Tooltip, Zoom } from "@mui/material";
+import "./participantsCards.css"
 
 const useStyles = {
   btncolor: {
@@ -107,6 +108,7 @@ export default function ParticipantsCards(props) {
       >
         <div className="cardheaderTitlespecifier text-truncate">
           <CardHeader
+          className="dataset-card-header"
             avatar={
               props.profilepic ? (
                 <Avatar
