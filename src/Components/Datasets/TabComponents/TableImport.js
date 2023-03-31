@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Chip, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import React from 'react'
 
 const TableImport = (props) => {
@@ -32,7 +32,7 @@ const TableImport = (props) => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={props.tableName}
-                    onChange={props.setTableName}
+                    onChange={props.handleTableChange}
                     sx={{
                         textAlign: 'left',
                         '.MuiOutlinedInput-notchedOutline': {
@@ -54,6 +54,38 @@ const TableImport = (props) => {
 
                 </Select>
             </FormControl>
+            <FormGroup style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', height: "160px", overflowY: "auto", width: "100%" }}>
+                {props.allColumns.length > 0 && props.allColumns.map((eachCol, index) => {
+                    console.log(eachCol)
+                    return <FormControlLabel sx={{ marginLeft: '0px', marginRight: '0px', flex: '0 0 33.333333%' }}
+                        control={<Checkbox sx={{
+                            '&.Mui-checked': {
+                                color: '#00AB55 !important',
+                            },
+                        }} key={index} onChange={(e) => props.handleCheckBoxCheck(e, eachCol)} checked={eachCol.checked} />} label={eachCol.value} />
+                })}
+            </FormGroup>
+            {props.allColumns ?
+                <>
+                    <Typography sx={{
+                        fontFamily: "Montserrat !important",
+                        fontWeight: "600",
+                        fontSize: "20px",
+                        lineHeight: "24px",
+                        color: "#000000",
+                        textAlign: 'left',
+                        marginTop: '30px',
+                        marginBottom: '10px'
+                    }}>
+                        Selected Columns
+                    </Typography>
+                    <div style={{ display: 'flex', alignItems: 'center', overflowX: "auto", margin: "5px 0px", height: "65px", border: '1px solid #DADADA', borderRadius: '8px' }}>
+                        {props.allColumns?.map((eachColSelected) => {
+                            return (eachColSelected.checked ? <Chip sx={{ marginLeft: '5px', marginRight: '15px' }} label={eachColSelected.value} /> : "")
+                        })}
+                    </div></>
+                : <></>
+            }
             <Typography sx={{
                 fontFamily: "Montserrat !important",
                 fontWeight: "600",

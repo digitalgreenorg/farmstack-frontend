@@ -56,12 +56,29 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
     const [isSqLiteConnected, setIsSqLiteConnected] = useState(false)
     const [isApiConnected, setIsApiConnected] = useState(false)
 
-    const [fileName, setFileName] = useState()
-    const [tableName, setTableName] = useState()
+    const [mySqlFileName, setMysqlFileName] = useState()
+    const [mySqlTableName, setMySqlTableName] = useState()
+    const [postgresFileName, setPostgresFileName] = useState()
+    const [postgresTableName, setPostgresTableName] = useState()
+    const [sqliteFileName, setSqliteFileName] = useState()
+    const [sqliteTableName, setSqliteTableName] = useState()
 
     const [sqlTables, setSqlTables] = useState(["1_Person.csv"])
     const [postgresTables, setPostgresTables] = useState(["1_Cap.csv"])
     const [sqLiteTables, setSqLiteTables] = useState(["1_User.xlsx"])
+
+    const [allColumns, setAllColumns] = useState([
+        // { checked: true, value: 'name' },
+        // { checked: false, value: 'roll' },
+        // { checked: false, value: 'app' },
+        // { checked: false, value: 'djnoy' },
+        // { checked: false, value: 'django' },
+        // { checked: false, value: 'java' },
+        // { checked: false, value: 'chemical' },
+        // { checked: true, value: 'tailwind' },
+        // { checked: true, value: 'ruby' },
+        // { checked: true, value: 'sheenu' },
+    ])
 
     const handleFileChange = (file) => {
         setFile(file);
@@ -308,13 +325,148 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
         }
     }
 
+    const generateColumns = (data) => {
+        let newCol = []
+        for (let i = 0; i < data.length; i++) {
+            let eachColumn = { checked: false, value: data[i] }
+            newCol.push(eachColumn)
+        }
+        setAllColumns([...newCol])
+    }
+
+    const handleCheckBoxCheck = (e, eachCol) => {
+        let newColObj = { checked: e.target.checked, value: eachCol.value }
+        let newAllCol = []
+        for (let i = 0; i < allColumns.length; i++) {
+            if (eachCol.value == allColumns[i].value) {
+                newAllCol.push(newColObj)
+            } else {
+                newAllCol.push(allColumns[i])
+            }
+        }
+        setAllColumns([...newAllCol])
+    }
+
+    const handleTableChange = (event) => {
+        let query = event.target.value;
+        let accessToken = getTokenLocal() ?? false;
+        if (selectedUploadType === 'mysql') {
+            setMySqlTableName(query)
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.get_column_from_table_name,
+                { table_name: query },
+                false,
+                true,
+                accessToken
+            ).then((res) => {
+                generateColumns([...res.data])
+            })
+                .catch((err) => { console.log(err) })
+        } else if (selectedUploadType === 'postgres') {
+            setPostgresTableName(query)
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.get_column_from_table_name,
+                { table_name: query },
+                false,
+                true,
+                accessToken
+            ).then((res) => {
+                generateColumns([...res.data])
+            })
+                .catch((err) => { console.log(err) })
+        } else if (selectedUploadType === 'sqlite') {
+            setSqliteTableName(query)
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.get_column_from_table_name,
+                { table_name: query },
+                false,
+                true,
+                accessToken
+            ).then((res) => {
+                generateColumns([...res.data])
+            })
+                .catch((err) => { console.log(err) })
+        }
+
+    }
+
     const handleImport = () => {
         if (selectedUploadType === 'mysql') {
-            setSqlFiles([])
+            let query = mySqlFileName;
+            let table_name = mySqlTableName
+            let selectedColumns = [];
+            for (let i = 0; i < allColumns.length; i++) {
+                if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
+            }
+            let bodyFormData = new FormData()
+            bodyFormData.append("col", JSON.stringify(selectedColumns))
+            bodyFormData.append("file_name", query)
+            bodyFormData.append("dataset_name", dataSetName)
+            bodyFormData.append("source", "mysql")
+            bodyFormData.append("table_name", table_name)
+            let accessToken = getTokenLocal() ?? false;
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.send_columns_to_export,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            ).then((res) => {
+                setAllColumns([])
+                generateColumns([])
+                setExportFileName("")
+                setMySqlTableName("")
+                setSqlFiles([...res.data])
+            })
+                .catch((err) => { console.log(err) })
         } else if (selectedUploadType === 'postgres') {
-            setPostgresFiles([])
+            let query = postgresFileName;
+            let table_name = postgresTableName
+            let selectedColumns = [];
+            for (let i = 0; i < allColumns.length; i++) {
+                if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
+            }
+            let bodyFormData = new FormData()
+            bodyFormData.append("col", JSON.stringify(selectedColumns))
+            bodyFormData.append("file_name", query)
+            bodyFormData.append("dataset_name", dataSetName)
+            bodyFormData.append("source", "postgresql")
+            bodyFormData.append("table_name", table_name)
+            let accessToken = getTokenLocal() ?? false;
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.send_columns_to_export,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            ).then((res) => {
+                setPostgresFiles(res.data)
+            })
+                .catch((err) => { console.log(err) })
         } else if (selectedUploadType === 'sqlite') {
-            setSqLiteFiles([])
+            let query = sqliteFileName;
+            let table_name = sqliteTableName
+            let selectedColumns = [];
+            for (let i = 0; i < allColumns.length; i++) {
+                if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
+            }
+            let bodyFormData = new FormData()
+            bodyFormData.append("col", JSON.stringify(selectedColumns))
+            bodyFormData.append("file_name", query)
+            bodyFormData.append("dataset_name", dataSetName)
+            bodyFormData.append("source", "sqlite")
+            bodyFormData.append("table_name", table_name)
+            let accessToken = getTokenLocal() ?? false;
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.send_columns_to_export,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            ).then((res) => {
+                setSqLiteFiles(res.data)
+            })
+                .catch((err) => { console.log(err) })
         }
     }
 
@@ -494,14 +646,18 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                                 />
                                 : <TableImport
                                     dbName={'MySQL'}
-                                    tableName={tableName}
-                                    setTableName={setTableName}
-                                    fileName={fileName}
-                                    setFileName={setFileName}
+                                    tableName={mySqlTableName}
+                                    setTableName={setMySqlTableName}
+                                    handleTableChange={handleTableChange}
+                                    fileName={mySqlFileName}
+                                    setFileName={setMysqlFileName}
                                     handleDisconnect={handleDisconnect}
                                     handleImport={handleImport}
                                     validator={validator}
                                     menus={sqlTables}
+                                    allColumns={allColumns}
+                                    setAllColumns={setAllColumns}
+                                    handleCheckBoxCheck={handleCheckBoxCheck}
                                 />
                             }
                         </>
@@ -530,14 +686,18 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                                 />
                                 : <TableImport
                                     dbName={'Postgres'}
-                                    tableName={tableName}
-                                    setTableName={setTableName}
-                                    fileName={fileName}
-                                    setFileName={setFileName}
+                                    tableName={postgresTableName}
+                                    setTableName={setPostgresTableName}
+                                    handleTableChange={handleTableChange}
+                                    fileName={postgresFileName}
+                                    setFileName={setPostgresFileName}
                                     handleDisconnect={handleDisconnect}
                                     handleImport={handleImport}
                                     validator={validator}
                                     menus={postgresTables}
+                                    allColumns={allColumns}
+                                    setAllColumns={setAllColumns}
+                                    handleCheckBoxCheck={handleCheckBoxCheck}
                                 />
                             }
                         </>
@@ -566,14 +726,18 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                                 />
                                 : <TableImport
                                     dbName={'SQLite'}
-                                    tableName={tableName}
-                                    setTableName={setTableName}
-                                    fileName={fileName}
-                                    setFileName={setFileName}
+                                    tableName={sqliteTableName}
+                                    setTableName={setSqliteTableName}
+                                    handleTableChange={handleTableChange}
+                                    fileName={sqliteFileName}
+                                    setFileName={setSqliteFileName}
                                     handleDisconnect={handleDisconnect}
                                     handleImport={handleImport}
                                     validator={validator}
                                     menus={sqLiteTables}
+                                    allColumns={allColumns}
+                                    setAllColumns={setAllColumns}
+                                    handleCheckBoxCheck={handleCheckBoxCheck}
                                 />
                             }
                         </>
