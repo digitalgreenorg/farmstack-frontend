@@ -141,7 +141,7 @@ const StandardizationInOnbord = (props) => {
     // let tmpDatapointNameError = [...accordionDatapointNameError]
     //     tmpDatapointNameError[index] = ""
     //     setAccordionDatapointNameError(tmpDatapointNameError)
-    if (newValue.length < 51 && newValue.match(RegexConstants.NEW_NAME_REGEX)) {
+    if (newValue.length < 51) {
       tmpAllDatapoints[index].datapoint_category = newValue;
       setAllDataPoints(tmpAllDatapoints);
     } else {
@@ -188,7 +188,7 @@ const StandardizationInOnbord = (props) => {
     newValue
   ) => {
 
-    if (newValue.length >= 251 || !newValue.match(RegexConstants.DATAPOINT_ATTRIBUTE_REGEX)) {
+    if (newValue.length >= 251) {
       return
     }
     setSaveButtonEnabled(true)
