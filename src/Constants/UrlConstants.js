@@ -35,6 +35,7 @@ const UrlConstant = {
   department: "participant/department/",
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
+  dataseteth: "datahub/dataset/v2/temp_datasets/",
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
   live_api: "participant/database/database_live_api_export/",

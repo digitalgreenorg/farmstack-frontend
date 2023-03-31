@@ -11,7 +11,7 @@ import TableImport from './TableImport';
 import ApiConfiguration from './ApiConfiguration';
 import HTTPService from '../../../Services/HTTPService';
 import UrlConstant from '../../../Constants/UrlConstants';
-import { getTokenLocal } from '../../../Utils/Common';
+import { fileUpload, getTokenLocal } from '../../../Utils/Common';
 
 const accordionTitleStyle = {
     "fontFamily": "'Montserrat' !important",
@@ -85,23 +85,55 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
         setFiles(prev => [...prev, file])
     };
 
-    const handleDelete = (index, type) => {
+    const handleDelete = (index, filename, type) => {
+        let bodyFormData = new FormData()
+
+        let source = '';
         if (type === 'file_upload') {
-            let filteredElements = files.filter((f, i) => i !== index);
-            setFiles(filteredElements)
+            source = 'file'
         } else if (type === 'sqlFiles') {
-            let filteredElements = sqlFiles.filter((f, i) => i !== index);
-            setFiles(filteredElements)
+            source = 'mysql'
         } else if (type === 'postgresFiles') {
-            let filteredElements = postgresFiles.filter((f, i) => i !== index);
-            setFiles(filteredElements)
+            source = 'postgresql'
         } else if (type === 'sqLiteFiles') {
-            let filteredElements = sqLiteFiles.filter((f, i) => i !== index);
-            setFiles(filteredElements)
+            source = 'sqlite'
         } else if (type === 'restApifiles') {
-            let filteredElements = restApifiles.filter((f, i) => i !== index);
-            setFiles(filteredElements)
+            source = 'restapi'
         }
+        bodyFormData.append("source", source)
+        bodyFormData.append("file_name", filename)
+        bodyFormData.append("dataset_name", dataSetName)
+
+        let accessToken = getTokenLocal() ?? false;
+        HTTPService(
+            "DELETE",
+            UrlConstant.base_url + UrlConstant.dataseteth,
+            bodyFormData,
+            true,
+            true,
+            accessToken
+        ).then((res) => {
+            if (res.status === 204) {
+                if (type === 'file_upload') {
+                    let filteredElements = files.filter((item, i) => item.name !== filename);
+                    setFiles(filteredElements)
+                } else if (type === 'sqlFiles') {
+                    let filteredElements = sqlFiles.filter((item, i) => item.name !== filename);
+                    setSqlFiles(filteredElements)
+                } else if (type === 'postgresFiles') {
+                    let filteredElements = postgresFiles.filter((item, i) => item.name !== filename);
+                    setPostgresFiles(filteredElements)
+                } else if (type === 'sqLiteFiles') {
+                    let filteredElements = sqLiteFiles.filter((item, i) => item.name !== filename);
+                    setSqLiteFiles(filteredElements)
+                } else if (type === 'restApifiles') {
+                    let filteredElements = restApifiles.filter((item, i) => item.name !== filename);
+                    setRestApiFiles(filteredElements)
+                }
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     const getTotalSizeInMb = (data) => {
@@ -168,6 +200,92 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
     }
 
     const handleUpload = () => {
+        if (selectedUploadType === 'file_upload') {
+            let bodyFormData = new FormData();
+            bodyFormData.append("dataset_name", dataSetName);
+            bodyFormData.append("source", "file");
+            files.forEach(file => {
+                bodyFormData.append("datasets", file);
+            });
+            let accessToken = getTokenLocal() ? getTokenLocal() : false;
+
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.dataseteth,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            ).then((res) => {
+                console.log(res)
+            })
+                .catch((err) => { console.log(err) })
+        }
+        else if (selectedUploadType === 'mysql') {
+            let bodyFormData = new FormData();
+            bodyFormData.append("dataset_name", dataSetName);
+            bodyFormData.append("source", "mysql");
+            bodyFormData.append("datasets", files);
+            let accessToken = getTokenLocal() ? getTokenLocal() : false;
+
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.dataseteth,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            ).then((res) => {
+                console.log(res)
+            })
+                .catch((err) => { console.log(err) })
+        } else if (selectedUploadType === 'postgres') {
+            let bodyFormData = new FormData();
+            bodyFormData.append("dataset_name", dataSetName);
+            bodyFormData.append("source", "postgresql");
+            bodyFormData.append("datasets", files);
+            let accessToken = getTokenLocal() ? getTokenLocal() : false;
+
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.dataseteth,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            ).then((res) => {
+                console.log(res)
+            }).catch((err) => { console.log(err) })
+        } else if (selectedUploadType === 'sqlite') {
+            let bodyFormData = new FormData();
+            bodyFormData.append("dataset_name", dataSetName);
+            bodyFormData.append("source", "sqlite");
+            bodyFormData.append("datasets", files);
+            let accessToken = getTokenLocal() ? getTokenLocal() : false;
+
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.dataseteth,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            ).then((res) => {
+                console.log(res)
+            }).catch((err) => { console.log(err) })
+        } else if (selectedUploadType === 'rest_api') {
+            let bodyFormData = new FormData();
+            bodyFormData.append("dataset_name", dataSetName);
+            bodyFormData.append("source", "restapi");
+            bodyFormData.append("datasets", files);
+            let accessToken = getTokenLocal() ? getTokenLocal() : false;
+
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.dataseteth,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            ).then((res) => {
+                console.log(res)
+            }).catch((err) => { console.log(err) })
+        }
 
     }
 

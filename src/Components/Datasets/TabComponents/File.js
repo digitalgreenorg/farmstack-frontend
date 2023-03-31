@@ -7,8 +7,8 @@ const File = ({ index, name, size, handleDelete, type, showDeleteIcon, isTables 
         let converted = size / Math.pow(1024, 2);
         return converted.toFixed(2)
     }
-    const handleClick = (index, type) => {
-        handleDelete(index, type)
+    const handleClick = (index, name, type) => {
+        handleDelete(index, name, type)
     }
     return (
         <div>
@@ -31,7 +31,7 @@ const File = ({ index, name, size, handleDelete, type, showDeleteIcon, isTables 
                 <span style={{ color: "#ABABAB", marginLeft: '4px' }}>({getSizeInMb(size) + 'MB'})</span>
                 {showDeleteIcon ?
                     <div style={{ marginRight: '25px', display: 'flex', justifyContent: 'end', width: '100%' }}>
-                        <img className='cursor-pointer' onClick={() => handleClick(index, type)} src={require("../../../Assets/Img/delete_dark.svg")} />
+                        <img className='cursor-pointer' onClick={() => handleClick(index, name, type)} src={require("../../../Assets/Img/delete_dark.svg")} />
                     </div>
                     : <></>
                 }
