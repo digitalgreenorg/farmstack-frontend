@@ -40,6 +40,41 @@ const DbConfiguration = (props) => {
                             textAlign: 'left'
                         }}
                     >
+                        {(!props.validator && (!props.dbaseName !== null || !props.dbaseName !== undefined || !props.dbaseName !== '')) ? '' : 'Please enter the databse name is a mandatory field.'}
+                    </Typography>}
+                sx={{
+                    marginTop: '30px',
+                    borderRadius: '8px',
+                    '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                            borderColor: '#919EAB'
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#919EAB'
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#919EAB'
+                        },
+                    }
+                }}
+                placeholder='Database name'
+                label='Database name'
+                value={props.dbaseName}
+                onChange={(e) => props.setDbaseName(e.target.value)}
+            />
+            <TextField
+                fullWidth
+                helperText={
+                    <Typography
+                        sx={{
+                            fontFamily: "Montserrat !important",
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#FF0000",
+                            textAlign: 'left'
+                        }}
+                    >
                         {(!props.validator && (!props.userName !== null || !props.userName !== undefined || !props.userName !== '')) ? '' : 'Please enter the username is a mandatory field.'}
                     </Typography>}
                 sx={{

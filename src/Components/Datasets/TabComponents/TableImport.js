@@ -26,7 +26,7 @@ const TableImport = (props) => {
             >
                 Please refer <span style={{ textDecoration: 'underline', color: '#0038FF' }}>help</span> section to know how to connect to {props.dbName}.
             </Typography>
-            <FormControl fullWidth>
+            <FormControl fullWidth className='mt-30'>
                 <InputLabel>Select table</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -60,7 +60,8 @@ const TableImport = (props) => {
                 fontSize: "20px",
                 lineHeight: "24px",
                 color: "#000000",
-                textAlign: 'left'
+                textAlign: 'left',
+                marginTop: '30px'
             }}>
                 Enter the filename to which you
                 want to import the data*
@@ -71,7 +72,8 @@ const TableImport = (props) => {
                 fontSize: "14px",
                 lineHeight: "19.42px",
                 color: "#3D4A52",
-                textAlign: 'left'
+                textAlign: 'left',
+                marginTop: '10px'
             }}>
                 All imports will be XLS file type. If the data being imported exceeds 50 MB then we will create multiple files post fixed with numbering.
                 Example: filename_01.xls, filename_01.xls.

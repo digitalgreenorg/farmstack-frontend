@@ -56,7 +56,7 @@ const AddDataSetParticipantNew = () => {
     }
 
     const handleSubmit = () => {
-        history.push('/participant/new_datasets')
+        // history.push('/participant/new_datasets')
     }
 
     return (
@@ -107,6 +107,7 @@ const AddDataSetParticipantNew = () => {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <UploadFile
+                        dataSetName={dataSetName}
                         files={files}
                         setFiles={setFiles}
                         sqlFiles={sqlFiles}

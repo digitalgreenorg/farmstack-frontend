@@ -9,6 +9,9 @@ import CheckBoxWithText from './CheckBoxWithText';
 import DbConfiguration from './DbConfiguration';
 import TableImport from './TableImport';
 import ApiConfiguration from './ApiConfiguration';
+import HTTPService from '../../../Services/HTTPService';
+import UrlConstant from '../../../Constants/UrlConstants';
+import { getTokenLocal } from '../../../Utils/Common';
 
 const accordionTitleStyle = {
     "fontFamily": "'Montserrat' !important",
@@ -18,23 +21,26 @@ const accordionTitleStyle = {
     "color": "#212B36 !important"
 }
 
-const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, setPostgresFiles, sqLiteFiles, setSqLiteFiles, restApifiles, setRestApiFiles, validator }) => {
+const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, setPostgresFiles, sqLiteFiles, setSqLiteFiles, restApifiles, setRestApiFiles, validator, dataSetName }) => {
     const [selectedUploadType, setSelectedUploadType] = useState('file_upload');
     const [selectedPanel, setSelectedPanel] = useState();
     const [file, setFile] = useState();
 
+    const [mySqlDbName, setMySqlDbName] = useState()
     const [mySqlUserName, setMySqlUserName] = useState()
     const [mySqlPassword, setMySqlPassword] = useState()
     const [mySqlDbUrl, setMySqlDbUrl] = useState()
     const [mySqlPort, setMySqlPort] = useState()
     const [isMySqlSaveCreds, setIsMySqlSaveCreds] = useState(false)
 
+    const [postgresDbName, setPostgresDbName] = useState()
     const [postgresUserName, setPostgresUserName] = useState()
     const [postgresPassword, setPostgresPassword] = useState()
     const [postgresDbUrl, setPostgresDbUrl] = useState()
     const [postgresPort, setPostgresPort] = useState()
     const [isPostgresSaveCreds, setIsPostgresSaveCreds] = useState(false)
 
+    const [sqLiteDbName, setSqLiteDbName] = useState()
     const [sqLiteUserName, setSqLiteUserName] = useState()
     const [sqLitePassword, setSqLitePassword] = useState()
     const [sqLiteDbUrl, setSqLiteDbUrl] = useState()
@@ -174,18 +180,21 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
 
     const handleClearFields = () => {
         if (selectedUploadType === 'mysql') {
+            setMySqlDbName("")
             setMySqlUserName("")
             setMySqlPassword("")
             setMySqlDbUrl("")
             setMySqlPort("")
             setIsMySqlSaveCreds(false)
         } else if (selectedUploadType === 'postgres') {
+            setPostgresDbName("")
             setPostgresUserName("")
             setPostgresPassword("")
             setPostgresDbUrl("")
             setPostgresPort("")
             setIsPostgresSaveCreds(false)
         } else if (selectedUploadType === 'sqlite') {
+            setSqLiteDbName("")
             setSqLiteUserName("")
             setSqLitePassword("")
             setSqLiteDbUrl("")
@@ -201,13 +210,89 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
 
     const handleConnect = () => {
         if (selectedUploadType === 'mysql') {
-            setIsMySqlConnected(true)
+            let bodyData = {
+                database: mySqlDbName,
+                username: mySqlUserName,
+                password: mySqlPassword,
+                host: mySqlDbUrl,
+                port: mySqlPort,
+                "database_type": "mysql"
+            }
+
+            let accessToken = getTokenLocal() ? getTokenLocal() : false;
+            console.log(accessToken)
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.connection_to_db_end_point,
+                bodyData,
+                false,
+                true,
+                accessToken
+            ).then((res) => {
+                setSqlTables([...res.data])
+                setIsMySqlConnected(true)
+            })
+                .catch((err) => { console.log(err) })
         } else if (selectedUploadType === 'postgres') {
-            setIsPostgresConnected(true)
+            let bodyData = {
+                dbname: postgresDbName,
+                user: postgresUserName,
+                password: postgresPassword,
+                host: postgresDbUrl,
+                port: postgresPort,
+                "database_type": "postgresql"
+            }
+            let accessToken = getTokenLocal() ?? false;
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.connection_to_db_end_point,
+                bodyData,
+                false,
+                true,
+                accessToken
+            ).then((res) => {
+                setPostgresTables([...res.data])
+                setIsPostgresConnected(true)
+            })
+                .catch((err) => { console.log(err) })
         } else if (selectedUploadType === 'sqlite') {
-            setIsSqLiteConnected(true)
+            let bodyData = {
+                dbname: sqLiteDbName,
+                user: sqLiteUserName,
+                password: sqLitePassword,
+                host: sqLiteDbUrl,
+                port: sqLitePort,
+                "database_type": "sqlite"
+            }
+            let accessToken = getTokenLocal() ?? false;
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.connection_to_db_end_point,
+                bodyData,
+                false,
+                true,
+                accessToken
+            ).then((res) => {
+                setSqLiteTables([...res.data])
+                setIsSqLiteConnected(true)
+            })
+                .catch((err) => { console.log(err) })
         } else if (selectedUploadType === 'rest_api') {
-            setIsApiConnected(true)
+            let bodyFormData = new FormData();
+            bodyFormData.append("dataset_name", dataSetName);
+            bodyFormData.append("file_name", exportFileName);
+            bodyFormData.append("source", "live_api");
+            bodyFormData.append("api_key", "Bearer " + authToken);
+            bodyFormData.append("url", api);
+            let accessToken = getTokenLocal() ?? false;
+            HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.live_api,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            ).then((res) => {
+                setRestApiFiles(res.data)
+                setIsApiConnected(true)
+            })
+                .catch((err) => { console.log(err) })
         }
     }
 
@@ -391,6 +476,8 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                         <>
                             {!isMySqlConnected ?
                                 <DbConfiguration
+                                    dbaseName={mySqlDbName}
+                                    setDbaseName={setMySqlDbName}
                                     userName={mySqlUserName}
                                     setUserName={setMySqlUserName}
                                     password={mySqlPassword}
@@ -425,14 +512,16 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                         <>
                             {!isPostgresConnected ?
                                 <DbConfiguration
+                                    dbaseName={postgresDbName}
+                                    setDbaseName={setPostgresDbName}
                                     userName={postgresUserName}
                                     setUserName={setPostgresUserName}
                                     password={postgresPassword}
                                     setPassword={setPostgresPassword}
                                     dbUrl={postgresDbUrl}
-                                    setDbUrl={setPostgresPassword}
+                                    setDbUrl={setPostgresDbUrl}
                                     port={postgresPort}
-                                    setPort={setPostgresPassword}
+                                    setPort={setPostgresPort}
                                     handleCheckBox={handleCheckBox}
                                     handleClearFields={handleClearFields}
                                     handleConnect={handleConnect}
@@ -459,6 +548,8 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                         <>
                             {!isSqLiteConnected ?
                                 <DbConfiguration
+                                    dbaseName={sqLiteDbName}
+                                    setDbaseName={setSqLiteDbName}
                                     userName={sqLiteUserName}
                                     setUserName={setSqLiteUserName}
                                     password={sqLitePassword}

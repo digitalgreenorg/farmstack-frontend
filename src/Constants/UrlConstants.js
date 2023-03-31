@@ -37,6 +37,10 @@ const UrlConstant = {
   dataset: "datahub/datasets/",
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
+  live_api: "participant/database/database_live_api_export/",
+  connection_to_db_end_point: "participant/database/database_config/",
+  get_column_from_table_name: "participant/database/database_col_names/",
+  send_columns_to_export: "participant/database/database_xls_file/",
 
   guest_organization_details: "microsite/admin_organization/",
   guest_dataset_listing: "microsite/datasets/",
@@ -57,9 +61,9 @@ const UrlConstant = {
   datahub_dashboard: "datahub/dashboard/",
   add_project: "/participant/project/",
   project_listing_page_url: "participant/project/project_list/",
-  search_dataset_end_point_admin :  "datahub/datasets/search_datasets/",
-  search_dataset_end_point_participant :  "participant/datasets/search_datasets/",
-  search_dataset_end_point_guest :  "microsite/datasets/search_datasets/"
+  search_dataset_end_point_admin: "datahub/datasets/search_datasets/",
+  search_dataset_end_point_participant: "participant/datasets/search_datasets/",
+  search_dataset_end_point_guest: "microsite/datasets/search_datasets/"
 };
 
 export default UrlConstant;
