@@ -54,18 +54,20 @@ const TableImport = (props) => {
 
                 </Select>
             </FormControl>
-            <FormGroup style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', height: "160px", overflowY: "auto", width: "100%" }}>
-                {props.allColumns.length > 0 && props.allColumns.map((eachCol, index) => {
-                    console.log(eachCol)
-                    return <FormControlLabel sx={{ marginLeft: '0px', marginRight: '0px', flex: '0 0 33.333333%' }}
-                        control={<Checkbox sx={{
-                            '&.Mui-checked': {
-                                color: '#00AB55 !important',
-                            },
-                        }} key={index} onChange={(e) => props.handleCheckBoxCheck(e, eachCol)} checked={eachCol.checked} />} label={eachCol.value} />
-                })}
-            </FormGroup>
-            {props.allColumns ?
+            {props.allColumns?.length ?
+                <FormGroup style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', height: "160px", overflowY: "auto", width: "100%" }}>
+                    {props.allColumns.length > 0 && props.allColumns.map((eachCol, index) => {
+                        console.log(eachCol)
+                        return <FormControlLabel sx={{ marginLeft: '0px', marginRight: '0px', flex: '0 0 33.333333%' }}
+                            control={<Checkbox sx={{
+                                '&.Mui-checked': {
+                                    color: '#00AB55 !important',
+                                },
+                            }} key={index} onChange={(e) => props.handleCheckBoxCheck(e, eachCol)} checked={eachCol.checked} />} label={eachCol.value} />
+                    })}
+                </FormGroup>
+                : <></>}
+            {props.allColumns?.length ?
                 <>
                     <Typography sx={{
                         fontFamily: "Montserrat !important",
@@ -123,7 +125,7 @@ const TableImport = (props) => {
                             textAlign: 'left'
                         }}
                     >
-                        {(props.fileName !== null && props.fileName !== undefined && props.fileName !== '') ? '' : 'Please select the table.'}
+                        {(!props.validator && (!props.fileName !== null || !props.fileName !== undefined || !props.fileName !== '')) ? '' : 'Please enter the file name.'}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
