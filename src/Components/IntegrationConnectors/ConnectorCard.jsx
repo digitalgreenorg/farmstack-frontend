@@ -7,6 +7,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useHistory } from "react-router-dom";
 import { dateTimeFormat } from "../../Utils/Common";
+import "./cards.css"
 
 const useStyles = {
   marginrowtop: { "margin-top": "30px" },

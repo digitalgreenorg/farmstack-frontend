@@ -50,6 +50,7 @@ export default function ViewMetaDatasetDetails(props) {
   const [success, setisSuccess] = useState(false);
   const fileTypes = ["XLS", "xlsx", "CSV", "PDF", "JPEG", "JPG", "PNG", "TIFF"];
   const [previewImage, setPreviewImage] = useState("");
+  const [datasetName, setDatasetName] = useState("")
   const location = useLocation();
 
   console.log(location.state, "location")
@@ -90,6 +91,7 @@ export default function ViewMetaDatasetDetails(props) {
       setOrgDetail(response.data.organization)
       setorgdes(response.data.organization.org_description)
       setUserDetails(response.data.user)
+      setDatasetName(response?.data?.name)
     }).catch((e) => {
       setLoader(false);
       console.log('error while loading dataset', e)
@@ -177,7 +179,7 @@ export default function ViewMetaDatasetDetails(props) {
                     "paddingLeft": "98px",
                     "margin-top": "50px"
                   }}>
-                  <span>Agricultural Practices Video Dissemintion Data</span>
+                  <span>{datasetName}</span>
                 </Col>
               </Row>
               <Row style={{ "marginLeft": "96px", "margin-right": "73px" }}>

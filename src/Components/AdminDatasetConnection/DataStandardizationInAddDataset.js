@@ -19,7 +19,7 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import { message, Space } from "antd";
 
 const DataStandardizationInAddDataset = (props) => {
-  const { datasetname, setAllStandardisedFile, allStandardisedFile, standardisedFileLink, setStandardisedFileLink, listOfFilesExistInDbForEdit, isDatasetEditModeOn } = props;
+  const { datasetname, setAllStandardisedFile, allStandardisedFile, standardisedFileLink, setStandardisedFileLink, listOfFilesExistInDbForEdit, isDatasetEditModeOn, isaccesstoken} = props;
 
   console.log("type of ", typeof(listOfFilesExistInDbForEdit))
 
@@ -108,7 +108,9 @@ const DataStandardizationInAddDataset = (props) => {
       UrlConstant.standardization_get_all_file_name +
       datasetname;
     setIsLoading(true);
-    HTTPService("GET", url, false, false, true)
+    let checkforAccess = isaccesstoken ? isaccesstoken : false;
+
+    HTTPService("GET", url, false, false, true, checkforAccess)
       .then((response) => {
     // console.log("filename in getAllFileNames api call 2",allFileNames)
         setIsLoading(false);
@@ -145,9 +147,11 @@ const DataStandardizationInAddDataset = (props) => {
 
   const getStandardiziedTemplate = () => {
     let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
+    let checkforAccess = isaccesstoken ? isaccesstoken : false;
+    console.log("checkforAccess",checkforAccess)
 
     setIsLoading(true);
-    HTTPService("GET", url, false, false, true)
+    HTTPService("GET", url, false, false, true, checkforAccess)
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
@@ -217,11 +221,12 @@ const DataStandardizationInAddDataset = (props) => {
       file_path: fileName,
       // is_standardised: true,
     };
+    let checkforAccess = isaccesstoken ? isaccesstoken : false;
     if(alreadyStanddardizedFiles.includes(fileName)) payload['is_standardised'] = true
     
     console.log("filename", fileName);
     setIsLoading(true);
-    HTTPService("POST", url, payload, false, true)
+    HTTPService("POST", url, payload, false, true, checkforAccess)
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
@@ -255,6 +260,8 @@ const DataStandardizationInAddDataset = (props) => {
     // saving standardised config
 
     let tmpAllStandardisedFile = {...allStandardisedFile}
+    console.log('tmpAllStandardisedFile without update',tmpAllStandardisedFile)
+
     tmpAllStandardisedFile[fileName] = {
       standardised_templete_category: standardisedTempleteCategory,
       standardised_column: standardisedColum,
@@ -281,10 +288,11 @@ const DataStandardizationInAddDataset = (props) => {
     }
 
     if(alreadyStanddardizedFiles.includes(fileName)) payload['is_standardised'] = true
-
+    
     let url = UrlConstant.base_url + UrlConstant.standardise_file
     setIsLoading(true)
-    HTTPService("POST", url, payload, false, true)
+    let checkforAccess = isaccesstoken ? isaccesstoken : false;
+    HTTPService("POST", url, payload, false, true, checkforAccess)
     .then((response) => {
       setIsLoading(false);
       console.log("response", response);
@@ -329,11 +337,14 @@ const DataStandardizationInAddDataset = (props) => {
       // console.log("tmpAllFileName in handleExistingStandardizedFiles", tmpAllFileName)
       if(Object.keys(dataset.standardisation_config).length){
         tmpAlreadyStanddardizedFiles.push(dataset.file)
-        tmpStandardized[dataset.file] = dataset.standardisation_config
+        
+        // if tmpStandardized[dataset.file] donsn't exist then create
+        if(!tmpStandardized[dataset.file]) tmpStandardized[dataset.file] = dataset.standardisation_config
       }
       // console.log("tmpStandardized in handleExistingStandardizedFiles",tmpStandardized)
     })
     setAllStandardisedFile(tmpStandardized)
+    console.log("tmpStandardized1",tmpStandardized)
     setAllFileNames(tmpAllFileName);
     setAlreadyStanddardizedFiles(tmpAlreadyStanddardizedFiles)
   }
@@ -362,7 +373,7 @@ const DataStandardizationInAddDataset = (props) => {
       setMaskedColumns(allStandardisedFile[fileName]?.masked_columns)
       
       // Chnage object reference
-      if(isDatasetEditModeOn){
+      // if(isDatasetEditModeOn){
       let tmpArr = [...allStandardisedFile[fileName]?.standardised_templete_category];
       tmpArr.forEach((attribute,index)=>{
         allStandardisedTempleteCategory.forEach(((tmpAttribute)=>{
@@ -384,9 +395,9 @@ const DataStandardizationInAddDataset = (props) => {
       tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
     });
     setStandardisedTempleteAttribute(tmpColumn);
-  }
+  // }
 
-  if(!isDatasetEditModeOn) setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
+  // if(!isDatasetEditModeOn) setStandardisedColumn(allStandardisedFile[fileName]?.standardised_column)
 
     }
 
@@ -398,7 +409,8 @@ const DataStandardizationInAddDataset = (props) => {
     standardisedTempleteAttribute,
     allFileNames
   );
-
+  
+  console.log("allStandardisedFile",allStandardisedFile)
   console.log('all data',keysInUploadedDataset, standardisedTempleteCategory, standardisedColum,maskedColumns)
   console.log("listOfFilesExistInDbForEdit", listOfFilesExistInDbForEdit)
   return (
@@ -417,7 +429,7 @@ const DataStandardizationInAddDataset = (props) => {
             <Select
               labelId="demo-select-small"
               id="select-file-name-small"
-              // value={age}
+              label="Select file name"
               value={fileName}
               error={fileNameError ? fileNameError : null}
               onChange={(e) => {
@@ -457,7 +469,7 @@ const DataStandardizationInAddDataset = (props) => {
             <span>Uploaded Data Column Name</span>
           </Col>
           <Col xs={3} sm={3} md={3} lg={3}>
-            <span>Standard Data Calegory</span>
+            <span>Standard Data Category</span>
           </Col>
           <Col xs={3} sm={3} md={3} lg={3}>
             <span>Standard Data Attribute</span>
@@ -466,8 +478,8 @@ const DataStandardizationInAddDataset = (props) => {
             <span>Mask</span>
           </Col>
 
-          {/* </div> */}
-        </Row>
+          {/* </div> */}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+        </Row>  
       ) : null}
       <div className="data_standardization_column">
         {keysInUploadedDataset?.map((keyNames, index) => {
@@ -496,6 +508,7 @@ const DataStandardizationInAddDataset = (props) => {
                     <Select
                       labelId="demo-select-small"
                       id="demo-select-small"
+                      label="Select datapoint category"
                       value={
                         standardisedTempleteCategory?.[index]
                          ? standardisedTempleteCategory?.[index] :
@@ -504,10 +517,10 @@ const DataStandardizationInAddDataset = (props) => {
                       onChange={(e) =>
                         datapointCategoryChange(e.target.value, index)
                       }
-                    >
+                    ><MenuItem value=""><em>None</em></MenuItem>
                     {/* { console.log(standardisedTempleteCategory?.[index],allStandardisedTempleteCategory, "THIS IS THE VVALUENBASBAHUSB")} */}
                       {allStandardisedTempleteCategory?.map((item) => {
-                        // console.log("This is to check value of object reff",standardisedTempleteCategory?.[index]===item,standardisedTempleteCategory?.[index],item)
+                        console.log("This is to check value of object reff",standardisedTempleteCategory?.[index]===item,standardisedTempleteCategory?.[index],item)
                         return (
                           <MenuItem key={item.datapoint_category} value={item}>
                             {item.datapoint_category}
@@ -529,6 +542,7 @@ const DataStandardizationInAddDataset = (props) => {
                     <Select
                       labelId="demo-select-small"
                       id="demo-select-small"
+                      label="Select column/key"
                       value={standardisedColum[index] ? standardisedColum[index] : ""}
                       onChange={(e) => {
                         let tmpArr = [...standardisedColum];

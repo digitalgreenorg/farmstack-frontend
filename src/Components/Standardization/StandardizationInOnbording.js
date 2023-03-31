@@ -38,8 +38,8 @@ const StandardizationInOnbord = (props) => {
   const [errorMessages, setErrorMessage] = useState("");
   const [saveButtonEnabled, setSaveButtonEnabled] = useState(false)
   const [editCategoryTitle, setEditCategoryTitle] = useState([])
-  const [datapointNameError,setDatapointNameError] = useState("")
-  const [accordionDatapointNameError,setAccordionDatapointNameError] = useState([])
+  const [datapointNameError, setDatapointNameError] = useState("")
+  const [accordionDatapointNameError, setAccordionDatapointNameError] = useState([])
 
   const history = useHistory();
 
@@ -54,16 +54,16 @@ const StandardizationInOnbord = (props) => {
 
   console.log("all datapoints", allDatapoints);
 
-  const handleDatapointCategoryName = (e) =>{
+  const handleDatapointCategoryName = (e) => {
 
     setDatapointNameError("")
-    if(e.target.value.length<51 && e.target.value.match(RegexConstants.NEW_NAME_REGEX)) setDatapointName(e.target.value)
+    if (e.target.value.length < 51) setDatapointName(e.target.value)
   }
 
-  const handleDatapointCategoryDescription = (e) =>{
+  const handleDatapointCategoryDescription = (e) => {
 
-    if(e.target.value.length<251) setDatapointDes(e.target.value)
-    
+    if (e.target.value.length < 251) setDatapointDes(e.target.value)
+
   }
 
   const handleNameField = (e) => {
@@ -78,25 +78,25 @@ const StandardizationInOnbord = (props) => {
   };
 
   const handleAddDatapoint = () => {
-      if(!datapointName || !datapointDes ){
+    if (!datapointName || !datapointDes) {
+      return
+    }
+    setSaveButtonEnabled(true)
+    let tmpAllDatapoints = [...allDatapoints];
+    let newDatapoint = {
+      datapoint_category: datapointName,
+      datapoint_description: datapointDes,
+    };
+    // Check if category name already exist or not
+    let returnFromFuntion = false
+    tmpAllDatapoints.forEach((category, index) => {
+      if (category.datapoint_category === datapointName) {
+        setDatapointNameError("Category already exists!")
+        returnFromFuntion = true;
         return
       }
-      setSaveButtonEnabled(true)
-      let tmpAllDatapoints = [...allDatapoints];
-      let newDatapoint = {
-        datapoint_category: datapointName,
-        datapoint_description: datapointDes,
-      };
-      // Check if category name already exist or not
-      let returnFromFuntion = false
-      tmpAllDatapoints.forEach((category,index)=>{
-        if(category.datapoint_category === datapointName) {
-          setDatapointNameError("Category already exists!")
-          returnFromFuntion = true;
-          return
-        }
-      })
-      if(returnFromFuntion) return
+    })
+    if (returnFromFuntion) return
 
 
     let tmpAllAttributes = { ...allAttributes };
@@ -113,57 +113,61 @@ const StandardizationInOnbord = (props) => {
     setAllAttributes({ ...tmpAllAttributes });
     setAllAttributesDes({ ...tmpAllAttributesDes });
 
-    console.log('tmpAllDatapoints in add',tmpAllDatapoints)
+    console.log('tmpAllDatapoints in add', tmpAllDatapoints)
 
     tmpAllDatapoints.push(newDatapoint);
     setAllDataPoints(tmpAllDatapoints);
     setDatapointName("");
     setDatapointDes("");
   };
-    const handleUpdateCategoryName = (index,newValue) =>{
+  const handleUpdateCategoryName = (index, newValue) => {
     setSaveButtonEnabled(true)
 
     let tmpAllDatapoints = [...allDatapoints];
     console.log('error array', accordionDatapointNameError)
 
-      //Check if category name already exist or not
-      // let returnFromFuntion = false
-      // tmpAllDatapoints.forEach((category)=>{
-      //   if(category.datapoint_category === newValue) {
-      //     let tmpDatapointNameError = [...accordionDatapointNameError]
-        //tmpDatapointNameError[index] = ` ${newValue} Category already exists!`
-      //     setAccordionDatapointNameError(tmpDatapointNameError)
-      //     returnFromFuntion = true;
-      //     return
-      //   }
-      // })
-      // if(returnFromFuntion) return
-      // let tmpDatapointNameError = [...accordionDatapointNameError]
-      //     tmpDatapointNameError[index] = ""
-      //     setAccordionDatapointNameError(tmpDatapointNameError)
+    //Check if category name already exist or not
+    // let returnFromFuntion = false
+    // tmpAllDatapoints.forEach((category)=>{
+    //   if(category.datapoint_category === newValue) {
+    //     let tmpDatapointNameError = [...accordionDatapointNameError]
+    //tmpDatapointNameError[index] = ` ${newValue} Category already exists!`
+    //     setAccordionDatapointNameError(tmpDatapointNameError)
+    //     returnFromFuntion = true;
+    //     return
+    //   }
+    // })
+    // if(returnFromFuntion) return
+    // let tmpDatapointNameError = [...accordionDatapointNameError]
+    //     tmpDatapointNameError[index] = ""
+    //     setAccordionDatapointNameError(tmpDatapointNameError)
+    if (newValue.length < 51) {
+      tmpAllDatapoints[index].datapoint_category = newValue;
+      setAllDataPoints(tmpAllDatapoints);
+    } else {
+      return
+    }
 
-    tmpAllDatapoints[index].datapoint_category = newValue;
-    setAllDataPoints(tmpAllDatapoints);
   }
   const handleNameExistsUpdate = (index, newValue) => {
     let tmpAllDatapoints = [...allDatapoints];
     let newCategoryName = newValue.trim();
-  
+
     // Check if category name already exists or not
     let categoryAlreadyExists = tmpAllDatapoints.some((category, i) => {
       return i !== index && category.datapoint_category === newCategoryName;
     });
-  
+
     if (categoryAlreadyExists) {
       let errorofnewValue = [...accordionDatapointNameError];
       errorofnewValue[index] = `"${newCategoryName}" is already taken. Please choose a different name.`;
       setAccordionDatapointNameError(errorofnewValue);
-      
-    }else if (newCategoryName === ""){
+
+    } else if (newCategoryName === "") {
       let errorofnewValue = [...accordionDatapointNameError]
       errorofnewValue[index] = "This field may not be blank"
       setAccordionDatapointNameError(errorofnewValue)
-      
+
     } else {
       let tmpDatapointNameError = [...accordionDatapointNameError];
       tmpDatapointNameError[index] = "";
@@ -176,15 +180,15 @@ const StandardizationInOnbord = (props) => {
 
     }
   };
-  
+
 
   const hanldeAttributeInputChange = (
     index,
     allAttributesArrIndex,
     newValue
   ) => {
-    
-    if(newValue.length>=251 || !newValue.match(RegexConstants.DATAPOINT_ATTRIBUTE_REGEX)){
+
+    if (newValue.length >= 251) {
       return
     }
     setSaveButtonEnabled(true)
@@ -201,10 +205,10 @@ const StandardizationInOnbord = (props) => {
     newValue
   ) => {
 
-    if(newValue.length>=251){
+    if (newValue.length >= 251) {
       return
     }
-    if(newValue == " "){
+    if (newValue == " ") {
       newValue.replace("")
     }
     setSaveButtonEnabled(true)
@@ -219,8 +223,8 @@ const StandardizationInOnbord = (props) => {
 
   const handleAddDatapointAttribute = (index) => {
 
-    if(!allAttributes[index][0] || !allAttributesDes[index][0]){
-        return
+    if (!allAttributes[index][0] || !allAttributesDes[index][0]) {
+      return
     }
     setSaveButtonEnabled(true)
 
@@ -252,8 +256,8 @@ const StandardizationInOnbord = (props) => {
       let tmpAllDatapoints = [...allDatapoints];
       tmpAllDatapoints.splice(index, 1);
       setAllDataPoints(tmpAllDatapoints);
-      
-      let tmpAllAttributes = {...allAttributes};
+
+      let tmpAllAttributes = { ...allAttributes };
       tmpAllAttributes[index] = []
       setAllAttributes(tmpAllAttributes)
       success("Category deleted successfully.", "success");
@@ -281,8 +285,8 @@ const StandardizationInOnbord = (props) => {
     let url = isOnborading
       ? UrlConstant.base_url + UrlConstant.standardization_post_data
       : inSettings
-      ? UrlConstant.base_url + UrlConstant.standardization_update_data
-      : UrlConstant.base_url + UrlConstant.standardization_post_data;
+        ? UrlConstant.base_url + UrlConstant.standardization_update_data
+        : UrlConstant.base_url + UrlConstant.standardization_post_data;
 
     setIsLoading(true);
     HTTPService(method, url, payload, false, true, isOnborading ? isaccesstoken : false)
@@ -303,7 +307,7 @@ const StandardizationInOnbord = (props) => {
             showBrandingScreen();
           }
           else if (inSettings) {
-          getStandardiziedTemplate()
+            getStandardiziedTemplate()
           }
         }
       })
@@ -358,7 +362,7 @@ const StandardizationInOnbord = (props) => {
           });
           setAllAttributes(tmp);
           setAllAttributesDes(tmpDes);
-          console.log("tmp in get call attributes", tmp,tmpDes, allAttributes);
+          console.log("tmp in get call attributes", tmp, tmpDes, allAttributes);
         }
       })
       .catch((e) => {
@@ -400,9 +404,9 @@ const StandardizationInOnbord = (props) => {
       .then((response) => {
         setIsLoading(false);
         console.log("response", response);
-        let tmpAllAttributes = {...allAttributes};
-      tmpAllAttributes[index] = []
-      setAllAttributes(tmpAllAttributes)
+        let tmpAllAttributes = { ...allAttributes };
+        tmpAllAttributes[index] = []
+        setAllAttributes(tmpAllAttributes)
         success("Category deleted successfully.", "success");
 
         let tmpAllDatapoints = [...allDatapoints];
@@ -477,7 +481,7 @@ const StandardizationInOnbord = (props) => {
         </div>
         <div className="data-point-input-box-container">
           <TextField
-          required
+            required
             value={datapointName}
             onChange={(e) => handleDatapointCategoryName(e)}
             onKeyDown={handleNameField}
@@ -486,11 +490,11 @@ const StandardizationInOnbord = (props) => {
             id="datapoint-name-input-box-id"
             label="Datapoint category name"
             variant="outlined"
-            error={datapointNameError ? datapointNameError : "" }
-            helperText={datapointNameError ? datapointNameError : "" }
+            error={datapointNameError ? datapointNameError : ""}
+            helperText={datapointNameError ? datapointNameError : ""}
           />
           <TextField
-          required
+            required
             value={datapointDes}
             onChange={(e) => handleDatapointCategoryDescription(e)}
             onKeyDown={handledescriptionKeydowndes}
@@ -509,7 +513,7 @@ const StandardizationInOnbord = (props) => {
             className="datapoint-add-button"
             id="add-datapoint-button"
             onClick={handleAddDatapoint}
-            disabled={!datapointName || !datapointDes }
+            disabled={!datapointName || !datapointDes}
           >
             Add
           </Button>
@@ -537,55 +541,55 @@ const StandardizationInOnbord = (props) => {
                     </Typography> */}
 
                     {
-                      editCategoryTitle[index] ? 
-                      <TextField
-                      value={item.datapoint_category}
-                      required
-                      onChange={(e) => handleUpdateCategoryName(index,e.target.value,e)}
-                      inputProps={{ maxLength: 250 }}
-                      className="datapoint-name-input-box"
-                      id="datapoint-name-input-box-id"
-                      label="Datapoint category name"
-                      variant="outlined"
-                      helperText={accordionDatapointNameError[index] ? accordionDatapointNameError[index] : accordionDatapointNameError[index]}
-                      error={accordionDatapointNameError[index] ? accordionDatapointNameError[index] : accordionDatapointNameError[index]}
+                      editCategoryTitle[index] ?
+                        <TextField
+                          value={item.datapoint_category}
+                          required
+                          onChange={(e) => handleUpdateCategoryName(index, e.target.value, e)}
+                          inputProps={{ maxLength: 250 }}
+                          className="datapoint-name-input-box"
+                          id="datapoint-name-input-box-id"
+                          label="Datapoint category name"
+                          variant="outlined"
+                          helperText={accordionDatapointNameError[index] ? accordionDatapointNameError[index] : accordionDatapointNameError[index]}
+                          error={accordionDatapointNameError[index] ? accordionDatapointNameError[index] : accordionDatapointNameError[index]}
                         />
-                      :
-                      <div >
+                        :
+                        <div >
 
-                      <Typography  className="accordion-title" variant="h5">
-                      {item.datapoint_category}
-                    </Typography>
-                      </div>
+                          <Typography className="accordion-title" variant="h5">
+                            {item.datapoint_category}
+                          </Typography>
+                        </div>
                     }{
-                      editCategoryTitle[index]  ?
-                      <IconButton>
-                        <Button onClick={() => handleNameExistsUpdate(index, item.datapoint_category)}
-                          // this funtion will make a particular index of editCategoryTitle array false       
-                          className="update-category-button" >Update</Button>
-                      </IconButton>
-                    : 
-                    null
+                      editCategoryTitle[index] ?
+                        <IconButton>
+                          <Button onClick={() => handleNameExistsUpdate(index, item.datapoint_category)}
+                            // this funtion will make a particular index of editCategoryTitle array false       
+                            className="update-category-button" >Update</Button>
+                        </IconButton>
+                        :
+                        null
                     }
                     {/* <div> */}
                     <IconButton onClick={(e) => {
-                         // this funtion will make a particular index of editCategoryTitle array true 
-                         e.stopPropagation();
-                         let tmp = [...editCategoryTitle]
-                         tmp[index] = true
-                         console.log('edit title', tmp, editCategoryTitle)
-                         setEditCategoryTitle(tmp)
+                      // this funtion will make a particular index of editCategoryTitle array true 
+                      e.stopPropagation();
+                      let tmp = [...editCategoryTitle]
+                      tmp[index] = true
+                      console.log('edit title', tmp, editCategoryTitle)
+                      setEditCategoryTitle(tmp)
                     }}>
-                      <EditIcon/>
+                      <EditIcon />
                     </IconButton>
-                      <IconButton
-                        onClick={(e) =>{
+                    <IconButton
+                      onClick={(e) => {
                         handleDatapointCategoryDelete(index)
                         e.stopPropagation();
-                        }}
-                      >
-                        <DeleteOutlineIcon />
-                      </IconButton>
+                      }}
+                    >
+                      <DeleteOutlineIcon />
+                    </IconButton>
                     {/* </div> */}
                   </AccordionSummary>
                   <AccordionDetails>
@@ -594,7 +598,7 @@ const StandardizationInOnbord = (props) => {
                       <p className="standardization-accordion-description">{item.datapoint_description}</p>
                       <div>
                         <TextField
-                        required
+                          required
                           className="datapoint-attribute-input-box"
                           id="datapoint-attribute-input-box-id"
                           label="Datapoint attributes"
@@ -606,7 +610,7 @@ const StandardizationInOnbord = (props) => {
                           inputProps={{ maxLength: 250 }}
                         />
                         <TextField
-                        required
+                          required
                           className="datapoint-attribute-input-box"
                           id="datapoint-attribute-input-box-id"
                           label="Datapoint attributes description"
@@ -639,7 +643,7 @@ const StandardizationInOnbord = (props) => {
                               fill="white"
                               stroke="#D5DADE"
                             />
-                            <AddIcon id="add-attribute-icon-id" fontSize="small"/>
+                            <AddIcon id="add-attribute-icon-id" fontSize="small" />
                             {/* <g clip-path="url(#clip0_651_27789)">
                               <path
                                 d="M31 25H25V31H23V25H17V23H23V17H25V23H31V25Z"
@@ -661,7 +665,7 @@ const StandardizationInOnbord = (props) => {
                       </div>
                       <div>
                         {allAttributes?.[index]?.map((inputValue, arrIndex) => {
-                            console.log('in category map ',allAttributesDes?.[index]?.[arrIndex], allAttributesDes?.[index])
+                          console.log('in category map ', allAttributesDes?.[index]?.[arrIndex], allAttributesDes?.[index])
                           return (
                             <>
                               {arrIndex != 0 ? (
@@ -669,20 +673,20 @@ const StandardizationInOnbord = (props) => {
                                   InputProps={{
                                     endAdornment: (
                                       <>
-                                      <Tooltip title={allAttributesDes?.[index]?.[arrIndex]}>
-                                      <InfoIcon/>
-                                      </Tooltip>
-                                      <IconButton
-                                        onClick={(e) =>
+                                        <Tooltip title={allAttributesDes?.[index]?.[arrIndex]}>
+                                          <InfoIcon />
+                                        </Tooltip>
+                                        <IconButton
+                                          onClick={(e) =>
                                             handleDatapointAtticuteDelete(
-                                                index,
-                                                arrIndex
-                                                )
-                                            }
-                                            >
-                                        <DeleteOutlineIcon />
-                                      </IconButton>
-                                          </>
+                                              index,
+                                              arrIndex
+                                            )
+                                          }
+                                        >
+                                          <DeleteOutlineIcon />
+                                        </IconButton>
+                                      </>
                                       // </span>
                                     ),
                                   }}
@@ -691,9 +695,9 @@ const StandardizationInOnbord = (props) => {
                                   label="Datapoint attributes"
                                   variant="outlined"
                                   value={inputValue}
-                                  //   onChange={(e) =>
-                                  //     // hanldeAttributeInputChange(index, 0, e.target.value)
-                                  //   }
+                                //   onChange={(e) =>
+                                //     // hanldeAttributeInputChange(index, 0, e.target.value)
+                                //   }
                                 />
                               ) : (
                                 ""

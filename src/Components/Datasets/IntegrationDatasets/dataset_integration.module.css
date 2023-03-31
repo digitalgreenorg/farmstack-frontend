@@ -479,3 +479,63 @@
     margin-left: 20px !important;
     font-size: 14px !important;
 }
+
+.eachSideJoinData {
+    background: #636363 !important;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ab84057f, white) !important;
+    background: -webkit-linear-gradient(to bottom, #ab84057f, white) !important;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ab84057f, white) !important;
+    background: linear-gradient(to bottom, #ab84057f, white);
+    transition: all 2s cubic-bezier(1, 0, 0, 1) ease-in-out;
+}
+
+.edit_btn {
+    background: white;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 1s;
+}
+
+.edit_btn:hover {
+    background: #C09507;
+    padding: 4px;
+    color: white !important;
+}
+
+.result_btn_shortcut_outer::before {
+    height: auto;
+    top: 0;
+    right: 0;
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 150px;
+    background: #40E0D0;
+    background: -webkit-linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
+    background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
+    animation: glowing01 5s linear infinite;
+    transform-origin: center;
+    animation: glowing 5s linear infinite;
+}
+
+.result_btn_shortcut {
+    height: auto;
+}
+
+.result_btn_shortcut:hover {
+    background: #C09507;
+    outline: none !important;
+    border: 1px solid #C09507 !important;
+}
+
+@keyframes glowing {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
