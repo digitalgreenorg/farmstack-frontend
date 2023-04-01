@@ -1,9 +1,13 @@
 import React from 'react'
 import { Box, Checkbox, Typography } from '@mui/material'
 
-const CheckBoxWithText = ({ text, handleCheckBox }) => {
+const CheckBoxWithText = ({ text, checked, handleCheckBox, keyName }) => {
     const handleClick = () => {
         handleCheckBox()
+    }
+
+    const handleKey = (keyName) => {
+        handleCheckBox(keyName)
     }
 
     return (
@@ -15,7 +19,8 @@ const CheckBoxWithText = ({ text, handleCheckBox }) => {
                             color: '#00AB55 !important',
                         },
                     }}
-                    onClick={() => handleClick()}
+                    checked={checked}
+                    onClick={() => keyName ? handleKey(keyName) : handleClick()}
                 />
             </div>
             <Typography

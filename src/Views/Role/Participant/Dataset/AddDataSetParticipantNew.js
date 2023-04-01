@@ -45,6 +45,19 @@ const AddDataSetParticipantNew = () => {
     const [sqLiteFiles, setSqLiteFiles] = useState([]);
     const [restApifiles, setRestApiFiles] = useState([]);
 
+    // Standardise
+    const [standardiseFiles, setStandardiseFiles] = useState([])
+    const [standardiseFile, setStandardiseFile] = useState()
+    const [templates, setTemplates] = useState([])
+    const [template, setTemplate] = useState()
+    const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([])
+    const [datapointCategories, setDatapointCategories] = useState([])
+    const [datapointCategory, setDatapointCategory] = useState()
+    const [datapointAttributes, setDatapointAttributes] = useState([])
+    const [datapointAttribute, setDatapointAttribute] = useState()
+    const [standardiseNames, setStandardiseNames] = useState([])
+    const [standardiseName, setStandardiseName] = useState()
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -122,7 +135,31 @@ const AddDataSetParticipantNew = () => {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    <Standardise />
+                    <Standardise
+                        dataSetName={dataSetName}
+                        standardiseFiles={standardiseFiles}
+                        setStandardiseFiles={setStandardiseFiles}
+                        standardiseFile={standardiseFile}
+                        setStandardiseFile={setStandardiseFile}
+                        templates={templates}
+                        setTemplates={setTemplates}
+                        template={template}
+                        setTemplate={setTemplate}
+                        keysInUploadedDataset={keysInUploadedDataset}
+                        setKeysInUploadedDataset={setKeysInUploadedDataset}
+                        datapointAttributes={datapointAttributes}
+                        setDatapointAttributes={setDatapointAttributes}
+                        datapointAttribute={datapointAttribute}
+                        setDatapointAttribute={setDatapointAttribute}
+                        datapointCategories={datapointCategories}
+                        setDatapointCategories={setDatapointCategories}
+                        datapointCategory={datapointCategory}
+                        setDatapointCategory={setDatapointCategory}
+                        standardiseNames={standardiseNames}
+                        setStandardiseNames={setStandardiseNames}
+                        standardiseName={standardiseName}
+                        setStandardiseName={setStandardiseName}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={3}>
                     <Categorise />

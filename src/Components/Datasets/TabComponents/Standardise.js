@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Divider, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './Standardise.css'
 import EmptyFile from './EmptyFile'
 import StandardiseRow from './StandardiseRow';
+import UrlConstant from '../../../Constants/UrlConstants';
+import HTTPService from '../../../Services/HTTPService';
+import { getTokenLocal } from '../../../Utils/Common';
 
 const detailsStyle = {
     "fontFamily": "'Montserrat' !important",
@@ -23,7 +26,11 @@ const accordionTitleStyle = {
     "color": "#212B36 !important"
 }
 
-const Standardise = (props) => {
+const Standardise = ({ dataSetName, standardiseFiles, setStandardiseFiles, standardiseFile, setStandardiseFile, templates, setTemplates, template, setTemplate,
+    keysInUploadedDataset, setKeysInUploadedDataset,
+    datapointAttributes, setDatapointAttributes, datapointAttribute, setDatapointAttribute, datapointCategories, setDatapointCategories, datapointCategory, setDatapointCategory,
+    standardiseNames, setStandardiseNames, standardiseName, setStandardiseName
+}) => {
     const [data, setData] = useState([
         {
             panel: 1,
@@ -37,10 +44,102 @@ const Standardise = (props) => {
         }
     ]);
     const [expanded, setExpanded] = useState(false);
+    const [standardisedColum, setStandardisedColumn] = useState([]);
+    const [maskedColumns, setMaskedColumns] = useState([]);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
+
+    const getAllFileNames = () => {
+        let url = UrlConstant.base_url + UrlConstant.standardization_get_all_file_name + dataSetName;
+        let accessToken = getTokenLocal() ?? false;
+        HTTPService("GET", url, false, false, accessToken)
+            .then((response) => {
+                console.log("response", response);
+                let tmpAllFileName = [...standardiseFiles, ...response.data]
+                setStandardiseFiles(tmpAllFileName);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    const getFileColumnNames = () => {
+        let url = UrlConstant.base_url + UrlConstant.standardization_get_file_columns;
+        let accessToken = getTokenLocal() ?? false;
+        let payload = {
+            file_path: standardiseFile
+        };
+
+        HTTPService("POST", url, payload, false, accessToken)
+            .then((response) => {
+                setKeysInUploadedDataset(response.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+    const getStandardiziedTemplate = () => {
+        let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
+        HTTPService("GET", url, false, false, true)
+            .then((response) => {
+                if (response.status == 200) {
+                    setDatapointCategories(response?.data);
+                    let tmpArr = new Array(response?.data.length);
+                    tmpArr.fill({});
+                    setDatapointCategory(tmpArr);
+
+                    let tmpStandardisedColum = [...standardisedColum];
+                    tmpStandardisedColum.fill("");
+                    setStandardisedColumn(tmpStandardisedColum);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+    const datapointCategoryChange = (value, index) => {
+
+        let tmpStandardisedColum = [...standardisedColum]
+        tmpStandardisedColum[index] = ""
+        setStandardisedColumn(tmpStandardisedColum)
+
+
+        let tmpArr = [...datapointCategories];
+        tmpArr[index] = value;
+        setDatapointCategory(tmpArr);
+
+        let tmpColumn = [...datapointAttributes];
+        tmpArr.forEach((attribute, index) => {
+            if (attribute?.datapoint_attributes)
+                tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+        });
+        setDatapointAttributes(tmpColumn);
+    };
+    const handleMaskCheckBox = (columnName) => {
+        let tmpMaskedColumns = [...maskedColumns];
+        if (!tmpMaskedColumns.includes(columnName)) {
+            tmpMaskedColumns.push(columnName)
+        } else {
+            const index = tmpMaskedColumns.indexOf(columnName);
+            if (index > -1) {
+                tmpMaskedColumns.splice(index, 1);
+            }
+        }
+        setMaskedColumns(tmpMaskedColumns);
+    }
+    useEffect(() => {
+        getAllFileNames()
+    }, [])
+
+    useEffect(() => {
+        getFileColumnNames();
+        getStandardiziedTemplate();
+        setStandardisedColumn([])
+        setMaskedColumns([])
+        setStandardisedColumn(standardiseFiles[standardiseFile]?.standardised_column)
+    }, [standardiseFile])
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -57,8 +156,8 @@ const Standardise = (props) => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={props.tableName}
-                        onChange={props.setTableName}
+                        value={standardiseFile}
+                        onChange={(e) => setStandardiseFile(e.target.value)}
                         sx={{
                             textAlign: 'left',
                             '.MuiOutlinedInput-notchedOutline': {
@@ -74,9 +173,13 @@ const Standardise = (props) => {
                         label="File name"
                         placeholder='File name'
                     >
-                        {props.menus?.map((menu) => (
-                            <MenuItem value={menu}>{menu}</MenuItem>
-                        ))}
+                        {standardiseFiles?.map((item) => {
+                            let index = item.lastIndexOf("/");
+                            let fileName = item.slice(index + 1);
+                            return (
+                                <MenuItem key={item} value={item}>{fileName}</MenuItem>
+                            )
+                        })}
                     </Select>
                 </FormControl>
                 <Box className='mt-50'>
@@ -115,8 +218,8 @@ const Standardise = (props) => {
                                                 <Select
                                                     labelId="demo-simple-select-label"
                                                     id="demo-simple-select"
-                                                    value={props.tableName}
-                                                    onChange={props.setTableName}
+                                                    value={template}
+                                                    onChange={(e) => setTemplate(e.target.value)}
                                                     sx={{
                                                         textAlign: 'left',
                                                         '.MuiOutlinedInput-notchedOutline': {
@@ -132,13 +235,39 @@ const Standardise = (props) => {
                                                     label="Select template"
                                                     placeholder='Select template'
                                                 >
-                                                    {props.menus?.map((menu) => (
+                                                    {templates?.map((menu) => (
                                                         <MenuItem value={menu}>{menu}</MenuItem>
                                                     ))}
                                                 </Select>
                                             </FormControl>
                                         </Box>
-                                        <StandardiseRow />
+                                        {keysInUploadedDataset?.map((keyName, index) => (
+                                            <StandardiseRow
+                                                keyName={keyName}
+                                                index={index}
+                                                templates={templates}
+                                                setTemplates={setTemplates}
+                                                template={template}
+                                                setTemplate={setTemplate}
+                                                datapointAttributes={datapointAttributes}
+                                                setDatapointAttributes={setDatapointAttributes}
+                                                datapointAttribute={datapointAttribute}
+                                                setDatapointAttribute={setDatapointAttribute}
+                                                datapointCategories={datapointCategories}
+                                                setDatapointCategories={setDatapointCategories}
+                                                datapointCategory={datapointCategory}
+                                                setDatapointCategory={setDatapointCategory}
+                                                standardiseNames={standardiseNames}
+                                                setStandardiseNames={setStandardiseNames}
+                                                standardiseName={standardiseName}
+                                                setStandardiseName={setStandardiseName}
+                                                standardisedColum={standardisedColum}
+                                                setStandardisedColumn={setStandardisedColumn}
+                                                maskedColumns={maskedColumns}
+                                                datapointCategoryChange={datapointCategoryChange}
+                                                handleMaskCheckBox={handleMaskCheckBox}
+                                            />
+                                        ))}
                                         {acc?.details?.map((detail) => (
                                             <Box sx={detailsStyle}>
                                                 {detail}

@@ -64,7 +64,17 @@ const UrlConstant = {
   project_listing_page_url: "participant/project/project_list/",
   search_dataset_end_point_admin: "datahub/datasets/search_datasets/",
   search_dataset_end_point_participant: "participant/datasets/search_datasets/",
-  search_dataset_end_point_guest: "microsite/datasets/search_datasets/"
+  search_dataset_end_point_guest: "microsite/datasets/search_datasets/",
+
+  // Standardization
+
+  standardization_post_data: "datahub/standardise/",
+  standardization_update_data: "datahub/standardise/update_standardisation_template/",
+  standardization_delete_category: "datahub/standardise/",
+  standardization_get_data: "datahub/standardise/",
+  standardization_get_all_file_name: "datahub/dataset/v2/temp_dataset_files/?dataset_name=",
+  standardization_get_file_columns: "datahub/dataset/v2/temp_dataset_file_columns/",
+  standardise_file: "datahub/dataset/v2/standardise/",
 };
 
 export default UrlConstant;
