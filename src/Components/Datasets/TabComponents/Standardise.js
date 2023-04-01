@@ -47,8 +47,8 @@ const Standardise = ({ dataSetName, standardiseFiles, setStandardiseFiles, stand
     const [standardisedColum, setStandardisedColumn] = useState([]);
     const [maskedColumns, setMaskedColumns] = useState([]);
 
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
+    const handleChange = () => (event, isExpanded) => {
+        setExpanded(isExpanded ? true : false);
     };
 
     const getAllFileNames = () => {
@@ -186,98 +186,100 @@ const Standardise = ({ dataSetName, standardiseFiles, setStandardiseFiles, stand
                     {data ? <></> : <EmptyFile />}
                 </Box>
                 <Box>
-                    {
-                        data?.map((acc) => (
-                            <Accordion
+                    {/* {
+                        data?.map((acc) => ( */}
+                    {standardiseFile ?
+                        <Accordion
+                            sx={{
+                                boxShadow: expanded ? '0px 20px 40px -4px rgba(145, 158, 171, 0.16)' : '',
+                                borderRadius: expanded ? '8px' : '',
+                                border: (expanded) ? '1px solid #919EAB' : '',
+                            }}
+                            expanded={expanded} onChange={handleChange()}>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel4bh-content"
+                                id="panel4bh-header"
                                 sx={{
-                                    boxShadow: expanded === acc.panel ? '0px 20px 40px -4px rgba(145, 158, 171, 0.16)' : '',
-                                    borderRadius: expanded === acc.panel ? '8px' : '',
-                                    border: (expanded === acc.panel) ? '1px solid #919EAB' : '',
+                                    '&.MuiAccordionSummary-root': {
+                                        borderBottom: expanded ? '1px solid #919EAB' : ''
+                                    }
                                 }}
-                                expanded={expanded === acc.panel} onChange={handleChange(acc.panel)}>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel4bh-content"
-                                    id="panel4bh-header"
-                                    sx={{
-                                        '&.MuiAccordionSummary-root': {
-                                            borderBottom: expanded === acc.panel ? '1px solid #919EAB' : ''
-                                        }
-                                    }}
-                                >
-                                    <Box className='w-100 d-flex justify-content-between' >
-                                        <Typography sx={accordionTitleStyle}>{acc.title}</Typography>
-                                        <img className='mr-55' src={require('../../../Assets/Img/delete_gray.svg')} />
+                            >
+                                <Box className='w-100 d-flex justify-content-between' >
+                                    <Typography sx={accordionTitleStyle}>{standardiseFile.slice(standardiseFile.lastIndexOf("/") + 1)}</Typography>
+                                    <img className='mr-55' src={require('../../../Assets/Img/delete_gray.svg')} />
+                                </Box>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Box>
+                                    <Box className='text-left mt-30 ml-16'>
+                                        <FormControl fullWidth sx={{ width: '368px' }}>
+                                            <InputLabel>Select template</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={template}
+                                                onChange={(e) => setTemplate(e.target.value)}
+                                                sx={{
+                                                    textAlign: 'left',
+                                                    '.MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#919EAB',
+                                                    },
+                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#919EAB',
+                                                    },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#919EAB',
+                                                    }
+                                                }}
+                                                label="Select template"
+                                                placeholder='Select template'
+                                            >
+                                                {templates?.map((menu) => (
+                                                    <MenuItem value={menu}>{menu}</MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
                                     </Box>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <Box>
-                                        <Box className='text-left mt-30 ml-16'>
-                                            <FormControl fullWidth sx={{ width: '368px' }}>
-                                                <InputLabel>Select template</InputLabel>
-                                                <Select
-                                                    labelId="demo-simple-select-label"
-                                                    id="demo-simple-select"
-                                                    value={template}
-                                                    onChange={(e) => setTemplate(e.target.value)}
-                                                    sx={{
-                                                        textAlign: 'left',
-                                                        '.MuiOutlinedInput-notchedOutline': {
-                                                            borderColor: '#919EAB',
-                                                        },
-                                                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                            borderColor: '#919EAB',
-                                                        },
-                                                        '&:hover .MuiOutlinedInput-notchedOutline': {
-                                                            borderColor: '#919EAB',
-                                                        }
-                                                    }}
-                                                    label="Select template"
-                                                    placeholder='Select template'
-                                                >
-                                                    {templates?.map((menu) => (
-                                                        <MenuItem value={menu}>{menu}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </Box>
-                                        {keysInUploadedDataset?.map((keyName, index) => (
-                                            <StandardiseRow
-                                                keyName={keyName}
-                                                index={index}
-                                                templates={templates}
-                                                setTemplates={setTemplates}
-                                                template={template}
-                                                setTemplate={setTemplate}
-                                                datapointAttributes={datapointAttributes}
-                                                setDatapointAttributes={setDatapointAttributes}
-                                                datapointAttribute={datapointAttribute}
-                                                setDatapointAttribute={setDatapointAttribute}
-                                                datapointCategories={datapointCategories}
-                                                setDatapointCategories={setDatapointCategories}
-                                                datapointCategory={datapointCategory}
-                                                setDatapointCategory={setDatapointCategory}
-                                                standardiseNames={standardiseNames}
-                                                setStandardiseNames={setStandardiseNames}
-                                                standardiseName={standardiseName}
-                                                setStandardiseName={setStandardiseName}
-                                                standardisedColum={standardisedColum}
-                                                setStandardisedColumn={setStandardisedColumn}
-                                                maskedColumns={maskedColumns}
-                                                datapointCategoryChange={datapointCategoryChange}
-                                                handleMaskCheckBox={handleMaskCheckBox}
-                                            />
-                                        ))}
-                                        {acc?.details?.map((detail) => (
-                                            <Box sx={detailsStyle}>
-                                                {detail}
-                                            </Box>
-                                        ))}
+                                    {keysInUploadedDataset?.map((keyName, index) => (
+                                        <StandardiseRow
+                                            keyName={keyName}
+                                            index={index}
+                                            templates={templates}
+                                            setTemplates={setTemplates}
+                                            template={template}
+                                            setTemplate={setTemplate}
+                                            datapointAttributes={datapointAttributes}
+                                            setDatapointAttributes={setDatapointAttributes}
+                                            datapointAttribute={datapointAttribute}
+                                            setDatapointAttribute={setDatapointAttribute}
+                                            datapointCategories={datapointCategories}
+                                            setDatapointCategories={setDatapointCategories}
+                                            datapointCategory={datapointCategory}
+                                            setDatapointCategory={setDatapointCategory}
+                                            standardiseNames={standardiseNames}
+                                            setStandardiseNames={setStandardiseNames}
+                                            standardiseName={standardiseName}
+                                            setStandardiseName={setStandardiseName}
+                                            standardisedColum={standardisedColum}
+                                            setStandardisedColumn={setStandardisedColumn}
+                                            maskedColumns={maskedColumns}
+                                            datapointCategoryChange={datapointCategoryChange}
+                                            handleMaskCheckBox={handleMaskCheckBox}
+                                        />
+                                    ))}
+                                    {/* {acc?.details?.map((detail) => (
+                                    <Box sx={detailsStyle}>
+                                        {detail}
                                     </Box>
-                                </AccordionDetails>
-                            </Accordion>
-                        ))
-                    }
+                                ))} */}
+                                </Box>
+                            </AccordionDetails>
+                        </Accordion>
+                        : <></>}
+                    {/* ))
+                    } */}
                 </Box>
             </Box>
         </div>

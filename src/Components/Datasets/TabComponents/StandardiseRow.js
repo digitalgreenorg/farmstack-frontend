@@ -18,7 +18,8 @@ const StandardiseRow = ({ keyName, index, datapointAttributes, setDatapointAttri
                     fontSize: "20px",
                     lineHeight: "24px",
                     color: "#000000",
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    width: '100px'
                 }}>{keyName}</Typography>
                 <Box className=''>
                     <FormControl fullWidth sx={{ width: '273px' }}>
