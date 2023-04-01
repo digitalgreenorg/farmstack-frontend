@@ -178,15 +178,15 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                     </>,
                     details: postgresFiles?.length > 0 ? prepareFile(postgresFiles, 'postgresFiles') : [<EmptyFile />]
                 },
+                // {
+                //     panel: 4,
+                //     title: <>
+                //         SQLite {sqLiteFiles?.length > 0 ? <span style={{ color: "#ABABAB", marginLeft: '4px' }}>(Total Files: {sqLiteFiles?.length} | Total size: {getTotalSizeInMb(sqLiteFiles)} MB)</span> : <></>}
+                //     </>,
+                //     details: sqLiteFiles?.length > 0 ? prepareFile(sqLiteFiles, 'sqLiteFiles') : [<EmptyFile />]
+                // },
                 {
                     panel: 4,
-                    title: <>
-                        SQLite {sqLiteFiles?.length > 0 ? <span style={{ color: "#ABABAB", marginLeft: '4px' }}>(Total Files: {sqLiteFiles?.length} | Total size: {getTotalSizeInMb(sqLiteFiles)} MB)</span> : <></>}
-                    </>,
-                    details: sqLiteFiles?.length > 0 ? prepareFile(sqLiteFiles, 'sqLiteFiles') : [<EmptyFile />]
-                },
-                {
-                    panel: 5,
                     title: <>
                         Rest API {restApifiles?.length > 0 ? <span style={{ color: "#ABABAB", marginLeft: '4px' }}>(Total Files: {restApifiles?.length} | Total size: {getTotalSizeInMb(restApifiles)} MB)</span> : <></>}
                     </>,
@@ -220,72 +220,6 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
             })
                 .catch((err) => { console.log(err) })
         }
-        else if (selectedUploadType === 'mysql') {
-            let bodyFormData = new FormData();
-            bodyFormData.append("dataset_name", dataSetName);
-            bodyFormData.append("source", "mysql");
-            bodyFormData.append("datasets", files);
-            let accessToken = getTokenLocal() ? getTokenLocal() : false;
-
-            HTTPService('POST',
-                UrlConstant.base_url + UrlConstant.dataseteth,
-                bodyFormData,
-                true,
-                true,
-                accessToken
-            ).then((res) => {
-                console.log(res)
-            })
-                .catch((err) => { console.log(err) })
-        } else if (selectedUploadType === 'postgres') {
-            let bodyFormData = new FormData();
-            bodyFormData.append("dataset_name", dataSetName);
-            bodyFormData.append("source", "postgresql");
-            bodyFormData.append("datasets", files);
-            let accessToken = getTokenLocal() ? getTokenLocal() : false;
-
-            HTTPService('POST',
-                UrlConstant.base_url + UrlConstant.dataseteth,
-                bodyFormData,
-                true,
-                true,
-                accessToken
-            ).then((res) => {
-                console.log(res)
-            }).catch((err) => { console.log(err) })
-        } else if (selectedUploadType === 'sqlite') {
-            let bodyFormData = new FormData();
-            bodyFormData.append("dataset_name", dataSetName);
-            bodyFormData.append("source", "sqlite");
-            bodyFormData.append("datasets", files);
-            let accessToken = getTokenLocal() ? getTokenLocal() : false;
-
-            HTTPService('POST',
-                UrlConstant.base_url + UrlConstant.dataseteth,
-                bodyFormData,
-                true,
-                true,
-                accessToken
-            ).then((res) => {
-                console.log(res)
-            }).catch((err) => { console.log(err) })
-        } else if (selectedUploadType === 'rest_api') {
-            let bodyFormData = new FormData();
-            bodyFormData.append("dataset_name", dataSetName);
-            bodyFormData.append("source", "restapi");
-            bodyFormData.append("datasets", files);
-            let accessToken = getTokenLocal() ? getTokenLocal() : false;
-
-            HTTPService('POST',
-                UrlConstant.base_url + UrlConstant.dataseteth,
-                bodyFormData,
-                true,
-                true,
-                accessToken
-            ).then((res) => {
-                console.log(res)
-            }).catch((err) => { console.log(err) })
-        }
 
     }
 
@@ -296,10 +230,12 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
             return 2;
         } else if (selectedUploadType === 'postgres') {
             return 3;
-        } else if (selectedUploadType === 'sqlite') {
+        }
+        // else if (selectedUploadType === 'sqlite') {
+        //     return 4;
+        // } 
+        else if (selectedUploadType === 'rest_api') {
             return 4;
-        } else if (selectedUploadType === 'rest_api') {
-            return 5;
         }
     }
 
@@ -651,7 +587,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                             marginLeft: '10px',
                             marginTop: '22px'
                         }}>Postgres</Typography>
-                    <Typography
+                    {/* <Typography
                         onClick={() => setSelectedUploadType('sqlite')}
                         sx={{
                             fontFamily: "Montserrat !important",
@@ -663,7 +599,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                             cursor: 'pointer',
                             marginLeft: '10px',
                             marginTop: '22px'
-                        }}>SQLite</Typography>
+                        }}>SQLite</Typography> */}
                     <Typography
                         onClick={() => setSelectedUploadType('rest_api')}
                         sx={{
@@ -822,7 +758,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                         : <></>
                     }
                     {/* for SQLite */}
-                    {selectedUploadType === 'sqlite' ?
+                    {/* {selectedUploadType === 'sqlite' ?
                         <>
                             {!isSqLiteConnected ?
                                 <DbConfiguration
@@ -860,7 +796,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                             }
                         </>
                         : <></>
-                    }
+                    } */}
                     {/* for Rest API */}
                     {selectedUploadType === 'rest_api' ?
                         <>
