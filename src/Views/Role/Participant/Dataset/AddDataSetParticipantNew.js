@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Button, Divider, Tab, Tabs } from '@mui/material';
 import { useHistory } from "react-router-dom";
-import { getTokenLocal } from "../../../../Utils/Common";
+import { getTokenLocal, getUserMapId, isLoggedInUserParticipant } from "../../../../Utils/Common";
 import './AddDataSetParticipantNew.css';
 import FooterNew from '../../../../Components/Footer/FooterNew';
 import BasicDetails from '../../../../Components/Datasets/TabComponents/BasicDetails';
@@ -9,6 +9,8 @@ import UploadFile from '../../../../Components/Datasets/TabComponents/UploadFile
 import Categorise from '../../../../Components/Datasets/TabComponents/Categorise';
 import UsagePolicy from '../../../../Components/Datasets/TabComponents/UsagePolicy';
 import Standardise from '../../../../Components/Datasets/TabComponents/Standardise';
+import UrlConstant from '../../../../Constants/UrlConstants';
+import HTTPService from '../../../../Services/HTTPService';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -46,17 +48,12 @@ const AddDataSetParticipantNew = () => {
     const [restApifiles, setRestApiFiles] = useState([]);
 
     // Standardise
-    const [standardiseFiles, setStandardiseFiles] = useState([])
-    const [standardiseFile, setStandardiseFile] = useState()
-    const [templates, setTemplates] = useState([])
-    const [template, setTemplate] = useState()
-    const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([])
-    const [datapointCategories, setDatapointCategories] = useState([])
-    const [datapointCategory, setDatapointCategory] = useState()
-    const [datapointAttributes, setDatapointAttributes] = useState([])
-    const [datapointAttribute, setDatapointAttribute] = useState()
-    const [standardiseNames, setStandardiseNames] = useState([])
-    const [standardiseName, setStandardiseName] = useState()
+    const [allStandardisedFile, setAllStandardisedFile] = useState({})
+    const [standardisedFileLink, setStandardisedFileLink] = useState({})
+
+    // Categories
+    const [categorises, setCategorises] = useState([])
+    const [geography, setGeography] = useState()
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -69,7 +66,35 @@ const AddDataSetParticipantNew = () => {
     }
 
     const handleSubmit = () => {
-        // history.push('/participant/new_datasets')
+        let bodyFormData = new FormData();
+        bodyFormData.append("name", dataSetName);
+        bodyFormData.append("description", dataSetDescription);
+        bodyFormData.append("category", JSON.stringify({}));
+        bodyFormData.append("user_map", getUserMapId());
+        bodyFormData.append("geography", geography);
+        bodyFormData.append("constantly_update", isUpdating);
+        bodyFormData.append("data_capture_start", fromDate ? fromDate.toISOString() : "");
+        bodyFormData.append("data_capture_end", toDate ? toDate.toISOString() : "");
+        bodyFormData.append("standardisation_template", JSON.stringify(standardisedFileLink));
+        bodyFormData.append("standardisation_config", JSON.stringify(allStandardisedFile));
+
+        let url = UrlConstant.base_url + UrlConstant.datasetview
+        let checkforAcess = getTokenLocal() ?? false;
+        HTTPService(
+            "POST",
+            url,
+            bodyFormData,
+            false,
+            true,
+            checkforAcess,
+        ).then((response) => {
+            if (isLoggedInUserParticipant() && getTokenLocal()) {
+                alert("success")
+                // history.push('/participant/new_datasets')
+            }
+        }).catch((e) => {
+            console.log(e);
+        });
     }
 
     return (
@@ -137,32 +162,19 @@ const AddDataSetParticipantNew = () => {
                 <TabPanel value={value} index={2}>
                     <Standardise
                         dataSetName={dataSetName}
-                        standardiseFiles={standardiseFiles}
-                        setStandardiseFiles={setStandardiseFiles}
-                        standardiseFile={standardiseFile}
-                        setStandardiseFile={setStandardiseFile}
-                        templates={templates}
-                        setTemplates={setTemplates}
-                        template={template}
-                        setTemplate={setTemplate}
-                        keysInUploadedDataset={keysInUploadedDataset}
-                        setKeysInUploadedDataset={setKeysInUploadedDataset}
-                        datapointAttributes={datapointAttributes}
-                        setDatapointAttributes={setDatapointAttributes}
-                        datapointAttribute={datapointAttribute}
-                        setDatapointAttribute={setDatapointAttribute}
-                        datapointCategories={datapointCategories}
-                        setDatapointCategories={setDatapointCategories}
-                        datapointCategory={datapointCategory}
-                        setDatapointCategory={setDatapointCategory}
-                        standardiseNames={standardiseNames}
-                        setStandardiseNames={setStandardiseNames}
-                        standardiseName={standardiseName}
-                        setStandardiseName={setStandardiseName}
+                        allStandardisedFile={allStandardisedFile}
+                        setAllStandardisedFile={setAllStandardisedFile}
+                        standardisedFileLink={standardisedFileLink}
+                        setStandardisedFileLink={setStandardisedFileLink}
                     />
                 </TabPanel>
                 <TabPanel value={value} index={3}>
-                    <Categorise />
+                    <Categorise
+                        categorises={categorises}
+                        setCategorises={setCategorises}
+                        geography={geography}
+                        setGeography={setGeography}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={4}>
                     <UsagePolicy />

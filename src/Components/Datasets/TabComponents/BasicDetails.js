@@ -173,7 +173,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, dataSetDescription, setData
                         <DatePicker
                             inputFormat="dd/MM/yyyy"
                             label="End Date"
-                            value={fromDate}
+                            value={toDate}
                             onChange={(value) => handleToDate(value)}
                             PaperProps={{
                                 sx: {

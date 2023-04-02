@@ -30,6 +30,11 @@ const Categorise = (props) => {
             details: [<CheckBoxWithText text={"Brown Rice"} handleCheckBox={handleCheckBox} />]
         }
     ])
+    const [geographies, setGeographies] = useState(
+        [{ value: "India", label: "India" },
+        { value: "Ethiopia", label: "Ethiopia" },
+        { value: "Kenya", label: "Kenya" }]
+    )
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -59,7 +64,7 @@ const Categorise = (props) => {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={props.geography}
-                            onChange={props.setGeography}
+                            onChange={(e) => props.setGeography(e.target.value)}
                             sx={{
                                 textAlign: 'left',
                                 '&.MuiInputBase-root': {
@@ -78,8 +83,8 @@ const Categorise = (props) => {
                             label="Select Geography"
                             placeholder='Select Geography'
                         >
-                            {props.menus?.map((menu) => (
-                                <MenuItem value={menu}>{menu}</MenuItem>
+                            {geographies?.map((item) => (
+                                <MenuItem value={item.value}>{item.label}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>

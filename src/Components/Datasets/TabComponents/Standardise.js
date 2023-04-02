@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Divider, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Divider, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './Standardise.css'
 import EmptyFile from './EmptyFile'
@@ -26,10 +26,7 @@ const accordionTitleStyle = {
     "color": "#212B36 !important"
 }
 
-const Standardise = ({ dataSetName, standardiseFiles, setStandardiseFiles, standardiseFile, setStandardiseFile, templates, setTemplates, template, setTemplate,
-    keysInUploadedDataset, setKeysInUploadedDataset,
-    datapointAttributes, setDatapointAttributes, datapointAttribute, setDatapointAttribute, datapointCategories, setDatapointCategories, datapointCategory, setDatapointCategory,
-    standardiseNames, setStandardiseNames, standardiseName, setStandardiseName
+const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile, standardisedFileLink, setStandardisedFileLink
 }) => {
     const [data, setData] = useState([
         {
@@ -46,6 +43,18 @@ const Standardise = ({ dataSetName, standardiseFiles, setStandardiseFiles, stand
     const [expanded, setExpanded] = useState(false);
     const [standardisedColum, setStandardisedColumn] = useState([]);
     const [maskedColumns, setMaskedColumns] = useState([]);
+    const [standardiseFiles, setStandardiseFiles] = useState([])
+    const [standardiseFile, setStandardiseFile] = useState()
+    const [templates, setTemplates] = useState([])
+    const [template, setTemplate] = useState()
+    const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([])
+    const [datapointCategories, setDatapointCategories] = useState([])
+    const [datapointCategory, setDatapointCategory] = useState()
+    const [datapointAttributes, setDatapointAttributes] = useState([])
+    const [datapointAttribute, setDatapointAttribute] = useState()
+    const [standardiseNames, setStandardiseNames] = useState([])
+    const [standardiseName, setStandardiseName] = useState()
+    const [alreadyStandardizedFiles, setAlreadyStandardizedFiles] = useState([]);
 
     const handleChange = () => (event, isExpanded) => {
         setExpanded(isExpanded ? true : false);
@@ -128,6 +137,41 @@ const Standardise = ({ dataSetName, standardiseFiles, setStandardiseFiles, stand
             }
         }
         setMaskedColumns(tmpMaskedColumns);
+    }
+    const handleStandaiseFile = () => {
+        // saving standardised config
+        let tmpAllStandardisedFile = { ...allStandardisedFile }
+        tmpAllStandardisedFile[standardiseFile] = {
+            standardised_templete_category: datapointCategory,
+            standardised_column: standardisedColum,
+            masked_columns: maskedColumns
+        }
+        setAllStandardisedFile(tmpAllStandardisedFile)
+        // preparing payload
+        let standardisationConfiguration = {}
+        keysInUploadedDataset.forEach((column, index) => {
+            if (standardisedColum[index]) {
+                standardisationConfiguration[column] = standardisedColum[index]
+            }
+        })
+
+        let payload = {
+            "mask_columns": maskedColumns,
+            "standardisation_configuration": standardisationConfiguration,
+            "file_path": standardiseFile
+        }
+
+        let url = UrlConstant.base_url + UrlConstant.standardise_file
+        HTTPService("POST", url, payload, false, true)
+            .then((response) => {
+                let tmpStandardisedFileLink = { ...standardisedFileLink }
+                tmpStandardisedFileLink[standardiseFile] = response?.data?.standardised_file_path
+                setStandardisedFileLink(tmpStandardisedFileLink);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+
     }
     useEffect(() => {
         getAllFileNames()
@@ -269,6 +313,24 @@ const Standardise = ({ dataSetName, standardiseFiles, setStandardiseFiles, stand
                                         {detail}
                                     </Box>
                                 ))} */}
+                                    <Box className='text-end mt-30 mb-26'>
+                                        <Button
+                                            sx={{
+                                                fontFamily: 'Montserrat',
+                                                fontWeight: 700,
+                                                fontSize: '14px',
+                                                width: "86px",
+                                                height: "36px",
+                                                background: "#00AB55",
+                                                borderRadius: "8px",
+                                                textTransform: 'none',
+                                                '&:hover': {
+                                                    backgroundColor: '#00AB55',
+                                                    color: '#fffff',
+                                                }
+                                            }}
+                                            variant='contained' onClick={() => handleStandaiseFile()}>Apply</Button>
+                                    </Box>
                                 </Box>
                             </AccordionDetails>
                         </Accordion>
