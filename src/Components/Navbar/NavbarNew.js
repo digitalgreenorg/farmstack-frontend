@@ -1,16 +1,37 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Button, Typography } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import UrlConstant from '../../Constants/UrlConstants';
 import HTTPService from '../../Services/HTTPService';
 import { flushLocalstorage, getUserLocal, getTokenLocal, isLoggedInUserAdmin, isLoggedInUserParticipant } from '../../Utils/Common';
 import './NavbarNew.css'
 
-const NavbarNew = () => {
+const navActiveStyle = {
+    "fontFamily": 'Montserrat',
+    "fontWeight": "600",
+    "fontSize": "14px",
+    "lineHeight": "18px",
+    "color": "#00AB55",
+    "marginRight": '50px',
+    "textDecoration": 'none'
+}
 
-    const [profile, setProfile] = useState()
-    const [isSelected, setIsSelected] = useState()
+const navInActiveStyle = {
+    "fontFamily": 'Montserrat',
+    "fontWeight": "600",
+    "fontSize": "14px",
+    "lineHeight": "18px",
+    "color": "#212B36",
+    "marginRight": '50px',
+    "textDecoration": 'none'
+}
+const NavbarNew = ({ loginType }) => {
     const history = useHistory();
+    const location = useLocation();
+
+    console.log(location)
+    const [profile, setProfile] = useState()
+    const [isSelected, setIsSelected] = useState('')
 
     const getAccountDetails = async () => {
         var id = getUserLocal();
@@ -29,6 +50,9 @@ const NavbarNew = () => {
             });
     };
 
+    const isNavLinkActive = (path) => {
+        return location.pathname === path ? true : false;
+    }
     const handleParticipantLogout = (e) => {
         e.preventDefault();
         flushLocalstorage();
@@ -48,15 +72,8 @@ const NavbarNew = () => {
             handleParticipantLogout(e)
         }
     }
-    const handleSelect = (item, path) => {
+    const handleSelect = (item) => {
         setIsSelected(item)
-        if (getTokenLocal() && isLoggedInUserAdmin()) {
-            history.push(path)
-        } else if (getTokenLocal() && isLoggedInUserParticipant()) {
-            history.push(path)
-        } else if (!getTokenLocal()) {
-
-        }
     }
     useEffect(() => {
         getAccountDetails();
@@ -69,93 +86,104 @@ const NavbarNew = () => {
                     <img src={require('../../Assets/Img/footer_logo.svg')} alt="footerLogo" />
                 </Box>
                 <Box className='navbar_sub_container'>
-                    {getTokenLocal() && isLoggedInUserAdmin() ?
-                        <Typography
-                            className={isSelected === 'dashboard' ? 'navbar_selected_text' : 'navbar_text'}
-                            onClick={() => handleSelect('dashboard', '/datahub/dashboard')}
+                    {!getTokenLocal() ?
+                        <NavLink
+                            activeStyle={navActiveStyle}
+                            style={navInActiveStyle}
+                            to='/home'
+                            onClick={() => handleSelect('home')}
                         >
-                            {isSelected === 'dashboard' ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Dashboard
-                        </Typography>
+                            {isNavLinkActive('/home') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Home
+                        </NavLink>
+                        : <></>
+                    }
+                    {loginType === 'admin' ?
+                        <NavLink
+                            activeStyle={navActiveStyle}
+                            style={navInActiveStyle}
+                            to='/datahub/dashboard'
+                            onClick={() => handleSelect('dashboard')}
+                        >
+                            {isNavLinkActive('/datahub/dashboard') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Dashboard
+                        </NavLink>
                         : <></>
 
                     }
-                    {!getTokenLocal() ?
-                        <Typography
-                            className={isSelected === 'home' ? 'navbar_selected_text' : 'navbar_text'}
-                            onClick={() => handleSelect('home', '')}
+                    {(loginType === 'admin' || loginType === 'participant') ?
+                        <NavLink
+                            activeStyle={navActiveStyle}
+                            style={navInActiveStyle}
+                            to={loginType === 'admin' ? '/datahub/datasets' : (loginType === 'participant' ? '/participant/new_datasets' : '')}
+                            onClick={() => handleSelect('datasets')}
                         >
-                            {isSelected === 'home' ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Home
-                        </Typography>
+                            {isNavLinkActive(loginType === 'admin' ? '/datahub/datasets' : (loginType === 'participant' ? '/participant/new_datasets' : ''))
+                                ?
+                                <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Datasets
+                        </NavLink>
                         : <></>
                     }
-                    {getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserParticipant()) ?
-                        <Typography
-                            className={isSelected === 'datasets' ? 'navbar_selected_text' : 'navbar_text'}
-                            onClick={() => {
-                                let path = isLoggedInUserAdmin() ? '/datahub/datasets' : (isLoggedInUserParticipant() ? '/participant/new_datasets' : '')
-                                handleSelect('datasets', path)
-                            }
-                            }
+                    {loginType === 'admin' ?
+                        <NavLink
+                            activeStyle={navActiveStyle}
+                            style={navInActiveStyle}
+                            to='/datahub/participants'
+                            onClick={() => handleSelect('participants')}
                         >
-                            {isSelected === 'datasets' ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Datasets
-                        </Typography>
-                        : <></>
-                    }
-                    {getTokenLocal() && isLoggedInUserAdmin() ?
-                        <Typography
-                            className={isSelected === 'participants' ? 'navbar_selected_text' : 'navbar_text'}
-                            onClick={() => handleSelect('participants', '/datahub/participants')}
-                        >
-                            {isSelected === 'participants' ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Participants
-                        </Typography>
+                            {isNavLinkActive('/datahub/participants') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Participants
+                        </NavLink>
                         :
                         <></>
                     }
-                    {getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserParticipant()) ?
-                        <Typography
-                            className={isSelected === 'connectors' ? 'navbar_selected_text' : 'navbar_text'}
-                            onClick={() => {
-                                let path = isLoggedInUserAdmin() ? '/datahub/connectors' : (isLoggedInUserParticipant() ? '/participant/connectors' : '')
-                                handleSelect('connectors', path)
-                            }
-                            }
+                    {(loginType === 'admin' || loginType === 'participant') ?
+                        <NavLink
+                            activeStyle={navActiveStyle}
+                            style={navInActiveStyle}
+                            to={loginType === 'admin' ? '/datahub/connectors' : (loginType === 'participant' ? '/participant/connectors' : '')}
+                            onClick={() => handleSelect('connectors')}
                         >
-                            {isSelected === 'connectors' ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Connectors
-                        </Typography>
+                            {isNavLinkActive(loginType === 'admin' ? '/datahub/connectors' : (loginType === 'participant' ? '/participant/connectors' : ''))
+                                ?
+                                <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Connectors
+                        </NavLink>
                         : <></>
                     }
-                    {getTokenLocal() && isLoggedInUserAdmin() ?
-                        <Typography
-                            className={isSelected === 'support' ? 'navbar_selected_text' : 'navbar_text'}
-                            onClick={() => handleSelect('support', '/datahub/support')}
+                    {loginType === 'admin' ?
+                        <NavLink
+                            activeStyle={navActiveStyle}
+                            style={navInActiveStyle}
+                            to='/datahub/support'
+                            onClick={() => handleSelect('support')}
                         >
-                            {isSelected === 'support' ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Support
-                        </Typography>
+                            {isNavLinkActive('/datahub/support') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Support
+                        </NavLink>
                         : <></>
                     }
-                    {getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserParticipant()) ?
-                        <Typography
-                            className={isSelected === 'settings' ? 'navbar_selected_text' : 'navbar_text'}
-                            onClick={() => {
-                                let path = isLoggedInUserAdmin() ? '/datahub/settings' : (isLoggedInUserParticipant() ? '/participant/settings' : '')
-                                handleSelect('settings', path)
-                            }}
+                    {(loginType === 'admin' || loginType === 'participant') ?
+                        <NavLink
+                            activeStyle={navActiveStyle}
+                            style={navInActiveStyle}
+                            to={loginType === 'admin' ? '/datahub/settings' : (loginType === 'participant' ? '/participant/settings' : '')}
+                            onClick={() => handleSelect('settings')}
                         >
-                            {isSelected === 'settings' ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Settings
-                        </Typography>
+                            {isNavLinkActive(loginType === 'admin' ? '/datahub/settings' : (loginType === 'participant' ? '/participant/settings' : ''))
+                                ?
+                                <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Settings
+                        </NavLink>
                         : <></>
                     }
-                    {profile ? <></>
+                    {getUserLocal() ? <></>
                         :
-                        <Typography
-                            className={isSelected === 'login' ? 'navbar_selected_text' : 'navbar_text'}
+                        <NavLink
+                            to='/login'
+                            activeStyle={navActiveStyle}
+                            style={navInActiveStyle}
                             onClick={() => handleSelect('login')}
                         >
-                            {isSelected === 'login' ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Login
-                        </Typography>
+                            {isNavLinkActive('/login') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Login
+                        </NavLink>
                     }
                     <Box>
-                        {profile ?
+                        {getUserLocal() ?
                             <Button
                                 sx={{
                                     fontFamily: 'Montserrat !important',

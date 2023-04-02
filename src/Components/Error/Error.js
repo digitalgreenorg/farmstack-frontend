@@ -37,12 +37,14 @@ export default function Error(props) {
 
     return (
         <div classname="center_keeping_conatiner" style={{ width: "1440px", margin: "0 auto" }}>
-            {isLoggedInUserAdmin() ? <Navbar /> :
-                (
-                    // isLoggedInUserParticipant() ? <ParticipantNavbar /> :
-                    isLoggedInUserParticipant() ? <NavbarNew /> :
-                        <GuestUserNavbar />
-                )
+            {
+                // isLoggedInUserAdmin() ? <Navbar /> :
+                isLoggedInUserAdmin() ? <NavbarNew loginType={'admin'} /> :
+                    (
+                        // isLoggedInUserParticipant() ? <ParticipantNavbar /> :
+                        isLoggedInUserParticipant() ? <NavbarNew loginType={'participant'} /> :
+                            <GuestUserNavbar />
+                    )
             }
             {/*
             <Nav id="datahubnavbar" style={{border: 'none'}}>                

@@ -20,7 +20,7 @@ import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
 import DatasetAdmin from '../Views/Dataset/DatasetAdmin/DatasetAdmin'
 import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
-import { getTokenLocal,isLoggedInUserAdmin } from "../Utils/Common";
+import { getTokenLocal, isLoggedInUserAdmin } from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
 import Footer from "../Components/Footer/Footer";
 import Dashboard from "../Views/Dashboard/Dashboard";
@@ -34,122 +34,124 @@ import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Projec
 import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
+import NavbarNew from "../Components/Navbar/NavbarNew";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
   // }, []);
   return (
     <>
-      {(getTokenLocal() && isLoggedInUserAdmin())? (
+      {(getTokenLocal() && isLoggedInUserAdmin()) ? (
         <div className="center_keeping_conatiner">
 
-          <Navbar />
+          {/* <Navbar /> */}
+          <NavbarNew loginType={'admin'} />
           <div className="minHeight67vhDatahubPage">
-          <Switch>
-            <Route
-              exact
-              path="/datahub/participants/view/:id"
-              component={ViewParticipants}
-            />
-            <Route
-              exact
-              path="/datahub/participants/edit/:id"
-              component={EditParticipants}
-            />
-            <Route
-              exact
-              path="/datahub/participants/add"
-              component={AddParticipants}
-            />
-            <Route
-              exact
-              path="/datahub/dashboard"
-              component={Dashboard}
-            />
+            <Switch>
+              <Route
+                exact
+                path="/datahub/participants/view/:id"
+                component={ViewParticipants}
+              />
+              <Route
+                exact
+                path="/datahub/participants/edit/:id"
+                component={EditParticipants}
+              />
+              <Route
+                exact
+                path="/datahub/participants/add"
+                component={AddParticipants}
+              />
+              <Route
+                exact
+                path="/datahub/dashboard"
+                component={Dashboard}
+              />
 
-            <Route
-              exact
-              path="/datahub/participants/invite"
-              component={InviteParticipants}
-            />
-            <Route
-              exact
-              path="/datahub/participants"
-              component={Participants}
-            />
-            <Route exact path="/datahub/datasets/add" component={AddDataset} />
-            <Route
-              exact
-              path="/datahub/datasets/edit/:id"
-              component={EditDataset}
-            />
-            <Route
-              exact
-              path="/datahub/settings/addmember"
-              component={AddTeamMember}
-            />
-            <Route
-              exact
-              path="/datahub/settings/editmember/:id"
-              component={EditTeamMember}
-            />
-            <Route
-              exact
-              path="/datahub/settings/adddepartment"
-              component={DepartmentSettings}
-            />
-            <Route
+              <Route
+                exact
+                path="/datahub/participants/invite"
+                component={InviteParticipants}
+              />
+              <Route
+                exact
+                path="/datahub/participants"
+                component={Participants}
+              />
+              <Route exact path="/datahub/datasets/add" component={AddDataset} />
+              <Route
+                exact
+                path="/datahub/datasets/edit/:id"
+                component={EditDataset}
+              />
+              <Route
+                exact
+                path="/datahub/settings/addmember"
+                component={AddTeamMember}
+              />
+              <Route
+                exact
+                path="/datahub/settings/editmember/:id"
+                component={EditTeamMember}
+              />
+              <Route
+                exact
+                path="/datahub/settings/adddepartment"
+                component={DepartmentSettings}
+              />
+              <Route
                 exact
                 path="/datahub/settings/viewdepartment/:id/"
                 component={ViewDepartment}
               />
-            <Route
+              <Route
                 exact
                 path="/datahub/settings/editdepartment/:id"
                 component={EditDepartmentSettings}
               />
-            <Route exact path="/datahub/settings/:id" component={Settings} />
-            <Route exact path="/datahub/support" component={Support} />
-            {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
-            <Route exact path="/datahub/datasets" component={DatasetAdmin}/>
-            <Route
-              exact
-              path="/datahub/connectors/add"
-              component={AddConnectorParticipant}
-            />
-            <Route
-              exact
-              path="/datahub/connectors/edit/:id"
-              component={EditConnectorParticipant}
-            />
+              <Route exact path="/datahub/settings/:id" component={Settings} />
+              <Route exact path="/datahub/support" component={Support} />
+              {/* <Route exact path="/datahub/dataset" component={SampleDataSet} /> */}
+              <Route exact path="/datahub/datasets" component={DatasetAdmin} />
               <Route
-              exact
-              path="/datahub/connectors"
-              component={ConnectorParticipant}
-            />
-            <Route
-              exact
-              path="/datahub/settings/project/add"
-              component={AddProjectParticipant}
-            />
-            <Route
-              exact
-              path="/datahub/settings/viewproject/:id"
-              component={ProjectDetailView}
-            />
-            <Route
-              exact
-              path="/datahub/settings/project/edit/:id"
-              component={EditProjectParticipant}
-            />
+                exact
+                path="/datahub/connectors/add"
+                component={AddConnectorParticipant}
+              />
               <Route
-              exact
-              path="/datahub/connectors/detail"
-              component={DemoDashboardTable}
-            />
-          </Switch>
+                exact
+                path="/datahub/connectors/edit/:id"
+                component={EditConnectorParticipant}
+              />
+              <Route
+                exact
+                path="/datahub/connectors"
+                component={ConnectorParticipant}
+              />
+              <Route
+                exact
+                path="/datahub/settings/project/add"
+                component={AddProjectParticipant}
+              />
+              <Route
+                exact
+                path="/datahub/settings/viewproject/:id"
+                component={ProjectDetailView}
+              />
+              <Route
+                exact
+                path="/datahub/settings/project/edit/:id"
+                component={EditProjectParticipant}
+              />
+              <Route
+                exact
+                path="/datahub/connectors/detail"
+                component={DemoDashboardTable}
+              />
+            </Switch>
           </div>
-          <Footer/>
+          <Footer />
         </div>
       ) : (
         props.history.push("/datahub/login")
