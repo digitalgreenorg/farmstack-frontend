@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Tab, Tabs, Divider, Button, Typography } from '@mui/material'
 import './DataSetsTab.css'
 import AddDataSetCardNew from '../AddDataSetCardNew';
@@ -22,7 +22,10 @@ function TabPanel(props) {
     );
 }
 
-const DataSetsTab = ({ history, addDataset, state }) => {
+const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets, datasetList, memberDatasetList,
+    showLoadMoreAdmin, showLoadMoreMember
+
+}) => {
     const [value, setValue] = useState(0);
     const [isGrid, setIsGrid] = useState(true)
     const [isGridOther, setIsGridOther] = useState(true)
@@ -31,6 +34,17 @@ const DataSetsTab = ({ history, addDataset, state }) => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    useEffect(() => {
+        if (value === 0) {
+            getDataSets(false)
+        } else if (value === 1) {
+            getOtherDataSets(false)
+        } else if (value === 2) {
+
+        }
+    }, [value])
+
     return (
         <Box className='w-100'>
             <Box sx={{ marginLeft: '144px', marginRight: '144px' }}>
@@ -70,14 +84,20 @@ const DataSetsTab = ({ history, addDataset, state }) => {
                         {isGrid ?
                             <div className='datasets_card'>
                                 <AddDataSetCardNew history={history} addDataset={addDataset} />
-                                {state.map((s) => (
-                                    <DataSetCardNew history={history} />
+                                {datasetList?.map((item) => (
+                                    <DataSetCardNew history={history} item={item} />
                                 ))}
                             </div>
                             :
-                            <DataSetsListView datasets={state} history={history} />
+                            <DataSetsListView datasets={datasetList} history={history} />
                         }
-                        <Button variant="outlined" className='d_button_style'>Load more</Button>
+                        {showLoadMoreAdmin ?
+                            <Button
+                                variant="outlined"
+                                className='d_button_style'
+                                onClick={() => getDataSets(true)}>Load more</Button>
+                            : <></>
+                        }
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
@@ -85,14 +105,21 @@ const DataSetsTab = ({ history, addDataset, state }) => {
                         <DataSetsTitleView title={'Other organisation datasets'} isGrid={isGridOther} setIsGrid={setIsGridOther} history={history} addDataset={addDataset} />
                         {isGridOther ?
                             <div className='datasets_card'>
-                                {state.map((s) => (
-                                    <DataSetCardNew history={history} />
+                                {memberDatasetList?.map((item) => (
+                                    <DataSetCardNew history={history} item={item} />
                                 ))}
                             </div>
                             :
-                            <DataSetsListView datasets={state} history={history} />
+                            <DataSetsListView datasets={memberDatasetList} history={history} />
                         }
-                        <Button variant="outlined" className='d_button_style'>Load more</Button>
+                        {showLoadMoreMember ?
+                            <Button
+                                variant="outlined"
+                                className='d_button_style'
+                                onClick={() => getOtherDataSets(true)}
+                            >Load more</Button>
+                            : <></>
+                        }
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={2}>

@@ -1,5 +1,6 @@
 import { Card } from '@mui/material'
 import React from 'react'
+import { dateTimeFormat } from '../../Utils/Common';
 
 const cardSx = {
     maxWidth: 368, height: 190, border: '1px solid #C0C7D1', borderRadius: '10px', cursor: 'pointer',
@@ -9,17 +10,17 @@ const cardSx = {
         border: '1px solid #2CD37F'
     }
 };
-const DataSetCardNew = ({ history }) => {
+const DataSetCardNew = ({ history, item }) => {
     return (
         <Card className='card' sx={cardSx} onClick={() => history.push('/participant/new_datasets/view')}>
             <div className='published'>
                 <img src={require('../../Assets/Img/globe.svg')} alt="globe" />
-                <span className='published_text'>Published on: 28/03/2022</span>
+                <span className='published_text'>Published on: {dateTimeFormat(item?.created_at, false)}</span>
             </div>
-            <div className='d_content_title'>Soil parameter</div>
+            <div className='d_content_title'>{item?.name}</div>
             <div className='organisation'>
                 <img src={require('../../Assets/Img/organisation.svg')} alt="organisation" />
-                <span className='organisation_text'>EATA</span>
+                <span className='organisation_text'>{item?.organization?.name}</span>
             </div>
             <div className='d_content_text'>
                 <div className='category'>
@@ -28,11 +29,11 @@ const DataSetCardNew = ({ history }) => {
                 </div>
                 <div className='location'>
                     <img src={require('../../Assets/Img/location.svg')} alt="location" />
-                    <span className='location_text'>Addis</span>
+                    <span className='location_text'>{item?.geography}</span>
                 </div>
                 <div className='calendar'>
                     <img src={require('../../Assets/Img/calendar_new.svg')} alt="calendar" />
-                    <span className='calendar_text'>6 months old</span>
+                    <span className='calendar_text'>{item?.age_of_date ? item.age_of_date : 'NA'}</span>
                 </div>
 
             </div>
