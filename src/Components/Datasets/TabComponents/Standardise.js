@@ -106,7 +106,7 @@ const Standardise = ({ dataSetName, standardiseFiles, setStandardiseFiles, stand
         setStandardisedColumn(tmpStandardisedColum)
 
 
-        let tmpArr = [...datapointCategories];
+        let tmpArr = [...datapointCategory];
         tmpArr[index] = value;
         setDatapointCategory(tmpArr);
 
@@ -251,13 +251,8 @@ const Standardise = ({ dataSetName, standardiseFiles, setStandardiseFiles, stand
                                             template={template}
                                             setTemplate={setTemplate}
                                             datapointAttributes={datapointAttributes}
-                                            setDatapointAttributes={setDatapointAttributes}
-                                            datapointAttribute={datapointAttribute}
-                                            setDatapointAttribute={setDatapointAttribute}
                                             datapointCategories={datapointCategories}
-                                            setDatapointCategories={setDatapointCategories}
                                             datapointCategory={datapointCategory}
-                                            setDatapointCategory={setDatapointCategory}
                                             standardiseNames={standardiseNames}
                                             setStandardiseNames={setStandardiseNames}
                                             standardiseName={standardiseName}

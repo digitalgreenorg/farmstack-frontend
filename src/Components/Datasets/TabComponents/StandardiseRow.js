@@ -2,13 +2,11 @@ import React from 'react'
 import { Box, Divider, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import CheckBoxWithText from './CheckBoxWithText'
 
-const StandardiseRow = ({ keyName, index, datapointAttributes, setDatapointAttributes,
-    datapointAttribute, setDatapointAttribute, datapointCategories, setDatapointCategories, datapointCategory, setDatapointCategory,
-    standardiseNames, setStandardiseNames, standardiseName, setStandardiseName, handleMaskCheckBox, datapointCategoryChange, standardisedColum,
+const StandardiseRow = ({ keyName, index, datapointAttributes, templates, setTemplates, template, setTemplate,
+    datapointCategories, datapointCategory, handleMaskCheckBox, datapointCategoryChange, standardisedColum,
     setStandardisedColumn, maskedColumns
 }) => {
-    console.log(datapointCategories)
-    console.log(datapointCategory)
+
     return (
         <div className='mt-50'>
             <Box className='d-flex justify-content-between align-items-center w-100 mb-20'>
