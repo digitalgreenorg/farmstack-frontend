@@ -37,8 +37,8 @@ function Participant(props) {
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
-          <ParticipantNavbar />
-          {/* <NavbarNew /> */}
+          {/* <ParticipantNavbar /> */}
+          <NavbarNew />
           <div className="minHeight67vhParticipantPage">
             <Switch>
               <Route

@@ -16,28 +16,34 @@ import Footer from '../Footer/Footer';
 import HTTPService from '../../Services/HTTPService';
 import { flushLocalstorage, getErrorLocal, isLoggedInUserAdmin, isLoggedInUserParticipant, setErrorLocal } from '../../Utils/Common';
 import axios from 'axios';
+import NavbarNew from '../Navbar/NavbarNew';
 // import Select from 'react-select'
 const useStyles = {
-    btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
-    marginrowtop30: {"margin-top": "30px"},
-    marginrowtop35: {"margin-top": "35px"},
-    marginrowtop50: {"margin-top": "50px"},
-    marginrowtop70: {"margin-top": "70px"},
-    marginrowtop20: {"margin-top": "20px"},
-    headingbold:{fontWeight: "bold"},
-    headingcolorbold:{fontWeight: "bold",color: THEME_COLORS.THEME_COLOR}
+    btncolor: { color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0 },
+    marginrowtop30: { "margin-top": "30px" },
+    marginrowtop35: { "margin-top": "35px" },
+    marginrowtop50: { "margin-top": "50px" },
+    marginrowtop70: { "margin-top": "70px" },
+    marginrowtop20: { "margin-top": "20px" },
+    headingbold: { fontWeight: "bold" },
+    headingcolorbold: { fontWeight: "bold", color: THEME_COLORS.THEME_COLOR }
 };
 export default function Error(props) {
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
-    useEffect(()=>{
-    //    flushLocalstorage();
+    useEffect(() => {
+        //    flushLocalstorage();
         // setErrorLocal({})
     }, []);
 
     return (
-        <div classname="center_keeping_conatiner" style={{ width:"1440px", margin:"0 auto"}}>
-            {isLoggedInUserAdmin() ? <Navbar /> : (isLoggedInUserParticipant() ? <ParticipantNavbar /> :
-            <GuestUserNavbar />)}
+        <div classname="center_keeping_conatiner" style={{ width: "1440px", margin: "0 auto" }}>
+            {isLoggedInUserAdmin() ? <Navbar /> :
+                (
+                    // isLoggedInUserParticipant() ? <ParticipantNavbar /> :
+                    isLoggedInUserParticipant() ? <NavbarNew /> :
+                        <GuestUserNavbar />
+                )
+            }
             {/*
             <Nav id="datahubnavbar" style={{border: 'none'}}>                
                 <img
@@ -59,7 +65,7 @@ export default function Error(props) {
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <img
                             src={require('../../Assets/Img/error.png')}
-                            style={{width: '170px', height: '112px'}}
+                            style={{ width: '170px', height: '112px' }}
                             alt="Error"
                         />
                     </Col>
@@ -67,20 +73,20 @@ export default function Error(props) {
                 <Row>
                     <Col xs={12} sm={12} md={12} lg={12} style={useStyles.marginrowtop35}>
                         <span className="secondmainheadingsuccess">
-                        {screenlabels.error.secondmainheading}
+                            {screenlabels.error.secondmainheading}
                         </span>
                     </Col>
                 </Row>
                 <Row style={useStyles.marginrowtop20}>
                     <Col xs={12} sm={12} md={12} lg={12} >
                         <span className="thirdmainheadingsuccess">
-                        {getErrorLocal() ? getErrorLocal().ErrorMessage : 'unknown'}<br />
-                        {screenlabels.error.thirdmainheading}
+                            {getErrorLocal() ? getErrorLocal().ErrorMessage : 'unknown'}<br />
+                            {screenlabels.error.thirdmainheading}
                         </span>
                     </Col>
                 </Row>
             </Container>
-            <Footer/>
+            <Footer />
         </div>
     );
 }
