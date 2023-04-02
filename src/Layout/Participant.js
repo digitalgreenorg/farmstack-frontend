@@ -30,6 +30,7 @@ import ParticipantMain from "../Pages/ParticipantMain";
 import DataSets from "../Pages/DataSets";
 import AddDataSetParticipantNew from "../Views/Role/Participant/Dataset/AddDataSetParticipantNew";
 import DataSetsView from "../Pages/DataSetsView";
+import NavbarNew from "../Components/Navbar/NavbarNew";
 
 function Participant(props) {
   return (
@@ -37,6 +38,7 @@ function Participant(props) {
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
           <ParticipantNavbar />
+          {/* <NavbarNew /> */}
           <div className="minHeight67vhParticipantPage">
             <Switch>
               <Route
