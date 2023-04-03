@@ -313,7 +313,7 @@ const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile,
                                         {detail}
                                     </Box>
                                 ))} */}
-                                    <Box className='text-end mt-30 mb-26'>
+                                    <Box className='text-right mt-30 mb-26'>
                                         <Button
                                             sx={{
                                                 fontFamily: 'Montserrat',

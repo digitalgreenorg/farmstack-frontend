@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Button, Card, Divider, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useHistory } from "react-router-dom";
 import { getOrgLocal, getTokenLocal, getUserLocal, isLoggedInUserAdmin, isLoggedInUserParticipant } from '../Utils/Common'
@@ -129,6 +129,11 @@ const DataSets = (props) => {
 
         })
     }
+    useEffect(() => {
+        getDataSets(false);
+        getOtherDataSets(false);
+    }, [])
+
     return (
         <>
             <Box sx={{ padding: "40px", maxWidth: "100%" }}>

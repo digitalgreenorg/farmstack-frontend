@@ -90,7 +90,7 @@ const AddDataSetParticipantNew = () => {
         ).then((response) => {
             if (isLoggedInUserParticipant() && getTokenLocal()) {
                 alert("success")
-                // history.push('/participant/new_datasets')
+                history.push('/participant/new_datasets')
             }
         }).catch((e) => {
             console.log(e);
