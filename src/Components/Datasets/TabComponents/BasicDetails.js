@@ -114,6 +114,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, dataSetDescription, setData
                             label="Start Date"
                             value={fromDate}
                             onChange={(value) => handleFromDate(value)}
+                            disabled={isUpdating}
                             PaperProps={{
                                 sx: {
                                     borderRadius: '16px !important',
@@ -175,6 +176,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, dataSetDescription, setData
                             label="End Date"
                             value={toDate}
                             onChange={(value) => handleToDate(value)}
+                            disabled={isUpdating}
                             PaperProps={{
                                 sx: {
                                     borderRadius: '16px !important',
