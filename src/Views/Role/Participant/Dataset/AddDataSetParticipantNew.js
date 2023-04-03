@@ -65,6 +65,28 @@ const AddDataSetParticipantNew = () => {
         }
     }
 
+    const isDisabled = () => {
+        if (value === 0) {
+            if (dataSetName && dataSetDescription && (isUpdating || (fromDate && toDate))) {
+                return false;
+            } else {
+                return true;
+            }
+        } else if (value === 1) {
+            if (files || sqlFiles || postgresFiles || sqLiteFiles || restApifiles) {
+                return false;
+            } else {
+                return true;
+            }
+        } else if (value === 3) {
+            if (geography) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     const handleSubmit = () => {
         let bodyFormData = new FormData();
         bodyFormData.append("name", dataSetName);
@@ -166,6 +188,7 @@ const AddDataSetParticipantNew = () => {
                         setAllStandardisedFile={setAllStandardisedFile}
                         standardisedFileLink={standardisedFileLink}
                         setStandardisedFileLink={setStandardisedFileLink}
+                        validator={validator}
                     />
                 </TabPanel>
                 <TabPanel value={value} index={3}>
@@ -174,6 +197,7 @@ const AddDataSetParticipantNew = () => {
                         setCategorises={setCategorises}
                         geography={geography}
                         setGeography={setGeography}
+                        validator={validator}
                     />
                 </TabPanel>
                 <TabPanel value={value} index={4}>
@@ -199,6 +223,7 @@ const AddDataSetParticipantNew = () => {
                         }}
                         variant='outlined' onClick={() => history.push('/participant/new_datasets')}>Cancel</Button>
                     <Button
+                        disabled={isDisabled}
                         sx={{
                             fontFamily: 'Montserrat',
                             fontWeight: 700,
