@@ -14,6 +14,13 @@
     color: #000000 !important;
 }
 
+.datasets_list_view_name {
+    white-space: nowrap;
+    width: 183px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .mr-44 {
     margin-right: 44px !important;
 }

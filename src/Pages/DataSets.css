@@ -103,6 +103,10 @@
     color: #00AB55 !important;
     text-align: left !important;
     margin: 21px 0px 0px 20px !important;
+    white-space: nowrap;
+    width: 279px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .organisation {
