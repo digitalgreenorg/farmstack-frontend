@@ -69,7 +69,7 @@ const AddDataSetParticipantNew = () => {
         let bodyFormData = new FormData();
         bodyFormData.append("name", dataSetName);
         bodyFormData.append("description", dataSetDescription);
-        bodyFormData.append("category", JSON.stringify({}));
+        bodyFormData.append("category", JSON.stringify(categorises));
         bodyFormData.append("user_map", getUserMapId());
         bodyFormData.append("geography", geography);
         bodyFormData.append("constantly_update", isUpdating);

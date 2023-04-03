@@ -9,7 +9,6 @@ import UrlConstant from '../../../Constants/UrlConstants'
 const Categorise = (props) => {
 
     const [allCategories, setAllCategories] = useState([])
-    const [tempCategoryJson, setTempCategoryJson] = useState({})
     const [geographies, setGeographies] = useState(
         [{ value: "India", label: "India" },
         { value: "Ethiopia", label: "Ethiopia" },
@@ -17,34 +16,28 @@ const Categorise = (props) => {
     )
 
     const handleCheckBox = (keyName, value) => {
-        console.log(tempCategoryJson, "refData")
-        console.log(keyName)
-        console.log(value)
-        // let tempCategories = { ...tempCategoryJson }
-        // let tempJson = Object.keys(tempCategoryJson);
-        // console.log(tempCategories)
-        // console.log(tempJson)
 
-        // if (tempJson.includes(keyName)) {
-        //     if (tempCategories[keyName].includes(value)) {
-        //         let index = tempCategories[keyName].indexOf(value)
-        //         tempCategories[keyName].splice(index, 1);
-        //     } else {
-        //         tempCategories[keyName].push(value)
-        //     }
-        // } else {
-        setTempCategoryJson(currentState => {
-            return { ...currentState, [keyName]: [value] }
-        })
-        setTempCategoryJson({ ...tempCategoryJson, [keyName]: [value] })
-        // }
+        let tempCategories = { ...props.categorises }
+        let tempJson = Object.keys(props.categorises);
+
+        if (tempJson.includes(keyName)) {
+            if (tempCategories[keyName].includes(value)) {
+                if (tempCategories[keyName]?.length === 1) {
+                    delete tempCategories[keyName]
+                } else {
+                    let index = tempCategories[keyName].indexOf(value)
+                    tempCategories[keyName].splice(index, 1);
+                }
+            } else {
+                tempCategories[keyName].push(value)
+            }
+            props.setCategorises({ ...tempCategories })
+        } else {
+            props.setCategorises(currentState => {
+                return { ...currentState, [keyName]: [value] }
+            })
+        }
     }
-    useEffect(() => {
-        console.log(tempCategoryJson)
-        console.log("sss")
-    }, [tempCategoryJson])
-
-    console.log(tempCategoryJson)
 
     const getAllCategoryAndSubCategory = () => {
         let checkforAccess = getTokenLocal() ?? false;
@@ -83,7 +76,7 @@ const Categorise = (props) => {
 
     useEffect(() => {
         getAllCategoryAndSubCategory()
-    }, [])
+    }, [props.categorises])
 
     return (
         <div className='mt-20'>
