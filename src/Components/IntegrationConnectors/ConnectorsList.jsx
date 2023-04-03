@@ -15,7 +15,7 @@ import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
 import "./cards.css"
 
 export default function ConnectorsList(props) {
-  const { setConnectorTimeData, setIsEditModeOn, setConnectorIdForView, setIsDatasetIntegrationListModeOn } = props
+  const { isEditModeOn, setConnectorTimeData, setIsEditModeOn, setConnectorIdForView, setIsDatasetIntegrationListModeOn } = props
   const [isLoader, setIsLoader] = useState(false);
   const [isShowLoadMoreButton, setisShowLoadMoreButton] = useState(false)
   const [connectorList, setConnectorList] = useState([]);
@@ -115,8 +115,9 @@ export default function ConnectorsList(props) {
 
 
   useEffect(() => {
+    console.log("calling")
     getListOfConnectors()
-  }, [])
+  }, [isEditModeOn])
 
 
   return (
