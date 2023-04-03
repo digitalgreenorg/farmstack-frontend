@@ -16,7 +16,7 @@ const Categorise = (props) => {
         { value: "Kenya", label: "Kenya" }]
     )
 
-    const handleCheckBox = (keyName, value,) => {
+    const handleCheckBox = (keyName, value) => {
         console.log(tempCategoryJson, "refData")
         console.log(keyName)
         console.log(value)
@@ -36,8 +36,14 @@ const Categorise = (props) => {
         setTempCategoryJson(currentState => {
             return { ...currentState, [keyName]: [value] }
         })
+        setTempCategoryJson({ ...tempCategoryJson, [keyName]: [value] })
         // }
     }
+    useEffect(() => {
+        console.log(tempCategoryJson)
+        console.log("sss")
+    }, [tempCategoryJson])
+
     console.log(tempCategoryJson)
 
     const getAllCategoryAndSubCategory = () => {
@@ -60,7 +66,7 @@ const Categorise = (props) => {
             prepareArr.forEach((item, index) => {
                 let keys = Object.keys(item)
                 let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-                    return (<CheckBoxWithText key={ind} text={res} categoryKeyName={keys[0]} keyName={res} refData={tempCategoryJson} handleCheckBox={handleCheckBox} />)
+                    return (<CheckBoxWithText key={ind} text={res} categoryKeyName={keys[0]} keyName={res} handleCheckBox={handleCheckBox} />)
                 })
                 let obj = {
                     panel: index + 1,
