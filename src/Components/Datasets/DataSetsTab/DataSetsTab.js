@@ -23,10 +23,9 @@ function TabPanel(props) {
 }
 
 const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets, datasetList, memberDatasetList,
-    showLoadMoreAdmin, showLoadMoreMember
+    showLoadMoreAdmin, showLoadMoreMember, value, setValue
 
 }) => {
-    const [value, setValue] = useState(0);
     const [isGrid, setIsGrid] = useState(true)
     const [isGridOther, setIsGridOther] = useState(true)
     const [isGridSteward, setIsGridSteward] = useState(true)
@@ -75,7 +74,7 @@ const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets
                                 minWidth: '200px'
                             }
                         }} label={<span className={value == 1 ? 'tab_header_selected' : 'tab_header'}>Other Organisation</span>} />
-                        <Tab label={<span className={value == 2 ? 'tab_header_selected' : 'tab_header'}>Co-steward</span>} />
+                        {/* <Tab label={<span className={value == 2 ? 'tab_header_selected' : 'tab_header'}>Co-steward</span>} /> */}
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
@@ -122,7 +121,7 @@ const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets
                         }
                     </Box>
                 </TabPanel>
-                <TabPanel value={value} index={2}>
+                {/* <TabPanel value={value} index={2}>
                     <Box className='mb-100'>
                         <DataSetsTitleView title={'Co-steward datasets'} isGrid={isGridSteward} setIsGrid={setIsGridSteward} history={history} addDataset={addDataset} />
                         {isGridSteward ?
@@ -137,7 +136,7 @@ const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets
                         }
                         <Button variant="outlined" className='d_button_style'>Load more</Button>
                     </Box>
-                </TabPanel>
+                </TabPanel> */}
             </Box>
         </Box>
     )

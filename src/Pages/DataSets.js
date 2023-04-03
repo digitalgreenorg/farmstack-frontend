@@ -20,6 +20,7 @@ const cardSx = {
 const DataSets = (props) => {
     const history = useHistory();
     const [state, setState] = useState([0, 1, 2, 3, 4, 5])
+    const [searchDatasetsName, setSearchDatasetsName] = useState()
     const [filterState, setFilterState] = useState()
     const [datasetList, setDatasetList] = useState([]);
     const [memberDatasetList, setMemberDatasetList] = useState([]);
@@ -27,6 +28,9 @@ const DataSets = (props) => {
     const [showLoadMoreMember, setShowLoadMoreMember] = useState(false);
     const [datasetUrl, setDatasetUrl] = useState(UrlConstant.base_url + UrlConstant.dataset_participant_list);
     const [memberDatasetUrl, setMemberDatasetUrl] = useState(UrlConstant.base_url + UrlConstant.dataset_participant_list);
+
+    // TabIndex
+    const [value, setValue] = useState(0)
 
     var payload = "";
     var adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
@@ -47,6 +51,84 @@ const DataSets = (props) => {
         } else if (isLoggedInUserParticipant()) {
             return "/participant/new_datasets/add";
         }
+    }
+
+    const handleSearch = (name, isLoadMore) => {
+        setSearchDatasetsName(name)
+        if (name && name.length < 3 && name !== "") name = "";
+        let data = {};
+        setFilterState({});
+        data["user_id"] = getUserLocal();
+        data["org_id"] = getOrgLocal();
+        data["name__icontains"] = name;
+        if (value === 0) {
+            data["others"] = false;
+        } else {
+            data["others"] = true;
+        }
+        if (value === 0) {
+            HTTPService(
+                "POST",
+                !isLoadMore ? searchUrl : memberDatasetUrl ? memberDatasetUrl : searchUrl,
+                data,
+                false,
+                true
+            )
+                .then((response) => {
+                    if (response.data.next == null) {
+                        setFilterState({});
+                        setShowLoadMoreAdmin(false);
+                    } else {
+                        setDatasetUrl(response.data.next);
+                        setShowLoadMoreAdmin(true);
+                    }
+                    let finalDataList = [];
+                    if (isLoadMore) {
+                        finalDataList = [...memberDatasetList, ...response.data.results];
+                    } else {
+                        finalDataList = [...response.data.results];
+                    }
+                    if (value === 0) {
+                        setDatasetList(finalDataList);
+                    } else {
+                        setDatasetList(finalDataList);
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        } else if (value === 1) {
+            HTTPService(
+                "POST",
+                !isLoadMore ? searchUrl : memberDatasetUrl ? memberDatasetUrl : searchUrl,
+                data,
+                false,
+                true
+            )
+                .then((response) => {
+                    if (response.data.next == null) {
+                        setFilterState({});
+                        setShowLoadMoreMember(false);
+                    } else {
+                        setMemberDatasetUrl(response.data.next);
+                        setShowLoadMoreMember(true);
+                    }
+                    let finalDataList = [];
+                    if (isLoadMore) {
+                        finalDataList = [...memberDatasetList, ...response.data.results];
+                    } else {
+                        finalDataList = [...response.data.results];
+                    }
+                    setMemberDatasetList(finalDataList);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        }
+    }
+
+    const handleFilter = () => {
+
     }
 
     const getDataSets = (isLoadMore) => {
@@ -134,6 +216,10 @@ const DataSets = (props) => {
         getOtherDataSets(false);
     }, [])
 
+    useEffect(() => {
+        setSearchDatasetsName('')
+    }, [value])
+
     return (
         <>
             <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -159,6 +245,8 @@ const DataSets = (props) => {
                         }
                     }}
                     className='input_field' placeholder="Search dataset.."
+                    value={searchDatasetsName}
+                    onChange={(e) => handleSearch(e.target.value)}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position='start'>
@@ -198,6 +286,8 @@ const DataSets = (props) => {
                 history={history}
                 addDataset={addDataset}
                 state={state}
+                value={value}
+                setValue={setValue}
                 datasetList={datasetList}
                 memberDatasetList={memberDatasetList}
                 getDataSets={getDataSets}
