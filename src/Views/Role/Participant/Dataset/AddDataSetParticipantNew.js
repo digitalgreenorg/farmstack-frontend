@@ -52,7 +52,7 @@ const AddDataSetParticipantNew = () => {
     const [standardisedFileLink, setStandardisedFileLink] = useState({})
 
     // Categories
-    const [categorises, setCategorises] = useState([])
+    const [categorises, setCategorises] = useState({})
     const [geography, setGeography] = useState()
 
     const handleChange = (event, newValue) => {

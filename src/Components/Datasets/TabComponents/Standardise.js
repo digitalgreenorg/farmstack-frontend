@@ -257,7 +257,7 @@ const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile,
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Box>
-                                    <Box className='text-left mt-30 ml-16'>
+                                    {/* <Box className='text-left mt-30 ml-16'>
                                         <FormControl fullWidth sx={{ width: '368px' }}>
                                             <InputLabel>Select template</InputLabel>
                                             <Select
@@ -285,7 +285,7 @@ const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile,
                                                 ))}
                                             </Select>
                                         </FormControl>
-                                    </Box>
+                                    </Box> */}
                                     {keysInUploadedDataset?.map((keyName, index) => (
                                         <StandardiseRow
                                             keyName={keyName}

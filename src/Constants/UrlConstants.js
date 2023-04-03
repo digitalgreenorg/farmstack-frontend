@@ -44,6 +44,7 @@ const UrlConstant = {
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
   live_api: "participant/database/database_live_api_export/",
+  add_category_edit_category: "datahub/dataset/v2/category/",
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",
   send_columns_to_export: "participant/database/database_xls_file/",

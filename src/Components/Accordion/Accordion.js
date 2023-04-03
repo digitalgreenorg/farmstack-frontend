@@ -33,7 +33,6 @@ const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle, selectedP
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
-    console.log(selectedPanelIndex)
 
     useEffect(() => {
         setExpanded(selectedPanelIndex ? selectedPanelIndex : false)
@@ -42,8 +41,9 @@ const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle, selectedP
     return (
         <div style={{ width: isCustomStyle && width }}>
             {
-                data?.map((acc) => (
+                data?.map((acc, index) => (
                     <Accordion
+                        key={index}
                         sx={{
                             boxShadow: expanded === acc.panel ? '0px 20px 40px -4px rgba(145, 158, 171, 0.16)' : '',
                             borderRadius: expanded === acc.panel ? '8px' : '',
@@ -67,8 +67,8 @@ const ControlledAccordion = ({ data, isCustomStyle, width, titleStyle, selectedP
                         </AccordionSummary>
                         <AccordionDetails >
                             <Box sx={(isCustomStyle || isTables) ? { padding: "8px 0px 16px !important" } : accordionSummaryStyle}>
-                                {acc?.details?.map((detail) => (
-                                    <Box sx={detailsStyle}>
+                                {acc?.details?.map((detail, index) => (
+                                    <Box key={index} sx={detailsStyle}>
                                         {detail}
                                     </Box>
                                 ))}

@@ -1,40 +1,84 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import ControlledAccordion from '../../Accordion/Accordion'
 import CheckBoxWithText from './CheckBoxWithText'
+import { getTokenLocal } from '../../../Utils/Common'
+import HTTPService from '../../../Services/HTTPService'
+import UrlConstant from '../../../Constants/UrlConstants'
 
 const Categorise = (props) => {
-    const handleCheckBox = () => {
 
-    }
-    const [data, setData] = useState([
-        {
-            panel: 1,
-            title: 'Rice',
-            details: [
-                <CheckBoxWithText text={"Brown Rice"} handleCheckBox={handleCheckBox} />,
-                <CheckBoxWithText text={"White Rice"} handleCheckBox={handleCheckBox} />,
-                <CheckBoxWithText text={"Samba Rice"} handleCheckBox={handleCheckBox} />,
-                <CheckBoxWithText text={"Susi Rice"} handleCheckBox={handleCheckBox} />,
-                <CheckBoxWithText text={"Jasmine Rice"} handleCheckBox={handleCheckBox} />
-            ]
-        },
-        {
-            panel: 2,
-            title: 'Tomato',
-            details: [<CheckBoxWithText text={"Brown Rice"} handleCheckBox={handleCheckBox} />]
-        },
-        {
-            panel: 3,
-            title: 'Wheat',
-            details: [<CheckBoxWithText text={"Brown Rice"} handleCheckBox={handleCheckBox} />]
-        }
-    ])
+    const [allCategories, setAllCategories] = useState([])
+    const [tempCategoryJson, setTempCategoryJson] = useState({})
     const [geographies, setGeographies] = useState(
         [{ value: "India", label: "India" },
         { value: "Ethiopia", label: "Ethiopia" },
         { value: "Kenya", label: "Kenya" }]
     )
+
+    const handleCheckBox = (keyName, value,) => {
+        console.log(tempCategoryJson, "refData")
+        console.log(keyName)
+        console.log(value)
+        // let tempCategories = { ...tempCategoryJson }
+        // let tempJson = Object.keys(tempCategoryJson);
+        // console.log(tempCategories)
+        // console.log(tempJson)
+
+        // if (tempJson.includes(keyName)) {
+        //     if (tempCategories[keyName].includes(value)) {
+        //         let index = tempCategories[keyName].indexOf(value)
+        //         tempCategories[keyName].splice(index, 1);
+        //     } else {
+        //         tempCategories[keyName].push(value)
+        //     }
+        // } else {
+        setTempCategoryJson(currentState => {
+            return { ...currentState, [keyName]: [value] }
+        })
+        // }
+    }
+    console.log(tempCategoryJson)
+
+    const getAllCategoryAndSubCategory = () => {
+        let checkforAccess = getTokenLocal() ?? false;
+        HTTPService(
+            "GET",
+            UrlConstant.base_url + UrlConstant.add_category_edit_category,
+            "",
+            true,
+            true,
+            checkforAccess
+        ).then((response) => {
+            let prepareArr = []
+            for (const [key, value] of Object.entries(response.data)) {
+                let obj = {}
+                obj[key] = value
+                prepareArr.push(obj)
+            }
+            let tempCategories = []
+            prepareArr.forEach((item, index) => {
+                let keys = Object.keys(item)
+                let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
+                    return (<CheckBoxWithText key={ind} text={res} categoryKeyName={keys[0]} keyName={res} refData={tempCategoryJson} handleCheckBox={handleCheckBox} />)
+                })
+                let obj = {
+                    panel: index + 1,
+                    title: keys[0],
+                    details: prepareCheckbox ? prepareCheckbox : []
+                }
+                tempCategories.push(obj)
+            })
+            setAllCategories(tempCategories)
+        }).catch((e) => {
+            console.log(e);
+        });
+    }
+
+    useEffect(() => {
+        getAllCategoryAndSubCategory()
+    }, [])
+
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -46,7 +90,7 @@ const Categorise = (props) => {
                 textAlign: 'left'
             }}>Categories</Typography>
             <div className='mt-30'>
-                <ControlledAccordion data={data} customBorder={true} showDeleteIcon={true} customPadding={true} />
+                <ControlledAccordion data={allCategories} customBorder={true} showDeleteIcon={true} customPadding={true} />
             </div>
             <Box className='d-flex mt-50'>
                 <Box>
@@ -84,7 +128,7 @@ const Categorise = (props) => {
                             placeholder='Select Geography'
                         >
                             {geographies?.map((item) => (
-                                <MenuItem value={item.value}>{item.label}</MenuItem>
+                                <MenuItem key={item} value={item.value}>{item.label}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>

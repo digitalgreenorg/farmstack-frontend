@@ -1,13 +1,17 @@
 import React from 'react'
 import { Box, Checkbox, Typography } from '@mui/material'
 
-const CheckBoxWithText = ({ text, checked, handleCheckBox, keyName }) => {
+const CheckBoxWithText = ({ text, checked, handleCheckBox, keyName, categoryKeyName, refData }) => {
     const handleClick = () => {
         handleCheckBox()
     }
 
     const handleKey = (keyName) => {
-        handleCheckBox(keyName)
+        if (keyName && categoryKeyName) {
+            handleCheckBox(categoryKeyName, keyName, refData)
+        } else {
+            handleCheckBox(keyName)
+        }
     }
 
     return (
