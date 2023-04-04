@@ -85,6 +85,7 @@ const DataSetsView = (props) => {
                 false,
                 userType == "guest" ? false : true
             ).then((response) => {
+                setDataSetName(response.data.name)
                 setGeography(response.data.geography)
                 setIsUpdating(response.data.constantly_update)
                 setFromDate(response.data.data_capture_start ? response.data.data_capture_start.split('T')[0] : 'NA')
@@ -198,25 +199,7 @@ const DataSetsView = (props) => {
                     </Box>
                     <Box className='ml-134' >
                         <Box className='text-left'>
-                            <Button
-                                sx={{
-                                    fontFamily: 'Public Sans !important',
-                                    fontWeight: 700,
-                                    fontSize: '15px',
-                                    lineHeight: '26px',
-                                    width: "153px",
-                                    height: "48px",
-                                    background: 'rgba(0, 184, 217, 0.16)',
-                                    borderRadius: "6px",
-                                    textTransform: 'none',
-                                    color: '#006C9C',
-                                    '&:hover': {
-                                        background: 'rgba(0, 184, 217, 0.16)',
-                                        color: '#006C9C',
-                                    }
-                                }}
-                                variant='contained'
-                            >Public dataset</Button>
+                            <div className="type_dataset">Public dataset</div>
                         </Box>
                         <Typography className='view_datasets_light_text text-left mt-20'>Data Capture Interval</Typography>
                         <Typography className='view_datasets_bold_text text-left mt-3'>{fromDate + " - " + toDate}</Typography>

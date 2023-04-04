@@ -61,3 +61,20 @@
     box-shadow: -40px 40px 80px rgba(145, 158, 171, 0.16) !important;
     border-radius: 16px !important;
 }
+
+.type_dataset {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #006c9c;
+    font-family: 'Public Sans';
+    background: rgba(0, 184, 217, 0.16);
+    width: 124px;
+    height: 48px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 26px;
+    border-radius: 6px;
+}
