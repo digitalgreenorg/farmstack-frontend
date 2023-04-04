@@ -34,9 +34,6 @@ const AddDataSetParticipantNew = () => {
     const [validator, setValidator] = useState(false)
 
     // Basic Details
-    const [isDataSetNameExist, setIsDataSetNameExist] = useState(false);
-    const [isDataSetDescriptionExist, setIsDataSetDescriptionExist] = useState(false);
-
     const [errorDataSetName, seteErrorDataSetName] = useState("")
     const [errorDataSetDescription, setDescriptionErrorMessage] = useState("")
 
@@ -73,7 +70,7 @@ const AddDataSetParticipantNew = () => {
 
     const isDisabled = () => {
         if (value === 0) {
-            if (dataSetName && dataSetDescription && (isUpdating || (fromDate && toDate))) {
+            if (dataSetName && dataSetDescription && !errorDataSetName && !errorDataSetDescription && (isUpdating || (fromDate && toDate))) {
                 return false;
             } else {
                 return true;
@@ -108,8 +105,8 @@ const AddDataSetParticipantNew = () => {
                 true,
                 accessToken
             ).then((response) => {
-                setIsDataSetNameExist(false)
-                setIsDataSetDescriptionExist(false)
+                seteErrorDataSetName('')
+                setDescriptionErrorMessage('')
             }).catch((e) => {
                 let returnValues = GetErrorKey(e, bodyFormData.keys());
                 let errorKeys = returnValues[0];
