@@ -85,11 +85,10 @@ const DataSetsView = (props) => {
                 false,
                 userType == "guest" ? false : true
             ).then((response) => {
-                console.log(response.data)
                 setGeography(response.data.geography)
                 setIsUpdating(response.data.constantly_update)
-                setFromDate(response.data.data_capture_start?.split('T')[0])
-                setToDate(response.data.data_capture_end?.split('T')[0])
+                setFromDate(response.data.data_capture_start ? response.data.data_capture_start.split('T')[0] : 'NA')
+                setToDate(response.data.data_capture_end ? response.data.data_capture_end.split('T')[0] : 'NA')
                 setDataSetDescription(response.data.description)
                 setOrgDetails(response.data.organization)
                 let tempOrgAddress = response.data.organization?.address?.address + ", " +
