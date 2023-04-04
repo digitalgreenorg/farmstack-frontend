@@ -11,6 +11,12 @@ const cardSx = {
     }
 };
 const DataSetCardNew = ({ history, item }) => {
+    // console.log(item)
+    // console.log(Object.keys(item?.category).length > 1 ? "yes" : "no")
+    console.log(Object.keys(item?.category)[0])
+    console.log(Object.keys(item?.category).length - 1)
+    console.log(Object.keys(item?.category)[0] + " " + String(Object.keys(item?.category).length - 1))
+    // console.log(Object.keys(item?.category).length > 1 ? Object.keys(item?.category)[0] + " " + Object.keys(item?.category).length - 1 : Object.keys(item?.category)[0])
     return (
         <Card className='card' sx={cardSx} onClick={() => history.push(`/participant/new_datasets/view/${item.id}`)}>
             <div className='published'>
@@ -25,7 +31,9 @@ const DataSetCardNew = ({ history, item }) => {
             <div className='d_content_text'>
                 <div className='category'>
                     <img src={require('../../Assets/Img/category.svg')} alt="category" />
-                    <span className='category_text'>Wheat</span>
+                    <span className='category_text'>{(Object.keys(item?.category).length) ?
+                        (Object.keys(item?.category).length > 1 ? Object.keys(item?.category)[0] + " +" + String(Object.keys(item?.category).length - 1) : Object.keys(item?.category)[0])
+                        : 'NA'}</span>
                 </div>
                 <div className='location'>
                     <img src={require('../../Assets/Img/location.svg')} alt="location" />
