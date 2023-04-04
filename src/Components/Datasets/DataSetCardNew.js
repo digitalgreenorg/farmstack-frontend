@@ -32,7 +32,14 @@ const DataSetCardNew = ({ history, item }) => {
                 <div className='category'>
                     <img src={require('../../Assets/Img/category.svg')} alt="category" />
                     <span className='category_text'>{(Object.keys(item?.category).length) ?
-                        (Object.keys(item?.category).length > 1 ? Object.keys(item?.category)[0] + " +" + String(Object.keys(item?.category).length - 1) : Object.keys(item?.category)[0])
+                        (
+                            Object.keys(item?.category).length > 1 ?
+                                <>
+                                    {Object.keys(item?.category)[0]}
+                                    <span style={{ color: '#00AB55' }}> +{String(Object.keys(item?.category).length - 1)}</span>
+                                </>
+                                : Object.keys(item?.category)[0]
+                        )
                         : 'NA'}</span>
                 </div>
                 <div className='location'>

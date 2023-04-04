@@ -22,7 +22,14 @@ const DataSetsListView = ({ datasets, history }) => {
                         <Typography className='datasets_list_view_text w-100 text-left ml-90'>{item?.organization?.name}</Typography>
                         <Typography className='datasets_list_view_text w-100 text-left'>
                             {(Object.keys(item?.category).length) ?
-                                (Object.keys(item?.category).length > 1 ? Object.keys(item?.category)[0] + " +" + String(Object.keys(item?.category).length - 1) : Object.keys(item?.category)[0])
+                                (
+                                    Object.keys(item?.category).length > 1 ?
+                                        <>
+                                            {Object.keys(item?.category)[0]}
+                                            <span style={{ color: '#00AB55' }}> +{String(Object.keys(item?.category).length - 1)}</span>
+                                        </>
+                                        : Object.keys(item?.category)[0]
+                                )
                                 : 'NA'}
                         </Typography>
                         <Typography className='datasets_list_view_text w-100 text-left'>{item?.geography}</Typography>
