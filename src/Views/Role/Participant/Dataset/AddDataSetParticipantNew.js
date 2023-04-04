@@ -95,8 +95,8 @@ const AddDataSetParticipantNew = () => {
         bodyFormData.append("user_map", getUserMapId());
         bodyFormData.append("geography", geography);
         bodyFormData.append("constantly_update", isUpdating);
-        bodyFormData.append("data_capture_start", fromDate ? fromDate.toISOString() : "");
-        bodyFormData.append("data_capture_end", toDate ? toDate.toISOString() : "");
+        bodyFormData.append("data_capture_start", (!isUpdating && fromDate) ? fromDate.toISOString() : "");
+        bodyFormData.append("data_capture_end", (!isUpdating && toDate) ? toDate.toISOString() : "");
         bodyFormData.append("standardisation_template", JSON.stringify(standardisedFileLink));
         bodyFormData.append("standardisation_config", JSON.stringify(allStandardisedFile));
 
@@ -223,7 +223,7 @@ const AddDataSetParticipantNew = () => {
                         }}
                         variant='outlined' onClick={() => history.push('/participant/new_datasets')}>Cancel</Button>
                     <Button
-                        disabled={isDisabled}
+                        disabled={isDisabled()}
                         sx={{
                             fontFamily: 'Montserrat',
                             fontWeight: 700,
