@@ -1,39 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Button, Card, Divider, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import './DataSetsView.css'
 import ControlledAccordion from '../Components/Accordion/Accordion'
-import File from '../Components/Datasets/TabComponents/File'
 import FileTable from '../Components/Datasets/FileTable'
 import FileWithAction from '../Components/Datasets/FileWithAction'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import FooterNew from '../Components/Footer/FooterNew'
+import UrlConstant from '../Constants/UrlConstants'
+import HTTPService from '../Services/HTTPService'
 
 const DataSetsView = (props) => {
     const history = useHistory();
-    const [categories, setCategories] = useState([
-        {
-            panel: 1,
-            title: 'Rice',
-            details: [
-                "Brown Rice",
-                "White Rice",
-                "Samba Rice",
-                "Susi Rice",
-                "Jasmine Rice"
-            ]
-        },
-        {
-            panel: 2,
-            title: 'Wheat',
-            details: [
-                "Brown Wheat",
-                "White Wheat",
-                "Samba Wheat",
-                "Susi Wheat",
-                "Jasmine Wheat"
-            ]
-        }
-    ])
+    const { id } = useParams();
+    const [categories, setCategories] = useState([])
     const [files, setFiles] = useState([
         {
             panel: 1,
@@ -63,6 +42,143 @@ const DataSetsView = (props) => {
             details: []
         }
     ])
+
+    const [dataSetName, setDataSetName] = useState('');
+    const [dataSetDescription, setDataSetDescription] = useState('');
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('');
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    // Upload File
+    // const [files, setFiles] = useState([]);
+    const [sqlFiles, setSqlFiles] = useState([]);
+    const [postgresFiles, setPostgresFiles] = useState([]);
+    const [sqLiteFiles, setSqLiteFiles] = useState([]);
+    const [restApifiles, setRestApiFiles] = useState([]);
+
+    // Standardise
+    const [allStandardisedFile, setAllStandardisedFile] = useState({})
+    const [standardisedFileLink, setStandardisedFileLink] = useState({})
+
+    // Categories
+    // const [categorises, setCategorises] = useState({})
+    const [geography, setGeography] = useState()
+
+    // Organisation & User Details
+    const [orgDetails, setOrgDetails] = useState()
+    const [orgAddress, setOrgAddress] = useState()
+    const [userDetails, setUserDetails] = useState()
+
+    useEffect(() => {
+        (() => {
+            let userType = ""
+            let url = ""
+            if (userType == "guest") {
+                url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + '/';
+            } else {
+                url = UrlConstant.base_url + UrlConstant.datasetview + id + '/';
+            }
+            HTTPService(
+                "GET",
+                url,
+                "",
+                false,
+                userType == "guest" ? false : true
+            ).then((response) => {
+                console.log(response.data)
+                setGeography(response.data.geography)
+                setIsUpdating(response.data.constantly_update)
+                setFromDate(response.data.data_capture_start?.split('T')[0])
+                setToDate(response.data.data_capture_end?.split('T')[0])
+                setDataSetDescription(response.data.description)
+                setOrgDetails(response.data.organization)
+                let tempOrgAddress = response.data.organization?.address?.address + ", " +
+                    response.data.organization?.address?.country + ", " +
+                    response.data.organization?.address?.pincode;
+                setOrgAddress(tempOrgAddress)
+                setUserDetails(response.data.user)
+
+                // preparing files for accordion
+                let newArr = [...files]
+                let tempFiles = response.data.datasets?.filter((dataset) => dataset.source === 'file')
+                let tempSqlFiles = response.data.datasets?.filter((dataset) => dataset.source === 'mysql')
+                let tempPostgresFiles = response.data.datasets?.filter((dataset) => dataset.source === 'postgres')
+                let tempRestApiFiles = response.data.datasets?.filter((dataset) => dataset.source === 'restApi')
+                let prepareFilesContent = []
+                if (tempFiles && tempFiles?.length > 0) {
+                    tempFiles.forEach((tempFile, index) => {
+                        let columns = tempFile.content?.length > 0 ? Object.keys(tempFile.content[0]) : []
+                        prepareFilesContent.push(
+                            <Box>
+                                <FileWithAction index={index} name={tempFile.file.slice(tempFile.file.lastIndexOf('/') + 1)} />
+                                <FileTable fileData={tempFile} />
+                            </Box>
+                        )
+                    })
+                    newArr[0].details = prepareFilesContent;
+                } else if (tempSqlFiles && tempSqlFiles?.length > 0) {
+                    tempSqlFiles.forEach((tempFile, index) => {
+                        prepareFilesContent.push(
+                            <Box>
+                                <FileWithAction index={index} name={tempFile.file.slice(tempFile.file.lastIndexOf('/') + 1)} />
+                                <Box className='text-left mt-20 w-100 overflow_x_scroll'>
+                                    <FileTable fileData={tempFile} />
+                                </Box>
+                            </Box>
+                        )
+                    })
+                } else if (tempPostgresFiles && tempPostgresFiles?.length > 0) {
+                    tempPostgresFiles.forEach((tempFile, index) => {
+                        prepareFilesContent.push(
+                            <Box>
+                                <FileWithAction index={index} name={tempFile.file.slice(tempFile.file.lastIndexOf('/') + 1)} />
+                                <Box className='text-left mt-20 w-100 overflow_x_scroll'>
+                                    <FileTable fileData={tempFile} />
+                                </Box>
+                            </Box>
+                        )
+                    })
+                } else if (tempRestApiFiles && tempRestApiFiles?.length > 0) {
+                    tempRestApiFiles.forEach((tempFile, index) => {
+                        prepareFilesContent.push(
+                            <Box>
+                                <FileWithAction index={index} name={tempFile.file.slice(tempFile.file.lastIndexOf('/') + 1)} />
+                                <Box className='text-left mt-20 w-100 overflow_x_scroll'>
+                                    <FileTable fileData={tempFile} />
+                                </Box>
+                            </Box>
+                        )
+                    })
+                }
+                setFiles(newArr)
+
+                // preparing categories for accordion
+                let prepareArr = []
+                for (const [key, value] of Object.entries(response?.data?.category)) {
+                    let obj = {}
+                    obj[key] = value
+                    prepareArr.push(obj)
+                }
+                let tempCategories = []
+                prepareArr.forEach((item, index) => {
+                    let keys = Object.keys(item)
+                    let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
+                        return (res)
+                    })
+                    let obj = {
+                        panel: index + 1,
+                        title: keys[0],
+                        details: prepareCheckbox ? prepareCheckbox : []
+                    }
+                    tempCategories.push(obj)
+                })
+                setCategories(tempCategories)
+            }).catch((e) => {
+                console.log('error while loading dataset', e)
+            })
+        })()
+    }, [id])
+
     return (
         <Box>
             <Box sx={{ marginLeft: '144px', marginRight: '144px', marginBottom: '100px' }}>
@@ -77,9 +193,9 @@ const DataSetsView = (props) => {
                 <div className='bold_title mt-50'>{"Dataset details"}</div>
                 <Box className='d-flex mt-38'>
                     <Box sx={{ width: '638px' }}>
-                        <Typography className='view_agriculture_heading text-left'>{"Agriculture practice video dissemination data"}</Typography>
+                        <Typography className='view_agriculture_heading text-left'>{dataSetName}</Typography>
                         <Typography className='view_datasets_light_text text-left mt-20'>Description</Typography>
-                        <Typography className='view_datasets_bold_text text-left mt-3'>Chilli farmer producer group information is having details of the farmer members and their estimated yield information. Chilli farmer producer group information is having details of the farmer members and their estimated yield information.</Typography>
+                        <Typography className='view_datasets_bold_text text-left mt-3'>{dataSetDescription}</Typography>
                     </Box>
                     <Box className='ml-134' >
                         <Box className='text-left'>
@@ -104,11 +220,11 @@ const DataSetsView = (props) => {
                             >Public dataset</Button>
                         </Box>
                         <Typography className='view_datasets_light_text text-left mt-20'>Data Capture Interval</Typography>
-                        <Typography className='view_datasets_bold_text text-left mt-3'>{"02/03/2022 - Present"}</Typography>
+                        <Typography className='view_datasets_bold_text text-left mt-3'>{fromDate + " - " + toDate}</Typography>
                         <Typography className='view_datasets_light_text text-left mt-25'>Geography</Typography>
-                        <Typography className='view_datasets_bold_text text-left mt-3'>{"Village name, District, Addis, Ethiopia"}</Typography>
+                        <Typography className='view_datasets_bold_text text-left mt-3'>{geography}</Typography>
                         <Typography className='view_datasets_light_text text-left mt-25'>Constantly updating </Typography>
-                        <Typography className='view_datasets_bold_text text-left mt-3'>{"Yes"}</Typography>
+                        <Typography className='view_datasets_bold_text text-left mt-3'>{isUpdating ? 'Yes' : 'No'}</Typography>
                     </Box>
                 </Box>
                 <div className='bold_title mt-50'>{"Dataset category"}</div>
@@ -126,20 +242,20 @@ const DataSetsView = (props) => {
                 <Box>
                     <Card className='organisation_icon_card'>
                         <Box className='d-flex h-100 align-items-center'>
-                            <img src={require('../Assets/Img/footer_logo.svg')} alt="footerLogo" />
+                            {orgDetails?.logo ? <img src={orgDetails?.logo} alt="footerLogo" />
+                                : <img src={require('../Assets/Img/footer_logo.svg')} alt="footerLogo" />
+                            }
                         </Box>
                     </Card>
                     <div className='d-flex mt-30'>
                         <div className='text-left w-313'>
                             <Typography className='view_datasets_light_text'>Organisation address</Typography>
-                            <Typography className='view_datasets_bold_text'>Graduates Association Off,
-                                Meskal Flower Rd Across Commercial,
-                                Addis Ababa, Ethiopia.</Typography>
+                            <Typography className='view_datasets_bold_text'>{orgAddress}</Typography>
                         </div>
                         <div className='text-left ml-79'>
                             <Typography className='view_datasets_light_text'>Root user details</Typography>
-                            <Typography className='view_datasets_bold_text'>Mohammed Husen</Typography>
-                            <Typography className='view_datasets_bold_text'>mohammed.husen@ata.govt.et</Typography>
+                            <Typography className='view_datasets_bold_text'>{userDetails?.first_name + " " + userDetails?.last_name}</Typography>
+                            <Typography className='view_datasets_bold_text'>{userDetails?.email}</Typography>
                         </div>
                         <div className='text-left ml-39'>
                             <Typography className='view_datasets_light_text'>Request details</Typography>

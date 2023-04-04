@@ -1,33 +1,48 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import './FileTable.css'
 
-const FileTable = () => {
+const FileTable = ({ fileData }) => {
     return (
-        <Box className='b-1 w-100vw'>
-            <Box className='d-flex justify-content-between file_table_column_bg'>
-                <div className='file_table_column p-10 w-100'>ID</div>
-                <div className='file_table_column b_left p-10 w-100'>State</div>
-                <div className='file_table_column b_left p-10 w-100'>District</div>
-                <div className='file_table_column b_left p-10 w-100'>Taluk</div>
-                <div className='file_table_column b_left p-10 w-100'>Village</div>
-                <div className='file_table_column  b_left p-10 w-100'>Development group</div>
-                <div className='file_table_column b_left p-10 w-100'>Plot Information</div>
-                <div className='file_table_column b_left p-10 w-100'>Plot Information</div>
-                <div className='file_table_column b_left p-10 w-100'>Plot Information</div>
-            </Box>
-            <Box className='d-flex justify-content-between file_table_row_bg'>
-                <div className='file_table_row p-10  w-100'>{"ID"}</div>
-                <div className='file_table_row b_left p-10 w-100'>{"State"}</div>
-                <div className='file_table_row b_left p-10 w-100'>{"District"}</div>
-                <div className='file_table_row b_left p-10 w-100'>{"Taluk"}</div>
-                <div className='file_table_row b_left p-10 w-100'>{"Village"}</div>
-                <div className='file_table_row  b_left p-10 w-100'>{"Development group"}</div>
-                <div className='file_table_row b_left p-10 w-100'>{"Plot Information"}</div>
-                <div className='file_table_row b_left p-10 w-100'>{"Plot Information"}</div>
-                <div className='file_table_row b_left p-10 w-100'>{"Plot Information"}</div>
-            </Box>
-        </Box>
+        <div
+            style={{ overflow: "auto", maxHeight: '300px' }}
+            className='mt-20 b-1'
+        >
+            <Table
+                sx={{
+                    "& .MuiTableCell-root": {
+                        borderLeft: "1px solid rgba(224, 224, 224, 1)"
+                    }
+                }}
+            >
+                <TableHead sx={{ background: "#F8F8F8 !important" }}>
+                    {fileData?.content?.map((itm2, i) => {
+                        if (i === 0) {
+                            return (
+                                <TableRow>
+                                    {Object.keys(itm2).map((itm3, i) => {
+                                        return <TableCell className='file_table_column'> {itm3} </TableCell>;
+                                    })}
+                                </TableRow>
+                            );
+                        }
+                    })}
+                </TableHead>
+                <TableBody>
+                    {fileData?.content?.map((itm2) => {
+                        return (
+                            <TableRow>
+                                {Object.values(itm2).map((itm3, i) => {
+                                    console.log(itm3, "Values in view");
+                                    return <TableCell className='file_table_row'> {`${itm3}`} </TableCell>;
+                                })}
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </div>
+
     )
 }
 

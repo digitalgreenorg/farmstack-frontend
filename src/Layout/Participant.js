@@ -54,7 +54,7 @@ function Participant(props) {
               />
               <Route
                 exact
-                path="/participant/new_datasets/view"
+                path="/participant/new_datasets/view/:id"
                 component={DataSetsView}
               />
               <Route

@@ -17,7 +17,7 @@ const DataSetsListView = ({ datasets, history }) => {
             <Divider />
             {datasets?.map((item) => (
                 <>
-                    <Box className='d-flex justify-content-between mb-20 mt-20 cursor-pointer' onClick={() => history.push('/participant/new_datasets/view')}>
+                    <Box className='d-flex justify-content-between mb-20 mt-20 cursor-pointer' onClick={() => history.push(`/participant/new_datasets/view/${item.id}`)}>
                         <Typography className='datasets_list_view_text datasets_list_view_name green_text w-100 text-left ml-20'>{item?.name}</Typography>
                         <Typography className='datasets_list_view_text w-100 text-left ml-90'>{item?.organization?.name}</Typography>
                         <Typography className='datasets_list_view_text w-100 text-left'>{"Wheat"}</Typography>

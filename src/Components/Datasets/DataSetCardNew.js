@@ -12,7 +12,7 @@ const cardSx = {
 };
 const DataSetCardNew = ({ history, item }) => {
     return (
-        <Card className='card' sx={cardSx} onClick={() => history.push('/participant/new_datasets/view')}>
+        <Card className='card' sx={cardSx} onClick={() => history.push(`/participant/new_datasets/view/${item.id}`)}>
             <div className='published'>
                 <img src={require('../../Assets/Img/globe.svg')} alt="globe" />
                 <span className='published_text'>Published on: {dateTimeFormat(item?.created_at, false)}</span>
