@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Button, Divider, Tab, Tabs } from '@mui/material';
 import { useHistory } from "react-router-dom";
-import { getTokenLocal, getUserMapId, isLoggedInUserParticipant } from "../../../../Utils/Common";
+import { GetErrorKey, getTokenLocal, getUserMapId, isLoggedInUserParticipant } from "../../../../Utils/Common";
 import './AddDataSetParticipantNew.css';
 import FooterNew from '../../../../Components/Footer/FooterNew';
 import BasicDetails from '../../../../Components/Datasets/TabComponents/BasicDetails';
@@ -34,6 +34,12 @@ const AddDataSetParticipantNew = () => {
     const [validator, setValidator] = useState(false)
 
     // Basic Details
+    const [isDataSetNameExist, setIsDataSetNameExist] = useState(false);
+    const [isDataSetDescriptionExist, setIsDataSetDescriptionExist] = useState(false);
+
+    const [errorDataSetName, seteErrorDataSetName] = useState("")
+    const [errorDataSetDescription, setDescriptionErrorMessage] = useState("")
+
     const [dataSetName, setDataSetName] = useState('');
     const [dataSetDescription, setDataSetDescription] = useState('');
     const [fromDate, setFromDate] = useState('');
@@ -87,6 +93,43 @@ const AddDataSetParticipantNew = () => {
         }
     }
 
+    const checkDataSet = () => {
+        let bodyFormData = new FormData();
+        bodyFormData.append("dataset_name", dataSetName);
+        bodyFormData.append("description", dataSetDescription);
+        let accessToken = getTokenLocal() ?? false;
+        let url = UrlConstant.base_url + UrlConstant.check_dataset_name_and_description_in_database
+        if (dataSetName && dataSetDescription) {
+            HTTPService(
+                "POST",
+                url,
+                bodyFormData,
+                false,
+                true,
+                accessToken
+            ).then((response) => {
+                setIsDataSetNameExist(false)
+                setIsDataSetDescriptionExist(false)
+            }).catch((e) => {
+                let returnValues = GetErrorKey(e, bodyFormData.keys());
+                let errorKeys = returnValues[0];
+                let errorMessages = returnValues[1];
+
+                if (errorKeys.length > 0) {
+                    for (var i = 0; i < errorKeys.length; i++) {
+                        switch (errorKeys[i]) {
+                            case "dataset_name":
+                                seteErrorDataSetName(errorMessages[i])
+                                break;
+                            case "description":
+                                setDescriptionErrorMessage(errorMessages[i]);
+                        }
+                    }
+                }
+                console.log(e);
+            });
+        }
+    }
     const handleSubmit = () => {
         let bodyFormData = new FormData();
         bodyFormData.append("name", dataSetName);
@@ -163,6 +206,9 @@ const AddDataSetParticipantNew = () => {
                         isUpdating={isUpdating}
                         setIsUpdating={setIsUpdating}
                         validator={validator}
+                        checkDataSet={checkDataSet}
+                        errorDataSetName={errorDataSetName}
+                        errorDataSetDescription={errorDataSetDescription}
                     />
                 </TabPanel>
                 <TabPanel value={value} index={1}>

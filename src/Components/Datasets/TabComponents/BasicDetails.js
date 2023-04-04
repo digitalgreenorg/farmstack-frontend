@@ -4,7 +4,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CheckBoxWithText from './CheckBoxWithText';
 
-const BasicDetails = ({ dataSetName, setDataSetName, dataSetDescription, setDataSetDescription, fromDate, setFromDate, toDate, setToDate, isUpdating, setIsUpdating, validator }) => {
+const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDescription, setDataSetDescription, errorDataSetDescription, fromDate, setFromDate, toDate, setToDate, isUpdating, setIsUpdating, validator, checkDataSet }) => {
 
     const limitChar = 512;
 
@@ -38,6 +38,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, dataSetDescription, setData
             }}>Add new dataset</Typography>
             <TextField
                 fullWidth
+                error={errorDataSetName ? true : false}
                 helperText={
                     <Typography
                         sx={{
@@ -49,7 +50,8 @@ const BasicDetails = ({ dataSetName, setDataSetName, dataSetDescription, setData
                             textAlign: 'left'
                         }}
                     >
-                        {(validator && (dataSetName === null || dataSetName == undefined || dataSetName === '')) ? 'Please enter the dataset name is a mandatory field.' : ''}
+                        {errorDataSetName ? errorDataSetName : ""}
+                        {/* {(validator && (dataSetName === null || dataSetName == undefined || dataSetName === '')) ? 'Please enter the dataset name is a mandatory field.' : ''} */}
                     </Typography>}
                 sx={{
                     marginTop: '30px',
@@ -70,12 +72,28 @@ const BasicDetails = ({ dataSetName, setDataSetName, dataSetDescription, setData
                 label='Dataset name'
                 value={dataSetName}
                 onChange={(e) => setDataSetName(e.target.value)}
+                onBlur={() => checkDataSet()}
             />
             <TextField
                 fullWidth
                 multiline
                 minRows={4}
                 maxRows={4}
+                error={errorDataSetDescription ? true : false}
+                helperText={
+                    <Typography
+                        sx={{
+                            fontFamily: "Montserrat !important",
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#FF0000",
+                            textAlign: 'left'
+                        }}
+                    >
+                        {errorDataSetDescription ? errorDataSetDescription : ""}
+                    </Typography>
+                }
                 sx={{
                     marginTop: '12px',
                     borderRadius: '8px',
@@ -95,6 +113,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, dataSetDescription, setData
                 label='Dataset description not more that 512 character '
                 value={dataSetDescription}
                 onChange={(e) => handleDescription(e)}
+                onBlur={() => checkDataSet()}
             />
             <Typography sx={{
                 fontFamily: "Montserrat !important",
