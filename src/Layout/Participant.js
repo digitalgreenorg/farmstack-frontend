@@ -30,13 +30,15 @@ import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+import NavbarNew from "../Components/Navbar/Navbar_New";
 
 function Participant(props) {
   return (
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
-          <ParticipantNavbar />
+          {/* <ParticipantNavbar /> */}
+          <NavbarNew loginType={'participant'} />
           <div className="minHeight67vhParticipantPage">
             <Switch>
               <Route

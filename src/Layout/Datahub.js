@@ -42,6 +42,7 @@ import ViewCoSteward from "../Components/Participants/ViewCoSteword";
 import EditCoSteward from "../Components/Participants/EditCoSteward";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+import NavbarNew from "../Components/Navbar/Navbar_New";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -51,7 +52,8 @@ function Datahub(props) {
       {(getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserCoSteward())) ? (
         <div className="center_keeping_conatiner">
 
-          <Navbar />
+          {/* <Navbar /> */}
+          <NavbarNew loginType={'admin'} />
           <div className="minHeight67vhDatahubPage">
             <Switch>
               <Route
