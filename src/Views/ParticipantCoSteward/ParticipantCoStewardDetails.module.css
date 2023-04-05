@@ -1,0 +1,32 @@
+.highlitedImg {
+  background: #ffffff;
+  border: 1px solid #f2f3f5;
+  box-shadow: -40px 40px 80px rgba(145, 158, 171, 0.16);
+  border-radius: 16px;
+  padding: 90px 45px;
+  max-width: 25%;
+  margin: 30px 0;
+}
+.highlitedImg > img {
+  width: 179px;
+  height: 90px;
+}
+.container {
+  text-align: left;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.outlined_button {
+  padding: 5px !important;
+  margin: auto 10px !important;
+}
+.lightText {
+}
+.highlitedText {
+}
+.textRow {
+  margin: 15px 0 30px 0;
+}

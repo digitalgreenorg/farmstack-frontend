@@ -16,7 +16,7 @@ import LocalStyle from "./ParticipantForm.module.css";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 const ParticipantFormNew = (props) => {
-  const { title } = props;
+  const { title, isEditModeOn } = props;
 
   const [organisationName, setOrganisationName] = useState("");
   const [organisationEmail, setOrganisationEmail] = useState("");
@@ -47,7 +47,9 @@ const ParticipantFormNew = (props) => {
               id={title + "-form-title"}
               className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
             >
-              Add Participant organisation details
+              {isEditModeOn
+                ? "Edit Participant organisation details"
+                : "Add Participant organisation details"}
             </Typography>
           </Col>
         </Row>
@@ -129,7 +131,9 @@ const ParticipantFormNew = (props) => {
               id={title + "-form-title"}
               className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
             >
-              Add Participant root user details
+              {isEditModeOn
+                ? "Edit Participant root user details"
+                : "Add Participant root user details"}
             </Typography>
           </Col>
         </Row>
@@ -188,24 +192,6 @@ const ParticipantFormNew = (props) => {
               </InputLabel>
 
               <Select
-                // IconComponent={
-                //   <img
-                //     src={
-                //       <svg
-                //         width="20"
-                //         height="20"
-                //         viewBox="0 0 20 20"
-                //         fill="none"
-                //         xmlns="http://www.w3.org/2000/svg"
-                //       >
-                //         <path
-                //           d="M10.0002 12.9184C9.80552 12.9188 9.61682 12.8509 9.4669 12.7267L4.4669 8.56005C4.11251 8.2655 4.06401 7.73943 4.35856 7.38505C4.65311 7.03066 5.17918 6.98216 5.53356 7.27671L10.0002 11.01L14.4669 7.41005C14.6391 7.27024 14.8598 7.20482 15.0804 7.22828C15.3009 7.25175 15.503 7.36215 15.6419 7.53505C15.7962 7.70826 15.8713 7.93794 15.8491 8.16885C15.827 8.39975 15.7096 8.61097 15.5252 8.75171L10.5252 12.7767C10.371 12.8813 10.1861 12.9312 10.0002 12.9184Z"
-                //           fill="#637381"
-                //         />
-                //       </svg>
-                //     }
-                //   />
-                // }
                 IconComponent={(_props) => (
                   <div style={{ position: "relative" }}>
                     <img
@@ -243,8 +229,6 @@ const ParticipantFormNew = (props) => {
           </Col>
         </Row>
       </div>
-      {/* <br /> */}
-      {/* <div className={LocalStyle.organisationFormContainer}> */}
       <Row className={LocalStyle.buttonContainer}>
         <Button
           id="add-participant-submit-button"

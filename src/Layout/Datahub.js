@@ -48,6 +48,7 @@ import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/Datas
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
 import AddParticipantNew from "../Views/Participants/AddParticipantNew";
+import ParticipantAndCoStewardDetails from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetails";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -74,6 +75,11 @@ function Datahub(props) {
                 exact
                 path="/datahub/costeward/view/:id"
                 component={ViewCoSteward}
+              />
+              <Route
+                exact
+                path="/datahub/costeward/viewDetail/:id/ui"
+                component={ParticipantAndCoStewardDetails}
               />
               <Route
                 exact
