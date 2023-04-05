@@ -46,9 +46,6 @@ import ViewCoSteward from "../Components/Participants/ViewCoSteword";
 import EditCoSteward from "../Components/Participants/EditCoSteward";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
-import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
-import AddParticipantNew from "../Views/Participants/AddParticipantNew";
-import ParticipantAndCoStewardDetails from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetails";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -78,11 +75,6 @@ function Datahub(props) {
               />
               <Route
                 exact
-                path="/datahub/costeward/viewDetail/:id/ui"
-                component={ParticipantAndCoStewardDetails}
-              />
-              <Route
-                exact
                 path="/datahub/costeward/edit/:id"
                 component={EditCoSteward}
               />
@@ -90,11 +82,6 @@ function Datahub(props) {
                 exact
                 path="/datahub/participants/add"
                 component={AddParticipants}
-              />
-              <Route
-                exact
-                path="/datahub/participants/add/ui"
-                component={AddParticipantNew}
               />
               <Route exact path="/datahub/dashboard" component={Dashboard} />
 
@@ -192,16 +179,6 @@ function Datahub(props) {
                 path="/datahub/participants"
                 component={ParticipantCoStewardManagement}
               />
-              <Route
-                exact
-                path="/datahub/participants/ui"
-                component={ParticipantsAndCoStewardNew}
-              />
-              {/* <Route
-                exact
-                path="/datahub/participants/add/ui"
-                component={AddParticipantNew}
-              /> */}
               <Route
                 exact
                 path="/datahub/participants/addcosteward"
