@@ -34,6 +34,9 @@ import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
 import FooterNew from "../Components/Footer/Footer_New";
 import { Divider } from "@mui/material";
+import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
+import DataSets from "../Components/Datasets_New/DataSets";
+import DataSetsView from "../Components/Datasets_New/DataSetsView";
 
 function Participant(props) {
   return (
@@ -49,6 +52,23 @@ function Participant(props) {
                 path="/participant/datasets"
                 component={DatasetParticipant}
               />
+              {/* temporary routes added - start */}
+              <Route
+                exact
+                path="/participant/new_datasets"
+                component={DataSets}
+              />
+              <Route
+                exact
+                path="/participant/new_datasets/view/:id"
+                component={DataSetsView}
+              />
+              <Route
+                exact
+                path="/participant/new_datasets/add"
+                component={AddDataSetParticipantNew}
+              />
+              {/* end */}
               {/* <Route
                 exact
                 path="/participant/connectors"
