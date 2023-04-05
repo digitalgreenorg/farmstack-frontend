@@ -4,7 +4,8 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import UrlConstant from '../../Constants/UrlConstants';
 import HTTPService from '../../Services/HTTPService';
 import { flushLocalstorage, getUserLocal, getTokenLocal, isLoggedInUserAdmin, isLoggedInUserParticipant } from '../../Utils/Common';
-import './Navbar_New.module.css'
+import style from './Navbar_New.module.css'
+import globalStyle from '../../Assets/CSS/global.module.css';
 
 const navActiveStyle = {
     "fontFamily": 'Montserrat',
@@ -80,12 +81,12 @@ const NavbarNew = ({ loginType }) => {
     }, [profile]);
 
     return (
-        <Box className='navbar_container primary_color'>
+        <Box className={`d-flex justify-content-between ${style.navbarContainer} ${globalStyle.white_background}`}>
             <Box className='d-flex justify-content-between w-100' sx={{ marginLeft: '144px', marginRight: '144px' }}>
                 <Box className='d-flex align-items-center'>
                     <img src={require('../../Assets/Img/footer_logo.svg')} alt="footerLogo" />
                 </Box>
-                <Box className='navbar_sub_container'>
+                <Box className='d-flex align-items-center'>
                     {!getTokenLocal() ?
                         <NavLink
                             activeStyle={navActiveStyle}
@@ -93,7 +94,7 @@ const NavbarNew = ({ loginType }) => {
                             to='/home'
                             onClick={() => handleSelect('home')}
                         >
-                            {isNavLinkActive('/home') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Home
+                            {isNavLinkActive('/home') ? <img className={style.dotStyle} src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Home
                         </NavLink>
                         : <></>
                     }
@@ -104,7 +105,7 @@ const NavbarNew = ({ loginType }) => {
                             to='/datahub/dashboard'
                             onClick={() => handleSelect('dashboard')}
                         >
-                            {isNavLinkActive('/datahub/dashboard') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Dashboard
+                            {isNavLinkActive('/datahub/dashboard') ? <img className={style.dotStyle} src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Dashboard
                         </NavLink>
                         : <></>
 
@@ -113,12 +114,12 @@ const NavbarNew = ({ loginType }) => {
                         <NavLink
                             activeStyle={navActiveStyle}
                             style={navInActiveStyle}
-                            to={loginType === 'admin' ? '/datahub/datasets' : (loginType === 'participant' ? '/participant/new_datasets' : '')}
+                            to={loginType === 'admin' ? '/datahub/datasets' : (loginType === 'participant' ? '/participant/datasets' : '')}
                             onClick={() => handleSelect('datasets')}
                         >
-                            {isNavLinkActive(loginType === 'admin' ? '/datahub/datasets' : (loginType === 'participant' ? '/participant/new_datasets' : ''))
+                            {isNavLinkActive(loginType === 'admin' ? '/datahub/datasets' : (loginType === 'participant' ? '/participant/datasets' : ''))
                                 ?
-                                <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Datasets
+                                <img className={style.dotStyle} src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Datasets
                         </NavLink>
                         : <></>
                     }
@@ -129,7 +130,7 @@ const NavbarNew = ({ loginType }) => {
                             to='/datahub/participants'
                             onClick={() => handleSelect('participants')}
                         >
-                            {isNavLinkActive('/datahub/participants') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Participants
+                            {isNavLinkActive('/datahub/participants') ? <img className={style.dotStyle} src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Participants
                         </NavLink>
                         :
                         <></>
@@ -143,7 +144,7 @@ const NavbarNew = ({ loginType }) => {
                         >
                             {isNavLinkActive(loginType === 'admin' ? '/datahub/connectors' : (loginType === 'participant' ? '/participant/connectors' : ''))
                                 ?
-                                <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Connectors
+                                <img className={style.dotStyle} src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Connectors
                         </NavLink>
                         : <></>
                     }
@@ -154,7 +155,7 @@ const NavbarNew = ({ loginType }) => {
                             to='/datahub/support'
                             onClick={() => handleSelect('support')}
                         >
-                            {isNavLinkActive('/datahub/support') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Support
+                            {isNavLinkActive('/datahub/support') ? <img className={style.dotStyle} src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Support
                         </NavLink>
                         : <></>
                     }
@@ -167,7 +168,7 @@ const NavbarNew = ({ loginType }) => {
                         >
                             {isNavLinkActive(loginType === 'admin' ? '/datahub/settings' : (loginType === 'participant' ? '/participant/settings' : ''))
                                 ?
-                                <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Settings
+                                <img className={style.dotStyle} src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Settings
                         </NavLink>
                         : <></>
                     }
@@ -179,7 +180,7 @@ const NavbarNew = ({ loginType }) => {
                             style={navInActiveStyle}
                             onClick={() => handleSelect('login')}
                         >
-                            {isNavLinkActive('/login') ? <img className='dot_style' src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Login
+                            {isNavLinkActive('/login') ? <img className={style.dotStyle} src={require('../../Assets/Img/green_dot.svg')} alt="dot" /> : <></>}Login
                         </NavLink>
                     }
                     <Box>

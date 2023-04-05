@@ -8,9 +8,14 @@
   background-color: #00ab55;
 }
 
+.white_background {
+  background: #ffffff;
+}
+
 .light_text {
   color: #919eab;
 }
+
 .highlighted_text {
   color: #212b36;
 }
