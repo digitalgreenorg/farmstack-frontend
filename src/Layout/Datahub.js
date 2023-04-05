@@ -44,6 +44,8 @@ import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/Datas
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
+import { Divider } from "@mui/material";
+import FooterNew from "../Components/Footer/Footer_New";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -203,7 +205,9 @@ function Datahub(props) {
               </Route>
             </Switch>
           </div>
-          <Footer />
+          {/* <Footer /> */}
+          <Divider />
+          <FooterNew />
         </div>
       ) : (
         props.history.push("/login")

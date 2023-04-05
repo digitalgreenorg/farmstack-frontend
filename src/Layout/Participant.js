@@ -33,6 +33,7 @@ import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
 import FooterNew from "../Components/Footer/Footer_New";
+import { Divider } from "@mui/material";
 
 function Participant(props) {
   return (
@@ -156,6 +157,7 @@ function Participant(props) {
             </Switch>
           </div>
           {/* <Footer /> */}
+          <Divider />
           <FooterNew />
         </div>
       ) : (
