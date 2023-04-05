@@ -1,0 +1,23 @@
+.title {
+  text-align: left;
+  padding-left: 15px;
+}
+.textField {
+  margin: 15px !important;
+}
+.buttonContainer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.organisationFormContainer {
+  margin: 50px auto;
+}
+.cancelButton,
+.primaryButton {
+  box-shadow: none;
+}
+.icon {
+  pointer-events: none;
+  position: absolute;
+  right: 10px;
+}

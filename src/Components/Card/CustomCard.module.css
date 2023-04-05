@@ -1,0 +1,55 @@
+.card:hover {
+  box-shadow: -40px 40px 80px rgba(145, 158, 171, 0.16);
+  cursor: pointer;
+  border: 1px solid #00ab55 !important;
+}
+.card {
+  max-width: 100% !important;
+  max-width: 368;
+  height: 314;
+  border: 1px solid #f2f3f5 !important;
+  border-radius: 16px !important;
+  margin: 12px;
+}
+.img_container {
+  margin: 40px 53px 30px 40px;
+}
+.content_title {
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #00ab55;
+  width: 287px;
+  text-align: start;
+  margin: 0px 41px 30px 40px !important;
+}
+
+.content_text {
+  margin-left: 40px;
+  margin-bottom: 40px;
+}
+
+.content_text1 {
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: start;
+  color: #000000;
+  text-align: center;
+}
+
+.content_text2 {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: start;
+  color: #000000;
+  margin-top: 2px;
+  text-align: center;
+}
+.displayFlex {
+  display: flex;
+}

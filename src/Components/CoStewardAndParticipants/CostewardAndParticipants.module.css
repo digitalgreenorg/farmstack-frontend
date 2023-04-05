@@ -1,0 +1,61 @@
+.listAndGridViewButton {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.listAndGridViewButton > div {
+  /* display: inline-block; */
+  margin: 0 10px;
+}
+.titleContainer {
+  margin: 50px 0;
+}
+.title {
+  display: flex;
+  flex-direction: row;
+}
+.loadMoreButton {
+  width: 100%;
+  box-shadow: none;
+  margin-top: 50px;
+}
+.buttonContainer {
+  align-items: center;
+}
+.viewType {
+  display: flex;
+  align-items: center;
+}
+.activeView {
+  color: #00ab55;
+  cursor: pointer;
+}
+.inActiveView {
+  color: #3d4a52;
+  cursor: pointer !important;
+}
+.content_title {
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #00ab55;
+  width: 287px;
+  text-align: start;
+  /* margin: 0px 0 30px 0; */
+  padding-left: 25px;
+}
+.listHeader1 {
+  display: flex;
+  justify-content: left;
+  padding-left: 25px;
+}
+.cardContainer {
+  /* overflow-x: hidden; */
+  max-height: 700px;
+  overflow-y: scroll;
+}
+.cardContainerList {
+  overflow-x: hidden;
+  max-height: 600px;
+  overflow-y: scroll;
+}

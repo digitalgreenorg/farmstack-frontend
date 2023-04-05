@@ -8,7 +8,7 @@ import {
   withRouter,
 } from "react-router-dom";
 import AddCoSteward from "../Components/CoSteward/AddCoSteward";
-import ParticipantCoStewardManagement from "../Views/ParticipantCoSteward/ParticipantCoStewardManagement"
+import ParticipantCoStewardManagement from "../Views/ParticipantCoSteward/ParticipantCoStewardManagement";
 import Participants from "../Views/Participants/Participants";
 import AddParticipants from "../Views/Participants/AddParticipants";
 import EditParticipants from "../Views/Participants/EditParticipants";
@@ -19,10 +19,14 @@ import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
 import Settings from "../Views/Settings/Settings/Settings";
 import Support from "../Views/Support/Support";
 // import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
-import DatasetAdmin from '../Views/Dataset/DatasetAdmin/DatasetAdmin'
+import DatasetAdmin from "../Views/Dataset/DatasetAdmin/DatasetAdmin";
 import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
-import { getTokenLocal, isLoggedInUserAdmin, isLoggedInUserCoSteward } from "../Utils/Common";
+import {
+  getTokenLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+} from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
 import Footer from "../Components/Footer/Footer";
 import Dashboard from "../Views/Dashboard/Dashboard";
@@ -42,15 +46,17 @@ import ViewCoSteward from "../Components/Participants/ViewCoSteword";
 import EditCoSteward from "../Components/Participants/EditCoSteward";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
+import AddParticipantNew from "../Views/Participants/AddParticipantNew";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
   // }, []);
   return (
     <>
-      {(getTokenLocal() && (isLoggedInUserAdmin() || isLoggedInUserCoSteward())) ? (
+      {getTokenLocal() &&
+      (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
         <div className="center_keeping_conatiner">
-
           <Navbar />
           <div className="minHeight67vhDatahubPage">
             <Switch>
@@ -81,9 +87,10 @@ function Datahub(props) {
               />
               <Route
                 exact
-                path="/datahub/dashboard"
-                component={Dashboard}
+                path="/datahub/participants/add/ui"
+                component={AddParticipantNew}
               />
+              <Route exact path="/datahub/dashboard" component={Dashboard} />
 
               <Route
                 exact
@@ -96,7 +103,11 @@ function Datahub(props) {
                 component={Participants}
               /> */}
               {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
-              <Route exact path="/datahub/datasets/add" component={AddDataset} />
+              <Route
+                exact
+                path="/datahub/datasets/add"
+                component={AddDataset}
+              />
               <Route
                 exact
                 path="/datahub/datasets/edit/:id"
@@ -177,19 +188,23 @@ function Datahub(props) {
               />
               <Route
                 exact
+                path="/datahub/participants/ui"
+                component={ParticipantsAndCoStewardNew}
+              />
+              {/* <Route
+                exact
+                path="/datahub/participants/add/ui"
+                component={AddParticipantNew}
+              /> */}
+              <Route
+                exact
                 path="/datahub/participants/addcosteward"
                 component={AddCoSteward}
               />
-              <Route
-                exact
-                path="/datahub/connectors"
-              >
+              <Route exact path="/datahub/connectors">
                 <DatasetIntegration />
               </Route>
-              <Route
-                exact
-                path="/datahub/connectors/list"
-              >
+              <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
               </Route>
             </Switch>
