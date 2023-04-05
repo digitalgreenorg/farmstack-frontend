@@ -122,7 +122,7 @@ export const refreshToken = async () => {
   } catch(e) {
     console.log(e);
     if(e?.response?.status === 401) {
-    window.location.href = "/login"
+    return "/login"
     } else {
       return GetErrorHandlingRoute(e)
     }
