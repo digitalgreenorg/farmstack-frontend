@@ -1,0 +1,100 @@
+/* Add all the new ui css classes here and to use it just import the global module file and use it as variable */
+
+.primary_color {
+  color: #00ab55;
+}
+
+.primary_background {
+  background-color: #00ab55;
+}
+
+.light_text {
+  color: #919eab;
+}
+.highlighted_text {
+  color: #212b36;
+}
+
+.bold300 {
+  font-weight: 300;
+}
+
+.bold400 {
+  font-weight: 400;
+}
+
+.bold500 {
+  font-weight: 500;
+}
+
+.bold600 {
+  font-weight: 600;
+}
+
+.bold700 {
+  font-weight: 700;
+}
+
+.size12 {
+  font-size: 12px;
+}
+
+.size14 {
+  font-size: 14px;
+}
+
+.size16 {
+  font-size: 16px;
+}
+
+.size18 {
+  font-size: 18px;
+}
+
+.size20 {
+  font-size: 20px;
+}
+
+.size22 {
+  font-size: 22px;
+}
+
+.size24 {
+  font-size: 24px;
+}
+
+.size26 {
+  font-size: 26px;
+}
+
+.size28 {
+  font-size: 28px;
+}
+
+.size30 {
+  font-size: 30px;
+}
+
+.size32 {
+  font-size: 32px;
+}
+
+.size34 {
+  font-size: 34px;
+}
+
+.size36 {
+  font-size: 36px;
+}
+
+.size38 {
+  font-size: 38px;
+}
+
+.size40 {
+  font-size: 40px;
+}
+
+.blue {
+  color: #3366ff;
+}

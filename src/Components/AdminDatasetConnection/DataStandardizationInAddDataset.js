@@ -80,8 +80,12 @@ const DataStandardizationInAddDataset = (props) => {
     let tmpColumn = [...standardisedTempleteAttribute];
     tmpArr.forEach((attribute, index) => {
       console.log("attribute in for each", attribute);
-      if (attribute?.datapoint_attributes)
+      if (attribute?.datapoint_attributes) {
         tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+      }else{
+        tmpColumn[index] = [];
+
+      }
     });
     setStandardisedTempleteAttribute(tmpColumn);
     console.log("standardisedTempleteColumn", tmpColumn);
