@@ -230,7 +230,8 @@ export default function Login(props) {
           console.log("access token", response.data.access);
           console.log("user status", response.data.status);
           console.log("onboarded", response.data.on_boarded);
-
+          console.log("refresh", response.data.refresh)
+          localStorage.setItem("refresh", JSON.stringify(response.data.refresh))
           console.log(response.status);
           // if (response.data.status) {
           //   setTokenLocal(response.data.access);
