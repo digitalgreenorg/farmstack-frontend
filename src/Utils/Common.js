@@ -122,7 +122,8 @@ export const refreshToken = async () => {
   } catch(e) {
     console.log(e);
     if(e?.response?.status === 401) {
-    return "/login"
+      localStorage.clear();
+      return "/login"
     } else {
       return GetErrorHandlingRoute(e)
     }
