@@ -31,6 +31,8 @@ import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMet
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import NavbarNew from "../Components/Navbar/Navbar_New";
+import Connectors from "../Components/Connectors_New/Connectors";
+import FooterNew from "../Components/Footer/Footer_New";
 
 function Participant(props) {
   return (
@@ -132,11 +134,17 @@ function Participant(props) {
                 path="/participant/dataset/view/:id"
                 component={ViewMetaDatasetDetails}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/participant/connectors"
               >
                 <DatasetIntegration />
+              </Route> */}
+              <Route
+                exact
+                path="/participant/connectors"
+              >
+                <Connectors />
               </Route>
               {/* <Route
               exact
@@ -147,7 +155,8 @@ function Participant(props) {
 
             </Switch>
           </div>
-          <Footer />
+          {/* <Footer /> */}
+          <FooterNew />
         </div>
       ) : (
         props.history.push("/login")

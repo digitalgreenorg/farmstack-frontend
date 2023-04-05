@@ -43,6 +43,7 @@ import EditCoSteward from "../Components/Participants/EditCoSteward";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import NavbarNew from "../Components/Navbar/Navbar_New";
+import Connectors from "../Components/Connectors_New/Connectors";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -182,11 +183,17 @@ function Datahub(props) {
                 path="/datahub/participants/addcosteward"
                 component={AddCoSteward}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/connectors"
               >
                 <DatasetIntegration />
+              </Route> */}
+              <Route
+                exact
+                path="/datahub/connectors"
+              >
+                <Connectors />
               </Route>
               <Route
                 exact

@@ -1,11 +1,11 @@
-.footer_content {
+.footerContent {
     display: flex;
     justify-content: space-between;
     width: 100%;
     margin-top: 50px;
 }
 
-.footer_title {
+.footerTitle {
     font-family: 'Montserrat';
     font-weight: 600;
     font-size: 20px;
@@ -13,7 +13,7 @@
     color: #000000;
 }
 
-.footer_light_text {
+.footerLightText {
     font-family: 'Montserrat';
     font-weight: 400;
     font-size: 16px;
@@ -21,7 +21,7 @@
     color: #000000;
 }
 
-.footer_dark_text {
+.footerDarkText {
     font-family: 'Montserrat';
     font-weight: 600;
     font-size: 16px;
@@ -39,39 +39,43 @@
 
 }
 
-.button_text {
+.flexWidth {
+    flex: 0 0 33.5%;
+}
+
+.buttonText {
     font-family: 'Montserrat' !important;
     font-weight: 700 !important;
     font-size: 16px !important;
     line-height: 26px !important;
 }
 
-.input_field_subscribe {
+.inputFieldSubscribe {
     border-radius: 8px !important;
     width: 466px !important;
     height: 56px;
 }
 
-.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+.inputFieldSubscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
     padding-right: 0px !important;
     border-radius: 8px !important;
 }
 
 @media only screen and (min-width: 600px) and (max-width: 900px) {
 
-    .footer_title {
+    .footerTitle {
         font-weight: 600;
         font-size: 16px;
         line-height: 20px;
     }
 
-    .footer_light_text {
+    .footerLightText {
         font-weight: 400;
         font-size: 12px;
         line-height: 20px;
     }
 
-    .footer_dark_text {
+    .footerDarkText {
         font-weight: 600;
         font-size: 12px;
         line-height: 20px;
@@ -83,13 +87,13 @@
         line-height: 16px;
     }
 
-    .button_text {
+    .buttonText {
         font-weight: 700 !important;
         font-size: 12px !important;
         line-height: 22px !important;
     }
 
-    .input_field_subscribe {
+    .inputFieldSubscribe {
         width: 364px !important;
         height: 56px;
     }
@@ -97,19 +101,19 @@
 
 @media only screen and (max-width: 600px) {
 
-    .footer_title {
+    .footerTitle {
         font-weight: 600;
         font-size: 16px;
         line-height: 20px;
     }
 
-    .footer_light_text {
+    .footerLightText {
         font-weight: 400;
         font-size: 12px;
         line-height: 20px;
     }
 
-    .footer_dark_text {
+    .footerDarkText {
         font-weight: 600;
         font-size: 12px;
         line-height: 20px;
@@ -121,13 +125,13 @@
         line-height: 16px;
     }
 
-    .button_text {
+    .buttonText {
         font-weight: 700 !important;
         font-size: 12px !important;
         line-height: 22px !important;
     }
 
-    .input_field_subscribe {
+    .inputFieldSubscribe {
         width: 364px !important;
         height: 56px;
     }
