@@ -2,6 +2,10 @@ import LocalStorageConstants from "../Constants/LocalStorageConstants";
 import RegexConstants from "../Constants/RegexConstants";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 import FileSaver from "file-saver";
+import HTTPService from "../Services/HTTPService";
+import UrlConstant from "../Constants/UrlConstants";
+import { useHistory } from "react-router-dom";
+
 export const setTokenLocal = (token) => {
   localStorage.setItem(
     LocalStorageConstants.KEYS.JWTToken,
@@ -94,6 +98,38 @@ export const handleNameFieldEntry = (fieldValue, e) => {
   }
 };
 
+export const refreshToken = async () => {
+  
+  try {
+  
+    const url = UrlConstant.base_url + UrlConstant.refesh;
+
+    const refreshToken = JSON.parse(localStorage.getItem("refresh"))
+
+    localStorage.setItem('lastPathname', window.location.href);
+    const response = await HTTPService('POST', url, {
+      refresh: refreshToken,
+    });
+
+    if (response?.status === 200) {
+      localStorage.setItem('JWTToken', JSON.stringify(response?.data?.access));
+      const lastPathname = localStorage.getItem('lastPathname');
+      if (lastPathname) {
+        return lastPathname;
+      }
+      localStorage.removeItem('lastPathname', window.location.href);
+    }
+  } catch(e) {
+    console.log(e);
+    if(e?.response?.status === 401) {
+      localStorage.clear();
+      window.location.href = '/login';
+    } else {
+      return GetErrorHandlingRoute(e)
+    }
+  }
+};
+
 export const GetErrorHandlingRoute = (e) => {
   var errorMessage = "";
   if (e.response && e.response.data && e.response.data.message) {
@@ -121,10 +157,11 @@ export const GetErrorHandlingRoute = (e) => {
   if (
     e.response != null &&
     e.response != undefined &&
-    e.response.status == HTTP_CONSTANTS.SESSION_TIMEOUT
+    e?.response?.status == HTTP_CONSTANTS.SESSION_TIMEOUT
   ) {
     console.log(e.response.status);
-    return "/sessionexpired";
+    //return "/sessionexpired";
+    return refreshToken()
   } else {
     console.log(e.response);
     return "/error";
@@ -312,4 +349,4 @@ export const adminNotFoundRoute = (e) => {
 export function goToTop(no) {
   document.body.scrollTop = no ? no : 0; // For Safari
   document.documentElement.scrollTop = no ? no : 0; // For Chrome, Firefox, IE and Opera
-}
+};
