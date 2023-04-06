@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Divider, TextField, Typography } from '@mui/material'
 import SelectConnector from './SelectConnector';
 import EmptyFile from '../../Components/Datasets_New/TabComponents/EmptyFile';
 import globalStyle from '../../Assets/CSS/global.module.css'
 import style from './connector.module.css'
 import IntegrationConnector from './IntegrationConnector';
+import JoinLink from './JoinLink';
 
 const textFieldStyle = {
     borderRadius: '8px',
@@ -69,9 +70,18 @@ const AddConnector = () => {
                     onChange={(e) => handleDescription(e)}
                 />
                 <SelectConnector />
+                <Box>
+                    <Divider />
+                </Box>
                 {/* <Box className={style.mt136 + " " + style.mb139}>
                     <EmptyFile text={'As of now, there is no dataset for connectors'} />
                 </Box> */}
+                <Typography className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 mb-20 text-left`} sx={{
+                    fontFamily: "Montserrat !important",
+                    lineHeight: "40px",
+                }}>Integration Connector</Typography>
+                <IntegrationConnector />
+                <JoinLink />
                 <IntegrationConnector />
             </Box>
         </Box>

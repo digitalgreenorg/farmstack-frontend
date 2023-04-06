@@ -15,11 +15,7 @@ const IntegrationConnector = () => {
     }
     return (
         <Box>
-            <Typography className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 text-left`} sx={{
-                fontFamily: "Montserrat !important",
-                lineHeight: "40px",
-            }}>Integration Connector</Typography>
-            <Card className={`${style.card_style} w-100 mt-20`}>
+            <Card className={`${style.card_style} w-100`}>
                 <Box className={`${style.backgroundLightGreen} d-flex justify-content-between align-items-center pt-20 pb-20`}>
                     <Box className='d-flex'>
                         <div className='text-left ml-20'>
@@ -54,7 +50,7 @@ const IntegrationConnector = () => {
                         </div>
                     </Box>
                     <Box className='mr-20'>
-                        <img src={require('../../Assets/Img/delete_black_unfill.svg')} />
+                        <img className='cursor-pointer' src={require('../../Assets/Img/delete_black_unfill.svg')} />
                     </Box>
                 </Box>
                 <Box className={`${style.ml10} text-left`}>

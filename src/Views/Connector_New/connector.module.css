@@ -46,6 +46,18 @@
     margin-right: 34px !important;
 }
 
+.pt2 {
+    padding-top: 2px;
+}
+
+.mtMinus11 {
+    margin-top: -11px;
+}
+
+.mbMinus12 {
+    margin-bottom: -12px;
+}
+
 .backgroundLightGreen {
     background: #D8FBDE;
 }
