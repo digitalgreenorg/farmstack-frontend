@@ -123,7 +123,7 @@ export const refreshToken = async () => {
     console.log(e);
     if(e?.response?.status === 401) {
       localStorage.clear();
-      window.location.href = '/login';
+      window.location.href = "/sessionexpired";
     } else {
       return GetErrorHandlingRoute(e)
     }
