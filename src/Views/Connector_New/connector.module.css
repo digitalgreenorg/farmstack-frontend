@@ -76,3 +76,18 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
+
+.joinedBy {
+    width: 514px;
+    height: 112px;
+    border: 1px solid #00AB55;
+    border-radius: 10px;
+}
+
+.joinedByLeft {
+    flex: 0 0 31%;
+}
+
+.joinedByRight {
+    flex: 0 0 31%;
+}

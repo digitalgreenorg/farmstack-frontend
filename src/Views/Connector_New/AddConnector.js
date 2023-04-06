@@ -6,6 +6,7 @@ import globalStyle from '../../Assets/CSS/global.module.css'
 import style from './connector.module.css'
 import IntegrationConnector from './IntegrationConnector';
 import JoinLink from './JoinLink';
+import JoinedBy from './JoinedBy';
 
 const textFieldStyle = {
     borderRadius: '8px',
@@ -80,9 +81,10 @@ const AddConnector = () => {
                     fontFamily: "Montserrat !important",
                     lineHeight: "40px",
                 }}>Integration Connector</Typography>
-                <IntegrationConnector />
+                {/* <IntegrationConnector />
                 <JoinLink />
-                <IntegrationConnector />
+                <IntegrationConnector /> */}
+                {/* <JoinedBy /> */}
             </Box>
         </Box>
     )

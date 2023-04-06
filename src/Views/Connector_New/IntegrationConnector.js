@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Box, Card, Checkbox, Divider, Typography } from '@mui/material'
-import CheckBoxWithText from '../../Components/Datasets_New/TabComponents/CheckBoxWithText'
 import globalStyle from '../../Assets/CSS/global.module.css'
 import style from './connector.module.css'
 
