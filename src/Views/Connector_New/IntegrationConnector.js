@@ -3,15 +3,51 @@ import { Box, Card, Checkbox, Divider, Typography } from '@mui/material'
 import globalStyle from '../../Assets/CSS/global.module.css'
 import style from './connector.module.css'
 
-const IntegrationConnector = () => {
-    const [columns, setColumns] = useState(['ID', 'Farmer name', 'Crop date', 'Mobile number',
-        'ID', 'Farmer name', 'Crop date', 'Mobile number'
-    ])
-    const handleSelectAll = (value) => {
-    }
-    const handleColumnCheck = (value) => {
+const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgList }) => {
 
+    const handleSelectAll = (e) => {
+        let arr = [...completeData]
+        let present_card = { ...data }
+        if (e.target.checked) {
+            present_card["columnsSelected"] = [...present_card.availabeColumns]
+        } else {
+            present_card["columnsSelected"] = []
+        }
+        arr[index] = { ...present_card }
+        setCompleteData([...arr])
     }
+    const handleColumnCheck = (e, value) => {
+        let arr = [...completeData]
+        let present_card = { ...data }
+        if (e.target.checked && !present_card.columnsSelected.includes(value) && present_card.availabeColumns.includes(value)) {
+            present_card["columnsSelected"] = [...present_card.columnsSelected, value]
+            arr[index] = { ...present_card }
+            setCompleteData([...arr])
+        }
+        else if (!e.target.checked && present_card?.columnsSelected?.includes(value) && present_card.availabeColumns?.includes(value)) {
+            let i = present_card.columnsSelected.indexOf(value)
+            if (i > -1) {
+                present_card.columnsSelected.splice(i, 1)
+            }
+            arr[index] = present_card
+            setCompleteData([...arr])
+        }
+    }
+
+    const handleDelete = () => {
+        let arr = [...completeData]
+        let obj
+        if (index != 0) {
+            obj = arr[index - 1]
+            obj["right_on"] = []
+            obj["type"] = ""
+            obj["next_left"] = []
+            arr[index - 1] = obj
+        }
+        arr.splice(index, 1)
+        setCompleteData([...arr])
+    }
+    console.log(completeData)
     return (
         <Box>
             <Card className={`${style.card_style} w-100`}>
@@ -25,7 +61,7 @@ const IntegrationConnector = () => {
                             <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
                                 fontFamily: "Montserrat !important",
                                 lineHeight: "24px",
-                            }}>International Center for Tropical Agriculture</Typography>
+                            }}>{data?.org_name}</Typography>
                         </div>
                         <div className={`${style.ml80} text-left`}>
                             <Typography className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
@@ -35,7 +71,7 @@ const IntegrationConnector = () => {
                             <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
                                 fontFamily: "Montserrat !important",
                                 lineHeight: "24px",
-                            }}>Chilli dataset</Typography>
+                            }}>{data?.dataset_name ? decodeURI(data.dataset_name) : ""}</Typography>
                         </div>
                         <div className={`${style.ml84} text-left`}>
                             <Typography className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
@@ -45,11 +81,11 @@ const IntegrationConnector = () => {
                             <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
                                 fontFamily: "Montserrat !important",
                                 lineHeight: "24px",
-                            }}>Chilli.XLS</Typography>
+                            }}>{data?.file_name ? decodeURI(data.file_name.split("/")[data.file_name.split("/").length - 1]) : ""}</Typography>
                         </div>
                     </Box>
                     <Box className='mr-20'>
-                        <img className='cursor-pointer' src={require('../../Assets/Img/delete_black_unfill.svg')} />
+                        <img onClick={() => handleDelete()} className='cursor-pointer' src={require('../../Assets/Img/delete_black_unfill.svg')} />
                     </Box>
                 </Box>
                 <Box className={`${style.ml10} text-left`}>
@@ -62,7 +98,8 @@ const IntegrationConnector = () => {
                             sx={{ padding: 0, marginLeft: '-2px' }}
                             checkedIcon={<img src={require('../../Assets/Img/checked_icon.svg')} />}
                             icon={<img src={require('../../Assets/Img/unchecked_icon.svg')} />}
-                            handleCheckBox={handleSelectAll}
+                            onChange={(e) => handleSelectAll(e)}
+                            checked={data?.availabeColumns?.length == data?.columnsSelected?.length}
                         />
                         <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${style.ml9}`} sx={{
                             fontFamily: "Montserrat !important",
@@ -73,13 +110,14 @@ const IntegrationConnector = () => {
                 <Box className='text-left'>
                     <Divider />
                     <Box className={`${style.gridStyle} ${style.mb13}`}>
-                        {columns?.map((col) => (
+                        {data?.availabeColumns?.length > 0 && data.availabeColumns?.map((col) => (
                             <Box className={`${style.mt23} ${style.ml7} ${style.mr34} d-flex`}>
                                 <Checkbox
                                     sx={{ padding: 0 }}
                                     checkedIcon={<img src={require('../../Assets/Img/checked_icon.svg')} />}
                                     icon={<img src={require('../../Assets/Img/unchecked_icon.svg')} />}
-                                    handleCheckBox={handleColumnCheck}
+                                    onChange={(e) => handleColumnCheck(e, col)}
+                                    checked={data?.columnsSelected?.includes(col)}
                                 />
                                 <Typography className={`${globalStyle.bold400} ${globalStyle.size16}  ${style.lightText} ${style.ml9}`} sx={{
                                     fontFamily: "Montserrat !important",

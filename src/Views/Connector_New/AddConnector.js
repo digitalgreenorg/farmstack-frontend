@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Divider, TextField, Typography } from '@mui/material'
 import SelectConnector from './SelectConnector';
 import EmptyFile from '../../Components/Datasets_New/TabComponents/EmptyFile';
@@ -7,6 +7,8 @@ import style from './connector.module.css'
 import IntegrationConnector from './IntegrationConnector';
 import JoinLink from './JoinLink';
 import JoinedBy from './JoinedBy';
+import HTTPService from '../../Services/HTTPService';
+import UrlConstant from '../../Constants/UrlConstants';
 
 const textFieldStyle = {
     borderRadius: '8px',
@@ -26,6 +28,30 @@ const AddConnector = () => {
 
     const [connectorName, setConnectorName] = useState('');
     const [connectorDescription, setConnectorDescription] = useState('');
+    const [organisationName, setOrganisationName] = useState()
+    const [dataset, setDataset] = useState()
+    const [orgList, setOrgList] = useState([])
+    const [completeData, setCompleteData] = useState([])
+    const [template, setTemplate] = useState(
+        {
+            org_id: "", dataset_list: [],
+            file_list: [], org_name: "",
+            dataset_id: "", dataset_name: "",
+            file_name: "", availabeColumns: [],
+            columnsSelected: [], left: [],
+            right: [], left_on: [], right_on: [],
+            type: "", result: []
+        },
+    )
+    const [empty, setEmptyTemplate] = useState(
+        {
+            org_id: "", dataset_list: [],
+            file_list: [], org_name: "",
+            dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [],
+            columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: []
+        },
+    )
+    const [connectorList, setConnectorList] = useState([]);
 
     const limitChar = 512;
 
@@ -35,6 +61,69 @@ const AddConnector = () => {
         }
     };
 
+    const handleChangeSelector = async (value, type) => {
+        console.log(value)
+        let url = ""
+        let payload = {}
+        let list = [value]
+        let method = "POST"
+        if (type == "dataset") {
+            url = UrlConstant.base_url + UrlConstant.get_files_for_selected_datasets
+            payload = {
+                datasets: [...list]
+            }
+        } else if (type == "file") {
+            url = UrlConstant.base_url + UrlConstant.get_columns_for_selected_files
+            payload = {
+                files: [...list]
+            }
+        } else if (type == "org") {
+            method = "GET"
+            url = UrlConstant.base_url + UrlConstant.get_dataset_name_list + "?org_id=" + value
+            payload = {}
+        }
+        await HTTPService(method, url, payload, false, true, false)
+            .then((res) => {
+                if (type == "dataset") {
+                    setTemplate({ ...template, availabeColumns: [], dataset_name: res.data[0]?.dataset_name ? res.data[0].dataset_name : "N/A", dataset_id: value ? value : "", file_name: "", availabeColumns: [], file_list: [...res.data] })
+                }
+                else if (type == "file") {
+                    let name = list[0]
+                    let resArr = []
+                    let fileId = res.data?.id ? res.data.id : ""
+                    for (var key in res.data) {
+                        resArr.push(res.data[key])
+                    }
+                    setTemplate({ ...template, file_id: fileId, file_name: name, availabeColumns: [...res.data[name]] })
+                } else if (type == "org") {
+                    console.log(template)
+                    setTemplate({ ...template, availabeColumns: [], dataset_name: "", dataset_id: "", file_name: "", file_list: [], dataset_list: [...res.data], org_id: value, org_name: res?.data?.length > 0 ? res.data[0]?.org_name : "" })
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    const getDataList = (source) => {
+        let url = ""
+        if (source == "org_names") {
+            url = UrlConstant.base_url + UrlConstant.get_org_name_list
+        } else if (source == "dataset_names") {
+            url = UrlConstant.base_url + UrlConstant.get_dataset_name_list
+        }
+        HTTPService("GET", url, "", false, true, false).then((res) => {
+            if (source == "org_names") {
+                setOrgList([...res.data])
+            } else if (source == "dataset_names") {
+                setTemplate({ ...template, dataset_list: [...res.data] })
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+    useEffect(() => {
+        getDataList("org_names")
+    }, [])
+    console.log(template)
     return (
         <Box>
             <Box sx={{ marginLeft: '144px', marginRight: '144px' }}>
@@ -70,20 +159,50 @@ const AddConnector = () => {
                     value={connectorDescription}
                     onChange={(e) => handleDescription(e)}
                 />
-                <SelectConnector />
-                <Box>
+                <SelectConnector
+                    connectorName={connectorName}
+                    connectorDescription={connectorDescription}
+                    organisations={orgList}
+                    template={template}
+                    organisationName={organisationName}
+                    setOrganisationName={setOrganisationName}
+                    dataset={dataset}
+                    setDataset={setDataset}
+                    handleChangeSelector={handleChangeSelector}
+                    empty={empty}
+                    setTemplate={setTemplate}
+                    completeData={completeData}
+                    setCompleteData={setCompleteData}
+                />
+                <Box className='mt-30'>
                     <Divider />
                 </Box>
-                {/* <Box className={style.mt136 + " " + style.mb139}>
-                    <EmptyFile text={'As of now, there is no dataset for connectors'} />
-                </Box> */}
-                <Typography className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 mb-20 text-left`} sx={{
-                    fontFamily: "Montserrat !important",
-                    lineHeight: "40px",
-                }}>Integration Connector</Typography>
-                {/* <IntegrationConnector />
+                {completeData && completeData?.length ?
+                    <>
+                        <Typography className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 mb-20 text-left`} sx={{
+                            fontFamily: "Montserrat !important",
+                            lineHeight: "40px",
+                        }}>Integration Connector</Typography>
+                        <Box>
+                            {completeData?.map((item, index) => (
+                                <IntegrationConnector
+                                    orgList={orgList}
+                                    completeData={completeData}
+                                    setCompleteData={setCompleteData}
+                                    data={item}
+                                    index={index}
+                                />
+                            ))}
+                        </Box>
+                    </>
+                    :
+                    <Box className={style.mt114 + " " + style.mb139}>
+                        <EmptyFile text={'As of now, there is no dataset for connectors'} />
+                    </Box>
+
+                }
+                {/*
                 <JoinLink />
-                <IntegrationConnector /> */}
                 {/* <JoinedBy /> */}
             </Box>
         </Box>
