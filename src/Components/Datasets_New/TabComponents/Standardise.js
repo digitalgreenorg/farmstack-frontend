@@ -227,7 +227,7 @@ const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile,
                     </Select>
                 </FormControl>
                 <Box className='mt-50'>
-                    {data ? <></> : <EmptyFile />}
+                    {data ? <></> : <EmptyFile text={'You have not uploaded any files'} />}
                 </Box>
                 <Box>
                     {/* {

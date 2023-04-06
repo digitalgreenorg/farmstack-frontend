@@ -46,6 +46,7 @@ import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
 import { Divider } from "@mui/material";
 import FooterNew from "../Components/Footer/Footer_New";
+import AddConnector from "../Views/Connector_New/AddConnector";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -135,11 +136,18 @@ function Datahub(props) {
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
               <Route exact path="/datahub/datasets" component={DatasetAdmin} />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/connectors/add"
                 component={AddConnectorParticipant}
+              /> */}
+              {/* temp added add connectors route */}
+              <Route
+                exact
+                path="/datahub/connectors/add"
+                component={AddConnector}
               />
+              {/* end */}
               <Route
                 exact
                 path="/datahub/connectors/edit/:id"
@@ -191,12 +199,14 @@ function Datahub(props) {
               >
                 <DatasetIntegration />
               </Route> */}
+              {/* temp added Connectors route */}
               <Route
                 exact
                 path="/datahub/connectors"
               >
                 <Connectors />
               </Route>
+              {/* end */}
               <Route
                 exact
                 path="/datahub/connectors/list"
@@ -206,7 +216,7 @@ function Datahub(props) {
             </Switch>
           </div>
           {/* <Footer /> */}
-          <Divider />
+          <Divider className="mt-50" />
           <FooterNew />
         </div>
       ) : (

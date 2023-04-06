@@ -177,7 +177,7 @@ function Participant(props) {
             </Switch>
           </div>
           {/* <Footer /> */}
-          <Divider />
+          <Divider className="mt-50" />
           <FooterNew />
         </div>
       ) : (

@@ -22,9 +22,9 @@ const Connectors = () => {
 
   const addConnector = () => {
     if (isLoggedInUserAdmin()) {
-      // return "/datahub/datasets/add";
+      return "/datahub/connectors/add";
     } else if (isLoggedInUserParticipant()) {
-      // return "/participant/new_datasets/add";
+      return "/participant/connectors/add";
     }
   };
 
