@@ -50,17 +50,6 @@
     line-height: 26px !important;
 }
 
-.inputFieldSubscribe {
-    border-radius: 8px !important;
-    width: 466px !important;
-    height: 56px;
-}
-
-.inputFieldSubscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
-    padding-right: 0px !important;
-    border-radius: 8px !important;
-}
-
 @media only screen and (min-width: 600px) and (max-width: 900px) {
 
     .footerTitle {

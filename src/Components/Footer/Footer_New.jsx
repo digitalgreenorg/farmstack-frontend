@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import style from "./Footer_New.module.css";
+import ContainedButton from "../Button/ContainedButton";
 
 const FooterNew = () => {
+  const handleSubscribe = () => {};
+
   return (
     <Box sx={{ padding: "40px", marginLeft: "144px", marginRight: "144px" }}>
       <div className="logo_container text-left">
@@ -98,29 +101,20 @@ const FooterNew = () => {
                   },
                 },
               }}
-              className={style.inputFieldSubscribe}
+              className={"input_field_subscribe"}
               placeholder="Enter your e-mail id"
               variant="outlined"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Button
-                      sx={{
-                        background: "#00AB55",
-                        borderRadius: "8px",
-                        color: "#FFFFFF",
-                        fontWeight: 700,
-                        fontSize: "16px",
-                        width: "172px",
-                        height: "56px",
-                        "&:hover": {
-                          background: "#00AB55",
-                        },
-                      }}
-                      className="button_text"
-                    >
-                      Subscribe
-                    </Button>
+                    <ContainedButton
+                      text={"Subscribe"}
+                      fontWeight={"700"}
+                      fontSize={"16px"}
+                      width={"172px"}
+                      height={"56px"}
+                      handleClick={handleSubscribe}
+                    />
                   </InputAdornment>
                 ),
               }}

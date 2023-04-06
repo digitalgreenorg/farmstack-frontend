@@ -1143,6 +1143,18 @@ html {
   margin-bottom: 0px !important;
 }
 
+
+.input_field_subscribe {
+  border-radius: 8px !important;
+  width: 466px !important;
+  height: 56px;
+}
+
+.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  padding-right: 0px !important;
+  border-radius: 8px !important;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
