@@ -34,7 +34,6 @@
   cursor: pointer !important;
 }
 .content_title {
-  font-family: "Montserrat";
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
@@ -51,11 +50,11 @@
 }
 .cardContainer {
   /* overflow-x: hidden; */
-  max-height: 700px;
-  overflow-y: scroll;
+  /* max-height: 700px;
+  overflow-y: scroll; */
 }
 .cardContainerList {
-  overflow-x: hidden;
+  /* overflow-x: hidden;
   max-height: 600px;
-  overflow-y: scroll;
+  overflow-y: scroll; */
 }

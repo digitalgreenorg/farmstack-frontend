@@ -46,6 +46,8 @@ import ViewCoSteward from "../Components/Participants/ViewCoSteword";
 import EditCoSteward from "../Components/Participants/EditCoSteward";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
+import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -61,7 +63,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/participants/view/:id"
-                component={ViewParticipants}
+                component={ParticipantsAndCoStewardDetailsNew}
               />
               <Route
                 exact
@@ -177,7 +179,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/participants"
-                component={ParticipantCoStewardManagement}
+                component={ParticipantsAndCoStewardNew}
               />
               <Route
                 exact

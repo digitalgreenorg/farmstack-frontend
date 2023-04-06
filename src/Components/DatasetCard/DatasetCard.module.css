@@ -1,0 +1,36 @@
+.cardContainer {
+  max-width: 368px;
+  height: 179px;
+  width: 100%;
+  border-radius: 10px !important;
+  margin: 12px 12px 10px 0;
+}
+.cardContainer:hover {
+  box-shadow: -40px 40px 80px rgba(145, 158, 171, 0.16);
+  cursor: pointer;
+  border: 1px solid #00ab55 !important;
+}
+.date {
+  display: inline-block;
+  color: #9ba0a7;
+}
+.alighCenter {
+  display: flex;
+  align-items: center;
+}
+.cardSubtitle {
+  margin-top: 5px;
+  display: inline-block;
+}
+.cardContainer > div {
+  margin: 20px;
+}
+.cardSubtitle2 > span {
+  margin: auto;
+  display: flex;
+}
+.firstSpanTag {
+  margin-left: 0 !important;
+}
+.cardTitle {
+}

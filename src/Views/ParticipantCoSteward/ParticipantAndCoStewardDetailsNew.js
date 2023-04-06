@@ -2,9 +2,12 @@ import { Button, Typography } from "@mui/material";
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import CustomCard from "../../Components/Card/CustomCard";
+import DatasetCart from "../../Components/DatasetCard/DatasetCard";
 import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 
-const ParticipantAndCoStewardDetails = (props) => {
+const ParticipantAndCoStewardDetailsNew = (props) => {
+  let datasets = [0, 0, 0, 0, 0, 0];
   return (
     <Container className={LocalStyle.container}>
       <Row>
@@ -12,7 +15,7 @@ const ParticipantAndCoStewardDetails = (props) => {
           <img src={require("../../Assets/Img/participant_organization.svg")} />
         </Col>
       </Row>
-      <Row>
+      <Row className={LocalStyle.section}>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Typography
             // id={title + "-form-title"}
@@ -80,7 +83,7 @@ const ParticipantAndCoStewardDetails = (props) => {
           </Row>
         </Col>
       </Row>
-      <Row>
+      <Row className={LocalStyle.section}>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Typography
             // id={title + "-form-title"}
@@ -115,7 +118,7 @@ const ParticipantAndCoStewardDetails = (props) => {
         </Col>
       </Row>
 
-      <Row>
+      <Row className={LocalStyle.section}>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Typography
             // id={title + "-form-title"}
@@ -125,8 +128,73 @@ const ParticipantAndCoStewardDetails = (props) => {
           </Typography>
         </Col>
       </Row>
+      <Row>
+        {datasets?.map((dataset, index) => {
+          return (
+            <Col xs={12} sm={12} md={6} xl={4}>
+              <DatasetCart />
+            </Col>
+          );
+        })}
+      </Row>
+      <Row className={LocalStyle.buttonContainer}>
+        <Col xs={0} sm={0} md={2} lg={4}></Col>
+        <Col xs={12} sm={12} md={8} lg={4}>
+          <Button
+            id={"details-page-load-more-dataset-button"}
+            variant="outlined"
+            className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
+          >
+            Load more
+          </Button>
+        </Col>
+      </Row>
+      {/* participants */}
+
+      <Row className={LocalStyle.section}>
+        <Col xs={12} sm={12} md={6} xl={6}>
+          <Typography
+            // id={title + "-form-title"}
+            className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
+          >
+            Co-steward participants
+          </Typography>
+        </Col>
+      </Row>
+      <Row>
+        {datasets?.map((dataset, index) => {
+          return (
+            <Col xs={12} sm={12} md={6} xl={4}>
+              <CustomCard />
+            </Col>
+          );
+        })}
+      </Row>
+      <Row className={LocalStyle.buttonContainer}>
+        <Col xs={0} sm={0} md={2} lg={4}></Col>
+        <Col xs={12} sm={12} md={8} lg={4}>
+          <Button
+            id={"details-page-load-more-dataset-button"}
+            variant="outlined"
+            className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
+          >
+            Load more
+          </Button>
+        </Col>
+      </Row>
+      <hr />
+      <Row className={LocalStyle.backButtonContainer}>
+        <Button
+          id={"details-page-load-more-dataset-button"}
+          variant="outlined"
+          className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
+        >
+          Back
+        </Button>
+        {/* </Col> */}
+      </Row>
     </Container>
   );
 };
 
-export default ParticipantAndCoStewardDetails;
+export default ParticipantAndCoStewardDetailsNew;

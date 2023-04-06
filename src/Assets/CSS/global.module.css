@@ -41,6 +41,9 @@
 .highlighted_text {
   color: #212b36;
 }
+.title_text {
+  color: #00ab55 !important;
+}
 
 .bold300 {
   font-weight: 300;
@@ -59,7 +62,7 @@
 }
 
 .bold700 {
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 
 .size12 {
