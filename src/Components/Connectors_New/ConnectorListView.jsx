@@ -3,6 +3,7 @@ import { Typography } from "antd";
 import React from "react";
 import style from "./Connector.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
+import { dateTimeFormat } from "../../Utils/Common";
 
 const ConnectorListView = ({ connectors, history }) => {
   return (
@@ -39,20 +40,20 @@ const ConnectorListView = ({ connectors, history }) => {
             <Typography
               className={`${style.listViewText} ${style.listViewName} ${globalStyle.primary_color} ${style.firstCol} w-100 text-left ml-20`}
             >
-              {"Chilli farmer producer in my area"}
+              {item?.name}
             </Typography>
             <Typography
               className={`${style.listViewText} ${style.secondCol} w-100 text-left ml-90`}
             >
-              {"02"}
+              {item?.dataset_count}
             </Typography>
             <Typography className={`${style.listViewText} w-100 text-left`}>
-              {"03"}
+              {item?.providers_count}
             </Typography>
             <Typography
               className={`${style.listViewText} ${style.fourthCol} w-100 text-left`}
             >
-              {"28/03/2022"}
+              {dateTimeFormat(item?.updated_at, false)}
             </Typography>
           </Box>
           <Divider />
