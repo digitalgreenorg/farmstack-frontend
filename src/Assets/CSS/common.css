@@ -302,10 +302,10 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.MuiDataGrid-columnHeaders {
+/* .MuiDataGrid-columnHeaders {
 
   background-color: #FFDB64 !important;
-}
+} */
 
 .MuiTabs-root .MuiButtonBase-root {
   width: 162.5px !important;
@@ -1017,11 +1017,11 @@ button.disbalesubmitbtndept {
   color: #c09507 !important;
 }
 
-.dataset_selector_in_integration .MuiDataGrid-columnHeaders {
+/* .dataset_selector_in_integration .MuiDataGrid-columnHeaders {
   background: #F8F8F8 !important;
   border: 1px solid #E4E4E4 !important;
   height: 42px !important;
-}
+} */
 
 .react-multi-email input {
   min-width: 500px !important;
@@ -1094,17 +1094,15 @@ html {
 
 }
 
-.dataset_selector_in_integration .MuiDataGrid-row:nth-child(even) {
+/* .dataset_selector_in_integration .MuiDataGrid-row:nth-child(even) {
   background-color: #F9EABC !important;
-  /* color: white; */
   margin: 5px 0px;
-}
+} */
 
-.dataset_selector_in_integration .MuiDataGrid-row:nth-child(odd) {
+/* .dataset_selector_in_integration .MuiDataGrid-row:nth-child(odd) {
   background-color: #f7f4ebd3 !important;
-  /* color: white; */
   padding: 5px 0px;
-}
+} */
 
 .connectorCard {
   padding: 20px 40px 20px 5px;

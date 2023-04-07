@@ -319,58 +319,98 @@ const Join = (props) => {
           </Row>
         )}
         <Box className="text-right mt-50">
-          <Button
-            sx={{
-              fontFamily: "Montserrat",
-              fontWeight: 700,
-              fontSize: "16px",
-              width: "171px",
-              height: "48px",
-              border: "1px solid rgba(0, 171, 85, 0.48)",
-              borderRadius: "8px",
-              color: "#00AB55",
-              textTransform: "none",
-              marginRight: "50px",
-              "&:hover": {
-                background: "none",
-                border: "1px solid rgba(0, 171, 85, 0.48)",
-              },
-            }}
-            variant="outlined"
-            onClick={(e) => handleMoreDataShow(indexShow, false, e)}
-          >
-            Cancel
-          </Button>
-          <Button
-            sx={{
-              fontFamily: "Montserrat",
-              fontWeight: 700,
-              fontSize: "16px",
-              width: "171px",
-              height: "48px",
-              background: "#00AB55",
-              borderRadius: "8px",
-              textTransform: "none",
-              "&:hover": {
-                backgroundColor: "#00AB55",
-                color: "#fffff",
-              },
-            }}
-            disabled={
-              each.type &&
-              each?.right_on?.length &&
-              connectorData.name &&
-              connectorData.desc &&
-              each?.left_on?.length > 0
-                ? false
-                : true
-            }
-            onClick={(e) => {
-              generateData(index, "integrate");
-            }}
-          >
-            Apply
-          </Button>
+          {value == "Join by" ? (
+            <>
+              <Button
+                id="generate_button"
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: 700,
+                  fontSize: "16px",
+                  width: "171px",
+                  height: "48px",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                  borderRadius: "8px",
+                  color: "#00AB55",
+                  textTransform: "none",
+                  marginRight: "50px",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                  },
+                }}
+                variant="outlined"
+                onClick={(e) => handleMoreDataShow(indexShow, false, e)}
+              >
+                Cancel
+              </Button>
+              <Button
+                id="generate_button"
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: 700,
+                  fontSize: "16px",
+                  width: "171px",
+                  height: "48px",
+                  background: "#00AB55",
+                  borderRadius: "8px",
+                  textTransform: "none",
+                  color: "white !important",
+                  "&:hover": {
+                    backgroundColor: "#00AB55",
+                    color: "#fffff",
+                  },
+                }}
+                disabled={
+                  each.type &&
+                  each?.right_on?.length &&
+                  connectorData.name &&
+                  connectorData.desc &&
+                  each?.left_on?.length > 0
+                    ? false
+                    : true
+                }
+                onClick={(e) => {
+                  generateData(index, "integrate");
+                }}
+              >
+                Apply
+              </Button>
+            </>
+          ) : (
+            <Button
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: 700,
+                fontSize: "16px",
+                width: "171px",
+                height: "48px",
+                background: "#00AB55",
+                borderRadius: "8px",
+                textTransform: "none",
+                color: "white !important",
+                "&:hover": {
+                  backgroundColor: "#00AB55",
+                  color: "#fffff",
+                },
+              }}
+              id="generate_button"
+              disabled={
+                each.type &&
+                each?.right_on?.length > 0 &&
+                each?.left_on?.length > 0 &&
+                result?.length
+                  ? false
+                  : true
+              }
+              onClick={(e) => {
+                downloadDocument(result);
+                handleMoreDataShow(indexShow, false, e);
+              }}
+            >
+              Download
+            </Button>
+          )}
         </Box>
         {/* <Row style={{ textAlign: "center" }}>
           <Col lg={12}>

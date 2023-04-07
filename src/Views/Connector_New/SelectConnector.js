@@ -60,12 +60,18 @@ const SelectConnector = ({ text, organisations, organisationName, setOrganisatio
                 fontFamily: "Montserrat !important",
                 lineHeight: "40px",
             }}>{text}</Typography>
+            {counterForIntegrator === completeData.length && (
+                <div style={{ textAlign: "left", marginTop: '12px' }}>
+                    To choose other files for integration, click on integrate more
+                    datasets.
+                </div>
+            )}
             <Affix
                 style={{
                     backgrond: "white",
                     transition: "all 2s",
-                    // display:
-                    //     counterForIntegrator == completeData.length ? "none" : "block",
+                    display:
+                        counterForIntegrator == completeData.length ? "none" : "block",
                 }}
                 offsetTop={0}
             >

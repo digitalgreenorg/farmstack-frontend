@@ -70,12 +70,12 @@
 }
 
 .generate_data_btn {
-    /* width: 20px !important; */
+    /* width: 200px !important; */
     transition: all 0.3s;
     border-radius: 8px;
-    border: 1px solid #C09507 !important;
+    border: 1px solid #00AB55 !important;
     text-transform: none !important;
-    background: #C09507 !important;
+    background: #00AB55 !important;
     color: white !important;
     /* outline-width: 8px;
     outline-offset: -8px; */
@@ -85,7 +85,7 @@
 }
 
 .generate_data_btn:hover {
-    background: #b7931bd5 !important;
+    background: #00AB55 !important;
 }
 
 .generate_data_btn:hover .download_btn {
@@ -111,8 +111,8 @@
 .save_btn {
     /* width: 20px !important; */
     border-radius: 8px;
-    background-color: #C09507 !important;
-    border: 1px solid #C09507 !important;
+    background-color: #00AB55 !important;
+    border: 1px solid #00AB55 !important;
     color: white !important;
     text-transform: none !important;
     height: 48px;
@@ -120,7 +120,7 @@
 }
 
 .save_btn:hover {
-    background: #b7931bd5 !important;
+    background: #00AB55 !important;
     color: white !important;
 }
 
@@ -306,13 +306,13 @@
 
     /* Primary/Main */
     box-shadow: none !important;
-    color: #C09507;
+    color: #00AB55 !important;
     border: none !important;
     background-color: transparent !important;
 }
 
 .cancelBtn:hover {
-    color: #C09507 !important;
+    color: #00AB55 !important;
 }
 
 .data_before_download div:nth-child(1) {
@@ -553,4 +553,25 @@
     100% {
         transform: rotate(360deg);
     }
+}
+
+.light_text {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+
+    color: #000000;
+}
+
+.dark_text {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.mt100 {
+    margin-top: 100px !important;
 }
