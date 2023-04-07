@@ -1,133 +1,277 @@
 import React, { useState } from 'react'
-import { Box, Card, Checkbox, Divider, Typography } from '@mui/material'
+import { Alert, Box, Button, Card, Checkbox, Divider, Typography } from '@mui/material'
+import leftG from "../../Assets/Img/Join type/Color/Left.svg";
+import leftB from "../../Assets/Img/Join type/Normal state/left.svg";
+import rightB from "../../Assets/Img/Join type/Normal state/right.svg";
+import rightG from "../../Assets/Img/Join type/Color/right.svg";
+import fullB from "../../Assets/Img/Join type/Normal state/outer.svg";
+import fullG from "../../Assets/Img/Join type/Color/outer.svg";
+import innerB from "../../Assets/Img/Join type/Normal state/inner.svg";
+import innerG from "../../Assets/Img/Join type/Color/inner.svg";
+import settinggif from "../../Assets/Img/setting.gif";
+import analytics from "../../Assets/Img/analytics.png";
 import globalStyle from '../../Assets/CSS/global.module.css'
 import style from './connector.module.css'
+import styles from "../../Components/Datasets/IntegrationDatasets/dataset_integration.module.css";
+import CardDetail from './CardDetail';
+import { toTitleCase, validateInputField } from '../../Utils/Common';
+import Join from '../../Components/Datasets/IntegrationDatasets/Join/Join';
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import RegexConstants from '../../Constants/RegexConstants';
+import JoinedBy from './JoinedBy';
 
-const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgList }) => {
+const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgList, setIsAllConditionForSaveMet, setTotalCounter,
+    temporaryDeletedCards, setTemporaryDeletedCards, generateData, joinType, setJoinType, connectorData, setConnectorData, finalDataNeedToBeGenerated,
+    setIsConditionForConnectorDataForSaveMet
+}) => {
 
-    const handleSelectAll = (e) => {
-        let arr = [...completeData]
-        let present_card = { ...data }
-        if (e.target.checked) {
-            present_card["columnsSelected"] = [...present_card.availabeColumns]
+    const [joinTypeArr, setJoinTypeArr] = useState([
+        { name: "left", black: leftB, green: leftG },
+        { name: "right", black: rightB, green: rightG },
+        { name: "inner", black: innerB, green: innerG },
+        { name: "outer", black: fullB, green: fullG },
+    ]);
+
+    const [value, setValue] = useState("Join by");
+    const [show, setShow] = useState(false);
+    const [indexShow, setIndex] = useState(-1);
+
+    const handleMoreDataShow = (index, condition, e, whatToShow) => {
+        e.stopPropagation();
+        if (condition) {
+            setIndex(index);
+            setShow(true);
+            // if(whatToShow=="table_result"){
+            //     setShowTable
+            // }
         } else {
-            present_card["columnsSelected"] = []
+            setIndex(-1);
+            setShow(false);
         }
-        arr[index] = { ...present_card }
-        setCompleteData([...arr])
-    }
-    const handleColumnCheck = (e, value) => {
-        let arr = [...completeData]
-        let present_card = { ...data }
-        if (e.target.checked && !present_card.columnsSelected.includes(value) && present_card.availabeColumns.includes(value)) {
-            present_card["columnsSelected"] = [...present_card.columnsSelected, value]
-            arr[index] = { ...present_card }
-            setCompleteData([...arr])
-        }
-        else if (!e.target.checked && present_card?.columnsSelected?.includes(value) && present_card.availabeColumns?.includes(value)) {
-            let i = present_card.columnsSelected.indexOf(value)
-            if (i > -1) {
-                present_card.columnsSelected.splice(i, 1)
-            }
-            arr[index] = present_card
-            setCompleteData([...arr])
-        }
-    }
+    };
 
-    const handleDelete = () => {
-        let arr = [...completeData]
-        let obj
-        if (index != 0) {
-            obj = arr[index - 1]
-            obj["right_on"] = []
-            obj["type"] = ""
-            obj["next_left"] = []
-            arr[index - 1] = obj
-        }
-        arr.splice(index, 1)
-        setCompleteData([...arr])
-    }
     console.log(completeData)
     return (
         <Box>
-            <Card className={`${style.card_style} w-100`}>
-                <Box className={`${style.backgroundLightGreen} d-flex justify-content-between align-items-center pt-20 pb-20`}>
-                    <Box className='d-flex'>
-                        <div className='text-left ml-20'>
-                            <Typography className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
-                                fontFamily: "Montserrat !important",
-                                lineHeight: "40px",
-                            }}>Organisation name</Typography>
-                            <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
-                                fontFamily: "Montserrat !important",
-                                lineHeight: "24px",
-                            }}>{data?.org_name}</Typography>
-                        </div>
-                        <div className={`${style.ml80} text-left`}>
-                            <Typography className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
-                                fontFamily: "Montserrat !important",
-                                lineHeight: "40px",
-                            }}>Dataset name</Typography>
-                            <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
-                                fontFamily: "Montserrat !important",
-                                lineHeight: "24px",
-                            }}>{data?.dataset_name ? decodeURI(data.dataset_name) : ""}</Typography>
-                        </div>
-                        <div className={`${style.ml84} text-left`}>
-                            <Typography className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
-                                fontFamily: "Montserrat !important",
-                                lineHeight: "40px",
-                            }}>File name</Typography>
-                            <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
-                                fontFamily: "Montserrat !important",
-                                lineHeight: "24px",
-                            }}>{data?.file_name ? decodeURI(data.file_name.split("/")[data.file_name.split("/").length - 1]) : ""}</Typography>
-                        </div>
-                    </Box>
-                    <Box className='mr-20'>
-                        <img onClick={() => handleDelete()} className='cursor-pointer' src={require('../../Assets/Img/delete_black_unfill.svg')} />
-                    </Box>
-                </Box>
-                <Box className={`${style.ml10} text-left`}>
-                    <Typography className={`${globalStyle.bold600} ${globalStyle.size20}  ${globalStyle.dark_color} ${style.mt10} `} sx={{
-                        fontFamily: "Montserrat !important",
-                        lineHeight: "24.38px",
-                    }}>Select columns</Typography>
-                    <Box className={`${style.mb7} d-flex align-items-center mt-20`}>
-                        <Checkbox
-                            sx={{ padding: 0, marginLeft: '-2px' }}
-                            checkedIcon={<img src={require('../../Assets/Img/checked_icon.svg')} />}
-                            icon={<img src={require('../../Assets/Img/unchecked_icon.svg')} />}
-                            onChange={(e) => handleSelectAll(e)}
-                            checked={data?.availabeColumns?.length == data?.columnsSelected?.length}
-                        />
-                        <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${style.ml9}`} sx={{
-                            fontFamily: "Montserrat !important",
-                            lineHeight: "22px",
-                        }}>Select all</Typography>
-                    </Box>
-                </Box>
-                <Box className='text-left'>
-                    <Divider />
-                    <Box className={`${style.gridStyle} ${style.mb13}`}>
-                        {data?.availabeColumns?.length > 0 && data.availabeColumns?.map((col) => (
-                            <Box className={`${style.mt23} ${style.ml7} ${style.mr34} d-flex`}>
-                                <Checkbox
-                                    sx={{ padding: 0 }}
-                                    checkedIcon={<img src={require('../../Assets/Img/checked_icon.svg')} />}
-                                    icon={<img src={require('../../Assets/Img/unchecked_icon.svg')} />}
-                                    onChange={(e) => handleColumnCheck(e, col)}
-                                    checked={data?.columnsSelected?.includes(col)}
-                                />
-                                <Typography className={`${globalStyle.bold400} ${globalStyle.size16}  ${style.lightText} ${style.ml9}`} sx={{
-                                    fontFamily: "Montserrat !important",
-                                    lineHeight: "22px",
-                                }}>{col}</Typography>
-                            </Box>
-                        ))}
-                    </Box>
-                </Box>
-            </Card>
+            {completeData?.length > 0 &&
+                completeData.map((each, index) => {
+                    return (
+                        <span style={{ position: "relative" }} key={index}>
+
+                            <CardDetail
+                                setIsAllConditionForSaveMet={setIsAllConditionForSaveMet}
+                                temporaryDeletedCards={temporaryDeletedCards}
+                                setTemporaryDeletedCards={setTemporaryDeletedCards}
+                                generateData={generateData}
+                                setTotalCounter={setTotalCounter}
+                                orgList={orgList}
+                                completeData={completeData}
+                                setCompleteData={setCompleteData}
+                                data={each}
+                                index={index}
+                            />
+                            {index < completeData.length - 1 && (
+                                <span
+                                    style={{
+                                        border: index == indexShow && "1.5px solid #00AB55",
+                                    }}
+                                    class={styles.vl}
+                                ></span>
+                            )}
+                            {index < completeData.length - 1 && (
+                                <span
+                                    id="settingIconForHover"
+                                    onClick={(e) => handleMoreDataShow(index, true, e)}
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: show && index == indexShow ? "" : "center",
+                                        cursor: !show ? "pointer" : "",
+                                        height: `${show && index == indexShow ? "640px" : "50px"
+                                            }`,
+                                        overflow: "hidden",
+                                        width: `${show && index == indexShow && value == "Join by"
+                                            ? "100%"
+                                            : show && index == indexShow
+                                                ? "100%"
+                                                : "50px"
+                                            }`,
+                                        margin: "auto",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundSize: "50px 50px",
+                                        backgroundPosition: "center",
+                                    }}
+                                    className={
+                                        index == indexShow
+                                            ? styles.hoveredOne
+                                            : styles.alwaysHave
+                                    }
+                                >
+                                    {
+                                        <div style={{
+                                            width: indexShow === index ? '100%' : '',
+                                            margin: indexShow === index ? '50px 98px' : '0px'
+                                        }} >
+                                            <Join
+                                                value={value}
+                                                setValue={setValue}
+                                                result={each["result"] ? each["result"] : []}
+                                                handleMoreDataShow={handleMoreDataShow}
+                                                indexShow={indexShow}
+                                                index={index}
+                                                each={each}
+                                                next={completeData[index + 1]}
+                                                joinType={joinType}
+                                                setJoinType={setJoinType}
+                                                connectorData={connectorData}
+                                                completeData={completeData}
+                                                setCompleteData={setCompleteData}
+                                                finalDataNeedToBeGenerated={
+                                                    finalDataNeedToBeGenerated
+                                                }
+                                                generateData={generateData}
+                                            />
+                                            {indexShow != index && (
+                                                <img
+                                                    src={require('../../Assets/Img/link_icon.svg')}
+                                                    alt=""
+                                                />
+                                            )}
+                                        </div>
+                                    }
+                                </span>
+                            )}
+                            {index !== indexShow && index < completeData.length - 1 && (
+                                <span
+                                    style={{
+                                        position: "absolute",
+                                        left: "61px",
+                                        bottom: "23px",
+                                        width: "514px",
+                                        height: "112px",
+
+                                    }}
+                                >
+                                    <div style={{}}>
+                                        {/* <div
+                                            style={{
+                                                textAlign: "left",
+                                                marginBottom: "20px",
+                                                fontWeight: "600",
+                                            }}
+                                        >
+                                            Joined by{" "}
+                                            <BorderColorIcon
+                                                className={styles.edit_btn}
+                                                onClick={(e) => handleMoreDataShow(index, true, e)}
+                                                cursor="pointer"
+                                                fontSize="large"
+                                            />{" "}
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "left",
+                                                alignItems: "center",
+                                                gap: "35px",
+                                                textAlign: "left",
+                                            }}
+                                        >
+                                            <span className={styles.detail_joins}>
+                                                <div> Left column </div>
+                                                <div>
+                                                    {each?.left_on?.length > 0
+                                                        ? toTitleCase(each?.left_on[0])
+                                                        : "Not selected"}
+                                                </div>
+                                            </span>
+                                            <span className={styles.detail_joins}>
+                                                <div>Right column </div>
+                                                <div>
+                                                    {" "}
+                                                    {each?.right_on?.length > 0
+                                                        ? toTitleCase(each?.right_on[0])
+                                                        : "Not selected"}
+                                                </div>
+                                            </span>
+                                            <span className={styles.detail_joins}>
+                                                <div> Join type </div>
+                                                <div>
+                                                    {" "}
+                                                    {each?.type ? each?.type : "Not selected"}
+                                                </div>
+                                            </span>
+                                        </div> */}
+                                        <JoinedBy
+                                            left={
+                                                each?.left_on?.length > 0
+                                                    ? toTitleCase(each?.left_on[0])
+                                                    : "Not selected"
+                                            }
+                                            right={
+                                                each?.right_on?.length > 0
+                                                    ? toTitleCase(each?.right_on[0])
+                                                    : "Not selected"
+                                            }
+                                            type={each?.type ? each?.type : "Not selected"}
+                                        />
+                                    </div>
+                                    {/* <span className={styles.result_btn_shortcut_outer}> */}
+                                    {/* <Button
+                                        onClick={(e) => {
+                                            setValue("Integrated data");
+                                            handleMoreDataShow(index, true, e, "table_result");
+                                        }}
+                                        className={styles.result_btn_shortcut}
+                                        disabled={each["result"]?.length > 0 ? false : true}
+                                    >
+                                        {console.log("each result", each["result"])}
+                                        <img
+                                            style={{
+                                                cursor: "pointer",
+                                                opacity: each["result"]?.length <= 0 ? 0.4 : 1,
+                                            }}
+                                            src={analytics}
+                                            height="50px"
+                                            width={"50px"}
+                                            alt=""
+                                        />
+                                    </Button> */}
+                                    {/* </span> */}
+                                </span>
+                            )}
+                            {index !== indexShow &&
+                                index < completeData.length - 1 &&
+                                each.left_on?.length <= 0 && (
+                                    <span
+                                        style={{
+                                            position: "absolute",
+                                            right: "40px",
+                                            bottom: "0px",
+                                            width: "514px",
+                                            height: "112px",
+                                            borderRadius: "10px",
+                                            padding: "10px 20px",
+                                        }}
+                                    >
+                                        <Alert
+                                            message="Please select join details to save the connector"
+                                            type="error"
+                                        />
+                                    </span>
+                                )}
+                            {index < completeData.length - 1 && (
+                                <span
+                                    style={{
+                                        border: index == indexShow && "1.5px solid #00AB55",
+                                    }}
+                                    class={styles.vl}
+                                ></span>
+                            )}
+                        </span>
+                    )
+                }
+                )}
         </Box>
     )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Typography } from '@mui/material'
 import style from './connector.module.css'
 import globalStyle from '../../Assets/CSS/global.module.css'
-const JoinedBy = () => {
+const JoinedBy = ({ left, right, type }) => {
     return (
         <Box className={style.joinedBy} >
             <Typography className={`${globalStyle.bold600} ${globalStyle.size18}  ${globalStyle.dark_color} ${style.mt10} mb-20 ml-20 text-left`} sx={{
@@ -18,7 +18,7 @@ const JoinedBy = () => {
                     <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
                         fontFamily: "Montserrat !important",
                         lineHeight: "24px",
-                    }}>Farmer</Typography>
+                    }}>{left}</Typography>
                 </div>
                 <div className={`${style.joinedByRight} text-left`}>
                     <Typography className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
@@ -28,7 +28,7 @@ const JoinedBy = () => {
                     <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
                         fontFamily: "Montserrat !important",
                         lineHeight: "24px",
-                    }}>Location</Typography>
+                    }}>{right}</Typography>
                 </div>
                 <div className={`text-left`}>
                     <Typography className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
@@ -38,7 +38,7 @@ const JoinedBy = () => {
                     <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
                         fontFamily: "Montserrat !important",
                         lineHeight: "24px",
-                    }}>Left</Typography>
+                    }}>{type}</Typography>
                 </div>
             </Box>
         </Box>

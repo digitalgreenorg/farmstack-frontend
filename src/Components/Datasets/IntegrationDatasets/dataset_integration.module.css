@@ -233,33 +233,34 @@
 
 .typeMainBox {
     border: 1px solid;
-    width: 108px;
-    height: 108px;
+    width: 172px;
+    height: 172px;
     background: #FFFFFF;
-    border-radius: 6px;
+    border-radius: 16px;
     display: inline-block;
     cursor: pointer;
     text-transform: capitalize;
-    margin: 12px;
+    display: flex;
+    flex-direction: column;
 }
 
 .stypeMainBox {
-    border: 1px solid #C09507;
+    border: 1px solid #00AB55;
     text-transform: capitalize;
-    width: 108px;
-    height: 108px;
+    width: 172px;
+    height: 172px;
     background: #FFFFFF;
-    border-radius: 6px;
+    border-radius: 16px;
     display: inline-block;
     cursor: pointer;
-    box-shadow: 5px 10px 1px 0.5 #C09507;
-    /* background-color: #f0cd59b9; */
-    margin: 12px;
+    box-shadow: 5px 10px 1px 0.5 #00AB55;
+    display: flex;
+    flex-direction: column;
 }
 
 .typeMainBox:hover {
-    /* border: 2px solid #C09507; */
-    background-color: #f0cd59b9;
+    border: 2px solid #00AB55;
+    /* background-color: #00AB55; */
 }
 
 .selectedTypeMainBox {
@@ -273,7 +274,21 @@
     width: 75px;
 }
 
-.labelTypeJoin {}
+.labelTypeJoin {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.SlabelTypeJoin {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
 
 .flexForBtn {
     display: flex;
@@ -315,7 +330,7 @@
 }
 
 .vl {
-    border-left: 1px dashed #C09507;
+    border-left: 1.5px solid #00AB55;
     height: 54px;
     display: inline-block;
 }
