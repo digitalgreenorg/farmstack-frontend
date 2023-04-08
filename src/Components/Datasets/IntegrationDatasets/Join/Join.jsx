@@ -22,6 +22,7 @@ import smallG from "../../../../Assets/Img/Join type/check_circle.svg";
 import CloseIcon from "@mui/icons-material/Close";
 import { Segmented } from "antd";
 import EachCardResult from "../EachCardsResult/EachCardResult";
+import EachCardResultN from "../EachCardsResult/EachCardResultN";
 import { downloadDocument } from "./utils";
 import ContainedButton from "../../../Button/ContainedButton";
 
@@ -314,7 +315,7 @@ const Join = (props) => {
             }}
           >
             <Col lg={12} sm={12} style={{ padding: "0px" }}>
-              <EachCardResult result={result} />
+              <EachCardResultN result={result} />
             </Col>
           </Row>
         )}

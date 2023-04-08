@@ -56,7 +56,9 @@ const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgL
             {completeData?.length > 0 &&
                 completeData.map((each, index) => {
                     return (
-                        <span style={{ position: "relative" }} key={index}>
+                        <span style={{
+                            position: "relative"
+                        }} key={index}>
 
                             <CardDetail
                                 setIsAllConditionForSaveMet={setIsAllConditionForSaveMet}
@@ -72,10 +74,10 @@ const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgL
                             />
                             {index < completeData.length - 1 && (
                                 <span
-                                    style={{
-                                        border: index == indexShow && "1.5px solid #00AB55",
-                                    }}
                                     class={styles.vl}
+                                    style={{
+                                        borderLeft: index == indexShow && "1.5px solid #00AB55 !important",
+                                    }}
                                 ></span>
                             )}
                             {index < completeData.length - 1 && (
@@ -87,7 +89,7 @@ const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgL
                                         justifyContent: "center",
                                         alignItems: show && index == indexShow ? "" : "center",
                                         cursor: !show ? "pointer" : "",
-                                        height: `${show && index == indexShow ? "640px" : "50px"
+                                        height: `${show && index == indexShow ? (value == "Join by" ? "640px" : "510px") : "50px"
                                             }`,
                                         overflow: "hidden",
                                         width: `${show && index == indexShow && value == "Join by"
@@ -110,7 +112,8 @@ const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgL
                                     {
                                         <div style={{
                                             width: indexShow === index ? '100%' : '',
-                                            margin: indexShow === index ? '50px 98px' : '0px'
+                                            margin: indexShow === index ? '50px 98px' : '0px',
+                                            position: indexShow === index ? '' : 'absolute'
                                         }} >
                                             <Join
                                                 value={value}
@@ -254,18 +257,25 @@ const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgL
                                             padding: "10px 20px",
                                         }}
                                     >
-                                        <Alert
-                                            message="Please select join details to save the connector"
-                                            type="error"
-                                        />
+                                        <Alert severity="info"
+                                            sx={{
+                                                '.MuiSvgIcon-root': {
+                                                    color: '#0288d1 !important'
+                                                }
+                                            }}
+                                        >
+                                            Please select join details to save the connector
+                                        </Alert>
                                     </span>
                                 )}
                             {index < completeData.length - 1 && (
                                 <span
-                                    style={{
-                                        border: index == indexShow && "1.5px solid #00AB55",
-                                    }}
                                     class={styles.vl}
+                                    style={{
+                                        borderLeft: index == indexShow && "1.5px solid #00AB55 !important",
+                                        position: 'relative',
+                                        bottom: '-6px'
+                                    }}
                                 ></span>
                             )}
                         </span>
