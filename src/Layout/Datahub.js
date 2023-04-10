@@ -148,11 +148,18 @@ function Datahub(props) {
                 component={AddConnector}
               />
               {/* end */}
+              {/* temp added edit connectors route */}
               <Route
                 exact
                 path="/datahub/connectors/edit/:id"
                 component={EditConnectorParticipant}
               />
+              {/* end */}
+              {/* <Route
+                exact
+                path="/datahub/connectors/edit/:id"
+                component={EditConnectorParticipant}
+              /> */}
               {/* <Route
                 exact
                 path="/datahub/connectors"

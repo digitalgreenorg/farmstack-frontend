@@ -369,6 +369,7 @@ const AddConnector = () => {
                 setOpen(true);
                 setAlertType("success")
                 setMessage("Data saved successfully!")
+                history.push('/datahub/connectors')
                 resetAll()
                 let id = setTimeout(() => {
                     setOpen(false);

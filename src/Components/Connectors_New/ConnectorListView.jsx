@@ -33,9 +33,7 @@ const ConnectorListView = ({ connectors, history }) => {
         <>
           <Box
             className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
-            // onClick={() =>
-            //   history.push(`/participant/new_datasets/view/${item.id}`)
-            // }
+            onClick={() => history.push(`/datahub/connectors/edit/${item.id}`)}
           >
             <Typography
               className={`${style.listViewText} ${style.listViewName} ${globalStyle.primary_color} ${style.firstCol} w-100 text-left ml-20`}

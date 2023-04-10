@@ -17,12 +17,12 @@ const cardSx = {
     border: "1px solid #2CD37F",
   },
 };
-const ConnectorCardView = ({ item }) => {
+const ConnectorCardView = ({ item, history }) => {
   return (
     <Card
       className="card"
       sx={cardSx}
-      // onClick={() => history.push(`/participant/new_datasets/view/${item.id}`)}
+      onClick={() => history.push(`/datahub/connectors/edit/${item.id}`)}
     >
       <div className={style.published}>
         <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
