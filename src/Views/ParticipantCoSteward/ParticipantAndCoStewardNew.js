@@ -256,6 +256,9 @@ const ParticipantsAndCoStewardNew = () => {
                 "As of now there is no co-stewards, so add participants and make them co-steward."
               }
               primaryButton={"Add participant"}
+              primaryButtonOnClick={() =>
+                history.push("/datahub/participants/add")
+              }
             />
           </Box>
         ) : (
@@ -277,6 +280,13 @@ const ParticipantsAndCoStewardNew = () => {
                 "As of now there is no participant, so add participants or invite participants."
               }
               primaryButton={"Add participant"}
+              primaryButtonOnClick={() =>
+                history.push("/datahub/participants/add")
+              }
+              secondaryButton={"+ Invite participants"}
+              secondaryButtonOnClick={() =>
+                history.push("/datahub/participants/inviteparticipants")
+              }
             />
           </Box>
         ) : (

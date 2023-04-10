@@ -12,6 +12,9 @@ import HTTPService from "../../Services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
 import { getUserLocal } from "../../Utils/Common";
+import Popper from "@mui/material/Popper";
+import Fade from "@mui/material/Fade";
+import Box from "@mui/material/Box";
 
 const ParticipantAndCoStewardDetailsNew = (props) => {
   let datasets = [0, 0, 0, 0, 0, 0];
@@ -54,10 +57,22 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     useState([]);
   const [loadMoreButton, setLoadMoreButton] = useState([]);
   const [loadMoreUrl, setLoadMoreUrl] = useState([]);
+  const [openDeletePoper, setOpenDeletePoper] = useState(false);
 
   const [isLoader, setIsLoader] = useState(false);
   const history = useHistory();
   const { id } = useParams();
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState("");
+
+  const handleDelete = (event) => {
+    console.log("event", event, event.currentTarget);
+    setAnchorEl(event.currentTarget);
+    setOpen((previousOpen) => !previousOpen);
+  };
+
+  const canBeOpen = open && Boolean(anchorEl);
+  const idNew = canBeOpen ? "transition-popper" : undefined;
 
   const handleLoadMoreButton = () => {
     getListOnClickOfLoadMore();
@@ -178,6 +193,41 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       });
   };
 
+  const deleteParticipants = () => {
+    setIsLoader(true);
+    // setisDelete(false);
+    // setisDeleteCoSteward(false);
+    // setisSuccess(false);
+    // setisDeleteSuccess(true)
+    HTTPService(
+      "DELETE",
+      UrlConstants.base_url + UrlConstants.participant + id + "/",
+      "",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("otp valid", response);
+        if (response.status === 204) {
+          // Show toast
+          history.go(-1);
+        }
+        // setisDeleteSuccess(true)
+        // setisSuccess(false)
+        // setisDelete(false);
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+        console.log("err", e);
+      });
+  };
+
+  // const handleDelete = () => {
+  //   setOpenDeletePoper(true);
+  // };
+
   useEffect(() => {
     getParticipantsOrCostewardDetails();
     getCoStewardOrParticipants();
@@ -209,12 +259,46 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <Button
             variant="outlined"
             className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
+            onClick={handleDelete}
           >
             Delete {isCosteward ? "Co-steward" : "Participant"}
           </Button>
+          <Popper id={idNew} open={open} anchorEl={anchorEl} transition>
+            {({ TransitionProps }) => (
+              <Fade {...TransitionProps} timeout={350}>
+                <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
+                  <div>
+                    <Typography variant="h4">
+                      {" "}
+                      Are you sure want to delete?
+                    </Typography>
+                  </div>
+                  <Typography variant="p">
+                    Are you sure want to delete? If deleting, the joining of
+                    dataset also delete.
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    className={`${GlobalStyle.outlined_button} ${LocalStyle.deleteButton}`}
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButtonOnDelete}`}
+                    onClick={handleDelete}
+                  >
+                    Cencel
+                  </Button>
+                </Box>
+              </Fade>
+            )}
+          </Popper>
           <Button
             variant="outlined"
             className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
+            onClick={(e) => history.push(`/datahub/participants/edit/${id}`)}
           >
             Edit {isCosteward ? "Co-steward" : "Participant"}
           </Button>
@@ -340,7 +424,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       <Row>
         {datasets?.map((dataset, index) => {
           return (
-            <Col xs={12} sm={12} md={6} xl={4}>
+            <Col
+              onClick={() =>
+                history.push(`/datahub/dataset/view/${dataset.id}`)
+              }
+              xs={12}
+              sm={12}
+              md={6}
+              xl={4}
+            >
               <DatasetCart />
             </Col>
           );
@@ -409,6 +501,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
+          onClick={() => history.go(-1)}
         >
           Back
         </Button>

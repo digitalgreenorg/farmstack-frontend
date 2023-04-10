@@ -35,7 +35,7 @@ const CoStewardAndParticipantsCard = (props) => {
   return (
     <>
       <Row className={LocalStyle.titleContainer}>
-        <Col xs={6} sm={6} md={8} xl={8}>
+        <Col xs={6} sm={6} md={6} xl={6}>
           <Typography
             id={title + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
@@ -48,9 +48,24 @@ const CoStewardAndParticipantsCard = (props) => {
             className={LocalStyle.listAndGridViewButton}
             xs={6}
             sm={6}
-            md={4}
-            xl={4}
+            md={6}
+            xl={6}
           >
+            {title == "Participants" ? (
+              <div>
+                <Button
+                  id="add-participant-submit-button"
+                  onClick={() =>
+                    history.push("/datahub/dataset/inviteparticipants")
+                  }
+                  className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
+                >
+                  + Invite Participants
+                </Button>
+              </div>
+            ) : (
+              ""
+            )}
             <div
               id={title + "grid-view"}
               className={LocalStyle.viewType}

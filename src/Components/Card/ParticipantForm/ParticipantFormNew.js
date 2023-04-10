@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FormControl,
   FormControlLabel,
@@ -10,24 +10,29 @@ import {
   InputLabel,
 } from "@material-ui/core";
 import { Typography, TextField } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import LocalStyle from "./ParticipantForm.module.css";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import labels from "../../../Constants/labels";
 import UrlConstants from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
+import countryList from "react-select-country-list";
 import {
   GetErrorKey,
   getUserLocal,
   isLoggedInUserCoSteward,
+  validateInputField,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 
 const ParticipantFormNew = (props) => {
   const { title, isEditModeOn } = props;
   const history = useHistory();
+  const countryNameList = useMemo(() => countryList().getData(), []);
+  const { id } = useParams();
 
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [organisationName, setOrganisationName] = useState("");
@@ -64,6 +69,7 @@ const ParticipantFormNew = (props) => {
   const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
   const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
   const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
+  const [orgId, setOrgId] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,6 +84,46 @@ const ParticipantFormNew = (props) => {
     var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
     return res1 !== null;
   };
+
+  const handleCancel = () => {
+    if (isEditModeOn) {
+      history.go(-2);
+    } else {
+      setOrganisationName("");
+      setOrganisationEmail("");
+      setWebsite("");
+      setAddress("");
+      setOrganisationPinCode("");
+      setOrganisationCountry("");
+      setCountry("");
+      setPinCode("");
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setContactNumber("");
+      setAssignRole("");
+
+      setistrusted(false);
+      setIsOrganisationEmailError(false);
+      setIsContactNumberError(false);
+      setEebsiteLinkError(false);
+      setIsUserEmailError(false);
+      setIsExisitingUserEmail(false);
+      setisSuccess(false);
+      setIsLoader(false);
+
+      setFirstNameErrorMessage(null);
+      setLastNameErrorMessage(null);
+      setEmailErrorMessage(null);
+      setPhoneNumberErrorMessage(null);
+      setOrgNameErrorMessage(null);
+      setOrgEmailErrorMessage(null);
+
+      setOrgWebsiteErrorMessage(null);
+      setOrgId("");
+    }
+  };
+
   const addNewParticipants = () => {
     setFirstNameErrorMessage(null);
     setLastNameErrorMessage(null);
@@ -106,19 +152,27 @@ const ParticipantFormNew = (props) => {
       })
     );
 
-    bodyFormData.append("role", 3);
+    bodyFormData.append(
+      "role",
+      assignRole == "Participant" || assignRole == "Individual organisation"
+        ? 3
+        : 6
+    );
+    let method = "POST";
+    let url = UrlConstants.base_url + UrlConstants.participant;
+
+    if (isEditModeOn) {
+      bodyFormData.append("id", orgId);
+      bodyFormData.append("approval_status", istrusted);
+      method = "PUT";
+      url = UrlConstants.base_url + UrlConstants.participant + id + "/";
+    }
     if (isLoggedInUserCoSteward()) {
       bodyFormData.append("on_boarded_by", id);
     }
     setIsLoader(true);
 
-    HTTPService(
-      "POST",
-      UrlConstants.base_url + UrlConstants.participant,
-      bodyFormData,
-      false,
-      true
-    )
+    HTTPService(method, url, bodyFormData, false, true)
       .then((response) => {
         setIsLoader(false);
         setisSuccess(true);
@@ -170,6 +224,62 @@ const ParticipantFormNew = (props) => {
       });
   };
 
+  const getDataOnEdit = () => {
+    setIsLoader(true);
+    HTTPService(
+      "GET",
+      UrlConstants.base_url + UrlConstants.participant + id + "/",
+      "",
+      false,
+      true
+    )
+      .then((response) => {
+        setIsLoader(false);
+        console.log("otp valid", response.data);
+        // let addressdata=JSON.parse(response.data.organization.address)
+        setOrganisationName(response.data.organization.name);
+        setAddress(
+          response.data.organization.address.address ||
+            JSON.parse(response?.data?.organization?.address)?.address
+        );
+        setOrganisationEmail(response.data.organization.org_email);
+        setOrganisationCountry(
+          response.data.organization.address.country ||
+            JSON.parse(response?.data?.organization?.address)?.country
+        );
+        setContactNumber(response.data.user.phone_number);
+        setWebsite(response.data.organization.website);
+        setOrganisationPinCode(
+          response.data.organization.address.pincode ||
+            JSON.parse(response?.data?.organization?.address)?.pincode
+        );
+        setFirstName(response.data.user.first_name);
+        setLastName(response.data.user.last_name);
+        setEmail(response.data.user.email);
+        // setorganisationlength(response.data.user.subscription)
+        setOrgId(response.data.organization_id);
+        setistrusted(response.data.user.approval_status);
+        if (response?.data?.user?.role == 6) {
+          setAssignRole("Co-Steward");
+        } else if (response?.data?.user?.role == 3) {
+          setAssignRole("Participant");
+        }
+      })
+      .catch((e) => {
+        setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+        console.log("err", e);
+      });
+  };
+
+  useEffect(() => {
+    if (isEditModeOn) {
+      getDataOnEdit();
+    }
+  }, []);
+
+  console.log("error ", assignRole);
+
   return (
     <>
       <div className={LocalStyle.organisationFormContainer}>
@@ -194,8 +304,15 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={organisationName}
-                onChange={(event) => setOrganisationName(event.target.value)}
-                error={orgNameErrorMessage}
+                onChange={(e) =>
+                  validateInputField(
+                    e.target.value,
+                    RegexConstants.ORG_NAME_REGEX
+                  )
+                    ? setOrganisationName(e.target.value)
+                    : e.preventDefault()
+                }
+                error={orgNameErrorMessage ? true : false}
                 helperText={orgNameErrorMessage ? orgNameErrorMessage : ""}
               />
             </Col>
@@ -207,7 +324,14 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={organisationEmail}
-                onChange={(event) => setOrganisationEmail(event.target.value)}
+                onChange={(e) =>
+                  validateInputField(
+                    e.target.value,
+                    RegexConstants.NO_SPACE_REGEX
+                  )
+                    ? setOrganisationEmail(e.target.value.trim())
+                    : e.preventDefault()
+                }
                 error={orgEmailErrorMessage ? true : false}
                 helperText={orgEmailErrorMessage ? orgEmailErrorMessage : ""}
               />
@@ -220,7 +344,7 @@ const ParticipantFormNew = (props) => {
                 label="Website Link"
                 fullWidth
                 value={website}
-                onChange={(event) => setWebsite(event.target.value)}
+                onChange={(event) => setWebsite(event.target.value.trim())}
                 error={orgWebsiteErrorMessage}
                 helperText={
                   orgWebsiteErrorMessage ? orgWebsiteErrorMessage : ""
@@ -242,14 +366,37 @@ const ParticipantFormNew = (props) => {
           </Row>
           <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
-              <TextField
-                className={LocalStyle.textField}
-                label="Country "
-                fullWidth
-                required
-                value={country}
-                onChange={(event) => setCountry(event.target.value)}
-              />
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel>Country</InputLabel>
+                <Select
+                  IconComponent={(_props) => (
+                    <div style={{ position: "relative" }}>
+                      <img
+                        className={LocalStyle.icon}
+                        src={require("../../../Assets/Img/down_arrow.svg")}
+                      />
+                    </div>
+                  )}
+                  labelId="Country"
+                  id="country-in-add-participants"
+                  className={LocalStyle.textField}
+                  label="Country "
+                  fullWidth
+                  required
+                  value={organisationCountry}
+                  onChange={(event) =>
+                    setOrganisationCountry(event.target.value)
+                  }
+                >
+                  {countryNameList?.map((countryName, index) => {
+                    return (
+                      <MenuItem value={countryName.label}>
+                        {countryName.label}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
             </Col>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
@@ -258,7 +405,17 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={organisationPinCode}
-                onChange={(event) => setOrganisationPinCode(event.target.value)}
+                // onChange={(event) => setOrganisationPinCode(event.target.value)}
+                onChange={(e) => {
+                  if (e.target.value.length > 10)
+                    e.target.value = e.target.value.substring(0, 10);
+                  validateInputField(
+                    e.target.value,
+                    RegexConstants.PINCODE_REGEX
+                  )
+                    ? setOrganisationPinCode(e.target.value.trim())
+                    : e.preventDefault();
+                }}
               />
             </Col>
           </Row>
@@ -306,17 +463,35 @@ const ParticipantFormNew = (props) => {
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
               className={LocalStyle.textField}
+              label="Mail Id "
+              type="email"
+              fullWidth
+              required
+              value={email}
+              onChange={(e) =>
+                validateInputField(
+                  e.target.value,
+                  RegexConstants.NO_SPACE_REGEX
+                )
+                  ? setEmail(e.target.value.trim())
+                  : e.preventDefault()
+              }
+              error={emailErrorMessage ? true : false}
+              helperText={emailErrorMessage ? emailErrorMessage : ""}
+            />
+            {/* <TextField
+              className={LocalStyle.textField}
               label="Country "
               fullWidth
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-            />
+            /> */}
           </Col>
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
               className={LocalStyle.textField}
-              label="PIN Code "
+              label="Contact Number"
               fullWidth
               required
               value={contactNumber}
@@ -334,7 +509,6 @@ const ParticipantFormNew = (props) => {
               <InputLabel id="assign-role-in-add-participants">
                 Assign Role
               </InputLabel>
-
               <Select
                 IconComponent={(_props) => (
                   <div style={{ position: "relative" }}>
@@ -346,28 +520,51 @@ const ParticipantFormNew = (props) => {
                 )}
                 labelId="Assign Role"
                 id="assign-role-in-add-participants"
-                // value={age}
+                value={!isEditModeOn ? "Participant" : assignRole}
                 label="Assign Role"
-                // onChange={handleChange}
+                onChange={(e) => {
+                  // console.log(e.target.value, assignRole);
+                  setAssignRole(e.target.value);
+                }}
               >
-                <FormControlLabel
-                  value="individual-organisation"
-                  control={<Radio color="primary" />}
+                <MenuItem value="Individual Organisation">
+                  Individual Organisation
+                </MenuItem>
+                <MenuItem value="Co-Steward">Co-Steward</MenuItem>
+                <MenuItem value="Participant">Participant</MenuItem>
+                {/* <FormControlLabel
+                  value="Individual Organisation"
+                  control={
+                    <Radio
+                      checked={assignRole == "Individual Organisation"}
+                      color="primary"
+                    />
+                  }
                   label="Individual Organisation"
                 />
                 <hr />
                 <FormControlLabel
-                  value="co-steward"
-                  control={<Radio color="primary" />}
+                  value="Co-steward"
+                  control={
+                    <Radio
+                      checked={assignRole === "Co-steward"}
+                      color="primary"
+                    />
+                  }
                   label="Co-Steward"
                 />
-                <hr />
-                <FormControlLabel
-                  value="participant"
-                  control={<Radio color="primary" />}
+                <hr /> */}
+                {/* <FormControlLabel
+                  value="Participant"
+                  control={
+                    <Radio
+                      checked={assignRole === "Participant"}
+                      color="primary"
+                    />
+                  }
                   label="Participant"
                 />
-                <hr />
+                <hr /> */}
               </Select>
             </FormControl>
           </Col>
@@ -385,6 +582,7 @@ const ParticipantFormNew = (props) => {
           id={"add-participant-cancel-button"}
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButton}`}
+          onClick={handleCancel}
         >
           Cancel
         </Button>

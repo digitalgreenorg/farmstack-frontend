@@ -54,6 +54,8 @@ import { Divider } from "@mui/material";
 import FooterNew from "../Components/Footer/Footer_New";
 import CostewardDetailsNew from "../Views/ParticipantCoSteward/CostewardDetailsNew";
 import AddParticipantNew from "../Views/Participants/AddParticipantNew";
+import EditParticipantsNew from "../Views/Participants/EditParticipantsNew";
+import DataSetsView from "../Components/Datasets_New/DataSetsView";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -75,7 +77,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/participants/edit/:id"
-                component={EditParticipants}
+                component={EditParticipantsNew}
               />
               <Route
                 exact
@@ -181,7 +183,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/dataset/view/:id"
-                component={ViewMetaDatasetDetails}
+                component={DataSetsView}
               />
               <Route
                 exact

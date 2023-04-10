@@ -75,3 +75,7 @@
   margin: 12px;
   cursor: pointer;
 }
+.primary {
+  box-shadow: none;
+  padding: 0 22px !important;
+}
