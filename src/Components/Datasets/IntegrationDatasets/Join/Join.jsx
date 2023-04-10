@@ -25,6 +25,7 @@ import EachCardResult from "../EachCardsResult/EachCardResult";
 import EachCardResultN from "../EachCardsResult/EachCardResultN";
 import { downloadDocument } from "./utils";
 import ContainedButton from "../../../Button/ContainedButton";
+import OutlinedButton from "../../../Button/OutlinedButton";
 
 const selectStyle = {
   textAlign: "left",
@@ -113,6 +114,8 @@ const Join = (props) => {
     setCompleteData([...arr]);
     setJoinType(name);
   };
+
+  const handleMoreJoinFields = () => {};
   useEffect(() => {
     // console.log(index, "[index]", each)
   }, []);
@@ -147,16 +150,31 @@ const Join = (props) => {
           </span> */}
         </div>
         {value == "Join by" && (
-          <Box
-            className={`${styles.select_dataset_logo} mt-20`}
-            sx={
-              {
-                // display: "flex",
-                // justifyContent: "space-between",
+          <Box className="d-flex justify-content-between align-items-center">
+            <Box
+              className={`${styles.select_dataset_logo} mt-20 w-50`}
+              sx={
+                {
+                  // display: "flex",
+                  // justifyContent: "space-between",
+                }
               }
-            }
-          >
-            {value == "Join by" ? "Join" : "Integrated data preview"}
+            >
+              {value == "Join by" ? "Join" : "Integrated data preview"}
+            </Box>
+            <Box>
+              <OutlinedButton
+                text={
+                  <>
+                    <span style={{ marginRight: "5px" }}>+</span>
+                    Join more
+                  </>
+                }
+                fontWeight={"700"}
+                fontSize={"13px"}
+                handleClick={handleMoreJoinFields}
+              />
+            </Box>
           </Box>
         )}
 
