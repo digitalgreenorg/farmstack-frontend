@@ -251,21 +251,20 @@ const Preview = (props) => {
           {/* <Col lg={3}> */}
           <Button
             onClick={() => integrateMore(1)}
-            variant="outlined"
+            variant="contained"
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Public Sans",
               fontWeight: 700,
               fontSize: "15px",
-              width: "232px",
+              width: "215px",
               height: "48px",
-              border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
-              color: "#00AB55",
+              color: "white",
               textTransform: "none",
               marginRight: "30px",
+              background: "#00AB55",
               "&:hover": {
-                background: "none",
-                border: "1px solid rgba(0, 171, 85, 0.48)",
+                background: "#00AB55",
               },
             }}
           >
@@ -324,7 +323,21 @@ const Preview = (props) => {
             >
               <Button
                 //  onClick={() => deleteConnector()}
-                className={styles.delete_btn}
+                sx={{
+                  fontFamily: "Public Sans",
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  width: "200px",
+                  height: "48px",
+                  borderRadius: "8px",
+                  color: "white",
+                  textTransform: "none",
+                  marginRight: "30px",
+                  background: "#FF5630",
+                  "&:hover": {
+                    background: "#FF5630",
+                  },
+                }}
               >
                 Delete connector
               </Button>

@@ -132,6 +132,7 @@ const Join = (props) => {
             onChange={setValue}
             block
             options={["Join by", "Integrated data"]}
+            size="large"
           />
           {/* <span style={{ cursor: "pointer", flex: 0.5, textAlign: "right" }}>
             <CloseIcon

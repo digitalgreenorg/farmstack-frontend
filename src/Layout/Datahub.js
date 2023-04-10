@@ -47,6 +47,7 @@ import Connectors from "../Components/Connectors_New/Connectors";
 import { Divider } from "@mui/material";
 import FooterNew from "../Components/Footer/Footer_New";
 import AddConnector from "../Views/Connector_New/AddConnector";
+import EditConnector from "../Views/Connector_New/EditConnector";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -152,7 +153,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/connectors/edit/:id"
-                component={EditConnectorParticipant}
+                component={EditConnector}
               />
               {/* end */}
               {/* <Route

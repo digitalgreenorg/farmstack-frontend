@@ -5,15 +5,11 @@ import EmptyFile from '../../Components/Datasets_New/TabComponents/EmptyFile';
 import globalStyle from '../../Assets/CSS/global.module.css'
 import style from './connector.module.css'
 import IntegrationConnector from './IntegrationConnector';
-import JoinLink from './JoinLink';
-import JoinedBy from './JoinedBy';
 import HTTPService from '../../Services/HTTPService';
 import UrlConstant from '../../Constants/UrlConstants';
 import { GetErrorHandlingRoute, getUserLocal, goToTop, validateInputField } from '../../Utils/Common';
 import { useHistory } from 'react-router-dom';
-import RegexConstants from '../../Constants/RegexConstants';
 import Preview from '../../Components/Datasets/IntegrationDatasets/Preview/Preview';
-import Join from '../../Components/Datasets/IntegrationDatasets/Join/Join';
 
 const textFieldStyle = {
     borderRadius: '8px',
@@ -29,7 +25,7 @@ const textFieldStyle = {
         }
     },
 }
-const AddConnector = () => {
+const AddConnector = (props) => {
 
     const history = useHistory()
     const [connectorName, setConnectorName] = useState('');
@@ -70,7 +66,6 @@ const AddConnector = () => {
     const [integratedFilePath, setIntegratedFilePath] = useState("")
     const [noOfRecords, setNoOfRecords] = useState(0)
     const [finalDatasetAfterIntegration, setFinalDatasetAfterIntegration] = useState([])
-    const [connectorIdForView, setConnectorIdForView] = useState("")
     const [connectorId, setConnectorId] = useState("")
     const [connectorData, setConnectorData] = useState({
         name: "", desc: "",
@@ -245,7 +240,7 @@ const AddConnector = () => {
         let connector_id = connectorId
         // let map_id
         if (condition == "view_details") {
-            connector_id = connectorIdForView
+            connector_id = props.connectorIdForView
         }
         //  else if (condition == "delete_map_card" && isEditModeOn) {
         //     map_id = completeData[index]["map_id"] ? completeData[index]["map_id"] : ""
@@ -279,7 +274,7 @@ const AddConnector = () => {
                     }
                 }
                 // console.log(temporaryDeletedCards, completeData[i]?.map_id, "completeData[i]?.map_id")
-                if (isEditModeOn && !temporaryDeletedCards.includes(completeData[i]?.map_id)) {
+                if (props.isEditModeOn && !temporaryDeletedCards.includes(completeData[i]?.map_id)) {
                     obj["id"] = completeData[i]?.map_id ? completeData[i]?.map_id : null
                 }
                 payload.push(obj)
@@ -289,7 +284,7 @@ const AddConnector = () => {
         let method
         if (condition == "save") {
             finalPayload = { name: connectorData.name, description: connectorData.desc, user: getUserLocal(), maps: payload, integrated_file: integratedFilePath }
-            if (isEditModeOn) {
+            if (props.isEditModeOn) {
                 url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/" // for saving     
                 method = "PUT"
             } else {
@@ -298,7 +293,7 @@ const AddConnector = () => {
             }
         } else if (condition == "integrate") {
             finalPayload = { name: connectorData.name, description: connectorData.desc, user: getUserLocal(), maps: payload }
-            if (isEditModeOn) {
+            if (props.isEditModeOn) {
                 url = UrlConstant.base_url + UrlConstant.joining_the_table + "?edit=True" //for generating
             } else {
                 url = UrlConstant.base_url + UrlConstant.joining_the_table //for generating
@@ -312,7 +307,7 @@ const AddConnector = () => {
             url = UrlConstant.base_url + UrlConstant.integration_connectors + connector_id + "/"
             finalPayload = {}
             method = "GET"
-        } else if (condition == "delete_map_card" && isEditModeOn && map_id) {
+        } else if (condition == "delete_map_card" && props.isEditModeOn && map_id) {
             method = "DELETE"
             url = UrlConstant.base_url + UrlConstant.integration_connectors + map_id + "/?maps=True"
 
@@ -379,6 +374,7 @@ const AddConnector = () => {
 
             } else if (condition == "delete") {
                 console.log("inside delete", res)
+                history.push('/datahub/connectors')
                 resetAll()
                 // setOpen(true);
                 // setAlertType("success")
@@ -495,11 +491,11 @@ const AddConnector = () => {
     }
     useEffect(() => {
         getDataList("org_names")
-        if (isEditModeOn && connectorIdForView) {
+        if (props.isEditModeOn && props.connectorIdForView) {
             generateData(0, "view_details")
         }
-    }, [isEditModeOn, connectorIdForView, isDatasetIntegrationListModeOn])
-    console.log(template)
+    }, [isEditModeOn, props.isEditModeOn, props.connectorIdForView, isDatasetIntegrationListModeOn])
+    console.log(props)
     return (
         <Box>
             <Box sx={{ marginLeft: '144px', marginRight: '144px' }}>
@@ -579,7 +575,7 @@ const AddConnector = () => {
                                 setTotalCounter={setTotalCounter}
                                 totalCounter={totalCounter}
                                 connectorTimeData={connectorTimeData}
-                                isEditModeOn={isEditModeOn}
+                                isEditModeOn={props.isEditModeOn}
                                 isConditionForConnectorDataForSaveMet={isConditionForConnectorDataForSaveMet}
                                 setIsConditionForConnectorDataForSaveMet={
                                     setIsConditionForConnectorDataForSaveMet
@@ -633,7 +629,7 @@ const AddConnector = () => {
                                 deleteConnector={deleteConnector}
                                 counterForIntegrator={counterForIntegrator}
                                 completeData={completeData}
-                                isEditModeOn={isEditModeOn}
+                                isEditModeOn={props.isEditModeOn}
                                 integrateMore={integrateMore}
                                 resetAll={resetAll}
                                 connectorData={connectorData}
