@@ -42,7 +42,7 @@ const AddConnector = (props) => {
             file_name: "", availabeColumns: [],
             columnsSelected: [], left: [],
             right: [], left_on: [], right_on: [],
-            type: "", result: []
+            type: "", result: [], noOfjoin: 1
         },
     )
     const [empty, setEmptyTemplate] = useState(
@@ -50,7 +50,7 @@ const AddConnector = (props) => {
             org_id: "", dataset_list: [],
             file_list: [], org_name: "",
             dataset_id: "", dataset_name: "", file_name: "", availabeColumns: [],
-            columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: []
+            columnsSelected: [], left: [], right: [], left_on: [], right_on: [], type: "", result: [], noOfjoin: 1
         },
     )
     const [isEditModeOn, setIsEditModeOn] = useState(false)
@@ -193,6 +193,7 @@ const AddConnector = (props) => {
             currentObj["map_id"] = maps[i]?.id ? maps[i]?.id : null
             currentObj["result"] = maps[i]?.condition?.result ? maps[i]?.condition?.result : []
             currentObj["availabeColumns"] = maps[i]?.condition?.left_available_columns?.length > 0 ? maps[i]?.condition?.left_available_columns : maps[i]?.condition?.left_selected
+            currentObj["noOfjoin"] = maps[i]?.condition?.left_on?.length
             arr[i] = currentObj
 
             //Next obj

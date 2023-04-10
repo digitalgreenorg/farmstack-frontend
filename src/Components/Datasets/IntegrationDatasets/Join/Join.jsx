@@ -78,7 +78,7 @@ const Join = (props) => {
   ]);
   console.log("RESULT OF EACH", result);
   console.log(each);
-  const handleChangeJoin = (e, source) => {
+  const handleChangeJoin = (e, ind, source) => {
     let arr = [...completeData];
     let obj1 = { ...each };
     const {
@@ -90,13 +90,14 @@ const Join = (props) => {
     // }
     if (source == "join1") {
       console.log(value);
-      obj1["left_on"] = [value];
+      obj1["left_on"][ind] = value;
       arr[index] = { ...obj1 };
     } else {
-      obj1["right_on"] = [value];
+      obj1["right_on"][ind] = value;
       arr[index] = { ...obj1 };
     }
-
+    console.log(obj1);
+    console.log(arr);
     setCompleteData([...arr]);
   };
 
@@ -115,7 +116,18 @@ const Join = (props) => {
     setJoinType(name);
   };
 
-  const handleMoreJoinFields = () => {};
+  const handleMoreJoinFields = () => {
+    each["noOfjoin"] = each?.noOfjoin + 1;
+    let arr = [...completeData];
+    arr[index] = each;
+    setCompleteData([...arr]);
+    console.log(arr);
+    console.log(each["noOfjoin"]);
+  };
+
+  const getJoinFieldArray = () => {
+    return [...Array(each?.noOfjoin).keys()];
+  };
   useEffect(() => {
     // console.log(index, "[index]", each)
   }, []);
@@ -180,82 +192,92 @@ const Join = (props) => {
 
         {value == "Join by" ? (
           <>
-            <Box className="d-flex align-items-center">
-              <FormControl variant="outlined" style={{ width: "100%" }}>
-                <InputLabel id="demo-simple-select-standard-label">
-                  Join column (left)
-                </InputLabel>
-                {/* {console.log(each)} */}
-                <Select
-                  labelId="primary_col_label_for_join"
-                  id="primary_col_select_for_join"
-                  required
-                  value={each?.left_on?.length > 0 ? each?.left_on[0] : ""}
-                  onChange={(e) => handleChangeJoin(e, "join1")}
-                  label="Join column (left)"
-                  sx={selectStyle}
-                  // multiple
-                >
-                  {index == 0 &&
-                    each.columnsSelected?.map((eachFile, ind_) => {
-                      return (
-                        <MenuItem key={ind_} value={eachFile + ""}>
-                          {eachFile}
-                        </MenuItem>
-                      );
-                    })}
-                  {index != 0 &&
-                    completeData[index - 1].next_left?.map((eachFile, ind_) => {
-                      return (
-                        <MenuItem key={ind_} value={eachFile + ""}>
-                          {eachFile}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-              </FormControl>
-              <DragHandleIcon
-                sx={{
-                  fontSize: "30px !important",
-                  fill: "#000000 !important",
-                  ".MuiSvgIcon-root": {
-                    fill: "#000000 !important",
-                  },
-                  marginLeft: "18px",
-                  marginRight: "18px",
-                }}
-              />
-              <FormControl variant="outlined" style={{ width: "100%" }}>
-                <InputLabel id="secondary_col_label_for_join">
-                  Join column (right)
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="secondary_col_select_for_join"
-                  required
-                  sx={selectStyle}
-                  value={each?.right_on ? each?.right_on[0] : ""}
-                  onChange={(e) => handleChangeJoin(e, "join2")}
-                  label="Join column (right)"
-                  // multiple
-                >
-                  {completeData[index + 1]?.columnsSelected?.map(
-                    (eachFile, ind_) => {
-                      if (
-                        completeData[index + 1]?.availabeColumns.includes(
-                          eachFile
-                        )
-                      ) {
-                        return (
-                          <MenuItem key={ind_} value={eachFile + ""}>
-                            {eachFile}
-                          </MenuItem>
-                        );
+            <Box
+              className={`d-flex align-items-center flex-wrap w-100 ${styles.oAuto} ${styles.h156}`}
+            >
+              {getJoinFieldArray()?.map((res, ind) => (
+                <Box className="d-flex align-items-center w-100 mt-20">
+                  <FormControl variant="outlined" style={{ width: "100%" }}>
+                    <InputLabel id="demo-simple-select-standard-label">
+                      Join column (left)
+                    </InputLabel>
+                    {/* {console.log(each)} */}
+                    <Select
+                      labelId="primary_col_label_for_join"
+                      id="primary_col_select_for_join"
+                      required
+                      value={
+                        each?.left_on?.length > 0 ? each?.left_on[ind] : ""
                       }
-                    }
-                  )}
-                </Select>
-              </FormControl>
+                      onChange={(e) => handleChangeJoin(e, ind, "join1")}
+                      label="Join column (left)"
+                      sx={selectStyle}
+                      // multiple
+                    >
+                      {index == 0 &&
+                        each.columnsSelected?.map((eachFile, ind_) => {
+                          return (
+                            <MenuItem key={ind_} value={eachFile + ""}>
+                              {eachFile}
+                            </MenuItem>
+                          );
+                        })}
+                      {index != 0 &&
+                        completeData[index - 1].next_left?.map(
+                          (eachFile, ind_) => {
+                            return (
+                              <MenuItem key={ind_} value={eachFile + ""}>
+                                {eachFile}
+                              </MenuItem>
+                            );
+                          }
+                        )}
+                    </Select>
+                  </FormControl>
+                  <DragHandleIcon
+                    sx={{
+                      fontSize: "30px !important",
+                      fill: "#000000 !important",
+                      ".MuiSvgIcon-root": {
+                        fill: "#000000 !important",
+                      },
+                      marginLeft: "18px",
+                      marginRight: "18px",
+                    }}
+                  />
+                  <FormControl variant="outlined" style={{ width: "100%" }}>
+                    <InputLabel id="secondary_col_label_for_join">
+                      Join column (right)
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="secondary_col_select_for_join"
+                      required
+                      sx={selectStyle}
+                      value={each?.right_on ? each?.right_on[ind] : ""}
+                      onChange={(e) => handleChangeJoin(e, ind, "join2")}
+                      label="Join column (right)"
+                      // multiple
+                    >
+                      {completeData[index + 1]?.columnsSelected?.map(
+                        (eachFile, ind_) => {
+                          if (
+                            completeData[index + 1]?.availabeColumns.includes(
+                              eachFile
+                            )
+                          ) {
+                            return (
+                              <MenuItem key={ind_} value={eachFile + ""}>
+                                {eachFile}
+                              </MenuItem>
+                            );
+                          }
+                        }
+                      )}
+                    </Select>
+                  </FormControl>
+                </Box>
+              ))}
             </Box>
             {value == "Join by" && (
               <Box className={`${styles.select_dataset_logo} mt-20`}>

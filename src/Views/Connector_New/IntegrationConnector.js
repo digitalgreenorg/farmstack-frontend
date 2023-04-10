@@ -89,8 +89,7 @@ const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgL
                                         justifyContent: "center",
                                         alignItems: show && index == indexShow ? "" : "center",
                                         cursor: !show ? "pointer" : "",
-                                        height: `${show && index == indexShow ? (value == "Join by" ? "640px" : "510px") : "50px"
-                                            }`,
+                                        height: `${show && index == indexShow ? (value == "Join by" ? (each?.noOfjoin > 1 ? "718px" : "640px") : "510px") : "50px"}`,
                                         overflow: "hidden",
                                         width: `${show && index == indexShow && value == "Join by"
                                             ? "100%"
