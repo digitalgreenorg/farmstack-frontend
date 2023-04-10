@@ -1,6 +1,7 @@
 import React from "react";
 import LocalStyle from "./CustomCard.module.css";
 import Card from "@mui/material/Card";
+import UrlConstant from "../../Constants/UrlConstants";
 
 const CustomCard = (props) => {
   const {
@@ -12,6 +13,11 @@ const CustomCard = (props) => {
     subTitle2Value,
     index,
   } = props;
+  console.log("props", props);
+
+  let imageUrl = image
+    ? UrlConstant.base_url + image?.slice(1, image.length)
+    : require("../../Assets/Img/participant_organization.svg");
 
   return (
     <>
@@ -21,8 +27,9 @@ const CustomCard = (props) => {
       >
         <div className={LocalStyle.img_container}>
           <img
+            className={LocalStyle.img}
             id={`${title ? title : "title"}-card-img-${index ? index : ""}`}
-            src={require("../../Assets/Img/participant_organization.svg")}
+            src={imageUrl}
             alt="new"
           />
         </div>
@@ -30,7 +37,7 @@ const CustomCard = (props) => {
           id={`${title ? title : "title"}-card-title-${index ? index : ""}`}
           className={LocalStyle.content_title}
         >
-          International Center for Tropical Agriculture
+          {title ? title : ""}
         </div>
         <div className={LocalStyle.displayFlex}>
           <div className={LocalStyle.content_text}>
@@ -40,7 +47,7 @@ const CustomCard = (props) => {
               }`}
               className={LocalStyle.content_text1}
             >
-              Datasets
+              {subTitle1 ? subTitle1 : ""}
             </div>
             <div
               id={`${title ? title : "subtitle2"}-card-subtitle2-${
@@ -48,7 +55,7 @@ const CustomCard = (props) => {
               }`}
               className={LocalStyle.content_text2}
             >
-              03
+              {subTitle1Value ? subTitle1Value : 0}
             </div>
           </div>
           <div className={LocalStyle.content_text}>
@@ -58,7 +65,7 @@ const CustomCard = (props) => {
               }`}
               className={LocalStyle.content_text1}
             >
-              No.of participants
+              {subTitle2 ? subTitle2 : ""}
             </div>
             <div
               id={`${title ? title : "subtitle4"}-card-subtitle4-${
@@ -66,7 +73,7 @@ const CustomCard = (props) => {
               }`}
               className={LocalStyle.content_text2}
             >
-              03
+              {subTitle2Value || subTitle2Value == 0 ? subTitle2Value : ""}
             </div>
           </div>
         </div>

@@ -48,6 +48,12 @@ import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/Datas
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
 import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
+import NavbarNew from "../Components/Navbar/Navbar_New";
+import Connectors from "../Components/Connectors_New/Connectors";
+import { Divider } from "@mui/material";
+import FooterNew from "../Components/Footer/Footer_New";
+import CostewardDetailsNew from "../Views/ParticipantCoSteward/CostewardDetailsNew";
+import AddParticipantNew from "../Views/Participants/AddParticipantNew";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -57,7 +63,8 @@ function Datahub(props) {
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
         <div className="center_keeping_conatiner">
-          <Navbar />
+          {/* <Navbar /> */}
+          <NavbarNew loginType={"admin"} />
           <div className="minHeight67vhDatahubPage">
             <Switch>
               <Route
@@ -73,7 +80,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/costeward/view/:id"
-                component={ViewCoSteward}
+                component={CostewardDetailsNew}
               />
               <Route
                 exact
@@ -83,7 +90,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/participants/add"
-                component={AddParticipants}
+                component={AddParticipantNew}
               />
               <Route exact path="/datahub/dashboard" component={Dashboard} />
 
@@ -186,15 +193,23 @@ function Datahub(props) {
                 path="/datahub/participants/addcosteward"
                 component={AddCoSteward}
               />
-              <Route exact path="/datahub/connectors">
+              {/* <Route
+                exact
+                path="/datahub/connectors"
+              >
                 <DatasetIntegration />
+              </Route> */}
+              <Route exact path="/datahub/connectors">
+                <Connectors />
               </Route>
               <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
               </Route>
             </Switch>
           </div>
-          <Footer />
+          {/* <Footer /> */}
+          <Divider />
+          <FooterNew />
         </div>
       ) : (
         props.history.push("/login")

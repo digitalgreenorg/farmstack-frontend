@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// import './Accordion.css'
+import "./Accordion.css";
 
 const detailsStyle = {
   fontFamily: "'Montserrat' !important",
@@ -97,7 +97,7 @@ const ControlledAccordion = ({
               {showDeleteIcon ? (
                 <img
                   className="mr-55"
-                  //   src={require("../../Assets/Img/delete_gray.svg")}
+                  src={require("../../Assets/Img/delete_gray.svg")}
                 />
               ) : (
                 <></>

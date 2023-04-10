@@ -53,3 +53,7 @@
 .displayFlex {
   display: flex;
 }
+.img {
+  width: 251px;
+  height: 76px;
+}

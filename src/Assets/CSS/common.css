@@ -3,6 +3,8 @@
 /* @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap'); */
 /* @import url("https://fonts.googleapis.com/css2?family=Open+Sans"); */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap');
 
 body {
   font-family: "Open Sans";
@@ -1139,4 +1141,72 @@ html {
 
 .ant-segmented-group label {
   margin-bottom: 0px !important;
+}
+
+
+.input_field_subscribe {
+  border-radius: 8px !important;
+  width: 466px !important;
+  height: 56px;
+}
+
+.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  padding-right: 0px !important;
+  border-radius: 8px !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.ml-20 {
+  margin-left: 20px !important;
+}
+
+.mr-44 {
+  margin-right: 44px !important;
+}
+
+.mr-30 {
+  margin-right: 30px !important;
+}
+
+.mr-7 {
+  margin-right: 7px !important;
+}
+
+.ml-90 {
+  margin-left: 90px !important;
+}
+
+.mt-30 {
+  margin-top: 30px !important;
+}
+
+.mt-50 {
+  margin-top: 50px !important;
+}
+
+.mb-50 {
+  margin-bottom: 50px !important;
+}
+
+.mb-30 {
+  margin-bottom: 30px !important;
+}
+
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+
+.mt-20 {
+  margin-top: 20px !important;
+}
+
+.mt-24 {
+  margin-top: 24px !important;
+}
+
+.mb-100 {
+  margin-bottom: 100px !important;
 }

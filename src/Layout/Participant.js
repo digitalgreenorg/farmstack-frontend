@@ -30,13 +30,21 @@ import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+import NavbarNew from "../Components/Navbar/Navbar_New";
+import Connectors from "../Components/Connectors_New/Connectors";
+import FooterNew from "../Components/Footer/Footer_New";
+import { Divider } from "@mui/material";
+import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
+import DataSets from "../Components/Datasets_New/DataSets";
+import DataSetsView from "../Components/Datasets_New/DataSetsView";
 
 function Participant(props) {
   return (
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
-          <ParticipantNavbar />
+          {/* <ParticipantNavbar /> */}
+          <NavbarNew loginType={'participant'} />
           <div className="minHeight67vhParticipantPage">
             <Switch>
               <Route
@@ -44,6 +52,23 @@ function Participant(props) {
                 path="/participant/datasets"
                 component={DatasetParticipant}
               />
+              {/* temporary routes added - start */}
+              <Route
+                exact
+                path="/participant/new_datasets"
+                component={DataSets}
+              />
+              <Route
+                exact
+                path="/participant/new_datasets/view/:id"
+                component={DataSetsView}
+              />
+              <Route
+                exact
+                path="/participant/new_datasets/add"
+                component={AddDataSetParticipantNew}
+              />
+              {/* end */}
               {/* <Route
                 exact
                 path="/participant/connectors"
@@ -130,11 +155,17 @@ function Participant(props) {
                 path="/participant/dataset/view/:id"
                 component={ViewMetaDatasetDetails}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/participant/connectors"
               >
                 <DatasetIntegration />
+              </Route> */}
+              <Route
+                exact
+                path="/participant/connectors"
+              >
+                <Connectors />
               </Route>
               {/* <Route
               exact
@@ -145,7 +176,9 @@ function Participant(props) {
 
             </Switch>
           </div>
-          <Footer />
+          {/* <Footer /> */}
+          <Divider />
+          <FooterNew />
         </div>
       ) : (
         props.history.push("/login")
