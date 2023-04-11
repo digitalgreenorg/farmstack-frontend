@@ -48,6 +48,9 @@ import { Divider } from "@mui/material";
 import FooterNew from "../Components/Footer/Footer_New";
 import AddConnector from "../Views/Connector_New/AddConnector";
 import EditConnector from "../Views/Connector_New/EditConnector";
+import DataSets from "../Components/Datasets_New/DataSets";
+import DataSetsView from "../Components/Datasets_New/DataSetsView";
+import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -103,12 +106,29 @@ function Datahub(props) {
                 component={Participants}
               /> */}
               {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
-              <Route exact path="/datahub/datasets/add" component={AddDataset} />
+              {/* <Route exact path="/datahub/datasets/add" component={AddDataset} />
               <Route
                 exact
                 path="/datahub/datasets/edit/:id"
                 component={EditDataset}
+              /> */}
+              {/* temporary routes added - start */}
+              <Route
+                exact
+                path="/datahub/new_datasets"
+                component={DataSets}
               />
+              <Route
+                exact
+                path="/datahub/new_datasets/view/:id"
+                component={DataSetsView}
+              />
+              <Route
+                exact
+                path="/datahub/new_datasets/add"
+                component={AddDataSetParticipantNew}
+              />
+              {/* end */}
               <Route
                 exact
                 path="/datahub/settings/addmember"
@@ -136,7 +156,7 @@ function Datahub(props) {
               />
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
-              <Route exact path="/datahub/datasets" component={DatasetAdmin} />
+              {/* <Route exact path="/datahub/datasets" component={DatasetAdmin} /> */}
               {/* <Route
                 exact
                 path="/datahub/connectors/add"
