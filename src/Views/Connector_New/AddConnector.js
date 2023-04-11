@@ -112,10 +112,11 @@ const AddConnector = (props) => {
   const [loader, setLoader] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const limitChar = 512;
+  const limitCharName = 100;
+  const limitCharDesc = 512;
 
   const handleDescription = (e) => {
-    if (e.target.value.toString().length <= limitChar) {
+    if (e.target.value.toString().length <= limitCharDesc) {
       setConnectorDescription(e.target.value);
     }
   };
@@ -596,7 +597,7 @@ const AddConnector = (props) => {
     console.log(e.target.value);
     let value = e.target.name;
     if (value == "name") {
-      if (e.target.value && connectorData.desc) {
+      if (e.target.value && connectorData.name) {
         setIsConditionForConnectorDataForSaveMet(true);
         setIsAllConditionForSaveMet(true);
       } else {
@@ -615,7 +616,7 @@ const AddConnector = (props) => {
       //     })
       //     : e.preventDefault();
     } else {
-      if (e.target.value && connectorData.name) {
+      if (e.target.value && connectorData.desc) {
         setIsConditionForConnectorDataForSaveMet(true);
         // setIsAllConditionForSaveMet(true);
       } else {
@@ -689,7 +690,7 @@ const AddConnector = (props) => {
           <span className="add_light_text ml-16">
             <img src={require("../../Assets/Img/dot.svg")} />
           </span>
-          <span className="add_light_text ml-16">New connectors</span>
+          <span className="add_light_text ml-16">New connector</span>
         </div>
         <Typography
           className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 text-left`}
@@ -710,6 +711,7 @@ const AddConnector = (props) => {
           label="Connector name"
           value={connectorData.name}
           onChange={handleChange}
+          inputProps={{ maxLength: 100 }}
         />
         <TextField
           fullWidth
@@ -724,6 +726,7 @@ const AddConnector = (props) => {
           label="Connector description not more that 512 character "
           value={connectorData.desc}
           onChange={handleChange}
+          inputProps={{ maxLength: 512 }}
         />
         <SelectConnector
           text={"Select datasets for connector"}
