@@ -100,7 +100,8 @@
 
 .MuiSvgIcon-root {
     /* background-color: #c09507 !important; */
-    color: #c09507 !important;
+    /* color: #c09507 !important; */
+    color: #000000 !important;
 }
 
 .MuiStepConnector-horizontal.Mui-completed,

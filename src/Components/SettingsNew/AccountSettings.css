@@ -1,0 +1,27 @@
+.button{
+width: 172px;
+height: 48px;
+font-family: 'Montserrat';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 26px;
+color: #00AB55 !important;
+border: 1px solid rgba(0, 171, 85, 0.48) !important;
+border-radius: 8px !important;
+}
+.button:hover{
+    background: #00AB55 !important;
+    color: #FFFFFF !important
+}
+.head{
+    font-family: "Montserrat"; 
+    font-style: "normal";
+    font-weight: "600";
+    font-size: "32px";
+    line-height: "39px";
+}
+.textfieldwidthandmargin {
+    width: "95%";
+    margin: "20px"
+}

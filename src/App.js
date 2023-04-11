@@ -25,6 +25,13 @@ import AddParticipantRegistrationForm from "./Components/PatricipantRegistration
 import ViewMetaDatasetDetails from "./Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 import Viewdetails from "./Components/GuestUser/Viewdetails";
 import GuestUserMainHomePage from "./Views/GuestUser/GuestUserMainHomePage";
+import AccountSetting from "./Components/SettingsNew/AccountSettings";
+import OrganisationSettings from "./Components/SettingsNew/OrganisationSettings";
+import Settings from "./Components/SettingsNew/Settings";
+import ParticipantCoStewardManagement from "./Views/ParticipantCoSteward/ParticipantCoStewardManagement";
+import ParticipantsAndCoStewardNew from "./Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
+
+
 function App() {
   return (
     <React.Fragment>
@@ -48,6 +55,9 @@ function App() {
           <Route exact path="/legal" component={GuestUserLegal} />
           <Route exact path="/contact" component={GuestUserContact} />
           <Route exact path="/participantregistration" component={AddParticipantRegistrationForm} />
+          <Route exact path="/account" component={AccountSetting} />
+          <Route exact path="/organisation" component={OrganisationSettings} />
+          <Route exact path="/settings" component={Settings} />
           <Redirect from="/" to="/home" />
         </Switch>
       </Router>

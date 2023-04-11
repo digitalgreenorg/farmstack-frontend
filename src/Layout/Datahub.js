@@ -16,7 +16,8 @@ import ViewParticipants from "../Views/Participants/ViewParticipants";
 import InviteParticipants from "../Views/Participants/InviteParticipants";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
-import Settings from "../Views/Settings/Settings/Settings";
+// import Settings from "../Views/Settings/Settings/Settings";
+import Settings from "../Components/SettingsNew/Settings";
 import Support from "../Views/Support/Support";
 // import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
 import DatasetAdmin from "../Views/Dataset/DatasetAdmin/DatasetAdmin";
@@ -192,7 +193,7 @@ function Datahub(props) {
               </Route>
             </Switch>
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       ) : (
         props.history.push("/login")
