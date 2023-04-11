@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Box, Divider, TextField, Typography } from "@mui/material";
 import SelectConnector from "./SelectConnector";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
@@ -15,6 +15,7 @@ import {
 } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Preview from "../../Components/Datasets/IntegrationDatasets/Preview/Preview";
+import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 
 const textFieldStyle = {
   borderRadius: "8px",
@@ -32,6 +33,7 @@ const textFieldStyle = {
 };
 const AddConnector = (props) => {
   const history = useHistory();
+  const { callLoader } = useContext(FarmStackContext);
   const [connectorName, setConnectorName] = useState("");
   const [connectorDescription, setConnectorDescription] = useState("");
   const [organisationName, setOrganisationName] = useState();
@@ -483,9 +485,10 @@ const AddConnector = (props) => {
       return;
     }
     console.table(finalPayload, "PAYLOAD");
+    callLoader(true)
     HTTPService(method, url, finalPayload, false, true, false)
       .then((res) => {
-        setLoader(false);
+        callLoader(false);
         if (condition == "integrate") {
           console.log("inside integrate", res.data);
           setIntegratedFilePath(
@@ -564,6 +567,7 @@ const AddConnector = (props) => {
         // goToTop(2000)
       })
       .catch((err) => {
+        callLoader(false)
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
         } else {
