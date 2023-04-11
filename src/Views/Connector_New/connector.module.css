@@ -94,7 +94,7 @@
 
 .textElipsis {
     white-space: nowrap;
-    width: 102px;
+    width: 108px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
