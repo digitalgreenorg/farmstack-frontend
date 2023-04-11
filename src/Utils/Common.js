@@ -8,8 +8,21 @@ export const setTokenLocal = (token) => {
     JSON.stringify(token)
   );
 };
+export const setRefreshTokenLocal = (token) => {
+  localStorage.setItem(
+    LocalStorageConstants.KEYS.refresh_token,
+    JSON.stringify(token)
+  );
+};
 export const getTokenLocal = () => {
   const tokenString = localStorage.getItem(LocalStorageConstants.KEYS.JWTToken);
+  const userToken = JSON.parse(tokenString);
+  return userToken;
+};
+export const getRefreshTokenLocal = () => {
+  const tokenString = localStorage.getItem(
+    LocalStorageConstants.KEYS.refresh_token
+  );
   const userToken = JSON.parse(tokenString);
   return userToken;
 };
@@ -150,7 +163,7 @@ export const getErrorLocal = () => {
 export const isLoggedInUserAdmin = () => {
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
     : false;
 };
 
@@ -158,14 +171,14 @@ export const isLoggedInUserParticipant = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
     : false;
 };
 export const isLoggedInUserCoSteward = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
     : false;
 };
 
@@ -203,7 +216,7 @@ export const flushLocalstorage = () => {
 };
 
 export const downloadAttachment = (uri, name) => {
-  console.log("click on download", uri, name)
+  console.log("click on download", uri, name);
   FileSaver.saveAs(uri, name);
 };
 

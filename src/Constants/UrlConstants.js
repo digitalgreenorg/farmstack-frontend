@@ -40,7 +40,8 @@ const UrlConstant = {
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
   dataseteth: "datahub/dataset/v2/temp_datasets/",
-  check_dataset_name_and_description_in_database: "datahub/dataset/v2/validate_dataset/",
+  check_dataset_name_and_description_in_database:
+    "datahub/dataset/v2/validate_dataset/",
   datasetethcancel: "datahub/dataset/v2/temp_datasets/?delete_dir=True",
   datasetview: "datahub/dataset/v2/",
   datasetview_guest: "microsite/datasets/",
@@ -70,7 +71,8 @@ const UrlConstant = {
   search_dataset_end_point_admin: "datahub/dataset/v2/dataset_filters/",
   search_dataset_end_point_participant: "datahub/dataset/v2/dataset_filters/",
   search_dataset_end_point_guest: "microsite/datasets/dataset_filters/",
-  microsite_costeward_end_point: "microsite/participant/organizations/?co_steward=True",
+  microsite_costeward_end_point:
+    "microsite/participant/organizations/?co_steward=True",
   microsite_participant_end_point: "microsite/participant/organizations/",
 
   connection_to_db_end_point: "participant/database/database_config/",
@@ -91,17 +93,22 @@ const UrlConstant = {
   // Standardization
 
   standardization_post_data: "datahub/standardise/",
-  standardization_update_data: "datahub/standardise/update_standardisation_template/",
+  standardization_update_data:
+    "datahub/standardise/update_standardisation_template/",
   standardization_delete_category: "datahub/standardise/",
   standardization_get_data: "datahub/standardise/",
-  standardization_get_all_file_name: "datahub/dataset/v2/temp_dataset_files/?dataset_name=",
-  standardization_get_file_columns: "datahub/dataset/v2/temp_dataset_file_columns/",
+  standardization_get_all_file_name:
+    "datahub/dataset/v2/temp_dataset_files/?dataset_name=",
+  standardization_get_file_columns:
+    "datahub/dataset/v2/temp_dataset_file_columns/",
   standardise_file: "datahub/dataset/v2/standardise/",
 
   joining_the_table: "connectors/integration/",
   integration_connectors: "connectors/",
   list_of_connectors: "connectors/",
 
+  //new v2 urls
+  datahub_policy: "datahub/policy/",
 };
 
 export default UrlConstant;
