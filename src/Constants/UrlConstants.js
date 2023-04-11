@@ -16,6 +16,7 @@ const UrlConstant = {
   // base_url_without_slash: "https://ada8-106-51-85-143.in.ngrok.io",
   login: "accounts/login/",
   otp: "accounts/otp/",
+  refesh: "token/refresh/",
   participant: "datahub/participant/",
   costewardlist_selfregister: "datahub/participant/get_list_co_steward/",
   support: "datahub/support/filters_tickets/",

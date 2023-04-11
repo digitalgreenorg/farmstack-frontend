@@ -302,9 +302,10 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.MuiDataGrid-columnHeaders {
-  background-color: #ffdb64 !important;
-}
+/* .MuiDataGrid-columnHeaders {
+
+  background-color: #FFDB64 !important;
+} */
 
 .MuiTabs-root .MuiButtonBase-root {
   width: 162.5px !important;
@@ -990,11 +991,11 @@ button.disbalesubmitbtndept {
   /* color: #c09507 !important; */
 }
 
-.dataset_selector_in_integration .MuiDataGrid-columnHeaders {
-  background: #f8f8f8 !important;
-  border: 1px solid #e4e4e4 !important;
+/* .dataset_selector_in_integration .MuiDataGrid-columnHeaders {
+  background: #F8F8F8 !important;
+  border: 1px solid #E4E4E4 !important;
   height: 42px !important;
-}
+} */
 
 .react-multi-email input {
   min-width: 500px !important;
@@ -1061,17 +1062,15 @@ html {
   border-bottom-right-radius: 10px !important;
 }
 
-.dataset_selector_in_integration .MuiDataGrid-row:nth-child(even) {
-  background-color: #f9eabc !important;
-  /* color: white; */
+/* .dataset_selector_in_integration .MuiDataGrid-row:nth-child(even) {
+  background-color: #F9EABC !important;
   margin: 5px 0px;
-}
+} */
 
-.dataset_selector_in_integration .MuiDataGrid-row:nth-child(odd) {
+/* .dataset_selector_in_integration .MuiDataGrid-row:nth-child(odd) {
   background-color: #f7f4ebd3 !important;
-  /* color: white; */
   padding: 5px 0px;
-}
+} */
 
 .connectorCard {
   padding: 20px 40px 20px 5px;
@@ -1163,4 +1162,84 @@ textarea {
 .textarea:active {
   border: none !important;
   outline: none !important;
+}
+
+.input_field_subscribe {
+  border-radius: 8px !important;
+  width: 466px !important;
+  height: 56px;
+}
+
+.input_field_subscribe
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  padding-right: 0px !important;
+  border-radius: 8px !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.ml-20 {
+  margin-left: 20px !important;
+}
+
+.mr-44 {
+  margin-right: 44px !important;
+}
+
+.mr-20 {
+  margin-right: 20px !important;
+}
+
+.mr-30 {
+  margin-right: 30px !important;
+}
+
+.mr-7 {
+  margin-right: 7px !important;
+}
+
+.ml-90 {
+  margin-left: 90px !important;
+}
+
+.mt-30 {
+  margin-top: 30px !important;
+}
+
+.mt-50 {
+  margin-top: 50px !important;
+}
+
+.mb-50 {
+  margin-bottom: 50px !important;
+}
+
+.mb-30 {
+  margin-bottom: 30px !important;
+}
+
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+
+.mt-20 {
+  margin-top: 20px !important;
+}
+
+.mt-24 {
+  margin-top: 24px !important;
+}
+
+.mb-100 {
+  margin-bottom: 100px !important;
+}
+
+.pb-20 {
+  padding-bottom: 20px !important;
+}
+
+.pt-20 {
+  padding-top: 20px !important;
 }
