@@ -34,7 +34,7 @@ const textFieldStyle = {
 };
 const AddConnector = (props) => {
   const history = useHistory();
-  const { callLoader } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [connectorName, setConnectorName] = useState("");
   const [connectorDescription, setConnectorDescription] = useState("");
   const [organisationName, setOrganisationName] = useState();

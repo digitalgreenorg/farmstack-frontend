@@ -21,7 +21,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const Connectors = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const { callLoader } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [connectors, setConnectors] = useState([]);
   const [connectorUrl, setConnectorUrl] = useState("");
   const [showLoadMore, setShowLoadMore] = useState(true);
