@@ -16,6 +16,7 @@ import {
 import { useHistory } from "react-router-dom";
 import Preview from "../../Components/Datasets/IntegrationDatasets/Preview/Preview";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import RegexConstants from "../../Constants/RegexConstants";
 
 const textFieldStyle = {
   borderRadius: "8px",
@@ -609,16 +610,16 @@ const AddConnector = (props) => {
         setIsAllConditionForSaveMet(false);
       }
       setErrorConnectorName("");
-      setConnectorData({
-        ...connectorData,
-        [e.target.name]: e.target.value,
-      });
-      // validateInputField(e.target.value, RegexConstants.connector_name)
-      //     ? setConnectorData({
-      //         ...connectorData,
-      //         [e.target.name]: e.target.value,
-      //     })
-      //     : e.preventDefault();
+      // setConnectorData({
+      //   ...connectorData,
+      //   [e.target.name]: e.target.value,
+      // });
+      validateInputField(e.target.value, RegexConstants.connector_name)
+        ? setConnectorData({
+          ...connectorData,
+          [e.target.name]: e.target.value,
+        })
+        : e.preventDefault();
     } else {
       if (e.target.value && connectorData.desc) {
         setIsConditionForConnectorDataForSaveMet(true);
