@@ -5,6 +5,7 @@ import AddDataSetCardNew from '../AddDataSetCard';
 import DataSetCardNew from '../DataSetCard';
 import DataSetsTitleView from './DataSetsTitleView';
 import DataSetsListView from '../DataSetsListView';
+import { isLoggedInUserAdmin, isLoggedInUserParticipant } from '../../../Utils/Common';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,6 +45,14 @@ const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets
         }
     }, [value])
 
+    const handleCardClick = (id) => {
+        if (isLoggedInUserAdmin()) {
+            return `/datahub/new_datasets/view/${id}`;
+        } else if (isLoggedInUserParticipant()) {
+            return `/participant/new_datasets/view/${id}`;
+        }
+    }
+
     return (
         <Box className='w-100'>
             <Box sx={{ marginLeft: '144px', marginRight: '144px' }}>
@@ -68,7 +77,13 @@ const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets
                             '& .Mui-selected': { color: "#00AB55 !important" },
                         }}
                         value={value} onChange={handleChange}>
-                        <Tab label={<span className={value == 0 ? 'tab_header_selected' : 'tab_header'}>My Organisation</span>} />
+                        <Tab
+                            sx={{
+                                '&.MuiButtonBase-root': {
+                                    minWidth: '180px'
+                                }
+                            }}
+                            label={<span className={value == 0 ? 'tab_header_selected' : 'tab_header'}>My Organisation</span>} />
                         <Tab sx={{
                             '&.MuiButtonBase-root': {
                                 minWidth: '200px'
@@ -84,11 +99,11 @@ const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets
                             <div className='datasets_card'>
                                 <AddDataSetCardNew history={history} addDataset={addDataset} />
                                 {datasetList?.map((item) => (
-                                    <DataSetCardNew history={history} item={item} />
+                                    <DataSetCardNew history={history} item={item} handleCardClick={handleCardClick} />
                                 ))}
                             </div>
                             :
-                            <DataSetsListView datasets={datasetList} history={history} />
+                            <DataSetsListView datasets={datasetList} history={history} handleCardClick={handleCardClick} />
                         }
                         {showLoadMoreAdmin ?
                             <Button
@@ -105,11 +120,11 @@ const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets
                         {isGridOther ?
                             <div className='datasets_card'>
                                 {memberDatasetList?.map((item) => (
-                                    <DataSetCardNew history={history} item={item} />
+                                    <DataSetCardNew history={history} item={item} handleCardClick={handleCardClick} />
                                 ))}
                             </div>
                             :
-                            <DataSetsListView datasets={memberDatasetList} history={history} />
+                            <DataSetsListView datasets={memberDatasetList} history={history} handleCardClick={handleCardClick} />
                         }
                         {showLoadMoreMember ?
                             <Button

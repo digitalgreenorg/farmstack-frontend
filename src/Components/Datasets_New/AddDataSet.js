@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Button, Divider, Tab, Tabs } from '@mui/material';
 import { useHistory } from "react-router-dom";
-import { GetErrorKey, getTokenLocal, getUserMapId, isLoggedInUserParticipant } from "../../Utils/Common";
+import { GetErrorKey, getTokenLocal, getUserMapId, isLoggedInUserAdmin, isLoggedInUserParticipant } from "../../Utils/Common";
 import './AddDataSet.css';
 import FooterNew from '../Footer/Footer_New';
 import BasicDetails from '../Datasets_New/TabComponents/BasicDetails';
@@ -151,9 +151,11 @@ const AddDataSetParticipantNew = () => {
             checkforAcess,
         ).then((response) => {
             if (isLoggedInUserParticipant() && getTokenLocal()) {
-                alert("success")
                 history.push('/participant/new_datasets')
+            } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+                history.push('/datahub/new_datasets')
             }
+
         }).catch((e) => {
             console.log(e);
         });
@@ -184,7 +186,13 @@ const AddDataSetParticipantNew = () => {
                         }}
                         value={value} onChange={handleChange}>
                         <Tab label={<span className={value == 0 ? 'tab_header_selected' : 'tab_header'}>Basic details</span>} />
-                        <Tab label={<span className={value == 1 ? 'tab_header_selected' : 'tab_header'}>Upload or import</span>} />
+                        <Tab
+                            sx={{
+                                '&.MuiButtonBase-root': {
+                                    minWidth: '182.5px'
+                                }
+                            }}
+                            label={<span className={value == 1 ? 'tab_header_selected' : 'tab_header'}>Upload or import</span>} />
                         <Tab label={<span className={value == 2 ? 'tab_header_selected' : 'tab_header'}>Standardise</span>} />
                         <Tab label={<span className={value == 3 ? 'tab_header_selected' : 'tab_header'}>Categorise</span>} />
                         <Tab label={<span className={value == 4 ? 'tab_header_selected' : 'tab_header'}>Usage policy</span>} />
