@@ -165,7 +165,7 @@ const AddDataSetParticipantNew = () => {
         <Box>
             <Box sx={{ marginLeft: '144px', marginRight: '144px' }}>
                 <div className='text-left mt-50'>
-                    <span className='add_light_text'>Dataset</span>
+                    <span className='add_light_text'>Datasets</span>
                     <span className='add_light_text ml-16'>
                         <img src={require("../../Assets/Img/dot.svg")} />
                     </span>
