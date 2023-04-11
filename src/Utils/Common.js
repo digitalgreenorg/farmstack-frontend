@@ -12,8 +12,21 @@ export const setTokenLocal = (token) => {
     JSON.stringify(token)
   );
 };
+export const setRefreshTokenLocal = (token) => {
+  localStorage.setItem(
+    LocalStorageConstants.KEYS.refresh_token,
+    JSON.stringify(token)
+  );
+};
 export const getTokenLocal = () => {
   const tokenString = localStorage.getItem(LocalStorageConstants.KEYS.JWTToken);
+  const userToken = JSON.parse(tokenString);
+  return userToken;
+};
+export const getRefreshTokenLocal = () => {
+  const tokenString = localStorage.getItem(
+    LocalStorageConstants.KEYS.refresh_token
+  );
   const userToken = JSON.parse(tokenString);
   return userToken;
 };
@@ -99,32 +112,30 @@ export const handleNameFieldEntry = (fieldValue, e) => {
 };
 
 export const refreshToken = async () => {
-  
   try {
-  
     const url = UrlConstant.base_url + UrlConstant.refesh;
 
-    const refreshToken = JSON.parse(localStorage.getItem("refresh"))
+    const refreshToken = JSON.parse(localStorage.getItem("refresh"));
 
-    localStorage.setItem('lastPathname', window.location.href);
-    const response = await HTTPService('POST', url, {
+    localStorage.setItem("lastPathname", window.location.href);
+    const response = await HTTPService("POST", url, {
       refresh: refreshToken,
     });
 
     if (response?.status === 200) {
-      localStorage.setItem('JWTToken', JSON.stringify(response?.data?.access));
-      const lastPathname = localStorage.getItem('lastPathname');
+      localStorage.setItem("JWTToken", JSON.stringify(response?.data?.access));
+      const lastPathname = localStorage.getItem("lastPathname");
       if (lastPathname) {
         return lastPathname;
       }
-      localStorage.removeItem('lastPathname', window.location.href);
+      localStorage.removeItem("lastPathname", window.location.href);
     }
-  } catch(e) {
+  } catch (e) {
     console.log(e);
-    if(e?.response?.status === 401) {
-    return "/login"
+    if (e?.response?.status === 401) {
+      return "/login";
     } else {
-      return GetErrorHandlingRoute(e)
+      return GetErrorHandlingRoute(e);
     }
   }
 };
@@ -160,7 +171,7 @@ export const GetErrorHandlingRoute = (e) => {
   ) {
     console.log(e.response.status);
     //return "/sessionexpired";
-    return refreshToken()
+    return refreshToken();
   } else {
     console.log(e.response);
     return "/error";
@@ -186,7 +197,7 @@ export const getErrorLocal = () => {
 export const isLoggedInUserAdmin = () => {
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
     : false;
 };
 
@@ -194,14 +205,14 @@ export const isLoggedInUserParticipant = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
     : false;
 };
 export const isLoggedInUserCoSteward = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
     : false;
 };
 
@@ -239,7 +250,7 @@ export const flushLocalstorage = () => {
 };
 
 export const downloadAttachment = (uri, name) => {
-  console.log("click on download", uri, name)
+  console.log("click on download", uri, name);
   FileSaver.saveAs(uri, name);
 };
 
@@ -348,4 +359,4 @@ export const adminNotFoundRoute = (e) => {
 export function goToTop(no) {
   document.body.scrollTop = no ? no : 0; // For Safari
   document.documentElement.scrollTop = no ? no : 0; // For Chrome, Firefox, IE and Opera
-};
+}
