@@ -88,6 +88,8 @@ const Join = (props) => {
     // if (typeof value === 'string') {
     //     value.split(',')
     // }
+    console.log(obj1, "obj1");
+    console.log(ind, "ind1");
     if (source == "join1") {
       console.log(value);
       obj1["left_on"][ind] = value;
