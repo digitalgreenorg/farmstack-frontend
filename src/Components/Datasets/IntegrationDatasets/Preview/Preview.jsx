@@ -7,6 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import NoDataAvailable from "../../../Dashboard/NoDataAvailable/NoDataAvailable";
 import { Affix } from "antd";
 import { message, Popconfirm } from "antd";
+import { useHistory } from "react-router-dom";
 
 function NoResultsOverlay() {
   return (
@@ -45,6 +46,7 @@ const Preview = (props) => {
     finalDatasetAfterIntegration,
     downloadDocument,
   } = props;
+  const history = useHistory();
   const [col, setCol] = useState([]);
   const [row, setRow] = useState([]);
 
@@ -242,7 +244,10 @@ const Preview = (props) => {
           }}
         >
           <Button
-            onClick={() => resetAll(true, true, true, true, setCol, setRow)}
+            onClick={() => {
+              history.push("/datahub/connectors");
+              resetAll(true, true, true, true, setCol, setRow);
+            }}
             className={styles.cancelBtn}
           >
             Cancel

@@ -685,7 +685,7 @@ const AddConnector = (props) => {
     <Box>
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
         <div className="text-left mt-50">
-          <span className="add_light_text">Connectors</span>
+          <span className="add_light_text cursor-pointer" onClick={() => history.push('/datahub/connectors')}>Connectors</span>
           <span className="add_light_text ml-16">
             <img src={require("../../Assets/Img/dot.svg")} />
           </span>
@@ -798,8 +798,8 @@ const AddConnector = (props) => {
                 setConnectorData={setConnectorData}
                 finalDataNeedToBeGenerated={finalDataNeedToBeGenerated}
                 setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated}
-                // handleClickSelectDataset={handleClickSelectDataset}
-                // handleChangeDatasetNameSelector={handleChangeDatasetNameSelector}
+              // handleClickSelectDataset={handleClickSelectDataset}
+              // handleChangeDatasetNameSelector={handleChangeDatasetNameSelector}
               />
             </Box>
           </>
