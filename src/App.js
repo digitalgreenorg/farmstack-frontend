@@ -25,21 +25,11 @@ import AddParticipantRegistrationForm from "./Components/PatricipantRegistration
 import ViewMetaDatasetDetails from "./Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 import Viewdetails from "./Components/GuestUser/Viewdetails";
 import GuestUserMainHomePage from "./Views/GuestUser/GuestUserMainHomePage";
-<<<<<<< HEAD
-import AccountSetting from "./Components/SettingsNew/AccountSettings";
-import OrganisationSettings from "./Components/SettingsNew/OrganisationSettings";
-import Settings from "./Components/SettingsNew/Settings";
-import ParticipantCoStewardManagement from "./Views/ParticipantCoSteward/ParticipantCoStewardManagement";
-import ParticipantsAndCoStewardNew from "./Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
-
-
-=======
 import OnBoarding from "./Views/Pages/HomeScreen/OnBoarding";
 import FarmStackProvider, {
   FarmStackContext,
 } from "./Components/Contexts/FarmStackContext";
 import Loader from "./Components/Loader/Loader";
->>>>>>> 9b3984ff0d991259464b37b941fe22f005e33391
 function App() {
   const { isLoading } = useContext(FarmStackContext);
 
