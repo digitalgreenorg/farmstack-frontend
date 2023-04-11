@@ -1,11 +1,23 @@
 /* Add all the new ui css classes here and to use it just import the global module file and use it as variable */
 
 .primary_color {
-  color: #00ab55;
+  color: #00ab55 !important;
+}
+
+.primary_fontStyle {
+  font-family: "Montserrat" !important;
+}
+
+.dark_color {
+  color: #000000 !important;
 }
 
 .primary_background {
-  background-color: #00ab55;
+  background-color: #00ab55 !important;
+}
+
+.white_background {
+  background: #ffffff !important;
 }
 .primary_button {
   font-weight: 700 !important;
@@ -36,14 +48,15 @@
   border: 1px solid #00ab55 !important;
 }
 .light_text {
-  color: #919eab;
+  color: #919eab !important;
 }
+
 .highlighted_text {
-  color: #212b36;
+  color: #212b36 !important;
 }
 
 .bold300 {
-  font-weight: 300;
+  font-weight: 300 !important;
 }
 
 .bold400 {
@@ -51,7 +64,7 @@
 }
 
 .bold500 {
-  font-weight: 500;
+  font-weight: 500 !important;
 }
 
 .bold600 {
@@ -59,15 +72,15 @@
 }
 
 .bold700 {
-  font-weight: 700;
+  font-weight: 700 !important     ;
 }
 
 .size12 {
-  font-size: 12px;
+  font-size: 12px !important;
 }
 
 .size14 {
-  font-size: 14px;
+  font-size: 14px !important;
 }
 
 .size16 {
@@ -75,15 +88,15 @@
 }
 
 .size18 {
-  font-size: 18px;
+  font-size: 18px !important;
 }
 
 .size20 {
-  font-size: 20px;
+  font-size: 20px !important;
 }
 
 .size22 {
-  font-size: 22px;
+  font-size: 22px !important;
 }
 
 .size24 {
@@ -91,40 +104,105 @@
 }
 
 .size26 {
-  font-size: 26px;
+  font-size: 26px !important;
 }
 
 .size28 {
-  font-size: 28px;
+  font-size: 28px !important;
 }
 
 .size30 {
-  font-size: 30px;
+  font-size: 30px !important;
 }
 
 .size32 {
-  font-size: 32px;
+  font-size: 32px !important;
 }
 
 .size34 {
-  font-size: 34px;
+  font-size: 34px !important;
 }
 
 .size36 {
-  font-size: 36px;
+  font-size: 36px !important;
 }
 
 .size38 {
-  font-size: 38px;
+  font-size: 38px !important;
 }
 
 .size40 {
-  font-size: 40px;
+  font-size: 40px !important;
 }
 
 .blue {
   color: #3366ff;
 }
-.padding0 {
-  padding: 0;
+.font_family {
+  font-family: "Montserrat" !important;
+}
+
+/* all buttons */
+.primary_button {
+  background: none !important;
+  background-color: #00ab55 !important;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  line-height: 26px;
+  outline: none !important;
+  border: none !important;
+  text-transform: none !important;
+  cursor: pointer !important;
+  margin: 0px !important;
+}
+.primary_button:active {
+  background-color: #00ab55 !important;
+  outline: none !important;
+  border: none !important;
+}
+.primary_button:disabled {
+  background-color: #389768b9 !important;
+  color: #389767ce !important;
+}
+
+.secondary_button {
+  font-family: "Montserrat" !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 26px !important;
+  letter-spacing: 0px;
+  font-weight: 700 !important;
+  background-color: unset !important;
+  color: #212b36 !important;
+  text-transform: none !important;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: fit-content !important;
+  margin: 0px !important;
+}
+
+.secondary_button:active {
+}
+.secondary_button:hover {
+}
+
+.tertiary_button {
+  /* background: none !important;
+  background-color: #00ab55 !important;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 26px;
+  outline: none !important;
+  border: none !important;
+  text-transform: none !important;
+  cursor: pointer !important; */
+}
+
+.error {
+  color: red !important;
 }

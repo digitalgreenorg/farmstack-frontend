@@ -47,6 +47,12 @@ import ViewCoSteward from "../Components/Participants/ViewCoSteword";
 import EditCoSteward from "../Components/Participants/EditCoSteward";
 import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+import NavbarNew from "../Components/Navbar/Navbar_New";
+import Connectors from "../Components/Connectors_New/Connectors";
+import { Divider } from "@mui/material";
+import FooterNew from "../Components/Footer/Footer_New";
+import AddConnector from "../Views/Connector_New/AddConnector";
+import EditConnector from "../Views/Connector_New/EditConnector";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -56,7 +62,9 @@ function Datahub(props) {
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
         <div className="center_keeping_conatiner">
-          <Navbar />
+
+          {/* <Navbar /> */}
+          <NavbarNew loginType={'admin'} />
           <div className="minHeight67vhDatahubPage">
             <Switch>
               <Route
@@ -135,16 +143,30 @@ function Datahub(props) {
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
               <Route exact path="/datahub/datasets" component={DatasetAdmin} />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/connectors/add"
                 component={AddConnectorParticipant}
+              /> */}
+              {/* temp added add connectors route */}
+              <Route
+                exact
+                path="/datahub/connectors/add"
+                component={AddConnector}
               />
+              {/* end */}
+              {/* temp added edit connectors route */}
               <Route
                 exact
                 path="/datahub/connectors/edit/:id"
-                component={EditConnectorParticipant}
+                component={EditConnector}
               />
+              {/* end */}
+              {/* <Route
+                exact
+                path="/datahub/connectors/edit/:id"
+                component={EditConnectorParticipant}
+              /> */}
               {/* <Route
                 exact
                 path="/datahub/connectors"
@@ -185,15 +207,31 @@ function Datahub(props) {
                 path="/datahub/participants/addcosteward"
                 component={AddCoSteward}
               />
-              <Route exact path="/datahub/connectors">
+              {/* <Route
+                exact
+                path="/datahub/connectors"
+              >
                 <DatasetIntegration />
+              </Route> */}
+              {/* temp added Connectors route */}
+              <Route
+                exact
+                path="/datahub/connectors"
+              >
+                <Connectors />
               </Route>
-              <Route exact path="/datahub/connectors/list">
+              {/* end */}
+              <Route
+                exact
+                path="/datahub/connectors/list"
+              >
                 <ConnectorsList />
               </Route>
             </Switch>
           </div>
           {/* <Footer /> */}
+          <Divider className="mt-50" />
+          <FooterNew />
         </div>
       ) : (
         props.history.push("/login")
