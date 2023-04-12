@@ -1,5 +1,5 @@
 import { Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import CustomCard from "../../Components/Card/CustomCard";
@@ -11,17 +11,21 @@ import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
-import { getOrgLocal, getUserLocal } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  getOrgLocal,
+  getUserLocal,
+} from "../../Utils/Common";
 import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
 import NoData from "../../Components/NoData/NoData";
+import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 
 const ParticipantAndCoStewardDetailsNew = (props) => {
-  let datasets = [0, 0, 0, 0, 0, 0];
-
   let { isCosteward, isParticipantRequest } = props;
+  const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
 
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   // const [organisationname, setorganisationname] = useState("");
@@ -64,7 +68,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const [datasetLoadMoreUrl, setDatasetLoadMoreUrl] = useState("");
   const [openDeletePoper, setOpenDeletePoper] = useState(false);
 
-  const [isLoader, setIsLoader] = useState(false);
+  // const [isLoader, callLoader] = useState(false);
   const history = useHistory();
   const { id } = useParams();
 
@@ -85,7 +89,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   };
 
   const getParticipantsOrCostewardDetails = () => {
-    setIsLoader(true);
+    callLoader(true);
 
     HTTPService(
       "GET",
@@ -95,11 +99,11 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       true
     )
       .then((response) => {
-        setIsLoader(false);
+        // callLoader(false);
         console.log("reasponce in view details of user", response.data);
         setOrgId(response?.data?.organization_id);
         setUserId(response?.data?.user_id);
-        setLogoPath(response?.organization?.logo);
+        setLogoPath(response?.data?.organization?.logo);
         setOrganisationName(response?.data?.organization?.name);
         setOrganisationAddress(
           response?.data?.organization?.address?.address ||
@@ -131,13 +135,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         ); //Get dataset list of this user
       })
       .catch((e) => {
-        setIsLoader(false);
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
         console.log(e);
       });
   };
 
   const getCoStewardOrParticipants = () => {
-    setIsLoader(true);
+    callLoader(true);
     let url =
       UrlConstant.base_url +
       UrlConstant.participant +
@@ -146,7 +153,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
     HTTPService("GET", url, "", false, true)
       .then((response) => {
-        setIsLoader(false);
+        callLoader(false);
         console.log("responce in getCoStewardOrParticipants", response);
         if (response?.data?.next == null) {
           setLoadMoreButton(false);
@@ -158,16 +165,19 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           setCoStewardOrParticipantsList(response.data.results);
       })
       .catch((e) => {
-        setIsLoader(false);
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
         console.log(e);
       });
   };
 
   const getListOnClickOfLoadMore = () => {
-    setIsLoader(true);
+    callLoader(true);
     HTTPService("GET", loadMoreUrl, "", false, true)
       .then((response) => {
-        setIsLoader(false);
+        callLoader(false);
         if (response?.data?.next == null) {
           setLoadMoreButton(false);
         } else {
@@ -181,13 +191,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         }
       })
       .catch((e) => {
-        setIsLoader(false);
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
         console.log(e);
       });
   };
 
   const deleteParticipants = () => {
-    setIsLoader(true);
+    callLoader(true);
     HTTPService(
       "DELETE",
       UrlConstants.base_url + UrlConstants.participant + id + "/",
@@ -196,22 +209,28 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       true
     )
       .then((response) => {
-        setIsLoader(false);
+        callLoader(false);
         console.log("otp valid", response);
         if (response.status === 204) {
-          // Show toast
+          callToast("Delete successfully!", "success", true);
           history.go(-1);
         }
       })
       .catch((e) => {
-        setIsLoader(false);
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
         console.log("err", e);
       });
   };
 
   const getDatasetOfParticipantOrCoSteward = (loadMore, user_id, org_id) => {
     let url = UrlConstants.base_url + UrlConstants.costeward_onboarded_dataset;
-    if (loadMore) url = datasetLoadMoreUrl;
+    if (loadMore) {
+      if (isCosteward) callLoader(true);
+      url = datasetLoadMoreUrl;
+    }
     let payload = {
       user_id: user_id,
       org_id: org_id,
@@ -220,26 +239,46 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
     HTTPService("POST", url, payload, false, true)
       .then((res) => {
+        if (isParticipantRequest) {
+          callLoader(false);
+        }
         console.log("res", res);
         let data = [...datasetList, ...res?.data?.results];
         setDatasetList(data);
         if (res?.data?.next) setDatasetLoadMoreUrl(res.data.next);
         else setDatasetLoadMoreUrl("");
       })
-      .catch((err) => {
-        console.log("err", err);
+      .catch((e) => {
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
+        console.log("err", e);
       });
   };
 
   const approveParticipantsRequest = (unApprovedId, approval_endpoint) => {
     console.log("in getCoStewardOrParticipantsOnLoad");
-    setIsLoader(true);
+    let method = "GET";
+    let payload = "";
+    callLoader(true);
     let url = "";
-    if (approval_endpoint)
-      url = UrlConstant.participant + unApprovedId + "?approval_status=true";
-    HTTPService("GET", url, "", false, true)
+    if (approval_endpoint) {
+      url = UrlConstant.base_url + UrlConstant.participant + unApprovedId + "/";
+      method = "PUT";
+      payload = {
+        approval_status: true,
+        id: orgId,
+      };
+    }
+
+    console.log("reject url", url);
+    HTTPService(method, url, payload, false, true)
       .then((response) => {
-        setIsLoader(false);
+        callLoader(false);
+        if (method === "PUT") {
+          history.go(-1);
+        }
         if (response?.data?.next == null) {
           setLoadMoreButton(false);
         } else {
@@ -250,22 +289,32 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           setCoStewardOrParticipantsList(response.data.results);
       })
       .catch((e) => {
-        setIsLoader(false);
-        //history.push(GetErrorHandlingRoute(e))
-        console.log(e);
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
       });
   };
 
   useEffect(() => {
     getParticipantsOrCostewardDetails();
-    getCoStewardOrParticipants();
+    if (!isParticipantRequest) {
+      getCoStewardOrParticipants();
+    }
   }, []);
+  console.log("logoPath", logoPath);
 
   return (
     <Container className={LocalStyle.container}>
       <Row>
         <Col xs={12} sm={6} md={4} xl={4} className={LocalStyle.highlitedImg}>
-          <img src={require("../../Assets/Img/participant_organization.svg")} />
+          {logoPath ? (
+            <img src={UrlConstant.base_url_without_slash + logoPath} />
+          ) : (
+            <h1 className={LocalStyle.firstLetterOnLogo}>
+              {organisationName.split("")[0]}
+            </h1>
+          )}
         </Col>
       </Row>
       <Row className={LocalStyle.section}>
@@ -284,69 +333,34 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          <Button
-            variant="outlined"
-            className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
-            onClick={handlePopper}
-          >
-            Delete {isCosteward ? "Co-steward" : "Participant"}
-          </Button>
-          <CustomDeletePopper
-            handleDelete={deleteParticipants}
-            open={openPopper}
-            anchorEl={anchorEl}
-            closePopper={setOpenPopper}
-          />
-          {/* <Popper id={idNew} open={open} anchorEl={anchorEl} transition>
-            {({ TransitionProps }) => (
-              <Fade {...TransitionProps} timeout={350}>
-                <Box
-                  className={LocalStyle.popperContainer}
-                  sx={{ border: 1, p: 1, bgcolor: "background.paper" }}
-                >
-                  <div className={`${LocalStyle.popperTitleContainer}`}>
-                    <img src={require("../../Assets/Img/delete_icon.svg")} />
-                    <Typography
-                      className={`${GlobalStyle.bold700} ${GlobalStyle.size18} ${GlobalStyle.highlighted_text}`}
-                      variant="h4"
-                    >
-                      {" "}
-                      Delete Files?
-                    </Typography>
-                  </div>
-                  <Typography
-                    variant="subtitle1"
-                    className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${GlobalStyle.light_text} ${LocalStyle.popperMessage}`}
-                  >
-                    Are you sure want to delete?
-                  </Typography>
-                  <div className={LocalStyle.popperButtonContainer}>
-                    <Button
-                      variant="outlined"
-                      className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButtonOnDelete}`}
-                      onClick={handleDelete}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      className={`${GlobalStyle.primary_button} ${LocalStyle.deleteButton}`}
-                      onClick={handleDelete}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </Box>
-              </Fade>
-            )}
-          </Popper> */}
-          <Button
-            variant="outlined"
-            className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
-            onClick={(e) => history.push(`/datahub/participants/edit/${id}`)}
-          >
-            Edit {isCosteward ? "Co-steward" : "Participant"}
-          </Button>
+          {!isParticipantRequest ? (
+            <>
+              <Button
+                variant="outlined"
+                className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
+                onClick={handlePopper}
+              >
+                Delete {isCosteward ? "Co-steward" : "Participant"}
+              </Button>
+              <CustomDeletePopper
+                handleDelete={deleteParticipants}
+                open={openPopper}
+                anchorEl={anchorEl}
+                closePopper={setOpenPopper}
+              />
+              <Button
+                variant="outlined"
+                className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
+                onClick={(e) =>
+                  history.push(`/datahub/participants/edit/${id}`)
+                }
+              >
+                Edit {isCosteward ? "Co-steward" : "Participant"}
+              </Button>
+            </>
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
       <Row>
@@ -491,10 +505,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           );
         })}
         {datasetList.length == 0 ? (
-          <Box p={3}>
+          <Box className={LocalStyle.noDataBox} p={3}>
             <NoData
-              title={"There is no dataset"}
-              subTitle={"As of now there is no dataset"}
+              title={"There are no dataset"}
+              subTitle={"As of now there are no dataset"}
               // primaryButton={"Add participant"}
               // primaryButtonOnClick={() =>
               //   history.push("/datahub/participants/add")
@@ -513,7 +527,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               id={"details-page-load-more-dataset-button"}
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
-              onClick={() => getDatasetOfParticipantOrCoSteward(true)} // passing true will call loadmore api
+              onClick={() =>
+                getDatasetOfParticipantOrCoSteward(true, userId, orgId)
+              } // passing true will call loadmore api
             >
               Load more
             </Button>
@@ -557,10 +573,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       )}
 
       {!coStewardOrParticipantsList?.length && isCosteward ? (
-        <Box p={3}>
+        <Box className={LocalStyle.noDataBox} p={3}>
           <NoData
-            title={"There is no participants"}
-            subTitle={"As of now there is no participants"}
+            title={"There are no participants"}
+            subTitle={"As of now there are no participants"}
             // primaryButton={"Add participant"}
             // primaryButtonOnClick={() =>
             //   history.push("/datahub/participants/add")
@@ -597,7 +613,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             id={"details-page-load-more-dataset-button"}
             variant="outlined"
             className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
-            onClick={() => history.go(-1)}
+            onClick={deleteParticipants}
           >
             Reject
           </Button>

@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import React from 'react'
 
-const ContainedButton = ({ text, fontWeight, fontSize, fontFamily, width, height, border, radius, ml, mr, mt, handleClick }) => {
+const ContainedButton = ({ text, fontWeight, fontSize, fontFamily, width, height, border, radius, ml, mr, mt, handleClick, disabled }) => {
     return (
         <Button
             sx={{
@@ -23,6 +23,7 @@ const ContainedButton = ({ text, fontWeight, fontSize, fontFamily, width, height
                     color: '#fffff',
                 }
             }}
+            disabled={disabled}
             variant="cotained"
             onClick={() => handleClick()}>{text}</Button>
     )

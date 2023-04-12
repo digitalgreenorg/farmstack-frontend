@@ -3,11 +3,11 @@
 /* @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap'); */
 /* @import url("https://fonts.googleapis.com/css2?family=Open+Sans"); */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap");
 
 body {
-  font-family: "Open Sans";
+  font-family: "Montserrat" !important;
   text-align: center !important;
   width: 100%;
   height: 100%;
@@ -32,7 +32,7 @@ button.disbalesubmitbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   opacity: 0.5;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -51,7 +51,7 @@ button.cancelbtn {
   margin-bottom: 50px;
   background: #ffffff;
   border: 1px solid #c09507;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -68,7 +68,7 @@ button.editbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   margin-top: 50px;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -100,7 +100,7 @@ button.submitbtn:hover {
 }
 
 .mainheading {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -119,7 +119,7 @@ button.submitbtn:hover {
 }
 
 .secondmainheading {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -162,7 +162,7 @@ button.submitbtn:hover {
 }
 
 .thirdmainheading {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -178,7 +178,7 @@ button.submitbtn:hover {
   font-weight: 700;
   font-size: 20px;
   color: #3d4a52;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
 }
 
@@ -186,7 +186,7 @@ button.submitbtn:hover {
   font-weight: 700;
   font-size: 20px;
   color: #d8af28;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
 }
 
@@ -194,7 +194,7 @@ button.submitbtn:hover {
   font-weight: 400;
   font-size: 16px;
   color: #3d4a52;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
 }
 
@@ -258,7 +258,7 @@ button.submitbtn:hover {
 
 .particaipancard .MuiCardHeader-title {
   padding-bottom: 18px;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -267,7 +267,7 @@ button.submitbtn:hover {
 }
 
 .particaipancard .MuiCardHeader-subheader {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -302,10 +302,10 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.MuiDataGrid-columnHeaders {
+/* .MuiDataGrid-columnHeaders {
 
   background-color: #FFDB64 !important;
-}
+} */
 
 .MuiTabs-root .MuiButtonBase-root {
   width: 162.5px !important;
@@ -319,7 +319,7 @@ input[type="number"] {
 }
 
 .downloadDataset {
-  color: #3491EE !important;
+  color: #3491ee !important;
 }
 
 .downloadDataset:hover {
@@ -332,7 +332,7 @@ input[type="number"] {
 
 .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
   color: #a3b0b8 !important;
-  font-family: "Open Sans" !important;
+  font-family: "Montserrat" !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 12px !important;
@@ -346,7 +346,7 @@ input[type="number"] {
 .MuiFilledInput-input,
 .MuiInputLabel-root {
   color: #3d4a52 !important;
-  font-family: "Open Sans" !important;
+  font-family: "Montserrat" !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 14px !important;
@@ -354,7 +354,7 @@ input[type="number"] {
 }
 
 .css-1wc848c-MuiFormHelperText-root {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -363,7 +363,7 @@ input[type="number"] {
 
 .css-1wc848c-MuiFormHelperText-root.Mui-error {
   color: #ff3d00 !important;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -448,7 +448,7 @@ button.submitbtnupdt {
   box-shadow: none !important;
 } */
 .backlabel {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -469,7 +469,7 @@ button.submitbtnupdt {
 }
 
 .public-DraftEditorPlaceholder-root {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -482,7 +482,7 @@ button.submitbtnupdt {
 .tabstyle {
   width: 109px;
   height: 19px;
-  font-family: "Open Sans" !important;
+  font-family: "Montserrat" !important;
   font-size: 14px;
   font-weight: 400;
 }
@@ -497,7 +497,7 @@ button.submitbtnupdt {
   height: 368px;
   border-radius: 10px;
   /* border: 1px solid #d21a1a; */
-  border: 1px solid #E4E4E4;
+  border: 1px solid #e4e4e4;
 }
 
 .separatorline {
@@ -513,11 +513,11 @@ button.submitbtnupdt {
 }
 
 .MuiLinearProgress-bar1Indeterminate {
-  background-color: #c09507 !important;
+  background-color: #00ab55 !important;
 }
 
 .MuiLinearProgress-bar2Indeterminate {
-  background-color: #c09507 !important;
+  background-color: #00ab55 !important;
 }
 
 .MuiLinearProgress-colorPrimary {
@@ -525,7 +525,7 @@ button.submitbtnupdt {
 }
 
 MuiLinearProgress-determinate {
-  background-color: #c09507 !important;
+  background-color: #00ab55 !important;
 }
 
 .MuiLinearProgress-colorSuccess MuiLinearProgress-determinate {
@@ -549,14 +549,12 @@ MuiLinearProgress-determinate {
 
 /* mui typography  */
 .MuiTypography-root {
-  font-family: "Open Sans" !important;
+  font-family: "Montserrat" !important;
 }
 
 .tocapitalizethefirstletter {
   text-transform: capitalize;
 }
-
-
 
 .memberDataSetCardTooltipAndWidthAndOverflowWidth200 {
   overflow: hidden;
@@ -577,7 +575,6 @@ MuiLinearProgress-determinate {
 .text_overflow_ellipsis_overflow_hidden {
   text-overflow: ellipsis;
   overflow: hidden;
-
 }
 
 .width100px {
@@ -587,7 +584,6 @@ MuiLinearProgress-determinate {
 
 .width150px {
   width: 150px;
-
 }
 
 .width173px {
@@ -611,33 +607,27 @@ MuiLinearProgress-determinate {
 .width270px {
   width: 270px;
   /* border: 1px solid red; */
-
 }
 
 .width300px {
   width: 300px;
   /* border: 1px solid red; */
-
 }
 
 .width300px_mt5px {
   width: 300px;
   margin-top: 5px;
   /* border: 1px solid red; */
-
-
 }
 
 .width600px {
   width: 600px;
   /* border: 1px solid blue; */
-
 }
 
 .width1000px {
   width: 1000px;
   /* border: 1px solid red; */
-
 }
 
 .classForPtag {
@@ -645,7 +635,6 @@ MuiLinearProgress-determinate {
   /* width: 1000px; */
   margin: 0px auto;
   word-wrap: break-word;
-
 }
 
 .carousel-indicators {
@@ -679,7 +668,6 @@ MuiLinearProgress-determinate {
   background-image: url("../Img/next.png");
   background-repeat: no-repeat;
   background-position: center !important;
-
 }
 
 .carousel-control-prev {
@@ -691,7 +679,6 @@ MuiLinearProgress-determinate {
   height: 30px !important;
   width: 30px !important;
   background-position: center !important;
-
 }
 
 .carousel-control-prev-icon {
@@ -700,10 +687,7 @@ MuiLinearProgress-determinate {
 
 .carousel-control-next-icon {
   display: none !important;
-
 }
-
-
 
 .cardheaderTitlespecifier .css-et1ao3-MuiTypography-root {
   /* border: 1px solid red; */
@@ -726,8 +710,6 @@ MuiLinearProgress-determinate {
   overflow: hidden !important;
 }
 
-
-
 .red {
   border: 1px solid red;
 }
@@ -749,7 +731,7 @@ MuiLinearProgress-determinate {
 }
 
 .dockerImageURL {
-  color: #3491EE;
+  color: #3491ee;
   cursor: pointer;
 }
 
@@ -776,7 +758,6 @@ MuiLinearProgress-determinate {
   /* max-height: 509px; */
 }
 
-
 .minHeight67vhParticipantPage {
   min-height: 67.5vh;
   /* border: 1px solid red; */
@@ -795,7 +776,7 @@ MuiLinearProgress-determinate {
 
 .Departmentcard .MuiCardHeader-title {
   padding-bottom: 1px;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -805,7 +786,7 @@ MuiLinearProgress-determinate {
 }
 
 .Departmentcard .MuiCardHeader-subheader {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -847,7 +828,6 @@ button.cancelbtndept {
   color: #585d60 !important;
   margin-bottom: 10px;
   box-shadow: none !important;
-
 }
 
 button.disbalesubmitbtndept {
@@ -869,7 +849,6 @@ button.disbalesubmitbtndept {
 
 } */
 
-
 .recharts-tooltip-wrapper {
   border: none !important;
 }
@@ -877,8 +856,6 @@ button.disbalesubmitbtndept {
 .recharts-default-tooltip {
   border: none !important;
 }
-
-
 
 .text-capital {
   text-transform: capitalize !important;
@@ -898,7 +875,6 @@ button.disbalesubmitbtndept {
   padding: 10px 10px !important;
   justify-content: right;
   transition: width 2s;
-
 }
 
 /* .searchBarForDataset #filled-basic{ */
@@ -917,7 +893,6 @@ button.disbalesubmitbtndept {
 /* transition: width 3s; */
 /* } */
 
-
 #categories-main-container .Mui-selected {
   color: black !important;
   background-color: white !important;
@@ -933,7 +908,7 @@ button.disbalesubmitbtndept {
 }
 
 .viewdatasetsecondheading {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 1px;
@@ -957,7 +932,7 @@ button.disbalesubmitbtndept {
 }
 
 .downloadfiles :hover {
-  color: #3491EE !important
+  color: #3491ee !important;
 }
 
 .solid {
@@ -965,7 +940,6 @@ button.disbalesubmitbtndept {
   width: 300px;
   margin-left: -100px;
   margin-top: 50px;
-
 }
 
 .horizontal {
@@ -974,7 +948,7 @@ button.disbalesubmitbtndept {
 }
 
 .thirdmainheadingview {
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -1006,7 +980,7 @@ button.disbalesubmitbtndept {
 }
 
 .dataset_selector_in_integration .MuiCollapse-entered {
-  background: #FFFFFF !important;
+  background: #ffffff !important;
   box-shadow: 0px 20px 40px -4px rgb(145 158 171 / 16%) !important;
   border-radius: 8px !important;
 }
@@ -1014,14 +988,14 @@ button.disbalesubmitbtndept {
 .accordion_for_columns_under_integration .accordion_detail .MuiSvgIcon-root,
 .accordion_for_columns_under_integration .select_all_btn .MuiSvgIcon-root,
 .dataset_selector_in_integration .MuiSvgIcon-root {
-  color: #c09507 !important;
+  /* color: #c09507 !important; */
 }
 
-.dataset_selector_in_integration .MuiDataGrid-columnHeaders {
+/* .dataset_selector_in_integration .MuiDataGrid-columnHeaders {
   background: #F8F8F8 !important;
   border: 1px solid #E4E4E4 !important;
   height: 42px !important;
-}
+} */
 
 .react-multi-email input {
   min-width: 500px !important;
@@ -1031,7 +1005,6 @@ button.disbalesubmitbtndept {
   /* height: 300px !important;
   width: 400px !important; */
   /* height: 300px; */
-
 }
 
 .carousel_in_guest_user_main_page .slick-arrow {
@@ -1040,11 +1013,10 @@ button.disbalesubmitbtndept {
   background-color: rgba(228, 228, 228, 1) !important;
   z-index: 10;
   border-radius: 10px !important;
-
 }
 
 .back_btn_guest .MuiSvgIcon-root {
-  color: #3491EE !important;
+  color: #3491ee !important;
 }
 
 .dataset_selector_in_integration .MuiFormControlLabel-label {
@@ -1060,8 +1032,6 @@ button.disbalesubmitbtndept {
 .dataset_selector_in_integration .deleteicon:hover {
   color: red !important;
 }
-
-
 
 .deleteicon:hover .mainBoxInIntegration {
   border: 1px solid red !important;
@@ -1090,25 +1060,21 @@ html {
   padding: 5px 0px !important;
   border-bottom-left-radius: 10px !important;
   border-bottom-right-radius: 10px !important;
-
-
 }
 
-.dataset_selector_in_integration .MuiDataGrid-row:nth-child(even) {
+/* .dataset_selector_in_integration .MuiDataGrid-row:nth-child(even) {
   background-color: #F9EABC !important;
-  /* color: white; */
   margin: 5px 0px;
-}
+} */
 
-.dataset_selector_in_integration .MuiDataGrid-row:nth-child(odd) {
+/* .dataset_selector_in_integration .MuiDataGrid-row:nth-child(odd) {
   background-color: #f7f4ebd3 !important;
-  /* color: white; */
   padding: 5px 0px;
-}
+} */
 
 .connectorCard {
   padding: 20px 40px 20px 5px;
-  font-family: "Open Sans";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -1118,17 +1084,15 @@ html {
   width: 368px;
   height: 178px;
   margin: 30px 15px 15px 15px;
-  border: 1px solid #FFDB64;
+  border: 1px solid #ffdb64;
   outline: none;
-
 }
 
 .connectorCard:hover {
   box-shadow: 0px 4px 20px rgba(216, 175, 40, 0.28);
   /* border: 1px solid red; */
-  border: 1px solid #FFDB64;
+  border: 1px solid #ffdb64;
   cursor: pointer;
-
 }
 
 .dataset_selector_in_integration .backButtonMainDiv .MuiSvgIcon-root {
@@ -1143,6 +1107,65 @@ html {
   margin-bottom: 0px !important;
 }
 
+.button:active {
+  background-color: #00ab55 !important;
+}
+
+.MuiStepLabel-label {
+  font-family: "Montserrat" !important;
+}
+
+input,
+textarea {
+  font-family: "Montserrat" !important;
+  font-size: 16px !important;
+}
+
+.stepper_ .Mui-completed {
+  font-weight: 600 !important;
+}
+
+.mainOnboardingParent .MuiStepper-root {
+  padding: 0px 150px !important;
+}
+
+#country_select {
+  font-family: "Montserrat" !important;
+  font-size: 16px !important;
+  text-align: left !important;
+}
+
+/* animation for the onboarding/ */
+.step-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.step-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+  transition: opacity 500ms, transform 500ms;
+}
+
+.step-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.step-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 500ms, transform 500ms;
+}
+
+#panel1bh-header .MuiInputBase-root:nth-child(1) {
+  height: 28px !important;
+}
+
+.textarea:active {
+  border: none !important;
+  outline: none !important;
+}
 
 .input_field_subscribe {
   border-radius: 8px !important;
@@ -1165,6 +1188,10 @@ html {
 
 .mr-44 {
   margin-right: 44px !important;
+}
+
+.mr-20 {
+  margin-right: 20px !important;
 }
 
 .mr-30 {
@@ -1209,4 +1236,17 @@ html {
 
 .mb-100 {
   margin-bottom: 100px !important;
+}
+
+.pb-20 {
+  padding-bottom: 20px !important;
+}
+
+.pt-20 {
+  padding-top: 20px !important;
+}
+
+/* snackbar */
+.MuiSnackbar-root {
+  top: 95px !important;
 }

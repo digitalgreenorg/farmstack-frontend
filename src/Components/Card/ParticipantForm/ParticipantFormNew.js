@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useContext } from "react";
 import {
   FormControl,
   FormControlLabel,
@@ -21,14 +21,18 @@ import UrlConstants from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
 import countryList from "react-select-country-list";
 import {
+  GetErrorHandlingRoute,
   GetErrorKey,
   getUserLocal,
   isLoggedInUserCoSteward,
   validateInputField,
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
+import { FarmStackContext } from "../../Contexts/FarmStackContext";
 
 const ParticipantFormNew = (props) => {
+  const { callToast, callLoader } = useContext(FarmStackContext);
+
   const { title, isEditModeOn } = props;
   const history = useHistory();
   const countryNameList = useMemo(() => countryList().getData(), []);
@@ -60,7 +64,7 @@ const ParticipantFormNew = (props) => {
   const [isExisitingUserEmail, setIsExisitingUserEmail] = useState(false);
   // const [ispincodeerror, setispincodeerror] = useState(false)
   const [isSuccess, setisSuccess] = useState(false);
-  const [isLoader, setIsLoader] = useState(false);
+  // const [isLoader, callLoader] = useState(false);
 
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState(null);
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState(null);
@@ -110,7 +114,7 @@ const ParticipantFormNew = (props) => {
       setIsUserEmailError(false);
       setIsExisitingUserEmail(false);
       setisSuccess(false);
-      setIsLoader(false);
+      callLoader(false);
 
       setFirstNameErrorMessage(null);
       setLastNameErrorMessage(null);
@@ -171,11 +175,11 @@ const ParticipantFormNew = (props) => {
     if (isLoggedInUserCoSteward()) {
       bodyFormData.append("on_boarded_by", id);
     }
-    setIsLoader(true);
+    callLoader(true);
 
     HTTPService(method, url, bodyFormData, false, true)
       .then((response) => {
-        setIsLoader(false);
+        callLoader(false);
         setisSuccess(true);
         console.log(response);
         if (response.status == 201) {
@@ -183,7 +187,7 @@ const ParticipantFormNew = (props) => {
         }
       })
       .catch((e) => {
-        setIsLoader(false);
+        callLoader(false);
         console.log(e);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
         var errorKeys = returnValues[0];
@@ -214,22 +218,31 @@ const ParticipantFormNew = (props) => {
                 break;
               // case "subscription": setOrgSubscriptionErrorMessage(errorMessages[i]); break;
               default:
-                // history.push(GetErrorHandlingRoute(e));
+                let error = GetErrorHandlingRoute(e);
+
+                console.log("Error obj", error);
+                callToast(error.message, "error", true);
                 console.log("err in switch", e);
                 break;
             }
           }
         } else {
-          // history.push(GetErrorHandlingRoute(e));
-          console.log("err", e);
+          let error = GetErrorHandlingRoute(e);
+
+          console.log("Error obj", error);
+          callToast(error.message, "error", true);
+          console.log("err in switch", e);
         }
-        //setisexisitinguseremail(true);
-        //history.push(GetErrorHandlingRoute(e));
+        let error = GetErrorHandlingRoute(e);
+
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
+        console.log("err in switch", e);
       });
   };
 
   const getDataOnEdit = () => {
-    setIsLoader(true);
+    callLoader(true);
     HTTPService(
       "GET",
       UrlConstants.base_url + UrlConstants.participant + id + "/",
@@ -238,7 +251,7 @@ const ParticipantFormNew = (props) => {
       true
     )
       .then((response) => {
-        setIsLoader(false);
+        callLoader(false);
         console.log("otp valid", response.data);
         // let addressdata=JSON.parse(response.data.organization.address)
         setOrganisationName(response.data.organization.name);
@@ -270,9 +283,12 @@ const ParticipantFormNew = (props) => {
         }
       })
       .catch((e) => {
-        setIsLoader(false);
-        // history.push(GetErrorHandlingRoute(e));
-        console.log("err", e);
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
+        console.log("err in switch", e);
       });
   };
 

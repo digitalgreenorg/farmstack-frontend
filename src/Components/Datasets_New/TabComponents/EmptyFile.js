@@ -1,7 +1,7 @@
 import { Box, Divider, Typography } from '@mui/material'
 import React from 'react'
 
-const EmptyFile = () => {
+const EmptyFile = ({ text }) => {
     return (
         <Box>
             <div className='text-center'>
@@ -18,7 +18,7 @@ const EmptyFile = () => {
                     marginTop: '26.7px',
                     marginBottom: '20px'
                 }}
-            >You have not uploaded any files</Typography>
+            >{text}</Typography>
             <div className='d-flex justify-content-center'>
                 <Divider sx={{ marginBottom: '10px', width: '150px' }} />
             </div>

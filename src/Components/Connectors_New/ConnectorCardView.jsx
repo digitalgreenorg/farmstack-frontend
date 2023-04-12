@@ -17,30 +17,34 @@ const cardSx = {
     border: "1px solid #2CD37F",
   },
 };
-const ConnectorCardView = ({ item }) => {
+const ConnectorCardView = ({ item, history }) => {
   return (
     <Card
       className="card"
       sx={cardSx}
-      // onClick={() => history.push(`/participant/new_datasets/view/${item.id}`)}
+      onClick={() => history.push(`/datahub/connectors/edit/${item.id}`)}
     >
       <div className={style.published}>
         <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
-        <span className={style.publishedText}>Published on: {"23/04/23"}</span>
+        <span className={style.publishedText}>
+          Published on: {dateTimeFormat(item?.updated_at, false)}
+        </span>
       </div>
-      <div className={style.contentTitle}>
-        {"Chilli farmer producer in my area"}
-      </div>
+      <div className={style.contentTitle}>{item?.name}</div>
       <div className={style.contentText}>
         <div>
           <Typography className={style.contentLightText}>
             Used datasets
           </Typography>
-          <Typography className={style.contentBoldText}>02</Typography>
+          <Typography className={style.contentBoldText}>
+            {item?.dataset_count}
+          </Typography>
         </div>
         <div className={style.contentText2}>
           <Typography className={style.contentLightText}>Providers</Typography>
-          <Typography className={style.contentBoldText}>03</Typography>
+          <Typography className={style.contentBoldText}>
+            {item?.providers_count}
+          </Typography>
         </div>
       </div>
     </Card>

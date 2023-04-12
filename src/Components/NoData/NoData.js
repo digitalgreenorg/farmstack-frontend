@@ -19,12 +19,12 @@ const NoData = (props) => {
       <Typography
         className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
       >
-        {title ? title : "Enter some title"}
+        {title ? title : ""}
       </Typography>
       <Typography
         className={`${GlobalStyle.size16} ${GlobalStyle.bold400} ${LocalStyle.subTitle}`}
       >
-        {subTitle ? subTitle : "Enter some sub-title"}
+        {subTitle ? subTitle : ""}
       </Typography>
       <Row>
         {primaryButton ? (

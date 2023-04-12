@@ -55,3 +55,17 @@
 .primary_button {
   margin: 0 15px !important;
 }
+.highlitedText {
+  word-wrap: break-word;
+}
+.firstLetterOnLogo {
+  text-align: center;
+  font-size: 60px;
+}
+.noDataBox {
+  text-align: center;
+  border: 1px solid #56845c;
+  border-radius: 15px;
+  background-color: #f7fff7;
+  width: 100%;
+}

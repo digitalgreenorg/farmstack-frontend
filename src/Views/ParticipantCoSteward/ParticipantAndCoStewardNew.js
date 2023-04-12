@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
@@ -15,15 +15,18 @@ import HTTPService from "../../Services/HTTPService";
 import labels from "../../Constants/labels";
 import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
+import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 
 const ParticipantsAndCoStewardNew = () => {
+  const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
   const [participantList, setparticipantList] = useState([]);
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
   const [coStewardUrl, setCoStewardUrl] = useState("");
-  const [isLoader, setIsLoader] = useState(false);
+  // const [isLoader, callLoader] = useState(false);
   const [participantListCoSteward, setParticipantListCoSteward] = useState([]);
   const [coStewardParticipantUrl, setcoStewardParticipantUrl] = useState("");
   const [coStewardList, setCoStewardList] = useState([]);
@@ -44,7 +47,7 @@ const ParticipantsAndCoStewardNew = () => {
   };
 
   // const getParticipantOnLoad = () => {
-  //   setIsLoader(true);
+  //   callLoader(true);
   //   HTTPService(
   //     "GET",
   //     UrlConstant.base_url + UrlConstant.participant,
@@ -53,7 +56,7 @@ const ParticipantsAndCoStewardNew = () => {
   //     true
   //   )
   //     .then((response) => {
-  //       setIsLoader(false);
+  //       callLoader(false);
   //       console.log("otp valid", response.data);
   //       if (response.data.next == null) {
   //         setLoadMoreButton(false);
@@ -64,7 +67,7 @@ const ParticipantsAndCoStewardNew = () => {
   //       setparticipantList(response.data.results);
   //     })
   //     .catch((e) => {
-  //       setIsLoader(false);
+  //       callLoader(false);
   //       //history.push(GetErrorHandlingRoute(e))
   //       console.log(e);
   //     });
@@ -76,7 +79,9 @@ const ParticipantsAndCoStewardNew = () => {
     approval_endpoint
   ) => {
     console.log("in getCoStewardOrParticipantsOnLoad");
-    setIsLoader(true);
+    // setIsLoading(true);
+    callLoader(true);
+
     let url =
       tabValue == 0
         ? UrlConstant.base_url + UrlConstant.participant + "?co_steward=true"
@@ -84,12 +89,12 @@ const ParticipantsAndCoStewardNew = () => {
         ? UrlConstant.base_url + UrlConstant.participant
         : UrlConstant.base_url +
           UrlConstant.participant +
-          "?approval_status=false";
+          "?approval_status=False";
     if (approval_endpoint)
-      url = UrlConstant.participant + unApprovedId + "?approval_status=true";
+      url = UrlConstant.participant + unApprovedId + "?approval_status=True";
     HTTPService("GET", url, "", false, true)
       .then((response) => {
-        setIsLoader(false);
+        callLoader(false);
         if (response?.data?.next == null) {
           setLoadMoreButton(false);
         } else {
@@ -100,14 +105,16 @@ const ParticipantsAndCoStewardNew = () => {
           setCoStewardOrParticipantsList(response.data.results);
       })
       .catch((e) => {
-        setIsLoader(false);
-        //history.push(GetErrorHandlingRoute(e))
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
         console.log(e);
       });
   };
 
   // const getParticipantListOfCoSteward = () => {
-  //   setIsLoader(true);
+  //   callLoader(true);
 
   //   HTTPService(
   //     "GET",
@@ -120,7 +127,7 @@ const ParticipantsAndCoStewardNew = () => {
   //     true
   //   )
   //     .then((response) => {
-  //       setIsLoader(false);
+  //       callLoader(false);
 
   //       if (response?.data?.next == null) {
   //         setLoadMoreButton(false);
@@ -133,17 +140,17 @@ const ParticipantsAndCoStewardNew = () => {
   //         setCoStewardOrParticipantsList(response.data.results);
   //     })
   //     .catch((e) => {
-  //       setIsLoader(false);
+  //       callLoader(false);
   //       //history.push(GetErrorHandlingRoute(e))
   //       console.log(e);
   //     });
   // };
 
   const getListOnClickOfLoadMore = () => {
-    setIsLoader(true);
+    callLoader(true);
     HTTPService("GET", loadMoreUrl, "", false, true)
       .then((response) => {
-        setIsLoader(false);
+        callLoader(false);
         if (response?.data?.next == null) {
           setLoadMoreButton(false);
         } else {
@@ -157,18 +164,20 @@ const ParticipantsAndCoStewardNew = () => {
         }
       })
       .catch((e) => {
-        setIsLoader(false);
-        //history.push(GetErrorHandlingRoute(e))
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        callToast(error.message, "error", true);
         console.log(e);
       });
   };
 
   // const getCoStewardListOnloadMore = () => {
   //   // let url =
-  //   setIsLoader(true);
+  //   callLoader(true);
   //   HTTPService("GET", coStewardUrl, "", false, true)
   //     .then((response) => {
-  //       setIsLoader(false);
+  //       callLoader(false);
   //       if (response.data.next == null) {
   //         setLoadMoreButton(false);
   //       } else {
@@ -180,16 +189,16 @@ const ParticipantsAndCoStewardNew = () => {
   //       setCoStewardList(finalDataList);
   //     })
   //     .catch((e) => {
-  //       setIsLoader(false);
+  //       callLoader(false);
   //       //history.push(GetErrorHandlingRoute(e))
   //       console.log(e);
   //     });
   // };
   // const getParticipantListofCostewardLoadMore = () => {
-  //   setIsLoader(true);
+  //   callLoader(true);
   //   HTTPService("GET", coStewardParticipantUrl, "", false, true)
   //     .then((response) => {
-  //       setIsLoader(false);
+  //       callLoader(false);
   //       if (response.data.next == null) {
   //         setLoadMoreButton(false);
   //       } else {
@@ -201,7 +210,7 @@ const ParticipantsAndCoStewardNew = () => {
   //       setParticipantListCoSteward(finalDataList);
   //     })
   //     .catch((e) => {
-  //       setIsLoader(false);
+  //       callLoader(false);
   //       //history.push(GetErrorHandlingRoute(e))
   //       console.log(e);
   //     });
@@ -255,7 +264,7 @@ const ParticipantsAndCoStewardNew = () => {
         />
       </Box>
       {tabValue === 0 &&
-        (coStewardOrParticipantsList.length === 0 && !isLoader ? (
+        (coStewardOrParticipantsList.length === 0 && !isLoading ? (
           <Box p={3}>
             <NoData
               title={"There is no Co-Stewards"}
@@ -279,7 +288,7 @@ const ParticipantsAndCoStewardNew = () => {
           />
         ))}
       {tabValue === 1 &&
-        (coStewardOrParticipantsList.length === 0 && !isLoader ? (
+        (coStewardOrParticipantsList.length === 0 && !isLoading ? (
           <Box p={3}>
             <NoData
               title={"There is no Participant!"}
@@ -307,7 +316,7 @@ const ParticipantsAndCoStewardNew = () => {
           />
         ))}
       {tabValue === 2 &&
-        (coStewardOrParticipantsList.length === 0 && !isLoader ? (
+        (coStewardOrParticipantsList.length === 0 && !isLoading ? (
           <Box p={3}>
             <NoData
               title={"There is no Participant requests!"}

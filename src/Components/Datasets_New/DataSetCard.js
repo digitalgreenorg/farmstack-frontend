@@ -10,7 +10,7 @@ const cardSx = {
         border: '1px solid #2CD37F'
     }
 };
-const DataSetCardNew = ({ history, item }) => {
+const DataSetCardNew = ({ history, item, handleCardClick }) => {
     // console.log(item)
     // console.log(Object.keys(item?.category).length > 1 ? "yes" : "no")
     console.log(Object.keys(item?.category)[0])
@@ -18,7 +18,7 @@ const DataSetCardNew = ({ history, item }) => {
     console.log(Object.keys(item?.category)[0] + " " + String(Object.keys(item?.category).length - 1))
     // console.log(Object.keys(item?.category).length > 1 ? Object.keys(item?.category)[0] + " " + Object.keys(item?.category).length - 1 : Object.keys(item?.category)[0])
     return (
-        <Card className='card' sx={cardSx} onClick={() => history.push(`/participant/new_datasets/view/${item.id}`)}>
+        <Card className='card' sx={cardSx} onClick={() => history.push(handleCardClick(item?.id))}>
             <div className='published'>
                 <img src={require('../../Assets/Img/globe.svg')} alt="globe" />
                 <span className='published_text'>Published on: {dateTimeFormat(item?.created_at, false)}</span>

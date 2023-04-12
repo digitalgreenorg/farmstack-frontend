@@ -152,7 +152,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                 })
                 return arr;
             } else {
-                return [<EmptyFile />];
+                return [<EmptyFile text={'You have not uploaded any files'} />];
             }
         }
         if (files || sqlFiles || postgresFiles || sqLiteFiles || restApifiles) {
@@ -162,21 +162,21 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                     title: <>
                         Files upload {files?.length > 0 ? <span style={{ color: "#ABABAB", marginLeft: '4px' }}>(Total Files: {files?.length} | Total size: {getTotalSizeInMb(files)} MB)</span> : <></>}
                     </>,
-                    details: files?.length > 0 ? prepareFile(files, 'file_upload') : [<EmptyFile />]
+                    details: files?.length > 0 ? prepareFile(files, 'file_upload') : [<EmptyFile text={'You have not uploaded any files'} />]
                 },
                 {
                     panel: 2,
                     title: <>
                         MySQL {sqlFiles?.length > 0 ? <span style={{ color: "#ABABAB", marginLeft: '4px' }}>(Total Files: {sqlFiles?.length} | Total size: {getTotalSizeInMb(sqlFiles)} MB)</span> : <></>}
                     </>,
-                    details: sqlFiles?.length > 0 ? prepareFile(sqlFiles, 'sqlFiles') : [<EmptyFile />]
+                    details: sqlFiles?.length > 0 ? prepareFile(sqlFiles, 'sqlFiles') : [<EmptyFile text={'You have not uploaded any files'} />]
                 },
                 {
                     panel: 3,
                     title: <>
                         Postgres {postgresFiles?.length > 0 ? <span style={{ color: "#ABABAB", marginLeft: '4px' }}>(Total Files: {postgresFiles?.length} | Total size: {getTotalSizeInMb(postgresFiles)} MB)</span> : <></>}
                     </>,
-                    details: postgresFiles?.length > 0 ? prepareFile(postgresFiles, 'postgresFiles') : [<EmptyFile />]
+                    details: postgresFiles?.length > 0 ? prepareFile(postgresFiles, 'postgresFiles') : [<EmptyFile text={'You have not uploaded any files'} />]
                 },
                 // {
                 //     panel: 4,
@@ -190,7 +190,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
                     title: <>
                         Rest API {restApifiles?.length > 0 ? <span style={{ color: "#ABABAB", marginLeft: '4px' }}>(Total Files: {restApifiles?.length} | Total size: {getTotalSizeInMb(restApifiles)} MB)</span> : <></>}
                     </>,
-                    details: restApifiles?.length > 0 ? prepareFile(restApifiles, 'restApifiles') : [<EmptyFile />]
+                    details: restApifiles?.length > 0 ? prepareFile(restApifiles, 'restApifiles') : [<EmptyFile text={'You have not uploaded any files'} />]
                 },
             ]
             return data;

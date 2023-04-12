@@ -56,6 +56,11 @@ import CostewardDetailsNew from "../Views/ParticipantCoSteward/CostewardDetailsN
 import AddParticipantNew from "../Views/Participants/AddParticipantNew";
 import EditParticipantsNew from "../Views/Participants/EditParticipantsNew";
 import DataSetsView from "../Components/Datasets_New/DataSetsView";
+import AddConnector from "../Views/Connector_New/AddConnector";
+import EditConnector from "../Views/Connector_New/EditConnector";
+import DataSets from "../Components/Datasets_New/DataSets";
+import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
+import ParticipantApproveNew from "../Views/ParticipantCoSteward/ParticipantsApproveNew";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -84,6 +89,12 @@ function Datahub(props) {
                 path="/datahub/costeward/view/:id"
                 component={CostewardDetailsNew}
               />
+              <Route
+                exact
+                path="/datahub/participants/view/approve/:id"
+                component={ParticipantApproveNew}
+              />
+
               <Route
                 exact
                 path="/datahub/costeward/edit/:id"
@@ -117,6 +128,19 @@ function Datahub(props) {
                 path="/datahub/datasets/edit/:id"
                 component={EditDataset}
               />
+              {/* temporary routes added - start */}
+              <Route exact path="/datahub/new_datasets" component={DataSets} />
+              <Route
+                exact
+                path="/datahub/new_datasets/view/:id"
+                component={DataSetsView}
+              />
+              <Route
+                exact
+                path="/datahub/new_datasets/add"
+                component={AddDataSetParticipantNew}
+              />
+              {/* end */}
               <Route
                 exact
                 path="/datahub/settings/addmember"
@@ -144,17 +168,31 @@ function Datahub(props) {
               />
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
-              <Route exact path="/datahub/datasets" component={DatasetAdmin} />
-              <Route
+              {/* <Route exact path="/datahub/datasets" component={DatasetAdmin} /> */}
+              {/* <Route
                 exact
                 path="/datahub/connectors/add"
                 component={AddConnectorParticipant}
+              /> */}
+              {/* temp added add connectors route */}
+              <Route
+                exact
+                path="/datahub/connectors/add"
+                component={AddConnector}
               />
+              {/* end */}
+              {/* temp added edit connectors route */}
               <Route
                 exact
                 path="/datahub/connectors/edit/:id"
-                component={EditConnectorParticipant}
+                component={EditConnector}
               />
+              {/* end */}
+              {/* <Route
+                exact
+                path="/datahub/connectors/edit/:id"
+                component={EditConnectorParticipant}
+              /> */}
               {/* <Route
                 exact
                 path="/datahub/connectors"
@@ -201,16 +239,18 @@ function Datahub(props) {
               >
                 <DatasetIntegration />
               </Route> */}
+              {/* temp added Connectors route */}
               <Route exact path="/datahub/connectors">
                 <Connectors />
               </Route>
+              {/* end */}
               <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
               </Route>
             </Switch>
           </div>
           {/* <Footer /> */}
-          <Divider />
+          <Divider className="mt-50" />
           <FooterNew />
         </div>
       ) : (

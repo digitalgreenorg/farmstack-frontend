@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Box, Divider } from "@mui/material";
 import AddConnectorCard from "./AddConnectorCard";
 import ConnectorCardView from "./ConnectorCardView";
@@ -10,26 +10,66 @@ import globalStyle from "../../Assets/CSS/global.module.css";
 import ConnectorTitleView from "./ConnectorTitleView";
 import { useHistory } from "react-router-dom";
 import {
+  getTokenLocal,
+  getUserLocal,
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
+import HTTPService from "../../Services/HTTPService";
+import UrlConstant from "../../Constants/UrlConstants";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const Connectors = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [connectors, setConnectors] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
+  const { callLoader, callToast } = useContext(FarmStackContext);
+  const [connectors, setConnectors] = useState([]);
+  const [connectorUrl, setConnectorUrl] = useState("");
   const [showLoadMore, setShowLoadMore] = useState(true);
   const history = useHistory();
 
   const addConnector = () => {
     if (isLoggedInUserAdmin()) {
-      // return "/datahub/datasets/add";
+      return "/datahub/connectors/add";
     } else if (isLoggedInUserParticipant()) {
-      // return "/participant/new_datasets/add";
+      return "/participant/connectors/add";
     }
   };
 
-  const getConnectors = (isLoadMore) => {};
-  useEffect(() => {}, []);
+  const getConnectors = (isLoadMore) => {
+    let url = !isLoadMore
+      ? UrlConstant.base_url +
+        UrlConstant.list_of_connectors +
+        "?user=" +
+        getUserLocal()
+      : connectorUrl;
+    let accessToken = getTokenLocal() ?? false;
+    callLoader(true);
+    HTTPService("GET", url, "", false, accessToken)
+      .then((response) => {
+        callLoader(false);
+        if (response.data.next == null) {
+          setShowLoadMore(false);
+        } else {
+          setConnectorUrl(response.data.next);
+          setShowLoadMore(true);
+        }
+        let tempArr = [];
+        if (isLoadMore) {
+          tempArr = [...connectors, ...response.data.results];
+        } else {
+          tempArr = [...response.data.results];
+        }
+        setConnectors(tempArr);
+      })
+      .catch((e) => {
+        callLoader(false);
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getConnectors(false);
+  }, []);
 
   return (
     <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -44,6 +84,7 @@ const Connectors = () => {
             setIsGrid={setIsGrid}
             history={history}
             addConnector={addConnector}
+            isConnectors={connectors && connectors?.length > 0}
           />
           <Divider className="mb-20 mt-24" />
           {connectors && connectors.length > 0 ? (

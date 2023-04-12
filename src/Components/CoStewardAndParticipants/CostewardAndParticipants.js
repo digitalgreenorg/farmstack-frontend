@@ -25,7 +25,7 @@ const CoStewardAndParticipantsCard = (props) => {
     } else if (title == "Co-steward") {
       history.push(`/datahub/costeward/view/${id}`);
     } else if (title == "New participant requests") {
-      // history.push(`/datahub/costeward/view/${id}`);
+      history.push(`/datahub/participants/view/approve/${id}`);
     }
   };
 
@@ -35,7 +35,7 @@ const CoStewardAndParticipantsCard = (props) => {
   return (
     <>
       <Row className={LocalStyle.titleContainer}>
-        <Col xs={6} sm={6} md={6} xl={6}>
+        <Col xs={6} sm={6} md={6} xl={6} className={GlobalStyle.padding0}>
           <Typography
             id={title + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
@@ -241,7 +241,8 @@ const CoStewardAndParticipantsCard = (props) => {
                   No.of participants
                 </Col>
               </>
-            ) : title === "Participants" ? (
+            ) : title === "Participants" ||
+              title === "New participant requests" ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -304,7 +305,8 @@ const CoStewardAndParticipantsCard = (props) => {
                           {item?.number_of_participants}
                         </Col>
                       </>
-                    ) : title === "Participants" ? (
+                    ) : title === "Participants" ||
+                      title === "New participant requests" ? (
                       <>
                         <Col
                           onClick={() => handleViewDataset(item?.user_id)}
