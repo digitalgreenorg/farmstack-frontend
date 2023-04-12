@@ -527,8 +527,9 @@ const AddConnector = (props) => {
             arr[index + 1] = { ...obj };
             setCompleteData([...arr]);
             setOpen(true);
-            setAlertType("success");
-            setMessage("Data generated successfully!");
+            // setAlertType("success");
+            // setMessage("Data generated successfully!");
+            callToast("Data generated successfully!", "success", true);
             let id = setTimeout(() => {
               setOpen(false);
               return clearTimeout(id);
@@ -539,8 +540,9 @@ const AddConnector = (props) => {
           console.log("inside save", res.data);
           // setConnectorId(res?.data?.id ? res.data.id : "")
           setOpen(true);
-          setAlertType("success");
-          setMessage("Data saved successfully!");
+          // setAlertType("success");
+          // setMessage("Data saved successfully!");
+          callToast("Data saved successfully!", "success", true);
           history.push("/datahub/connectors");
           resetAll();
           let id = setTimeout(() => {
@@ -550,6 +552,7 @@ const AddConnector = (props) => {
           // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
         } else if (condition == "delete") {
           console.log("inside delete", res);
+          callToast("Connector deleted successfully!", "success", true);
           history.push("/datahub/connectors");
           resetAll();
           // setOpen(true);
@@ -569,6 +572,7 @@ const AddConnector = (props) => {
       })
       .catch((err) => {
         callLoader(false)
+        callToast("Something went wrong!", "error", true);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
         } else {

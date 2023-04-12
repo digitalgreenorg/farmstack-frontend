@@ -51,9 +51,7 @@ const Preview = (props) => {
   const [row, setRow] = useState([]);
 
   const confirm = (e) => {
-    // console.log(e);
     deleteConnector();
-    message.success("Connector deleted successfully!");
   };
 
   const cancel = (e) => {
