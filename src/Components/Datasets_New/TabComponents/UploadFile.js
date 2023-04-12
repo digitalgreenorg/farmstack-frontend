@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Button, Divider, TextField, Typography } from '@mui/material';
 import './UploadFile.css';
 import { FileUploader } from 'react-drag-drop-files';
@@ -12,6 +12,7 @@ import ApiConfiguration from './ApiConfiguration';
 import HTTPService from '../../../Services/HTTPService';
 import UrlConstant from '../../../Constants/UrlConstants';
 import { fileUpload, getTokenLocal } from '../../../Utils/Common';
+import { FarmStackContext } from '../../Contexts/FarmStackContext';
 
 const accordionTitleStyle = {
     "fontFamily": "'Montserrat' !important",
@@ -21,10 +22,12 @@ const accordionTitleStyle = {
     "color": "#212B36 !important"
 }
 
-const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, setPostgresFiles, sqLiteFiles, setSqLiteFiles, restApifiles, setRestApiFiles, validator, dataSetName }) => {
+const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles, setSqlFiles, postgresFiles, setPostgresFiles, sqLiteFiles, setSqLiteFiles, restApifiles, setRestApiFiles, validator, datasetId, dataSetName }) => {
+    const { callLoader, callToast } = useContext(FarmStackContext);
     const [selectedUploadType, setSelectedUploadType] = useState('file_upload');
     const [selectedPanel, setSelectedPanel] = useState();
     const [file, setFile] = useState();
+
 
     const [mySqlDbName, setMySqlDbName] = useState()
     const [mySqlUserName, setMySqlUserName] = useState()
@@ -85,9 +88,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
         setFiles(prev => [...prev, file])
     };
 
-    const handleDelete = (index, filename, type) => {
-        let bodyFormData = new FormData()
-
+    const handleDelete = (index, id, filename, type) => {
         let source = '';
         if (type === 'file_upload') {
             source = 'file'
@@ -100,40 +101,43 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
         } else if (type === 'restApifiles') {
             source = 'restapi'
         }
-        bodyFormData.append("source", source)
-        bodyFormData.append("file_name", filename)
-        bodyFormData.append("dataset_name", dataSetName)
-
-        let accessToken = getTokenLocal() ?? false;
-        HTTPService(
-            "DELETE",
-            UrlConstant.base_url + UrlConstant.dataseteth,
-            bodyFormData,
-            true,
-            true,
-            accessToken
-        ).then((res) => {
-            if (res.status === 204) {
-                if (type === 'file_upload') {
-                    let filteredElements = files.filter((item, i) => item.name !== filename);
-                    setFiles(filteredElements)
-                } else if (type === 'sqlFiles') {
-                    let filteredElements = sqlFiles.filter((item, i) => item.name !== filename);
-                    setSqlFiles(filteredElements)
-                } else if (type === 'postgresFiles') {
-                    let filteredElements = postgresFiles.filter((item, i) => item.name !== filename);
-                    setPostgresFiles(filteredElements)
-                } else if (type === 'sqLiteFiles') {
-                    let filteredElements = sqLiteFiles.filter((item, i) => item.name !== filename);
-                    setSqLiteFiles(filteredElements)
-                } else if (type === 'restApifiles') {
-                    let filteredElements = restApifiles.filter((item, i) => item.name !== filename);
-                    setRestApiFiles(filteredElements)
+        if (id) {
+            let accessToken = getTokenLocal() ?? false;
+            HTTPService(
+                "DELETE",
+                UrlConstant.base_url + UrlConstant.upload_files + id + "/",
+                "",
+                false,
+                true,
+                accessToken
+            ).then((res) => {
+                if (res.status === 204) {
+                    if (type === 'file_upload') {
+                        let filteredElements = uploadedFiles.filter((item, i) => item.id !== id);
+                        setUploadedFiles(filteredElements)
+                    } else if (type === 'sqlFiles') {
+                        let filteredElements = sqlFiles.filter((item, i) => item.name !== filename);
+                        setSqlFiles(filteredElements)
+                    } else if (type === 'postgresFiles') {
+                        let filteredElements = postgresFiles.filter((item, i) => item.name !== filename);
+                        setPostgresFiles(filteredElements)
+                    } else if (type === 'sqLiteFiles') {
+                        let filteredElements = sqLiteFiles.filter((item, i) => item.name !== filename);
+                        setSqLiteFiles(filteredElements)
+                    } else if (type === 'restApifiles') {
+                        let filteredElements = restApifiles.filter((item, i) => item.name !== filename);
+                        setRestApiFiles(filteredElements)
+                    }
                 }
+            }).catch((err) => {
+                console.log(err)
+            })
+        } else {
+            if (type === 'file_upload') {
+                let filteredElements = files.filter((item, i) => item.name !== filename);
+                setFiles(filteredElements)
             }
-        }).catch((err) => {
-            console.log(err)
-        })
+        }
     }
 
     const getTotalSizeInMb = (data) => {
@@ -148,21 +152,24 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
         const prepareFile = (data, type) => {
             if (data) {
                 let arr = data?.map((item, index) => {
-                    return <File index={index} name={item.name} size={item.size} handleDelete={handleDelete} type={type} showDeleteIcon={true} />
+                    console.log(item)
+                    let ind = item?.file?.lastIndexOf('/')
+                    let tempFileName = item?.file?.slice(ind + 1)
+                    return <File index={index} name={tempFileName} size={item.size} id={item.id} handleDelete={handleDelete} type={type} showDeleteIcon={true} />
                 })
                 return arr;
             } else {
                 return [<EmptyFile text={'You have not uploaded any files'} />];
             }
         }
-        if (files || sqlFiles || postgresFiles || sqLiteFiles || restApifiles) {
+        if (uploadedFiles || sqlFiles || postgresFiles || sqLiteFiles || restApifiles) {
             const data = [
                 {
                     panel: 1,
                     title: <>
-                        Files upload {files?.length > 0 ? <span style={{ color: "#ABABAB", marginLeft: '4px' }}>(Total Files: {files?.length} | Total size: {getTotalSizeInMb(files)} MB)</span> : <></>}
+                        Files upload {uploadedFiles?.length > 0 ? <span style={{ color: "#ABABAB", marginLeft: '4px' }}>(Total Files: {uploadedFiles?.length} | Total size: {getTotalSizeInMb(uploadedFiles)} MB)</span> : <></>}
                     </>,
-                    details: files?.length > 0 ? prepareFile(files, 'file_upload') : [<EmptyFile text={'You have not uploaded any files'} />]
+                    details: uploadedFiles?.length > 0 ? prepareFile(uploadedFiles, 'file_upload') : [<EmptyFile text={'You have not uploaded any files'} />]
                 },
                 {
                     panel: 2,
@@ -199,26 +206,41 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
         }
     }
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
         if (selectedUploadType === 'file_upload') {
             let bodyFormData = new FormData();
-            bodyFormData.append("dataset_name", dataSetName);
+            bodyFormData.append("dataset", datasetId);
             bodyFormData.append("source", "file");
-            files.forEach(file => {
-                bodyFormData.append("datasets", file);
-            });
+            bodyFormData.append("file", "")
             let accessToken = getTokenLocal() ? getTokenLocal() : false;
-
-            HTTPService('POST',
-                UrlConstant.base_url + UrlConstant.dataseteth,
-                bodyFormData,
-                true,
-                true,
-                accessToken
-            ).then((res) => {
-                console.log(res)
+            let promiseResponse = Promise.all(files?.map((file) => {
+                bodyFormData.delete("file")
+                bodyFormData.append("file", file);
+                callLoader(true)
+                return (
+                    HTTPService('POST',
+                        UrlConstant.base_url + UrlConstant.upload_files,
+                        bodyFormData,
+                        true,
+                        true,
+                        accessToken
+                    ).then((response) => {
+                        console.log(response)
+                        setUploadedFiles(prev => [...prev, response.data])
+                        callLoader(false)
+                        callToast("file uploaded successfully", "success", true)
+                        return response?.data
+                    }).catch((error) => {
+                        console.log(error)
+                        callLoader(false)
+                        callToast("something went wrong while uploading the file", "error", true)
+                    })
+                )
+            }));
+            promiseResponse.then(res => {
+                setUploadedFiles(res)
+                setFiles([])
             })
-                .catch((err) => { console.log(err) })
         }
 
     }
@@ -291,7 +313,6 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
             }
 
             let accessToken = getTokenLocal() ? getTokenLocal() : false;
-            console.log(accessToken)
             HTTPService('POST',
                 UrlConstant.base_url + UrlConstant.connection_to_db_end_point,
                 bodyData,
@@ -527,7 +548,7 @@ const UploadFile = ({ files, setFiles, sqlFiles, setSqlFiles, postgresFiles, set
     const handleExport = () => {
 
     }
-
+    console.log(uploadedFiles, "uploaded files")
     return (
         <div className='mt-20'>
             <Typography sx={{

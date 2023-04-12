@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Divider, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './Standardise.css'
@@ -7,6 +7,7 @@ import StandardiseRow from './StandardiseRow';
 import UrlConstant from '../../../Constants/UrlConstants';
 import HTTPService from '../../../Services/HTTPService';
 import { getTokenLocal } from '../../../Utils/Common';
+import { FarmStackContext } from '../../Contexts/FarmStackContext';
 
 const detailsStyle = {
     "fontFamily": "'Montserrat' !important",
@@ -26,8 +27,9 @@ const accordionTitleStyle = {
     "color": "#212B36 !important"
 }
 
-const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile, standardisedFileLink, setStandardisedFileLink
+const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStandardisedFile, standardisedFileLink, setStandardisedFileLink
 }) => {
+    const { callLoader, callToast } = useContext(FarmStackContext);
     const [data, setData] = useState([
         {
             panel: 1,
@@ -44,7 +46,7 @@ const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile,
     const [standardisedColum, setStandardisedColumn] = useState([]);
     const [maskedColumns, setMaskedColumns] = useState([]);
     const [standardiseFiles, setStandardiseFiles] = useState([])
-    const [standardiseFile, setStandardiseFile] = useState()
+    const [standardiseFile, setStandardiseFile] = useState('')
     const [templates, setTemplates] = useState([])
     const [template, setTemplate] = useState()
     const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([])
@@ -61,15 +63,18 @@ const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile,
     };
 
     const getAllFileNames = () => {
-        let url = UrlConstant.base_url + UrlConstant.standardization_get_all_file_name + dataSetName;
+        let url = UrlConstant.base_url + UrlConstant.list_of_files + datasetId;
         let accessToken = getTokenLocal() ?? false;
+        callLoader(true)
         HTTPService("GET", url, false, false, accessToken)
             .then((response) => {
-                console.log("response", response);
+                callLoader(false)
+                console.log(response?.data)
                 let tmpAllFileName = [...standardiseFiles, ...response.data]
                 setStandardiseFiles(tmpAllFileName);
             })
             .catch((e) => {
+                callLoader(false)
                 console.log(e);
             });
     };
@@ -80,12 +85,15 @@ const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile,
         let payload = {
             file_path: standardiseFile
         };
-
+        callLoader(true)
         HTTPService("POST", url, payload, false, accessToken)
             .then((response) => {
+                callLoader(false)
                 setKeysInUploadedDataset(response.data);
             })
             .catch((e) => {
+                callLoader(false)
+                callToast("Somethinf went wrong while fetching columns", "error", true)
                 console.log(e);
             });
     };
@@ -217,11 +225,11 @@ const Standardise = ({ dataSetName, allStandardisedFile, setAllStandardisedFile,
                         label="File name"
                         placeholder='File name'
                     >
-                        {standardiseFiles?.map((item) => {
-                            let index = item.lastIndexOf("/");
-                            let fileName = item.slice(index + 1);
+                        {standardiseFiles && standardiseFiles?.length && standardiseFiles?.map((item) => {
+                            let index = item?.file?.lastIndexOf("/");
+                            let fileName = item?.file?.slice(index + 1);
                             return (
-                                <MenuItem key={item} value={item}>{fileName}</MenuItem>
+                                <MenuItem key={item} value={item?.file}>{fileName}</MenuItem>
                             )
                         })}
                     </Select>
