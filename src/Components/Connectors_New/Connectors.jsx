@@ -17,6 +17,7 @@ import {
 } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
+import { CSSTransition } from "react-transition-group";
 
 const Connectors = () => {
   const [isGrid, setIsGrid] = useState(true);
@@ -84,7 +85,18 @@ const Connectors = () => {
           <Divider className="mb-20 mt-24" />
           {connectors && connectors.length > 0 ? (
             <>
-              {isGrid ? (
+              {/* {isGrid ? ( */}
+              <CSSTransition
+                appear={isGrid}
+                in={isGrid}
+                timeout={{
+                  appear: 600,
+                  enter: 700,
+                  exit: 100,
+                }}
+                classNames="step"
+                unmountOnExit
+              >
                 <div className={style.connectorCard}>
                   <AddConnectorCard
                     history={history}
@@ -94,9 +106,22 @@ const Connectors = () => {
                     <ConnectorCardView history={history} item={item} />
                   ))}
                 </div>
-              ) : (
+              </CSSTransition>
+              {/* ) : ( */}
+              <CSSTransition
+                appear={!isGrid}
+                in={!isGrid}
+                timeout={{
+                  appear: 600,
+                  enter: 700,
+                  exit: 100,
+                }}
+                classNames="step"
+                unmountOnExit
+              >
                 <ConnectorListView connectors={connectors} history={history} />
-              )}
+              </CSSTransition>
+              {/* )} */}
               {showLoadMore ? (
                 <OutlinedButton
                   text={"Load more"}
