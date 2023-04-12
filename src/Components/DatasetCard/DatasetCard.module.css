@@ -13,6 +13,7 @@
 .date {
   display: inline-block;
   color: #9ba0a7;
+  overflow-wrap: break-word;
 }
 .alighCenter {
   display: flex;
@@ -21,6 +22,7 @@
 .cardSubtitle {
   margin-top: 5px;
   display: inline-block;
+  overflow-wrap: break-word;
 }
 .cardContainer > div {
   margin: 20px;
@@ -28,9 +30,14 @@
 .cardSubtitle2 > span {
   margin: auto;
   display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .firstSpanTag {
   margin-left: 0 !important;
+  overflow-wrap: break-word;
 }
 .cardTitle {
+  overflow-wrap: break-word;
 }

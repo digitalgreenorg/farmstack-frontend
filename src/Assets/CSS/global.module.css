@@ -49,11 +49,11 @@
 }
 
 .light_text {
-  color: #919eab;
+  color: #919eab !important;
 }
 
 .highlighted_text {
-  color: #212b36;
+  color: #212b36 !important;
 }
 .title_text {
   color: #00ab55 !important;
@@ -92,7 +92,7 @@
 }
 
 .size18 {
-  font-size: 18px;
+  font-size: 18px !important;
 }
 
 .size20 {

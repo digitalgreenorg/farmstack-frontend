@@ -85,8 +85,8 @@ const ParticipantFormNew = (props) => {
     return res1 !== null;
   };
 
-  const handleCancel = () => {
-    if (isEditModeOn) {
+  const handleCancel = (clearAllField) => {
+    if (isEditModeOn && !clearAllField) {
       history.go(-2);
     } else {
       setOrganisationName("");
@@ -136,8 +136,9 @@ const ParticipantFormNew = (props) => {
     setIsOrganisationEmailError(null);
     var id = getUserLocal();
     var bodyFormData = new FormData();
-    bodyFormData.append("email", email.toLowerCase());
-    bodyFormData.append("org_email", organisationEmail.toLowerCase());
+    if (!isEditModeOn) bodyFormData.append("email", email.toLowerCase());
+    if (!isEditModeOn)
+      bodyFormData.append("org_email", organisationEmail.toLowerCase());
     bodyFormData.append("first_name", firstName);
     bodyFormData.append("last_name", lastName);
     bodyFormData.append("name", organisationName);
@@ -177,6 +178,9 @@ const ParticipantFormNew = (props) => {
         setIsLoader(false);
         setisSuccess(true);
         console.log(response);
+        if (response.status == 201) {
+          handleCancel(true);
+        }
       })
       .catch((e) => {
         setIsLoader(false);
@@ -324,14 +328,15 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={organisationEmail}
-                onChange={(e) =>
+                onChange={(e) => {
+                  if (isEditModeOn) return;
                   validateInputField(
                     e.target.value,
                     RegexConstants.NO_SPACE_REGEX
                   )
                     ? setOrganisationEmail(e.target.value.trim())
-                    : e.preventDefault()
-                }
+                    : e.preventDefault();
+                }}
                 error={orgEmailErrorMessage ? true : false}
                 helperText={orgEmailErrorMessage ? orgEmailErrorMessage : ""}
               />
@@ -468,14 +473,15 @@ const ParticipantFormNew = (props) => {
               fullWidth
               required
               value={email}
-              onChange={(e) =>
+              onChange={(e) => {
+                if (isEditModeOn) return;
                 validateInputField(
                   e.target.value,
                   RegexConstants.NO_SPACE_REGEX
                 )
                   ? setEmail(e.target.value.trim())
-                  : e.preventDefault()
-              }
+                  : e.preventDefault();
+              }}
               error={emailErrorMessage ? true : false}
               helperText={emailErrorMessage ? emailErrorMessage : ""}
             />

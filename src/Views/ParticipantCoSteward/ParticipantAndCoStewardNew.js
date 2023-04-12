@@ -30,7 +30,7 @@ const ParticipantsAndCoStewardNew = () => {
 
   const [tabValue, setTabValue] = useState(0);
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
-    useState([0, 0, 0, 0]);
+    useState([]);
   const [viewType, setViewType] = useState("list");
   const TabLabels = ["Co-Steward", "Participant", "New Participant Requests"];
 
@@ -71,7 +71,10 @@ const ParticipantsAndCoStewardNew = () => {
   // };
   console.log("tab value", tabValue, "tab value");
 
-  const getCoStewardOrParticipantsOnLoad = () => {
+  const getCoStewardOrParticipantsOnLoad = (
+    unApprovedId,
+    approval_endpoint
+  ) => {
     console.log("in getCoStewardOrParticipantsOnLoad");
     setIsLoader(true);
     let url =
@@ -79,7 +82,11 @@ const ParticipantsAndCoStewardNew = () => {
         ? UrlConstant.base_url + UrlConstant.participant + "?co_steward=true"
         : tabValue == 1
         ? UrlConstant.base_url + UrlConstant.participant
-        : UrlConstant.base_url; // New participant requests url;
+        : UrlConstant.base_url +
+          UrlConstant.participant +
+          "?approval_status=false";
+    if (approval_endpoint)
+      url = UrlConstant.participant + unApprovedId + "?approval_status=true";
     HTTPService("GET", url, "", false, true)
       .then((response) => {
         setIsLoader(false);
@@ -201,7 +208,7 @@ const ParticipantsAndCoStewardNew = () => {
   // };
 
   useEffect(() => {
-    // setCoStewardOrParticipantsList([0, 0, 0]);
+    setCoStewardOrParticipantsList([]);
     getCoStewardOrParticipantsOnLoad();
     console.log("in useeffect");
   }, [tabValue]);
@@ -248,7 +255,7 @@ const ParticipantsAndCoStewardNew = () => {
         />
       </Box>
       {tabValue === 0 &&
-        (coStewardOrParticipantsList.length === 0 ? (
+        (coStewardOrParticipantsList.length === 0 && !isLoader ? (
           <Box p={3}>
             <NoData
               title={"There is no Co-Stewards"}
@@ -272,7 +279,7 @@ const ParticipantsAndCoStewardNew = () => {
           />
         ))}
       {tabValue === 1 &&
-        (coStewardOrParticipantsList.length === 0 ? (
+        (coStewardOrParticipantsList.length === 0 && !isLoader ? (
           <Box p={3}>
             <NoData
               title={"There is no Participant!"}
@@ -300,7 +307,7 @@ const ParticipantsAndCoStewardNew = () => {
           />
         ))}
       {tabValue === 2 &&
-        (coStewardOrParticipantsList.length === 0 ? (
+        (coStewardOrParticipantsList.length === 0 && !isLoader ? (
           <Box p={3}>
             <NoData
               title={"There is no Participant requests!"}
