@@ -1,0 +1,43 @@
+.cardContainer {
+  max-width: 368px;
+  height: 179px;
+  width: 100%;
+  border-radius: 10px !important;
+  margin: 12px 12px 10px 0;
+}
+.cardContainer:hover {
+  box-shadow: -40px 40px 80px rgba(145, 158, 171, 0.16);
+  cursor: pointer;
+  border: 1px solid #00ab55 !important;
+}
+.date {
+  display: inline-block;
+  color: #9ba0a7;
+  overflow-wrap: break-word;
+}
+.alighCenter {
+  display: flex;
+  align-items: center;
+}
+.cardSubtitle {
+  margin-top: 5px;
+  display: inline-block;
+  overflow-wrap: break-word;
+}
+.cardContainer > div {
+  margin: 20px;
+}
+.cardSubtitle2 > span {
+  margin: auto;
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.firstSpanTag {
+  margin-left: 0 !important;
+  overflow-wrap: break-word;
+}
+.cardTitle {
+  overflow-wrap: break-word;
+}
