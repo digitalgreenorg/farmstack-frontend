@@ -47,6 +47,7 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
     const [maskedColumns, setMaskedColumns] = useState([]);
     const [standardiseFiles, setStandardiseFiles] = useState([])
     const [standardiseFile, setStandardiseFile] = useState('')
+    const [standardiseFileId, setStandardiseFileId] = useState('')
     const [templates, setTemplates] = useState([])
     const [template, setTemplate] = useState()
     const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([])
@@ -63,15 +64,23 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
     };
 
     const getAllFileNames = () => {
-        let url = UrlConstant.base_url + UrlConstant.list_of_files + datasetId;
+        let url = UrlConstant.base_url + UrlConstant.list_of_files + "084ec047-50d1-41c1-bd7a-df0a8ca4d667";
         let accessToken = getTokenLocal() ?? false;
         callLoader(true)
         HTTPService("GET", url, false, false, accessToken)
             .then((response) => {
                 callLoader(false)
-                console.log(response?.data)
-                let tmpAllFileName = [...standardiseFiles, ...response.data]
-                setStandardiseFiles(tmpAllFileName);
+                let arr = []
+                let tempArr = response?.data?.forEach((r) => {
+                    let obj = {
+                        id: r.id,
+                        file: r.file,
+                        label: r.file?.slice(r.file?.lastIndexOf("/") + 1)
+                    }
+                    arr.push(obj)
+                })
+                // let tmpAllFileName = [...standardiseFiles, ...response.data]
+                setStandardiseFiles(arr);
             })
             .catch((e) => {
                 callLoader(false)
@@ -80,22 +89,24 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
     };
 
     const getFileColumnNames = () => {
-        let url = UrlConstant.base_url + UrlConstant.standardization_get_file_columns;
+        let url = UrlConstant.base_url + UrlConstant.get_file_columns;
         let accessToken = getTokenLocal() ?? false;
         let payload = {
-            file_path: standardiseFile
+            id: standardiseFile
         };
-        callLoader(true)
-        HTTPService("POST", url, payload, false, accessToken)
-            .then((response) => {
-                callLoader(false)
-                setKeysInUploadedDataset(response.data);
-            })
-            .catch((e) => {
-                callLoader(false)
-                callToast("Somethinf went wrong while fetching columns", "error", true)
-                console.log(e);
-            });
+        if (standardiseFile) {
+            callLoader(true)
+            HTTPService("POST", url, payload, false, accessToken)
+                .then((response) => {
+                    callLoader(false)
+                    setKeysInUploadedDataset(response.data);
+                })
+                .catch((e) => {
+                    callLoader(false)
+                    callToast("Something went wrong while fetching columns", "error", true)
+                    console.log(e);
+                });
+        }
     };
     const getStandardiziedTemplate = () => {
         let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
@@ -165,21 +176,35 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
 
         let payload = {
             "mask_columns": maskedColumns,
-            "standardisation_configuration": standardisationConfiguration,
-            "file_path": standardiseFile
+            "standardisation_configuration": standardisationConfiguration
         }
 
-        let url = UrlConstant.base_url + UrlConstant.standardise_file
-        HTTPService("POST", url, payload, false, true)
+        let url = UrlConstant.base_url + UrlConstant.standardised_file + standardiseFile + "/"
+        callLoader(true)
+        HTTPService("PUT", url, payload, false, true)
             .then((response) => {
+                callLoader(false)
+                callToast("File Standardised successfully!", "success", true)
                 let tmpStandardisedFileLink = { ...standardisedFileLink }
                 tmpStandardisedFileLink[standardiseFile] = response?.data?.standardised_file_path
                 setStandardisedFileLink(tmpStandardisedFileLink);
             })
             .catch((e) => {
+                callLoader(false)
+                callToast("Something went wrong while file standardise!", "error", true)
                 console.log(e);
             });
 
+    }
+    const getStandardiseFileName = () => {
+        const result = standardiseFiles.filter(obj => {
+            return obj.id === standardiseFile
+        })
+        if (result) {
+            return result[0].label
+        } else {
+            return ""
+        }
     }
     useEffect(() => {
         getAllFileNames()
@@ -190,7 +215,10 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
         getStandardiziedTemplate();
         setStandardisedColumn([])
         setMaskedColumns([])
-        setStandardisedColumn(standardiseFiles[standardiseFile]?.standardised_column)
+        const result = standardiseFiles.filter(obj => {
+            return obj.id === standardiseFile
+        })
+        setStandardisedColumn(standardiseFiles[result?.[0]?.file]?.standardised_column)
     }, [standardiseFile])
     return (
         <div className='mt-20'>
@@ -226,10 +254,10 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
                         placeholder='File name'
                     >
                         {standardiseFiles && standardiseFiles?.length && standardiseFiles?.map((item) => {
-                            let index = item?.file?.lastIndexOf("/");
-                            let fileName = item?.file?.slice(index + 1);
+                            // let index = item?.file?.lastIndexOf("/");
+                            // let fileName = item?.file?.slice(index + 1);
                             return (
-                                <MenuItem key={item} value={item?.file}>{fileName}</MenuItem>
+                                <MenuItem key={item?.id} value={item?.id}>{item?.label}</MenuItem>
                             )
                         })}
                     </Select>
@@ -238,8 +266,6 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
                     {data ? <></> : <EmptyFile text={'You have not uploaded any files'} />}
                 </Box>
                 <Box>
-                    {/* {
-                        data?.map((acc) => ( */}
                     {standardiseFile ?
                         <Accordion
                             sx={{
@@ -259,41 +285,12 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
                                 }}
                             >
                                 <Box className='w-100 d-flex justify-content-between' >
-                                    <Typography sx={accordionTitleStyle}>{standardiseFile.slice(standardiseFile.lastIndexOf("/") + 1)}</Typography>
+                                    <Typography sx={accordionTitleStyle}>{getStandardiseFileName()}</Typography>
                                     <img className='mr-55' src={require('../../../Assets/Img/delete_gray.svg')} />
                                 </Box>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Box>
-                                    {/* <Box className='text-left mt-30 ml-16'>
-                                        <FormControl fullWidth sx={{ width: '368px' }}>
-                                            <InputLabel>Select template</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={template}
-                                                onChange={(e) => setTemplate(e.target.value)}
-                                                sx={{
-                                                    textAlign: 'left',
-                                                    '.MuiOutlinedInput-notchedOutline': {
-                                                        borderColor: '#919EAB',
-                                                    },
-                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                        borderColor: '#919EAB',
-                                                    },
-                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                                                        borderColor: '#919EAB',
-                                                    }
-                                                }}
-                                                label="Select template"
-                                                placeholder='Select template'
-                                            >
-                                                {templates?.map((menu) => (
-                                                    <MenuItem value={menu}>{menu}</MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    </Box> */}
                                     {keysInUploadedDataset?.map((keyName, index) => (
                                         <StandardiseRow
                                             keyName={keyName}
@@ -316,11 +313,6 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
                                             handleMaskCheckBox={handleMaskCheckBox}
                                         />
                                     ))}
-                                    {/* {acc?.details?.map((detail) => (
-                                    <Box sx={detailsStyle}>
-                                        {detail}
-                                    </Box>
-                                ))} */}
                                     <Box className='text-right mt-30 mb-26'>
                                         <Button
                                             sx={{
@@ -343,8 +335,6 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
                             </AccordionDetails>
                         </Accordion>
                         : <></>}
-                    {/* ))
-                    } */}
                 </Box>
             </Box>
         </div>
