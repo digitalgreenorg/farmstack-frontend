@@ -34,7 +34,7 @@ const ParticipantsAndCoStewardNew = () => {
   const [tabValue, setTabValue] = useState(0);
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
-  const [viewType, setViewType] = useState("list");
+  const [viewType, setViewType] = useState("grid");
   const TabLabels = ["Co-Steward", "Participant", "New Participant Requests"];
 
   const handleClick = () => {

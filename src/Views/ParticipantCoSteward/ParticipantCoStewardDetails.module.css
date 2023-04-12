@@ -54,6 +54,7 @@
 }
 .primary_button {
   margin: 0 15px !important;
+  padding: 10px 35px !important;
 }
 .highlitedText {
   word-wrap: break-word;

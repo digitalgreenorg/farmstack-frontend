@@ -16,6 +16,9 @@
 .primaryButton {
   box-shadow: none;
 }
+.primaryButton {
+  padding: 10px 35px;
+}
 .icon {
   pointer-events: none;
   position: absolute;

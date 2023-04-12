@@ -596,7 +596,7 @@ const ParticipantFormNew = (props) => {
         <Button
           id="add-participant-submit-button"
           onClick={addNewParticipants}
-          className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
+          className={`${GlobalStyle.primary_button} ${LocalStyle.primaryButton}`}
         >
           Submit
         </Button>
