@@ -186,8 +186,8 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
         })
 
         let payload = {
-            "mask_columns": maskedColumns,
-            "standardisation_configuration": standardisationConfiguration,
+            "masked_columns": maskedColumns,
+            "standardised_configuration": standardisationConfiguration,
             "config": config
         }
 
