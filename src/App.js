@@ -31,13 +31,18 @@ import FarmStackProvider, {
 } from "./Components/Contexts/FarmStackContext";
 import Loader from "./Components/Loader/Loader";
 import Toast from "./Components/Generic/Toast";
+import GuestRoutes from "./Layout/GuestRoutes";
 function App() {
   const { isLoading, toastDetail } = useContext(FarmStackContext);
 
   return (
     <React.Fragment>
       {isLoading ? <Loader /> : ""}
-      {toastDetail.status ? <Toast message={toastDetail.message} type={toastDetail.type} /> : ""}
+      {toastDetail.status ? (
+        <Toast message={toastDetail.message} type={toastDetail.type} />
+      ) : (
+        ""
+      )}
       <Router>
         <Switch>
           {/* <Route exact path="/login" component={Login} />
@@ -53,7 +58,7 @@ function App() {
           <Route path="/participant" component={Participant} />
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error" component={Error} />
-          <Route exact path="/home" component={GuestUserMainHomePage} />
+          <Route exact path="/home" component={GuestRoutes} />
           <Route exact path="/home/viewdataset/:id" component={Viewdetails} />
           <Route exact path="/legal" component={GuestUserLegal} />
           <Route exact path="/contact" component={GuestUserContact} />
