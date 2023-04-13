@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Box, Divider } from "@mui/material";
 import AddConnectorCard from "./AddConnectorCard";
 import ConnectorCardView from "./ConnectorCardView";
@@ -18,9 +18,11 @@ import {
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { CSSTransition } from "react-transition-group";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const Connectors = () => {
   const [isGrid, setIsGrid] = useState(true);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [connectors, setConnectors] = useState([]);
   const [connectorUrl, setConnectorUrl] = useState("");
   const [showLoadMore, setShowLoadMore] = useState(true);
@@ -42,8 +44,10 @@ const Connectors = () => {
         getUserLocal()
       : connectorUrl;
     let accessToken = getTokenLocal() ?? false;
+    callLoader(true);
     HTTPService("GET", url, "", false, accessToken)
       .then((response) => {
+        callLoader(false);
         if (response.data.next == null) {
           setShowLoadMore(false);
         } else {
@@ -59,6 +63,7 @@ const Connectors = () => {
         setConnectors(tempArr);
       })
       .catch((e) => {
+        callLoader(false);
         console.log(e);
       });
   };

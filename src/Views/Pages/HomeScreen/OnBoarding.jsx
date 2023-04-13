@@ -98,31 +98,6 @@ QontoStepIcon.propTypes = {
   completed: PropTypes.bool,
 };
 
-// const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
-//     [`&.${stepConnectorClasses.alternativeLabel}`]: {
-//         top: 22,
-//     },
-//     [`&.${stepConnectorClasses.active}`]: {
-//         [`& .${stepConnectorClasses.line}`]: {
-//             backgroundImage:
-//                 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
-//         },
-//     },
-//     [`&.${stepConnectorClasses.completed}`]: {
-//         [`& .${stepConnectorClasses.line}`]: {
-//             backgroundImage:
-//                 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
-//         },
-//     },
-//     [`& .${stepConnectorClasses.line}`]: {
-//         height: 3,
-//         border: 0,
-//         backgroundColor:
-//             theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
-//         borderRadius: 1,
-//     },
-// }));
-
 const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
   backgroundColor:
     theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
@@ -216,7 +191,7 @@ const steps = [
 ];
 
 export default function OnBoarding() {
-  const [activeStep, setActiveStep] = React.useState(-1);
+  const [activeStep, setActiveStep] = React.useState(5);
   const [skipped, setSkipped] = React.useState(new Set());
   let dev_mode =
     Window?.ENV_VARS?.REACT_APP_DEV_MODE || process.env.REACT_APP_DEV_MODE;

@@ -30,12 +30,18 @@ import FarmStackProvider, {
   FarmStackContext,
 } from "./Components/Contexts/FarmStackContext";
 import Loader from "./Components/Loader/Loader";
+import Toast from "./Components/Generic/Toast";
 function App() {
-  const { isLoading } = useContext(FarmStackContext);
+  const { isLoading, toastDetail } = useContext(FarmStackContext);
 
   return (
     <React.Fragment>
       {isLoading ? <Loader /> : ""}
+      {toastDetail.status ? (
+        <Toast message={toastDetail.message} type={toastDetail.type} />
+      ) : (
+        ""
+      )}
       <Router>
         <Switch>
           {/* <Route exact path="/login" component={Login} />

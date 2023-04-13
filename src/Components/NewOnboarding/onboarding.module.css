@@ -219,6 +219,12 @@
 .document_upload_logo {
   flex: 0.1;
 }
+.styles {
+  height: 15px !important;
+}
+.download_button {
+  margin-left: 50px !important;
+}
 
 /* Extra small devices (phones, 320px and up) */
 @media (min-width: 320px) {

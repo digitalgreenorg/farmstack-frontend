@@ -136,8 +136,9 @@
   border: none !important;
 }
 .primary_button:disabled {
-  background-color: #389768b9 !important;
-  color: #389767ce !important;
+  background: rgba(145, 158, 171, 0.24) !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
 }
 
 .secondary_button {

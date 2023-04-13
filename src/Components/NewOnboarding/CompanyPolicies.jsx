@@ -13,13 +13,18 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTMLReactParser from "html-react-parser";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-import { goToTop } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  goToTop,
+} from "../../Utils/Common";
 const CompanyPolicies = (props) => {
-  const { callLoader } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
 
   const { setActiveStep } = props;
   const [policyName, setPolicyName] = useState("");
   const [policyNameError, setPolicyNameError] = useState("");
+  const [fileError, setFileError] = useState("");
   //rich text editor
   const [companyPolicyDescription, setcompanyPolicyDescription] = useState("");
   const [uploadedPolicy, setUploadedPolicy] = useState(null);
@@ -42,6 +47,8 @@ const CompanyPolicies = (props) => {
   };
   const handleAddPolicy = (e) => {
     // e.preventDefault();
+    setFileError("");
+    setPolicyNameError("");
     submitPolicy("POST");
   };
   const refreshInputs = () => {
@@ -49,9 +56,7 @@ const CompanyPolicies = (props) => {
     setcompanyPolicyDescription("");
     setUploadedPolicy(null);
     setPreview(null);
-    setEditorGovLawValue(
-      RichTextEditor.createValueFromString(companyPolicyDescription, "html")
-    );
+    setEditorGovLawValue(RichTextEditor.createValueFromString("", "html"));
   };
 
   const submitPolicy = (method, policy_id) => {
@@ -81,24 +86,56 @@ const CompanyPolicies = (props) => {
           getListOfPolicies();
         }
       })
-      .catch((error) => {
+      .catch(async (e) => {
         callLoader(false);
-        console.log(error);
+        var returnValues = GetErrorKey(e, payload.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "name":
+                setPolicyNameError(errorMessages[i]);
+                break;
+              case "file":
+                setFileError(errorMessages[i]);
+                break;
+              default:
+                let error = await GetErrorHandlingRoute(e);
+                if (error) {
+                  callToast(error?.message, "error", true);
+                }
+                break;
+            }
+          }
+        } else {
+          let error = await GetErrorHandlingRoute(e);
+          if (error) {
+            callToast(error?.message, "error", true);
+          }
+        }
       });
   };
 
   const getListOfPolicies = () => {
+    callLoader(true);
+
     let url = UrlConstant.base_url + UrlConstant.datahub_policy;
     let method = "GET";
     HTTPService(method, url, "", false, true, false, true)
       .then((response) => {
+        callLoader(false);
         console.log(response);
         //after getting the response correclty trying to create accordion detail
         let arr = [...response.data];
         setAllPolicies([...arr]);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((e) => {
+        callLoader(false);
+        GetErrorHandlingRoute(e).then((errorObject) => {
+          console.log(errorObject);
+          callToast(errorObject?.message, "error", true);
+        });
       });
   };
 
@@ -131,7 +168,29 @@ const CompanyPolicies = (props) => {
             className={styles.document_upload_logo}
             src={document_upload}
           />
-          <a href={data.file ? data.file : "No file"}>{data.file}</a>
+          {data.file ? (
+            <>
+              {" "}
+              <span
+                style={{ width: "700px", fontWeight: "500" }}
+                className={`d-inline-block text-truncate ${global_style.blue}`}
+              >
+                {data.file?.split("/").at(-1)}
+              </span>
+              <Button
+                className={
+                  global_style.primary_button + " " + styles.download_button
+                }
+              >
+                {" "}
+                <a style={{ color: "white" }} href={data.file ? data.file : ""}>
+                  Download
+                </a>
+              </Button>{" "}
+            </>
+          ) : (
+            "No file"
+          )}
         </div>
       </div>
     );
@@ -139,22 +198,22 @@ const CompanyPolicies = (props) => {
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
     display: [
+      "BLOCK_TYPE_DROPDOWN",
       "INLINE_STYLE_BUTTONS",
       "BLOCK_TYPE_BUTTONS",
-      //   "LINK_BUTTONS",
-      "BLOCK_TYPE_DROPDOWN",
-      //   "HISTORY_BUTTONS",
+      "LINK_BUTTONS",
+      "HISTORY_BUTTONS",
+    ],
+    BLOCK_TYPE_DROPDOWN: [
+      { label: "Font", style: "unstyled" },
+      { label: "Heading Large", style: "header-one" },
+      { label: "Heading Medium", style: "header-two" },
+      { label: "Heading Small", style: "header-three" },
     ],
     INLINE_STYLE_BUTTONS: [
       { label: "Bold", style: "BOLD", className: "custom-css-class" },
       { label: "Italic", style: "ITALIC" },
       { label: "Underline", style: "UNDERLINE" },
-    ],
-    BLOCK_TYPE_DROPDOWN: [
-      { label: "Normal", style: "unstyled" },
-      { label: "Heading Large", style: "header-one" },
-      { label: "Heading Medium", style: "header-two" },
-      { label: "Heading Small", style: "header-three" },
     ],
     BLOCK_TYPE_BUTTONS: [
       { label: "UL", style: "unordered-list-item" },
@@ -165,15 +224,10 @@ const CompanyPolicies = (props) => {
   const [companyPolicyValue, setEditorGovLawValue] = React.useState(
     RichTextEditor.createValueFromString(companyPolicyDescription, "html")
   );
+  const [descriptionError, setdescriptionError] = useState("");
   const handlegovLawChange = (value) => {
     setEditorGovLawValue(value);
     setcompanyPolicyDescription(value.toString("html"));
-    // if (value.toString("html") !== "<p><br></p>") {
-    //   setGovLawdescbtn(true);
-    // } else {
-    //   setGovLawdescbtn(false);
-    // }
-    console.log(value.toString("html"));
   };
   useEffect(() => {
     getListOfPolicies();
@@ -209,22 +263,27 @@ const CompanyPolicies = (props) => {
         <Row>
           <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
             <RichTextEditor
-              placeholder="Dataset description"
+              placeholder="Description"
               toolbarConfig={toolbarConfig}
               value={companyPolicyValue}
               // onKeyDown={handledatasetnameKeydown}
               onChange={handlegovLawChange}
               required
-              id="body-text"
+              className="rich_text_editor"
+              id="rich_text_editor"
               name="bodyText"
               type="string"
               multiline
               variant="filled"
               style={{
+                textAlign: "left",
                 minHeight: 410,
                 border: "1px solid black",
               }}
             />
+            <span style={{ color: "red", fontSize: "12px" }}>
+              {descriptionError}
+            </span>
           </Col>
         </Row>
 
@@ -232,7 +291,10 @@ const CompanyPolicies = (props) => {
           <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
             <FileUploaderMain
               isMultiple={false}
-              fileTypes={["xls", " xlsx", "csv"]}
+              texts={
+                "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+              }
+              fileTypes={["pdf", "doc"]}
               handleChange={handleUploadPolicy}
               maxSize={25}
             />
@@ -247,7 +309,7 @@ const CompanyPolicies = (props) => {
                 styles.text_left
               }
             >
-              Uploaded file
+              {uploadedPolicy && "Uploaded file"}
             </div>
             {uploadedPolicy && (
               <div className={styles.text_left + " " + styles.preview_box}>
@@ -261,7 +323,14 @@ const CompanyPolicies = (props) => {
                         src={document_upload}
                       />
 
-                      <span>{uploadedPolicy.name}</span>
+                      <span className={global_style.blue}>
+                        {uploadedPolicy.name + " "}{" "}
+                      </span>
+                      <span className={global_style.light_text}>
+                        {uploadedPolicy.size &&
+                          (uploadedPolicy.size / 1000000).toFixed(2)}
+                        MB
+                      </span>
                     </div>
                     <CancelIcon
                       onClick={() => handleDeletePolicy()}
@@ -272,11 +341,23 @@ const CompanyPolicies = (props) => {
                 )}
               </div>
             )}
+            <div
+              className={
+                global_style.size14 +
+                " " +
+                global_style.error +
+                " " +
+                styles.text_left
+              }
+            >
+              {fileError}
+            </div>
           </Col>
         </Row>
       </div>
       <div className={styles.button_grp}>
         <Button
+          disabled={companyPolicyDescription && policyName ? false : true}
           onClick={() => handleAddPolicy()}
           className={global_style.primary_button + " " + styles.next_button}
         >

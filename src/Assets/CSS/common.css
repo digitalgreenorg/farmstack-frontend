@@ -1114,14 +1114,18 @@ html {
 .MuiStepLabel-label {
   font-family: "Montserrat" !important;
 }
+
 input,
 textarea {
   font-family: "Montserrat" !important;
   font-size: 16px !important;
 }
-.stepper_ .Mui-completed {
+
+.stepper_ .Mui-completed,
+.stepper_ .Mui-active {
   font-weight: 600 !important;
 }
+
 .mainOnboardingParent .MuiStepper-root {
   padding: 0px 150px !important;
 }
@@ -1242,4 +1246,44 @@ textarea {
 
 .pt-20 {
   padding-top: 20px !important;
+}
+
+.MuiSnackbar-root {
+  top: 95px !important;
+}
+.category_detail_main_box .MuiInputAdornment-root {
+  height: 25px !important;
+}
+.category_detail_main_box .MuiInputAdornment-root .btn-primary {
+  padding: 0px 10px !important;
+}
+/* snackbar */
+/* .mainOnboardingParent .MuiSnackbar-root {
+  top: 0px !important;
+} */
+.rich_text_editor select,
+.rich_text_editor button {
+  border: none !important;
+  font-family: "Montserrat" !important;
+  text-align: center;
+}
+.rich_text_editor {
+  text-align: left;
+}
+.rich_text_editor .public-DraftEditorPlaceholder-inner::after {
+  content: " *";
+  color: red !important;
+}
+.rich_text_editor .DraftEditor-root,
+.DraftEditor-editorContainer,
+.public-DraftEditor-content {
+  height: 150px !important;
+  max-height: 250px !important;
+}
+.edit_head_name_accordion .MuiInputBase-root:nth-child(1) {
+  width: 70% !important;
+  height: 40px !important;
+}
+.accordions_in_onboarding .MuiAccordionSummary-content {
+  align-items: center !important;
 }

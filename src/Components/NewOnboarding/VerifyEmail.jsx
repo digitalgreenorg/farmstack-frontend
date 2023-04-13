@@ -29,7 +29,7 @@ import { useHistory } from "react-router-dom";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const VerifyEmailStep = (props) => {
-  const { callLoader } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
 
   const { setActiveStep } = props;
   const [loginError, setLoginError] = useState("");
@@ -60,7 +60,7 @@ const VerifyEmailStep = (props) => {
     } else if (action == "otp") {
       url = UrlConstant.base_url + UrlConstant.otp;
       data = {
-        email: emailId,
+        email: emailId?.toLowerCase(),
         otp,
       };
       method = "POST";
@@ -154,15 +154,18 @@ const VerifyEmailStep = (props) => {
                   setLoginError(errorMessages[i]);
                   break;
                 default:
-                  history.push(GetErrorHandlingRoute(e));
+                  let errorObject = GetErrorHandlingRoute(e);
+                  callToast(errorObject?.message, "error", true);
                   break;
               }
             }
           } else {
-            history.push(GetErrorHandlingRoute(e));
+            let errorObject = GetErrorHandlingRoute(e);
+            callToast(errorObject?.message, "error", true);
           }
         } else {
-          history.push(GetErrorHandlingRoute(e));
+          let errorObject = GetErrorHandlingRoute(e);
+          callToast(errorObject?.message, "error", true);
         }
       });
   };
@@ -191,7 +194,7 @@ const VerifyEmailStep = (props) => {
       "POST",
       url,
       {
-        email: emailId,
+        email: emailId?.toLowerCase(),
       },
       false,
       false
@@ -225,7 +228,10 @@ const VerifyEmailStep = (props) => {
               : "User suspended. Please try after sometime."
           );
         } else {
-          history.push(GetErrorHandlingRoute(e));
+          GetErrorHandlingRoute(e).then((errorObject) => {
+            console.log(errorObject);
+            callToast(errorObject?.message, "error", true);
+          });
         }
       });
   };
@@ -267,8 +273,12 @@ const VerifyEmailStep = (props) => {
           value={isValidEmailSent ? otp : emailId}
           onChange={(e) =>
             !isValidEmailSent
-              ? setEmailId(e.target.value)
-              : setOtp(e.target.value)
+              ? setEmailId(e.target.value.toLowerCase())
+              : setOtp(
+                  e.target.value.length <= 6 && !isNaN(e.target.value)
+                    ? e.target.value
+                    : otp // If the input is not a valid 6-digit number, keep the current value
+                )
           }
           required
           onKeyDown={(e) => {
@@ -336,7 +346,7 @@ const VerifyEmailStep = (props) => {
           disabled={
             isEmailValid && !isValidEmailSent
               ? false
-              : isValidEmailSent && otp.length == 6
+              : isValidEmailSent && otp && otp.length == 6
               ? false
               : true
           }
