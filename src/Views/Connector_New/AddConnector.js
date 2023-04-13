@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Box, Divider, TextField, Typography } from "@mui/material";
 import SelectConnector from "./SelectConnector";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
@@ -15,6 +15,8 @@ import {
 } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Preview from "../../Components/Datasets/IntegrationDatasets/Preview/Preview";
+import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import RegexConstants from "../../Constants/RegexConstants";
 
 const textFieldStyle = {
   borderRadius: "8px",
@@ -32,6 +34,7 @@ const textFieldStyle = {
 };
 const AddConnector = (props) => {
   const history = useHistory();
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [connectorName, setConnectorName] = useState("");
   const [connectorDescription, setConnectorDescription] = useState("");
   const [organisationName, setOrganisationName] = useState();
@@ -112,10 +115,11 @@ const AddConnector = (props) => {
   const [loader, setLoader] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const limitChar = 512;
+  const limitCharName = 100;
+  const limitCharDesc = 512;
 
   const handleDescription = (e) => {
-    if (e.target.value.toString().length <= limitChar) {
+    if (e.target.value.toString().length <= limitCharDesc) {
       setConnectorDescription(e.target.value);
     }
   };
@@ -482,9 +486,10 @@ const AddConnector = (props) => {
       return;
     }
     console.table(finalPayload, "PAYLOAD");
+    callLoader(true)
     HTTPService(method, url, finalPayload, false, true, false)
       .then((res) => {
-        setLoader(false);
+        callLoader(false);
         if (condition == "integrate") {
           console.log("inside integrate", res.data);
           setIntegratedFilePath(
@@ -522,8 +527,9 @@ const AddConnector = (props) => {
             arr[index + 1] = { ...obj };
             setCompleteData([...arr]);
             setOpen(true);
-            setAlertType("success");
-            setMessage("Data generated successfully!");
+            // setAlertType("success");
+            // setMessage("Data generated successfully!");
+            callToast("Data generated successfully!", "success", true);
             let id = setTimeout(() => {
               setOpen(false);
               return clearTimeout(id);
@@ -534,8 +540,9 @@ const AddConnector = (props) => {
           console.log("inside save", res.data);
           // setConnectorId(res?.data?.id ? res.data.id : "")
           setOpen(true);
-          setAlertType("success");
-          setMessage("Data saved successfully!");
+          // setAlertType("success");
+          // setMessage("Data saved successfully!");
+          callToast("Data saved successfully!", "success", true);
           history.push("/datahub/connectors");
           resetAll();
           let id = setTimeout(() => {
@@ -545,6 +552,7 @@ const AddConnector = (props) => {
           // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
         } else if (condition == "delete") {
           console.log("inside delete", res);
+          callToast("Connector deleted successfully!", "success", true);
           history.push("/datahub/connectors");
           resetAll();
           // setOpen(true);
@@ -563,6 +571,8 @@ const AddConnector = (props) => {
         // goToTop(2000)
       })
       .catch((err) => {
+        callLoader(false)
+        callToast("Something went wrong!", "error", true);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
         } else {
@@ -596,7 +606,7 @@ const AddConnector = (props) => {
     console.log(e.target.value);
     let value = e.target.name;
     if (value == "name") {
-      if (e.target.value && connectorData.desc) {
+      if (e.target.value && connectorData.name) {
         setIsConditionForConnectorDataForSaveMet(true);
         setIsAllConditionForSaveMet(true);
       } else {
@@ -604,18 +614,18 @@ const AddConnector = (props) => {
         setIsAllConditionForSaveMet(false);
       }
       setErrorConnectorName("");
-      setConnectorData({
-        ...connectorData,
-        [e.target.name]: e.target.value,
-      });
-      // validateInputField(e.target.value, RegexConstants.connector_name)
-      //     ? setConnectorData({
-      //         ...connectorData,
-      //         [e.target.name]: e.target.value,
-      //     })
-      //     : e.preventDefault();
+      // setConnectorData({
+      //   ...connectorData,
+      //   [e.target.name]: e.target.value,
+      // });
+      validateInputField(e.target.value, RegexConstants.connector_name)
+        ? setConnectorData({
+          ...connectorData,
+          [e.target.name]: e.target.value,
+        })
+        : e.preventDefault();
     } else {
-      if (e.target.value && connectorData.name) {
+      if (e.target.value && connectorData.desc) {
         setIsConditionForConnectorDataForSaveMet(true);
         // setIsAllConditionForSaveMet(true);
       } else {
@@ -685,11 +695,11 @@ const AddConnector = (props) => {
     <Box>
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
         <div className="text-left mt-50">
-          <span className="add_light_text">Connectors</span>
+          <span className="add_light_text cursor-pointer" onClick={() => history.push('/datahub/connectors')}>Connectors</span>
           <span className="add_light_text ml-16">
             <img src={require("../../Assets/Img/dot.svg")} />
           </span>
-          <span className="add_light_text ml-16">New connectors</span>
+          <span className="add_light_text ml-16">New connector</span>
         </div>
         <Typography
           className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 text-left`}
@@ -710,6 +720,7 @@ const AddConnector = (props) => {
           label="Connector name"
           value={connectorData.name}
           onChange={handleChange}
+          inputProps={{ maxLength: 100 }}
         />
         <TextField
           fullWidth
@@ -724,6 +735,7 @@ const AddConnector = (props) => {
           label="Connector description not more that 512 character "
           value={connectorData.desc}
           onChange={handleChange}
+          inputProps={{ maxLength: 512 }}
         />
         <SelectConnector
           text={"Select datasets for connector"}
@@ -798,8 +810,8 @@ const AddConnector = (props) => {
                 setConnectorData={setConnectorData}
                 finalDataNeedToBeGenerated={finalDataNeedToBeGenerated}
                 setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated}
-                // handleClickSelectDataset={handleClickSelectDataset}
-                // handleChangeDatasetNameSelector={handleChangeDatasetNameSelector}
+              // handleClickSelectDataset={handleClickSelectDataset}
+              // handleChangeDatasetNameSelector={handleChangeDatasetNameSelector}
               />
             </Box>
           </>

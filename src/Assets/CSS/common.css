@@ -214,7 +214,7 @@ button.submitbtn:hover {
   display: block;
 }
 
-.react-multi-email > input {
+.react-multi-email>input {
   background: none !important;
 }
 
@@ -226,14 +226,14 @@ button.submitbtn:hover {
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor > div:first-child {
+.invite-participant-text-editor>div:first-child {
   background: #f1f1f1 !important;
   border: none !important;
   border-bottom: 1px solid #9aa1a9 !important;
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor > div:first-child > div:first-child {
+.invite-participant-text-editor>div:first-child>div:first-child {
   text-align: left;
 }
 
@@ -507,7 +507,7 @@ button.submitbtnupdt {
   border-top: 1px solid rgba(238, 238, 238, 0.5);
 }
 
-.react-multi-email.empty > span[data-placeholder] {
+.react-multi-email.empty>span[data-placeholder] {
   display: inline;
   color: #3d4a52 !important;
 }
@@ -1114,14 +1114,17 @@ html {
 .MuiStepLabel-label {
   font-family: "Montserrat" !important;
 }
+
 input,
 textarea {
   font-family: "Montserrat" !important;
   font-size: 16px !important;
 }
+
 .stepper_ .Mui-completed {
   font-weight: 600 !important;
 }
+
 .mainOnboardingParent .MuiStepper-root {
   padding: 0px 150px !important;
 }
@@ -1170,8 +1173,7 @@ textarea {
   height: 56px;
 }
 
-.input_field_subscribe
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
   padding-right: 0px !important;
   border-radius: 8px !important;
 }
@@ -1242,4 +1244,9 @@ textarea {
 
 .pt-20 {
   padding-top: 20px !important;
+}
+
+/* snackbar */
+.MuiSnackbar-root {
+  top: 95px !important;
 }

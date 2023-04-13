@@ -91,3 +91,10 @@
 .joinedByRight {
     flex: 0 0 31%;
 }
+
+.textElipsis {
+    white-space: nowrap;
+    width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

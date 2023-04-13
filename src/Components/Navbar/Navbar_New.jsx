@@ -149,7 +149,7 @@ const NavbarNew = ({ loginType }) => {
               style={navInActiveStyle}
               to={
                 loginType === "admin"
-                  ? "/datahub/datasets"
+                  ? "/datahub/new_datasets"
                   : loginType === "participant"
                   ? "/participant/new_datasets"
                   : ""
@@ -158,7 +158,7 @@ const NavbarNew = ({ loginType }) => {
             >
               {isNavLinkActive(
                 loginType === "admin"
-                  ? "/datahub/datasets"
+                  ? "/datahub/new_datasets"
                   : loginType === "participant"
                   ? "/participant/new_datasets"
                   : ""

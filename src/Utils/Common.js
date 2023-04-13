@@ -174,7 +174,10 @@ export const GetErrorHandlingRoute = (e) => {
     return refreshToken();
   } else {
     console.log(e.response);
-    return "/error";
+    return {
+      message: errorMessage,
+      statusCode: e.response ? e.response.status : "unknown",
+    };
   }
 };
 

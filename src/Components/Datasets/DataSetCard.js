@@ -68,16 +68,16 @@ const useStyles = {
     "font-weight": "400",
     "font-size": "14px",
     "line-height": "19px",
-    "display": "-webkit-box",
+    display: "-webkit-box",
     "-webkit-line-clamp": "2",
     "-webkit-box-orient": "vertical",
     "text-align": "left",
-    "overflow": "hidden",
+    overflow: "hidden",
     "max-height": "60px",
     "text-overflow": "ellipsis",
-    "overflow": "hidden",
-    "display": "inline-block",
-    "width": "300px",
+    overflow: "hidden",
+    display: "inline-block",
+    width: "300px",
   },
 };
 export default function DataSetCard(props) {
@@ -87,7 +87,7 @@ export default function DataSetCard(props) {
   let newimg = document.createElement("img");
   newimg.src = success;
   newimg.alt = "hello";
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
 
   return (
     <>
@@ -112,7 +112,7 @@ export default function DataSetCard(props) {
                   sx={{ bgcolor: "#c09507", width: 54, height: 54 }}
                   aria-label="recipe"
                 >
-                  {props.orgName.charAt(0)}
+                  {props.orgName?.charAt(0)}
                 </Avatar>
               )
             }
@@ -134,9 +134,8 @@ export default function DataSetCard(props) {
           <Row style={useStyles.datasetdescription}>
             {/* <Tooltip TransitionComponent={Zoom} title={props.description}> */}
             <p
-            className="dataset-description-in-dataset-details"
-            
-              style={{ maxWidth: "300px", height: "40px", display: "block", }}
+              className="dataset-description-in-dataset-details"
+              style={{ maxWidth: "300px", height: "40px", display: "block" }}
             >
               {props.description ? parse(props.description) : ""}
             </p>
@@ -154,7 +153,6 @@ export default function DataSetCard(props) {
             )}
             <Col className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn">
               {screenlabels.dataset.published_on}
-
             </Col>
           </Row>
 
@@ -326,17 +324,17 @@ export default function DataSetCard(props) {
             style={
               !props.isMemberTab
                 ? {
-                  "margin-top": "30px",
-                  width: "150px",
-                  marginLeft: "170px",
-                  zIndex: "11",
-                }
+                    "margin-top": "30px",
+                    width: "150px",
+                    marginLeft: "170px",
+                    zIndex: "11",
+                  }
                 : {
-                  "margin-top": "-50px",
-                  width: "150px",
-                  marginLeft: "170px",
-                  zIndex: "11",
-                }
+                    "margin-top": "-50px",
+                    width: "150px",
+                    marginLeft: "170px",
+                    zIndex: "11",
+                  }
             }
           >
             {isshowbutton ? (
@@ -345,7 +343,9 @@ export default function DataSetCard(props) {
                 className="fontweight600andfontsize14pxandcolor3D4A52 supportcardsecondcolumn"
               >
                 <Button
-                  onClick={() => { props.viewCardDetails(" ", props.isMemberTab) }}
+                  onClick={() => {
+                    props.viewCardDetails(" ", props.isMemberTab);
+                  }}
                   variant="outlined"
                   style={useStyles.btncolor}
                 >
@@ -362,7 +362,6 @@ export default function DataSetCard(props) {
 
       isMemberTab = {"props.isMemberTab"}
       /> : " " } */}
-
     </>
   );
 }
