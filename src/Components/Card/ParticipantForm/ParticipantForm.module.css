@@ -16,8 +16,14 @@
 .primaryButton {
   box-shadow: none;
 }
+.primaryButton {
+  padding: 10px 35px;
+}
 .icon {
   pointer-events: none;
   position: absolute;
   right: 10px;
+}
+.cancelButton {
+  margin: 0 6px;
 }

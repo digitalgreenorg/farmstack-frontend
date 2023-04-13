@@ -4,15 +4,38 @@ import { Button, Col, Row } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
+import { useHistory } from "react-router-dom";
 
 const CoStewardAndParticipantsCard = (props) => {
-  const { coStewardOrParticipantsData, viewType, setViewType, title } = props;
+  const {
+    coStewardOrParticipantsList,
+    viewType,
+    setViewType,
+    title,
+    handleLoadMoreButton,
+    loadMoreButton,
+  } = props;
+  const history = useHistory();
 
+  // if(!viewType) viewType = "grid"
+
+  const handleViewDataset = (id) => {
+    if (title == "Participants" || title == "Co-steward participants") {
+      history.push(`/datahub/participants/view/${id}`);
+    } else if (title == "Co-steward") {
+      history.push(`/datahub/costeward/view/${id}`);
+    } else if (title == "New participant requests") {
+      history.push(`/datahub/participants/view/approve/${id}`);
+    }
+  };
+
+  console.log("props in CoStewardAndParticipantsCard", props);
+  let index = 0;
   //   const viewType = grid
   return (
     <>
       <Row className={LocalStyle.titleContainer}>
-        <Col xs={6} sm={6} md={8} xl={8}>
+        <Col xs={6} sm={6} md={6} xl={6} className={GlobalStyle.padding0}>
           <Typography
             id={title + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
@@ -20,69 +43,142 @@ const CoStewardAndParticipantsCard = (props) => {
             {title}
           </Typography>
         </Col>
-        <Col
-          className={LocalStyle.listAndGridViewButton}
-          xs={6}
-          sm={6}
-          md={4}
-          xl={4}
-        >
-          <div
-            id={title + "grid-view"}
-            className={LocalStyle.viewType}
-            onClick={() => setViewType("grid")}
+        {viewType ? (
+          <Col
+            className={LocalStyle.listAndGridViewButton}
+            xs={6}
+            sm={6}
+            md={6}
+            xl={6}
           >
-            <img
-              src={
-                viewType === "grid"
-                  ? require("../../Assets/Img/grid_view_active.svg")
-                  : require("../../Assets/Img/grid_view.svg")
-              }
-            />
-            <span
-              id={title + "grid-view-title"}
-              className={
-                viewType === "grid"
-                  ? `${LocalStyle.activeView}`
-                  : `${LocalStyle.inActiveView} ` +
-                    `${GlobalStyle.size16} ${GlobalStyle.bold400}`
-              }
+            {title == "Participants" ? (
+              <div>
+                <Button
+                  id="add-participant-submit-button"
+                  onClick={() =>
+                    history.push("/datahub/dataset/inviteparticipants")
+                  }
+                  className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
+                >
+                  + Invite Participants
+                </Button>
+              </div>
+            ) : (
+              ""
+            )}
+            <div
+              id={title + "grid-view"}
+              className={LocalStyle.viewType}
+              onClick={() => setViewType("grid")}
             >
-              Grid view
-            </span>
-          </div>
-          <div
-            id={title + "list-view"}
-            onClick={() => setViewType("list")}
-            className={LocalStyle.viewType}
-          >
-            <img
-              src={
-                viewType === "list"
-                  ? require("../../Assets/Img/list_view_active.svg")
-                  : require("../../Assets/Img/list_view.svg")
-              }
-            />
-            <span
-              id={title + "list-view-title"}
-              className={
-                viewType === "list"
-                  ? `${LocalStyle.activeView}`
-                  : `${LocalStyle.inActiveView} ` +
-                    `${GlobalStyle.size16} ${GlobalStyle.bold400}`
-              }
+              <img
+                src={
+                  viewType === "grid"
+                    ? require("../../Assets/Img/grid_view_active.svg")
+                    : viewType === "list"
+                    ? require("../../Assets/Img/grid_view.svg")
+                    : ""
+                }
+              />
+              <span
+                id={title + "grid-view-title"}
+                className={
+                  viewType === "grid"
+                    ? `${LocalStyle.activeView}`
+                    : `${LocalStyle.inActiveView} ` +
+                      `${GlobalStyle.size16} ${GlobalStyle.bold400}`
+                }
+              >
+                Grid view
+              </span>
+            </div>
+            <div
+              id={title + "list-view"}
+              onClick={() => setViewType("list")}
+              className={LocalStyle.viewType}
             >
-              List view
-            </span>
-          </div>
-        </Col>
+              <img
+                src={
+                  viewType === "list"
+                    ? require("../../Assets/Img/list_view_active.svg")
+                    : require("../../Assets/Img/list_view.svg")
+                }
+              />
+              <span
+                id={title + "list-view-title"}
+                className={
+                  viewType === "list"
+                    ? `${LocalStyle.activeView}`
+                    : `${LocalStyle.inActiveView} ` +
+                      `${GlobalStyle.size16} ${GlobalStyle.bold400}`
+                }
+              >
+                List view
+              </span>
+            </div>
+          </Col>
+        ) : (
+          ""
+        )}
       </Row>
-      {viewType === "grid" ? (
+      {viewType === "grid" || !viewType ? (
         <Row
           id={title + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
-          {coStewardOrParticipantsData?.map((item) => {
+          {title == "Participants" ? (
+            <Col
+              id={title + "grid-card-id"}
+              className={GlobalStyle.padding0}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={4}
+              onClick={() => history.push("/datahub/participants/add")}
+            >
+              <Card
+                id={`${title ? title : "title"}-card-${index ? index : ""}`}
+                className={LocalStyle.card}
+              >
+                {/* <div
+                  id={`${title ? title : "title"}-card-title-${
+                    index ? index : ""
+                  }`}
+                  className={LocalStyle.content_title}
+                >
+                  
+                </div> */}
+                <Typography
+                  id={title + "title"}
+                  className={`${GlobalStyle.size20} ${GlobalStyle.bold700} ${LocalStyle.addTitle}`}
+                >
+                  Add New Participant
+                </Typography>
+                <div className={LocalStyle.img_container}>
+                  <img
+                    className={LocalStyle.img}
+                    id={`${title ? title : "title"}-card-img-${
+                      index ? index : ""
+                    }`}
+                    src={require("../../Assets/Img/add_img.svg")}
+                    alt="new"
+                  />
+                </div>
+                <div
+                  id={`${title ? title : "title"}-card-title-${
+                    index ? index : ""
+                  }`}
+                  className={LocalStyle.addCardDescription}
+                >
+                  Add details about your dataset and make discoverable to other
+                  participants in our network. “Dummy Data”
+                </div>
+              </Card>
+            </Col>
+          ) : (
+            ""
+          )}
+          {coStewardOrParticipantsList?.map((participant, index) => {
             return (
               <Col
                 id={title + "grid-card-id"}
@@ -91,8 +187,23 @@ const CoStewardAndParticipantsCard = (props) => {
                 sm={12}
                 md={6}
                 xl={4}
+                onClick={() => handleViewDataset(participant?.user_id)}
               >
-                <CustomCard />
+                <CustomCard
+                  image={participant?.organization?.logo}
+                  title={participant?.organization?.name}
+                  subTitle1="Datasets"
+                  subTitle2={
+                    title == "Participants" ? "" : "No.of participants"
+                  }
+                  subTitle1Value={participant?.dataset_count}
+                  subTitle2Value={
+                    title == "Participants"
+                      ? undefined
+                      : participant?.number_of_participants
+                  }
+                  index={index}
+                />
               </Col>
             );
           })}
@@ -130,7 +241,8 @@ const CoStewardAndParticipantsCard = (props) => {
                   No.of participants
                 </Col>
               </>
-            ) : title === "Participants" ? (
+            ) : title === "Participants" ||
+              title === "New participant requests" ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -157,13 +269,14 @@ const CoStewardAndParticipantsCard = (props) => {
           </Row>
           <hr />
           <div className={LocalStyle.cardContainerList}>
-            {coStewardOrParticipantsData?.map((item, index) => {
+            {coStewardOrParticipantsList?.map((item, index) => {
               return (
                 <>
                   <Row id={title + "-list-view-" + index}>
                     {title === "Co-steward" ? (
                       <>
                         <Col
+                          onClick={() => handleViewDataset(item?.user_id)}
                           id={title + " list-view-title-" + index}
                           className={LocalStyle.content_title}
                           xs={4}
@@ -171,7 +284,7 @@ const CoStewardAndParticipantsCard = (props) => {
                           md={4}
                           xl={4}
                         >
-                          International Center for Tropical Agriculture
+                          {item?.organization?.name}
                         </Col>
                         <Col
                           xs={4}
@@ -180,7 +293,7 @@ const CoStewardAndParticipantsCard = (props) => {
                           xl={4}
                           id={title + " list-view-datasets-no-" + index}
                         >
-                          03
+                          {item?.dataset_count}
                         </Col>
                         <Col
                           id={title + " list-view-participant-no-" + index}
@@ -189,12 +302,14 @@ const CoStewardAndParticipantsCard = (props) => {
                           md={4}
                           xl={4}
                         >
-                          03
+                          {item?.number_of_participants}
                         </Col>
                       </>
-                    ) : title === "Participants" ? (
+                    ) : title === "Participants" ||
+                      title === "New participant requests" ? (
                       <>
                         <Col
+                          onClick={() => handleViewDataset(item?.user_id)}
                           id={title + " list-view-title-" + index}
                           className={LocalStyle.content_title}
                           xs={6}
@@ -202,7 +317,7 @@ const CoStewardAndParticipantsCard = (props) => {
                           md={6}
                           xl={6}
                         >
-                          International Center for Tropical Agriculture
+                          {item?.organization?.name}
                         </Col>
                         <Col
                           id={title + " list-view-datasets-no-" + index}
@@ -211,7 +326,7 @@ const CoStewardAndParticipantsCard = (props) => {
                           md={6}
                           xl={6}
                         >
-                          03
+                          {item?.dataset_count}
                         </Col>
                       </>
                     ) : (
@@ -226,18 +341,23 @@ const CoStewardAndParticipantsCard = (props) => {
         </>
       )}
       {/* </Row> */}
-      <Row className={LocalStyle.buttonContainer}>
-        <Col xs={0} sm={0} md={2} lg={4}></Col>
-        <Col xs={12} sm={12} md={8} lg={4}>
-          <Button
-            id={title + "-load-more-button"}
-            variant="outlined"
-            className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
-          >
-            Load more
-          </Button>
-        </Col>
-      </Row>
+      {loadMoreButton ? (
+        <Row className={LocalStyle.buttonContainer}>
+          <Col xs={0} sm={0} md={2} lg={4}></Col>
+          <Col xs={12} sm={12} md={8} lg={4}>
+            <Button
+              onClick={handleLoadMoreButton}
+              id={title + "-load-more-button"}
+              variant="outlined"
+              className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
+            >
+              Load more
+            </Button>
+          </Col>
+        </Row>
+      ) : (
+        ""
+      )}
     </>
   );
 };

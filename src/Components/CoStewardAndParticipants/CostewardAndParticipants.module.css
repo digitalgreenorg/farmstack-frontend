@@ -12,6 +12,9 @@
 .title {
   display: flex;
   flex-direction: row;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .loadMoreButton {
   width: 100%;
@@ -42,6 +45,10 @@
   text-align: start;
   /* margin: 0px 0 30px 0; */
   padding-left: 25px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .listHeader1 {
   display: flex;
@@ -54,7 +61,27 @@
   overflow-y: scroll; */
 }
 .cardContainerList {
-  overflow-x: hidden;
-  /* max-height: 600px;
+  /* overflow-x: hidden;
+  max-height: 600px;
   overflow-y: scroll; */
+}
+.img_container {
+  margin: 50px auto;
+}
+.addTitle {
+  justify-content: center;
+}
+.card {
+  padding: 24px;
+  max-width: 100% !important;
+  max-width: 368;
+  height: 314;
+  border: 1px solid #2cd37f !important;
+  border-radius: 16px !important;
+  margin: 12px;
+  cursor: pointer;
+}
+.primary {
+  box-shadow: none;
+  padding: 8px 22px !important;
 }

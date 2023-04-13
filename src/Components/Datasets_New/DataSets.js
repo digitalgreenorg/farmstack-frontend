@@ -45,7 +45,7 @@ const DataSets = (props) => {
 
     const addDataset = () => {
         if (isLoggedInUserAdmin()) {
-            return "/datahub/datasets/add";
+            return "/datahub/new_datasets/add";
         } else if (isLoggedInUserParticipant()) {
             return "/participant/new_datasets/add";
         }

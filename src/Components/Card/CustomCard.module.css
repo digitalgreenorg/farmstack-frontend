@@ -15,6 +15,7 @@
   margin: 40px 53px 30px 40px;
 }
 .content_title {
+  /* font-family: "Montserrat"; */
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
@@ -22,6 +23,9 @@
   width: 287px;
   text-align: start;
   margin: 0px 41px 30px 40px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .content_text {
@@ -30,7 +34,7 @@
 }
 
 .content_text1 {
-  font-family: "Montserrat";
+  /* font-family: "Montserrat"; */
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -51,4 +55,8 @@
 }
 .displayFlex {
   display: flex;
+}
+.img {
+  width: 251px;
+  height: 76px;
 }

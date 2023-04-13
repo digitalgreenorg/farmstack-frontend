@@ -76,18 +76,13 @@ const Join = (props) => {
     { name: "inner", black: innerB, green: innerG },
     { name: "outer", black: fullB, green: fullG },
   ]);
-  console.log("RESULT OF EACH", result);
-  console.log(each);
+
   const handleChangeJoin = (e, ind, source) => {
     let arr = [...completeData];
     let obj1 = { ...each };
     const {
       target: { value },
     } = e;
-    // On autofill we get a stringified value.
-    // if (typeof value === 'string') {
-    //     value.split(',')
-    // }
     if (source == "join1") {
       console.log(value);
       obj1["left_on"][ind] = value;
@@ -96,8 +91,6 @@ const Join = (props) => {
       obj1["right_on"][ind] = value;
       arr[index] = { ...obj1 };
     }
-    console.log(obj1);
-    console.log(arr);
     setCompleteData([...arr]);
   };
 
@@ -121,16 +114,12 @@ const Join = (props) => {
     let arr = [...completeData];
     arr[index] = each;
     setCompleteData([...arr]);
-    console.log(arr);
-    console.log(each["noOfjoin"]);
   };
 
   const getJoinFieldArray = () => {
     return [...Array(each?.noOfjoin).keys()];
   };
-  useEffect(() => {
-    // console.log(index, "[index]", each)
-  }, []);
+
   return (
     index == indexShow && (
       <span
@@ -397,7 +386,7 @@ const Join = (props) => {
                   background: "#00AB55",
                   borderRadius: "8px",
                   textTransform: "none",
-                  color: "white !important",
+                  color: "white",
                   "&:hover": {
                     backgroundColor: "#00AB55",
                     color: "#fffff",

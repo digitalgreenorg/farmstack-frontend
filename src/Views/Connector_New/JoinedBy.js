@@ -15,7 +15,7 @@ const JoinedBy = ({ left, right, type }) => {
                         fontFamily: "Montserrat !important",
                         lineHeight: "24px",
                     }}>Left column</Typography>
-                    <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
+                    <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${style.textElipsis}`} sx={{
                         fontFamily: "Montserrat !important",
                         lineHeight: "24px",
                     }}>{left}</Typography>
@@ -25,7 +25,7 @@ const JoinedBy = ({ left, right, type }) => {
                         fontFamily: "Montserrat !important",
                         lineHeight: "24px",
                     }}>Right column</Typography>
-                    <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`} sx={{
+                    <Typography className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${style.textElipsis}`} sx={{
                         fontFamily: "Montserrat !important",
                         lineHeight: "24px",
                     }}>{right}</Typography>

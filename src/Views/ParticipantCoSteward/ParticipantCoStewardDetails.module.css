@@ -23,10 +23,50 @@
   padding: 5px !important;
   margin: auto 10px !important;
 }
-.lightText {
+.loadMoreButton {
+  width: 100%;
+  box-shadow: none;
+  margin-top: 50px !important;
+  margin-bottom: 50px !important;
 }
-.highlitedText {
+.buttonContainer {
+  align-items: center;
+}
+.section {
+  margin-top: 100px !important;
 }
 .textRow {
   margin: 15px 0 30px 0;
+}
+.backButton {
+  /* margin-top: 50px !important;
+  margin-bottom: 50px !important; */
+  margin: 0 15px !important;
+}
+.backButtonContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 50px 0;
+}
+.borderNone {
+  border: none !important;
+  margin: 0 15px !important;
+}
+.primary_button {
+  margin: 0 15px !important;
+  padding: 10px 35px !important;
+}
+.highlitedText {
+  word-wrap: break-word;
+}
+.firstLetterOnLogo {
+  text-align: center;
+  font-size: 60px;
+}
+.noDataBox {
+  text-align: center;
+  border: 1px solid #56845c;
+  border-radius: 15px;
+  background-color: #f7fff7;
+  width: 100%;
 }

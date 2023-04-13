@@ -15,44 +15,41 @@
 .primary_background {
   background-color: #00ab55 !important;
 }
-
-.white_background {
-  background: #ffffff !important;
-}
-.primary_button {
+/* .primary_button {
   font-weight: 700 !important;
   font-size: 15px !important;
   line-height: 26px !important;
-  /* width: 153px !important; */
   height: 48px !important;
   background: #00ab55 !important;
   border-radius: 8px !important;
   align-items: center !important;
   padding: 11px 38px !important;
   color: #ffffff !important;
-}
-.primary_button:hover {
-  background: "rgba(0; 184; 217; 0.16)";
-  color: "#006C9C";
-}
+} */
 .outlined_button {
   font-weight: 700 !important;
   font-size: 15px !important;
   line-height: 26px !important;
-  /* width: 153px !important; */
   height: 48px !important;
-  /* background: #ffffff !important; */
   border-radius: 8px !important;
   padding: 11px 38px !important;
   color: #00ab55 !important;
   border: 1px solid #00ab55 !important;
 }
+
+.white_background {
+  background: #ffffff !important;
+}
+
 .light_text {
   color: #919eab !important;
 }
 
 .highlighted_text {
   color: #212b36 !important;
+}
+.title_text {
+  color: #00ab55 !important;
 }
 
 .bold300 {
@@ -72,7 +69,7 @@
 }
 
 .bold700 {
-  font-weight: 700 !important     ;
+  font-weight: 700 !important;
 }
 
 .size12 {
@@ -140,6 +137,9 @@
 .blue {
   color: #3366ff;
 }
+.padding0 {
+  padding: 0 !important;
+}
 .font_family {
   font-family: "Montserrat" !important;
 }
@@ -158,6 +158,7 @@
   text-transform: none !important;
   cursor: pointer !important;
   margin: 0px !important;
+  color: #ffffff !important;
 }
 .primary_button:active {
   background-color: #00ab55 !important;
