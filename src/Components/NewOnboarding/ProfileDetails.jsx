@@ -13,6 +13,10 @@ import {
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
+import { Snackbar } from "@mui/material";
+import { IconButton } from "@mui/material";
+import { Alert } from "@mui/material";
 
 const ProfileDetails = (props) => {
   const { callLoader } = useContext(FarmStackContext);
@@ -32,6 +36,7 @@ const ProfileDetails = (props) => {
     email_id: "",
     contact_number: "",
   });
+
   const handleChangeProfileDetails = (e) => {
     if (e.target) {
       setProfileDetails({ ...profileDetails, [e.target.name]: e.target.value });
@@ -39,10 +44,35 @@ const ProfileDetails = (props) => {
       setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
     }
   };
+  const [messageForSnackBar, setMessageForSnackBar] = useState("");
+  const [errorOrSuccess, setErrorOrSuccess] = useState("error");
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const handleSubmitProfileData = (e) => {
     e.preventDefault();
-    console.log(profileDetails);
+    {props.isAccountSetting ? console.log("accountDetails") : console.log(profileDetails);}
     let method = "PUT";
     let url = UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/";
 
@@ -56,7 +86,15 @@ const ProfileDetails = (props) => {
       .then((res) => {
         console.log(res);
         callLoader(false);
-        setActiveStep((prev) => prev + 1);
+        if (!props.isAccountSetting) {
+          setActiveStep((prev) => prev + 1);
+        }
+        if(props.isAccountSetting) {
+        setMessageForSnackBar("Account details updated successfully!");
+        console.log(setMessageForSnackBar)
+        setErrorOrSuccess("success");
+        handleClick();
+        }
         setProfileDetailsError({
           first_name: "",
           last_name: "",
@@ -131,12 +169,35 @@ const ProfileDetails = (props) => {
     }
   }, []);
   return (
+    <>
+    {props.isAccountSetting ?
+    <Snackbar
+    anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
+    //style={{ top: 0 , maxWidth: "1300px" }}
+     style={{'maxWidth': "1300px"}} 
+    //lassName='mui_snackbar_in_live_api_classname'
+      open={open}
+      autoHideDuration={4000}
+      onClose={handleClose}
+      action={action}
+    >
+      <Alert
+        autoHideDuration={4000}
+        onClose={handleClose}
+        sx={{ width: '100%', fontSize: '1.5rem' }}
+        severity={errorOrSuccess}
+      >
+        {messageForSnackBar}
+      </Alert>
+    </Snackbar> : "" }
     <div className={styles.main_box}>
-      <div className={styles.main_label}>Profile Details</div>
+      <div className={styles.main_label}>
+      {props.isAccountSetting ? "Account settings" : "Profile Details" } </div>
 
+      {props.isAccountSetting ? "" : 
       <div className={styles.sub_label}>
-        Enter your profile details, we will show to others!
-      </div>
+       Enter your profile details, we will show to others!
+      </div> }
 
       <div className={styles.all_inputs}>
         <Row>
@@ -206,6 +267,28 @@ const ProfileDetails = (props) => {
           </Col>
         </Row>
       </div>
+      {props.isAccountSetting ? 
+      <Row>
+              <Col style={{ textAlign: "right", margin: "20px" }}>
+                 <Button
+                  id="cancelbutton_account"
+                   variant="outlined"
+                 style={{ margin: "20px" }}
+                  className="button"
+                 >
+                   Cancel
+                 </Button>
+                 <Button
+                   id="submitbutton_account"
+                   variant="outlined"
+                   className="button"
+                   onClick={(e) => handleSubmitProfileData(e)}
+                 >
+                   Submit
+                 </Button>
+              </Col>
+             </Row>
+      :
       <div className={styles.button_grp}>
         <Button
           onClick={() => setActiveStep((prev) => prev + 1)}
@@ -229,8 +312,11 @@ const ProfileDetails = (props) => {
           Next
         </Button>
       </div>
+      }
     </div>
+    </>
   );
 };
 
 export default ProfileDetails;
+

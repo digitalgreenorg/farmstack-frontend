@@ -19,6 +19,10 @@ import HTTPService from "../../Services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
+import { Snackbar } from "@mui/material";
+import { IconButton } from "@mui/material";
+import { Alert } from "@mui/material";
 const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader } = useContext(FarmStackContext);
@@ -62,6 +66,32 @@ const OrganizationDetails = (props) => {
   };
 
   const [preview, setPreview] = useState();
+  const [messageForSnackBar, setMessageForSnackBar] = useState("");
+  const [errorOrSuccess, setErrorOrSuccess] = useState("error");
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   const handleUpload = (file) => {
     console.log(file);
     setIsLogoLink(false);
@@ -126,7 +156,15 @@ const OrganizationDetails = (props) => {
       .then((response) => {
         callLoader(false);
         console.log(response);
-        setActiveStep((prev) => prev + 1);
+        if (!props.isOrgSetting) {
+          setActiveStep((prev) => prev + 1);
+        }
+        if(props.isOrgSetting) {
+        setMessageForSnackBar("Organisation details updated successfully!");
+        console.log(setMessageForSnackBar)
+        setErrorOrSuccess("success");
+        handleClick();
+        }
       })
       .catch((e) => {
         callLoader(false);
@@ -226,14 +264,36 @@ const OrganizationDetails = (props) => {
     getOrganizationData();
     goToTop(0);
   }, []);
-  return (
+  return (<>
+    {props.isOrgSetting ?
+      <Snackbar
+      anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
+      //style={{ top: 0 , maxWidth: "1300px" }}
+       style={{'maxWidth': "1300px"}} 
+      //lassName='mui_snackbar_in_live_api_classname'
+        open={open}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        action={action}
+      >
+        <Alert
+          autoHideDuration={4000}
+          onClose={handleClose}
+          sx={{ width: '100%', fontSize: '1.5rem' }}
+          severity={errorOrSuccess}
+        >
+          {messageForSnackBar}
+        </Alert>
+      </Snackbar> : "" }
     <div className={styles.main_box}>
-      <div className={styles.main_label}>Organisation Details</div>
-
-      <div className={styles.sub_label}>
-        Enter your organisation details, we will show to others!
+      <div className={styles.main_label}>
+        {props.isOrgSetting ? "Organisation setting" : " Organisation Details" }
       </div>
 
+      {props.isOrgSetting ? "" : 
+      <div className={styles.sub_label}>
+       Enter your organisation details, we will show to others!
+      </div> }
       <div className={styles.all_inputs}>
         <Row>
           <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -453,6 +513,39 @@ const OrganizationDetails = (props) => {
           </Col>
         </Row>
       </div>
+      {props.isOrgSetting ? 
+      <Row>
+              <Col style={{ textAlign: "right", margin: "20px" }}>
+                 <Button
+                  id="cancelbutton_account"
+                   variant="outlined"
+                 style={{ margin: "20px" }}
+                  className="button"
+                 >
+                   Cancel
+                 </Button>
+                 <Button
+                   id="submitbutton_account"
+                   variant="outlined"
+                   className="button"
+                   disabled={
+                    organisationDetails.organisation_address &&
+                    organisationDetails.organisation_mail_id &&
+                    organisationDetails.organisation_country &&
+                    organisationDetails.organisation_description &&
+                    organisationDetails.organisation_name &&
+                    organisationDetails.organisation_pin_code &&
+                    organisationDetails.organisation_website_link &&
+                    preview
+                      ? false
+                      : true
+                  }
+                  onClick={(e) => handleSubmitOrganizationDetails(e)}
+                 >
+                   Submit
+                 </Button>
+              </Col>
+             </Row> : 
       <div className={styles.button_grp}>
         <Button
           onClick={() => setActiveStep((prev) => prev + 1)}
@@ -480,11 +573,13 @@ const OrganizationDetails = (props) => {
           {" "}
           Next
         </Button>
-      </div>
+      </div> }
       {/* <div className={styles.send_otp_div}>
 </div> */}
     </div>
+    </>
   );
 };
 
 export default OrganizationDetails;
+

@@ -115,7 +115,7 @@ function Datahub(props) {
                 path="/datahub/datasets/edit/:id"
                 component={EditDataset}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/settings/addmember"
                 component={AddTeamMember}
@@ -138,8 +138,8 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/settings/editdepartment/:id"
-                component={EditDepartmentSettings}
-              />
+                component={EditDepartmentSettings} */}
+              {/* /> */}
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
               <Route exact path="/datahub/datasets" component={DatasetAdmin} />
@@ -172,7 +172,7 @@ function Datahub(props) {
                 path="/datahub/connectors"
                 component={ConnectorParticipant}
               /> */}
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/settings/project/add"
                 component={AddProjectParticipant}
@@ -186,7 +186,7 @@ function Datahub(props) {
                 exact
                 path="/datahub/settings/project/edit/:id"
                 component={EditProjectParticipant}
-              />
+              /> */}
               <Route
                 exact
                 path="/datahub/connectors/detail"

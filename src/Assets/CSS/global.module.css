@@ -134,7 +134,9 @@
 .size40 {
   font-size: 40px !important;
 }
-
+.size20 {
+  font-size: 20px !important
+}
 .blue {
   color: #3366ff;
 }
