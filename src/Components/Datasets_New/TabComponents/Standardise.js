@@ -174,9 +174,21 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
             }
         })
 
+        let config = {}
+        keysInUploadedDataset.forEach((column, index) => {
+            if (standardisedColum[index]) {
+                config[column] = {
+                    'mapped_to': standardisedColum[index],
+                    'mapped_category': datapointCategory[index]?.datapoint_category,
+                    'masked': maskedColumns.includes(column)
+                }
+            }
+        })
+
         let payload = {
             "mask_columns": maskedColumns,
-            "standardisation_configuration": standardisationConfiguration
+            "standardisation_configuration": standardisationConfiguration,
+            "config": config
         }
 
         let url = UrlConstant.base_url + UrlConstant.standardised_file + standardiseFile + "/"
