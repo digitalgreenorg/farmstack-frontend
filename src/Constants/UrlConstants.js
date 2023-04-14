@@ -49,6 +49,14 @@ const UrlConstant = {
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
 
+  // new_datasets_v2 api
+  add_basic_dataset: "datahub/new_dataset_v2/",
+  upload_files: "datahub/dataset_files/",
+  list_of_files: "datahub/dataset_files/?dataset=",
+  get_file_columns: "datahub/dataset/v2/get_dataset_file_columns/",
+  standardised_file: "datahub/dataset_files/",
+  usage_policy: "datahub/dataset_files/",
+
   guest_organization_details: "microsite/admin_organization/",
   guest_dataset_listing: "microsite/datasets/",
   guest_dataset_filters: "microsite/datasets/filters_data/",
