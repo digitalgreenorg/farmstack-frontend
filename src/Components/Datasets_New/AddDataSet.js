@@ -163,25 +163,23 @@ const AddDataSetParticipantNew = () => {
         }
     }
     const handleSubmit = () => {
-        let bodyFormData = new FormData();
-        bodyFormData.append("name", dataSetName);
-        bodyFormData.append("description", dataSetDescription);
-        bodyFormData.append("category", JSON.stringify(categorises));
-        bodyFormData.append("user_map", getUserMapId());
-        bodyFormData.append("geography", geography);
-        bodyFormData.append("constantly_update", isUpdating);
-        bodyFormData.append("data_capture_start", (!isUpdating && fromDate) ? fromDate.toISOString() : "");
-        bodyFormData.append("data_capture_end", (!isUpdating && toDate) ? toDate.toISOString() : "");
-        bodyFormData.append("standardisation_template", JSON.stringify(standardisedFileLink));
-        bodyFormData.append("standardisation_config", JSON.stringify(allStandardisedFile));
-
-        let url = UrlConstant.base_url + UrlConstant.datasetview
+        let body = {
+            user_map: getUserMapId(),
+            name: dataSetName,
+            description: dataSetDescription,
+            category: JSON.stringify(categorises),
+            geography: geography,
+            constantly_update: isUpdating,
+            data_capture_start: (!isUpdating && fromDate) ? fromDate.toISOString() : null,
+            data_capture_end: (!isUpdating && toDate) ? toDate.toISOString() : null,
+        }
+        let url = UrlConstant.base_url + UrlConstant.add_basic_dataset + datasetId + "/"
         let checkforAcess = getTokenLocal() ?? false;
         callLoader(true)
         HTTPService(
-            "POST",
+            "PUT",
             url,
-            bodyFormData,
+            body,
             false,
             true,
             checkforAcess,

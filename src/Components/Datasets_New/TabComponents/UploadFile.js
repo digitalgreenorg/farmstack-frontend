@@ -143,8 +143,8 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
     const getTotalSizeInMb = (data) => {
         let total = 0;
         data.forEach(element => {
-            let converted = element.size / Math.pow(1024, 2);
-            total = parseFloat(total) + parseFloat(converted.toFixed(2))
+            let converted = element?.size / Math.pow(1024, 2);
+            total = parseFloat(total) + parseFloat(converted?.toFixed(2))
         });
         return total;
     }
@@ -155,7 +155,7 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
                     console.log(item)
                     let ind = item?.file?.lastIndexOf('/')
                     let tempFileName = item?.file?.slice(ind + 1)
-                    return <File index={index} name={tempFileName} size={item.size} id={item.id} handleDelete={handleDelete} type={type} showDeleteIcon={true} />
+                    return <File index={index} name={tempFileName} size={item?.size} id={item?.id} handleDelete={handleDelete} type={type} showDeleteIcon={true} />
                 })
                 return arr;
             } else {

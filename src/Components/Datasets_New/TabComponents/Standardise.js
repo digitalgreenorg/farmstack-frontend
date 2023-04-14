@@ -64,7 +64,7 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
     };
 
     const getAllFileNames = () => {
-        let url = UrlConstant.base_url + UrlConstant.list_of_files + "084ec047-50d1-41c1-bd7a-df0a8ca4d667";
+        let url = UrlConstant.base_url + UrlConstant.list_of_files + datasetId;
         let accessToken = getTokenLocal() ?? false;
         callLoader(true)
         HTTPService("GET", url, false, false, accessToken)

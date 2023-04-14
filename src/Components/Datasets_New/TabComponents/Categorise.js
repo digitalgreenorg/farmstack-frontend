@@ -132,7 +132,7 @@ const Categorise = (props) => {
                         </Select>
                     </FormControl>
                 </Box>
-                <Box sx={{ marginLeft: '122px' }}>
+                {/* <Box sx={{ marginLeft: '122px' }}>
                     <Typography sx={{
                         fontFamily: "Montserrat !important",
                         fontWeight: "600",
@@ -171,7 +171,7 @@ const Categorise = (props) => {
                             ))}
                         </Select>
                     </FormControl>
-                </Box>
+                </Box> */}
             </Box>
         </div>
     )
