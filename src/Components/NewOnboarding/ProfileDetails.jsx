@@ -86,15 +86,15 @@ const ProfileDetails = (props) => {
       .then((res) => {
         console.log(res);
         callLoader(false);
-        if (!props.isAccountSetting) {
+        // if (!props.isAccountSetting) {
           setActiveStep((prev) => prev + 1);
-        }
-        if(props.isAccountSetting) {
-        setMessageForSnackBar("Account details updated successfully!");
-        console.log(setMessageForSnackBar)
-        setErrorOrSuccess("success");
-        handleClick();
-        }
+        // }
+        // if(props.isAccountSetting) {
+        // setMessageForSnackBar("Account details updated successfully!");
+        // console.log(setMessageForSnackBar)
+        // setErrorOrSuccess("success");
+        // handleClick();
+        // }
         setProfileDetailsError({
           first_name: "",
           last_name: "",

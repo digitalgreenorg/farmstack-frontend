@@ -17,10 +17,13 @@ import parse from "html-react-parser";
 import global_style from "../../Assets/CSS/global.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { GetErrorHandlingRoute, getUserLocal } from "../../Utils/Common";
+import { useHistory } from "react-router-dom";
 
 export default function PolicySettings() {
   const [policyvalues, setPolicyValues] = useState([]);
   const [policyValuesNameError, setPolicyValuesNameError] = useState([]);
+  const history = useHistory()
 
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
@@ -106,11 +109,34 @@ export default function PolicySettings() {
   //   setPolicyValues(policyValuesCopy);
   // };
 
-  const handleSubmitPolicy = () => {
-    let method = "PUT";
-    let url = UrlConstant.base_url + UrlConstant.datahub_policy;
-    let formData = [...policyvalues];
-    HTTPService(method, url, formData, false, true, false)
+  const handleSubmitPolicy = (id) => {
+    let method = "PATCH";
+    let url = UrlConstant.base_url + UrlConstant.datahub_policy + id + "/"
+    // let formData = [...policyvalues];
+    const formData = new FormData();
+    for (let i = 0; i < policyvalues.length; i++) {
+      formData.append("name", policyvalues[i].name);
+      formData.append("description", policyvalues[i].description);
+      formData.append("file", policyvalues[i].file);
+    }
+    // policyvalues.forEach((policyvalue) => {
+    //   let url = UrlConstant.base_url + UrlConstant.datahub_policy + id + "/";
+    //   const formData = new FormData();
+    //   formData.append('name', policyvalue.name);
+    //   formData.append('description', policyvalue.description);
+    //   formData.append('file', policyvalue.file);
+  
+    //   HTTPService(method, url, formData, false, true, false, false)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       setPolicyValues((prevPolicyValues) => [...prevPolicyValues, response.data]);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       history.push(GetErrorHandlingRoute())
+    //     });
+    // });
+    HTTPService(method, url, formData, false, true, false, false)
       .then((response) => {
         console.log(response.data);
         let arrayValues = [...policyvalues, response.data];
@@ -131,6 +157,7 @@ export default function PolicySettings() {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e))
       });
   };
 
@@ -254,7 +281,7 @@ export default function PolicySettings() {
                     </Row>
 
                     <Row>
-                      {item.file && <Row>{`File name: ${item.file.name}`}</Row>}
+                      {/* {item.file && <Row>{`File name: ${item.file.name}`}</Row>} */}
                       {item.file ? (
                         <>
                           <label>{item.file.split("/").pop()}</label>
@@ -277,7 +304,8 @@ export default function PolicySettings() {
                       variant="outlined"
                       style={{ margin: "20px" }}
                       className="button"
-                      onClick={() => handleClickApply(index, item.name)}
+                      // onClick={() => handleClickApply(index, item.name)}
+                      onClick={(e) => handleSubmitPolicy(e)}
                     >
                       Apply
                     </Button>
@@ -288,7 +316,7 @@ export default function PolicySettings() {
           ))}
         </Col>
       </Row>
-      <Row>
+      {/* <Row>
         <Col style={{ textAlign: "right", margin: "20px" }}>
           <Button
             id="cancelbutton_account"
@@ -307,7 +335,7 @@ export default function PolicySettings() {
             Submit
           </Button>
         </Col>
-      </Row>
+      </Row> */}
     </Container>
   );
 }

@@ -156,15 +156,15 @@ const OrganizationDetails = (props) => {
       .then((response) => {
         callLoader(false);
         console.log(response);
-        if (!props.isOrgSetting) {
+        // if (!props.isOrgSetting) {
           setActiveStep((prev) => prev + 1);
-        }
-        if(props.isOrgSetting) {
-        setMessageForSnackBar("Organisation details updated successfully!");
-        console.log(setMessageForSnackBar)
-        setErrorOrSuccess("success");
-        handleClick();
-        }
+        // }
+        // if(props.isOrgSetting) {
+        // setMessageForSnackBar("Organisation details updated successfully!");
+        // console.log(setMessageForSnackBar)
+        // setErrorOrSuccess("success");
+        // handleClick();
+        // }
       })
       .catch((e) => {
         callLoader(false);
