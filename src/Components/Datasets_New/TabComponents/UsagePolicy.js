@@ -24,7 +24,7 @@ const UsagePolicy = (props) => {
     };
 
     const getAllFileNames = () => {
-        let url = UrlConstant.base_url + UrlConstant.list_of_files + datasetId;
+        let url = UrlConstant.base_url + UrlConstant.list_of_files + props.datasetId;
         let accessToken = getTokenLocal() ?? false;
         callLoader(true)
         HTTPService("GET", url, false, false, accessToken)
