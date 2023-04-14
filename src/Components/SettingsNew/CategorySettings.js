@@ -77,11 +77,16 @@ export default function CategorySettings(props) {
   const handleAddSubCategory = (indexName) => {
     let tmpPolicyvalues = {...categoryDetails};
     console.log("collectionof obj", tmpPolicyvalues, indexName)
-    
+    if (tmpPolicyvalues !== ""){
    tmpPolicyvalues[indexName].push(newSubCat);
     setCategoryDetails(tmpPolicyvalues);
     setNewSubCat("");
+    }
   };
+  const handleCancel = () => {
+    window.location.reload();
+  };
+
   const handleSubmitCategory = () => {
     var id = getUserLocal();
     let method = "POST";
@@ -205,10 +210,11 @@ export default function CategorySettings(props) {
                 <Row>
                   
                         <>
-                        <Col xs={12} sm={12} md={6} xl={6}>
-                          {valuesArray.map((value, arrIndex) => (
-                            <Col key={value}>
-                            <TextField
+                        {valuesArray.map((value, arrIndex) => (
+                            
+                        <Col xs={12} sm={12} md={6} xl={6} key={value}>
+                          
+                        <TextField
                               InputProps={{
                                 endAdornment: (
                                   <>
@@ -239,9 +245,10 @@ export default function CategorySettings(props) {
                                 marginLeft: "auto",
                               }}
                             />
-                            </Col>
-                          ))}
+                           
+                         
                         </Col>
+                         ))}
                         </>
                         
                 </Row>
@@ -257,6 +264,7 @@ export default function CategorySettings(props) {
             variant="outlined"
             style={{ margin: "20px" }}
             className="button"
+            onClick={handleCancel}
           >
             Cancel
           </Button>

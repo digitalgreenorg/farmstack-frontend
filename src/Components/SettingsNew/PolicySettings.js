@@ -95,7 +95,7 @@ export default function PolicySettings() {
     tmpPolicyvalues[index].file = null;
     setPolicyValues(tmpPolicyvalues);
   };
-
+ 
   const handlePolicyFileChange = (index, file) => {
     let tmpPolicyvalues = [...policyvalues];
     tmpPolicyvalues[index].file = file;
