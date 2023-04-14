@@ -156,7 +156,7 @@ const NavbarNew = ({ loginType }) => {
                   : loginType === "participant"
                   ? "/participant/new_datasets"
                   : loginType === "guest"
-                  ? "/datasets"
+                  ? "/home/datasets"
                   : "/"
               }
               onClick={() => handleSelect("datasets")}
@@ -167,7 +167,7 @@ const NavbarNew = ({ loginType }) => {
                   : loginType === "participant"
                   ? "/participant/new_datasets"
                   : loginType === "guest"
-                  ? "/datasets"
+                  ? "/home/datasets"
                   : ""
               ) ? (
                 <img
@@ -191,7 +191,7 @@ const NavbarNew = ({ loginType }) => {
                 loginType === "admin"
                   ? "/datahub/participants"
                   : loginType === "guest"
-                  ? "/participants"
+                  ? "/home/participants"
                   : ""
               }
               onClick={() => handleSelect("participants")}

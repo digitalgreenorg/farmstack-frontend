@@ -538,27 +538,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       ) : (
         ""
       )}
-      {/* participants */}
 
-      {/* <Row className={LocalStyle.section}>
-        <Col xs={12} sm={12} md={6} xl={6}>
-          <Typography
-            // id={title + "-form-title"}
-            className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
-          >
-            Co-steward participants
-          </Typography>
-        </Col>
-      </Row>
-      <Row>
-        {datasets?.map((dataset, index) => {
-          return (
-            <Col xs={12} sm={12} md={6} xl={4}>
-              <CustomCard />
-            </Col>
-          );
-        })}
-      </Row> */}
       {isCosteward ? (
         <CoStewardAndParticipantsCard
           title={"Co-steward participants"}
