@@ -38,7 +38,15 @@
     text-align: center;
     margin: 100px auto 40px auto;
   }
-  
+  .each_preview_policy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    border: 1px solid #919eab;
+    padding: 15px;
+    border-radius: 10px;
+  }
 
   .text_left {
     text-align: left !important;
