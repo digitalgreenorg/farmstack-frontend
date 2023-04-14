@@ -21,7 +21,7 @@ import Settings from "../Components/SettingsNew/Settings";
 import Support from "../Views/Support/Support";
 // import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
 import DatasetAdmin from "../Views/Dataset/DatasetAdmin/DatasetAdmin";
-import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
+// import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
 import { useParams, useHistory } from "react-router-dom";
 import {
   getTokenLocal,
@@ -62,6 +62,7 @@ import EditConnector from "../Views/Connector_New/EditConnector";
 import DataSets from "../Components/Datasets_New/DataSets";
 import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 import ParticipantApproveNew from "../Views/ParticipantCoSteward/ParticipantsApproveNew";
+import EditDataset from "../Components/Datasets_New/EditDataset";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -69,7 +70,7 @@ function Datahub(props) {
   return (
     <>
       {getTokenLocal() &&
-      (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
+        (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
         <div className="center_keeping_conatiner">
           {/* <Navbar /> */}
           <NavbarNew loginType={"admin"} />
@@ -124,17 +125,22 @@ function Datahub(props) {
                 path="/datahub/datasets/add"
                 component={AddDataset}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/datasets/edit/:id"
                 component={EditDataset}
-              />
+              /> */}
               {/* temporary routes added - start */}
               <Route exact path="/datahub/new_datasets" component={DataSets} />
               <Route
                 exact
                 path="/datahub/new_datasets/view/:id"
                 component={DataSetsView}
+              />
+              <Route
+                exact
+                path="/datahub/new_datasets/edit/:id"
+                component={EditDataset}
               />
               <Route
                 exact

@@ -6,10 +6,17 @@ import CheckBoxWithText from './CheckBoxWithText';
 
 const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDescription, setDataSetDescription, errorDataSetDescription, fromDate, setFromDate, toDate, setToDate, isUpdating, setIsUpdating, validator, checkDataSet }) => {
 
-    const limitChar = 512;
+    const limitChar = 100;
+    const limitCharDesc = 512;
+
+    const handleDatasetName = (e) => {
+        if (e.target.value.toString().length <= limitChar) {
+            setDataSetName(e.target.value);
+        }
+    }
 
     const handleDescription = (e) => {
-        if (e.target.value.toString().length <= limitChar) {
+        if (e.target.value.toString().length <= limitCharDesc) {
             setDataSetDescription(e.target.value);
         }
     };
@@ -71,8 +78,8 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                 placeholder='Dataset name'
                 label='Dataset name'
                 value={dataSetName}
-                onChange={(e) => setDataSetName(e.target.value)}
-                onBlur={() => checkDataSet()}
+                onChange={(e) => handleDatasetName(e)}
+            // onBlur={() => checkDataSet()}
             />
             <TextField
                 fullWidth
@@ -113,7 +120,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                 label='Dataset description not more that 512 character '
                 value={dataSetDescription}
                 onChange={(e) => handleDescription(e)}
-                onBlur={() => checkDataSet()}
+            // onBlur={() => checkDataSet()}
             />
             <Typography sx={{
                 fontFamily: "Montserrat !important",

@@ -5,7 +5,11 @@ import style from "./Connector.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import { dateTimeFormat } from "../../Utils/Common";
 
-const ConnectorListView = ({ connectors, history }) => {
+const ConnectorListView = ({
+  connectors,
+  history,
+  handleEditConnectorRoute,
+}) => {
   return (
     <div>
       <Box className="d-flex justify-content-between mb-20">
@@ -33,7 +37,7 @@ const ConnectorListView = ({ connectors, history }) => {
         <>
           <Box
             className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
-            onClick={() => history.push(`/datahub/connectors/edit/${item.id}`)}
+            onClick={() => history.push(handleEditConnectorRoute(item.id))}
           >
             <Typography
               className={`${style.listViewText} ${style.listViewName} ${globalStyle.primary_color} ${style.firstCol} w-100 text-left ml-20`}

@@ -1,31 +1,86 @@
-import React, { useState } from 'react'
-import { Box, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from '@mui/material'
+import React, { useContext, useEffect, useState } from 'react'
+import { Box, Button, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from '@mui/material'
 import CheckBoxWithText from './CheckBoxWithText';
+import UrlConstant from '../../../Constants/UrlConstants';
+import HTTPService from '../../../Services/HTTPService';
+import { getTokenLocal } from '../../../Utils/Common';
+import { FarmStackContext } from '../../Contexts/FarmStackContext';
 
 const UsagePolicy = (props) => {
-    const [isPublicChecked, setIsPublicChecked] = useState('');
-    const [isRegisteredCheched, setIsRegisteredCheched] = useState('');
+    const { callLoader, callToast } = useContext(FarmStackContext);
+    const [selectedValue, setSelectedValue] = useState('public');
+    const [selectedChecked, setSelectedChecked] = useState('');
+    const [file, setFile] = useState('')
+    const [files, setFiles] = useState('')
 
     const handleClick = (event, type) => {
         if (type === 'public') {
-            if (event.target.value === isPublicChecked) {
-                setIsPublicChecked("");
-            } else {
-                setIsPublicChecked(event.target.value);
-            }
-        } else if (type === 'private') {
-            if (event.target.value === isRegisteredCheched) {
-                setIsRegisteredCheched("");
-            } else {
-                setIsRegisteredCheched(event.target.value);
-            }
+            setSelectedValue('public')
+            setSelectedChecked('')
+        } else if (type === 'registered') {
+            setSelectedValue('registered')
+            setSelectedChecked('')
         }
     };
 
-    const handleCheckBox = () => {
+    const getAllFileNames = () => {
+        let url = UrlConstant.base_url + UrlConstant.list_of_files + props.datasetId;
+        let accessToken = getTokenLocal() ?? false;
+        callLoader(true)
+        HTTPService("GET", url, false, false, accessToken)
+            .then((response) => {
+                callLoader(false)
+                let arr = []
+                let tempArr = response?.data?.forEach((r) => {
+                    let obj = {
+                        id: r.id,
+                        file: r.file,
+                        label: r.file?.slice(r.file?.lastIndexOf("/") + 1)
+                    }
+                    arr.push(obj)
+                })
+                setFiles(arr);
+            })
+            .catch((e) => {
+                callLoader(false)
+                console.log(e);
+            });
+    };
 
+    const handleCheckBox = (type) => {
+        if (type === 'registered') {
+            setSelectedChecked('registered')
+        } else if (type === 'private') {
+            setSelectedChecked('private')
+        }
     }
 
+    const submitPolicy = () => {
+        let payload = {
+            "accessibility": selectedChecked
+        }
+        let accessToken = getTokenLocal() ?? false;
+        let url = UrlConstant.base_url + UrlConstant.usage_policy + file + "/"
+        if (selectedValue !== 'public') {
+            callLoader(true)
+            HTTPService("PATCH", url, payload, false, accessToken)
+                .then((response) => {
+                    callLoader(false)
+                    callToast("Usage policy updated successfully!", "success", true)
+                })
+                .catch((e) => {
+                    callLoader(false)
+                    callToast("Something went wrong while updating useage policy!", "error", true)
+                    console.log(e);
+                });
+        }
+    }
+
+    useEffect(() => {
+        getAllFileNames()
+    }, [])
+    console.log(selectedValue)
+    console.log(selectedChecked)
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -42,8 +97,8 @@ const UsagePolicy = (props) => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={props.tableName}
-                        onChange={props.setTableName}
+                        value={file}
+                        onChange={(e) => setFile(e.target.value)}
                         sx={{
                             textAlign: 'left',
                             '.MuiOutlinedInput-notchedOutline': {
@@ -59,9 +114,11 @@ const UsagePolicy = (props) => {
                         label="File name"
                         placeholder='File name'
                     >
-                        {props.menus?.map((menu) => (
-                            <MenuItem value={menu}>{menu}</MenuItem>
-                        ))}
+                        {files && files?.length && files?.map((item) => {
+                            return (
+                                <MenuItem key={item?.id} value={item?.id}>{item?.label}</MenuItem>
+                            )
+                        })}
                     </Select>
                 </FormControl>
             </Box>
@@ -78,12 +135,13 @@ const UsagePolicy = (props) => {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={isPublicChecked}
                     >
                         <FormControlLabel value={"publicChecked"}
                             control={
                                 <Radio
                                     onClick={(e) => handleClick(e, 'public')}
+                                    checked={selectedValue === 'public'}
+                                    value="public"
                                     sx={{
                                         color: "#00AB55 !important",
                                         "&.Mui-checked": {
@@ -120,12 +178,14 @@ const UsagePolicy = (props) => {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={isRegisteredCheched}
                     >
                         <FormControlLabel value={"isRegisteredCheched"}
                             control={
                                 <Radio
-                                    onClick={(e) => handleClick(e, 'private')}
+                                    onClick={(e) => handleClick(e, 'registered')}
+                                    value="registered"
+                                    checked={file && selectedValue === 'registered'}
+                                    disabled={file ? false : true}
                                     sx={{
                                         color: "#00AB55 !important",
                                         "&.Mui-checked": {
@@ -156,12 +216,24 @@ const UsagePolicy = (props) => {
                     }}>You can apply certain restrictions to the user so that dataset you are providing is accessed by valid users.</Typography>
                 </Box>
                 <Box sx={{ marginLeft: '52px' }}>
-                    <CheckBoxWithText text={"Dataset can be accessed by the registered user."} handleCheckBox={handleCheckBox} isCustomFont={true} />
+                    <CheckBoxWithText
+                        text={"Dataset can be accessed by the registered user."}
+                        keyName={"registered"}
+                        checked={selectedValue === 'registered' && selectedChecked === 'registered'}
+                        handleCheckBox={handleCheckBox}
+                        isDisabled={selectedValue === 'registered' ? false : true}
+                        isCustomFont={true} />
                 </Box>
                 <Box sx={{ marginLeft: '107px' }}>
-                    <CheckBoxWithText text={"Dataset can be accessed by approval."} handleCheckBox={handleCheckBox} isCustomFont={true} />
+                    <CheckBoxWithText
+                        text={"Dataset can be accessed by approval."}
+                        keyName={"private"}
+                        checked={selectedValue === 'registered' && selectedChecked === 'private'}
+                        handleCheckBox={handleCheckBox}
+                        isDisabled={selectedValue === 'registered' ? false : true}
+                        isCustomFont={true} />
                 </Box>
-                <Box sx={{ marginLeft: '143px' }}>
+                {/* <Box sx={{ marginLeft: '143px' }}>
                     <CheckBoxWithText text={"Dataset can be accessed for certain time period."} handleCheckBox={handleCheckBox} isCustomFont={true} />
                 </Box>
                 <Box sx={{ marginLeft: '130px' }}>
@@ -214,6 +286,30 @@ const UsagePolicy = (props) => {
                             marginLeft: '9px'
                         }}>1 week - From the date of approval</Typography>
                     </Box>
+                </Box> */}
+                <Box className='text-right mt-30'>
+                    <Button
+                        sx={{
+                            fontFamily: 'Montserrat',
+                            fontWeight: 700,
+                            fontSize: '16px',
+                            width: "171px",
+                            height: "48px",
+                            background: "#00AB55",
+                            borderRadius: "8px",
+                            textTransform: 'none',
+                            marginLeft: '50px',
+                            color: 'white',
+                            '&:hover': {
+                                backgroundColor: '#00AB55',
+                                color: '#fffff',
+                            }
+                        }}
+                        disabled={file ? false : true}
+                        onClick={() => submitPolicy()}
+                    >
+                        Apply
+                    </Button>
                 </Box>
             </Box>
         </div>

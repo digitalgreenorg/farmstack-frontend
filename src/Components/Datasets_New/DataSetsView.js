@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   Button,
@@ -18,10 +18,14 @@ import FooterNew from "../Footer/Footer_New";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../Accordion/Accordion";
+import OutlinedButton from "../Button/OutlinedButton";
+import { getTokenLocal, isLoggedInUserAdmin, isLoggedInUserParticipant } from "../../Utils/Common";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const DataSetsView = (props) => {
   const history = useHistory();
   const { id } = useParams();
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [categories, setCategories] = useState([]);
   const [files, setFiles] = useState([
     {
@@ -79,6 +83,33 @@ const DataSetsView = (props) => {
   const [orgAddress, setOrgAddress] = useState();
   const [userDetails, setUserDetails] = useState();
 
+  const handleDelete = () => {
+    let accessToken = getTokenLocal() ?? false;
+    let url = UrlConstant.base_url + UrlConstant.delete_dataset + id + '/'
+    callLoader(true)
+    HTTPService("DELETE", url, "", false, true, accessToken)
+      .then((res) => {
+        callLoader(false)
+        callToast("Dataset deleted successfully!", "success", true)
+        if (isLoggedInUserAdmin()) {
+          history.push(`/datahub/new_datasets`);
+        } else if (isLoggedInUserParticipant()) {
+          history.push(`/participant/new_datasets`);
+        }
+      }).catch((err) => {
+        callLoader(false)
+        callToast("Something went wrong while deleting Dataset!", "error", true)
+      })
+  }
+
+  const handleEdit = () => {
+    if (isLoggedInUserAdmin()) {
+      history.push(`/datahub/new_datasets/edit/${id}`);
+    } else if (isLoggedInUserParticipant()) {
+      history.push(`/participant/new_datasets/edit/${id}`);
+    }
+  }
+
   useEffect(() => {
     (() => {
       let userType = "";
@@ -88,9 +119,10 @@ const DataSetsView = (props) => {
       } else {
         url = UrlConstant.base_url + UrlConstant.datasetview + id + "/";
       }
+      callLoader(true)
       HTTPService("GET", url, "", false, userType == "guest" ? false : true)
         .then((response) => {
-          console.log("response", response);
+          callLoader(false)
           setDataSetName(response.data.name);
           setGeography(response.data.geography);
           setIsUpdating(response.data.constantly_update);
@@ -202,7 +234,8 @@ const DataSetsView = (props) => {
 
           // preparing categories for accordion
           let prepareArr = [];
-          for (const [key, value] of Object.entries(response?.data?.category)) {
+          let categoryJson = JSON.parse(response?.data?.category)
+          for (const [key, value] of Object.entries(categoryJson)) {
             let obj = {};
             obj[key] = value;
             prepareArr.push(obj);
@@ -223,6 +256,8 @@ const DataSetsView = (props) => {
           setCategories(tempCategories);
         })
         .catch((e) => {
+          callLoader(false)
+          callToast("Something went wrong while loading dataset!", "error", true)
           console.log("error while loading dataset", e);
         });
     })();
@@ -244,8 +279,54 @@ const DataSetsView = (props) => {
           </span>
           <span className="add_light_text ml-16">My organisation dataset</span>
         </div>
-        <div className="bold_title mt-50">{"Authentication required"}</div>
-        <div className="bold_title mt-50">{"Dataset details"}</div>
+        <Box className='d-flex justify-content-between align-items-baseline'>
+          <div className="bold_title mt-50">{"My Dataset Details"}</div>
+          <Box>
+            <Button
+              sx={{
+                color: '#FF5630',
+                fontFamily: 'Public Sans',
+                fontWeight: '700',
+                fontSize: '15px',
+                border: '1px solid rgba(255, 86, 48, 0.48)',
+                width: '149px',
+                height: '48px',
+                marginRight: '28px',
+                textTransform: 'none',
+                '&:hover': {
+                  background: 'none',
+                  border: "1px solid rgba(255, 86, 48, 0.48)"
+                }
+              }}
+              variant="outlined"
+              onClick={handleDelete}
+            >
+              Delete dataset
+            </Button>
+            <Button
+              sx={{
+                color: '#00AB55',
+                fontFamily: 'Public Sans',
+                fontWeight: '700',
+                fontSize: '15px',
+                border: '1px solid rgba(0, 171, 85, 0.48)',
+                width: '149px',
+                height: '48px',
+                textTransform: 'none !important',
+                '&:hover': {
+                  background: 'none',
+                  border: "1px solid rgba(0, 171, 85, 0.48)"
+                }
+              }}
+              onClick={handleEdit}
+              variant="outlined"
+            >
+              Edit dataset
+            </Button>
+
+          </Box>
+        </Box>
+        {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
         <Box className="d-flex mt-38">
           <Box sx={{ width: "638px" }}>
             <Typography className="view_agriculture_heading text-left">

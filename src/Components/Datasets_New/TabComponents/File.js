@@ -1,14 +1,14 @@
 import { Divider, Typography } from '@mui/material';
 import React from 'react'
 
-const File = ({ index, name, size, handleDelete, type, showDeleteIcon, isTables }) => {
+const File = ({ index, name, size, id, handleDelete, type, showDeleteIcon, isTables }) => {
 
     const getSizeInMb = (size) => {
         let converted = size / Math.pow(1024, 2);
         return converted.toFixed(2)
     }
-    const handleClick = (index, name, type) => {
-        handleDelete(index, name, type)
+    const handleClick = (index, id, name, type) => {
+        handleDelete(index, id, name, type)
     }
     return (
         <div>
@@ -31,7 +31,7 @@ const File = ({ index, name, size, handleDelete, type, showDeleteIcon, isTables 
                 <span style={{ color: "#ABABAB", marginLeft: '4px' }}>({getSizeInMb(size) + 'MB'})</span>
                 {showDeleteIcon ?
                     <div style={{ marginRight: '25px', display: 'flex', justifyContent: 'end', width: '100%' }}>
-                        <img className='cursor-pointer' onClick={() => handleClick(index, name, type)} src={require("../../../Assets/Img/delete_dark.svg")} />
+                        <img className='cursor-pointer' onClick={() => handleClick(index, id, name, type)} src={require("../../../Assets/Img/delete_dark.svg")} />
                     </div>
                     : <></>
                 }

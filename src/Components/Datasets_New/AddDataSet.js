@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Box, Button, Divider, Tab, Tabs } from '@mui/material';
 import { useHistory } from "react-router-dom";
 import { GetErrorKey, getTokenLocal, getUserMapId, isLoggedInUserAdmin, isLoggedInUserParticipant } from "../../Utils/Common";
 import './AddDataSet.css';
-import FooterNew from '../Footer/Footer_New';
 import BasicDetails from '../Datasets_New/TabComponents/BasicDetails';
 import UploadFile from '../Datasets_New/TabComponents/UploadFile';
 import Categorise from '../Datasets_New/TabComponents/Categorise';
@@ -11,6 +10,7 @@ import UsagePolicy from '../Datasets_New/TabComponents/UsagePolicy';
 import Standardise from '../Datasets_New/TabComponents/Standardise';
 import UrlConstant from '../../Constants/UrlConstants';
 import HTTPService from '../../Services/HTTPService';
+import { FarmStackContext } from '../Contexts/FarmStackContext';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -30,6 +30,7 @@ function TabPanel(props) {
 
 const AddDataSetParticipantNew = () => {
     const history = useHistory();
+    const { callLoader, callToast } = useContext(FarmStackContext);
     const [value, setValue] = useState(0);
     const [validator, setValidator] = useState(false)
 
@@ -37,6 +38,7 @@ const AddDataSetParticipantNew = () => {
     const [errorDataSetName, seteErrorDataSetName] = useState("")
     const [errorDataSetDescription, setDescriptionErrorMessage] = useState("")
 
+    const [datasetId, setDatasetId] = useState()
     const [dataSetName, setDataSetName] = useState('');
     const [dataSetDescription, setDataSetDescription] = useState('');
     const [fromDate, setFromDate] = useState('');
@@ -44,6 +46,7 @@ const AddDataSetParticipantNew = () => {
     const [isUpdating, setIsUpdating] = useState(false);
 
     // Upload File
+    const [uploadedFiles, setUploadedFiles] = useState([])
     const [files, setFiles] = useState([]);
     const [sqlFiles, setSqlFiles] = useState([]);
     const [postgresFiles, setPostgresFiles] = useState([]);
@@ -63,7 +66,31 @@ const AddDataSetParticipantNew = () => {
     };
 
     const handleNext = () => {
-        if (value >= 0 && value < 4) {
+        if (value === 0) {
+            let body = {
+                user_map: getUserMapId(),
+                name: dataSetName,
+                description: dataSetDescription,
+                constantly_update: isUpdating,
+                data_capture_start: isUpdating ? null : fromDate,
+                data_capture_end: isUpdating ? null : toDate,
+            }
+            let accessToken = getTokenLocal() ?? false;
+            let url = UrlConstant.base_url + UrlConstant.add_basic_dataset
+            callLoader(true)
+            HTTPService("POST", url,
+                body,
+                false,
+                true,
+                accessToken).then((res) => {
+                    callLoader(false)
+                    setDatasetId(res?.data?.id)
+                    setValue(value + 1)
+                }).catch((err) => {
+                    callLoader(false)
+                    callToast("Something went wrong!", "error", true)
+                })
+        } else if (value >= 1 && value < 4) {
             setValue(value + 1)
         }
     }
@@ -87,6 +114,14 @@ const AddDataSetParticipantNew = () => {
             } else {
                 return true;
             }
+        }
+    }
+
+    const handleClickRoutes = () => {
+        if (isLoggedInUserParticipant() && getTokenLocal()) {
+            return '/participant/new_datasets'
+        } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+            return "/datahub/new_datasets"
         }
     }
 
@@ -128,28 +163,29 @@ const AddDataSetParticipantNew = () => {
         }
     }
     const handleSubmit = () => {
-        let bodyFormData = new FormData();
-        bodyFormData.append("name", dataSetName);
-        bodyFormData.append("description", dataSetDescription);
-        bodyFormData.append("category", JSON.stringify(categorises));
-        bodyFormData.append("user_map", getUserMapId());
-        bodyFormData.append("geography", geography);
-        bodyFormData.append("constantly_update", isUpdating);
-        bodyFormData.append("data_capture_start", (!isUpdating && fromDate) ? fromDate.toISOString() : "");
-        bodyFormData.append("data_capture_end", (!isUpdating && toDate) ? toDate.toISOString() : "");
-        bodyFormData.append("standardisation_template", JSON.stringify(standardisedFileLink));
-        bodyFormData.append("standardisation_config", JSON.stringify(allStandardisedFile));
-
-        let url = UrlConstant.base_url + UrlConstant.datasetview
+        let body = {
+            user_map: getUserMapId(),
+            name: dataSetName,
+            description: dataSetDescription,
+            category: JSON.stringify(categorises),
+            geography: geography,
+            constantly_update: isUpdating,
+            data_capture_start: (!isUpdating && fromDate) ? fromDate.toISOString() : null,
+            data_capture_end: (!isUpdating && toDate) ? toDate.toISOString() : null,
+        }
+        let url = UrlConstant.base_url + UrlConstant.add_basic_dataset + datasetId + "/"
         let checkforAcess = getTokenLocal() ?? false;
+        callLoader(true)
         HTTPService(
-            "POST",
+            "PUT",
             url,
-            bodyFormData,
+            body,
             false,
             true,
             checkforAcess,
         ).then((response) => {
+            callLoader(false)
+            callToast("Dataset added successfully!", "success", true)
             if (isLoggedInUserParticipant() && getTokenLocal()) {
                 history.push('/participant/new_datasets')
             } else if (isLoggedInUserAdmin() && getTokenLocal()) {
@@ -157,6 +193,8 @@ const AddDataSetParticipantNew = () => {
             }
 
         }).catch((e) => {
+            callLoader(false)
+            callToast("Something went wrong while adding dataset!", "error", false)
             console.log(e);
         });
     }
@@ -165,7 +203,7 @@ const AddDataSetParticipantNew = () => {
         <Box>
             <Box sx={{ marginLeft: '144px', marginRight: '144px' }}>
                 <div className='text-left mt-50'>
-                    <span className='add_light_text'>Datasets</span>
+                    <span className='add_light_text cursor-pointer' onClick={() => history.push(handleClickRoutes())}>Datasets</span>
                     <span className='add_light_text ml-16'>
                         <img src={require("../../Assets/Img/dot.svg")} />
                     </span>
@@ -218,9 +256,12 @@ const AddDataSetParticipantNew = () => {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <UploadFile
+                        datasetId={datasetId}
                         dataSetName={dataSetName}
                         files={files}
                         setFiles={setFiles}
+                        uploadedFiles={uploadedFiles}
+                        setUploadedFiles={setUploadedFiles}
                         sqlFiles={sqlFiles}
                         setSqlFiles={setSqlFiles}
                         postgresFiles={postgresFiles}
@@ -234,6 +275,7 @@ const AddDataSetParticipantNew = () => {
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <Standardise
+                        datasetId={datasetId}
                         dataSetName={dataSetName}
                         allStandardisedFile={allStandardisedFile}
                         setAllStandardisedFile={setAllStandardisedFile}
@@ -244,6 +286,7 @@ const AddDataSetParticipantNew = () => {
                 </TabPanel>
                 <TabPanel value={value} index={3}>
                     <Categorise
+                        datasetId={datasetId}
                         categorises={categorises}
                         setCategorises={setCategorises}
                         geography={geography}
@@ -252,7 +295,9 @@ const AddDataSetParticipantNew = () => {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={4}>
-                    <UsagePolicy />
+                    <UsagePolicy
+                        datasetId={datasetId}
+                    />
                 </TabPanel>
                 <Divider sx={{ border: '1px solid #ABABAB', marginTop: '59px' }} />
                 <Box className='d-flex justify-content-end' sx={{ marginTop: '50px', marginBottom: '100px' }}>
