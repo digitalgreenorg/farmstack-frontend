@@ -15,14 +15,15 @@ import global_styles from "../../Assets/CSS/global.module.css";
 import { useState, useEffect } from "react";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import { getUserLocal } from "../../Utils/Common";
+import { getUserLocal, GetErrorHandlingRoute } from "../../Utils/Common";
+import { useHistory } from "react-router-dom";
 
 export default function CategorySettings(props) {
   const [categoryDetails, setCategoryDetails] = useState({});
   const [categoryDetailsErrorMessage, setCategoryDetailErrorMessage] =
     useState();
   const [newSubCat, setNewSubCat] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const history = useHistory()
 
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
@@ -60,30 +61,24 @@ export default function CategorySettings(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
       });
   };
-
-  const deleteCategories = () => {
-    let method = "DELETE";
-    let url = UrlConstant.base_url + UrlConstant.add_category_edit_category;
-    HTTPService(method, url, "", false, true, false, false)
-      .then((response) => {
-        console.log(response);
-        // let updatedCategories = categoryDetails.filter((category, i) => i !== index);
-        // setCategoryDetails(updatedCategories)
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+  const handleCategoryNameChange = (e, categoryKey) => {
+    const newCategories = {...categoryDetails}; 
+    newCategories[categoryKey] = e.target.value; 
+    setCategoryDetails(newCategories); 
+  }
+  const deleteCategory = (key) => {
+    const newCategories = { ...categoryDetails }; 
+    delete newCategories[key];
+    setCategoryDetails(newCategories);  
   };
-  const handleAddSubCategory = (index) => {
-    let tmpPolicyvalues = [...categoryDetails];
-    let newSubCategory = newSubCat;
-    if (tmpPolicyvalues[index]) {
-      tmpPolicyvalues[index].push(newSubCategory);
-    } else {
-      tmpPolicyvalues[index] = [newSubCategory];
-    }
+  const handleAddSubCategory = (indexName) => {
+    let tmpPolicyvalues = {...categoryDetails};
+    console.log("collectionof obj", tmpPolicyvalues, indexName)
+    
+   tmpPolicyvalues[indexName].push(newSubCat);
     setCategoryDetails(tmpPolicyvalues);
     setNewSubCat("");
   };
@@ -100,6 +95,7 @@ export default function CategorySettings(props) {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -127,13 +123,12 @@ export default function CategorySettings(props) {
                 <Typography
                   className={global_styles.bold600 + " " + global_styles.size24}
                 >
-                  {/* {categoryname} */}
                   {key}
                 </Typography>
 
                 <DeleteOutlineIcon
                   style={{ marginLeft: "auto" }}
-                  onClick={() => deleteCategories()}
+                  onClick={() => deleteCategory(key)}
                 />
               </AccordionSummary>
               <AccordionDetails>
@@ -143,9 +138,29 @@ export default function CategorySettings(props) {
                   variant="outlined"
                   required
                   value={key}
-                  // onChange=
+                  onChange={(e) => handleCategoryNameChange(e.target.value, key)}
                   style={{ width: "100%", margin: "20px", marginLeft: "auto" }}
                 />
+                 {/* <RichTextEditor
+                      dir="ltr"
+                      toolbarConfig={toolbarConfig}
+                      placeholder="Category description"
+                      // value={RichTextEditor.createValueFromString(
+                      //   "html"
+                      // )}
+                      //required
+                      id="body-text"
+                      name="bodyText"
+                      type="string"
+                      multiline
+                      variant="filled"
+                      style={{
+                        minHeight: 410,
+                        border: "1px solid black",
+                        unicodeBidi: "plaintext",
+                      }}
+                    /> */}
+                 {/* fileuploader component */}
                 <Row>
                   <Typography
                     className={
@@ -166,7 +181,7 @@ export default function CategorySettings(props) {
                       value={newSubCat}
                       onChange={(e) => setNewSubCat(e.target.value)}
                       style={{
-                        width: "98%",
+                        width: "100%",
                         margin: "20px",
                         marginLeft: "auto",
                       }}
@@ -182,7 +197,7 @@ export default function CategorySettings(props) {
                       src={add_icon}
                       alt="Add icon"
                       id="addbutton_category"
-                      onClick={() => handleAddSubCategory()}
+                      onClick={() => handleAddSubCategory(key)}
                     />
                   </Col>
                 </Row>
@@ -190,6 +205,7 @@ export default function CategorySettings(props) {
                 <Row>
                   
                         <>
+                        <Col xs={12} sm={12} md={6} xl={6}>
                           {valuesArray.map((value, arrIndex) => (
                             <Col key={value}>
                             <TextField
@@ -217,10 +233,17 @@ export default function CategorySettings(props) {
                               label="Sub category"
                               variant="outlined"
                               value={value}
+                              style={{
+                                width: "100%",
+                                margin: "20px",
+                                marginLeft: "auto",
+                              }}
                             />
                             </Col>
                           ))}
+                        </Col>
                         </>
+                        
                 </Row>
               </AccordionDetails>
             </Accordion>

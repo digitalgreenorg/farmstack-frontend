@@ -833,12 +833,13 @@ const StandardizationInOnbord = (props) => {
           <>
             <Button
               variant="contained"
-              className="datapoint-add-button"
+              // className="datapoint-add-button"
+              className={global_style.primary_button + " " + styles.next_button}
               id="addte-add-datapoint-button"
               onClick={handleSubmit}
               disabled={!allDatapoints.length || !saveButtonEnabled}
             >
-              Save
+              Submit
             </Button>
           </>
         ) : (

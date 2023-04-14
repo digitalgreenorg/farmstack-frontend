@@ -12,19 +12,21 @@ import "./AccountSettings.css";
 import global_styles from "../../Assets/CSS/global.module.css";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import PolicyAccordionDetails from "./PolicyAndCategoryAccordianDetail";
+import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg";
 import parse from "html-react-parser";
 import global_style from "../../Assets/CSS/global.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { GetErrorHandlingRoute, getUserLocal } from "../../Utils/Common";
+import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
+import styles from "./settings.module.css";
 
 export default function PolicySettings() {
   const [policyvalues, setPolicyValues] = useState([]);
-  const [policyValuesNameError, setPolicyValuesNameError] = useState([]);
-  const history = useHistory()
-
+  const [policyValuesNameError, setPolicyValuesNameError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+  const [fileNameError, setFileNameError] = useState("");
+  const history = useHistory();
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
     display: [
@@ -60,48 +62,45 @@ export default function PolicySettings() {
     }
   };
 
-  const handleClickApply = (index, newValue) => {
-    let tmpPolicyvalues = [...policyvalues];
-    let newPolicyName = newValue;
-    let policyAlreadyExist = tmpPolicyvalues.some((item, i) => {
-      return i !== index && item.name === newPolicyName;
-    });
-    if (policyAlreadyExist) {
-      let errorOfNewPolicy = [...policyValuesNameError];
-      errorOfNewPolicy[
-        index
-      ] = `"${newPolicyName}" is already taken. Please choose a different name.`;
-      setPolicyValuesNameError(errorOfNewPolicy);
-    } else if (newPolicyName === "") {
-      let errorOfNewPolicy = [...policyValuesNameError];
-      errorOfNewPolicy[index] = "This field may not be blank";
-      setPolicyValuesNameError(errorOfNewPolicy);
-    } else {
-      let tmpPolicyError = [...policyValuesNameError];
-      tmpPolicyError[index] = "";
-      setPolicyValuesNameError(tmpPolicyError);
-      handlePolicyNameChange(index, newPolicyName);
+  // const handleClickApply = (index, newValue) => {
+  //   let tmpPolicyvalues = [...policyvalues];
+  //   let newPolicyName = newValue;
+  //   let policyAlreadyExist = tmpPolicyvalues.some((item, i) => {
+  //     return i !== index && item.name === newPolicyName;
+  //   });
+  //   if (policyAlreadyExist) {
+  //     let errorOfNewPolicy = [...policyValuesNameError];
+  //     errorOfNewPolicy[
+  //       index
+  //     ] = `"${newPolicyName}" is already taken. Please choose a different name.`;
+  //     setPolicyValuesNameError(errorOfNewPolicy);
+  //   } else if (newPolicyName === "") {
+  //     let errorOfNewPolicy = [...policyValuesNameError];
+  //     errorOfNewPolicy[index] = "This field may not be blank";
+  //     setPolicyValuesNameError(errorOfNewPolicy);
+  //   } else {
+  //     let tmpPolicyError = [...policyValuesNameError];
+  //     tmpPolicyError[index] = "";
+  //     setPolicyValuesNameError(tmpPolicyError);
+  //     handlePolicyNameChange(index, newPolicyName);
 
-      if (tmpPolicyvalues[index].newFile) {
-        tmpPolicyvalues[index].file = tmpPolicyvalues[index].newFile;
-        delete tmpPolicyvalues[index].newFile;
-      }
-    }
-  };
+  //     if (tmpPolicyvalues[index].newFile) {
+  //       tmpPolicyvalues[index].file = tmpPolicyvalues[index].newFile;
+  //       delete tmpPolicyvalues[index].newFile;
+  //     }
+  //   }
+  // };
   const handleFileCancel = (index) => {
     let tmpPolicyvalues = [...policyvalues];
     tmpPolicyvalues[index].file = null;
     setPolicyValues(tmpPolicyvalues);
   };
 
-  const handlePolicyFileChange = (event, index) => {
-    const newFile = event.target?.files[0];
-    if (newFile) {
-      // Update the temporary copy of policyvalues
-      let tmpPolicyvalues = [...policyvalues];
-      tmpPolicyvalues[index].newFile = newFile;
-      setPolicyValues(tmpPolicyvalues);
-    }
+  const handlePolicyFileChange = (index, file) => {
+    let tmpPolicyvalues = [...policyvalues];
+    tmpPolicyvalues[index].file = file;
+    tmpPolicyvalues[index].fileName = file.name;
+    setPolicyValues(tmpPolicyvalues);
   };
   // const handleEditorChange = (value, index) => {
   //   let policyValuesCopy = [...policyvalues];
@@ -109,33 +108,15 @@ export default function PolicySettings() {
   //   setPolicyValues(policyValuesCopy);
   // };
 
-  const handleSubmitPolicy = (id) => {
+  const handleSubmitPolicy = (index) => {
     let method = "PATCH";
-    let url = UrlConstant.base_url + UrlConstant.datahub_policy + id + "/"
-    // let formData = [...policyvalues];
-    const formData = new FormData();
-    for (let i = 0; i < policyvalues.length; i++) {
-      formData.append("name", policyvalues[i].name);
-      formData.append("description", policyvalues[i].description);
-      formData.append("file", policyvalues[i].file);
-    }
-    // policyvalues.forEach((policyvalue) => {
-    //   let url = UrlConstant.base_url + UrlConstant.datahub_policy + id + "/";
-    //   const formData = new FormData();
-    //   formData.append('name', policyvalue.name);
-    //   formData.append('description', policyvalue.description);
-    //   formData.append('file', policyvalue.file);
-  
-    //   HTTPService(method, url, formData, false, true, false, false)
-    //     .then((response) => {
-    //       console.log(response.data);
-    //       setPolicyValues((prevPolicyValues) => [...prevPolicyValues, response.data]);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       history.push(GetErrorHandlingRoute())
-    //     });
-    // });
+    let id = policyvalues[index].id;
+    let url = UrlConstant.base_url + UrlConstant.datahub_policy + id + "/";
+    // let formData = [policyvalues[index]];
+    let formData = new FormData();
+    formData.append("name", policyvalues[index].name);
+    formData.append("description", policyvalues[index].description);
+    formData.append("file", policyvalues[index].file);
     HTTPService(method, url, formData, false, true, false, false)
       .then((response) => {
         console.log(response.data);
@@ -144,6 +125,27 @@ export default function PolicySettings() {
       })
       .catch((e) => {
         console.log(e);
+        var returnValues = GetErrorKey(e, formData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "name":
+                setPolicyValuesNameError(errorMessages[i]);
+                break;
+              case "description":
+                setDescriptionError(errorMessages[i]);
+                break;
+              case "file":
+                setFileNameError(errorMessages[i]);
+                break;
+              default:
+                history.push(GetErrorHandlingRoute(e));
+                break;
+            }
+          }
+        }
       });
   };
   const getPolicies = () => {
@@ -157,7 +159,7 @@ export default function PolicySettings() {
       })
       .catch((e) => {
         console.log(e);
-        history.push(GetErrorHandlingRoute(e))
+        history.push(GetErrorHandlingRoute(e));
       });
   };
 
@@ -172,6 +174,7 @@ export default function PolicySettings() {
       })
       .catch((e) => {
         console.log(e);
+        history.push(GetErrorHandlingRoute(e));
       });
   };
   useEffect(() => {
@@ -214,7 +217,7 @@ export default function PolicySettings() {
                     id="policy_name"
                     label="Policy name"
                     variant="outlined"
-                    required
+                    //required
                     value={item.name}
                     style={{
                       width: "100%",
@@ -222,6 +225,10 @@ export default function PolicySettings() {
                     }}
                     onChange={(e) =>
                       handlePolicyNameChange(index, e.target.value)
+                    }
+                    error={policyValuesNameError ? policyValuesNameError : ""}
+                    helperText={
+                      policyValuesNameError ? policyValuesNameError : ""
                     }
                   />
                 </Row>
@@ -253,6 +260,7 @@ export default function PolicySettings() {
                         unicodeBidi: "plaintext",
                       }}
                     />
+                      <span style={{color: "red", fontSize: "14px", textAlign: "left",}}>{fileNameError? fileNameError : ""}</span>
                   </Col>
                 </Row>
                 <Row>
@@ -262,39 +270,61 @@ export default function PolicySettings() {
                     style={{ marginBottom: "20px", marginTop: "10px" }}
                   >
                     <FileUploaderMain
-                      handleChange={(event) =>
-                        handlePolicyFileChange(event, index)
+                      fileTypes={["xls", " xlsx", "csv"]}
+                      maxSize={25}
+                      handleChange={(file) =>
+                        handlePolicyFileChange(index, file)
                       }
                       isMultiple={false}
                     />
+                    <span>{fileNameError? fileNameError : ""}</span>
                   </Col>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-                    <Row
+                    <div
                       className={
-                        global_style.bold600 + " " + global_style.font20
-                        // +
-                        // " " +
-                        // styles.text_left
+                        global_style.bold600 +
+                        " " +
+                        global_style.font20 +
+                        " " +
+                        styles.text_left
                       }
                     >
                       Uploaded file
-                    </Row>
-
-                    <Row>
-                      {/* {item.file && <Row>{`File name: ${item.file.name}`}</Row>} */}
+                      </div>
+                    <div className={styles.text_left + " " + styles.preview_box}>
                       {item.file ? (
                         <>
-                          <label>{item.file.split("/").pop()}</label>
-                          <CancelIcon
-                            onClick={() => handleFileCancel(index)}
-                            style={{ cursor: "pointer" }}
-                            fontSize="small"
-                          />
+                        <div className={styles.each_preview_policy}>
+                          <div>
+                            <img
+                              height={"52px"}
+                              width={"42px"}
+                              className={styles.document_upload_logo}
+                              src={document_upload}
+                            />
+
+                            {typeof item.file === "string" ? (
+                              <span>{item.file.split("/").pop()}</span>
+                            ) : (
+                              <span>{item.fileName}</span>
+                            )}
+                            </div>
+                            <CancelIcon
+                              onClick={() => handleFileCancel(index)}
+                              style={{ cursor: "pointer" }}
+                              fontSize="small"
+                            />
+                         
+                          </div>
                         </>
                       ) : (
-                        ""
+                        <>
+                          <div>
+                            <span>No file available</span>
+                          </div>
+                        </>
                       )}
-                    </Row>
+                      </div>
                   </Col>
                 </Row>
                 <Row>
@@ -305,7 +335,7 @@ export default function PolicySettings() {
                       style={{ margin: "20px" }}
                       className="button"
                       // onClick={() => handleClickApply(index, item.name)}
-                      onClick={(e) => handleSubmitPolicy(e)}
+                      onClick={(e) => handleSubmitPolicy(index)}
                     >
                       Apply
                     </Button>
