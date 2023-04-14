@@ -70,18 +70,7 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
     const [postgresTables, setPostgresTables] = useState(["1_Cap.csv"])
     const [sqLiteTables, setSqLiteTables] = useState(["1_User.xlsx"])
 
-    const [allColumns, setAllColumns] = useState([
-        // { checked: true, value: 'name' },
-        // { checked: false, value: 'roll' },
-        // { checked: false, value: 'app' },
-        // { checked: false, value: 'djnoy' },
-        // { checked: false, value: 'django' },
-        // { checked: false, value: 'java' },
-        // { checked: false, value: 'chemical' },
-        // { checked: true, value: 'tailwind' },
-        // { checked: true, value: 'ruby' },
-        // { checked: true, value: 'sheenu' },
-    ])
+    const [allColumns, setAllColumns] = useState([])
 
     const handleFileChange = (file) => {
         setFile(file);
@@ -548,7 +537,7 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
     const handleExport = () => {
 
     }
-    console.log(uploadedFiles, "uploaded files")
+
     return (
         <div className='mt-20'>
             <Typography sx={{

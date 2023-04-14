@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Box, Button, Divider, Tab, Tabs } from '@mui/material';
 import { useHistory } from "react-router-dom";
 import { GetErrorKey, getTokenLocal, getUserMapId, isLoggedInUserAdmin, isLoggedInUserParticipant } from "../../Utils/Common";
@@ -28,7 +28,7 @@ function TabPanel(props) {
     );
 }
 
-const AddDataSetParticipantNew = () => {
+const AddDataSet = (props) => {
     const history = useHistory();
     const { callLoader, callToast } = useContext(FarmStackContext);
     const [value, setValue] = useState(0);
@@ -55,6 +55,7 @@ const AddDataSetParticipantNew = () => {
 
     // Standardise
     const [allStandardisedFile, setAllStandardisedFile] = useState({})
+    const [standardisedFiles, setStandardisedFiles] = useState([])
     const [standardisedFileLink, setStandardisedFileLink] = useState({})
 
     // Categories
@@ -76,15 +77,25 @@ const AddDataSetParticipantNew = () => {
                 data_capture_end: isUpdating ? null : toDate,
             }
             let accessToken = getTokenLocal() ?? false;
-            let url = UrlConstant.base_url + UrlConstant.add_basic_dataset
+            let url = ''
+            let method = ''
+            if (props.isEditModeOn && props.datasetIdForEdit) {
+                url = UrlConstant.base_url + UrlConstant.add_basic_dataset + props.datasetIdForEdit + "/"
+                method = 'PUT'
+            } else {
+                url = UrlConstant.base_url + UrlConstant.add_basic_dataset
+                method = "POST"
+            }
             callLoader(true)
-            HTTPService("POST", url,
+            HTTPService(method, url,
                 body,
                 false,
                 true,
                 accessToken).then((res) => {
                     callLoader(false)
-                    setDatasetId(res?.data?.id)
+                    if (!props.isEditModeOn && !props.datasetIdForEdit) {
+                        setDatasetId(res?.data?.id)
+                    }
                     setValue(value + 1)
                 }).catch((err) => {
                     callLoader(false)
@@ -125,43 +136,6 @@ const AddDataSetParticipantNew = () => {
         }
     }
 
-    const checkDataSet = () => {
-        let bodyFormData = new FormData();
-        bodyFormData.append("dataset_name", dataSetName);
-        bodyFormData.append("description", dataSetDescription);
-        let accessToken = getTokenLocal() ?? false;
-        let url = UrlConstant.base_url + UrlConstant.check_dataset_name_and_description_in_database
-        if (dataSetName && dataSetDescription) {
-            HTTPService(
-                "POST",
-                url,
-                bodyFormData,
-                false,
-                true,
-                accessToken
-            ).then((response) => {
-                seteErrorDataSetName('')
-                setDescriptionErrorMessage('')
-            }).catch((e) => {
-                let returnValues = GetErrorKey(e, bodyFormData.keys());
-                let errorKeys = returnValues[0];
-                let errorMessages = returnValues[1];
-
-                if (errorKeys.length > 0) {
-                    for (var i = 0; i < errorKeys.length; i++) {
-                        switch (errorKeys[i]) {
-                            case "dataset_name":
-                                seteErrorDataSetName(errorMessages[i])
-                                break;
-                            case "description":
-                                setDescriptionErrorMessage(errorMessages[i]);
-                        }
-                    }
-                }
-                console.log(e);
-            });
-        }
-    }
     const handleSubmit = () => {
         let body = {
             user_map: getUserMapId(),
@@ -173,11 +147,19 @@ const AddDataSetParticipantNew = () => {
             data_capture_start: (!isUpdating && fromDate) ? fromDate.toISOString() : null,
             data_capture_end: (!isUpdating && toDate) ? toDate.toISOString() : null,
         }
-        let url = UrlConstant.base_url + UrlConstant.add_basic_dataset + datasetId + "/"
+        let url = ''
+        let method = ''
+        if (props.isEditModeOn && props.datasetIdForEdit) {
+            url = UrlConstant.base_url + UrlConstant.add_basic_dataset + props.datasetIdForEdit + "/"
+            method = 'PUT'
+        } else {
+            url = UrlConstant.base_url + UrlConstant.add_basic_dataset
+            method = "PUT"
+        }
         let checkforAcess = getTokenLocal() ?? false;
         callLoader(true)
         HTTPService(
-            "PUT",
+            method,
             url,
             body,
             false,
@@ -185,7 +167,12 @@ const AddDataSetParticipantNew = () => {
             checkforAcess,
         ).then((response) => {
             callLoader(false)
-            callToast("Dataset added successfully!", "success", true)
+            if (props.isEditModeOn && props.datasetIdForEdit) {
+                callToast("Dataset updated successfully!", "success", true)
+
+            } else {
+                callToast("Dataset added successfully!", "success", true)
+            }
             if (isLoggedInUserParticipant() && getTokenLocal()) {
                 history.push('/participant/new_datasets')
             } else if (isLoggedInUserAdmin() && getTokenLocal()) {
@@ -194,11 +181,87 @@ const AddDataSetParticipantNew = () => {
 
         }).catch((e) => {
             callLoader(false)
-            callToast("Something went wrong while adding dataset!", "error", false)
+            if (props.isEditModeOn && props.datasetIdForEdit) {
+                callToast("Something went wrong while updating dataset!", "error", false)
+
+            } else {
+                callToast("Something went wrong while adding dataset!", "error", false)
+            }
             console.log(e);
         });
     }
 
+    useEffect(() => {
+        // edit Dataset API call
+        if (props.datasetIdForEdit) {
+            (() => {
+                let accessToken = getTokenLocal() ?? false;
+                let url = UrlConstant.base_url + UrlConstant.datasetview + props.datasetIdForEdit + "/";
+                callLoader(true)
+                HTTPService("GET", url, "", false, true, accessToken)
+                    .then((response) => {
+                        callLoader(false)
+                        setDataSetName(response.data.name);
+                        setGeography(response.data.geography);
+                        setIsUpdating(response.data.constantly_update);
+                        setFromDate(
+                            response.data.data_capture_start
+                                ? response.data.data_capture_start
+                                : ""
+                        );
+                        setToDate(
+                            response.data.data_capture_end
+                                ? response.data.data_capture_end
+                                : ""
+                        );
+                        setDataSetDescription(response.data.description);
+                        // preparing files for edit
+                        let newArr = [...files];
+                        let tempFiles = response.data.datasets?.filter(
+                            (dataset) => dataset.source === "file"
+                        );
+                        let tempSqlFiles = response.data.datasets?.filter(
+                            (dataset) => dataset.source === "mysql"
+                        );
+                        let tempPostgresFiles = response.data.datasets?.filter(
+                            (dataset) => dataset.source === "postgres"
+                        );
+                        let tempRestApiFiles = response.data.datasets?.filter(
+                            (dataset) => dataset.source === "restApi"
+                        );
+                        let tempUploadedFiles = [];
+                        if (tempFiles && tempFiles?.length > 0) {
+                            tempFiles.forEach((tempFile, index) => {
+                                tempUploadedFiles.push({ id: tempFile.id, file: tempFile.file, source: tempFile.source });
+                            });
+                        }
+                        setUploadedFiles(tempFiles)
+
+                        // preparing Standardisation
+                        let tempStandardisedFiles = []
+                        response.data.datasets.forEach((dset) => {
+                            tempStandardisedFiles.push({ id: dset.id, file: dset.standardised_file, standardisation_config: dset.standardisation_config })
+                        })
+                        setStandardisedFiles(tempStandardisedFiles)
+
+                        // preparing categories for accordion
+                        let prepareArr = [];
+                        let tempcategoryJson = JSON.parse(response?.data?.category)
+                        for (const [key, value] of Object.entries(tempcategoryJson)) {
+                            let obj = {};
+                            obj[key] = value;
+                            prepareArr.push(obj);
+                        }
+                        setCategorises(tempcategoryJson)
+                    })
+                    .catch((e) => {
+                        callLoader(false)
+                        callToast("Something went wrong while loading dataset!", "error", true)
+                        console.log("error while loading dataset", e);
+                    });
+            })();
+        }
+    }, [])
     return (
         <Box>
             <Box sx={{ marginLeft: '144px', marginRight: '144px' }}>
@@ -207,7 +270,7 @@ const AddDataSetParticipantNew = () => {
                     <span className='add_light_text ml-16'>
                         <img src={require("../../Assets/Img/dot.svg")} />
                     </span>
-                    <span className='add_light_text ml-16'>Add new dataset</span>
+                    <span className='add_light_text ml-16'>{props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}</span>
                 </div>
                 <Box sx={{ marginTop: '63px', borderBottom: 1, borderColor: 'divider', borderBottom: '1px solid #3D4A52 !important' }}>
                     <Tabs
@@ -238,6 +301,7 @@ const AddDataSetParticipantNew = () => {
                 </Box>
                 <TabPanel value={value} index={0}>
                     <BasicDetails
+                        datasetIdForEdit={props.datasetIdForEdit}
                         dataSetName={dataSetName}
                         setDataSetName={setDataSetName}
                         dataSetDescription={dataSetDescription}
@@ -249,14 +313,13 @@ const AddDataSetParticipantNew = () => {
                         isUpdating={isUpdating}
                         setIsUpdating={setIsUpdating}
                         validator={validator}
-                        checkDataSet={checkDataSet}
                         errorDataSetName={errorDataSetName}
                         errorDataSetDescription={errorDataSetDescription}
                     />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <UploadFile
-                        datasetId={datasetId}
+                        datasetId={props.isEditModeOn && props.datasetIdForEdit ? props.datasetIdForEdit : datasetId}
                         dataSetName={dataSetName}
                         files={files}
                         setFiles={setFiles}
@@ -275,7 +338,9 @@ const AddDataSetParticipantNew = () => {
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <Standardise
-                        datasetId={datasetId}
+                        datasetId={props.isEditModeOn && props.datasetIdForEdit ? props.datasetIdForEdit : datasetId}
+                        isEditModeOn={props.isEditModeOn}
+                        standardisedUpcomingFiles={standardisedFiles}
                         dataSetName={dataSetName}
                         allStandardisedFile={allStandardisedFile}
                         setAllStandardisedFile={setAllStandardisedFile}
@@ -286,7 +351,7 @@ const AddDataSetParticipantNew = () => {
                 </TabPanel>
                 <TabPanel value={value} index={3}>
                     <Categorise
-                        datasetId={datasetId}
+                        datasetId={props.isEditModeOn && props.datasetIdForEdit ? props.datasetIdForEdit : datasetId}
                         categorises={categorises}
                         setCategorises={setCategorises}
                         geography={geography}
@@ -296,7 +361,7 @@ const AddDataSetParticipantNew = () => {
                 </TabPanel>
                 <TabPanel value={value} index={4}>
                     <UsagePolicy
-                        datasetId={datasetId}
+                        datasetId={props.isEditModeOn && props.datasetIdForEdit ? props.datasetIdForEdit : datasetId}
                     />
                 </TabPanel>
                 <Divider sx={{ border: '1px solid #ABABAB', marginTop: '59px' }} />
@@ -338,10 +403,8 @@ const AddDataSetParticipantNew = () => {
                         variant='contained' onClick={() => { value === 4 ? handleSubmit() : handleNext() }}>{value === 4 ? 'Submit' : 'Next'}</Button>
                 </Box>
             </Box>
-            {/* <Divider />
-            <FooterNew /> */}
         </Box>
     )
 }
 
-export default AddDataSetParticipantNew
+export default AddDataSet
