@@ -38,7 +38,7 @@ const Categorise = (props) => {
             })
         }
     }
-
+    console.log(props.categorises)
     const getAllCategoryAndSubCategory = () => {
         let checkforAccess = getTokenLocal() ?? false;
         HTTPService(
@@ -58,8 +58,9 @@ const Categorise = (props) => {
             let tempCategories = []
             prepareArr.forEach((item, index) => {
                 let keys = Object.keys(item)
+                let tCategory = props?.categorises?.[keys]
                 let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-                    return (<CheckBoxWithText key={ind} text={res} categoryKeyName={keys[0]} keyName={res} handleCheckBox={handleCheckBox} />)
+                    return (<CheckBoxWithText key={ind} text={res} checked={tCategory?.includes(res)} categoryKeyName={keys[0]} keyName={res} handleCheckBox={handleCheckBox} />)
                 })
                 let obj = {
                     panel: index + 1,

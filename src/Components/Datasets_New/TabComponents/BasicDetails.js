@@ -4,7 +4,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CheckBoxWithText from './CheckBoxWithText';
 
-const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDescription, setDataSetDescription, errorDataSetDescription, fromDate, setFromDate, toDate, setToDate, isUpdating, setIsUpdating, validator, checkDataSet }) => {
+const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorDataSetName, dataSetDescription, setDataSetDescription, errorDataSetDescription, fromDate, setFromDate, toDate, setToDate, isUpdating, setIsUpdating, validator, checkDataSet }) => {
 
     const limitChar = 100;
     const limitCharDesc = 512;
@@ -42,7 +42,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                 lineHeight: "40px",
                 color: "#000000",
                 textAlign: 'left'
-            }}>Add new dataset</Typography>
+            }}>{datasetIdForEdit ? "Edit dataset" : "Add new dataset"}</Typography>
             <TextField
                 fullWidth
                 error={errorDataSetName ? true : false}
@@ -79,7 +79,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                 label='Dataset name'
                 value={dataSetName}
                 onChange={(e) => handleDatasetName(e)}
-            // onBlur={() => checkDataSet()}
+                disabled={datasetIdForEdit ? true : false}
             />
             <TextField
                 fullWidth
@@ -120,7 +120,6 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                 label='Dataset description not more that 512 character '
                 value={dataSetDescription}
                 onChange={(e) => handleDescription(e)}
-            // onBlur={() => checkDataSet()}
             />
             <Typography sx={{
                 fontFamily: "Montserrat !important",
@@ -258,7 +257,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                     </LocalizationProvider>
                 </div>
             </Box>
-            <CheckBoxWithText text={'Constantly updating'} handleCheckBox={handleCheckBox} />
+            <CheckBoxWithText text={'Constantly updating'} checked={isUpdating} handleCheckBox={handleCheckBox} />
         </div>
     )
 }
