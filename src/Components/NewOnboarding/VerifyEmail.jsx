@@ -46,7 +46,7 @@ const VerifyEmailStep = (props) => {
 
   const history = useHistory();
 
-  const handleSubmit = (action) => {
+  const handleSubmit = async (action) => {
     setLoginError("");
     let data;
     let url;
@@ -110,7 +110,7 @@ const VerifyEmailStep = (props) => {
           setActiveStep((prev) => prev + 1);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
         if (
           e.response != null &&
@@ -154,18 +154,24 @@ const VerifyEmailStep = (props) => {
                   setLoginError(errorMessages[i]);
                   break;
                 default:
-                  let errorObject = GetErrorHandlingRoute(e);
-                  callToast(errorObject?.message, "error", true);
+                  let error = await GetErrorHandlingRoute(e);
+                  if (error) {
+                    callToast(error?.message, "error", true);
+                  }
                   break;
               }
             }
           } else {
-            let errorObject = GetErrorHandlingRoute(e);
-            callToast(errorObject?.message, "error", true);
+            let error = await GetErrorHandlingRoute(e);
+            if (error) {
+              callToast(error?.message, "error", true);
+            }
           }
         } else {
-          let errorObject = GetErrorHandlingRoute(e);
-          callToast(errorObject?.message, "error", true);
+          let error = await GetErrorHandlingRoute(e);
+          if (error) {
+            callToast(error?.message, "error", true);
+          }
         }
       });
   };
@@ -205,7 +211,7 @@ const VerifyEmailStep = (props) => {
         handleStates("timer");
         setKey((prevKey) => prevKey + 1);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
         if (
           e.response != null &&
@@ -228,10 +234,10 @@ const VerifyEmailStep = (props) => {
               : "User suspended. Please try after sometime."
           );
         } else {
-          GetErrorHandlingRoute(e).then((errorObject) => {
-            console.log(errorObject);
-            callToast(errorObject?.message, "error", true);
-          });
+          let error = await GetErrorHandlingRoute(e);
+          if (error) {
+            callToast(error?.message ?? "Unknown error", "error", true);
+          }
         }
       });
   };

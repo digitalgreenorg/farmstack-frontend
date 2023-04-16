@@ -84,7 +84,7 @@ const ProfileDetails = (props) => {
           contact_number: "",
         });
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
         var errorKeys = returnValues[0];
@@ -117,24 +117,18 @@ const ProfileDetails = (props) => {
                 });
                 break;
               default:
-                GetErrorHandlingRoute(e).then((errorObject) => {
-                  callToast(
-                    errorObject?.message ? errorObject?.message : "",
-                    "error",
-                    true
-                  );
-                });
+                let error = await GetErrorHandlingRoute(e);
+                if (error) {
+                  callToast(error?.message, "error", true);
+                }
                 break;
             }
           }
         } else {
-          GetErrorHandlingRoute(e).then((errorObject) => {
-            callToast(
-              errorObject?.message ? errorObject?.message : "",
-              "error",
-              true
-            );
-          });
+          let error = await GetErrorHandlingRoute(e);
+          if (error) {
+            callToast(error?.message, "error", true);
+          }
         }
       });
   };

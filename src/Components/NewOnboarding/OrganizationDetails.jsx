@@ -140,7 +140,7 @@ const OrganizationDetails = (props) => {
         console.log(response);
         setActiveStep((prev) => prev + 1);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
         var errorKeys = returnValues[0];
@@ -191,18 +191,18 @@ const OrganizationDetails = (props) => {
                 });
                 break;
               default:
-                GetErrorHandlingRoute(e).then((errorObject) => {
-                  console.log(errorObject);
-                  callToast(errorObject?.message, "error", true);
-                });
+                let error = await GetErrorHandlingRoute(e);
+                if (error) {
+                  callToast(error?.message, "error", true);
+                }
                 break;
             }
           }
         } else {
-          GetErrorHandlingRoute(e).then((errorObject) => {
-            console.log(errorObject);
-            callToast(errorObject?.message, "error", true);
-          });
+          let error = await GetErrorHandlingRoute(e);
+          if (error) {
+            callToast(error?.message, "error", true);
+          }
         }
       });
   };
