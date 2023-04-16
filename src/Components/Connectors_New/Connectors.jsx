@@ -36,6 +36,14 @@ const Connectors = () => {
     }
   };
 
+  const handleEditConnectorRoute = (id) => {
+    if (isLoggedInUserAdmin()) {
+      return `/datahub/connectors/edit/${id}`;
+    } else if (isLoggedInUserParticipant()) {
+      return `/participant/connectors/edit/${id}`;
+    }
+  };
+
   const getConnectors = (isLoadMore) => {
     let url = !isLoadMore
       ? UrlConstant.base_url +
@@ -108,7 +116,11 @@ const Connectors = () => {
                     addConnector={addConnector}
                   />
                   {connectors?.map((item) => (
-                    <ConnectorCardView history={history} item={item} />
+                    <ConnectorCardView
+                      history={history}
+                      item={item}
+                      handleEditConnectorRoute={handleEditConnectorRoute}
+                    />
                   ))}
                 </div>
               </CSSTransition>
@@ -124,8 +136,15 @@ const Connectors = () => {
                 classNames="step"
                 unmountOnExit
               >
-                <ConnectorListView connectors={connectors} history={history} />
+                {/* <ConnectorListView connectors={connectors} history={history} /> */}
+                <ConnectorListView
+                  connectors={connectors}
+                  history={history}
+                  handleEditConnectorRoute={handleEditConnectorRoute}
+                />
               </CSSTransition>
+              {/* )} */}
+              {/* ) : ( */}
               {/* )} */}
               {showLoadMore ? (
                 <OutlinedButton

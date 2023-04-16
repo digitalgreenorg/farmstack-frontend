@@ -28,6 +28,7 @@ export default function Toast({ message, type }) {
       spacing={2}
       open={toastDetail?.status}
       autoHideDuration={3000}
+      disableWindowBlurListener={true}
       sx={{ width: "100%" }}
       anchorOrigin={{
         vertical: "top",
