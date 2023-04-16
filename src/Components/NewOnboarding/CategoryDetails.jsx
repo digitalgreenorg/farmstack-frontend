@@ -271,7 +271,7 @@ const CategoryDetails = (props) => {
         >
           Add sub categories
         </div>
-        <Row>
+        <Row style={{ height: "80px" }}>
           <Col lg={6} sm={12} className={styles.margintopbottom10}>
             <TextField
               required
@@ -297,6 +297,7 @@ const CategoryDetails = (props) => {
             />
           </Col>
         </Row>
+        <hr style={{ margin: "10px 0px" }} />
         <Row>
           {data?.sub_categories?.length > 0 &&
             data?.sub_categories?.map((each_sub_category, index) => {

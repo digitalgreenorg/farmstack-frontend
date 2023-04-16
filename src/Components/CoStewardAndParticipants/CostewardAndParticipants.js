@@ -5,6 +5,7 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {
@@ -121,7 +122,18 @@ const CoStewardAndParticipantsCard = (props) => {
           ""
         )}
       </Row>
-      {viewType === "grid" || !viewType ? (
+      {/* {viewType === "grid" || !viewType ? ( */}
+      <CSSTransition
+        appear={viewType === "grid" || !viewType}
+        in={viewType === "grid" || !viewType}
+        timeout={{
+          appear: 600,
+          enter: 700,
+          exit: 100,
+        }}
+        classNames="step"
+        unmountOnExit
+      >
         <Row
           id={title + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
@@ -208,7 +220,19 @@ const CoStewardAndParticipantsCard = (props) => {
             );
           })}
         </Row>
-      ) : (
+      </CSSTransition>
+      {/* ) : ( */}
+      <CSSTransition
+        appear={viewType !== "grid"}
+        in={viewType !== "grid"}
+        timeout={{
+          appear: 600,
+          enter: 700,
+          exit: 100,
+        }}
+        classNames="step"
+        unmountOnExit
+      >
         <>
           <Row>
             {title === "Co-steward" ? (
@@ -339,7 +363,9 @@ const CoStewardAndParticipantsCard = (props) => {
             })}
           </div>
         </>
-      )}
+      </CSSTransition>
+
+      {/* // )} */}
       {/* </Row> */}
       {loadMoreButton ? (
         <Row className={LocalStyle.buttonContainer}>
