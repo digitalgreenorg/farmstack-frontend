@@ -225,7 +225,13 @@
 .download_button {
   margin-left: 50px !important;
 }
-
+.link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.edit_button {
+  width: 172px;
+}
 /* Extra small devices (phones, 320px and up) */
 @media (min-width: 320px) {
   .get_started_image {

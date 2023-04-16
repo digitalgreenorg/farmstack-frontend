@@ -14,7 +14,7 @@ export default function UploadDataset(props) {
       <p className="accountsettingsheader" style={{ paddingTop: "24px" }}>
         {props.uploadtitle}
       </p>
-      <div className="accountsettingsuploadimg">
+      <div className="accountsettingsuploadimg" style={{ textAlign: "center" }}>
         <img src={upload_img} />{" "}
       </div>
       <p style={{ color: "#A3B0B8", padding: "40px" }}>

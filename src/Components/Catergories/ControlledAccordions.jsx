@@ -16,6 +16,7 @@ export default function ControlledAccordions(props) {
     accordionDelete,
     isHeadEditing,
     handleEditHeading,
+    onOpenHideDelete,
   } = props;
   const [expanded, setExpanded] = React.useState(false);
 
@@ -72,7 +73,11 @@ export default function ControlledAccordions(props) {
               ""
             )}
           </Typography>
-          <DeleteOutlineIcon onClick={(e) => accordionDelete(e, index)} />
+          {onOpenHideDelete && expanded == "panel1" ? (
+            ""
+          ) : (
+            <DeleteOutlineIcon onClick={(e) => accordionDelete(e, index)} />
+          )}
         </AccordionSummary>
         <AccordionDetails>
           {Component && <Component data={data} index={index} />}

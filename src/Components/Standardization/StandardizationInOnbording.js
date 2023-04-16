@@ -495,11 +495,11 @@ const StandardizationInOnbord = (props) => {
         // setIsLoader(false);
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
-          history.push("/datahub/dashboard");
+          history.push("/datahub/datasets");
         } else if (isLoggedInUserParticipant()) {
           history.push("/participant/datasets");
         } else if (isLoggedInUserCoSteward()) {
-          history.push("/datahub/dashboard");
+          history.push("/datahub/datasets");
         }
       })
       .catch((e) => {

@@ -1287,3 +1287,9 @@ textarea {
 .accordions_in_onboarding .MuiAccordionSummary-content {
   align-items: center !important;
 }
+.stepper_ .DraftEditor-editorContainer,
+.DraftEditor-root,
+.DraftEditor-editorContainer {
+  overflow: auto !important;
+  display: contents !important;
+}
