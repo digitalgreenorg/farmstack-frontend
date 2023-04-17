@@ -93,11 +93,11 @@ const VerifyEmailStep = (props) => {
             console.log(getRoleLocal());
             if (response?.data?.on_boarded) {
               if (isLoggedInUserAdmin()) {
-                history.push("/datahub/dashboard");
+                history.push("/datahub/new_datasets");
               } else if (isLoggedInUserParticipant()) {
                 history.push("/participant/datasets");
               } else if (isLoggedInUserCoSteward()) {
-                history.push("/datahub/dashboard");
+                history.push("/datahub/new_datasets");
               }
             } else {
               setActiveStep((prev) => prev + 1);
