@@ -153,7 +153,7 @@ const AddDataSet = (props) => {
             url = UrlConstant.base_url + UrlConstant.add_basic_dataset + props.datasetIdForEdit + "/"
             method = 'PUT'
         } else {
-            url = UrlConstant.base_url + UrlConstant.add_basic_dataset
+            url = UrlConstant.base_url + UrlConstant.add_basic_dataset + datasetId + "/"
             method = "PUT"
         }
         let checkforAcess = getTokenLocal() ?? false;
