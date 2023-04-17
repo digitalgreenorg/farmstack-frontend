@@ -24,6 +24,7 @@ export default function CategorySettings(props) {
     useState();
   const [newSubCat, setNewSubCat] = useState("");
   const history = useHistory()
+  const [editCategory, setEditCategory] = useState(false)
 
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
@@ -64,17 +65,26 @@ export default function CategorySettings(props) {
         history.push(GetErrorHandlingRoute(e));
       });
   };
-  const handleCategoryNameChange = (e, categoryKey) => {
-    const newCategories = {...categoryDetails}; 
-    newCategories[categoryKey] = e.target.value; 
-    setCategoryDetails(newCategories); 
+const handleCategoryNameChange = (e, categoryKey) => {
+  if (editCategory) {
+    const newCategories = { ...categoryDetails };
+    const value = e.target.value;
+    if (categoryKey !== value) {
+      // If the key has changed, delete the old key-value pair from the object
+      delete newCategories[categoryKey];
+    }
+    // Update the key with the new value
+    newCategories[value] = categoryDetails[categoryKey];
+    setCategoryDetails(newCategories);
   }
+};
   const deleteCategory = (key) => {
     const newCategories = { ...categoryDetails }; 
     delete newCategories[key];
     setCategoryDetails(newCategories);  
   };
   const handleAddSubCategory = (indexName) => {
+    if(editCategory) {
     let tmpPolicyvalues = {...categoryDetails};
     console.log("collectionof obj", tmpPolicyvalues, indexName)
     if (tmpPolicyvalues !== ""){
@@ -82,9 +92,13 @@ export default function CategorySettings(props) {
     setCategoryDetails(tmpPolicyvalues);
     setNewSubCat("");
     }
+  }
   };
   const handleCancel = () => {
+    getcategories()
+    history.push("/datahub/settings/4");
     window.location.reload();
+   
   };
 
   const handleSubmitCategory = () => {
@@ -108,14 +122,10 @@ export default function CategorySettings(props) {
     getcategories();
   }, []);
   return (
-    <Container>
-      <Row>
-        <Typography
-          className={global_styles.bold600 + " " + global_styles.size32}
-        >
-          Category Settings
-        </Typography>
-      </Row>
+    <Container style={{"margin-top": "auto"}}>
+       <div className="mainHeadSetting">
+        Category settings
+        </div>
       <Row style={{ margin: "20px" }}>
         <Col xs={12} sm={12} md={12} lg={12}>
           {Object.entries(categoryDetails).map(([key, valuesArray], index) => (
@@ -131,10 +141,10 @@ export default function CategorySettings(props) {
                   {key}
                 </Typography>
 
-                <DeleteOutlineIcon
+                {/* <DeleteOutlineIcon
                   style={{ marginLeft: "auto" }}
                   onClick={() => deleteCategory(key)}
-                />
+                /> */}
               </AccordionSummary>
               <AccordionDetails>
                 <TextField
@@ -143,17 +153,19 @@ export default function CategorySettings(props) {
                   variant="outlined"
                   required
                   value={key}
-                  onChange={(e) => handleCategoryNameChange(e.target.value, key)}
+                  onChange={(e) => handleCategoryNameChange(e, key)}
                   style={{ width: "100%", margin: "20px", marginLeft: "auto" }}
                 />
-                 {/* <RichTextEditor
+                {!editCategory ?
+                 <RichTextEditor
                       dir="ltr"
                       toolbarConfig={toolbarConfig}
                       placeholder="Category description"
-                      // value={RichTextEditor.createValueFromString(
-                      //   "html"
-                      // )}
-                      //required
+                      value={RichTextEditor.createValueFromString(
+                        "",
+                        "html"
+                      )}
+                      required
                       id="body-text"
                       name="bodyText"
                       type="string"
@@ -164,8 +176,24 @@ export default function CategorySettings(props) {
                         border: "1px solid black",
                         unicodeBidi: "plaintext",
                       }}
-                    /> */}
-                 {/* fileuploader component */}
+                      disabled
+                    /> : "" }
+                 {/* <Row>
+                 <Col
+                    lg={6}
+                    sm={12}
+                    style={{ marginBottom: "20px", marginTop: "20px" }}
+                  >
+                  {!editCategory ? 
+                 <FileUploaderMain
+                      fileTypes={["xls", " xlsx", "csv"]}
+                      maxSize={25}
+                      isMultiple={false}
+                      disabled
+                    />
+                : "" }
+                </Col>
+                 </Row>  */}
                 <Row>
                   <Typography
                     className={
@@ -252,6 +280,30 @@ export default function CategorySettings(props) {
                         </>
                         
                 </Row>
+                <Row>
+                  <Col style={{ textAlign: "right", margin: "20px" }}>
+                  <Button
+                          id="apply_policies"
+                          variant="outlined"
+                          style={{ margin: "20px" }}
+                          className="buttonleftred"
+
+                          onClick={() => deleteCategory(key)}
+                        >
+                          Delete
+                        </Button>
+                        <Button
+                          id="apply_policies"
+                          variant="outlined"
+                          style={{ margin: "20px" }}
+                          className="buttonrightset"
+                          onClick={() => setEditCategory(true)}
+                          
+                        >
+                          Edit
+                        </Button>
+                    </Col>
+                    </Row>
               </AccordionDetails>
             </Accordion>
           ))}
@@ -263,7 +315,7 @@ export default function CategorySettings(props) {
             id="cancelbutton_account"
             variant="outlined"
             style={{ margin: "20px" }}
-            className="button"
+            className="buttoncancel"
             onClick={handleCancel}
           >
             Cancel
@@ -271,7 +323,7 @@ export default function CategorySettings(props) {
           <Button
             id="submitbutton_account"
             variant="outlined"
-            className="button"
+            className="buttonrightset"
             onClick={(e) => handleSubmitCategory(e)}
           >
             Submit

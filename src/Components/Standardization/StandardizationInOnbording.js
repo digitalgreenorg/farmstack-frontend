@@ -31,6 +31,7 @@ import RegexConstants from "../../Constants/RegexConstants";
 import { handleUnwantedSpace } from "../../Utils/Common";
 import global_style from "../../Assets/CSS/global.module.css";
 import styles from "../NewOnboarding/onboarding.module.css";
+import { Row, Col } from "react-bootstrap";
 
 const StandardizationInOnbord = (props) => {
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
@@ -488,6 +489,13 @@ const StandardizationInOnbord = (props) => {
         console.log(e);
       });
   };
+  const handleCancel = () => {
+    getStandardiziedTemplate();
+    history.push("/datahub/settings/5");
+    window.location.reload();
+   
+  };
+
   useEffect(() => {
     if (inSettings) {
       getStandardiziedTemplate();
@@ -623,7 +631,7 @@ const StandardizationInOnbord = (props) => {
                       </IconButton>
                     ) : null}
                     {/* <div> */}
-                    <IconButton
+                    {/* <IconButton
                       onClick={(e) => {
                         // this funtion will make a particular index of editCategoryTitle array true
                         e.stopPropagation();
@@ -634,15 +642,15 @@ const StandardizationInOnbord = (props) => {
                       }}
                     >
                       <EditIcon />
-                    </IconButton>
-                    <IconButton
+                    </IconButton> */}
+                    {/* <IconButton
                       onClick={(e) => {
                         handleDatapointCategoryDelete(index);
                         e.stopPropagation();
                       }}
                     >
                       <DeleteOutlineIcon />
-                    </IconButton>
+                    </IconButton> */}
                     {/* </div> */}
                   </AccordionSummary>
                   <AccordionDetails>
@@ -775,6 +783,39 @@ const StandardizationInOnbord = (props) => {
                         })}
                       </div>
                     </div>
+                    <Row>
+                  <Col style={{ textAlign: "right", margin: "20px" }}>
+                  <Button
+                          id="apply_policies"
+                          variant="outlined"
+                          style={{ margin: "20px" }}
+                          className="buttonleftred"
+
+                          onClick={(e) => {
+                            handleDatapointCategoryDelete(index);
+                            e.stopPropagation();
+                          }}
+                        >
+                          Delete
+                        </Button>
+                        <Button
+                          id="apply_policies"
+                          variant="outlined"
+                          style={{ margin: "20px" }}
+                          className="buttonrightset"
+                          onClick={(e) => {
+                            // this funtion will make a particular index of editCategoryTitle array true
+                            e.stopPropagation();
+                            let tmp = [...editCategoryTitle];
+                            tmp[index] = true;
+                            console.log("edit title", tmp, editCategoryTitle);
+                            setEditCategoryTitle(tmp);
+                          }}
+                        >
+                          Edit
+                        </Button>
+                    </Col>
+                    </Row>
                   </AccordionDetails>
                 </Accordion>
               </>
@@ -831,9 +872,17 @@ const StandardizationInOnbord = (props) => {
       <div className="datapoint-add-button-classname">
         {inSettings ? (
           <>
+          <Button
+              variant="contained"
+              className={global_style.secondary_button}
+              id="addte-add-datapoint-button"
+              onClick={handleCancel}
+              
+            >
+              Cancel
+            </Button>
             <Button
               variant="contained"
-              // className="datapoint-add-button"
               className={global_style.primary_button + " " + styles.next_button}
               id="addte-add-datapoint-button"
               onClick={handleSubmit}

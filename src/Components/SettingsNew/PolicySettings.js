@@ -6,26 +6,26 @@ import { Typography } from "@mui/material";
 import { TextField } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FileUploaderMain from "../Generic/FileUploader";
+import global_styles from "../../Assets/CSS/global.module.css";
 import RichTextEditor from "react-rte";
 import Button from "@mui/material/Button";
 import "./AccountSettings.css";
-import global_styles from "../../Assets/CSS/global.module.css";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg";
 import parse from "html-react-parser";
-import global_style from "../../Assets/CSS/global.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import styles from "./settings.module.css";
+import { IconButton } from "@material-ui/core";
 
-export default function PolicySettings() {
+export default function PolicySettings(props) {
   const [policyvalues, setPolicyValues] = useState([]);
   const [policyValuesNameError, setPolicyValuesNameError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [fileNameError, setFileNameError] = useState("");
+  const [editPolicy, setEditPolicy] = useState(false);
   const history = useHistory();
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
@@ -52,16 +52,28 @@ export default function PolicySettings() {
       { label: "OL", style: "ordered-list-item" },
     ],
   };
-  const handlePolicyNameChange = (index, newValue) => {
-    let tmpPolicyvalues = [...policyvalues];
-    if (newValue) {
-      tmpPolicyvalues[index].name = newValue;
-      setPolicyValues(tmpPolicyvalues);
-    } else {
-      return;
+  const handlePolicyNameChange = (index, e) => {
+    if (editPolicy) {
+      let tmpPolicyvalues = [...policyvalues];
+      if (tmpPolicyvalues[index].name !== undefined) {
+        tmpPolicyvalues[index].name = e.target.value;
+        setPolicyValues(tmpPolicyvalues);
+      } else {
+        return;
+      }
     }
   };
-
+  const hanldePolicyDeschange = (index, e) => {
+    if (editPolicy) {
+      let tmpPolicyvalues = [...policyvalues];
+      if (tmpPolicyvalues[index].description !== undefined) {
+        tmpPolicyvalues[index].description = e.target.value;
+        setPolicyValues(tmpPolicyvalues);
+      } else {
+        return;
+      }
+    }
+  };
   // const handleClickApply = (index, newValue) => {
   //   let tmpPolicyvalues = [...policyvalues];
   //   let newPolicyName = newValue;
@@ -91,16 +103,20 @@ export default function PolicySettings() {
   //   }
   // };
   const handleFileCancel = (index) => {
-    let tmpPolicyvalues = [...policyvalues];
-    tmpPolicyvalues[index].file = null;
-    setPolicyValues(tmpPolicyvalues);
+    if (editPolicy) {
+      let tmpPolicyvalues = [...policyvalues];
+      tmpPolicyvalues[index].file = null;
+      setPolicyValues(tmpPolicyvalues);
+    }
   };
- 
+
   const handlePolicyFileChange = (index, file) => {
-    let tmpPolicyvalues = [...policyvalues];
-    tmpPolicyvalues[index].file = file;
-    tmpPolicyvalues[index].fileName = file.name;
-    setPolicyValues(tmpPolicyvalues);
+    if (editPolicy) {
+      let tmpPolicyvalues = [...policyvalues];
+      tmpPolicyvalues[index].file = file;
+      tmpPolicyvalues[index].fileName = file.name;
+      setPolicyValues(tmpPolicyvalues);
+    }
   };
   // const handleEditorChange = (value, index) => {
   //   let policyValuesCopy = [...policyvalues];
@@ -162,7 +178,12 @@ export default function PolicySettings() {
         history.push(GetErrorHandlingRoute(e));
       });
   };
-
+  const handleCancel = () => {
+    getPolicies()
+    history.push("/datahub/settings/3");
+    window.location.reload();
+   
+  };
   const deletePolicy = (id, index) => {
     let method = "DELETE";
     let url = UrlConstant.base_url + UrlConstant.datahub_policy + id + "/";
@@ -182,15 +203,8 @@ export default function PolicySettings() {
   }, []);
 
   return (
-    <Container>
-      <Row>
-        <Typography
-          className={global_styles.bold600 + " " + global_styles.size32}
-          style={{ marginLeft: "40px", marginTop: "0px" }}
-        >
-          Policy settings
-        </Typography>
-      </Row>
+    <Container style={{ "margin-top": "auto" }}>
+      <div className="mainHeadSetting">Policy settings</div>
       <Row style={{ margin: "20px" }}>
         <Col xs={12} sm={12} md={12} lg={12}>
           {policyvalues?.map((item, index) => (
@@ -201,69 +215,70 @@ export default function PolicySettings() {
                 id="panel1a-header"
               >
                 <Typography
-                  className={global_styles.bold600 + " " + global_styles.size28}
+                  className={global_styles.bold600 + " " + global_styles.size24}
                 >
                   {item.name}
                 </Typography>
-
-                <DeleteOutlineIcon
-                  style={{ marginLeft: "auto" }}
-                  onClick={() => deletePolicy(item.id, index)}
-                />
               </AccordionSummary>
               <AccordionDetails>
-                <Row>
-                  <TextField
-                    id="policy_name"
-                    label="Policy name"
-                    variant="outlined"
-                    //required
-                    value={item.name}
-                    style={{
-                      width: "100%",
-                      margin: "20px",
-                    }}
-                    onChange={(e) =>
-                      handlePolicyNameChange(index, e.target.value)
-                    }
-                    error={policyValuesNameError ? policyValuesNameError : ""}
-                    helperText={
-                      policyValuesNameError ? policyValuesNameError : ""
-                    }
-                  />
-                </Row>
-                <Row>
-                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-                    <RichTextEditor
-                      dir="ltr"
-                      toolbarConfig={toolbarConfig}
-                      placeholder="Policy description"
-                      value={RichTextEditor.createValueFromString(
-                        item.description,
-                        "html"
-                      )}
-                      onChange={(value) => {
-                        const updatedPolicies = [...policyvalues];
-                        updatedPolicies[index].description =
-                          value.toString("html");
-                        setPolicyValues(updatedPolicies);
-                      }}
-                      required
-                      id="body-text"
-                      name="bodyText"
-                      type="string"
-                      multiline
-                      variant="filled"
+                {editPolicy ? (
+                  <>
+                  <Row>
+                    <TextField
+                      id="policy_name"
+                      label="Policy name"
+                      variant="outlined"
+                      //required
+                      value={item?.name}
                       style={{
-                        minHeight: 410,
-                        border: "1px solid black",
-                        unicodeBidi: "plaintext",
+                        width: "100%",
+                        margin: "20px",
                       }}
+                      onChange={(e) => handlePolicyNameChange(index, e)}
+                      error={policyValuesNameError ? policyValuesNameError : ""}
+                      helperText={
+                        policyValuesNameError ? policyValuesNameError : ""
+                      }
                     />
-                      <span style={{color: "red", fontSize: "14px", textAlign: "left",}}>{fileNameError? fileNameError : ""}</span>
-                  </Col>
-                </Row>
+                    </Row>
+                    <Row>
+                    <TextField
+                      required
+                      value={item?.description || ""}
+                      onChange={(e) => hanldePolicyDeschange(index, e)}
+                      inputProps={{ maxLength: 250 }}
+                      multiline
+                      rows={4}
+                      size="small"
+                      style={{
+                        width: "100%",
+                        margin: "20px",
+                      }}
+                      id="datapoint-name-input-box-description-id"
+                      label="Description"
+                      variant="outlined"
+                      error={descriptionError ? descriptionError : ""}
+                      helperText={descriptionError ? descriptionError : ""}
+                    />
+                    </Row>
+                  </>
+                ) : (
+                  <>
+                    <Typography style={{textAlign: "left", marginBottom: "10px"}}>Policy Name</Typography>
+
+                    <Typography style={{textAlign: "left", marginBottom: "20px"}}className="viewdetailsSettings">
+                      {item?.name}
+                    </Typography>
+
+                    <Typography style={{textAlign: "left", marginTop: "20px", marginBottom: "20px"}}>Description</Typography>
+
+                    <Typography style={{textAlign: "left", marginBottom: "20px"}} className="viewdetailsSettings">
+                    {item?.description ? parse(item?.description) : item?.description} 
+                    </Typography>
+                  </>
+                )}
                 <Row>
+                  {editPolicy ? 
                   <Col
                     lg={6}
                     sm={12}
@@ -276,45 +291,58 @@ export default function PolicySettings() {
                         handlePolicyFileChange(index, file)
                       }
                       isMultiple={false}
+                      disabled={!editPolicy}
                     />
-                    <span>{fileNameError? fileNameError : ""}</span>
-                  </Col>
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "14px",
+                        textAlign: "left",
+                      }}
+                    >
+                      {fileNameError ? fileNameError : ""}
+                    </span>
+                  </Col> : "" }
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                     <div
                       className={
-                        global_style.bold600 +
+                        global_styles.bold600 +
                         " " +
-                        global_style.font20 +
+                        global_styles.font20 +
                         " " +
                         styles.text_left
                       }
                     >
                       Uploaded file
-                      </div>
-                    <div className={styles.text_left + " " + styles.preview_box}>
+                    </div>
+                    <div
+                      className={styles.text_left + " " + styles.preview_box}
+                    >
                       {item.file ? (
                         <>
-                        <div className={styles.each_preview_policy}>
-                          <div>
-                            <img
-                              height={"52px"}
-                              width={"42px"}
-                              className={styles.document_upload_logo}
-                              src={document_upload}
-                            />
+                          <div className={styles.each_preview_policy}>
+                            <div>
+                              <img
+                                height={"52px"}
+                                width={"42px"}
+                                className={styles.document_upload_logo}
+                                src={document_upload}
+                              />
 
-                            {typeof item.file === "string" ? (
-                              <span>{item.file.split("/").pop()}</span>
-                            ) : (
-                              <span>{item.fileName}</span>
-                            )}
+                              {typeof item.file === "string" ? (
+                                <span>{item.file.split("/").pop()}</span>
+                              ) : (
+                                <span>{item.fileName}</span>
+                              )}
                             </div>
-                            <CancelIcon
-                              onClick={() => handleFileCancel(index)}
-                              style={{ cursor: "pointer" }}
-                              fontSize="small"
-                            />
-                         
+                            {editPolicy ? 
+                            <IconButton disabled={!editPolicy}>
+                              <CancelIcon
+                                onClick={() => handleFileCancel(index)}
+                                style={{ cursor: "pointer" }}
+                                fontSize="small"
+                              />
+                            </IconButton> : "" }
                           </div>
                         </>
                       ) : (
@@ -324,21 +352,54 @@ export default function PolicySettings() {
                           </div>
                         </>
                       )}
-                      </div>
+                    </div>
                   </Col>
                 </Row>
                 <Row>
                   <Col style={{ textAlign: "right", margin: "20px" }}>
-                    <Button
-                      id="apply_policies"
-                      variant="outlined"
-                      style={{ margin: "20px" }}
-                      className="button"
-                      // onClick={() => handleClickApply(index, item.name)}
-                      onClick={(e) => handleSubmitPolicy(index)}
-                    >
-                      Apply
-                    </Button>
+                    {editPolicy ? (
+                      <>
+                        <Button
+                          id="apply_policies"
+                          variant="outlined"
+                          style={{ margin: "20px" }}
+                          className="buttoncancel"
+                          onClick={handleCancel}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          id="apply_policies"
+                          variant="outlined"
+                          style={{ margin: "20px" }}
+                          className="buttonrightset"
+                          onClick={(e) => handleSubmitPolicy(index)}
+                        >
+                          Apply
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          id="apply_policies"
+                          variant="outlined"
+                          style={{ margin: "20px" }}
+                          className="buttonleftred"
+                          onClick={() => deletePolicy(item.id, index)}
+                        >
+                          Delete
+                        </Button>
+                        <Button
+                          id="apply_policies"
+                          variant="outlined"
+                          style={{ margin: "20px" }}
+                          className="buttonrightset"
+                          onClick={() => setEditPolicy(true)}
+                        >
+                          Edit
+                        </Button>
+                      </>
+                    )}
                   </Col>
                 </Row>
               </AccordionDetails>

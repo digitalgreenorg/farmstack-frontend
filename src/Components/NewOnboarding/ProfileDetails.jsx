@@ -162,7 +162,12 @@ const ProfileDetails = (props) => {
         callLoader(false);
       });
   };
-
+  const handleCancel = () => {
+    getProfileData();
+    history.push("/datahub/settings/1");
+    window.location.reload();
+   
+  };
   useEffect(() => {
     if (getUserLocal()) {
       getProfileData();
@@ -274,14 +279,15 @@ const ProfileDetails = (props) => {
                   id="cancelbutton_account"
                    variant="outlined"
                  style={{ margin: "20px" }}
-                  className="button"
+                  className="buttoncancel"
+                  onClick={handleCancel}
                  >
                    Cancel
                  </Button>
                  <Button
                    id="submitbutton_account"
                    variant="outlined"
-                   className="button"
+                   className="buttonrightset"
                    onClick={(e) => handleSubmitProfileData(e)}
                  >
                    Submit

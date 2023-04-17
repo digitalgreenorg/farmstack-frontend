@@ -260,10 +260,19 @@ const OrganizationDetails = (props) => {
       });
   };
   console.log(preview, uploadedLogo);
+  
+  const handleCancel = () => {
+    getOrganizationData();
+    history.push("/datahub/settings/2");
+    window.location.reload();
+   
+  };
+  
   useEffect(() => {
     getOrganizationData();
     goToTop(0);
   }, []);
+
   return (<>
     {props.isOrgSetting ?
       <Snackbar
@@ -520,14 +529,15 @@ const OrganizationDetails = (props) => {
                   id="cancelbutton_account"
                    variant="outlined"
                  style={{ margin: "20px" }}
-                  className="button"
+                  className="buttoncancel"
+                  onClick={handleCancel}
                  >
                    Cancel
                  </Button>
                  <Button
                    id="submitbutton_account"
                    variant="outlined"
-                   className="button"
+                   className="buttonrightset"
                    disabled={
                     organisationDetails.organisation_address &&
                     organisationDetails.organisation_mail_id &&
