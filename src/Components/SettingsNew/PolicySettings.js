@@ -116,6 +116,7 @@ export default function PolicySettings(props) {
       tmpPolicyvalues[index].file = file;
       tmpPolicyvalues[index].fileName = file.name;
       setPolicyValues(tmpPolicyvalues);
+      console.log(policyvalues)
     }
   };
   // const handleEditorChange = (value, index) => {
@@ -132,7 +133,12 @@ export default function PolicySettings(props) {
     let formData = new FormData();
     formData.append("name", policyvalues[index].name);
     formData.append("description", policyvalues[index].description);
-    formData.append("file", policyvalues[index].file);
+    //formData.append("file", policyvalues[index].file, policyvalues[index].file.name);
+    const file = policyvalues[index].file;
+    const blob = new Blob([file], { type: file.type });
+    const newFile = new File([blob], file.name, { type: file.type });
+
+  formData.append("file", newFile);
     HTTPService(method, url, formData, false, true, false, false)
       .then((response) => {
         console.log(response.data);
@@ -182,8 +188,10 @@ export default function PolicySettings(props) {
     getPolicies()
     history.push("/datahub/settings/3");
     window.location.reload();
+    
    
   };
+
   const deletePolicy = (id, index) => {
     let method = "DELETE";
     let url = UrlConstant.base_url + UrlConstant.datahub_policy + id + "/";
@@ -313,7 +321,7 @@ export default function PolicySettings(props) {
                         styles.text_left
                       }
                     >
-                      Uploaded file
+                      Uploaded files
                     </div>
                     <div
                       className={styles.text_left + " " + styles.preview_box}
@@ -330,9 +338,9 @@ export default function PolicySettings(props) {
                               />
 
                               {typeof item.file === "string" ? (
-                                <span>{item.file.split("/").pop()}</span>
+                                <span>{item.file.split("/").pop() + " " + (item.size ? (item.size / 1024).toFixed(2) : NaN)}</span>
                               ) : (
-                                <span>{item.fileName}</span>
+                                <span>{item.fileName + " "  + (item.file.size ? (item.file.size / 1024).toFixed(2) + " MB"  : NaN)}</span>
                               )}
                             </div>
                             {editPolicy ? 
