@@ -309,7 +309,7 @@ const CompanyPolicies = (props) => {
           </Col>
         </Row>
         <Row>
-          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+          <Col lg={12} sm={12} style={{ margin: "20px 0px" }}>
             <RichTextEditor
               placeholder="Description"
               toolbarConfig={toolbarConfig}
