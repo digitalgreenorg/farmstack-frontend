@@ -79,8 +79,24 @@ const UsagePolicy = (props) => {
     useEffect(() => {
         getAllFileNames()
     }, [])
-    console.log(selectedValue)
-    console.log(selectedChecked)
+
+    useEffect(() => {
+        if (props.isEditModeOn) {
+            let fileAccessibility = props.allFilesAccessibility?.filter(acc => acc.id === file)
+            let accesibilityStatus = fileAccessibility?.[0]?.accessibility
+            if (accesibilityStatus === 'public') {
+                setSelectedValue('public')
+                setSelectedChecked('')
+            } else if (accesibilityStatus === 'registered') {
+                setSelectedValue('registered')
+                setSelectedChecked('registered')
+            } else if (accesibilityStatus === 'private') {
+                setSelectedValue('registered')
+                setSelectedChecked('private')
+            }
+        }
+    }, [file])
+
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -140,7 +156,8 @@ const UsagePolicy = (props) => {
                             control={
                                 <Radio
                                     onClick={(e) => handleClick(e, 'public')}
-                                    checked={selectedValue === 'public'}
+                                    checked={file && selectedValue === 'public'}
+                                    disabled={file ? false : true}
                                     value="public"
                                     sx={{
                                         color: "#00AB55 !important",
