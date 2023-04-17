@@ -127,7 +127,7 @@ const ProfileDetails = (props) => {
         } else {
           let error = await GetErrorHandlingRoute(e);
           if (error) {
-            callToast(error?.message, "error", true);
+            callToast(error?.message ?? "Unknown", "error", true);
           }
         }
       });
