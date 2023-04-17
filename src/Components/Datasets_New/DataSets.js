@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Box, Button, Card, Divider, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useHistory } from "react-router-dom";
 import { getOrgLocal, getTokenLocal, getUserLocal, isLoggedInUserAdmin, isLoggedInUserParticipant } from '../../Utils/Common'
@@ -7,6 +7,7 @@ import FooterNew from '../Footer/Footer_New';
 import UrlConstant from '../../Constants/UrlConstants';
 import HTTPService from '../../Services/HTTPService';
 import DataSetsTab from './DataSetsTab/DataSetsTab';
+import { FarmStackContext } from '../Contexts/FarmStackContext';
 
 const cardSx = {
     maxWidth: 368, height: 190, border: '1px solid #C0C7D1', borderRadius: '10px',
@@ -17,6 +18,7 @@ const cardSx = {
 };
 const DataSets = (props) => {
     const history = useHistory();
+    const { callLoader, callToast } = useContext(FarmStackContext);
     const [state, setState] = useState([0, 1, 2, 3, 4, 5])
     const [searchDatasetsName, setSearchDatasetsName] = useState()
     const [filterState, setFilterState] = useState()
@@ -144,6 +146,7 @@ const DataSets = (props) => {
         }
 
         let accessToken = getTokenLocal() ?? false
+        callLoader(true)
         HTTPService(
             "POST",
             !isLoadMore ? adminUrl : datasetUrl,
@@ -151,6 +154,7 @@ const DataSets = (props) => {
             false,
             accessToken
         ).then((response) => {
+            callLoader(false)
             if (response.data.next == null) {
                 setShowLoadMoreAdmin(false);
                 setFilterState({});
@@ -166,6 +170,7 @@ const DataSets = (props) => {
             }
             setDatasetList(finalDataList);
         }).catch((err) => {
+            callLoader(false)
             console.log(err)
         })
     }

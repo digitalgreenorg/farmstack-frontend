@@ -223,6 +223,7 @@ const Standardise = ({ datasetId, isEditModeOn, standardisedUpcomingFiles, dataS
             })
             setStandardisedColumn(standardiseFiles[result?.[0]?.file]?.standardised_column)
         }
+        setExpanded(true)
     }, [standardiseFile])
 
     useEffect(() => {
