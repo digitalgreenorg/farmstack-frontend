@@ -139,6 +139,7 @@ const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorData
                             inputFormat="dd/MM/yyyy"
                             placeholder="Start Date"
                             label="Start Date"
+                            maxDate={new Date()}
                             value={fromDate}
                             onChange={(value) => handleFromDate(value)}
                             disabled={isUpdating}
@@ -202,6 +203,7 @@ const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorData
                         <DatePicker
                             inputFormat="dd/MM/yyyy"
                             label="End Date"
+                            maxDate={new Date()}
                             value={toDate}
                             onChange={(value) => handleToDate(value)}
                             disabled={isUpdating}
