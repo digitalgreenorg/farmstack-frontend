@@ -17,10 +17,19 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Snackbar } from "@mui/material";
 import { IconButton } from "@mui/material";
 import { Alert } from "@mui/material";
+import { isPhoneValid } from "./utils";
 
 const ProfileDetails = (props) => {
-  const { callLoader } = useContext(FarmStackContext);
-  const history = useHistory();
+  const { callLoader, callToast } = useContext(FarmStackContext);
+  // const isPhoneValid = (phone, country) => {
+  //   try {
+  //     const phoneNumber = isValidNumber(phone, country);
+  //     return phoneNumber;
+  //   } catch (error) {
+  //     return false;
+  //   }
+  // };
+
   const { setActiveStep } = props;
   const [profileDetails, setProfileDetails] = useState({
     first_name: "",
@@ -36,11 +45,21 @@ const ProfileDetails = (props) => {
     email_id: "",
     contact_number: "",
   });
-
-  const handleChangeProfileDetails = (e) => {
+  const handleChangeProfileDetails = (e, countryData) => {
     if (e.target) {
       setProfileDetails({ ...profileDetails, [e.target.name]: e.target.value });
     } else {
+      if (!isPhoneValid(e, countryData)) {
+        setProfileDetailsError((prevState) => ({
+          ...prevState,
+          contact_number: "Invalid phone number",
+        }));
+      } else {
+        setProfileDetailsError((prevState) => ({
+          ...prevState,
+          contact_number: "",
+        }));
+      }
       setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
     }
   };
@@ -102,7 +121,7 @@ const ProfileDetails = (props) => {
           contact_number: "",
         });
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
         var errorKeys = returnValues[0];
@@ -135,16 +154,23 @@ const ProfileDetails = (props) => {
                 });
                 break;
               default:
-                history.push(GetErrorHandlingRoute(e));
+                let error = await GetErrorHandlingRoute(e);
+                if (error) {
+                  callToast(error?.message, "error", true);
+                }
                 break;
             }
           }
         } else {
-          history.push(GetErrorHandlingRoute(e));
+          let error = await GetErrorHandlingRoute(e);
+          if (error) {
+            callToast(error?.message, "error", true);
+          }
         }
       });
   };
   const getProfileData = () => {
+    callLoader(true);
     let method = "GET";
     let url = UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/";
     HTTPService(method, url, "", false, true, false, false)
@@ -158,8 +184,15 @@ const ProfileDetails = (props) => {
         });
         callLoader(false);
       })
-      .catch((err) => {
+      .catch((e) => {
         callLoader(false);
+        GetErrorHandlingRoute(e).then((errorObject) => {
+          callToast(
+            errorObject?.message ? errorObject?.message : "",
+            "error",
+            true
+          );
+        });
       });
   };
   const handleCancel = () => {
@@ -265,7 +298,9 @@ const ProfileDetails = (props) => {
               label="Contact Number"
               variant="outlined"
               value={profileDetails.contact_number}
-              onChange={(e) => handleChangeProfileDetails(e)}
+              onChange={(value, countryData) =>
+                handleChangeProfileDetails(value, countryData)
+              }
               error={profileDetailsError.contact_number ? true : false}
               helperText={profileDetailsError.contact_number}
             />
@@ -305,6 +340,7 @@ const ProfileDetails = (props) => {
         </Button>
         <Button
           disabled={
+            !profileDetailsError.contact_number &&
             profileDetails.contact_number &&
             profileDetails.email_id &&
             profileDetails.first_name

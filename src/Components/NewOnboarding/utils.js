@@ -1,4 +1,5 @@
 import HTTPService from "../../Services/HTTPService";
+import { isValidNumber } from "libphonenumber-js";
 
 // export async function logIn(
 //   method,
@@ -43,3 +44,12 @@ import HTTPService from "../../Services/HTTPService";
 //     return error;
 //   }
 // }
+
+export const isPhoneValid = (phone, country) => {
+  try {
+    const phoneNumber = isValidNumber(phone, country);
+    return phoneNumber;
+  } catch (error) {
+    return false;
+  }
+};
