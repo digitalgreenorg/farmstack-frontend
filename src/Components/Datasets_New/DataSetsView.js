@@ -109,7 +109,13 @@ const DataSetsView = (props) => {
       history.push(`/participant/new_datasets/edit/${id}`);
     }
   }
-
+  const handleClickRoutes = () => {
+    if (isLoggedInUserParticipant() && getTokenLocal()) {
+      return '/participant/new_datasets'
+    } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+      return "/datahub/new_datasets"
+    }
+  }
   useEffect(() => {
     (() => {
       let userType = "";
@@ -273,11 +279,11 @@ const DataSetsView = (props) => {
         }}
       >
         <div className="text-left mt-50">
-          <span className="add_light_text">Dataset</span>
+          <span className="add_light_text cursor-pointer" onClick={() => history.push(handleClickRoutes())}>Datasets</span>
           <span className="add_light_text ml-16">
             <img src={require("../../Assets/Img/dot.svg")} />
           </span>
-          <span className="add_light_text ml-16">My organisation dataset</span>
+          <span className="add_light_text ml-16">{history.location?.state?.data}</span>
         </div>
         <Box className='d-flex justify-content-between align-items-baseline'>
           <div className="bold_title mt-50">{"My Dataset Details"}</div>
