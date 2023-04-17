@@ -467,6 +467,7 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
             bodyFormData.append("col", JSON.stringify(selectedColumns))
             bodyFormData.append("file_name", query)
             bodyFormData.append("dataset_name", dataSetName)
+            bodyFormData.append("dataset", datasetId)
             bodyFormData.append("source", "mysql")
             bodyFormData.append("table_name", table_name)
             let accessToken = getTokenLocal() ?? false;
@@ -495,6 +496,7 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
             bodyFormData.append("col", JSON.stringify(selectedColumns))
             bodyFormData.append("file_name", query)
             bodyFormData.append("dataset_name", dataSetName)
+            bodyFormData.append("dataset", datasetId)
             bodyFormData.append("source", "postgresql")
             bodyFormData.append("table_name", table_name)
             let accessToken = getTokenLocal() ?? false;
@@ -508,31 +510,32 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
                 setPostgresFiles(res.data)
             })
                 .catch((err) => { console.log(err) })
-        } else if (selectedUploadType === 'sqlite') {
-            let query = sqliteFileName;
-            let table_name = sqliteTableName
-            let selectedColumns = [];
-            for (let i = 0; i < allColumns.length; i++) {
-                if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
-            }
-            let bodyFormData = new FormData()
-            bodyFormData.append("col", JSON.stringify(selectedColumns))
-            bodyFormData.append("file_name", query)
-            bodyFormData.append("dataset_name", dataSetName)
-            bodyFormData.append("source", "sqlite")
-            bodyFormData.append("table_name", table_name)
-            let accessToken = getTokenLocal() ?? false;
-            HTTPService('POST',
-                UrlConstant.base_url + UrlConstant.send_columns_to_export,
-                bodyFormData,
-                true,
-                true,
-                accessToken
-            ).then((res) => {
-                setSqLiteFiles(res.data)
-            })
-                .catch((err) => { console.log(err) })
         }
+        // else if (selectedUploadType === 'sqlite') {
+        //     let query = sqliteFileName;
+        //     let table_name = sqliteTableName
+        //     let selectedColumns = [];
+        //     for (let i = 0; i < allColumns.length; i++) {
+        //         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
+        //     }
+        //     let bodyFormData = new FormData()
+        //     bodyFormData.append("col", JSON.stringify(selectedColumns))
+        //     bodyFormData.append("file_name", query)
+        //     bodyFormData.append("dataset_name", dataSetName)
+        //     bodyFormData.append("source", "sqlite")
+        //     bodyFormData.append("table_name", table_name)
+        //     let accessToken = getTokenLocal() ?? false;
+        //     HTTPService('POST',
+        //         UrlConstant.base_url + UrlConstant.send_columns_to_export,
+        //         bodyFormData,
+        //         true,
+        //         true,
+        //         accessToken
+        //     ).then((res) => {
+        //         setSqLiteFiles(res.data)
+        //     })
+        //         .catch((err) => { console.log(err) })
+        // }
     }
 
     const handleExport = () => {
