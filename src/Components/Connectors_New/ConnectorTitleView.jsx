@@ -54,7 +54,7 @@ const ConnectorTitleView = ({
           </div>
           <CSSTransition
             appear={!isGrid}
-            in={isGrid}
+            in={!isGrid}
             timeout={{
               appear: 600,
               enter: 700,
