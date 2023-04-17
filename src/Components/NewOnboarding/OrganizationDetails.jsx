@@ -19,9 +19,10 @@ import HTTPService from "../../Services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
+import { isPhoneValid } from "./utils";
 const OrganizationDetails = (props) => {
   const history = useHistory();
-  const { callLoader } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
   const { setActiveStep } = props;
   const [organisationDetails, setOrganisationDetails] = useState({
@@ -46,7 +47,7 @@ const OrganizationDetails = (props) => {
     organisation_logo_error_logo: "",
   });
   const [uploadedLogo, setUploadedLogo] = useState(null);
-  const handleOrgChange = (e) => {
+  const handleOrgChange = (e, countryData) => {
     console.log(e.target);
     if (e.target) {
       setOrganisationDetails({
@@ -54,6 +55,17 @@ const OrganizationDetails = (props) => {
         [e.target.name]: e.target.value,
       });
     } else {
+      if (!isPhoneValid(e, countryData)) {
+        setOrganisationDetailsError((prevState) => ({
+          ...prevState,
+          organisation_contact_number_error: "Invalid phone number",
+        }));
+      } else {
+        setOrganisationDetailsError((prevState) => ({
+          ...prevState,
+          organisation_contact_number_error: "",
+        }));
+      }
       setOrganisationDetails({
         ...organisationDetails,
         organisation_contact_number: e ? e : "",
@@ -128,7 +140,7 @@ const OrganizationDetails = (props) => {
         console.log(response);
         setActiveStep((prev) => prev + 1);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
         var errorKeys = returnValues[0];
@@ -179,16 +191,23 @@ const OrganizationDetails = (props) => {
                 });
                 break;
               default:
-                history.push(GetErrorHandlingRoute(e));
+                let error = await GetErrorHandlingRoute(e);
+                if (error) {
+                  callToast(error?.message, "error", true);
+                }
                 break;
             }
           }
         } else {
-          history.push(GetErrorHandlingRoute(e));
+          let error = await GetErrorHandlingRoute(e);
+          if (error) {
+            callToast(error?.message, "error", true);
+          }
         }
       });
   };
   const getOrganizationData = () => {
+    callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
     let method = "GET";
     HTTPService(method, url, "", false, true, false, false)
@@ -216,9 +235,12 @@ const OrganizationDetails = (props) => {
         //   org.logo ? UrlConstant.base_url_without_slash + org.logo : null
         // );
       })
-      .catch((error) => {
+      .catch(async (e) => {
         callLoader(false);
-        console.log(error);
+        let error = await GetErrorHandlingRoute(e);
+        if (error) {
+          callToast(error?.message, "error", true);
+        }
       });
   };
   console.log(preview, uploadedLogo);
@@ -305,13 +327,17 @@ const OrganizationDetails = (props) => {
               id="organisation_contact_number"
               name="organisation_contact_number"
               value={organisationDetails.organisation_contact_number}
-              onChange={(e) => handleOrgChange(e)}
+              onChange={(value, countryData) =>
+                handleOrgChange(value, countryData)
+              }
               error={
                 organisationDetailsError.organisation_contact_number_error
                   ? true
                   : false
               }
-              helperText={organisationDetailsError.organisation_address_error}
+              helperText={
+                organisationDetailsError.organisation_contact_number_error
+              }
             />
           </Col>
         </Row>
@@ -357,7 +383,6 @@ const OrganizationDetails = (props) => {
               >
                 <MenuItem value={"in"}>India</MenuItem>
                 <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                <MenuItem value={"japan"}>Japan</MenuItem>
                 <MenuItem value={"kenya"}>Kenya</MenuItem>
               </Select>
             </FormControl>
@@ -409,7 +434,20 @@ const OrganizationDetails = (props) => {
         </Row>
         <Row>
           <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <FileUploaderMain isMultiple={false} handleChange={handleUpload} />
+            <FileUploaderMain
+              texts={
+                "Drop files here or click browse thorough your machine,File size not more than "
+              }
+              maxSize={2}
+              isMultiple={false}
+              handleChange={handleUpload}
+              // setSizeError={() =>
+              //   setOrganisationDetailsError({
+              //     ...organisationDetailsError,
+              //     organisation_logo_error_logo: "Maximum size exceeds",
+              //   })
+              // }
+            />
           </Col>
           <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
             <div
@@ -421,7 +459,7 @@ const OrganizationDetails = (props) => {
                 styles.text_left
               }
             >
-              Uploaded file
+              {preview && "Uploaded file"}
             </div>
             {console.log(preview)}
             {preview && (
@@ -439,7 +477,7 @@ const OrganizationDetails = (props) => {
                 />
               </div>
             )}
-            <span
+            <div
               className={
                 global_style.size14 +
                 " " +
@@ -449,7 +487,7 @@ const OrganizationDetails = (props) => {
               }
             >
               {organisationDetailsError.organisation_logo_error_logo}
-            </span>
+            </div>
           </Col>
         </Row>
       </div>
@@ -470,6 +508,7 @@ const OrganizationDetails = (props) => {
             organisationDetails.organisation_name &&
             organisationDetails.organisation_pin_code &&
             organisationDetails.organisation_website_link &&
+            !organisationDetailsError.organisation_contact_number_error &&
             preview
               ? false
               : true

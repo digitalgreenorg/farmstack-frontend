@@ -4,12 +4,19 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CheckBoxWithText from './CheckBoxWithText';
 
-const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDescription, setDataSetDescription, errorDataSetDescription, fromDate, setFromDate, toDate, setToDate, isUpdating, setIsUpdating, validator, checkDataSet }) => {
+const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorDataSetName, dataSetDescription, setDataSetDescription, errorDataSetDescription, fromDate, setFromDate, toDate, setToDate, isUpdating, setIsUpdating, validator, checkDataSet }) => {
 
-    const limitChar = 512;
+    const limitChar = 100;
+    const limitCharDesc = 512;
+
+    const handleDatasetName = (e) => {
+        if (e.target.value.toString().length <= limitChar) {
+            setDataSetName(e.target.value);
+        }
+    }
 
     const handleDescription = (e) => {
-        if (e.target.value.toString().length <= limitChar) {
+        if (e.target.value.toString().length <= limitCharDesc) {
             setDataSetDescription(e.target.value);
         }
     };
@@ -35,7 +42,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                 lineHeight: "40px",
                 color: "#000000",
                 textAlign: 'left'
-            }}>Add new dataset</Typography>
+            }}>{datasetIdForEdit ? "Edit dataset" : "Add new dataset"}</Typography>
             <TextField
                 fullWidth
                 error={errorDataSetName ? true : false}
@@ -71,8 +78,9 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                 placeholder='Dataset name'
                 label='Dataset name'
                 value={dataSetName}
-                onChange={(e) => setDataSetName(e.target.value)}
-                onBlur={() => checkDataSet()}
+                required
+                onChange={(e) => handleDatasetName(e)}
+                disabled={datasetIdForEdit ? true : false}
             />
             <TextField
                 fullWidth
@@ -112,8 +120,8 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                 placeholder='Dataset description not more that 512 character '
                 label='Dataset description not more that 512 character '
                 value={dataSetDescription}
+                required
                 onChange={(e) => handleDescription(e)}
-                onBlur={() => checkDataSet()}
             />
             <Typography sx={{
                 fontFamily: "Montserrat !important",
@@ -131,6 +139,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                             inputFormat="dd/MM/yyyy"
                             placeholder="Start Date"
                             label="Start Date"
+                            maxDate={new Date()}
                             value={fromDate}
                             onChange={(value) => handleFromDate(value)}
                             disabled={isUpdating}
@@ -167,6 +176,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                                             },
                                         }
                                     }}
+                                    required={isUpdating ? false : true}
                                     helperText={
                                         <Typography
                                             sx={{
@@ -193,6 +203,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                         <DatePicker
                             inputFormat="dd/MM/yyyy"
                             label="End Date"
+                            maxDate={new Date()}
                             value={toDate}
                             onChange={(value) => handleToDate(value)}
                             disabled={isUpdating}
@@ -211,6 +222,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                                     {...params}
                                     id="filled-basic"
                                     variant="outlined"
+                                    required={isUpdating ? false : true}
                                     sx={{
                                         width: '468px',
                                         svg: { color: '#00AB55' },
@@ -251,7 +263,7 @@ const BasicDetails = ({ dataSetName, setDataSetName, errorDataSetName, dataSetDe
                     </LocalizationProvider>
                 </div>
             </Box>
-            <CheckBoxWithText text={'Constantly updating'} handleCheckBox={handleCheckBox} />
+            <CheckBoxWithText text={'Constantly updating'} checked={isUpdating} handleCheckBox={handleCheckBox} />
         </div>
     )
 }

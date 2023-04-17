@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Checkbox, Typography } from '@mui/material'
 
-const CheckBoxWithText = ({ text, checked, handleCheckBox, keyName, categoryKeyName }) => {
+const CheckBoxWithText = ({ text, checked, handleCheckBox, isDisabled, keyName, categoryKeyName }) => {
     const handleClick = () => {
         handleCheckBox()
     }
@@ -24,6 +24,7 @@ const CheckBoxWithText = ({ text, checked, handleCheckBox, keyName, categoryKeyN
                         },
                     }}
                     checked={checked}
+                    disabled={isDisabled ? true : false}
                     onClick={() => keyName ? handleKey(keyName) : handleClick()}
                 />
             </div>

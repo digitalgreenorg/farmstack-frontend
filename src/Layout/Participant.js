@@ -37,6 +37,9 @@ import { Divider } from "@mui/material";
 import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 import DataSets from "../Components/Datasets_New/DataSets";
 import DataSetsView from "../Components/Datasets_New/DataSetsView";
+import AddConnector from "../Views/Connector_New/AddConnector";
+import EditConnector from "../Views/Connector_New/EditConnector";
+import EditDataset from "../Components/Datasets_New/EditDataset";
 
 function Participant(props) {
   return (
@@ -65,6 +68,11 @@ function Participant(props) {
               />
               <Route
                 exact
+                path="/participant/new_datasets/edit/:id"
+                component={EditDataset}
+              />
+              <Route
+                exact
                 path="/participant/new_datasets/add"
                 component={AddDataSetParticipantNew}
               />
@@ -85,20 +93,20 @@ function Participant(props) {
                 path="/participant/datasets/add"
                 component={AddDataset}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/participant/datasets/edit/:id"
                 component={EditDatasetParticipant}
-              />
+              /> */}
               <Route
                 exact
                 path="/participant/connectors/add"
-                component={AddConnectorParticipant}
+                component={AddConnector}
               />
               <Route
                 exact
                 path="/participant/connectors/edit/:id"
-                component={EditConnectorParticipant}
+                component={EditConnector}
               />
               <Route
                 exact

@@ -9,8 +9,11 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
+  getTokenLocal,
   getUserLocal,
   goToTop,
+  isLoggedInUserAdmin,
+  isLoggedInUserParticipant,
   validateInputField,
 } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
@@ -543,7 +546,12 @@ const AddConnector = (props) => {
           // setAlertType("success");
           // setMessage("Data saved successfully!");
           callToast("Data saved successfully!", "success", true);
-          history.push("/datahub/connectors");
+          if (isLoggedInUserParticipant() && getTokenLocal()) {
+            history.push('/participant/connectors')
+          } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+            history.push("/datahub/connectors");
+          }
+
           resetAll();
           let id = setTimeout(() => {
             setOpen(false);
@@ -553,7 +561,11 @@ const AddConnector = (props) => {
         } else if (condition == "delete") {
           console.log("inside delete", res);
           callToast("Connector deleted successfully!", "success", true);
-          history.push("/datahub/connectors");
+          if (isLoggedInUserParticipant() && getTokenLocal()) {
+            history.push('/participant/connectors')
+          } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+            history.push("/datahub/connectors");
+          }
           resetAll();
           // setOpen(true);
           // setAlertType("success")
@@ -667,6 +679,13 @@ const AddConnector = (props) => {
     }
   };
 
+  const handleClickRoutes = () => {
+    if (isLoggedInUserParticipant() && getTokenLocal()) {
+      return '/participant/connectors'
+    } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+      return "/datahub/connectors"
+    }
+  }
   const download = (url, connector_name) => {
     const a = document.createElement("a");
     a.setAttribute("hidden", "");
@@ -695,7 +714,7 @@ const AddConnector = (props) => {
     <Box>
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
         <div className="text-left mt-50">
-          <span className="add_light_text cursor-pointer" onClick={() => history.push('/datahub/connectors')}>Connectors</span>
+          <span className="add_light_text cursor-pointer" onClick={() => history.push(handleClickRoutes())}>Connectors</span>
           <span className="add_light_text ml-16">
             <img src={require("../../Assets/Img/dot.svg")} />
           </span>

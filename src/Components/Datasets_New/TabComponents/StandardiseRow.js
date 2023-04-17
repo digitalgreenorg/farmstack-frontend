@@ -87,35 +87,6 @@ const StandardiseRow = ({ keyName, index, datapointAttributes, templates, setTem
                         </Select>
                     </FormControl>
                 </Box>
-                {/* <Box className=''>
-                    <FormControl fullWidth sx={{ width: '273px' }}>
-                        <InputLabel>Standardise name</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={standardiseName}
-                            onChange={(e) => setStandardiseName(e.target.value)}
-                            sx={{
-                                textAlign: 'left',
-                                '.MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                },
-                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                },
-                                '&:hover .MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                }
-                            }}
-                            label="Standardise name"
-                            placeholder='Standardise name'
-                        >
-                            {standardiseNames?.map((menu) => (
-                                <MenuItem value={menu}>{menu}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Box> */}
                 <Box className='mr-16'>
                     <CheckBoxWithText text={'Mask'} checked={maskedColumns.includes(keyName)} keyName={keyName} handleCheckBox={handleMaskCheckBox} />
                 </Box>
