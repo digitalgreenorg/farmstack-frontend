@@ -76,9 +76,8 @@
   border: none !important;
   color: black;
   background-color: #ffffff !important;
-
 }
-.finish-later-button:hover{
+.finish-later-button:hover {
   border: 2px solid #c09507 !important;
 }
 
@@ -106,10 +105,14 @@
 }
 .standardization-accordion-description {
   word-wrap: break-word;
+  text-align: left;
 }
 .datapoint-attribute-input-box {
-  width: 45%;
-  margin: 0 20px 20px 0 !important;
+  width: 100%;
+  /* margin: 0 20px 20px 0 !important; */
+}
+.datapoint-attribute-input-box1 {
+  width: 100%;
 }
 
 .accordion-main-classname {
@@ -121,8 +124,9 @@
 }
 .add-datapoint-svg {
   cursor: pointer !important;
+  text-align: left;
 }
-.update-category-button{
+.update-category-button {
   width: 90px !important;
   height: 30px !important;
   text-transform: none !important;

@@ -14,15 +14,11 @@ export default function UploadDataset(props) {
       <p className="accountsettingsheader" style={{ paddingTop: "24px" }}>
         {props.uploadtitle}
       </p>
-      <div className="accountsettingsuploadimg">
+      <div className="accountsettingsuploadimg" style={{ textAlign: "center" }}>
         <img src={upload_img} />{" "}
       </div>
       <p style={{ color: "#A3B0B8", padding: "40px" }}>
-        Drop files here or click{" "}
-        <span style={{ color: "#00AB55", textDecoration: "underline" }}>
-          browse
-        </span>
-        thorough your machine, File size not more than {props.maxSize}.
+        {props.texts} {props.maxSize}.
       </p>
       {/* <p style={{ color: "#A3B0B8" }}>{props.uploades}</p> */}
     </div>

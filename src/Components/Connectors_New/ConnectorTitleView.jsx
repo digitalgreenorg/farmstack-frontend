@@ -2,6 +2,7 @@ import React from "react";
 import { Typography } from "@mui/material";
 import style from "./Connector.module.css";
 import ContainedButton from "../Button/ContainedButton";
+import { CSSTransition } from "react-transition-group";
 const ConnectorTitleView = ({
   title,
   isGrid,
@@ -51,7 +52,17 @@ const ConnectorTitleView = ({
               Grid view
             </Typography>
           </div>
-          {!isGrid && (
+          <CSSTransition
+            appear={!isGrid}
+            in={isGrid}
+            timeout={{
+              appear: 600,
+              enter: 700,
+              exit: 100,
+            }}
+            classNames="step"
+            unmountOnExit
+          >
             <div className="d-flex">
               <ContainedButton
                 text={"+ New connector"}
@@ -64,7 +75,7 @@ const ConnectorTitleView = ({
                 handleClick={() => history.push(addConnector())}
               />
             </div>
-          )}
+          </CSSTransition>
         </div>
       ) : (
         <></>

@@ -17,6 +17,7 @@ import {
 } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
+import { CSSTransition } from "react-transition-group";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const Connectors = () => {
@@ -97,7 +98,18 @@ const Connectors = () => {
           <Divider className="mb-20 mt-24" />
           {connectors && connectors.length > 0 ? (
             <>
-              {isGrid ? (
+              {/* {isGrid ? ( */}
+              <CSSTransition
+                appear={isGrid}
+                in={isGrid}
+                timeout={{
+                  appear: 600,
+                  enter: 700,
+                  exit: 100,
+                }}
+                classNames="step"
+                unmountOnExit
+              >
                 <div className={style.connectorCard}>
                   <AddConnectorCard
                     history={history}
@@ -111,13 +123,29 @@ const Connectors = () => {
                     />
                   ))}
                 </div>
-              ) : (
+              </CSSTransition>
+              {/* ) : ( */}
+              <CSSTransition
+                appear={!isGrid}
+                in={!isGrid}
+                timeout={{
+                  appear: 600,
+                  enter: 700,
+                  exit: 100,
+                }}
+                classNames="step"
+                unmountOnExit
+              >
+                {/* <ConnectorListView connectors={connectors} history={history} /> */}
                 <ConnectorListView
                   connectors={connectors}
                   history={history}
                   handleEditConnectorRoute={handleEditConnectorRoute}
                 />
-              )}
+              </CSSTransition>
+              {/* )} */}
+              {/* ) : ( */}
+              {/* )} */}
               {showLoadMore ? (
                 <OutlinedButton
                   text={"Load more"}

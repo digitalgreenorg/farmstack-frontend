@@ -14,9 +14,10 @@ import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import SaveIcon from "@mui/icons-material/Save";
-import { goToTop } from "../../Utils/Common";
+import { GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
+import { ClickAwayListener } from "@mui/base";
 const CategoryDetails = (props) => {
-  const { callLoader } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
 
   const { setActiveStep } = props;
   const [allCategories, setAllCategories] = useState([
@@ -28,6 +29,7 @@ const CategoryDetails = (props) => {
   const [preview, setPreview] = useState(null);
   const [enableSaveButton, setEnableSaveButton] = useState(false);
   const [editHeadName, setEditHeadName] = useState("");
+  const [categoryNameError, setCategoryNameError] = useState("");
   const [headingEdit, setHeadingEdit] = useState({
     status: false,
     index: -1,
@@ -57,9 +59,13 @@ const CategoryDetails = (props) => {
   // const [subCategoryName, setSubCategoryName] = useState("")
   const createCategory = () => {
     if (categoryNamesList.includes(categoryName)) {
+      setCategoryNameError("This category already exist");
       return;
     } else {
       setCategoryNameList([...categoryNamesList, categoryName]);
+      setCategoryName("");
+      setDescription("");
+      setCategoryNameError("");
     }
     setAllCategories([
       ...allCategories,
@@ -79,23 +85,30 @@ const CategoryDetails = (props) => {
     console.log("Getting under cat");
     let method = "GET";
     let url = UrlConstant.base_url + UrlConstant.add_category_edit_category;
+    callLoader(true);
     HTTPService(method, url, "", false, true, false, false)
       .then((response) => {
-        console.log(response);
+        callLoader(false);
         let categories = [];
+        let categoryNames = [];
         for (var key in response.data) {
           let obj = {
             category_name: key,
             description: "",
             sub_categories: response.data[key],
           };
+          categoryNames.push(key);
           categories.push(obj);
         }
-        console.log(categories);
+        setCategoryNameList([...categoryNames]);
         setAllCategories([...categories]);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((e) => {
+        callLoader(false);
+        GetErrorHandlingRoute(e).then((errorObject) => {
+          console.log(errorObject);
+          callToast(errorObject?.message, "error", true);
+        });
       });
   };
 
@@ -111,7 +124,13 @@ const CategoryDetails = (props) => {
     }
     arr.splice(index, 1);
     setAllCategories([...arr]);
+    setEnableSave(true);
   };
+
+  let categoryNames = [];
+  for (let i = 0; i < allCategories.length; i++) {
+    categoryNames.push(allCategories[i].category_name);
+  }
 
   //handleSubmitCategories
   const handleSubmitCategories = () => {
@@ -133,22 +152,40 @@ const CategoryDetails = (props) => {
       })
       .catch((e) => {
         callLoader(false);
-        console.log(e);
+        GetErrorHandlingRoute(e).then((errorObject) => {
+          console.log(errorObject);
+          callToast(errorObject?.message, "error", true);
+        });
       });
   };
   const [enableSave, setEnableSave] = useState(false);
 
+  const [editedHeaderNameError, setEditedHeaderError] = useState("");
   const handleEditHeading = (action, e, index) => {
     e.stopPropagation();
+    if (editedHeaderNameError) return;
     setHeadingEdit({
       status: action,
       index: action ? index : -1,
     });
   };
-
   const handleChangeHeadName = (e, index) => {
-    if (e.target.value) setEnableSave(true);
-    else setEnableSave(false);
+    // if (e.target.value && !categoryNamesList.includes(e.target.value))
+    //   setEnableSave(true);
+    // else setEnableSave(false);
+    if (categoryNames.includes(e.target.value)) {
+      setEnableSave(false);
+      setEditedHeaderError("This category already exist");
+    } else {
+      // console.log(e.target.value);
+      if (e.target.value) {
+        setEditedHeaderError("");
+        setEnableSave(true);
+      } else {
+        setEnableSave(false);
+        setEditedHeaderError("Category name cannot be empty");
+      }
+    }
     let arr = [...allCategories];
     arr[index]["category_name"] = e.target.value;
     setAllCategories([...arr]);
@@ -159,8 +196,13 @@ const CategoryDetails = (props) => {
     const { data, index } = props;
     const [subCategoryName, setSubCategoryName] = useState("");
     const [editedValue, setEditedValue] = useState("");
-
+    const [subCatError, setsubCatError] = useState("");
     const handleChangeSubCategories = (e) => {
+      if (data["sub_categories"]?.includes(e.target.value)) {
+        setsubCatError("This sub catgory already exist");
+      } else {
+        setsubCatError("");
+      }
       setSubCategoryName(e.target.value);
     };
 
@@ -172,13 +214,15 @@ const CategoryDetails = (props) => {
         data["sub_categories"]?.includes(subCategoryName) ||
         !subCategoryName
       ) {
+        setsubCatError("This sub catgory already exist");
         return;
       }
+
       data["sub_categories"].push(subCategoryName);
       arr[index] = { ...data };
       setAllCategories([...arr]);
       setEnableSave(true);
-      console.log(arr, "arr");
+      setsubCatError("");
     };
 
     const handleDeleteSubCategory = (ind, sub_cat_name) => {
@@ -227,7 +271,7 @@ const CategoryDetails = (props) => {
         >
           Add sub categories
         </div>
-        <Row>
+        <Row style={{ height: "80px" }}>
           <Col lg={6} sm={12} className={styles.margintopbottom10}>
             <TextField
               required
@@ -239,12 +283,13 @@ const CategoryDetails = (props) => {
               name="each_subcategory"
               value={subCategoryName}
               onChange={(e) => handleChangeSubCategories(e)}
-              // error={policyNameError ? true : false}
-              // helperText={policyNameError}
+              error={subCatError ? true : false}
+              helperText={subCatError}
             />
           </Col>
           <Col lg={6} sm={12} style={{ textAlign: "left", display: "flex" }}>
             <img
+              disabled={!subCatError ? false : true}
               style={{ alignSelf: "center", cursor: "pointer" }}
               src={add_icon}
               alt="Add icon"
@@ -252,12 +297,14 @@ const CategoryDetails = (props) => {
             />
           </Col>
         </Row>
+        <hr style={{ margin: "10px 0px" }} />
         <Row>
           {data?.sub_categories?.length > 0 &&
             data?.sub_categories?.map((each_sub_category, index) => {
               return (
                 <Col lg={6} sm={12} className={styles.margintopbottom10}>
                   <TextField
+                    disabled
                     required
                     fullWidth
                     placeholder="Sub-category"
@@ -303,13 +350,18 @@ const CategoryDetails = (props) => {
       </span>
     );
   }
+
   return (
-    <div className={styles.main_box}>
-      <div className={styles.main_label}>Category details</div>
+    <div className={styles.main_box + " category_detail_main_box"}>
+      <div className={styles.main_label} style={{ display: "none" }}>
+        Category details
+      </div>
 
-      <div className={styles.sub_label}>Upload your categories</div>
+      <div className={styles.sub_label} style={{ display: "none" }}>
+        Upload your categories
+      </div>
 
-      <div className={styles.all_inputs}>
+      <div className={styles.all_inputs} style={{ display: "none" }}>
         <Row>
           {false && (
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -317,6 +369,9 @@ const CategoryDetails = (props) => {
                 isMultiple={false}
                 handleChange={handleUploadCategory}
                 disabled
+                texts={`Drop files here or click browse thorough your machine
+                Supports: XLX, CSV files`}
+                maxSize={2}
               />
             </Col>
           )}
@@ -396,8 +451,8 @@ const CategoryDetails = (props) => {
               name="categoryName"
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
-              // error={policyNameError ? true : false}
-              // helperText={policyNameError}
+              error={categoryNameError ? true : false}
+              helperText={categoryNameError}
             />
           </Col>
         </Row>
@@ -418,6 +473,7 @@ const CategoryDetails = (props) => {
       </div>
       <div className={styles.button_grp}>
         <Button
+          disabled={categoryName ? false : true}
           onClick={() => createCategory()}
           className={global_style.primary_button + " " + styles.next_button}
         >
@@ -436,18 +492,56 @@ const CategoryDetails = (props) => {
             index={index}
             heading={
               headingEdit.status && headingEdit.index == index ? (
-                <TextField
-                  style={{ width: "70%", height: "8px" }}
-                  value={category.category_name}
-                  onChange={(e) => handleChangeHeadName(e, index)}
-                  onClick={(e) => e.stopPropagation()}
-                />
+                <ClickAwayListener
+                  onClickAway={() => {
+                    if (!editedHeaderNameError) {
+                      setHeadingEdit({ status: false, index: -1 });
+                    }
+                  }}
+                >
+                  <TextField
+                    className="edit_head_name_accordion"
+                    style={{ height: "8px", width: "100%" }}
+                    value={category.category_name}
+                    onChange={(e) => handleChangeHeadName(e, index)}
+                    onClick={(e) => e.stopPropagation()}
+                    sx={{
+                      "&.MuiTextField-root": {
+                        display: "flex",
+                        flexDirection: "inherit",
+                        width: "500px",
+                      },
+                    }}
+                    // InputProps={{
+                    //   endAdornment: (
+                    //     <InputAdornment position="end">
+                    //       {" "}
+                    //       {category.category_name && (
+                    //         <Button
+                    //           onClick={() =>
+                    //             setHeadingEdit({ status: false, index: -1 })
+                    //           }
+                    //           className={
+                    //             global_style.primary_button + " " + styles.save
+                    //           }
+                    //           style={{ height: "100%" }}
+                    //         >
+                    //           Save
+                    //         </Button>
+                    //       )}
+                    //     </InputAdornment>
+                    //   ),
+                    // }}
+                    error={editedHeaderNameError}
+                    helperText={editedHeaderNameError}
+                  />
+                </ClickAwayListener>
               ) : (
                 category.category_name
               )
             }
             accordionDelete={accordionDelete}
-            isHeadEditing={true}
+            isHeadEditing={headingEdit.index !== index ? true : false}
             handleEditHeading={handleEditHeading}
           />
         );
