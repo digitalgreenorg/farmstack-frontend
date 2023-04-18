@@ -19,14 +19,21 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../Accordion/Accordion";
 import OutlinedButton from "../Button/OutlinedButton";
-import { getTokenLocal, isLoggedInUserAdmin, isLoggedInUserParticipant } from "../../Utils/Common";
+import {
+  getTokenLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserParticipant,
+} from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
+import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 
 const DataSetsView = (props) => {
   const history = useHistory();
   const { id } = useParams();
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [categories, setCategories] = useState([]);
+  const [allDatasets, setAllDatasets] = useState([]);
+  const [approvalStatus, setApprovalStatus] = useState(false);
   const [files, setFiles] = useState([
     {
       panel: 1,
@@ -85,22 +92,27 @@ const DataSetsView = (props) => {
 
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
-    let url = UrlConstant.base_url + UrlConstant.delete_dataset + id + '/'
-    callLoader(true)
+    let url = UrlConstant.base_url + UrlConstant.delete_dataset + id + "/";
+    callLoader(true);
     HTTPService("DELETE", url, "", false, true, accessToken)
       .then((res) => {
-        callLoader(false)
-        callToast("Dataset deleted successfully!", "success", true)
+        callLoader(false);
+        callToast("Dataset deleted successfully!", "success", true);
         if (isLoggedInUserAdmin()) {
           history.push(`/datahub/new_datasets`);
         } else if (isLoggedInUserParticipant()) {
           history.push(`/participant/new_datasets`);
         }
-      }).catch((err) => {
-        callLoader(false)
-        callToast("Something went wrong while deleting Dataset!", "error", true)
       })
-  }
+      .catch((err) => {
+        callLoader(false);
+        callToast(
+          "Something went wrong while deleting Dataset!",
+          "error",
+          true
+        );
+      });
+  };
 
   const handleEdit = () => {
     if (isLoggedInUserAdmin()) {
@@ -108,14 +120,14 @@ const DataSetsView = (props) => {
     } else if (isLoggedInUserParticipant()) {
       history.push(`/participant/new_datasets/edit/${id}`);
     }
-  }
+  };
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
-      return '/participant/new_datasets'
+      return "/participant/new_datasets";
     } else if (isLoggedInUserAdmin() && getTokenLocal()) {
-      return "/datahub/new_datasets"
+      return "/datahub/new_datasets";
     }
-  }
+  };
   useEffect(() => {
     (() => {
       let userType = "";
@@ -125,10 +137,10 @@ const DataSetsView = (props) => {
       } else {
         url = UrlConstant.base_url + UrlConstant.datasetview + id + "/";
       }
-      callLoader(true)
+      callLoader(true);
       HTTPService("GET", url, "", false, userType == "guest" ? false : true)
         .then((response) => {
-          callLoader(false)
+          callLoader(false);
           setDataSetName(response.data.name);
           setGeography(response.data.geography);
           setIsUpdating(response.data.constantly_update);
@@ -152,7 +164,7 @@ const DataSetsView = (props) => {
             response.data.organization?.address?.pincode;
           setOrgAddress(tempOrgAddress);
           setUserDetails(response.data.user);
-
+          setAllDatasets(response.data.datasets);
           // preparing files for accordion
           let newArr = [...files];
           let tempFiles = response.data.datasets?.filter(
@@ -240,7 +252,7 @@ const DataSetsView = (props) => {
 
           // preparing categories for accordion
           let prepareArr = [];
-          let categoryJson = JSON.parse(response?.data?.category)
+          let categoryJson = JSON.parse(response?.data?.category);
           for (const [key, value] of Object.entries(categoryJson)) {
             let obj = {};
             obj[key] = value;
@@ -262,12 +274,16 @@ const DataSetsView = (props) => {
           setCategories(tempCategories);
         })
         .catch((e) => {
-          callLoader(false)
-          callToast("Something went wrong while loading dataset!", "error", true)
+          callLoader(false);
+          callToast(
+            "Something went wrong while loading dataset!",
+            "error",
+            true
+          );
           console.log("error while loading dataset", e);
         });
     })();
-  }, [id]);
+  }, [id, approvalStatus]);
 
   return (
     <Box>
@@ -279,30 +295,37 @@ const DataSetsView = (props) => {
         }}
       >
         <div className="text-left mt-50">
-          <span className="add_light_text cursor-pointer" onClick={() => history.push(handleClickRoutes())}>Datasets</span>
+          <span
+            className="add_light_text cursor-pointer"
+            onClick={() => history.push(handleClickRoutes())}
+          >
+            Datasets
+          </span>
           <span className="add_light_text ml-16">
             <img src={require("../../Assets/Img/dot.svg")} />
           </span>
-          <span className="add_light_text ml-16">{history.location?.state?.data}</span>
+          <span className="add_light_text ml-16">
+            {history.location?.state?.data}
+          </span>
         </div>
-        <Box className='d-flex justify-content-between align-items-baseline'>
+        <Box className="d-flex justify-content-between align-items-baseline">
           <div className="bold_title mt-50">{"My Dataset Details"}</div>
           <Box>
             <Button
               sx={{
-                color: '#FF5630',
-                fontFamily: 'Public Sans',
-                fontWeight: '700',
-                fontSize: '15px',
-                border: '1px solid rgba(255, 86, 48, 0.48)',
-                width: '149px',
-                height: '48px',
-                marginRight: '28px',
-                textTransform: 'none',
-                '&:hover': {
-                  background: 'none',
-                  border: "1px solid rgba(255, 86, 48, 0.48)"
-                }
+                color: "#FF5630",
+                fontFamily: "Public Sans",
+                fontWeight: "700",
+                fontSize: "15px",
+                border: "1px solid rgba(255, 86, 48, 0.48)",
+                width: "149px",
+                height: "48px",
+                marginRight: "28px",
+                textTransform: "none",
+                "&:hover": {
+                  background: "none",
+                  border: "1px solid rgba(255, 86, 48, 0.48)",
+                },
               }}
               variant="outlined"
               onClick={handleDelete}
@@ -311,25 +334,24 @@ const DataSetsView = (props) => {
             </Button>
             <Button
               sx={{
-                color: '#00AB55',
-                fontFamily: 'Public Sans',
-                fontWeight: '700',
-                fontSize: '15px',
-                border: '1px solid rgba(0, 171, 85, 0.48)',
-                width: '149px',
-                height: '48px',
-                textTransform: 'none !important',
-                '&:hover': {
-                  background: 'none',
-                  border: "1px solid rgba(0, 171, 85, 0.48)"
-                }
+                color: "#00AB55",
+                fontFamily: "Public Sans",
+                fontWeight: "700",
+                fontSize: "15px",
+                border: "1px solid rgba(0, 171, 85, 0.48)",
+                width: "149px",
+                height: "48px",
+                textTransform: "none !important",
+                "&:hover": {
+                  background: "none",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                },
               }}
               onClick={handleEdit}
               variant="outlined"
             >
               Edit dataset
             </Button>
-
           </Box>
         </Box>
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
@@ -384,6 +406,13 @@ const DataSetsView = (props) => {
         <Box className="mt-20">
           <ControlledAccordion data={files} isTables={true} />
         </Box>
+        <Divider className="mt-50" />
+        <RequestCardForApprovalOrReject
+          data={allDatasets}
+          setApprovalStatus={setApprovalStatus}
+          approvalStatus={approvalStatus}
+        />
+        <Divider className="mt-50" />
         <div className="bold_title mt-50">{"Organisation Details"}</div>
         <Box>
           <Card className="organisation_icon_card">
@@ -398,6 +427,7 @@ const DataSetsView = (props) => {
               )}
             </Box>
           </Card>
+
           <div className="d-flex mt-30">
             <div className="text-left w-313">
               <Typography className="view_datasets_light_text">
@@ -427,7 +457,7 @@ const DataSetsView = (props) => {
               </Typography>
             </div>
           </div>
-          <div className="bold_title mt-50">{"Period"}</div>
+          {/* <div className="bold_title mt-50">{"Period"}</div>
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <FormControl fullWidth sx={{ width: "466px" }}>
@@ -504,8 +534,9 @@ const DataSetsView = (props) => {
                 Approve
               </Button>
             </div>
-          </div>
+          </div> */}
           <Divider className="mt-50" />
+
           <div className="d-flex justify-content-end mt-50">
             <Button
               sx={{

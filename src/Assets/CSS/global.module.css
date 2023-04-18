@@ -5,7 +5,7 @@
 }
 
 .primary_fontStyle {
-  font-family: "Montserrat" !important;
+  font-family: Montserrat !important;
 }
 
 .dark_color {
@@ -139,14 +139,14 @@
   padding: 0 !important;
 }
 .font_family {
-  font-family: "Montserrat" !important;
+  font-family: Montserrat !important;
 }
 
 /* all buttons */
 .primary_button {
   background: none !important;
   background-color: #00ab55 !important;
-  font-family: "Montserrat";
+  font-family: Montserrat !important;
   font-style: normal;
   font-weight: 700 !important;
   font-size: 16px !important;
@@ -170,7 +170,7 @@
 }
 
 .secondary_button {
-  font-family: "Montserrat" !important;
+  font-family: Montserrat !important;
   font-size: 16px !important;
   font-weight: 700 !important;
   line-height: 26px !important;
@@ -192,7 +192,7 @@
 }
 
 .secondary_button_error {
-  font-family: "Montserrat" !important;
+  font-family: Montserrat !important;
   font-size: 16px !important;
   font-weight: 700 !important;
   line-height: 26px !important;
@@ -211,7 +211,7 @@
 .tertiary_button {
   /* background: none !important;
   background-color: #00ab55 !important;
-  font-family: "Montserrat";
+  font-family: Montserrat;
   font-style: normal;
   font-weight: 700;
   font-size: 16px;

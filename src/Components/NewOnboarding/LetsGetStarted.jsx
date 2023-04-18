@@ -1,8 +1,9 @@
 import React from "react";
 import getStartedImage from "../../Assets/Img/Farmstack V2.0/onboarding_initial_image.svg";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import global_style from "../../Assets/CSS/global.module.css";
 import styles from "./onboarding.module.css";
+import { Button } from "@mui/material";
 
 const LetsGetStarted = (props) => {
   const { activeStep, setActiveStep } = props;

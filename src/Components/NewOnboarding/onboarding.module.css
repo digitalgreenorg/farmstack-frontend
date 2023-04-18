@@ -33,8 +33,8 @@
   margin: 5px auto 25px auto;
 }
 .lets_get_started {
-  margin: 25px auto 0px auto;
-  padding: 10px 20px;
+  margin: 25px auto 0px auto !important;
+  padding: 10px 20px !important;
 }
 
 /* first step css */
@@ -152,6 +152,9 @@
 .main_box {
   margin: 0px 242px;
 }
+.send_otp {
+  padding: 10px 20px !important;
+}
 
 .main_label {
   font-family: Montserrat;
@@ -232,6 +235,7 @@
 .edit_button {
   width: 172px;
 }
+
 /* Extra small devices (phones, 320px and up) */
 @media (min-width: 320px) {
   .get_started_image {
