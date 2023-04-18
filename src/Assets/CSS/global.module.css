@@ -34,7 +34,14 @@
   border-radius: 8px !important;
   padding: 11px 38px !important;
   color: #00ab55 !important;
+  text-transform: none !important;
   border: 1px solid #00ab55 !important;
+  background-color: #ffffff !important;
+}
+.outlined_button:active {
+  color: #00ab55 !important;
+  border: 1px solid #00ab55 !important;
+  background-color: #ffffff !important;
 }
 
 .white_background {

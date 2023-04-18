@@ -61,6 +61,7 @@ import EditConnector from "../Views/Connector_New/EditConnector";
 import DataSets from "../Components/Datasets_New/DataSets";
 import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 import ParticipantApproveNew from "../Views/ParticipantCoSteward/ParticipantsApproveNew";
+import InviteParticipantsNew from "../Views/Participants/InviteParticipantsNew";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -110,7 +111,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/participants/invite"
-                component={InviteParticipants}
+                component={InviteParticipantsNew}
               />
               {/* <Route
                 exact

@@ -43,7 +43,100 @@ const CoStewardAndParticipantsCard = (props) => {
             {title}
           </Typography>
         </Col>
-        {viewType ? (
+        {viewType === "list" && title === "Participants" ? (
+          <Col
+            className={LocalStyle.listViewButton}
+            xs={6}
+            sm={6}
+            md={6}
+            xl={6}
+          >
+            {title == "Participants" ? (
+              <Row>
+                <Col lg={6}>
+                  <div>
+                    <Button
+                      id="add-participant-submit-button"
+                      onClick={() =>
+                        history.push("/datahub/participants/invite")
+                      }
+                      className={`${GlobalStyle.outlined_button} ${LocalStyle.primary}`}
+                    >
+                      + Invite Participants
+                    </Button>
+                  </div>
+                </Col>
+                <Col lg={6}>
+                  <div>
+                    <Button
+                      id="add-participant-submit-button"
+                      onClick={() => history.push("/datahub/participants/add")}
+                      className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
+                    >
+                      Add New Participants
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
+            ) : (
+              ""
+            )}
+            <Row className={LocalStyle.listAndGridViewTextContainer}>
+              <div
+                id={title + "grid-view"}
+                className={LocalStyle.viewType}
+                onClick={() => setViewType("grid")}
+              >
+                <img
+                  className={LocalStyle.listAndgridViewImg}
+                  src={
+                    viewType === "grid"
+                      ? require("../../Assets/Img/grid_view_active.svg")
+                      : viewType === "list"
+                      ? require("../../Assets/Img/grid_view.svg")
+                      : ""
+                  }
+                />
+                <span
+                  id={title + "grid-view-title"}
+                  className={
+                    viewType === "grid"
+                      ? `${LocalStyle.activeView}`
+                      : `${LocalStyle.inActiveView} ` +
+                        `${GlobalStyle.size16} ${GlobalStyle.bold400}`
+                  }
+                >
+                  Grid view
+                </span>
+              </div>
+              <div
+                id={title + "list-view"}
+                onClick={() => setViewType("list")}
+                className={LocalStyle.viewType}
+              >
+                <img
+                  className={LocalStyle.listAndgridViewImg}
+                  src={
+                    viewType === "list"
+                      ? require("../../Assets/Img/list_view_active.svg")
+                      : require("../../Assets/Img/list_view.svg")
+                  }
+                />
+                <span
+                  id={title + "list-view-title"}
+                  className={
+                    viewType === "list"
+                      ? `${LocalStyle.activeView}`
+                      : `${LocalStyle.inActiveView} ` +
+                        `${GlobalStyle.size16} ${GlobalStyle.bold400}`
+                  }
+                >
+                  List view
+                </span>
+              </div>
+            </Row>
+          </Col>
+        ) : viewType ? (
           <Col
             className={LocalStyle.listAndGridViewButton}
             xs={6}
@@ -55,9 +148,7 @@ const CoStewardAndParticipantsCard = (props) => {
               <div>
                 <Button
                   id="add-participant-submit-button"
-                  onClick={() =>
-                    history.push("/datahub/dataset/inviteparticipants")
-                  }
+                  onClick={() => history.push("/datahub/participants/invite")}
                   className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
                 >
                   + Invite Participants
@@ -72,6 +163,7 @@ const CoStewardAndParticipantsCard = (props) => {
               onClick={() => setViewType("grid")}
             >
               <img
+                className={LocalStyle.listAndgridViewImg}
                 src={
                   viewType === "grid"
                     ? require("../../Assets/Img/grid_view_active.svg")
@@ -98,6 +190,7 @@ const CoStewardAndParticipantsCard = (props) => {
               className={LocalStyle.viewType}
             >
               <img
+                className={LocalStyle.listAndgridViewImg}
                 src={
                   viewType === "list"
                     ? require("../../Assets/Img/list_view_active.svg")
@@ -171,7 +264,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   className={LocalStyle.addCardDescription}
                 >
                   Add details about your dataset and make discoverable to other
-                  participants in our network. “Dummy Data”
+                  participants in our network.
                 </div>
               </Card>
             </Col>

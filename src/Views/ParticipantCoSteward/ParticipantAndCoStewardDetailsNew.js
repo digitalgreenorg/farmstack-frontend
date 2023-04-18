@@ -146,10 +146,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const getCoStewardOrParticipants = () => {
     callLoader(true);
     let url =
-      UrlConstant.base_url +
-      UrlConstant.participant +
-      "?on_boarded_by=" +
-      getUserLocal();
+      UrlConstant.base_url + UrlConstant.participant + "?on_boarded_by=" + id;
 
     HTTPService("GET", url, "", false, true)
       .then((response) => {
@@ -340,6 +337,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
                 onClick={handlePopper}
               >
+                <img
+                  className={LocalStyle.imgLogo}
+                  src={require("../../Assets/Img/delete_logo.svg")}
+                />
                 Delete {isCosteward ? "Co-steward" : "Participant"}
               </Button>
               <CustomDeletePopper
@@ -355,6 +356,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   history.push(`/datahub/participants/edit/${id}`)
                 }
               >
+                <img
+                  className={LocalStyle.imgLogo}
+                  src={require("../../Assets/Img/edit_logo.svg")}
+                />
                 Edit {isCosteward ? "Co-steward" : "Participant"}
               </Button>
             </>
@@ -578,36 +583,39 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Button>
         </Col>
       </Row> */}
-      <hr />
+
       {isParticipantRequest ? (
-        <Row className={LocalStyle.backButtonContainer}>
-          <Button
-            id={"details-page-load-more-dataset-button"}
-            variant="outlined"
-            className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
-            onClick={() => approveParticipantsRequest(id, true)}
-          >
-            Approve
-          </Button>
-          <Button
-            id={"details-page-load-more-dataset-button"}
-            variant="outlined"
-            className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
-            onClick={deleteParticipants}
-          >
-            Reject
-          </Button>
-          <Button
-            id={"details-page-load-more-dataset-button"}
-            variant="outlined"
-            className={`${GlobalStyle.outlined_button} ${LocalStyle.borderNone}`}
-            onClick={() => history.go(-1)}
-          >
-            Back
-          </Button>
-        </Row>
+        <>
+          <hr />
+          <Row className={LocalStyle.backButtonContainer}>
+            <Button
+              id={"details-page-load-more-dataset-button"}
+              variant="outlined"
+              className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
+              onClick={() => approveParticipantsRequest(id, true)}
+            >
+              Approve
+            </Button>
+            <Button
+              id={"details-page-load-more-dataset-button"}
+              variant="outlined"
+              className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
+              onClick={deleteParticipants}
+            >
+              Reject
+            </Button>
+            <Button
+              id={"details-page-load-more-dataset-button"}
+              variant="outlined"
+              className={`${GlobalStyle.outlined_button} ${LocalStyle.borderNone}`}
+              onClick={() => history.go(-1)}
+            >
+              Back
+            </Button>
+          </Row>
+        </>
       ) : (
-        <Row className={LocalStyle.backButtonContainer}>
+        <Row className={LocalStyle.backButtonContainerAlingCenter}>
           <Button
             id={"details-page-load-more-dataset-button"}
             variant="outlined"

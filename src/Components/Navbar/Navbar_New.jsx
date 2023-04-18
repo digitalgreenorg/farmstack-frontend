@@ -196,7 +196,11 @@ const NavbarNew = ({ loginType }) => {
               }
               onClick={() => handleSelect("participants")}
             >
-              {isNavLinkActive("/datahub/participants") ? (
+              {isNavLinkActive(
+                loginType === "guest"
+                  ? "/home/participants"
+                  : "/datahub/participants"
+              ) ? (
                 <img
                   className={style.dotStyle}
                   src={require("../../Assets/Img/green_dot.svg")}
