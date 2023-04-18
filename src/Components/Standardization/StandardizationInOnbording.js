@@ -507,13 +507,6 @@ const StandardizationInOnbord = (props) => {
         console.log(e);
       });
   };
-  const handleCancel = () => {
-    getStandardiziedTemplate();
-    history.push("/datahub/settings/5");
-    window.location.reload();
-   
-  };
-
   useEffect(() => {
     if (inSettings) {
       getStandardiziedTemplate();

@@ -11,38 +11,6 @@
   border: 1px solid rgba(0, 171, 85, 0.48) !important;
   border-radius: 8px !important;
 }
-.buttoncancel {
-  width: 172px;
-  height: 48px;
-  font-family: "Montserrat";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 26px;
-  color: #00ab55 !important;
-  border: 1px solid rgba(0, 171, 85, 0.48) !important;
-  border-radius: 8px !important;
-}
-.buttoncancelSetting {
-  font-family: "Montserrat";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 26px;
-  color: #00ab55 !important;
-  border: none !important;
-}
-.head {
-  font-family: "Montserrat";
-  font-style: "normal";
-  font-weight: "600";
-  font-size: "32px";
-  line-height: "39px";
-}
-.textfieldwidthandmargin {
-  width: "95%";
-  margin: "20px";
-}
 .buttonleftred {
   width: 55px;
   height: 26px;
@@ -53,27 +21,4 @@
   line-height: 26px;
   color: #ff5630 !important;
   border: none !important;
-}
-.mainHeadSetting {
-  font-family: Montserrat;
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 39px;
-  letter-spacing: 0px;
-  /* //margin-left: 25px; */
-  text-align: left !important;
-}
-.viewdetailsSettings {
-  width: 916px;
-  /* height: 192px; */
-  font-family: "Montserrat" !important;
-  font-style: normal;
-  font-weight: 600 !important;
-  font-size: 16px !important;
-  line-height: 24px !important;
-  color: #000000 !important;
-  /* text-align: left !important; */
-}
-.textleft {
-  text-align: left !important;
 }
