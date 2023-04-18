@@ -22,8 +22,6 @@ import HTTPService from "../../Services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
-import CloseIcon from "@mui/icons-material/Close";
-import { IconButton } from "@mui/material";
 import { isPhoneValid } from "./utils";
 const OrganizationDetails = (props) => {
   const history = useHistory();
@@ -255,13 +253,6 @@ const OrganizationDetails = (props) => {
       });
   };
   console.log(preview, uploadedLogo);
-  
-  const handleCancel = () => {
-    getOrganizationData();
-    history.push("/datahub/settings/2");
-    window.location.reload();
-   
-  };
   
   useEffect(() => {
     getOrganizationData();

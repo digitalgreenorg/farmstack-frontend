@@ -13,10 +13,6 @@ import {
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
-import CloseIcon from "@mui/icons-material/Close";
-import { Snackbar } from "@mui/material";
-import { IconButton } from "@mui/material";
-import { Alert } from "@mui/material";
 import { isPhoneValid } from "./utils";
 
 
@@ -65,32 +61,6 @@ const ProfileDetails = (props) => {
       setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
     }
   };
-  const [messageForSnackBar, setMessageForSnackBar] = useState("");
-  const [errorOrSuccess, setErrorOrSuccess] = useState("error");
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-
   const handleSubmitProfileData = (e) => {
     e.preventDefault();
     {props.isAccountSetting ? console.log("accountDetails") : console.log(profileDetails);}
@@ -107,15 +77,7 @@ const ProfileDetails = (props) => {
       .then((res) => {
         console.log(res);
         callLoader(false);
-        // if (!props.isAccountSetting) {
-          setActiveStep((prev) => prev + 1);
-        // }
-        // if(props.isAccountSetting) {
-        // setMessageForSnackBar("Account details updated successfully!");
-        // console.log(setMessageForSnackBar)
-        // setErrorOrSuccess("success");
-        // handleClick();
-        // }
+        setActiveStep((prev) => prev + 1);
         setProfileDetailsError({
           first_name: "",
           last_name: "",
@@ -197,12 +159,6 @@ const ProfileDetails = (props) => {
         });
       });
   };
-  const handleCancel = () => {
-    getProfileData();
-    //history.push("/datahub/settings/1");
-    window.location.reload();
-   
-  };
   useEffect(() => {
     if (getUserLocal()) {
       getProfileData();
@@ -210,26 +166,6 @@ const ProfileDetails = (props) => {
   }, []);
   return (
     <>
-    {props.isAccountSetting ?
-    <Snackbar
-    anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
-    //style={{ top: 0 , maxWidth: "1300px" }}
-     style={{'maxWidth': "1300px"}} 
-    //lassName='mui_snackbar_in_live_api_classname'
-      open={open}
-      autoHideDuration={4000}
-      onClose={handleClose}
-      action={action}
-    >
-      <Alert
-        autoHideDuration={4000}
-        onClose={handleClose}
-        sx={{ width: '100%', fontSize: '1.5rem' }}
-        severity={errorOrSuccess}
-      >
-        {messageForSnackBar}
-      </Alert>
-    </Snackbar> : "" }
     <div className={styles.main_box}>
       <div className={styles.main_label}>
       {props.isAccountSetting ? "Account settings" : "Profile Details" } </div>
