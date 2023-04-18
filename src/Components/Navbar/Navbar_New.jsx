@@ -230,7 +230,7 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )}
-          {loginType === "admin" ? (
+          {/* {loginType === "admin" ? (
             <NavLink
               activeStyle={navActiveStyle}
               style={navInActiveStyle}
@@ -250,7 +250,7 @@ const NavbarNew = ({ loginType }) => {
             </NavLink>
           ) : (
             <></>
-          )}
+          )} */}
           {loginType === "admin" || loginType === "participant" ? (
             <NavLink
               activeStyle={navActiveStyle}

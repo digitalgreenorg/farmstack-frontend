@@ -8,6 +8,9 @@ import UrlConstant from '../../Constants/UrlConstants';
 import HTTPService from '../../Services/HTTPService';
 import DataSetsTab from './DataSetsTab/DataSetsTab';
 import { FarmStackContext } from '../Contexts/FarmStackContext';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Filter from '../Filter/Filter';
+import CheckBoxWithText from './TabComponents/CheckBoxWithText';
 
 const cardSx = {
     maxWidth: 368, height: 190, border: '1px solid #C0C7D1', borderRadius: '10px',
@@ -36,6 +39,15 @@ const DataSets = (props) => {
     var adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
     var memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
     var searchUrl = UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant;
+
+    // filter-popovers
+    const [geographies, setGeographies] = useState([])
+    const [allGeographies, setAllGeographies] = useState([])
+    const [categorises, setCategorises] = useState({})
+    const [allCategories, setAllCategories] = useState([])
+    const [showFilter, setShowFilter] = useState(false)
+    const [content, setContent] = useState([])
+    const [type, setType] = useState('')
 
     const resetUrls = () => {
         adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
@@ -214,6 +226,117 @@ const DataSets = (props) => {
 
         })
     }
+
+    // filter-popovers handling
+    const handleFilterClick = (type) => {
+        if (type === 'geography') {
+            setContent(allGeographies)
+            setType(type)
+            setShowFilter(true)
+        } else if (type === 'categories') {
+            setContent(allCategories)
+            setType(type)
+            setShowFilter(true)
+        }
+    };
+
+    const handleCheckBox = (keyName, value) => {
+
+        let tempCategories = { ...categorises }
+        let tempJson = Object.keys(categorises);
+
+        if (tempJson.includes(keyName)) {
+            if (tempCategories[keyName].includes(value)) {
+                if (tempCategories[keyName]?.length === 1) {
+                    delete tempCategories[keyName]
+                } else {
+                    let index = tempCategories[keyName].indexOf(value)
+                    tempCategories[keyName].splice(index, 1);
+                }
+            } else {
+                tempCategories[keyName].push(value)
+            }
+            setCategorises({ ...tempCategories })
+        } else {
+            setCategorises(currentState => {
+                return { ...currentState, [keyName]: [value] }
+            })
+        }
+    }
+
+    const handleGeoCheckBox = (keyName) => {
+        let tempGeographies = { ...geographies }
+        if (tempGeographies.includes(keyName)) {
+            const index = tempGeographies.indexOf(keyName);
+            if (index > -1) {
+                tempGeographies.splice(index, 1);
+            }
+        } else {
+            tempGeographies.push(keyName)
+        }
+        setGeographies(tempGeographies)
+    }
+
+    const getAllCategoryAndSubCategory = () => {
+        let checkforAccess = getTokenLocal() ?? false;
+        HTTPService(
+            "GET",
+            UrlConstant.base_url + UrlConstant.add_category_edit_category,
+            "",
+            true,
+            true,
+            checkforAccess
+        ).then((response) => {
+            let prepareArr = []
+            for (const [key, value] of Object.entries(response.data)) {
+                let obj = {}
+                obj[key] = value
+                prepareArr.push(Object.keys(value).length ? obj : [])
+            }
+            let tempCategories = []
+            prepareArr.forEach((item, index) => {
+                let keys = Object.keys(item)
+                let prepareCheckbox = []
+                if (keys.length) {
+                    prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
+                        return (<CheckBoxWithText key={ind} text={res}
+                            // checked={tCategory?.includes(res)}
+                            categoryKeyName={keys[0]} keyName={res} handleCheckBox={handleCheckBox} fontSize={'12px'} />)
+                    })
+                    let obj = {
+                        panel: index + 1,
+                        title: keys[0],
+                        details: prepareCheckbox ? prepareCheckbox : []
+                    }
+                    tempCategories = tempCategories.concat(obj)
+                }
+                // console.log(obj, "dsets")
+                // tempCategories.push(obj)
+            })
+            console.log(tempCategories, "dsets")
+            setAllCategories(tempCategories)
+        }).catch((e) => {
+            console.log(e);
+        });
+    }
+
+    const getAllGeoGraphies = () => {
+        let geos = [{ value: "India", label: "India" },
+        { value: "Ethiopia", label: "Ethiopia" },
+        { value: "Kenya", label: "Kenya" }]
+        let tempGeographies = []
+        geos.forEach((geo, index) => {
+            let obj = {
+                panel: index + 1,
+                title: '',
+                details: [<CheckBoxWithText key={index} text={geo.value}
+                    keyName={geo.value} handleCheckBox={handleGeoCheckBox} fontSize={'12px'} />]
+            }
+            tempGeographies.push(obj)
+        })
+        setAllGeographies(tempGeographies)
+    }
+
     useEffect(() => {
         getDataSets(false);
         getOtherDataSets(false);
@@ -222,6 +345,13 @@ const DataSets = (props) => {
     useEffect(() => {
         setSearchDatasetsName('')
     }, [value])
+
+    useEffect(() => {
+        getAllGeoGraphies()
+    }, [geographies])
+    useEffect(() => {
+        getAllCategoryAndSubCategory()
+    }, [categorises])
 
     return (
         <>
@@ -261,27 +391,49 @@ const DataSets = (props) => {
                     }}
                 />
                 <div className='filter'>
-                    <div className='d-flex align-items-center'>
+                    <div className={showFilter && type === 'geography' ?
+                        'd-flex align-items-center filter_text_container_active' :
+                        'd-flex align-items-center filter_text_container'}
+                        onClick={() => handleFilterClick('geography')}>
                         <img src={require('../../Assets/Img/geography_new.svg')} alt="geography" />
-                        <span className='filter_text'>Geography</span>
+                        <span className='filter_text'>Geography <KeyboardArrowDownIcon sx={{ fill: '#212529' }} /></span>
                     </div>
-                    <div className='d-flex align-items-center'>
-                        <img src={require('../../Assets/Img/by_age.svg')} alt="by age" />
-                        <span className='filter_text'>By Age</span>
-                    </div>
-                    <div className='d-flex align-items-center'>
+
+                    <div className={showFilter && type === 'categories' ?
+                        'd-flex align-items-center filter_text_container_active' :
+                        'd-flex align-items-center filter_text_container'}
+                        onClick={() => handleFilterClick('categories')}>
                         <img src={require('../../Assets/Img/crop_new.svg')} alt="crop" />
-                        <span className='filter_text'>Crop</span>
+                        <span className='filter_text'>Categories <KeyboardArrowDownIcon sx={{ fill: '#212529' }} /></span>
                     </div>
-                    <div className='d-flex align-items-center'>
+
+                    <div className={showFilter && type === 'date' ?
+                        'd-flex align-items-center filter_text_container_active' :
+                        'd-flex align-items-center filter_text_container'}
+                        onClick={() => handleFilterClick('date')}
+                    >
                         <img src={require('../../Assets/Img/by_date.svg')} alt="by date" />
                         <span className='filter_text'>By Date</span>
                     </div>
-                    <div className='d-flex align-items-center'>
+                    <div className='d-flex align-items-center filter_text_container' onClick={() => setFilterState({})}>
                         <img src={require('../../Assets/Img/clear_all.svg')} alt="clear all" />
                         <span className='filter_text'>Clear all</span>
                     </div>
+                    {/* <Filter
+                        anchorEl={anchorElGeo}
+                        setAnchorEl={setAnchorElGeo}
+                        type={'geography'}
+                        content={allCategories}
+                    /> */}
                 </div>
+                {showFilter &&
+                    <Filter
+                        type={type}
+                        content={content}
+                        showFilter={showFilter}
+                        setShowFilter={setShowFilter}
+                    />
+                }
             </Box>
             <Divider />
             {/* section-2 */}
