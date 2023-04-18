@@ -23,9 +23,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
-import { Snackbar } from "@mui/material";
 import { IconButton } from "@mui/material";
-import { Alert } from "@mui/material";
 import { isPhoneValid } from "./utils";
 const OrganizationDetails = (props) => {
   const history = useHistory();
@@ -81,32 +79,6 @@ const OrganizationDetails = (props) => {
   };
 
   const [preview, setPreview] = useState();
-  const [messageForSnackBar, setMessageForSnackBar] = useState("");
-  const [errorOrSuccess, setErrorOrSuccess] = useState("error");
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-
   const handleUpload = (file) => {
     console.log(file);
     setIsLogoLink(false);
