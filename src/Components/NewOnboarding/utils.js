@@ -1,4 +1,5 @@
 import HTTPService from "../../Services/HTTPService";
+import { isValidNumber } from "libphonenumber-js";
 
 // export async function logIn(
 //   method,
@@ -43,3 +44,20 @@ import HTTPService from "../../Services/HTTPService";
 //     return error;
 //   }
 // }
+
+export const isPhoneValid = (phone, country) => {
+  try {
+    const phoneNumber = isValidNumber(phone, country);
+    return phoneNumber;
+  } catch (error) {
+    return false;
+  }
+};
+
+export function daysSincePublish(publishDateStr) {
+  const publishDate = new Date(publishDateStr);
+  const today = new Date();
+  const diffTime = today.getTime() - publishDate.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
+  return diffDays;
+}

@@ -5,7 +5,7 @@
 }
 
 .primary_fontStyle {
-  font-family: "Montserrat" !important;
+  font-family: Montserrat !important;
 }
 
 .dark_color {
@@ -149,14 +149,14 @@
   padding: 0 !important;
 }
 .font_family {
-  font-family: "Montserrat" !important;
+  font-family: Montserrat !important;
 }
 
 /* all buttons */
 .primary_button {
   background: none !important;
   background-color: #00ab55 !important;
-  font-family: "Montserrat";
+  font-family: Montserrat !important;
   font-style: normal;
   font-weight: 700 !important;
   font-size: 16px !important;
@@ -174,12 +174,13 @@
   border: none !important;
 }
 .primary_button:disabled {
-  background-color: #389768b9 !important;
-  color: #389767ce !important;
+  background: rgba(145, 158, 171, 0.24) !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
 }
 
 .secondary_button {
-  font-family: "Montserrat" !important;
+  font-family: Montserrat !important;
   font-size: 16px !important;
   font-weight: 700 !important;
   line-height: 26px !important;
@@ -200,10 +201,27 @@
 .secondary_button:hover {
 }
 
+.secondary_button_error {
+  font-family: Montserrat !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 26px !important;
+  letter-spacing: 0px;
+  font-weight: 700 !important;
+  background-color: unset !important;
+  color: #ff5630 !important;
+  text-transform: none !important;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: fit-content !important;
+  margin: 0px !important;
+}
+
 .tertiary_button {
   /* background: none !important;
   background-color: #00ab55 !important;
-  font-family: "Montserrat";
+  font-family: Montserrat;
   font-style: normal;
   font-weight: 700;
   font-size: 16px;

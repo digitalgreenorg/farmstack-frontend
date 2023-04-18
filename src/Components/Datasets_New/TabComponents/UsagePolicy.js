@@ -12,6 +12,7 @@ const UsagePolicy = (props) => {
     const [selectedChecked, setSelectedChecked] = useState('');
     const [file, setFile] = useState('')
     const [files, setFiles] = useState('')
+    const [filesAccessibility, setFilesAccessibility] = useState([])
 
     const handleClick = (event, type) => {
         if (type === 'public') {
@@ -24,7 +25,7 @@ const UsagePolicy = (props) => {
     };
 
     const getAllFileNames = () => {
-        let url = UrlConstant.base_url + UrlConstant.list_of_files + 'fdc979a8-f1b1-48e5-b6be-50bf52d5f15e';
+        let url = UrlConstant.base_url + UrlConstant.list_of_files + props.datasetId;
         let accessToken = getTokenLocal() ?? false;
         callLoader(true)
         HTTPService("GET", url, false, false, accessToken)
@@ -66,6 +67,7 @@ const UsagePolicy = (props) => {
             HTTPService("PATCH", url, payload, false, accessToken)
                 .then((response) => {
                     callLoader(false)
+                    setFilesAccessibility(prev => [...prev, { id: file, accessibility: selectedChecked }])
                     callToast("Usage policy updated successfully!", "success", true)
                 })
                 .catch((e) => {
@@ -79,8 +81,43 @@ const UsagePolicy = (props) => {
     useEffect(() => {
         getAllFileNames()
     }, [])
-    console.log(selectedValue)
-    console.log(selectedChecked)
+
+    useEffect(() => {
+        if (props.isEditModeOn) {
+            let fileAccessibility = props.allFilesAccessibility?.filter(acc => acc.id === file)
+            let accesibilityStatus = fileAccessibility?.[0]?.accessibility
+            if (accesibilityStatus === 'public') {
+                setSelectedValue('public')
+                setSelectedChecked('')
+            } else if (accesibilityStatus === 'registered') {
+                setSelectedValue('registered')
+                setSelectedChecked('registered')
+            } else if (accesibilityStatus === 'private') {
+                setSelectedValue('registered')
+                setSelectedChecked('private')
+            }
+        } else {
+            let found = filesAccessibility.some(el => el.id === file);
+            if (found) {
+                let fileAccessibility = filesAccessibility?.filter(acc => acc.id === file)
+                let accesibilityStatus = fileAccessibility?.[0]?.accessibility
+                if (accesibilityStatus === 'public') {
+                    setSelectedValue('public')
+                    setSelectedChecked('')
+                } else if (accesibilityStatus === 'registered') {
+                    setSelectedValue('registered')
+                    setSelectedChecked('registered')
+                } else if (accesibilityStatus === 'private') {
+                    setSelectedValue('registered')
+                    setSelectedChecked('private')
+                }
+            } else {
+                setSelectedValue('public')
+                setSelectedChecked('')
+            }
+        }
+    }, [file])
+    console.log(filesAccessibility)
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -140,7 +177,8 @@ const UsagePolicy = (props) => {
                             control={
                                 <Radio
                                     onClick={(e) => handleClick(e, 'public')}
-                                    checked={selectedValue === 'public'}
+                                    checked={file && selectedValue === 'public'}
+                                    disabled={file ? false : true}
                                     value="public"
                                     sx={{
                                         color: "#00AB55 !important",

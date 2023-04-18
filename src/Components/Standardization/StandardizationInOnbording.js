@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import "./standardizationInOnbording.css";
 // import { Button } from 'antd';
@@ -13,9 +13,18 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
-import { IconButton } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { useHistory, useLocation, Redirect } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
+
+import add_icon from "../../Assets/Img/Farmstack V2.0/add_icon.svg";
+
 import {
   GetErrorHandlingRoute,
   getUserLocal,
@@ -31,8 +40,11 @@ import RegexConstants from "../../Constants/RegexConstants";
 import { handleUnwantedSpace } from "../../Utils/Common";
 import global_style from "../../Assets/CSS/global.module.css";
 import styles from "../NewOnboarding/onboarding.module.css";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { Col, Row } from "react-bootstrap";
 
 const StandardizationInOnbord = (props) => {
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
   const [allDatapoints, setAllDataPoints] = useState([
     // { datapoint_category: "Farmer profile", datapoint_description: "Add Datapoint attributes" },
@@ -220,7 +232,7 @@ const StandardizationInOnbord = (props) => {
   };
 
   const handleAddDatapointAttribute = (index) => {
-    if (!allAttributes[index][0] || !allAttributesDes[index][0]) {
+    if (!allAttributes[index][0]) {
       return;
     }
     setSaveButtonEnabled(true);
@@ -257,7 +269,7 @@ const StandardizationInOnbord = (props) => {
       let tmpAllAttributes = { ...allAttributes };
       tmpAllAttributes[index] = [];
       setAllAttributes(tmpAllAttributes);
-      success("Category deleted successfully.", "success");
+      callToast("Category deleted successfully.", "success", true);
     }
   };
 
@@ -299,12 +311,9 @@ const StandardizationInOnbord = (props) => {
         console.log("response", response);
         if (response.status == 201) {
           if (inSettings) {
-            success("Standardization template updated!", "success");
+            callToast("Standardization template updated!", "success", true);
           } else {
-            success(
-              "Standardization template created successfully.",
-              "success"
-            );
+            callToast("Onboarding successfull", "success", true);
           }
           console.log("success");
 
@@ -330,24 +339,26 @@ const StandardizationInOnbord = (props) => {
           //     ? e.response.data.message
           //     : "User not registered", "error"
           // );
-          history.push(GetErrorHandlingRoute(e));
+          GetErrorHandlingRoute(e).then((errorObject) => {
+            callToast(errorObject?.message, "error", true);
+          });
         } else {
           setError(false);
-          success(
+          callToast(
             e.response.data ? e.response.data : "Something went wrong.",
-            "error"
+            "error",
+            true
           );
         }
       });
   };
 
   const getStandardiziedTemplate = () => {
+    callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
-
-    setIsLoading(true);
     HTTPService("GET", url, false, false, true)
       .then((response) => {
-        setIsLoading(false);
+        callLoader(false);
         console.log("response", response);
         if (response.status == 200) {
           setAllDataPoints(response?.data);
@@ -368,7 +379,8 @@ const StandardizationInOnbord = (props) => {
         }
       })
       .catch((e) => {
-        setIsLoading(false);
+        callLoader(false);
+
         //   success('Standardization template created successfully')
         console.log(e);
         if (
@@ -385,7 +397,7 @@ const StandardizationInOnbord = (props) => {
           history.push(GetErrorHandlingRoute(e));
         } else {
           setError(false);
-          success(
+          callToast(
             e.response.data && e.response.data.message
               ? e.response.data.message
               : "Something went wrong.",
@@ -409,7 +421,7 @@ const StandardizationInOnbord = (props) => {
         let tmpAllAttributes = { ...allAttributes };
         tmpAllAttributes[index] = [];
         setAllAttributes(tmpAllAttributes);
-        success("Category deleted successfully.", "success");
+        callToast("Category deleted successfully.", "success");
 
         let tmpAllDatapoints = [...allDatapoints];
         tmpAllDatapoints.splice(index, 1);
@@ -425,10 +437,17 @@ const StandardizationInOnbord = (props) => {
           (e.response.status === 401 || e.response.status === 502)
         ) {
           setError(true);
-          history.push(GetErrorHandlingRoute(e));
+          GetErrorHandlingRoute(e).then((errorObject) => {
+            console.log(errorObject);
+            callToast(
+              errorObject?.message ? errorObject?.message : "",
+              "error",
+              true
+            );
+          });
         } else {
           setError(false);
-          success(
+          callToast(
             e.response.data && e.response.data.message
               ? e.response.data.message
               : "Something went wrong.",
@@ -476,11 +495,11 @@ const StandardizationInOnbord = (props) => {
         // setIsLoader(false);
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
-          history.push("/datahub/dashboard");
+          history.push("/datahub/new_datasets");
         } else if (isLoggedInUserParticipant()) {
           history.push("/participant/datasets");
         } else if (isLoggedInUserCoSteward()) {
-          history.push("/datahub/dashboard");
+          history.push("/datahub/new_datasets");
         }
       })
       .catch((e) => {
@@ -501,13 +520,13 @@ const StandardizationInOnbord = (props) => {
     <>
       {isLoading ? <Loader /> : ""}
       {contextHolder}
-      <div className="main-container">
-        <div className="title-container">
-          <h1>Datapoint category details</h1>
-          <p>
+      <div className={styles.main_box}>
+        <div className={styles.main_label}>
+          <div>Datapoint category details</div>
+          <div className={styles.sub_label}>
             Enter the datapoints and datapoints attributes, we will show to
             others!
-          </p>
+          </div>
         </div>
         <div className="data-point-input-box-container">
           <TextField
@@ -551,7 +570,9 @@ const StandardizationInOnbord = (props) => {
         </div>
 
         <div className="attribute-container">
-          <h1>Datapoint attributes</h1>
+          {allDatapoints?.length > 0 && (
+            <div className={styles.main_label}>Datapoint attributes</div>
+          )}
           {allDatapoints?.map((item, index) => {
             // let tmpAllAttributes = {...allAttributes}
             // tmpAllAttributes[index] = []
@@ -578,6 +599,11 @@ const StandardizationInOnbord = (props) => {
                         onChange={(e) =>
                           handleUpdateCategoryName(index, e.target.value, e)
                         }
+                        sx={{
+                          "&.MuiTextField-root": {
+                            textAlign: "left",
+                          },
+                        }}
                         inputProps={{ maxLength: 250 }}
                         className="datapoint-name-input-box"
                         id="datapoint-name-input-box-id"
@@ -596,7 +622,10 @@ const StandardizationInOnbord = (props) => {
                       />
                     ) : (
                       <div>
-                        <Typography className="accordion-title" variant="h5">
+                        <Typography
+                          className="accordion-title text-left"
+                          variant="h4"
+                        >
                           {item.datapoint_category}
                         </Typography>
                       </div>
@@ -651,20 +680,42 @@ const StandardizationInOnbord = (props) => {
                       <p className="standardization-accordion-description">
                         {item.datapoint_description}
                       </p>
-                      <div>
-                        <TextField
-                          required
-                          className="datapoint-attribute-input-box"
-                          id="datapoint-attribute-input-box-id"
-                          label="Datapoint attributes"
-                          variant="outlined"
-                          value={allAttributes[index]?.[0]}
-                          onChange={(e) =>
-                            hanldeAttributeInputChange(index, 0, e.target.value)
-                          }
-                          inputProps={{ maxLength: 250 }}
-                        />
-                        <TextField
+                      <div
+                        style={{ textAlign: "left" }}
+                        className={
+                          global_style.bold600 +
+                          " " +
+                          global_style.size20 +
+                          " " +
+                          styles.margintopbottom10
+                        }
+                      >
+                        Add Datapoint attributes
+                      </div>
+                      <Row>
+                        <Col lg={6}>
+                          <TextField
+                            sx={{
+                              "&.MuiTextField-root": {
+                                textAlign: "left",
+                              },
+                            }}
+                            required
+                            className="datapoint-attribute-input-box"
+                            id="datapoint-attribute-input-box-id"
+                            label="Datapoint attributes"
+                            variant="outlined"
+                            value={allAttributes[index]?.[0]}
+                            onChange={(e) =>
+                              hanldeAttributeInputChange(
+                                index,
+                                0,
+                                e.target.value
+                              )
+                            }
+                            inputProps={{ maxLength: 250 }}
+                          />
+                          {/* <TextField
                           required
                           className="datapoint-attribute-input-box"
                           id="datapoint-attribute-input-box-id"
@@ -679,49 +730,22 @@ const StandardizationInOnbord = (props) => {
                             )
                           }
                           inputProps={{ maxLength: 250 }}
-                        />
-                        <span
-                          className="add-datapoint-svg"
-                          onClick={() => handleAddDatapointAttribute(index)}
+                        /> */}
+                        </Col>
+                        <Col
+                          lg={6}
+                          style={{ textAlign: "left", display: "flex" }}
                         >
-                          <svg
-                            width="48"
-                            height="48"
-                            viewBox="0 0 48 48"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <circle
-                              cx="24"
-                              cy="24"
-                              r="23.5"
-                              fill="white"
-                              stroke="#D5DADE"
-                            />
-                            <AddIcon
-                              id="add-attribute-icon-id"
-                              fontSize="small"
-                            />
-                            {/* <g clip-path="url(#clip0_651_27789)">
-                              <path
-                                d="M31 25H25V31H23V25H17V23H23V17H25V23H31V25Z"
-                                fill="black"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_651_27789">
-                                <rect
-                                  width="24"
-                                  height="24"
-                                  fill="white"
-                                  transform="translate(12 12)"
-                                />
-                              </clipPath>
-                            </defs> */}
-                          </svg>
-                        </span>
-                      </div>
-                      <div>
+                          <img
+                            style={{ alignSelf: "center", cursor: "pointer" }}
+                            src={add_icon}
+                            alt="add"
+                            onClick={() => handleAddDatapointAttribute(index)}
+                          />
+                        </Col>
+                      </Row>
+
+                      <Row>
                         {allAttributes?.[index]?.map((inputValue, arrIndex) => {
                           console.log(
                             "in category map ",
@@ -731,49 +755,57 @@ const StandardizationInOnbord = (props) => {
                           return (
                             <>
                               {arrIndex != 0 ? (
-                                <TextField
-                                  InputProps={{
-                                    endAdornment: (
-                                      <>
-                                        <Tooltip
-                                          title={
-                                            allAttributesDes?.[index]?.[
-                                              arrIndex
-                                            ]
-                                          }
-                                        >
-                                          <InfoIcon />
-                                        </Tooltip>
-                                        <IconButton
-                                          onClick={(e) =>
-                                            handleDatapointAtticuteDelete(
-                                              index,
-                                              arrIndex
-                                            )
-                                          }
-                                        >
-                                          <DeleteOutlineIcon />
-                                        </IconButton>
-                                      </>
-                                      // </span>
-                                    ),
-                                  }}
-                                  className="datapoint-attribute-input-box"
-                                  id="datapoint-attribute-input-box-id"
-                                  label="Datapoint attributes"
-                                  variant="outlined"
-                                  value={inputValue}
-                                  //   onChange={(e) =>
-                                  //     // hanldeAttributeInputChange(index, 0, e.target.value)
-                                  //   }
-                                />
+                                <Col
+                                  lg={6}
+                                  sm={12}
+                                  className={styles.margintopbottom10}
+                                >
+                                  <TextField
+                                    fullWidth
+                                    InputProps={{
+                                      endAdornment: (
+                                        <>
+                                          {/* <Tooltip
+                                            title={
+                                              allAttributesDes?.[index]?.[
+                                                arrIndex
+                                              ]
+                                            }
+                                          >
+                                            <InfoIcon />
+                                          </Tooltip> */}
+                                          <IconButton
+                                            onClick={(e) =>
+                                              handleDatapointAtticuteDelete(
+                                                index,
+                                                arrIndex
+                                              )
+                                            }
+                                          >
+                                            <DeleteOutlineIcon />
+                                          </IconButton>
+                                        </>
+
+                                        // </span>
+                                      ),
+                                    }}
+                                    // className="datapoint-attribute-input-box1"
+                                    id="datapoint-attribute-input-box-id"
+                                    label="Datapoint attributes"
+                                    variant="outlined"
+                                    value={inputValue}
+                                    //   onChange={(e) =>
+                                    //     // hanldeAttributeInputChange(index, 0, e.target.value)
+                                    //   }
+                                  />
+                                </Col>
                               ) : (
                                 ""
                               )}
                             </>
                           );
                         })}
-                      </div>
+                      </Row>
                     </div>
                   </AccordionDetails>
                 </Accordion>
@@ -827,6 +859,62 @@ const StandardizationInOnbord = (props) => {
             </div>
           </div> */}
         </div>
+        <Row style={{ display: "none" }}>
+          <Col lg={6} md={12} sm={12}>
+            <div className={styles.main_label}> Geography</div>
+            <div>
+              <FormControl required fullWidth>
+                <InputLabel id="geography_label"> Select geography</InputLabel>
+                <Select
+                  required
+                  labelId="geography_label"
+                  id="geography"
+                  // value={organisationDetails.organisation_country}
+                  name="geography"
+                  // onChange={(e) => handleOrgChange(e)}
+                  label="Select geography"
+                  // error={
+                  //   organisationDetailsError.organisation_country_error
+                  //     ? true
+                  //     : false
+                  // }
+                  // helperText={organisationDetailsError.organisation_country_error}
+                >
+                  <MenuItem value={"in"}>India</MenuItem>
+                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
+                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </Col>
+          <Col lg={6} md={12} sm={12}>
+            <div className={styles.main_label}>Value chain</div>
+            <div>
+              <FormControl required fullWidth>
+                <InputLabel id="value_label">Select value chain</InputLabel>
+                <Select
+                  required
+                  labelId="value_label"
+                  id="value_chain"
+                  // value={organisationDetails.organisation_country}
+                  name="value_chain"
+                  // onChange={(e) => handleOrgChange(e)}
+                  label="Select value chain"
+                  // error={
+                  //   organisationDetailsError.organisation_country_error
+                  //     ? true
+                  //     : false
+                  // }
+                  // helperText={organisationDetailsError.organisation_country_error}
+                >
+                  <MenuItem value={"in"}>India</MenuItem>
+                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
+                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </Col>
+        </Row>
       </div>
       <div className="datapoint-add-button-classname">
         {inSettings ? (

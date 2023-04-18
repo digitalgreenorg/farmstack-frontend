@@ -27,21 +27,10 @@ const accordionTitleStyle = {
     "color": "#212B36 !important"
 }
 
-const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStandardisedFile, standardisedFileLink, setStandardisedFileLink
+const Standardise = ({ datasetId, isEditModeOn, standardisedUpcomingFiles, dataSetName, allStandardisedFile, setAllStandardisedFile, standardisedFileLink, setStandardisedFileLink
 }) => {
     const { callLoader, callToast } = useContext(FarmStackContext);
-    const [data, setData] = useState([
-        {
-            panel: 1,
-            title: '1_Soil DataSet',
-            details: [""]
-        },
-        {
-            panel: 2,
-            title: '1_Rice DataSet',
-            details: [""]
-        }
-    ]);
+    const [data, setData] = useState([]);
     const [expanded, setExpanded] = useState(false);
     const [standardisedColum, setStandardisedColumn] = useState([]);
     const [maskedColumns, setMaskedColumns] = useState([]);
@@ -159,13 +148,14 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
     }
     const handleStandaiseFile = () => {
         // saving standardised config
-        let tmpAllStandardisedFile = { ...allStandardisedFile }
-        tmpAllStandardisedFile[standardiseFile] = {
-            standardised_templete_category: datapointCategory,
-            standardised_column: standardisedColum,
-            masked_columns: maskedColumns
-        }
-        setAllStandardisedFile(tmpAllStandardisedFile)
+        // let tmpAllStandardisedFile = { ...allStandardisedFile }
+        // tmpAllStandardisedFile[standardiseFile] = {
+        //     standardised_templete_category: datapointCategory,
+        //     standardised_column: standardisedColum,
+        //     masked_columns: maskedColumns
+        // }
+        // setAllStandardisedFile(tmpAllStandardisedFile)
+
         // preparing payload
         let standardisationConfiguration = {}
         keysInUploadedDataset.forEach((column, index) => {
@@ -225,13 +215,51 @@ const Standardise = ({ datasetId, dataSetName, allStandardisedFile, setAllStanda
     useEffect(() => {
         getFileColumnNames();
         getStandardiziedTemplate();
-        setStandardisedColumn([])
-        setMaskedColumns([])
-        const result = standardiseFiles.filter(obj => {
-            return obj.id === standardiseFile
-        })
-        setStandardisedColumn(standardiseFiles[result?.[0]?.file]?.standardised_column)
+        if (!isEditModeOn && !standardisedUpcomingFiles) {
+            setStandardisedColumn([])
+            setMaskedColumns([])
+            const result = standardiseFiles.filter(obj => {
+                return obj.id === standardiseFile
+            })
+            setStandardisedColumn(standardiseFiles[result?.[0]?.file]?.standardised_column)
+        }
+        setExpanded(true)
     }, [standardiseFile])
+
+    useEffect(() => {
+        if (isEditModeOn && standardisedUpcomingFiles) {
+            let tmpArr = standardisedUpcomingFiles.filter(item => item.id === standardiseFile)
+            let standardised_obj = tmpArr?.[0]?.standardisation_config
+            let tmpStandardisedColum = [...standardisedColum]
+            let tempMaskedColumns = []
+            let tempdPointCategories = []
+            keysInUploadedDataset.forEach((column, index) => {
+                Object.keys(standardised_obj).forEach(function (key, ind) {
+                    console.log(column, key)
+                    if (column === key) {
+                        tmpStandardisedColum[index] = standardised_obj[key].mapped_to
+                        tempdPointCategories.push(standardised_obj[key].mapped_category)
+                        if (standardised_obj[key].masked) {
+                            tempMaskedColumns.push(key)
+                        }
+                    }
+                });
+            })
+            let tempCategories = datapointCategories.filter(item => tempdPointCategories.includes(item.datapoint_category))
+            let tmpColumn = [...datapointAttributes]
+
+            tempCategories.forEach((attribute, index) => {
+                if (attribute?.datapoint_attributes) {
+                    tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+                }
+            })
+            setDatapointCategory(tempCategories)
+            setDatapointAttributes(tmpColumn);
+            setStandardisedColumn(tmpStandardisedColum)
+            setMaskedColumns(tempMaskedColumns)
+        }
+    }, [keysInUploadedDataset])
+
     return (
         <div className='mt-20'>
             <Typography sx={{

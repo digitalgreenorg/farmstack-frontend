@@ -11,6 +11,8 @@ const FileUploaderMain = (props) => {
     fileTypes,
     message,
     disabled,
+    setSizeError,
+    texts,
   } = props;
   return (
     <>
@@ -21,13 +23,12 @@ const FileUploaderMain = (props) => {
         name="file"
         multiple={isMultiple}
         maxSize={maxSize}
-        // onSizeError={() =>
-        //   setDataSetFileError("Maximum file size allowed is 50MB")
-        // }
+        onSizeError={() => setSizeError()}
         handleChange={handleChange}
         types={fileTypes}
         children={
           <UploadDataset
+            texts={props.texts}
             uploades={message ? message : "Drag and drop"}
             uploadtitle=""
             maxSize={maxSize ? maxSize + "MB" : "2MB"}

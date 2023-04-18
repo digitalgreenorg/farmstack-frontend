@@ -173,15 +173,14 @@ const DataSets = (props) => {
       payload = { ...filterState };
     }
 
-    let url = !isLoadMore ? adminUrl : datasetUrl;
-
-    if (user === "guest") {
-      payload = "";
-      url = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data;
-    }
-
     let accessToken = getTokenLocal() ?? false;
-    HTTPService("POST", url, payload, false, accessToken)
+    HTTPService(
+      "POST",
+      !isLoadMore ? adminUrl : datasetUrl,
+      payload,
+      false,
+      accessToken
+    )
       .then((response) => {
         if (response.data.next == null) {
           setShowLoadMoreAdmin(false);

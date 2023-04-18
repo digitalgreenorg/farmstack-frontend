@@ -1,0 +1,34 @@
+.text_left {
+  text-align: left !important;
+}
+
+.button_grp {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 20px;
+}
+.approve_button {
+  padding: 10px 20px !important;
+  width: 171px !important;
+}
+
+.reject_button {
+  width: 171px !important;
+  text-transform: none !important;
+}
+
+.link_name {
+  color: #3366ff !important;
+  cursor: pointer;
+}
+.link_name:hover {
+  text-decoration: underline;
+}
+.request_card {
+  padding: 10px;
+}
+
+.request_card:hover {
+  background: #fafffc;
+}
