@@ -22,8 +22,8 @@ const FileUploaderMain = (props) => {
         disabled={disabled}
         name="file"
         multiple={isMultiple}
-        maxSize={maxSize * 1000000}
-        // onSizeError={() => setSizeError("Maximum file size allowed is 50MB")}
+        maxSize={maxSize}
+        onSizeError={() => setSizeError()}
         handleChange={handleChange}
         types={fileTypes}
         children={
