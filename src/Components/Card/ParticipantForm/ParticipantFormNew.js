@@ -90,42 +90,40 @@ const ParticipantFormNew = (props) => {
   };
 
   const handleCancel = (clearAllField) => {
-    if (isEditModeOn && !clearAllField) {
-      history.go(-2);
-    } else {
-      setOrganisationName("");
-      setOrganisationEmail("");
-      setWebsite("");
-      setAddress("");
-      setOrganisationPinCode("");
-      setOrganisationCountry("");
-      setCountry("");
-      setPinCode("");
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setContactNumber("");
-      setAssignRole("");
+    history.go(-2);
 
-      setistrusted(false);
-      setIsOrganisationEmailError(false);
-      setIsContactNumberError(false);
-      setEebsiteLinkError(false);
-      setIsUserEmailError(false);
-      setIsExisitingUserEmail(false);
-      setisSuccess(false);
-      callLoader(false);
+    setOrganisationName("");
+    setOrganisationEmail("");
+    setWebsite("");
+    setAddress("");
+    setOrganisationPinCode("");
+    setOrganisationCountry("");
+    setCountry("");
+    setPinCode("");
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setContactNumber("");
+    setAssignRole("");
 
-      setFirstNameErrorMessage(null);
-      setLastNameErrorMessage(null);
-      setEmailErrorMessage(null);
-      setPhoneNumberErrorMessage(null);
-      setOrgNameErrorMessage(null);
-      setOrgEmailErrorMessage(null);
+    setistrusted(false);
+    setIsOrganisationEmailError(false);
+    setIsContactNumberError(false);
+    setEebsiteLinkError(false);
+    setIsUserEmailError(false);
+    setIsExisitingUserEmail(false);
+    setisSuccess(false);
+    callLoader(false);
 
-      setOrgWebsiteErrorMessage(null);
-      setOrgId("");
-    }
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setEmailErrorMessage(null);
+    setPhoneNumberErrorMessage(null);
+    setOrgNameErrorMessage(null);
+    setOrgEmailErrorMessage(null);
+
+    setOrgWebsiteErrorMessage(null);
+    setOrgId("");
   };
 
   const addNewParticipants = () => {
@@ -138,7 +136,7 @@ const ParticipantFormNew = (props) => {
     setOrgWebsiteErrorMessage(null);
     // setOrgSubscriptionErrorMessage(null)
     setIsOrganisationEmailError(null);
-    var id = getUserLocal();
+    // var id = getUserLocal();
     var bodyFormData = new FormData();
     if (!isEditModeOn) bodyFormData.append("email", email.toLowerCase());
     if (!isEditModeOn)
@@ -184,6 +182,7 @@ const ParticipantFormNew = (props) => {
         console.log(response);
         if (response.status == 201) {
           handleCancel(true);
+          // callToast(error.message, "success", true);
         }
       })
       .catch((e) => {
@@ -324,13 +323,15 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={organisationName}
-                onChange={(e) =>
-                  validateInputField(
-                    e.target.value,
-                    RegexConstants.ORG_NAME_REGEX
-                  )
-                    ? setOrganisationName(e.target.value)
-                    : e.preventDefault()
+                onChange={
+                  (e) =>
+                    // validateInputField(
+                    //   e.target.value,
+                    //   RegexConstants.ORG_NAME_REGEX
+                    // )
+                    // ?
+                    setOrganisationName(e.target.value)
+                  // : e.preventDefault()
                 }
                 error={orgNameErrorMessage ? true : false}
                 helperText={orgNameErrorMessage ? orgNameErrorMessage : ""}
@@ -344,14 +345,15 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={organisationEmail}
+                disabled={isEditModeOn}
                 onChange={(e) => {
-                  if (isEditModeOn) return;
-                  validateInputField(
-                    e.target.value,
-                    RegexConstants.NO_SPACE_REGEX
-                  )
-                    ? setOrganisationEmail(e.target.value.trim())
-                    : e.preventDefault();
+                  // validateInputField(
+                  //   e.target.value,
+                  //   RegexConstants.NO_SPACE_REGEX
+                  // )
+                  //   ?
+                  setOrganisationEmail(e.target.value.trim());
+                  // : e.preventDefault();
                 }}
                 error={orgEmailErrorMessage ? true : false}
                 helperText={orgEmailErrorMessage ? orgEmailErrorMessage : ""}
@@ -421,6 +423,7 @@ const ParticipantFormNew = (props) => {
             </Col>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
+                type={"number"}
                 className={LocalStyle.textField}
                 label="PIN Code "
                 fullWidth
@@ -430,12 +433,13 @@ const ParticipantFormNew = (props) => {
                 onChange={(e) => {
                   if (e.target.value.length > 10)
                     e.target.value = e.target.value.substring(0, 10);
-                  validateInputField(
-                    e.target.value,
-                    RegexConstants.PINCODE_REGEX
-                  )
-                    ? setOrganisationPinCode(e.target.value.trim())
-                    : e.preventDefault();
+                  // validateInputField(
+                  //   e.target.value,
+                  //   RegexConstants.PINCODE_REGEX
+                  // )
+                  // ?
+                  setOrganisationPinCode(e.target.value.trim());
+                  // : e.preventDefault();
                 }}
               />
             </Col>
@@ -489,14 +493,15 @@ const ParticipantFormNew = (props) => {
               fullWidth
               required
               value={email}
+              disabled={isEditModeOn}
               onChange={(e) => {
-                if (isEditModeOn) return;
-                validateInputField(
-                  e.target.value,
-                  RegexConstants.NO_SPACE_REGEX
-                )
-                  ? setEmail(e.target.value.trim())
-                  : e.preventDefault();
+                // validateInputField(
+                //   e.target.value,
+                //   RegexConstants.NO_SPACE_REGEX
+                // )
+                //   ?
+                setEmail(e.target.value.trim());
+                // : e.preventDefault();
               }}
               error={emailErrorMessage ? true : false}
               helperText={emailErrorMessage ? emailErrorMessage : ""}

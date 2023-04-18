@@ -10,6 +10,7 @@
   border: 1px solid #f2f3f5 !important;
   border-radius: 16px !important;
   margin: 12px;
+  height: 314px;
 }
 .img_container {
   margin: 40px 53px 30px 40px;
@@ -30,7 +31,8 @@
 
 .content_text {
   margin-left: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .content_text1 {
@@ -59,4 +61,8 @@
 .img {
   width: 251px;
   height: 76px;
+}
+.firstLetterOnLogo {
+  text-align: center;
+  font-size: 60px;
 }
