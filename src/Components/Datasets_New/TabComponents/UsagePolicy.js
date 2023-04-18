@@ -12,6 +12,7 @@ const UsagePolicy = (props) => {
     const [selectedChecked, setSelectedChecked] = useState('');
     const [file, setFile] = useState('')
     const [files, setFiles] = useState('')
+    const [filesAccessibility, setFilesAccessibility] = useState([])
 
     const handleClick = (event, type) => {
         if (type === 'public') {
@@ -66,6 +67,7 @@ const UsagePolicy = (props) => {
             HTTPService("PATCH", url, payload, false, accessToken)
                 .then((response) => {
                     callLoader(false)
+                    setFilesAccessibility(prev => [...prev, { id: file, accessibility: selectedChecked }])
                     callToast("Usage policy updated successfully!", "success", true)
                 })
                 .catch((e) => {
@@ -94,9 +96,28 @@ const UsagePolicy = (props) => {
                 setSelectedValue('registered')
                 setSelectedChecked('private')
             }
+        } else {
+            let found = filesAccessibility.some(el => el.id === file);
+            if (found) {
+                let fileAccessibility = filesAccessibility?.filter(acc => acc.id === file)
+                let accesibilityStatus = fileAccessibility?.[0]?.accessibility
+                if (accesibilityStatus === 'public') {
+                    setSelectedValue('public')
+                    setSelectedChecked('')
+                } else if (accesibilityStatus === 'registered') {
+                    setSelectedValue('registered')
+                    setSelectedChecked('registered')
+                } else if (accesibilityStatus === 'private') {
+                    setSelectedValue('registered')
+                    setSelectedChecked('private')
+                }
+            } else {
+                setSelectedValue('public')
+                setSelectedChecked('')
+            }
         }
     }, [file])
-
+    console.log(filesAccessibility)
     return (
         <div className='mt-20'>
             <Typography sx={{

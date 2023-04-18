@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
-import { Button, Col, Row } from "react-bootstrap";
-import { TextField } from "@mui/material";
+import { Col, Row } from "react-bootstrap";
+import { Button, TextField } from "@mui/material";
 import { CheckBox } from "@mui/icons-material";
 import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";

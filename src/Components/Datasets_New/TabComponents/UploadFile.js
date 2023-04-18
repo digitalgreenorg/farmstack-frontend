@@ -141,7 +141,6 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
         const prepareFile = (data, type) => {
             if (data) {
                 let arr = data?.map((item, index) => {
-                    console.log(item)
                     let ind = item?.file?.lastIndexOf('/')
                     let tempFileName = item?.file?.slice(ind + 1)
                     return <File index={index} name={tempFileName} size={item?.size} id={item?.id} handleDelete={handleDelete} type={type} showDeleteIcon={true} />
@@ -195,41 +194,43 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
         }
     }
 
+    const getUpdatedFile = async (fileItem) => {
+        let bodyFormData = new FormData();
+        bodyFormData.append("dataset", datasetId);
+        bodyFormData.append("source", "file");
+        bodyFormData.append("file", "")
+        bodyFormData.delete("file")
+        bodyFormData.append("file", fileItem);
+        let accessToken = getTokenLocal() ? getTokenLocal() : false;
+        try {
+            const response = await HTTPService('POST',
+                UrlConstant.base_url + UrlConstant.upload_files,
+                bodyFormData,
+                true,
+                true,
+                accessToken
+            );
+            setUploadedFiles(prev => [...prev, response.data]);
+            callLoader(false);
+            callToast("file uploaded successfully", "success", true);
+            return response?.data;
+        } catch (error) {
+            console.log(error);
+            callLoader(false);
+            callToast("something went wrong while uploading the file", "error", true);
+        }
+    }
     const handleUpload = async () => {
         if (selectedUploadType === 'file_upload') {
-            let bodyFormData = new FormData();
-            bodyFormData.append("dataset", datasetId);
-            bodyFormData.append("source", "file");
-            bodyFormData.append("file", "")
-            let accessToken = getTokenLocal() ? getTokenLocal() : false;
-            let promiseResponse = Promise.all(files?.map((file) => {
-                bodyFormData.delete("file")
-                bodyFormData.append("file", file);
-                callLoader(true)
-                return (
-                    HTTPService('POST',
-                        UrlConstant.base_url + UrlConstant.upload_files,
-                        bodyFormData,
-                        true,
-                        true,
-                        accessToken
-                    ).then((response) => {
-                        console.log(response)
-                        setUploadedFiles(prev => [...prev, response.data])
-                        callLoader(false)
-                        callToast("file uploaded successfully", "success", true)
-                        return response?.data
-                    }).catch((error) => {
-                        console.log(error)
-                        callLoader(false)
-                        callToast("something went wrong while uploading the file", "error", true)
-                    })
-                )
-            }));
-            promiseResponse.then(res => {
-                setUploadedFiles(res)
+            let tempFiles = []
+            files.map(fileItem => tempFiles.push(getUpdatedFile(fileItem)));
+            Promise.all(tempFiles).then((results) => {
+                // results will comes in type of array
                 setFiles([])
-            })
+                console.log(results)
+            }).catch((err) => {
+                console.log(err);
+            });
         }
 
     }
@@ -466,6 +467,7 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
             bodyFormData.append("col", JSON.stringify(selectedColumns))
             bodyFormData.append("file_name", query)
             bodyFormData.append("dataset_name", dataSetName)
+            bodyFormData.append("dataset", datasetId)
             bodyFormData.append("source", "mysql")
             bodyFormData.append("table_name", table_name)
             let accessToken = getTokenLocal() ?? false;
@@ -494,6 +496,7 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
             bodyFormData.append("col", JSON.stringify(selectedColumns))
             bodyFormData.append("file_name", query)
             bodyFormData.append("dataset_name", dataSetName)
+            bodyFormData.append("dataset", datasetId)
             bodyFormData.append("source", "postgresql")
             bodyFormData.append("table_name", table_name)
             let accessToken = getTokenLocal() ?? false;
@@ -507,31 +510,32 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
                 setPostgresFiles(res.data)
             })
                 .catch((err) => { console.log(err) })
-        } else if (selectedUploadType === 'sqlite') {
-            let query = sqliteFileName;
-            let table_name = sqliteTableName
-            let selectedColumns = [];
-            for (let i = 0; i < allColumns.length; i++) {
-                if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
-            }
-            let bodyFormData = new FormData()
-            bodyFormData.append("col", JSON.stringify(selectedColumns))
-            bodyFormData.append("file_name", query)
-            bodyFormData.append("dataset_name", dataSetName)
-            bodyFormData.append("source", "sqlite")
-            bodyFormData.append("table_name", table_name)
-            let accessToken = getTokenLocal() ?? false;
-            HTTPService('POST',
-                UrlConstant.base_url + UrlConstant.send_columns_to_export,
-                bodyFormData,
-                true,
-                true,
-                accessToken
-            ).then((res) => {
-                setSqLiteFiles(res.data)
-            })
-                .catch((err) => { console.log(err) })
         }
+        // else if (selectedUploadType === 'sqlite') {
+        //     let query = sqliteFileName;
+        //     let table_name = sqliteTableName
+        //     let selectedColumns = [];
+        //     for (let i = 0; i < allColumns.length; i++) {
+        //         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
+        //     }
+        //     let bodyFormData = new FormData()
+        //     bodyFormData.append("col", JSON.stringify(selectedColumns))
+        //     bodyFormData.append("file_name", query)
+        //     bodyFormData.append("dataset_name", dataSetName)
+        //     bodyFormData.append("source", "sqlite")
+        //     bodyFormData.append("table_name", table_name)
+        //     let accessToken = getTokenLocal() ?? false;
+        //     HTTPService('POST',
+        //         UrlConstant.base_url + UrlConstant.send_columns_to_export,
+        //         bodyFormData,
+        //         true,
+        //         true,
+        //         accessToken
+        //     ).then((res) => {
+        //         setSqLiteFiles(res.data)
+        //     })
+        //         .catch((err) => { console.log(err) })
+        // }
     }
 
     const handleExport = () => {

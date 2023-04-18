@@ -202,7 +202,7 @@ const DbConfiguration = (props) => {
                 value={props.port}
                 onChange={(e) => props.setPort(e.target.value)}
             />
-            <CheckBoxWithText text={"Save credentials"} handleCheckBox={props.handleCheckBox} />
+            {/* <CheckBoxWithText text={"Save credentials"} handleCheckBox={props.handleCheckBox} /> */}
             <Box sx={{ marginTop: '31px', textAlign: 'end' }}>
                 <Button
                     sx={{
