@@ -99,11 +99,11 @@ const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets
                             <div className='datasets_card'>
                                 <AddDataSetCardNew history={history} addDataset={addDataset} />
                                 {datasetList?.map((item) => (
-                                    <DataSetCardNew history={history} item={item} handleCardClick={handleCardClick} />
+                                    <DataSetCardNew history={history} item={item} title={'My organisation datasets'} handleCardClick={handleCardClick} />
                                 ))}
                             </div>
                             :
-                            <DataSetsListView datasets={datasetList} history={history} handleCardClick={handleCardClick} />
+                            <DataSetsListView datasets={datasetList} history={history} title={'My organisation datasets'} handleCardClick={handleCardClick} />
                         }
                         {showLoadMoreAdmin ?
                             <Button
@@ -120,11 +120,11 @@ const DataSetsTab = ({ history, addDataset, state, getDataSets, getOtherDataSets
                         {isGridOther ?
                             <div className='datasets_card'>
                                 {memberDatasetList?.map((item) => (
-                                    <DataSetCardNew history={history} item={item} handleCardClick={handleCardClick} />
+                                    <DataSetCardNew history={history} item={item} title={'Other organisation datasets'} handleCardClick={handleCardClick} />
                                 ))}
                             </div>
                             :
-                            <DataSetsListView datasets={memberDatasetList} history={history} handleCardClick={handleCardClick} />
+                            <DataSetsListView datasets={memberDatasetList} history={history} title={'Other organisation datasets'} handleCardClick={handleCardClick} />
                         }
                         {showLoadMoreMember ?
                             <Button

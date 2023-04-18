@@ -62,6 +62,9 @@ const AddDataSet = (props) => {
     const [categorises, setCategorises] = useState({})
     const [geography, setGeography] = useState()
 
+    // Usage Policy
+    const [allFilesAccessibility, setAllFilesAccessibility] = useState([])
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -253,6 +256,13 @@ const AddDataSet = (props) => {
                             prepareArr.push(obj);
                         }
                         setCategorises(tempcategoryJson)
+
+                        // prepare accesibility for all files in usage policy
+                        let tempAccessibilities = []
+                        response.data.datasets.forEach((dset) => {
+                            tempAccessibilities.push({ id: dset.id, file: dset.file, accessibility: dset.accessibility })
+                        })
+                        setAllFilesAccessibility(tempAccessibilities)
                     })
                     .catch((e) => {
                         callLoader(false)
@@ -362,6 +372,8 @@ const AddDataSet = (props) => {
                 <TabPanel value={value} index={4}>
                     <UsagePolicy
                         datasetId={props.isEditModeOn && props.datasetIdForEdit ? props.datasetIdForEdit : datasetId}
+                        allFilesAccessibility={allFilesAccessibility}
+                        isEditModeOn={props.isEditModeOn}
                     />
                 </TabPanel>
                 <Divider sx={{ border: '1px solid #ABABAB', marginTop: '59px' }} />
