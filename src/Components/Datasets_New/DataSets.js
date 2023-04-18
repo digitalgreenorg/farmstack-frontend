@@ -11,6 +11,7 @@ import { FarmStackContext } from '../Contexts/FarmStackContext';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Filter from '../Filter/Filter';
 import CheckBoxWithText from './TabComponents/CheckBoxWithText';
+import ShowFilterChips from '../Filter/ShowFilterChips';
 
 const cardSx = {
     maxWidth: 368, height: 190, border: '1px solid #C0C7D1', borderRadius: '10px',
@@ -48,6 +49,7 @@ const DataSets = (props) => {
     const [showFilter, setShowFilter] = useState(false)
     const [content, setContent] = useState([])
     const [type, setType] = useState('')
+    const [filterItems, setFilterItems] = useState([])
 
     const resetUrls = () => {
         adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
@@ -244,7 +246,6 @@ const DataSets = (props) => {
 
         let tempCategories = { ...categorises }
         let tempJson = Object.keys(categorises);
-
         if (tempJson.includes(keyName)) {
             if (tempCategories[keyName].includes(value)) {
                 if (tempCategories[keyName]?.length === 1) {
@@ -265,16 +266,17 @@ const DataSets = (props) => {
     }
 
     const handleGeoCheckBox = (keyName) => {
-        let tempGeographies = { ...geographies }
+        let tempGeographies = [...geographies]
         if (tempGeographies.includes(keyName)) {
             const index = tempGeographies.indexOf(keyName);
             if (index > -1) {
                 tempGeographies.splice(index, 1);
+                setGeographies(tempGeographies)
             }
         } else {
             tempGeographies.push(keyName)
+            setGeographies(prev => [...prev, keyName])
         }
-        setGeographies(tempGeographies)
     }
 
     const getAllCategoryAndSubCategory = () => {
@@ -298,9 +300,9 @@ const DataSets = (props) => {
                 let keys = Object.keys(item)
                 let prepareCheckbox = []
                 if (keys.length) {
+                    let tCategory = categorises?.[keys]
                     prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-                        return (<CheckBoxWithText key={ind} text={res}
-                            // checked={tCategory?.includes(res)}
+                        return (<CheckBoxWithText key={ind} text={res} checked={tCategory?.includes(res)}
                             categoryKeyName={keys[0]} keyName={res} handleCheckBox={handleCheckBox} fontSize={'12px'} />)
                     })
                     let obj = {
@@ -310,10 +312,7 @@ const DataSets = (props) => {
                     }
                     tempCategories = tempCategories.concat(obj)
                 }
-                // console.log(obj, "dsets")
-                // tempCategories.push(obj)
             })
-            console.log(tempCategories, "dsets")
             setAllCategories(tempCategories)
         }).catch((e) => {
             console.log(e);
@@ -329,12 +328,52 @@ const DataSets = (props) => {
             let obj = {
                 panel: index + 1,
                 title: '',
-                details: [<CheckBoxWithText key={index} text={geo.value}
+                details: [<CheckBoxWithText key={geo.value} text={geo.value} checked={geographies.includes(geo.value)}
                     keyName={geo.value} handleCheckBox={handleGeoCheckBox} fontSize={'12px'} />]
             }
             tempGeographies.push(obj)
         })
         setAllGeographies(tempGeographies)
+    }
+
+    const callApply = (isLoadMore) => {
+        let payload = {}
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = value === 0 ? false : true;
+        if (geographies && geographies.length) {
+            payload["geography__in"] = geographies
+        } else if (categorises && Object.keys(categorises).length) {
+            payload["category"] = categorises
+        }
+        // payload["created_at__range"] = []
+        callLoader(true)
+        HTTPService(
+            "POST",
+            !isLoadMore ? adminUrl : datasetUrl,
+            payload,
+            false,
+            true
+        ).then((response) => {
+            callLoader(false)
+            if (response.data.next == null) {
+                setShowLoadMoreAdmin(false);
+                setFilterState({});
+            } else {
+                setDatasetUrl(response.data.next);
+                setShowLoadMoreAdmin(true);
+            }
+            let finalDataList = [];
+            if (isLoadMore) {
+                finalDataList = [...datasetList, ...response.data.results];
+            } else {
+                finalDataList = [...response.data.results];
+            }
+            setDatasetList(finalDataList);
+        }).catch((err) => {
+            callLoader(false)
+            console.log(err)
+        })
     }
 
     useEffect(() => {
@@ -348,11 +387,14 @@ const DataSets = (props) => {
 
     useEffect(() => {
         getAllGeoGraphies()
-    }, [geographies])
+    }, [geographies, type])
+
     useEffect(() => {
         getAllCategoryAndSubCategory()
-    }, [categorises])
+    }, [categorises, type])
 
+    console.log(geographies, "dsets")
+    console.log(categorises, "dsets")
     return (
         <>
             <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -419,21 +461,32 @@ const DataSets = (props) => {
                         <img src={require('../../Assets/Img/clear_all.svg')} alt="clear all" />
                         <span className='filter_text'>Clear all</span>
                     </div>
-                    {/* <Filter
-                        anchorEl={anchorElGeo}
-                        setAnchorEl={setAnchorElGeo}
-                        type={'geography'}
-                        content={allCategories}
-                    /> */}
                 </div>
-                {showFilter &&
+                {showFilter ? (type === 'geography' ?
                     <Filter
                         type={type}
-                        content={content}
+                        content={allGeographies}
                         showFilter={showFilter}
                         setShowFilter={setShowFilter}
+                        callApply={callApply}
                     />
+                    :
+                    <Filter
+                        type={type}
+                        content={allCategories}
+                        showFilter={showFilter}
+                        setShowFilter={setShowFilter}
+                        callApply={callApply}
+                    />) : <></>
                 }
+                {
+                    geographies?.length || Object.keys(categorises).length ?
+                        <ShowFilterChips
+                            geographies={geographies}
+                            categorises={categorises}
+                        /> : <></>
+                }
+
             </Box>
             <Divider />
             {/* section-2 */}
@@ -450,8 +503,6 @@ const DataSets = (props) => {
                 showLoadMoreAdmin={showLoadMoreAdmin}
                 showLoadMoreMember={showLoadMoreMember}
             />
-            {/* <Divider />
-            <FooterNew /> */}
         </>
     )
 }

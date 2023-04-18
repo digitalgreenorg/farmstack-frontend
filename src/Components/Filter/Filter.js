@@ -6,9 +6,10 @@ const contentDetailsStyle = {
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
 };
-const Filter = ({ type, content, setShowFilter }) => {
+const Filter = ({ type, content, setShowFilter, callApply }) => {
 
     const handleClose = () => {
+        callApply()
         setShowFilter(false)
     };
 
