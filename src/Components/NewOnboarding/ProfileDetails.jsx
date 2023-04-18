@@ -77,7 +77,9 @@ const ProfileDetails = (props) => {
       .then((res) => {
         console.log(res);
         callLoader(false);
+        if(!props.isAccountSetting) {
         setActiveStep((prev) => prev + 1);
+        }
         setProfileDetailsError({
           first_name: "",
           last_name: "",

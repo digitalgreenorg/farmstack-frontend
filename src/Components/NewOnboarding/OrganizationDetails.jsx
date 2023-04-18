@@ -141,7 +141,7 @@ const OrganizationDetails = (props) => {
       .then((response) => {
         callLoader(false);
         console.log(response);
-        if (isLoggedInUserAdmin()) {
+        if (isLoggedInUserAdmin() && !props.isOrgSetting) {
           setActiveStep((prev) => prev + 1);
         } else if (isLoggedInUserParticipant()) {
           history.push("/participant/new_datasets");
@@ -200,17 +200,19 @@ const OrganizationDetails = (props) => {
                 });
                 break;
               default:
-                let error = await GetErrorHandlingRoute(e);
+                let error = GetErrorHandlingRoute(e);
                 if (error) {
                   callToast(error?.message, "error", true);
+                  console.log(e, error)
                 }
                 break;
             }
           }
         } else {
-          let error = await GetErrorHandlingRoute(e);
+          let error = GetErrorHandlingRoute(e);
           if (error) {
             callToast(error?.message, "error", true);
+            console.log(e, error)
           }
         }
       });
@@ -245,8 +247,9 @@ const OrganizationDetails = (props) => {
         // );
       })
       .catch(async (e) => {
-        callLoader(false);
+        callLoader(false);     
         let error = await GetErrorHandlingRoute(e);
+        console.log(e, error)
         if (error) {
           callToast(error?.message, "error", true);
         }
