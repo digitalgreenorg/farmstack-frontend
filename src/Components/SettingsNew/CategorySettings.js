@@ -1,13 +1,13 @@
 import React from "react";
-import OrganizationDetails from "../NewOnboarding/OrganizationDetails";
+import CategoryDetails from "../NewOnboarding/CategoryDetails";
 
 
-const OrganisationSettings = () => {
+const CategorySettings = () => {
   return (
     <>
-      <OrganizationDetails isOrgSetting={true} />
+      <CategoryDetails isCategorySetting={true} />
     </>
   );
 };
 
-export default OrganisationSettings;
+export default CategorySettings;

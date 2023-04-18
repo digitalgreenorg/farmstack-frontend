@@ -538,16 +538,15 @@ const OrganizationDetails = (props) => {
                  <Button
                   id="cancelbutton_account"
                    variant="outlined"
-                 style={{ margin: "20px" }}
-                  className="buttoncancel"
-                  onClick={handleCancel}
+                  className={global_style.secondary_button}
+                  onClick={() => history.push("/datahub/new_datasets")}
                  >
                    Cancel
                  </Button>
                  <Button
                    id="submitbutton_account"
                    variant="outlined"
-                   className="buttonrightset"
+                   className={global_style.primary_button + " " + styles.next_button}
                    disabled={
                     organisationDetails.organisation_address &&
                     organisationDetails.organisation_mail_id &&

@@ -16,6 +16,7 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import SaveIcon from "@mui/icons-material/Save";
 import { GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
 import { ClickAwayListener } from "@mui/base";
+import { useHistory } from "react-router-dom";
 const CategoryDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
 
@@ -35,6 +36,8 @@ const CategoryDetails = (props) => {
     index: -1,
   });
   const [uploadedCategory, setUploadedCategory] = useState(null);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const history = useHistory()
   const handleUploadCategory = (file) => {
     setUploadedCategory(file);
   };
@@ -354,6 +357,8 @@ const CategoryDetails = (props) => {
 
   return (
     <div className={styles.main_box + " category_detail_main_box"}>
+     {!props.isCategorySetting ?
+     <>
       <div className={styles.main_label} style={{ display: "none" }}>
         Category details
       </div>
@@ -361,7 +366,23 @@ const CategoryDetails = (props) => {
       <div className={styles.sub_label} style={{ display: "none" }}>
         Upload your categories
       </div>
-
+      </> :  (
+        <Row className={styles.main_label}>
+          <Col xs={12} sm={6} md={6} xl={6}>
+            {props.isPolicySettings ? "Policy Settings" : "Company Policies"}
+          </Col>
+          <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
+            <Button
+              onClick={() => setIsFormVisible(true)}
+              className={global_style.primary_button + " " + styles.next_button}
+              style={{width: "auto"}}
+            >
+              Add New Category
+            </Button>
+          </Col>
+        </Row>
+      )} 
+       {!props.isCategorySetting ?
       <div className={styles.all_inputs} style={{ display: "none" }}>
         <Row>
           {false && (
@@ -433,12 +454,17 @@ const CategoryDetails = (props) => {
             </Col>
           )}
         </Row>
-      </div>
+      </div> : ""}
       <hr />
+      {!props.isCategorySetting ? 
+      <>
       <div className={styles.main_label}>Category details</div>
       <div className={styles.sub_label}>
         Enter the categories and sub-categories, we will show to others!
       </div>
+      </> : ""}
+      {!props.isCategorySetting ? 
+      <>
       <div className={styles.all_inputs}>
         <Row>
           <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
@@ -481,8 +507,57 @@ const CategoryDetails = (props) => {
           {" "}
           Add
         </Button>
+      </div> 
+      </> :  <>
+       {isFormVisible && (
+      <>
+      <div className={styles.all_inputs}>
+        <Row>
+          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+            <TextField
+              fullWidth
+              required
+              placeholder="Category name"
+              label="Category name"
+              variant="outlined"
+              id="categoryName"
+              name="categoryName"
+              value={categoryName}
+              onChange={(e) => setCategoryName(e.target.value)}
+              error={categoryNameError ? true : false}
+              helperText={categoryNameError}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+            <TextField
+              id="category_description"
+              label="Category Description"
+              multiline
+              fullWidth
+              rows={4}
+              placeholder="Category Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </Col>
+        </Row>
       </div>
-      <div className={styles.main_label}>Categories</div>
+      <div className={styles.button_grp}>
+        <Button
+          disabled={categoryName ? false : true}
+          onClick={() => createCategory()}
+          className={global_style.primary_button + " " + styles.next_button}
+        >
+          {" "}
+          Add
+        </Button>
+      </div> 
+      </> )}
+      </>
+       }
+      {!props.isCategorySetting ? <div className={styles.main_label}>Categories</div> : "" }
       {allCategories.map((category, index) => {
         //accprdion in which I want to render my ParentComponent
         return (
@@ -547,6 +622,7 @@ const CategoryDetails = (props) => {
           />
         );
       })}
+      {!props.isCategorySetting ? 
       <div className={styles.button_grp}>
         <Button
           onClick={() => setActiveStep((prev) => prev + 1)}
@@ -568,7 +644,29 @@ const CategoryDetails = (props) => {
           {" "}
           Next
         </Button>
-      </div>
+      </div> : 
+      <div className={styles.button_grp}>
+        <Button
+          onClick={() => history.push("/datahub/new_datasets")}
+          className={global_style.secondary_button}
+        >
+          {" "}
+          Cancel
+        </Button>
+        <Button
+          disabled={
+            uploadedCategory || enableSave
+              ? // (categoryName && description && categoryNamesList.length > 0)
+                false
+              : true
+          }
+          onClick={() => handleSubmitCategories()}
+          className={global_style.primary_button + " " + styles.next_button}
+        >
+          {" "}
+         Submit
+        </Button>
+      </div> }
     </div>
   );
 };

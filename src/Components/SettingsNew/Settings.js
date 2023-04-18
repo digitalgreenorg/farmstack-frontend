@@ -13,6 +13,7 @@ import CategorySettings from "./CategorySettings"
 import ProfileDetails from "../NewOnboarding/ProfileDetails";
 import OrganizationDetails from "../NewOnboarding/OrganizationDetails";
 import DatapointSettings from "./DatapointSettings";
+import { isLoggedInUserCoSteward, isLoggedInUserParticipant } from "../../Utils/Common";
 
 
 export default function Settings(props) {
@@ -52,16 +53,19 @@ export default function Settings(props) {
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Account settings" value="1" />
               <Tab label="Organisation settings" value="2" />
-              <Tab label="Policy settings" value="3" />
-              <Tab label="Categories settings" value="4" />
-              <Tab label="Datapoint settings" value="5" />
+              <Tab label=
+              {!isLoggedInUserCoSteward() && !isLoggedInUserParticipant() ?"Policy settings" : "" }value="3" />
+              <Tab label=
+              {!isLoggedInUserCoSteward() && !isLoggedInUserParticipant() ?
+              "Categories settings" : "" } value="4" />
+              <Tab label=
+              {!isLoggedInUserCoSteward() && !isLoggedInUserParticipant() ?
+              "Datapoint settings": "" } value="5" />
             </TabList>
             </Container>
-            <TabPanel value="1" >
-              <AccountSetting />
-            </TabPanel>
-            <TabPanel value="2"><OrganisationSettings /></TabPanel>
-            <TabPanel value="3"><PolicySettings /></TabPanel>
+            <TabPanel value="1" ><AccountSetting /></TabPanel>
+            <TabPanel value="2"><OrganisationSettings /></TabPanel>            
+            <TabPanel value="3"><PolicySettings /></TabPanel> 
             <TabPanel value="4"><CategorySettings /></TabPanel>
             <TabPanel value="5"><DatapointSettings /></TabPanel>
           </Box>

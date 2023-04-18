@@ -274,9 +274,9 @@ const NavbarNew = ({ loginType }) => {
               style={navInActiveStyle}
               to={
                 loginType === "admin"
-                  ? "/datahub/settings"
+                  ? "/datahub/settings/1"
                   : loginType === "participant"
-                  ? "/participant/settings"
+                  ? "/participant/settings/1"
                   : ""
               }
               onClick={() => handleSelect("settings")}
@@ -285,7 +285,7 @@ const NavbarNew = ({ loginType }) => {
                 loginType === "admin"
                   ? "/datahub/settings/1"
                   : loginType === "participant"
-                  ? "/participant/settings"
+                  ? "/participant/settings/1"
                   : ""
               ) ? (
                 <img

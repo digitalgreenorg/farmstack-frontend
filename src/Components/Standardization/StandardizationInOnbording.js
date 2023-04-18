@@ -963,7 +963,7 @@ const StandardizationInOnbord = (props) => {
               variant="contained"
               className={global_style.secondary_button}
               id="addte-add-datapoint-button"
-              onClick={handleCancel}
+              onClick={() => history.push("/datahub/new_datasets")}
               
             >
               Cancel
