@@ -145,7 +145,7 @@ const DataSetsTab = ({
             <DataSetsTitleView
               user={user}
               title={
-                user !== "guest"
+                user === "guest"
                   ? "List of datasets"
                   : "My organisation datasets"
               }

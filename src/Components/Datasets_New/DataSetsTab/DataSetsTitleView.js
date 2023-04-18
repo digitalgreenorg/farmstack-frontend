@@ -47,7 +47,7 @@ const DataSetsTitleView = ({
           </Typography>
         </div>
         {!isGrid &&
-        user != "guest" &&
+        // user != "guest" &&
         (title === "My organisation datasets" ||
           title === "Co-steward datasets") ? (
           <div className="d-flex">
