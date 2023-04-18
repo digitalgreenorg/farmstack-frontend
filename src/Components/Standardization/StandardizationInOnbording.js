@@ -813,7 +813,11 @@ const StandardizationInOnbord = (props) => {
                           id="apply_policies"
                           variant="outlined"
                           style={{ margin: "20px" }}
-                          className="buttonleftred"
+                          className={
+                            global_style.secondary_button_error +
+                            " " +
+                            styles.delete_button_policy
+                          }
 
                           onClick={(e) => {
                             handleDatapointCategoryDelete(index);
@@ -826,7 +830,7 @@ const StandardizationInOnbord = (props) => {
                           id="apply_policies"
                           variant="outlined"
                           style={{ margin: "20px" }}
-                          className="buttonrightset"
+                          className={global_style.primary_button + " " + styles.edit_button}
                           onClick={(e) => {
                             // this funtion will make a particular index of editCategoryTitle array true
                             e.stopPropagation();
