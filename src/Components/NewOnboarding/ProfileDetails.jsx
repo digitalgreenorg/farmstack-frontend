@@ -197,7 +197,7 @@ const ProfileDetails = (props) => {
   };
   const handleCancel = () => {
     getProfileData();
-    history.push("/datahub/settings/1");
+    //history.push("/datahub/settings/1");
     window.location.reload();
    
   };

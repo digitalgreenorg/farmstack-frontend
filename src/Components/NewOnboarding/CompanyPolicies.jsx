@@ -524,12 +524,18 @@ const CompanyPolicies = (props) => {
   }, []);
   return (
     <div className={styles.main_box}>
-      <div className={styles.main_label}>Company Policies</div>
-
-      <div className={styles.sub_label}>
-        Enter your company policies, we will show to others! You can add text
-        and file upload also
+      <div className={styles.main_label}>
+        {props.isPolicySettings ? "Policy Settings" : "Company Policies"}
       </div>
+      
+      {props.isPolicySettings ? (
+        ""
+      ) : (
+        <div className={styles.sub_label}>
+          Enter your company policies, we will show to others! You can add text
+          and file upload also
+        </div>
+      )}
 
       <div className={styles.all_inputs}>
         <Row>
@@ -679,6 +685,7 @@ const CompanyPolicies = (props) => {
           })}
         </Col>
       </Row>
+      {!props.isPolicySettings ? 
       <div className={styles.button_grp}>
         <Button
           onClick={() => setActiveStep((prev) => prev + 1)}
@@ -695,7 +702,7 @@ const CompanyPolicies = (props) => {
           {" "}
           Next
         </Button>
-      </div>
+      </div> : "" }
     </div>
   );
 };

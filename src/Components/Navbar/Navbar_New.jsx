@@ -266,7 +266,7 @@ const NavbarNew = ({ loginType }) => {
             >
               {isNavLinkActive(
                 loginType === "admin"
-                  ? "/datahub/settings"
+                  ? "/datahub/settings/1"
                   : loginType === "participant"
                   ? "/participant/settings"
                   : ""

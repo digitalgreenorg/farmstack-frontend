@@ -56,5 +56,8 @@
   .document_upload_logo {
     flex: 0.1;
   }
-
+  .link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
   

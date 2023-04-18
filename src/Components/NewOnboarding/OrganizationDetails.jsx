@@ -168,15 +168,7 @@ const OrganizationDetails = (props) => {
       .then((response) => {
         callLoader(false);
         console.log(response);
-        // if (!props.isOrgSetting) {
-          setActiveStep((prev) => prev + 1);
-        // }
-        // if(props.isOrgSetting) {
-        // setMessageForSnackBar("Organisation details updated successfully!");
-        // console.log(setMessageForSnackBar)
-        // setErrorOrSuccess("success");
-        // handleClick();
-        // }
+        setActiveStep((prev) => prev + 1);
       })
       .catch(async (e) => {
         callLoader(false);
@@ -296,26 +288,6 @@ const OrganizationDetails = (props) => {
   }, []);
 
   return (<>
-    {props.isOrgSetting ?
-      <Snackbar
-      anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
-      //style={{ top: 0 , maxWidth: "1300px" }}
-       style={{'maxWidth': "1300px"}} 
-      //lassName='mui_snackbar_in_live_api_classname'
-        open={open}
-        autoHideDuration={4000}
-        onClose={handleClose}
-        action={action}
-      >
-        <Alert
-          autoHideDuration={4000}
-          onClose={handleClose}
-          sx={{ width: '100%', fontSize: '1.5rem' }}
-          severity={errorOrSuccess}
-        >
-          {messageForSnackBar}
-        </Alert>
-      </Snackbar> : "" }
     <div className={styles.main_box}>
       <div className={styles.main_label}>
         {props.isOrgSetting ? "Organisation setting" : " Organisation Details" }
