@@ -82,9 +82,10 @@ const NavbarNew = ({ loginType }) => {
   const handleSelect = (item) => {
     setIsSelected(item);
   };
-  useEffect(() => {
-    getAccountDetails();
-  }, [profile]);
+  // useEffect(() => {
+  //   // getAccountDetails();
+  // }, [profile]);
+  console.log("profile", profile);
 
   return (
     <Box
@@ -143,7 +144,9 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )}
-          {loginType === "admin" || loginType === "participant" ? (
+          {loginType === "admin" ||
+          loginType === "participant" ||
+          loginType === "guest" ? (
             <NavLink
               activeStyle={navActiveStyle}
               style={navInActiveStyle}
@@ -152,7 +155,9 @@ const NavbarNew = ({ loginType }) => {
                   ? "/datahub/new_datasets"
                   : loginType === "participant"
                   ? "/participant/new_datasets"
-                  : ""
+                  : loginType === "guest"
+                  ? "/home/datasets"
+                  : "/"
               }
               onClick={() => handleSelect("datasets")}
             >
@@ -161,6 +166,8 @@ const NavbarNew = ({ loginType }) => {
                   ? "/datahub/new_datasets"
                   : loginType === "participant"
                   ? "/participant/new_datasets"
+                  : loginType === "guest"
+                  ? "/home/datasets"
                   : ""
               ) ? (
                 <img
@@ -176,14 +183,24 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )}
-          {loginType === "admin" ? (
+          {loginType === "admin" || loginType === "guest" ? (
             <NavLink
               activeStyle={navActiveStyle}
               style={navInActiveStyle}
-              to="/datahub/participants"
+              to={
+                loginType === "admin"
+                  ? "/datahub/participants"
+                  : loginType === "guest"
+                  ? "/home/participants"
+                  : ""
+              }
               onClick={() => handleSelect("participants")}
             >
-              {isNavLinkActive("/datahub/participants") ? (
+              {isNavLinkActive(
+                loginType === "guest"
+                  ? "/home/participants"
+                  : "/datahub/participants"
+              ) ? (
                 <img
                   className={style.dotStyle}
                   src={require("../../Assets/Img/green_dot.svg")}

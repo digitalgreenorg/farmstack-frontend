@@ -17,7 +17,7 @@ const CustomCard = (props) => {
 
   let imageUrl = image
     ? UrlConstant.base_url + image?.slice(1, image.length)
-    : require("../../Assets/Img/participant_organization.svg");
+    : "";
 
   return (
     <>
@@ -26,12 +26,18 @@ const CustomCard = (props) => {
         className={LocalStyle.card}
       >
         <div className={LocalStyle.img_container}>
-          <img
-            className={LocalStyle.img}
-            id={`${title ? title : "title"}-card-img-${index ? index : ""}`}
-            src={imageUrl}
-            alt="new"
-          />
+          {imageUrl ? (
+            <img
+              className={LocalStyle.img}
+              id={`${title ? title : "title"}-card-img-${index ? index : ""}`}
+              src={imageUrl}
+              alt="new"
+            />
+          ) : (
+            <h1 className={LocalStyle.firstLetterOnLogo}>
+              {title?.split("")[0]}
+            </h1>
+          )}
         </div>
         <div
           id={`${title ? title : "title"}-card-title-${index ? index : ""}`}

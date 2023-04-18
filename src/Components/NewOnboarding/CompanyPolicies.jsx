@@ -22,7 +22,7 @@ import { CSSTransition } from "react-transition-group";
 import { Popconfirm } from "antd";
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
-
+  const [sizeError, setSizeError] = useState("");
   const { setActiveStep } = props;
   const [policyName, setPolicyName] = useState("");
   const [policyNameError, setPolicyNameError] = useState("");
@@ -188,12 +188,12 @@ const CompanyPolicies = (props) => {
         // arr = arr.sort((policyA, policyB) => policyA.name - policyB.name);
         setAllPolicies([...arr]);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        GetErrorHandlingRoute(e).then((errorObject) => {
-          console.log(errorObject);
-          callToast(errorObject?.message, "error", true);
-        });
+        let error = await GetErrorHandlingRoute(e);
+        if (error) {
+          callToast(error?.message, "error", true);
+        }
       });
   };
 
@@ -204,6 +204,7 @@ const CompanyPolicies = (props) => {
       setPreview(undefined);
       return;
     }
+    setFileError("");
     const objectUrl = URL.createObjectURL(uploadedPolicy);
     setPreview(objectUrl);
 
@@ -228,9 +229,10 @@ const CompanyPolicies = (props) => {
     );
     const [policyNameError, setPolicyNameError] = useState("");
     const handleUploadPolicyE = (file) => {
+      console.log(file, "file");
       setIsLogoLinkE(false);
       setUploadedPolicyE(file);
-      // setPolicyNameUnderAccordion(file.name);
+      // data[index].file = file;
       setPolicySize(file.size);
     };
 
@@ -240,14 +242,17 @@ const CompanyPolicies = (props) => {
         setPreviewE(undefined);
         return;
       }
+      setEditPolicyFileError({ error: "", policy_id: "" });
       const objectUrl = URL.createObjectURL(uploadedPolicyE);
       setPreviewE(objectUrl);
-
+      console.log(objectUrl, "objectUrl");
       // free memory when ever this component is unmounted
       return () => URL.revokeObjectURL(objectUrl);
     }, [uploadedPolicyE]);
     useEffect(() => {
-      if (data.file) {
+      console.log("uploadedPolicyE", uploadedPolicyE);
+      if (data.file && !uploadedPolicyE) {
+        console.log("runing useEffect");
         setPreviewE(data.file ? data.file : null);
         setIsLogoLinkE(true);
       }
@@ -360,7 +365,14 @@ const CompanyPolicies = (props) => {
                 fileTypes={["pdf", "doc"]}
                 handleChange={handleUploadPolicyE}
                 maxSize={25}
+                setSizeError={() =>
+                  setEditPolicyFileError({
+                    error: "Maximum file size allowed is 25MB",
+                    policy_id: data.id,
+                  })
+                }
               />
+              {/* <div>{"sizeError"}</div> */}
             </Col>
           </CSSTransition>
           <Col
@@ -395,6 +407,7 @@ const CompanyPolicies = (props) => {
                         className={global_style.blue + " " + styles.link}
                         onClick={() => window.open(previewE)}
                       >
+                        {console.log(uploadedPolicyE, "uploadedPolicyE")}
                         {uploadedPolicyE?.name
                           ? uploadedPolicyE?.name
                           : data.file.split("/").at(-1)}
@@ -592,6 +605,9 @@ const CompanyPolicies = (props) => {
               fileTypes={["pdf", "doc"]}
               handleChange={handleUploadPolicy}
               maxSize={25}
+              setSizeError={() =>
+                setFileError("Maximum file size allowed is 25MB")
+              }
             />
           </Col>
           <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>

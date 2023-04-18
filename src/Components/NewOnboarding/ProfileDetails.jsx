@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
-import { Button, Col, Row } from "react-bootstrap";
-import { TextField } from "@mui/material";
+import { Col, Row } from "react-bootstrap";
+import { Button, TextField } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
 import MuiPhoneNumber from "material-ui-phone-number";
@@ -164,7 +164,7 @@ const ProfileDetails = (props) => {
         } else {
           let error = await GetErrorHandlingRoute(e);
           if (error) {
-            callToast(error?.message, "error", true);
+            callToast(error?.message ?? "Unknown", "error", true);
           }
         }
       });

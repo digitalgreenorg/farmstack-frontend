@@ -78,6 +78,7 @@ const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorData
                 placeholder='Dataset name'
                 label='Dataset name'
                 value={dataSetName}
+                required
                 onChange={(e) => handleDatasetName(e)}
                 disabled={datasetIdForEdit ? true : false}
             />
@@ -119,6 +120,7 @@ const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorData
                 placeholder='Dataset description not more that 512 character '
                 label='Dataset description not more that 512 character '
                 value={dataSetDescription}
+                required
                 onChange={(e) => handleDescription(e)}
             />
             <Typography sx={{
@@ -137,6 +139,7 @@ const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorData
                             inputFormat="dd/MM/yyyy"
                             placeholder="Start Date"
                             label="Start Date"
+                            maxDate={new Date()}
                             value={fromDate}
                             onChange={(value) => handleFromDate(value)}
                             disabled={isUpdating}
@@ -173,6 +176,7 @@ const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorData
                                             },
                                         }
                                     }}
+                                    required={isUpdating ? false : true}
                                     helperText={
                                         <Typography
                                             sx={{
@@ -199,6 +203,7 @@ const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorData
                         <DatePicker
                             inputFormat="dd/MM/yyyy"
                             label="End Date"
+                            maxDate={new Date()}
                             value={toDate}
                             onChange={(value) => handleToDate(value)}
                             disabled={isUpdating}
@@ -217,6 +222,7 @@ const BasicDetails = ({ datasetIdForEdit, dataSetName, setDataSetName, errorData
                                     {...params}
                                     id="filled-basic"
                                     variant="outlined"
+                                    required={isUpdating ? false : true}
                                     sx={{
                                         width: '468px',
                                         svg: { color: '#00AB55' },
