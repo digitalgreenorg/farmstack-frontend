@@ -5,15 +5,13 @@ import CheckBoxWithText from './CheckBoxWithText'
 import { getTokenLocal } from '../../../Utils/Common'
 import HTTPService from '../../../Services/HTTPService'
 import UrlConstant from '../../../Constants/UrlConstants'
-
+import { Country, State, City } from 'country-state-city'
 const Categorise = (props) => {
 
     const [allCategories, setAllCategories] = useState([])
-    const [geographies, setGeographies] = useState(
-        [{ value: "India", label: "India" },
-        { value: "Ethiopia", label: "Ethiopia" },
-        { value: "Kenya", label: "Kenya" }]
-    )
+    const [countries, setCountries] = useState([])
+    const [states, setStates] = useState([])
+    const [cities, setCities] = useState([])
 
     const handleCheckBox = (keyName, value) => {
 
@@ -38,7 +36,6 @@ const Categorise = (props) => {
             })
         }
     }
-    console.log(props.categorises)
     const getAllCategoryAndSubCategory = () => {
         let checkforAccess = getTokenLocal() ?? false;
         HTTPService(
@@ -79,6 +76,19 @@ const Categorise = (props) => {
         getAllCategoryAndSubCategory()
     }, [props.categorises])
 
+    useEffect(() => {
+        setCountries(Country.getAllCountries())
+        if (props.geography?.country) {
+            setStates(State?.getStatesOfCountry(props.geography?.country?.isoCode))
+        }
+        if (props.geography?.country && props.geography?.state?.name) {
+            setCities(City.getCitiesOfState(
+                props.geography?.state?.countryCode,
+                props.geography?.state?.isoCode
+            ))
+        }
+
+    }, [props.geography])
     return (
         <div className='mt-20'>
             <Typography sx={{
@@ -93,7 +103,7 @@ const Categorise = (props) => {
                 <ControlledAccordion data={allCategories} customBorder={true} showDeleteIcon={true} customPadding={true} />
             </div>
             <Box className='d-flex mt-50'>
-                <Box>
+                <Box className='w-100'>
                     <Typography sx={{
                         fontFamily: "Montserrat !important",
                         fontWeight: "600",
@@ -102,36 +112,107 @@ const Categorise = (props) => {
                         color: "#000000",
                         textAlign: 'left'
                     }}>Geography</Typography>
-                    <FormControl fullWidth sx={{ width: '368px' }} className='mt-30' >
-                        <InputLabel id='test-select-label'>Select Geography</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={props.geography}
-                            onChange={(e) => props.setGeography(e.target.value)}
-                            sx={{
-                                textAlign: 'left',
-                                '&.MuiInputBase-root': {
-                                    height: '56px'
-                                },
-                                '.MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                },
-                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                },
-                                '&:hover .MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                }
-                            }}
-                            label="Select Geography"
-                            placeholder='Select Geography'
-                        >
-                            {geographies?.map((item) => (
-                                <MenuItem key={item} value={item.value}>{item.label}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    <Box className='d-flex justify-content-between'>
+                        <FormControl fullWidth sx={{ width: '330px' }} className='mt-30' >
+                            <InputLabel id='test-select-label'>Select Country</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={props.geography?.country?.name}
+                                onChange={(e) => props.setGeography(prev => ({
+                                    ...prev,
+                                    country: e.target.value
+                                }))}
+                                sx={{
+                                    textAlign: 'left',
+                                    '&.MuiInputBase-root': {
+                                        height: '56px'
+                                    },
+                                    '.MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#919EAB',
+                                    },
+                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#919EAB',
+                                    },
+                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#919EAB',
+                                    }
+                                }}
+                                label="Select Country"
+                                placeholder='Select Country'
+                            >
+                                {countries?.map((item) => (
+                                    <MenuItem key={item} value={item}>{item.name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth sx={{ width: '330px' }} className='mt-30' >
+                            <InputLabel id='test-select-label'>Select State</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={props.geography?.state?.name}
+                                onChange={(e) => props.setGeography(prev => ({
+                                    ...prev,
+                                    state: e.target.value
+                                }))}
+                                sx={{
+                                    textAlign: 'left',
+                                    '&.MuiInputBase-root': {
+                                        height: '56px'
+                                    },
+                                    '.MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#919EAB',
+                                    },
+                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#919EAB',
+                                    },
+                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#919EAB',
+                                    }
+                                }}
+                                label="Select State"
+                                placeholder='Select State'
+                            >
+                                {states?.map((item) => (
+                                    <MenuItem key={item} value={item}>{item.name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth sx={{ width: '330px' }} className='mt-30' >
+                            <InputLabel id='test-select-label'>Select City</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={props.geography?.city?.name}
+                                onChange={(e) => props.setGeography(prev => ({
+                                    ...prev,
+                                    city: e.target.value
+                                }))}
+                                sx={{
+                                    textAlign: 'left',
+                                    '&.MuiInputBase-root': {
+                                        height: '56px'
+                                    },
+                                    '.MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#919EAB',
+                                    },
+                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#919EAB',
+                                    },
+                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#919EAB',
+                                    }
+                                }}
+                                label="Select City"
+                                placeholder='Select City'
+                            >
+                                {cities?.map((item) => (
+                                    <MenuItem key={item} value={item}>{item.name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Box>
                 </Box>
                 {/* <Box sx={{ marginLeft: '122px' }}>
                     <Typography sx={{

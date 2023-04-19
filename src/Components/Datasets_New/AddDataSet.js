@@ -60,7 +60,7 @@ const AddDataSet = (props) => {
 
     // Categories
     const [categorises, setCategorises] = useState({})
-    const [geography, setGeography] = useState()
+    const [geography, setGeography] = useState({ country: null, state: null, city: null })
 
     // Usage Policy
     const [allFilesAccessibility, setAllFilesAccessibility] = useState([])
@@ -205,7 +205,7 @@ const AddDataSet = (props) => {
                     .then((response) => {
                         callLoader(false)
                         setDataSetName(response.data.name);
-                        setGeography(response.data.geography);
+                        setGeography(response.data?.geography);
                         setIsUpdating(response.data.constantly_update);
                         setFromDate(
                             response.data.data_capture_start
@@ -362,6 +362,7 @@ const AddDataSet = (props) => {
                 <TabPanel value={value} index={3}>
                     <Categorise
                         datasetId={props.isEditModeOn && props.datasetIdForEdit ? props.datasetIdForEdit : datasetId}
+                        isEditModeOn={props.isEditModeOn}
                         categorises={categorises}
                         setCategorises={setCategorises}
                         geography={geography}
