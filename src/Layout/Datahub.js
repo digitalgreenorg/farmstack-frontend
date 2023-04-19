@@ -61,6 +61,7 @@ import EditConnector from "../Views/Connector_New/EditConnector";
 import DataSets from "../Components/Datasets_New/DataSets";
 import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 import ParticipantApproveNew from "../Views/ParticipantCoSteward/ParticipantsApproveNew";
+import InviteParticipantsNew from "../Views/Participants/InviteParticipantsNew";
 import EditDataset from "../Components/Datasets_New/EditDataset";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
@@ -69,7 +70,7 @@ function Datahub(props) {
   return (
     <>
       {getTokenLocal() &&
-        (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
+      (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
         <div className="center_keeping_conatiner">
           {/* <Navbar /> */}
           <NavbarNew loginType={"admin"} />
@@ -111,7 +112,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/participants/invite"
-                component={InviteParticipants}
+                component={InviteParticipantsNew}
               />
               {/* <Route
                 exact

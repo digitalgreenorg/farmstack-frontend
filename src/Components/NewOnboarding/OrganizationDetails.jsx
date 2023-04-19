@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
-import { Button, Col, Row } from "react-bootstrap";
-import { FormControl, InputLabel, TextField } from "@mui/material";
+import { Col, Row } from "react-bootstrap";
+import { Button, FormControl, InputLabel, TextField } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -14,6 +14,9 @@ import {
   GetErrorKey,
   getUserLocal,
   goToTop,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -138,7 +141,13 @@ const OrganizationDetails = (props) => {
       .then((response) => {
         callLoader(false);
         console.log(response);
-        setActiveStep((prev) => prev + 1);
+        if (isLoggedInUserAdmin()) {
+          setActiveStep((prev) => prev + 1);
+        } else if (isLoggedInUserParticipant()) {
+          history.push("/participant/new_datasets");
+        } else if (isLoggedInUserCoSteward()) {
+          history.push("/datahub/new_datasets");
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -517,7 +526,7 @@ const OrganizationDetails = (props) => {
           className={global_style.primary_button + " " + styles.next_button}
         >
           {" "}
-          Next
+          {isLoggedInUserAdmin() ? "Next" : "Finish"}
         </Button>
       </div>
       {/* <div className={styles.send_otp_div}>

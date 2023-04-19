@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
-import { Button, Col, Row } from "react-bootstrap";
-import { InputAdornment, TextField } from "@mui/material";
+import { Col, Row } from "react-bootstrap";
+import { Button, InputAdornment, TextField } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import FileUploaderMain from "../Generic/FileUploader";
@@ -62,6 +62,7 @@ const CategoryDetails = (props) => {
       setCategoryNameError("This category already exist");
       return;
     } else {
+      setEnableSave(true);
       setCategoryNameList([...categoryNamesList, categoryName]);
       setCategoryName("");
       setDescription("");
@@ -556,10 +557,9 @@ const CategoryDetails = (props) => {
         </Button>
         <Button
           disabled={
-            uploadedCategory ||
-            enableSave ||
-            (categoryName && description && categoryNamesList.length > 0)
-              ? false
+            uploadedCategory || enableSave
+              ? // (categoryName && description && categoryNamesList.length > 0)
+                false
               : true
           }
           onClick={() => handleSubmitCategories()}
