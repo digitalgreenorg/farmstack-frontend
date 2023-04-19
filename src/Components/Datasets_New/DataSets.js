@@ -211,11 +211,6 @@ const DataSets = (props) => {
                 } else {
                     finalDataList = [...response.data.results];
                 }
-                let tempDatasets = finalDataList.map((item) => {
-                    item['category'] = JSON.parse(item?.category)
-                    return item;
-                })
-                finalDataList = tempDatasets
                 setDatasetList(finalDataList);
             })
             .catch((err) => {
@@ -258,11 +253,6 @@ const DataSets = (props) => {
                 } else {
                     finalDataList = [...response.data.results];
                 }
-                let tempDatasets = finalDataList.map((item) => {
-                    item['category'] = JSON.parse(item?.category)
-                    return item;
-                })
-                finalDataList = tempDatasets
                 setMemberDatasetList(finalDataList);
             })
             .catch((err) => { });
@@ -496,7 +486,11 @@ const DataSets = (props) => {
                         <img src={require('../../Assets/Img/by_date.svg')} alt="by date" />
                         <span className='filter_text'>By Date</span>
                     </div>
-                    <div className='d-flex align-items-center filter_text_container' onClick={() => setFilterState({})}>
+                    <div className='d-flex align-items-center filter_text_container' onClick={() => {
+                        setType('')
+                        setAllCategories([])
+                        setAllGeographies([])
+                    }}>
                         <img src={require('../../Assets/Img/clear_all.svg')} alt="clear all" />
                         <span className='filter_text'>Clear all</span>
                     </div>
