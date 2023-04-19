@@ -15,6 +15,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
 
+
 const ProfileDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   // const isPhoneValid = (phone, country) => {
@@ -27,6 +28,7 @@ const ProfileDetails = (props) => {
   // };
 
   const { setActiveStep } = props;
+  const history = useHistory()
   const [profileDetails, setProfileDetails] = useState({
     first_name: "",
     last_name: "",
@@ -59,10 +61,9 @@ const ProfileDetails = (props) => {
       setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
     }
   };
-
   const handleSubmitProfileData = (e) => {
     e.preventDefault();
-    console.log(profileDetails);
+    {props.isAccountSetting ? console.log("accountDetails") : console.log(profileDetails);}
     let method = "PUT";
     let url = UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/";
 
@@ -76,7 +77,9 @@ const ProfileDetails = (props) => {
       .then((res) => {
         console.log(res);
         callLoader(false);
+        if(!props.isAccountSetting) {
         setActiveStep((prev) => prev + 1);
+        }
         setProfileDetailsError({
           first_name: "",
           last_name: "",
@@ -158,19 +161,21 @@ const ProfileDetails = (props) => {
         });
       });
   };
-
   useEffect(() => {
     if (getUserLocal()) {
       getProfileData();
     }
   }, []);
   return (
+    <>
     <div className={styles.main_box}>
-      <div className={styles.main_label}>Profile Details</div>
+      <div className={styles.main_label}>
+      {props.isAccountSetting ? "Account settings" : "Profile Details" } </div>
 
+      {props.isAccountSetting ? "" : 
       <div className={styles.sub_label}>
-        Enter your profile details, we will show to others!
-      </div>
+       Enter your profile details, we will show to others!
+      </div> }
 
       <div className={styles.all_inputs}>
         <Row>
@@ -242,6 +247,29 @@ const ProfileDetails = (props) => {
           </Col>
         </Row>
       </div>
+      {props.isAccountSetting ? 
+      <Row>
+              <Col style={{ textAlign: "right", margin: "20px" }}>
+                 <Button
+                  id="cancelbutton_account"
+                   variant="outlined"
+                 style={{ margin: "20px" }}
+                 className={global_style.secondary_button}
+                  onClick={() => history.push("/datahub/new_datasets")}
+                 >
+                   Cancel
+                 </Button>
+                 <Button
+                   id="submitbutton_account"
+                   variant="outlined"
+                   className={global_style.primary_button + " " + styles.next_button}
+                   onClick={(e) => handleSubmitProfileData(e)}
+                 >
+                   Submit
+                 </Button>
+              </Col>
+             </Row>
+      :
       <div className={styles.button_grp}>
         <Button
           onClick={() => setActiveStep((prev) => prev + 1)}
@@ -266,8 +294,11 @@ const ProfileDetails = (props) => {
           Next
         </Button>
       </div>
+      }
     </div>
+    </>
   );
 };
 
 export default ProfileDetails;
+

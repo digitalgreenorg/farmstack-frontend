@@ -11,12 +11,6 @@ const cardSx = {
     }
 };
 const DataSetCardNew = ({ history, item, title, handleCardClick }) => {
-    // console.log(item)
-    // console.log(Object.keys(item?.category).length > 1 ? "yes" : "no")
-    console.log(Object.keys(item?.category)[0])
-    console.log(Object.keys(item?.category).length - 1)
-    console.log(Object.keys(item?.category)[0] + " " + String(Object.keys(item?.category).length - 1))
-    // console.log(Object.keys(item?.category).length > 1 ? Object.keys(item?.category)[0] + " " + Object.keys(item?.category).length - 1 : Object.keys(item?.category)[0])
     return (
         <Card className='card' sx={cardSx} onClick={() => history.push(handleCardClick(item?.id), { data: title })}>
             <div className='published'>
@@ -44,7 +38,7 @@ const DataSetCardNew = ({ history, item, title, handleCardClick }) => {
                 </div>
                 <div className='location'>
                     <img src={require('../../Assets/Img/location.svg')} alt="location" />
-                    <span className='location_text'>{item?.geography}</span>
+                    <span className='location_text'>{item?.geography?.country?.name ? item?.geography?.country?.name : 'NA'}</span>
                 </div>
                 <div className='calendar'>
                     <img src={require('../../Assets/Img/calendar_new.svg')} alt="calendar" />

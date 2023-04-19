@@ -51,6 +51,8 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
     const [isSqLiteSaveCreds, setIsSqLiteSaveCreds] = useState(false)
 
     const [api, setApi] = useState();
+    const [authType, setAuthType] = useState('')
+    const [authTypes, setAuthTypes] = useState(['no_auth', 'auth_key', 'bearer'])
     const [authToken, setAuthToken] = useState();
     const [exportFileName, setExportFileName] = useState();
 
@@ -139,11 +141,16 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
     }
     const getAccordionData = () => {
         const prepareFile = (data, type) => {
-            if (data) {
+            if (data && type === "file_upload") {
                 let arr = data?.map((item, index) => {
                     let ind = item?.file?.lastIndexOf('/')
                     let tempFileName = item?.file?.slice(ind + 1)
                     return <File index={index} name={tempFileName} size={item?.size} id={item?.id} handleDelete={handleDelete} type={type} showDeleteIcon={true} />
+                })
+                return arr;
+            } else if (data && type === "postgresFiles" || type === "sqlFiles") {
+                let arr = data?.map((item, index) => {
+                    return <File index={index} name={item} size={item?.size} id={item?.id} handleDelete={handleDelete} type={type} showDeleteIcon={true} />
                 })
                 return arr;
             } else {
@@ -817,6 +824,10 @@ const UploadFile = ({ files, setFiles, uploadedFiles, setUploadedFiles, sqlFiles
                             <ApiConfiguration
                                 api={api}
                                 setApi={setApi}
+                                authType={authType}
+                                setAuthType={setAuthType}
+                                authTypes={authTypes}
+                                setAuthTypes={setAuthTypes}
                                 authToken={authToken}
                                 setAuthToken={setAuthToken}
                                 exportFileName={exportFileName}

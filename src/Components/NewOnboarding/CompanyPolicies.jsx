@@ -32,6 +32,7 @@ const CompanyPolicies = (props) => {
   const [uploadedPolicy, setUploadedPolicy] = useState(null);
   const [preview, setPreview] = useState(null);
   const [allPolicies, setAllPolicies] = useState([]);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   const handleUploadPolicy = (file) => {
     setUploadedPolicy(file);
@@ -537,144 +538,318 @@ const CompanyPolicies = (props) => {
   }, []);
   return (
     <div className={styles.main_box}>
-      <div className={styles.main_label}>Company Policies</div>
-
-      <div className={styles.sub_label}>
-        Enter your company policies, we will show to others! You can add text
-        and file upload also
-      </div>
-
-      <div className={styles.all_inputs}>
-        <Row>
-          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              required
-              placeholder="Policy name"
-              label="Policy name"
-              variant="outlined"
-              id="policyName"
-              name="policyName"
-              value={policyName}
-              onChange={(e) => setPolicyName(e.target.value)}
-              error={policyNameError ? true : false}
-              helperText={policyNameError}
-            />
+      {!props.isPolicySettings ? (
+        <div className={styles.main_label}>Company Policies</div>
+      ) : (
+        <Row className={styles.main_label}>
+          <Col xs={12} sm={6} md={6} xl={6}>
+            {props.isPolicySettings ? "Policy Settings" : "Company Policies"}
           </Col>
-        </Row>
-        <Row>
-          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-            <RichTextEditor
-              placeholder="Description"
-              toolbarConfig={toolbarConfig}
-              value={companyPolicyValue}
-              // onKeyDown={handledatasetnameKeydown}
-              onChange={handlegovLawChange}
-              required
-              className="rich_text_editor"
-              id="rich_text_editor"
-              name="bodyText"
-              type="string"
-              multiline
-              variant="filled"
-              style={{
-                textAlign: "left",
-                minHeight: 410,
-                border: "1px solid black",
-              }}
-            />
-            <span style={{ color: "red", fontSize: "12px" }}>
-              {descriptionError}
-            </span>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <FileUploaderMain
-              isMultiple={false}
-              texts={
-                "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
-              }
-              fileTypes={["pdf", "doc"]}
-              handleChange={handleUploadPolicy}
-              maxSize={25}
-              setSizeError={() =>
-                setFileError("Maximum file size allowed is 25MB")
-              }
-            />
-          </Col>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <div
-              className={
-                global_style.bold600 +
-                " " +
-                global_style.font20 +
-                " " +
-                styles.text_left
-              }
+          <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
+            <Button
+              onClick={() => setIsFormVisible(true)}
+              className={global_style.primary_button + " " + styles.next_button}
             >
-              {uploadedPolicy && "Uploaded file"}
-            </div>
-            {uploadedPolicy && (
-              <div className={styles.text_left + " " + styles.preview_box}>
-                {uploadedPolicy && (
-                  <div className={styles.each_preview_policy}>
-                    <div>
-                      <img
-                        height={"52px"}
-                        width={"42px"}
-                        className={styles.document_upload_logo}
-                        src={document_upload}
-                      />
+              Add New Policy
+            </Button>
+          </Col>
+        </Row>
+      )}
+      {props.isPolicySettings ? (
+        ""
+      ) : (
+        <div className={styles.sub_label}>
+          Enter your company policies, we will show to others! You can add text
+          and file upload also
+        </div>
+      )}
 
-                      <span
-                        className={global_style.blue + " " + styles.link}
-                        onClick={() => window.open(preview)}
-                      >
-                        {uploadedPolicy.name + " "}{" "}
-                      </span>
-                      <span className={global_style.light_text}>
-                        {uploadedPolicy.size &&
-                          (uploadedPolicy.size / 1000000).toFixed(2)}
-                        MB
-                      </span>
-                    </div>
-                    <CancelIcon
-                      onClick={() => handleDeletePolicy()}
-                      style={{ cursor: "pointer" }}
-                      fontSize="small"
-                    />
+      {!props.isPolicySettings ? (
+        <>
+          <div className={styles.all_inputs}>
+            <Row>
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <TextField
+                  fullWidth
+                  required
+                  placeholder="Policy name"
+                  label="Policy name"
+                  variant="outlined"
+                  id="policyName"
+                  name="policyName"
+                  value={policyName}
+                  onChange={(e) => setPolicyName(e.target.value)}
+                  error={policyNameError ? true : false}
+                  helperText={policyNameError}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <RichTextEditor
+                  placeholder="Description"
+                  toolbarConfig={toolbarConfig}
+                  value={companyPolicyValue}
+                  // onKeyDown={handledatasetnameKeydown}
+                  onChange={handlegovLawChange}
+                  required
+                  className="rich_text_editor"
+                  id="rich_text_editor"
+                  name="bodyText"
+                  type="string"
+                  multiline
+                  variant="filled"
+                  style={{
+                    textAlign: "left",
+                    minHeight: 410,
+                    border: "1px solid black",
+                  }}
+                />
+                <span style={{ color: "red", fontSize: "12px" }}>
+                  {descriptionError}
+                </span>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <FileUploaderMain
+                  isMultiple={false}
+                  texts={
+                    "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                  }
+                  fileTypes={["pdf", "doc"]}
+                  handleChange={handleUploadPolicy}
+                  maxSize={25}
+                  setSizeError={() =>
+                    setFileError("Maximum file size allowed is 25MB")
+                  }
+                />
+              </Col>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <div
+                  className={
+                    global_style.bold600 +
+                    " " +
+                    global_style.font20 +
+                    " " +
+                    styles.text_left
+                  }
+                >
+                  {uploadedPolicy && "Uploaded file"}
+                </div>
+                {uploadedPolicy && (
+                  <div className={styles.text_left + " " + styles.preview_box}>
+                    {uploadedPolicy && (
+                      <div className={styles.each_preview_policy}>
+                        <div>
+                          <img
+                            height={"52px"}
+                            width={"42px"}
+                            className={styles.document_upload_logo}
+                            src={document_upload}
+                          />
+
+                          <span
+                            className={global_style.blue + " " + styles.link}
+                            onClick={() => window.open(preview)}
+                          >
+                            {uploadedPolicy.name + " "}{" "}
+                          </span>
+                          <span className={global_style.light_text}>
+                            {uploadedPolicy.size &&
+                              (uploadedPolicy.size / 1000000).toFixed(2)}
+                            MB
+                          </span>
+                        </div>
+                        <CancelIcon
+                          onClick={() => handleDeletePolicy()}
+                          style={{ cursor: "pointer" }}
+                          fontSize="small"
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
-              </div>
-            )}
-            <div
-              className={
-                global_style.size14 +
-                " " +
-                global_style.error +
-                " " +
-                styles.text_left
-              }
+                <div
+                  className={
+                    global_style.size14 +
+                    " " +
+                    global_style.error +
+                    " " +
+                    styles.text_left
+                  }
+                >
+                  {fileError}
+                </div>
+              </Col>
+            </Row>
+          </div>
+          <div className={styles.button_grp}>
+            <Button
+              disabled={companyPolicyDescription && policyName ? false : true}
+              onClick={() => handleAddPolicy()}
+              className={global_style.primary_button + " " + styles.next_button}
             >
-              {fileError}
-            </div>
-          </Col>
-        </Row>
-      </div>
-      <div className={styles.button_grp}>
-        <Button
-          disabled={companyPolicyDescription && policyName ? false : true}
-          onClick={() => handleAddPolicy()}
-          className={global_style.primary_button + " " + styles.next_button}
-        >
-          {" "}
-          Add
-        </Button>
-      </div>
-      {allPolicies.length > 0 && (
-        <div className={styles.main_label}>Catalogs</div>
+
+              Add
+            </Button>
+          </div>
+        </>
+      ) : (
+        <>
+  
+          {isFormVisible && (
+            <>
+              <div className={styles.all_inputs}>
+                <Row>
+                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                    <TextField
+                      fullWidth
+                      required
+                      placeholder="Policy name"
+                      label="Policy name"
+                      variant="outlined"
+                      id="policyName"
+                      name="policyName"
+                      value={policyName}
+                      onChange={(e) => setPolicyName(e.target.value)}
+                      error={policyNameError ? true : false}
+                      helperText={policyNameError}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                    <RichTextEditor
+                      placeholder="Description"
+                      toolbarConfig={toolbarConfig}
+                      value={companyPolicyValue}
+                      // onKeyDown={handledatasetnameKeydown}
+                      onChange={handlegovLawChange}
+                      required
+                      className="rich_text_editor"
+                      id="rich_text_editor"
+                      name="bodyText"
+                      type="string"
+                      multiline
+                      variant="filled"
+                      style={{
+                        textAlign: "left",
+                        minHeight: 410,
+                        border: "1px solid black",
+                      }}
+                    />
+                    <span style={{ color: "red", fontSize: "12px" }}>
+                      {descriptionError}
+                    </span>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                    <FileUploaderMain
+                      isMultiple={false}
+                      texts={
+                        "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                      }
+                      fileTypes={["pdf", "doc"]}
+                      handleChange={handleUploadPolicy}
+                      maxSize={25}
+                      setSizeError={() =>
+                        setFileError("Maximum file size allowed is 25MB")
+                      }
+                    />
+                  </Col>
+                  <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                    <div
+                      className={
+                        global_style.bold600 +
+                        " " +
+                        global_style.font20 +
+                        " " +
+                        styles.text_left
+                      }
+                    >
+                      {uploadedPolicy && "Uploaded file"}
+                    </div>
+                    {uploadedPolicy && (
+                      <div
+                        className={styles.text_left + " " + styles.preview_box}
+                      >
+                        {uploadedPolicy && (
+                          <div className={styles.each_preview_policy}>
+                            <div>
+                              <img
+                                height={"52px"}
+                                width={"42px"}
+                                className={styles.document_upload_logo}
+                                src={document_upload}
+                              />
+
+                              <span
+                                className={
+                                  global_style.blue + " " + styles.link
+                                }
+                                onClick={() => window.open(preview)}
+                              >
+                                {uploadedPolicy.name + " "}{" "}
+                              </span>
+                              <span className={global_style.light_text}>
+                                {uploadedPolicy.size &&
+                                  (uploadedPolicy.size / 1000000).toFixed(2)}
+                                MB
+                              </span>
+                            </div>
+                            <CancelIcon
+                              onClick={() => handleDeletePolicy()}
+                              style={{ cursor: "pointer" }}
+                              fontSize="small"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    <div
+                      className={
+                        global_style.size14 +
+                        " " +
+                        global_style.error +
+                        " " +
+                        styles.text_left
+                      }
+                    >
+                      {fileError}
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+              <div className={styles.button_grp}>
+                <Button
+                  disabled={
+                    companyPolicyDescription && policyName ? false : true
+                  }
+                  onClick={() => handleAddPolicy()}
+                  className={
+                    global_style.primary_button + " " + styles.next_button
+                  }
+                >
+                  {" "}
+                  Add
+                </Button>
+              </div>
+            </>
+          )}
+        </>
+      )}
+      {!props.isPolicySettings ? (
+        <>
+          {allPolicies.length > 0 && (
+            <div className={styles.main_label}>Catalogs</div>
+          )}{" "}
+        </>
+      ) : (
+        ""
       )}
       <Row style={{ marginBottom: "20px" }}>
         <Col lg={12} sm={12}>
@@ -695,23 +870,27 @@ const CompanyPolicies = (props) => {
           })}
         </Col>
       </Row>
-      <div className={styles.button_grp}>
-        <Button
-          onClick={() => setActiveStep((prev) => prev + 1)}
-          className={global_style.secondary_button}
-        >
-          {" "}
-          Finish later
-        </Button>
-        <Button
-          disabled={allPolicies.length > 0 ? false : true}
-          onClick={() => setActiveStep((prev) => prev + 1)}
-          className={global_style.primary_button + " " + styles.next_button}
-        >
-          {" "}
-          Next
-        </Button>
-      </div>
+      {!props.isPolicySettings ? (
+        <div className={styles.button_grp}>
+          <Button
+            onClick={() => setActiveStep((prev) => prev + 1)}
+            className={global_style.secondary_button}
+          >
+            {" "}
+            Finish later
+          </Button>
+          <Button
+            disabled={allPolicies.length > 0 ? false : true}
+            onClick={() => setActiveStep((prev) => prev + 1)}
+            className={global_style.primary_button + " " + styles.next_button}
+          >
+            {" "}
+            Next
+          </Button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
