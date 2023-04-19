@@ -200,7 +200,7 @@ const OrganizationDetails = (props) => {
                 });
                 break;
               default:
-                let error = GetErrorHandlingRoute(e);
+                let error = await GetErrorHandlingRoute(e);
                 if (error) {
                   callToast(error?.message, "error", true);
                   console.log(e, error)
@@ -209,7 +209,7 @@ const OrganizationDetails = (props) => {
             }
           }
         } else {
-          let error = GetErrorHandlingRoute(e);
+          let error = await GetErrorHandlingRoute(e);
           if (error) {
             callToast(error?.message, "error", true);
             console.log(e, error)

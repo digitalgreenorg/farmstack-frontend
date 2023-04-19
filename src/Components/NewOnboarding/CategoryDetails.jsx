@@ -369,7 +369,7 @@ const CategoryDetails = (props) => {
       </> :  (
         <Row className={styles.main_label}>
           <Col xs={12} sm={6} md={6} xl={6}>
-            {props.isPolicySettings ? "Policy Settings" : "Company Policies"}
+            Category Settings
           </Col>
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button
