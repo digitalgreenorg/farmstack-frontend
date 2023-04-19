@@ -392,10 +392,17 @@ const DataSets = (props) => {
     payload["others"] = value === 0 ? false : true;
     if (geographies && geographies.length) {
       payload["geography__in"] = geographies;
-    } else if (categorises && Object.keys(categorises).length) {
-      payload["category"] = categorises;
     }
-    // payload["created_at__range"] = []
+    if (categorises && Object.keys(categorises).length) {
+      let arr = [];
+      for (const [key, value] of Object.entries(categorises)) {
+        let obj = {};
+        obj[key] = value;
+        arr.push(obj);
+      }
+      payload["category"] = arr;
+    }
+    // payload["created_at__range"] = [];
     callLoader(true);
     HTTPService(
       "POST",
@@ -536,8 +543,15 @@ const DataSets = (props) => {
             className="d-flex align-items-center filter_text_container"
             onClick={() => {
               setType("");
-              setAllCategories([]);
-              setAllGeographies([]);
+              setCategorises([]);
+              setGeographies([]);
+              value === 0 ? (
+                getDataSets(false)
+              ) : value === 1 ? (
+                getOtherDataSets(false)
+              ) : (
+                <></>
+              );
             }}
           >
             <img
