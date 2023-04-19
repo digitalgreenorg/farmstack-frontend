@@ -301,11 +301,15 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )}
-          {getUserLocal() ? (
+          {getUserLocal() && loginType !== "guest" ? (
             <></>
           ) : (
             <NavLink
-              to="/login"
+              to={
+                loginType == "guest" && getUserLocal()
+                  ? "/datahub/dashboard"
+                  : "/login"
+              }
               activeStyle={navActiveStyle}
               style={navInActiveStyle}
               onClick={() => handleSelect("login")}
@@ -323,7 +327,7 @@ const NavbarNew = ({ loginType }) => {
             </NavLink>
           )}
           <Box>
-            {getUserLocal() ? (
+            {getUserLocal() && loginType !== "guest" ? (
               <Button
                 sx={{
                   fontFamily: "Montserrat !important",
