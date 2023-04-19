@@ -27,3 +27,18 @@
 .cancelButton {
   margin: 0 6px;
 }
+.setCoSteward {
+  display: flex;
+  align-items: center;
+}
+.alignLeft {
+  display: flex;
+  justify-content: left;
+}
+
+.infoIcon {
+  height: 20px;
+}
+.infoIcon > svg {
+  height: 20px !important;
+}
