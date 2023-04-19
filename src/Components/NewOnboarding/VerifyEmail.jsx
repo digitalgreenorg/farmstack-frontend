@@ -95,7 +95,7 @@ const VerifyEmailStep = (props) => {
               if (isLoggedInUserAdmin()) {
                 history.push("/datahub/new_datasets");
               } else if (isLoggedInUserParticipant()) {
-                history.push("/participant/datasets");
+                history.push("/participant/new_datasets");
               } else if (isLoggedInUserCoSteward()) {
                 history.push("/datahub/new_datasets");
               }
