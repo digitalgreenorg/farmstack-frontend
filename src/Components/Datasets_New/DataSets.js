@@ -26,6 +26,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Filter from "../Filter/Filter";
 import CheckBoxWithText from "./TabComponents/CheckBoxWithText";
 import ShowFilterChips from "../Filter/ShowFilterChips";
+import { City, Country, State } from "country-state-city";
 
 const cardSx = {
   maxWidth: 368,
@@ -73,6 +74,14 @@ const DataSets = (props) => {
   const [content, setContent] = useState([]);
   const [type, setType] = useState("");
   const [filterItems, setFilterItems] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [geography, setGeography] = useState({
+    country: null,
+    state: null,
+    city: null,
+  });
 
   const resetUrls = () => {
     adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
@@ -173,7 +182,13 @@ const DataSets = (props) => {
     }
   };
 
-  const handleFilter = () => {};
+  const clearFilter = () => {
+    if (value === 0) {
+      getDataSets(false);
+    } else if (value === 1) {
+      getOtherDataSets(false);
+    }
+  };
 
   const getDataSets = (isLoadMore) => {
     if (!isLoadMore) {
@@ -359,30 +374,18 @@ const DataSets = (props) => {
   };
 
   const getAllGeoGraphies = () => {
-    let geos = [
-      { value: "India", label: "India" },
-      { value: "Ethiopia", label: "Ethiopia" },
-      { value: "Kenya", label: "Kenya" },
-    ];
-    let tempGeographies = [];
-    geos.forEach((geo, index) => {
-      let obj = {
-        panel: index + 1,
-        title: "",
-        details: [
-          <CheckBoxWithText
-            key={geo.value}
-            text={geo.value}
-            checked={geographies.includes(geo.value)}
-            keyName={geo.value}
-            handleCheckBox={handleGeoCheckBox}
-            fontSize={"12px"}
-          />,
-        ],
-      };
-      tempGeographies.push(obj);
-    });
-    setAllGeographies(tempGeographies);
+    setCountries(Country.getAllCountries());
+    if (geography?.country) {
+      setStates(State?.getStatesOfCountry(geography?.country?.isoCode));
+    }
+    if (geography?.country && geography?.state?.name) {
+      setCities(
+        City.getCitiesOfState(
+          geography?.state?.countryCode,
+          geography?.state?.isoCode
+        )
+      );
+    }
   };
 
   const callApply = (isLoadMore) => {
@@ -390,8 +393,18 @@ const DataSets = (props) => {
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
     payload["others"] = value === 0 ? false : true;
-    if (geographies && geographies.length) {
-      payload["geography__in"] = geographies;
+    if (
+      geography?.country?.name ||
+      geography?.state?.name ||
+      geography?.city?.name
+    ) {
+      let geo = {};
+      for (const [key, value] of Object.entries(geography)) {
+        if (value?.name) {
+          geo[key] = [value?.name];
+        }
+      }
+      payload["geography__contains"] = geo;
     }
     if (categorises && Object.keys(categorises).length) {
       let arr = [];
@@ -445,14 +458,14 @@ const DataSets = (props) => {
 
   useEffect(() => {
     getAllGeoGraphies();
-  }, [geographies, type]);
+  }, [geography, type]);
 
   useEffect(() => {
     getAllCategoryAndSubCategory();
   }, [categorises, type]);
 
   console.log(geographies, "dsets");
-  console.log(categorises, "dsets");
+  console.log(geography, "dsets");
   return (
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -545,13 +558,7 @@ const DataSets = (props) => {
               setType("");
               setCategorises([]);
               setGeographies([]);
-              value === 0 ? (
-                getDataSets(false)
-              ) : value === 1 ? (
-                getOtherDataSets(false)
-              ) : (
-                <></>
-              );
+              clearFilter();
             }}
           >
             <img
@@ -565,7 +572,14 @@ const DataSets = (props) => {
           type === "geography" ? (
             <Filter
               type={type}
-              content={allGeographies}
+              dataType={"component"}
+              geography={geography}
+              setGeography={setGeography}
+              geographies={geographies}
+              setGeographies={setGeographies}
+              countries={countries}
+              states={states}
+              cities={cities}
               showFilter={showFilter}
               setShowFilter={setShowFilter}
               callApply={callApply}
@@ -573,6 +587,7 @@ const DataSets = (props) => {
           ) : (
             <Filter
               type={type}
+              dataType={"list"}
               content={allCategories}
               showFilter={showFilter}
               setShowFilter={setShowFilter}
