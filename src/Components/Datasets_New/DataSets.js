@@ -230,6 +230,32 @@ const DataSets = (props) => {
     } else {
       payload = { ...filterState };
     }
+    let accessToken = getTokenLocal() ?? false;
+    HTTPService(
+      "POST",
+      !isLoadMore ? memberUrl : memberDatasetUrl,
+      payload,
+      false,
+      accessToken
+    )
+      .then((response) => {
+        if (response.data.next == null) {
+          setShowLoadMoreMember(false);
+          setFilterState({});
+        } else {
+          setMemberDatasetUrl(response.data.next);
+          setShowLoadMoreMember(true);
+        }
+        let finalDataList = [];
+        if (isLoadMore) {
+          finalDataList = [...memberDatasetList, ...response.data.results];
+        } else {
+          finalDataList = [...response.data.results];
+        }
+        setMemberDatasetList(finalDataList);
+      })
+      .catch((err) => {});
+  };
 
     // filter-popovers handling
     const handleFilterClick = (type) => {
