@@ -30,7 +30,10 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const VerifyEmailStep = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
-  const [agreementChecked, setAgreementChecked] = useState(false);
+
+  const [agreementChecked, setAgreementChecked] = useState(
+    localStorage.getItem("dev_mode") ? true : false
+  );
   const { setActiveStep } = props;
   const [loginError, setLoginError] = useState("");
   const [emailId, setEmailId] = useState("");

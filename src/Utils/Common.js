@@ -132,12 +132,12 @@ export const refreshToken = async () => {
       return true;
     }
   } catch (e) {
-    console.log(e);
-    if (e?.response?.status === 401) {
-      return "/login";
-    } else {
-      return GetErrorHandlingRoute(e);
-    }
+    // console.log(e);
+    return false;
+    // if (e?.response?.status === 401) {
+    // } else {
+    //   return GetErrorHandlingRoute(e);
+    // }
   }
 };
 
@@ -170,17 +170,19 @@ export const GetErrorHandlingRoute = (e) => {
     e.response != undefined &&
     e?.response?.status == HTTP_CONSTANTS.SESSION_TIMEOUT
   ) {
-    console.log(e.response.status);
-    //return "/sessionexpired";
     let response = refreshToken();
     if (response) {
       return {
         message: "verified",
         statusCode: 200,
       };
+    } else {
+      return {
+        message: "not_verified",
+        statusCode: 401,
+      };
     }
   } else {
-    console.log(e.response);
     return {
       message: errorMessage,
       statusCode: e.response ? e.response.status : "unknown",
