@@ -12,7 +12,7 @@ import { getTokenLocal, isLoggedInUserParticipant } from "../Utils/Common";
 import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
 import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
 import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
-import Participantsettings from "../Views/Settings/ParticipantSettings/Participantsettings";
+// import Participantsettings from "../Views/Settings/ParticipantSettings/Participantsettings";
 
 import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
 import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
@@ -40,6 +40,7 @@ import DataSetsView from "../Components/Datasets_New/DataSetsView";
 import AddConnector from "../Views/Connector_New/AddConnector";
 import EditConnector from "../Views/Connector_New/EditConnector";
 import EditDataset from "../Components/Datasets_New/EditDataset";
+import Settings from "../Components/SettingsNew/Settings";
 
 function Participant(props) {
   return (
@@ -116,7 +117,7 @@ function Participant(props) {
               <Route
                 exact
                 path="/participant/settings/:id"
-                component={Participantsettings}
+                component={Settings}
               />
               {/* <Route
                 exact

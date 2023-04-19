@@ -16,7 +16,8 @@ import ViewParticipants from "../Views/Participants/ViewParticipants";
 import InviteParticipants from "../Views/Participants/InviteParticipants";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
-import Settings from "../Views/Settings/Settings/Settings";
+// import Settings from "../Views/Settings/Settings/Settings";
+import Settings from "../Components/SettingsNew/Settings";
 import Support from "../Views/Support/Support";
 // import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
 import DatasetAdmin from "../Views/Dataset/DatasetAdmin/DatasetAdmin";
@@ -171,8 +172,8 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/settings/editdepartment/:id"
-                component={EditDepartmentSettings}
-              />
+                component={EditDepartmentSettings} />
+              {/* /> */}
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
               {/* <Route exact path="/datahub/datasets" component={DatasetAdmin} /> */}
@@ -205,7 +206,7 @@ function Datahub(props) {
                 path="/datahub/connectors"
                 component={ConnectorParticipant}
               /> */}
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/settings/project/add"
                 component={AddProjectParticipant}
@@ -219,7 +220,7 @@ function Datahub(props) {
                 exact
                 path="/datahub/settings/project/edit/:id"
                 component={EditProjectParticipant}
-              />
+              /> */}
               <Route
                 exact
                 path="/datahub/connectors/detail"
