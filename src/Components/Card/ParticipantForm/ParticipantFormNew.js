@@ -98,7 +98,11 @@ const ParticipantFormNew = (props) => {
   };
 
   const handleCancel = (clearAllField) => {
-    history.go(-1);
+    if (isEditModeOn) {
+      history.go(-2);
+    } else {
+      history.go(-1);
+    }
 
     setOrganisationName("");
     setOrganisationEmail("");
