@@ -89,7 +89,6 @@ const Categorise = (props) => {
         }
 
     }, [props.geography])
-    console.log(props.geography?.country?.name, "hakunama")
     return (
         <div className='mt-20'>
             <Typography sx={{
