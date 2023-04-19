@@ -211,6 +211,11 @@ const DataSets = (props) => {
                 } else {
                     finalDataList = [...response.data.results];
                 }
+                let tempDatasets = finalDataList.map((item) => {
+                    item['category'] = JSON.parse(item?.category)
+                    return item;
+                })
+                finalDataList = tempDatasets
                 setDatasetList(finalDataList);
             })
             .catch((err) => {
@@ -253,6 +258,11 @@ const DataSets = (props) => {
                 } else {
                     finalDataList = [...response.data.results];
                 }
+                let tempDatasets = finalDataList.map((item) => {
+                    item['category'] = JSON.parse(item?.category)
+                    return item;
+                })
+                finalDataList = tempDatasets
                 setMemberDatasetList(finalDataList);
             })
             .catch((err) => { });
