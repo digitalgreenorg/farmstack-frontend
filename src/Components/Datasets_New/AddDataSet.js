@@ -255,7 +255,7 @@ const AddDataSet = (props) => {
               (dataset) => dataset.source === "mysql"
             );
             let tempPostgresFiles = response.data.datasets?.filter(
-              (dataset) => dataset.source === "postgres"
+              (dataset) => dataset.source === "postgresql"
             );
             let tempRestApiFiles = response.data.datasets?.filter(
               (dataset) => dataset.source === "restApi"
@@ -271,6 +271,43 @@ const AddDataSet = (props) => {
               });
             }
             setUploadedFiles(tempFiles);
+
+            let tempSFiles = [];
+            if (tempSqlFiles && tempSqlFiles?.length > 0) {
+              tempSqlFiles.forEach((tempFile, index) => {
+                tempSFiles.push({
+                  id: tempFile.id,
+                  file: tempFile.file,
+                  source: tempFile.source,
+                });
+              });
+            }
+            setSqlFiles(tempSqlFiles);
+
+            let tempPostgressFiles = [];
+            if (tempPostgresFiles && tempPostgresFiles?.length > 0) {
+              tempPostgresFiles.forEach((tempFile, index) => {
+                tempPostgressFiles.push({
+                  id: tempFile.id,
+                  file: tempFile.file,
+                  source: tempFile.source,
+                });
+              });
+            }
+
+            setPostgresFiles(tempPostgresFiles);
+
+            let tempRestApiiFiles = [];
+            if (tempRestApiFiles && tempRestApiFiles?.length > 0) {
+              tempRestApiFiles.forEach((tempFile, index) => {
+                tempRestApiiFiles.push({
+                  id: tempFile.id,
+                  file: tempFile.file,
+                  source: tempFile.source,
+                });
+              });
+            }
+            setRestApiFiles(tempRestApiFiles);
 
             // preparing Standardisation
             let tempStandardisedFiles = [];
