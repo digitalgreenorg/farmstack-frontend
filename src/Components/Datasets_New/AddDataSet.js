@@ -144,7 +144,7 @@ const AddDataSet = (props) => {
             user_map: getUserMapId(),
             name: dataSetName,
             description: dataSetDescription,
-            category: JSON.stringify(categorises),
+            category: categorises,
             geography: geography,
             constantly_update: isUpdating,
             data_capture_start: (!isUpdating && fromDate) ? fromDate.toISOString() : null,
@@ -249,7 +249,7 @@ const AddDataSet = (props) => {
 
                         // preparing categories for accordion
                         let prepareArr = [];
-                        let tempcategoryJson = JSON.parse(response?.data?.category)
+                        let tempcategoryJson = response?.data?.category
                         for (const [key, value] of Object.entries(tempcategoryJson)) {
                             let obj = {};
                             obj[key] = value;

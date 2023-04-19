@@ -252,7 +252,7 @@ const DataSetsView = (props) => {
 
           // preparing categories for accordion
           let prepareArr = [];
-          let categoryJson = JSON.parse(response?.data?.category);
+          let categoryJson = response?.data?.category;
           for (const [key, value] of Object.entries(categoryJson)) {
             let obj = {};
             obj[key] = value;
