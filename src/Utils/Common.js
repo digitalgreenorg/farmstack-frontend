@@ -129,6 +129,7 @@ export const refreshToken = async () => {
         return lastPathname;
       }
       localStorage.removeItem("lastPathname", window.location.href);
+      return true;
     }
   } catch (e) {
     console.log(e);
@@ -171,7 +172,13 @@ export const GetErrorHandlingRoute = (e) => {
   ) {
     console.log(e.response.status);
     //return "/sessionexpired";
-    return refreshToken();
+    let response = refreshToken();
+    if (response) {
+      return {
+        message: "verified",
+        statusCode: 200,
+      };
+    }
   } else {
     console.log(e.response);
     return {
