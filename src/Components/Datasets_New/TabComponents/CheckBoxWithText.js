@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Checkbox, Typography } from '@mui/material'
 
-const CheckBoxWithText = ({ text, checked, handleCheckBox, isDisabled, keyName, categoryKeyName }) => {
+const CheckBoxWithText = ({ text, checked, handleCheckBox, isDisabled, keyName, categoryKeyName, fontSize }) => {
     const handleClick = () => {
         handleCheckBox()
     }
@@ -32,7 +32,7 @@ const CheckBoxWithText = ({ text, checked, handleCheckBox, isDisabled, keyName, 
                 sx={{
                     fontFamily: "Montserrat !important",
                     fontWeight: "400",
-                    fontSize: "16px",
+                    fontSize: fontSize ? fontSize : "16px",
                     lineHeight: "22px",
                     color: "#212B36",
                     textAlign: 'left',

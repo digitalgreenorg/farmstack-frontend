@@ -37,11 +37,27 @@
     margin-left: 325px;
     margin-right: 344px;
     margin-top: 50px;
-    margin-bottom: 35px;
+    margin-bottom: 6px;
 }
 
 .filter_text {
     margin-left: 12.34px;
+    cursor: pointer;
+}
+
+.filter_text_container {
+    padding: 5px;
+}
+
+.filter_text_container:hover {
+    background: #e4e6e8;
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+.filter_text_container_active {
+    background: #e4e6e8;
+    border-radius: 16px;
     cursor: pointer;
 }
 

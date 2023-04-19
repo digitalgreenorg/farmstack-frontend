@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 
 const ApiConfiguration = (props) => {
     return (
@@ -49,41 +49,74 @@ const ApiConfiguration = (props) => {
                 value={props.api}
                 onChange={(e) => props.setApi(e.target.value)}
             />
-            <TextField
-                fullWidth
-                helperText={
-                    <Typography
-                        sx={{
-                            fontFamily: "Montserrat !important",
-                            fontWeight: "400",
-                            fontSize: "12px",
-                            lineHeight: "18px",
-                            color: "#FF0000",
-                            textAlign: 'left'
-                        }}
-                    >
-                        {(!props.validator && (!props.authToken !== null || !props.authToken !== undefined || !props.authToken !== '')) ? '' : 'Please enter the auth token is a mandatory field.'}
-                    </Typography>}
-                sx={{
-                    marginTop: '30px',
-                    borderRadius: '8px',
-                    '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                            borderColor: '#919EAB'
+            <FormControl fullWidth sx={{ marginTop: '30px' }}>
+                <InputLabel>File name</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={props.authType}
+                    onChange={(e) => props.setAuthType(e.target.value)}
+                    sx={{
+                        textAlign: 'left',
+                        '.MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#919EAB',
                         },
-                        '&:hover fieldset': {
-                            borderColor: '#919EAB'
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#919EAB',
                         },
-                        '&.Mui-focused fieldset': {
-                            borderColor: '#919EAB'
-                        },
-                    }
-                }}
-                placeholder='Auth token'
-                label='Auth token'
-                value={props.authToken}
-                onChange={(e) => props.setAuthToken(e.target.value)}
-            />
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#919EAB',
+                        }
+                    }}
+                    label="File name"
+                    placeholder='File name'
+                >
+                    {props.authTypes?.map((item) => {
+                        return (
+                            <MenuItem key={item} value={item}>{item}</MenuItem>
+                        )
+                    })}
+                </Select>
+            </FormControl>
+            {props.authType && props.authType !== 'no_auth' ?
+                <TextField
+                    fullWidth
+                    helperText={
+                        <Typography
+                            sx={{
+                                fontFamily: "Montserrat !important",
+                                fontWeight: "400",
+                                fontSize: "12px",
+                                lineHeight: "18px",
+                                color: "#FF0000",
+                                textAlign: 'left'
+                            }}
+                        >
+                            {(!props.validator && (!props.authToken !== null || !props.authToken !== undefined || !props.authToken !== '')) ? '' : 'Please enter the auth token is a mandatory field.'}
+                        </Typography>}
+                    sx={{
+                        marginTop: '30px',
+                        borderRadius: '8px',
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                borderColor: '#919EAB'
+                            },
+                            '&:hover fieldset': {
+                                borderColor: '#919EAB'
+                            },
+                            '&.Mui-focused fieldset': {
+                                borderColor: '#919EAB'
+                            },
+                        }
+                    }}
+                    placeholder='Auth token'
+                    label='Auth token'
+                    value={props.authToken}
+                    onChange={(e) => props.setAuthToken(e.target.value)}
+                />
+                : <></>
+            }
+
             <Box sx={{ marginTop: '31px', textAlign: 'end' }}>
                 <Button
                     sx={{
