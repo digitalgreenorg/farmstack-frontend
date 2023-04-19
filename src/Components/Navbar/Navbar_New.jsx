@@ -274,18 +274,18 @@ const NavbarNew = ({ loginType }) => {
               style={navInActiveStyle}
               to={
                 loginType === "admin"
-                  ? "/datahub/settings"
+                  ? "/datahub/settings/1"
                   : loginType === "participant"
-                  ? "/participant/settings"
+                  ? "/participant/settings/1"
                   : ""
               }
               onClick={() => handleSelect("settings")}
             >
               {isNavLinkActive(
                 loginType === "admin"
-                  ? "/datahub/settings"
+                  ? "/datahub/settings/1"
                   : loginType === "participant"
-                  ? "/participant/settings"
+                  ? "/participant/settings/1"
                   : ""
               ) ? (
                 <img
