@@ -38,6 +38,7 @@ export default function Toast({ message, type }) {
           textTransform: "none",
           fontFamily: "Montserrat",
         }}
+        onClick={handleClose}
       >
         Dismiss
       </Button>
@@ -50,7 +51,7 @@ export default function Toast({ message, type }) {
     <Snackbar
       spacing={2}
       open={toastDetail?.status}
-      autoHideDuration={30000}
+      autoHideDuration={3000}
       disableWindowBlurListener={true}
       sx={{ width: "100%" }}
       anchorOrigin={{

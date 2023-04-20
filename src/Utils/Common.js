@@ -173,10 +173,13 @@ export const GetErrorHandlingRoute = async (e) => {
       message: e?.response?.data?.message,
       data: e?.response?.data,
     };
-  } else if (e?.response?.data && e?.response?.status == 404) {
+  } else if (
+    e?.response?.data &&
+    (e?.response?.status == 404 || e?.response?.status == 405)
+  ) {
     return {
       toast: true,
-      path: "/error/404",
+      path: "/error/" + e?.response?.status,
       status: e.response.status,
       message: e?.response?.data?.message,
       data: e?.response?.data,
