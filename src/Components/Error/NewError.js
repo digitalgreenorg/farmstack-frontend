@@ -115,15 +115,15 @@ export default function NewError(props) {
               style={{ width: "300px" }}
               onClick={() =>
                 history.push(
-                  `/${
+                  `${
                     status == 401
-                      ? "login"
+                      ? "/login"
                       : status == 403
-                      ? ""
+                      ? "/datahub/new_datasets"
                       : status == 404
                       ? ""
                       : status == 500
-                      ? "login"
+                      ? "/datahub/new_datasets"
                       : ""
                   }`
                 )
@@ -136,7 +136,7 @@ export default function NewError(props) {
                 : status == 404
                 ? "Home"
                 : status == 500
-                ? "Login"
+                ? "Home"
                 : "Home"}
             </Button>
           </Col>

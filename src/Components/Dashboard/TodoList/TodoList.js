@@ -14,11 +14,14 @@ import totalNoOfParticipants from "../../../Assets/Img/Total no.of participants 
 import updateBrandingDetails from "../../../Assets/Img/Update branding details icon.svg";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { goToTop } from "../../../Utils/Common";
+import { GetErrorHandlingRoute, goToTop } from "../../../Utils/Common";
+import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import { useHistory } from "react-router-dom";
 
 const TodoList = () => {
   // let {total_participants} =
-
+  const { toastDetail, callToast } = React.useContext(FarmStackContext);
+  const history = useHistory();
   const [todoListSmallBoxData, setTodoListSmallBoxData] = useState([
     {
       imgUrl: organizationDetails,
@@ -80,8 +83,18 @@ const TodoList = () => {
 
         setTotalListDetails([...data]);
       })
-      .catch((e) => {
-        console.log("Error", e);
+      .catch(async (err) => {
+        let response = await GetErrorHandlingRoute(err);
+        if (response.toast) {
+          //callToast(message, type, action)
+          callToast(
+            response?.message ?? "Error occurred while getting datasets",
+            response.status == 200 ? "success" : "error",
+            response.toast
+          );
+        } else {
+          history.push(response?.path);
+        }
       });
   };
 

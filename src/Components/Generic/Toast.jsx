@@ -12,14 +12,37 @@ export default function Toast({ message, type }) {
 
   const action = (
     <React.Fragment onClick={handleClose}>
-      <IconButton
+      {/* <IconButton
         size="small"
         aria-label="close"
         color="inherit"
         onClick={handleClose}
+      > */}
+      <Button
+        style={{
+          color:
+            toastDetail.type == "success"
+              ? "#00ab55"
+              : toastDetail.type == "error"
+              ? "#ff5630"
+              : "#00ab55",
+          border: `1px solid ${
+            toastDetail.type == "success"
+              ? "#00ab55"
+              : toastDetail.type == "error"
+              ? "#ff5630"
+              : "#00ab55"
+          }`,
+          height: "33px",
+          width: "70px",
+          textTransform: "none",
+          fontFamily: "Montserrat",
+        }}
       >
-        <CloseIcon fontSize="small" />
-      </IconButton>
+        Dismiss
+      </Button>
+      {/* <CloseIcon fontSize="small" /> */}
+      {/* </IconButton> */}
     </React.Fragment>
   );
 
@@ -27,7 +50,7 @@ export default function Toast({ message, type }) {
     <Snackbar
       spacing={2}
       open={toastDetail?.status}
-      autoHideDuration={3000}
+      autoHideDuration={100000}
       disableWindowBlurListener={true}
       sx={{ width: "100%" }}
       anchorOrigin={{
@@ -37,8 +60,18 @@ export default function Toast({ message, type }) {
       onClose={handleClose}
       action={action}
     >
-      <Alert severity={type} sx={{ width: "860px" }} action={action}>
-        {message}
+      <Alert
+        severity={toastDetail.type ?? "success"}
+        sx={{ width: "860px", textAlign: "left", fontFamily: "Montserrat" }}
+        action={action}
+      >
+        {message
+          ? message
+          : toastDetail?.status == "success"
+          ? "Successful"
+          : toastDetail?.status == "error"
+          ? "Error"
+          : ""}
       </Alert>
     </Snackbar>
   );

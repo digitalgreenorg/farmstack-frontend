@@ -87,22 +87,28 @@ const Filter = ({
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={geography?.country?.name}
+                  renderValue={() => geographies[0]}
                   onChange={(e) => {
                     setGeography((prev) => ({
                       ...prev,
                       country: e.target.value,
                     }));
-                    if (geographies.includes(e.target.value.name)) {
-                      let tempGeo = [...geographies];
-                      tempGeo.push(e.target.value.name);
-                      setGeographies(tempGeo);
-                    } else {
-                      setGeographies(
-                        geographies.filter(
-                          (item) => item.name !== e.target.value.name
-                        )
-                      );
-                    }
+                    let arr = [...geographies];
+                    arr[0] = e.target.value.name;
+                    arr[1] = "";
+                    arr[2] = "";
+                    setGeographies(arr);
+                    // if (!geographies.includes(e.target.value.name)) {
+                    //   let tempGeo = [...geographies];
+                    //   tempGeo.push(e.target.value.name);
+                    //   setGeographies(tempGeo);
+                    // } else {
+                    //   setGeographies(
+                    //     geographies.filter(
+                    //       (item) => item.name !== e.target.value.name
+                    //     )
+                    //   );
+                    // }
                   }}
                   sx={{
                     textAlign: "left",
@@ -132,6 +138,7 @@ const Filter = ({
               <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
                 <InputLabel id="test-select-label">Select State</InputLabel>
                 <Select
+                  renderValue={() => geographies[1]}
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={geography?.state?.name}
@@ -140,17 +147,21 @@ const Filter = ({
                       ...prev,
                       state: e.target.value,
                     }));
-                    if (geographies.includes(e.target.value.name)) {
-                      let tempGeo = [...geographies];
-                      tempGeo.push(e.target.value.name);
-                      setGeographies(tempGeo);
-                    } else {
-                      setGeographies(
-                        geographies.filter(
-                          (item) => item.name !== e.target.value.name
-                        )
-                      );
-                    }
+                    let arr = [...geographies];
+                    arr[1] = e.target.value.name;
+                    arr[2] = "";
+                    setGeographies(arr);
+                    // if (!geographies.includes(e.target.value.name)) {
+                    //   let tempGeo = [...geographies];
+                    //   tempGeo.push(e.target.value.name);
+                    //   setGeographies(tempGeo);
+                    // } else {
+                    //   setGeographies(
+                    //     geographies.filter(
+                    //       (item) => item.name !== e.target.value.name
+                    //     )
+                    //   );
+                    // }
                   }}
                   sx={{
                     textAlign: "left",
@@ -182,23 +193,27 @@ const Filter = ({
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
+                  renderValue={() => geographies[2]}
                   value={geography?.city?.name}
                   onChange={(e) => {
                     setGeography((prev) => ({
                       ...prev,
                       city: e.target.value,
                     }));
-                    if (geographies.includes(e.target.value.name)) {
-                      let tempGeo = [...geographies];
-                      tempGeo.push(e.target.value.name);
-                      setGeographies(tempGeo);
-                    } else {
-                      setGeographies(
-                        geographies.filter(
-                          (item) => item.name !== e.target.value.name
-                        )
-                      );
-                    }
+                    let arr = [...geographies];
+                    arr[2] = e.target.value.name;
+                    setGeographies(arr);
+                    // if (!geographies.includes(e.target.value.name)) {
+                    //   let tempGeo = [...geographies];
+                    //   tempGeo.push(e.target.value.name);
+                    //   setGeographies(tempGeo);
+                    // } else {
+                    //   setGeographies(
+                    //     geographies.filter(
+                    //       (item) => item.name !== e.target.value.name
+                    //     )
+                    //   );
+                    // }
                   }}
                   sx={{
                     textAlign: "left",
