@@ -211,6 +211,7 @@ const DataSetsTab = ({
                 {memberDatasetList?.map((item) => (
                   <DataSetCardNew
                     key={item?.id}
+                    value={value === 1 ? "other_organisation" : ""}
                     history={history}
                     item={item}
                     handleCardClick={handleCardClick}
@@ -220,6 +221,7 @@ const DataSetsTab = ({
             ) : (
               <DataSetsListView
                 datasets={memberDatasetList}
+                value={value === 1 ? "other_organisation" : ""}
                 history={history}
                 handleCardClick={handleCardClick}
               />

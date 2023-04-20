@@ -50,6 +50,7 @@ const AddDataSet = (props) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDatasetCreated, setIsDatasetCreated] = useState(false);
 
   // Upload File
   const [uploadedFiles, setUploadedFiles] = useState([]);
