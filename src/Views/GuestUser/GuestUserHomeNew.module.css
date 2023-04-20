@@ -81,3 +81,6 @@
 .description {
   text-align: left;
 }
+.alignLeft {
+  justify-content: left;
+}

@@ -309,7 +309,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             <img src={UrlConstant.base_url_without_slash + logoPath} />
           ) : (
             <h1 className={LocalStyle.firstLetterOnLogo}>
-              {organisationName.split("")[0]}
+              {organisationName?.split("")[0]?.toUpperCase()}
             </h1>
           )}
         </Col>
