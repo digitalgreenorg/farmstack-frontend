@@ -6,7 +6,11 @@ import { Button } from "@mui/material";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import Loader from "../Loader/Loader";
 import HTTPService from "../../Services/HTTPService";
-import { GetErrorHandlingRoute, getUserLocal } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  getUserLocal,
+  isLoggedInUserCoSteward,
+} from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
@@ -73,7 +77,11 @@ export default function ConnectorsList(props) {
       UrlConstant.base_url +
         UrlConstant.list_of_connectors +
         "?user=" +
-        getUserLocal(),
+        getUserLocal() +
+        "&co_steward=" +
+        isLoggedInUserCoSteward()
+        ? "true"
+        : "false",
       "",
       false,
       true

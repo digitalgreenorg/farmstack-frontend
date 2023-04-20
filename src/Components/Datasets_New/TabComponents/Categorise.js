@@ -104,7 +104,34 @@ const Categorise = (props) => {
         )
       );
     }
+    // console.log(State?.getStatesOfCountry(props.geography?.country?.isoCode));
+    // console.log(
+    //   City.getCitiesOfState(
+    //     props.geography?.state?.countryCode,
+    //     props.geography?.state?.isoCode
+    //   )
+    // );
+    console.log(props.geography);
   }, [props.geography]);
+
+  function renderCountryValue(selectedValue) {
+    const selectedOption = countries.find(
+      (option) => option.name === selectedValue
+    );
+    return selectedOption ? selectedOption.name : "";
+  }
+  function renderStateValue(selectedValue) {
+    const selectedOption = states.find(
+      (option) => option.name === selectedValue
+    );
+    return selectedOption ? selectedOption.name : "";
+  }
+  function renderCityValue(selectedValue) {
+    const selectedOption = cities.find(
+      (option) => option.name === selectedValue
+    );
+    return selectedOption ? selectedOption.name : "";
+  }
   return (
     <div className="mt-20">
       <Typography
@@ -148,6 +175,7 @@ const Categorise = (props) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={props.geography?.country?.name}
+                renderValue={renderCountryValue}
                 onChange={(e) =>
                   props.setGeography((prev) => ({
                     ...prev,
@@ -191,6 +219,7 @@ const Categorise = (props) => {
                     state: e.target.value,
                   }))
                 }
+                renderValue={renderStateValue}
                 sx={{
                   textAlign: "left",
                   "&.MuiInputBase-root": {
@@ -228,6 +257,7 @@ const Categorise = (props) => {
                     city: e.target.value,
                   }))
                 }
+                renderValue={renderCityValue}
                 sx={{
                   textAlign: "left",
                   "&.MuiInputBase-root": {

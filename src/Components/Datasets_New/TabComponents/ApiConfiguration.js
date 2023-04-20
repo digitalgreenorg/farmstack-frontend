@@ -71,7 +71,7 @@ const ApiConfiguration = (props) => {
         }}
       />
       <FormControl fullWidth sx={{ marginTop: "30px" }}>
-        <InputLabel>File name</InputLabel>
+        <InputLabel>Auth Type</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -89,8 +89,8 @@ const ApiConfiguration = (props) => {
               borderColor: "#919EAB",
             },
           }}
-          label="File name"
-          placeholder="File name"
+          label="Auth Type"
+          placeholder="Auth Type"
         >
           {props.authTypes?.map((item) => {
             return (
@@ -101,54 +101,103 @@ const ApiConfiguration = (props) => {
           })}
         </Select>
       </FormControl>
-      {props.authType && props.authType !== "no_auth" ? (
-        <TextField
-          fullWidth
-          helperText={
-            <Typography
+      {props.authType && props.authType !== "NO_AUTH" ? (
+        props.authType === "BEARER" ? (
+          <TextField
+            fullWidth
+            helperText={
+              <Typography
+                sx={{
+                  fontFamily: "Montserrat !important",
+                  fontWeight: "400",
+                  fontSize: "12px",
+                  lineHeight: "18px",
+                  color: "#FF0000",
+                  textAlign: "left",
+                }}
+              >
+                {!props.validator &&
+                (!props.authToken !== null ||
+                  !props.authToken !== undefined ||
+                  !props.authToken !== "")
+                  ? ""
+                  : "Please enter the auth token is a mandatory field."}
+              </Typography>
+            }
+            sx={{
+              marginTop: "30px",
+              borderRadius: "8px",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#919EAB",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#919EAB",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#919EAB",
+                },
+              },
+            }}
+            placeholder="Auth token"
+            label="Auth token"
+            value={props.authToken}
+            onChange={(e) => props.setAuthToken(e.target.value)}
+          />
+        ) : (
+          <>
+            <TextField
+              fullWidth
               sx={{
-                fontFamily: "Montserrat !important",
-                fontWeight: "400",
-                fontSize: "12px",
-                lineHeight: "18px",
-                color: "#FF0000",
-                textAlign: "left",
+                marginTop: "30px",
+                borderRadius: "8px",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                },
               }}
-            >
-              {!props.validator &&
-              (!props.authToken !== null ||
-                !props.authToken !== undefined ||
-                !props.authToken !== "")
-                ? ""
-                : "Please enter the auth token is a mandatory field."}
-            </Typography>
-          }
-          sx={{
-            marginTop: "30px",
-            borderRadius: "8px",
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "#919EAB",
-              },
-              "&:hover fieldset": {
-                borderColor: "#919EAB",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#919EAB",
-              },
-            },
-          }}
-          placeholder="Auth token"
-          label="Auth token"
-          value={props.authToken}
-          onChange={(e) => props.setAuthToken(e.target.value)}
-        />
+              placeholder="Api Key Name"
+              label="Api Key Name"
+              value={props.authApiKeyName}
+              onChange={(e) => props.setAuthApiKeyName(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              sx={{
+                marginTop: "30px",
+                borderRadius: "8px",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                },
+              }}
+              placeholder="Api Key Value"
+              label="Api Key Value"
+              value={props.authApiKeyValue}
+              onChange={(e) => props.setAuthApiKeyValue(e.target.value)}
+            />
+          </>
+        )
       ) : (
         <></>
       )}
 
       <Box sx={{ marginTop: "31px", textAlign: "end" }}>
-        <Button
+        {/* <Button
           sx={{
             fontFamily: "Montserrat",
             fontWeight: 700,
@@ -169,7 +218,7 @@ const ApiConfiguration = (props) => {
           onClick={() => props.handleConnect()}
         >
           Connect
-        </Button>
+        </Button> */}
       </Box>
       <TextField
         fullWidth
@@ -207,13 +256,13 @@ const ApiConfiguration = (props) => {
             },
           },
         }}
-        placeholder="Name of export file"
-        label="Name of export file"
+        placeholder="Name of import file"
+        label="Name of import file"
         value={props.exportFileName}
         onChange={(e) => props.setExportFileName(e.target.value)}
       />
       <Box sx={{ textAlign: "end", marginTop: "31px" }}>
-        <Button
+        {/* <Button
           sx={{
             fontFamily: "Montserrat",
             fontWeight: 700,
@@ -233,7 +282,7 @@ const ApiConfiguration = (props) => {
           onClick={() => props.handleDisconnect()}
         >
           Disconnect
-        </Button>
+        </Button> */}
         <Button
           sx={{
             fontFamily: "Montserrat",
@@ -254,7 +303,7 @@ const ApiConfiguration = (props) => {
           variant="outlined"
           onClick={() => props.handleExport()}
         >
-          Export to json
+          Import
         </Button>
       </Box>
     </Box>
