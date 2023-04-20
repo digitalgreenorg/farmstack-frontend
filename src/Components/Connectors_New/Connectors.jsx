@@ -13,6 +13,7 @@ import {
   getTokenLocal,
   getUserLocal,
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
@@ -49,7 +50,9 @@ const Connectors = () => {
       ? UrlConstant.base_url +
         UrlConstant.list_of_connectors +
         "?user=" +
-        getUserLocal()
+        getUserLocal() +
+        "&co_steward=" +
+        (isLoggedInUserCoSteward() ? "true" : "false")
       : connectorUrl;
     let accessToken = getTokenLocal() ?? false;
     callLoader(true);

@@ -13,6 +13,7 @@ import {
   getUserLocal,
   goToTop,
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   validateInputField,
 } from "../../Utils/Common";
@@ -134,12 +135,24 @@ const AddConnector = (props) => {
     let list = [value];
     let method = "POST";
     if (type == "dataset") {
-      url = UrlConstant.base_url + UrlConstant.get_files_for_selected_datasets;
+      url =
+        UrlConstant.base_url +
+        UrlConstant.get_files_for_selected_datasets +
+        "?user=" +
+        getUserLocal() +
+        "&co_steward=" +
+        (isLoggedInUserCoSteward() ? "true" : "false");
       payload = {
         datasets: [...list],
       };
     } else if (type == "file") {
-      url = UrlConstant.base_url + UrlConstant.get_columns_for_selected_files;
+      url =
+        UrlConstant.base_url +
+        UrlConstant.get_columns_for_selected_files +
+        "?user=" +
+        getUserLocal() +
+        "&co_steward=" +
+        (isLoggedInUserCoSteward() ? "true" : "false");
       payload = {
         files: [...list],
       };
@@ -149,7 +162,11 @@ const AddConnector = (props) => {
         UrlConstant.base_url +
         UrlConstant.get_dataset_name_list +
         "?org_id=" +
-        value;
+        value +
+        "&user=" +
+        getUserLocal() +
+        "&co_steward=" +
+        (isLoggedInUserCoSteward() ? "true" : "false");
       payload = {};
     }
     await HTTPService(method, url, payload, false, true, false)
@@ -200,9 +217,21 @@ const AddConnector = (props) => {
   const getDataList = (source) => {
     let url = "";
     if (source == "org_names") {
-      url = UrlConstant.base_url + UrlConstant.get_org_name_list;
+      url =
+        UrlConstant.base_url +
+        UrlConstant.get_org_name_list +
+        "?user=" +
+        getUserLocal() +
+        "&co_steward=" +
+        (isLoggedInUserCoSteward() ? "true" : "false");
     } else if (source == "dataset_names") {
-      url = UrlConstant.base_url + UrlConstant.get_dataset_name_list;
+      url =
+        UrlConstant.base_url +
+        UrlConstant.get_dataset_name_list +
+        "?user=" +
+        getUserLocal() +
+        "&co_steward=" +
+        (isLoggedInUserCoSteward() ? "true" : "false");
     }
     HTTPService("GET", url, "", false, true, false)
       .then((res) => {
@@ -441,10 +470,20 @@ const AddConnector = (props) => {
           UrlConstant.base_url +
           UrlConstant.integration_connectors +
           connector_id +
-          "/"; // for saving
+          "/" +
+          "?user=" +
+          getUserLocal() +
+          "&co_steward=" +
+          (isLoggedInUserCoSteward() ? "true" : "false"); // for saving
         method = "PUT";
       } else {
-        url = UrlConstant.base_url + UrlConstant.integration_connectors; // for saving
+        url =
+          UrlConstant.base_url +
+          UrlConstant.integration_connectors +
+          "?user=" +
+          getUserLocal() +
+          "&co_steward=" +
+          (isLoggedInUserCoSteward() ? "true" : "false"); // for saving
         method = "POST";
       }
     } else if (condition == "integrate") {
@@ -456,9 +495,21 @@ const AddConnector = (props) => {
       };
       if (props.isEditModeOn) {
         url =
-          UrlConstant.base_url + UrlConstant.joining_the_table + "?edit=True"; //for generating
+          UrlConstant.base_url +
+          UrlConstant.joining_the_table +
+          "?edit=True" +
+          "&user=" +
+          getUserLocal() +
+          "&co_steward=" +
+          (isLoggedInUserCoSteward() ? "true" : "false"); //for generating
       } else {
-        url = UrlConstant.base_url + UrlConstant.joining_the_table; //for generating
+        url =
+          UrlConstant.base_url +
+          UrlConstant.joining_the_table +
+          "?user=" +
+          getUserLocal() +
+          "&co_steward=" +
+          (isLoggedInUserCoSteward() ? "true" : "false"); //for generating
       }
       method = "POST";
     } else if (condition == "delete" && connector_id) {
@@ -467,14 +518,22 @@ const AddConnector = (props) => {
         UrlConstant.base_url +
         UrlConstant.integration_connectors +
         connector_id +
-        "/";
+        "/" +
+        "?user=" +
+        getUserLocal() +
+        "&co_steward=" +
+        (isLoggedInUserCoSteward() ? "true" : "false");
       method = "DELETE";
     } else if (condition == "view_details") {
       url =
         UrlConstant.base_url +
         UrlConstant.integration_connectors +
         connector_id +
-        "/";
+        "/" +
+        "?user=" +
+        getUserLocal() +
+        "&co_steward=" +
+        (isLoggedInUserCoSteward() ? "true" : "false");
       finalPayload = {};
       method = "GET";
     } else if (condition == "delete_map_card" && props.isEditModeOn && map_id) {
@@ -483,13 +542,17 @@ const AddConnector = (props) => {
         UrlConstant.base_url +
         UrlConstant.integration_connectors +
         map_id +
-        "/?maps=True";
+        "/?maps=True" +
+        "&user=" +
+        getUserLocal() +
+        "&co_steward=" +
+        (isLoggedInUserCoSteward() ? "true" : "false");
     } else {
       setLoader(false);
       return;
     }
     console.table(finalPayload, "PAYLOAD");
-    callLoader(true)
+    callLoader(true);
     HTTPService(method, url, finalPayload, false, true, false)
       .then((res) => {
         callLoader(false);
@@ -547,7 +610,7 @@ const AddConnector = (props) => {
           // setMessage("Data saved successfully!");
           callToast("Data saved successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
-            history.push('/participant/connectors')
+            history.push("/participant/connectors");
           } else if (isLoggedInUserAdmin() && getTokenLocal()) {
             history.push("/datahub/connectors");
           }
@@ -562,7 +625,7 @@ const AddConnector = (props) => {
           console.log("inside delete", res);
           callToast("Connector deleted successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
-            history.push('/participant/connectors')
+            history.push("/participant/connectors");
           } else if (isLoggedInUserAdmin() && getTokenLocal()) {
             history.push("/datahub/connectors");
           }
@@ -583,7 +646,7 @@ const AddConnector = (props) => {
         // goToTop(2000)
       })
       .catch((err) => {
-        callLoader(false)
+        callLoader(false);
         callToast("Something went wrong!", "error", true);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
@@ -632,9 +695,9 @@ const AddConnector = (props) => {
       // });
       validateInputField(e.target.value, RegexConstants.connector_name)
         ? setConnectorData({
-          ...connectorData,
-          [e.target.name]: e.target.value,
-        })
+            ...connectorData,
+            [e.target.name]: e.target.value,
+          })
         : e.preventDefault();
     } else {
       if (e.target.value && connectorData.desc) {
@@ -681,11 +744,11 @@ const AddConnector = (props) => {
 
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
-      return '/participant/connectors'
+      return "/participant/connectors";
     } else if (isLoggedInUserAdmin() && getTokenLocal()) {
-      return "/datahub/connectors"
+      return "/datahub/connectors";
     }
-  }
+  };
   const download = (url, connector_name) => {
     const a = document.createElement("a");
     a.setAttribute("hidden", "");
@@ -714,7 +777,12 @@ const AddConnector = (props) => {
     <Box>
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
         <div className="text-left mt-50">
-          <span className="add_light_text cursor-pointer" onClick={() => history.push(handleClickRoutes())}>Connectors</span>
+          <span
+            className="add_light_text cursor-pointer"
+            onClick={() => history.push(handleClickRoutes())}
+          >
+            Connectors
+          </span>
           <span className="add_light_text ml-16">
             <img src={require("../../Assets/Img/dot.svg")} />
           </span>
@@ -829,8 +897,8 @@ const AddConnector = (props) => {
                 setConnectorData={setConnectorData}
                 finalDataNeedToBeGenerated={finalDataNeedToBeGenerated}
                 setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated}
-              // handleClickSelectDataset={handleClickSelectDataset}
-              // handleChangeDatasetNameSelector={handleChangeDatasetNameSelector}
+                // handleClickSelectDataset={handleClickSelectDataset}
+                // handleChangeDatasetNameSelector={handleChangeDatasetNameSelector}
               />
             </Box>
           </>
