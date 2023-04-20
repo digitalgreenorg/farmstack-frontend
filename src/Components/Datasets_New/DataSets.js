@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import {
+  GetErrorHandlingRoute,
   getOrgLocal,
   getTokenLocal,
   getUserLocal,
@@ -228,8 +229,18 @@ const DataSets = (props) => {
         }
         setDatasetList(finalDataList);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(async (err) => {
+        let response = await GetErrorHandlingRoute(err);
+        if (response.toast) {
+          //callToast(message, type, action)
+          callToast(
+            response?.message ?? "Error occurred while getting datasets",
+            response.status == 200 ? "success" : "error",
+            response.toast
+          );
+        } else {
+          history.push(response?.path);
+        }
       });
   };
 
@@ -270,7 +281,19 @@ const DataSets = (props) => {
         }
         setMemberDatasetList(finalDataList);
       })
-      .catch((err) => {});
+      .catch(async (err) => {
+        let response = await GetErrorHandlingRoute(err);
+        if (response.toast) {
+          //callToast(message, type, action)
+          callToast(
+            response?.message ?? "Authenticated",
+            response.status == 200 ? "success" : "error",
+            response.toast
+          );
+        } else {
+          history.push(response?.path);
+        }
+      });
   };
 
   // filter-popovers handling
