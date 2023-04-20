@@ -67,8 +67,10 @@ const UploadFile = ({
 
   const [api, setApi] = useState();
   const [authType, setAuthType] = useState("");
-  const [authTypes, setAuthTypes] = useState(["no_auth", "auth_key", "bearer"]);
+  const [authTypes, setAuthTypes] = useState(["NO_AUTH", "API_KEY", "BEARER"]);
   const [authToken, setAuthToken] = useState();
+  const [authApiKeyName, setAuthApiKeyName] = useState("");
+  const [authApiKeyValue, setAuthApiKeyValue] = useState("");
   const [exportFileName, setExportFileName] = useState();
 
   const [isMySqlConnected, setIsMySqlConnected] = useState(false);
@@ -485,29 +487,6 @@ const UploadFile = ({
         .catch((err) => {
           console.log(err);
         });
-    } else if (selectedUploadType === "rest_api") {
-      let bodyFormData = new FormData();
-      bodyFormData.append("dataset_name", dataSetName);
-      bodyFormData.append("file_name", exportFileName);
-      bodyFormData.append("source", "live_api");
-      bodyFormData.append("api_key", "Bearer " + authToken);
-      bodyFormData.append("url", api);
-      let accessToken = getTokenLocal() ?? false;
-      HTTPService(
-        "POST",
-        UrlConstant.base_url + UrlConstant.live_api,
-        bodyFormData,
-        true,
-        true,
-        accessToken
-      )
-        .then((res) => {
-          setRestApiFiles(res.data);
-          setIsApiConnected(true);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     }
   };
 
@@ -692,7 +671,42 @@ const UploadFile = ({
     // }
   };
 
-  const handleExport = () => {};
+  const handleExport = () => {
+    if (selectedUploadType === "rest_api") {
+      let body = {
+        dataset: datasetId,
+        dataset_name: dataSetName,
+        url: api,
+        file_name: exportFileName,
+        source: "live_api",
+        auth_type: authType,
+      };
+      if (authType === "NO_AUTH") {
+        // do nothing for now
+      } else if (authType === "API_KEY" && authApiKeyName && authApiKeyValue) {
+        body["api_key_name"] = authApiKeyName;
+        body["api_key_value"] = authApiKeyValue;
+      } else if (authType === "BEARER") {
+        body["token"] = authToken;
+      }
+      let accessToken = getTokenLocal() ?? false;
+      HTTPService(
+        "POST",
+        UrlConstant.base_url + UrlConstant.live_api,
+        body,
+        true,
+        true,
+        accessToken
+      )
+        .then((res) => {
+          setRestApiFiles([restApifiles, ...res.data]);
+          setIsApiConnected(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
   return (
     <div className="mt-20">
@@ -1019,6 +1033,10 @@ const UploadFile = ({
                 setAuthTypes={setAuthTypes}
                 authToken={authToken}
                 setAuthToken={setAuthToken}
+                authApiKeyName={authApiKeyName}
+                setAuthApiKeyName={setAuthApiKeyName}
+                authApiKeyValue={authApiKeyValue}
+                setAuthApiKeyValue={setAuthApiKeyValue}
                 exportFileName={exportFileName}
                 setExportFileName={setExportFileName}
                 handleClearFields={handleClearFields}
