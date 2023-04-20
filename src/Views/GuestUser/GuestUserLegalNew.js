@@ -16,7 +16,7 @@ const GuestUserLegalNew = (props) => {
     callLoader(true);
     HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.microsite_legal_documents,
+      UrlConstant.base_url + UrlConstant.microsite_get_policy,
       "",
       false,
       false
@@ -77,7 +77,7 @@ const GuestUserLegalNew = (props) => {
           </div>
         </div>
       </Row>
-      <Row className={LocalStyle.alignLeft}>
+      <Row className={LocalStyle.title2}>
         <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold500}`}>
           Our terms are
         </Typography>

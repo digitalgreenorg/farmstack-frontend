@@ -173,7 +173,13 @@ const DataSets = (props) => {
     }
   };
 
-  const handleFilter = () => {};
+  const clearFilter = () => {
+    if (value === 0) {
+      getDataSets(false);
+    } else if (value === 1) {
+      getOtherDataSets(false);
+    }
+  };
 
   const getDataSets = (isLoadMore) => {
     if (!isLoadMore) {
@@ -545,13 +551,7 @@ const DataSets = (props) => {
               setType("");
               setCategorises([]);
               setGeographies([]);
-              value === 0 ? (
-                getDataSets(false)
-              ) : value === 1 ? (
-                getOtherDataSets(false)
-              ) : (
-                <></>
-              );
+              clearFilter();
             }}
           >
             <img
