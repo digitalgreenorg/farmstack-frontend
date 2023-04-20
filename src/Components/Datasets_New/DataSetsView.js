@@ -178,10 +178,10 @@ const DataSetsView = (props) => {
             (dataset) => dataset.source === "mysql"
           );
           let tempPostgresFiles = response.data.datasets?.filter(
-            (dataset) => dataset.source === "postgres"
+            (dataset) => dataset.source === "postgresql"
           );
           let tempRestApiFiles = response.data.datasets?.filter(
-            (dataset) => dataset.source === "restApi"
+            (dataset) => dataset.source === "live_api"
           );
           let prepareFilesContent = [];
           if (tempFiles && tempFiles?.length > 0) {
@@ -203,9 +203,11 @@ const DataSetsView = (props) => {
               );
             });
             newArr[0].details = prepareFilesContent;
-          } else if (tempSqlFiles && tempSqlFiles?.length > 0) {
+          }
+          let prepareSqlFilesContent = [];
+          if (tempSqlFiles && tempSqlFiles?.length > 0) {
             tempSqlFiles.forEach((tempFile, index) => {
-              prepareFilesContent.push(
+              prepareSqlFilesContent.push(
                 <Box>
                   <FileWithAction
                     index={index}
@@ -219,9 +221,12 @@ const DataSetsView = (props) => {
                 </Box>
               );
             });
-          } else if (tempPostgresFiles && tempPostgresFiles?.length > 0) {
+            newArr[1].details = prepareSqlFilesContent;
+          }
+          let preparePostgresFilesContent = [];
+          if (tempPostgresFiles && tempPostgresFiles?.length > 0) {
             tempPostgresFiles.forEach((tempFile, index) => {
-              prepareFilesContent.push(
+              preparePostgresFilesContent.push(
                 <Box>
                   <FileWithAction
                     index={index}
@@ -235,9 +240,12 @@ const DataSetsView = (props) => {
                 </Box>
               );
             });
-          } else if (tempRestApiFiles && tempRestApiFiles?.length > 0) {
+            newArr[2].details = preparePostgresFilesContent;
+          }
+          let prepareApiFilesContent = [];
+          if (tempRestApiFiles && tempRestApiFiles?.length > 0) {
             tempRestApiFiles.forEach((tempFile, index) => {
-              prepareFilesContent.push(
+              prepareApiFilesContent.push(
                 <Box>
                   <FileWithAction
                     index={index}
@@ -251,6 +259,7 @@ const DataSetsView = (props) => {
                 </Box>
               );
             });
+            newArr[3].details = prepareApiFilesContent;
           }
           setFiles(newArr);
 
