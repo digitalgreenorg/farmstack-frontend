@@ -407,9 +407,11 @@ const OrganizationDetails = (props) => {
             <TextField
               fullWidth
               required
+              // type="number"
               placeholder="PIN Code"
               label="PIN Code"
               variant="outlined"
+              inputProps={{maxLength: 10}}
               id="organisation_pin_code"
               name="organisation_pin_code"
               value={organisationDetails.organisation_pin_code}
@@ -528,7 +530,8 @@ const OrganizationDetails = (props) => {
                     organisationDetails.organisation_country &&
                     organisationDetails.organisation_description &&
                     organisationDetails.organisation_name &&
-                    organisationDetails.organisation_pin_code &&
+                    organisationDetails.organisation_pin_code.length > 5 &&
+                    organisationDetails.organisation_contact_number &&
                     organisationDetails.organisation_website_link &&
                     preview
                       ? false
@@ -555,8 +558,9 @@ const OrganizationDetails = (props) => {
             organisationDetails.organisation_country &&
             organisationDetails.organisation_description &&
             organisationDetails.organisation_name &&
-            organisationDetails.organisation_pin_code &&
+            organisationDetails.organisation_pin_code.length > 5 &&
             organisationDetails.organisation_website_link &&
+            organisationDetails.organisation_contact_number&&
             !organisationDetailsError.organisation_contact_number_error &&
             preview
               ? false

@@ -260,6 +260,14 @@ const ProfileDetails = (props) => {
                    Cancel
                  </Button>
                  <Button
+                 disabled={
+                  !profileDetailsError.contact_number &&
+                  profileDetails.contact_number &&
+                  profileDetails.email_id &&
+                  profileDetails.first_name
+                    ? false
+                    : true
+                }
                    id="submitbutton_account"
                    variant="outlined"
                    className={global_style.primary_button + " " + styles.next_button}

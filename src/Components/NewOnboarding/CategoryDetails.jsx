@@ -191,7 +191,7 @@ const CategoryDetails = (props) => {
       }
     }
     let arr = [...allCategories];
-    arr[index]["category_name"] = e.target.value;
+    arr[index]["category_name"] = e.target.value.trimStart();
     setAllCategories([...arr]);
   };
 
@@ -477,7 +477,7 @@ const CategoryDetails = (props) => {
               id="categoryName"
               name="categoryName"
               value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              onChange={(e) => setCategoryName(e.target.value.trimStart())}
               error={categoryNameError ? true : false}
               helperText={categoryNameError}
             />
@@ -493,7 +493,7 @@ const CategoryDetails = (props) => {
               rows={4}
               placeholder="Category Description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value.trimStart())}
             />
           </Col>
         </Row>
@@ -523,7 +523,7 @@ const CategoryDetails = (props) => {
               id="categoryName"
               name="categoryName"
               value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              onChange={(e) => setCategoryName(e.target.value.trimStart())}
               error={categoryNameError ? true : false}
               helperText={categoryNameError}
             />
@@ -539,7 +539,7 @@ const CategoryDetails = (props) => {
               rows={4}
               placeholder="Category Description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value.trimStart())}
             />
           </Col>
         </Row>

@@ -564,6 +564,7 @@ const ParticipantFormNew = (props) => {
               label="Contact Number"
               fullWidth
               required
+              type="number"
               value={contactNumber}
               onChange={(event) => setContactNumber(event.target.value)}
             />

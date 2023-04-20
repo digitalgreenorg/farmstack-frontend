@@ -230,12 +230,18 @@ const CompanyPolicies = (props) => {
     );
     const [policyNameError, setPolicyNameError] = useState("");
     const handleUploadPolicyE = (file) => {
-      console.log(file, "file");
-      setIsLogoLinkE(false);
+      // console.log("file", file);
+      // // setIsLogoLinkE(false);
+      // // // data[index].file = file;
+      // // setPolicySize(file.size);
+      // setUploadedPolicyE(file);
+      console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
-      // data[index].file = file;
-      setPolicySize(file.size);
+      console.log("uploadedPolicyE state:", uploadedPolicyE);
     };
+    useEffect(() => {
+      console.log("uploadedPolicyE state has changed:", uploadedPolicyE);
+    }, [uploadedPolicyE]);
 
     useEffect(() => {
       console.log(uploadedPolicyE, policySize);
@@ -270,9 +276,10 @@ const CompanyPolicies = (props) => {
       let payload = new FormData();
       payload.append("description", policyDesc);
       payload.append("name", policyNameUnderAccordion);
-      {
-        !isLogoLinkE && payload.append("file", uploadedPolicyE);
-      }
+      isLogoLinkE && payload.append("file", uploadedPolicyE)
+      // {
+      //   !isLogoLinkE && payload.append("file", uploadedPolicyE);
+      // }
       let response = await submitPolicy("PATCH", data.id, payload);
 
       let arr = [...allPolicies];
@@ -361,9 +368,13 @@ const CompanyPolicies = (props) => {
               <FileUploaderMain
                 isMultiple={false}
                 texts={
-                  "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                  "Droppppp files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
                 }
                 fileTypes={["pdf", "doc"]}
+                // handleChange={(file) =>
+                //   handleUploadPolicyE(file)
+                  
+                // }
                 handleChange={handleUploadPolicyE}
                 maxSize={25}
                 setSizeError={() =>

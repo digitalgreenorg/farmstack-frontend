@@ -206,7 +206,7 @@ const StandardizationInOnbord = (props) => {
     console.log("allAttribute in start of function", allAttributes);
     let tmpAllAttributes = { ...allAttributes };
 
-    tmpAllAttributes[index][allAttributesArrIndex] = newValue;
+    tmpAllAttributes[index][allAttributesArrIndex] = newValue.trimStart();
     setAllAttributes(tmpAllAttributes);
     console.log("allAttribute", allAttributes);
   };
