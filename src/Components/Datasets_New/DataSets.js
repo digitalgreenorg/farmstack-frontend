@@ -26,7 +26,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Filter from "../Filter/Filter";
 import CheckBoxWithText from "./TabComponents/CheckBoxWithText";
 import ShowFilterChips from "../Filter/ShowFilterChips";
-// import { City, Country, State } from "country-state-city";
+import { City, Country, State } from "country-state-city";
 
 const cardSx = {
   maxWidth: 368,
@@ -40,7 +40,6 @@ const cardSx = {
 };
 const DataSets = (props) => {
   const { user } = props;
-  const { Country, State, City } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const [state, setState] = useState([0, 1, 2, 3, 4, 5]);
@@ -375,18 +374,18 @@ const DataSets = (props) => {
   };
 
   const getAllGeoGraphies = () => {
-    // setCountries(Country.getAllCountries());
-    // if (geography?.country) {
-    //   setStates(State?.getStatesOfCountry(geography?.country?.isoCode));
-    // }
-    // if (geography?.country && geography?.state?.name) {
-    //   setCities(
-    //     City.getCitiesOfState(
-    //       geography?.state?.countryCode,
-    //       geography?.state?.isoCode
-    //     )
-    //   );
-    // }
+    setCountries(Country.getAllCountries());
+    if (geography?.country) {
+      setStates(State?.getStatesOfCountry(geography?.country?.isoCode));
+    }
+    if (geography?.country && geography?.state?.name) {
+      setCities(
+        City.getCitiesOfState(
+          geography?.state?.countryCode,
+          geography?.state?.isoCode
+        )
+      );
+    }
   };
 
   const callApply = (isLoadMore) => {

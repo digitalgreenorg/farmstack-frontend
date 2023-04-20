@@ -12,13 +12,12 @@ import CheckBoxWithText from "./CheckBoxWithText";
 import { getTokenLocal } from "../../../Utils/Common";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-// import { Country, State, City } from 'country-state-city'
+import { Country, State, City } from "country-state-city";
 const Categorise = (props) => {
   const [allCategories, setAllCategories] = useState([]);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const { Country, State, City } = props;
   const handleCheckBox = (keyName, value) => {
     let tempCategories = { ...props.categorises };
     let tempJson = Object.keys(props.categorises);
@@ -93,18 +92,18 @@ const Categorise = (props) => {
   }, [props.categorises]);
 
   useEffect(() => {
-    // setCountries(Country.getAllCountries());
-    // if (props.geography?.country) {
-    //   setStates(State?.getStatesOfCountry(props.geography?.country?.isoCode));
-    // }
-    // if (props.geography?.country && props.geography?.state?.name) {
-    //   setCities(
-    //     City.getCitiesOfState(
-    //       props.geography?.state?.countryCode,
-    //       props.geography?.state?.isoCode
-    //     )
-    //   );
-    // }
+    setCountries(Country.getAllCountries());
+    if (props.geography?.country) {
+      setStates(State?.getStatesOfCountry(props.geography?.country?.isoCode));
+    }
+    if (props.geography?.country && props.geography?.state?.name) {
+      setCities(
+        City.getCitiesOfState(
+          props.geography?.state?.countryCode,
+          props.geography?.state?.isoCode
+        )
+      );
+    }
   }, [props.geography]);
   return (
     <div className="mt-20">
