@@ -5,7 +5,9 @@ import Box from "@mui/system/Box";
 
 const CustomTabs = (props) => {
   // this component expects 3 things in props
-  const { tabValue, setTabValue, TabLabels } = props;
+  const { tabValue, setTabValue, TabLabels, orientation, filledBackground } =
+    props;
+  console.log("in cutom tab", tabValue, setTabValue, TabLabels);
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -22,12 +24,24 @@ const CustomTabs = (props) => {
             borderLeft: "none !important",
             borderTop: "none !important",
             borderRight: "none !important",
+            alignItems: "baseline",
+            width: "260px",
           },
-          "& .Mui-selected": { color: "#00AB55 !important" },
+          "& .Mui-selected": {
+            alignItems: "baseline",
+            color: filledBackground
+              ? "#ffffff !important"
+              : "#00AB55 !important",
+            backgroundColor: filledBackground
+              ? " #00AB55 !important"
+              : "#ffffff !important",
+            width: "260px",
+          },
         }}
         value={tabValue}
         onChange={handleChange}
         aria-label="tabs"
+        orientation={orientation ?? "horizontal"}
       >
         {TabLabels?.map((label, index) => (
           <Tab id={label + index} label={label} />

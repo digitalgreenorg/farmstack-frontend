@@ -142,6 +142,8 @@ const ParticipantsAndCoStewardNew = () => {
     }
   }, []);
 
+  console.log("is login user", isLoggedInUserAdmin());
+
   const breadcrumbs = [
     <Link
       underline="hover"
@@ -176,7 +178,7 @@ const ParticipantsAndCoStewardNew = () => {
           TabLabels={tabLabels}
         />
       </Box>
-      {isLoggedInUserAdmin ? (
+      {isLoggedInUserAdmin() ? (
         <>
           {tabValue === 0 &&
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
