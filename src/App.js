@@ -33,9 +33,9 @@ import Loader from "./Components/Loader/Loader";
 import Toast from "./Components/Generic/Toast";
 import GuestRoutes from "./Layout/GuestRoutes";
 import GuestUserDatasets from "./Components/GuestUser/GuestUserDatasets";
+import NewError from "./Components/Error/NewError";
 function App() {
   const { isLoading, toastDetail } = useContext(FarmStackContext);
-
   return (
     <React.Fragment>
       {isLoading ? <Loader /> : ""}
@@ -58,9 +58,9 @@ function App() {
           <Route path="/datahub" component={Datahub} />
           <Route path="/participant" component={Participant} />
           <Route path="/sessionexpired" component={SessionExpired} />
-          <Route path="/error" component={Error} />
+          <Route path="/error/:status" component={NewError} />
           <Route path="/home" component={GuestRoutes} />
-          <Route exact path="/home/viewdataset/:id" component={Viewdetails} />
+          {/* <Route exact path="/home/viewdataset/:id" component={Viewdetails} /> */}
           <Route exact path="/legal" component={GuestUserLegal} />
           <Route exact path="/contact" component={GuestUserContact} />
           <Route

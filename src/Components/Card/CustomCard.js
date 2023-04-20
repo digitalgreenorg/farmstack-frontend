@@ -35,7 +35,7 @@ const CustomCard = (props) => {
             />
           ) : (
             <h1 className={LocalStyle.firstLetterOnLogo}>
-              {title?.split("")[0]}
+              {title?.split("")[0]?.toUpperCase()}
             </h1>
           )}
         </div>

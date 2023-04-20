@@ -27,7 +27,7 @@ const labels = {
       contact: "Contact",
       apply_for_participant: "Apply for participant",
       Dashboard: "Dashboard",
-      integration: "Integration"
+      integration: "Integration",
     },
     addparticipants: {
       first_heading: "Add participants organisation details",
@@ -90,7 +90,6 @@ const labels = {
         "The Co-Steward's account will be deleted from the system, together with the organization's information, users, datasets, and connectors.",
       third_delete_msg:
         "The Co-Steward's account in the datahub will no longer be accessible.",
-
     },
     inviteParticipants: {
       first_heading: "Invite participants",
@@ -379,7 +378,8 @@ const labels = {
     },
     co_steward: {
       add_co_steward: "Add new Co-Steward",
-      add_co_steward_description:  "Add details about your Co-Steward and make it discoverable to other users of pour network.",
+      add_co_steward_description:
+        "Add details about your Co-Steward and make it discoverable to other users of pour network.",
       first_heading: "Co-Steward organisation details",
       second_heading: "Co-Steward root user details",
       third_heading: "Co-Steward's subscription length to the datahub",
@@ -395,8 +395,12 @@ const labels = {
     },
     data_satandardization: {
       submit_button: "Submit",
-      clear_button: 'Clear',
-    }
+      clear_button: "Clear",
+    },
+    roleNo: {
+      participantsRoleNo: 3,
+      coStewarRoleNo: 6,
+    },
   },
 };
 export default labels;

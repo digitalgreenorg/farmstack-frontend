@@ -16,7 +16,12 @@ import labels from "../../Constants/labels";
 import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  getUserLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+} from "../../Utils/Common";
 
 const ParticipantsAndCoStewardNew = () => {
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
@@ -28,7 +33,10 @@ const ParticipantsAndCoStewardNew = () => {
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [viewType, setViewType] = useState("grid");
-  const TabLabels = ["Co-Steward", "Participant", "New Participant Requests"];
+  let [tabLabels, setTabLabels] = useState([
+    "Participant",
+    "New Participant Requests",
+  ]);
 
   const handleClick = () => {
     console.log("click");
@@ -48,18 +56,34 @@ const ParticipantsAndCoStewardNew = () => {
     console.log("in getCoStewardOrParticipantsOnLoad");
     // setIsLoading(true);
     callLoader(true);
-
-    let url =
-      tabValue == 0
-        ? UrlConstant.base_url + UrlConstant.participant + "?co_steward=true"
-        : tabValue == 1
-        ? UrlConstant.base_url + UrlConstant.participant
-        : UrlConstant.base_url +
-          UrlConstant.participant +
-          "?approval_status=False";
-    if (approval_endpoint)
+    let params = {};
+    let url = UrlConstant.base_url + UrlConstant.participant;
+    if (tabValue == 0) {
+      params = { co_steward: "True" };
+    } else if (tabValue == 2) {
+      params = { approval_status: "False" };
+    }
+    // +
+    // "?approval_status=False";
+    if (approval_endpoint) {
       url = UrlConstant.participant + unApprovedId + "?approval_status=True";
-    HTTPService("GET", url, "", false, true)
+    }
+    // if (tabValue != 0 || tabValue != 1) params = { approval_status: "False" };
+
+    if (isLoggedInUserCoSteward()) {
+      params = {};
+
+      if (tabValue == 0) {
+        params = { on_boarded_by: getUserLocal() };
+      } else if (tabValue == 1) {
+        params = { approval_status: "False", on_boarded_by: getUserLocal() };
+      }
+
+      // params = { on_boarded_by: getUserLocal() };
+      // tabValue == 1 ? (params[approval_status] = "False") : "";
+    }
+    console.log("in api call checking tab", tabValue, params);
+    HTTPService("GET", url, params, false, true)
       .then((response) => {
         callLoader(false);
         if (response?.data?.next == null) {
@@ -109,10 +133,14 @@ const ParticipantsAndCoStewardNew = () => {
   useEffect(() => {
     setCoStewardOrParticipantsList([]);
     getCoStewardOrParticipantsOnLoad();
-    console.log("in useeffect");
   }, [tabValue]);
 
-  console.log("coStewardOrParticipantsList", coStewardOrParticipantsList);
+  useEffect(() => {
+    if (isLoggedInUserAdmin()) {
+      setTabLabels(["Co-Steward", "Participant", "New Participant Requests"]);
+      // console.log();
+    }
+  }, []);
 
   const breadcrumbs = [
     <Link
@@ -145,80 +173,134 @@ const ParticipantsAndCoStewardNew = () => {
         <CustomTabs
           tabValue={tabValue}
           setTabValue={setTabValue}
-          TabLabels={TabLabels}
+          TabLabels={tabLabels}
         />
       </Box>
-      {tabValue === 0 &&
-        (coStewardOrParticipantsList.length === 0 && !isLoading ? (
-          <Box p={3}>
-            <NoData
-              title={"There is no Co-Stewards"}
-              subTitle={
-                "As of now there is no co-stewards, so add participants and make them co-steward."
-              }
-              primaryButton={"Add participant"}
-              primaryButtonOnClick={() =>
-                history.push("/datahub/participants/add")
-              }
-            />
-          </Box>
-        ) : (
-          <CoStewardAndParticipantsCard
-            title={"Co-steward"}
-            viewType={viewType}
-            setViewType={setViewType}
-            coStewardOrParticipantsList={coStewardOrParticipantsList}
-            loadMoreButton={loadMoreButton}
-            handleLoadMoreButton={handleLoadMoreButton}
-          />
-        ))}
-      {tabValue === 1 &&
-        (coStewardOrParticipantsList.length === 0 && !isLoading ? (
-          <Box p={3}>
-            <NoData
-              title={"There is no Participant!"}
-              subTitle={
-                "As of now there is no participant, so add participants or invite participants."
-              }
-              primaryButton={"Add participant"}
-              primaryButtonOnClick={() =>
-                history.push("/datahub/participants/add")
-              }
-              secondaryButton={"+ Invite participants"}
-              secondaryButtonOnClick={() =>
-                history.push("/datahub/participants/inviteparticipants")
-              }
-            />
-          </Box>
-        ) : (
-          <CoStewardAndParticipantsCard
-            title={"Participants"}
-            viewType={viewType}
-            setViewType={setViewType}
-            coStewardOrParticipantsList={coStewardOrParticipantsList}
-            loadMoreButton={loadMoreButton}
-            handleLoadMoreButton={handleLoadMoreButton}
-          />
-        ))}
-      {tabValue === 2 &&
-        (coStewardOrParticipantsList.length === 0 && !isLoading ? (
-          <Box p={3}>
-            <NoData
-              title={"There is no Participant requests!"}
-              subTitle={"As of now there is no participant request!"}
-              // primaryButton={"Add participant"}
-            />
-          </Box>
-        ) : (
-          <CoStewardAndParticipantsCard
-            title={"New participant requests"}
-            viewType={viewType}
-            setViewType={setViewType}
-            coStewardOrParticipantsList={coStewardOrParticipantsList}
-            loadMoreButton={loadMoreButton}
-            handleLoadMoreButton={handleLoadMoreButton}
-          />
-        ))}
+      {isLoggedInUserAdmin() ? (
+        <>
+          {tabValue === 0 &&
+            (coStewardOrParticipantsList.length === 0 && !isLoading ? (
+              <Box p={3}>
+                <NoData
+                  title={"There is no Co-Stewards"}
+                  subTitle={
+                    "As of now there is no co-stewards, so add participants and make them co-steward."
+                  }
+                  primaryButton={"Add participant"}
+                  primaryButtonOnClick={() =>
+                    history.push("/datahub/participants/add")
+                  }
+                />
+              </Box>
+            ) : (
+              <CoStewardAndParticipantsCard
+                title={"Co-steward"}
+                viewType={viewType}
+                setViewType={setViewType}
+                coStewardOrParticipantsList={coStewardOrParticipantsList}
+                loadMoreButton={loadMoreButton}
+                handleLoadMoreButton={handleLoadMoreButton}
+              />
+            ))}
+          {tabValue === 1 &&
+            (coStewardOrParticipantsList.length === 0 && !isLoading ? (
+              <Box p={3}>
+                <NoData
+                  title={"There is no Participant!"}
+                  subTitle={
+                    "As of now there is no participant, so add participants or invite participants."
+                  }
+                  primaryButton={"Add participant"}
+                  primaryButtonOnClick={() =>
+                    history.push("/datahub/participants/add")
+                  }
+                  secondaryButton={"+ Invite participants"}
+                  secondaryButtonOnClick={() =>
+                    history.push("/datahub/participants/inviteparticipants")
+                  }
+                />
+              </Box>
+            ) : (
+              <CoStewardAndParticipantsCard
+                title={"Participants"}
+                viewType={viewType}
+                setViewType={setViewType}
+                coStewardOrParticipantsList={coStewardOrParticipantsList}
+                loadMoreButton={loadMoreButton}
+                handleLoadMoreButton={handleLoadMoreButton}
+              />
+            ))}
+          {tabValue === 2 &&
+            (coStewardOrParticipantsList.length === 0 && !isLoading ? (
+              <Box p={3}>
+                <NoData
+                  title={"There is no Participant requests!"}
+                  subTitle={"As of now there is no participant request!"}
+                  // primaryButton={"Add participant"}
+                />
+              </Box>
+            ) : (
+              <CoStewardAndParticipantsCard
+                title={"New participant requests"}
+                viewType={viewType}
+                setViewType={setViewType}
+                coStewardOrParticipantsList={coStewardOrParticipantsList}
+                loadMoreButton={loadMoreButton}
+                handleLoadMoreButton={handleLoadMoreButton}
+              />
+            ))}
+        </>
+      ) : (
+        <>
+          {tabValue === 0 &&
+            (coStewardOrParticipantsList.length === 0 && !isLoading ? (
+              <Box p={3}>
+                <NoData
+                  title={"There is no Participant!"}
+                  subTitle={
+                    "As of now there is no participant, so add participants or invite participants."
+                  }
+                  primaryButton={"Add participant"}
+                  primaryButtonOnClick={() =>
+                    history.push("/datahub/participants/add")
+                  }
+                  secondaryButton={"+ Invite participants"}
+                  secondaryButtonOnClick={() =>
+                    history.push("/datahub/participants/inviteparticipants")
+                  }
+                />
+              </Box>
+            ) : (
+              <CoStewardAndParticipantsCard
+                title={"Participants"}
+                viewType={viewType}
+                setViewType={setViewType}
+                coStewardOrParticipantsList={coStewardOrParticipantsList}
+                loadMoreButton={loadMoreButton}
+                handleLoadMoreButton={handleLoadMoreButton}
+              />
+            ))}
+          {tabValue === 1 &&
+            (coStewardOrParticipantsList.length === 0 && !isLoading ? (
+              <Box p={3}>
+                <NoData
+                  title={"There is no Participant requests!"}
+                  subTitle={"As of now there is no participant request!"}
+                  // primaryButton={"Add participant"}
+                />
+              </Box>
+            ) : (
+              <CoStewardAndParticipantsCard
+                title={"New participant requests"}
+                viewType={viewType}
+                setViewType={setViewType}
+                coStewardOrParticipantsList={coStewardOrParticipantsList}
+                loadMoreButton={loadMoreButton}
+                handleLoadMoreButton={handleLoadMoreButton}
+              />
+            ))}
+        </>
+      )}
     </Container>
   );
 };

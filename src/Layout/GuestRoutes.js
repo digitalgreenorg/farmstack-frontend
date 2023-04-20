@@ -12,6 +12,7 @@ import GuestUserDatasets from "../Components/GuestUser/GuestUserDatasets";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import GuestUserDatatsets from "../Views/Dataset/GuestUserDataset";
 import GuestUserHomeNew from "../Views/GuestUser/GuestUserHomeNew";
+import GuestUserLegalNew from "../Views/GuestUser/GuestUserLegalNew";
 
 const GuestRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const GuestRoutes = () => {
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
           <Route exact path="/home/datasets" component={GuestUserDatatsets} />
+          <Route exact path="/home/legal" component={GuestUserLegalNew} />
         </Switch>
       </div>
       <FooterNew />

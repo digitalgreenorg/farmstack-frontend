@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, TextField } from "@mui/material";
-import { CheckBox } from "@mui/icons-material";
+import { Button, Checkbox, TextField } from "@mui/material";
+// import { CheckBox } from "@mui/icons-material";
 import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
 // import { logIn } from "./utils";
@@ -31,6 +31,9 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 const VerifyEmailStep = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
 
+  const [agreementChecked, setAgreementChecked] = useState(
+    localStorage.getItem("dev_mode") ? true : false
+  );
   const { setActiveStep } = props;
   const [loginError, setLoginError] = useState("");
   const [emailId, setEmailId] = useState("");
@@ -95,7 +98,7 @@ const VerifyEmailStep = (props) => {
               if (isLoggedInUserAdmin()) {
                 history.push("/datahub/new_datasets");
               } else if (isLoggedInUserParticipant()) {
-                history.push("/participant/datasets");
+                history.push("/participant/new_datasets");
               } else if (isLoggedInUserCoSteward()) {
                 history.push("/datahub/new_datasets");
               }
@@ -305,7 +308,11 @@ const VerifyEmailStep = (props) => {
       </div>
       {agreement && (
         <div className={styles.agreement}>
-          <CheckBox className={styles.checkbox} />{" "}
+          <Checkbox
+            checked={agreementChecked}
+            onClick={(e) => setAgreementChecked(e.target.checked)}
+            className={styles.checkbox}
+          />{" "}
           <span className={styles.agreement_line}>
             {" "}
             Agree to the Farmstack terms and privacy policy.
@@ -350,7 +357,7 @@ const VerifyEmailStep = (props) => {
       <div className={styles.send_otp_div}>
         <Button
           disabled={
-            isEmailValid && !isValidEmailSent
+            isEmailValid && !isValidEmailSent && agreementChecked
               ? false
               : isValidEmailSent && otp && otp.length == 6
               ? false

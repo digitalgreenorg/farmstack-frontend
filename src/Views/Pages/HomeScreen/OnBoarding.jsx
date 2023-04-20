@@ -24,6 +24,11 @@ import DatapointDetails from "../../../Components/NewOnboarding/DatapointDetails
 import LetsGetStarted from "../../../Components/NewOnboarding/LetsGetStarted";
 import global_styles from "../../../Assets/CSS/global.module.css";
 import { CSSTransition } from "react-transition-group";
+import {
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
+} from "../../../Utils/Common";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -157,46 +162,65 @@ ColorlibStepIcon.propTypes = {
   icon: PropTypes.node,
 };
 
-const steps = [
-  {
-    label: "Verify Email ID",
-    subLabel: "Step 1",
-    completed: false,
-  },
-  {
-    label: "Profile Details",
-    subLabel: "Step 2",
-    completed: false,
-  },
-  {
-    label: "Organisation Details",
-    subLabel: "Step 3",
-    completed: false,
-  },
-  {
-    label: "Company Policies",
-    subLabel: "Step 4",
-    completed: false,
-  },
-  {
-    label: "Category Details",
-    subLabel: "Step 5",
-    completed: false,
-  },
-  {
-    label: "DataPoint Details",
-    subLabel: "Step 6",
-    completed: false,
-  },
-];
-
 export default function OnBoarding() {
   const [activeStep, setActiveStep] = React.useState(-1);
-  const [skipped, setSkipped] = React.useState(new Set());
   let dev_mode =
     Window?.ENV_VARS?.REACT_APP_DEV_MODE || process.env.REACT_APP_DEV_MODE;
   console.log(dev_mode);
   localStorage.setItem("dev_mode", dev_mode);
+  let steps = [];
+  if (isLoggedInUserAdmin()) {
+    steps = [
+      {
+        label: "Verify Email ID",
+        subLabel: "Step 1",
+        completed: false,
+      },
+      {
+        label: "Profile Details",
+        subLabel: "Step 2",
+        completed: false,
+      },
+      {
+        label: "Organisation Details",
+        subLabel: "Step 3",
+        completed: false,
+      },
+      {
+        label: "Company Policies",
+        subLabel: "Step 4",
+        completed: false,
+      },
+      {
+        label: "Category Details",
+        subLabel: "Step 5",
+        completed: false,
+      },
+      {
+        label: "DataPoint Details",
+        subLabel: "Step 6",
+        completed: false,
+      },
+    ];
+  } else if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
+    steps = [
+      {
+        label: "Verify Email ID",
+        subLabel: "Step 1",
+        completed: false,
+      },
+      {
+        label: "Profile Details",
+        subLabel: "Step 2",
+        completed: false,
+      },
+      {
+        label: "Organisation Details",
+        subLabel: "Step 3",
+        completed: false,
+      },
+    ];
+  }
   return (
     <Stack
       className={
@@ -208,10 +232,13 @@ export default function OnBoarding() {
       }
       sx={{ width: "100%" }}
     >
+      {/* {isLoggedInUserAdmin() && ( */}
       <div className={styles.farmstack_logo}>
         <img src={new_farmstack_main_logo} alt="Farmstack" />
       </div>
-      {activeStep >= 0 && (
+      {/* )} */}
+
+      {activeStep > 0 && (
         <Stepper
           className={
             styles.steppers + " " + global_styles.font_family + " " + "stepper_"
@@ -220,18 +247,20 @@ export default function OnBoarding() {
           activeStep={activeStep}
           connector={<QontoConnector />}
         >
-          {steps.map((label, index) => (
-            <Step key={label.label}>
-              <StepLabel
-                onClick={() => dev_mode && setActiveStep(index)}
-                classes={styles.steps_label}
-                StepIconComponent={QontoStepIcon}
-              >
-                Step {" " + (index + 1)} <br />
-                {label.label}
-              </StepLabel>
-            </Step>
-          ))}
+          {steps.map((label, index) => {
+            return (
+              <Step key={label.label}>
+                <StepLabel
+                  onClick={() => dev_mode && setActiveStep(index)}
+                  classes={styles.steps_label}
+                  StepIconComponent={QontoStepIcon}
+                >
+                  Step {" " + (index + 1)} <br />
+                  {label.label}
+                </StepLabel>
+              </Step>
+            );
+          })}
         </Stepper>
       )}
       {activeStep >= 0 && (

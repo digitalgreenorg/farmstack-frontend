@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   Button,
@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import {
+  GetErrorHandlingRoute,
   getOrgLocal,
   getTokenLocal,
   getUserLocal,
@@ -21,6 +22,12 @@ import FooterNew from "../Footer/Footer_New";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import DataSetsTab from "./DataSetsTab/DataSetsTab";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Filter from "../Filter/Filter";
+import CheckBoxWithText from "./TabComponents/CheckBoxWithText";
+import ShowFilterChips from "../Filter/ShowFilterChips";
+import { City, Country, State } from "country-state-city";
 
 const cardSx = {
   maxWidth: 368,
@@ -34,6 +41,7 @@ const cardSx = {
 };
 const DataSets = (props) => {
   const { user } = props;
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const [state, setState] = useState([0, 1, 2, 3, 4, 5]);
   const [searchDatasetsName, setSearchDatasetsName] = useState();
@@ -57,6 +65,24 @@ const DataSets = (props) => {
   var memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
   var searchUrl =
     UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant;
+
+  // filter-popovers
+  const [geographies, setGeographies] = useState([]);
+  const [allGeographies, setAllGeographies] = useState([]);
+  const [categorises, setCategorises] = useState({});
+  const [allCategories, setAllCategories] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [content, setContent] = useState([]);
+  const [type, setType] = useState("");
+  const [filterItems, setFilterItems] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [geography, setGeography] = useState({
+    country: null,
+    state: null,
+    city: null,
+  });
 
   const resetUrls = () => {
     adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
@@ -157,7 +183,13 @@ const DataSets = (props) => {
     }
   };
 
-  const handleFilter = () => {};
+  const clearFilter = () => {
+    if (value === 0) {
+      getDataSets(false);
+    } else if (value === 1) {
+      getOtherDataSets(false);
+    }
+  };
 
   const getDataSets = (isLoadMore) => {
     if (!isLoadMore) {
@@ -197,8 +229,18 @@ const DataSets = (props) => {
         }
         setDatasetList(finalDataList);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(async (err) => {
+        let response = await GetErrorHandlingRoute(err);
+        if (response.toast) {
+          //callToast(message, type, action)
+          callToast(
+            response?.message ?? "Error occurred while getting datasets",
+            response.status == 200 ? "success" : "error",
+            response.toast
+          );
+        } else {
+          history.push(response?.path);
+        }
       });
   };
 
@@ -239,8 +281,195 @@ const DataSets = (props) => {
         }
         setMemberDatasetList(finalDataList);
       })
-      .catch((err) => {});
+      .catch(async (err) => {
+        let response = await GetErrorHandlingRoute(err);
+        if (response.toast) {
+          //callToast(message, type, action)
+          callToast(
+            response?.message ?? "Authenticated",
+            response.status == 200 ? "success" : "error",
+            response.toast
+          );
+        } else {
+          history.push(response?.path);
+        }
+      });
   };
+
+  // filter-popovers handling
+  const handleFilterClick = (type) => {
+    if (type === "geography") {
+      setContent(allGeographies);
+      setType(type);
+      setShowFilter(true);
+    } else if (type === "categories") {
+      setContent(allCategories);
+      setType(type);
+      setShowFilter(true);
+    }
+  };
+
+  const handleCheckBox = (keyName, value) => {
+    let tempCategories = { ...categorises };
+    let tempJson = Object.keys(categorises);
+    if (tempJson.includes(keyName)) {
+      if (tempCategories[keyName].includes(value)) {
+        if (tempCategories[keyName]?.length === 1) {
+          delete tempCategories[keyName];
+        } else {
+          let index = tempCategories[keyName].indexOf(value);
+          tempCategories[keyName].splice(index, 1);
+        }
+      } else {
+        tempCategories[keyName].push(value);
+      }
+      setCategorises({ ...tempCategories });
+    } else {
+      setCategorises((currentState) => {
+        return { ...currentState, [keyName]: [value] };
+      });
+    }
+  };
+
+  const handleGeoCheckBox = (keyName) => {
+    let tempGeographies = [...geographies];
+    if (tempGeographies.includes(keyName)) {
+      const index = tempGeographies.indexOf(keyName);
+      if (index > -1) {
+        tempGeographies.splice(index, 1);
+        setGeographies(tempGeographies);
+      }
+    } else {
+      tempGeographies.push(keyName);
+      setGeographies((prev) => [...prev, keyName]);
+    }
+  };
+
+  const getAllCategoryAndSubCategory = () => {
+    let checkforAccess = getTokenLocal() ?? false;
+    HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.add_category_edit_category,
+      "",
+      true,
+      true,
+      checkforAccess
+    )
+      .then((response) => {
+        let prepareArr = [];
+        for (const [key, value] of Object.entries(response.data)) {
+          let obj = {};
+          obj[key] = value;
+          prepareArr.push(Object.keys(value).length ? obj : []);
+        }
+        let tempCategories = [];
+        prepareArr.forEach((item, index) => {
+          let keys = Object.keys(item);
+          let prepareCheckbox = [];
+          if (keys.length) {
+            let tCategory = categorises?.[keys];
+            prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
+              return (
+                <CheckBoxWithText
+                  key={ind}
+                  text={res}
+                  checked={tCategory?.includes(res)}
+                  categoryKeyName={keys[0]}
+                  keyName={res}
+                  handleCheckBox={handleCheckBox}
+                  fontSize={"12px"}
+                />
+              );
+            });
+            let obj = {
+              panel: index + 1,
+              title: keys[0],
+              details: prepareCheckbox ? prepareCheckbox : [],
+            };
+            tempCategories = tempCategories.concat(obj);
+          }
+        });
+        setAllCategories(tempCategories);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getAllGeoGraphies = () => {
+    setCountries(Country.getAllCountries());
+    if (geography?.country) {
+      setStates(State?.getStatesOfCountry(geography?.country?.isoCode));
+    }
+    if (geography?.country && geography?.state?.name) {
+      setCities(
+        City.getCitiesOfState(
+          geography?.state?.countryCode,
+          geography?.state?.isoCode
+        )
+      );
+    }
+  };
+
+  const callApply = (isLoadMore) => {
+    let payload = {};
+    payload["user_id"] = getUserLocal();
+    payload["org_id"] = getOrgLocal();
+    payload["others"] = value === 0 ? false : true;
+    if (
+      geography?.country?.name ||
+      geography?.state?.name ||
+      geography?.city?.name
+    ) {
+      let geo = {};
+      for (const [key, value] of Object.entries(geography)) {
+        if (value?.name) {
+          geo[key] = [value?.name];
+        }
+      }
+      payload["geography__contains"] = geo;
+    }
+    if (categorises && Object.keys(categorises).length) {
+      let arr = [];
+      for (const [key, value] of Object.entries(categorises)) {
+        let obj = {};
+        obj[key] = value;
+        arr.push(obj);
+      }
+      payload["category"] = arr;
+    }
+    // payload["created_at__range"] = [];
+    callLoader(true);
+    HTTPService(
+      "POST",
+      !isLoadMore ? adminUrl : datasetUrl,
+      payload,
+      false,
+      true
+    )
+      .then((response) => {
+        callLoader(false);
+        if (response.data.next == null) {
+          setShowLoadMoreAdmin(false);
+          setFilterState({});
+        } else {
+          setDatasetUrl(response.data.next);
+          setShowLoadMoreAdmin(true);
+        }
+        let finalDataList = [];
+        if (isLoadMore) {
+          finalDataList = [...datasetList, ...response.data.results];
+        } else {
+          finalDataList = [...response.data.results];
+        }
+        setDatasetList(finalDataList);
+      })
+      .catch((err) => {
+        callLoader(false);
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getDataSets(false);
     getOtherDataSets(false);
@@ -250,6 +479,16 @@ const DataSets = (props) => {
     setSearchDatasetsName("");
   }, [value]);
 
+  useEffect(() => {
+    getAllGeoGraphies();
+  }, [geography, type]);
+
+  useEffect(() => {
+    getAllCategoryAndSubCategory();
+  }, [categorises, type]);
+
+  console.log(geographies, "dsets");
+  console.log(geography, "dsets");
   return (
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -294,26 +533,57 @@ const DataSets = (props) => {
           }}
         />
         <div className="filter">
-          <div className="d-flex align-items-center">
+          <div
+            className={
+              showFilter && type === "geography"
+                ? "d-flex align-items-center filter_text_container_active"
+                : "d-flex align-items-center filter_text_container"
+            }
+            onClick={() => handleFilterClick("geography")}
+          >
             <img
               src={require("../../Assets/Img/geography_new.svg")}
               alt="geography"
             />
-            <span className="filter_text">Geography</span>
+            <span className="filter_text">
+              Geography <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+            </span>
           </div>
-          <div className="d-flex align-items-center">
-            <img src={require("../../Assets/Img/by_age.svg")} alt="by age" />
-            <span className="filter_text">By Age</span>
-          </div>
-          <div className="d-flex align-items-center">
+
+          <div
+            className={
+              showFilter && type === "categories"
+                ? "d-flex align-items-center filter_text_container_active"
+                : "d-flex align-items-center filter_text_container"
+            }
+            onClick={() => handleFilterClick("categories")}
+          >
             <img src={require("../../Assets/Img/crop_new.svg")} alt="crop" />
-            <span className="filter_text">Crop</span>
+            <span className="filter_text">
+              Categories <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+            </span>
           </div>
-          <div className="d-flex align-items-center">
+
+          <div
+            className={
+              showFilter && type === "date"
+                ? "d-flex align-items-center filter_text_container_active"
+                : "d-flex align-items-center filter_text_container"
+            }
+            onClick={() => handleFilterClick("date")}
+          >
             <img src={require("../../Assets/Img/by_date.svg")} alt="by date" />
             <span className="filter_text">By Date</span>
           </div>
-          <div className="d-flex align-items-center">
+          <div
+            className="d-flex align-items-center filter_text_container"
+            onClick={() => {
+              setType("");
+              setCategorises([]);
+              setGeographies([]);
+              clearFilter();
+            }}
+          >
             <img
               src={require("../../Assets/Img/clear_all.svg")}
               alt="clear all"
@@ -321,6 +591,43 @@ const DataSets = (props) => {
             <span className="filter_text">Clear all</span>
           </div>
         </div>
+        {showFilter ? (
+          type === "geography" ? (
+            <Filter
+              type={type}
+              dataType={"component"}
+              geography={geography}
+              setGeography={setGeography}
+              geographies={geographies}
+              setGeographies={setGeographies}
+              countries={countries}
+              states={states}
+              cities={cities}
+              showFilter={showFilter}
+              setShowFilter={setShowFilter}
+              callApply={callApply}
+            />
+          ) : (
+            <Filter
+              type={type}
+              dataType={"list"}
+              content={allCategories}
+              showFilter={showFilter}
+              setShowFilter={setShowFilter}
+              callApply={callApply}
+            />
+          )
+        ) : (
+          <></>
+        )}
+        {geographies?.length || Object.keys(categorises).length ? (
+          <ShowFilterChips
+            geographies={geographies}
+            categorises={categorises}
+          />
+        ) : (
+          <></>
+        )}
       </Box>
       <Divider />
       {/* section-2 */}
@@ -338,8 +645,6 @@ const DataSets = (props) => {
         showLoadMoreAdmin={showLoadMoreAdmin}
         showLoadMoreMember={showLoadMoreMember}
       />
-      {/* <Divider />
-            <FooterNew /> */}
     </>
   );
 };

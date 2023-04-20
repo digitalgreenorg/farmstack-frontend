@@ -14,6 +14,9 @@ import {
   GetErrorKey,
   getUserLocal,
   goToTop,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -138,7 +141,13 @@ const OrganizationDetails = (props) => {
       .then((response) => {
         callLoader(false);
         console.log(response);
-        setActiveStep((prev) => prev + 1);
+        if (isLoggedInUserAdmin() && !props.isOrgSetting) {
+          setActiveStep((prev) => prev + 1);
+        } else if (isLoggedInUserParticipant()) {
+          history.push("/participant/new_datasets");
+        } else if (isLoggedInUserCoSteward()) {
+          history.push("/datahub/new_datasets");
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -194,6 +203,7 @@ const OrganizationDetails = (props) => {
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
                   callToast(error?.message, "error", true);
+                  console.log(e, error)
                 }
                 break;
             }
@@ -202,6 +212,7 @@ const OrganizationDetails = (props) => {
           let error = await GetErrorHandlingRoute(e);
           if (error) {
             callToast(error?.message, "error", true);
+            console.log(e, error)
           }
         }
       });
@@ -236,26 +247,31 @@ const OrganizationDetails = (props) => {
         // );
       })
       .catch(async (e) => {
-        callLoader(false);
+        callLoader(false);     
         let error = await GetErrorHandlingRoute(e);
+        console.log(e, error)
         if (error) {
           callToast(error?.message, "error", true);
         }
       });
   };
   console.log(preview, uploadedLogo);
+  
   useEffect(() => {
     getOrganizationData();
     goToTop(0);
   }, []);
-  return (
-    <div className={styles.main_box}>
-      <div className={styles.main_label}>Organisation Details</div>
 
-      <div className={styles.sub_label}>
-        Enter your organisation details, we will show to others!
+  return (<>
+    <div className={styles.main_box}>
+      <div className={styles.main_label}>
+        {props.isOrgSetting ? "Organisation setting" : " Organisation Details" }
       </div>
 
+      {props.isOrgSetting ? "" : 
+      <div className={styles.sub_label}>
+       Enter your organisation details, we will show to others!
+      </div> }
       <div className={styles.all_inputs}>
         <Row>
           <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -491,6 +507,39 @@ const OrganizationDetails = (props) => {
           </Col>
         </Row>
       </div>
+      {props.isOrgSetting ? 
+      <Row>
+              <Col style={{ textAlign: "right", margin: "20px" }}>
+                 <Button
+                  id="cancelbutton_account"
+                   variant="outlined"
+                  className={global_style.secondary_button}
+                  onClick={() => history.push("/datahub/new_datasets")}
+                 >
+                   Cancel
+                 </Button>
+                 <Button
+                   id="submitbutton_account"
+                   variant="outlined"
+                   className={global_style.primary_button + " " + styles.next_button}
+                   disabled={
+                    organisationDetails.organisation_address &&
+                    organisationDetails.organisation_mail_id &&
+                    organisationDetails.organisation_country &&
+                    organisationDetails.organisation_description &&
+                    organisationDetails.organisation_name &&
+                    organisationDetails.organisation_pin_code &&
+                    organisationDetails.organisation_website_link &&
+                    preview
+                      ? false
+                      : true
+                  }
+                  onClick={(e) => handleSubmitOrganizationDetails(e)}
+                 >
+                   Submit
+                 </Button>
+              </Col>
+             </Row> : 
       <div className={styles.button_grp}>
         <Button
           onClick={() => setActiveStep((prev) => prev + 1)}
@@ -517,13 +566,15 @@ const OrganizationDetails = (props) => {
           className={global_style.primary_button + " " + styles.next_button}
         >
           {" "}
-          Next
+          {isLoggedInUserAdmin() ? "Next" : "Finish"}
         </Button>
-      </div>
+      </div> }
       {/* <div className={styles.send_otp_div}>
 </div> */}
     </div>
+    </>
   );
 };
 
 export default OrganizationDetails;
+

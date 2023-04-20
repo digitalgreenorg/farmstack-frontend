@@ -9,7 +9,13 @@ import {
   MenuItem,
   InputLabel,
 } from "@material-ui/core";
-import { Typography, TextField } from "@mui/material";
+import {
+  Typography,
+  TextField,
+  Checkbox,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
@@ -29,6 +35,8 @@ import {
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import InfoIcon from "@mui/icons-material/Info";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
@@ -51,7 +59,7 @@ const ParticipantFormNew = (props) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [assignRole, setAssignRole] = useState("");
+  const [isCoSteward, setIsCoSteward] = useState(false);
 
   // Error messages
 
@@ -90,7 +98,11 @@ const ParticipantFormNew = (props) => {
   };
 
   const handleCancel = (clearAllField) => {
-    history.go(-2);
+    if (isEditModeOn) {
+      history.go(-2);
+    } else {
+      history.go(-1);
+    }
 
     setOrganisationName("");
     setOrganisationEmail("");
@@ -104,7 +116,8 @@ const ParticipantFormNew = (props) => {
     setLastName("");
     setEmail("");
     setContactNumber("");
-    setAssignRole("");
+    // setAssignRole("");
+    setIsCoSteward(false);
 
     setistrusted(false);
     setIsOrganisationEmailError(false);
@@ -157,10 +170,11 @@ const ParticipantFormNew = (props) => {
 
     bodyFormData.append(
       "role",
-      assignRole == "Participant" || assignRole == "Individual organisation"
-        ? 3
-        : 6
+      isCoSteward
+        ? labels.en.roleNo.coStewarRoleNo
+        : labels.en.roleNo.participantsRoleNo
     );
+    bodyFormData.append("approval_status", true);
     let method = "POST";
     let url = UrlConstants.base_url + UrlConstants.participant;
 
@@ -171,7 +185,7 @@ const ParticipantFormNew = (props) => {
       url = UrlConstants.base_url + UrlConstants.participant + id + "/";
     }
     if (isLoggedInUserCoSteward()) {
-      bodyFormData.append("on_boarded_by", id);
+      bodyFormData.append("on_boarded_by", getUserLocal());
     }
     callLoader(true);
 
@@ -276,9 +290,9 @@ const ParticipantFormNew = (props) => {
         setOrgId(response.data.organization_id);
         setistrusted(response.data.user.approval_status);
         if (response?.data?.user?.role == 6) {
-          setAssignRole("Co-Steward");
+          setIsCoSteward(true);
         } else if (response?.data?.user?.role == 3) {
-          setAssignRole("Participant");
+          setIsCoSteward(false);
         }
       })
       .catch((e) => {
@@ -297,7 +311,7 @@ const ParticipantFormNew = (props) => {
     }
   }, []);
 
-  console.log("error ", assignRole);
+  // console.log("error ", assignRole);
 
   return (
     <>
@@ -389,27 +403,56 @@ const ParticipantFormNew = (props) => {
           </Row>
           <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel>Country</InputLabel>
+              <FormControl
+                className={LocalStyle.textField}
+                variant="outlined"
+                fullWidth
+              >
+                <InputLabel id="demo-multiple-name-label">Country</InputLabel>
+                {
+                  <Select
+                    IconComponent={(_props) => (
+                      <div style={{ position: "relative" }}>
+                        <img
+                          className={LocalStyle.icon}
+                          src={require("../../../Assets/Img/down_arrow.svg")}
+                        />
+                      </div>
+                    )}
+                    labelId="Country"
+                    id="country-in-add-participants"
+                    label="Country "
+                    fullWidth
+                    required
+                    value={organisationCountry}
+                    onChange={(event) =>
+                      setOrganisationCountry(event.target.value)
+                    }
+                  >
+                    {countryNameList?.map((countryName, index) => {
+                      return (
+                        <MenuItem value={countryName.label}>
+                          {countryName.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                }
+              </FormControl>
+              {/* <FormControl
+                variant="outlined"
+                fullWidth
+                // sx={{ m: 1, minWidth: 1200 }}
+              >
+                <InputLabel id="demo-simple-select-helper-label">
+                  Age
+                </InputLabel>
                 <Select
-                  IconComponent={(_props) => (
-                    <div style={{ position: "relative" }}>
-                      <img
-                        className={LocalStyle.icon}
-                        src={require("../../../Assets/Img/down_arrow.svg")}
-                      />
-                    </div>
-                  )}
-                  labelId="Country"
-                  id="country-in-add-participants"
-                  className={LocalStyle.textField}
-                  label="Country "
-                  fullWidth
-                  required
-                  value={organisationCountry}
-                  onChange={(event) =>
-                    setOrganisationCountry(event.target.value)
-                  }
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  value={"age"}
+                  label="Age"
+                  // onChange={handleChange}
                 >
                   {countryNameList?.map((countryName, index) => {
                     return (
@@ -419,7 +462,7 @@ const ParticipantFormNew = (props) => {
                     );
                   })}
                 </Select>
-              </FormControl>
+              </FormControl> */}
             </Col>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
@@ -527,6 +570,33 @@ const ParticipantFormNew = (props) => {
           </Col>
         </Row>
         <Row>
+          <Col
+            className={`${LocalStyle.alignLeft}`}
+            xs={12}
+            sm={6}
+            md={6}
+            xl={6}
+          >
+            <Checkbox
+              checked={isCoSteward}
+              onChange={() => setIsCoSteward(!isCoSteward)}
+            />
+            <Typography
+              className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
+            >
+              Co-Steward
+            </Typography>{" "}
+            <Tooltip
+              placement="right-start"
+              title="By checking chekbox you are adding the organisation as co-steward"
+            >
+              <IconButton className={LocalStyle.infoIcon}>
+                <InfoOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+          </Col>
+        </Row>
+        {/* <Row>
           <Col xs={12} sm={6} md={6} xl={6}>
             <FormControl
               variant="outlined"
@@ -559,43 +629,11 @@ const ParticipantFormNew = (props) => {
                 </MenuItem>
                 <MenuItem value="Co-Steward">Co-Steward</MenuItem>
                 <MenuItem value="Participant">Participant</MenuItem>
-                {/* <FormControlLabel
-                  value="Individual Organisation"
-                  control={
-                    <Radio
-                      checked={assignRole == "Individual Organisation"}
-                      color="primary"
-                    />
-                  }
-                  label="Individual Organisation"
-                />
-                <hr />
-                <FormControlLabel
-                  value="Co-steward"
-                  control={
-                    <Radio
-                      checked={assignRole === "Co-steward"}
-                      color="primary"
-                    />
-                  }
-                  label="Co-Steward"
-                />
-                <hr /> */}
-                {/* <FormControlLabel
-                  value="Participant"
-                  control={
-                    <Radio
-                      checked={assignRole === "Participant"}
-                      color="primary"
-                    />
-                  }
-                  label="Participant"
-                />
-                <hr /> */}
+               
               </Select>
             </FormControl>
           </Col>
-        </Row>
+        </Row>  */}
       </div>
       <Row className={LocalStyle.buttonContainer}>
         <Button

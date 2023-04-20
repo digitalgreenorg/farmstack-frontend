@@ -166,6 +166,7 @@ const DataSetsTab = ({
                 )}
                 {datasetList?.map((item) => (
                   <DataSetCardNew
+                    key={item?.id}
                     history={history}
                     item={item}
                     handleCardClick={
@@ -209,6 +210,7 @@ const DataSetsTab = ({
               <div className="datasets_card">
                 {memberDatasetList?.map((item) => (
                   <DataSetCardNew
+                    key={item?.id}
                     history={history}
                     item={item}
                     handleCardClick={handleCardClick}
