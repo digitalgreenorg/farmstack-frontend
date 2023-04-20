@@ -176,7 +176,7 @@ const ParticipantsAndCoStewardNew = () => {
           TabLabels={tabLabels}
         />
       </Box>
-      {isLoggedInUserAdmin ? (
+      {isLoggedInUserAdmin() ? (
         <>
           {tabValue === 0 &&
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
