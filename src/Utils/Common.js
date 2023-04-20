@@ -6,6 +6,7 @@ import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+const converter = require("json-2-csv");
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(
@@ -172,10 +173,13 @@ export const GetErrorHandlingRoute = async (e) => {
       message: e?.response?.data?.message,
       data: e?.response?.data,
     };
-  } else if (e?.response?.data && e?.response?.status == 404) {
+  } else if (
+    e?.response?.data &&
+    (e?.response?.status == 404 || e?.response?.status == 405)
+  ) {
     return {
       toast: true,
-      path: "/error/404",
+      path: "/error/" + e?.response?.status,
       status: e.response.status,
       message: e?.response?.data?.message,
       data: e?.response?.data,
@@ -304,6 +308,29 @@ export const flushLocalstorage = () => {
 export const downloadAttachment = (uri, name) => {
   console.log("click on download", uri, name);
   FileSaver.saveAs(uri, name);
+};
+
+export const downloadDocument = (row, name) => {
+  converter.json2csv(row, async (err, csv) => {
+    if (err) {
+      throw err;
+    }
+    // print CSV string
+    console.log(csv);
+    download(csv, name);
+  });
+};
+
+export const download = (data, name) => {
+  const blob = new Blob([data], { type: "text/csv" });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.setAttribute("hidden", "");
+  a.setAttribute("href", url);
+  a.setAttribute("download", name);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 };
 
 export const GetErrorKey = (e, keyList) => {

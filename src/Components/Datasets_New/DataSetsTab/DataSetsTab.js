@@ -9,6 +9,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
 } from "../../../Utils/Common";
+import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -133,6 +134,22 @@ const DataSetsTab = ({
                   </span>
                 }
               />
+              <Tab
+                sx={{
+                  "&.MuiButtonBase-root": {
+                    minWidth: "200px",
+                  },
+                }}
+                label={
+                  <span
+                    className={
+                      value == 1 ? "tab_header_selected" : "tab_header"
+                    }
+                  >
+                    Requests
+                  </span>
+                }
+              />
               {/* <Tab label={<span className={value == 2 ? 'tab_header_selected' : 'tab_header'}>Co-steward</span>} /> */}
             </Tabs>
           </Box>
@@ -211,6 +228,7 @@ const DataSetsTab = ({
                 {memberDatasetList?.map((item) => (
                   <DataSetCardNew
                     key={item?.id}
+                    value={value === 1 ? "other_organisation" : ""}
                     history={history}
                     item={item}
                     handleCardClick={handleCardClick}
@@ -220,6 +238,7 @@ const DataSetsTab = ({
             ) : (
               <DataSetsListView
                 datasets={memberDatasetList}
+                value={value === 1 ? "other_organisation" : ""}
                 history={history}
                 handleCardClick={handleCardClick}
               />
@@ -236,6 +255,9 @@ const DataSetsTab = ({
               <></>
             )}
           </Box>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <DatasetRequestTable />
         </TabPanel>
         {/* <TabPanel value={value} index={2}>
                     <Box className='mb-100'>
