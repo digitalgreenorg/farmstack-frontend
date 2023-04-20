@@ -60,7 +60,7 @@ function App() {
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error/:status" component={NewError} />
           <Route path="/home" component={GuestRoutes} />
-          <Route exact path="/home/viewdataset/:id" component={Viewdetails} />
+          {/* <Route exact path="/home/viewdataset/:id" component={Viewdetails} /> */}
           <Route exact path="/legal" component={GuestUserLegal} />
           <Route exact path="/contact" component={GuestUserContact} />
           <Route

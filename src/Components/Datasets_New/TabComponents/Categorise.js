@@ -18,7 +18,6 @@ const Categorise = (props) => {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  // const [selectedGeography, setSelectedGeography] = useState({country:null, state:null, city: null})
   const handleCheckBox = (keyName, value) => {
     let tempCategories = { ...props.categorises };
     let tempJson = Object.keys(props.categorises);
@@ -202,7 +201,7 @@ const Categorise = (props) => {
                 placeholder="Select Country"
               >
                 {countries?.map((item) => (
-                  <MenuItem key={item.name} value={JSON.stringify(item)}>
+                  <MenuItem key={item} value={item}>
                     {item.name}
                   </MenuItem>
                 ))}
@@ -240,7 +239,7 @@ const Categorise = (props) => {
                 placeholder="Select State"
               >
                 {states?.map((item) => (
-                  <MenuItem key={item.name} value={JSON.stringify(item)}>
+                  <MenuItem key={item} value={item}>
                     {item.name}
                   </MenuItem>
                 ))}
@@ -278,7 +277,7 @@ const Categorise = (props) => {
                 placeholder="Select City"
               >
                 {cities?.map((item) => (
-                  <MenuItem key={item.name} value={JSON.stringify(item)}>
+                  <MenuItem key={item} value={item}>
                     {item.name}
                   </MenuItem>
                 ))}

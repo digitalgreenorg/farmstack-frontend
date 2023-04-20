@@ -73,8 +73,8 @@
     "validator": "^13.7.0"
   },
   "scripts": {
-    "start": "env-cmd -f .env.production react-scripts start",
-    "build": "env-cmd -f .env.production react-scripts --max_old_space_size=6168 build",
+    "start": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 start",
+    "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6168 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
