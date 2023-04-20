@@ -21,6 +21,7 @@ import ControlledAccordion from "../Accordion/Accordion";
 import OutlinedButton from "../Button/OutlinedButton";
 import {
   getTokenLocal,
+  getUserMapId,
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
@@ -38,14 +39,7 @@ const DataSetsView = (props) => {
     {
       panel: 1,
       title: "Uploaded Files",
-      details: [
-        <Box>
-          <FileWithAction />
-          <Box className="text-left mt-20 w-100 overflow_x_scroll">
-            <FileTable />
-          </Box>
-        </Box>,
-      ],
+      details: [],
     },
     {
       panel: 2,
@@ -132,10 +126,20 @@ const DataSetsView = (props) => {
     (() => {
       let userType = "";
       let url = "";
+      console.log(history);
       if (userType == "guest") {
         url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + "/";
       } else {
-        url = UrlConstant.base_url + UrlConstant.datasetview + id + "/";
+        if (history?.location?.state?.tab === "other_organisation") {
+          url =
+            UrlConstant.base_url +
+            UrlConstant.datasetview +
+            id +
+            "/?user_map=" +
+            getUserMapId();
+        } else {
+          url = UrlConstant.base_url + UrlConstant.datasetview + id + "/";
+        }
       }
       callLoader(true);
       HTTPService("GET", url, "", false, userType == "guest" ? false : true)
@@ -178,10 +182,10 @@ const DataSetsView = (props) => {
             (dataset) => dataset.source === "mysql"
           );
           let tempPostgresFiles = response.data.datasets?.filter(
-            (dataset) => dataset.source === "postgres"
+            (dataset) => dataset.source === "postgresql"
           );
           let tempRestApiFiles = response.data.datasets?.filter(
-            (dataset) => dataset.source === "restApi"
+            (dataset) => dataset.source === "live_api"
           );
           let prepareFilesContent = [];
           if (tempFiles && tempFiles?.length > 0) {
@@ -192,65 +196,114 @@ const DataSetsView = (props) => {
                   : [];
               prepareFilesContent.push(
                 <Box>
-                  <FileWithAction
-                    index={index}
-                    name={tempFile.file.slice(
-                      tempFile.file.lastIndexOf("/") + 1
-                    )}
-                  />
+                  <Box className="d-flex">
+                    <FileWithAction
+                      index={index}
+                      name={tempFile.file.slice(
+                        tempFile.file.lastIndexOf("/") + 1
+                      )}
+                      id={tempFile.id}
+                      fileType={tempFile.accessibility}
+                      usagePolicy={tempFile.usage_policy}
+                      isOther={
+                        history?.location?.state?.tab === "other_organisation"
+                          ? true
+                          : false
+                      }
+                    />
+                  </Box>
                   <FileTable fileData={tempFile} />
                 </Box>
               );
             });
             newArr[0].details = prepareFilesContent;
-          } else if (tempSqlFiles && tempSqlFiles?.length > 0) {
+          }
+          let prepareSqlFilesContent = [];
+          if (tempSqlFiles && tempSqlFiles?.length > 0) {
             tempSqlFiles.forEach((tempFile, index) => {
-              prepareFilesContent.push(
+              prepareSqlFilesContent.push(
                 <Box>
-                  <FileWithAction
-                    index={index}
-                    name={tempFile.file.slice(
-                      tempFile.file.lastIndexOf("/") + 1
-                    )}
-                  />
-                  <Box className="text-left mt-20 w-100 overflow_x_scroll">
-                    <FileTable fileData={tempFile} />
+                  <Box className="d-flex">
+                    <FileWithAction
+                      index={index}
+                      name={tempFile.file.slice(
+                        tempFile.file.lastIndexOf("/") + 1
+                      )}
+                      id={tempFile.id}
+                      fileType={tempFile.accessibility}
+                      usagePolicy={tempFile.usagePolicy}
+                      isOther={
+                        history?.location?.state?.tab === "other_organisation"
+                          ? true
+                          : false
+                      }
+                    />
                   </Box>
+                  {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
+                  <FileTable fileData={tempFile} />
+                  {/* </Box> */}
                 </Box>
               );
             });
-          } else if (tempPostgresFiles && tempPostgresFiles?.length > 0) {
+            newArr[1].details = prepareSqlFilesContent;
+          }
+          let preparePostgresFilesContent = [];
+          if (tempPostgresFiles && tempPostgresFiles?.length > 0) {
             tempPostgresFiles.forEach((tempFile, index) => {
-              prepareFilesContent.push(
+              preparePostgresFilesContent.push(
                 <Box>
-                  <FileWithAction
-                    index={index}
-                    name={tempFile.file.slice(
-                      tempFile.file.lastIndexOf("/") + 1
-                    )}
-                  />
-                  <Box className="text-left mt-20 w-100 overflow_x_scroll">
-                    <FileTable fileData={tempFile} />
+                  <Box className="d-flex">
+                    <FileWithAction
+                      index={index}
+                      name={tempFile.file.slice(
+                        tempFile.file.lastIndexOf("/") + 1
+                      )}
+                      id={tempFile.id}
+                      fileType={tempFile.accessibility}
+                      usagePolicy={tempFile.usagePolicy}
+                      isOther={
+                        history?.location?.state?.tab === "other_organisation"
+                          ? true
+                          : false
+                      }
+                    />
                   </Box>
+                  {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
+                  <FileTable fileData={tempFile} />
+                  {/* </Box> */}
                 </Box>
               );
             });
-          } else if (tempRestApiFiles && tempRestApiFiles?.length > 0) {
+            newArr[2].details = preparePostgresFilesContent;
+          }
+          let prepareApiFilesContent = [];
+          if (tempRestApiFiles && tempRestApiFiles?.length > 0) {
             tempRestApiFiles.forEach((tempFile, index) => {
-              prepareFilesContent.push(
+              prepareApiFilesContent.push(
                 <Box>
-                  <FileWithAction
-                    index={index}
-                    name={tempFile.file.slice(
-                      tempFile.file.lastIndexOf("/") + 1
-                    )}
-                  />
-                  <Box className="text-left mt-20 w-100 overflow_x_scroll">
-                    <FileTable fileData={tempFile} />
+                  <Box className="d-flex">
+                    <FileWithAction
+                      index={index}
+                      name={tempFile.file.slice(
+                        tempFile.file.lastIndexOf("/") + 1
+                      )}
+                      id={tempFile.id}
+                      fileType={tempFile.accessibility}
+                      usagePolicy={tempFile.usagePolicy}
+                      isOther={
+                        history?.location?.state?.tab === "other_organisation"
+                          ? true
+                          : false
+                      }
+                    />
                   </Box>
+                  {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
+                  <FileTable fileData={tempFile} />
+                  {/* </Box> */}
                 </Box>
               );
             });
+            newArr[3].details = prepareApiFilesContent;
           }
           setFiles(newArr);
 
@@ -372,9 +425,9 @@ const DataSetsView = (props) => {
             </Typography>
           </Box>
           <Box className="ml-134">
-            <Box className="text-left">
+            {/* <Box className="text-left">
               <div className="type_dataset">Public dataset</div>
-            </Box>
+            </Box> */}
             <Typography className="view_datasets_light_text text-left mt-20">
               Data Capture Interval
             </Typography>

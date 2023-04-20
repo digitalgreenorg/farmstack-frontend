@@ -50,6 +50,7 @@ const AddDataSet = (props) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDatasetCreated, setIsDatasetCreated] = useState(false);
 
   // Upload File
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -258,7 +259,7 @@ const AddDataSet = (props) => {
               (dataset) => dataset.source === "postgresql"
             );
             let tempRestApiFiles = response.data.datasets?.filter(
-              (dataset) => dataset.source === "restApi"
+              (dataset) => dataset.source === "live_api"
             );
             let tempUploadedFiles = [];
             if (tempFiles && tempFiles?.length > 0) {

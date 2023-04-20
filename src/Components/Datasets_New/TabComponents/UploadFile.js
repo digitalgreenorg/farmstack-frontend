@@ -206,6 +206,23 @@ const UploadFile = ({
           );
         });
         return arr;
+      } else if (data && type === "restApifiles") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={tempFileName}
+              size={item?.size}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={type}
+              showDeleteIcon={true}
+            />
+          );
+        });
+        return arr;
       } else {
         return [<EmptyFile text={"You have not uploaded any files"} />];
       }
@@ -694,7 +711,7 @@ const UploadFile = ({
         "POST",
         UrlConstant.base_url + UrlConstant.live_api,
         body,
-        true,
+        false,
         true,
         accessToken
       )
