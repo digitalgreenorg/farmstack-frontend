@@ -142,7 +142,11 @@ const DataSetsView = (props) => {
         .then((response) => {
           callLoader(false);
           setDataSetName(response.data.name);
-          setGeography(Object.keys(response.data?.geography).length ? response.data?.geography : { country: null, state: null, city: null });
+          setGeography(
+            Object.keys(response.data?.geography).length
+              ? response.data?.geography
+              : { country: null, state: null, city: null }
+          );
           setIsUpdating(response.data.constantly_update);
           setFromDate(
             response.data.data_capture_start
@@ -381,9 +385,11 @@ const DataSetsView = (props) => {
               Geography
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
-              {geography?.country?.name ? geography?.country?.name + ', ' : 'NA, '}
-              {geography?.state?.name ? geography?.state?.name + ', ' : 'NA, '}
-              {geography?.city?.name ? geography?.city?.name : 'NA'}
+              {geography?.country?.name
+                ? geography?.country?.name + ", "
+                : "NA, "}
+              {geography?.state?.name ? geography?.state?.name + ", " : "NA, "}
+              {geography?.city?.name ? geography?.city?.name : "NA"}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-25">
               Constantly updating{" "}

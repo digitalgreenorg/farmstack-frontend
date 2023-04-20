@@ -36,7 +36,6 @@ import GuestUserDatasets from "./Components/GuestUser/GuestUserDatasets";
 import NewError from "./Components/Error/NewError";
 function App() {
   const { isLoading, toastDetail } = useContext(FarmStackContext);
-
   return (
     <React.Fragment>
       {isLoading ? <Loader /> : ""}

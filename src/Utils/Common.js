@@ -5,6 +5,7 @@ import FileSaver from "file-saver";
 import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
+import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 
 export const setTokenLocal = (token) => {
   localStorage.setItem(
@@ -116,7 +117,15 @@ export const refreshToken = async () => {
     const url = UrlConstant.base_url + UrlConstant.refesh;
 
     const refreshToken = JSON.parse(localStorage.getItem("refresh"));
-
+    if (!refreshToken) {
+      let error = {
+        toast: false,
+        path: "/error/401",
+        status: 401,
+        message: "Refresh token is not valid",
+      };
+      return error;
+    }
     localStorage.setItem("lastPathname", window.location.href);
     const response = await HTTPService("POST", url, {
       refresh: refreshToken,
@@ -126,68 +135,99 @@ export const refreshToken = async () => {
       localStorage.setItem("JWTToken", JSON.stringify(response?.data?.access));
       const lastPathname = localStorage.getItem("lastPathname");
       if (lastPathname) {
-        return lastPathname;
+        let error = {
+          toast: true,
+          path: lastPathname,
+          status: 200,
+          message: "New access token has been set successfully.",
+        };
+        return error;
       }
-      localStorage.removeItem("lastPathname", window.location.href);
-      return true;
     }
   } catch (e) {
-    // console.log(e);
-    return false;
-    // if (e?.response?.status === 401) {
-    // } else {
-    //   return GetErrorHandlingRoute(e);
-    // }
+    let error = {
+      toast: false,
+      path: "/error/401",
+      status: 401,
+      message: "Refresh token is not valid",
+    };
+    return error;
   }
 };
 
-export const GetErrorHandlingRoute = (e) => {
+export const GetErrorHandlingRoute = async (e) => {
   var errorMessage = "";
-  if (e.response && e.response.data && e.response.data.message) {
-    errorMessage = e.response.data.message;
-  } else if (e.response && e.response.data) {
-    try {
-      JSON.parse(e.response.data);
-      errorMessage = String(e.response.data);
-    } catch (e) {
-      if (e.response) {
-        errorMessage = e.response.statusText;
-      } else {
-        errorMessage = "Unknown";
-      }
-    }
-  } else if (e.response) {
-    errorMessage = e.response.statusText;
-  } else {
-    errorMessage = "unknown";
-  }
-  setErrorLocal({
-    ErrorCode: e.response ? e.response.status : "unknown",
-    ErrorMessage: errorMessage,
-  });
-  if (
-    e.response != null &&
-    e.response != undefined &&
-    e?.response?.status == HTTP_CONSTANTS.SESSION_TIMEOUT
+  console.log(e?.response?.data, e.response.status, "error");
+  if (e?.response?.data && e?.response?.status == 401) {
+    let resultOfRefresh = await refreshToken();
+    return resultOfRefresh;
+  } else if (
+    (e?.response?.data && e?.response?.status == 403) ||
+    (e?.response?.data && e?.response?.status >= 500)
   ) {
-    let response = refreshToken();
-    if (response) {
-      return {
-        message: "verified",
-        statusCode: 200,
-      };
-    } else {
-      return {
-        message: "not_verified",
-        statusCode: 401,
-      };
-    }
-  } else {
     return {
-      message: errorMessage,
-      statusCode: e.response ? e.response.status : "unknown",
+      toast: false,
+      path: "/error/" + e.response.status,
+      status: e.response.status,
+      message: e?.response?.data?.message,
+      data: e?.response?.data,
+    };
+  } else if (e?.response?.data && e?.response?.status == 404) {
+    return {
+      toast: true,
+      path: "/error/404",
+      status: e.response.status,
+      message: e?.response?.data?.message,
+      data: e?.response?.data,
     };
   }
+
+  // if (e?.response && e?.response?.data && e?.response?.data?.message) {
+  //   errorMessage = e.response.data.message;
+  // } else if (e.response && e.response.data) {
+  //   try {
+  //     JSON.parse(e.response.data);
+  //     errorMessage = String(e.response.data);
+  //   } catch (e) {
+  //     if (e.response) {
+  //       errorMessage = e.response.statusText;
+  //     } else {
+  //       errorMessage = "Unknown";
+  //     }
+  //   }
+  // } else if (e.response) {
+  //   errorMessage = e.response.statusText;
+  // } else {
+  //   errorMessage = "unknown";
+  // }
+  // console.log(errorMessage, "errorMessage159");
+  // setErrorLocal({
+  //   ErrorCode: e.response ? e.response.status : "",
+  //   ErrorMessage: errorMessage,
+  // });
+  // if (
+  //   e.response != null &&
+  //   e.response != undefined &&
+  //   e?.response?.status == HTTP_CONSTANTS.SESSION_TIMEOUT
+  // ) {
+  //   let response = refreshToken();
+  //   if (response) {
+  //     return {
+  //       message: "verified",
+  //       statusCode: 200,
+  //     };
+  //   } else {
+  //     return {
+  //       message: "not_verified",
+  //       statusCode: 401,
+  //     };
+  //   }
+  // } else {
+  //   return {
+  //     message: errorMessage,
+  //     statusCode: e.response ? e.response.status : "",
+  //   };
+  // }
 };
 
 export const setRoleLocal = (role) => {

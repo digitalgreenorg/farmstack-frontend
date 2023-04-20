@@ -162,3 +162,15 @@ export default function NewError(props) {
     </div>
   );
 }
+
+// let response = await GetErrorHandlingRoute(err);
+// if (response.toast) {
+//   //callToast(message, type, action)
+//   callToast(
+//     response?.message ?? "Error occurred while getting datasets",
+//     response.status == 200 ? "success" : "error",
+//     response.toast
+//   );
+// } else {
+//   history.push(response?.path);
+// }
