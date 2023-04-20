@@ -5,8 +5,14 @@ import Box from "@mui/system/Box";
 
 const CustomTabs = (props) => {
   // this component expects 3 things in props
-  const { tabValue, setTabValue, TabLabels, orientation, filledBackground } =
-    props;
+  const {
+    tabValue,
+    setTabValue,
+    TabLabels,
+    orientation,
+    filledBackground,
+    isPolicy,
+  } = props;
   console.log("in cutom tab", tabValue, setTabValue, TabLabels);
 
   const handleChange = (event, newValue) => {
