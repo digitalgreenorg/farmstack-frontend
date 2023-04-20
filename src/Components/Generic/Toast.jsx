@@ -50,7 +50,7 @@ export default function Toast({ message, type }) {
     <Snackbar
       spacing={2}
       open={toastDetail?.status}
-      autoHideDuration={100000}
+      autoHideDuration={30000}
       disableWindowBlurListener={true}
       sx={{ width: "100%" }}
       anchorOrigin={{

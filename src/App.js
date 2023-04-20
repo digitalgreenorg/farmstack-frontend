@@ -39,11 +39,11 @@ function App() {
   return (
     <React.Fragment>
       {isLoading ? <Loader /> : ""}
-      {/* {toastDetail.status ? ( */}
-      <Toast message={toastDetail.message} type={toastDetail.type} />
-      {/* ) : (
+      {toastDetail.status ? (
+        <Toast message={toastDetail.message} type={toastDetail.type} />
+      ) : (
         ""
-      )} */}
+      )}
       <Router>
         <Switch>
           {/* <Route exact path="/login" component={Login} />
