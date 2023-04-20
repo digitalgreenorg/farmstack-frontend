@@ -24,6 +24,7 @@ const CustomTabs = (props) => {
       {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}> */}
       <Tabs
         sx={{
+          width: isPolicy ? "260px !important" : "auto",
           "& .MuiTabs-indicator": { backgroundColor: "#00AB55 !important" },
           "& .MuiTab-root": {
             color: "#637381 !important",
@@ -31,7 +32,7 @@ const CustomTabs = (props) => {
             borderTop: "none !important",
             borderRight: "none !important",
             alignItems: "baseline",
-            width: "260px",
+            width: isPolicy ? "100% !important" : "auto",
           },
           "& .Mui-selected": {
             alignItems: "baseline",
@@ -41,7 +42,7 @@ const CustomTabs = (props) => {
             backgroundColor: filledBackground
               ? " #00AB55 !important"
               : "#ffffff !important",
-            width: "260px",
+            width: isPolicy ? "100% !important" : "auto",
           },
         }}
         value={tabValue}

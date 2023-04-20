@@ -5,10 +5,11 @@ import UrlConstant from "../../Constants/UrlConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./GuestUserLegalNew.module.css";
 import HTTPService from "../../Services/HTTPService";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
-import { Typography } from "@mui/material";
+import { downloadAttachment, GetErrorHandlingRoute } from "../../Utils/Common";
+import { Button, Typography } from "@mui/material";
 import CustomTabs from "../../Components/Tabs/Tabs";
 import { Box } from "@mui/system";
+import HTMLReactParser from "html-react-parser";
 
 const GuestUserLegalNew = (props) => {
   const [legalData, setLegalData] = useState([]);
@@ -63,6 +64,7 @@ const GuestUserLegalNew = (props) => {
   }, []);
 
   console.log("on load", tabLabels, tabValue);
+  let url = UrlConstant.base_url + legalData[tabValue]?.file;
 
   return (
     <Container>
@@ -81,15 +83,54 @@ const GuestUserLegalNew = (props) => {
           Our terms are
         </Typography>
       </Row>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <CustomTabs
-          tabValue={tabValue}
-          setTabValue={setTabValue}
-          TabLabels={tabLabels}
-          orientation="vertical"
-          filledBackground={true}
-        />
-      </Box>
+      <Row>
+        <Col className={LocalStyle.policyTabCol} lg={4}>
+          <CustomTabs
+            tabValue={tabValue}
+            setTabValue={setTabValue}
+            TabLabels={tabLabels}
+            orientation="vertical"
+            filledBackground={true}
+            isPolicy={true}
+          />
+        </Col>
+        <Col className={LocalStyle.policyDetailsCol} lg={8}>
+          <div className={LocalStyle.policyDetailsMainContainer}>
+            <div className={LocalStyle.policyDetailsContainer}>
+              <Typography
+                className={`${GlobalStyle.size32} ${GlobalStyle.bold600} ${LocalStyle.policyDetailsTitle}`}
+              >
+                {legalData[tabValue]?.name}
+              </Typography>
+              <Typography
+                className={`${GlobalStyle.size16} ${GlobalStyle.bold400} ${LocalStyle.policyDetailsDescription}`}
+              >
+                {legalData[tabValue]?.description
+                  ? HTMLReactParser(legalData[tabValue]?.description)
+                  : ""}
+              </Typography>
+            </div>
+            <Row className={LocalStyle.backButtonContainer}>
+              <Button
+                id={"details-page-load-more-dataset-button"}
+                variant="outlined"
+                className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
+                onClick={() => downloadAttachment(url)}
+              >
+                Download document
+              </Button>
+              <Button
+                id={"details-page-load-more-dataset-button"}
+                variant="outlined"
+                className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
+                onClick={() => window.open(url, "_blank")}
+              >
+                View document
+              </Button>
+            </Row>
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 };

@@ -184,9 +184,9 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There is no Co-Stewards"}
+                  title={"There are no Co-Stewards"}
                   subTitle={
-                    "As of now there is no co-stewards, so add participants and make them co-steward."
+                    "As of now there are no co-stewards, so add participants and make them co-steward."
                   }
                   primaryButton={"Add participant"}
                   primaryButtonOnClick={() =>
@@ -208,9 +208,9 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There is no Participant!"}
+                  title={"There are no Participants!"}
                   subTitle={
-                    "As of now there is no participant, so add participants or invite participants."
+                    "As of now there are no participants, so add participants or invite participants."
                   }
                   primaryButton={"Add participant"}
                   primaryButtonOnClick={() =>
@@ -236,8 +236,8 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There is no Participant requests!"}
-                  subTitle={"As of now there is no participant request!"}
+                  title={"There are no Participant requests!"}
+                  subTitle={"As of now there are no participants request!"}
                   // primaryButton={"Add participant"}
                 />
               </Box>
@@ -258,9 +258,9 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There is no Participant!"}
+                  title={"There are no Participants!"}
                   subTitle={
-                    "As of now there is no participant, so add participants or invite participants."
+                    "As of now there are no participant, so add participants or invite participants."
                   }
                   primaryButton={"Add participant"}
                   primaryButtonOnClick={() =>
@@ -286,8 +286,8 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There is no Participant requests!"}
-                  subTitle={"As of now there is no participant request!"}
+                  title={"There are no Participant requests!"}
+                  subTitle={"As of now there are no participant requests!"}
                   // primaryButton={"Add participant"}
                 />
               </Box>

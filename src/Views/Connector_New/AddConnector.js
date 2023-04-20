@@ -489,7 +489,7 @@ const AddConnector = (props) => {
       return;
     }
     console.table(finalPayload, "PAYLOAD");
-    callLoader(true)
+    callLoader(true);
     HTTPService(method, url, finalPayload, false, true, false)
       .then((res) => {
         callLoader(false);
@@ -547,7 +547,7 @@ const AddConnector = (props) => {
           // setMessage("Data saved successfully!");
           callToast("Data saved successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
-            history.push('/participant/connectors')
+            history.push("/participant/connectors");
           } else if (isLoggedInUserAdmin() && getTokenLocal()) {
             history.push("/datahub/connectors");
           }
@@ -562,7 +562,7 @@ const AddConnector = (props) => {
           console.log("inside delete", res);
           callToast("Connector deleted successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
-            history.push('/participant/connectors')
+            history.push("/participant/connectors");
           } else if (isLoggedInUserAdmin() && getTokenLocal()) {
             history.push("/datahub/connectors");
           }
@@ -583,7 +583,7 @@ const AddConnector = (props) => {
         // goToTop(2000)
       })
       .catch((err) => {
-        callLoader(false)
+        callLoader(false);
         callToast("Something went wrong!", "error", true);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
@@ -632,9 +632,9 @@ const AddConnector = (props) => {
       // });
       validateInputField(e.target.value, RegexConstants.connector_name)
         ? setConnectorData({
-          ...connectorData,
-          [e.target.name]: e.target.value,
-        })
+            ...connectorData,
+            [e.target.name]: e.target.value,
+          })
         : e.preventDefault();
     } else {
       if (e.target.value && connectorData.desc) {
@@ -681,11 +681,11 @@ const AddConnector = (props) => {
 
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
-      return '/participant/connectors'
+      return "/participant/connectors";
     } else if (isLoggedInUserAdmin() && getTokenLocal()) {
-      return "/datahub/connectors"
+      return "/datahub/connectors";
     }
-  }
+  };
   const download = (url, connector_name) => {
     const a = document.createElement("a");
     a.setAttribute("hidden", "");
@@ -714,7 +714,12 @@ const AddConnector = (props) => {
     <Box>
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
         <div className="text-left mt-50">
-          <span className="add_light_text cursor-pointer" onClick={() => history.push(handleClickRoutes())}>Connectors</span>
+          <span
+            className="add_light_text cursor-pointer"
+            onClick={() => history.push(handleClickRoutes())}
+          >
+            Connectors
+          </span>
           <span className="add_light_text ml-16">
             <img src={require("../../Assets/Img/dot.svg")} />
           </span>
@@ -829,14 +834,16 @@ const AddConnector = (props) => {
                 setConnectorData={setConnectorData}
                 finalDataNeedToBeGenerated={finalDataNeedToBeGenerated}
                 setFinalDataNeedToBeGenerated={setFinalDataNeedToBeGenerated}
-              // handleClickSelectDataset={handleClickSelectDataset}
-              // handleChangeDatasetNameSelector={handleChangeDatasetNameSelector}
+                // handleClickSelectDataset={handleClickSelectDataset}
+                // handleChangeDatasetNameSelector={handleChangeDatasetNameSelector}
               />
             </Box>
           </>
         ) : (
           <Box className={style.mt114 + " " + style.mb139}>
-            <EmptyFile text={"As of now, there is no dataset for connectors"} />
+            <EmptyFile
+              text={"As of now, there are no datasets for connectors"}
+            />
           </Box>
         )}
         {completeData.length > 0 &&
