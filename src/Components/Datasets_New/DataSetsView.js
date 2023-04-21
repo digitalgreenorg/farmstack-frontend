@@ -122,224 +122,229 @@ const DataSetsView = (props) => {
       return "/datahub/new_datasets";
     }
   };
-  useEffect(() => {
-    (() => {
-      let userType = "";
-      let url = "";
-      console.log(history);
-      if (userType == "guest") {
-        url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + "/";
+  const getDataset = () => {
+    let userType = "";
+    let url = "";
+    console.log(history);
+    if (userType == "guest") {
+      url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + "/";
+    } else {
+      if (history?.location?.state?.tab === "other_organisation") {
+        url =
+          UrlConstant.base_url +
+          UrlConstant.datasetview +
+          id +
+          "/?user_map=" +
+          getUserMapId();
       } else {
-        if (history?.location?.state?.tab === "other_organisation") {
-          url =
-            UrlConstant.base_url +
-            UrlConstant.datasetview +
-            id +
-            "/?user_map=" +
-            getUserMapId();
-        } else {
-          url = UrlConstant.base_url + UrlConstant.datasetview + id + "/";
-        }
+        url = UrlConstant.base_url + UrlConstant.datasetview + id + "/";
       }
-      callLoader(true);
-      HTTPService("GET", url, "", false, userType == "guest" ? false : true)
-        .then((response) => {
-          callLoader(false);
-          setDataSetName(response.data.name);
-          setGeography(
-            Object.keys(response.data?.geography).length
-              ? response.data?.geography
-              : { country: null, state: null, city: null }
-          );
-          setIsUpdating(response.data.constantly_update);
-          setFromDate(
-            response.data.data_capture_start
-              ? response.data.data_capture_start.split("T")[0]
-              : "NA"
-          );
-          setToDate(
-            response.data.data_capture_end
-              ? response.data.data_capture_end.split("T")[0]
-              : "NA"
-          );
-          setDataSetDescription(response.data.description);
-          setOrgDetails(response.data.organization);
-          let tempOrgAddress =
-            response.data.organization?.address?.address +
-            ", " +
-            response.data.organization?.address?.country +
-            ", " +
-            response.data.organization?.address?.pincode;
-          setOrgAddress(tempOrgAddress);
-          setUserDetails(response.data.user);
-          setAllDatasets(response.data.datasets);
-          // preparing files for accordion
-          let newArr = [...files];
-          let tempFiles = response.data.datasets?.filter(
-            (dataset) => dataset.source === "file"
-          );
-          let tempSqlFiles = response.data.datasets?.filter(
-            (dataset) => dataset.source === "mysql"
-          );
-          let tempPostgresFiles = response.data.datasets?.filter(
-            (dataset) => dataset.source === "postgresql"
-          );
-          let tempRestApiFiles = response.data.datasets?.filter(
-            (dataset) => dataset.source === "live_api"
-          );
-          let prepareFilesContent = [];
-          if (tempFiles && tempFiles?.length > 0) {
-            tempFiles.forEach((tempFile, index) => {
-              let columns =
-                tempFile.content?.length > 0
-                  ? Object.keys(tempFile.content[0])
-                  : [];
-              prepareFilesContent.push(
-                <Box>
-                  <Box className="d-flex">
-                    <FileWithAction
-                      index={index}
-                      name={tempFile.file.slice(
-                        tempFile.file.lastIndexOf("/") + 1
-                      )}
-                      id={tempFile.id}
-                      fileType={tempFile.accessibility}
-                      usagePolicy={tempFile.usage_policy}
-                      isOther={
-                        history?.location?.state?.tab === "other_organisation"
-                          ? true
-                          : false
-                      }
-                    />
-                  </Box>
-                  <FileTable fileData={tempFile} />
+    }
+    callLoader(true);
+    HTTPService("GET", url, "", false, userType == "guest" ? false : true)
+      .then((response) => {
+        callLoader(false);
+        setDataSetName(response.data.name);
+        setGeography(
+          Object.keys(response.data?.geography).length
+            ? response.data?.geography
+            : { country: null, state: null, city: null }
+        );
+        setIsUpdating(response.data.constantly_update);
+        setFromDate(
+          response.data.data_capture_start
+            ? response.data.data_capture_start.split("T")[0]
+            : "NA"
+        );
+        setToDate(
+          response.data.data_capture_end
+            ? response.data.data_capture_end.split("T")[0]
+            : "NA"
+        );
+        setDataSetDescription(response.data.description);
+        setOrgDetails(response.data.organization);
+        let tempOrgAddress =
+          response.data.organization?.address?.address +
+          ", " +
+          response.data.organization?.address?.country +
+          ", " +
+          response.data.organization?.address?.pincode;
+        setOrgAddress(tempOrgAddress);
+        setUserDetails(response.data.user);
+        setAllDatasets(response.data.datasets);
+        // preparing files for accordion
+        let newArr = [...files];
+        let tempFiles = response.data.datasets?.filter(
+          (dataset) => dataset.source === "file"
+        );
+        let tempSqlFiles = response.data.datasets?.filter(
+          (dataset) => dataset.source === "mysql"
+        );
+        let tempPostgresFiles = response.data.datasets?.filter(
+          (dataset) => dataset.source === "postgresql"
+        );
+        let tempRestApiFiles = response.data.datasets?.filter(
+          (dataset) => dataset.source === "live_api"
+        );
+        let prepareFilesContent = [];
+        if (tempFiles && tempFiles?.length > 0) {
+          tempFiles.forEach((tempFile, index) => {
+            let columns =
+              tempFile.content?.length > 0
+                ? Object.keys(tempFile.content[0])
+                : [];
+            prepareFilesContent.push(
+              <Box>
+                <Box className="d-flex">
+                  <FileWithAction
+                    index={index}
+                    name={tempFile.file.slice(
+                      tempFile.file.lastIndexOf("/") + 1
+                    )}
+                    id={tempFile.id}
+                    fileType={tempFile.accessibility}
+                    usagePolicy={tempFile.usage_policy}
+                    files={files}
+                    getDataset={getDataset}
+                    isOther={
+                      history?.location?.state?.tab === "other_organisation"
+                        ? true
+                        : false
+                    }
+                  />
                 </Box>
-              );
-            });
-            newArr[0].details = prepareFilesContent;
-          }
-          let prepareSqlFilesContent = [];
-          if (tempSqlFiles && tempSqlFiles?.length > 0) {
-            tempSqlFiles.forEach((tempFile, index) => {
-              prepareSqlFilesContent.push(
-                <Box>
-                  <Box className="d-flex">
-                    <FileWithAction
-                      index={index}
-                      name={tempFile.file.slice(
-                        tempFile.file.lastIndexOf("/") + 1
-                      )}
-                      id={tempFile.id}
-                      fileType={tempFile.accessibility}
-                      usagePolicy={tempFile.usagePolicy}
-                      isOther={
-                        history?.location?.state?.tab === "other_organisation"
-                          ? true
-                          : false
-                      }
-                    />
-                  </Box>
-                  {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
-                  <FileTable fileData={tempFile} />
-                  {/* </Box> */}
-                </Box>
-              );
-            });
-            newArr[1].details = prepareSqlFilesContent;
-          }
-          let preparePostgresFilesContent = [];
-          if (tempPostgresFiles && tempPostgresFiles?.length > 0) {
-            tempPostgresFiles.forEach((tempFile, index) => {
-              preparePostgresFilesContent.push(
-                <Box>
-                  <Box className="d-flex">
-                    <FileWithAction
-                      index={index}
-                      name={tempFile.file.slice(
-                        tempFile.file.lastIndexOf("/") + 1
-                      )}
-                      id={tempFile.id}
-                      fileType={tempFile.accessibility}
-                      usagePolicy={tempFile.usagePolicy}
-                      isOther={
-                        history?.location?.state?.tab === "other_organisation"
-                          ? true
-                          : false
-                      }
-                    />
-                  </Box>
-                  {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
-                  <FileTable fileData={tempFile} />
-                  {/* </Box> */}
-                </Box>
-              );
-            });
-            newArr[2].details = preparePostgresFilesContent;
-          }
-          let prepareApiFilesContent = [];
-          if (tempRestApiFiles && tempRestApiFiles?.length > 0) {
-            tempRestApiFiles.forEach((tempFile, index) => {
-              prepareApiFilesContent.push(
-                <Box>
-                  <Box className="d-flex">
-                    <FileWithAction
-                      index={index}
-                      name={tempFile.file.slice(
-                        tempFile.file.lastIndexOf("/") + 1
-                      )}
-                      id={tempFile.id}
-                      fileType={tempFile.accessibility}
-                      usagePolicy={tempFile.usagePolicy}
-                      isOther={
-                        history?.location?.state?.tab === "other_organisation"
-                          ? true
-                          : false
-                      }
-                    />
-                  </Box>
-                  {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
-                  <FileTable fileData={tempFile} />
-                  {/* </Box> */}
-                </Box>
-              );
-            });
-            newArr[3].details = prepareApiFilesContent;
-          }
-          setFiles(newArr);
-
-          // preparing categories for accordion
-          let prepareArr = [];
-          let categoryJson = response?.data?.category;
-          for (const [key, value] of Object.entries(categoryJson)) {
-            let obj = {};
-            obj[key] = value;
-            prepareArr.push(obj);
-          }
-          let tempCategories = [];
-          prepareArr.forEach((item, index) => {
-            let keys = Object.keys(item);
-            let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-              return res;
-            });
-            let obj = {
-              panel: index + 1,
-              title: keys[0],
-              details: prepareCheckbox ? prepareCheckbox : [],
-            };
-            tempCategories.push(obj);
+                <FileTable fileData={tempFile} />
+              </Box>
+            );
           });
-          setCategories(tempCategories);
-        })
-        .catch((e) => {
-          callLoader(false);
-          callToast(
-            "Something went wrong while loading dataset!",
-            "error",
-            true
-          );
-          console.log("error while loading dataset", e);
+          newArr[0].details = prepareFilesContent;
+        }
+        let prepareSqlFilesContent = [];
+        if (tempSqlFiles && tempSqlFiles?.length > 0) {
+          tempSqlFiles.forEach((tempFile, index) => {
+            prepareSqlFilesContent.push(
+              <Box>
+                <Box className="d-flex">
+                  <FileWithAction
+                    index={index}
+                    name={tempFile.file.slice(
+                      tempFile.file.lastIndexOf("/") + 1
+                    )}
+                    id={tempFile.id}
+                    fileType={tempFile.accessibility}
+                    usagePolicy={tempFile.usagePolicy}
+                    files={files}
+                    getDataset={getDataset}
+                    isOther={
+                      history?.location?.state?.tab === "other_organisation"
+                        ? true
+                        : false
+                    }
+                  />
+                </Box>
+                {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
+                <FileTable fileData={tempFile} />
+                {/* </Box> */}
+              </Box>
+            );
+          });
+          newArr[1].details = prepareSqlFilesContent;
+        }
+        let preparePostgresFilesContent = [];
+        if (tempPostgresFiles && tempPostgresFiles?.length > 0) {
+          tempPostgresFiles.forEach((tempFile, index) => {
+            preparePostgresFilesContent.push(
+              <Box>
+                <Box className="d-flex">
+                  <FileWithAction
+                    index={index}
+                    name={tempFile.file.slice(
+                      tempFile.file.lastIndexOf("/") + 1
+                    )}
+                    id={tempFile.id}
+                    fileType={tempFile.accessibility}
+                    usagePolicy={tempFile.usagePolicy}
+                    files={files}
+                    getDataset={getDataset}
+                    isOther={
+                      history?.location?.state?.tab === "other_organisation"
+                        ? true
+                        : false
+                    }
+                  />
+                </Box>
+                {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
+                <FileTable fileData={tempFile} />
+                {/* </Box> */}
+              </Box>
+            );
+          });
+          newArr[2].details = preparePostgresFilesContent;
+        }
+        let prepareApiFilesContent = [];
+        if (tempRestApiFiles && tempRestApiFiles?.length > 0) {
+          tempRestApiFiles.forEach((tempFile, index) => {
+            prepareApiFilesContent.push(
+              <Box>
+                <Box className="d-flex">
+                  <FileWithAction
+                    index={index}
+                    name={tempFile.file.slice(
+                      tempFile.file.lastIndexOf("/") + 1
+                    )}
+                    id={tempFile.id}
+                    fileType={tempFile.accessibility}
+                    usagePolicy={tempFile.usagePolicy}
+                    files={files}
+                    getDataset={getDataset}
+                    isOther={
+                      history?.location?.state?.tab === "other_organisation"
+                        ? true
+                        : false
+                    }
+                  />
+                </Box>
+                {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
+                <FileTable fileData={tempFile} />
+                {/* </Box> */}
+              </Box>
+            );
+          });
+          newArr[3].details = prepareApiFilesContent;
+        }
+        setFiles(newArr);
+
+        // preparing categories for accordion
+        let prepareArr = [];
+        let categoryJson = response?.data?.category;
+        for (const [key, value] of Object.entries(categoryJson)) {
+          let obj = {};
+          obj[key] = value;
+          prepareArr.push(obj);
+        }
+        let tempCategories = [];
+        prepareArr.forEach((item, index) => {
+          let keys = Object.keys(item);
+          let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
+            return res;
+          });
+          let obj = {
+            panel: index + 1,
+            title: keys[0],
+            details: prepareCheckbox ? prepareCheckbox : [],
+          };
+          tempCategories.push(obj);
         });
-    })();
+        setCategories(tempCategories);
+      })
+      .catch((e) => {
+        callLoader(false);
+        callToast("Something went wrong while loading dataset!", "error", true);
+        console.log("error while loading dataset", e);
+      });
+  };
+  useEffect(() => {
+    getDataset();
   }, [id, approvalStatus]);
 
   return (
