@@ -174,15 +174,12 @@ const CategoryDetails = (props) => {
     });
   };
   const handleChangeHeadName = (e, index) => {
-    // if (e.target.value && !categoryNamesList.includes(e.target.value))
-    //   setEnableSave(true);
-    // else setEnableSave(false);
     if (categoryNames.includes(e.target.value)) {
       setEnableSave(false);
       setEditedHeaderError("This category already exist");
     } else {
       // console.log(e.target.value);
-      if (e.target.value) {
+      if (e.target.value.trimStart()) {
         setEditedHeaderError("");
         setEnableSave(true);
       } else {
