@@ -28,7 +28,9 @@ import Filter from "../Filter/Filter";
 import CheckBoxWithText from "./TabComponents/CheckBoxWithText";
 import ShowFilterChips from "../Filter/ShowFilterChips";
 import { City, Country, State } from "country-state-city";
+import EmptyFile from "./TabComponents/EmptyFile";
 import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
+import FilterDate from "../Filter/FilterDate";
 
 const cardSx = {
   maxWidth: 368,
@@ -84,6 +86,9 @@ const DataSets = (props) => {
     state: null,
     city: null,
   });
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [dates, setDates] = useState([{ fromDate: null, toDate: null }]);
 
   const resetUrls = () => {
     adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
@@ -104,83 +109,90 @@ const DataSets = (props) => {
 
   const handleSearch = (name, isLoadMore) => {
     setSearchDatasetsName(name);
-    if (name && name.length < 3 && name !== "") name = "";
-    let data = {};
-    setFilterState({});
-    data["user_id"] = getUserLocal();
-    data["org_id"] = getOrgLocal();
-    data["name__icontains"] = name;
-    if (value === 0) {
-      data["others"] = false;
-    } else {
-      data["others"] = true;
-    }
-    if (value === 0) {
-      HTTPService(
-        "POST",
-        !isLoadMore
-          ? searchUrl
-          : memberDatasetUrl
-          ? memberDatasetUrl
-          : searchUrl,
-        data,
-        false,
-        true
-      )
-        .then((response) => {
-          if (response.data.next == null) {
-            setFilterState({});
-            setShowLoadMoreAdmin(false);
-          } else {
-            setDatasetUrl(response.data.next);
-            setShowLoadMoreAdmin(true);
-          }
-          let finalDataList = [];
-          if (isLoadMore) {
-            finalDataList = [...memberDatasetList, ...response.data.results];
-          } else {
-            finalDataList = [...response.data.results];
-          }
-          if (value === 0) {
-            setDatasetList(finalDataList);
-          } else {
-            setDatasetList(finalDataList);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    } else if (value === 1) {
-      HTTPService(
-        "POST",
-        !isLoadMore
-          ? searchUrl
-          : memberDatasetUrl
-          ? memberDatasetUrl
-          : searchUrl,
-        data,
-        false,
-        true
-      )
-        .then((response) => {
-          if (response.data.next == null) {
-            setFilterState({});
-            setShowLoadMoreMember(false);
-          } else {
-            setMemberDatasetUrl(response.data.next);
-            setShowLoadMoreMember(true);
-          }
-          let finalDataList = [];
-          if (isLoadMore) {
-            finalDataList = [...memberDatasetList, ...response.data.results];
-          } else {
-            finalDataList = [...response.data.results];
-          }
-          setMemberDatasetList(finalDataList);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    if (name && name.length > 3 && name !== "") {
+      let data = {};
+      data["user_id"] = getUserLocal();
+      data["org_id"] = getOrgLocal();
+      data["name__icontains"] = name;
+      if (value === 0) {
+        data["others"] = false;
+      } else {
+        data["others"] = true;
+      }
+      setFilterState(data);
+      let guestUsetFilterUrl =
+        UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
+      let isAuthorization = user == "guest" ? false : true;
+      if (value === 0) {
+        HTTPService(
+          "POST",
+          user == "guest"
+            ? guestUsetFilterUrl
+            : !isLoadMore
+            ? searchUrl
+            : memberDatasetUrl
+            ? memberDatasetUrl
+            : searchUrl,
+          data,
+          false,
+          isAuthorization
+        )
+          .then((response) => {
+            if (response.data.next == null) {
+              setFilterState({});
+              setShowLoadMoreAdmin(false);
+            } else {
+              setDatasetUrl(response.data.next);
+              setShowLoadMoreAdmin(true);
+            }
+            let finalDataList = [];
+            if (isLoadMore) {
+              finalDataList = [...memberDatasetList, ...response.data.results];
+            } else {
+              finalDataList = [...response.data.results];
+            }
+            if (value === 0) {
+              setDatasetList(finalDataList);
+            } else {
+              setDatasetList(finalDataList);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (value === 1) {
+        HTTPService(
+          "POST",
+
+          !isLoadMore
+            ? searchUrl
+            : memberDatasetUrl
+            ? memberDatasetUrl
+            : searchUrl,
+          data,
+          false,
+          true
+        )
+          .then((response) => {
+            if (response.data.next == null) {
+              setFilterState({});
+              setShowLoadMoreMember(false);
+            } else {
+              setMemberDatasetUrl(response.data.next);
+              setShowLoadMoreMember(true);
+            }
+            let finalDataList = [];
+            if (isLoadMore) {
+              finalDataList = [...memberDatasetList, ...response.data.results];
+            } else {
+              finalDataList = [...response.data.results];
+            }
+            setMemberDatasetList(finalDataList);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
     }
   };
 
@@ -193,6 +205,7 @@ const DataSets = (props) => {
   };
 
   const getDataSets = (isLoadMore) => {
+    let method = "POST";
     if (!isLoadMore) {
       resetUrls();
       if (payload == "") {
@@ -205,11 +218,19 @@ const DataSets = (props) => {
     } else {
       payload = { ...filterState };
     }
+    let guestUrl = "";
+    if (user == "guest") {
+      guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
+      payload = "";
+      method = "GET";
+    }
+
+    // console.log("url",guestUrl)
 
     let accessToken = getTokenLocal() ?? false;
     HTTPService(
-      "POST",
-      !isLoadMore ? adminUrl : datasetUrl,
+      method,
+      guestUrl ? guestUrl : !isLoadMore ? adminUrl : datasetUrl,
       payload,
       false,
       accessToken
@@ -307,6 +328,9 @@ const DataSets = (props) => {
       setContent(allCategories);
       setType(type);
       setShowFilter(true);
+    } else if (type === "date") {
+      setType(type);
+      setShowFilter(true);
     }
   };
 
@@ -345,17 +369,15 @@ const DataSets = (props) => {
       setGeographies((prev) => [...prev, keyName]);
     }
   };
+  let url =
+    user == "guest"
+      ? UrlConstant.base_url + UrlConstant.microsite_category
+      : UrlConstant.base_url + UrlConstant.add_category_edit_category;
+  let isAuthorization = user == "guest" ? false : true;
 
   const getAllCategoryAndSubCategory = () => {
     let checkforAccess = getTokenLocal() ?? false;
-    HTTPService(
-      "GET",
-      UrlConstant.base_url + UrlConstant.add_category_edit_category,
-      "",
-      true,
-      true,
-      checkforAccess
-    )
+    HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
         let prepareArr = [];
         for (const [key, value] of Object.entries(response.data)) {
@@ -439,14 +461,27 @@ const DataSets = (props) => {
       }
       payload["category"] = arr;
     }
-    // payload["created_at__range"] = [];
+    if (fromDate && toDate) {
+      let tempDateRange = [];
+      tempDateRange.push(fromDate);
+      tempDateRange.push(toDate);
+      payload["updated_at__range"] = tempDateRange;
+    }
+    setFilterState(payload);
+    let guestUsetFilterUrl =
+      UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
+    let isAuthorization = user == "guest" ? false : true;
     callLoader(true);
     HTTPService(
       "POST",
-      !isLoadMore ? adminUrl : datasetUrl,
+      user == "guest"
+        ? guestUsetFilterUrl
+        : !isLoadMore
+        ? adminUrl
+        : datasetUrl,
       payload,
       false,
-      true
+      isAuthorization
     )
       .then((response) => {
         callLoader(false);
@@ -473,7 +508,9 @@ const DataSets = (props) => {
 
   useEffect(() => {
     getDataSets(false);
-    getOtherDataSets(false);
+    if (user != "guest") {
+      getOtherDataSets(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -574,7 +611,9 @@ const DataSets = (props) => {
             onClick={() => handleFilterClick("date")}
           >
             <img src={require("../../Assets/Img/by_date.svg")} alt="by date" />
-            <span className="filter_text">By Date</span>
+            <span className="filter_text">
+              By Date <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+            </span>
           </div>
           <div
             className="d-flex align-items-center filter_text_container"
@@ -582,7 +621,12 @@ const DataSets = (props) => {
               setType("");
               setCategorises([]);
               setGeographies([]);
+              setDates([{ fromDate: null, toDate: null }]);
+              setFromDate("");
+              setToDate("");
+              setSearchDatasetsName("");
               clearFilter();
+              setFilterState();
             }}
           >
             <img
@@ -608,7 +652,7 @@ const DataSets = (props) => {
               setShowFilter={setShowFilter}
               callApply={callApply}
             />
-          ) : (
+          ) : type === "categories" ? (
             <Filter
               type={type}
               dataType={"list"}
@@ -617,14 +661,32 @@ const DataSets = (props) => {
               setShowFilter={setShowFilter}
               callApply={callApply}
             />
+          ) : (
+            <FilterDate
+              type={type}
+              dataType={"date"}
+              fromDate={fromDate}
+              setFromDate={setFromDate}
+              toDate={toDate}
+              setToDate={setToDate}
+              dates={dates}
+              setDates={setDates}
+              showFilter={showFilter}
+              setShowFilter={setShowFilter}
+              callApply={callApply}
+            />
           )
         ) : (
           <></>
         )}
-        {geographies?.length || Object.keys(categorises).length ? (
+        {geographies?.length ||
+        Object.keys(categorises).length ||
+        dates[0]?.fromDate ||
+        dates[0]?.toDate ? (
           <ShowFilterChips
             geographies={geographies}
             categorises={categorises}
+            dates={dates}
           />
         ) : (
           <></>
@@ -632,20 +694,35 @@ const DataSets = (props) => {
       </Box>
       <Divider />
       {/* section-2 */}
-      <DataSetsTab
-        user={user}
-        history={history}
-        addDataset={addDataset}
-        state={state}
-        value={value}
-        setValue={setValue}
-        datasetList={datasetList}
-        memberDatasetList={memberDatasetList}
-        getDataSets={getDataSets}
-        getOtherDataSets={getOtherDataSets}
-        showLoadMoreAdmin={showLoadMoreAdmin}
-        showLoadMoreMember={showLoadMoreMember}
-      />
+      {datasetList?.length ? (
+        <DataSetsTab
+          user={user}
+          history={history}
+          addDataset={addDataset}
+          state={state}
+          value={value}
+          setValue={setValue}
+          datasetList={datasetList}
+          memberDatasetList={memberDatasetList}
+          getDataSets={getDataSets}
+          getOtherDataSets={getOtherDataSets}
+          showLoadMoreAdmin={showLoadMoreAdmin}
+          showLoadMoreMember={showLoadMoreMember}
+          setType={setType}
+          setCategorises={setCategorises}
+          setGeographies={setGeographies}
+          setDates={setDates}
+          setFromDate={setFromDate}
+          setToDate={setToDate}
+          setSearchDatasetsName={setSearchDatasetsName}
+          clearFilter={clearFilter}
+          setFilterState={setFilterState}
+        />
+      ) : (
+        <Box className={"mt114 mb139"}>
+          <EmptyFile text={"As of now, there are no datasets available"} />
+        </Box>
+      )}
     </>
   );
 };

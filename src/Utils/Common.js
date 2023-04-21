@@ -158,7 +158,7 @@ export const refreshToken = async () => {
 
 export const GetErrorHandlingRoute = async (e) => {
   var errorMessage = "";
-  console.log(e?.response?.data, e.response.status, "error");
+  console.log(e?.response?.data, e.response?.status, "error");
   if (e?.response?.data && e?.response?.status == 401) {
     let resultOfRefresh = await refreshToken();
     return resultOfRefresh;

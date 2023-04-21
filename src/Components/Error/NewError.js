@@ -166,6 +166,8 @@ export default function NewError(props) {
 // let response = await GetErrorHandlingRoute(err);
 // if (response.toast) {
 //   //callToast(message, type, action)
+
+// This the way you need to pass
 //   callToast(
 //     response?.message ?? response?.data?.detail ?? "Unknown",
 //     response.status == 200 ? "success" : "error",

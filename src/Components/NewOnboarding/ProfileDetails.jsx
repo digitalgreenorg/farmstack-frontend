@@ -15,7 +15,6 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
 
-
 const ProfileDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   // const isPhoneValid = (phone, country) => {
@@ -28,7 +27,7 @@ const ProfileDetails = (props) => {
   // };
 
   const { setActiveStep } = props;
-  const history = useHistory()
+  const history = useHistory();
   const [profileDetails, setProfileDetails] = useState({
     first_name: "",
     last_name: "",
@@ -63,7 +62,11 @@ const ProfileDetails = (props) => {
   };
   const handleSubmitProfileData = (e) => {
     e.preventDefault();
-    {props.isAccountSetting ? console.log("accountDetails") : console.log(profileDetails);}
+    {
+      props.isAccountSetting
+        ? console.log("accountDetails")
+        : console.log(profileDetails);
+    }
     let method = "PUT";
     let url = UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/";
 
@@ -77,8 +80,8 @@ const ProfileDetails = (props) => {
       .then((res) => {
         console.log(res);
         callLoader(false);
-        if(!props.isAccountSetting) {
-        setActiveStep((prev) => prev + 1);
+        if (!props.isAccountSetting) {
+          setActiveStep((prev) => prev + 1);
         }
         setProfileDetailsError({
           first_name: "",
@@ -150,15 +153,20 @@ const ProfileDetails = (props) => {
         });
         callLoader(false);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        GetErrorHandlingRoute(e).then((errorObject) => {
+        let response = await GetErrorHandlingRoute(e);
+        if (response.toast) {
+          //callToast(message, type, action)
+
           callToast(
-            errorObject?.message ? errorObject?.message : "",
-            "error",
-            true
+            response?.message ?? "Error occurred while getting policy details",
+            response.status == 201 ? "success" : "error",
+            response.toast
           );
-        });
+        } else {
+          history.push(response?.path);
+        }
       });
   };
   useEffect(() => {
@@ -168,137 +176,142 @@ const ProfileDetails = (props) => {
   }, []);
   return (
     <>
-    <div className={styles.main_box}>
-      <div className={styles.main_label}>
-      {props.isAccountSetting ? "Account settings" : "Profile Details" } </div>
+      <div className={styles.main_box}>
+        <div className={styles.main_label}>
+          {props.isAccountSetting ? "Account settings" : "Profile Details"}{" "}
+        </div>
 
-      {props.isAccountSetting ? "" : 
-      <div className={styles.sub_label}>
-       Enter your profile details, we will show to others!
-      </div> }
+        {props.isAccountSetting ? (
+          ""
+        ) : (
+          <div className={styles.sub_label}>
+            Enter your profile details, we will show to others!
+          </div>
+        )}
 
-      <div className={styles.all_inputs}>
-        <Row>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              name="first_name"
-              fullWidth
-              required
-              placeholder="First Name"
-              id="profile_details_first_name"
-              label="First Name"
-              variant="outlined"
-              value={profileDetails.first_name}
-              onChange={(e) => handleChangeProfileDetails(e)}
-              error={profileDetailsError.first_name ? true : false}
-              helperText={profileDetailsError.first_name}
-            />
-          </Col>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              placeholder="Last Name"
-              id="profile_details_last_name"
-              label="Last Name"
-              variant="outlined"
-              name="last_name"
-              value={profileDetails.last_name}
-              onChange={(e) => handleChangeProfileDetails(e)}
-              error={profileDetailsError.last_name ? true : false}
-              helperText={profileDetailsError.last_name}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              name="email_id"
-              disabled
-              fullWidth
-              required
-              placeholder="Enter mail id"
-              id="profile_details_email"
-              label="Enter mail id"
-              variant="outlined"
-              value={profileDetails.email_id}
-              onChange={(e) => handleChangeProfileDetails(e)}
-              error={profileDetailsError.email_id ? true : false}
-              helperText={profileDetailsError.email_id}
-            />
-          </Col>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <MuiPhoneNumber
-              fullWidth
-              required
-              defaultCountry={"in"}
-              countryCodeEditable={false}
-              name="contact_number"
-              placeholder="Contact Number"
-              id="profile_details_contact_number"
-              label="Contact Number"
-              variant="outlined"
-              value={profileDetails.contact_number}
-              onChange={(value, countryData) =>
-                handleChangeProfileDetails(value, countryData)
+        <div className={styles.all_inputs}>
+          <Row>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                name="first_name"
+                fullWidth
+                required
+                placeholder="First Name"
+                id="profile_details_first_name"
+                label="First Name"
+                variant="outlined"
+                value={profileDetails.first_name}
+                onChange={(e) => handleChangeProfileDetails(e)}
+                error={profileDetailsError.first_name ? true : false}
+                helperText={profileDetailsError.first_name}
+              />
+            </Col>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                fullWidth
+                placeholder="Last Name"
+                id="profile_details_last_name"
+                label="Last Name"
+                variant="outlined"
+                name="last_name"
+                value={profileDetails.last_name}
+                onChange={(e) => handleChangeProfileDetails(e)}
+                error={profileDetailsError.last_name ? true : false}
+                helperText={profileDetailsError.last_name}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                name="email_id"
+                disabled
+                fullWidth
+                required
+                placeholder="Enter mail id"
+                id="profile_details_email"
+                label="Enter mail id"
+                variant="outlined"
+                value={profileDetails.email_id}
+                onChange={(e) => handleChangeProfileDetails(e)}
+                error={profileDetailsError.email_id ? true : false}
+                helperText={profileDetailsError.email_id}
+              />
+            </Col>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <MuiPhoneNumber
+                fullWidth
+                required
+                defaultCountry={"in"}
+                countryCodeEditable={false}
+                name="contact_number"
+                placeholder="Contact Number"
+                id="profile_details_contact_number"
+                label="Contact Number"
+                variant="outlined"
+                value={profileDetails.contact_number}
+                onChange={(value, countryData) =>
+                  handleChangeProfileDetails(value, countryData)
+                }
+                error={profileDetailsError.contact_number ? true : false}
+                helperText={profileDetailsError.contact_number}
+              />
+            </Col>
+          </Row>
+        </div>
+        {props.isAccountSetting ? (
+          <Row>
+            <Col style={{ textAlign: "right", margin: "20px" }}>
+              <Button
+                id="cancelbutton_account"
+                variant="outlined"
+                style={{ margin: "20px" }}
+                className={global_style.secondary_button}
+                onClick={() => history.push("/datahub/new_datasets")}
+              >
+                Cancel
+              </Button>
+              <Button
+                id="submitbutton_account"
+                variant="outlined"
+                className={
+                  global_style.primary_button + " " + styles.next_button
+                }
+                onClick={(e) => handleSubmitProfileData(e)}
+              >
+                Submit
+              </Button>
+            </Col>
+          </Row>
+        ) : (
+          <div className={styles.button_grp}>
+            <Button
+              onClick={() => setActiveStep((prev) => prev + 1)}
+              className={global_style.secondary_button}
+            >
+              {" "}
+              Finish later
+            </Button>
+            <Button
+              disabled={
+                !profileDetailsError.contact_number &&
+                profileDetails.contact_number &&
+                profileDetails.email_id &&
+                profileDetails.first_name
+                  ? false
+                  : true
               }
-              error={profileDetailsError.contact_number ? true : false}
-              helperText={profileDetailsError.contact_number}
-            />
-          </Col>
-        </Row>
+              onClick={(e) => handleSubmitProfileData(e)}
+              className={global_style.primary_button + " " + styles.next_button}
+            >
+              {" "}
+              Next
+            </Button>
+          </div>
+        )}
       </div>
-      {props.isAccountSetting ? 
-      <Row>
-              <Col style={{ textAlign: "right", margin: "20px" }}>
-                 <Button
-                  id="cancelbutton_account"
-                   variant="outlined"
-                 style={{ margin: "20px" }}
-                 className={global_style.secondary_button}
-                  onClick={() => history.push("/datahub/new_datasets")}
-                 >
-                   Cancel
-                 </Button>
-                 <Button
-                   id="submitbutton_account"
-                   variant="outlined"
-                   className={global_style.primary_button + " " + styles.next_button}
-                   onClick={(e) => handleSubmitProfileData(e)}
-                 >
-                   Submit
-                 </Button>
-              </Col>
-             </Row>
-      :
-      <div className={styles.button_grp}>
-        <Button
-          onClick={() => setActiveStep((prev) => prev + 1)}
-          className={global_style.secondary_button}
-        >
-          {" "}
-          Finish later
-        </Button>
-        <Button
-          disabled={
-            !profileDetailsError.contact_number &&
-            profileDetails.contact_number &&
-            profileDetails.email_id &&
-            profileDetails.first_name
-              ? false
-              : true
-          }
-          onClick={(e) => handleSubmitProfileData(e)}
-          className={global_style.primary_button + " " + styles.next_button}
-        >
-          {" "}
-          Next
-        </Button>
-      </div>
-      }
-    </div>
     </>
   );
 };
 
 export default ProfileDetails;
-

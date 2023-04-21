@@ -5,12 +5,28 @@ import UrlConstant from "../../Constants/UrlConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./GuestUserLegalNew.module.css";
 import HTTPService from "../../Services/HTTPService";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
-import { Typography } from "@mui/material";
+import { downloadAttachment, GetErrorHandlingRoute } from "../../Utils/Common";
+import { Button, Typography } from "@mui/material";
+import CustomTabs from "../../Components/Tabs/Tabs";
+import { Box } from "@mui/system";
+import HTMLReactParser from "html-react-parser";
 
 const GuestUserLegalNew = (props) => {
   const [legalData, setLegalData] = useState([]);
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const [tabValue, setTabValue] = useState(0);
+  const [tabLabels, setTabLabels] = useState([
+    "Confidential",
+    "Agriculture Law",
+    "Terms and Conditions",
+    "Warranty",
+    "Digital green policy",
+    "LOE",
+    "Governing Law",
+    "Secret polic",
+    "security policy",
+    "Governing Lawwwww",
+  ]);
 
   const getLegalData = () => {
     callLoader(true);
@@ -24,36 +40,18 @@ const GuestUserLegalNew = (props) => {
       .then((response) => {
         callLoader(false);
         console.log(response, "updated responmse");
-        response = response.data;
-        let arr = [
-          {
-            title: "Governing laws",
-            content: response.content.governing_law,
-            download: response.documents.governing_law,
-          },
-          {
-            title: "Warranties",
-            content: response.content.warranty,
-            download: response.documents.warranty,
-          },
-          {
-            title: "Limitation of liabilities",
-            content: response.content.limitations_of_liabilities,
-            download: response.documents.limitations_of_liabilities,
-          },
-          {
-            title: "Policy",
-            content: response.content.privacy_policy,
-            download: response.documents.privacy_policy,
-          },
-          {
-            title: "Terms of use",
-            content: response.content.tos,
-            download: response.documents.tos,
-          },
-        ];
-        console.log(arr, "ARRRRR");
-        setLegalData([...arr]);
+        response = response?.data;
+        setLegalData(response);
+        let tmpLabels = [];
+        if (response) {
+          response.forEach((policy, index) => {
+            tmpLabels.push(policy.name);
+          });
+          setTabLabels(tmpLabels);
+          console.log("tmpLabels", tmpLabels);
+        } else {
+          console.log("something is wrong in .then");
+        }
       })
       .catch((e) => {
         callLoader(false);
@@ -64,6 +62,9 @@ const GuestUserLegalNew = (props) => {
   useEffect(() => {
     getLegalData();
   }, []);
+
+  console.log("on load", tabLabels, tabValue);
+  let url = legalData[tabValue]?.file;
 
   return (
     <Container>
@@ -78,9 +79,69 @@ const GuestUserLegalNew = (props) => {
         </div>
       </Row>
       <Row className={LocalStyle.title2}>
-        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold500}`}>
+        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
           Our terms are
         </Typography>
+      </Row>
+      <Row>
+        <Col className={LocalStyle.policyTabCol} lg={4}>
+          <CustomTabs
+            tabValue={tabValue}
+            setTabValue={setTabValue}
+            TabLabels={tabLabels}
+            orientation="vertical"
+            filledBackground={true}
+            isPolicy={true}
+          />
+        </Col>
+        <Col className={LocalStyle.policyDetailsCol} lg={8}>
+          <div className={LocalStyle.policyDetailsMainContainer}>
+            <div className={LocalStyle.policyDetailsContainer}>
+              <Typography
+                className={`${GlobalStyle.size32} ${GlobalStyle.bold600} ${LocalStyle.policyDetailsTitle}`}
+              >
+                {legalData[tabValue]?.name}
+              </Typography>
+              <Typography
+                className={`${GlobalStyle.size16} ${GlobalStyle.bold400} ${LocalStyle.policyDetailsDescription}`}
+              >
+                {legalData[tabValue]?.description
+                  ? HTMLReactParser(legalData[tabValue]?.description)
+                  : ""}
+              </Typography>
+            </div>
+            {url ? (
+              <Row className={LocalStyle.backButtonContainer}>
+                <Button
+                  id={"details-page-load-more-dataset-button"}
+                  variant="outlined"
+                  className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
+                  onClick={() => downloadAttachment(url)}
+                >
+                  <img
+                    className={LocalStyle.imgTags}
+                    src={require("../../Assets/Img/new_download.svg")}
+                  />
+                  Download document
+                </Button>
+                <Button
+                  id={"details-page-load-more-dataset-button"}
+                  variant="outlined"
+                  className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
+                  onClick={() => window.open(url, "_blank")}
+                >
+                  <img
+                    className={LocalStyle.imgTags}
+                    src={require("../../Assets/Img/view.svg")}
+                  />
+                  View document
+                </Button>
+              </Row>
+            ) : (
+              ""
+            )}
+          </div>
+        </Col>
       </Row>
     </Container>
   );
