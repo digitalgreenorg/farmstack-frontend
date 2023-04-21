@@ -43,3 +43,7 @@
 .w-100vw {
   width: 100vw;
 }
+
+.ant_buttons .ant-btn-primary {
+  border: 1px solid red !important;
+}

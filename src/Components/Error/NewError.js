@@ -169,7 +169,7 @@ export default function NewError(props) {
 
 // This the way you need to pass
 //   callToast(
-//     response?.message ?? "Error occurred while getting datasets",
+//     response?.message ?? response?.data?.detail ?? "Unknown",
 //     response.status == 200 ? "success" : "error",
 //     response.toast
 //   );

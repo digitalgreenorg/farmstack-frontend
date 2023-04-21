@@ -161,7 +161,7 @@ const DataSetsTab = ({
                 label={
                   <span
                     className={
-                      value == 1 ? "tab_header_selected" : "tab_header"
+                      value == 2 ? "tab_header_selected" : "tab_header"
                     }
                   >
                     Requests
