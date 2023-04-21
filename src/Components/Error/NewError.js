@@ -167,7 +167,7 @@ export default function NewError(props) {
 // if (response.toast) {
 //   //callToast(message, type, action)
 //   callToast(
-//     response?.message ?? "Error occurred while getting datasets",
+//     response?.message ?? response?.data?.detail ?? "Unknown",
 //     response.status == 200 ? "success" : "error",
 //     response.toast
 //   );
