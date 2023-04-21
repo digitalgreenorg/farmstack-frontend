@@ -40,12 +40,30 @@ const DataSetsTab = ({
   value,
   setValue,
   user,
+  setType,
+  setCategorises,
+  setGeographies,
+  setDates,
+  setFromDate,
+  setToDate,
+  setSearchDatasetsName,
+  clearFilter,
+  setFilterState,
 }) => {
   const [isGrid, setIsGrid] = useState(true);
   const [isGridOther, setIsGridOther] = useState(true);
   const [isGridSteward, setIsGridSteward] = useState(true);
 
   const handleChange = (event, newValue) => {
+    setType("");
+    setCategorises([]);
+    setGeographies([]);
+    setDates([{ fromDate: null, toDate: null }]);
+    setFromDate("");
+    setToDate("");
+    setSearchDatasetsName("");
+    clearFilter();
+    setFilterState();
     setValue(newValue);
   };
 
@@ -143,7 +161,7 @@ const DataSetsTab = ({
                 label={
                   <span
                     className={
-                      value == 1 ? "tab_header_selected" : "tab_header"
+                      value == 2 ? "tab_header_selected" : "tab_header"
                     }
                   >
                     Requests

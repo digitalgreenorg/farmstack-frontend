@@ -29,6 +29,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 
 const DataSetsView = (props) => {
+  const { userType } = props;
   const history = useHistory();
   const { id } = useParams();
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -86,9 +87,22 @@ const DataSetsView = (props) => {
 
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
-    let url = UrlConstant.base_url + UrlConstant.delete_dataset + id + "/";
+    let url = "";
+    if (userType == "guest") {
+      url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + "/";
+    } else {
+      url = UrlConstant.base_url + UrlConstant.delete_dataset + id + "/";
+    }
+    let isAuthorization = userType == "guest" ? false : true;
     callLoader(true);
-    HTTPService("DELETE", url, "", false, true, accessToken)
+    HTTPService(
+      "DELETE",
+      url,
+      "",
+      false,
+      isAuthorization,
+      isAuthorization ? accessToken : false
+    )
       .then((res) => {
         callLoader(false);
         callToast("Dataset deleted successfully!", "success", true);
@@ -198,8 +212,8 @@ const DataSetsView = (props) => {
                 <Box className="d-flex">
                   <FileWithAction
                     index={index}
-                    name={tempFile.file.slice(
-                      tempFile.file.lastIndexOf("/") + 1
+                    name={tempFile?.file?.slice(
+                      tempFile?.file?.lastIndexOf("/") + 1
                     )}
                     id={tempFile.id}
                     fileType={tempFile.accessibility}
@@ -227,7 +241,7 @@ const DataSetsView = (props) => {
                 <Box className="d-flex">
                   <FileWithAction
                     index={index}
-                    name={tempFile.file.slice(
+                    name={tempFile?.file?.slice(
                       tempFile.file.lastIndexOf("/") + 1
                     )}
                     id={tempFile.id}
@@ -258,7 +272,7 @@ const DataSetsView = (props) => {
                 <Box className="d-flex">
                   <FileWithAction
                     index={index}
-                    name={tempFile.file.slice(
+                    name={tempFile?.file?.slice(
                       tempFile.file.lastIndexOf("/") + 1
                     )}
                     id={tempFile.id}
@@ -289,7 +303,7 @@ const DataSetsView = (props) => {
                 <Box className="d-flex">
                   <FileWithAction
                     index={index}
-                    name={tempFile.file.slice(
+                    name={tempFile?.file?.slice(
                       tempFile.file.lastIndexOf("/") + 1
                     )}
                     id={tempFile.id}

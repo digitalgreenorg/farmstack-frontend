@@ -87,7 +87,9 @@ const UrlConstant = {
   microsite_costeward_end_point:
     "microsite/participant/organizations/?co_steward=True",
   microsite_participant_end_point: "microsite/participant/organizations/",
+  microsite_participant_end_point_new: "microsite/participant/",
   microsite_get_policy: "microsite/policy/",
+  microsite_category: "microsite/datasets/category/",
 
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",

@@ -248,6 +248,28 @@ const Filter = ({
                 fontFamily: "Montserrat",
                 fontWeight: 700,
                 fontSize: "14px",
+                border: "1px solid rgba(0, 171, 85, 0.48)",
+                color: "#00AB55",
+                width: "86px",
+                height: "36px",
+                borderRadius: "8px",
+                textTransform: "none",
+                marginRight: "30px",
+                "&:hover": {
+                  backgroundColor: "#ffffff",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                },
+              }}
+              variant="outlined"
+              onClick={() => setShowFilter(false)}
+            >
+              Close
+            </Button>
+            <Button
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: 700,
+                fontSize: "14px",
                 width: "86px",
                 height: "36px",
                 background: "#00AB55",

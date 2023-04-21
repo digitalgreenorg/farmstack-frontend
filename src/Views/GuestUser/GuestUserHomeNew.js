@@ -113,6 +113,31 @@ const GuestUserHome = () => {
         </Row>
       </div>
       <Container>
+        <div>
+          <div className={LocalStyle.participanttitleContainer}>
+            <Typography
+              className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+            >
+              Our co-steward network
+            </Typography>
+            <Typography
+              className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
+              tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
+              neque quis metus pretium tempus.
+            </Typography>
+          </div>
+          <ParticipantsCarouselNew isCosteward={true} />
+          <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
+            <Button
+              className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
+              onClick={() => history.push("/home/costeward")}
+            >
+              View all co-steward
+            </Button>
+          </Row>
+        </div>
         <div className={LocalStyle.participanttitleContainer}>
           <Typography
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}

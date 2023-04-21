@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
 import { useHistory } from "react-router-dom";
-import { GetErrorHandlingRoute, getUserMapId } from "../../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  getUserMapId,
+} from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import { Col, Container, Row } from "react-bootstrap";
 import { DataGrid } from "@mui/x-data-grid";
@@ -15,7 +19,6 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
   Button,
   Paper,
-  Switch,
   Table,
   TableBody,
   TableCell,
@@ -25,7 +28,7 @@ import {
   TextField,
 } from "@mui/material";
 import { CSSTransition } from "react-transition-group";
-import { Popconfirm } from "antd";
+import { Badge, Popconfirm, Switch } from "antd";
 
 const DatasetRequestTable = () => {
   const { isLoading, toastDetail, callLoader, callToast } =
@@ -102,7 +105,9 @@ const DatasetRequestTable = () => {
     if (condition == "approved") {
       payload = {
         approval_status: condition,
-        accessibility_time: new Date(toDate).toISOString().substring(0, 10),
+        accessibility_time: toDate
+          ? new Date(toDate).toISOString().substring(0, 10)
+          : null,
       };
     } else {
       payload = { approval_status: condition };
@@ -112,37 +117,77 @@ const DatasetRequestTable = () => {
         setConfirmLoading(false);
         setOpen(false);
         setConfirmIndex(-1);
-        // callLoader(false);
-        // console.log(response);
-        // callToast("Re", "success", true);
-        // setApprovalStatus(!approvalStatus);
         setRefresh(!refresh);
         setToDate(null);
       })
-      .catch((error) => {
+      .catch(async (err) => {
         setConfirmLoading(false);
         setOpen(false);
         setConfirmIndex(-1);
-        // callLoader(false);
         setRefresh(!refresh);
-        callToast("Request unsuccessfull", "error", true);
-        // console.log(error);
+
+        var returnValues = GetErrorKey(err, [
+          "approval_status",
+          "accessibility_time",
+        ]);
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "approval_status":
+                callToast(errorMessages[i], "error", true);
+                break;
+              case "accessibility_time":
+                callToast(errorMessages[i], "error", true);
+                break;
+              default:
+                let response = await GetErrorHandlingRoute(err);
+                if (response.toast) {
+                  //callToast(message, type, action)
+                  callToast(
+                    response?.message ?? response?.data?.detail ?? "Unknown",
+                    response.status == 200 ? "success" : "error",
+                    response.toast
+                  );
+                } else {
+                  history.push(response?.path);
+                }
+                break;
+            }
+          }
+        } else {
+          let response = await GetErrorHandlingRoute(err);
+          if (response.toast) {
+            //callToast(message, type, action)
+            callToast(
+              response?.message ?? response?.data?.detail ?? "Unknown",
+              response.status == 200 ? "success" : "error",
+              response.toast
+            );
+          } else {
+            history.push(response?.path);
+          }
+        }
       });
   };
 
   useEffect(() => {
     let columnsForSent = [
       "Dataset name",
+      "File name",
       "Organization name",
-      "Approval status",
       "Accessibility time",
+      "Approval status",
     ];
     let columnsForReceived = [
       "Dataset name",
+      "File name",
       "Organization name",
       "Approval status",
       "Accessibility time",
       "Actions",
+      "View",
     ];
     // let columnsForReceived = ["dataset_name", "organization_name","approval_status", "accessibility_time", "Action"];
     setRequestReceivedColumns(columnsForReceived);
@@ -150,7 +195,7 @@ const DatasetRequestTable = () => {
   }, [allRequestReceivedList, allRequestSentList]);
   useEffect(() => {
     getAllRequestList();
-  }, [refresh]);
+  }, [refresh, showRequestSent]);
   return (
     <>
       {/* <Container> */}
@@ -177,13 +222,13 @@ const DatasetRequestTable = () => {
             justifyContent: "right",
           }}
         >
-          <Typography>Requested</Typography>
+          <Typography className={global_styles.bold600}>Requested</Typography>
           <Switch
+            style={{ background: "#00ab55" }}
             checked={showRequestSent}
-            onChange={(e) => setShowRequestSent(e.target.checked)}
-            // inputProps={{ "aria-label": "ant design" }}
+            onChange={setShowRequestSent}
           />
-          <Typography>Sent</Typography>
+          <Typography className={global_styles.bold600}>Sent</Typography>
         </Col>
       </Row>
       <Row>
@@ -228,6 +273,8 @@ const DatasetRequestTable = () => {
                           "& .MuiTableCell-root": {
                             fontFamily: "Montserrat",
                           },
+                          textAlign: "center",
+                          alignItems: "center",
                         }}
                         className={styles.file_table_column}
                       >
@@ -251,6 +298,9 @@ const DatasetRequestTable = () => {
                       {row.dataset_name}
                     </TableCell>
                     <TableCell component="th" scope="row">
+                      {row.file_name}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
                       {row.organization_name}
                     </TableCell>
                     <TableCell component="th" scope="row">
@@ -266,26 +316,31 @@ const DatasetRequestTable = () => {
                     <TableCell
                       style={{
                         display: "flex",
-                        justifyContent: "left",
+                        justifyContent: "center",
                         alignItems: "center",
                         gap: "20px",
                       }}
+                      className={styles.table_cell_for_approve_button}
                     >
                       {row.approval_status !== "approved" && (
                         <Popconfirm
-                          title="Please select the accessibility time"
+                          title={
+                            <span
+                              style={{
+                                color: "#00ab55",
+                                textTransform: "none",
+                                fontFamily: "Montserrat",
+                              }}
+                            >
+                              Please select the accessibility time
+                            </span>
+                          }
                           description={
                             <>
                               <LocalizationProvider
                                 dateAdapter={AdapterDateFns}
                               >
                                 <DatePicker
-                                  // disabled={
-                                  //   eachUsagePolicy.approval_status ==
-                                  //   "rejected"
-                                  //     ? false
-                                  //     : true
-                                  // }
                                   inputFormat="dd/MM/yyyy"
                                   placeholder="Till"
                                   label="Till"
@@ -341,15 +396,40 @@ const DatasetRequestTable = () => {
                                   )}
                                 />
                               </LocalizationProvider>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "right",
+                                  alignItems: "center",
+                                  gap: "20px",
+                                  marginTop: "20px",
+                                }}
+                              >
+                                <Button
+                                  className={global_styles.secondary_button}
+                                  onClick={() => handleCancel()}
+                                >
+                                  Cancel
+                                </Button>
+                                <Button
+                                  className={global_styles.primary_button}
+                                  onClick={() => handleOk("approved", row.id)}
+                                >
+                                  Approve
+                                </Button>
+                              </div>
                             </>
                           }
                           open={open && index == confirmIndex}
-                          onConfirm={() => handleOk("approved", row.id)}
                           onOpenChange={() => console.log("open change")}
-                          onCancel={() => handleCancel()}
-                          okButtonProps={{ loading: confirmLoading }}
-                          okText="Accept"
-                          cancelText="Cancel"
+                          okButtonProps={{
+                            ghost: true,
+                            type: "text",
+                            disabled: true,
+                          }}
+                          okText={<></>}
+                          showCancel={false}
+                          className={styles.ant_buttons}
                         >
                           <Button
                             style={{
@@ -359,6 +439,7 @@ const DatasetRequestTable = () => {
                               textTransform: "none",
                               height: "30px",
                               fontFamily: "Montserrat",
+                              width: "150px",
                             }}
                             onClick={() => showPopconfirm(index)}
                           >
@@ -374,6 +455,7 @@ const DatasetRequestTable = () => {
                             // color: "white",
                             textTransform: "none",
                             height: "30px",
+                            width: "150px",
                             fontFamily: "Montserrat",
                           }}
                           onClick={() => SubmitHandler("rejected", row.id)}
@@ -390,7 +472,11 @@ const DatasetRequestTable = () => {
                             "/datahub/new_datasets/view/" + row.dataset_id + "/"
                           )
                         }
-                        style={{ cursor: "pointer", fontFamily: "Montserrat" }}
+                        style={{
+                          cursor: "pointer",
+                          fontFamily: "Montserrat",
+                          textAlign: "center",
+                        }}
                       >
                         Detail
                       </span>
@@ -433,6 +519,8 @@ const DatasetRequestTable = () => {
                           "& .MuiTableCell-root": {
                             fontFamily: "Montserrat",
                           },
+                          alignItems: "center",
+                          textAlign: "center",
                         }}
                         className={styles.file_table_column}
                       >
@@ -456,17 +544,40 @@ const DatasetRequestTable = () => {
                       {row.dataset_name}
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {row.organization_name}
+                      {row.file_name}
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {row.approval_status}
+                      {row.organization_name}
                     </TableCell>
                     <TableCell component="th" scope="row">
                       {row.accessibility_time}
                     </TableCell>
-                    {/* <TableCell component="th" scope="row">
-                    {row.}
-                  </TableCell> */}
+
+                    <TableCell
+                      style={{
+                        color:
+                          row.approval_status == "rejected"
+                            ? "#ff5630"
+                            : row.approval_status == "approved"
+                            ? "#00ab55"
+                            : "#c09507",
+                        textAlign: "center",
+                      }}
+                      component="th"
+                      scope="row"
+                    >
+                      <Badge
+                        style={{
+                          backgroundColor:
+                            row.approval_status == "rejected"
+                              ? "#ff5630"
+                              : row.approval_status == "approved"
+                              ? "#00ab55"
+                              : "#faad14",
+                        }}
+                        count={row.approval_status}
+                      ></Badge>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
