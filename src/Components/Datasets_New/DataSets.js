@@ -111,7 +111,6 @@ const DataSets = (props) => {
     setSearchDatasetsName(name);
     if (name && name.length > 3 && name !== "") {
       let data = {};
-      setFilterState({});
       data["user_id"] = getUserLocal();
       data["org_id"] = getOrgLocal();
       data["name__icontains"] = name;
@@ -120,6 +119,7 @@ const DataSets = (props) => {
       } else {
         data["others"] = true;
       }
+      setFilterState(data);
       let guestUsetFilterUrl =
         UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
       let isAuthorization = user == "guest" ? false : true;
@@ -467,6 +467,7 @@ const DataSets = (props) => {
       tempDateRange.push(toDate);
       payload["updated_at__range"] = tempDateRange;
     }
+    setFilterState(payload);
     let guestUsetFilterUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
     let isAuthorization = user == "guest" ? false : true;
@@ -623,7 +624,9 @@ const DataSets = (props) => {
               setDates([{ fromDate: null, toDate: null }]);
               setFromDate("");
               setToDate("");
+              setSearchDatasetsName("");
               clearFilter();
+              setFilterState();
             }}
           >
             <img
@@ -705,10 +708,19 @@ const DataSets = (props) => {
           getOtherDataSets={getOtherDataSets}
           showLoadMoreAdmin={showLoadMoreAdmin}
           showLoadMoreMember={showLoadMoreMember}
+          setType={setType}
+          setCategorises={setCategorises}
+          setGeographies={setGeographies}
+          setDates={setDates}
+          setFromDate={setFromDate}
+          setToDate={setToDate}
+          setSearchDatasetsName={setSearchDatasetsName}
+          clearFilter={clearFilter}
+          setFilterState={setFilterState}
         />
       ) : (
         <Box className={"mt114 mb139"}>
-          <EmptyFile text={"As of now, there are no datasets for connectors"} />
+          <EmptyFile text={"As of now, there are no datasets available"} />
         </Box>
       )}
     </>
