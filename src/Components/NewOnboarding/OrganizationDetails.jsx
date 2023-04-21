@@ -72,6 +72,7 @@ const OrganizationDetails = (props) => {
       setOrganisationDetails({
         ...organisationDetails,
         organisation_contact_number: e ? e : "",
+        organisation_pin_code: e.target.value,
       });
     }
   };
@@ -415,7 +416,11 @@ const OrganizationDetails = (props) => {
               id="organisation_pin_code"
               name="organisation_pin_code"
               value={organisationDetails.organisation_pin_code}
-              onChange={(e) => handleOrgChange(e)}
+              onChange={(e) => {
+                if (e.target.value.length <= 10) {
+                  handleOrgChange(e);
+                }
+              }}
               error={
                 organisationDetailsError.organisation_pin_code_error
                   ? true
