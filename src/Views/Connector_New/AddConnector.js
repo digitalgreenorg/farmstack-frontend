@@ -11,6 +11,7 @@ import {
   GetErrorHandlingRoute,
   getTokenLocal,
   getUserLocal,
+  getUserMapId,
   goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -220,10 +221,10 @@ const AddConnector = (props) => {
       url =
         UrlConstant.base_url +
         UrlConstant.get_org_name_list +
-        "?user=" +
+        "?user_id=" +
         getUserLocal() +
-        "&co_steward=" +
-        (isLoggedInUserCoSteward() ? "true" : "false");
+        "&on_boarded_by=" +
+        (isLoggedInUserCoSteward() ? getUserLocal() : "");
     } else if (source == "dataset_names") {
       url =
         UrlConstant.base_url +

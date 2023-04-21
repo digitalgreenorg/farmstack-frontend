@@ -175,7 +175,7 @@ const Categorise = (props) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={props.geography?.country?.name}
-                renderValue={renderCountryValue}
+                renderValue={() => props.geography?.country?.name}
                 onChange={(e) =>
                   props.setGeography((prev) => ({
                     ...prev,
@@ -219,7 +219,7 @@ const Categorise = (props) => {
                     state: e.target.value,
                   }))
                 }
-                renderValue={renderStateValue}
+                renderValue={() => props.geography?.state?.name}
                 sx={{
                   textAlign: "left",
                   "&.MuiInputBase-root": {
@@ -257,7 +257,7 @@ const Categorise = (props) => {
                     city: e.target.value,
                   }))
                 }
-                renderValue={renderCityValue}
+                renderValue={() => props.geography?.city?.name}
                 sx={{
                   textAlign: "left",
                   "&.MuiInputBase-root": {
