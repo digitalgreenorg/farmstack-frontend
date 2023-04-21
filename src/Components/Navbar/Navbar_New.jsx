@@ -102,27 +102,24 @@ const NavbarNew = ({ loginType }) => {
           />
         </Box>
         <Box className="d-flex align-items-center">
-          {!getTokenLocal() ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={navInActiveStyle}
-              to="/home"
-              onClick={() => handleSelect("home")}
-            >
-              {isNavLinkActive("/home") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
-              ) : (
-                <></>
-              )}
-              Home
-            </NavLink>
-          ) : (
-            <></>
-          )}
+          <NavLink
+            activeStyle={navActiveStyle}
+            style={navInActiveStyle}
+            to="/home"
+            onClick={() => handleSelect("home")}
+          >
+            {isNavLinkActive("/home") ? (
+              <img
+                className={style.dotStyle}
+                src={require("../../Assets/Img/green_dot.svg")}
+                alt="dot"
+              />
+            ) : (
+              <></>
+            )}
+            Home
+          </NavLink>
+
           {loginType === "admin" ? (
             <NavLink
               activeStyle={navActiveStyle}
@@ -179,6 +176,27 @@ const NavbarNew = ({ loginType }) => {
                 <></>
               )}
               Datasets
+            </NavLink>
+          ) : (
+            <></>
+          )}
+          {loginType === "guest" ? (
+            <NavLink
+              activeStyle={navActiveStyle}
+              style={navInActiveStyle}
+              to={"/home/costeward"}
+              onClick={() => handleSelect("costeward")}
+            >
+              {isNavLinkActive("/home/costeward") ? (
+                <img
+                  className={style.dotStyle}
+                  src={require("../../Assets/Img/green_dot.svg")}
+                  alt="dot"
+                />
+              ) : (
+                <></>
+              )}
+              Co-steward
             </NavLink>
           ) : (
             <></>

@@ -23,19 +23,9 @@
 .title2 {
   margin: 50px 0;
 }
-.policyDetailsMainContainer {
-  width: 800px;
-  border: 1px solid #00ab55;
-  border-radius: 30px;
-  text-align: left;
-  padding: 50px !important;
-}
-.policyDetailsDescription {
-  text-align: left;
-}
 .backButton {
   /* margin-top: 50px !important;
-    margin-bottom: 50px !important; */
+      margin-bottom: 50px !important; */
   margin: 0 15px !important;
   font-size: 15px !important;
 }
@@ -60,13 +50,8 @@
   padding: 10px 35px !important;
   font-size: 15px !important;
 }
-.policyDetailsTitle {
-  margin: 0 0 30px 0 !important;
-}
-.policyTabCol {
-  max-width: 260px !important;
-  margin-top: 30px;
-}
-.imgTags {
-  margin: 0 9px;
+.radioButtonContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
 }

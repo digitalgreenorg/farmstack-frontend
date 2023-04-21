@@ -28,6 +28,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 
 const DataSetsView = (props) => {
+  const { userType } = props;
   const history = useHistory();
   const { id } = useParams();
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -92,9 +93,22 @@ const DataSetsView = (props) => {
 
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
-    let url = UrlConstant.base_url + UrlConstant.delete_dataset + id + "/";
+    let url = "";
+    if (userType == "guest") {
+      url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + "/";
+    } else {
+      url = UrlConstant.base_url + UrlConstant.delete_dataset + id + "/";
+    }
+    let isAuthorization = userType == "guest" ? false : true;
     callLoader(true);
-    HTTPService("DELETE", url, "", false, true, accessToken)
+    HTTPService(
+      "DELETE",
+      url,
+      "",
+      false,
+      isAuthorization,
+      isAuthorization ? accessToken : false
+    )
       .then((res) => {
         callLoader(false);
         callToast("Dataset deleted successfully!", "success", true);
@@ -130,7 +144,7 @@ const DataSetsView = (props) => {
   };
   useEffect(() => {
     (() => {
-      let userType = "";
+      // let userType = "";
       let url = "";
       if (userType == "guest") {
         url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + "/";
@@ -194,8 +208,8 @@ const DataSetsView = (props) => {
                 <Box>
                   <FileWithAction
                     index={index}
-                    name={tempFile.file.slice(
-                      tempFile.file.lastIndexOf("/") + 1
+                    name={tempFile?.file?.slice(
+                      tempFile?.file?.lastIndexOf("/") + 1
                     )}
                   />
                   <FileTable fileData={tempFile} />
@@ -209,8 +223,8 @@ const DataSetsView = (props) => {
                 <Box>
                   <FileWithAction
                     index={index}
-                    name={tempFile.file.slice(
-                      tempFile.file.lastIndexOf("/") + 1
+                    name={tempFile?.file?.slice(
+                      tempFile?.file?.lastIndexOf("/") + 1
                     )}
                   />
                   <Box className="text-left mt-20 w-100 overflow_x_scroll">
@@ -225,7 +239,7 @@ const DataSetsView = (props) => {
                 <Box>
                   <FileWithAction
                     index={index}
-                    name={tempFile.file.slice(
+                    name={tempFile?.file?.slice(
                       tempFile.file.lastIndexOf("/") + 1
                     )}
                   />
@@ -241,8 +255,8 @@ const DataSetsView = (props) => {
                 <Box>
                   <FileWithAction
                     index={index}
-                    name={tempFile.file.slice(
-                      tempFile.file.lastIndexOf("/") + 1
+                    name={tempFile?.file?.slice(
+                      tempFile?.file?.lastIndexOf("/") + 1
                     )}
                   />
                   <Box className="text-left mt-20 w-100 overflow_x_scroll">

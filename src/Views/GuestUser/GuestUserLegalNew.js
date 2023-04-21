@@ -64,7 +64,7 @@ const GuestUserLegalNew = (props) => {
   }, []);
 
   console.log("on load", tabLabels, tabValue);
-  let url = UrlConstant.base_url + legalData[tabValue]?.file;
+  let url = legalData[tabValue]?.file;
 
   return (
     <Container>
@@ -79,7 +79,7 @@ const GuestUserLegalNew = (props) => {
         </div>
       </Row>
       <Row className={LocalStyle.title2}>
-        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold500}`}>
+        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
           Our terms are
         </Typography>
       </Row>
@@ -110,24 +110,36 @@ const GuestUserLegalNew = (props) => {
                   : ""}
               </Typography>
             </div>
-            <Row className={LocalStyle.backButtonContainer}>
-              <Button
-                id={"details-page-load-more-dataset-button"}
-                variant="outlined"
-                className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
-                onClick={() => downloadAttachment(url)}
-              >
-                Download document
-              </Button>
-              <Button
-                id={"details-page-load-more-dataset-button"}
-                variant="outlined"
-                className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
-                onClick={() => window.open(url, "_blank")}
-              >
-                View document
-              </Button>
-            </Row>
+            {url ? (
+              <Row className={LocalStyle.backButtonContainer}>
+                <Button
+                  id={"details-page-load-more-dataset-button"}
+                  variant="outlined"
+                  className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
+                  onClick={() => downloadAttachment(url)}
+                >
+                  <img
+                    className={LocalStyle.imgTags}
+                    src={require("../../Assets/Img/new_download.svg")}
+                  />
+                  Download document
+                </Button>
+                <Button
+                  id={"details-page-load-more-dataset-button"}
+                  variant="outlined"
+                  className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
+                  onClick={() => window.open(url, "_blank")}
+                >
+                  <img
+                    className={LocalStyle.imgTags}
+                    src={require("../../Assets/Img/view.svg")}
+                  />
+                  View document
+                </Button>
+              </Row>
+            ) : (
+              ""
+            )}
           </div>
         </Col>
       </Row>
