@@ -229,20 +229,15 @@ const CompanyPolicies = (props) => {
       data.name
     );
     const [policyNameError, setPolicyNameError] = useState("");
+
     const handleUploadPolicyE = (file) => {
-      // console.log("file", file);
-      // // setIsLogoLinkE(false);
-      // // // data[index].file = file;
-      // // setPolicySize(file.size);
-      // setUploadedPolicyE(file);
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
+      // data[index].file = file;
+      setPolicySize(file.size);
+      setIsLogoLinkE(false);
       console.log("uploadedPolicyE state:", uploadedPolicyE);
     };
-    useEffect(() => {
-      console.log("uploadedPolicyE state has changed:", uploadedPolicyE);
-    }, [uploadedPolicyE]);
-
     useEffect(() => {
       console.log(uploadedPolicyE, policySize);
       if (!uploadedPolicyE) {
@@ -255,15 +250,21 @@ const CompanyPolicies = (props) => {
       console.log(objectUrl, "objectUrl");
       // free memory when ever this component is unmounted
       return () => URL.revokeObjectURL(objectUrl);
-    }, [uploadedPolicyE]);
+    }, []);
+
     useEffect(() => {
       console.log("uploadedPolicyE", uploadedPolicyE);
       if (data.file && !uploadedPolicyE) {
-        console.log("runing useEffect");
+        console.log("runing useEffectttt");
         setPreviewE(data.file ? data.file : null);
         setIsLogoLinkE(true);
       }
     }, []);
+
+    const handleDeleteFile = () => {
+      setUploadedPolicyE(null)
+      setPreviewE(null);
+    }
 
     const handleDescChange = (value) => {
       setEditorpolicyDescValue(value);
@@ -276,7 +277,7 @@ const CompanyPolicies = (props) => {
       let payload = new FormData();
       payload.append("description", policyDesc);
       payload.append("name", policyNameUnderAccordion);
-      isLogoLinkE && payload.append("file", uploadedPolicyE)
+      !isLogoLinkE && payload.append("file", uploadedPolicyE)
       // {
       //   !isLogoLinkE && payload.append("file", uploadedPolicyE);
       // }
@@ -371,10 +372,6 @@ const CompanyPolicies = (props) => {
                   "Droppppp files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
                 }
                 fileTypes={["pdf", "doc"]}
-                // handleChange={(file) =>
-                //   handleUploadPolicyE(file)
-                  
-                // }
                 handleChange={handleUploadPolicyE}
                 maxSize={25}
                 setSizeError={() =>
@@ -420,16 +417,16 @@ const CompanyPolicies = (props) => {
                         onClick={() => window.open(previewE)}
                       >
                         {console.log(uploadedPolicyE, "uploadedPolicyE")}
-                        {uploadedPolicyE?.name
+                        {uploadedPolicyE?.name 
                           ? uploadedPolicyE?.name
-                          : data.file.split("/").at(-1)}
+                           : data.file.split("/").at(-1)} 
                       </span>
                       <span className={global_style.light_text}>
                         {policySize && (policySize / 1000000).toFixed(2) + "MB"}
                       </span>
                     </div>
                     <CancelIcon
-                      onClick={() => handleDeletePolicy()}
+                      onClick={() => handleDeleteFile()}
                       style={{ cursor: "pointer" }}
                       fontSize="small"
                     />

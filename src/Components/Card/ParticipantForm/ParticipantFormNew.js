@@ -90,7 +90,14 @@ const ParticipantFormNew = (props) => {
     event.preventDefault();
     // perform form submission logic here
   };
-
+  // const handleContactNumber = (e, countryData) => {
+   
+  //   // if(isPhoneValid(e, countryData)){
+  //   //   setOrgContactErrorMessage("Invalid phone number")
+  //   }else {
+  //     setContactNumber(e, countryData)
+  //   }
+  // }
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
     return res !== null;
@@ -141,15 +148,6 @@ const ParticipantFormNew = (props) => {
     setOrgWebsiteErrorMessage(null);
     setOrgId("");
   };
-
-  // const handleContactNumber = (e, countryData) => {
-  //   if(!isPhoneValid(e, countryData)){
-  //     setOrgContactErrorMessage("Invalid phone number")
-  //   }else {
-  //     setOrganisationCountry(e)
-  //   }  
-  // }
-
   const addNewParticipants = () => {
     setFirstNameErrorMessage(null);
     setLastNameErrorMessage(null);
@@ -570,7 +568,8 @@ const ParticipantFormNew = (props) => {
               onChange={(event) => setEmail(event.target.value)}
             /> */}
           </Col>
-          <Col xs={12} sm={6} md={6} xl={6} style={{marginTop: "15px", display: "flex", flexDirection: "column"}}>
+          <Col xs={12} sm={6} md={6} xl={6} style={{marginTop: "15px",}}>
+         
             {/* <TextField
               className={LocalStyle.textField}
               label="Contact Number"
@@ -578,24 +577,27 @@ const ParticipantFormNew = (props) => {
               required
               type="number"
               value={contactNumber}
-              onChange={(event) => setContactNumber(event.target.value)} */}
+              onChange={(event) => setContactNumber(event.target.value)}/> */}
               <MuiPhoneNumber
               fullWidth
               required
               defaultCountry={"in"}
               countryCodeEditable={false}
-              placeholder="Organisation Contact Number"
-              label="Organisation Contact Number"
+              placeholder="Contact Number"
               variant="outlined"
               id="country-in-add-participants"
-              name="Country "
+              name="Country "x
               value={organisationCountry}
-              onChange={(event) => setContactNumber(event.target.value)} 
+              // onChange={(value, countryData) =>
+              //   handleContactNumber(value, countryData)
+              // }
+              onChange={(value) => setContactNumber(value)}
               error={
                 orgContactErrorMessage ? true : false
               } 
               helperText={orgContactErrorMessage}
             />
+           
           </Col>
         </Row>
         <Row>
