@@ -68,10 +68,11 @@ const OrganizationDetails = (props) => {
           ...prevState,
           organisation_contact_number_error: "",
         }));
-      }
+      } 
       setOrganisationDetails({
         ...organisationDetails,
         organisation_contact_number: e ? e : "",
+        organisation_pin_code: e ? e.length < 10 : ""
       });
     }
   };
@@ -407,11 +408,11 @@ const OrganizationDetails = (props) => {
             <TextField
               fullWidth
               required
-              // type="number"
+              type="number"
               placeholder="PIN Code"
               label="PIN Code"
               variant="outlined"
-              inputProps={{maxLength: 10}}
+              //inputProps={{maxLength: 10}}
               id="organisation_pin_code"
               name="organisation_pin_code"
               value={organisationDetails.organisation_pin_code}
