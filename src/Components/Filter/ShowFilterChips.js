@@ -15,7 +15,14 @@ const ShowFilterChips = ({ geographies, categorises }) => {
       {geographies?.map((each) => {
         if (!each) return;
         return (
-          <Chip sx={{ marginLeft: "5px", marginRight: "15px" }} label={each} />
+          <Chip
+            sx={{
+              marginLeft: "5px",
+              marginRight: "15px",
+              marginBottom: "15px",
+            }}
+            label={each}
+          />
         );
       })}
       {Object.keys(categorises).map((key, index) => {
@@ -25,7 +32,11 @@ const ShowFilterChips = ({ geographies, categorises }) => {
               console.log(res, "suuta");
               return (
                 <Chip
-                  sx={{ marginLeft: "5px", marginRight: "15px" }}
+                  sx={{
+                    marginLeft: "5px",
+                    marginRight: "15px",
+                    marginBottom: "15px",
+                  }}
                   label={res}
                 />
               );
