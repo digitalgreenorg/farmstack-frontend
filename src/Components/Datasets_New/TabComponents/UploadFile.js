@@ -622,7 +622,7 @@ const UploadFile = ({
       )
         .then((res) => {
           callLoader(false);
-          setSqlFiles([...sqlFiles, ...res.data]);
+          setSqlFiles([...sqlFiles, res.data]);
         })
         .catch((err) => {
           callLoader(false);
@@ -654,7 +654,7 @@ const UploadFile = ({
       )
         .then((res) => {
           callLoader(false);
-          setPostgresFiles([...postgresFiles, ...res.data]);
+          setPostgresFiles([...postgresFiles, res.data]);
         })
         .catch((err) => {
           callLoader(false);
@@ -716,7 +716,7 @@ const UploadFile = ({
         accessToken
       )
         .then((res) => {
-          setRestApiFiles([restApifiles, ...res.data]);
+          setRestApiFiles([...restApifiles, res.data]);
           setIsApiConnected(true);
         })
         .catch((err) => {
@@ -724,7 +724,7 @@ const UploadFile = ({
         });
     }
   };
-
+  console.log(restApifiles);
   return (
     <div className="mt-20">
       <Typography
