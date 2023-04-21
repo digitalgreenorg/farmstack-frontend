@@ -28,6 +28,7 @@ import Filter from "../Filter/Filter";
 import CheckBoxWithText from "./TabComponents/CheckBoxWithText";
 import ShowFilterChips from "../Filter/ShowFilterChips";
 import { City, Country, State } from "country-state-city";
+import EmptyFile from "./TabComponents/EmptyFile";
 import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
 
 const cardSx = {
@@ -115,17 +116,22 @@ const DataSets = (props) => {
     } else {
       data["others"] = true;
     }
+    let guestUsetFilterUrl =
+      UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
+    let isAuthorization = user == "guest" ? false : true;
     if (value === 0) {
       HTTPService(
         "POST",
-        !isLoadMore
+        user == "guest"
+          ? guestUsetFilterUrl
+          : !isLoadMore
           ? searchUrl
           : memberDatasetUrl
           ? memberDatasetUrl
           : searchUrl,
         data,
         false,
-        true
+        isAuthorization
       )
         .then((response) => {
           if (response.data.next == null) {
@@ -153,6 +159,7 @@ const DataSets = (props) => {
     } else if (value === 1) {
       HTTPService(
         "POST",
+
         !isLoadMore
           ? searchUrl
           : memberDatasetUrl
@@ -193,6 +200,7 @@ const DataSets = (props) => {
   };
 
   const getDataSets = (isLoadMore) => {
+    let method = "POST";
     if (!isLoadMore) {
       resetUrls();
       if (payload == "") {
@@ -205,11 +213,19 @@ const DataSets = (props) => {
     } else {
       payload = { ...filterState };
     }
+    let guestUrl = "";
+    if (user == "guest") {
+      guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
+      payload = "";
+      method = "GET";
+    }
+
+    // console.log("url",guestUrl)
 
     let accessToken = getTokenLocal() ?? false;
     HTTPService(
-      "POST",
-      !isLoadMore ? adminUrl : datasetUrl,
+      method,
+      guestUrl ? guestUrl : !isLoadMore ? adminUrl : datasetUrl,
       payload,
       false,
       accessToken
@@ -345,17 +361,15 @@ const DataSets = (props) => {
       setGeographies((prev) => [...prev, keyName]);
     }
   };
+  let url =
+    user == "guest"
+      ? UrlConstant.base_url + UrlConstant.microsite_category
+      : UrlConstant.base_url + UrlConstant.add_category_edit_category;
+  let isAuthorization = user == "guest" ? false : true;
 
   const getAllCategoryAndSubCategory = () => {
     let checkforAccess = getTokenLocal() ?? false;
-    HTTPService(
-      "GET",
-      UrlConstant.base_url + UrlConstant.add_category_edit_category,
-      "",
-      true,
-      true,
-      checkforAccess
-    )
+    HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
         let prepareArr = [];
         for (const [key, value] of Object.entries(response.data)) {
@@ -440,13 +454,20 @@ const DataSets = (props) => {
       payload["category"] = arr;
     }
     // payload["created_at__range"] = [];
+    let guestUsetFilterUrl =
+      UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
+    let isAuthorization = user == "guest" ? false : true;
     callLoader(true);
     HTTPService(
       "POST",
-      !isLoadMore ? adminUrl : datasetUrl,
+      user == "guest"
+        ? guestUsetFilterUrl
+        : !isLoadMore
+        ? adminUrl
+        : datasetUrl,
       payload,
       false,
-      true
+      isAuthorization
     )
       .then((response) => {
         callLoader(false);
@@ -473,7 +494,9 @@ const DataSets = (props) => {
 
   useEffect(() => {
     getDataSets(false);
-    getOtherDataSets(false);
+    if (user != "guest") {
+      getOtherDataSets(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -632,20 +655,26 @@ const DataSets = (props) => {
       </Box>
       <Divider />
       {/* section-2 */}
-      <DataSetsTab
-        user={user}
-        history={history}
-        addDataset={addDataset}
-        state={state}
-        value={value}
-        setValue={setValue}
-        datasetList={datasetList}
-        memberDatasetList={memberDatasetList}
-        getDataSets={getDataSets}
-        getOtherDataSets={getOtherDataSets}
-        showLoadMoreAdmin={showLoadMoreAdmin}
-        showLoadMoreMember={showLoadMoreMember}
-      />
+      {datasetList?.length ? (
+        <DataSetsTab
+          user={user}
+          history={history}
+          addDataset={addDataset}
+          state={state}
+          value={value}
+          setValue={setValue}
+          datasetList={datasetList}
+          memberDatasetList={memberDatasetList}
+          getDataSets={getDataSets}
+          getOtherDataSets={getOtherDataSets}
+          showLoadMoreAdmin={showLoadMoreAdmin}
+          showLoadMoreMember={showLoadMoreMember}
+        />
+      ) : (
+        <Box className={"mt114 mb139"}>
+          <EmptyFile text={"As of now, there are no datasets for connectors"} />
+        </Box>
+      )}
     </>
   );
 };

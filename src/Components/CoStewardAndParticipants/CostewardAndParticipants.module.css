@@ -19,6 +19,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 400px;
 }
 .loadMoreButton {
   width: 100%;
@@ -28,6 +29,7 @@
 }
 .buttonContainer {
   align-items: center;
+  width: 100%;
 }
 .viewType {
   display: flex;

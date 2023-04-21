@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import style from "./Footer_New.module.css";
 import ContainedButton from "../Button/ContainedButton";
+import { useHistory } from "react-router-dom";
 
 const FooterNew = () => {
   const handleSubscribe = () => {};
-
+  const history = useHistory();
   return (
     <Box sx={{ padding: "40px", marginLeft: "144px", marginRight: "144px" }}>
       <div className="logo_container text-left">
@@ -43,7 +44,11 @@ const FooterNew = () => {
           <div className={`footer_link mt-20`}>
             <div className="d-flex justify-content-between w-100">
               <div className={`${style.footerLightText}`}>Home</div>
-              <div className={`${style.footerLightText} ${style.flexWidth}`}>
+
+              <div
+                onClick={() => history.push("/home/contact")}
+                className={`${style.footerLightText} ${style.flexWidth}`}
+              >
                 Contact us
               </div>
             </div>
@@ -53,6 +58,7 @@ const FooterNew = () => {
               </div>
               <div
                 className={`${style.footerLightText} ${style.flexWidth} mt-10`}
+                onClick={() => history.push("/home/legal")}
               >
                 Legal
               </div>

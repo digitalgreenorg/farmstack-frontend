@@ -119,17 +119,17 @@ const DatasetListNew = (props) => {
       {user === "guest" ? (
         <>
           <Row className={LocalStyle.buttonContainer}>
-            <Col xs={0} sm={0} md={2} lg={4}></Col>
-            <Col xs={12} sm={12} md={8} lg={4}>
-              <Button
-                id={"details-page-load-more-dataset-button"}
-                variant="outlined"
-                className={`${GlobalStyle.primary_button} ${LocalStyle.loadMoreButton}`}
-                onClick={() => history.push("/home/datasets")} // passing true will call loadmore api
-              >
-                View all datasets
-              </Button>
-            </Col>
+            {/* <Col xs={0} sm={0} md={2} lg={4}></Col> */}
+            {/* <Col  xs={12} sm={12} md={8} lg={4}> */}
+            <Button
+              id={"details-page-load-more-dataset-button"}
+              variant="outlined"
+              className={`${GlobalStyle.primary_button} ${LocalStyle.loadMoreButton}`}
+              onClick={() => history.push("/home/datasets")} // passing true will call loadmore api
+            >
+              View all datasets
+            </Button>
+            {/* </Col> */}
           </Row>
         </>
       ) : loadMoreUrl ? (

@@ -25,9 +25,7 @@ const DataSetsListView = ({
         <Typography className="datasets_list_view_title w-100 text-left">
           Geography
         </Typography>
-        <Typography className="datasets_list_view_title w-100 text-left">
-          Age of dataset
-        </Typography>
+        {/* <Typography className='datasets_list_view_title w-100 text-left'>Age of dataset</Typography> */}
         <Typography className="datasets_list_view_title w-100 text-center">
           Published on
         </Typography>

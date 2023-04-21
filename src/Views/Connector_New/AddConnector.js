@@ -904,7 +904,9 @@ const AddConnector = (props) => {
           </>
         ) : (
           <Box className={style.mt114 + " " + style.mb139}>
-            <EmptyFile text={"As of now, there is no dataset for connectors"} />
+            <EmptyFile
+              text={"As of now, there are no datasets for connectors"}
+            />
           </Box>
         )}
         {completeData.length > 0 &&
