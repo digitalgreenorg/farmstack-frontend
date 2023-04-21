@@ -525,8 +525,8 @@ const DataSets = (props) => {
     getAllCategoryAndSubCategory();
   }, [categorises, type]);
 
-  console.log(geographies, "dsets");
-  console.log(geography, "dsets");
+  console.log(user, "dsets");
+  console.log(datasetList, "dsets");
   return (
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -694,7 +694,32 @@ const DataSets = (props) => {
       </Box>
       <Divider />
       {/* section-2 */}
-      {datasetList?.length ? (
+      {user === "guest" && datasetList?.length && (
+        <DataSetsTab
+          user={user}
+          history={history}
+          addDataset={addDataset}
+          state={state}
+          value={value}
+          setValue={setValue}
+          datasetList={datasetList}
+          memberDatasetList={memberDatasetList}
+          getDataSets={getDataSets}
+          getOtherDataSets={getOtherDataSets}
+          showLoadMoreAdmin={showLoadMoreAdmin}
+          showLoadMoreMember={showLoadMoreMember}
+          setType={setType}
+          setCategorises={setCategorises}
+          setGeographies={setGeographies}
+          setDates={setDates}
+          setFromDate={setFromDate}
+          setToDate={setToDate}
+          setSearchDatasetsName={setSearchDatasetsName}
+          clearFilter={clearFilter}
+          setFilterState={setFilterState}
+        />
+      )}
+      {user !== "guest" ? (
         <DataSetsTab
           user={user}
           history={history}
@@ -719,9 +744,7 @@ const DataSets = (props) => {
           setFilterState={setFilterState}
         />
       ) : (
-        <Box className={"mt114 mb139"}>
-          <EmptyFile text={"As of now, there are no datasets available"} />
-        </Box>
+        <></>
       )}
     </>
   );
