@@ -346,7 +346,7 @@ const DataSetsView = (props) => {
   useEffect(() => {
     getDataset();
   }, [id, approvalStatus]);
-
+  console.log(history.location?.state);
   return (
     <Box>
       <Box
@@ -367,54 +367,64 @@ const DataSetsView = (props) => {
             <img src={require("../../Assets/Img/dot.svg")} />
           </span>
           <span className="add_light_text ml-16">
-            {history.location?.state?.data}
+            {history.location?.state?.tab === "my_organisation"
+              ? "My Organisation"
+              : "Other Organisation"}
           </span>
         </div>
         <Box className="d-flex justify-content-between align-items-baseline">
-          <div className="bold_title mt-50">{"My Dataset Details"}</div>
-          <Box>
-            <Button
-              sx={{
-                color: "#FF5630",
-                fontFamily: "Public Sans",
-                fontWeight: "700",
-                fontSize: "15px",
-                border: "1px solid rgba(255, 86, 48, 0.48)",
-                width: "149px",
-                height: "48px",
-                marginRight: "28px",
-                textTransform: "none",
-                "&:hover": {
-                  background: "none",
+          <div className="bold_title mt-50">
+            {history.location?.state?.tab === "my_organisation"
+              ? "My Dataset Details"
+              : "Other Dataset Details"}
+          </div>
+          {history.location?.state?.tab === "my_organisation" ? (
+            <Box>
+              <Button
+                sx={{
+                  color: "#FF5630",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: "15px",
                   border: "1px solid rgba(255, 86, 48, 0.48)",
-                },
-              }}
-              variant="outlined"
-              onClick={handleDelete}
-            >
-              Delete dataset
-            </Button>
-            <Button
-              sx={{
-                color: "#00AB55",
-                fontFamily: "Public Sans",
-                fontWeight: "700",
-                fontSize: "15px",
-                border: "1px solid rgba(0, 171, 85, 0.48)",
-                width: "149px",
-                height: "48px",
-                textTransform: "none !important",
-                "&:hover": {
-                  background: "none",
+                  width: "149px",
+                  height: "48px",
+                  marginRight: "28px",
+                  textTransform: "none",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(255, 86, 48, 0.48)",
+                  },
+                }}
+                variant="outlined"
+                onClick={handleDelete}
+              >
+                Delete dataset
+              </Button>
+              <Button
+                sx={{
+                  color: "#00AB55",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: "15px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
-                },
-              }}
-              onClick={handleEdit}
-              variant="outlined"
-            >
-              Edit dataset
-            </Button>
-          </Box>
+                  width: "149px",
+                  height: "48px",
+                  textTransform: "none !important",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                  },
+                }}
+                onClick={handleEdit}
+                variant="outlined"
+              >
+                Edit dataset
+              </Button>
+            </Box>
+          ) : (
+            <></>
+          )}
         </Box>
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
         <Box className="d-flex mt-38">
@@ -433,7 +443,7 @@ const DataSetsView = (props) => {
             {/* <Box className="text-left">
               <div className="type_dataset">Public dataset</div>
             </Box> */}
-            <Typography className="view_datasets_light_text text-left mt-20">
+            <Typography className="view_datasets_light_text text-left">
               Data Capture Interval
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">

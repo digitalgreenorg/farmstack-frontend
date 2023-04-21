@@ -186,6 +186,7 @@ const DataSetsTab = ({
                     key={item?.id}
                     history={history}
                     item={item}
+                    value={value === 0 ? "my_organisation" : ""}
                     handleCardClick={
                       user == "guest"
                         ? () => history.push(`/home/dataset/${item.id}`)
@@ -198,6 +199,7 @@ const DataSetsTab = ({
               <DataSetsListView
                 datasets={datasetList}
                 history={history}
+                value={value === 0 ? "my_organisation" : ""}
                 handleCardClick={handleCardClick}
               />
             )}
