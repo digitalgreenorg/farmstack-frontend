@@ -656,3 +656,5 @@ const ParticipantFormNew = (props) => {
     </>
   );
 };
+
+export default ParticipantFormNew;
