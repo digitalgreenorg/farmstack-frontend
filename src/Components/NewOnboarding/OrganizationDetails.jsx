@@ -72,7 +72,6 @@ const OrganizationDetails = (props) => {
       setOrganisationDetails({
         ...organisationDetails,
         organisation_contact_number: e ? e : "",
-        organisation_pin_code: e ? e.length < 10 : ""
       });
     }
   };
@@ -533,6 +532,7 @@ const OrganizationDetails = (props) => {
                     organisationDetails.organisation_name &&
                     organisationDetails.organisation_pin_code.length > 5 &&
                     organisationDetails.organisation_contact_number &&
+                    !organisationDetailsError.organisation_contact_number_error &&
                     organisationDetails.organisation_website_link &&
                     preview
                       ? false
@@ -561,7 +561,7 @@ const OrganizationDetails = (props) => {
             organisationDetails.organisation_name &&
             organisationDetails.organisation_pin_code.length > 5 &&
             organisationDetails.organisation_website_link &&
-            organisationDetails.organisation_contact_number&&
+            organisationDetails.organisation_contact_number &&
             !organisationDetailsError.organisation_contact_number_error &&
             preview
               ? false
