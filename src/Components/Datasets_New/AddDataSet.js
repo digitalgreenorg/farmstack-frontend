@@ -93,12 +93,20 @@ const AddDataSet = (props) => {
       let accessToken = getTokenLocal() ?? false;
       let url = "";
       let method = "";
-      if (props.isEditModeOn && props.datasetIdForEdit) {
-        url =
-          UrlConstant.base_url +
-          UrlConstant.add_basic_dataset +
-          props.datasetIdForEdit +
-          "/";
+      if ((props.isEditModeOn && props.datasetIdForEdit) || isDatasetCreated) {
+        if (props.isEditModeOn && props.datasetIdForEdit) {
+          url =
+            UrlConstant.base_url +
+            UrlConstant.add_basic_dataset +
+            props.datasetIdForEdit +
+            "/";
+        } else {
+          url =
+            UrlConstant.base_url +
+            UrlConstant.add_basic_dataset +
+            datasetId +
+            "/";
+        }
         method = "PUT";
       } else {
         url = UrlConstant.base_url + UrlConstant.add_basic_dataset;
@@ -110,6 +118,7 @@ const AddDataSet = (props) => {
           callLoader(false);
           if (!props.isEditModeOn && !props.datasetIdForEdit) {
             setDatasetId(res?.data?.id);
+            setIsDatasetCreated(true);
           }
           setValue(value + 1);
         })
