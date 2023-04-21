@@ -86,7 +86,7 @@ export default function NewError(props) {
                 ? "Forbidden Access"
                 : status == 404
                 ? "404"
-                : status == 500
+                : status >= 500
                 ? "Internal Server Error"
                 : ""}
             </div>
@@ -105,7 +105,7 @@ export default function NewError(props) {
                 ? "This error occurs when a user is denied access to a resource, typically due to insufficient permissions, authentication credentials, or IP blocking, indicating that the server understands the request but refuses to authorize it."
                 : status == 404
                 ? "This error occurs when a client requests a resource from a server that cannot be found or does not exist, often due to a broken link, outdated URL, or incorrect website configuration."
-                : status == 500
+                : status >= 500
                 ? "Our highly skilled team of engineers is currently working on the issue, armed with nothing but coffee, pizza, and the eternal hope that they'll eventually figure out what went wrong."
                 : ""}
             </div>
@@ -122,7 +122,7 @@ export default function NewError(props) {
                       ? "/datahub/new_datasets"
                       : status == 404
                       ? ""
-                      : status == 500
+                      : status >= 500
                       ? "/datahub/new_datasets"
                       : ""
                   }`
@@ -135,7 +135,7 @@ export default function NewError(props) {
                 ? "Home"
                 : status == 404
                 ? "Home"
-                : status == 500
+                : status >= 500
                 ? "Home"
                 : "Home"}
             </Button>
@@ -149,7 +149,7 @@ export default function NewError(props) {
                   ? error403
                   : status == 404
                   ? error404
-                  : status == 500
+                  : status >= 500
                   ? error500
                   : ""
               }

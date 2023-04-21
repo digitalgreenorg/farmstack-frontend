@@ -3,7 +3,13 @@ import { Box, Divider, Typography } from "@mui/material";
 import "./DataSetsListView.css";
 import { dateTimeFormat } from "../../Utils/Common";
 
-const DataSetsListView = ({ datasets, history, title, handleCardClick }) => {
+const DataSetsListView = ({
+  datasets,
+  history,
+  title,
+  handleCardClick,
+  value,
+}) => {
   return (
     <div className="mt-50">
       <Box className="d-flex justify-content-between mb-20">
@@ -30,7 +36,10 @@ const DataSetsListView = ({ datasets, history, title, handleCardClick }) => {
           <Box
             className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
             onClick={() =>
-              history.push(handleCardClick(item?.id), { data: title })
+              history.push(handleCardClick(item?.id), {
+                data: title,
+                tab: value,
+              })
             }
           >
             <Typography className="datasets_list_view_text datasets_list_view_name green_text w-100 text-left ml-20">

@@ -29,6 +29,7 @@ import CheckBoxWithText from "./TabComponents/CheckBoxWithText";
 import ShowFilterChips from "../Filter/ShowFilterChips";
 import { City, Country, State } from "country-state-city";
 import EmptyFile from "./TabComponents/EmptyFile";
+import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
 
 const cardSx = {
   maxWidth: 368,
