@@ -55,3 +55,11 @@
   justify-content: space-between;
   width: 50%;
 }
+.adminDetailsContainer {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+}
+.adminDetailsCol {
+  margin: 15px 0;
+}

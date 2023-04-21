@@ -180,27 +180,6 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )}
-          {loginType === "guest" ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={navInActiveStyle}
-              to={"/home/costeward"}
-              onClick={() => handleSelect("costeward")}
-            >
-              {isNavLinkActive("/home/costeward") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
-              ) : (
-                <></>
-              )}
-              Co-steward
-            </NavLink>
-          ) : (
-            <></>
-          )}
           {loginType === "admin" || loginType === "guest" ? (
             <NavLink
               activeStyle={navActiveStyle}

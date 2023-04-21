@@ -40,7 +40,7 @@ const ParticipantsCarouselNew = (props) => {
     callLoader(true);
 
     let url =
-      UrlConstant.base_url + UrlConstant.microsite_participant_end_point;
+      UrlConstant.base_url + UrlConstant.microsite_participant_end_point_new;
     let params = {};
     if (isCosteward) params = { co_steward: "True" };
 
@@ -108,7 +108,13 @@ const ParticipantsCarouselNew = (props) => {
                   md={6}
                   xl={4}
                   onClick={() =>
-                    history.push(`/home/participant/${participant?.user_id}`)
+                    isCosteward
+                      ? history.push(
+                          `/home/costeward/view/${participant?.user_id}`
+                        )
+                      : history.push(
+                          `/home/participant/${participant?.user_id}`
+                        )
                   }
                 >
                   <CustomCard
