@@ -483,12 +483,18 @@ const DataSetsView = (props) => {
           <ControlledAccordion data={files} isTables={true} />
         </Box>
         <Divider className="mt-50" />
-        <RequestCardForApprovalOrReject
-          data={allDatasets}
-          setApprovalStatus={setApprovalStatus}
-          approvalStatus={approvalStatus}
-        />
-        <Divider className="mt-50" />
+        {history.location?.state?.tab === "my_organisation" ? (
+          <>
+            <RequestCardForApprovalOrReject
+              data={allDatasets}
+              setApprovalStatus={setApprovalStatus}
+              approvalStatus={approvalStatus}
+            />
+            <Divider className="mt-50" />
+          </>
+        ) : (
+          <></>
+        )}
         <div className="bold_title mt-50">{"Organisation Details"}</div>
         <Box>
           <Card className="organisation_icon_card">
