@@ -29,6 +29,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../../Utils/Common";
+import FooterNew from "../../../Components/Footer/Footer_New";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -359,7 +360,7 @@ export default function OnBoarding() {
         </CSSTransition>
       )}
 
-      <OnboardingFooter />
+      {activeStep == 0 ? <FooterNew /> : <OnboardingFooter />}
     </Stack>
   );
 }

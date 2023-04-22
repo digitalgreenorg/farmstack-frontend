@@ -101,10 +101,28 @@ const RequestCardForApprovalOrReject = (props) => {
 
   useEffect(() => {
     console.log("use Effect calling");
+    if (filter == "all" || !filter) {
+      console.log(filter, data);
+      let arr = [];
+      for (let i = 0; i < data.length; i++) {
+        if (data[i]?.accessibility == "private") {
+          arr = [...arr, data[i]];
+        }
+      }
+      // console.log(arr);
+      setRequestsToShow([...arr]);
+      return;
+    }
     let arr = [];
     for (let i = 0; i < data.length; i++) {
-      if (data[i]?.accessibility == "private") {
-        arr = [...arr, data[i]];
+      if (data[i].accessibility == "private") {
+        let obj = { ...data[i] };
+        let eachArr = obj["usage_policy"].filter((eachUsagePolicy, index) => {
+          console.log(eachUsagePolicy.approval_status, filter);
+          return eachUsagePolicy.approval_status == filter;
+        });
+        obj["usage_policy"] = [...eachArr];
+        arr.push(obj);
       }
     }
     setRequestsToShow([...arr]);

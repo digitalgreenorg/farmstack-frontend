@@ -30,6 +30,7 @@ const GuestUserHome = () => {
             </div>
             <Row className={`${LocalStyle.buttonContainer}`}>
               <Button
+                onClick={() => history.push("/login")}
                 className={`${LocalStyle.primaryButton} ${GlobalStyles.primary_button}`}
               >
                 Get Started
