@@ -35,6 +35,11 @@ const RequestCardForApprovalOrReject = (props) => {
     let method = "PATCH";
     let payload;
     if (condition == "approved") {
+      let date = toDate ? new Date(toDate) : null;
+      if (date) {
+        let timezoneOffset = date.getTimezoneOffset() * 60 * 1000; // convert to milliseconds
+        date = new Date(date.getTime() - timezoneOffset); // adjust for timezone offset
+      }
       payload = {
         approval_status: condition,
         accessibility_time: toDate[usagePolicyId]
