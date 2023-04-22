@@ -392,7 +392,8 @@ const DataSetsView = (props) => {
               ? "My Dataset Details"
               : "Other Dataset Details"}
           </div>
-          {history.location?.state?.tab === "my_organisation" ? (
+          {history.location?.state?.tab === "my_organisation" &&
+          userType !== "guest" ? (
             <Box>
               <Button
                 sx={{
@@ -497,63 +498,67 @@ const DataSetsView = (props) => {
           <ControlledAccordion data={files} isTables={true} />
         </Box>
         <Divider className="mt-50" />
-        {history.location?.state?.tab === "my_organisation" ? (
+        {history.location?.state?.tab === "my_organisation" &&
+        userType !== "guest" ? (
           <>
             <RequestCardForApprovalOrReject
               data={allDatasets}
               setApprovalStatus={setApprovalStatus}
               approvalStatus={approvalStatus}
             />
-            <Divider className="mt-50" />
+            {/* <Divider className="mt-50" /> */}
           </>
         ) : (
           <></>
         )}
-        <div className="bold_title mt-50">{"Organisation Details"}</div>
-        <Box>
-          <Card className="organisation_icon_card">
-            <Box className="d-flex h-100 align-items-center">
-              {orgDetails?.logo ? (
-                <img src={orgDetails?.logo} alt="footerLogo" />
-              ) : (
-                <img
-                  src={require("../../Assets/Img/footer_logo.svg")}
-                  alt="footerLogo"
-                />
-              )}
-            </Box>
-          </Card>
+        {history.location?.state?.tab !== "my_organisation" && (
+          <div className="bold_title mt-50">{"Organisation Details"}</div>
+        )}
+        {history.location?.state?.tab !== "my_organisation" && (
+          <Box>
+            <Card className="organisation_icon_card">
+              <Box className="d-flex h-100 align-items-center">
+                {orgDetails?.logo ? (
+                  <img src={orgDetails?.logo} alt="footerLogo" />
+                ) : (
+                  <img
+                    src={require("../../Assets/Img/footer_logo.svg")}
+                    alt="footerLogo"
+                  />
+                )}
+              </Box>
+            </Card>
 
-          <div className="d-flex mt-30">
-            <div className="text-left w-313">
-              <Typography className="view_datasets_light_text">
-                Organisation address
-              </Typography>
-              <Typography className="view_datasets_bold_text">
-                {orgAddress}
-              </Typography>
+            <div className="d-flex mt-30">
+              <div className="text-left w-313">
+                <Typography className="view_datasets_light_text">
+                  Organisation address
+                </Typography>
+                <Typography className="view_datasets_bold_text">
+                  {orgAddress}
+                </Typography>
+              </div>
+              <div className="text-left ml-79">
+                <Typography className="view_datasets_light_text">
+                  Root user details
+                </Typography>
+                <Typography className="view_datasets_bold_text">
+                  {userDetails?.first_name + " " + userDetails?.last_name}
+                </Typography>
+                <Typography className="view_datasets_bold_text">
+                  {userDetails?.email}
+                </Typography>
+              </div>
+              <div className="text-left ml-39">
+                <Typography className="view_datasets_light_text">
+                  Request details
+                </Typography>
+                <Typography className="view_datasets_bold_text">
+                  Ask to download your dataset.
+                </Typography>
+              </div>
             </div>
-            <div className="text-left ml-79">
-              <Typography className="view_datasets_light_text">
-                Root user details
-              </Typography>
-              <Typography className="view_datasets_bold_text">
-                {userDetails?.first_name + " " + userDetails?.last_name}
-              </Typography>
-              <Typography className="view_datasets_bold_text">
-                {userDetails?.email}
-              </Typography>
-            </div>
-            <div className="text-left ml-39">
-              <Typography className="view_datasets_light_text">
-                Request details
-              </Typography>
-              <Typography className="view_datasets_bold_text">
-                Ask to download your dataset.
-              </Typography>
-            </div>
-          </div>
-          {/* <div className="bold_title mt-50">{"Period"}</div>
+            {/* <div className="bold_title mt-50">{"Period"}</div>
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <FormControl fullWidth sx={{ width: "466px" }}>
@@ -631,33 +636,34 @@ const DataSetsView = (props) => {
               </Button>
             </div>
           </div> */}
-          <Divider className="mt-50" />
+            <Divider className="mt-50" />
 
-          <div className="d-flex justify-content-end mt-50">
-            <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: 700,
-                fontSize: "16px",
-                width: "171px",
-                height: "48px",
-                border: "1px solid rgba(0, 171, 85, 0.48)",
-                borderRadius: "8px",
-                color: "#00AB55",
-                textTransform: "none",
-                marginLeft: "100px",
-                "&:hover": {
-                  background: "none",
+            <div className="d-flex justify-content-end mt-50">
+              <Button
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: 700,
+                  fontSize: "16px",
+                  width: "171px",
+                  height: "48px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
-                },
-              }}
-              variant="outlined"
-              onClick={() => history.push("/participant/new_datasets")}
-            >
-              Back
-            </Button>
-          </div>
-        </Box>
+                  borderRadius: "8px",
+                  color: "#00AB55",
+                  textTransform: "none",
+                  marginLeft: "100px",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                  },
+                }}
+                variant="outlined"
+                onClick={() => history.push("/participant/new_datasets")}
+              >
+                Back
+              </Button>
+            </div>
+          </Box>
+        )}
       </Box>
       {/* <Divider />
             <FooterNew /> */}

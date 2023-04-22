@@ -165,7 +165,7 @@ const AddConnector = (props) => {
         UrlConstant.get_dataset_name_list +
         "?org_id=" +
         value +
-        "&user=" +
+        "&user:q=" +
         getUserLocal() +
         "&co_steward=" +
         (isLoggedInUserCoSteward() ? "true" : "false");
