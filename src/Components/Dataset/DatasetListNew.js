@@ -82,7 +82,9 @@ const DatasetListNew = (props) => {
           return (
             <Col
               onClick={() =>
-                history.push(`/datahub/dataset/view/${dataset.id}`)
+                user == "guest"
+                  ? history.push(`/home/dataset/${dataset.id}`)
+                  : history.push(`/datahub/dataset/view/${dataset.id}`)
               }
               xs={12}
               sm={12}

@@ -137,7 +137,6 @@ const DataSetsView = (props) => {
     }
   };
   const getDataset = () => {
-    let userType = "";
     let url = "";
     console.log(history);
     if (userType == "guest") {

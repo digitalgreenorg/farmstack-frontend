@@ -113,7 +113,7 @@ const ParticipantsCarouselNew = (props) => {
                           `/home/costeward/view/${participant?.user_id}`
                         )
                       : history.push(
-                          `/home/participant/${participant?.user_id}`
+                          `/home/participants/view/${participant?.user_id}`
                         )
                   }
                 >

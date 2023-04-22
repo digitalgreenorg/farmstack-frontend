@@ -12,7 +12,7 @@ import {
   Radio,
 } from "@mui/material";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
@@ -20,6 +20,20 @@ import { useHistory } from "react-router-dom";
 const GuestUserContactNew = () => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   let history = useHistory();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [describeQuery, setDescribeQuery] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [subjectErrorMessage, setSubjectErrorMessage] = useState("");
+  const [describeQueryErrorMessage, setDescribeQueryErrorMessage] =
+    useState("");
+  const [contactNumberErrorMessage, setContactNumberErrorMessage] =
+    useState("");
   const [adminDetails, setAdminDetails] = useState({
     name: "",
     email: "",
@@ -98,6 +112,95 @@ const GuestUserContactNew = () => {
       });
   };
 
+  const clearErrorMessages = () => {
+    setFirstNameErrorMessage("");
+    setLastNameErrorMessage("");
+    setEmailErrorMessage("");
+    setSubjectErrorMessage("");
+    setDescribeQueryErrorMessage("");
+    setContactNumberErrorMessage("");
+  };
+
+  const handleCancelButtonClick = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setSubject("");
+    setDescribeQuery("");
+    setContactNumber("");
+    clearErrorMessages();
+  };
+
+  const addNewGuestUserData = () => {
+    callLoader(true);
+
+    const useDetails = {
+      firstName,
+      lastName,
+      email,
+      contactNumber,
+      queryDescription: describeQuery,
+    };
+
+    const bodyFormData = new FormData();
+    bodyFormData.append("first_name", useDetails.firstName);
+    bodyFormData.append("last_name", useDetails.lastName);
+    bodyFormData.append("email", useDetails.email);
+    bodyFormData.append("subject", "");
+    bodyFormData.append("describe_query", useDetails.queryDescription);
+    bodyFormData.append("contact_number", useDetails.contactNumber);
+
+    HTTPService(
+      "POST",
+      UrlConstant.base_url + UrlConstant.microsite_contact_form,
+      bodyFormData,
+      true,
+      false
+    )
+      .then((response) => {
+        callLoader(false);
+        callToast({
+          message: "Your message has been sent successfully.",
+          severity: "success",
+        });
+      })
+      .catch((e) => {
+        callLoader(false);
+        console.log(e);
+        const returnValues = GetErrorKey(e, bodyFormData.keys());
+        const errorKeys = returnValues[0];
+        const errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (let i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              case "email":
+                setEmailErrorMessage(errorMessages[i]);
+                break;
+              case "subject":
+                setSubjectErrorMessage(errorMessages[i]);
+                break;
+              case "describe_query":
+                setDescribeQueryErrorMessage(errorMessages[i]);
+                break;
+              case "contact_number":
+                setContactNumberErrorMessage(errorMessages[i]);
+                break;
+              default:
+                // history.push(GetErrorHandlingRoute(e));
+                break;
+            }
+          }
+        } else {
+          console.log(e);
+        }
+      });
+  };
   useEffect(() => {
     getDatahubAdminDetails();
   }, []);
@@ -129,6 +232,9 @@ const GuestUserContactNew = () => {
             margin="normal"
             required
             fullWidth
+            onChange={(e) => setFirstName(e.target.value)}
+            error={firstNameErrorMessage}
+            helperText={firstNameErrorMessage ?? ""}
           />
         </Col>
         <Col lg={6} md={12}>
@@ -139,6 +245,9 @@ const GuestUserContactNew = () => {
             variant="outlined"
             margin="normal"
             fullWidth
+            onChange={(e) => setLastName(e.target.value)}
+            error={lastNameErrorMessage}
+            helperText={lastNameErrorMessage ?? ""}
           />
         </Col>
       </Row>
@@ -152,6 +261,9 @@ const GuestUserContactNew = () => {
             margin="normal"
             required
             fullWidth
+            onChange={(e) => setEmail(e.target.value)}
+            error={emailErrorMessage}
+            helperText={emailErrorMessage ?? ""}
           />
         </Col>
         <Col lg={6} md={12}>
@@ -163,6 +275,9 @@ const GuestUserContactNew = () => {
             margin="normal"
             required
             fullWidth
+            onChange={(e) => setContactNumber(e.target.value)}
+            error={contactNumberErrorMessage}
+            helperText={contactNumberErrorMessage ?? ""}
           />
         </Col>
       </Row>
@@ -199,6 +314,9 @@ const GuestUserContactNew = () => {
             margin="normal"
             // required
             fullWidth
+            onChange={(e) => setDescribeQuery(e.target.value)}
+            error={describeQueryErrorMessage}
+            helperText={describeQueryErrorMessage ?? ""}
           />
         </Col>
       </Row>
@@ -207,7 +325,7 @@ const GuestUserContactNew = () => {
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
-          //   onClick={() => downloadAttachment(url)}
+          onClick={() => addNewGuestUserData()}
         >
           Submit
         </Button>
@@ -215,7 +333,7 @@ const GuestUserContactNew = () => {
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
-          //   onClick={() => window.open(url, "_blank")}
+          onClick={() => handleCancelButtonClick()}
         >
           Cancel
         </Button>

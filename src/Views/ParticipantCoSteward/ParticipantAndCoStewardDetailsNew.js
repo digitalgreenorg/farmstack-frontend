@@ -104,9 +104,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         "/";
     }
     console.log("userTypeCosteward", userTypeCosteward);
-    if (userTypeCosteward == "Our co-stewards are") {
+    if (userTypeCosteward == "Our co-stewards") {
       params = { co_steward: "True" };
     }
+    console.log("usertype", url, user);
     HTTPService("GET", url, params, false, isAuthorization)
       .then((response) => {
         // callLoader(false);
@@ -358,7 +359,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && !userTypeCosteward ? (
+          {!isParticipantRequest && user !== "guest" ? (
             <>
               <Button
                 variant="outlined"
@@ -542,7 +543,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         {datasetList.length == 0 ? (
           <Box className={LocalStyle.noDataBox} p={3}>
             <NoData
-              title={"There ares"}
+              title={"There are no datasets!"}
               subTitle={"As of now there are no datasets"}
               // primaryButton={"Add participant"}
               // primaryButtonOnClick={() =>
