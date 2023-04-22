@@ -19,11 +19,11 @@
 }
 
 .link_name {
-  color: #3366ff !important;
-  cursor: pointer;
+  /* color: #3366ff !important; */
+  /* cursor: pointer; */
 }
 .link_name:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 .request_card {
   padding: 10px;

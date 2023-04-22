@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import global_style from "../../Assets/CSS/global.module.css";
 import local_style from "./request_card.module.css";
 import { Col, Row } from "react-bootstrap";
@@ -15,6 +15,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
@@ -23,8 +25,8 @@ import { Badge } from "antd";
 const RequestCardForApprovalOrReject = (props) => {
   const { data, setApprovalStatus, approvalStatus } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
-  const [toDate, setToDate] = useState(null);
-
+  const [toDate, setToDate] = useState({});
+  const [requestToShow, setRequestsToShow] = useState([]);
   const SubmitHandler = (condition, usagePolicyId) => {
     callLoader(true);
     let url =
@@ -34,7 +36,9 @@ const RequestCardForApprovalOrReject = (props) => {
     if (condition == "approved") {
       payload = {
         approval_status: condition,
-        accessibility_time: new Date(toDate).toISOString().substring(0, 10),
+        accessibility_time: toDate[usagePolicyId]
+          ? new Date(toDate[usagePolicyId]).toISOString().substring(0, 10)
+          : null,
       };
     } else {
       payload = { approval_status: condition };
@@ -45,7 +49,7 @@ const RequestCardForApprovalOrReject = (props) => {
         // console.log(response);
         callToast("Request successfull", "success", true);
         setApprovalStatus(!approvalStatus);
-        setToDate(null);
+        // setToDate([]);
       })
       .catch((error) => {
         callLoader(false);
@@ -53,30 +57,106 @@ const RequestCardForApprovalOrReject = (props) => {
         // console.log(error);
       });
   };
-
-  const handleToDate = (value) => {
-    setToDate(value);
-    // console.log(value);
+  const [filter, setFilter] = useState("all");
+  const [filterOptions, setFilterOptions] = useState([
+    { label: "All", value: "all" },
+    { label: "Approved", value: "approved" },
+    { label: "Pending", value: "requested" },
+    { label: "Rejected", value: "rejected" },
+  ]);
+  const handleFilterChange = (event, filterSelected) => {
+    setFilter(filterSelected);
+    console.log(data, "data");
+    if (filterSelected == "all" || !filterSelected) {
+      console.log(filterSelected, data);
+      let arr = [];
+      for (let i = 0; i < data.length; i++) {
+        if (data[i]?.accessibility == "private") {
+          arr = [...arr, data[i]];
+        }
+      }
+      // console.log(arr);
+      setRequestsToShow([...arr]);
+      return;
+    }
+    let arr = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].accessibility == "private") {
+        let obj = { ...data[i] };
+        let eachArr = obj["usage_policy"].filter((eachUsagePolicy, index) => {
+          console.log(eachUsagePolicy.approval_status, filterSelected);
+          return eachUsagePolicy.approval_status == filterSelected;
+        });
+        obj["usage_policy"] = [...eachArr];
+        arr.push(obj);
+      }
+    }
+    setRequestsToShow([...arr]);
   };
+  const handleToDate = (value, policyId) => {
+    let allDates = { ...toDate, [policyId]: value };
+    setToDate({ ...allDates });
+    console.log(allDates);
+  };
+
+  useEffect(() => {
+    console.log("use Effect calling");
+    let arr = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]?.accessibility == "private") {
+        arr = [...arr, data[i]];
+      }
+    }
+    setRequestsToShow([...arr]);
+  }, [data]);
 
   return (
     <>
-      <Row className="mt-20">
-        <Col lg={12} md={12} sm={12}>
-          <div
-            className={
-              global_style.bold600 +
-              " " +
-              global_style.size32 +
-              " " +
-              local_style.text_left
-            }
-          >
-            List of requests
-          </div>
-        </Col>
-      </Row>
-      {data?.map((eachDatasetFile, index) => {
+      {data?.length > 0 && (
+        <Row className="mt-20">
+          <Col lg={6} md={12} sm={12}>
+            <div
+              className={
+                global_style.bold600 +
+                " " +
+                global_style.size32 +
+                " " +
+                local_style.text_left
+              }
+            >
+              List of requests
+            </div>
+          </Col>
+          <Col lg={6} md={12} sm={12} style={{ textAlign: "right" }}>
+            <ToggleButtonGroup
+              value={filter}
+              exclusive
+              onChange={handleFilterChange}
+              aria-label="text alignment"
+              sx={{
+                textTransform: "capitalize",
+                "& .Mui-selected": {
+                  backgroundColor: "#00ab55 !important",
+                  color: "white !important",
+                  // textTransform: "none !important",
+                },
+              }}
+            >
+              {filterOptions.map((eachFilter, index) => {
+                return (
+                  <ToggleButton
+                    value={eachFilter.value}
+                    aria-label="left aligned"
+                  >
+                    {eachFilter.label}
+                  </ToggleButton>
+                );
+              })}
+            </ToggleButtonGroup>
+          </Col>
+        </Row>
+      )}
+      {requestToShow?.map((eachDatasetFile, index) => {
         if (eachDatasetFile?.accessibility == "private")
           return (
             <span>
@@ -227,15 +307,18 @@ const RequestCardForApprovalOrReject = (props) => {
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               disabled={
-                                eachUsagePolicy.approval_status == "rejected"
+                                eachUsagePolicy.approval_status !== "approved"
                                   ? false
                                   : true
                               }
+                              disablePast
                               inputFormat="dd/MM/yyyy"
                               placeholder="Till"
                               label="Till"
-                              value={toDate}
-                              onChange={(value) => handleToDate(value)}
+                              value={toDate[eachUsagePolicy?.id ?? ""] ?? null}
+                              onChange={(value) =>
+                                handleToDate(value, eachUsagePolicy.id)
+                              }
                               PaperProps={{
                                 sx: {
                                   borderRadius: "16px !important",
@@ -331,7 +414,7 @@ const RequestCardForApprovalOrReject = (props) => {
                           )}
                           {eachUsagePolicy.approval_status !== "approved" && (
                             <Button
-                              disabled={toDate ? false : true}
+                              // disabled={toDate ? false : true}
                               className={
                                 global_style.primary_button +
                                 " " +

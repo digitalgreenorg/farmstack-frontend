@@ -319,6 +319,7 @@ const DatasetRequestTable = () => {
                         justifyContent: "center",
                         alignItems: "center",
                         gap: "20px",
+                        flexDirection: "column",
                       }}
                       className={styles.table_cell_for_approve_button}
                     >
@@ -439,7 +440,7 @@ const DatasetRequestTable = () => {
                               textTransform: "none",
                               height: "30px",
                               fontFamily: "Montserrat",
-                              width: "150px",
+                              width: "100px",
                             }}
                             onClick={() => showPopconfirm(index)}
                           >
@@ -455,7 +456,7 @@ const DatasetRequestTable = () => {
                             // color: "white",
                             textTransform: "none",
                             height: "30px",
-                            width: "150px",
+                            width: "100px",
                             fontFamily: "Montserrat",
                           }}
                           onClick={() => SubmitHandler("rejected", row.id)}
