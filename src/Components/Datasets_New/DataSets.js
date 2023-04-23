@@ -513,14 +513,14 @@ const DataSets = (props) => {
       });
   };
 
-  // useEffect(() => {
-  // if (value === 0 || user === "guest") {
-  // getDataSets(false);
-  // }
-  // if (user !== "guest" && value === 1) {
-  // getOtherDataSets(false);
-  // }
-  // }, []);
+  useEffect(() => {
+    if (user === "guest") {
+      getDataSets(false);
+    }
+    // if (user !== "guest" && value === 1) {
+    // getOtherDataSets(false);
+    // }
+  }, []);
 
   useEffect(() => {
     setSearchDatasetsName("");
@@ -533,7 +533,7 @@ const DataSets = (props) => {
   useEffect(() => {
     getAllCategoryAndSubCategory();
   }, [categorises, type]);
-
+  console.log(user, "dsets");
   return (
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -633,7 +633,7 @@ const DataSets = (props) => {
               setToDate("");
               setSearchDatasetsName("");
               clearFilter();
-              setFilterState();
+              setFilterState({});
             }}
           >
             <img

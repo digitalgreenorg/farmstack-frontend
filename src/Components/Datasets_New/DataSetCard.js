@@ -26,7 +26,8 @@ const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
       <div className="published">
         <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
         <span className="published_text">
-          Published on: {dateTimeFormat(item?.created_at, false)}
+          Published on:{" "}
+          {item?.created_at ? dateTimeFormat(item?.created_at, false) : "NA"}
         </span>
       </div>
       <div className="d_content_title">{item?.name}</div>
