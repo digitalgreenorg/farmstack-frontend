@@ -13,7 +13,6 @@ const CustomCard = (props) => {
     subTitle2Value,
     index,
   } = props;
-  console.log("props", props);
 
   let imageUrl = image
     ? UrlConstant.base_url + image?.slice(1, image.length)

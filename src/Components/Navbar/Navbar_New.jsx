@@ -103,7 +103,9 @@ const NavbarNew = ({ loginType }) => {
         </Box>
         <Box className="d-flex align-items-center">
           <NavLink
-            activeStyle={navActiveStyle}
+            activeStyle={
+              isNavLinkActive("/home") ? navActiveStyle : navInActiveStyle
+            }
             style={navInActiveStyle}
             to="/home"
             onClick={() => handleSelect("home")}

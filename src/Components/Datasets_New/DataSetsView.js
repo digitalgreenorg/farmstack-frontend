@@ -136,12 +136,12 @@ const DataSetsView = (props) => {
       return "/participant/new_datasets";
     } else if (isLoggedInUserAdmin() && getTokenLocal()) {
       return "/datahub/new_datasets";
+    } else {
+      return "/home/datasets";
     }
   };
   const getDataset = () => {
-    let userType = "";
     let url = "";
-    console.log(history);
     if (userType == "guest") {
       url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + "/";
     } else {
