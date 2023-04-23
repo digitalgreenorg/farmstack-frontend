@@ -82,6 +82,8 @@ const DataSetsTab = ({
       return `/datahub/new_datasets/view/${id}`;
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets/view/${id}`;
+    } else if (user === "guest") {
+      return `/home/datasets/${id}`;
     }
   };
 
@@ -175,7 +177,6 @@ const DataSetsTab = ({
         ) : (
           ""
         )}
-        {!user}
         <TabPanel value={value} index={0}>
           <Box className="mb-100">
             <DataSetsTitleView
@@ -214,10 +215,14 @@ const DataSetsTab = ({
                     key={item?.id}
                     history={history}
                     item={item}
-                    value={value === 0 ? "my_organisation" : ""}
+                    value={
+                      value === 0 && user !== "guest" ? "my_organisation" : ""
+                    }
                     handleCardClick={
-                      user == "guest"
-                        ? () => history.push(`/home/dataset/${item.id}`)
+                      user === "guest"
+                        ? () => {
+                            return `/home/datasets/${item.id}`;
+                          }
                         : handleCardClick
                     }
                   />
@@ -238,7 +243,7 @@ const DataSetsTab = ({
               <DataSetsListView
                 datasets={datasetList}
                 history={history}
-                value={value === 0 ? "my_organisation" : ""}
+                value={value === 0 && user !== "guest" ? "my_organisation" : ""}
                 handleCardClick={handleCardClick}
               />
             </CSSTransition>
@@ -300,22 +305,6 @@ const DataSetsTab = ({
         <TabPanel value={value} index={2}>
           <DatasetRequestTable />
         </TabPanel>
-        {/* <TabPanel value={value} index={2}>
-                    <Box className='mb-100'>
-                        <DataSetsTitleView title={'Co-steward datasets'} isGrid={isGridSteward} setIsGrid={setIsGridSteward} history={history} addDataset={addDataset} />
-                        {isGridSteward ?
-                            <div className='datasets_card'>
-                                <AddDataSetCardNew history={history} addDataset={addDataset} />
-                                {state.map((s) => (
-                                    <DataSetCardNew history={history} />
-                                ))}
-                            </div>
-                            :
-                            <DataSetsListView datasets={state} history={history} />
-                        }
-                        <Button variant="outlined" className='d_button_style'>Load more</Button>
-                    </Box>
-                </TabPanel> */}
       </Box>
     </Box>
   );

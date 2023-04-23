@@ -17,6 +17,7 @@ const FileWithAction = ({
   files,
   getDataset,
   isOther,
+  userType,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const handleDownload = () => {
@@ -86,23 +87,29 @@ const FileWithAction = ({
   };
 
   const handleButtonClick = () => {
-    if (fileType === "public" || fileType === "registered" || !isOther) {
-      handleDownload();
-    }
-    if (isOther && fileType === "private") {
-      if (!usagePolicy?.length) {
-        askToDownload();
-      } else {
-        let filteredItem = usagePolicy.filter(
-          (item) => item.user_organization_map === getUserMapId()
-        );
-        if (filteredItem?.[0]?.approval_status === "requested") {
-          handleDelete(filteredItem?.[0]?.id);
-        } else if (filteredItem?.[0]?.approval_status === "approved") {
-          handleDownload();
-        } else if (filteredItem?.[0]?.approval_status === "rejected") {
+    if (userType !== "guest") {
+      if (fileType === "public" || fileType === "registered" || !isOther) {
+        handleDownload();
+      }
+      if (isOther && fileType === "private") {
+        if (!usagePolicy?.length) {
           askToDownload();
+        } else {
+          let filteredItem = usagePolicy.filter(
+            (item) => item.user_organization_map === getUserMapId()
+          );
+          if (filteredItem?.[0]?.approval_status === "requested") {
+            handleDelete(filteredItem?.[0]?.id);
+          } else if (filteredItem?.[0]?.approval_status === "approved") {
+            handleDownload();
+          } else if (filteredItem?.[0]?.approval_status === "rejected") {
+            askToDownload();
+          }
         }
+      }
+    } else {
+      if (fileType === "public") {
+        handleDownload();
       }
     }
   };
@@ -211,11 +218,15 @@ const FileWithAction = ({
           variant="outlined"
           onClick={() => handleButtonClick()}
         >
-          {fileType === "public" || fileType === "registered" || !isOther
+          {userType !== "guest"
+            ? fileType === "public" || fileType === "registered" || !isOther
+              ? "Download"
+              : isOther && !usagePolicy?.length
+              ? "Ask to Download"
+              : getButtonName()
+            : fileType === "public"
             ? "Download"
-            : isOther && !usagePolicy?.length
-            ? "Ask to Download"
-            : getButtonName()}
+            : "Login to Download"}
         </Button>
       </Box>
     </Box>

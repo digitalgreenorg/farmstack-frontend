@@ -33,6 +33,16 @@ const DatasetListNew = (props) => {
     }
   };
 
+  const handleCardClick = (id) => {
+    if (isLoggedInUserAdmin()) {
+      return `/datahub/new_datasets/view/${id}`;
+    } else if (isLoggedInUserParticipant()) {
+      return `/participant/new_datasets/view/${id}`;
+    } else {
+      return `/home/datasets/${id}`;
+    }
+  };
+
   const getDatasetOfParticipantOrCoSteward = (loadMore, user_id, org_id) => {
     let url = UrlConstants.base_url + UrlConstants.costeward_onboarded_dataset;
     if (loadMore) {
@@ -95,7 +105,7 @@ const DatasetListNew = (props) => {
           console.log("datasets ", dataset);
           return (
             <Col
-              onClick={() => history.push(`/home/dataset/${dataset.id}`)}
+              onClick={() => history.push(handleCardClick(dataset?.id))}
               xs={12}
               sm={12}
               md={6}

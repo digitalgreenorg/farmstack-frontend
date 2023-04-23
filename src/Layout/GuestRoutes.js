@@ -38,7 +38,7 @@ const GuestRoutes = () => {
           <Route exact path="/home/datasets" component={GuestUserDatatsets} />
           <Route
             exact
-            path="/home/dataset/:id"
+            path="/home/datasets/:id"
             component={GuestUserViewDataset}
           />
           <Route
