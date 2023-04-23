@@ -222,6 +222,7 @@ const DataSetsView = (props) => {
                     usagePolicy={tempFile.usage_policy}
                     files={files}
                     getDataset={getDataset}
+                    userType={userType === "guest" ? "guest" : ""}
                     isOther={
                       history?.location?.state?.tab === "other_organisation"
                         ? true
@@ -251,6 +252,7 @@ const DataSetsView = (props) => {
                     usagePolicy={tempFile.usagePolicy}
                     files={files}
                     getDataset={getDataset}
+                    userType={userType === "guest" ? "guest" : ""}
                     isOther={
                       history?.location?.state?.tab === "other_organisation"
                         ? true
@@ -282,6 +284,7 @@ const DataSetsView = (props) => {
                     usagePolicy={tempFile.usagePolicy}
                     files={files}
                     getDataset={getDataset}
+                    userType={userType === "guest" ? "guest" : ""}
                     isOther={
                       history?.location?.state?.tab === "other_organisation"
                         ? true
@@ -313,6 +316,7 @@ const DataSetsView = (props) => {
                     usagePolicy={tempFile.usagePolicy}
                     files={files}
                     getDataset={getDataset}
+                    userType={userType === "guest" ? "guest" : ""}
                     isOther={
                       history?.location?.state?.tab === "other_organisation"
                         ? true
@@ -563,84 +567,6 @@ const DataSetsView = (props) => {
                 </Typography>
               </div>
             </div>
-            {/* <div className="bold_title mt-50">{"Period"}</div>
-          <div className="d-flex justify-content-between align-items-center">
-            <div>
-              <FormControl fullWidth sx={{ width: "466px" }}>
-                <InputLabel id="test-select-label">Select period</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={props.period}
-                  onChange={props.setPeriod}
-                  sx={{
-                    textAlign: "left",
-                    "&.MuiInputBase-root": {
-                      height: "56px",
-                    },
-                    ".MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#919EAB",
-                    },
-                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#919EAB",
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#919EAB",
-                    },
-                  }}
-                  label="Select period"
-                  placeholder="Select period"
-                >
-                  {["1 week", "2 week", "3 week", "4 week"]?.map((menu) => (
-                    <MenuItem value={menu}>{menu}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div>
-              <Button
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: 700,
-                  fontSize: "16px",
-                  width: "171px",
-                  height: "48px",
-                  border: "1px solid rgba(0, 171, 85, 0.48)",
-                  borderRadius: "8px",
-                  color: "#00AB55",
-                  textTransform: "none",
-                  marginLeft: "100px",
-                  "&:hover": {
-                    background: "none",
-                    border: "1px solid rgba(0, 171, 85, 0.48)",
-                  },
-                }}
-                variant="outlined"
-              >
-                Reject
-              </Button>
-              <Button
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: 700,
-                  fontSize: "16px",
-                  width: "171px",
-                  height: "48px",
-                  background: "#00AB55",
-                  borderRadius: "8px",
-                  textTransform: "none",
-                  marginLeft: "30px",
-                  "&:hover": {
-                    backgroundColor: "#00AB55",
-                    color: "#fffff",
-                  },
-                }}
-                variant="contained"
-              >
-                Approve
-              </Button>
-            </div>
-          </div> */}
           </Box>
         )}
         <Divider className="mt-50" />

@@ -60,6 +60,24 @@ const NavbarNew = ({ loginType }) => {
   const isNavLinkActive = (path) => {
     return location.pathname === path ? true : false;
   };
+
+  const isNavLinkActiveByTitle = () => {
+    if (loginType === "admin") {
+      return location.pathname === "/datahub/new_datasets" ? true : false;
+    }
+    if (loginType === "participant") {
+      return location.pathname === "/participant/new_datasets" ? true : false;
+    }
+    if (loginType === "guest") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/datasets" ||
+        location.pathname === "/home/datasets/" + tempId
+        ? true
+        : false;
+    }
+  };
   const handleParticipantLogout = (e) => {
     e.preventDefault();
     flushLocalstorage();
