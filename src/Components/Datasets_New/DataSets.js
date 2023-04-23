@@ -48,7 +48,7 @@ const DataSets = (props) => {
   const history = useHistory();
   const [state, setState] = useState([0, 1, 2, 3, 4, 5]);
   const [searchDatasetsName, setSearchDatasetsName] = useState();
-  const [filterState, setFilterState] = useState();
+  const [filterState, setFilterState] = useState({});
   const [datasetList, setDatasetList] = useState([]);
   const [memberDatasetList, setMemberDatasetList] = useState([]);
   const [showLoadMoreAdmin, setShowLoadMoreAdmin] = useState(false);
@@ -197,18 +197,19 @@ const DataSets = (props) => {
   };
 
   const clearFilter = () => {
-    if (value === 0) {
-      getDataSets(false);
-    } else if (value === 1) {
-      getOtherDataSets(false);
-    }
+    // if (value === 0) {
+    // getDataSets(false);
+    // }
+    // if (value === 1) {
+    // getOtherDataSets(false);
+    // }
   };
 
   const getDataSets = (isLoadMore) => {
     let method = "POST";
     if (!isLoadMore) {
       resetUrls();
-      if (payload == "") {
+      if (!Object.keys(filterState).length) {
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -228,6 +229,7 @@ const DataSets = (props) => {
     // console.log("url",guestUrl)
 
     let accessToken = getTokenLocal() ?? false;
+    callLoader(true);
     HTTPService(
       method,
       guestUrl ? guestUrl : !isLoadMore ? adminUrl : datasetUrl,
@@ -236,6 +238,7 @@ const DataSets = (props) => {
       accessToken
     )
       .then((response) => {
+        callLoader(false);
         if (response.data.next == null) {
           setShowLoadMoreAdmin(false);
           setFilterState({});
@@ -252,6 +255,7 @@ const DataSets = (props) => {
         setDatasetList(finalDataList);
       })
       .catch(async (err) => {
+        callLoader(false);
         let response = await GetErrorHandlingRoute(err);
         if (response.toast) {
           //callToast(message, type, action)
@@ -269,7 +273,7 @@ const DataSets = (props) => {
   const getOtherDataSets = (isLoadMore) => {
     if (!isLoadMore) {
       resetUrls();
-      if (payload == "") {
+      if (!Object.keys(filterState).length) {
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -280,6 +284,7 @@ const DataSets = (props) => {
       payload = { ...filterState };
     }
     let accessToken = getTokenLocal() ?? false;
+    callLoader(true);
     HTTPService(
       "POST",
       !isLoadMore ? memberUrl : memberDatasetUrl,
@@ -288,6 +293,7 @@ const DataSets = (props) => {
       accessToken
     )
       .then((response) => {
+        callLoader(false);
         if (response.data.next == null) {
           setShowLoadMoreMember(false);
           setFilterState({});
@@ -304,6 +310,7 @@ const DataSets = (props) => {
         setMemberDatasetList(finalDataList);
       })
       .catch(async (err) => {
+        callLoader(false);
         let response = await GetErrorHandlingRoute(err);
         if (response.toast) {
           //callToast(message, type, action)
@@ -369,13 +376,13 @@ const DataSets = (props) => {
       setGeographies((prev) => [...prev, keyName]);
     }
   };
-  let url =
-    user == "guest"
-      ? UrlConstant.base_url + UrlConstant.microsite_category
-      : UrlConstant.base_url + UrlConstant.add_category_edit_category;
-  let isAuthorization = user == "guest" ? false : true;
 
   const getAllCategoryAndSubCategory = () => {
+    let url =
+      user == "guest"
+        ? UrlConstant.base_url + UrlConstant.microsite_category
+        : UrlConstant.base_url + UrlConstant.add_category_edit_category;
+    let isAuthorization = user == "guest" ? false : true;
     let checkforAccess = getTokenLocal() ?? false;
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
@@ -506,12 +513,14 @@ const DataSets = (props) => {
       });
   };
 
-  useEffect(() => {
-    getDataSets(false);
-    if (user != "guest") {
-      getOtherDataSets(false);
-    }
-  }, []);
+  // useEffect(() => {
+  // if (value === 0 || user === "guest") {
+  // getDataSets(false);
+  // }
+  // if (user !== "guest" && value === 1) {
+  // getOtherDataSets(false);
+  // }
+  // }, []);
 
   useEffect(() => {
     setSearchDatasetsName("");
@@ -525,8 +534,6 @@ const DataSets = (props) => {
     getAllCategoryAndSubCategory();
   }, [categorises, type]);
 
-  console.log(user, "dsets");
-  console.log(datasetList, "dsets");
   return (
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>

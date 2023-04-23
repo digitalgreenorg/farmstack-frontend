@@ -63,17 +63,17 @@ const DataSetsTab = ({
     setFromDate("");
     setToDate("");
     setSearchDatasetsName("");
-    clearFilter();
-    setFilterState();
+    // clearFilter();
+    setFilterState({});
     setValue(newValue);
   };
 
   useEffect(() => {
     if (value === 0) {
       getDataSets(false);
-    } else if (value === 1) {
+    }
+    if (value === 1) {
       getOtherDataSets(false);
-    } else if (value === 2) {
     }
   }, [value]);
 
