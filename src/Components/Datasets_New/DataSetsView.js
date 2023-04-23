@@ -19,6 +19,8 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../Accordion/Accordion";
 import OutlinedButton from "../Button/OutlinedButton";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   getTokenLocal,
   getUserMapId,
@@ -387,11 +389,7 @@ const DataSetsView = (props) => {
           </span>
         </div>
         <Box className="d-flex justify-content-between align-items-baseline">
-          <div className="bold_title mt-50">
-            {history.location?.state?.tab === "my_organisation"
-              ? "My Dataset Details"
-              : "Other Dataset Details"}
-          </div>
+          <div className="bold_title mt-50">{"Dataset Details"}</div>
           {history.location?.state?.tab === "my_organisation" &&
           userType !== "guest" ? (
             <Box>
@@ -402,7 +400,7 @@ const DataSetsView = (props) => {
                   fontWeight: "700",
                   fontSize: "15px",
                   border: "1px solid rgba(255, 86, 48, 0.48)",
-                  width: "149px",
+                  width: "172px",
                   height: "48px",
                   marginRight: "28px",
                   textTransform: "none",
@@ -414,7 +412,14 @@ const DataSetsView = (props) => {
                 variant="outlined"
                 onClick={handleDelete}
               >
-                Delete dataset
+                Delete dataset{" "}
+                <DeleteOutlineIcon
+                  sx={{
+                    fill: "#FF5630",
+                    fontSize: "22px",
+                    marginLeft: "4px",
+                  }}
+                />
               </Button>
               <Button
                 sx={{
@@ -423,7 +428,7 @@ const DataSetsView = (props) => {
                   fontWeight: "700",
                   fontSize: "15px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
-                  width: "149px",
+                  width: "172px",
                   height: "48px",
                   textTransform: "none !important",
                   "&:hover": {
@@ -434,7 +439,15 @@ const DataSetsView = (props) => {
                 onClick={handleEdit}
                 variant="outlined"
               >
-                Edit dataset
+                Edit dataset{" "}
+                <EditIcon
+                  sx={{
+                    fill: "#00AB55",
+                    fontSize: "22px",
+                    marginLeft: "4px",
+                    marginBottom: "2px",
+                  }}
+                />
               </Button>
             </Box>
           ) : (
@@ -549,14 +562,6 @@ const DataSetsView = (props) => {
                   {userDetails?.email}
                 </Typography>
               </div>
-              <div className="text-left ml-39">
-                <Typography className="view_datasets_light_text">
-                  Request details
-                </Typography>
-                <Typography className="view_datasets_bold_text">
-                  Ask to download your dataset.
-                </Typography>
-              </div>
             </div>
             {/* <div className="bold_title mt-50">{"Period"}</div>
           <div className="d-flex justify-content-between align-items-center">
@@ -636,37 +641,35 @@ const DataSetsView = (props) => {
               </Button>
             </div>
           </div> */}
-            <Divider className="mt-50" />
-
-            <div className="d-flex justify-content-end mt-50">
-              <Button
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: 700,
-                  fontSize: "16px",
-                  width: "171px",
-                  height: "48px",
-                  border: "1px solid rgba(0, 171, 85, 0.48)",
-                  borderRadius: "8px",
-                  color: "#00AB55",
-                  textTransform: "none",
-                  marginLeft: "100px",
-                  "&:hover": {
-                    background: "none",
-                    border: "1px solid rgba(0, 171, 85, 0.48)",
-                  },
-                }}
-                variant="outlined"
-                onClick={() => history.push("/participant/new_datasets")}
-              >
-                Back
-              </Button>
-            </div>
           </Box>
         )}
+        <Divider className="mt-50" />
+
+        <div className="d-flex justify-content-end mt-50">
+          <Button
+            sx={{
+              fontFamily: "Montserrat",
+              fontWeight: 700,
+              fontSize: "16px",
+              width: "171px",
+              height: "48px",
+              border: "1px solid rgba(0, 171, 85, 0.48)",
+              borderRadius: "8px",
+              color: "#00AB55",
+              textTransform: "none",
+              marginLeft: "100px",
+              "&:hover": {
+                background: "none",
+                border: "1px solid rgba(0, 171, 85, 0.48)",
+              },
+            }}
+            variant="outlined"
+            onClick={() => history.goBack()}
+          >
+            Back
+          </Button>
+        </div>
       </Box>
-      {/* <Divider />
-            <FooterNew /> */}
     </Box>
   );
 };
