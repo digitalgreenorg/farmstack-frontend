@@ -115,7 +115,7 @@ const DatasetListNew = (props) => {
                 publishDate={dataset?.created_at}
                 title={dataset?.name}
                 orgnisationName={dataset?.organization?.name}
-                city={dataset?.organization?.address?.city}
+                geography={dataset?.geography}
                 category={Object.keys(dataset?.category)}
                 update={dataset?.updated_at}
               />
