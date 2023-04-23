@@ -10,6 +10,7 @@ import {
   isLoggedInUserParticipant,
 } from "../../../Utils/Common";
 import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
+import { CSSTransition } from "react-transition-group";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -189,7 +190,16 @@ const DataSetsTab = ({
               history={history}
               addDataset={addDataset}
             />
-            {isGrid ? (
+            <CSSTransition
+              in={isGrid}
+              timeout={{
+                appear: 600,
+                enter: 700,
+                exit: 100,
+              }}
+              classNames="step"
+              unmountOnExit={true}
+            >
               <div className="datasets_card">
                 {user !== "guest" ? (
                   <AddDataSetCardNew
@@ -213,14 +223,25 @@ const DataSetsTab = ({
                   />
                 ))}
               </div>
-            ) : (
+            </CSSTransition>
+
+            <CSSTransition
+              in={!isGrid}
+              timeout={{
+                appear: 600,
+                enter: 700,
+                exit: 100,
+              }}
+              classNames="step"
+              unmountOnExit={true}
+            >
               <DataSetsListView
                 datasets={datasetList}
                 history={history}
                 value={value === 0 ? "my_organisation" : ""}
                 handleCardClick={handleCardClick}
               />
-            )}
+            </CSSTransition>
             {showLoadMoreAdmin ? (
               <Button
                 variant="outlined"
