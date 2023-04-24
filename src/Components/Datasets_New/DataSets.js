@@ -152,14 +152,12 @@ const DataSets = (props) => {
             }
             let finalDataList = [];
             if (isLoadMore) {
-              finalDataList = [
-                ...filteredDatasetList,
-                ...response.data.results,
-              ];
+              finalDataList = [...datasetList, ...response.data.results];
             } else {
               finalDataList = [...response.data.results];
             }
-            setFilteredDatasetList(finalDataList);
+            console.log(finalDataList, "fdlist");
+            setDatasetList(finalDataList);
           })
           .catch((e) => {
             console.log(e);
@@ -187,14 +185,11 @@ const DataSets = (props) => {
             }
             let finalDataList = [];
             if (isLoadMore) {
-              finalDataList = [
-                ...filteredMemberDatasetList,
-                ...response.data.results,
-              ];
+              finalDataList = [...memberDatasetList, ...response.data.results];
             } else {
               finalDataList = [...response.data.results];
             }
-            setFilteredMemberDatasetList(finalDataList);
+            setMemberDatasetList(finalDataList);
           })
           .catch((e) => {
             console.log(e);
