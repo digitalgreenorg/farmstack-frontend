@@ -412,7 +412,6 @@ const OrganizationDetails = (props) => {
               placeholder="PIN Code"
               label="PIN Code"
               variant="outlined"
-              //inputProps={{maxLength: 10}}
               id="organisation_pin_code"
               name="organisation_pin_code"
               value={organisationDetails.organisation_pin_code}
