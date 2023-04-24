@@ -36,6 +36,7 @@ const CompanyPolicies = (props) => {
 
   const handleUploadPolicy = (file) => {
     setUploadedPolicy(file);
+    console.log("file during upload", uploadedPolicy)
   };
   const handleDeletePolicy = (index) => {
     setUploadedPolicy(null);
@@ -199,19 +200,19 @@ const CompanyPolicies = (props) => {
   };
 
   // create a preview as a side effect, whenever selected file is changed
-  useEffect(() => {
-    console.log(uploadedPolicy);
-    if (!uploadedPolicy) {
-      setPreview(undefined);
-      return;
-    }
-    setFileError("");
-    const objectUrl = URL.createObjectURL(uploadedPolicy);
-    setPreview(objectUrl);
+  // useEffect(() => {
+  //   console.log(uploadedPolicy);
+  //   if (!uploadedPolicy) {
+  //     setPreview(undefined);
+  //     return;
+  //   }
+  //   setFileError("");
+  //   const objectUrl = URL.createObjectURL(uploadedPolicy);
+  //   setPreview(objectUrl);
 
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [uploadedPolicy]);
+  //   // free memory when ever this component is unmounted
+  //   return () => URL.revokeObjectURL(objectUrl);
+  // }, [uploadedPolicy]);
 
   function AccordionBody(props) {
     const { data, index } = props;
