@@ -25,6 +25,7 @@ import {
   getTokenLocal,
   getUserMapId,
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
@@ -108,7 +109,7 @@ const DataSetsView = (props) => {
       .then((res) => {
         callLoader(false);
         callToast("Dataset deleted successfully!", "success", true);
-        if (isLoggedInUserAdmin()) {
+        if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
           history.push(`/datahub/new_datasets`);
         } else if (isLoggedInUserParticipant()) {
           history.push(`/participant/new_datasets`);
@@ -125,7 +126,7 @@ const DataSetsView = (props) => {
   };
 
   const handleEdit = () => {
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       history.push(`/datahub/new_datasets/edit/${id}`);
     } else if (isLoggedInUserParticipant()) {
       history.push(`/participant/new_datasets/edit/${id}`);
@@ -134,7 +135,10 @@ const DataSetsView = (props) => {
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/new_datasets";
-    } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+    } else if (
+      (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) &&
+      getTokenLocal()
+    ) {
       return "/datahub/new_datasets";
     } else {
       return "/home/datasets";

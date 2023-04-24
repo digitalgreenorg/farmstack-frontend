@@ -9,6 +9,7 @@ import {
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
+  isLoggedInUserCoSteward,
 } from "../../Utils/Common";
 import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -180,7 +181,10 @@ const NavbarNew = ({ loginType }) => {
   };
 
   const handleSignOut = (e) => {
-    if (getTokenLocal() && isLoggedInUserAdmin()) {
+    if (
+      (getTokenLocal() && isLoggedInUserAdmin()) ||
+      isLoggedInUserCoSteward()
+    ) {
       handleDatahubLogout(e);
     } else if (getTokenLocal() && isLoggedInUserParticipant()) {
       handleParticipantLogout(e);
