@@ -101,7 +101,7 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/costeward/edit/:id"
-                component={EditCoSteward}
+                component={EditParticipantsNew}
               />
               <Route
                 exact
@@ -172,7 +172,8 @@ function Datahub(props) {
               <Route
                 exact
                 path="/datahub/settings/editdepartment/:id"
-                component={EditDepartmentSettings} />
+                component={EditDepartmentSettings}
+              />
               {/* /> */}
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />

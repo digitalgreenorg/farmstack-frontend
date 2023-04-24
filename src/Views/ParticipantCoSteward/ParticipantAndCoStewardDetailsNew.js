@@ -381,7 +381,11 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 variant="outlined"
                 className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
                 onClick={(e) =>
-                  history.push(`/datahub/participants/edit/${id}`)
+                  history.push(
+                    `/datahub/${
+                      isCosteward ? "costeward" : "participants"
+                    }/edit/${id}`
+                  )
                 }
               >
                 <img
