@@ -22,14 +22,7 @@ const FileWithAction = ({
   const { callLoader, callToast } = useContext(FarmStackContext);
   const handleDownload = () => {
     let accessToken = getTokenLocal() ?? false;
-    let url =
-      UrlConstant.base_url +
-      `${
-        userType === "guest"
-          ? UrlConstant.public_download_file
-          : UrlConstant.download_file
-      }` +
-      id;
+    let url = UrlConstant.base_url + UrlConstant.download_file + id;
     callLoader(true);
     HTTPService("GET", url, "", false, true, accessToken)
       .then((res) => {
