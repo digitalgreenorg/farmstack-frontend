@@ -1297,3 +1297,8 @@ textarea {
   overflow: auto !important;
   display: contents !important;
 }
+
+.requestTableContainer .MuiTableCell-root {
+  border-left: none !important;
+  /* padding: 30px 30px; */
+}

@@ -184,11 +184,10 @@ const DatasetRequestTable = () => {
       "Approval status",
     ];
     let columnsForReceived = [
-      "Dataset name",
-      "File name",
-      "Organization name",
-      "Approval status",
-      "Accessibility time",
+      "Dataset details",
+      "Organization details",
+      "Approval",
+      // "Accessibility time",
       "Actions",
       "View",
     ];
@@ -236,7 +235,11 @@ const DatasetRequestTable = () => {
       </Row>
       <Row>
         <Col lg={12} sm={12} md={12}></Col>
-        <TableContainer component={Paper} style={{}}>
+        <TableContainer
+          component={Paper}
+          style={{}}
+          className="requestTableContainer"
+        >
           <CSSTransition
             appear={!showRequestSent}
             in={!showRequestSent}
@@ -276,8 +279,8 @@ const DatasetRequestTable = () => {
                           "& .MuiTableCell-root": {
                             fontFamily: "Montserrat",
                           },
-                          textAlign: "center",
-                          alignItems: "center",
+                          textAlign: "left",
+                          alignItems: "left",
                         }}
                         className={styles.file_table_column}
                       >
@@ -298,15 +301,102 @@ const DatasetRequestTable = () => {
                     className={global_styles.bold500}
                   >
                     <TableCell component="th" scope="row">
-                      {row.dataset_name}
+                      <div style={{ display: "flex", gap: "20px" }}>
+                        <span>
+                          <div
+                            className={
+                              global_styles.bold600 + " " + global_styles.size16
+                            }
+                          >
+                            {row.dataset_name}
+                          </div>
+                          <div>Dataset name</div>
+                        </span>
+                        <span>
+                          <div
+                            className={
+                              global_styles.bold600 + " " + global_styles.size16
+                            }
+                          >
+                            {" "}
+                            {row.file_name}
+                          </div>
+                          <div>File name</div>
+                        </span>
+                      </div>
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {row.file_name}
+                      <div style={{ display: "flex", gap: "20px" }}>
+                        <div>
+                          <div
+                            className={
+                              global_styles.bold600 + " " + global_styles.size16
+                            }
+                          >
+                            {row.organization_name}
+                          </div>
+                          <div>Organization name</div>
+                        </div>
+                        {/* <span>
+                        <div
+                          className={
+                            global_styles.bold600 + " " + global_styles.size16
+                          }
+                        >
+                          {" "}
+                          {row.file_name}
+                        </div>
+                        <div>File name</div>
+                      </span> */}
+                      </div>
                     </TableCell>
-                    <TableCell component="th" scope="row">
-                      {row.organization_name}
-                    </TableCell>
+
                     <TableCell
+                      component="th"
+                      scope="row"
+                      // style={{ display: "flex", gap: "20px" }}
+                    >
+                      <div style={{ display: "flex", gap: "20px" }}>
+                        <div>
+                          <div
+                            className={
+                              global_styles.bold600 + " " + global_styles.size16
+                            }
+                          >
+                            <Badge
+                              style={{
+                                backgroundColor:
+                                  row.approval_status == "rejected"
+                                    ? "#ff5630"
+                                    : row.approval_status == "approved"
+                                    ? "#00ab55"
+                                    : "#faad14",
+                                width: "80px",
+                              }}
+                              className={
+                                global_styles.bold600 +
+                                " " +
+                                global_styles.size16
+                              }
+                              count={row.approval_status}
+                            ></Badge>
+                          </div>
+                          {/* <div>Status</div> */}
+                        </div>
+                        <div>
+                          <div
+                            className={
+                              global_styles.bold600 + " " + global_styles.size16
+                            }
+                          >
+                            {" "}
+                            {row.accessibility_time ?? "NA"}
+                          </div>
+                          <div>Accessibility Time</div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    {/* <TableCell
                       style={{
                         display: "flex",
                         justifyContent: "center",
@@ -327,149 +417,175 @@ const DatasetRequestTable = () => {
                         }}
                         count={row.approval_status}
                       ></Badge>
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {row.accessibility_time}
-                    </TableCell>
+                    </TableCell> */}
+                    {/* <TableCell component="th" scope="row"> */}
+                    {/* <div style={{ display: "flex", gap: "20px" }}>
+                        <div>
+                          <div
+                            className={
+                              global_styles.bold600 + " " + global_styles.size16
+                            }
+                          >
+                            {row.accessibility_time}
+                          </div>
+                          <div>Accessibility Time</div>
+                        </div>
+                        <span>
+                        <div
+                          className={
+                            global_styles.bold600 + " " + global_styles.size16
+                          }
+                        >
+                          {" "}
+                          {row.file_name}
+                        </div>
+                        <div>File name</div>
+                      </span>
+                      </div> */}
+                    {/* </TableCell> */}
                     {/* <TableCell component="th" scope="row">
                     {row.}
                   </TableCell> */}
 
                     <TableCell
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "20px",
-                        flexDirection: "column",
-                      }}
+                      // style={{
+                      //   display: "flex",
+                      //   justifyContent: "center",
+                      //   alignItems: "center",
+                      //   gap: "20px",
+                      //   flexDirection: "column",
+                      // }}
                       className={styles.table_cell_for_approve_button}
                     >
-                      {row.approval_status !== "approved" && (
-                        <Popconfirm
-                          title={
-                            <span
-                              style={{
-                                color: "#00ab55",
-                                textTransform: "none",
-                                fontFamily: "Montserrat",
-                              }}
-                            >
-                              Please select the accessibility time
-                            </span>
-                          }
-                          description={
-                            <>
-                              <LocalizationProvider
-                                dateAdapter={AdapterDateFns}
-                              >
-                                <DatePicker
-                                  inputFormat="dd/MM/yyyy"
-                                  placeholder="Till"
-                                  label="Till"
-                                  value={toDate}
-                                  onChange={(value) => handleToDate(value)}
-                                  PaperProps={{
-                                    sx: {
-                                      borderRadius: "16px !important",
-                                      "& .MuiPickersDay-root": {
-                                        "&.Mui-selected": {
-                                          backgroundColor: "#007B55 !important",
-                                        },
-                                      },
-                                    },
-                                  }}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      disabled
-                                      {...params}
-                                      id="filled-basic"
-                                      variant="outlined"
-                                      sx={{
-                                        width: "300px",
-                                        svg: { color: "#00AB55" },
-                                        "& .MuiInputBase-input": {
-                                          height: "20px",
-                                        },
-                                        "& .MuiOutlinedInput-root": {
-                                          "& fieldset": {
-                                            borderColor: "#919EAB !important",
-                                          },
-                                          "&:hover fieldset": {
-                                            borderColor: "#919EAB",
-                                          },
-                                          "&.Mui-focused fieldset": {
-                                            borderColor: "#919EAB",
-                                          },
-                                        },
-                                      }}
-                                      helperText={
-                                        <Typography
-                                          sx={{
-                                            fontFamily: "Montserrat !important",
-                                            fontWeight: "400",
-                                            fontSize: "12px",
-                                            lineHeight: "18px",
-                                            color: "#FF0000",
-                                            textAlign: "left",
-                                          }}
-                                        ></Typography>
-                                      }
-                                    />
-                                  )}
-                                />
-                              </LocalizationProvider>
-                              <div
+                      {row.approval_status !== "approved" &&
+                        row.approval_status !== "rejected" && (
+                          <Popconfirm
+                            title={
+                              <span
                                 style={{
-                                  display: "flex",
-                                  justifyContent: "right",
-                                  alignItems: "center",
-                                  gap: "20px",
-                                  marginTop: "20px",
+                                  color: "#00ab55",
+                                  textTransform: "none",
+                                  fontFamily: "Montserrat",
                                 }}
                               >
-                                <Button
-                                  className={global_styles.secondary_button}
-                                  onClick={() => handleCancel()}
+                                Please select the accessibility time
+                              </span>
+                            }
+                            description={
+                              <>
+                                <LocalizationProvider
+                                  dateAdapter={AdapterDateFns}
                                 >
-                                  Cancel
-                                </Button>
-                                <Button
-                                  className={global_styles.primary_button}
-                                  onClick={() => handleOk("approved", row.id)}
+                                  <DatePicker
+                                    disablePast
+                                    inputFormat="dd/MM/yyyy"
+                                    placeholder="Till"
+                                    label="Till"
+                                    value={toDate}
+                                    onChange={(value) => handleToDate(value)}
+                                    PaperProps={{
+                                      sx: {
+                                        borderRadius: "16px !important",
+                                        "& .MuiPickersDay-root": {
+                                          "&.Mui-selected": {
+                                            backgroundColor:
+                                              "#007B55 !important",
+                                          },
+                                        },
+                                      },
+                                    }}
+                                    renderInput={(params) => (
+                                      <TextField
+                                        disabled
+                                        {...params}
+                                        id="filled-basic"
+                                        variant="outlined"
+                                        sx={{
+                                          width: "300px",
+                                          svg: { color: "#00AB55" },
+                                          "& .MuiInputBase-input": {
+                                            height: "20px",
+                                          },
+                                          "& .MuiOutlinedInput-root": {
+                                            "& fieldset": {
+                                              borderColor: "#919EAB !important",
+                                            },
+                                            "&:hover fieldset": {
+                                              borderColor: "#919EAB",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                              borderColor: "#919EAB",
+                                            },
+                                          },
+                                        }}
+                                        helperText={
+                                          <Typography
+                                            sx={{
+                                              fontFamily:
+                                                "Montserrat !important",
+                                              fontWeight: "400",
+                                              fontSize: "12px",
+                                              lineHeight: "18px",
+                                              color: "#FF0000",
+                                              textAlign: "left",
+                                            }}
+                                          ></Typography>
+                                        }
+                                      />
+                                    )}
+                                  />
+                                </LocalizationProvider>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "right",
+                                    alignItems: "center",
+                                    gap: "20px",
+                                    marginTop: "20px",
+                                  }}
                                 >
-                                  Approve
-                                </Button>
-                              </div>
-                            </>
-                          }
-                          open={open && index == confirmIndex}
-                          onOpenChange={() => console.log("open change")}
-                          okButtonProps={{
-                            ghost: true,
-                            type: "text",
-                            disabled: true,
-                          }}
-                          okText={<></>}
-                          showCancel={false}
-                          className={styles.ant_buttons}
-                        >
-                          <Button
-                            style={{
-                              border: "1px solid #00ab55",
-                              color: "#00ab55",
-                              // color: "white",
-                              textTransform: "none",
-                              height: "30px",
-                              fontFamily: "Montserrat",
-                              width: "100px",
+                                  <Button
+                                    className={global_styles.secondary_button}
+                                    onClick={() => handleCancel()}
+                                  >
+                                    Cancel
+                                  </Button>
+                                  <Button
+                                    className={global_styles.primary_button}
+                                    onClick={() => handleOk("approved", row.id)}
+                                  >
+                                    Approve
+                                  </Button>
+                                </div>
+                              </>
+                            }
+                            open={open && index == confirmIndex}
+                            onOpenChange={() => console.log("open change")}
+                            okButtonProps={{
+                              ghost: true,
+                              type: "text",
+                              disabled: true,
                             }}
-                            onClick={() => showPopconfirm(index)}
+                            okText={<></>}
+                            showCancel={false}
+                            className={styles.ant_buttons}
                           >
-                            Approve
-                          </Button>{" "}
-                        </Popconfirm>
-                      )}
+                            <Button
+                              style={{
+                                border: "1px solid #00ab55",
+                                color: "#00ab55",
+                                // color: "white",
+                                textTransform: "none",
+                                height: "30px",
+                                fontFamily: "Montserrat",
+                                width: "100px",
+                              }}
+                              onClick={() => showPopconfirm(index)}
+                            >
+                              Approve
+                            </Button>{" "}
+                          </Popconfirm>
+                        )}
                       {row.approval_status !== "rejected" && (
                         <Button
                           style={{
@@ -483,7 +599,9 @@ const DatasetRequestTable = () => {
                           }}
                           onClick={() => SubmitHandler("rejected", row.id)}
                         >
-                          Reject
+                          {row.approval_status == "approved"
+                            ? "Recall"
+                            : "Reject"}
                         </Button>
                       )}
                     </TableCell>
