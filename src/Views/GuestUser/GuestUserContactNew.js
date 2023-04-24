@@ -130,7 +130,7 @@ const GuestUserContactNew = () => {
     setFirstName("");
     setLastName("");
     setEmail("");
-    setSubject("");
+    setSubject("null");
     setDescribeQuery("");
     setContactNumber("");
     clearErrorMessages();
@@ -164,11 +164,15 @@ const GuestUserContactNew = () => {
     )
       .then((response) => {
         callLoader(false);
-        callToast({
-          message: "Your message has been sent successfully.",
-          severity: "success",
-        });
-        handleCancelButtonClick();
+        if (response.status == 200) {
+          console.log("responce", response);
+          callToast(
+            "Your message has been sent successfully.",
+            "success",
+            true
+          );
+          handleCancelButtonClick();
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -203,7 +207,7 @@ const GuestUserContactNew = () => {
                   //callToast(message, type, action)
                   callToast(
                     response?.message ?? response?.data?.detail ?? "Unknown",
-                    response.status == 201 ? "success" : "error",
+                    response.status == 200 ? "success" : "error",
                     response.toast
                   );
                 }
@@ -212,6 +216,7 @@ const GuestUserContactNew = () => {
           }
         } else {
           let response = await GetErrorHandlingRoute(e);
+          console.log("responce in err", response);
           if (response.toast) {
             //callToast(message, type, action)
             callToast(
@@ -219,6 +224,9 @@ const GuestUserContactNew = () => {
               response.status == 200 ? "success" : "error",
               response.toast
             );
+          }
+          if (response.path) {
+            history.push(response.path);
           }
         }
       });
@@ -254,6 +262,7 @@ const GuestUserContactNew = () => {
             margin="normal"
             required
             fullWidth
+            value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             error={firstNameErrorMessage}
             helperText={firstNameErrorMessage ?? ""}
@@ -267,6 +276,7 @@ const GuestUserContactNew = () => {
             variant="outlined"
             margin="normal"
             fullWidth
+            value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             error={lastNameErrorMessage}
             helperText={lastNameErrorMessage ?? ""}
@@ -283,6 +293,7 @@ const GuestUserContactNew = () => {
             margin="normal"
             required
             fullWidth
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             error={emailErrorMessage}
             helperText={emailErrorMessage ?? ""}
@@ -297,6 +308,7 @@ const GuestUserContactNew = () => {
             margin="normal"
             required
             fullWidth
+            value={contactNumber}
             onChange={(e) => setContactNumber(e.target.value)}
             error={contactNumberErrorMessage}
             helperText={contactNumberErrorMessage ?? ""}
@@ -313,6 +325,7 @@ const GuestUserContactNew = () => {
             name="subject"
             onChange={(e) => handleRadioButton(e)}
             row
+            value={subject}
             aria-labelledby="demo-row-radio-buttons-group-label"
             defaultValue="null"
             // name="row-radio-buttons-group"
@@ -342,6 +355,7 @@ const GuestUserContactNew = () => {
       <Row>
         <Col>
           <TextField
+            value={describeQuery}
             id="description"
             label="Describe your query"
             placeholder="Describe your query"
