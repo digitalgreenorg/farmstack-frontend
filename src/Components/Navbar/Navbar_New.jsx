@@ -160,13 +160,13 @@ const NavbarNew = ({ loginType }) => {
   const handleParticipantLogout = (e) => {
     e.preventDefault();
     flushLocalstorage();
-    history.push("/participant/login");
+    history.push("/login");
   };
 
   const handleDatahubLogout = (e) => {
     e.preventDefault();
     flushLocalstorage();
-    history.push("/datahub/login");
+    history.push("/login");
   };
 
   const handleSignOut = (e) => {
