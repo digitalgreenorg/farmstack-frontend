@@ -452,7 +452,7 @@ const DataSets = (props) => {
       let geo = {};
       for (const [key, value] of Object.entries(geography)) {
         if (value?.name) {
-          geo[key] = [value?.name];
+          geo[key] = { name: value?.name };
         }
       }
       payload["geography__contains"] = geo;
@@ -490,20 +490,38 @@ const DataSets = (props) => {
     )
       .then((response) => {
         callLoader(false);
-        if (response.data.next == null) {
-          setShowLoadMoreAdmin(false);
-          setFilterState({});
-        } else {
-          setDatasetUrl(response.data.next);
-          setShowLoadMoreAdmin(true);
+        if (value === 0) {
+          if (response.data.next == null) {
+            setShowLoadMoreAdmin(false);
+            setFilterState({});
+          } else {
+            setDatasetUrl(response.data.next);
+            setShowLoadMoreAdmin(true);
+          }
+          let finalDataList = [];
+          if (isLoadMore) {
+            finalDataList = [...datasetList, ...response.data.results];
+          } else {
+            finalDataList = [...response.data.results];
+          }
+          setDatasetList(finalDataList);
         }
-        let finalDataList = [];
-        if (isLoadMore) {
-          finalDataList = [...datasetList, ...response.data.results];
-        } else {
-          finalDataList = [...response.data.results];
+        if (value === 1) {
+          if (response.data.next == null) {
+            setShowLoadMoreMember(false);
+            setFilterState({});
+          } else {
+            setMemberDatasetUrl(response.data.next);
+            setShowLoadMoreMember(true);
+          }
+          let finalDataList = [];
+          if (isLoadMore) {
+            finalDataList = [...memberDatasetList, ...response.data.results];
+          } else {
+            finalDataList = [...response.data.results];
+          }
+          setMemberDatasetList(finalDataList);
         }
-        setDatasetList(finalDataList);
       })
       .catch((err) => {
         callLoader(false);
@@ -531,7 +549,7 @@ const DataSets = (props) => {
   useEffect(() => {
     getAllCategoryAndSubCategory();
   }, [categorises, type]);
-  console.log(user, "dsets");
+  console.log(datasetList, "dsets");
   return (
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>
