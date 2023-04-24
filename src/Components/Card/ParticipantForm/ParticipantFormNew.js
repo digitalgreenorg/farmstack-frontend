@@ -37,6 +37,8 @@ import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import InfoIcon from "@mui/icons-material/Info";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import MuiPhoneNumber from "material-ui-phone-number";
+import { isPhoneValid } from "../../NewOnboarding/utils";
 
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
@@ -81,13 +83,21 @@ const ParticipantFormNew = (props) => {
   const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
   const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
   const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
+  const [orgContactErrorMessage, setOrgContactErrorMessage] = useState(null);
   const [orgId, setOrgId] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // perform form submission logic here
   };
-
+  // const handleContactNumber = (e, countryData) => {
+   
+  //   // if(isPhoneValid(e, countryData)){
+  //   //   setOrgContactErrorMessage("Invalid phone number")
+  //   }else {
+  //     setContactNumber(e, countryData)
+  //   }
+  // }
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
     return res !== null;
@@ -138,7 +148,6 @@ const ParticipantFormNew = (props) => {
     setOrgWebsiteErrorMessage(null);
     setOrgId("");
   };
-
   const addNewParticipants = () => {
     setFirstNameErrorMessage(null);
     setLastNameErrorMessage(null);
@@ -403,6 +412,7 @@ const ParticipantFormNew = (props) => {
           </Row>
           <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
+        
               <FormControl
                 className={LocalStyle.textField}
                 variant="outlined"
@@ -558,15 +568,36 @@ const ParticipantFormNew = (props) => {
               onChange={(event) => setEmail(event.target.value)}
             /> */}
           </Col>
-          <Col xs={12} sm={6} md={6} xl={6}>
-            <TextField
+          <Col xs={12} sm={6} md={6} xl={6} style={{marginTop: "15px", paddingLeft: "30px"}}>
+         
+            {/* <TextField
               className={LocalStyle.textField}
               label="Contact Number"
               fullWidth
               required
+              type="number"
               value={contactNumber}
-              onChange={(event) => setContactNumber(event.target.value)}
+              onChange={(event) => setContactNumber(event.target.value)}/> */}
+              <MuiPhoneNumber
+              fullWidth
+              required
+              defaultCountry={"in"}
+              countryCodeEditable={false}
+              placeholder="Contact Number"
+              variant="outlined"
+              id="country-in-add-participants"
+              name="Country "x
+              value={organisationCountry}
+              // onChange={(value, countryData) =>
+              //   handleContactNumber(value, countryData)
+              // }
+              onChange={(value) => setContactNumber(value)}
+              error={
+                orgContactErrorMessage ? true : false
+              } 
+              helperText={orgContactErrorMessage}
             />
+           
           </Col>
         </Row>
         <Row>
@@ -658,3 +689,4 @@ const ParticipantFormNew = (props) => {
 };
 
 export default ParticipantFormNew;
+
