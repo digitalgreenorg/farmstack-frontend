@@ -58,6 +58,7 @@ const UrlConstant = {
   usage_policy: "datahub/dataset_files/",
   delete_dataset: "datahub/new_dataset_v2/",
   download_file: "protected-media/?id=",
+  public_download_file: "microsite/microsite_media_view?id=",
   ask_for_permission: "datahub/usage_policies/",
   grant_for_permission: "datahub/usage_policies/",
 

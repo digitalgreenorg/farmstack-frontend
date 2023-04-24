@@ -4,7 +4,8 @@ import LocalStyle from "./DatasetCard.module.css";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 
 const DatasetCart = (props) => {
-  const { publishDate, title, orgnisationName, city, category, update } = props;
+  const { publishDate, title, orgnisationName, geography, category, update } =
+    props;
   let updatedDate = new Date(update);
   console.log("updatedDate", updatedDate);
   let currantDate = new Date();
@@ -43,15 +44,17 @@ const DatasetCart = (props) => {
           className={`${LocalStyle.firstSpanTag} ${GlobalStyle.highlighted_text} ${GlobalStyle.size16} ${GlobalStyle.bold400}`}
         >
           <img src={require("../../Assets/Img/category_block_img.svg")} />
-          {category?.length > 1
-            ? `${category[0]} (+${category.length - 1})`
-            : category?.[0]}
+          {Object.keys(category).length
+            ? category?.length > 1
+              ? `${category[0]} (+${category.length - 1})`
+              : category?.[0]
+            : "NA"}
         </span>
         <span
           className={`${GlobalStyle.highlighted_text} ${GlobalStyle.size16} ${GlobalStyle.bold400}`}
         >
           <img src={require("../../Assets/Img/place_block.svg")} />
-          {city}
+          {geography?.country?.name ? geography?.country?.name : "NA"}
         </span>
         <span
           className={`${GlobalStyle.highlighted_text} ${GlobalStyle.size16} ${GlobalStyle.bold400}`}

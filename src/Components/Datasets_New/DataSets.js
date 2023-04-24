@@ -48,7 +48,7 @@ const DataSets = (props) => {
   const history = useHistory();
   const [state, setState] = useState([0, 1, 2, 3, 4, 5]);
   const [searchDatasetsName, setSearchDatasetsName] = useState();
-  const [filterState, setFilterState] = useState();
+  const [filterState, setFilterState] = useState({});
   const [datasetList, setDatasetList] = useState([]);
   const [memberDatasetList, setMemberDatasetList] = useState([]);
   const [showLoadMoreAdmin, setShowLoadMoreAdmin] = useState(false);
@@ -108,107 +108,106 @@ const DataSets = (props) => {
   };
 
   const handleSearch = (name, isLoadMore) => {
-    setSearchDatasetsName(name);
-    if (name && name.length > 3 && name !== "") {
-      let data = {};
-      data["user_id"] = getUserLocal();
-      data["org_id"] = getOrgLocal();
-      data["name__icontains"] = name;
-      if (value === 0) {
-        data["others"] = false;
-      } else {
-        data["others"] = true;
-      }
-      setFilterState(data);
-      let guestUsetFilterUrl =
-        UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
-      let isAuthorization = user == "guest" ? false : true;
-      if (value === 0) {
-        HTTPService(
-          "POST",
-          user == "guest"
-            ? guestUsetFilterUrl
-            : !isLoadMore
-            ? searchUrl
-            : memberDatasetUrl
-            ? memberDatasetUrl
-            : searchUrl,
-          data,
-          false,
-          isAuthorization
-        )
-          .then((response) => {
-            if (response.data.next == null) {
-              setFilterState({});
-              setShowLoadMoreAdmin(false);
-            } else {
-              setDatasetUrl(response.data.next);
-              setShowLoadMoreAdmin(true);
-            }
-            let finalDataList = [];
-            if (isLoadMore) {
-              finalDataList = [...memberDatasetList, ...response.data.results];
-            } else {
-              finalDataList = [...response.data.results];
-            }
-            if (value === 0) {
-              setDatasetList(finalDataList);
-            } else {
-              setDatasetList(finalDataList);
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (value === 1) {
-        HTTPService(
-          "POST",
+    setSearchDatasetsName(name.trim());
+    let data = {};
+    data["user_id"] = getUserLocal();
+    data["org_id"] = getOrgLocal();
+    data["name__icontains"] = name.trim();
+    if (value === 0) {
+      data["others"] = false;
+    } else {
+      data["others"] = true;
+    }
+    setFilterState(data);
+    let guestUsetFilterUrl =
+      UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
+    let isAuthorization = user == "guest" ? false : true;
+    if (value === 0) {
+      HTTPService(
+        "POST",
+        user == "guest"
+          ? guestUsetFilterUrl
+          : !isLoadMore
+          ? searchUrl
+          : memberDatasetUrl
+          ? memberDatasetUrl
+          : searchUrl,
+        data,
+        false,
+        isAuthorization
+      )
+        .then((response) => {
+          if (response.data.next == null) {
+            setFilterState({});
+            setShowLoadMoreAdmin(false);
+          } else {
+            setDatasetUrl(response.data.next);
+            setShowLoadMoreAdmin(true);
+          }
+          let finalDataList = [];
+          if (isLoadMore) {
+            finalDataList = [...memberDatasetList, ...response.data.results];
+          } else {
+            finalDataList = [...response.data.results];
+          }
+          if (value === 0) {
+            setDatasetList(finalDataList);
+          } else {
+            setDatasetList(finalDataList);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else if (value === 1) {
+      HTTPService(
+        "POST",
 
-          !isLoadMore
-            ? searchUrl
-            : memberDatasetUrl
-            ? memberDatasetUrl
-            : searchUrl,
-          data,
-          false,
-          true
-        )
-          .then((response) => {
-            if (response.data.next == null) {
-              setFilterState({});
-              setShowLoadMoreMember(false);
-            } else {
-              setMemberDatasetUrl(response.data.next);
-              setShowLoadMoreMember(true);
-            }
-            let finalDataList = [];
-            if (isLoadMore) {
-              finalDataList = [...memberDatasetList, ...response.data.results];
-            } else {
-              finalDataList = [...response.data.results];
-            }
-            setMemberDatasetList(finalDataList);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
+        !isLoadMore
+          ? searchUrl
+          : memberDatasetUrl
+          ? memberDatasetUrl
+          : searchUrl,
+        data,
+        false,
+        true
+      )
+        .then((response) => {
+          if (response.data.next == null) {
+            setFilterState({});
+            setShowLoadMoreMember(false);
+          } else {
+            setMemberDatasetUrl(response.data.next);
+            setShowLoadMoreMember(true);
+          }
+          let finalDataList = [];
+          if (isLoadMore) {
+            finalDataList = [...memberDatasetList, ...response.data.results];
+          } else {
+            finalDataList = [...response.data.results];
+          }
+          setMemberDatasetList(finalDataList);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
 
   const clearFilter = () => {
-    if (value === 0) {
-      getDataSets(false);
-    } else if (value === 1) {
-      getOtherDataSets(false);
-    }
+    // if (value === 0) {
+    // getDataSets(false);
+    // }
+    // if (value === 1) {
+    // getOtherDataSets(false);
+    // }
   };
 
   const getDataSets = (isLoadMore) => {
     let method = "POST";
     if (!isLoadMore) {
       resetUrls();
-      if (payload == "") {
+      if (!Object.keys(filterState).length) {
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -228,6 +227,7 @@ const DataSets = (props) => {
     // console.log("url",guestUrl)
 
     let accessToken = getTokenLocal() ?? false;
+    callLoader(true);
     HTTPService(
       method,
       guestUrl ? guestUrl : !isLoadMore ? adminUrl : datasetUrl,
@@ -236,6 +236,7 @@ const DataSets = (props) => {
       accessToken
     )
       .then((response) => {
+        callLoader(false);
         if (response.data.next == null) {
           setShowLoadMoreAdmin(false);
           setFilterState({});
@@ -252,6 +253,7 @@ const DataSets = (props) => {
         setDatasetList(finalDataList);
       })
       .catch(async (err) => {
+        callLoader(false);
         let response = await GetErrorHandlingRoute(err);
         if (response.toast) {
           //callToast(message, type, action)
@@ -269,7 +271,7 @@ const DataSets = (props) => {
   const getOtherDataSets = (isLoadMore) => {
     if (!isLoadMore) {
       resetUrls();
-      if (payload == "") {
+      if (!Object.keys(filterState).length) {
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -280,6 +282,7 @@ const DataSets = (props) => {
       payload = { ...filterState };
     }
     let accessToken = getTokenLocal() ?? false;
+    callLoader(true);
     HTTPService(
       "POST",
       !isLoadMore ? memberUrl : memberDatasetUrl,
@@ -288,6 +291,7 @@ const DataSets = (props) => {
       accessToken
     )
       .then((response) => {
+        callLoader(false);
         if (response.data.next == null) {
           setShowLoadMoreMember(false);
           setFilterState({});
@@ -304,6 +308,7 @@ const DataSets = (props) => {
         setMemberDatasetList(finalDataList);
       })
       .catch(async (err) => {
+        callLoader(false);
         let response = await GetErrorHandlingRoute(err);
         if (response.toast) {
           //callToast(message, type, action)
@@ -369,13 +374,13 @@ const DataSets = (props) => {
       setGeographies((prev) => [...prev, keyName]);
     }
   };
-  let url =
-    user == "guest"
-      ? UrlConstant.base_url + UrlConstant.microsite_category
-      : UrlConstant.base_url + UrlConstant.add_category_edit_category;
-  let isAuthorization = user == "guest" ? false : true;
 
   const getAllCategoryAndSubCategory = () => {
+    let url =
+      user == "guest"
+        ? UrlConstant.base_url + UrlConstant.microsite_category
+        : UrlConstant.base_url + UrlConstant.add_category_edit_category;
+    let isAuthorization = user == "guest" ? false : true;
     let checkforAccess = getTokenLocal() ?? false;
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
@@ -507,10 +512,12 @@ const DataSets = (props) => {
   };
 
   useEffect(() => {
-    getDataSets(false);
-    if (user != "guest") {
-      getOtherDataSets(false);
+    if (user === "guest") {
+      getDataSets(false);
     }
+    // if (user !== "guest" && value === 1) {
+    // getOtherDataSets(false);
+    // }
   }, []);
 
   useEffect(() => {
@@ -524,9 +531,7 @@ const DataSets = (props) => {
   useEffect(() => {
     getAllCategoryAndSubCategory();
   }, [categorises, type]);
-
   console.log(user, "dsets");
-  console.log(datasetList, "dsets");
   return (
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -626,7 +631,7 @@ const DataSets = (props) => {
               setToDate("");
               setSearchDatasetsName("");
               clearFilter();
-              setFilterState();
+              setFilterState({});
             }}
           >
             <img
@@ -694,7 +699,7 @@ const DataSets = (props) => {
       </Box>
       <Divider />
       {/* section-2 */}
-      {user === "guest" && datasetList?.length && (
+      {user === "guest" && datasetList?.length ? (
         <DataSetsTab
           user={user}
           history={history}
@@ -718,6 +723,14 @@ const DataSets = (props) => {
           clearFilter={clearFilter}
           setFilterState={setFilterState}
         />
+      ) : (
+        <>
+          {user === "guest" ? (
+            <EmptyFile text={"As of now there is no datasets."} />
+          ) : (
+            <></>
+          )}
+        </>
       )}
       {user !== "guest" ? (
         <DataSetsTab
