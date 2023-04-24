@@ -9,7 +9,11 @@ import HTTPService from "../../Services/HTTPService";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
+  getTokenLocal,
   getUserLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
@@ -60,6 +64,37 @@ const ProfileDetails = (props) => {
       setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
     }
   };
+
+  const setOnBoardedTrue = () => {
+    let data = {
+      user_id: getUserLocal(),
+      on_boarded: true,
+    };
+    var url = UrlConstant.base_url + UrlConstant.onboarded;
+    var bodyFormData = new FormData();
+    bodyFormData.append("user_id", getUserLocal());
+    bodyFormData.append("on_boarded", true);
+
+    // setIsLoader(true);
+    HTTPService("POST", url, data, false, true, getTokenLocal())
+      .then((response) => {
+        // setIsLoader(false);
+        callToast("Onboarded", "success", true);
+
+        console.log("onboarded true response", response.data);
+        if (isLoggedInUserAdmin()) {
+          history.push("/datahub/new_datasets");
+        } else if (isLoggedInUserParticipant()) {
+          history.push("/participant/datasets");
+        } else if (isLoggedInUserCoSteward()) {
+          history.push("/datahub/new_datasets");
+        }
+      })
+      .catch((e) => {
+        callToast("Some error occurred", "error", true);
+        console.log(e);
+      });
+  };
   const handleSubmitProfileData = (e) => {
     e.preventDefault();
     {
@@ -80,9 +115,15 @@ const ProfileDetails = (props) => {
       .then((res) => {
         console.log(res);
         callLoader(false);
+
         if (!props.isAccountSetting) {
-          setActiveStep((prev) => prev + 1);
+          if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
+            setOnBoardedTrue();
+          } else {
+            setActiveStep((prev) => prev + 1);
+          }
         }
+
         setProfileDetailsError({
           first_name: "",
           last_name: "",
