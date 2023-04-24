@@ -27,11 +27,13 @@
 }
 
 .b_right {
-  border-right: 1px solid rgba(238, 238, 238, 0.5);
+  /* border-right: 1px solid rgba(238, 238, 238, 0.5); */
+  border-right: none !important;
 }
 
 .b_left {
-  border-left: 1px solid rgba(238, 238, 238, 0.5);
+  border-left: none !important;
+  /* border-left: 1px solid rgba(238, 238, 238, 0.5); */
 }
 
 .p-10 {

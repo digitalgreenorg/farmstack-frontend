@@ -359,7 +359,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && user !== "guest" ? (
+          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
             <>
               <Button
                 variant="outlined"
@@ -382,7 +382,11 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 variant="outlined"
                 className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
                 onClick={(e) =>
-                  history.push(`/datahub/participants/edit/${id}`)
+                  history.push(
+                    `/datahub/${
+                      isCosteward ? "costeward" : "participants"
+                    }/edit/${id}`
+                  )
                 }
               >
                 <img
@@ -543,7 +547,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         {datasetList.length == 0 ? (
           <Box className={LocalStyle.noDataBox} p={3}>
             <NoData
-              title={"There are no datasets!"}
+              title={""}
               subTitle={"As of now there are no datasets"}
               // primaryButton={"Add participant"}
               // primaryButtonOnClick={() =>
