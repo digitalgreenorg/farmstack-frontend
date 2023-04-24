@@ -186,7 +186,7 @@ const DatasetRequestTable = () => {
     let columnsForReceived = [
       "Dataset details",
       "Organization details",
-      "Approval",
+      "Status",
       // "Accessibility time",
       "Actions",
       "View",
@@ -224,7 +224,7 @@ const DatasetRequestTable = () => {
             justifyContent: "right",
           }}
         >
-          <Typography className={global_styles.bold600}>Requested</Typography>
+          <Typography className={global_styles.bold600}>Received</Typography>
           <Switch
             style={{ background: "#00ab55" }}
             checked={showRequestSent}
@@ -356,7 +356,13 @@ const DatasetRequestTable = () => {
                       scope="row"
                       // style={{ display: "flex", gap: "20px" }}
                     >
-                      <div style={{ display: "flex", gap: "20px" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "20px",
+                          justifyContent: "left",
+                        }}
+                      >
                         <div>
                           <div
                             className={
@@ -381,18 +387,24 @@ const DatasetRequestTable = () => {
                               count={row.approval_status}
                             ></Badge>
                           </div>
-                          {/* <div>Status</div> */}
+
+                          <div style={{ fontStyle: "italic", width: "112px" }}>
+                            {row.approval_status == "approved"
+                              ? `Till : ${row.accessibility_time ?? "NA"}`
+                              : ""}
+                          </div>
                         </div>
+
                         <div>
                           <div
                             className={
                               global_styles.bold600 + " " + global_styles.size16
                             }
                           >
-                            {" "}
-                            {row.accessibility_time ?? "NA"}
+                            {row.updated_at?.substring(0, 10)}
                           </div>
-                          <div>Accessibility Time</div>
+                          Last updated
+                          {/* <div> Accessibility Time</div> */}
                         </div>
                       </div>
                     </TableCell>

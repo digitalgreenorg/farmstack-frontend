@@ -172,7 +172,7 @@ const GuestUserHome = () => {
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
             className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
-            onClick={() => history.push("/home/datasets")}
+            onClick={() => history.push("/home/participants")}
           >
             View all participants
           </Button>

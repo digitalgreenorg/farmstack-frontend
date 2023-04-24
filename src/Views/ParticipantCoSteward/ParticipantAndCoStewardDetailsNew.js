@@ -358,7 +358,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && !userTypeCosteward ? (
+          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
             <>
               <Button
                 variant="outlined"
