@@ -334,18 +334,23 @@ const StandardizationInOnbord = (props) => {
           (e.response.status === 401 || e.response.status === 502)
         ) {
           setError(true);
+          callToast(
+            e?.response?.message ?? "Some error occured",
+            "error",
+            true
+          );
           // success(
           //   e.response.data && e.response.data.message
           //     ? e.response.data.message
           //     : "User not registered", "error"
           // );
-          GetErrorHandlingRoute(e).then((errorObject) => {
-            callToast(errorObject?.message, "error", true);
-          });
+          // GetErrorHandlingRoute(e).then((errorObject) => {
+          //   callToast(errorObject?.message, "error", true);
+          // });
         } else {
-          setError(false);
+          setError(true);
           callToast(
-            e.response.data ? e.response.data : "Something went wrong.",
+            e?.response?.message ?? "Some error occured",
             "error",
             true
           );
@@ -808,8 +813,8 @@ const StandardizationInOnbord = (props) => {
                       </Row>
                     </div>
                     <Row>
-                  <Col style={{ textAlign: "right", margin: "20px" }}>
-                  <Button
+                      <Col style={{ textAlign: "right", margin: "20px" }}>
+                        <Button
                           id="apply_policies"
                           variant="outlined"
                           style={{ margin: "20px" }}
@@ -818,7 +823,6 @@ const StandardizationInOnbord = (props) => {
                             " " +
                             styles.delete_button_policy
                           }
-
                           onClick={(e) => {
                             handleDatapointCategoryDelete(index);
                             e.stopPropagation();
@@ -830,7 +834,11 @@ const StandardizationInOnbord = (props) => {
                           id="apply_policies"
                           variant="outlined"
                           style={{ margin: "20px" }}
-                          className={global_style.primary_button + " " + styles.edit_button}
+                          className={
+                            global_style.primary_button +
+                            " " +
+                            styles.edit_button
+                          }
                           onClick={(e) => {
                             // this funtion will make a particular index of editCategoryTitle array true
                             e.stopPropagation();
@@ -842,7 +850,7 @@ const StandardizationInOnbord = (props) => {
                         >
                           Edit
                         </Button>
-                    </Col>
+                      </Col>
                     </Row>
                   </AccordionDetails>
                 </Accordion>
@@ -956,12 +964,11 @@ const StandardizationInOnbord = (props) => {
       <div className="datapoint-add-button-classname">
         {inSettings ? (
           <>
-          <Button
+            <Button
               variant="contained"
               className={global_style.secondary_button}
               id="addte-add-datapoint-button"
               onClick={() => history.push("/datahub/new_datasets")}
-              
             >
               Cancel
             </Button>

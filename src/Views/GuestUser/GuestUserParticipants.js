@@ -57,7 +57,7 @@ function GuestUserParticipants(props) {
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
         let datalist = coStewardOrParticipantsList;
-        if (response?.data?.next) {
+        if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
           setCoStewardOrParticipantsList(finalDataList);
         }
