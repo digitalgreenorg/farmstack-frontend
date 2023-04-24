@@ -37,20 +37,19 @@ const NavbarNew = ({ loginType }) => {
   const location = useLocation();
 
   console.log(location);
-  const [profile, setProfile] = useState();
+  const [adminData, setAdminData] = useState(null);
   const [isSelected, setIsSelected] = useState("");
 
-  const getAccountDetails = async () => {
-    var id = getUserLocal();
-    await HTTPService(
+  const getAccountDetails = () => {
+    HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.profile + id + "/",
+      UrlConstant.base_url + "microsite/admin_organization/",
       "",
       false,
-      true
+      false
     )
       .then((response) => {
-        setProfile(response.data.id);
+        setAdminData(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -100,10 +99,9 @@ const NavbarNew = ({ loginType }) => {
   const handleSelect = (item) => {
     setIsSelected(item);
   };
-  // useEffect(() => {
-  //   // getAccountDetails();
-  // }, [profile]);
-  console.log("profile", profile);
+  useEffect(() => {
+    getAccountDetails();
+  }, []);
 
   return (
     <Box
@@ -115,7 +113,11 @@ const NavbarNew = ({ loginType }) => {
       >
         <Box className="d-flex align-items-center">
           <img
-            src={require("../../Assets/Img/footer_logo.svg")}
+            // src={require("../../Assets/Img/footer_logo.svg")}
+            style={{ height: "auto", width: "172px" }}
+            src={
+              UrlConstant.base_url_without_slash + adminData?.organization?.logo
+            }
             alt="footerLogo"
           />
         </Box>

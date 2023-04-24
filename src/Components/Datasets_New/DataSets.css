@@ -144,8 +144,7 @@
 
 .d_content_text {
     display: flex;
-    text-align: left;
-    margin: 20px 0px 20px 20px !important;
+    margin: 20px 20px 20px 20px !important;
 }
 
 .category {
@@ -154,7 +153,7 @@
 }
 
 .location {
-    margin-left: 23px;
+    margin-left: 15px;
     display: flex;
     align-items: center;
 }
