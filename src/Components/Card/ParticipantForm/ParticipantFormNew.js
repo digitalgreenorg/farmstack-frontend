@@ -624,7 +624,7 @@ const ParticipantFormNew = (props) => {
         <Row>
           {userType != "guest" ? (
             <>
-              {isLoggedInUserAdmin ? (
+              {isLoggedInUserAdmin() ? (
                 <Col
                   className={`${LocalStyle.alignLeft}`}
                   xs={12}
