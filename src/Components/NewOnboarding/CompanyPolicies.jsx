@@ -369,7 +369,7 @@ const CompanyPolicies = (props) => {
               <FileUploaderMain
                 isMultiple={false}
                 texts={
-                  "Droppppp files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                  "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
                 }
                 fileTypes={["pdf", "doc"]}
                 handleChange={handleUploadPolicyE}
