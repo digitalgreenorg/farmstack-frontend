@@ -362,6 +362,7 @@ const NavbarNew = ({ loginType }) => {
                     color: "#fffff",
                   },
                 }}
+                onClick={() => history.push("/home/register")}
               >
                 Register
               </Button>
