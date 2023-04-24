@@ -146,6 +146,7 @@ const AddConnector = (props) => {
         (isLoggedInUserCoSteward() ? "true" : "false");
       payload = {
         datasets: [...list],
+        user_map: getUserMapId() ?? "",
       };
     } else if (type == "file") {
       url =

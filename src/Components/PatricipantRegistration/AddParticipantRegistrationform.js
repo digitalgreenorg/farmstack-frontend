@@ -11,9 +11,13 @@ import UrlConstants from "../../Constants/UrlConstants";
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import RegexConstants from "../../Constants/RegexConstants";
-import { GetErrorHandlingRoute, GetErrorKey, mobileNumberMinimunLengthCheck } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  mobileNumberMinimunLengthCheck,
+} from "../../Utils/Common";
 import Loader from "../../Components/Loader/Loader";
-import { Snackbar, Button, IconButton, Alert  } from "@mui/material";
+import { Snackbar, Button, IconButton, Alert } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = {
@@ -49,22 +53,22 @@ function AddParticipantsRegistrationform(props) {
   const [isSuccess, setisSuccess] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
 
-  const[firstNameErrorMessage, setFirstNameErrorMessage] = useState(null)
-  const[lastNameErrorMessage,setLastNameErrorMessage] = useState(null)
-  const[emailErrorMessage, setEmailErrorMessage] = useState(null)
-  const[phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null)
-  const[orgNameErrorMessage, setOrgNameErrorMessage] = useState(null)
-  const[orgEmailErrorMessage,setOrgEmailErrorMessage] = useState(null)
-  const[orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
-  const [open, setOpen] = React.useState(false)
-  const [messageForSnackBar, setMessageForSnackBar] = useState("")
-  const [errorOrSuccess, setErrorOrSuccess] = useState("error")
-  const [selectCoSteward, setSelectCoSteward] = useState([])
-  const [selectedCosteward, setSelectedCosteward] = useState([])
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState(null);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState(null);
+  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState(null);
+  const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
+  const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
+  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [messageForSnackBar, setMessageForSnackBar] = useState("");
+  const [errorOrSuccess, setErrorOrSuccess] = useState("error");
+  const [selectCoSteward, setSelectCoSteward] = useState([]);
+  const [selectedCosteward, setSelectedCosteward] = useState([]);
 
   useEffect(() => {
-    getListOfCostewards()
-  }, [])
+    getListOfCostewards();
+  }, []);
 
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
@@ -73,13 +77,13 @@ function AddParticipantsRegistrationform(props) {
   const isValidCapsUrl = (string) => {
     var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
     return res1 !== null;
-  }
+  };
   const handleClick = () => {
     setOpen(true);
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -101,37 +105,37 @@ function AddParticipantsRegistrationform(props) {
   const getListOfCostewards = () => {
     setIsLoader(true);
     HTTPService(
-      'POST', 
-       UrlConstants.base_url + UrlConstants.costewardlist_selfregister,
-       '', 
-       false, 
-       false,
-       )
-    .then((response) => {
+      "POST",
+      UrlConstants.base_url + UrlConstants.costewardlist_selfregister,
+      "",
+      false,
+      false
+    )
+      .then((response) => {
         setIsLoader(false);
-        console.log(response)
-        setSelectCoSteward([...response.data])
+        console.log(response);
+        setSelectCoSteward([...response.data]);
         console.log("response of costewards", response.data);
-    }).catch((e) => {
-        setMessageForSnackBar("Get list of Co-Stewards failed!!!")
+      })
+      .catch((e) => {
+        setMessageForSnackBar("Get list of Co-Stewards failed!!!");
         setIsLoader(false);
         history.push(GetErrorHandlingRoute(e));
-    });
-};
-const handlelistofCosteward = (e) => {
-  console.log(e.target.value)
-  setSelectedCosteward(e.target.value)
-}
+      });
+  };
+  const handlelistofCosteward = (e) => {
+    console.log(e.target.value);
+    setSelectedCosteward(e.target.value);
+  };
   const addNewParticipants = () => {
-
-    setFirstNameErrorMessage(null)
-    setLastNameErrorMessage(null)
-    setEmailErrorMessage(null)
-    setPhoneNumberErrorMessage(null)
-    setOrgNameErrorMessage(null)
-    setOrgEmailErrorMessage(null)
-    setOrgWebsiteErrorMessage(null)
-    setisorganisationemailerror(null)
+    setFirstNameErrorMessage(null);
+    setLastNameErrorMessage(null);
+    setEmailErrorMessage(null);
+    setPhoneNumberErrorMessage(null);
+    setOrgNameErrorMessage(null);
+    setOrgEmailErrorMessage(null);
+    setOrgWebsiteErrorMessage(null);
+    setisorganisationemailerror(null);
 
     var bodyFormData = new FormData();
     bodyFormData.append("email", useremail.toLowerCase());
@@ -141,8 +145,8 @@ const handlelistofCosteward = (e) => {
     bodyFormData.append("name", organisationname);
     bodyFormData.append("phone_number", contactnumber);
     bodyFormData.append("website", websitelink);
-    bodyFormData.append("on_boarded_by", selectedCosteward)
-    
+    bodyFormData.append("on_boarded_by", selectedCosteward);
+
     bodyFormData.append(
       "address",
       JSON.stringify({
@@ -160,37 +164,52 @@ const handlelistofCosteward = (e) => {
       false
     )
       .then((response) => {
-        console.log(response)
+        console.log(response);
         setIsLoader(false);
         setisSuccess(true);
-        setMessageForSnackBar("You are added as a Participant")
-        setErrorOrSuccess("success")
-        handleClick()
+        setMessageForSnackBar("You are added as a Participant");
+        setErrorOrSuccess("success");
+        handleClick();
       })
       .catch((e) => {
         setIsLoader(false);
-        setErrorOrSuccess("error")
-        handleClick()
+        setErrorOrSuccess("error");
+        handleClick();
         console.log(e);
-        var returnValues = GetErrorKey(e, bodyFormData.keys())
-        var errorKeys = returnValues[0]
-        var errorMessages = returnValues[1]
-        if (errorKeys.length > 0){
-          for (var i=0; i<errorKeys.length; i++){
-            switch(errorKeys[i]){
-              case "first_name": setFirstNameErrorMessage(errorMessages[i]); break;
-              case "last_name": setLastNameErrorMessage(errorMessages[i]); break;
-              case "email": setEmailErrorMessage(errorMessages[i]); break;
-              case "phone_number": setPhoneNumberErrorMessage(errorMessages[i]); break;
-              case "name": setOrgNameErrorMessage(errorMessages[i]); break;
-              case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
-              case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
-              default: setMessageForSnackBar("Something went wrong"); break;
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              case "email":
+                setEmailErrorMessage(errorMessages[i]);
+                break;
+              case "phone_number":
+                setPhoneNumberErrorMessage(errorMessages[i]);
+                break;
+              case "name":
+                setOrgNameErrorMessage(errorMessages[i]);
+                break;
+              case "org_email":
+                setOrgEmailErrorMessage(errorMessages[i]);
+                break;
+              case "website":
+                setOrgWebsiteErrorMessage(errorMessages[i]);
+                break;
+              default:
+                setMessageForSnackBar("Something went wrong");
+                break;
             }
           }
-        }
-        else{
-          history.push(GetErrorHandlingRoute(e))
+        } else {
+          history.push(GetErrorHandlingRoute(e));
         }
       });
   };
@@ -198,7 +217,7 @@ const handlelistofCosteward = (e) => {
     <>
       {isLoader ? <Loader /> : ""}
       <Container style={useStyles.marginrowtop}>
-           {isSuccess ? (
+        {isSuccess ? (
           <Success
             okevent={() => history.push("/home")}
             route={"/home"}
@@ -206,17 +225,25 @@ const handlelistofCosteward = (e) => {
             btntext={"ok"}
             heading={"You are registered as a Participant!"}
             imageText={"Added"}
-            msg={"Click ok to Login."}></Success>
-        ) : ( <>
-          <Snackbar
-        open={open}
-        autoHideDuration={4000}
-        onClose={handleClose}
-        action={action}
-      >
-        <Alert autoHideDuration={4000} onClose={handleClose} sx={{ width: '100%' }} severity={errorOrSuccess}>{messageForSnackBar}</Alert>
-        
-      </Snackbar>
+            msg={"Click ok to Login."}
+          ></Success>
+        ) : (
+          <>
+            <Snackbar
+              open={open}
+              autoHideDuration={4000}
+              onClose={handleClose}
+              action={action}
+            >
+              <Alert
+                autoHideDuration={4000}
+                onClose={handleClose}
+                sx={{ width: "100%" }}
+                severity={errorOrSuccess}
+              >
+                {messageForSnackBar}
+              </Alert>
+            </Snackbar>
             <ParticipantRegistrationForm
               organisationname={organisationname}
               setorganisationname={(ref) => {
@@ -257,7 +284,7 @@ const handlelistofCosteward = (e) => {
                 setfirstname(ref);
               }}
               lastname={lastname}
-              setlastname={(ref) => {   
+              setlastname={(ref) => {
                 setlastname(ref);
               }}
               useremail={useremail}
@@ -270,9 +297,7 @@ const handlelistofCosteward = (e) => {
               isexisitinguseremail={isexisitinguseremail}
               first_heading={screenlabels.addparticipants.first_heading}
               second_heading={screenlabels.addparticipants.second_heading}
-              third_heading={
-                screenlabels.addparticipants.third_heading
-              }
+              third_heading={screenlabels.addparticipants.third_heading}
               fourth_heading={screenlabels.addparticipants.fourth_heading}
               firstNameErrorMessage={firstNameErrorMessage}
               lastNameErrorMessage={lastNameErrorMessage}
@@ -286,7 +311,7 @@ const handlelistofCosteward = (e) => {
               getListOfCostewards={getListOfCostewards}
               handlelistofCosteward={handlelistofCosteward}
               selectedCosteward={selectedCosteward}
-              ></ParticipantRegistrationForm>
+            ></ParticipantRegistrationForm>
             <Row>
               <Col xs={12} sm={12} md={6} lg={3}></Col>
               <Col xs={12} sm={12} md={6} lg={6}>
@@ -294,28 +319,29 @@ const handlelistofCosteward = (e) => {
                 orginsationemail &&
                 !isorganisationemailerror &&
                 countryvalue &&
-               mobileNumberMinimunLengthCheck(contactnumber) &&
+                mobileNumberMinimunLengthCheck(contactnumber) &&
                 websitelink &&
                 !iswebsitelinkrerror &&
                 organisationaddress &&
-                (pincode.length >= 5) &&
+                pincode.length >= 5 &&
                 firstname &&
                 useremail &&
                 !isuseremailerror &&
-                !messageForSnackBar ?
-                // organisationlength ?
-                 (
+                !messageForSnackBar ? (
+                  // organisationlength ?
                   <Button
                     onClick={() => addNewParticipants()}
                     variant="contained"
-                    className="submitbtn">
+                    className="submitbtn"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 ) : (
                   <Button
                     variant="outlined"
                     disabled
-                    className="disbalesubmitbtn">
+                    className="disbalesubmitbtn"
+                  >
                     {screenlabels.common.submit}
                   </Button>
                 )}
@@ -327,14 +353,14 @@ const handlelistofCosteward = (e) => {
                 <Button
                   onClick={() => history.push("/home")}
                   variant="outlined"
-                  className="cancelbtn">
+                  className="cancelbtn"
+                >
                   {screenlabels.common.cancel}
                 </Button>
               </Col>
             </Row>
           </>
-        )
-                }
+        )}
       </Container>
     </>
   );
