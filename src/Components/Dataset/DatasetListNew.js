@@ -105,15 +105,7 @@ const DatasetListNew = (props) => {
           console.log("datasets ", dataset);
           return (
             <Col
-<<<<<<< HEAD
-              onClick={() =>
-                user == "guest"
-                  ? history.push(`/home/dataset/${dataset.id}`)
-                  : history.push(`/datahub/dataset/view/${dataset.id}`)
-              }
-=======
               onClick={() => history.push(handleCardClick(dataset?.id))}
->>>>>>> 1ba5b8b2d151c3093d4c8b265bb66b3ea90ed3ad
               xs={12}
               sm={12}
               md={6}

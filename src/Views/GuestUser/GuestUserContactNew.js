@@ -46,6 +46,11 @@ const GuestUserContactNew = () => {
     organizationEmail: "",
   });
 
+  const handleRadioButton = (e) => {
+    // console.log("handleRadioButton value", e.target.value);
+    setSubject(e.target.value);
+  };
+
   const getDatahubAdminDetails = () => {
     callLoader(true);
 
@@ -146,7 +151,7 @@ const GuestUserContactNew = () => {
     bodyFormData.append("first_name", useDetails.firstName);
     bodyFormData.append("last_name", useDetails.lastName);
     bodyFormData.append("email", useDetails.email);
-    bodyFormData.append("subject", "");
+    bodyFormData.append("subject", subject);
     bodyFormData.append("describe_query", useDetails.queryDescription);
     bodyFormData.append("contact_number", useDetails.contactNumber);
 
@@ -163,8 +168,9 @@ const GuestUserContactNew = () => {
           message: "Your message has been sent successfully.",
           severity: "success",
         });
+        handleCancelButtonClick();
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
         console.log(e);
         const returnValues = GetErrorKey(e, bodyFormData.keys());
@@ -192,12 +198,28 @@ const GuestUserContactNew = () => {
                 setContactNumberErrorMessage(errorMessages[i]);
                 break;
               default:
-                // history.push(GetErrorHandlingRoute(e));
+                let response = await GetErrorHandlingRoute(e);
+                if (response.toast) {
+                  //callToast(message, type, action)
+                  callToast(
+                    response?.message ?? response?.data?.detail ?? "Unknown",
+                    response.status == 201 ? "success" : "error",
+                    response.toast
+                  );
+                }
                 break;
             }
           }
         } else {
-          console.log(e);
+          let response = await GetErrorHandlingRoute(e);
+          if (response.toast) {
+            //callToast(message, type, action)
+            callToast(
+              response?.message ?? response?.data?.detail ?? "Unknown",
+              response.status == 200 ? "success" : "error",
+              response.toast
+            );
+          }
         }
       });
   };
@@ -287,16 +309,31 @@ const GuestUserContactNew = () => {
           {/* <FormLabel component="legend">Select an option</FormLabel> */}
           {/* <RadioGroup aria-label="contactType" name="contactType"> */}
           {/* <div> */}
-          <FormControlLabel
-            value="participant"
-            control={<Radio />}
-            label="Become a Participant (Data Provider / Consumer)"
-          />
-          <FormControlLabel
-            value="other"
-            control={<Radio />}
-            label="Other queries (Describe your query in detail)"
-          />
+          <RadioGroup
+            name="subject"
+            onChange={(e) => handleRadioButton(e)}
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            defaultValue="null"
+            // name="row-radio-buttons-group"
+            style={{
+              //   border: "1px solid green",
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <FormControlLabel
+              value="Become a Participant"
+              control={<Radio />}
+              label="Become a Participant (Data Provider / Consumer)"
+            />
+            <FormControlLabel
+              value="Other queries"
+              control={<Radio />}
+              label="Other queries (Describe your query in detail)"
+            />
+          </RadioGroup>
           {/* </div> */}
           {/* </RadioGroup>
           </FormControl> */}
@@ -317,6 +354,7 @@ const GuestUserContactNew = () => {
             onChange={(e) => setDescribeQuery(e.target.value)}
             error={describeQueryErrorMessage}
             helperText={describeQueryErrorMessage ?? ""}
+            required
           />
         </Col>
       </Row>
@@ -326,6 +364,9 @@ const GuestUserContactNew = () => {
           variant="outlined"
           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
           onClick={() => addNewGuestUserData()}
+          disabled={
+            !firstName || !email || !contactNumber || !subject || !describeQuery
+          }
         >
           Submit
         </Button>
