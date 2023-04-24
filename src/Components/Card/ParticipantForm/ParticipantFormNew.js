@@ -32,6 +32,7 @@ import {
   GetErrorHandlingRoute,
   GetErrorKey,
   getUserLocal,
+  isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   validateInputField,
 } from "../../../Utils/Common";
@@ -622,31 +623,37 @@ const ParticipantFormNew = (props) => {
         </Row>
         <Row>
           {userType != "guest" ? (
-            <Col
-              className={`${LocalStyle.alignLeft}`}
-              xs={12}
-              sm={6}
-              md={6}
-              xl={6}
-            >
-              <Checkbox
-                checked={isCoSteward}
-                onChange={() => setIsCoSteward(!isCoSteward)}
-              />
-              <Typography
-                className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
-              >
-                Co-Steward
-              </Typography>{" "}
-              <Tooltip
-                placement="right-start"
-                title="By checking chekbox you are adding the organisation as co-steward"
-              >
-                <IconButton className={LocalStyle.infoIcon}>
-                  <InfoOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </Col>
+            <>
+              {isLoggedInUserAdmin ? (
+                <Col
+                  className={`${LocalStyle.alignLeft}`}
+                  xs={12}
+                  sm={6}
+                  md={6}
+                  xl={6}
+                >
+                  <Checkbox
+                    checked={isCoSteward}
+                    onChange={() => setIsCoSteward(!isCoSteward)}
+                  />
+                  <Typography
+                    className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
+                  >
+                    Co-Steward
+                  </Typography>{" "}
+                  <Tooltip
+                    placement="right-start"
+                    title="By checking chekbox you are adding the organisation as co-steward"
+                  >
+                    <IconButton className={LocalStyle.infoIcon}>
+                      <InfoOutlinedIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Col>
+              ) : (
+                ""
+              )}
+            </>
           ) : (
             <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
               <Typography
