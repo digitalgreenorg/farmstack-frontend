@@ -9,7 +9,7 @@ function GuestUserParticipantsDetails(props) {
     <div>
       <Row className={LocalStyle.titleContainer}>
         <div className={LocalStyle.title}>
-          {userTypeCosteward ?? "Our participants"}
+          {userTypeCosteward ?? "Explore our participant"}
         </div>
         <div className="d-flex justify-content-center">
           <div className={LocalStyle.description}>

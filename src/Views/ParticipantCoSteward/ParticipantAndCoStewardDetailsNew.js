@@ -104,9 +104,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         "/";
     }
     console.log("userTypeCosteward", userTypeCosteward);
-    if (userTypeCosteward == "Our co-stewards are") {
+    if (userTypeCosteward == "Our co-stewards") {
       params = { co_steward: "True" };
     }
+    console.log("usertype", url, user);
     HTTPService("GET", url, params, false, isAuthorization)
       .then((response) => {
         // callLoader(false);
