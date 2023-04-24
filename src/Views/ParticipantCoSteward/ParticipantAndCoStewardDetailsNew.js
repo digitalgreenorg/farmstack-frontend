@@ -358,7 +358,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && !userTypeCosteward ? (
+          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
             <>
               <Button
                 variant="outlined"
@@ -542,7 +542,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         {datasetList.length == 0 ? (
           <Box className={LocalStyle.noDataBox} p={3}>
             <NoData
-              title={"There ares"}
+              title={""}
               subTitle={"As of now there are no datasets"}
               // primaryButton={"Add participant"}
               // primaryButtonOnClick={() =>
