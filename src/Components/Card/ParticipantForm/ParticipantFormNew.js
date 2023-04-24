@@ -38,7 +38,6 @@ import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import InfoIcon from "@mui/icons-material/Info";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
-import { isPhoneValid } from "../../NewOnboarding/utils";
 
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
@@ -90,14 +89,6 @@ const ParticipantFormNew = (props) => {
     event.preventDefault();
     // perform form submission logic here
   };
-  // const handleContactNumber = (e, countryData) => {
-   
-  //   // if(isPhoneValid(e, countryData)){
-  //   //   setOrgContactErrorMessage("Invalid phone number")
-  //   }else {
-  //     setContactNumber(e, countryData)
-  //   }
-  // }
   const isValidURL = (string) => {
     var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
     return res !== null;
@@ -588,9 +579,6 @@ const ParticipantFormNew = (props) => {
               id="country-in-add-participants"
               name="Country "x
               value={organisationCountry}
-              // onChange={(value, countryData) =>
-              //   handleContactNumber(value, countryData)
-              // }
               onChange={(value) => setContactNumber(value)}
               error={
                 orgContactErrorMessage ? true : false

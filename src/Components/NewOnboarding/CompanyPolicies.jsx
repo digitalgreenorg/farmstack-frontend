@@ -255,7 +255,7 @@ const CompanyPolicies = (props) => {
     useEffect(() => {
       console.log("uploadedPolicyE", uploadedPolicyE);
       if (data.file && !uploadedPolicyE) {
-        console.log("runing useEffectttt");
+        console.log("runing useEffect");
         setPreviewE(data.file ? data.file : null);
         setIsLogoLinkE(true);
       }
