@@ -21,6 +21,7 @@ function GuestUserParticipantsDetails(props) {
       </Row>
       <ParticipantAndCoStewardDetailsNew
         userTypeCosteward={userTypeCosteward}
+        title={userTypeCosteward}
         user="guest"
         isCosteward={userTypeCosteward ? true : false}
       />
