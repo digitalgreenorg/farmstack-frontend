@@ -8,7 +8,11 @@ import DatasetCart from "../DatasetCard/DatasetCard";
 import { Box } from "@mui/system";
 import UrlConstants from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  isLoggedInUserAdmin,
+  isLoggedInUserParticipant,
+} from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 
@@ -18,6 +22,26 @@ const DatasetListNew = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [datasetList, setDatasetList] = useState([]);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
+
+  const getViewAllRoute = () => {
+    if (isLoggedInUserAdmin()) {
+      return `/datahub/new_datasets`;
+    } else if (isLoggedInUserParticipant()) {
+      return `/participant/new_datasets`;
+    } else {
+      return `/home/datasets`;
+    }
+  };
+
+  const handleCardClick = (id) => {
+    if (isLoggedInUserAdmin()) {
+      return `/datahub/new_datasets/view/${id}`;
+    } else if (isLoggedInUserParticipant()) {
+      return `/participant/new_datasets/view/${id}`;
+    } else {
+      return `/home/datasets/${id}`;
+    }
+  };
 
   const getDatasetOfParticipantOrCoSteward = (loadMore, user_id, org_id) => {
     let url = UrlConstants.base_url + UrlConstants.costeward_onboarded_dataset;
@@ -81,9 +105,7 @@ const DatasetListNew = (props) => {
           console.log("datasets ", dataset);
           return (
             <Col
-              onClick={() =>
-                history.push(`/datahub/dataset/view/${dataset.id}`)
-              }
+              onClick={() => history.push(handleCardClick(dataset?.id))}
               xs={12}
               sm={12}
               md={6}
@@ -93,7 +115,7 @@ const DatasetListNew = (props) => {
                 publishDate={dataset?.created_at}
                 title={dataset?.name}
                 orgnisationName={dataset?.organization?.name}
-                city={dataset?.organization?.address?.city}
+                geography={dataset?.geography}
                 category={Object.keys(dataset?.category)}
                 update={dataset?.updated_at}
               />
@@ -125,7 +147,7 @@ const DatasetListNew = (props) => {
               id={"details-page-load-more-dataset-button"}
               variant="outlined"
               className={`${GlobalStyle.primary_button} ${LocalStyle.loadMoreButton}`}
-              onClick={() => history.push("/home/datasets")} // passing true will call loadmore api
+              onClick={() => history.push(getViewAllRoute())} // passing true will call loadmore api
             >
               View all datasets
             </Button>
