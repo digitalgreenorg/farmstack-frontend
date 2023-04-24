@@ -255,7 +255,7 @@ const DataSets = (props) => {
       .catch(async (err) => {
         callLoader(false);
         let response = await GetErrorHandlingRoute(err);
-        if (response.toast) {
+        if (response?.toast) {
           //callToast(message, type, action)
           callToast(
             response?.message ?? "Error occurred while getting datasets",

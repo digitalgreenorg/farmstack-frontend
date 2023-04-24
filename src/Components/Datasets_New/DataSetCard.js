@@ -43,16 +43,16 @@ const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
           <img src={require("../../Assets/Img/category.svg")} alt="category" />
           <span className="category_text">
             {Object.keys(item?.category).length ? (
-              Object.keys(item?.category).length > 1 ? (
+              Object.keys(item?.category)?.length > 1 ? (
                 <>
-                  {Object.keys(item?.category)[0]}
-                  <span style={{ color: "#00AB55" }}>
-                    {" "}
-                    +{String(Object.keys(item?.category).length - 1)}
+                  {Object.keys(item?.category)?.[0]}
+
+                  <span style={{ color: "#00AB55", marginLeft: "1px" }}>
+                    +{Object.keys(item?.category).length - 1}
                   </span>
                 </>
               ) : (
-                Object.keys(item?.category)[0]
+                Object.keys(item?.category)?.[0]
               )
             ) : (
               "NA"
@@ -67,15 +67,15 @@ const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
               : "NA"}
           </span>
         </div>
-        <div className="calendar">
+        {/* <div className="calendar">
           <img
             src={require("../../Assets/Img/calendar_new.svg")}
             alt="calendar"
           />
           <span className="calendar_text">
-            {item?.age_of_date ? item.age_of_date : "NA"}
+            {item?.updated_at ? dateTimeFormat(item.updated_at, false) : "NA"}
           </span>
-        </div>
+        </div> */}
       </div>
     </Card>
   );
