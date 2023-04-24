@@ -6,7 +6,7 @@ import ParticipantFormNew from "../../Components/Card/ParticipantForm/Participan
 const AddParticipantNew = (props) => {
   return (
     <Container>
-      <ParticipantFormNew />
+      <ParticipantFormNew userType={props.userType} />
     </Container>
   );
 };

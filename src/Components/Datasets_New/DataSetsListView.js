@@ -70,11 +70,13 @@ const DataSetsListView = ({
                 ? item?.geography?.country?.name
                 : "NA"}
             </Typography>
-            <Typography className="datasets_list_view_text w-100 text-left">
+            {/* <Typography className="datasets_list_view_text w-100 text-left">
               {item?.age_of_date ? item.age_of_date : "NA"}
-            </Typography>
+            </Typography> */}
             <Typography className="datasets_list_view_text w-100 text-center">
-              {dateTimeFormat(item?.created_at, false)}
+              {item?.created_at
+                ? dateTimeFormat(item?.created_at, false)
+                : "NA"}
             </Typography>
           </Box>
           <Divider />

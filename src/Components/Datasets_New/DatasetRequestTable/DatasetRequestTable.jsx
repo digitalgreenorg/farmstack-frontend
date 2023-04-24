@@ -103,11 +103,14 @@ const DatasetRequestTable = () => {
     let method = "PATCH";
     let payload;
     if (condition == "approved") {
+      let date = toDate ? new Date(toDate) : null;
+      if (date) {
+        let timezoneOffset = date.getTimezoneOffset() * 60 * 1000; // convert to milliseconds
+        date = new Date(date.getTime() - timezoneOffset); // adjust for timezone offset
+      }
       payload = {
         approval_status: condition,
-        accessibility_time: toDate
-          ? new Date(toDate).toISOString().substring(0, 10)
-          : null,
+        accessibility_time: date ? date.toISOString().substring(0, 10) : null,
       };
     } else {
       payload = { approval_status: condition };
@@ -303,8 +306,27 @@ const DatasetRequestTable = () => {
                     <TableCell component="th" scope="row">
                       {row.organization_name}
                     </TableCell>
-                    <TableCell component="th" scope="row">
-                      {row.approval_status}
+                    <TableCell
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      component="th"
+                      scope="row"
+                    >
+                      <Badge
+                        style={{
+                          backgroundColor:
+                            row.approval_status == "rejected"
+                              ? "#ff5630"
+                              : row.approval_status == "approved"
+                              ? "#00ab55"
+                              : "#faad14",
+                          width: "80px",
+                        }}
+                        count={row.approval_status}
+                      ></Badge>
                     </TableCell>
                     <TableCell component="th" scope="row">
                       {row.accessibility_time}
@@ -319,6 +341,7 @@ const DatasetRequestTable = () => {
                         justifyContent: "center",
                         alignItems: "center",
                         gap: "20px",
+                        flexDirection: "column",
                       }}
                       className={styles.table_cell_for_approve_button}
                     >
@@ -439,7 +462,7 @@ const DatasetRequestTable = () => {
                               textTransform: "none",
                               height: "30px",
                               fontFamily: "Montserrat",
-                              width: "150px",
+                              width: "100px",
                             }}
                             onClick={() => showPopconfirm(index)}
                           >
@@ -455,7 +478,7 @@ const DatasetRequestTable = () => {
                             // color: "white",
                             textTransform: "none",
                             height: "30px",
-                            width: "150px",
+                            width: "100px",
                             fontFamily: "Montserrat",
                           }}
                           onClick={() => SubmitHandler("rejected", row.id)}
@@ -574,6 +597,7 @@ const DatasetRequestTable = () => {
                               : row.approval_status == "approved"
                               ? "#00ab55"
                               : "#faad14",
+                          width: "80px",
                         }}
                         count={row.approval_status}
                       ></Badge>

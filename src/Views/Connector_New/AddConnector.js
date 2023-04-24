@@ -9,6 +9,7 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
+  getOrgLocal,
   getTokenLocal,
   getUserLocal,
   getUserMapId,
@@ -145,6 +146,7 @@ const AddConnector = (props) => {
         (isLoggedInUserCoSteward() ? "true" : "false");
       payload = {
         datasets: [...list],
+        user_map: getUserMapId() ?? "",
       };
     } else if (type == "file") {
       url =
@@ -164,7 +166,7 @@ const AddConnector = (props) => {
         UrlConstant.get_dataset_name_list +
         "?org_id=" +
         value +
-        "&user=" +
+        "&user:q=" +
         getUserLocal() +
         "&co_steward=" +
         (isLoggedInUserCoSteward() ? "true" : "false");

@@ -22,6 +22,7 @@ import GuestUserParticipantsDetails from "../Views/GuestUser/GuestUserParticipan
 import GuestUserContactNew from "../Views/GuestUser/GuestUserContactNew";
 import GuestUserCoStewardNew from "../Views/GuestUser/GuestUserCoStewardNew";
 import GuestUserCostewardDetailsNew from "../Views/GuestUser/GuestUserCostewardDetailsNew";
+import RegisterParticipants from "../Components/GuestUser/RegisterParticipants";
 
 const GuestRoutes = () => {
   return (
@@ -38,7 +39,7 @@ const GuestRoutes = () => {
           <Route exact path="/home/datasets" component={GuestUserDatatsets} />
           <Route
             exact
-            path="/home/dataset/:id"
+            path="/home/datasets/:id"
             component={GuestUserViewDataset}
           />
           <Route
@@ -46,6 +47,7 @@ const GuestRoutes = () => {
             path="/home/participants"
             component={GuestUserParticipants}
           />
+          <Route exact path="/home/register" component={RegisterParticipants} />
           <Route
             exact
             path="/home/participants/view/:id"

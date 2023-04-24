@@ -15,6 +15,8 @@ import {
   Checkbox,
   Tooltip,
   IconButton,
+  Alert,
+  Stack,
 } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Row, Col, Form, Button } from "react-bootstrap";
@@ -41,7 +43,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
 
-  const { title, isEditModeOn } = props;
+  const { title, isEditModeOn, userType } = props;
   const history = useHistory();
   const countryNameList = useMemo(() => countryList().getData(), []);
   const { id } = useParams();
@@ -61,6 +63,12 @@ const ParticipantFormNew = (props) => {
   const [contactNumber, setContactNumber] = useState("");
   const [isCoSteward, setIsCoSteward] = useState(false);
 
+  const [selectCoSteward, setSelectCoSteward] = useState([]);
+  const [selectedCosteward, setSelectedCosteward] = useState([]);
+  const handlelistofCosteward = (e) => {
+    console.log(e.target.value);
+    setSelectedCosteward(e.target.value);
+  };
   // Error messages
 
   const [istrusted, setistrusted] = React.useState(false);
@@ -168,15 +176,22 @@ const ParticipantFormNew = (props) => {
       })
     );
 
-    bodyFormData.append(
-      "role",
-      isCoSteward
-        ? labels.en.roleNo.coStewarRoleNo
-        : labels.en.roleNo.participantsRoleNo
-    );
-    bodyFormData.append("approval_status", true);
+    if (userType !== "guest") {
+      bodyFormData.append(
+        "role",
+        isCoSteward
+          ? labels.en.roleNo.coStewarRoleNo
+          : labels.en.roleNo.participantsRoleNo
+      );
+    }
+    if (userType !== "guest") bodyFormData.append("approval_status", true);
     let method = "POST";
-    let url = UrlConstants.base_url + UrlConstants.participant;
+    let url = "";
+    if (userType == "guest") {
+      url = UrlConstants.base_url + UrlConstants.register_participant;
+    } else {
+      url = UrlConstants.base_url + UrlConstants.participant;
+    }
 
     if (isEditModeOn) {
       bodyFormData.append("id", orgId);
@@ -186,10 +201,19 @@ const ParticipantFormNew = (props) => {
     }
     if (isLoggedInUserCoSteward()) {
       bodyFormData.append("on_boarded_by", getUserLocal());
+    } else if (userType == "guest") {
+      console.log(selectedCosteward, "selectCoSteward");
+      bodyFormData.append("on_boarded_by", selectedCosteward);
     }
     callLoader(true);
 
-    HTTPService(method, url, bodyFormData, false, true)
+    HTTPService(
+      method,
+      url,
+      bodyFormData,
+      false,
+      userType == "guest" ? false : true
+    )
       .then((response) => {
         callLoader(false);
         setisSuccess(true);
@@ -305,9 +329,36 @@ const ParticipantFormNew = (props) => {
       });
   };
 
+  const getAllListOfCoSteward = () => {
+    let url =
+      UrlConstants.base_url + "datahub/participant/get_list_co_steward/";
+    let method = "GET";
+    HTTPService(
+      "POST",
+      UrlConstants.base_url + UrlConstants.costewardlist_selfregister,
+      "",
+      false,
+      false
+    )
+      .then((response) => {
+        // setIsLoader(false);
+        console.log(response);
+        setSelectCoSteward([...response.data]);
+        console.log("response of costewards", response.data);
+      })
+      .catch((e) => {
+        // setMessageForSnackBar("Get list of Co-Stewards failed!!!");
+        // setIsLoader(false);
+        // history.push(GetErrorHandlingRoute(e));
+      });
+  };
+
   useEffect(() => {
     if (isEditModeOn) {
       getDataOnEdit();
+    }
+    if (userType == "guest") {
+      getAllListOfCoSteward();
     }
   }, []);
 
@@ -570,31 +621,95 @@ const ParticipantFormNew = (props) => {
           </Col>
         </Row>
         <Row>
-          <Col
-            className={`${LocalStyle.alignLeft}`}
-            xs={12}
-            sm={6}
-            md={6}
-            xl={6}
-          >
-            <Checkbox
-              checked={isCoSteward}
-              onChange={() => setIsCoSteward(!isCoSteward)}
-            />
-            <Typography
-              className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
+          {userType != "guest" ? (
+            <Col
+              className={`${LocalStyle.alignLeft}`}
+              xs={12}
+              sm={6}
+              md={6}
+              xl={6}
             >
-              Co-Steward
-            </Typography>{" "}
-            <Tooltip
-              placement="right-start"
-              title="By checking chekbox you are adding the organisation as co-steward"
-            >
-              <IconButton className={LocalStyle.infoIcon}>
-                <InfoOutlinedIcon />
-              </IconButton>
-            </Tooltip>
-          </Col>
+              <Checkbox
+                checked={isCoSteward}
+                onChange={() => setIsCoSteward(!isCoSteward)}
+              />
+              <Typography
+                className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
+              >
+                Co-Steward
+              </Typography>{" "}
+              <Tooltip
+                placement="right-start"
+                title="By checking chekbox you are adding the organisation as co-steward"
+              >
+                <IconButton className={LocalStyle.infoIcon}>
+                  <InfoOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </Col>
+          ) : (
+            <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
+              <Typography
+                id={title + "-form-title"}
+                className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
+              >
+                Select Your Co-Steward
+              </Typography>
+              <Stack
+                sx={{
+                  width: "100%",
+                  textAlign: "left",
+                  height: "48px",
+                  paddingLeft: "28px",
+                  paddingTop: "15px",
+                  margin: "20px 0px",
+                }}
+                spacing={2}
+              >
+                <Alert severity="warning">
+                  <strong>
+                    If you do not select your Co-Steward, you will be the part
+                    of Steward network
+                  </strong>
+                </Alert>
+              </Stack>
+              <FormControl
+                className={LocalStyle.textField}
+                variant="outlined"
+                fullWidth
+              >
+                <InputLabel id="demo-multiple-name-label">Costeward</InputLabel>
+                {
+                  <Select
+                    IconComponent={(_props) => (
+                      <div style={{ position: "relative" }}>
+                        <img
+                          className={LocalStyle.icon}
+                          src={require("../../../Assets/Img/down_arrow.svg")}
+                        />
+                      </div>
+                    )}
+                    labelId="Costeward"
+                    id="select_costeward"
+                    label="Costeward "
+                    fullWidth
+                    required
+                    value={selectedCosteward}
+                    onChange={handlelistofCosteward}
+                  >
+                    {selectCoSteward.map((listofcosteward, index) => {
+                      return (
+                        <MenuItem key={index} value={listofcosteward.user}>
+                          {" "}
+                          {listofcosteward.organization_name}{" "}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                }
+              </FormControl>
+            </Col>
+          )}
         </Row>
         {/* <Row>
           <Col xs={12} sm={6} md={6} xl={6}>
