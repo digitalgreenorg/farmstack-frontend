@@ -18,6 +18,7 @@ import Standardise from "../Datasets_New/TabComponents/Standardise";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -123,9 +124,48 @@ const AddDataSet = (props) => {
           }
           setValue(value + 1);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           callLoader(false);
-          callToast("Something went wrong!", "error", true);
+          const returnValues = GetErrorKey(err, Object.keys(body));
+          console.log(returnValues, "keyss");
+          const errorKeys = returnValues[0];
+          const errorMessages = returnValues[1];
+          console.log(errorKeys, "keyss");
+          if (errorKeys.length > 0) {
+            for (let i = 0; i < errorKeys.length; i++) {
+              console.log(errorKeys, "keyss");
+              switch (errorKeys[i]) {
+                case "name":
+                  seteErrorDataSetName(errorMessages[i]);
+                  break;
+                default:
+                  let response = await GetErrorHandlingRoute(err);
+                  if (response.toast) {
+                    //callToast(message, type, action)
+                    callToast(
+                      response?.message ?? response?.data?.detail ?? "Unknown",
+                      response.status == 200 ? "success" : "error",
+                      response.toast
+                    );
+                  }
+                  break;
+              }
+            }
+          } else {
+            let response = await GetErrorHandlingRoute(err);
+            console.log("responce in err", response);
+            if (response.toast) {
+              //callToast(message, type, action)
+              callToast(
+                response?.message ?? response?.data?.detail ?? "Unknown",
+                response.status == 200 ? "success" : "error",
+                response.toast
+              );
+            }
+            if (response.path) {
+              history.push(response.path);
+            }
+          }
         });
     } else if (value >= 1 && value < 4) {
       setValue(value + 1);
@@ -163,10 +203,11 @@ const AddDataSet = (props) => {
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/new_datasets";
-    } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+    } else if (
+      isLoggedInUserAdmin() ||
+      (isLoggedInUserCoSteward() && getTokenLocal())
+    ) {
       return "/datahub/new_datasets";
-    } else if (isLoggedInUserCoSteward() && getTokenLocal()) {
-      return `/datahub/new_datasets`;
     }
   };
 
@@ -475,6 +516,7 @@ const AddDataSet = (props) => {
             setIsUpdating={setIsUpdating}
             validator={validator}
             errorDataSetName={errorDataSetName}
+            seteErrorDataSetName={seteErrorDataSetName}
             errorDataSetDescription={errorDataSetDescription}
           />
         </TabPanel>
@@ -566,7 +608,7 @@ const AddDataSet = (props) => {
               },
             }}
             variant="outlined"
-            onClick={() => history.push("/participant/new_datasets")}
+            onClick={() => history.push(handleClickRoutes())}
           >
             Cancel
           </Button>
