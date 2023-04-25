@@ -33,8 +33,8 @@ const CompanyPolicies = (props) => {
   const [preview, setPreview] = useState(null);
   const [allPolicies, setAllPolicies] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
-
   const handleUploadPolicy = (file) => {
+    console.log("function is calling")
     setUploadedPolicy(file);
     console.log("file during upload", uploadedPolicy)
   };
@@ -199,20 +199,20 @@ const CompanyPolicies = (props) => {
       });
   };
 
-  // create a preview as a side effect, whenever selected file is changed
-  // useEffect(() => {
-  //   console.log(uploadedPolicy);
-  //   if (!uploadedPolicy) {
-  //     setPreview(undefined);
-  //     return;
-  //   }
-  //   setFileError("");
-  //   const objectUrl = URL.createObjectURL(uploadedPolicy);
-  //   setPreview(objectUrl);
+ // create a preview as a side effect, whenever selected file is changed
+  useEffect(() => {
+    console.log(uploadedPolicy);
+    if (!uploadedPolicy) {
+      setPreview(undefined);
+      return;
+    }
+    setFileError("");
+    const objectUrl = URL.createObjectURL(uploadedPolicy);
+    setPreview(objectUrl);
 
-  //   // free memory when ever this component is unmounted
-  //   return () => URL.revokeObjectURL(objectUrl);
-  // }, [uploadedPolicy]);
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [uploadedPolicy]);
 
   function AccordionBody(props) {
     const { data, index } = props;
@@ -230,6 +230,7 @@ const CompanyPolicies = (props) => {
       data.name
     );
     const [policyNameError, setPolicyNameError] = useState("");
+    const [dataOfFile, setDataOfFile] = useState(data.file);
 
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
@@ -237,35 +238,46 @@ const CompanyPolicies = (props) => {
       // data[index].file = file;
       setPolicySize(file.size);
       setIsLogoLinkE(false);
-      console.log("uploadedPolicyE state:", uploadedPolicyE);
+      console.log("uploadedPolicyE state:", uploadedPolicyE)
     };
+    // useEffect(() => {
+    //   console.log(uploadedPolicyE, policySize);
+    //   if (!uploadedPolicyE) {
+    //     setPreviewE(undefined);
+    //     return;
+    //   }
+    //   setEditPolicyFileError({ error: "", policy_id: "" });
+    //   const objectUrl = URL.createObjectURL(uploadedPolicyE);
+    //   setPreviewE(objectUrl);
+    //   console.log(objectUrl, "objectUrl");
+    //   // free memory when ever this component is unmounted
+    //   return () => URL.revokeObjectURL(objectUrl);
+    // }, [uploadedPolicyE]);
     useEffect(() => {
-      console.log(uploadedPolicyE, policySize);
-      if (!uploadedPolicyE) {
-        setPreviewE(undefined);
-        return;
-      }
-      setEditPolicyFileError({ error: "", policy_id: "" });
-      const objectUrl = URL.createObjectURL(uploadedPolicyE);
-      setPreviewE(objectUrl);
-      console.log(objectUrl, "objectUrl");
-      // free memory when ever this component is unmounted
-      return () => URL.revokeObjectURL(objectUrl);
-    }, []);
-
-    useEffect(() => {
-      console.log("uploadedPolicyE", uploadedPolicyE);
-      if (data.file && !uploadedPolicyE) {
-        console.log("runing useEffect");
-        setPreviewE(data.file ? data.file : null);
+      if (uploadedPolicyE) {
+        console.log("uploadedPolicyE is calling", uploadedPolicyE)
+        const objectUrl = URL.createObjectURL(uploadedPolicyE);
+        setPreviewE(objectUrl);
         setIsLogoLinkE(true);
+        return () => URL.revokeObjectURL(objectUrl); // clean up function
+      } else if (dataOfFile) {
+        console.log("data is happening", dataOfFile)
+        setPreviewE(dataOfFile);
+        setIsLogoLinkE(true);
+      } else {
+        setPreviewE(undefined)
+        setIsLogoLinkE(false);
       }
-    }, []);
+    }, [uploadedPolicyE, dataOfFile]);
 
     const handleDeleteFile = () => {
+      console.log("isfile deleted" , uploadedPolicyE)
       setUploadedPolicyE(null)
-      setPreviewE(null);
-    }
+      setDataOfFile(null)
+      setPreviewE(undefined);
+      setPolicySize("");
+      setIsLogoLinkE(false);
+    };
 
     const handleDescChange = (value) => {
       setEditorpolicyDescValue(value);
@@ -420,7 +432,7 @@ const CompanyPolicies = (props) => {
                         {console.log(uploadedPolicyE, "uploadedPolicyE")}
                         {uploadedPolicyE?.name 
                           ? uploadedPolicyE?.name
-                           : data.file.split("/").at(-1)} 
+                           : dataOfFile.split("/").at(-1)} 
                       </span>
                       <span className={global_style.light_text}>
                         {policySize && (policySize / 1000000).toFixed(2) + "MB"}
@@ -758,6 +770,7 @@ const CompanyPolicies = (props) => {
                 <Row>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                     <FileUploaderMain
+                      
                       isMultiple={false}
                       texts={
                         "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
