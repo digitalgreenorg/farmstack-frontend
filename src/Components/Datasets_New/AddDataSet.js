@@ -186,7 +186,13 @@ const AddDataSet = (props) => {
         return true;
       }
     } else if (value === 1) {
-      if (files || sqlFiles || postgresFiles || sqLiteFiles || restApifiles) {
+      console.log(uploadedFiles, sqlFiles, postgresFiles, restApifiles);
+      if (
+        uploadedFiles?.length ||
+        sqlFiles?.length ||
+        postgresFiles?.length ||
+        restApifiles?.length
+      ) {
         return false;
       } else {
         return true;
