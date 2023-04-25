@@ -213,27 +213,23 @@ const DataSetsTab = ({
                 ) : (
                   ""
                 )}
-                {filteredDatasetList && filteredDatasetList.length > 0
-                  ? filteredDatasetList
-                  : datasetList?.map((item) => (
-                      <DataSetCardNew
-                        key={item?.id}
-                        history={history}
-                        item={item}
-                        value={
-                          value === 0 && user !== "guest"
-                            ? "my_organisation"
-                            : ""
-                        }
-                        handleCardClick={
-                          user === "guest"
-                            ? () => {
-                                return `/home/datasets/${item.id}`;
-                              }
-                            : handleCardClick
-                        }
-                      />
-                    ))}
+                {datasetList?.map((item) => (
+                  <DataSetCardNew
+                    key={item?.id}
+                    history={history}
+                    item={item}
+                    value={
+                      value === 0 && user !== "guest" ? "my_organisation" : ""
+                    }
+                    handleCardClick={
+                      user === "guest"
+                        ? () => {
+                            return `/home/datasets/${item.id}`;
+                          }
+                        : handleCardClick
+                    }
+                  />
+                ))}
               </div>
             </CSSTransition>
 
@@ -248,11 +244,7 @@ const DataSetsTab = ({
               unmountOnExit={true}
             >
               <DataSetsListView
-                datasets={
-                  filteredDatasetList && filteredDatasetList.length > 0
-                    ? filteredDatasetList
-                    : datasetList
-                }
+                datasets={datasetList}
                 history={history}
                 value={value === 0 && user !== "guest" ? "my_organisation" : ""}
                 handleCardClick={handleCardClick}
