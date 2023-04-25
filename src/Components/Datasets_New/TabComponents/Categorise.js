@@ -150,7 +150,6 @@ const Categorise = (props) => {
         <ControlledAccordion
           data={allCategories}
           customBorder={true}
-          showDeleteIcon={true}
           customPadding={true}
         />
       </div>
