@@ -176,7 +176,7 @@ const SelectConnector = ({
             >
               {template?.file_list?.map((item, index) => {
                 return (
-                  <MenuItem key={index} value={item?.file}>
+                  <MenuItem key={index} value={item?.standardised_file ?? ""}>
                     {item?.file_name}
                   </MenuItem>
                 );
