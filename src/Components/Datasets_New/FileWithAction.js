@@ -7,6 +7,7 @@ import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { getUserMapId } from "../../Utils/Common";
 import { Tag } from "antd";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const FileWithAction = ({
   index,
@@ -20,6 +21,7 @@ const FileWithAction = ({
   userType,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const history = useHistory();
   const handleDownload = () => {
     let accessToken = getTokenLocal() ?? false;
     let url = UrlConstant.base_url + UrlConstant.download_file + id;
@@ -110,6 +112,8 @@ const FileWithAction = ({
     } else {
       if (fileType === "public") {
         handleDownload();
+      } else {
+        history.push("/login");
       }
     }
   };
