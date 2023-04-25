@@ -35,8 +35,11 @@ const InviteParticipantsNew = (props) => {
   };
 
   const handleChipEmailDelete = (index) => {
+    console.log(",index in delete", index);
     let tmpAllEmails = [...allEmails];
-    tmpAllEmails.splice(1, index);
+    console.log("tmpAllEmails", tmpAllEmails);
+    tmpAllEmails.splice(index, 1);
+    console.log("tmpAllEmails", tmpAllEmails);
     setAllEmails(tmpAllEmails);
   };
 
@@ -159,6 +162,7 @@ const InviteParticipantsNew = (props) => {
               className={LocalStyle.chipsContainer}
             >
               {allEmails?.map((email, index) => {
+                console.log("index", index);
                 return (
                   <ListItem className={LocalStyle.chipsListItem} key={index}>
                     <Chip
