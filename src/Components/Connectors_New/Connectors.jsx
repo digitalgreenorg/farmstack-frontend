@@ -30,7 +30,7 @@ const Connectors = () => {
   const history = useHistory();
 
   const addConnector = () => {
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return "/datahub/connectors/add";
     } else if (isLoggedInUserParticipant()) {
       return "/participant/connectors/add";
@@ -38,7 +38,7 @@ const Connectors = () => {
   };
 
   const handleEditConnectorRoute = (id) => {
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/connectors/edit/${id}`;
     } else if (isLoggedInUserParticipant()) {
       return `/participant/connectors/edit/${id}`;

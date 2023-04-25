@@ -26,7 +26,8 @@ import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 const ParticipantAndCoStewardDetailsNew = (props) => {
   // to show as participants page pass isCosteward = true
   //  as participants request pass isParticipantRequest = true
-  let { isCosteward, isParticipantRequest, user, userTypeCosteward } = props;
+  let { isCosteward, isParticipantRequest, user, userTypeCosteward, title } =
+    props;
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
 
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -104,9 +105,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         "/";
     }
     console.log("userTypeCosteward", userTypeCosteward);
-    if (userTypeCosteward == "Our co-stewards are") {
+    if (userTypeCosteward == "Our co-stewards") {
       params = { co_steward: "True" };
     }
+    console.log("usertype", url, user);
     HTTPService("GET", url, params, false, isAuthorization)
       .then((response) => {
         // callLoader(false);
@@ -581,6 +583,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {isCosteward ? (
         <CoStewardAndParticipantsCard
           title={"Co-steward participants"}
+          user={user}
           viewType={false}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}

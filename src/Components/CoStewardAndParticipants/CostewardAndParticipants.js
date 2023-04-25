@@ -23,7 +23,13 @@ const CoStewardAndParticipantsCard = (props) => {
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
-    if (title == "Participants" || title == "Co-steward participants") {
+    console.log("handleViewDataset", title, id);
+    if (
+      (title == "Participants" || title == "Co-steward participants") &&
+      user == "guest"
+    ) {
+      history.push(`/home/participants/view/${id}`);
+    } else if (title == "Participants" || title == "Co-steward participants") {
       history.push(`/datahub/participants/view/${id}`);
     } else if (title == "Co-steward") {
       history.push(`/datahub/costeward/view/${id}`);
@@ -393,7 +399,7 @@ const CoStewardAndParticipantsCard = (props) => {
               ""
             )}
           </Row>
-          <hr />
+          {/* <hr /> */}
           <div className={LocalStyle.cardContainerList}>
             {coStewardOrParticipantsList?.map((item, index) => {
               return (
@@ -459,7 +465,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       ""
                     )}
                   </Row>
-                  <hr />
+                  {/* <hr /> */}
                 </>
               );
             })}

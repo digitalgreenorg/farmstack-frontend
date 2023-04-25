@@ -243,6 +243,9 @@ const Standardise = ({
       return "";
     }
   };
+  function isObject(item) {
+    return typeof item === "object" && !Array.isArray(item) && item !== null;
+  }
   useEffect(() => {
     getAllFileNames();
   }, []);
@@ -272,6 +275,7 @@ const Standardise = ({
       let tmpStandardisedColum = [...standardisedColum];
       let tempMaskedColumns = [];
       let tempdPointCategories = [];
+      standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
       keysInUploadedDataset.forEach((column, index) => {
         Object.keys(standardised_obj).forEach(function (key, ind) {
           console.log(column, key);

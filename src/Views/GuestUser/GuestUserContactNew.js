@@ -12,7 +12,7 @@ import {
   Radio,
 } from "@mui/material";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
@@ -20,6 +20,20 @@ import { useHistory } from "react-router-dom";
 const GuestUserContactNew = () => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   let history = useHistory();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [describeQuery, setDescribeQuery] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [subjectErrorMessage, setSubjectErrorMessage] = useState("");
+  const [describeQueryErrorMessage, setDescribeQueryErrorMessage] =
+    useState("");
+  const [contactNumberErrorMessage, setContactNumberErrorMessage] =
+    useState("");
   const [adminDetails, setAdminDetails] = useState({
     name: "",
     email: "",
@@ -31,6 +45,11 @@ const GuestUserContactNew = () => {
     organizationWebsite: "",
     organizationEmail: "",
   });
+
+  const handleRadioButton = (e) => {
+    // console.log("handleRadioButton value", e.target.value);
+    setSubject(e.target.value);
+  };
 
   const getDatahubAdminDetails = () => {
     callLoader(true);
@@ -98,6 +117,120 @@ const GuestUserContactNew = () => {
       });
   };
 
+  const clearErrorMessages = () => {
+    setFirstNameErrorMessage("");
+    setLastNameErrorMessage("");
+    setEmailErrorMessage("");
+    setSubjectErrorMessage("");
+    setDescribeQueryErrorMessage("");
+    setContactNumberErrorMessage("");
+  };
+
+  const handleCancelButtonClick = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setSubject("null");
+    setDescribeQuery("");
+    setContactNumber("");
+    clearErrorMessages();
+  };
+
+  const addNewGuestUserData = () => {
+    callLoader(true);
+
+    const useDetails = {
+      firstName,
+      lastName,
+      email,
+      contactNumber,
+      queryDescription: describeQuery,
+    };
+
+    const bodyFormData = new FormData();
+    bodyFormData.append("first_name", useDetails.firstName);
+    bodyFormData.append("last_name", useDetails.lastName);
+    bodyFormData.append("email", useDetails.email);
+    bodyFormData.append("subject", subject);
+    bodyFormData.append("describe_query", useDetails.queryDescription);
+    bodyFormData.append("contact_number", useDetails.contactNumber);
+
+    HTTPService(
+      "POST",
+      UrlConstant.base_url + UrlConstant.microsite_contact_form,
+      bodyFormData,
+      true,
+      false
+    )
+      .then((response) => {
+        callLoader(false);
+        if (response.status == 200) {
+          console.log("responce", response);
+          callToast(
+            "Your message has been sent successfully.",
+            "success",
+            true
+          );
+          handleCancelButtonClick();
+        }
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        console.log(e);
+        const returnValues = GetErrorKey(e, bodyFormData.keys());
+        const errorKeys = returnValues[0];
+        const errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (let i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "first_name":
+                setFirstNameErrorMessage(errorMessages[i]);
+                break;
+              case "last_name":
+                setLastNameErrorMessage(errorMessages[i]);
+                break;
+              case "email":
+                setEmailErrorMessage(errorMessages[i]);
+                break;
+              case "subject":
+                setSubjectErrorMessage(errorMessages[i]);
+                break;
+              case "describe_query":
+                setDescribeQueryErrorMessage(errorMessages[i]);
+                break;
+              case "contact_number":
+                setContactNumberErrorMessage(errorMessages[i]);
+                break;
+              default:
+                let response = await GetErrorHandlingRoute(e);
+                if (response.toast) {
+                  //callToast(message, type, action)
+                  callToast(
+                    response?.message ?? response?.data?.detail ?? "Unknown",
+                    response.status == 200 ? "success" : "error",
+                    response.toast
+                  );
+                }
+                break;
+            }
+          }
+        } else {
+          let response = await GetErrorHandlingRoute(e);
+          console.log("responce in err", response);
+          if (response.toast) {
+            //callToast(message, type, action)
+            callToast(
+              response?.message ?? response?.data?.detail ?? "Unknown",
+              response.status == 200 ? "success" : "error",
+              response.toast
+            );
+          }
+          if (response.path) {
+            history.push(response.path);
+          }
+        }
+      });
+  };
   useEffect(() => {
     getDatahubAdminDetails();
   }, []);
@@ -129,6 +262,10 @@ const GuestUserContactNew = () => {
             margin="normal"
             required
             fullWidth
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            error={firstNameErrorMessage}
+            helperText={firstNameErrorMessage ?? ""}
           />
         </Col>
         <Col lg={6} md={12}>
@@ -139,6 +276,10 @@ const GuestUserContactNew = () => {
             variant="outlined"
             margin="normal"
             fullWidth
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            error={lastNameErrorMessage}
+            helperText={lastNameErrorMessage ?? ""}
           />
         </Col>
       </Row>
@@ -152,6 +293,10 @@ const GuestUserContactNew = () => {
             margin="normal"
             required
             fullWidth
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={emailErrorMessage}
+            helperText={emailErrorMessage ?? ""}
           />
         </Col>
         <Col lg={6} md={12}>
@@ -163,6 +308,10 @@ const GuestUserContactNew = () => {
             margin="normal"
             required
             fullWidth
+            value={contactNumber}
+            onChange={(e) => setContactNumber(e.target.value)}
+            error={contactNumberErrorMessage}
+            helperText={contactNumberErrorMessage ?? ""}
           />
         </Col>
       </Row>
@@ -172,16 +321,32 @@ const GuestUserContactNew = () => {
           {/* <FormLabel component="legend">Select an option</FormLabel> */}
           {/* <RadioGroup aria-label="contactType" name="contactType"> */}
           {/* <div> */}
-          <FormControlLabel
-            value="participant"
-            control={<Radio />}
-            label="Become a Participant (Data Provider / Consumer)"
-          />
-          <FormControlLabel
-            value="other"
-            control={<Radio />}
-            label="Other queries (Describe your query in detail)"
-          />
+          <RadioGroup
+            name="subject"
+            onChange={(e) => handleRadioButton(e)}
+            row
+            value={subject}
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            defaultValue="null"
+            // name="row-radio-buttons-group"
+            style={{
+              //   border: "1px solid green",
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <FormControlLabel
+              value="Become a Participant"
+              control={<Radio />}
+              label="Become a Participant (Data Provider / Consumer)"
+            />
+            <FormControlLabel
+              value="Other queries"
+              control={<Radio />}
+              label="Other queries (Describe your query in detail)"
+            />
+          </RadioGroup>
           {/* </div> */}
           {/* </RadioGroup>
           </FormControl> */}
@@ -190,6 +355,7 @@ const GuestUserContactNew = () => {
       <Row>
         <Col>
           <TextField
+            value={describeQuery}
             id="description"
             label="Describe your query"
             placeholder="Describe your query"
@@ -199,6 +365,10 @@ const GuestUserContactNew = () => {
             margin="normal"
             // required
             fullWidth
+            onChange={(e) => setDescribeQuery(e.target.value)}
+            error={describeQueryErrorMessage}
+            helperText={describeQueryErrorMessage ?? ""}
+            required
           />
         </Col>
       </Row>
@@ -207,7 +377,10 @@ const GuestUserContactNew = () => {
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
-          //   onClick={() => downloadAttachment(url)}
+          onClick={() => addNewGuestUserData()}
+          disabled={
+            !firstName || !email || !contactNumber || !subject || !describeQuery
+          }
         >
           Submit
         </Button>
@@ -215,7 +388,7 @@ const GuestUserContactNew = () => {
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
-          //   onClick={() => window.open(url, "_blank")}
+          onClick={() => handleCancelButtonClick()}
         >
           Cancel
         </Button>

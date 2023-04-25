@@ -614,7 +614,10 @@ const AddConnector = (props) => {
           callToast("Data saved successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
             history.push("/participant/connectors");
-          } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+          } else if (
+            isLoggedInUserAdmin() ||
+            (isLoggedInUserCoSteward() && getTokenLocal())
+          ) {
             history.push("/datahub/connectors");
           }
 
@@ -629,7 +632,10 @@ const AddConnector = (props) => {
           callToast("Connector deleted successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
             history.push("/participant/connectors");
-          } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+          } else if (
+            isLoggedInUserAdmin() ||
+            (isLoggedInUserCoSteward() && getTokenLocal())
+          ) {
             history.push("/datahub/connectors");
           }
           resetAll();
@@ -748,7 +754,10 @@ const AddConnector = (props) => {
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/connectors";
-    } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+    } else if (
+      isLoggedInUserAdmin() ||
+      (isLoggedInUserCoSteward() && getTokenLocal())
+    ) {
       return "/datahub/connectors";
     }
   };

@@ -9,6 +9,7 @@ import {
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
+  isLoggedInUserCoSteward,
 } from "../../Utils/Common";
 import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -99,7 +100,8 @@ const NavbarNew = ({ loginType }) => {
         );
         return location.pathname === "/datahub/participants" ||
           location.pathname === "/datahub/participants/view/" + tempId ||
-          location.pathname === "/datahub/participants/edit/" + tempId
+          location.pathname === "/datahub/participants/edit/" + tempId ||
+          location.pathname === "/datahub/participants/view/approve/" + tempId
           ? true
           : false;
       }
@@ -109,7 +111,8 @@ const NavbarNew = ({ loginType }) => {
         );
         return location.pathname === "/datahub/participants" ||
           location.pathname === "/datahub/participants/view/" + tempId ||
-          location.pathname === "/datahub/participants/edit/" + tempId
+          location.pathname === "/datahub/participants/edit/" + tempId ||
+          location.pathname === "/datahub/participants/view/approve/" + tempId
           ? true
           : false;
       }
@@ -147,12 +150,20 @@ const NavbarNew = ({ loginType }) => {
   };
 
   const isNavLinkActiveForCostewardDot = (itemName) => {
-    if (itemName === "costeward") {
+    if (itemName === "costeward" && loginType !== "guest") {
       let tempId = location.pathname.slice(
         location.pathname.lastIndexOf("/") + 1
       );
       return location.pathname === "/datahub/costeward/view/" + tempId ||
         location.pathname === "/datahub/costeward/edit/" + tempId
+        ? true
+        : false;
+    }
+    if (itemName === "costeward" && loginType === "guest") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/costeward/view/" + tempId
         ? true
         : false;
     }
@@ -170,7 +181,10 @@ const NavbarNew = ({ loginType }) => {
   };
 
   const handleSignOut = (e) => {
-    if (getTokenLocal() && isLoggedInUserAdmin()) {
+    if (
+      (getTokenLocal() && isLoggedInUserAdmin()) ||
+      isLoggedInUserCoSteward()
+    ) {
       handleDatahubLogout(e);
     } else if (getTokenLocal() && isLoggedInUserParticipant()) {
       handleParticipantLogout(e);
