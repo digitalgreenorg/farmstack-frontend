@@ -40,7 +40,8 @@ import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import InfoIcon from "@mui/icons-material/Info";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-
+import MuiPhoneNumber from "material-ui-phone-number";
+import { isPhoneValid } from "../../NewOnboarding/utils";
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
 
@@ -90,6 +91,7 @@ const ParticipantFormNew = (props) => {
   const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
   const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
   const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
+  const [orgContactErrorMessage, setOrgContactErrorMessage] = useState(null);
   const [orgId, setOrgId] = useState("");
 
   const handleSubmit = (event) => {
@@ -104,6 +106,14 @@ const ParticipantFormNew = (props) => {
   const isValidCapsUrl = (string) => {
     var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
     return res1 !== null;
+  };
+  const handleContactNumber = (e, countryData) => {
+    if (!isPhoneValid(e, countryData)) {
+      setOrgContactErrorMessage("Invalid phone number");
+    } else {
+      setOrgContactErrorMessage(null);
+    }
+    setContactNumber(e);
   };
 
   const handleCancel = (clearAllField) => {
@@ -611,17 +621,29 @@ const ParticipantFormNew = (props) => {
             /> */}
           </Col>
           <Col xs={12} sm={6} md={6} xl={6}>
-            <TextField
+            {/* <TextField
               className={LocalStyle.textField}
               label="Contact Number"
               fullWidth
               required
               value={contactNumber}
               onChange={(event) => setContactNumber(event.target.value)}
-              error={phoneNumberErrorMessage ? true : false}
-              helperText={
-                phoneNumberErrorMessage ? phoneNumberErrorMessage : ""
-              }
+            /> */}
+            <MuiPhoneNumber
+              className={LocalStyle.textField}
+              fullWidth
+              required
+              defaultCountry={"in"}
+              countryCodeEditable={false}
+              placeholder="Contact Number"
+              label="Contact Number"
+              variant="outlined"
+              id="contact_number"
+              name="contact_number"
+              value={contactNumber}
+              onChange={(e, countryData) => handleContactNumber(e, countryData)}
+              error={orgContactErrorMessage ? true : false}
+              helperText={orgContactErrorMessage}
             />
           </Col>
         </Row>
