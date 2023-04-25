@@ -152,12 +152,15 @@ const DataSets = (props) => {
             }
             let finalDataList = [];
             if (isLoadMore) {
-              finalDataList = [...datasetList, ...response.data.results];
+              finalDataList = [
+                ...filteredDatasetList,
+                ...response.data.results,
+              ];
             } else {
               finalDataList = [...response.data.results];
             }
             console.log(finalDataList, "fdlist");
-            setDatasetList(finalDataList);
+            setFilteredDatasetList(finalDataList);
           })
           .catch((e) => {
             console.log(e);
@@ -185,11 +188,14 @@ const DataSets = (props) => {
             }
             let finalDataList = [];
             if (isLoadMore) {
-              finalDataList = [...memberDatasetList, ...response.data.results];
+              finalDataList = [
+                ...filteredMemberDatasetList,
+                ...response.data.results,
+              ];
             } else {
               finalDataList = [...response.data.results];
             }
-            setMemberDatasetList(finalDataList);
+            setFilteredMemberDatasetList(finalDataList);
           })
           .catch((e) => {
             console.log(e);
@@ -198,6 +204,12 @@ const DataSets = (props) => {
     } else {
       setFilteredDatasetList([]);
       setFilteredMemberDatasetList([]);
+      // if (value === 0) {
+      //   getDataSets(false);
+      // }
+      // if (value === 1) {
+      //   getOtherDataSets(false);
+      // }
     }
   };
 
@@ -773,8 +785,14 @@ const DataSets = (props) => {
           state={state}
           value={value}
           setValue={setValue}
-          datasetList={datasetList}
-          memberDatasetList={memberDatasetList}
+          datasetList={
+            filteredDatasetList?.length ? filteredDatasetList : datasetList
+          }
+          memberDatasetList={
+            filteredMemberDatasetList?.length
+              ? filteredMemberDatasetList
+              : memberDatasetList
+          }
           filteredDatasetList={filteredDatasetList}
           filteredMemberDatasetList={filteredMemberDatasetList}
           getDataSets={getDataSets}
