@@ -62,7 +62,7 @@ const StandardizationInOnbord = (props) => {
   const [datapointNameError, setDatapointNameError] = useState("");
   const [accordionDatapointNameError, setAccordionDatapointNameError] =
     useState([]);
-
+  const [attributeErrorMessage, setAttributeErrorMessage] = useState([]);
   const history = useHistory();
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -206,7 +206,7 @@ const StandardizationInOnbord = (props) => {
     console.log("allAttribute in start of function", allAttributes);
     let tmpAllAttributes = { ...allAttributes };
 
-    tmpAllAttributes[index][allAttributesArrIndex] = newValue;
+    tmpAllAttributes[index][allAttributesArrIndex] = newValue.trimStart();
     setAllAttributes(tmpAllAttributes);
     console.log("allAttribute", allAttributes);
   };
@@ -238,6 +238,14 @@ const StandardizationInOnbord = (props) => {
     setSaveButtonEnabled(true);
 
     let tmpAllAttributes = { ...allAttributes };
+    const newAttribute = tmpAllAttributes[index][0].trimStart();
+    if (tmpAllAttributes[index].slice(1).some(attr => attr === newAttribute)) {
+      console.error(`Attribute "${newAttribute}" already exists for datapoint ${tmpAllAttributes[index][1]}`);
+      let nameAlreadyExist = [...attributeErrorMessage]
+      nameAlreadyExist[index] = `"${newAttribute}" already exists for datapoint`
+      setAttributeErrorMessage(nameAlreadyExist)
+      return;
+    }
     tmpAllAttributes[index].push(tmpAllAttributes[index][0]);
     tmpAllAttributes[index][0] = "";
     setAllAttributes(tmpAllAttributes);
@@ -247,6 +255,7 @@ const StandardizationInOnbord = (props) => {
     tmpAllAttributesDes[index].push(tmpAllAttributesDes[index][0]);
     tmpAllAttributesDes[index][0] = "";
     setAllAttributesDes(tmpAllAttributesDes);
+    setAttributeErrorMessage("")
     console.log("all Des", tmpAllAttributesDes);
   };
 
@@ -719,6 +728,16 @@ const StandardizationInOnbord = (props) => {
                               )
                             }
                             inputProps={{ maxLength: 250 }}
+                            helperText={
+                              attributeErrorMessage[index]
+                                ? attributeErrorMessage[index]
+                                : attributeErrorMessage[index]
+                            }
+                            error={
+                              attributeErrorMessage[index]
+                                ? attributeErrorMessage[index]
+                                : attributeErrorMessage[index]
+                            }
                           />
                           {/* <TextField
                           required
