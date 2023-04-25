@@ -95,7 +95,6 @@ const UploadFile = ({
     setFile(file);
     setFiles((prev) => [...prev, file]);
   };
-
   const handleDelete = (index, id, filename, type) => {
     let source = "";
     if (type === "file_upload") {
@@ -360,13 +359,16 @@ const UploadFile = ({
     if (selectedUploadType === "file_upload") {
       let tempFiles = [];
       files.map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
+      callLoader(true);
       Promise.all(tempFiles)
         .then((results) => {
           // results will comes in type of array
+          callLoader(false);
           setFiles([]);
           console.log(results);
         })
         .catch((err) => {
+          callLoader(false);
           console.log(err);
         });
     }
@@ -839,6 +841,7 @@ const UploadFile = ({
               <div className="cursor-pointer">
                 <FileUploader
                   handleChange={handleFileChange}
+                  // onClick={(e) => (e.target.value = null)}
                   children={
                     <img
                       className="cursor-pointer"
