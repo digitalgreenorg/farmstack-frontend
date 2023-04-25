@@ -34,9 +34,9 @@ const CompanyPolicies = (props) => {
   const [allPolicies, setAllPolicies] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const handleUploadPolicy = (file) => {
-    console.log("function is calling")
+    console.log("function is calling");
     setUploadedPolicy(file);
-    console.log("file during upload", uploadedPolicy)
+    console.log("file during upload", uploadedPolicy);
   };
   const handleDeletePolicy = (index) => {
     setUploadedPolicy(null);
@@ -199,7 +199,7 @@ const CompanyPolicies = (props) => {
       });
   };
 
- // create a preview as a side effect, whenever selected file is changed
+  // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
     console.log(uploadedPolicy);
     if (!uploadedPolicy) {
@@ -253,26 +253,27 @@ const CompanyPolicies = (props) => {
     //   return () => URL.revokeObjectURL(objectUrl);
     // }, [uploadedPolicyE]);
     const handleDeleteFile = () => {
-      console.log("isfile deleted" , uploadedPolicyE)
-      setUploadedPolicyE(null)
-      setDataOfFile(null)
+      console.log("isfile deleted", uploadedPolicyE);
+      setUploadedPolicyE(null);
+      setDataOfFile(null);
       setPreviewE(null);
       setPolicySize("");
       setIsLogoLinkE(false);
     };
     useEffect(() => {
+      console.log("uploadedPolicyE", uploadedPolicyE);
       if (uploadedPolicyE) {
-        console.log("uploadedPolicyE is calling", uploadedPolicyE)
+        console.log("uploadedPolicyE is calling", uploadedPolicyE);
         const objectUrl = URL.createObjectURL(uploadedPolicyE);
         setPreviewE(objectUrl);
         setIsLogoLinkE(false);
       } else if (dataOfFile) {
-        console.log("data is calling", dataOfFile)
+        console.log("data is calling", dataOfFile);
         setPreviewE(dataOfFile);
         setIsLogoLinkE(true);
       } else {
         console.log("dataOfFile is null");
-        setPreviewE(null)
+        setPreviewE(null);
         setIsLogoLinkE(false);
       }
     }, [uploadedPolicyE, dataOfFile]);
@@ -299,8 +300,7 @@ const CompanyPolicies = (props) => {
       if (response && response.data) {
         arr[index] = { ...response?.data };
         setAllPolicies([...arr]);
-        setIsLogoLinkE(true)
-
+        setIsLogoLinkE(true);
       } else {
         let obj = {
           ...data,
@@ -413,9 +413,9 @@ const CompanyPolicies = (props) => {
               }
             >
               {previewE && "Uploaded file"}
-            </div> 
-            
-             {uploadedPolicyE || dataOfFile ? (
+            </div>
+
+            {uploadedPolicyE || dataOfFile ? (
               <div className={styles.text_left + " " + styles.preview_box}>
                 {previewE && (
                   <div className={styles.each_preview_policy}>
@@ -432,9 +432,11 @@ const CompanyPolicies = (props) => {
                         onClick={() => window.open(previewE)}
                       >
                         {console.log(uploadedPolicyE, "uploadedPolicyE")}
-                        {uploadedPolicyE?.name 
+                        {uploadedPolicyE?.name
                           ? uploadedPolicyE?.name
-                           : dataOfFile.split("/").at(-1)} 
+                          : dataOfFile
+                          ? dataOfFile?.split("/").at(-1)
+                          : ""}
                       </span>
                       <span className={global_style.light_text}>
                         {policySize && (policySize / 1000000).toFixed(2) + "MB"}
@@ -448,7 +450,7 @@ const CompanyPolicies = (props) => {
                   </div>
                 )}
               </div>
-           ) : null}
+            ) : null}
             <div
               className={
                 global_style.size14 +
@@ -714,14 +716,12 @@ const CompanyPolicies = (props) => {
               onClick={() => handleAddPolicy()}
               className={global_style.primary_button + " " + styles.next_button}
             >
-
               Add
             </Button>
           </div>
         </>
       ) : (
         <>
-  
           {isFormVisible && (
             <>
               <div className={styles.all_inputs}>
@@ -772,7 +772,6 @@ const CompanyPolicies = (props) => {
                 <Row>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                     <FileUploaderMain
-                      
                       isMultiple={false}
                       texts={
                         "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
@@ -920,4 +919,3 @@ const CompanyPolicies = (props) => {
 };
 
 export default CompanyPolicies;
-
