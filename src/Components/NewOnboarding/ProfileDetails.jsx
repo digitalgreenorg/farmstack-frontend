@@ -117,11 +117,11 @@ const ProfileDetails = (props) => {
         callLoader(false);
 
         if (!props.isAccountSetting) {
-          if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
-            setOnBoardedTrue();
-          } else {
-            setActiveStep((prev) => prev + 1);
-          }
+          // if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
+          //   setOnBoardedTrue();
+          // } else {
+          setActiveStep((prev) => prev + 1);
+          // }
         }
 
         setProfileDetailsError({

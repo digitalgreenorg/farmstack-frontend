@@ -510,7 +510,12 @@ const StandardizationInOnbord = (props) => {
       })
       .catch((e) => {
         // setIsLoader(false);
-        console.log(e);
+        // console.log(e);
+        callToast(
+          JSON.stringify(e?.response?.data ?? "Some error occurred"),
+          "error",
+          true
+        );
       });
   };
   useEffect(() => {

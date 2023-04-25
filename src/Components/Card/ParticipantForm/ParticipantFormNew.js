@@ -618,6 +618,10 @@ const ParticipantFormNew = (props) => {
               required
               value={contactNumber}
               onChange={(event) => setContactNumber(event.target.value)}
+              error={phoneNumberErrorMessage ? true : false}
+              helperText={
+                phoneNumberErrorMessage ? phoneNumberErrorMessage : ""
+              }
             />
           </Col>
         </Row>

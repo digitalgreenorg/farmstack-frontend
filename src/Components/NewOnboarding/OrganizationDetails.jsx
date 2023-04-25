@@ -12,6 +12,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
+  getTokenLocal,
   getUserLocal,
   goToTop,
   isLoggedInUserAdmin,
@@ -50,6 +51,37 @@ const OrganizationDetails = (props) => {
     organisation_logo_error_logo: "",
   });
   const [uploadedLogo, setUploadedLogo] = useState(null);
+
+  const setOnBoardedTrue = () => {
+    let data = {
+      user_id: getUserLocal(),
+      on_boarded: true,
+    };
+    var url = UrlConstant.base_url + UrlConstant.onboarded;
+    var bodyFormData = new FormData();
+    bodyFormData.append("user_id", getUserLocal());
+    bodyFormData.append("on_boarded", true);
+
+    // setIsLoader(true);
+    HTTPService("POST", url, data, false, true, getTokenLocal())
+      .then((response) => {
+        // setIsLoader(false);
+        callToast("Onboarded", "success", true);
+
+        console.log("onboarded true response", response.data);
+        if (isLoggedInUserAdmin()) {
+          history.push("/datahub/new_datasets");
+        } else if (isLoggedInUserParticipant()) {
+          history.push("/participant/datasets");
+        } else if (isLoggedInUserCoSteward()) {
+          history.push("/datahub/new_datasets");
+        }
+      })
+      .catch((e) => {
+        callToast("Some error occurred", "error", true);
+        console.log(e);
+      });
+  };
   const handleOrgChange = (e, countryData) => {
     console.log(e.target);
     if (e.target) {
@@ -143,10 +175,9 @@ const OrganizationDetails = (props) => {
         console.log(response);
         if (isLoggedInUserAdmin() && !props.isOrgSetting) {
           setActiveStep((prev) => prev + 1);
-        } else if (isLoggedInUserParticipant()) {
-          history.push("/participant/new_datasets");
-        } else if (isLoggedInUserCoSteward()) {
-          history.push("/datahub/new_datasets");
+        } else if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
+          callToast("Onboarded", "success", true);
+          setOnBoardedTrue();
         }
       })
       .catch(async (e) => {
@@ -203,7 +234,7 @@ const OrganizationDetails = (props) => {
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
                   callToast(error?.message, "error", true);
-                  console.log(e, error)
+                  console.log(e, error);
                 }
                 break;
             }
@@ -212,7 +243,7 @@ const OrganizationDetails = (props) => {
           let error = await GetErrorHandlingRoute(e);
           if (error) {
             callToast(error?.message, "error", true);
-            console.log(e, error)
+            console.log(e, error);
           }
         }
       });
@@ -247,334 +278,353 @@ const OrganizationDetails = (props) => {
         // );
       })
       .catch(async (e) => {
-        callLoader(false);     
+        callLoader(false);
         let error = await GetErrorHandlingRoute(e);
-        console.log(e, error)
+        console.log(e, error);
         if (error) {
           callToast(error?.message, "error", true);
         }
       });
   };
   console.log(preview, uploadedLogo);
-  
+
   useEffect(() => {
     getOrganizationData();
     goToTop(0);
   }, []);
 
-  return (<>
-    <div className={styles.main_box}>
-      <div className={styles.main_label}>
-        {props.isOrgSetting ? "Organisation setting" : " Organisation Details" }
-      </div>
+  return (
+    <>
+      <div className={styles.main_box}>
+        <div className={styles.main_label}>
+          {props.isOrgSetting
+            ? "Organisation setting"
+            : " Organisation Details"}
+        </div>
 
-      {props.isOrgSetting ? "" : 
-      <div className={styles.sub_label}>
-       Enter your organisation details, we will show to others!
-      </div> }
-      <div className={styles.all_inputs}>
-        <Row>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              required
-              placeholder="Organisation Name"
-              id="organisation_name"
-              label="Organisation Name"
-              variant="outlined"
-              name="organisation_name"
-              value={organisationDetails.organisation_name}
-              onChange={(e) => handleOrgChange(e)}
-              error={organisationDetailsError.organisation_name ? true : false}
-              helperText={organisationDetailsError.organisation_name_error}
-            />
-          </Col>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              required
-              placeholder="Organisation mail id"
-              label="Organisation mail id"
-              variant="outlined"
-              id="organisation_mail_id"
-              name="organisation_mail_id"
-              value={organisationDetails.organisation_mail_id}
-              onChange={(e) => handleOrgChange(e)}
-              error={
-                organisationDetailsError.organisation_mail_id_error
-                  ? true
-                  : false
-              }
-              helperText={organisationDetailsError.organisation_mail_id_error}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              required
-              placeholder="Website Link"
-              label="Website Link"
-              variant="outlined"
-              id="organisation_website_link"
-              name="organisation_website_link"
-              value={organisationDetails.organisation_website_link}
-              onChange={(e) => handleOrgChange(e)}
-              error={
-                organisationDetailsError.organisation_website_link_error
-                  ? true
-                  : false
-              }
-              helperText={
-                organisationDetailsError.organisation_website_link_error
-              }
-            />
-          </Col>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <MuiPhoneNumber
-              fullWidth
-              required
-              defaultCountry={"in"}
-              countryCodeEditable={false}
-              placeholder="Organisation Contact Number"
-              label="Organisation Contact Number"
-              variant="outlined"
-              id="organisation_contact_number"
-              name="organisation_contact_number"
-              value={organisationDetails.organisation_contact_number}
-              onChange={(value, countryData) =>
-                handleOrgChange(value, countryData)
-              }
-              error={
-                organisationDetailsError.organisation_contact_number_error
-                  ? true
-                  : false
-              }
-              helperText={
-                organisationDetailsError.organisation_contact_number_error
-              }
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              required
-              placeholder="Organisation Address"
-              label="Organisation Address"
-              variant="outlined"
-              id="organisation_address"
-              name="organisation_address"
-              value={organisationDetails.organisation_address}
-              onChange={(e) => handleOrgChange(e)}
-              error={
-                organisationDetailsError.organisation_address_error
-                  ? true
-                  : false
-              }
-              helperText={organisationDetailsError.organisation_address_error}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <FormControl required fullWidth>
-              <InputLabel id="country_label"> Country</InputLabel>
-              <Select
+        {props.isOrgSetting ? (
+          ""
+        ) : (
+          <div className={styles.sub_label}>
+            Enter your organisation details, we will show to others!
+          </div>
+        )}
+        <div className={styles.all_inputs}>
+          <Row>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                fullWidth
                 required
-                labelId="country_label"
-                id="country_select"
-                value={organisationDetails.organisation_country}
-                name="organisation_country"
+                placeholder="Organisation Name"
+                id="organisation_name"
+                label="Organisation Name"
+                variant="outlined"
+                name="organisation_name"
+                value={organisationDetails.organisation_name}
                 onChange={(e) => handleOrgChange(e)}
-                label="Country"
                 error={
-                  organisationDetailsError.organisation_country_error
+                  organisationDetailsError.organisation_name ? true : false
+                }
+                helperText={organisationDetailsError.organisation_name_error}
+              />
+            </Col>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                fullWidth
+                required
+                placeholder="Organisation mail id"
+                label="Organisation mail id"
+                variant="outlined"
+                id="organisation_mail_id"
+                name="organisation_mail_id"
+                value={organisationDetails.organisation_mail_id}
+                onChange={(e) => handleOrgChange(e)}
+                error={
+                  organisationDetailsError.organisation_mail_id_error
                     ? true
                     : false
                 }
-                helperText={organisationDetailsError.organisation_country_error}
-              >
-                <MenuItem value={"in"}>India</MenuItem>
-                <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                <MenuItem value={"kenya"}>Kenya</MenuItem>
-              </Select>
-            </FormControl>
-          </Col>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              required
-              placeholder="PIN Code"
-              label="PIN Code"
-              variant="outlined"
-              id="organisation_pin_code"
-              name="organisation_pin_code"
-              value={organisationDetails.organisation_pin_code}
-              onChange={(e) => handleOrgChange(e)}
-              error={
-                organisationDetailsError.organisation_pin_code_error
-                  ? true
-                  : false
-              }
-              helperText={organisationDetailsError.organisation_pin_code_error}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              required
-              rows={4}
-              multiline
-              placeholder="Organisation Description"
-              label="Organisation Description"
-              variant="outlined"
-              id="organisation_description"
-              name="organisation_description"
-              value={organisationDetails.organisation_description}
-              onChange={(e) => handleOrgChange(e)}
-              error={
-                organisationDetailsError.organisation_description_error
-                  ? true
-                  : false
-              }
-              helperText={
-                organisationDetailsError.organisation_description_error
-              }
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <FileUploaderMain
-              texts={
-                "Drop files here or click browse thorough your machine,File size not more than "
-              }
-              maxSize={2}
-              isMultiple={false}
-              handleChange={handleUpload}
-              // setSizeError={() =>
-              //   setOrganisationDetailsError({
-              //     ...organisationDetailsError,
-              //     organisation_logo_error_logo: "Maximum size exceeds",
-              //   })
-              // }
-            />
-          </Col>
-          <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-            <div
-              className={
-                global_style.bold600 +
-                " " +
-                global_style.font20 +
-                " " +
-                styles.text_left
-              }
-            >
-              {preview && "Uploaded file"}
-            </div>
-            {console.log(preview)}
-            {preview && (
-              <div className={styles.text_left + " " + styles.preview_box}>
-                {preview && (
-                  <img className={styles.preview_logo} src={preview} />
-                )}
-                <CancelIcon
-                  onClick={() => {
-                    setPreview(null);
-                    setUploadedLogo(null);
-                  }}
-                  style={{ cursor: "pointer" }}
-                  fontSize="small"
-                />
-              </div>
-            )}
-            <div
-              className={
-                global_style.size14 +
-                " " +
-                global_style.error +
-                " " +
-                styles.text_left
-              }
-            >
-              {organisationDetailsError.organisation_logo_error_logo}
-            </div>
-          </Col>
-        </Row>
-      </div>
-      {props.isOrgSetting ? 
-      <Row>
-              <Col style={{ textAlign: "right", margin: "20px" }}>
-                 <Button
-                  id="cancelbutton_account"
-                   variant="outlined"
-                  className={global_style.secondary_button}
-                  onClick={() => history.push("/datahub/new_datasets")}
-                 >
-                   Cancel
-                 </Button>
-                 <Button
-                   id="submitbutton_account"
-                   variant="outlined"
-                   className={global_style.primary_button + " " + styles.next_button}
-                   disabled={
-                    organisationDetails.organisation_address &&
-                    organisationDetails.organisation_mail_id &&
-                    organisationDetails.organisation_country &&
-                    organisationDetails.organisation_description &&
-                    organisationDetails.organisation_name &&
-                    organisationDetails.organisation_pin_code &&
-                    organisationDetails.organisation_website_link &&
-                    preview
-                      ? false
-                      : true
+                helperText={organisationDetailsError.organisation_mail_id_error}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                fullWidth
+                required
+                placeholder="Website Link"
+                label="Website Link"
+                variant="outlined"
+                id="organisation_website_link"
+                name="organisation_website_link"
+                value={organisationDetails.organisation_website_link}
+                onChange={(e) => handleOrgChange(e)}
+                error={
+                  organisationDetailsError.organisation_website_link_error
+                    ? true
+                    : false
+                }
+                helperText={
+                  organisationDetailsError.organisation_website_link_error
+                }
+              />
+            </Col>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <MuiPhoneNumber
+                fullWidth
+                required
+                defaultCountry={"in"}
+                countryCodeEditable={false}
+                placeholder="Organisation Contact Number"
+                label="Organisation Contact Number"
+                variant="outlined"
+                id="organisation_contact_number"
+                name="organisation_contact_number"
+                value={organisationDetails.organisation_contact_number}
+                onChange={(value, countryData) =>
+                  handleOrgChange(value, countryData)
+                }
+                error={
+                  organisationDetailsError.organisation_contact_number_error
+                    ? true
+                    : false
+                }
+                helperText={
+                  organisationDetailsError.organisation_contact_number_error
+                }
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                fullWidth
+                required
+                placeholder="Organisation Address"
+                label="Organisation Address"
+                variant="outlined"
+                id="organisation_address"
+                name="organisation_address"
+                value={organisationDetails.organisation_address}
+                onChange={(e) => handleOrgChange(e)}
+                error={
+                  organisationDetailsError.organisation_address_error
+                    ? true
+                    : false
+                }
+                helperText={organisationDetailsError.organisation_address_error}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <FormControl required fullWidth>
+                <InputLabel id="country_label"> Country</InputLabel>
+                <Select
+                  required
+                  labelId="country_label"
+                  id="country_select"
+                  value={organisationDetails.organisation_country}
+                  name="organisation_country"
+                  onChange={(e) => handleOrgChange(e)}
+                  label="Country"
+                  error={
+                    organisationDetailsError.organisation_country_error
+                      ? true
+                      : false
                   }
-                  onClick={(e) => handleSubmitOrganizationDetails(e)}
-                 >
-                   Submit
-                 </Button>
-              </Col>
-             </Row> : 
-      <div className={styles.button_grp}>
-        <Button
-          onClick={() => setActiveStep((prev) => prev + 1)}
-          className={global_style.secondary_button}
-        >
-          {" "}
-          Finish later
-        </Button>
-        <Button
-          disabled={
-            organisationDetails.organisation_address &&
-            organisationDetails.organisation_mail_id &&
-            organisationDetails.organisation_country &&
-            organisationDetails.organisation_description &&
-            organisationDetails.organisation_name &&
-            organisationDetails.organisation_pin_code &&
-            organisationDetails.organisation_website_link &&
-            !organisationDetailsError.organisation_contact_number_error &&
-            preview
-              ? false
-              : true
-          }
-          onClick={(e) => handleSubmitOrganizationDetails(e)}
-          className={global_style.primary_button + " " + styles.next_button}
-        >
-          {" "}
-          {isLoggedInUserAdmin() ? "Next" : "Finish"}
-        </Button>
-      </div> }
-      {/* <div className={styles.send_otp_div}>
+                  helperText={
+                    organisationDetailsError.organisation_country_error
+                  }
+                >
+                  <MenuItem value={"in"}>India</MenuItem>
+                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
+                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                </Select>
+              </FormControl>
+            </Col>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                fullWidth
+                required
+                placeholder="PIN Code"
+                label="PIN Code"
+                variant="outlined"
+                id="organisation_pin_code"
+                name="organisation_pin_code"
+                value={organisationDetails.organisation_pin_code}
+                onChange={(e) => handleOrgChange(e)}
+                error={
+                  organisationDetailsError.organisation_pin_code_error
+                    ? true
+                    : false
+                }
+                helperText={
+                  organisationDetailsError.organisation_pin_code_error
+                }
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                fullWidth
+                required
+                rows={4}
+                multiline
+                placeholder="Organisation Description"
+                label="Organisation Description"
+                variant="outlined"
+                id="organisation_description"
+                name="organisation_description"
+                value={organisationDetails.organisation_description}
+                onChange={(e) => handleOrgChange(e)}
+                error={
+                  organisationDetailsError.organisation_description_error
+                    ? true
+                    : false
+                }
+                helperText={
+                  organisationDetailsError.organisation_description_error
+                }
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <FileUploaderMain
+                texts={
+                  "Drop files here or click browse thorough your machine,File size not more than "
+                }
+                maxSize={2}
+                isMultiple={false}
+                handleChange={handleUpload}
+                // setSizeError={() =>
+                //   setOrganisationDetailsError({
+                //     ...organisationDetailsError,
+                //     organisation_logo_error_logo: "Maximum size exceeds",
+                //   })
+                // }
+              />
+            </Col>
+            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+              <div
+                className={
+                  global_style.bold600 +
+                  " " +
+                  global_style.font20 +
+                  " " +
+                  styles.text_left
+                }
+              >
+                {preview && "Uploaded file"}
+              </div>
+              {console.log(preview)}
+              {preview && (
+                <div className={styles.text_left + " " + styles.preview_box}>
+                  {preview && (
+                    <img className={styles.preview_logo} src={preview} />
+                  )}
+                  <CancelIcon
+                    onClick={() => {
+                      setPreview(null);
+                      setUploadedLogo(null);
+                    }}
+                    style={{ cursor: "pointer" }}
+                    fontSize="small"
+                  />
+                </div>
+              )}
+              <div
+                className={
+                  global_style.size14 +
+                  " " +
+                  global_style.error +
+                  " " +
+                  styles.text_left
+                }
+              >
+                {organisationDetailsError.organisation_logo_error_logo}
+              </div>
+            </Col>
+          </Row>
+        </div>
+        {props.isOrgSetting ? (
+          <Row>
+            <Col style={{ textAlign: "right", margin: "20px" }}>
+              <Button
+                id="cancelbutton_account"
+                variant="outlined"
+                className={global_style.secondary_button}
+                onClick={() => history.push("/datahub/new_datasets")}
+              >
+                Cancel
+              </Button>
+              <Button
+                id="submitbutton_account"
+                variant="outlined"
+                className={
+                  global_style.primary_button + " " + styles.next_button
+                }
+                disabled={
+                  organisationDetails.organisation_address &&
+                  organisationDetails.organisation_mail_id &&
+                  organisationDetails.organisation_country &&
+                  organisationDetails.organisation_description &&
+                  organisationDetails.organisation_name &&
+                  organisationDetails.organisation_pin_code &&
+                  organisationDetails.organisation_website_link &&
+                  preview
+                    ? false
+                    : true
+                }
+                onClick={(e) => handleSubmitOrganizationDetails(e)}
+              >
+                Submit
+              </Button>
+            </Col>
+          </Row>
+        ) : (
+          <div className={styles.button_grp}>
+            <Button
+              onClick={() =>
+                !isLoggedInUserAdmin()
+                  ? setOnBoardedTrue()
+                  : setActiveStep((prev) => prev + 1)
+              }
+              className={global_style.secondary_button}
+            >
+              {" "}
+              Finish later
+            </Button>
+            <Button
+              disabled={
+                organisationDetails.organisation_address &&
+                organisationDetails.organisation_mail_id &&
+                organisationDetails.organisation_country &&
+                organisationDetails.organisation_description &&
+                organisationDetails.organisation_name &&
+                organisationDetails.organisation_pin_code &&
+                organisationDetails.organisation_website_link &&
+                !organisationDetailsError.organisation_contact_number_error &&
+                preview
+                  ? false
+                  : true
+              }
+              onClick={(e) => handleSubmitOrganizationDetails(e)}
+              className={global_style.primary_button + " " + styles.next_button}
+            >
+              {" "}
+              {isLoggedInUserAdmin() ? "Next" : "Finish"}
+            </Button>
+          </div>
+        )}
+        {/* <div className={styles.send_otp_div}>
 </div> */}
-    </div>
+      </div>
     </>
   );
 };
 
 export default OrganizationDetails;
-
