@@ -29,7 +29,7 @@ const FooterNew = () => {
       if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
         history.push("/datahub/participants");
       } else if (isLoggedInUserParticipant()) {
-        history.push("/participant/participants");
+        history.push("/home/participants");
       } else {
         history.push("/home/participants");
       }

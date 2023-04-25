@@ -163,10 +163,11 @@ const AddDataSet = (props) => {
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/new_datasets";
-    } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+    } else if (
+      isLoggedInUserAdmin() ||
+      (isLoggedInUserCoSteward() && getTokenLocal())
+    ) {
       return "/datahub/new_datasets";
-    } else if (isLoggedInUserCoSteward() && getTokenLocal()) {
-      return `/datahub/new_datasets`;
     }
   };
 
@@ -566,7 +567,7 @@ const AddDataSet = (props) => {
               },
             }}
             variant="outlined"
-            onClick={() => history.push("/participant/new_datasets")}
+            onClick={() => history.push(handleClickRoutes())}
           >
             Cancel
           </Button>
