@@ -72,7 +72,6 @@ const OrganizationDetails = (props) => {
       setOrganisationDetails({
         ...organisationDetails,
         organisation_contact_number: e ? e : "",
-        organisation_pin_code: e.target.value,
       });
     }
   };
