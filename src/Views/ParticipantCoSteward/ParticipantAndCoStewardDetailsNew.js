@@ -527,7 +527,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               onClick={() =>
                 user == "guest"
                   ? history.push(`/home/datasets/${dataset.id}`)
-                  : history.push(`/datahub/datasets/view/${dataset.id}`)
+                  : history.push(`/datahub/new_datasets/view/${dataset.id}`)
               }
               xs={12}
               sm={12}
