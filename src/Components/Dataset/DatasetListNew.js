@@ -11,6 +11,7 @@ import HTTPService from "../../Services/HTTPService";
 import {
   GetErrorHandlingRoute,
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
@@ -24,7 +25,7 @@ const DatasetListNew = (props) => {
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
 
   const getViewAllRoute = () => {
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/new_datasets`;
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets`;
@@ -34,7 +35,7 @@ const DatasetListNew = (props) => {
   };
 
   const handleCardClick = (id) => {
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/new_datasets/view/${id}`;
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets/view/${id}`;
