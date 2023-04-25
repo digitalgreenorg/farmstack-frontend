@@ -24,7 +24,10 @@ import NoData from "../../Components/NoData/NoData";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 
 const ParticipantAndCoStewardDetailsNew = (props) => {
-  let { isCosteward, isParticipantRequest } = props;
+  // to show as participants page pass isCosteward = true
+  //  as participants request pass isParticipantRequest = true
+  let { isCosteward, isParticipantRequest, user, userTypeCosteward, title } =
+    props;
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
 
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -90,14 +93,23 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
   const getParticipantsOrCostewardDetails = () => {
     callLoader(true);
-
-    HTTPService(
-      "GET",
-      UrlConstants.base_url + UrlConstants.participant + id + "/",
-      "",
-      false,
-      true
-    )
+    let isAuthorization = user == "guest" ? false : true;
+    let url = UrlConstants.base_url + UrlConstants.participant + id + "/";
+    let params = {};
+    if (user == "guest") {
+      url =
+        UrlConstants.base_url +
+        // UrlConstants.microsite_participant_end_point +
+        "microsite/participant/" +
+        id +
+        "/";
+    }
+    console.log("userTypeCosteward", userTypeCosteward);
+    if (userTypeCosteward == "Our co-stewards") {
+      params = { co_steward: "True" };
+    }
+    console.log("usertype", url, user);
+    HTTPService("GET", url, params, false, isAuthorization)
       .then((response) => {
         // callLoader(false);
         console.log("reasponce in view details of user", response.data);
@@ -147,8 +159,21 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     callLoader(true);
     let url =
       UrlConstant.base_url + UrlConstant.participant + "?on_boarded_by=" + id;
-
-    HTTPService("GET", url, "", false, true)
+    let isAuthorization = user == "guest" ? false : true;
+    let params = {};
+    if (user == "guest") {
+      url =
+        UrlConstants.base_url +
+        // UrlConstants.microsite_participant_end_point +
+        "microsite/participant/" +
+        "?on_boarded_by=" +
+        id;
+    }
+    console.log("userTypeCosteward", userTypeCosteward);
+    if (userTypeCosteward == "Our co-stewards are") {
+      params = { co_steward: "True" };
+    }
+    HTTPService("GET", url, params, false, isAuthorization)
       .then((response) => {
         callLoader(false);
         console.log("responce in getCoStewardOrParticipants", response);
@@ -224,6 +249,11 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
   const getDatasetOfParticipantOrCoSteward = (loadMore, user_id, org_id) => {
     let url = UrlConstants.base_url + UrlConstants.costeward_onboarded_dataset;
+    let isAuthorization = true;
+    if (user == "guest") {
+      url = UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data;
+      isAuthorization = false;
+    }
     if (loadMore) {
       if (isCosteward) callLoader(true);
       url = datasetLoadMoreUrl;
@@ -234,7 +264,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       others: false,
     };
 
-    HTTPService("POST", url, payload, false, true)
+    HTTPService("POST", url, payload, false, isAuthorization)
       .then((res) => {
         if (isParticipantRequest) {
           callLoader(false);
@@ -330,7 +360,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest ? (
+          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
             <>
               <Button
                 variant="outlined"
@@ -353,7 +383,11 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 variant="outlined"
                 className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
                 onClick={(e) =>
-                  history.push(`/datahub/participants/edit/${id}`)
+                  history.push(
+                    `/datahub/${
+                      isCosteward ? "costeward" : "participants"
+                    }/edit/${id}`
+                  )
                 }
               >
                 <img
@@ -491,7 +525,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           return (
             <Col
               onClick={() =>
-                history.push(`/datahub/dataset/view/${dataset.id}`)
+                user == "guest"
+                  ? history.push(`/home/datasets/${dataset.id}`)
+                  : history.push(`/datahub/datasets/view/${dataset.id}`)
               }
               xs={12}
               sm={12}
@@ -512,8 +548,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         {datasetList.length == 0 ? (
           <Box className={LocalStyle.noDataBox} p={3}>
             <NoData
-              title={"There are no dataset"}
-              subTitle={"As of now there are no dataset"}
+              title={""}
+              subTitle={"As of now there are no datasets"}
               // primaryButton={"Add participant"}
               // primaryButtonOnClick={() =>
               //   history.push("/datahub/participants/add")
@@ -547,6 +583,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {isCosteward ? (
         <CoStewardAndParticipantsCard
           title={"Co-steward participants"}
+          user={user}
           viewType={false}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}

@@ -7,8 +7,11 @@ import DataSetsTitleView from "./DataSetsTitleView";
 import DataSetsListView from "../DataSetsListView";
 import {
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../../Utils/Common";
+import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
+import { CSSTransition } from "react-transition-group";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -34,34 +37,56 @@ const DataSetsTab = ({
   getOtherDataSets,
   datasetList,
   memberDatasetList,
+  filteredDatasetList,
+  filteredMemberDatasetList,
   showLoadMoreAdmin,
   showLoadMoreMember,
   value,
   setValue,
   user,
+  setType,
+  setCategorises,
+  setGeographies,
+  setDates,
+  setFromDate,
+  setToDate,
+  setSearchDatasetsName,
+  clearFilter,
+  setFilterState,
 }) => {
   const [isGrid, setIsGrid] = useState(true);
   const [isGridOther, setIsGridOther] = useState(true);
   const [isGridSteward, setIsGridSteward] = useState(true);
 
   const handleChange = (event, newValue) => {
+    setType("");
+    setCategorises([]);
+    setGeographies([]);
+    setDates([{ fromDate: null, toDate: null }]);
+    setFromDate("");
+    setToDate("");
+    setSearchDatasetsName("");
+    // clearFilter();
+    setFilterState({});
     setValue(newValue);
   };
 
   useEffect(() => {
     if (value === 0) {
       getDataSets(false);
-    } else if (value === 1) {
+    }
+    if (value === 1) {
       getOtherDataSets(false);
-    } else if (value === 2) {
     }
   }, [value]);
 
   const handleCardClick = (id) => {
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/new_datasets/view/${id}`;
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets/view/${id}`;
+    } else if (user === "guest") {
+      return `/home/datasets/${id}`;
     }
   };
 
@@ -133,13 +158,28 @@ const DataSetsTab = ({
                   </span>
                 }
               />
+              <Tab
+                sx={{
+                  "&.MuiButtonBase-root": {
+                    minWidth: "200px",
+                  },
+                }}
+                label={
+                  <span
+                    className={
+                      value == 2 ? "tab_header_selected" : "tab_header"
+                    }
+                  >
+                    Requests
+                  </span>
+                }
+              />
               {/* <Tab label={<span className={value == 2 ? 'tab_header_selected' : 'tab_header'}>Co-steward</span>} /> */}
             </Tabs>
           </Box>
         ) : (
           ""
         )}
-        {!user}
         <TabPanel value={value} index={0}>
           <Box className="mb-100">
             <DataSetsTitleView
@@ -154,7 +194,16 @@ const DataSetsTab = ({
               history={history}
               addDataset={addDataset}
             />
-            {isGrid ? (
+            <CSSTransition
+              in={isGrid}
+              timeout={{
+                appear: 600,
+                enter: 700,
+                exit: 100,
+              }}
+              classNames="step"
+              unmountOnExit={true}
+            >
               <div className="datasets_card">
                 {user !== "guest" ? (
                   <AddDataSetCardNew
@@ -169,21 +218,38 @@ const DataSetsTab = ({
                     key={item?.id}
                     history={history}
                     item={item}
+                    value={
+                      value === 0 && user !== "guest" ? "my_organisation" : ""
+                    }
                     handleCardClick={
-                      user == "guest"
-                        ? () => history.push(`/home/dataset/${item.id}`)
+                      user === "guest"
+                        ? () => {
+                            return `/home/datasets/${item.id}`;
+                          }
                         : handleCardClick
                     }
                   />
                 ))}
               </div>
-            ) : (
+            </CSSTransition>
+
+            <CSSTransition
+              in={!isGrid}
+              timeout={{
+                appear: 600,
+                enter: 700,
+                exit: 100,
+              }}
+              classNames="step"
+              unmountOnExit={true}
+            >
               <DataSetsListView
                 datasets={datasetList}
                 history={history}
+                value={value === 0 && user !== "guest" ? "my_organisation" : ""}
                 handleCardClick={handleCardClick}
               />
-            )}
+            </CSSTransition>
             {showLoadMoreAdmin ? (
               <Button
                 variant="outlined"
@@ -211,6 +277,7 @@ const DataSetsTab = ({
                 {memberDatasetList?.map((item) => (
                   <DataSetCardNew
                     key={item?.id}
+                    value={value === 1 ? "other_organisation" : ""}
                     history={history}
                     item={item}
                     handleCardClick={handleCardClick}
@@ -220,6 +287,7 @@ const DataSetsTab = ({
             ) : (
               <DataSetsListView
                 datasets={memberDatasetList}
+                value={value === 1 ? "other_organisation" : ""}
                 history={history}
                 handleCardClick={handleCardClick}
               />
@@ -237,22 +305,9 @@ const DataSetsTab = ({
             )}
           </Box>
         </TabPanel>
-        {/* <TabPanel value={value} index={2}>
-                    <Box className='mb-100'>
-                        <DataSetsTitleView title={'Co-steward datasets'} isGrid={isGridSteward} setIsGrid={setIsGridSteward} history={history} addDataset={addDataset} />
-                        {isGridSteward ?
-                            <div className='datasets_card'>
-                                <AddDataSetCardNew history={history} addDataset={addDataset} />
-                                {state.map((s) => (
-                                    <DataSetCardNew history={history} />
-                                ))}
-                            </div>
-                            :
-                            <DataSetsListView datasets={state} history={history} />
-                        }
-                        <Button variant="outlined" className='d_button_style'>Load more</Button>
-                    </Box>
-                </TabPanel> */}
+        <TabPanel value={value} index={2}>
+          <DatasetRequestTable />
+        </TabPanel>
       </Box>
     </Box>
   );

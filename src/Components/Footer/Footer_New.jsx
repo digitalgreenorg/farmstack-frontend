@@ -1,16 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import style from "./Footer_New.module.css";
 import ContainedButton from "../Button/ContainedButton";
+import { useHistory } from "react-router-dom";
+import HTTPService from "../../Services/HTTPService";
+import UrlConstant from "../../Constants/UrlConstants";
 
 const FooterNew = () => {
   const handleSubscribe = () => {};
-
+  const history = useHistory();
+  const [adminData, setAdminData] = useState(null);
+  let url =
+    "https://datahubethdev.farmstack.co/be/microsite/admin_organization/";
+  useEffect(() => {
+    let method = "GET";
+    // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
+    HTTPService(method, url, "", false, false, false, false, false)
+      .then((response) => {
+        setAdminData(response.data);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <Box sx={{ padding: "40px", marginLeft: "144px", marginRight: "144px" }}>
       <div className="logo_container text-left">
         <img
-          src={require("../../Assets/Img/footer_logo.svg")}
+          height={"60px"}
+          width={"180px"}
+          src={
+            UrlConstant.base_url_without_slash + adminData?.organization?.logo
+          }
           alt="footerLogo"
         />
       </div>
@@ -20,7 +42,7 @@ const FooterNew = () => {
           <div className="mb-30 mt-20">
             <div className={`${style.footerLightText} text-left`}>Email</div>
             <div className={`${style.footerDarkText} mt-2 text-left`}>
-              info@ata.org
+              {adminData?.user?.email ?? ""}
             </div>
           </div>
           <div className="mb-30">
@@ -28,14 +50,17 @@ const FooterNew = () => {
               Datahub admin phone
             </div>
             <div className={`${style.footerDarkText} mt-2 text-left`}>
-              +91 98765 43210
+              {adminData?.user?.phone_number ?? ""}
             </div>
           </div>
           <div>
             <div className={`${style.footerLightText} text-left`}>
               Organization Website
             </div>
-            <div className={`${style.link} mt-2`}>www.ethopianata.com</div>
+            <div className={`${style.link} mt-2`}>
+              {" "}
+              {adminData?.organization?.website ?? ""}
+            </div>
           </div>
         </div>
         <div className={`links w-25`}>
@@ -43,7 +68,11 @@ const FooterNew = () => {
           <div className={`footer_link mt-20`}>
             <div className="d-flex justify-content-between w-100">
               <div className={`${style.footerLightText}`}>Home</div>
-              <div className={`${style.footerLightText} ${style.flexWidth}`}>
+
+              <div
+                onClick={() => history.push("/home/contact")}
+                className={`${style.footerLightText} ${style.flexWidth}`}
+              >
                 Contact us
               </div>
             </div>
@@ -53,6 +82,7 @@ const FooterNew = () => {
               </div>
               <div
                 className={`${style.footerLightText} ${style.flexWidth} mt-10`}
+                onClick={() => history.push("/home/legal")}
               >
                 Legal
               </div>

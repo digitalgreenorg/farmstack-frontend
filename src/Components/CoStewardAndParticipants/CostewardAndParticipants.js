@@ -12,21 +12,33 @@ const CoStewardAndParticipantsCard = (props) => {
     coStewardOrParticipantsList,
     viewType,
     setViewType,
-    title,
+    title, // card is being render based in title if title is changing check all condition based on title
     handleLoadMoreButton,
     loadMoreButton,
+    user,
+    guestUser,
   } = props;
   const history = useHistory();
 
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
-    if (title == "Participants" || title == "Co-steward participants") {
+    console.log("handleViewDataset", title, id);
+    if (
+      (title == "Participants" || title == "Co-steward participants") &&
+      user == "guest"
+    ) {
+      history.push(`/home/participants/view/${id}`);
+    } else if (title == "Participants" || title == "Co-steward participants") {
       history.push(`/datahub/participants/view/${id}`);
     } else if (title == "Co-steward") {
       history.push(`/datahub/costeward/view/${id}`);
     } else if (title == "New participant requests") {
       history.push(`/datahub/participants/view/approve/${id}`);
+    } else if (title == "Our Participants are") {
+      history.push(`/home/participants/view/${id}`);
+    } else if (title == "Our co-stewards are") {
+      history.push(`/home/costeward/view/${id}`);
     }
   };
 
@@ -137,7 +149,7 @@ const CoStewardAndParticipantsCard = (props) => {
               </div>
             </Row>
           </Col>
-        ) : viewType ? (
+        ) : viewType && setViewType ? (
           <Col
             className={LocalStyle.listAndGridViewButton}
             xs={6}
@@ -284,6 +296,7 @@ const CoStewardAndParticipantsCard = (props) => {
             ""
           )}
           {coStewardOrParticipantsList?.map((participant, index) => {
+            let id = participant?.user_id;
             return (
               <Col
                 id={title + "grid-card-id"}
@@ -292,19 +305,21 @@ const CoStewardAndParticipantsCard = (props) => {
                 sm={12}
                 md={6}
                 xl={4}
-                onClick={() => handleViewDataset(participant?.user_id)}
+                onClick={() => handleViewDataset(id)}
               >
                 <CustomCard
                   image={participant?.organization?.logo}
                   title={participant?.organization?.name}
                   subTitle1="Datasets"
                   subTitle2={
-                    title == "Participants" ? "" : "No.of participants"
+                    title == "Participants" || title == "Our Participants are"
+                      ? "Root user"
+                      : "No.of participants"
                   }
                   subTitle1Value={participant?.dataset_count}
                   subTitle2Value={
-                    title == "Participants"
-                      ? undefined
+                    title == "Participants" || title == "Our Participants are"
+                      ? participant?.user?.first_name
                       : participant?.number_of_participants
                   }
                   index={index}
@@ -384,7 +399,7 @@ const CoStewardAndParticipantsCard = (props) => {
               ""
             )}
           </Row>
-          <hr />
+          {/* <hr /> */}
           <div className={LocalStyle.cardContainerList}>
             {coStewardOrParticipantsList?.map((item, index) => {
               return (
@@ -450,7 +465,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       ""
                     )}
                   </Row>
-                  <hr />
+                  {/* <hr /> */}
                 </>
               );
             })}

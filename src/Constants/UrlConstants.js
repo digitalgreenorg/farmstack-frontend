@@ -57,6 +57,10 @@ const UrlConstant = {
   standardised_file: "datahub/dataset_files/",
   usage_policy: "datahub/dataset_files/",
   delete_dataset: "datahub/new_dataset_v2/",
+  download_file: "protected-media/?id=",
+  public_download_file: "microsite/microsite_media_view?id=",
+  ask_for_permission: "datahub/usage_policies/",
+  grant_for_permission: "datahub/usage_policies/",
 
   guest_organization_details: "microsite/admin_organization/",
   guest_dataset_listing: "microsite/datasets/",
@@ -84,7 +88,9 @@ const UrlConstant = {
   microsite_costeward_end_point:
     "microsite/participant/organizations/?co_steward=True",
   microsite_participant_end_point: "microsite/participant/organizations/",
+  microsite_participant_end_point_new: "microsite/participant/",
   microsite_get_policy: "microsite/policy/",
+  microsite_category: "microsite/datasets/category/",
 
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",

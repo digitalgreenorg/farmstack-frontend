@@ -14,7 +14,8 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./ParticipantsCarouselNew.module.css";
 
-const ParticipantsCarouselNew = () => {
+const ParticipantsCarouselNew = (props) => {
+  const { isCosteward } = props;
   const settings = {
     dots: true,
     infinite: true,
@@ -39,11 +40,13 @@ const ParticipantsCarouselNew = () => {
     callLoader(true);
 
     let url =
-      UrlConstant.base_url + UrlConstant.microsite_participant_end_point;
+      UrlConstant.base_url + UrlConstant.microsite_participant_end_point_new;
+    let params = {};
+    if (isCosteward) params = { co_steward: "True" };
 
     if (approval_endpoint)
       url = UrlConstant.participant + unApprovedId + "?approval_status=True";
-    HTTPService("GET", url, "", false, false)
+    HTTPService("GET", url, params, false, false)
       .then((response) => {
         callLoader(false);
         // if (response?.data?.next == null) {
@@ -105,7 +108,13 @@ const ParticipantsCarouselNew = () => {
                   md={6}
                   xl={4}
                   onClick={() =>
-                    history.push(`/home/participant/${participant?.user_id}`)
+                    isCosteward
+                      ? history.push(
+                          `/home/costeward/view/${participant?.user_id}`
+                        )
+                      : history.push(
+                          `/home/participants/view/${participant?.user_id}`
+                        )
                   }
                 >
                   <CustomCard

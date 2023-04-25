@@ -1175,10 +1175,15 @@ textarea {
 }
 
 .input_field_subscribe
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
 }
+
+/* .input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  padding-right: 0px !important;
+  border-radius: 8px !important;
+} */
 
 .cursor-pointer {
   cursor: pointer;
@@ -1255,12 +1260,15 @@ textarea {
 .MuiSnackbar-root {
   top: 95px !important;
 }
+
 .category_detail_main_box .MuiInputAdornment-root {
   height: 25px !important;
 }
+
 .category_detail_main_box .MuiInputAdornment-root .btn-primary {
   padding: 0px 10px !important;
 }
+
 /* snackbar */
 /* .mainOnboardingParent .MuiSnackbar-root {
   top: 0px !important;
@@ -1271,29 +1279,40 @@ textarea {
   font-family: "Montserrat" !important;
   text-align: center;
 }
+
 .rich_text_editor {
   text-align: left;
 }
+
 .rich_text_editor .public-DraftEditorPlaceholder-inner::after {
   content: " *";
   color: red !important;
 }
+
 .rich_text_editor .DraftEditor-root,
 .DraftEditor-editorContainer,
 .public-DraftEditor-content {
   height: 150px !important;
   max-height: 250px !important;
 }
+
 .edit_head_name_accordion .MuiInputBase-root:nth-child(1) {
   width: 70% !important;
   height: 40px !important;
 }
+
 .accordions_in_onboarding .MuiAccordionSummary-content {
   align-items: center !important;
 }
+
 .stepper_ .DraftEditor-editorContainer,
 .DraftEditor-root,
 .DraftEditor-editorContainer {
   overflow: auto !important;
   display: contents !important;
+}
+
+.requestTableContainer .MuiTableCell-root {
+  border-left: none !important;
+  /* padding: 30px 30px; */
 }

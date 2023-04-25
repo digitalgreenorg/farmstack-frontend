@@ -6,6 +6,12 @@ import DatasetListNew from "../../Components/Dataset/DatasetListNew";
 import ParticipantsCarouselNew from "../../Components/Participants/ParticipantsCarouselNew";
 import LocalStyle from "./GuestUserHomeNew.module.css";
 import { useHistory } from "react-router-dom";
+import {
+  getUserLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
+} from "../../Utils/Common";
 
 const GuestUserHome = () => {
   let history = useHistory();
@@ -30,6 +36,16 @@ const GuestUserHome = () => {
             </div>
             <Row className={`${LocalStyle.buttonContainer}`}>
               <Button
+                onClick={() =>
+                  history.push(
+                    getUserLocal() &&
+                      (isLoggedInUserAdmin() || isLoggedInUserCoSteward())
+                      ? "/datahub/new_datasets"
+                      : getUserLocal() && isLoggedInUserParticipant()
+                      ? "/participant/new_datasets"
+                      : "/login"
+                  )
+                }
                 className={`${LocalStyle.primaryButton} ${GlobalStyles.primary_button}`}
               >
                 Get Started
@@ -113,6 +129,31 @@ const GuestUserHome = () => {
         </Row>
       </div>
       <Container>
+        <div>
+          <div className={LocalStyle.participanttitleContainer}>
+            <Typography
+              className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+            >
+              Our co-steward network
+            </Typography>
+            <Typography
+              className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
+              tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
+              neque quis metus pretium tempus.
+            </Typography>
+          </div>
+          <ParticipantsCarouselNew isCosteward={true} />
+          <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
+            <Button
+              className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
+              onClick={() => history.push("/home/costeward")}
+            >
+              View all co-steward
+            </Button>
+          </Row>
+        </div>
         <div className={LocalStyle.participanttitleContainer}>
           <Typography
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
@@ -131,7 +172,7 @@ const GuestUserHome = () => {
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
             className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
-            onClick={() => history.push("/home/datasets")}
+            onClick={() => history.push("/home/participants")}
           >
             View all participants
           </Button>

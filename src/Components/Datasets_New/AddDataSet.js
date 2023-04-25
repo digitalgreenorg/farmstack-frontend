@@ -6,6 +6,7 @@ import {
   getTokenLocal,
   getUserMapId,
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import "./AddDataSet.css";
@@ -50,6 +51,7 @@ const AddDataSet = (props) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDatasetCreated, setIsDatasetCreated] = useState(false);
 
   // Upload File
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -92,12 +94,20 @@ const AddDataSet = (props) => {
       let accessToken = getTokenLocal() ?? false;
       let url = "";
       let method = "";
-      if (props.isEditModeOn && props.datasetIdForEdit) {
-        url =
-          UrlConstant.base_url +
-          UrlConstant.add_basic_dataset +
-          props.datasetIdForEdit +
-          "/";
+      if ((props.isEditModeOn && props.datasetIdForEdit) || isDatasetCreated) {
+        if (props.isEditModeOn && props.datasetIdForEdit) {
+          url =
+            UrlConstant.base_url +
+            UrlConstant.add_basic_dataset +
+            props.datasetIdForEdit +
+            "/";
+        } else {
+          url =
+            UrlConstant.base_url +
+            UrlConstant.add_basic_dataset +
+            datasetId +
+            "/";
+        }
         method = "PUT";
       } else {
         url = UrlConstant.base_url + UrlConstant.add_basic_dataset;
@@ -109,6 +119,7 @@ const AddDataSet = (props) => {
           callLoader(false);
           if (!props.isEditModeOn && !props.datasetIdForEdit) {
             setDatasetId(res?.data?.id);
+            setIsDatasetCreated(true);
           }
           setValue(value + 1);
         })
@@ -154,6 +165,8 @@ const AddDataSet = (props) => {
       return "/participant/new_datasets";
     } else if (isLoggedInUserAdmin() && getTokenLocal()) {
       return "/datahub/new_datasets";
+    } else if (isLoggedInUserCoSteward() && getTokenLocal()) {
+      return `/datahub/new_datasets`;
     }
   };
 
@@ -196,6 +209,8 @@ const AddDataSet = (props) => {
         if (isLoggedInUserParticipant() && getTokenLocal()) {
           history.push("/participant/new_datasets");
         } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+          history.push("/datahub/new_datasets");
+        } else if (isLoggedInUserCoSteward() && getTokenLocal()) {
           history.push("/datahub/new_datasets");
         }
       })
@@ -258,7 +273,7 @@ const AddDataSet = (props) => {
               (dataset) => dataset.source === "postgresql"
             );
             let tempRestApiFiles = response.data.datasets?.filter(
-              (dataset) => dataset.source === "restApi"
+              (dataset) => dataset.source === "live_api"
             );
             let tempUploadedFiles = [];
             if (tempFiles && tempFiles?.length > 0) {

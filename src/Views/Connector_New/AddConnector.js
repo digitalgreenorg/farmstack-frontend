@@ -9,8 +9,10 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
+  getOrgLocal,
   getTokenLocal,
   getUserLocal,
+  getUserMapId,
   goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -144,6 +146,7 @@ const AddConnector = (props) => {
         (isLoggedInUserCoSteward() ? "true" : "false");
       payload = {
         datasets: [...list],
+        user_map: getUserMapId() ?? "",
       };
     } else if (type == "file") {
       url =
@@ -163,7 +166,7 @@ const AddConnector = (props) => {
         UrlConstant.get_dataset_name_list +
         "?org_id=" +
         value +
-        "&user=" +
+        "&user:q=" +
         getUserLocal() +
         "&co_steward=" +
         (isLoggedInUserCoSteward() ? "true" : "false");
@@ -220,10 +223,10 @@ const AddConnector = (props) => {
       url =
         UrlConstant.base_url +
         UrlConstant.get_org_name_list +
-        "?user=" +
+        "?user_id=" +
         getUserLocal() +
-        "&co_steward=" +
-        (isLoggedInUserCoSteward() ? "true" : "false");
+        "&on_boarded_by=" +
+        (isLoggedInUserCoSteward() ? getUserLocal() : "");
     } else if (source == "dataset_names") {
       url =
         UrlConstant.base_url +
@@ -611,7 +614,10 @@ const AddConnector = (props) => {
           callToast("Data saved successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
             history.push("/participant/connectors");
-          } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+          } else if (
+            isLoggedInUserAdmin() ||
+            (isLoggedInUserCoSteward() && getTokenLocal())
+          ) {
             history.push("/datahub/connectors");
           }
 
@@ -626,7 +632,10 @@ const AddConnector = (props) => {
           callToast("Connector deleted successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
             history.push("/participant/connectors");
-          } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+          } else if (
+            isLoggedInUserAdmin() ||
+            (isLoggedInUserCoSteward() && getTokenLocal())
+          ) {
             history.push("/datahub/connectors");
           }
           resetAll();
@@ -745,7 +754,10 @@ const AddConnector = (props) => {
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/connectors";
-    } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+    } else if (
+      isLoggedInUserAdmin() ||
+      (isLoggedInUserCoSteward() && getTokenLocal())
+    ) {
       return "/datahub/connectors";
     }
   };
@@ -904,7 +916,9 @@ const AddConnector = (props) => {
           </>
         ) : (
           <Box className={style.mt114 + " " + style.mb139}>
-            <EmptyFile text={"As of now, there is no dataset for connectors"} />
+            <EmptyFile
+              text={"As of now, there are no datasets for connectors"}
+            />
           </Box>
         )}
         {completeData.length > 0 &&

@@ -165,7 +165,7 @@ const UploadFile = ({
   const getTotalSizeInMb = (data) => {
     let total = 0;
     data.forEach((element) => {
-      let converted = element?.size / Math.pow(1024, 2);
+      let converted = element?.file_size / Math.pow(1024, 2);
       total = parseFloat(total) + parseFloat(converted?.toFixed(2));
     });
     return total;
@@ -180,7 +180,7 @@ const UploadFile = ({
             <File
               index={index}
               name={tempFileName}
-              size={item?.size}
+              size={item?.file_size}
               id={item?.id}
               handleDelete={handleDelete}
               type={type}
@@ -197,7 +197,24 @@ const UploadFile = ({
             <File
               index={index}
               name={tempFileName}
-              size={item?.size}
+              size={item?.file_size}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={type}
+              showDeleteIcon={true}
+            />
+          );
+        });
+        return arr;
+      } else if (data && type === "restApifiles") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={tempFileName}
+              size={item?.file_size}
               id={item?.id}
               handleDelete={handleDelete}
               type={type}
@@ -605,7 +622,7 @@ const UploadFile = ({
       )
         .then((res) => {
           callLoader(false);
-          setSqlFiles([...sqlFiles, ...res.data]);
+          setSqlFiles([...sqlFiles, res.data]);
         })
         .catch((err) => {
           callLoader(false);
@@ -637,7 +654,7 @@ const UploadFile = ({
       )
         .then((res) => {
           callLoader(false);
-          setPostgresFiles([...postgresFiles, ...res.data]);
+          setPostgresFiles([...postgresFiles, res.data]);
         })
         .catch((err) => {
           callLoader(false);
@@ -694,12 +711,12 @@ const UploadFile = ({
         "POST",
         UrlConstant.base_url + UrlConstant.live_api,
         body,
-        true,
+        false,
         true,
         accessToken
       )
         .then((res) => {
-          setRestApiFiles([restApifiles, ...res.data]);
+          setRestApiFiles([...restApifiles, res.data]);
           setIsApiConnected(true);
         })
         .catch((err) => {
@@ -707,7 +724,7 @@ const UploadFile = ({
         });
     }
   };
-
+  console.log(restApifiles);
   return (
     <div className="mt-20">
       <Typography
@@ -1033,6 +1050,10 @@ const UploadFile = ({
                 setAuthTypes={setAuthTypes}
                 authToken={authToken}
                 setAuthToken={setAuthToken}
+                authApiKeyName={authApiKeyName}
+                setAuthApiKeyName={setAuthApiKeyName}
+                authApiKeyValue={authApiKeyValue}
+                setAuthApiKeyValue={setAuthApiKeyValue}
                 exportFileName={exportFileName}
                 setExportFileName={setExportFileName}
                 handleClearFields={handleClearFields}
