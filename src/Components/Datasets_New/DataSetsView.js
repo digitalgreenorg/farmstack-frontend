@@ -507,7 +507,6 @@ const DataSetsView = (props) => {
           {categories && categories.length ? "Dataset category" : ""}
         </div>
         <Box className="mt-20">
-          {console.log(categories, "isempty")}
           <ControlledAccordion data={categories} />
         </Box>
         <div className="bold_title mt-50">{"Dataset files"}</div>
