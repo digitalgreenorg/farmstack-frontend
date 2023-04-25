@@ -199,6 +199,10 @@ const Standardise = ({
           mapped_category: datapointCategory[index]?.datapoint_category,
           masked: maskedColumns.includes(column),
         };
+      } else if (standardisedColum.includes(column)) {
+        config[column] = {
+          masked: maskedColumns.includes(column),
+        };
       }
     });
 
