@@ -33,7 +33,7 @@ const DatasetCart = (props) => {
         <div className={LocalStyle.alighCenter}>
           <img src={require("../../Assets/Img/apartment.svg")} />
           <Typography
-            className={`${LocalStyle.cardSubtitle} ${GlobalStyle.highlighted_text} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
+            className={`${LocalStyle.cardSubtitle} ${LocalStyle.orgText} ${GlobalStyle.highlighted_text} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
           >
             {orgnisationName}
           </Typography>

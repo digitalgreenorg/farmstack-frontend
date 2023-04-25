@@ -140,6 +140,11 @@
     text-align: center;
     color: #000000;
     margin-left: 7px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 250px;
+    text-align: left;
 }
 
 .d_content_text {
