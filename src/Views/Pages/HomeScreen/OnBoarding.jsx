@@ -164,7 +164,7 @@ ColorlibStepIcon.propTypes = {
 };
 
 export default function OnBoarding() {
-  const [activeStep, setActiveStep] = React.useState(-1);
+  const [activeStep, setActiveStep] = React.useState(3);
   let dev_mode =
     Window?.ENV_VARS?.REACT_APP_DEV_MODE || process.env.REACT_APP_DEV_MODE;
   console.log(dev_mode);
