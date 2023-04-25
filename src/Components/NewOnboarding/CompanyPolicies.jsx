@@ -261,7 +261,7 @@ const CompanyPolicies = (props) => {
         setIsLogoLinkE(true);
         return () => URL.revokeObjectURL(objectUrl); // clean up function
       } else if (dataOfFile) {
-        console.log("data is happening", dataOfFile)
+        console.log("data is calling", dataOfFile)
         setPreviewE(dataOfFile);
         setIsLogoLinkE(true);
       } else {
