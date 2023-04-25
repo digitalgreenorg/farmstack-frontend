@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import global_style from "../../Assets/CSS/global.module.css";
+import global_styles from "../../Assets/CSS/global.module.css";
 import local_style from "./request_card.module.css";
 import { Col, Row } from "react-bootstrap";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
+  Avatar,
   Box,
   Button,
   FormControl,
@@ -12,6 +14,11 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
@@ -21,11 +28,14 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { daysSincePublish } from "../NewOnboarding/utils";
-import { Badge } from "antd";
+import { Badge, Popconfirm } from "antd";
 import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
 const RequestCardForApprovalOrReject = (props) => {
   const { data, setApprovalStatus, approvalStatus } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const [requestReceivedColumns, setRequestReceivedColumns] = useState([]);
+  const [noDataRequest, setNoDataRequest] = useState(true);
+
   const [toDate, setToDate] = useState({});
   const [requestToShow, setRequestsToShow] = useState([]);
   const SubmitHandler = (condition, usagePolicyId) => {
@@ -64,12 +74,31 @@ const RequestCardForApprovalOrReject = (props) => {
       });
   };
   const [filter, setFilter] = useState("all");
+
   const [filterOptions, setFilterOptions] = useState([
     { label: "All", value: "all" },
     { label: "Approved", value: "approved" },
     { label: "Pending", value: "requested" },
     { label: "Rejected", value: "rejected" },
   ]);
+  const [open, setOpen] = useState(false);
+  const [confirmIndex, setConfirmIndex] = useState(-1);
+
+  const showPopconfirm = (index) => {
+    setOpen(true);
+    setConfirmIndex(index);
+  };
+
+  const handleOk = (condition, usagePolicyId) => {
+    // setConfirmLoading(true);
+
+    SubmitHandler(condition, usagePolicyId);
+  };
+
+  const handleCancel = () => {
+    setConfirmIndex(-1);
+    setOpen(false);
+  };
   const handleFilterChange = (event, filterSelected) => {
     setFilter(filterSelected);
     console.log(data, "data");
@@ -80,8 +109,13 @@ const RequestCardForApprovalOrReject = (props) => {
         if (data[i]?.accessibility == "private") {
           arr = [...arr, data[i]];
         }
+
+        if (data[i]?.usage_policy?.length > 0) {
+          setNoDataRequest(false);
+        }
       }
       // console.log(arr);
+
       setRequestsToShow([...arr]);
       return;
     }
@@ -94,6 +128,9 @@ const RequestCardForApprovalOrReject = (props) => {
           return eachUsagePolicy.approval_status == filterSelected;
         });
         obj["usage_policy"] = [...eachArr];
+        if (eachArr?.length > 0) {
+          setNoDataRequest(false);
+        }
         arr.push(obj);
       }
     }
@@ -106,6 +143,17 @@ const RequestCardForApprovalOrReject = (props) => {
   };
 
   useEffect(() => {
+    let columnsForReceived = [
+      "Dataset details",
+      "Organization details",
+      "Status",
+      // "Accessibility time",
+      "Actions",
+    ];
+    setRequestReceivedColumns(columnsForReceived);
+  }, []);
+  useEffect(() => {
+    let show = true;
     console.log("use Effect calling");
     if (filter == "all" || !filter) {
       console.log(filter, data);
@@ -113,9 +161,13 @@ const RequestCardForApprovalOrReject = (props) => {
       for (let i = 0; i < data.length; i++) {
         if (data[i]?.accessibility == "private") {
           arr = [...arr, data[i]];
+          if (data[i]?.usage_policy?.length > 0) {
+            show = false;
+          }
         }
       }
       // console.log(arr);
+      setNoDataRequest(show);
       setRequestsToShow([...arr]);
       return;
     }
@@ -127,13 +179,17 @@ const RequestCardForApprovalOrReject = (props) => {
           console.log(eachUsagePolicy.approval_status, filter);
           return eachUsagePolicy.approval_status == filter;
         });
+        if (eachArr?.length > 0) {
+          show = false;
+        }
         obj["usage_policy"] = [...eachArr];
         arr.push(obj);
       }
     }
+    setNoDataRequest(show);
     setRequestsToShow([...arr]);
   }, [data]);
-
+  let counter = 0;
   return (
     <>
       {data?.length > 0 && (
@@ -180,266 +236,423 @@ const RequestCardForApprovalOrReject = (props) => {
           </Col>
         </Row>
       )}
-      {requestToShow.length > 0 ? (
-        requestToShow?.map((eachDatasetFile, index) => {
-          if (eachDatasetFile?.accessibility == "private")
-            return (
-              <span>
-                {eachDatasetFile?.usage_policy?.length > 0 ? (
-                  eachDatasetFile?.usage_policy.map(
-                    (eachUsagePolicy, usagePolicyIndex) => {
-                      return (
-                        <Box className={local_style.request_card}>
-                          <Badge.Ribbon
-                            text={
-                              eachUsagePolicy.approval_status == "rejected"
-                                ? "Rejected"
-                                : eachUsagePolicy.approval_status == "approved"
-                                ? "Approved"
-                                : "Pending"
-                            }
-                            color={
-                              eachUsagePolicy.approval_status == "rejected"
-                                ? "#ff5630"
-                                : eachUsagePolicy.approval_status == "approved"
-                                ? "#00ab55"
-                                : "yellow"
-                            }
-                          >
-                            <Row>
-                              <Col
-                                lg={6}
-                                md={12}
-                                sm={12}
-                                className={
-                                  global_style.bold600 +
-                                  " " +
-                                  global_style.size32 +
-                                  " " +
-                                  local_style.text_left
-                                }
-                              >
-                                <div>{eachUsagePolicy.organization?.name}</div>
-                              </Col>
-                              <Col lg={6} md={12} sm={12}>
-                                <div
-                                  className={
-                                    global_style.bold400 +
-                                    " " +
-                                    global_style.size16
-                                  }
-                                >
-                                  {eachUsagePolicy.approval_status ==
-                                    "approved" && (
+
+      <Table
+        sx={{
+          "& .MuiTableCell-root": {
+            // borderLeft: "1px solid rgba(224, 224, 224, 1)",
+            fontFamily: "Montserrat",
+          },
+        }}
+      >
+        <TableHead
+          sx={{
+            background: "#F8F8F8 !important",
+            fontFamily: "Montserrat",
+          }}
+        >
+          <TableRow
+            sx={{
+              "& .MuiTableCell-root": {
+                fontFamily: "Montserrat",
+              },
+            }}
+          >
+            {console.log(requestReceivedColumns, "eachHead")}
+            {requestReceivedColumns.map((eachHead, index) => {
+              return (
+                <TableCell
+                  sx={{
+                    "& .MuiTableCell-root": {
+                      fontFamily: "Montserrat",
+                    },
+                    textAlign: "left",
+                    alignItems: "left",
+                  }}
+                  className={local_style.file_table_column}
+                >
+                  {eachHead}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        </TableHead>
+
+        {requestToShow.length > 0 && (
+          <TableBody>
+            {requestToShow?.map((eachDatasetFile, index) => {
+              if (eachDatasetFile?.accessibility == "private")
+                return eachDatasetFile?.usage_policy?.length > 0
+                  ? eachDatasetFile?.usage_policy.map(
+                      (eachUsagePolicy, usagePolicyIndex) => {
+                        counter++;
+                        return (
+                          <TableRow>
+                            {/* <TableCell> */}
+                            <TableCell component="th" scope="row">
+                              <div style={{ display: "flex", gap: "20px" }}>
+                                <span>
+                                  <div
+                                    className={
+                                      global_styles.bold600 +
+                                      " " +
+                                      global_styles.size14
+                                    }
+                                    style={{
+                                      textOverflow: "ellipsis",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      columnGap: "10px",
+                                    }}
+                                  >
+                                    <img
+                                      src={require("../../Assets/Img/file.svg")}
+                                      alt=""
+                                      style={{ display: "inline-block" }}
+                                    />
                                     <div
                                       style={{
-                                        fontStyle: "italic",
-                                        textAlign: "right",
-                                        paddingRight: "75px",
-                                        paddingTop: "5px",
+                                        // width: "100px",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
                                       }}
+                                      className={local_style.link_name}
                                     >
-                                      For{" "}
-                                      {daysSincePublish(
-                                        eachUsagePolicy.updated_at
-                                      )}{" "}
-                                      day
+                                      {eachDatasetFile.file?.split("/").at(-1)}
                                     </div>
-                                  )}
+                                  </div>
+                                  <div>Dataset file name</div>
+                                </span>
+                                <span>
+                                  {/* <div
+                                  className={
+                                    global_styles.bold600 +
+                                    " " +
+                                    global_styles.size16
+                                  }
+                                >
+                                  {" "}
+                                  {row.file_name}
                                 </div>
-                              </Col>
-                            </Row>
-                          </Badge.Ribbon>
-                          <Row className="mt-20">
-                            <Col lg={4} md={12} sm={12}>
-                              <div
-                                className={
-                                  global_style.bold400 +
-                                  " " +
-                                  global_style.size16 +
-                                  " " +
-                                  local_style.text_left
-                                }
-                              >
-                                Dataset file name
-                              </div>
-                              <div
-                                className={
-                                  global_style.bold600 +
-                                  " " +
-                                  global_style.size16 +
-                                  " " +
-                                  local_style.text_left
-                                }
-                              >
-                                <img
-                                  src={require("../../Assets/Img/file.svg")}
-                                  alt=""
-                                />{" "}
-                                <span className={local_style.link_name}>
-                                  {eachDatasetFile.file?.split("/").at(-1)}
+                                <div>File name</div> */}
                                 </span>
                               </div>
-                            </Col>
-
-                            <Col lg={4} md={12} sm={12}>
-                              <div
-                                className={
-                                  global_style.bold400 +
-                                  " " +
-                                  global_style.size16 +
-                                  " " +
-                                  local_style.text_left
-                                }
-                              >
-                                Request by
-                              </div>
-                              <div
-                                className={
-                                  global_style.bold600 +
-                                  " " +
-                                  global_style.size16 +
-                                  " " +
-                                  local_style.text_left
-                                }
-                              >
-                                {eachUsagePolicy.user.first_name}
-                              </div>
-                              <div
-                                className={
-                                  global_style.bold600 +
-                                  " " +
-                                  global_style.size16 +
-                                  " " +
-                                  local_style.text_left
-                                }
-                              >
-                                {eachUsagePolicy.user.email}
-                              </div>
-                            </Col>
-                            <Col
-                              lg={4}
-                              sm={12}
-                              md={12}
-                              style={{ textAlign: "left" }}
+                              {/* </TableCell> */}
+                              {/* <div
+                              className={
+                                global_style.bold400 +
+                                " " +
+                                global_style.size16 +
+                                " " +
+                                local_style.text_left
+                              }
                             >
+                              Dataset file name
+                            </div>
+                            <div
+                              className={
+                                global_style.bold600 +
+                                " " +
+                                global_style.size16 +
+                                " " +
+                                local_style.text_left
+                              }
+                            >
+                              <img
+                                src={require("../../Assets/Img/file.svg")}
+                                alt=""
+                              />{" "}
+                              <span className={local_style.link_name}>
+                                {eachDatasetFile.file?.split("/").at(-1)}
+                              </span>
+                            </div> */}
+                            </TableCell>
+
+                            <TableCell>
+                              <div
+                                style={{
+                                  display: "grid",
+                                  gridTemplateColumns: "0.5fr 1fr",
+                                  gridTemplateRows: "1fr 1fr",
+                                  gridGap: "10px",
+                                }}
+                              >
+                                <div className={local_style.each_value_in_div}>
+                                  <div
+                                    className={
+                                      global_styles.bold600 +
+                                      " " +
+                                      global_styles.size14
+                                    }
+                                  >
+                                    {/* <Avatar
+                                  alt="Remy Sharp"
+                                  src={
+                                    UrlConstant.base_url_without_slash +
+                                    eachUsagePolicy.organization.logo
+                                  }
+                                /> */}
+                                    {eachUsagePolicy.organization.name}
+                                  </div>
+                                  <div>Request by</div>
+                                </div>
+                                <div className={local_style.each_value_in_div}>
+                                  <div
+                                    className={
+                                      global_styles.bold600 +
+                                      " " +
+                                      global_styles.size14
+                                    }
+                                  >
+                                    {" "}
+                                    {eachUsagePolicy.organization.org_email}
+                                  </div>
+                                  <div>Organization email</div>
+                                </div>
+                                <div className={local_style.each_value_in_div}>
+                                  <div
+                                    className={
+                                      global_styles.bold600 +
+                                      " " +
+                                      global_styles.size14
+                                    }
+                                  >
+                                    {" "}
+                                    {eachUsagePolicy.organization.phone_number}
+                                  </div>
+                                  <div>Organization email</div>
+                                </div>
+                                {/* <span>
+                                <div
+                                  className={
+                                    global_styles.bold600 +
+                                    " " +
+                                    global_styles.size16
+                                  }
+                                >
+                                  {" "}
+                                  {eachUsagePolicy.user.email}
+                                </div>
+                                <div>Organization email</div>
+                              </span> */}
+                              </div>
+
+                              {/* old */}
+                              {/* <div
+                              className={
+                                global_style.bold400 +
+                                " " +
+                                global_style.size16 +
+                                " " +
+                                local_style.text_left
+                              }
+                            >
+                              Request by
+                            </div>
+                            <div
+                              className={
+                                global_style.bold600 +
+                                " " +
+                                global_style.size16 +
+                                " " +
+                                local_style.text_left
+                              }
+                            >
+                              {eachUsagePolicy.user.first_name}
+                            </div>
+                            <div
+                              className={
+                                global_style.bold600 +
+                                " " +
+                                global_style.size16 +
+                                " " +
+                                local_style.text_left
+                              }
+                            >
+                              {eachUsagePolicy.user.email}
+                            </div> */}
+                            </TableCell>
+                            <TableCell style={{ textAlign: "left" }}>
                               <div
                                 className={
                                   global_style.bold600 +
                                   " " +
-                                  global_style.size20 +
+                                  global_style.size14 +
                                   " " +
                                   local_style.text_left
                                 }
                               >
-                                Period
+                                {eachUsagePolicy.approval_status ==
+                                "approved" ? (
+                                  <Badge
+                                    style={{
+                                      backgroundColor:
+                                        eachUsagePolicy.approval_status ==
+                                        "rejected"
+                                          ? "#ff5630"
+                                          : eachUsagePolicy.approval_status ==
+                                            "approved"
+                                          ? "#00ab55"
+                                          : "#faad14",
+                                      width: "80px",
+                                    }}
+                                    count={"Apporved"}
+                                  ></Badge>
+                                ) : eachUsagePolicy.approval_status ==
+                                  "rejected" ? (
+                                  <Badge
+                                    style={{
+                                      backgroundColor:
+                                        eachUsagePolicy.approval_status ==
+                                        "rejected"
+                                          ? "#ff5630"
+                                          : eachUsagePolicy.approval_status ==
+                                            "approved"
+                                          ? "#00ab55"
+                                          : "#faad14",
+                                      width: "80px",
+                                    }}
+                                    count={"Rejected"}
+                                  ></Badge>
+                                ) : (
+                                  "Period"
+                                )}
                               </div>
-                              <LocalizationProvider
-                                dateAdapter={AdapterDateFns}
-                              >
-                                <DatePicker
-                                  disabled={
-                                    eachUsagePolicy.approval_status !==
-                                    "approved"
-                                      ? false
-                                      : true
-                                  }
-                                  disablePast
-                                  inputFormat="dd/MM/yyyy"
-                                  placeholder="Till"
-                                  label="Till"
-                                  value={
-                                    toDate[eachUsagePolicy?.id ?? ""] ?? null
-                                  }
-                                  onChange={(value) =>
-                                    handleToDate(value, eachUsagePolicy.id)
-                                  }
-                                  PaperProps={{
-                                    sx: {
-                                      borderRadius: "16px !important",
-                                      "& .MuiPickersDay-root": {
-                                        "&.Mui-selected": {
-                                          backgroundColor: "#007B55 !important",
+                              {eachUsagePolicy.approval_status !== "approved" &&
+                              eachUsagePolicy.approval_status !== "rejected" ? (
+                                <LocalizationProvider
+                                  dateAdapter={AdapterDateFns}
+                                >
+                                  <DatePicker
+                                    disabled={
+                                      eachUsagePolicy.approval_status !==
+                                      "approved"
+                                        ? false
+                                        : true
+                                    }
+                                    disablePast
+                                    inputFormat="dd/MM/yyyy"
+                                    placeholder="Till"
+                                    label="Till"
+                                    value={
+                                      toDate[eachUsagePolicy?.id ?? ""] ?? null
+                                    }
+                                    onChange={(value) =>
+                                      handleToDate(value, eachUsagePolicy.id)
+                                    }
+                                    PaperProps={{
+                                      sx: {
+                                        borderRadius: "16px !important",
+                                        "& .MuiPickersDay-root": {
+                                          "&.Mui-selected": {
+                                            backgroundColor:
+                                              "#007B55 !important",
+                                          },
                                         },
                                       },
-                                    },
-                                  }}
-                                  renderInput={(params) => (
-                                    <TextField
-                                      {...params}
-                                      id="filled-basic"
-                                      variant="outlined"
-                                      sx={{
-                                        width: "300px",
-                                        svg: { color: "#00AB55" },
-                                        "& .MuiInputBase-input": {
-                                          height: "20px",
-                                        },
-                                        "& .MuiOutlinedInput-root": {
-                                          "& fieldset": {
-                                            borderColor: "#919EAB !important",
+                                    }}
+                                    renderInput={(params) => (
+                                      <TextField
+                                        {...params}
+                                        id="filled-basic"
+                                        variant="outlined"
+                                        sx={{
+                                          width: "200px",
+                                          svg: { color: "#00AB55" },
+                                          "& .MuiInputBase-input": {
+                                            height: "20px",
                                           },
-                                          "&:hover fieldset": {
-                                            borderColor: "#919EAB",
+                                          "& .MuiOutlinedInput-root": {
+                                            "& fieldset": {
+                                              borderColor: "#919EAB !important",
+                                            },
+                                            "&:hover fieldset": {
+                                              borderColor: "#919EAB",
+                                            },
+                                            "&.Mui-focused fieldset": {
+                                              borderColor: "#919EAB",
+                                            },
                                           },
-                                          "&.Mui-focused fieldset": {
-                                            borderColor: "#919EAB",
-                                          },
-                                        },
-                                      }}
-                                      required={
-                                        eachUsagePolicy.approval_status ==
-                                        "approved"
-                                          ? false
-                                          : true
-                                      }
-                                      helperText={
-                                        <Typography
-                                          sx={{
-                                            fontFamily: "Montserrat !important",
-                                            fontWeight: "400",
-                                            fontSize: "12px",
-                                            lineHeight: "18px",
-                                            color: "#FF0000",
-                                            textAlign: "left",
-                                          }}
-                                        >
-                                          {/* {!validator &&
+                                        }}
+                                        required={
+                                          eachUsagePolicy.approval_status ==
+                                          "approved"
+                                            ? false
+                                            : true
+                                        }
+                                        helperText={
+                                          <Typography
+                                            sx={{
+                                              fontFamily:
+                                                "Montserrat !important",
+                                              fontWeight: "400",
+                                              fontSize: "12px",
+                                              lineHeight: "18px",
+                                              color: "#FF0000",
+                                              textAlign: "left",
+                                            }}
+                                          >
+                                            {/* {!validator &&
                                       (!fromDate !== null ||
                                         !fromDate !== undefined ||
                                         !fromDate !== "")
                                         ? ""
                                         : "Please enter the start date of the data capture interval."} */}
-                                        </Typography>
-                                      }
-                                    />
-                                  )}
-                                  // error={props.dataCaptureStartErrorMessage ? true : false}
-                                />
-                              </LocalizationProvider>
-                            </Col>
-                          </Row>
-                          <Row className="mt-20">
-                            <Col
-                              lg={6}
-                              sm={12}
-                              md={12}
-                              style={{ textAlign: "left" }}
-                            ></Col>
-                            <Col
-                              lg={6}
-                              sm={12}
-                              md={12}
-                              className={local_style.button_grp}
+                                          </Typography>
+                                        }
+                                      />
+                                    )}
+                                    // error={props.dataCaptureStartErrorMessage ? true : false}
+                                  />
+                                </LocalizationProvider>
+                              ) : eachUsagePolicy.approval_status ==
+                                "approved" ? (
+                                `Till : ${
+                                  eachUsagePolicy.accessibility_time ?? "NA"
+                                }`
+                              ) : (
+                                ""
+                              )}
+                            </TableCell>
+                            <TableCell
+                              className={
+                                local_style.table_cell_for_approve_button
+                              }
                             >
+                              {eachUsagePolicy.approval_status !== "approved" &&
+                                eachUsagePolicy.approval_status !==
+                                  "rejected" && (
+                                  <Button
+                                    style={{
+                                      border: "1px solid #00ab55",
+                                      color: "#00ab55",
+                                      // color: "white",
+                                      textTransform: "none",
+                                      height: "30px",
+                                      fontFamily: "Montserrat",
+                                      width: "100px",
+                                    }}
+                                    onClick={() =>
+                                      SubmitHandler(
+                                        "approved",
+                                        eachUsagePolicy.id
+                                      )
+                                    }
+                                  >
+                                    Approve
+                                  </Button>
+                                )}
                               {eachUsagePolicy.approval_status !==
                                 "rejected" && (
                                 <Button
-                                  className={
-                                    global_style.outlined_button +
-                                    " " +
-                                    local_style.reject_button
-                                  }
+                                  style={{
+                                    border: "1px solid #ff5630",
+                                    color: "#ff5630",
+                                    textTransform: "none",
+                                    height: "30px",
+                                    width: "100px",
+                                    fontFamily: "Montserrat",
+                                  }}
                                   onClick={() =>
                                     SubmitHandler(
                                       "rejected",
@@ -447,44 +660,29 @@ const RequestCardForApprovalOrReject = (props) => {
                                     )
                                   }
                                 >
-                                  Reject
+                                  {eachUsagePolicy.approval_status == "approved"
+                                    ? "Recall"
+                                    : "Reject"}
                                 </Button>
                               )}
-                              {eachUsagePolicy.approval_status !==
-                                "approved" && (
-                                <Button
-                                  // disabled={toDate ? false : true}
-                                  className={
-                                    global_style.primary_button +
-                                    " " +
-                                    local_style.approve_button
-                                  }
-                                  onClick={() =>
-                                    SubmitHandler(
-                                      "approved",
-                                      eachUsagePolicy.id
-                                    )
-                                  }
-                                >
-                                  Approve
-                                </Button>
-                              )}
-                            </Col>
-                          </Row>
-                          <hr className="mt-20" />
-                        </Box>
-                      );
-                    }
-                  )
-                ) : (
-                  <NoDataAvailable message={"No request available"} />
-                )}
-              </span>
-            );
-        })
-      ) : (
-        <NoDataAvailable message={"No request available"} />
-      )}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                    )
+                  : "";
+            })}
+          </TableBody>
+        )}
+
+        {/* {counter > 0 ? (
+          {console.log(counter)}
+          <NoDataAvailable message={"No request available"} />
+        ) : (
+          ""
+        )} */}
+        {/* {console.log(requestToShow, "requestToShow")} */}
+      </Table>
     </>
   );
 };

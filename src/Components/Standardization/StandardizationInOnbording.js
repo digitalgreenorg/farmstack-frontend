@@ -322,7 +322,7 @@ const StandardizationInOnbord = (props) => {
           if (inSettings) {
             callToast("Standardization template updated!", "success", true);
           } else {
-            callToast("Onboarding successfull", "success", true);
+            // callToast("Onboarding successfull", "success", true);
           }
           console.log("success");
 
@@ -336,7 +336,7 @@ const StandardizationInOnbord = (props) => {
       .catch((e) => {
         setIsLoading(false);
         //   success('Standardization template created successfully')
-        console.log(e);
+        console.log(e, e?.response?.data);
         if (
           e.response != null &&
           e.response != undefined &&
@@ -344,7 +344,7 @@ const StandardizationInOnbord = (props) => {
         ) {
           setError(true);
           callToast(
-            e?.response?.message ?? "Some error occured",
+            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
             "error",
             true
           );
@@ -359,7 +359,7 @@ const StandardizationInOnbord = (props) => {
         } else {
           setError(true);
           callToast(
-            e?.response?.message ?? "Some error occured",
+            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
             "error",
             true
           );
@@ -506,6 +506,7 @@ const StandardizationInOnbord = (props) => {
     // setIsLoader(true);
     HTTPService("POST", url, data, false, true, isaccesstoken)
       .then((response) => {
+        callToast("Onboarding successfull", "success", true);
         // setIsLoader(false);
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
@@ -518,13 +519,18 @@ const StandardizationInOnbord = (props) => {
       })
       .catch((e) => {
         // setIsLoader(false);
-        console.log(e);
+        // console.log(e);
+        callToast(
+          JSON.stringify(e?.response?.data ?? "Some error occurred"),
+          "error",
+          true
+        );
       });
   };
   useEffect(() => {
-    if (inSettings) {
-      getStandardiziedTemplate();
-    }
+    // if (inSettings) {
+    getStandardiziedTemplate();
+    // }
     goToTop(0);
   }, []);
 
@@ -1009,7 +1015,7 @@ const StandardizationInOnbord = (props) => {
               id="add-finish-later-datapoint-button"
               onClick={() => setOnBoardedTrue()}
             >
-              Skip
+              Finish later
             </Button>
             <Button
               variant="contained"

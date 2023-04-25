@@ -91,7 +91,7 @@ const ParticipantFormNew = (props) => {
   const [orgNameErrorMessage, setOrgNameErrorMessage] = useState(null);
   const [orgEmailErrorMessage, setOrgEmailErrorMessage] = useState(null);
   const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
-  const [orgContactErrorMessage, setOrgContactErrorMessage] = useState(null)
+  const [orgContactErrorMessage, setOrgContactErrorMessage] = useState(null);
   const [orgId, setOrgId] = useState("");
 
   const handleSubmit = (event) => {
@@ -107,15 +107,14 @@ const ParticipantFormNew = (props) => {
     var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
     return res1 !== null;
   };
-   const handleContactNumber = (e, countryData) => {
-   
+  const handleContactNumber = (e, countryData) => {
     if (!isPhoneValid(e, countryData)) {
       setOrgContactErrorMessage("Invalid phone number");
     } else {
       setOrgContactErrorMessage(null);
     }
     setContactNumber(e);
-  }
+  };
 
   const handleCancel = (clearAllField) => {
     if (isEditModeOn) {
@@ -630,7 +629,7 @@ const ParticipantFormNew = (props) => {
               value={contactNumber}
               onChange={(event) => setContactNumber(event.target.value)}
             /> */}
-             <MuiPhoneNumber
+            <MuiPhoneNumber
               className={LocalStyle.textField}
               fullWidth
               required
@@ -642,17 +641,9 @@ const ParticipantFormNew = (props) => {
               id="contact_number"
               name="contact_number"
               value={contactNumber}
-              onChange={(e, countryData) =>
-                handleContactNumber(e, countryData)
-              }
-              error={
-                orgContactErrorMessage 
-                  ? true
-                  : false
-              }
-              helperText={
-                orgContactErrorMessage
-              }
+              onChange={(e, countryData) => handleContactNumber(e, countryData)}
+              error={orgContactErrorMessage ? true : false}
+              helperText={orgContactErrorMessage}
             />
           </Col>
         </Row>
