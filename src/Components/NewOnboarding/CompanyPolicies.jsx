@@ -265,7 +265,7 @@ const CompanyPolicies = (props) => {
         console.log("uploadedPolicyE is calling", uploadedPolicyE)
         const objectUrl = URL.createObjectURL(uploadedPolicyE);
         setPreviewE(objectUrl);
-        setIsLogoLinkE(true);
+        setIsLogoLinkE(false);
       } else if (dataOfFile) {
         console.log("data is calling", dataOfFile)
         setPreviewE(dataOfFile);
@@ -292,15 +292,15 @@ const CompanyPolicies = (props) => {
       let payload = new FormData();
       payload.append("description", policyDesc);
       payload.append("name", policyNameUnderAccordion);
-      if (!isLogoLinkE) {
-        payload.append("file", uploadedPolicyE);
-      }
+      !isLogoLinkE && payload.append("file", uploadedPolicyE);
       let response = await submitPolicy("PATCH", data.id, payload);
 
       let arr = [...allPolicies];
       if (response && response.data) {
         arr[index] = { ...response?.data };
         setAllPolicies([...arr]);
+        setIsLogoLinkE(true)
+
       } else {
         let obj = {
           ...data,
