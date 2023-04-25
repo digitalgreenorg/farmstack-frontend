@@ -202,12 +202,12 @@ const DataSets = (props) => {
   };
 
   const clearFilter = () => {
-    // if (value === 0) {
-    // getDataSets(false);
-    // }
-    // if (value === 1) {
-    // getOtherDataSets(false);
-    // }
+    if (value === 0) {
+      getDataSets(false);
+    }
+    if (value === 1) {
+      getOtherDataSets(false);
+    }
   };
 
   const getDataSets = (isLoadMore) => {
