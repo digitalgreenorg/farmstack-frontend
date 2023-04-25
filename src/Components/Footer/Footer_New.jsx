@@ -54,8 +54,7 @@ const FooterNew = () => {
     <Box sx={{ padding: "40px", marginLeft: "144px", marginRight: "144px" }}>
       <div className="logo_container text-left">
         <img
-          height={"60px"}
-          width={"180px"}
+          style={{ height: "auto", width: "172px" }}
           src={
             UrlConstant.base_url_without_slash + adminData?.organization?.logo
           }
