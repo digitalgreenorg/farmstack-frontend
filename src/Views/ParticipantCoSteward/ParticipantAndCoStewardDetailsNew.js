@@ -26,7 +26,8 @@ import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 const ParticipantAndCoStewardDetailsNew = (props) => {
   // to show as participants page pass isCosteward = true
   //  as participants request pass isParticipantRequest = true
-  let { isCosteward, isParticipantRequest, user, userTypeCosteward } = props;
+  let { isCosteward, isParticipantRequest, user, userTypeCosteward, title } =
+    props;
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
 
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -104,9 +105,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         "/";
     }
     console.log("userTypeCosteward", userTypeCosteward);
-    if (userTypeCosteward == "Our co-stewards are") {
+    if (userTypeCosteward == "Our co-stewards") {
       params = { co_steward: "True" };
     }
+    console.log("usertype", url, user);
     HTTPService("GET", url, params, false, isAuthorization)
       .then((response) => {
         // callLoader(false);
@@ -358,7 +360,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && !userTypeCosteward ? (
+          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
             <>
               <Button
                 variant="outlined"
@@ -381,7 +383,11 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 variant="outlined"
                 className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
                 onClick={(e) =>
-                  history.push(`/datahub/participants/edit/${id}`)
+                  history.push(
+                    `/datahub/${
+                      isCosteward ? "costeward" : "participants"
+                    }/edit/${id}`
+                  )
                 }
               >
                 <img
@@ -542,7 +548,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         {datasetList.length == 0 ? (
           <Box className={LocalStyle.noDataBox} p={3}>
             <NoData
-              title={"There ares"}
+              title={""}
               subTitle={"As of now there are no datasets"}
               // primaryButton={"Add participant"}
               // primaryButtonOnClick={() =>
@@ -577,6 +583,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {isCosteward ? (
         <CoStewardAndParticipantsCard
           title={"Co-steward participants"}
+          user={user}
           viewType={false}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}

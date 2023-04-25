@@ -165,7 +165,7 @@ const UploadFile = ({
   const getTotalSizeInMb = (data) => {
     let total = 0;
     data.forEach((element) => {
-      let converted = element?.size / Math.pow(1024, 2);
+      let converted = element?.file_size / Math.pow(1024, 2);
       total = parseFloat(total) + parseFloat(converted?.toFixed(2));
     });
     return total;
@@ -180,7 +180,7 @@ const UploadFile = ({
             <File
               index={index}
               name={tempFileName}
-              size={item?.size}
+              size={item?.file_size}
               id={item?.id}
               handleDelete={handleDelete}
               type={type}
@@ -197,7 +197,7 @@ const UploadFile = ({
             <File
               index={index}
               name={tempFileName}
-              size={item?.size}
+              size={item?.file_size}
               id={item?.id}
               handleDelete={handleDelete}
               type={type}
@@ -214,7 +214,7 @@ const UploadFile = ({
             <File
               index={index}
               name={tempFileName}
-              size={item?.size}
+              size={item?.file_size}
               id={item?.id}
               handleDelete={handleDelete}
               type={type}

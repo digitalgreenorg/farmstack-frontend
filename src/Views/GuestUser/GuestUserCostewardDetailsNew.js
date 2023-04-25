@@ -4,7 +4,7 @@ import GuestUserParticipantsDetails from "./GuestUserParticipantsDetails";
 function GuestUserCostewardDetailsNew() {
   return (
     <>
-      <GuestUserParticipantsDetails userTypeCosteward={"Our co-stewards are"} />
+      <GuestUserParticipantsDetails userTypeCosteward={"Our co-stewards"} />
     </>
   );
 }

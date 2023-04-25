@@ -25,6 +25,7 @@
 }
 .description {
   line-height: 27px !important;
+  margin: 15px auto !important;
 }
 .primaryButton {
   padding: 11px 38px !important;

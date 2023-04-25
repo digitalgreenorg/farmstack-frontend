@@ -7,6 +7,7 @@ import DataSetsTitleView from "./DataSetsTitleView";
 import DataSetsListView from "../DataSetsListView";
 import {
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../../Utils/Common";
 import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
@@ -36,6 +37,8 @@ const DataSetsTab = ({
   getOtherDataSets,
   datasetList,
   memberDatasetList,
+  filteredDatasetList,
+  filteredMemberDatasetList,
   showLoadMoreAdmin,
   showLoadMoreMember,
   value,
@@ -78,7 +81,7 @@ const DataSetsTab = ({
   }, [value]);
 
   const handleCardClick = (id) => {
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/new_datasets/view/${id}`;
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets/view/${id}`;

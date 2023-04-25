@@ -34,6 +34,7 @@ import Toast from "./Components/Generic/Toast";
 import GuestRoutes from "./Layout/GuestRoutes";
 import GuestUserDatasets from "./Components/GuestUser/GuestUserDatasets";
 import NewError from "./Components/Error/NewError";
+import GuestUserContactNew from "./Views/GuestUser/GuestUserContactNew";
 function App() {
   const { isLoading, toastDetail } = useContext(FarmStackContext);
   return (
@@ -62,7 +63,7 @@ function App() {
           <Route path="/home" component={GuestRoutes} />
           {/* <Route exact path="/home/viewdataset/:id" component={Viewdetails} /> */}
           <Route exact path="/legal" component={GuestUserLegal} />
-          <Route exact path="/contact" component={GuestUserContact} />
+          <Route exact path="/contact" component={GuestUserContactNew} />
           <Route
             exact
             path="/participantregistration"

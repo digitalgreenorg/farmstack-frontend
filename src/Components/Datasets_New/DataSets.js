@@ -15,6 +15,7 @@ import {
   getTokenLocal,
   getUserLocal,
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import "./DataSets.css";
@@ -50,6 +51,10 @@ const DataSets = (props) => {
   const [searchDatasetsName, setSearchDatasetsName] = useState();
   const [filterState, setFilterState] = useState({});
   const [datasetList, setDatasetList] = useState([]);
+  const [filteredDatasetList, setFilteredDatasetList] = useState([]);
+  const [filteredMemberDatasetList, setFilteredMemberDatasetList] = useState(
+    []
+  );
   const [memberDatasetList, setMemberDatasetList] = useState([]);
   const [showLoadMoreAdmin, setShowLoadMoreAdmin] = useState(false);
   const [showLoadMoreMember, setShowLoadMoreMember] = useState(false);
@@ -100,7 +105,7 @@ const DataSets = (props) => {
   };
 
   const addDataset = () => {
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return "/datahub/new_datasets/add";
     } else if (isLoggedInUserParticipant()) {
       return "/participant/new_datasets/add";
@@ -109,88 +114,90 @@ const DataSets = (props) => {
 
   const handleSearch = (name, isLoadMore) => {
     setSearchDatasetsName(name.trim());
-    let data = {};
-    data["user_id"] = getUserLocal();
-    data["org_id"] = getOrgLocal();
-    data["name__icontains"] = name.trim();
-    if (value === 0) {
-      data["others"] = false;
-    } else {
-      data["others"] = true;
-    }
-    setFilterState(data);
-    let guestUsetFilterUrl =
-      UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
-    let isAuthorization = user == "guest" ? false : true;
-    if (value === 0) {
-      HTTPService(
-        "POST",
-        user == "guest"
-          ? guestUsetFilterUrl
-          : !isLoadMore
-          ? searchUrl
-          : memberDatasetUrl
-          ? memberDatasetUrl
-          : searchUrl,
-        data,
-        false,
-        isAuthorization
-      )
-        .then((response) => {
-          if (response.data.next == null) {
-            setFilterState({});
-            setShowLoadMoreAdmin(false);
-          } else {
-            setDatasetUrl(response.data.next);
-            setShowLoadMoreAdmin(true);
-          }
-          let finalDataList = [];
-          if (isLoadMore) {
-            finalDataList = [...memberDatasetList, ...response.data.results];
-          } else {
-            finalDataList = [...response.data.results];
-          }
-          if (value === 0) {
+    if (name.trim().length > 2) {
+      let data = {};
+      data["user_id"] = getUserLocal();
+      data["org_id"] = getOrgLocal();
+      data["name__icontains"] = name.trim();
+      if (value === 0) {
+        data["others"] = false;
+      } else {
+        data["others"] = true;
+      }
+      setFilterState(data);
+      let guestUsetFilterUrl =
+        UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
+      let isAuthorization = user == "guest" ? false : true;
+      if (value === 0) {
+        HTTPService(
+          "POST",
+          user == "guest"
+            ? guestUsetFilterUrl
+            : !isLoadMore
+            ? searchUrl
+            : memberDatasetUrl
+            ? memberDatasetUrl
+            : searchUrl,
+          data,
+          false,
+          isAuthorization
+        )
+          .then((response) => {
+            if (response.data.next == null) {
+              setFilterState({});
+              setShowLoadMoreAdmin(false);
+            } else {
+              setDatasetUrl(response.data.next);
+              setShowLoadMoreAdmin(true);
+            }
+            let finalDataList = [];
+            if (isLoadMore) {
+              finalDataList = [...datasetList, ...response.data.results];
+            } else {
+              finalDataList = [...response.data.results];
+            }
+            console.log(finalDataList, "fdlist");
             setDatasetList(finalDataList);
-          } else {
-            setDatasetList(finalDataList);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    } else if (value === 1) {
-      HTTPService(
-        "POST",
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (value === 1) {
+        HTTPService(
+          "POST",
 
-        !isLoadMore
-          ? searchUrl
-          : memberDatasetUrl
-          ? memberDatasetUrl
-          : searchUrl,
-        data,
-        false,
-        true
-      )
-        .then((response) => {
-          if (response.data.next == null) {
-            setFilterState({});
-            setShowLoadMoreMember(false);
-          } else {
-            setMemberDatasetUrl(response.data.next);
-            setShowLoadMoreMember(true);
-          }
-          let finalDataList = [];
-          if (isLoadMore) {
-            finalDataList = [...memberDatasetList, ...response.data.results];
-          } else {
-            finalDataList = [...response.data.results];
-          }
-          setMemberDatasetList(finalDataList);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+          !isLoadMore
+            ? searchUrl
+            : memberDatasetUrl
+            ? memberDatasetUrl
+            : searchUrl,
+          data,
+          false,
+          true
+        )
+          .then((response) => {
+            if (response.data.next == null) {
+              setFilterState({});
+              setShowLoadMoreMember(false);
+            } else {
+              setMemberDatasetUrl(response.data.next);
+              setShowLoadMoreMember(true);
+            }
+            let finalDataList = [];
+            if (isLoadMore) {
+              finalDataList = [...memberDatasetList, ...response.data.results];
+            } else {
+              finalDataList = [...response.data.results];
+            }
+            setMemberDatasetList(finalDataList);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    } else {
+      setFilteredDatasetList([]);
+      setFilteredMemberDatasetList([]);
     }
   };
 
@@ -212,6 +219,9 @@ const DataSets = (props) => {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = false;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
         setFilterState(payload);
       }
     } else {
@@ -255,7 +265,7 @@ const DataSets = (props) => {
       .catch(async (err) => {
         callLoader(false);
         let response = await GetErrorHandlingRoute(err);
-        if (response.toast) {
+        if (response?.toast) {
           //callToast(message, type, action)
           callToast(
             response?.message ?? "Error occurred while getting datasets",
@@ -276,6 +286,9 @@ const DataSets = (props) => {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = true;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
         setFilterState(payload);
       }
     } else {
@@ -727,6 +740,8 @@ const DataSets = (props) => {
           setValue={setValue}
           datasetList={datasetList}
           memberDatasetList={memberDatasetList}
+          filteredDatasetList={filteredDatasetList}
+          filteredMemberDatasetList={filteredMemberDatasetList}
           getDataSets={getDataSets}
           getOtherDataSets={getOtherDataSets}
           showLoadMoreAdmin={showLoadMoreAdmin}
@@ -760,6 +775,8 @@ const DataSets = (props) => {
           setValue={setValue}
           datasetList={datasetList}
           memberDatasetList={memberDatasetList}
+          filteredDatasetList={filteredDatasetList}
+          filteredMemberDatasetList={filteredMemberDatasetList}
           getDataSets={getDataSets}
           getOtherDataSets={getOtherDataSets}
           showLoadMoreAdmin={showLoadMoreAdmin}

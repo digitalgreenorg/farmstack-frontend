@@ -6,6 +6,7 @@ import {
   getTokenLocal,
   getUserMapId,
   isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import "./AddDataSet.css";
@@ -164,6 +165,8 @@ const AddDataSet = (props) => {
       return "/participant/new_datasets";
     } else if (isLoggedInUserAdmin() && getTokenLocal()) {
       return "/datahub/new_datasets";
+    } else if (isLoggedInUserCoSteward() && getTokenLocal()) {
+      return `/datahub/new_datasets`;
     }
   };
 
@@ -206,6 +209,8 @@ const AddDataSet = (props) => {
         if (isLoggedInUserParticipant() && getTokenLocal()) {
           history.push("/participant/new_datasets");
         } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+          history.push("/datahub/new_datasets");
+        } else if (isLoggedInUserCoSteward() && getTokenLocal()) {
           history.push("/datahub/new_datasets");
         }
       })
