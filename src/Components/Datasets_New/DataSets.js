@@ -219,9 +219,9 @@ const DataSets = (props) => {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = false;
-        // if(isLoggedInUserCoSteward()) {
-        // payload["onboarded_by"] = getUserLocal();
-        // }
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
         setFilterState(payload);
       }
     } else {
@@ -286,9 +286,9 @@ const DataSets = (props) => {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = true;
-        // if(isLoggedInUserCoSteward()) {
-        // payload["onboarded_by"] = getUserLocal();
-        // }
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
         setFilterState(payload);
       }
     } else {
