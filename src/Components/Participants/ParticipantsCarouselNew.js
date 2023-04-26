@@ -25,7 +25,7 @@ const ParticipantsCarouselNew = (props) => {
     autoplay: true,
     className: LocalStyle.slides,
   };
-  let title = "Participants";
+  let title = isCosteward ? "Co-steward" : "Participants";
   const history = useHistory();
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const [participantsList, setParticipantsList] = useState([]);
@@ -121,13 +121,17 @@ const ParticipantsCarouselNew = (props) => {
                     image={participant?.organization?.logo}
                     title={participant?.organization?.name}
                     subTitle1="Datasets"
-                    // subTitle2={
-                    //   title == "Participants" ? "" : "No.of participants"
-                    // }
+                    subTitle2={
+                      title == "Participants"
+                        ? "Root user"
+                        : "No.of participants"
+                    }
                     subTitle1Value={participant?.dataset_count}
                     subTitle2Value={
                       title == "Participants"
-                        ? undefined
+                        ? participant?.user?.first_name +
+                          " " +
+                          participant?.user?.last_name
                         : participant?.number_of_participants
                     }
                     index={index}
