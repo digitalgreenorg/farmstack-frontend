@@ -108,7 +108,7 @@ const FooterNew = () => {
             </div>
             <div className="d-flex justify-content-between w-100">
               <div className={`${style.footerLightText} mt-10`}>
-                About Farmstack
+                About {adminData?.organization?.name ?? ""}
               </div>
               <div
                 className={`${style.footerLightText} ${style.flexWidth} mt-10`}
