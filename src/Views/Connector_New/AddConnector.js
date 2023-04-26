@@ -23,7 +23,7 @@ import { useHistory } from "react-router-dom";
 import Preview from "../../Components/Datasets/IntegrationDatasets/Preview/Preview";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import RegexConstants from "../../Constants/RegexConstants";
-
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const textFieldStyle = {
   borderRadius: "8px",
   "& .MuiOutlinedInput-root": {
@@ -790,15 +790,18 @@ const AddConnector = (props) => {
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
         <div className="text-left mt-50">
           <span
-            className="add_light_text cursor-pointer"
+            className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
             Connectors
           </span>
           <span className="add_light_text ml-16">
-            <img src={require("../../Assets/Img/dot.svg")} />
+            {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
           </span>
-          <span className="add_light_text ml-16">New connector</span>
+          <span className="add_light_text ml-16 fw600">
+            {props.isEditModeOn ? "Edit connector" : "New connector"}
+          </span>
         </div>
         <Typography
           className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 text-left`}

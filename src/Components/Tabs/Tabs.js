@@ -51,7 +51,16 @@ const CustomTabs = (props) => {
         orientation={orientation ?? "horizontal"}
       >
         {TabLabels?.map((label, index) => (
-          <Tab id={label + index} label={label} />
+          <Tab
+            sx={{
+              "&.MuiButtonBase-root": {
+                minWidth: "200px",
+                alignItems: "center",
+              },
+            }}
+            id={label + index}
+            label={label}
+          />
         ))}
         {/* <Tab label="Co-Steward" />
           <Tab label="Participant" />

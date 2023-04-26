@@ -30,6 +30,7 @@ import {
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const DataSetsView = (props) => {
   const { userType } = props;
@@ -382,15 +383,16 @@ const DataSetsView = (props) => {
       >
         <div className="text-left mt-50">
           <span
-            className="add_light_text cursor-pointer"
+            className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
             Datasets
           </span>
-          <span className="add_light_text ml-16">
-            <img src={require("../../Assets/Img/dot.svg")} />
+          <span className="add_light_text ml-11">
+            {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
           </span>
-          <span className="add_light_text ml-16">
+          <span className="add_light_text ml-11 fw600">
             {history.location?.state?.tab === "my_organisation"
               ? "My Organisation"
               : "Other Organisation"}
