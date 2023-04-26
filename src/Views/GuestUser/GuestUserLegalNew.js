@@ -69,12 +69,15 @@ const GuestUserLegalNew = (props) => {
   return (
     <Container>
       <Row className={LocalStyle.titleContainer}>
-        <div className={LocalStyle.title}>List of datasets</div>
+        <div className={LocalStyle.title}>Legal Policies</div>
         <div className="d-flex justify-content-center">
           <div className={LocalStyle.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
-            tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
-            neque quis metus pretium tempus.
+            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            Data governance policy documents, providing precise data usage and
+            management guidelines within the Farmstack ecosystem. This feature
+            promotes responsible data sharing and ensures compliance with
+            industry standards.
+            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
           </div>
         </div>
       </Row>

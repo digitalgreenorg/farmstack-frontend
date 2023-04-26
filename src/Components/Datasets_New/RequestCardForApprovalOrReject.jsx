@@ -420,7 +420,7 @@ const RequestCardForApprovalOrReject = (props) => {
                                     {" "}
                                     {eachUsagePolicy.organization.phone_number}
                                   </div>
-                                  <div>Organization email</div>
+                                  <div>Organization Contact no.</div>
                                 </div>
                                 {/* <span>
                                 <div
