@@ -246,8 +246,11 @@ const StandardizationInOnbord = (props) => {
       setAttributeErrorMessage(nameAlreadyExist)
       return;
     }
-    tmpAllAttributes[index].push(tmpAllAttributes[index][0]);
-    tmpAllAttributes[index][0] = "";
+    if (tmpAllAttributes[index].length === 1) {
+      tmpAllAttributes[index][0] = newAttribute;
+    } else {
+      tmpAllAttributes[index].push(newAttribute);
+    }
     setAllAttributes(tmpAllAttributes);
 
     // For Des
@@ -258,6 +261,9 @@ const StandardizationInOnbord = (props) => {
     setAttributeErrorMessage("")
     console.log("all Des", tmpAllAttributesDes);
   };
+  useEffect(() => {
+    console.log("allAttributes", allAttributes)
+  }, [allAttributes])
 
   const handleDatapointAtticuteDelete = (index, arrIndex) => {
     let tmpAllAttributes = { ...allAttributes };
