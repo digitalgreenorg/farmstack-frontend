@@ -242,9 +242,13 @@ const GuestUserContactNew = () => {
         <div className={LocalStyle.title}>Talk with us</div>
         <div className="d-flex justify-content-center">
           <div className={LocalStyle.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
-            tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
-            neque quis metus pretium tempus.
+            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            We are eager to connect with organizations, researchers, and
+            individuals who share our passion for revolutionizing agriculture.
+            If you have questions, suggestions or would like to explore
+            collaboration opportunities, please don't hesitate to get in touch
+            with us.
+            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
           </div>
         </div>
       </Row>

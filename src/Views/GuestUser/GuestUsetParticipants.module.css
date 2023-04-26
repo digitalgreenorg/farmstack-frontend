@@ -15,14 +15,16 @@
   text-align: center;
   color: #000000;
   margin-top: 32px;
-  width: 956px;
 }
+
 .titleContainer {
   justify-content: center;
 }
+
 .title2 {
   margin: 50px 0;
 }
+
 .participantsContainer {
   display: block;
 }

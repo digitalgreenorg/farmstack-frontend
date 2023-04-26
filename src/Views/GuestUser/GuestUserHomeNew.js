@@ -250,13 +250,15 @@ const GuestUserHome = () => {
             </Row>
           </Col>
         </Row>
-        <Row>
+        <Row className="mt-30">
           <Col>
             <Typography
-              className={`${LocalStyle.title} ${LocalStyle.centeredAlignTitle} ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+              className={`${LocalStyle.title} ${LocalStyle.centeredAlignTitle} ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} d-block`}
             >
-              Get ready to maximise your productivity with our workflow
-              solutions
+              <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+              Maximise impact by exploring the ultimate platform for data-driven
+              solutions!
+              <b style={{ fontWeight: "bold" }}>&rdquo;</b>
             </Typography>
           </Col>
         </Row>
