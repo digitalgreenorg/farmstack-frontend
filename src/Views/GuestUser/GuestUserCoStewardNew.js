@@ -4,7 +4,10 @@ import GuestUserParticipants from "./GuestUserParticipants";
 function GuestUserCoStewardNew() {
   return (
     <>
-      <GuestUserParticipants title="Our co-stewards are" />
+      <GuestUserParticipants
+        title="Co-stewards - Community builders"
+        description="Uniting Participants for a Better Tomorrow who enable  Powerful Networks for Agricultural Innovation."
+      />
     </>
   );
 }

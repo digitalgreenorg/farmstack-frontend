@@ -15,7 +15,7 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 
 function GuestUserParticipants(props) {
-  const { title } = props;
+  const { title, description } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
@@ -128,12 +128,18 @@ function GuestUserParticipants(props) {
   return (
     <Container>
       <Row className={LocalStyle.titleContainer}>
-        <div className={LocalStyle.title}>{title ?? "Our participants"}</div>
+        <div className={LocalStyle.title}>
+          {title ?? "Participants Network"}
+        </div>
         <div className="d-flex justify-content-center">
-          <div className={LocalStyle.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
-            tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
-            neque quis metus pretium tempus.
+          <div
+            className={LocalStyle.description}
+            style={{ width: description && "74%" }}
+          >
+            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            {description ??
+              "Meet the Change Makers: Our Community Members Who Are Transforming Agriculture."}
+            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
           </div>
         </div>
       </Row>
@@ -158,7 +164,7 @@ function GuestUserParticipants(props) {
           },
         }}
         className="input_field"
-        placeholder="Search dataset.."
+        placeholder={title ? "Search co-steward.." : "Search participant.."}
         value={searcParticipantsName}
         onChange={(e) => handleSearch(e.target.value)}
         InputProps={{
