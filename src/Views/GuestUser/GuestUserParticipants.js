@@ -78,16 +78,20 @@ function GuestUserParticipants(props) {
   };
   const handleSearch = (name, isLoadMore) => {
     setSearcParticipantsName(name);
-    if (name.trim().length > 2) {
-      let data = {};
-      // data["user_id"] = getUserLocal();
-      // data["org_id"] = getOrgLocal();
-      // data["name__icontains"] = name.trim();
+    let searchTimeout;
+    const DEBOUNCE_DELAY = 500;
+    clearTimeout(searchTimeout);
 
-      // setFilterState(data);
-      let guestUsetFilterUrl =
-        // UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
-        HTTPService("POST", guestUsetFilterUrl, data, false, false)
+    searchTimeout = setTimeout(() => {
+      // setSearcParticipantsName(name);
+      if (name.trim().length > 2) {
+        let data = {};
+        data["name"] = name.trim();
+
+        // setFilterState(data);
+        let guestUsetFilterUrl =
+          UrlConstant.base_url + UrlConstant.microsite_search_participants;
+        HTTPService("GET", guestUsetFilterUrl, data, false, false)
           .then((response) => {
             if (response.data.next == null) {
               // setFilterState({});
@@ -106,17 +110,20 @@ function GuestUserParticipants(props) {
               finalDataList = [...response.data.results];
             }
             console.log(finalDataList, "fdlist");
-            coStewardOrParticipantsList(finalDataList);
+            setCoStewardOrParticipantsList(finalDataList);
           })
           .catch((e) => {
             console.log(e);
           });
-    }
+      }
+    }, DEBOUNCE_DELAY);
   };
 
   useEffect(() => {
     getParticipants();
   }, []);
+
+  console.log("something", coStewardOrParticipantsList);
 
   return (
     <Container>
@@ -167,7 +174,7 @@ function GuestUserParticipants(props) {
           ),
         }}
       />
-      <Row>
+      <Row className={LocalStyle.participantsContainer}>
         <CoStewardAndParticipantsCard
           guestUser={true}
           isCosteward={title ? true : false}

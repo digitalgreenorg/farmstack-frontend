@@ -6,6 +6,7 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
+import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {
@@ -42,7 +43,7 @@ const CoStewardAndParticipantsCard = (props) => {
     }
   };
 
-  console.log("props in CoStewardAndParticipantsCard", props);
+  // console.log("props in CoStewardAndParticipantsCard", props);
   let index = 0;
   //   const viewType = grid
   return (
@@ -327,6 +328,13 @@ const CoStewardAndParticipantsCard = (props) => {
               </Col>
             );
           })}
+          {/* {!coStewardOrParticipantsList?.length ? (
+            <div style={{ margin: "auto" }}>
+              <EmptyFile text="Nothing found!" />
+            </div>
+          ) : (
+            ""
+          )} */}
         </Row>
       </CSSTransition>
       {/* ) : ( */}
