@@ -243,7 +243,7 @@ const DataSets = (props) => {
     if (user == "guest") {
       guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
       payload = "";
-      method = "GET";
+      // method = "GET";
     }
 
     // console.log("url",guestUrl)

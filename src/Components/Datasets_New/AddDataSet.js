@@ -19,7 +19,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
-
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -420,15 +420,16 @@ const AddDataSet = (props) => {
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
         <div className="text-left mt-50">
           <span
-            className="add_light_text cursor-pointer"
+            className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
             Datasets
           </span>
-          <span className="add_light_text ml-16">
-            <img src={require("../../Assets/Img/dot.svg")} />
+          <span className="add_light_text ml-11">
+            {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
           </span>
-          <span className="add_light_text ml-16">
+          <span className="add_light_text ml-11 fw600">
             {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
           </span>
         </div>
