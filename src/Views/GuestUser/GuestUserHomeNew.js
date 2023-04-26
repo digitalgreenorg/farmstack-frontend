@@ -193,17 +193,17 @@ const GuestUserHome = () => {
           <Col xs={12} sm={12} md={12} xl={6}>
             <div className={`${LocalStyle.titleContainer}`}>
               <Typography
-                className={`${LocalStyle.title} text-left ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
               >
-                Built for Creatives, by Creatives
+                Elevate Your Data Exchange Platform
               </Typography>
               <Typography
                 className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}>&ldquo;</b>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                vitae tellus scelerisque, imperdiet augue id, accumsan dolor.
-                Integer ac neque quis metus pretium tempus.
+                Empower admins from Steward Organizations to effortlessly
+                configure and manage their data exchange platform, ensuring a
+                seamless and secure experience for all participants.
                 <b style={{ fontWeight: "bold" }}>&rdquo;</b>
               </Typography>
             </div>
@@ -219,14 +219,16 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
-                <span className="text-left">Orchestrate network of data </span>
+                <span className="text-left">
+                  Empowering Agricultural Communities{" "}
+                </span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
                 <span className="text-left">
-                  Invite data providers and consumers
+                  Promoting Transparency and Trust
                 </span>
               </Col>
             </Row>
@@ -235,13 +237,15 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point3.svg")} />
                 </span>
-                <span className="text-left">Derive value from data</span>
+                <span className="text-left">Strengthening Collaboration</span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point4.svg")} />
                 </span>
-                <span className="text-left">Secured data exchange</span>
+                <span className="text-left">
+                  Unleashing the Power of Data Integration Connectors
+                </span>
               </Col>
             </Row>
           </Col>

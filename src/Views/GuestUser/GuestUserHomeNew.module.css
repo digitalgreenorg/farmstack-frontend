@@ -28,6 +28,11 @@
   line-height: 78px !important;
 }
 
+.lastTitle {
+  margin: 10px auto;
+  line-height: 46px !important;
+}
+
 .description {
   line-height: 27px !important;
   margin: 15px auto !important;
