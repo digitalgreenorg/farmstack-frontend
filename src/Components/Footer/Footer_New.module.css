@@ -50,6 +50,10 @@
   line-height: 26px !important;
 }
 
+.quickLinks:hover {
+  color: #00AB55;
+}
+
 @media only screen and (min-width: 600px) and (max-width: 900px) {
   .footerTitle {
     font-weight: 600;

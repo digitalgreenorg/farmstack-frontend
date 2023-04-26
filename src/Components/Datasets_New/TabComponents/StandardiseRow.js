@@ -123,6 +123,7 @@ const StandardiseRow = ({
             text={"Mask"}
             checked={maskedColumns.includes(keyName)}
             keyName={keyName}
+            keyIndex={index}
             handleCheckBox={handleMaskCheckBox}
           />
         </Box>
