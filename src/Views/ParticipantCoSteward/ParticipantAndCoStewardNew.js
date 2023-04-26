@@ -22,7 +22,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
 } from "../../Utils/Common";
-
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const ParticipantsAndCoStewardNew = () => {
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
@@ -160,18 +160,25 @@ const ParticipantsAndCoStewardNew = () => {
   ];
 
   return (
-    <Container>
+    <Container style={{ marginLeft: "144px", marginRight: "144px" }}>
       <Row>
         <Col>
-          <Breadcrumbs
-            separator={<img src={require("../../Assets/Img/dot.svg")} />}
-            aria-label="breadcrumb"
-          >
-            {breadcrumbs}
-          </Breadcrumbs>
+          <div className="text-left mt-50">
+            <span
+              className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => history.push("/datahub/participants/")}
+            >
+              Participant
+            </span>
+            <span className="add_light_text ml-16">
+              {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            </span>
+            <span className="add_light_text ml-16 fw600">{"Co-Steward"}</span>
+          </div>
         </Col>
       </Row>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box className="mt-50" sx={{ borderBottom: 1, borderColor: "divider" }}>
         <CustomTabs
           tabValue={tabValue}
           setTabValue={setTabValue}

@@ -161,14 +161,14 @@ const Standardise = ({
     });
     setDatapointAttributes(tmpColumn);
   };
-  const handleMaskCheckBox = (columnName) => {
+  const handleMaskCheckBox = (columnName, index) => {
     let tmpMaskedColumns = [...maskedColumns];
     if (!tmpMaskedColumns.includes(columnName)) {
-      tmpMaskedColumns.push(columnName);
+      tmpMaskedColumns[index] = columnName;
     } else {
-      const index = tmpMaskedColumns.indexOf(columnName);
-      if (index > -1) {
-        tmpMaskedColumns.splice(index, 1);
+      const ind = tmpMaskedColumns.indexOf(columnName);
+      if (ind > -1) {
+        tmpMaskedColumns.splice(ind, 1);
       }
     }
     setMaskedColumns(tmpMaskedColumns);
@@ -197,6 +197,10 @@ const Standardise = ({
         config[column] = {
           mapped_to: standardisedColum[index],
           mapped_category: datapointCategory[index]?.datapoint_category,
+          masked: maskedColumns.includes(column),
+        };
+      } else if (maskedColumns.includes(column)) {
+        config[column] = {
           masked: maskedColumns.includes(column),
         };
       }

@@ -54,6 +54,10 @@
   color: #000000;
   margin-top: 2px;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 150px;
 }
 .displayFlex {
   display: flex;
