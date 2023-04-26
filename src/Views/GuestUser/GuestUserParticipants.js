@@ -132,7 +132,10 @@ function GuestUserParticipants(props) {
           {title ?? "Participants Network"}
         </div>
         <div className="d-flex justify-content-center">
-          <div className={LocalStyle.description}>
+          <div
+            className={LocalStyle.description}
+            style={{ width: description && "74%" }}
+          >
             <b style={{ fontWeight: "bold" }}>&ldquo;</b>
             {description ??
               "Meet the Change Makers: Our Community Members Who Are Transforming Agriculture."}
@@ -161,7 +164,7 @@ function GuestUserParticipants(props) {
           },
         }}
         className="input_field"
-        placeholder="Search participant.."
+        placeholder={title ? "Search co-steward.." : "Search participant.."}
         value={searcParticipantsName}
         onChange={(e) => handleSearch(e.target.value)}
         InputProps={{

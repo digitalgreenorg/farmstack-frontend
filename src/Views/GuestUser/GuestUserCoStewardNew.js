@@ -6,7 +6,7 @@ function GuestUserCoStewardNew() {
     <>
       <GuestUserParticipants
         title="Co-stewards - Community builders"
-        description=""
+        description="Uniting Participants for a Better Tomorrow who enable  Powerful Networks for Agricultural Innovation."
       />
     </>
   );
