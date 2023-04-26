@@ -29,9 +29,11 @@ const GuestUserHome = () => {
               <Typography
                 className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                vitae tellus scelerisque, imperdiet augue id, accumsan dolor.
-                Integer ac neque quis metus pretium tempus.
+                <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+                Revolutionary approach to data exchange in agriculture by
+                fostering collaboration between organisations and harnessing the
+                power of collective data.
+                <b style={{ fontWeight: "bold" }}>&rdquo;</b>
               </Typography>
             </div>
             <Row className={`${LocalStyle.buttonContainer}`}>
@@ -76,7 +78,7 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point4.svg")} />
                 </span>
-                <span>Secured peer to peer data exchange</span>
+                <span>Secured data exchange</span>
               </Col>
             </Row>
           </Col>
@@ -97,11 +99,10 @@ const GuestUserHome = () => {
           Datasets
         </Typography>
         <Typography
-          className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+          className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
-          tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
-          neque quis metus pretium tempus.
+          "Discover and explore the potential of data to generate ideal datasets
+          with Dataset Explorer."
         </Typography>
         <DatasetListNew user={"guest"} />
       </Container>
@@ -121,14 +122,17 @@ const GuestUserHome = () => {
             <Typography
               className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
-              tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
-              neque quis metus pretium tempus.
+              <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+              Farmstack enables seamless data sharing, breaks down silos, and
+              builds trust among organisations. The platform consolidates
+              fragmented data, standardises data, and aids in better data
+              categorization, enhancing its usability and value.
+              <b style={{ fontWeight: "bold" }}>&rdquo;</b>
             </Typography>
           </Col>
         </Row>
       </div>
-      <Container>
+      <Container style={{ marginLeft: "144px", marginRight: "144px" }}>
         <div>
           <div className={LocalStyle.participanttitleContainer}>
             <Typography
@@ -137,11 +141,12 @@ const GuestUserHome = () => {
               Our co-steward network
             </Typography>
             <Typography
-              className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+              className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
-              tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
-              neque quis metus pretium tempus.
+              <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+              Organisations who facilitate their own private network of
+              participants for secured data sharing.
+              <b style={{ fontWeight: "bold" }}>&rdquo;</b>
             </Typography>
           </div>
           <ParticipantsCarouselNew isCosteward={true} />
@@ -161,11 +166,12 @@ const GuestUserHome = () => {
             Our Participants are
           </Typography>
           <Typography
-            className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+            className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
-            tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
-            neque quis metus pretium tempus.
+            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            Organisations that share our vision and are committed to making a
+            positive impact.
+            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
           </Typography>
         </div>
         <ParticipantsCarouselNew />
@@ -187,16 +193,18 @@ const GuestUserHome = () => {
           <Col xs={12} sm={12} md={12} xl={6}>
             <div className={`${LocalStyle.titleContainer}`}>
               <Typography
-                className={`${LocalStyle.title} ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
               >
-                Built for Creatives, by Creatives
+                Elevate Your Data Exchange Platform
               </Typography>
               <Typography
                 className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                vitae tellus scelerisque, imperdiet augue id, accumsan dolor.
-                Integer ac neque quis metus pretium tempus.
+                <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+                Empower admins from Steward Organizations to effortlessly
+                configure and manage their data exchange platform, ensuring a
+                seamless and secure experience for all participants.
+                <b style={{ fontWeight: "bold" }}>&rdquo;</b>
               </Typography>
             </div>
             {/* <Row className={`${LocalStyle.buttonContainer}`}>
@@ -211,13 +219,17 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
-                <span>Orchestrate network of data </span>
+                <span className="text-left">
+                  Empowering Agricultural Communities{" "}
+                </span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
-                <span>Invite data providers and consumers</span>
+                <span className="text-left">
+                  Promoting Transparency and Trust
+                </span>
               </Col>
             </Row>
             <Row>
@@ -225,13 +237,15 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point3.svg")} />
                 </span>
-                <span>Derive value from data</span>
+                <span className="text-left">Strengthening Collaboration</span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point4.svg")} />
                 </span>
-                <span>Secured peer to peer data exchange</span>
+                <span className="text-left">
+                  Unleashing the Power of Data Integration Connectors
+                </span>
               </Col>
             </Row>
           </Col>
