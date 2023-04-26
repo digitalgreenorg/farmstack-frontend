@@ -15,7 +15,7 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 
 function GuestUserParticipants(props) {
-  const { title } = props;
+  const { title, description } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
@@ -134,8 +134,8 @@ function GuestUserParticipants(props) {
         <div className="d-flex justify-content-center">
           <div className={LocalStyle.description}>
             <b style={{ fontWeight: "bold" }}>&ldquo;</b>
-            Meet the Change Makers: Our Community Members Who Are Transforming
-            Agriculture.
+            {description ??
+              "Meet the Change Makers: Our Community Members Who Are Transforming Agriculture."}
             <b style={{ fontWeight: "bold" }}>&rdquo;</b>
           </div>
         </div>
