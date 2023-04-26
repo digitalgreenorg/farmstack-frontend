@@ -451,10 +451,15 @@ const OrganizationDetails = (props) => {
                 placeholder="PIN Code"
                 label="PIN Code"
                 variant="outlined"
+                type="number"
                 id="organisation_pin_code"
                 name="organisation_pin_code"
                 value={organisationDetails.organisation_pin_code}
-                onChange={(e) => handleOrgChange(e)}
+                onChange={(e) => {
+                  if (e.target.value.length <= 10) {
+                    handleOrgChange(e);
+                  }
+                }}
                 error={
                   organisationDetailsError.organisation_pin_code_error
                     ? true
@@ -573,7 +578,9 @@ const OrganizationDetails = (props) => {
                   organisationDetails.organisation_country &&
                   organisationDetails.organisation_description &&
                   organisationDetails.organisation_name &&
-                  organisationDetails.organisation_pin_code &&
+                  organisationDetails.organisation_pin_code.length > 5 &&
+                  organisationDetails.organisation_contact_number &&
+                  !organisationDetailsError.organisation_contact_number_error &&
                   organisationDetails.organisation_website_link &&
                   preview
                     ? false
@@ -605,7 +612,8 @@ const OrganizationDetails = (props) => {
                 organisationDetails.organisation_country &&
                 organisationDetails.organisation_description &&
                 organisationDetails.organisation_name &&
-                organisationDetails.organisation_pin_code &&
+                organisationDetails.organisation_pin_code.length > 5 &&
+                organisationDetails.organisation_contact_number &&
                 organisationDetails.organisation_website_link &&
                 !organisationDetailsError.organisation_contact_number_error &&
                 preview
