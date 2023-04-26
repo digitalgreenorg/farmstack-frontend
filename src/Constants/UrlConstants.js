@@ -45,7 +45,7 @@ const UrlConstant = {
     "datahub/dataset/v2/validate_dataset/",
   datasetethcancel: "datahub/dataset/v2/temp_datasets/?delete_dir=True",
   datasetview: "datahub/dataset/v2/",
-  datasetview_guest: "microsite/datasets/",
+  datasetview_guest: "microsite/datasets/dataset_filters/",
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
 
@@ -85,6 +85,7 @@ const UrlConstant = {
   search_dataset_end_point_admin: "datahub/dataset/v2/dataset_filters/",
   search_dataset_end_point_participant: "datahub/dataset/v2/dataset_filters/",
   search_dataset_end_point_guest: "microsite/datasets/dataset_filters/",
+  microsite_search_participants: "microsite/participant/",
   microsite_costeward_end_point:
     "microsite/participant/organizations/?co_steward=True",
   microsite_participant_end_point: "microsite/participant/organizations/",

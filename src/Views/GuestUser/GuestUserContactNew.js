@@ -134,6 +134,7 @@ const GuestUserContactNew = () => {
     setDescribeQuery("");
     setContactNumber("");
     clearErrorMessages();
+    history.push("/home");
   };
 
   const addNewGuestUserData = () => {

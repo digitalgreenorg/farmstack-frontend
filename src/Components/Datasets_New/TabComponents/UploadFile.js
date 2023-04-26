@@ -95,7 +95,6 @@ const UploadFile = ({
     setFile(file);
     setFiles((prev) => [...prev, file]);
   };
-
   const handleDelete = (index, id, filename, type) => {
     let source = "";
     if (type === "file_upload") {
@@ -165,10 +164,11 @@ const UploadFile = ({
   const getTotalSizeInMb = (data) => {
     let total = 0;
     data.forEach((element) => {
-      let converted = element?.file_size / Math.pow(1024, 2);
-      total = parseFloat(total) + parseFloat(converted?.toFixed(2));
+      total =
+        parseFloat(total) +
+        parseFloat(element?.file_size / Math.pow(1024, 2)).toFixed(2) * 1;
     });
-    return total;
+    return total.toFixed(2);
   };
   const getAccordionData = () => {
     const prepareFile = (data, type) => {
@@ -360,13 +360,16 @@ const UploadFile = ({
     if (selectedUploadType === "file_upload") {
       let tempFiles = [];
       files.map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
+      callLoader(true);
       Promise.all(tempFiles)
         .then((results) => {
           // results will comes in type of array
+          callLoader(false);
           setFiles([]);
           console.log(results);
         })
         .catch((err) => {
+          callLoader(false);
           console.log(err);
         });
     }
@@ -839,6 +842,7 @@ const UploadFile = ({
               <div className="cursor-pointer">
                 <FileUploader
                   handleChange={handleFileChange}
+                  // onClick={(e) => (e.target.value = null)}
                   children={
                     <img
                       className="cursor-pointer"

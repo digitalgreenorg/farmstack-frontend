@@ -161,14 +161,14 @@ const Standardise = ({
     });
     setDatapointAttributes(tmpColumn);
   };
-  const handleMaskCheckBox = (columnName) => {
+  const handleMaskCheckBox = (columnName, index) => {
     let tmpMaskedColumns = [...maskedColumns];
     if (!tmpMaskedColumns.includes(columnName)) {
-      tmpMaskedColumns.push(columnName);
+      tmpMaskedColumns[index] = columnName;
     } else {
-      const index = tmpMaskedColumns.indexOf(columnName);
-      if (index > -1) {
-        tmpMaskedColumns.splice(index, 1);
+      const ind = tmpMaskedColumns.indexOf(columnName);
+      if (ind > -1) {
+        tmpMaskedColumns.splice(ind, 1);
       }
     }
     setMaskedColumns(tmpMaskedColumns);
@@ -197,6 +197,10 @@ const Standardise = ({
         config[column] = {
           mapped_to: standardisedColum[index],
           mapped_category: datapointCategory[index]?.datapoint_category,
+          masked: maskedColumns.includes(column),
+        };
+      } else if (maskedColumns.includes(column)) {
+        config[column] = {
           masked: maskedColumns.includes(column),
         };
       }
@@ -281,29 +285,34 @@ const Standardise = ({
           console.log(column, key);
           if (column === key) {
             tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
-            tempdPointCategories.push(standardised_obj[key].mapped_category);
+            tempdPointCategories[index] = standardised_obj[key].mapped_category;
             if (standardised_obj[key].masked) {
               tempMaskedColumns.push(key);
             }
           }
         });
       });
-      let tempCategories = datapointCategories.filter((item) =>
-        tempdPointCategories.includes(item.datapoint_category)
-      );
+      let finalTemp = [];
+      tempdPointCategories.forEach((res, ind) => {
+        datapointCategories.forEach((item, index) => {
+          if (res === item.datapoint_category) {
+            finalTemp[ind] = item;
+          }
+        });
+      });
       let tmpColumn = [...datapointAttributes];
 
-      tempCategories.forEach((attribute, index) => {
+      finalTemp.forEach((attribute, index) => {
         if (attribute?.datapoint_attributes) {
           tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
         }
       });
-      setDatapointCategory(tempCategories);
+      setDatapointCategory(finalTemp);
       setDatapointAttributes(tmpColumn);
       setStandardisedColumn(tmpStandardisedColum);
       setMaskedColumns(tempMaskedColumns);
     }
-  }, [keysInUploadedDataset]);
+  }, [standardiseFile, keysInUploadedDataset]);
 
   return (
     <div className="mt-20">

@@ -33,9 +33,10 @@ const CompanyPolicies = (props) => {
   const [preview, setPreview] = useState(null);
   const [allPolicies, setAllPolicies] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
-
   const handleUploadPolicy = (file) => {
+    console.log("function is calling");
     setUploadedPolicy(file);
+    console.log("file during upload", uploadedPolicy);
   };
   const handleDeletePolicy = (index) => {
     setUploadedPolicy(null);
@@ -93,7 +94,9 @@ const CompanyPolicies = (props) => {
       payload = new FormData();
       payload.append("description", companyPolicyDescription);
       payload.append("name", policyName);
-      payload.append("file", uploadedPolicy);
+      if (uploadedPolicy) {
+        payload.append("file", uploadedPolicy);
+      }
     } else if (method == "DELETE" && policy_id) {
       resetEditError(policy_id);
       url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
@@ -229,35 +232,59 @@ const CompanyPolicies = (props) => {
       data.name
     );
     const [policyNameError, setPolicyNameError] = useState("");
+    const [dataOfFile, setDataOfFile] = useState(data.file);
+
     const handleUploadPolicyE = (file) => {
-      console.log(file, "file");
-      setIsLogoLinkE(false);
+      console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
       // data[index].file = file;
       setPolicySize(file.size);
+      setIsLogoLinkE(false);
     };
-
-    useEffect(() => {
-      console.log(uploadedPolicyE, policySize);
-      if (!uploadedPolicyE) {
-        setPreviewE(undefined);
-        return;
-      }
-      setEditPolicyFileError({ error: "", policy_id: "" });
-      const objectUrl = URL.createObjectURL(uploadedPolicyE);
-      setPreviewE(objectUrl);
-      console.log(objectUrl, "objectUrl");
-      // free memory when ever this component is unmounted
-      return () => URL.revokeObjectURL(objectUrl);
-    }, [uploadedPolicyE]);
+    // useEffect(() => {
+    //   console.log(uploadedPolicyE, policySize);
+    //   if (!uploadedPolicyE) {
+    //     setPreviewE(undefined);
+    //     return;
+    //   }
+    //   setEditPolicyFileError({ error: "", policy_id: "" });
+    //   const objectUrl = URL.createObjectURL(uploadedPolicyE);
+    //   setPreviewE(objectUrl);
+    //   console.log(objectUrl, "objectUrl");
+    //   // free memory when ever this component is unmounted
+    //   return () => URL.revokeObjectURL(objectUrl);
+    // }, [uploadedPolicyE]);
+    const handleDeleteFile = () => {
+      console.log("isfile deleted", uploadedPolicyE);
+      setUploadedPolicyE(null);
+      setDataOfFile(null);
+      setPreviewE(null);
+      setPolicySize("");
+      setIsLogoLinkE(false);
+    };
     useEffect(() => {
       console.log("uploadedPolicyE", uploadedPolicyE);
-      if (data.file && !uploadedPolicyE) {
-        console.log("runing useEffect");
-        setPreviewE(data.file ? data.file : null);
+      if (uploadedPolicyE) {
+        console.log("uploadedPolicyE is calling", uploadedPolicyE);
+        const objectUrl = URL.createObjectURL(uploadedPolicyE);
+        setPreviewE(objectUrl);
+        setIsLogoLinkE(false);
+      } else if (dataOfFile) {
+        console.log("data is calling", dataOfFile);
+        setPreviewE(dataOfFile);
         setIsLogoLinkE(true);
+      } else {
+        console.log("dataOfFile is null");
+        setPreviewE(null);
+        setIsLogoLinkE(false);
       }
-    }, []);
+    }, [uploadedPolicyE, dataOfFile]);
+
+    useEffect(() => {
+      console.log("previewE updated:", previewE);
+      console.log("logoLink is calling", isLogoLinkE)
+      console.log("status of uploadedPolicy", uploadedPolicy)
+    }, [previewE, isLogoLinkE, uploadedPolicy]);
 
     const handleDescChange = (value) => {
       setEditorpolicyDescValue(value);
@@ -270,8 +297,8 @@ const CompanyPolicies = (props) => {
       let payload = new FormData();
       payload.append("description", policyDesc);
       payload.append("name", policyNameUnderAccordion);
-      {
-        !isLogoLinkE && payload.append("file", uploadedPolicyE);
+      if (uploadedPolicyE) {
+        payload.append("file", uploadedPolicyE);
       }
       let response = await submitPolicy("PATCH", data.id, payload);
 
@@ -279,6 +306,7 @@ const CompanyPolicies = (props) => {
       if (response && response.data) {
         arr[index] = { ...response?.data };
         setAllPolicies([...arr]);
+        setIsLogoLinkE(true);
       } else {
         let obj = {
           ...data,
@@ -392,7 +420,8 @@ const CompanyPolicies = (props) => {
             >
               {previewE && "Uploaded file"}
             </div>
-            {previewE && (
+
+            {uploadedPolicyE || dataOfFile ? (
               <div className={styles.text_left + " " + styles.preview_box}>
                 {previewE && (
                   <div className={styles.each_preview_policy}>
@@ -408,24 +437,26 @@ const CompanyPolicies = (props) => {
                         className={global_style.blue + " " + styles.link}
                         onClick={() => window.open(previewE)}
                       >
-                        {console.log(uploadedPolicyE, "uploadedPolicyE")}
+                        {/* {console.log(uploadedPolicyE, "uploadedPolicyE")} */}
                         {uploadedPolicyE?.name
                           ? uploadedPolicyE?.name
-                          : data.file.split("/").at(-1)}
+                          : dataOfFile
+                          ? dataOfFile?.split("/").at(-1)
+                          : ""}
                       </span>
                       <span className={global_style.light_text}>
                         {policySize && (policySize / 1000000).toFixed(2) + "MB"}
                       </span>
                     </div>
                     <CancelIcon
-                      onClick={() => handleDeletePolicy()}
+                      onClick={() => handleDeleteFile()}
                       style={{ cursor: "pointer" }}
                       fontSize="small"
                     />
                   </div>
                 )}
               </div>
-            )}
+            ) : null}
             <div
               className={
                 global_style.size14 +
@@ -691,14 +722,12 @@ const CompanyPolicies = (props) => {
               onClick={() => handleAddPolicy()}
               className={global_style.primary_button + " " + styles.next_button}
             >
-
               Add
             </Button>
           </div>
         </>
       ) : (
         <>
-  
           {isFormVisible && (
             <>
               <div className={styles.all_inputs}>

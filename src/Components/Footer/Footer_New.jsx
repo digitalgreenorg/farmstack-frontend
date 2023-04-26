@@ -5,14 +5,40 @@ import ContainedButton from "../Button/ContainedButton";
 import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
+import {
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
+} from "../../Utils/Common";
 
 const FooterNew = () => {
   const handleSubscribe = () => {};
   const history = useHistory();
   const [adminData, setAdminData] = useState(null);
-  let url =
-    "https://datahubethdev.farmstack.co/be/microsite/admin_organization/";
+
+  const handleItemClick = (name) => {
+    if (name === "datasets") {
+      if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+        history.push("/datahub/new_datasets");
+      } else if (isLoggedInUserParticipant()) {
+        history.push("/participant/new_datasets");
+      } else {
+        history.push("/home/datasets");
+      }
+    } else if (name === "participants") {
+      if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+        history.push("/datahub/participants");
+      } else if (isLoggedInUserParticipant()) {
+        history.push("/home/participants");
+      } else {
+        history.push("/home/participants");
+      }
+    }
+  };
+
   useEffect(() => {
+    let url =
+      "https://datahubethdev.farmstack.co/be/microsite/admin_organization/";
     let method = "GET";
     // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
     HTTPService(method, url, "", false, false, false, false, false)
@@ -28,8 +54,7 @@ const FooterNew = () => {
     <Box sx={{ padding: "40px", marginLeft: "144px", marginRight: "144px" }}>
       <div className="logo_container text-left">
         <img
-          height={"60px"}
-          width={"180px"}
+          style={{ height: "auto", width: "172px" }}
           src={
             UrlConstant.base_url_without_slash + adminData?.organization?.logo
           }
@@ -67,40 +92,67 @@ const FooterNew = () => {
           <div className={`${style.footerTitle}`}>Quick links</div>
           <div className={`footer_link mt-20`}>
             <div className="d-flex justify-content-between w-100">
-              <div className={`${style.footerLightText}`}>Home</div>
+              <div
+                className={`${style.footerLightText} ${style.quickLinks}`}
+                onClick={() => history.push("/home")}
+              >
+                Home
+              </div>
 
               <div
                 onClick={() => history.push("/home/contact")}
-                className={`${style.footerLightText} ${style.flexWidth}`}
+                className={`${style.footerLightText} ${style.flexWidth} ${style.quickLinks}`}
               >
                 Contact us
               </div>
             </div>
             <div className="d-flex justify-content-between w-100">
-              <div className={`${style.footerLightText} mt-10`}>
-                About Farmstack
+              <div
+                className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+              >
+                About {adminData?.organization?.name ?? ""}
               </div>
               <div
-                className={`${style.footerLightText} ${style.flexWidth} mt-10`}
+                className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
                 onClick={() => history.push("/home/legal")}
               >
                 Legal
               </div>
             </div>
             <div className="d-flex justify-content-between w-100">
-              <div className={`${style.footerLightText} mt-10 `}>Datasets</div>
               <div
-                className={`${style.footerLightText} ${style.flexWidth} mt-10`}
+                className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+              >
+                About Farmstack
+              </div>
+
+              <div
+                className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
+                onClick={() => history.push("/login")}
               >
                 Login
               </div>
             </div>
             <div className="d-flex justify-content-between w-100">
-              <div className={`${style.footerLightText} mt-10 `}>
-                Participants
+              <div
+                className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
+                onClick={() => handleItemClick("datasets")}
+              >
+                Datasets
               </div>
-              <div className={`${style.footerLightText} mt-10`}>
+
+              <div
+                className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+              >
                 Get started
+              </div>
+            </div>
+            <div className="d-flex justify-content-between w-100">
+              <div
+                className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
+                onClick={() => handleItemClick("participants")}
+              >
+                Participants
               </div>
             </div>
           </div>

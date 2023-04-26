@@ -69,7 +69,8 @@ const NavbarNew = ({ loginType }) => {
         );
         return location.pathname === "/datahub/new_datasets" ||
           location.pathname === "/datahub/new_datasets/view/" + tempId ||
-          location.pathname === "/datahub/new_datasets/edit/" + tempId
+          location.pathname === "/datahub/new_datasets/edit/" + tempId ||
+          location.pathname === "/datahub/new_datasets/add"
           ? true
           : false;
       }

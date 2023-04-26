@@ -18,7 +18,8 @@ import Standardise from "../Datasets_New/TabComponents/Standardise";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-
+import { GetErrorHandlingRoute } from "../../Utils/Common";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -123,9 +124,48 @@ const AddDataSet = (props) => {
           }
           setValue(value + 1);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           callLoader(false);
-          callToast("Something went wrong!", "error", true);
+          const returnValues = GetErrorKey(err, Object.keys(body));
+          console.log(returnValues, "keyss");
+          const errorKeys = returnValues[0];
+          const errorMessages = returnValues[1];
+          console.log(errorKeys, "keyss");
+          if (errorKeys.length > 0) {
+            for (let i = 0; i < errorKeys.length; i++) {
+              console.log(errorKeys, "keyss");
+              switch (errorKeys[i]) {
+                case "name":
+                  seteErrorDataSetName(errorMessages[i]);
+                  break;
+                default:
+                  let response = await GetErrorHandlingRoute(err);
+                  if (response.toast) {
+                    //callToast(message, type, action)
+                    callToast(
+                      response?.message ?? response?.data?.detail ?? "Unknown",
+                      response.status == 200 ? "success" : "error",
+                      response.toast
+                    );
+                  }
+                  break;
+              }
+            }
+          } else {
+            let response = await GetErrorHandlingRoute(err);
+            console.log("responce in err", response);
+            if (response.toast) {
+              //callToast(message, type, action)
+              callToast(
+                response?.message ?? response?.data?.detail ?? "Unknown",
+                response.status == 200 ? "success" : "error",
+                response.toast
+              );
+            }
+            if (response.path) {
+              history.push(response.path);
+            }
+          }
         });
     } else if (value >= 1 && value < 4) {
       setValue(value + 1);
@@ -146,7 +186,13 @@ const AddDataSet = (props) => {
         return true;
       }
     } else if (value === 1) {
-      if (files || sqlFiles || postgresFiles || sqLiteFiles || restApifiles) {
+      console.log(uploadedFiles, sqlFiles, postgresFiles, restApifiles);
+      if (
+        uploadedFiles?.length ||
+        sqlFiles?.length ||
+        postgresFiles?.length ||
+        restApifiles?.length
+      ) {
         return false;
       } else {
         return true;
@@ -163,10 +209,11 @@ const AddDataSet = (props) => {
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/new_datasets";
-    } else if (isLoggedInUserAdmin() && getTokenLocal()) {
+    } else if (
+      isLoggedInUserAdmin() ||
+      (isLoggedInUserCoSteward() && getTokenLocal())
+    ) {
       return "/datahub/new_datasets";
-    } else if (isLoggedInUserCoSteward() && getTokenLocal()) {
-      return `/datahub/new_datasets`;
     }
   };
 
@@ -373,15 +420,16 @@ const AddDataSet = (props) => {
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
         <div className="text-left mt-50">
           <span
-            className="add_light_text cursor-pointer"
+            className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
             Datasets
           </span>
-          <span className="add_light_text ml-16">
-            <img src={require("../../Assets/Img/dot.svg")} />
+          <span className="add_light_text ml-11">
+            {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
           </span>
-          <span className="add_light_text ml-16">
+          <span className="add_light_text ml-11 fw600">
             {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
           </span>
         </div>
@@ -475,6 +523,7 @@ const AddDataSet = (props) => {
             setIsUpdating={setIsUpdating}
             validator={validator}
             errorDataSetName={errorDataSetName}
+            seteErrorDataSetName={seteErrorDataSetName}
             errorDataSetDescription={errorDataSetDescription}
           />
         </TabPanel>
@@ -566,7 +615,7 @@ const AddDataSet = (props) => {
               },
             }}
             variant="outlined"
-            onClick={() => history.push("/participant/new_datasets")}
+            onClick={() => history.push(handleClickRoutes())}
           >
             Cancel
           </Button>

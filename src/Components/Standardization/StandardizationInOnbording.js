@@ -62,7 +62,7 @@ const StandardizationInOnbord = (props) => {
   const [datapointNameError, setDatapointNameError] = useState("");
   const [accordionDatapointNameError, setAccordionDatapointNameError] =
     useState([]);
-
+  const [attributeErrorMessage, setAttributeErrorMessage] = useState([]);
   const history = useHistory();
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -206,7 +206,7 @@ const StandardizationInOnbord = (props) => {
     console.log("allAttribute in start of function", allAttributes);
     let tmpAllAttributes = { ...allAttributes };
 
-    tmpAllAttributes[index][allAttributesArrIndex] = newValue;
+    tmpAllAttributes[index][allAttributesArrIndex] = newValue.trimStart();
     setAllAttributes(tmpAllAttributes);
     console.log("allAttribute", allAttributes);
   };
@@ -238,6 +238,14 @@ const StandardizationInOnbord = (props) => {
     setSaveButtonEnabled(true);
 
     let tmpAllAttributes = { ...allAttributes };
+    const newAttribute = tmpAllAttributes[index][0].trimStart();
+    if (tmpAllAttributes[index].slice(1).some(attr => attr === newAttribute)) {
+      console.error(`Attribute "${newAttribute}" already exists for datapoint ${tmpAllAttributes[index][1]}`);
+      let nameAlreadyExist = [...attributeErrorMessage]
+      nameAlreadyExist[index] = `"${newAttribute}" already exists for datapoint`
+      setAttributeErrorMessage(nameAlreadyExist)
+      return;
+    }
     tmpAllAttributes[index].push(tmpAllAttributes[index][0]);
     tmpAllAttributes[index][0] = "";
     setAllAttributes(tmpAllAttributes);
@@ -247,6 +255,7 @@ const StandardizationInOnbord = (props) => {
     tmpAllAttributesDes[index].push(tmpAllAttributesDes[index][0]);
     tmpAllAttributesDes[index][0] = "";
     setAllAttributesDes(tmpAllAttributesDes);
+    setAttributeErrorMessage("")
     console.log("all Des", tmpAllAttributesDes);
   };
 
@@ -313,7 +322,7 @@ const StandardizationInOnbord = (props) => {
           if (inSettings) {
             callToast("Standardization template updated!", "success", true);
           } else {
-            callToast("Onboarding successfull", "success", true);
+            // callToast("Onboarding successfull", "success", true);
           }
           console.log("success");
 
@@ -327,7 +336,7 @@ const StandardizationInOnbord = (props) => {
       .catch((e) => {
         setIsLoading(false);
         //   success('Standardization template created successfully')
-        console.log(e);
+        console.log(e, e?.response?.data);
         if (
           e.response != null &&
           e.response != undefined &&
@@ -335,7 +344,7 @@ const StandardizationInOnbord = (props) => {
         ) {
           setError(true);
           callToast(
-            e?.response?.message ?? "Some error occured",
+            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
             "error",
             true
           );
@@ -350,7 +359,7 @@ const StandardizationInOnbord = (props) => {
         } else {
           setError(true);
           callToast(
-            e?.response?.message ?? "Some error occured",
+            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
             "error",
             true
           );
@@ -497,6 +506,7 @@ const StandardizationInOnbord = (props) => {
     // setIsLoader(true);
     HTTPService("POST", url, data, false, true, isaccesstoken)
       .then((response) => {
+        callToast("Onboarding successfull", "success", true);
         // setIsLoader(false);
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
@@ -509,13 +519,18 @@ const StandardizationInOnbord = (props) => {
       })
       .catch((e) => {
         // setIsLoader(false);
-        console.log(e);
+        // console.log(e);
+        callToast(
+          JSON.stringify(e?.response?.data ?? "Some error occurred"),
+          "error",
+          true
+        );
       });
   };
   useEffect(() => {
-    if (inSettings) {
-      getStandardiziedTemplate();
-    }
+    // if (inSettings) {
+    getStandardiziedTemplate();
+    // }
     goToTop(0);
   }, []);
 
@@ -719,6 +734,16 @@ const StandardizationInOnbord = (props) => {
                               )
                             }
                             inputProps={{ maxLength: 250 }}
+                            helperText={
+                              attributeErrorMessage[index]
+                                ? attributeErrorMessage[index]
+                                : attributeErrorMessage[index]
+                            }
+                            error={
+                              attributeErrorMessage[index]
+                                ? attributeErrorMessage[index]
+                                : attributeErrorMessage[index]
+                            }
                           />
                           {/* <TextField
                           required
@@ -990,7 +1015,7 @@ const StandardizationInOnbord = (props) => {
               id="add-finish-later-datapoint-button"
               onClick={() => setOnBoardedTrue()}
             >
-              Skip
+              Finish later
             </Button>
             <Button
               variant="contained"

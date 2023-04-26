@@ -174,15 +174,12 @@ const CategoryDetails = (props) => {
     });
   };
   const handleChangeHeadName = (e, index) => {
-    // if (e.target.value && !categoryNamesList.includes(e.target.value))
-    //   setEnableSave(true);
-    // else setEnableSave(false);
     if (categoryNames.includes(e.target.value)) {
       setEnableSave(false);
       setEditedHeaderError("This category already exist");
     } else {
       // console.log(e.target.value);
-      if (e.target.value) {
+      if (e.target.value.trimStart()) {
         setEditedHeaderError("");
         setEnableSave(true);
       } else {
@@ -191,7 +188,7 @@ const CategoryDetails = (props) => {
       }
     }
     let arr = [...allCategories];
-    arr[index]["category_name"] = e.target.value;
+    arr[index]["category_name"] = e.target.value.trimStart();
     setAllCategories([...arr]);
   };
 
@@ -477,7 +474,7 @@ const CategoryDetails = (props) => {
               id="categoryName"
               name="categoryName"
               value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              onChange={(e) => setCategoryName(e.target.value.trimStart())}
               error={categoryNameError ? true : false}
               helperText={categoryNameError}
             />
@@ -493,7 +490,7 @@ const CategoryDetails = (props) => {
               rows={4}
               placeholder="Category Description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value.trimStart())}
             />
           </Col>
         </Row>
@@ -523,7 +520,7 @@ const CategoryDetails = (props) => {
               id="categoryName"
               name="categoryName"
               value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              onChange={(e) => setCategoryName(e.target.value.trimStart())}
               error={categoryNameError ? true : false}
               helperText={categoryNameError}
             />
@@ -539,7 +536,7 @@ const CategoryDetails = (props) => {
               rows={4}
               placeholder="Category Description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value.trimStart())}
             />
           </Col>
         </Row>
