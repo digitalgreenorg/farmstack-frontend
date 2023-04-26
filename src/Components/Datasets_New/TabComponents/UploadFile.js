@@ -164,10 +164,11 @@ const UploadFile = ({
   const getTotalSizeInMb = (data) => {
     let total = 0;
     data.forEach((element) => {
-      let converted = element?.file_size / Math.pow(1024, 2);
-      total = parseFloat(total) + parseFloat(converted?.toFixed(2));
+      total =
+        parseFloat(total) +
+        parseFloat(element?.file_size / Math.pow(1024, 2)).toFixed(2) * 1;
     });
-    return total;
+    return total.toFixed(2);
   };
   const getAccordionData = () => {
     const prepareFile = (data, type) => {
