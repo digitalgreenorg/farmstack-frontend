@@ -25,6 +25,8 @@ import LetsGetStarted from "../../../Components/NewOnboarding/LetsGetStarted";
 import global_styles from "../../../Assets/CSS/global.module.css";
 import { CSSTransition } from "react-transition-group";
 import {
+  getTokenLocal,
+  getUserLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -164,7 +166,7 @@ ColorlibStepIcon.propTypes = {
 };
 
 export default function OnBoarding() {
-  const [activeStep, setActiveStep] = React.useState(-1);
+  const [activeStep, setActiveStep] = React.useState(getTokenLocal() ? 0 : -1);
   let dev_mode =
     Window?.ENV_VARS?.REACT_APP_DEV_MODE || process.env.REACT_APP_DEV_MODE;
   console.log(dev_mode);

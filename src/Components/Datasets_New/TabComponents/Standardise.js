@@ -281,29 +281,34 @@ const Standardise = ({
           console.log(column, key);
           if (column === key) {
             tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
-            tempdPointCategories.push(standardised_obj[key].mapped_category);
+            tempdPointCategories[index] = standardised_obj[key].mapped_category;
             if (standardised_obj[key].masked) {
               tempMaskedColumns.push(key);
             }
           }
         });
       });
-      let tempCategories = datapointCategories.filter((item) =>
-        tempdPointCategories.includes(item.datapoint_category)
-      );
+      let finalTemp = [];
+      tempdPointCategories.forEach((res, ind) => {
+        datapointCategories.forEach((item, index) => {
+          if (res === item.datapoint_category) {
+            finalTemp[ind] = item;
+          }
+        });
+      });
       let tmpColumn = [...datapointAttributes];
 
-      tempCategories.forEach((attribute, index) => {
+      finalTemp.forEach((attribute, index) => {
         if (attribute?.datapoint_attributes) {
           tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
         }
       });
-      setDatapointCategory(tempCategories);
+      setDatapointCategory(finalTemp);
       setDatapointAttributes(tmpColumn);
       setStandardisedColumn(tmpStandardisedColum);
       setMaskedColumns(tempMaskedColumns);
     }
-  }, [keysInUploadedDataset]);
+  }, [standardiseFile, keysInUploadedDataset]);
 
   return (
     <div className="mt-20">

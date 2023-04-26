@@ -182,6 +182,7 @@ const DatasetRequestTable = () => {
       "Organization name",
       "Accessibility time",
       "Approval status",
+      "View",
     ];
     let columnsForReceived = [
       "Dataset details",
@@ -731,6 +732,23 @@ const DatasetRequestTable = () => {
                         }}
                         count={row.approval_status}
                       ></Badge>
+                    </TableCell>
+                    <TableCell>
+                      <span
+                        className={global_styles.primary_color}
+                        onClick={() =>
+                          history.push(
+                            "/datahub/new_datasets/view/" + row.dataset_id + "/"
+                          )
+                        }
+                        style={{
+                          cursor: "pointer",
+                          fontFamily: "Montserrat",
+                          textAlign: "center",
+                        }}
+                      >
+                        Detail
+                      </span>
                     </TableCell>
                   </TableRow>
                 ))}

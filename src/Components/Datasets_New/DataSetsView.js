@@ -503,7 +503,9 @@ const DataSetsView = (props) => {
             </Typography>
           </Box>
         </Box>
-        <div className="bold_title mt-50">{"Dataset category"}</div>
+        <div className="bold_title mt-50">
+          {categories && categories.length ? "Dataset category" : ""}
+        </div>
         <Box className="mt-20">
           <ControlledAccordion data={categories} />
         </Box>

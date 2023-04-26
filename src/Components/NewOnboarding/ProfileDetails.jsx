@@ -117,11 +117,11 @@ const ProfileDetails = (props) => {
         callLoader(false);
 
         if (!props.isAccountSetting) {
-          if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
-            setOnBoardedTrue();
-          } else {
-            setActiveStep((prev) => prev + 1);
-          }
+          // if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
+          //   setOnBoardedTrue();
+          // } else {
+          setActiveStep((prev) => prev + 1);
+          // }
         }
 
         setProfileDetailsError({
@@ -313,6 +313,14 @@ const ProfileDetails = (props) => {
                 Cancel
               </Button>
               <Button
+                 disabled={
+                  !profileDetailsError.contact_number &&
+                  profileDetails.contact_number &&
+                  profileDetails.email_id &&
+                  profileDetails.first_name
+                    ? false
+                    : true
+                }
                 id="submitbutton_account"
                 variant="outlined"
                 className={
