@@ -28,6 +28,7 @@ const ApiConfiguration = (props) => {
       </Typography>
       <TextField
         fullWidth
+        required
         helperText={
           <Typography
             sx={{
@@ -75,6 +76,7 @@ const ApiConfiguration = (props) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
+          required
           value={props.authType}
           onChange={(e) => props.setAuthType(e.target.value)}
           sx={{
@@ -105,6 +107,7 @@ const ApiConfiguration = (props) => {
         props.authType === "BEARER" ? (
           <TextField
             fullWidth
+            required
             helperText={
               <Typography
                 sx={{
@@ -148,6 +151,7 @@ const ApiConfiguration = (props) => {
           <>
             <TextField
               fullWidth
+              required
               sx={{
                 marginTop: "30px",
                 borderRadius: "8px",
@@ -170,6 +174,7 @@ const ApiConfiguration = (props) => {
             />
             <TextField
               fullWidth
+              required
               sx={{
                 marginTop: "30px",
                 borderRadius: "8px",
@@ -222,6 +227,7 @@ const ApiConfiguration = (props) => {
       </Box>
       <TextField
         fullWidth
+        required
         helperText={
           <Typography
             sx={{
@@ -301,6 +307,7 @@ const ApiConfiguration = (props) => {
             },
           }}
           variant="outlined"
+          disabled={props.exportFileName ? false : true}
           onClick={() => props.handleExport()}
         >
           Import
