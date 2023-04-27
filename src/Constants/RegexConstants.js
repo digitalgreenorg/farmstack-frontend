@@ -24,6 +24,7 @@ const RegexConstants = {
   address: /^$|^[a-zA-Z0-9#,][a-zA-Z0-9#, ]*$/,
   NEW_NAME_REGEX: /^([a-zA-Z0-9]+\s?)*$/,   //allows only one space and no spl characters allowed
   DATAPOINT_ATTRIBUTE_REGEX:  /^$|^[a-zA-Z0-9][a-zA-Z0-9_ ]*$/,//   accepts only 1 spl charecter "_" and no spl characters and no space
+  PINCODE_REGEX_NEWUI: /^[0-9]{0,10}$/, //accepts only numbers for new UI fs_2.0
 };
 
 export default RegexConstants;
