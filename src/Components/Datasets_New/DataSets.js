@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
-  Button,
-  Card,
   Divider,
   IconButton,
   InputAdornment,
@@ -32,6 +30,7 @@ import { City, Country, State } from "country-state-city";
 import EmptyFile from "./TabComponents/EmptyFile";
 import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
 import FilterDate from "../Filter/FilterDate";
+import useDebounce from "../../hooks/useDebounce";
 
 const cardSx = {
   maxWidth: 368,
@@ -49,6 +48,7 @@ const DataSets = (props) => {
   const history = useHistory();
   const [state, setState] = useState([0, 1, 2, 3, 4, 5]);
   const [searchDatasetsName, setSearchDatasetsName] = useState();
+  const debouncedSearchValue = useDebounce(searchDatasetsName, 1000);
   const [filterState, setFilterState] = useState({});
   const [datasetList, setDatasetList] = useState([]);
   const [filteredDatasetList, setFilteredDatasetList] = useState([]);
@@ -94,7 +94,6 @@ const DataSets = (props) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [dates, setDates] = useState([{ fromDate: null, toDate: null }]);
-
   const resetUrls = () => {
     adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
     memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
@@ -112,112 +111,15 @@ const DataSets = (props) => {
     }
   };
 
-  const handleSearch = (name, isLoadMore) => {
-    setSearchDatasetsName(name.trim());
-    if (name.trim().length > 2) {
-      let data = {};
-      data["user_id"] = getUserLocal();
-      data["org_id"] = getOrgLocal();
-      data["name__icontains"] = name.trim();
-      if (value === 0) {
-        data["others"] = false;
-      } else {
-        data["others"] = true;
-      }
-      setFilterState(data);
-      let guestUsetFilterUrl =
-        UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
-      let isAuthorization = user == "guest" ? false : true;
-      if (value === 0) {
-        HTTPService(
-          "POST",
-          user == "guest"
-            ? guestUsetFilterUrl
-            : !isLoadMore
-            ? searchUrl
-            : memberDatasetUrl
-            ? memberDatasetUrl
-            : searchUrl,
-          data,
-          false,
-          isAuthorization
-        )
-          .then((response) => {
-            if (response.data.next == null) {
-              setFilterState({});
-              setShowLoadMoreAdmin(false);
-            } else {
-              setDatasetUrl(response.data.next);
-              setShowLoadMoreAdmin(true);
-            }
-            let finalDataList = [];
-            if (isLoadMore) {
-              finalDataList = [
-                ...filteredDatasetList,
-                ...response.data.results,
-              ];
-            } else {
-              finalDataList = [...response.data.results];
-            }
-            console.log(finalDataList, "fdlist");
-            setFilteredDatasetList(finalDataList);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (value === 1) {
-        HTTPService(
-          "POST",
-
-          !isLoadMore
-            ? searchUrl
-            : memberDatasetUrl
-            ? memberDatasetUrl
-            : searchUrl,
-          data,
-          false,
-          true
-        )
-          .then((response) => {
-            if (response.data.next == null) {
-              setFilterState({});
-              setShowLoadMoreMember(false);
-            } else {
-              setMemberDatasetUrl(response.data.next);
-              setShowLoadMoreMember(true);
-            }
-            let finalDataList = [];
-            if (isLoadMore) {
-              finalDataList = [
-                ...filteredMemberDatasetList,
-                ...response.data.results,
-              ];
-            } else {
-              finalDataList = [...response.data.results];
-            }
-            setFilteredMemberDatasetList(finalDataList);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    } else {
-      setFilteredDatasetList([]);
-      setFilteredMemberDatasetList([]);
-      // if (value === 0) {
-      //   getDataSets(false);
-      // }
-      // if (value === 1) {
-      //   getOtherDataSets(false);
-      // }
-    }
-  };
-
   const clearFilter = () => {
     if (value === 0) {
+      setFilteredDatasetList([]);
+      setFilterState({});
       getDataSets(false);
     }
     if (value === 1) {
+      setFilteredMemberDatasetList();
+      setFilterState({});
       getOtherDataSets(false);
     }
   };
@@ -243,11 +145,7 @@ const DataSets = (props) => {
     if (user == "guest") {
       guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
       payload = "";
-      // method = "GET";
     }
-
-    // console.log("url",guestUrl)
-
     let accessToken = getTokenLocal() ?? false;
     callLoader(true);
     HTTPService(
@@ -298,6 +196,9 @@ const DataSets = (props) => {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = true;
+        if (searchDatasetsName?.length > 2) {
+          payload["name__icontains"] = searchDatasetsName;
+        }
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
@@ -347,7 +248,77 @@ const DataSets = (props) => {
         }
       });
   };
-
+  const getUrl = (isLoadMore) => {
+    if (user === "guest") {
+      let guestUsetFilterUrl =
+        UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
+      return guestUsetFilterUrl;
+    } else {
+      if (!isLoadMore) {
+        return searchUrl;
+      } else {
+        return value === 0 ? datasetUrl : memberDatasetUrl;
+      }
+    }
+  };
+  const handleSearch = async (isLoadMore) => {
+    if (searchDatasetsName?.length < 3 && searchDatasetsName !== "")
+      searchDatasetsName = "";
+    let data = {};
+    setFilterState({});
+    data["user_id"] = getUserLocal();
+    data["org_id"] = getOrgLocal();
+    data["name__icontains"] = searchDatasetsName;
+    if (isLoggedInUserCoSteward()) {
+      data["on_boarded_by"] = true;
+    }
+    if (value === 1) {
+      data["others"] = true;
+    } else {
+      data["others"] = false;
+    }
+    callLoader(true);
+    await HTTPService("POST", getUrl(isLoadMore), data, false, true)
+      .then((response) => {
+        callLoader(false);
+        if (response.data.next == null) {
+          if (value === 0) {
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false);
+          }
+          setFilterState({});
+        } else {
+          if (value === 0) {
+            setDatasetUrl(response.data.next);
+            setShowLoadMoreAdmin(true);
+          } else {
+            setMemberDatasetUrl(response.data.next);
+            setShowLoadMoreMember(true);
+          }
+        }
+        let finalDataList = [];
+        if (isLoadMore) {
+          if (value === 1) {
+            finalDataList = [...memberDatasetList, ...response.data.results];
+          } else {
+            finalDataList = [...datasetList, ...response.data.results];
+          }
+        } else {
+          finalDataList = [...response.data.results];
+          console.log(finalDataList);
+        }
+        if (value === 1) {
+          setMemberDatasetList(finalDataList);
+        } else {
+          setDatasetList(finalDataList);
+        }
+        return;
+      })
+      .catch((e) => {
+        callLoader(false);
+      });
+  };
   // filter-popovers handling
   const handleFilterClick = (type) => {
     if (type === "geography") {
@@ -383,20 +354,6 @@ const DataSets = (props) => {
       setCategorises((currentState) => {
         return { ...currentState, [keyName]: [value] };
       });
-    }
-  };
-
-  const handleGeoCheckBox = (keyName) => {
-    let tempGeographies = [...geographies];
-    if (tempGeographies.includes(keyName)) {
-      const index = tempGeographies.indexOf(keyName);
-      if (index > -1) {
-        tempGeographies.splice(index, 1);
-        setGeographies(tempGeographies);
-      }
-    } else {
-      tempGeographies.push(keyName);
-      setGeographies((prev) => [...prev, keyName]);
     }
   };
 
@@ -558,9 +515,6 @@ const DataSets = (props) => {
     if (user === "guest") {
       getDataSets(false);
     }
-    // if (user !== "guest" && value === 1) {
-    // getOtherDataSets(false);
-    // }
   }, []);
 
   useEffect(() => {
@@ -568,13 +522,16 @@ const DataSets = (props) => {
   }, [value]);
 
   useEffect(() => {
+    handleSearch();
+  }, [debouncedSearchValue]);
+  useEffect(() => {
     getAllGeoGraphies();
   }, [geography, type]);
 
   useEffect(() => {
     getAllCategoryAndSubCategory();
   }, [categorises, type]);
-  console.log(datasetList, "dsets");
+
   return (
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>
@@ -605,7 +562,7 @@ const DataSets = (props) => {
           className="input_field"
           placeholder="Search dataset.."
           value={searchDatasetsName}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => setSearchDatasetsName(e.target.value.trim())}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -786,14 +743,8 @@ const DataSets = (props) => {
           state={state}
           value={value}
           setValue={setValue}
-          datasetList={
-            filteredDatasetList?.length ? filteredDatasetList : datasetList
-          }
-          memberDatasetList={
-            filteredMemberDatasetList?.length
-              ? filteredMemberDatasetList
-              : memberDatasetList
-          }
+          datasetList={datasetList}
+          memberDatasetList={memberDatasetList}
           filteredDatasetList={filteredDatasetList}
           filteredMemberDatasetList={filteredMemberDatasetList}
           getDataSets={getDataSets}
