@@ -50,6 +50,7 @@ const DbConfiguration = (props) => {
       </Typography>
       <TextField
         fullWidth
+        required
         helperText={
           <Typography
             sx={{
@@ -91,6 +92,7 @@ const DbConfiguration = (props) => {
       />
       <TextField
         fullWidth
+        required
         helperText={
           <Typography
             sx={{
@@ -132,6 +134,7 @@ const DbConfiguration = (props) => {
       />
       <TextField
         fullWidth
+        required
         helperText={
           <Typography
             sx={{
@@ -187,6 +190,7 @@ const DbConfiguration = (props) => {
       />
       <TextField
         fullWidth
+        required
         helperText={
           <Typography
             sx={{
@@ -228,6 +232,7 @@ const DbConfiguration = (props) => {
       />
       <TextField
         fullWidth
+        required
         helperText={
           <Typography
             sx={{
@@ -308,6 +313,15 @@ const DbConfiguration = (props) => {
             },
           }}
           variant="outlined"
+          disabled={
+            props.dbaseName &&
+            props.userName &&
+            props.password &&
+            props.dbUrl &&
+            props.port
+              ? false
+              : true
+          }
           onClick={() => props.handleConnect()}
         >
           Connect

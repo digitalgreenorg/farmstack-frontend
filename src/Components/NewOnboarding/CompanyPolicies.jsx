@@ -94,7 +94,9 @@ const CompanyPolicies = (props) => {
       payload = new FormData();
       payload.append("description", companyPolicyDescription);
       payload.append("name", policyName);
-      payload.append("file", uploadedPolicy);
+      if (uploadedPolicy) {
+        payload.append("file", uploadedPolicy);
+      }
     } else if (method == "DELETE" && policy_id) {
       resetEditError(policy_id);
       url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
@@ -280,7 +282,9 @@ const CompanyPolicies = (props) => {
 
     useEffect(() => {
       console.log("previewE updated:", previewE);
-    }, [previewE]);
+      console.log("logoLink is calling", isLogoLinkE)
+      console.log("status of uploadedPolicy", uploadedPolicy)
+    }, [previewE, isLogoLinkE, uploadedPolicy]);
 
     const handleDescChange = (value) => {
       setEditorpolicyDescValue(value);
@@ -293,7 +297,9 @@ const CompanyPolicies = (props) => {
       let payload = new FormData();
       payload.append("description", policyDesc);
       payload.append("name", policyNameUnderAccordion);
-      !isLogoLinkE && payload.append("file", uploadedPolicyE);
+      if (uploadedPolicyE) {
+        payload.append("file", uploadedPolicyE);
+      }
       let response = await submitPolicy("PATCH", data.id, payload);
 
       let arr = [...allPolicies];
@@ -431,7 +437,7 @@ const CompanyPolicies = (props) => {
                         className={global_style.blue + " " + styles.link}
                         onClick={() => window.open(previewE)}
                       >
-                        {console.log(uploadedPolicyE, "uploadedPolicyE")}
+                        {/* {console.log(uploadedPolicyE, "uploadedPolicyE")} */}
                         {uploadedPolicyE?.name
                           ? uploadedPolicyE?.name
                           : dataOfFile

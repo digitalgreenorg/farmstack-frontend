@@ -579,12 +579,13 @@ const DataSets = (props) => {
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>
         {/* section-1 */}
-        <div className="title">List of datasets</div>
+        <div className="title">Datasets Explorer</div>
         <div className="d-flex justify-content-center">
           <div className="description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
-            tellus scelerisque, imperdiet augue id, accumsan dolor. Integer ac
-            neque quis metus pretium tempus.
+            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            Unleash the power of data-driven agriculture - your ultimate dataset
+            explorer for smarter decisions!
+            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
           </div>
         </div>
         <TextField

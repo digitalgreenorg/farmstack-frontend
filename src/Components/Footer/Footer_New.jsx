@@ -110,7 +110,7 @@ const FooterNew = () => {
               <div
                 className={`${style.footerLightText} ${style.quickLinks} mt-10`}
               >
-                About Farmstack
+                About {adminData?.organization?.name ?? ""}
               </div>
               <div
                 className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
@@ -121,11 +121,11 @@ const FooterNew = () => {
             </div>
             <div className="d-flex justify-content-between w-100">
               <div
-                className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
-                onClick={() => handleItemClick("datasets")}
+                className={`${style.footerLightText} ${style.quickLinks} mt-10`}
               >
-                Datasets
+                About Farmstack
               </div>
+
               <div
                 className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
                 onClick={() => history.push("/login")}
@@ -136,14 +136,23 @@ const FooterNew = () => {
             <div className="d-flex justify-content-between w-100">
               <div
                 className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
-                onClick={() => handleItemClick("participants")}
+                onClick={() => handleItemClick("datasets")}
               >
-                Participants
+                Datasets
               </div>
+
               <div
                 className={`${style.footerLightText} ${style.quickLinks} mt-10`}
               >
                 Get started
+              </div>
+            </div>
+            <div className="d-flex justify-content-between w-100">
+              <div
+                className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
+                onClick={() => handleItemClick("participants")}
+              >
+                Participants
               </div>
             </div>
           </div>
