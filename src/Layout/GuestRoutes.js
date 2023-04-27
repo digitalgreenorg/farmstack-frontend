@@ -11,7 +11,12 @@ import DataSetsListView from "../Components/Datasets_New/DataSetsListView";
 import FooterNew from "../Components/Footer/Footer_New";
 import GuestUserDatasets from "../Components/GuestUser/GuestUserDatasets";
 import NavbarNew from "../Components/Navbar/Navbar_New";
-import { getUserLocal } from "../Utils/Common";
+import {
+  getUserLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
+} from "../Utils/Common";
 import GuestUserDatatsets from "../Views/Dataset/GuestUserDataset";
 import GuestUserHomeNew from "../Views/GuestUser/GuestUserHomeNew";
 import GuestUserLegalNew from "../Views/GuestUser/GuestUserLegalNew";
@@ -27,8 +32,10 @@ import RegisterParticipants from "../Components/GuestUser/RegisterParticipants";
 const GuestRoutes = () => {
   return (
     <div className="center_keeping_conatiner">
-      {getUserLocal() ? (
+      {isLoggedInUserAdmin() || isLoggedInUserCoSteward() ? (
         <NavbarNew loginType={"admin"} />
+      ) : isLoggedInUserParticipant() ? (
+        <NavbarNew loginType={"participant"} />
       ) : (
         <NavbarNew loginType={"guest"} />
       )}
