@@ -6,6 +6,9 @@ import {
   GetErrorHandlingRoute,
   GetErrorKey,
   getUserMapId,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
 } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import { Col, Container, Row } from "react-bootstrap";
@@ -174,7 +177,19 @@ const DatasetRequestTable = () => {
         }
       });
   };
-
+  const handleDetailRoute = (row) => {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      return {
+        pathname: "/datahub/new_datasets/view/" + row.dataset_id + "/",
+        state: { tab: "my_organisation" },
+      };
+    } else if (isLoggedInUserParticipant()) {
+      return {
+        pathname: "/participant" + "/new_datasets/view/" + row.dataset_id + "/",
+        state: { tab: "my_organisation" },
+      };
+    }
+  };
   useEffect(() => {
     let columnsForSent = [
       "Dataset name",
@@ -621,11 +636,7 @@ const DatasetRequestTable = () => {
                     <TableCell>
                       <span
                         className={global_styles.primary_color}
-                        onClick={() =>
-                          history.push(
-                            "/datahub/new_datasets/view/" + row.dataset_id + "/"
-                          )
-                        }
+                        onClick={() => history.push(handleDetailRoute(row))}
                         style={{
                           cursor: "pointer",
                           fontFamily: "Montserrat",

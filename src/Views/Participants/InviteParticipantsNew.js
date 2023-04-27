@@ -113,7 +113,7 @@ const InviteParticipantsNew = (props) => {
 
   const handleCancel = () => {
     setAllEmails([]);
-    email("");
+    setEmail("");
     setInviteNote(RichTextEditor.createEmptyValue);
   };
 

@@ -33,14 +33,20 @@ const CompanyPolicies = (props) => {
   const [preview, setPreview] = useState(null);
   const [allPolicies, setAllPolicies] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
+
+  const [key, setKey] = useState(0);
+
   const handleUploadPolicy = (file) => {
     console.log("function is calling");
     setUploadedPolicy(file);
-    console.log("file during upload", uploadedPolicy);
+    setKey(key + 1);
+    console.log("file during upload", uploadedPolicy, key);
   };
   const handleDeletePolicy = (index) => {
     setUploadedPolicy(null);
     setPreview(null);
+    setKey(key + 1);
+    console.log("file during delete", uploadedPolicy, key);
   };
   const confirm = (e, index) => {
     deletePolicyDetail(e, index);
@@ -233,13 +239,14 @@ const CompanyPolicies = (props) => {
     );
     const [policyNameError, setPolicyNameError] = useState("");
     const [dataOfFile, setDataOfFile] = useState(data.file);
-
+    const [localKey, setLocalKey] = useState(0);
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
       // data[index].file = file;
       setPolicySize(file.size);
       setIsLogoLinkE(false);
+      setLocalKey(localKey + 1);
     };
     // useEffect(() => {
     //   console.log(uploadedPolicyE, policySize);
@@ -261,6 +268,7 @@ const CompanyPolicies = (props) => {
       setPreviewE(null);
       setPolicySize("");
       setIsLogoLinkE(false);
+      setLocalKey(localKey + 1);
     };
     useEffect(() => {
       console.log("uploadedPolicyE", uploadedPolicyE);
@@ -282,8 +290,8 @@ const CompanyPolicies = (props) => {
 
     useEffect(() => {
       console.log("previewE updated:", previewE);
-      console.log("logoLink is calling", isLogoLinkE)
-      console.log("status of uploadedPolicy", uploadedPolicy)
+      console.log("logoLink is calling", isLogoLinkE);
+      console.log("status of uploadedPolicy", uploadedPolicy);
     }, [previewE, isLogoLinkE, uploadedPolicy]);
 
     const handleDescChange = (value) => {
@@ -387,6 +395,7 @@ const CompanyPolicies = (props) => {
           >
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
               <FileUploaderMain
+                key={localKey}
                 isMultiple={false}
                 texts={
                   "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
@@ -645,6 +654,7 @@ const CompanyPolicies = (props) => {
             <Row>
               <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                 <FileUploaderMain
+                  key={key}
                   isMultiple={false}
                   texts={
                     "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
@@ -778,6 +788,7 @@ const CompanyPolicies = (props) => {
                 <Row>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                     <FileUploaderMain
+                      key={key}
                       isMultiple={false}
                       texts={
                         "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
@@ -883,7 +894,7 @@ const CompanyPolicies = (props) => {
       <Row style={{ marginBottom: "20px" }}>
         <Col lg={12} sm={12}>
           {allPolicies.map((each_policy, index) => {
-            console.log(allPolicies, each_policy);
+            // console.log(allPolicies, each_policy);
             return (
               <ControlledAccordions
                 data={each_policy}

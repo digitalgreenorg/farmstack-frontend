@@ -37,6 +37,7 @@
 
 .policyDetailsDescription {
   text-align: left;
+  word-wrap: break-word;
 }
 
 .backButton {

@@ -270,7 +270,11 @@ const DbConfiguration = (props) => {
         placeholder="Port"
         label="Port"
         value={props.port}
-        onChange={(e) => props.setPort(e.target.value)}
+        onChange={(e) => {
+          const input = e.target.value.replace(/\D/g, ""); // replace all non-numeric characters with an empty string
+          e.target.value = input.slice(0, 5); // limit input to 5 characters
+          props.setPort(input.slice(0, 5)); // set the port value to the input, limited to 5 characters
+        }}
       />
       {/* <CheckBoxWithText text={"Save credentials"} handleCheckBox={props.handleCheckBox} /> */}
       <Box sx={{ marginTop: "31px", textAlign: "end" }}>

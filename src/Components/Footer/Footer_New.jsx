@@ -38,7 +38,7 @@ const FooterNew = () => {
 
   useEffect(() => {
     let url =
-      "https://datahubethdev.farmstack.co/be/microsite/admin_organization/";
+      UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
     let method = "GET";
     // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
     HTTPService(method, url, "", false, false, false, false, false)
@@ -54,7 +54,7 @@ const FooterNew = () => {
     <Box sx={{ padding: "40px", marginLeft: "144px", marginRight: "144px" }}>
       <div className="logo_container text-left">
         <img
-          style={{ height: "auto", width: "172px" }}
+          style={{ height: "auto", width: "172px", maxHeight: "65px" }}
           src={
             UrlConstant.base_url_without_slash + adminData?.organization?.logo
           }
@@ -75,6 +75,7 @@ const FooterNew = () => {
               Datahub admin phone
             </div>
             <div className={`${style.footerDarkText} mt-2 text-left`}>
+              {console.log(adminData, "adminData")}
               {adminData?.user?.phone_number ?? ""}
             </div>
           </div>

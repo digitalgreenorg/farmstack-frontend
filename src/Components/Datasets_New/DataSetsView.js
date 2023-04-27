@@ -523,6 +523,7 @@ const DataSetsView = (props) => {
           <ControlledAccordion data={files} isTables={true} />
         </Box>
         <Divider className="mt-50" />
+        {console.log(history)}
         {history.location?.state?.tab === "my_organisation" &&
         userType !== "guest" ? (
           <>
