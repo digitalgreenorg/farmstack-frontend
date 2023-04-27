@@ -38,12 +38,15 @@ const CategoryDetails = (props) => {
   const [uploadedCategory, setUploadedCategory] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const history = useHistory();
+  const [key, setKey] = useState(0);
   const handleUploadCategory = (file) => {
     setUploadedCategory(file);
+    setKey(key + 1);
   };
   const handleDeleteCategory = (index) => {
     setUploadedCategory(null);
     setPreview(null);
+    setKey(key + 1);
   };
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
@@ -390,6 +393,7 @@ const CategoryDetails = (props) => {
             {false && (
               <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                 <FileUploaderMain
+                  key={key}
                   isMultiple={false}
                   handleChange={handleUploadCategory}
                   disabled

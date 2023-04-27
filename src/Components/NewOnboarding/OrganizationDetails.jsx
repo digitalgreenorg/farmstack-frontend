@@ -109,10 +109,12 @@ const OrganizationDetails = (props) => {
   };
 
   const [preview, setPreview] = useState();
+  const [key, setKey] = useState(0);
   const handleUpload = (file) => {
     console.log(file);
     setIsLogoLink(false);
     setUploadedLogo(file);
+    setKey(key + 1); // generate a new key when a file is uploaded
   };
 
   // create a preview as a side effect, whenever selected file is changed
@@ -499,6 +501,7 @@ const OrganizationDetails = (props) => {
           <Row>
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
               <FileUploaderMain
+                key={key} // set the key prop to force a re-render when the key changes
                 texts={
                   "Drop files here or click browse thorough your machine,File size not more than "
                 }
@@ -535,6 +538,7 @@ const OrganizationDetails = (props) => {
                     onClick={() => {
                       setPreview(null);
                       setUploadedLogo(null);
+                      setKey(key + 1); // generate a new key when a file is deleted
                     }}
                     style={{ cursor: "pointer" }}
                     fontSize="small"
