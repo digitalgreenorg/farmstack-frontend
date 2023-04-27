@@ -94,17 +94,14 @@ const FileWithAction = ({
         handleDownload();
       }
       if (isOther && fileType === "private") {
-        if (!usagePolicy?.length) {
+        if (!Object.keys(usagePolicy)?.length) {
           askToDownload();
         } else {
-          let filteredItem = usagePolicy.filter(
-            (item) => item.user_organization_map === getUserMapId()
-          );
-          if (filteredItem?.[0]?.approval_status === "requested") {
-            handleDelete(filteredItem?.[0]?.id);
-          } else if (filteredItem?.[0]?.approval_status === "approved") {
+          if (usagePolicy?.approval_status === "requested") {
+            handleDelete(usagePolicy?.id);
+          } else if (usagePolicy?.approval_status === "approved") {
             handleDownload();
-          } else if (filteredItem?.[0]?.approval_status === "rejected") {
+          } else if (usagePolicy?.approval_status === "rejected") {
             askToDownload();
           }
         }
@@ -119,15 +116,17 @@ const FileWithAction = ({
   };
 
   const getButtonName = () => {
-    let filteredItem = usagePolicy?.filter(
-      (item) => item.user_organization_map === getUserMapId()
-    );
-    if (filteredItem?.[0]?.approval_status === "requested") {
+    let isUserPolicy = Object.keys(usagePolicy).length;
+    if (isUserPolicy) {
+      if (usagePolicy.approval_status === "requested") {
+        return "Recall";
+      } else if (usagePolicy.approval_status === "approved") {
+        return "Download";
+      } else if (usagePolicy.approval_status === "rejected") {
+        return "Ask to Download";
+      }
+    } else {
       return "Recall";
-    } else if (filteredItem?.[0]?.approval_status === "approved") {
-      return "Download";
-    } else if (filteredItem?.[0]?.approval_status === "rejected") {
-      return "Ask to Download";
     }
   };
 
@@ -225,7 +224,7 @@ const FileWithAction = ({
           {userType !== "guest"
             ? fileType === "public" || fileType === "registered" || !isOther
               ? "Download"
-              : isOther && !usagePolicy?.length
+              : isOther && !Object.keys(usagePolicy).length
               ? "Ask to Download"
               : getButtonName()
             : fileType === "public"
