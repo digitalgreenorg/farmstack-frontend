@@ -233,7 +233,6 @@ const BasicDetails = ({
                       },
                     },
                   }}
-                  onKeyDown={onKeyDown}
                   required={isUpdating ? false : true}
                   helperText={
                     <Typography
