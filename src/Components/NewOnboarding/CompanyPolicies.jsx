@@ -102,9 +102,9 @@ const CompanyPolicies = (props) => {
       payload.append("name", policyName);
       if (uploadedPolicy) {
         payload.append("file", uploadedPolicy);
-      }
-    } else if (method == "DELETE" && policy_id) {
-      resetEditError(policy_id);
+      }  
+      } else if (method == "DELETE" && policy_id) {
+        resetEditError(policy_id);
       url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
       payload = "";
     } else if (method == "PATCH" && policy_id) {
@@ -127,6 +127,9 @@ const CompanyPolicies = (props) => {
         } else if (method == "PATCH") {
           // getListOfPolicies();
           return response;
+        }
+        if(props.isPolicySettings && response.status === 201) {
+        callToast("Policy settings updated successfully!", "success", true);
         }
       })
       .catch(async (e) => {
@@ -248,19 +251,7 @@ const CompanyPolicies = (props) => {
       setIsLogoLinkE(false);
       setLocalKey(localKey + 1);
     };
-    // useEffect(() => {
-    //   console.log(uploadedPolicyE, policySize);
-    //   if (!uploadedPolicyE) {
-    //     setPreviewE(undefined);
-    //     return;
-    //   }
-    //   setEditPolicyFileError({ error: "", policy_id: "" });
-    //   const objectUrl = URL.createObjectURL(uploadedPolicyE);
-    //   setPreviewE(objectUrl);
-    //   console.log(objectUrl, "objectUrl");
-    //   // free memory when ever this component is unmounted
-    //   return () => URL.revokeObjectURL(objectUrl);
-    // }, [uploadedPolicyE]);
+
     const handleDeleteFile = () => {
       console.log("isfile deleted", uploadedPolicyE);
       setUploadedPolicyE(null);
@@ -305,9 +296,8 @@ const CompanyPolicies = (props) => {
       let payload = new FormData();
       payload.append("description", policyDesc);
       payload.append("name", policyNameUnderAccordion);
-      if (uploadedPolicyE) {
-        payload.append("file", uploadedPolicyE);
-      }
+      !isLogoLinkE && payload.append("file", uploadedPolicyE || "");
+
       let response = await submitPolicy("PATCH", data.id, payload);
 
       let arr = [...allPolicies];

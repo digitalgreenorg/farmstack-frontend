@@ -289,7 +289,7 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )}
-          {loginType === "admin" || loginType === "guest" ? (
+          {(loginType === "admin" || loginType === "guest") && !isLoggedInUserParticipant() ? (
             <NavLink
               activeStyle={navActiveStyle}
               style={
