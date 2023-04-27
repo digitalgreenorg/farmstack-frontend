@@ -258,38 +258,6 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )} */}
-          {loginType === "admin" || loginType === "guest" ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={
-                isNavLinkActiveForCostewardDot("costeward")
-                  ? navActiveStyle
-                  : navInActiveStyle
-              }
-              to={
-                loginType === "admin"
-                  ? "/datahub/participants"
-                  : loginType === "guest"
-                  ? "/home/participants"
-                  : ""
-              }
-              onClick={() => handleSelect("participants")}
-            >
-              {isNavLinkActiveForDot("participants") ||
-              isNavLinkActiveForCostewardDot("costeward") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
-              ) : (
-                <></>
-              )}
-              Participants
-            </NavLink>
-          ) : (
-            <></>
-          )}
           {loginType === "admin" ||
           loginType === "participant" ||
           loginType === "guest" ? (
@@ -317,6 +285,39 @@ const NavbarNew = ({ loginType }) => {
                 <></>
               )}
               Datasets
+            </NavLink>
+          ) : (
+            <></>
+          )}
+          {(loginType === "admin" || loginType === "guest") &&
+          !isLoggedInUserParticipant() ? (
+            <NavLink
+              activeStyle={navActiveStyle}
+              style={
+                isNavLinkActiveForCostewardDot("costeward")
+                  ? navActiveStyle
+                  : navInActiveStyle
+              }
+              to={
+                loginType === "admin"
+                  ? "/datahub/participants"
+                  : loginType === "guest"
+                  ? "/home/participants"
+                  : ""
+              }
+              onClick={() => handleSelect("participants")}
+            >
+              {isNavLinkActiveForDot("participants") ||
+              isNavLinkActiveForCostewardDot("costeward") ? (
+                <img
+                  className={style.dotStyle}
+                  src={require("../../Assets/Img/green_dot.svg")}
+                  alt="dot"
+                />
+              ) : (
+                <></>
+              )}
+              Participants
             </NavLink>
           ) : (
             <></>
