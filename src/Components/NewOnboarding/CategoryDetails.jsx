@@ -37,13 +37,16 @@ const CategoryDetails = (props) => {
   });
   const [uploadedCategory, setUploadedCategory] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const history = useHistory()
+  const history = useHistory();
+  const [key, setKey] = useState(0);
   const handleUploadCategory = (file) => {
     setUploadedCategory(file);
+    setKey(key + 1);
   };
   const handleDeleteCategory = (index) => {
     setUploadedCategory(null);
     setPreview(null);
+    setKey(key + 1);
   };
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
@@ -152,7 +155,11 @@ const CategoryDetails = (props) => {
       .then((response) => {
         callLoader(false);
         console.log(response);
-        setActiveStep((prev) => prev + 1);
+        if (!props.isCategorySetting) {
+          setActiveStep((prev) => prev + 1);
+        } else {
+          callToast("Request successfull", "success", true);
+        }
       })
       .catch((e) => {
         callLoader(false);
@@ -354,16 +361,17 @@ const CategoryDetails = (props) => {
 
   return (
     <div className={styles.main_box + " category_detail_main_box"}>
-     {!props.isCategorySetting ?
-     <>
-      <div className={styles.main_label} style={{ display: "none" }}>
-        Category details
-      </div>
+      {!props.isCategorySetting ? (
+        <>
+          <div className={styles.main_label} style={{ display: "none" }}>
+            Category details
+          </div>
 
-      <div className={styles.sub_label} style={{ display: "none" }}>
-        Upload your categories
-      </div>
-      </> :  (
+          <div className={styles.sub_label} style={{ display: "none" }}>
+            Upload your categories
+          </div>
+        </>
+      ) : (
         <Row className={styles.main_label}>
           <Col xs={12} sm={6} md={6} xl={6}>
             Category Settings
@@ -372,189 +380,209 @@ const CategoryDetails = (props) => {
             <Button
               onClick={() => setIsFormVisible(true)}
               className={global_style.primary_button + " " + styles.next_button}
-              style={{width: "auto"}}
+              style={{ width: "auto" }}
             >
               Add New Category
             </Button>
           </Col>
         </Row>
-      )} 
-       {!props.isCategorySetting ?
-      <div className={styles.all_inputs} style={{ display: "none" }}>
-        <Row>
-          {false && (
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <FileUploaderMain
-                isMultiple={false}
-                handleChange={handleUploadCategory}
-                disabled
-                texts={`Drop files here or click browse thorough your machine
+      )}
+      {!props.isCategorySetting ? (
+        <div className={styles.all_inputs} style={{ display: "none" }}>
+          <Row>
+            {false && (
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <FileUploaderMain
+                  key={key}
+                  isMultiple={false}
+                  handleChange={handleUploadCategory}
+                  disabled
+                  texts={`Drop files here or click browse thorough your machine
                 Supports: XLX, CSV files`}
-                maxSize={2}
-              />
-            </Col>
-          )}
-          {false ? (
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <div
-                className={
-                  global_style.bold600 +
-                  " " +
-                  global_style.font20 +
-                  " " +
-                  styles.text_left
-                }
-              >
-                Uploaded file
-              </div>
-              {uploadedCategory && (
-                <div className={styles.text_left + " " + styles.preview_box}>
-                  {uploadedCategory && (
-                    <div className={styles.each_preview_policy}>
-                      <div>
-                        <img
-                          height={"52px"}
-                          width={"42px"}
-                          className={styles.document_upload_logo}
-                          src={document_upload}
-                        />
-                        <span>
-                          {uploadedCategory.name +
-                            " " +
-                            (uploadedCategory.size / 1024).toFixed(2)}
-                        </span>
-                      </div>
-                      <CancelIcon
-                        onClick={() => handleDeleteCategory()}
-                        style={{ cursor: "pointer" }}
-                        fontSize="small"
-                      />
-                    </div>
-                  )}
+                  maxSize={2}
+                />
+              </Col>
+            )}
+            {false ? (
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <div
+                  className={
+                    global_style.bold600 +
+                    " " +
+                    global_style.font20 +
+                    " " +
+                    styles.text_left
+                  }
+                >
+                  Uploaded file
                 </div>
-              )}
-            </Col>
-          ) : (
-            <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  alignSelf: "center",
-                  color: "red",
-                  opacity: 0.3,
-                }}
-              >
-                Currently disabled
-              </div>
-            </Col>
-          )}
-        </Row>
-      </div> : ""}
+                {uploadedCategory && (
+                  <div className={styles.text_left + " " + styles.preview_box}>
+                    {uploadedCategory && (
+                      <div className={styles.each_preview_policy}>
+                        <div>
+                          <img
+                            height={"52px"}
+                            width={"42px"}
+                            className={styles.document_upload_logo}
+                            src={document_upload}
+                          />
+                          <span>
+                            {uploadedCategory.name +
+                              " " +
+                              (uploadedCategory.size / 1024).toFixed(2)}
+                          </span>
+                        </div>
+                        <CancelIcon
+                          onClick={() => handleDeleteCategory()}
+                          style={{ cursor: "pointer" }}
+                          fontSize="small"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Col>
+            ) : (
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    alignSelf: "center",
+                    color: "red",
+                    opacity: 0.3,
+                  }}
+                >
+                  Currently disabled
+                </div>
+              </Col>
+            )}
+          </Row>
+        </div>
+      ) : (
+        ""
+      )}
       <hr />
-      {!props.isCategorySetting ? 
-      <>
-      <div className={styles.main_label}>Category details</div>
-      <div className={styles.sub_label}>
-        Enter the categories and sub-categories, we will show to others!
-      </div>
-      </> : ""}
-      {!props.isCategorySetting ? 
-      <>
-      <div className={styles.all_inputs}>
-        <Row>
-          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              required
-              placeholder="Category name"
-              label="Category name"
-              variant="outlined"
-              id="categoryName"
-              name="categoryName"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value.trimStart())}
-              error={categoryNameError ? true : false}
-              helperText={categoryNameError}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              id="category_description"
-              label="Category Description"
-              multiline
-              fullWidth
-              rows={4}
-              placeholder="Category Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value.trimStart())}
-            />
-          </Col>
-        </Row>
-      </div>
-      <div className={styles.button_grp}>
-        <Button
-          disabled={categoryName ? false : true}
-          onClick={() => createCategory()}
-          className={global_style.primary_button + " " + styles.next_button}
-        >
-          {" "}
-          Add
-        </Button>
-      </div> 
-      </> :  <>
-       {isFormVisible && (
-      <>
-      <div className={styles.all_inputs}>
-        <Row>
-          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              fullWidth
-              required
-              placeholder="Category name"
-              label="Category name"
-              variant="outlined"
-              id="categoryName"
-              name="categoryName"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value.trimStart())}
-              error={categoryNameError ? true : false}
-              helperText={categoryNameError}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-            <TextField
-              id="category_description"
-              label="Category Description"
-              multiline
-              fullWidth
-              rows={4}
-              placeholder="Category Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value.trimStart())}
-            />
-          </Col>
-        </Row>
-      </div>
-      <div className={styles.button_grp}>
-        <Button
-          disabled={categoryName ? false : true}
-          onClick={() => createCategory()}
-          className={global_style.primary_button + " " + styles.next_button}
-        >
-          {" "}
-          Add
-        </Button>
-      </div> 
-      </> )}
-      </>
-       }
-      {!props.isCategorySetting ? <div className={styles.main_label}>Categories</div> : "" }
+      {!props.isCategorySetting ? (
+        <>
+          <div className={styles.main_label}>Category details</div>
+          <div className={styles.sub_label}>
+            Enter the categories and sub-categories, we will show to others!
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+      {!props.isCategorySetting ? (
+        <>
+          <div className={styles.all_inputs}>
+            <Row>
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <TextField
+                  fullWidth
+                  required
+                  placeholder="Category name"
+                  label="Category name"
+                  variant="outlined"
+                  id="categoryName"
+                  name="categoryName"
+                  value={categoryName}
+                  onChange={(e) => setCategoryName(e.target.value.trimStart())}
+                  error={categoryNameError ? true : false}
+                  helperText={categoryNameError}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <TextField
+                  id="category_description"
+                  label="Category Description"
+                  multiline
+                  fullWidth
+                  rows={4}
+                  placeholder="Category Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value.trimStart())}
+                />
+              </Col>
+            </Row>
+          </div>
+          <div className={styles.button_grp}>
+            <Button
+              disabled={categoryName ? false : true}
+              onClick={() => createCategory()}
+              className={global_style.primary_button + " " + styles.next_button}
+            >
+              {" "}
+              Add
+            </Button>
+          </div>
+        </>
+      ) : (
+        <>
+          {isFormVisible && (
+            <>
+              <div className={styles.all_inputs}>
+                <Row>
+                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                    <TextField
+                      fullWidth
+                      required
+                      placeholder="Category name"
+                      label="Category name"
+                      variant="outlined"
+                      id="categoryName"
+                      name="categoryName"
+                      value={categoryName}
+                      onChange={(e) =>
+                        setCategoryName(e.target.value.trimStart())
+                      }
+                      error={categoryNameError ? true : false}
+                      helperText={categoryNameError}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                    <TextField
+                      id="category_description"
+                      label="Category Description"
+                      multiline
+                      fullWidth
+                      rows={4}
+                      placeholder="Category Description"
+                      value={description}
+                      onChange={(e) =>
+                        setDescription(e.target.value.trimStart())
+                      }
+                    />
+                  </Col>
+                </Row>
+              </div>
+              <div className={styles.button_grp}>
+                <Button
+                  disabled={categoryName ? false : true}
+                  onClick={() => createCategory()}
+                  className={
+                    global_style.primary_button + " " + styles.next_button
+                  }
+                >
+                  {" "}
+                  Add
+                </Button>
+              </div>
+            </>
+          )}
+        </>
+      )}
+      {!props.isCategorySetting ? (
+        <div className={styles.main_label}>Categories</div>
+      ) : (
+        ""
+      )}
       {allCategories.map((category, index) => {
         //accprdion in which I want to render my ParentComponent
         return (
@@ -619,51 +647,53 @@ const CategoryDetails = (props) => {
           />
         );
       })}
-      {!props.isCategorySetting ? 
-      <div className={styles.button_grp}>
-        <Button
-          onClick={() => setActiveStep((prev) => prev + 1)}
-          className={global_style.secondary_button}
-        >
-          {" "}
-          Finish later
-        </Button>
-        <Button
-          disabled={
-            uploadedCategory || enableSave
-              ? // (categoryName && description && categoryNamesList.length > 0)
-                false
-              : true
-          }
-          onClick={() => handleSubmitCategories()}
-          className={global_style.primary_button + " " + styles.next_button}
-        >
-          {" "}
-          Next
-        </Button>
-      </div> : 
-      <div className={styles.button_grp}>
-        <Button
-          onClick={() => history.push("/datahub/new_datasets")}
-          className={global_style.secondary_button}
-        >
-          {" "}
-          Cancel
-        </Button>
-        <Button
-          disabled={
-            uploadedCategory || enableSave
-              ? // (categoryName && description && categoryNamesList.length > 0)
-                false
-              : true
-          }
-          onClick={() => handleSubmitCategories()}
-          className={global_style.primary_button + " " + styles.next_button}
-        >
-          {" "}
-         Submit
-        </Button>
-      </div> }
+      {!props.isCategorySetting ? (
+        <div className={styles.button_grp}>
+          <Button
+            onClick={() => setActiveStep((prev) => prev + 1)}
+            className={global_style.secondary_button}
+          >
+            {" "}
+            Finish later
+          </Button>
+          <Button
+            disabled={
+              uploadedCategory || enableSave
+                ? // (categoryName && description && categoryNamesList.length > 0)
+                  false
+                : true
+            }
+            onClick={() => handleSubmitCategories()}
+            className={global_style.primary_button + " " + styles.next_button}
+          >
+            {" "}
+            Next
+          </Button>
+        </div>
+      ) : (
+        <div className={styles.button_grp}>
+          <Button
+            onClick={() => history.push("/datahub/new_datasets")}
+            className={global_style.secondary_button}
+          >
+            {" "}
+            Cancel
+          </Button>
+          <Button
+            disabled={
+              uploadedCategory || enableSave
+                ? // (categoryName && description && categoryNamesList.length > 0)
+                  false
+                : true
+            }
+            onClick={() => handleSubmitCategories()}
+            className={global_style.primary_button + " " + styles.next_button}
+          >
+            {" "}
+            Submit
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

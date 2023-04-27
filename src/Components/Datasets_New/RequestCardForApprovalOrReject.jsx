@@ -74,7 +74,7 @@ const RequestCardForApprovalOrReject = (props) => {
       });
   };
   const [filter, setFilter] = useState("all");
-
+  console.log("I am inside request card in view");
   const [filterOptions, setFilterOptions] = useState([
     { label: "All", value: "all" },
     { label: "Approved", value: "approved" },
