@@ -32,6 +32,7 @@
 }
 .policyDetailsDescription {
   text-align: left;
+  word-wrap: break-word;
 }
 .backButton {
   /* margin-top: 50px !important;
