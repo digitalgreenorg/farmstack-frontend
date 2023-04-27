@@ -102,9 +102,9 @@ const CompanyPolicies = (props) => {
       payload.append("name", policyName);
       if (uploadedPolicy) {
         payload.append("file", uploadedPolicy);
-      }  
-      } else if (method == "DELETE" && policy_id) {
-        resetEditError(policy_id);
+      }
+    } else if (method == "DELETE" && policy_id) {
+      resetEditError(policy_id);
       url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
       payload = "";
     } else if (method == "PATCH" && policy_id) {

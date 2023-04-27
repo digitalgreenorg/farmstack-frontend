@@ -233,6 +233,7 @@ const StandardizationInOnbord = (props) => {
     tmpAllAttributes[index].push(tmpAllAttributes[index][0]);
     tmpAllAttributes[index][0] = "";
     setAllAttributes(tmpAllAttributes);
+    
     // For Des
     let tmpAllAttributesDes = { ...allAttributesDes };
     tmpAllAttributesDes[index].push(tmpAllAttributesDes[index][0]);
@@ -241,9 +242,6 @@ const StandardizationInOnbord = (props) => {
     setAttributeErrorMessage("")
     console.log("all Des", tmpAllAttributesDes);
   };
-  useEffect(()=> {
-    console.log("allAttributes", allAttributes)
-  }, [allAttributes])
   const handleDatapointAtticuteDelete = (index, arrIndex) => {
     let tmpAllAttributes = { ...allAttributes };
     tmpAllAttributes[index].splice(arrIndex, 1);
