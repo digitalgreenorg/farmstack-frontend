@@ -18,12 +18,14 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  validateInputField,
 } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
+import RegexConstants from "../../Constants/RegexConstants";
 const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -109,10 +111,12 @@ const OrganizationDetails = (props) => {
   };
 
   const [preview, setPreview] = useState();
+  const [key, setKey] = useState(0);
   const handleUpload = (file) => {
     console.log(file);
     setIsLogoLink(false);
     setUploadedLogo(file);
+    setKey(key + 1); // generate a new key when a file is uploaded
   };
 
   // create a preview as a side effect, whenever selected file is changed
@@ -451,12 +455,11 @@ const OrganizationDetails = (props) => {
                 placeholder="PIN Code"
                 label="PIN Code"
                 variant="outlined"
-                type="number"
                 id="organisation_pin_code"
                 name="organisation_pin_code"
                 value={organisationDetails.organisation_pin_code}
                 onChange={(e) => {
-                  if (e.target.value.length <= 10) {
+                  if (e.target.value.length <= 10 && validateInputField(e.target.value, RegexConstants.PINCODE_REGEX_NEWUI)) {
                     handleOrgChange(e);
                   }
                 }}
@@ -499,6 +502,7 @@ const OrganizationDetails = (props) => {
           <Row>
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
               <FileUploaderMain
+                key={key} // set the key prop to force a re-render when the key changes
                 texts={
                   "Drop files here or click browse thorough your machine,File size not more than "
                 }
@@ -535,6 +539,7 @@ const OrganizationDetails = (props) => {
                     onClick={() => {
                       setPreview(null);
                       setUploadedLogo(null);
+                      setKey(key + 1); // generate a new key when a file is deleted
                     }}
                     style={{ cursor: "pointer" }}
                     fontSize="small"
@@ -578,7 +583,7 @@ const OrganizationDetails = (props) => {
                   organisationDetails.organisation_country &&
                   organisationDetails.organisation_description &&
                   organisationDetails.organisation_name &&
-                  organisationDetails.organisation_pin_code.length > 5 &&
+                  organisationDetails.organisation_pin_code.length > 4 &&
                   organisationDetails.organisation_contact_number &&
                   !organisationDetailsError.organisation_contact_number_error &&
                   organisationDetails.organisation_website_link &&
@@ -612,7 +617,7 @@ const OrganizationDetails = (props) => {
                 organisationDetails.organisation_country &&
                 organisationDetails.organisation_description &&
                 organisationDetails.organisation_name &&
-                organisationDetails.organisation_pin_code.length > 5 &&
+                organisationDetails.organisation_pin_code.length > 4 &&
                 organisationDetails.organisation_contact_number &&
                 organisationDetails.organisation_website_link &&
                 !organisationDetailsError.organisation_contact_number_error &&

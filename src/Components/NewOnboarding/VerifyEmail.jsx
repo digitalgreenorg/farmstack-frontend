@@ -295,7 +295,7 @@ const VerifyEmailStep = (props) => {
             if (e.key == " ") {
               e.preventDefault();
             } else if (e.key == "Enter") {
-              if (!isValidEmailSent && emailId) {
+              if (!isValidEmailSent && emailId && agreementChecked) {
                 handleSubmit("email");
               } else if (isValidEmailSent && otp) {
                 handleSubmit("otp");
