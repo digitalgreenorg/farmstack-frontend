@@ -37,7 +37,8 @@ const FooterNew = () => {
   };
 
   useEffect(() => {
-    let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization;
+    let url =
+      UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
     let method = "GET";
     // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
     HTTPService(method, url, "", false, false, false, false, false)
@@ -74,6 +75,7 @@ const FooterNew = () => {
               Datahub admin phone
             </div>
             <div className={`${style.footerDarkText} mt-2 text-left`}>
+              {console.log(adminData, "adminData")}
               {adminData?.user?.phone_number ?? ""}
             </div>
           </div>
