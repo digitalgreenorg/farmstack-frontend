@@ -204,7 +204,7 @@ const CategoryDetails = (props) => {
       } else {
         setsubCatError("");
       }
-      setSubCategoryName(e.target.value);
+      setSubCategoryName(e.target.value.trimStart());
     };
 
     const handleAddSubcategory = () => {

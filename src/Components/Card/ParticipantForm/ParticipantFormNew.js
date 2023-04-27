@@ -528,23 +528,21 @@ const ParticipantFormNew = (props) => {
             </Col>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
-                type={"number"}
                 className={LocalStyle.textField}
                 label="PIN Code "
                 fullWidth
                 required
                 value={organisationPinCode}
-                // onChange={(event) => setOrganisationPinCode(event.target.value)}
                 onChange={(e) => {
-                  if (e.target.value.length > 10)
-                    e.target.value = e.target.value.substring(0, 10);
-                  // validateInputField(
-                  //   e.target.value,
-                  //   RegexConstants.PINCODE_REGEX
-                  // )
-                  // ?
-                  setOrganisationPinCode(e.target.value.trim());
-                  // : e.preventDefault();
+                  if (
+                    e.target.value.length <= 10 &&
+                    validateInputField(
+                      e.target.value,
+                      RegexConstants.PINCODE_REGEX_NEWUI
+                    )
+                  ) {
+                    setOrganisationPinCode(e.target.value.trim());
+                  }
                 }}
               />
             </Col>
@@ -785,6 +783,18 @@ const ParticipantFormNew = (props) => {
       </div>
       <Row className={LocalStyle.buttonContainer}>
         <Button
+          disabled={
+            organisationName &&
+            organisationEmail &&
+            address &&
+            organisationPinCode.length > 4 &&
+            firstName &&
+            email &&
+            contactNumber &&
+            !orgContactErrorMessage
+              ? false
+              : true
+          }
           id="add-participant-submit-button"
           onClick={addNewParticipants}
           className={`${GlobalStyle.primary_button} ${LocalStyle.primaryButton}`}
