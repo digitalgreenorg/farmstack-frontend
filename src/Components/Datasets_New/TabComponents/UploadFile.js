@@ -88,11 +88,13 @@ const UploadFile = ({
   const [sqlTables, setSqlTables] = useState(["1_Person.csv"]);
   const [postgresTables, setPostgresTables] = useState(["1_Cap.csv"]);
   const [sqLiteTables, setSqLiteTables] = useState(["1_User.xlsx"]);
+  const [key, setKey] = useState(0);
 
   const [allColumns, setAllColumns] = useState([]);
 
   const handleFileChange = (file) => {
     setFile(file);
+    setKey(key + 1);
     setFiles((prev) => [...prev, file]);
   };
   const handleDelete = (index, id, filename, type) => {
@@ -153,12 +155,11 @@ const UploadFile = ({
         });
     } else {
       if (type === "file_upload") {
-        let filteredElements = files.filter(
-          (item, i) => item.name !== filename
-        );
+        let filteredElements = files.filter((item, i) => i !== index);
         setFiles(filteredElements);
       }
     }
+    setKey(key + 1);
   };
 
   const getTotalSizeInMb = (data) => {
@@ -841,6 +842,7 @@ const UploadFile = ({
             <>
               <div className="cursor-pointer">
                 <FileUploader
+                  key={key}
                   handleChange={handleFileChange}
                   // onClick={(e) => (e.target.value = null)}
                   children={
