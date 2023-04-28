@@ -543,10 +543,10 @@ const DataSets = (props) => {
         <div className="title">Datasets Explorer</div>
         <div className="d-flex justify-content-center">
           <div className="description">
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
             Unleash the power of data-driven agriculture - your ultimate dataset
             explorer for smarter decisions!
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
         <TextField
