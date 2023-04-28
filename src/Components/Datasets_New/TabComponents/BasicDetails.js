@@ -61,12 +61,12 @@ const BasicDetails = ({
   };
 
   const handleToDate = (value) => {
-    let currentDate = new Date();
     let formattedDate = moment(value).format("DD/MM/YYYY");
 
     if (
       moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
-      moment(value).isSameOrBefore(currentDate)
+      moment(value).isSameOrAfter(fromDate) &&
+      moment(value).isSameOrBefore(new Date())
     ) {
       setToDateError(false);
       setToDate(value);
@@ -262,6 +262,7 @@ const BasicDetails = ({
             <DatePicker
               inputFormat="dd/MM/yyyy"
               label="End Date"
+              minDate={fromDate}
               maxDate={new Date()}
               value={toDate}
               onChange={(value) => handleToDate(value)}

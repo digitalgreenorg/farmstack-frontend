@@ -48,6 +48,7 @@ const Standardise = ({
   setAllStandardisedFile,
   standardisedFileLink,
   setStandardisedFileLink,
+  getDatasetForEdit,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [data, setData] = useState([]);
@@ -287,7 +288,7 @@ const Standardise = ({
             tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
             tempdPointCategories[index] = standardised_obj[key].mapped_category;
             if (standardised_obj[key].masked) {
-              tempMaskedColumns.push(key);
+              tempMaskedColumns[index] = key;
             }
           }
         });
@@ -307,6 +308,7 @@ const Standardise = ({
           tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
         }
       });
+
       setDatapointCategory(finalTemp);
       setDatapointAttributes(tmpColumn);
       setStandardisedColumn(tmpStandardisedColum);
@@ -398,10 +400,10 @@ const Standardise = ({
                   <Typography sx={accordionTitleStyle}>
                     {getStandardiseFileName()}
                   </Typography>
-                  <img
+                  {/* <img
                     className="mr-55"
                     src={require("../../../Assets/Img/delete_gray.svg")}
-                  />
+                  /> */}
                 </Box>
               </AccordionSummary>
               <AccordionDetails>
@@ -410,6 +412,7 @@ const Standardise = ({
                     <StandardiseRow
                       keyName={keyName}
                       index={index}
+                      key={index}
                       templates={templates}
                       setTemplates={setTemplates}
                       template={template}
