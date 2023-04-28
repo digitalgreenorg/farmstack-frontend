@@ -47,7 +47,7 @@ const DataSets = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const [state, setState] = useState([0, 1, 2, 3, 4, 5]);
-  const [searchDatasetsName, setSearchDatasetsName] = useState();
+  const [searchDatasetsName, setSearchDatasetsName] = useState(null);
   const debouncedSearchValue = useDebounce(searchDatasetsName, 1000);
   const [filterState, setFilterState] = useState({});
   const [datasetList, setDatasetList] = useState([]);
@@ -264,13 +264,14 @@ const DataSets = (props) => {
     }
   };
   const handleSearch = async (isLoadMore) => {
-    if (searchDatasetsName?.length < 3 && searchDatasetsName !== "")
-      searchDatasetsName = "";
+    let searchText = searchDatasetsName;
+    searchText ? callLoader(true) : callLoader(false);
+    if (searchText?.length < 3 && searchText !== "") searchText = "";
     let data = {};
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
-    data["name__icontains"] = searchDatasetsName;
+    data["name__icontains"] = searchText;
     if (isLoggedInUserCoSteward()) {
       data["on_boarded_by"] = true;
     }
@@ -279,7 +280,7 @@ const DataSets = (props) => {
     } else {
       data["others"] = false;
     }
-    callLoader(true);
+
     let accessToken = user !== "guest" ? getTokenLocal() : false;
 
     await HTTPService("POST", getUrl(isLoadMore), data, false, accessToken)
@@ -526,7 +527,9 @@ const DataSets = (props) => {
   }, [value]);
 
   useEffect(() => {
-    handleSearch();
+    if (debouncedSearchValue !== null) {
+      handleSearch();
+    }
   }, [debouncedSearchValue]);
   useEffect(() => {
     getAllGeoGraphies();

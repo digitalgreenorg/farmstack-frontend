@@ -629,14 +629,21 @@ const UploadFile = ({
         "error",
         true
       );
-      return;
+      return true;
     }
   };
 
   const handleImport = () => {
     if (selectedUploadType === "mysql") {
       let query = mySqlFileName;
-      checkFileAlreadyImported(selectedUploadType, query, sqlFiles);
+      let present = checkFileAlreadyImported(
+        selectedUploadType,
+        query,
+        sqlFiles
+      );
+      if (present) {
+        return;
+      }
       let table_name = mySqlTableName;
       let selectedColumns = [];
       for (let i = 0; i < allColumns.length; i++) {
@@ -669,7 +676,14 @@ const UploadFile = ({
         });
     } else if (selectedUploadType === "postgres") {
       let query = postgresFileName;
-      checkFileAlreadyImported(selectedUploadType, query, postgresFiles);
+      let present = checkFileAlreadyImported(
+        selectedUploadType,
+        query,
+        postgresFiles
+      );
+      if (present) {
+        return;
+      }
       let table_name = postgresTableName;
       let selectedColumns = [];
       for (let i = 0; i < allColumns.length; i++) {
@@ -730,11 +744,14 @@ const UploadFile = ({
 
   const handleExport = () => {
     if (selectedUploadType === "rest_api") {
-      checkFileAlreadyImported(
+      let present = checkFileAlreadyImported(
         selectedUploadType,
         exportFileName,
         restApifiles
       );
+      if (present) {
+        return;
+      }
 
       let body = {
         dataset: datasetId,

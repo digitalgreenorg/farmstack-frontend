@@ -123,16 +123,23 @@ const FooterNew = () => {
             <div className="d-flex justify-content-between w-100">
               <div
                 className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+                onClick={() => window.open("https://farmstack.co/")}
               >
                 About Farmstack
               </div>
 
-              <div
-                className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
-                onClick={() => history.push("/login")}
-              >
-                Login
-              </div>
+              {isLoggedInUserAdmin() ||
+              isLoggedInUserCoSteward() ||
+              isLoggedInUserParticipant() ? (
+                ""
+              ) : (
+                <div
+                  className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
+                  onClick={() => history.push("/login")}
+                >
+                  Login
+                </div>
+              )}
             </div>
             <div className="d-flex justify-content-between w-100">
               <div
@@ -142,11 +149,18 @@ const FooterNew = () => {
                 Datasets
               </div>
 
-              <div
-                className={`${style.footerLightText} ${style.quickLinks} mt-10`}
-              >
-                Get started
-              </div>
+              {isLoggedInUserAdmin() ||
+              isLoggedInUserCoSteward() ||
+              isLoggedInUserParticipant() ? (
+                ""
+              ) : (
+                <div
+                  className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+                  onClick={() => history.push("/login")}
+                >
+                  Get started
+                </div>
+              )}
             </div>
             <div className="d-flex justify-content-between w-100">
               <div
