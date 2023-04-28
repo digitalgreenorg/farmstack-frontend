@@ -26,8 +26,9 @@ const StandardiseRow = ({
   setStandardisedColumn,
   maskedColumns,
 }) => {
+  console.log(datapointCategory?.[index], "rowfow");
   return (
-    <div className="mt-50">
+    <div className="mt-50" key={index}>
       <Box className="d-flex justify-content-between align-items-center w-100 mb-20">
         <Typography
           className="ml-16"
@@ -49,8 +50,9 @@ const StandardiseRow = ({
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
+              key={index}
               value={
-                datapointCategory?.[index] ? datapointCategory?.[index] : null
+                datapointCategory?.[index] ? datapointCategory?.[index] : ""
               }
               renderValue={() =>
                 datapointCategory?.[index].datapoint_category
@@ -87,6 +89,7 @@ const StandardiseRow = ({
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
+              key={index}
               value={
                 standardisedColum?.[index] ? standardisedColum?.[index] : ""
               }
