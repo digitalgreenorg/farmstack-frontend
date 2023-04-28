@@ -53,6 +53,8 @@ const AddDataSet = (props) => {
   const [toDate, setToDate] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDatasetCreated, setIsDatasetCreated] = useState(false);
+  const [fromDateError, setFromDateError] = useState(false);
+  const [toDateError, setToDateError] = useState(false);
 
   // Upload File
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -521,6 +523,10 @@ const AddDataSet = (props) => {
             setToDate={setToDate}
             isUpdating={isUpdating}
             setIsUpdating={setIsUpdating}
+            fromDateError={fromDateError}
+            setFromDateError={setFromDateError}
+            toDateError={toDateError}
+            setToDateError={setToDateError}
             validator={validator}
             errorDataSetName={errorDataSetName}
             seteErrorDataSetName={seteErrorDataSetName}

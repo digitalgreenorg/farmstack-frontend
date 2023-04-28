@@ -123,6 +123,8 @@ const ProfileDetails = (props) => {
           setActiveStep((prev) => prev + 1);
           // }
         }
+        if(props.isAccountSetting && res.status === 201)
+        callToast("Account settings updated successfully!", "success", true);
 
         setProfileDetailsError({
           first_name: "",

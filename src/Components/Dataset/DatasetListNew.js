@@ -32,6 +32,14 @@ const DatasetListNew = (props) => {
     } else {
       return `/home/datasets`;
     }
+
+    // if (user == "guest") {
+    //   return `/home/datasets`;
+    // } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+    //   return `/datahub/new_datasets`;
+    // } else if (isLoggedInUserParticipant()) {
+    //   return `/participant/new_datasets`;
+    // }
   };
 
   const handleCardClick = (id) => {

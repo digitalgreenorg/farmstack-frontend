@@ -128,6 +128,9 @@ const CompanyPolicies = (props) => {
           // getListOfPolicies();
           return response;
         }
+        if (props.isPolicySettings && response.status === 201) {
+          callToast("Policy settings updated successfully!", "success", true);
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -240,6 +243,7 @@ const CompanyPolicies = (props) => {
     const [policyNameError, setPolicyNameError] = useState("");
     const [dataOfFile, setDataOfFile] = useState(data.file);
     const [localKey, setLocalKey] = useState(0);
+    const [fileSizeErrorE, setFileSizeErrorE] = useState("")
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
@@ -247,20 +251,9 @@ const CompanyPolicies = (props) => {
       setPolicySize(file.size);
       setIsLogoLinkE(false);
       setLocalKey(localKey + 1);
+      setFileSizeErrorE("")
     };
-    // useEffect(() => {
-    //   console.log(uploadedPolicyE, policySize);
-    //   if (!uploadedPolicyE) {
-    //     setPreviewE(undefined);
-    //     return;
-    //   }
-    //   setEditPolicyFileError({ error: "", policy_id: "" });
-    //   const objectUrl = URL.createObjectURL(uploadedPolicyE);
-    //   setPreviewE(objectUrl);
-    //   console.log(objectUrl, "objectUrl");
-    //   // free memory when ever this component is unmounted
-    //   return () => URL.revokeObjectURL(objectUrl);
-    // }, [uploadedPolicyE]);
+
     const handleDeleteFile = () => {
       console.log("isfile deleted", uploadedPolicyE);
       setUploadedPolicyE(null);
@@ -269,6 +262,7 @@ const CompanyPolicies = (props) => {
       setPolicySize("");
       setIsLogoLinkE(false);
       setLocalKey(localKey + 1);
+      setFileSizeErrorE("")
     };
     useEffect(() => {
       console.log("uploadedPolicyE", uploadedPolicyE);
@@ -305,9 +299,8 @@ const CompanyPolicies = (props) => {
       let payload = new FormData();
       payload.append("description", policyDesc);
       payload.append("name", policyNameUnderAccordion);
-      if (uploadedPolicyE) {
-        payload.append("file", uploadedPolicyE);
-      }
+      !isLogoLinkE && payload.append("file", uploadedPolicyE || "");
+
       let response = await submitPolicy("PATCH", data.id, payload);
 
       let arr = [...allPolicies];
@@ -404,10 +397,7 @@ const CompanyPolicies = (props) => {
                 handleChange={handleUploadPolicyE}
                 maxSize={25}
                 setSizeError={() =>
-                  setEditPolicyFileError({
-                    error: "Maximum file size allowed is 25MB",
-                    policy_id: data.id,
-                  })
+                  setFileSizeErrorE("Maximum file size allowed is 25MB")
                 }
               />
               {/* <div>{"sizeError"}</div> */}
@@ -478,7 +468,7 @@ const CompanyPolicies = (props) => {
               {editPolicyFileError.error &&
               editPolicyFileError.policy_id == data.id
                 ? editPolicyFileError.error
-                : ""}
+                : fileSizeErrorE}
             </div>
           </Col>
         </Row>

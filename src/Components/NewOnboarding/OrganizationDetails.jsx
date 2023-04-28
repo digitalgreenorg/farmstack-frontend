@@ -183,6 +183,8 @@ const OrganizationDetails = (props) => {
           callToast("Onboarded", "success", true);
           setOnBoardedTrue();
         }
+        if(props.isOrgSetting && response.status === 201)
+        callToast("Organisation settings updated successfully!", "success", true);
       })
       .catch(async (e) => {
         callLoader(false);
