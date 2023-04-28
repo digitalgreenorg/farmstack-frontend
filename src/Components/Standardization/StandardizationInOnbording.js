@@ -140,24 +140,8 @@ const StandardizationInOnbord = (props) => {
 
     let tmpAllDatapoints = [...allDatapoints];
     console.log("error array", accordionDatapointNameError);
-
-    //Check if category name already exist or not
-    // let returnFromFuntion = false
-    // tmpAllDatapoints.forEach((category)=>{
-    //   if(category.datapoint_category === newValue) {
-    //     let tmpDatapointNameError = [...accordionDatapointNameError]
-    //tmpDatapointNameError[index] = ` ${newValue} Category already exists!`
-    //     setAccordionDatapointNameError(tmpDatapointNameError)
-    //     returnFromFuntion = true;
-    //     return
-    //   }
-    // })
-    // if(returnFromFuntion) return
-    // let tmpDatapointNameError = [...accordionDatapointNameError]
-    //     tmpDatapointNameError[index] = ""
-    //     setAccordionDatapointNameError(tmpDatapointNameError)
     if (newValue.length < 51) {
-      tmpAllDatapoints[index].datapoint_category = newValue;
+      tmpAllDatapoints[index].datapoint_category = newValue.trimStart();;
       setAllDataPoints(tmpAllDatapoints);
     } else {
       return;
@@ -232,11 +216,11 @@ const StandardizationInOnbord = (props) => {
   };
 
   const handleAddDatapointAttribute = (index) => {
-    if (!allAttributes[index][0]) {
+    if (!allAttributes[index] || !allAttributes[index][0]) {
       return;
     }
     setSaveButtonEnabled(true);
-
+  
     let tmpAllAttributes = { ...allAttributes };
     const newAttribute = tmpAllAttributes[index][0].trimStart();
     if (tmpAllAttributes[index].slice(1).some(attr => attr === newAttribute)) {
@@ -245,14 +229,11 @@ const StandardizationInOnbord = (props) => {
       nameAlreadyExist[index] = `"${newAttribute}" already exists for datapoint`
       setAttributeErrorMessage(nameAlreadyExist)
       return;
-    }
-    if (tmpAllAttributes[index].length === 1) {
-      tmpAllAttributes[index][0] = newAttribute;
-    } else {
-      tmpAllAttributes[index].push(newAttribute);
-    }
+  }
+    tmpAllAttributes[index].push(tmpAllAttributes[index][0]);
+    tmpAllAttributes[index][0] = "";
     setAllAttributes(tmpAllAttributes);
-
+    
     // For Des
     let tmpAllAttributesDes = { ...allAttributesDes };
     tmpAllAttributesDes[index].push(tmpAllAttributesDes[index][0]);

@@ -397,7 +397,9 @@ const Join = (props) => {
                   each?.right_on?.length &&
                   connectorData.name &&
                   connectorData.desc &&
-                  each?.left_on?.length > 0
+                  each?.left_on?.length > 0 &&
+                  completeData[index + 1]?.columnsSelected?.length > 0 &&
+                  each?.columnsSelected?.length > 0
                     ? false
                     : true
                 }

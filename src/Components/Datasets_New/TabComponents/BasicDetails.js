@@ -3,6 +3,8 @@ import { Box, Checkbox, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CheckBoxWithText from "./CheckBoxWithText";
+import moment from "moment";
+import { isDateSame } from "../../../Utils/Common";
 
 const BasicDetails = ({
   datasetIdForEdit,
@@ -21,6 +23,10 @@ const BasicDetails = ({
   setIsUpdating,
   validator,
   checkDataSet,
+  toDateError,
+  setToDateError,
+  fromDateError,
+  setFromDateError,
 }) => {
   const limitChar = 100;
   const limitCharDesc = 512;
@@ -39,11 +45,35 @@ const BasicDetails = ({
   };
 
   const handleFromDate = (value) => {
-    setFromDate(value);
+    let currentDate = new Date();
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+
+    if (
+      moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
+      moment(value).isSameOrBefore(currentDate)
+    ) {
+      setFromDateError(false);
+      setFromDate(value);
+    } else {
+      setFromDateError(true);
+      setFromDate("");
+    }
   };
 
   const handleToDate = (value) => {
-    setToDate(value);
+    let currentDate = new Date();
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+
+    if (
+      moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
+      moment(value).isSameOrBefore(currentDate)
+    ) {
+      setToDateError(false);
+      setToDate(value);
+    } else {
+      setToDateError(true);
+      setToDate("");
+    }
   };
 
   const handleCheckBox = () => {
@@ -167,6 +197,7 @@ const BasicDetails = ({
               label="Start Date"
               maxDate={new Date()}
               value={fromDate}
+              disableFuture
               onChange={(value) => handleFromDate(value)}
               disabled={isUpdating}
               PaperProps={{
@@ -214,12 +245,9 @@ const BasicDetails = ({
                         textAlign: "left",
                       }}
                     >
-                      {!validator &&
-                      (!fromDate !== null ||
-                        !fromDate !== undefined ||
-                        !fromDate !== "")
-                        ? ""
-                        : "Please enter the start date of the data capture interval."}
+                      {fromDateError
+                        ? "Please enter the valid start date of the data capture interval."
+                        : ""}
                     </Typography>
                   }
                 />
@@ -237,7 +265,7 @@ const BasicDetails = ({
               maxDate={new Date()}
               value={toDate}
               onChange={(value) => handleToDate(value)}
-              disabled={isUpdating}
+              disabled={isUpdating || !fromDate}
               PaperProps={{
                 sx: {
                   borderRadius: "16px !important",
@@ -283,12 +311,9 @@ const BasicDetails = ({
                         textAlign: "left",
                       }}
                     >
-                      {!validator &&
-                      (!toDate !== null ||
-                        !toDate !== undefined ||
-                        !toDate !== "")
-                        ? ""
-                        : "Please enter the end date of the data capture interval."}
+                      {toDateError
+                        ? "Please enter the valid end date of the data capture interval."
+                        : ""}
                     </Typography>
                   }
                 />

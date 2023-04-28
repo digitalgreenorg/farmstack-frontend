@@ -258,38 +258,8 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )} */}
-          {loginType === "admin" ||
-          loginType === "participant" ||
-          loginType === "guest" ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={navInActiveStyle}
-              to={
-                loginType === "admin"
-                  ? "/datahub/new_datasets"
-                  : loginType === "participant"
-                  ? "/participant/new_datasets"
-                  : loginType === "guest"
-                  ? "/home/datasets"
-                  : "/"
-              }
-              onClick={() => handleSelect("datasets")}
-            >
-              {isNavLinkActiveForDot("datasets") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
-              ) : (
-                <></>
-              )}
-              Datasets
-            </NavLink>
-          ) : (
-            <></>
-          )}
-          {loginType === "admin" || loginType === "guest" ? (
+          {(loginType === "admin" || loginType === "guest") &&
+          !isLoggedInUserParticipant() ? (
             <NavLink
               activeStyle={navActiveStyle}
               style={
@@ -317,6 +287,37 @@ const NavbarNew = ({ loginType }) => {
                 <></>
               )}
               Participants
+            </NavLink>
+          ) : (
+            <></>
+          )}
+          {loginType === "admin" ||
+          loginType === "participant" ||
+          loginType === "guest" ? (
+            <NavLink
+              activeStyle={navActiveStyle}
+              style={navInActiveStyle}
+              to={
+                loginType === "admin"
+                  ? "/datahub/new_datasets"
+                  : loginType === "participant"
+                  ? "/participant/new_datasets"
+                  : loginType === "guest"
+                  ? "/home/datasets"
+                  : "/"
+              }
+              onClick={() => handleSelect("datasets")}
+            >
+              {isNavLinkActiveForDot("datasets") ? (
+                <img
+                  className={style.dotStyle}
+                  src={require("../../Assets/Img/green_dot.svg")}
+                  alt="dot"
+                />
+              ) : (
+                <></>
+              )}
+              Datasets
             </NavLink>
           ) : (
             <></>
