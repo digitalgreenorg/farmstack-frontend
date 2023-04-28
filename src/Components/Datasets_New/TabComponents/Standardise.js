@@ -287,7 +287,7 @@ const Standardise = ({
             tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
             tempdPointCategories[index] = standardised_obj[key].mapped_category;
             if (standardised_obj[key].masked) {
-              tempMaskedColumns.push(key);
+              tempMaskedColumns[index] = key;
             }
           }
         });
@@ -307,6 +307,7 @@ const Standardise = ({
           tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
         }
       });
+      console.log(tempMaskedColumns, "checkbox useEffect");
       setDatapointCategory(finalTemp);
       setDatapointAttributes(tmpColumn);
       setStandardisedColumn(tmpStandardisedColum);
