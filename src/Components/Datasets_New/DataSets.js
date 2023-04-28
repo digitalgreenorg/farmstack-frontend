@@ -264,14 +264,14 @@ const DataSets = (props) => {
     }
   };
   const handleSearch = async (isLoadMore) => {
-    searchDatasetsName ? callLoader(true) : callLoader(false);
-    if (searchDatasetsName?.length < 3 && searchDatasetsName !== "")
-      searchDatasetsName = "";
+    let searchText = searchDatasetsName;
+    searchText ? callLoader(true) : callLoader(false);
+    if (searchText?.length < 3 && searchText !== "") searchText = "";
     let data = {};
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
-    data["name__icontains"] = searchDatasetsName;
+    data["name__icontains"] = searchText;
     if (isLoggedInUserCoSteward()) {
       data["on_boarded_by"] = true;
     }
