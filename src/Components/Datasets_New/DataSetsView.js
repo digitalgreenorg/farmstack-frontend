@@ -31,6 +31,8 @@ import {
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { Popconfirm } from "antd";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const DataSetsView = (props) => {
   const { userType } = props;
@@ -403,34 +405,57 @@ const DataSetsView = (props) => {
           {history.location?.state?.tab === "my_organisation" &&
           userType !== "guest" ? (
             <Box>
-              <Button
-                sx={{
-                  color: "#FF5630",
-                  fontFamily: "Public Sans",
-                  fontWeight: "700",
-                  fontSize: "15px",
-                  border: "1px solid rgba(255, 86, 48, 0.48)",
-                  width: "172px",
-                  height: "48px",
-                  marginRight: "28px",
-                  textTransform: "none",
-                  "&:hover": {
-                    background: "none",
-                    border: "1px solid rgba(255, 86, 48, 0.48)",
-                  },
-                }}
-                variant="outlined"
-                onClick={handleDelete}
+              <Popconfirm
+                title={
+                  <span style={{ marginTop: "3px !important" }}>
+                    Delete the dataset
+                  </span>
+                }
+                description={
+                  <span>
+                    Are you sure to delete this dataset{" "}
+                    <strong>{dataSetName}</strong> ?
+                  </span>
+                }
+                onConfirm={handleDelete}
+                icon={
+                  <ExclamationCircleFilled
+                    style={{ color: "red", marginTop: "-3px" }}
+                  />
+                }
+                okText="Yes"
+                cancelText="No"
+                okType="danger"
+                placement="bottom"
               >
-                Delete dataset{" "}
-                <DeleteOutlineIcon
+                <Button
                   sx={{
-                    fill: "#FF5630",
-                    fontSize: "22px",
-                    marginLeft: "4px",
+                    color: "#FF5630",
+                    fontFamily: "Public Sans",
+                    fontWeight: "700",
+                    fontSize: "15px",
+                    border: "1px solid rgba(255, 86, 48, 0.48)",
+                    width: "172px",
+                    height: "48px",
+                    marginRight: "28px",
+                    textTransform: "none",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(255, 86, 48, 0.48)",
+                    },
                   }}
-                />
-              </Button>
+                  variant="outlined"
+                >
+                  Delete dataset{" "}
+                  <DeleteOutlineIcon
+                    sx={{
+                      fill: "#FF5630",
+                      fontSize: "22px",
+                      marginLeft: "4px",
+                    }}
+                  />
+                </Button>
+              </Popconfirm>
               <Button
                 sx={{
                   color: "#00AB55",

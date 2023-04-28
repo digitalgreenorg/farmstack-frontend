@@ -7,75 +7,92 @@
   max-width: 25%;
   margin: 30px 0;
 }
-.highlitedImg > img {
+
+.highlitedImg>img {
   width: 179px;
   height: 90px;
 }
+
 .container {
   text-align: left;
 }
 
 .buttonContainer {
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: end;
 }
+
 .outlined_button {
   padding: 5px !important;
   margin: auto 10px !important;
 }
+
 .loadMoreButton {
   width: 100%;
   box-shadow: none;
   margin-top: 50px !important;
   margin-bottom: 50px !important;
 }
+
 .buttonContainer {
   align-items: center;
 }
+
 .section {
   margin-top: 100px !important;
 }
+
 .textRow {
   margin: 15px 0 30px 0;
 }
+
 .backButton {
   /* margin-top: 50px !important;
   margin-bottom: 50px !important; */
   margin: 0 15px !important;
 }
+
 .backButtonContainer {
   display: flex;
   flex-direction: row-reverse;
   padding: 50px 0;
 }
+
 .backButtonContainerAlingCenter {
   padding: 50px 0;
 }
-.backButtonContainerAlingCenter > button {
+
+.backButtonContainerAlingCenter>button {
   margin: auto !important;
   width: 350px;
 }
+
 .borderNone {
   border: none !important;
   margin: 0 15px !important;
 }
+
 .primary_button {
   margin: 0 15px !important;
   padding: 10px 35px !important;
 }
+
 .highlitedText {
   word-wrap: break-word;
 }
+
 .firstLetterOnLogo {
   text-align: center;
   font-size: 60px;
 }
+
 .noDataBox {
   text-align: center;
   border-radius: 15px;
   background-color: #ffffff;
   width: 100%;
 }
+
 .imgLogo {
   margin: 0 8px;
 }
