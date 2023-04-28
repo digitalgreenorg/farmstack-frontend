@@ -265,6 +265,16 @@ const GuestUserHome = () => {
         <Row className={`${LocalStyle.buttonContainer}`}>
           <Button
             className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button}`}
+            onClick={() =>
+              history.push(
+                getUserLocal() &&
+                  (isLoggedInUserAdmin() || isLoggedInUserCoSteward())
+                  ? "/datahub/new_datasets"
+                  : getUserLocal() && isLoggedInUserParticipant()
+                  ? "/participant/new_datasets"
+                  : "/login"
+              )
+            }
           >
             Get Started
           </Button>

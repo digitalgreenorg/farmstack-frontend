@@ -150,7 +150,7 @@ const DataSetsView = (props) => {
   const getDataset = () => {
     let url = "";
     if (userType == "guest") {
-      url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + "/";
+      url = UrlConstant.base_url + UrlConstant.datasetview__guest + id + "/";
     } else {
       if (history?.location?.state?.tab === "other_organisation") {
         url =

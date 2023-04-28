@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -95,7 +96,10 @@ const FooterNew = () => {
             <div className="d-flex justify-content-between w-100">
               <div
                 className={`${style.footerLightText} ${style.quickLinks}`}
-                onClick={() => history.push("/home")}
+                onClick={() => {
+                  history.push("/home");
+                  goToTop(0);
+                }}
               >
                 Home
               </div>
