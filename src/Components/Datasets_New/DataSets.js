@@ -146,7 +146,9 @@ const DataSets = (props) => {
       guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
       payload = "";
     }
-    let accessToken = getTokenLocal() ?? false;
+    // console.log(user, "user inside the microste");
+    let accessToken = user !== "guest" ? getTokenLocal() : false;
+    console.log(accessToken, "accessToken");
     callLoader(true);
     HTTPService(
       method,
@@ -207,7 +209,7 @@ const DataSets = (props) => {
     } else {
       payload = { ...filterState };
     }
-    let accessToken = getTokenLocal() ?? false;
+    let accessToken = user !== "guest" ? getTokenLocal() : false;
     callLoader(true);
     HTTPService(
       "POST",
@@ -278,7 +280,9 @@ const DataSets = (props) => {
       data["others"] = false;
     }
     callLoader(true);
-    await HTTPService("POST", getUrl(isLoadMore), data, false, true)
+    let accessToken = user !== "guest" ? getTokenLocal() : false;
+
+    await HTTPService("POST", getUrl(isLoadMore), data, false, accessToken)
       .then((response) => {
         callLoader(false);
         if (response.data.next == null) {
@@ -363,7 +367,7 @@ const DataSets = (props) => {
         ? UrlConstant.base_url + UrlConstant.microsite_category
         : UrlConstant.base_url + UrlConstant.add_category_edit_category;
     let isAuthorization = user == "guest" ? false : true;
-    let checkforAccess = getTokenLocal() ?? false;
+    let checkforAccess = user !== "guest" ? getTokenLocal() : false;
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
         let prepareArr = [];

@@ -432,6 +432,7 @@ const UploadFile = ({
   };
 
   const handleConnect = () => {
+    callLoader(true);
     if (selectedUploadType === "mysql") {
       let bodyData = {
         database: mySqlDbName,
@@ -452,10 +453,13 @@ const UploadFile = ({
         accessToken
       )
         .then((res) => {
+          callLoader(false);
+
           setSqlTables([...res.data]);
           setIsMySqlConnected(true);
         })
         .catch((err) => {
+          callLoader(false);
           console.log(err);
         });
     } else if (selectedUploadType === "postgres") {
@@ -477,10 +481,12 @@ const UploadFile = ({
         accessToken
       )
         .then((res) => {
+          callLoader(false);
           setPostgresTables([...res.data]);
           setIsPostgresConnected(true);
         })
         .catch((err) => {
+          callLoader(false);
           console.log(err);
         });
     } else if (selectedUploadType === "sqlite") {
@@ -502,16 +508,19 @@ const UploadFile = ({
         accessToken
       )
         .then((res) => {
+          callLoader(false);
           setSqLiteTables([...res.data]);
           setIsSqLiteConnected(true);
         })
         .catch((err) => {
+          callLoader(false);
           console.log(err);
         });
     }
   };
 
   const handleDisconnect = () => {
+    callLoader(true);
     if (selectedUploadType === "mysql") {
       setIsMySqlConnected(false);
     } else if (selectedUploadType === "postgres") {
@@ -521,6 +530,7 @@ const UploadFile = ({
     } else if (selectedUploadType === "rest_api") {
       setIsApiConnected(false);
     }
+    callLoader(false);
   };
 
   const generateColumns = (data) => {
@@ -599,9 +609,34 @@ const UploadFile = ({
     }
   };
 
+  const checkFileAlreadyImported = (
+    sourceToCheck,
+    fileName,
+    alreadyExportedFiles
+  ) => {
+    const exist = (item) => {
+      let fileNameWithExtension = item?.file?.split("/").at(-1);
+      if (fileNameWithExtension && fileNameWithExtension.includes(".")) {
+        let fileNameWithoutExtension = fileNameWithExtension?.split(".")[0];
+        return fileNameWithoutExtension == fileName;
+      }
+    };
+    console.log(alreadyExportedFiles.some(exist));
+    console.log(alreadyExportedFiles, fileName, sourceToCheck, "sourceToCheck");
+    if (alreadyExportedFiles.some(exist)) {
+      callToast(
+        "File name already exist. Please give any other name",
+        "error",
+        true
+      );
+      return;
+    }
+  };
+
   const handleImport = () => {
     if (selectedUploadType === "mysql") {
       let query = mySqlFileName;
+      checkFileAlreadyImported(selectedUploadType, query, sqlFiles);
       let table_name = mySqlTableName;
       let selectedColumns = [];
       for (let i = 0; i < allColumns.length; i++) {
@@ -634,6 +669,7 @@ const UploadFile = ({
         });
     } else if (selectedUploadType === "postgres") {
       let query = postgresFileName;
+      checkFileAlreadyImported(selectedUploadType, query, postgresFiles);
       let table_name = postgresTableName;
       let selectedColumns = [];
       for (let i = 0; i < allColumns.length; i++) {
@@ -694,6 +730,12 @@ const UploadFile = ({
 
   const handleExport = () => {
     if (selectedUploadType === "rest_api") {
+      checkFileAlreadyImported(
+        selectedUploadType,
+        exportFileName,
+        restApifiles
+      );
+
       let body = {
         dataset: datasetId,
         dataset_name: dataSetName,
