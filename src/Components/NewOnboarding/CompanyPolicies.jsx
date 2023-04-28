@@ -128,8 +128,8 @@ const CompanyPolicies = (props) => {
           // getListOfPolicies();
           return response;
         }
-        if(props.isPolicySettings && response.status === 201) {
-        callToast("Policy settings updated successfully!", "success", true);
+        if (props.isPolicySettings && response.status === 201) {
+          callToast("Policy settings updated successfully!", "success", true);
         }
       })
       .catch(async (e) => {
@@ -243,6 +243,7 @@ const CompanyPolicies = (props) => {
     const [policyNameError, setPolicyNameError] = useState("");
     const [dataOfFile, setDataOfFile] = useState(data.file);
     const [localKey, setLocalKey] = useState(0);
+    const [fileSizeErrorE, setFileSizeErrorE] = useState("")
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
@@ -250,6 +251,7 @@ const CompanyPolicies = (props) => {
       setPolicySize(file.size);
       setIsLogoLinkE(false);
       setLocalKey(localKey + 1);
+      setFileSizeErrorE("")
     };
 
     const handleDeleteFile = () => {
@@ -260,6 +262,7 @@ const CompanyPolicies = (props) => {
       setPolicySize("");
       setIsLogoLinkE(false);
       setLocalKey(localKey + 1);
+      setFileSizeErrorE("")
     };
     useEffect(() => {
       console.log("uploadedPolicyE", uploadedPolicyE);
@@ -394,10 +397,7 @@ const CompanyPolicies = (props) => {
                 handleChange={handleUploadPolicyE}
                 maxSize={25}
                 setSizeError={() =>
-                  setEditPolicyFileError({
-                    error: "Maximum file size allowed is 25MB",
-                    policy_id: data.id,
-                  })
+                  setFileSizeErrorE("Maximum file size allowed is 25MB")
                 }
               />
               {/* <div>{"sizeError"}</div> */}
@@ -468,7 +468,7 @@ const CompanyPolicies = (props) => {
               {editPolicyFileError.error &&
               editPolicyFileError.policy_id == data.id
                 ? editPolicyFileError.error
-                : ""}
+                : fileSizeErrorE}
             </div>
           </Col>
         </Row>
