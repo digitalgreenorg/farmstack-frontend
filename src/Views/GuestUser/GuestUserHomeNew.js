@@ -29,11 +29,11 @@ const GuestUserHome = () => {
               <Typography
                 className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
-                <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+                <b style={{ fontWeight: "bold" }}></b>
                 Revolutionary approach to data exchange in agriculture by
                 fostering collaboration between organisations and harnessing the
                 power of collective data.
-                <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+                <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
             <Row className={`${LocalStyle.buttonContainer}`}>
@@ -101,8 +101,8 @@ const GuestUserHome = () => {
         <Typography
           className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
-          "Discover and explore the potential of data to generate ideal datasets
-          with Dataset Explorer."
+          Discover and explore the potential of data to generate ideal datasets
+          with Dataset Explorer.
         </Typography>
         <DatasetListNew user={"guest"} />
       </Container>
@@ -122,12 +122,12 @@ const GuestUserHome = () => {
             <Typography
               className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
             >
-              <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+              <b style={{ fontWeight: "bold" }}></b>
               Farmstack enables seamless data sharing, breaks down silos, and
               builds trust among organisations. The platform consolidates
               fragmented data, standardises data, and aids in better data
               categorization, enhancing its usability and value.
-              <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+              <b style={{ fontWeight: "bold" }}></b>
             </Typography>
           </Col>
         </Row>
@@ -143,10 +143,10 @@ const GuestUserHome = () => {
             <Typography
               className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
             >
-              <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+              <b style={{ fontWeight: "bold" }}></b>
               Organisations who facilitate their own private network of
               participants for secured data sharing.
-              <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+              <b style={{ fontWeight: "bold" }}></b>
             </Typography>
           </div>
           <ParticipantsCarouselNew isCosteward={true} />
@@ -168,10 +168,10 @@ const GuestUserHome = () => {
           <Typography
             className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
           >
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
             Organisations that share our vision and are committed to making a
             positive impact.
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
           </Typography>
         </div>
         <ParticipantsCarouselNew />
@@ -200,11 +200,11 @@ const GuestUserHome = () => {
               <Typography
                 className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
-                <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+                <b style={{ fontWeight: "bold" }}></b>
                 Empower admins from Steward Organizations to effortlessly
                 configure and manage their data exchange platform, ensuring a
                 seamless and secure experience for all participants.
-                <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+                <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
             {/* <Row className={`${LocalStyle.buttonContainer}`}>
@@ -255,10 +255,10 @@ const GuestUserHome = () => {
             <Typography
               className={`${LocalStyle.title} ${LocalStyle.centeredAlignTitle} ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} d-block`}
             >
-              <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+              <b style={{ fontWeight: "bold" }}></b>
               Maximise impact by exploring the ultimate platform for data-driven
               solutions!
-              <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+              <b style={{ fontWeight: "bold" }}></b>
             </Typography>
           </Col>
         </Row>

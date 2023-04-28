@@ -136,10 +136,10 @@ function GuestUserParticipants(props) {
             className={LocalStyle.description}
             style={{ width: description && "74%" }}
           >
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
             {description ??
               "Meet the Change Makers: Our Community Members Who Are Transforming Agriculture."}
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
       </Row>
