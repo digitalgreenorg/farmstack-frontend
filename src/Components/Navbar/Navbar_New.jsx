@@ -213,7 +213,7 @@ const NavbarNew = ({ loginType }) => {
             src={
               UrlConstant.base_url_without_slash + adminData?.organization?.logo
             }
-            alt="footerLogo"
+            alt="HeaderLogo"
           />
         </Box>
         <Box className="d-flex align-items-center">

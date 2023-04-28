@@ -822,6 +822,7 @@ const AddConnector = (props) => {
           label="Connector name"
           value={connectorData.name}
           onChange={handleChange}
+          disabled={props.isEditModeOn ? true : false}
           inputProps={{ maxLength: 100 }}
         />
         <TextField

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
 import { Button, FormControl, InputLabel, TextField } from "@mui/material";
@@ -9,6 +9,8 @@ import Select from "@mui/material/Select";
 import FileUploaderMain from "../Generic/FileUploader";
 import MuiPhoneNumber from "material-ui-phone-number";
 import UrlConstant from "../../Constants/UrlConstants";
+import countryList from "react-select-country-list";
+
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
@@ -30,6 +32,7 @@ const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
+  const countryNameList = useMemo(() => countryList().getData(), []);
   const { setActiveStep } = props;
   const [organisationDetails, setOrganisationDetails] = useState({
     organisation_name: "",
@@ -74,7 +77,7 @@ const OrganizationDetails = (props) => {
         if (isLoggedInUserAdmin()) {
           history.push("/datahub/new_datasets");
         } else if (isLoggedInUserParticipant()) {
-          history.push("/participant/datasets");
+          history.push("/participant/new_datasets");
         } else if (isLoggedInUserCoSteward()) {
           history.push("/datahub/new_datasets");
         }
@@ -179,12 +182,16 @@ const OrganizationDetails = (props) => {
         console.log(response);
         if (isLoggedInUserAdmin() && !props.isOrgSetting) {
           setActiveStep((prev) => prev + 1);
-        } else if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
+        } else if ((isLoggedInUserParticipant() || isLoggedInUserCoSteward()) && !props.isOrgSetting) {
           callToast("Onboarded", "success", true);
           setOnBoardedTrue();
         }
-        if(props.isOrgSetting && response.status === 201)
-        callToast("Organisation settings updated successfully!", "success", true);
+        if (props.isOrgSetting && response.status === 201)
+          callToast(
+            "Organisation settings updated successfully!",
+            "success",
+            true
+          );
       })
       .catch(async (e) => {
         callLoader(false);
@@ -444,9 +451,14 @@ const OrganizationDetails = (props) => {
                     organisationDetailsError.organisation_country_error
                   }
                 >
-                  <MenuItem value={"in"}>India</MenuItem>
-                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                  {countryNameList?.map((countryName, index) => {
+                  return (
+                    <MenuItem value={countryName.label}>
+                      {countryName.label}
+                    </MenuItem>
+                  );
+                })}
+                  
                 </Select>
               </FormControl>
             </Col>
@@ -461,7 +473,13 @@ const OrganizationDetails = (props) => {
                 name="organisation_pin_code"
                 value={organisationDetails.organisation_pin_code}
                 onChange={(e) => {
-                  if (e.target.value.length <= 10 && validateInputField(e.target.value, RegexConstants.PINCODE_REGEX_NEWUI)) {
+                  if (
+                    e.target.value.length <= 10 &&
+                    validateInputField(
+                      e.target.value,
+                      RegexConstants.PINCODE_REGEX_NEWUI
+                    )
+                  ) {
                     handleOrgChange(e);
                   }
                 }}
@@ -569,7 +587,11 @@ const OrganizationDetails = (props) => {
                 id="cancelbutton_account"
                 variant="outlined"
                 className={global_style.secondary_button}
-                onClick={() => history.push("/datahub/new_datasets")}
+                onClick={() =>
+                  isLoggedInUserParticipant()
+                    ? history.push("/participant/new_datasets")
+                    : history.push("/datahub/new_datasets")
+                }
               >
                 Cancel
               </Button>

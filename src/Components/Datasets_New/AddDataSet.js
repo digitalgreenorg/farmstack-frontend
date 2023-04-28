@@ -282,8 +282,7 @@ const AddDataSet = (props) => {
       });
   };
 
-  useEffect(() => {
-    // edit Dataset API call
+  const getDatasetForEdit = () => {
     if (props.datasetIdForEdit) {
       (() => {
         let accessToken = getTokenLocal() ?? false;
@@ -416,6 +415,10 @@ const AddDataSet = (props) => {
           });
       })();
     }
+  };
+  useEffect(() => {
+    // edit Dataset API call
+    getDatasetForEdit();
   }, []);
   return (
     <Box>
@@ -571,6 +574,7 @@ const AddDataSet = (props) => {
             standardisedFileLink={standardisedFileLink}
             setStandardisedFileLink={setStandardisedFileLink}
             validator={validator}
+            getDatasetForEdit={getDatasetForEdit}
           />
         </TabPanel>
         <TabPanel value={value} index={3}>

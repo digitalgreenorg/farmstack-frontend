@@ -141,7 +141,7 @@ const StandardizationInOnbord = (props) => {
     let tmpAllDatapoints = [...allDatapoints];
     console.log("error array", accordionDatapointNameError);
     if (newValue.length < 51) {
-      tmpAllDatapoints[index].datapoint_category = newValue.trimStart();;
+      tmpAllDatapoints[index].datapoint_category = newValue.trimStart();
       setAllDataPoints(tmpAllDatapoints);
     } else {
       return;
@@ -220,32 +220,39 @@ const StandardizationInOnbord = (props) => {
       return;
     }
     setSaveButtonEnabled(true);
-  
+
     let tmpAllAttributes = { ...allAttributes };
     const newAttribute = tmpAllAttributes[index][0].trimStart();
-    if (tmpAllAttributes[index].slice(1).some(attr => attr === newAttribute)) {
-      console.error(`Attribute "${newAttribute}" already exists for datapoint ${tmpAllAttributes[index][1]}`);
-      let nameAlreadyExist = [...attributeErrorMessage]
-      nameAlreadyExist[index] = `"${newAttribute}" already exists for datapoint`
-      setAttributeErrorMessage(nameAlreadyExist)
+    if (
+      tmpAllAttributes[index].slice(1).some((attr) => attr === newAttribute)
+    ) {
+      console.error(
+        `Attribute "${newAttribute}" already exists for datapoint ${tmpAllAttributes[index][1]}`
+      );
+      let nameAlreadyExist = [...attributeErrorMessage];
+      nameAlreadyExist[
+        index
+      ] = `"${newAttribute}" already exists for datapoint`;
+      setAttributeErrorMessage(nameAlreadyExist);
       return;
-  }
+    }
     tmpAllAttributes[index].push(tmpAllAttributes[index][0]);
     tmpAllAttributes[index][0] = "";
     setAllAttributes(tmpAllAttributes);
-    
+
     // For Des
     let tmpAllAttributesDes = { ...allAttributesDes };
     tmpAllAttributesDes[index].push(tmpAllAttributesDes[index][0]);
     tmpAllAttributesDes[index][0] = "";
     setAllAttributesDes(tmpAllAttributesDes);
-    setAttributeErrorMessage("")
+    setAttributeErrorMessage("");
     console.log("all Des", tmpAllAttributesDes);
   };
   const handleDatapointAtticuteDelete = (index, arrIndex) => {
     let tmpAllAttributes = { ...allAttributes };
     tmpAllAttributes[index].splice(arrIndex, 1);
     setAllAttributes(tmpAllAttributes);
+    setSaveButtonEnabled(true);
     console.log("tmpAllAttributes", tmpAllAttributes);
   };
 
@@ -282,13 +289,20 @@ const StandardizationInOnbord = (props) => {
 
     console.log("final payload", payload);
 
-    let method = inSettings ? "PUT" : isOnborading ? "POST" : "POST";
-    let url = isOnborading
-      ? UrlConstant.base_url + UrlConstant.standardization_post_data
-      : inSettings
-      ? UrlConstant.base_url + UrlConstant.standardization_update_data
-      : UrlConstant.base_url + UrlConstant.standardization_post_data;
-
+    let method, url;
+    if (inSettings) {
+      method = "PUT";
+      url = UrlConstant.base_url + UrlConstant.standardization_update_data;
+    } else if (
+      isOnborading &&
+      (!allDatapoints === null || allDatapoints.length > 0)
+    ) {
+      method = "PUT";
+      url = UrlConstant.base_url + UrlConstant.standardization_update_data;
+    } else {
+      method = isOnborading ? "POST" : "POST";
+      url = UrlConstant.base_url + UrlConstant.standardization_post_data;
+    }
     setIsLoading(true);
     HTTPService(
       method,

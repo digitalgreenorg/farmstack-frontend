@@ -123,8 +123,8 @@ const ProfileDetails = (props) => {
           setActiveStep((prev) => prev + 1);
           // }
         }
-        if(props.isAccountSetting && res.status === 201)
-        callToast("Account settings updated successfully!", "success", true);
+        if (props.isAccountSetting && res.status === 201)
+          callToast("Account settings updated successfully!", "success", true);
 
         setProfileDetailsError({
           first_name: "",
@@ -310,12 +310,16 @@ const ProfileDetails = (props) => {
                 variant="outlined"
                 style={{ margin: "20px" }}
                 className={global_style.secondary_button}
-                onClick={() => history.push("/datahub/new_datasets")}
+                onClick={() =>
+                  isLoggedInUserParticipant()
+                    ? history.push("/participant/new_datasets")
+                    : history.push("/datahub/new_datasets")
+                }
               >
                 Cancel
               </Button>
               <Button
-                 disabled={
+                disabled={
                   !profileDetailsError.contact_number &&
                   profileDetails.contact_number &&
                   profileDetails.email_id &&
