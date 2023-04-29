@@ -37,7 +37,6 @@ const NavbarNew = ({ loginType }) => {
   const history = useHistory();
   const location = useLocation();
 
-  console.log(location);
   const [adminData, setAdminData] = useState(null);
   const [isSelected, setIsSelected] = useState("");
 
@@ -52,9 +51,7 @@ const NavbarNew = ({ loginType }) => {
       .then((response) => {
         setAdminData(response.data);
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => {});
   };
 
   const isNavLinkActive = (path) => {

@@ -113,8 +113,8 @@ const Standardise = ({
       callLoader(true);
       HTTPService("POST", url, payload, false, accessToken)
         .then((response) => {
-          callLoader(false);
           setKeysInUploadedDataset(response.data);
+          callLoader(false);
         })
         .catch((e) => {
           callLoader(false);
@@ -283,7 +283,6 @@ const Standardise = ({
       standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
       keysInUploadedDataset.forEach((column, index) => {
         Object.keys(standardised_obj).forEach(function (key, ind) {
-          console.log(column, key);
           if (column === key) {
             tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
             tempdPointCategories[index] = standardised_obj[key].mapped_category;
@@ -313,6 +312,7 @@ const Standardise = ({
       setDatapointAttributes(tmpColumn);
       setStandardisedColumn(tmpStandardisedColum);
       setMaskedColumns(tempMaskedColumns);
+      // callLoader(false);
     }
   }, [standardiseFile, keysInUploadedDataset]);
 
