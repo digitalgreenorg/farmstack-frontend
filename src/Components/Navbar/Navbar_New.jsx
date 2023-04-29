@@ -65,7 +65,9 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/datahub/new_datasets" ||
+          location.pathname === "/home/datasets" ||
           location.pathname === "/datahub/new_datasets/view/" + tempId ||
+          location.pathname === "/home/datasets/" + tempId ||
           location.pathname === "/datahub/new_datasets/edit/" + tempId ||
           location.pathname === "/datahub/new_datasets/add"
           ? true
@@ -76,7 +78,9 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/participant/new_datasets" ||
+          location.pathname === "/home/datasets" ||
           location.pathname === "/participant/new_datasets/view/" + tempId ||
+          location.pathname === "/home/datasets/" + tempId ||
           location.pathname === "/participant/new_datasets/edit/" + tempId
           ? true
           : false;
@@ -97,6 +101,8 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/datahub/participants" ||
+          location.pathname === "/home/participants" ||
+          location.pathname === "/home/participants/view/" + tempId ||
           location.pathname === "/datahub/participants/view/" + tempId ||
           location.pathname === "/datahub/participants/edit/" + tempId ||
           location.pathname === "/datahub/participants/view/approve/" + tempId
@@ -108,6 +114,8 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/datahub/participants" ||
+          location.pathname === "/home/participants" ||
+          location.pathname === "/home/participants/view/" + tempId ||
           location.pathname === "/datahub/participants/view/" + tempId ||
           location.pathname === "/datahub/participants/edit/" + tempId ||
           location.pathname === "/datahub/participants/view/approve/" + tempId
@@ -153,6 +161,8 @@ const NavbarNew = ({ loginType }) => {
         location.pathname.lastIndexOf("/") + 1
       );
       return location.pathname === "/datahub/costeward/view/" + tempId ||
+        location.pathname === "/home/costeward" ||
+        location.pathname === "/home/costeward/view/" + tempId ||
         location.pathname === "/datahub/costeward/edit/" + tempId
         ? true
         : false;
@@ -161,7 +171,38 @@ const NavbarNew = ({ loginType }) => {
       let tempId = location.pathname.slice(
         location.pathname.lastIndexOf("/") + 1
       );
-      return location.pathname === "/home/costeward/view/" + tempId
+      return location.pathname === "/home/costeward/view/" + tempId ||
+        location.pathname === "/home/costeward"
+        ? true
+        : false;
+    }
+  };
+
+  const isNavLinkActiveForHome = (itemName) => {
+    if (loginType === "admin") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/datasets" ||
+        location.pathname === "/home/datasets/" + tempId
+        ? true
+        : false;
+    }
+    if (loginType === "participant") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/datasets" ||
+        location.pathname === "/home/datasets/" + tempId
+        ? true
+        : false;
+    }
+    if (loginType === "guest") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/datasets" ||
+        location.pathname === "/home/datasets/" + tempId
         ? true
         : false;
     }
@@ -293,7 +334,11 @@ const NavbarNew = ({ loginType }) => {
           loginType === "guest" ? (
             <NavLink
               activeStyle={navActiveStyle}
-              style={navInActiveStyle}
+              style={
+                isNavLinkActiveForHome("datasets")
+                  ? navActiveStyle
+                  : navInActiveStyle
+              }
               to={
                 loginType === "admin"
                   ? "/datahub/new_datasets"
