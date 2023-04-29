@@ -62,12 +62,13 @@ const Standardise = ({
   const [template, setTemplate] = useState();
   const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([]);
   const [datapointCategories, setDatapointCategories] = useState([]);
-  const [datapointCategory, setDatapointCategory] = useState();
+  const [datapointCategory, setDatapointCategory] = useState([]);
   const [datapointAttributes, setDatapointAttributes] = useState([]);
   const [datapointAttribute, setDatapointAttribute] = useState();
   const [standardiseNames, setStandardiseNames] = useState([]);
   const [standardiseName, setStandardiseName] = useState();
   const [alreadyStandardizedFiles, setAlreadyStandardizedFiles] = useState([]);
+  const [isFetchedData, setIsFetchedData] = useState(false);
   const fileExt = ["xlsx", "xls", "csv"];
 
   const handleChange = () => (event, isExpanded) => {
@@ -140,6 +141,7 @@ const Standardise = ({
           let tmpStandardisedColum = [...standardisedColum];
           tmpStandardisedColum.fill("");
           setStandardisedColumn(tmpStandardisedColum);
+          setIsFetchedData(true);
         }
       })
       .catch((e) => {
@@ -272,7 +274,7 @@ const Standardise = ({
   }, [standardiseFile]);
 
   useEffect(() => {
-    if (isEditModeOn && standardisedUpcomingFiles) {
+    if (isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
       let tmpArr = standardisedUpcomingFiles.filter(
         (item) => item.id === standardiseFile
       );
@@ -312,7 +314,7 @@ const Standardise = ({
       setDatapointAttributes(tmpColumn);
       setStandardisedColumn(tmpStandardisedColum);
       setMaskedColumns(tempMaskedColumns);
-      // callLoader(false);
+      setIsFetchedData(false);
     }
   }, [standardiseFile, keysInUploadedDataset]);
 

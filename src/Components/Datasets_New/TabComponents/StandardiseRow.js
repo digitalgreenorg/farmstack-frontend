@@ -27,7 +27,7 @@ const StandardiseRow = ({
   setStandardisedColumn,
   maskedColumns,
 }) => {
-  console.log(datapointCategory?.[index], "rowfow");
+  // console.log(datapointCategory?.[index], "rowfow");
   return (
     <div className="mt-50" key={index}>
       <Box className="d-flex justify-content-between align-items-center w-100 mb-20">
@@ -46,7 +46,7 @@ const StandardiseRow = ({
           {keyName}
         </Typography>
         <Box className="">
-          {/* <FormControl fullWidth sx={{ width: "273px" }}>
+          <FormControl fullWidth sx={{ width: "273px" }}>
             <InputLabel>Datapoint category</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -82,29 +82,10 @@ const StandardiseRow = ({
                 </MenuItem>
               ))}
             </Select>
-          </FormControl> */}
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="Datapoint category"
-            sx={{ width: "273px" }}
-            value={datapointCategory?.[index] ? datapointCategory?.[index] : ""}
-            defaultValue={
-              datapointCategory?.[index]?.datapoint_category
-                ? datapointCategory?.[index]?.datapoint_category
-                : ""
-            }
-            onChange={(e) => datapointCategoryChange(e.target.value, index)}
-          >
-            {datapointCategories?.map((item) => (
-              <MenuItem key={item.datapoint_category} value={item}>
-                {item.datapoint_category}
-              </MenuItem>
-            ))}
-          </TextField>
+          </FormControl>
         </Box>
         <Box className="">
-          {/* <FormControl fullWidth sx={{ width: "273px" }}>
+          <FormControl fullWidth sx={{ width: "273px" }}>
             <InputLabel>Datapoint Attribute</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -139,29 +120,7 @@ const StandardiseRow = ({
                 </MenuItem>
               ))}
             </Select>
-          </FormControl> */}
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="Datapoint Attribute"
-            sx={{ width: "273px" }}
-            key={index}
-            value={standardisedColum?.[index] ? standardisedColum?.[index] : ""}
-            defaultValue={
-              standardisedColum?.[index] ? standardisedColum?.[index] : ""
-            }
-            onChange={(e) => {
-              let tmpArr = [...standardisedColum];
-              tmpArr[index] = e.target.value;
-              setStandardisedColumn(tmpArr);
-            }}
-          >
-            {datapointAttributes[index]?.map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </TextField>
+          </FormControl>
         </Box>
         <Box className="mr-16">
           <CheckBoxWithText
