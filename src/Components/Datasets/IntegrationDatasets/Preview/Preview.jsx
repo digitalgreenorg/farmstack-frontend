@@ -281,38 +281,42 @@ const Preview = (props) => {
             "isAllConditionForSaveMet "
           )}
           {finalDatasetAfterIntegration.length > 0 &&
-            isAllConditionForSaveMet &&
-            isConditionForConnectorDataForSaveMet &&
-            completeData.length != 1 && (
-              <Button
-                onClick={() => {
-                  temporaryDeletedCards.forEach((item, i) => {
-                    if (item) {
-                      console.log(item);
-                      generateData(i, "delete_map_card", item);
-                    }
-                  });
-                  generateData(completeData.length - 2, "save");
-                }}
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: 700,
-                  fontSize: "15px",
-                  width: "200px",
-                  height: "48px",
-                  background: "#00AB55",
-                  borderRadius: "8px",
-                  textTransform: "none",
-                  color: "white !important",
-                  "&:hover": {
-                    backgroundColor: "#00AB55",
-                    color: "#fffff",
-                  },
-                }}
-              >
-                Save connector
-              </Button>
-            )}
+          isAllConditionForSaveMet &&
+          isConditionForConnectorDataForSaveMet &&
+          completeData?.[0]?.left_on?.length &&
+          completeData?.[0]?.right_on?.length &&
+          completeData.length != 1 ? (
+            <Button
+              onClick={() => {
+                temporaryDeletedCards.forEach((item, i) => {
+                  if (item) {
+                    console.log(item);
+                    generateData(i, "delete_map_card", item);
+                  }
+                });
+                generateData(completeData.length - 2, "save");
+              }}
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: 700,
+                fontSize: "15px",
+                width: "200px",
+                height: "48px",
+                background: "#00AB55",
+                borderRadius: "8px",
+                textTransform: "none",
+                color: "white !important",
+                "&:hover": {
+                  backgroundColor: "#00AB55",
+                  color: "#fffff",
+                },
+              }}
+            >
+              Save connector
+            </Button>
+          ) : (
+            <></>
+          )}
           {/* </Col> */}
           {/* <Col lg={2}> */}
           {isEditModeOn && (
