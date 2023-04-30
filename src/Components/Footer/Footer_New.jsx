@@ -45,11 +45,8 @@ const FooterNew = () => {
     HTTPService(method, url, "", false, false, false, false, false)
       .then((response) => {
         setAdminData(response.data);
-        console.log(response);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   }, []);
   return (
     <Box sx={{ padding: "40px", marginLeft: "144px", marginRight: "144px" }}>
@@ -76,7 +73,6 @@ const FooterNew = () => {
               Datahub admin phone
             </div>
             <div className={`${style.footerDarkText} mt-2 text-left`}>
-              {console.log(adminData, "adminData")}
               {adminData?.user?.phone_number ?? ""}
             </div>
           </div>

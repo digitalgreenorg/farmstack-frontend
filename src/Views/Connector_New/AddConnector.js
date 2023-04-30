@@ -784,7 +784,7 @@ const AddConnector = (props) => {
     props.connectorIdForView,
     isDatasetIntegrationListModeOn,
   ]);
-  console.log(props);
+  console.log(completeData, "connector data");
   return (
     <Box>
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>

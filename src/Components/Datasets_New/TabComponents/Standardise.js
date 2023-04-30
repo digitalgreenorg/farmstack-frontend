@@ -62,12 +62,13 @@ const Standardise = ({
   const [template, setTemplate] = useState();
   const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([]);
   const [datapointCategories, setDatapointCategories] = useState([]);
-  const [datapointCategory, setDatapointCategory] = useState();
+  const [datapointCategory, setDatapointCategory] = useState([]);
   const [datapointAttributes, setDatapointAttributes] = useState([]);
   const [datapointAttribute, setDatapointAttribute] = useState();
   const [standardiseNames, setStandardiseNames] = useState([]);
   const [standardiseName, setStandardiseName] = useState();
   const [alreadyStandardizedFiles, setAlreadyStandardizedFiles] = useState([]);
+  const [isFetchedData, setIsFetchedData] = useState(false);
   const fileExt = ["xlsx", "xls", "csv"];
 
   const handleChange = () => (event, isExpanded) => {
@@ -113,8 +114,8 @@ const Standardise = ({
       callLoader(true);
       HTTPService("POST", url, payload, false, accessToken)
         .then((response) => {
-          callLoader(false);
           setKeysInUploadedDataset(response.data);
+          callLoader(false);
         })
         .catch((e) => {
           callLoader(false);
@@ -140,6 +141,7 @@ const Standardise = ({
           let tmpStandardisedColum = [...standardisedColum];
           tmpStandardisedColum.fill("");
           setStandardisedColumn(tmpStandardisedColum);
+          setIsFetchedData(true);
         }
       })
       .catch((e) => {
@@ -208,7 +210,7 @@ const Standardise = ({
     });
 
     let payload = {
-      masked_columns: maskedColumns,
+      mask_columns: maskedColumns,
       standardised_configuration: standardisationConfiguration,
       config: config,
     };
@@ -272,7 +274,7 @@ const Standardise = ({
   }, [standardiseFile]);
 
   useEffect(() => {
-    if (isEditModeOn && standardisedUpcomingFiles) {
+    if (isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
       let tmpArr = standardisedUpcomingFiles.filter(
         (item) => item.id === standardiseFile
       );
@@ -283,7 +285,6 @@ const Standardise = ({
       standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
       keysInUploadedDataset.forEach((column, index) => {
         Object.keys(standardised_obj).forEach(function (key, ind) {
-          console.log(column, key);
           if (column === key) {
             tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
             tempdPointCategories[index] = standardised_obj[key].mapped_category;
@@ -313,6 +314,7 @@ const Standardise = ({
       setDatapointAttributes(tmpColumn);
       setStandardisedColumn(tmpStandardisedColum);
       setMaskedColumns(tempMaskedColumns);
+      setIsFetchedData(false);
     }
   }, [standardiseFile, keysInUploadedDataset]);
 

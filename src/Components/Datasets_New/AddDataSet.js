@@ -282,14 +282,14 @@ const AddDataSet = (props) => {
       });
   };
 
-  const getDatasetForEdit = () => {
+  const getDatasetForEdit = (dId) => {
     if (props.datasetIdForEdit) {
       (() => {
         let accessToken = getTokenLocal() ?? false;
         let url =
           UrlConstant.base_url +
           UrlConstant.datasetview +
-          props.datasetIdForEdit +
+          (dId ? dId : props.datasetIdForEdit) +
           "/";
         callLoader(true);
         HTTPService("GET", url, "", false, true, accessToken)
@@ -483,6 +483,7 @@ const AddDataSet = (props) => {
                   Upload or import
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
             <Tab
               label={

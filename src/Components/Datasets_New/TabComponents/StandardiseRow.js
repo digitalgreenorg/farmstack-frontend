@@ -6,6 +6,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import CheckBoxWithText from "./CheckBoxWithText";
@@ -26,7 +27,7 @@ const StandardiseRow = ({
   setStandardisedColumn,
   maskedColumns,
 }) => {
-  console.log(datapointCategory?.[index], "rowfow");
+  // console.log(datapointCategory?.[index], "rowfow");
   return (
     <div className="mt-50" key={index}>
       <Box className="d-flex justify-content-between align-items-center w-100 mb-20">
