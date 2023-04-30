@@ -26,15 +26,15 @@ const CoStewardAndParticipantsCard = (props) => {
 
   const handleViewDataset = (id) => {
     if (guestUser && isCosteward) {
-      history.push(`/home/costeward/view/${id}`);    
+      history.push(`/home/costeward/view/${id}`);
     } else if (guestUser && !isCosteward) {
-      history.push(`/home/participants/view/${id}`);   
+      history.push(`/home/participants/view/${id}`);
     } else if (title == "Participants" || title == "Co-steward participants") {
-      history.push(`/datahub/participants/view/${id}`); 
+      history.push(`/datahub/participants/view/${id}`);
     } else if (title == "Co-steward") {
-      history.push(`/datahub/costeward/view/${id}`); 
+      history.push(`/datahub/costeward/view/${id}`);
     } else if (title == "New participant requests") {
-      history.push(`/datahub/participants/view/approve/${id}`);   
+      history.push(`/datahub/participants/view/approve/${id}`);
     }
     // if (
     //   (title == "Participants" || title == "Co-steward participants") &&
@@ -42,9 +42,9 @@ const CoStewardAndParticipantsCard = (props) => {
     // ) {
     //   history.push(`/home/participants/view/${id}`);
     // } else if (title == "Participants" || title == "Co-steward participants") {
-    //   history.push(`/datahub/participants/view/${id}`);     
+    //   history.push(`/datahub/participants/view/${id}`);
     // } else if (title == "Co-steward") {
-    //   history.push(`/datahub/costeward/view/${id}`);     
+    //   history.push(`/datahub/costeward/view/${id}`);
     // } else if (title == "New participant requests") {
     //   history.push(`/datahub/participants/view/approve/${id}`);
     // } else if (title == "Our Participants are") {
