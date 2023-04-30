@@ -483,6 +483,7 @@ const AddDataSet = (props) => {
                   Upload or import
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
             <Tab
               label={

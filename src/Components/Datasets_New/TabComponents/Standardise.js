@@ -210,7 +210,7 @@ const Standardise = ({
     });
 
     let payload = {
-      masked_columns: maskedColumns,
+      mask_columns: maskedColumns,
       standardised_configuration: standardisationConfiguration,
       config: config,
     };
