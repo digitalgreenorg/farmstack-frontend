@@ -321,8 +321,9 @@ export const downloadDocument = (row, name) => {
   });
 };
 
-export const download = (data, name) => {
-  const blob = new Blob([data], { type: "text/csv" });
+export const download = (data, name, type) => {
+  console.log(data, type);
+  const blob = new Blob([data], { type: type ? type : "text/csv" });
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.setAttribute("hidden", "");

@@ -16,19 +16,20 @@ import LocalStyle from "./ParticipantsCarouselNew.module.css";
 
 const ParticipantsCarouselNew = (props) => {
   const { isCosteward } = props;
+  const [participantsList, setParticipantsList] = useState([]);
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: participantsList?.length >= 3 ? 3 : participantsList?.length,
+    slidesToScroll:
+      participantsList?.length >= 3 ? 3 : participantsList?.length,
     autoplay: true,
     className: LocalStyle.slides,
   };
   let title = isCosteward ? "Co-steward" : "Participants";
   const history = useHistory();
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
-  const [participantsList, setParticipantsList] = useState([]);
   // const [loadMoreUrl, setLoadMoreUrl] = useState("");
 
   const getCoStewardOrParticipantsOnLoad = (

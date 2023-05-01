@@ -174,7 +174,13 @@ const ParticipantsAndCoStewardNew = () => {
               {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
             </span>
-            <span className="add_light_text ml-16 fw600">{"Co-Steward"}</span>
+            <span className="add_light_text ml-16 fw600">
+              {tabValue == 0
+                ? "Co-Steward"
+                : tabValue == 1
+                ? "Participant"
+                : "New Participants requests"}
+            </span>
           </div>
         </Col>
       </Row>
