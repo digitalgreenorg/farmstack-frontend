@@ -25,22 +25,22 @@ const DatasetListNew = (props) => {
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
 
   const getViewAllRoute = () => {
-    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+    if (user === "guest") {
+      return `/home/datasets`;
+    } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/new_datasets`;
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets`;
-    } else {
-      return `/home/datasets`;
     }
   };
 
   const handleCardClick = (id) => {
-    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
-      return `/datahub/new_datasets/view/${id}`;
-    } else if (isLoggedInUserParticipant()) {
-      return `/participant/new_datasets/view/${id}`;
-    } else {
+    if (user === "guest") {
       return `/home/datasets/${id}`;
+    } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      return `/datahub/new_datasets/${id}`;
+    } else if (isLoggedInUserParticipant()) {
+      return `/participant/new_datasets/${id}`;
     }
   };
 

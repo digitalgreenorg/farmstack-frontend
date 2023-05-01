@@ -18,17 +18,16 @@ const CoStewardAndParticipantsCard = (props) => {
     loadMoreButton,
     user,
     guestUser,
+    isCosteward,
   } = props;
   const history = useHistory();
 
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
-    console.log("handleViewDataset", title, id);
-    if (
-      (title == "Participants" || title == "Co-steward participants") &&
-      user == "guest"
-    ) {
+    if (guestUser && isCosteward) {
+      history.push(`/home/costeward/view/${id}`);
+    } else if (guestUser && !isCosteward) {
       history.push(`/home/participants/view/${id}`);
     } else if (title == "Participants" || title == "Co-steward participants") {
       history.push(`/datahub/participants/view/${id}`);
@@ -41,6 +40,22 @@ const CoStewardAndParticipantsCard = (props) => {
     } else if (title == "Co-stewards - Community builders") {
       history.push(`/home/costeward/view/${id}`);
     }
+    // if (
+    //   (title == "Participants" || title == "Co-steward participants") &&
+    //   user == "guest"
+    // ) {
+    //   history.push(`/home/participants/view/${id}`);
+    // } else if (title == "Participants" || title == "Co-steward participants") {
+    //   history.push(`/datahub/participants/view/${id}`);
+    // } else if (title == "Co-steward") {
+    //   history.push(`/datahub/costeward/view/${id}`);
+    // } else if (title == "New participant requests") {
+    //   history.push(`/datahub/participants/view/approve/${id}`);
+    // } else if (title == "Our Participants are") {
+    //   history.push(`/home/participants/view/${id}`);
+    // } else if (title == "Our co-stewards are") {
+    //   history.push(`/home/costeward/view/${id}`);
+    // }
   };
 
   // console.log("props in CoStewardAndParticipantsCard", props);

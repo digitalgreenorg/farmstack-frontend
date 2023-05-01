@@ -37,7 +37,6 @@ const NavbarNew = ({ loginType }) => {
   const history = useHistory();
   const location = useLocation();
 
-  console.log(location);
   const [adminData, setAdminData] = useState(null);
   const [isSelected, setIsSelected] = useState("");
 
@@ -52,9 +51,7 @@ const NavbarNew = ({ loginType }) => {
       .then((response) => {
         setAdminData(response.data);
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => {});
   };
 
   const isNavLinkActive = (path) => {
@@ -68,7 +65,9 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/datahub/new_datasets" ||
+          location.pathname === "/home/datasets" ||
           location.pathname === "/datahub/new_datasets/view/" + tempId ||
+          location.pathname === "/home/datasets/" + tempId ||
           location.pathname === "/datahub/new_datasets/edit/" + tempId ||
           location.pathname === "/datahub/new_datasets/add"
           ? true
@@ -79,7 +78,9 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/participant/new_datasets" ||
+          location.pathname === "/home/datasets" ||
           location.pathname === "/participant/new_datasets/view/" + tempId ||
+          location.pathname === "/home/datasets/" + tempId ||
           location.pathname === "/participant/new_datasets/edit/" + tempId
           ? true
           : false;
@@ -100,6 +101,8 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/datahub/participants" ||
+          location.pathname === "/home/participants" ||
+          location.pathname === "/home/participants/view/" + tempId ||
           location.pathname === "/datahub/participants/view/" + tempId ||
           location.pathname === "/datahub/participants/edit/" + tempId ||
           location.pathname === "/datahub/participants/view/approve/" + tempId
@@ -111,6 +114,8 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/datahub/participants" ||
+          location.pathname === "/home/participants" ||
+          location.pathname === "/home/participants/view/" + tempId ||
           location.pathname === "/datahub/participants/view/" + tempId ||
           location.pathname === "/datahub/participants/edit/" + tempId ||
           location.pathname === "/datahub/participants/view/approve/" + tempId
@@ -156,6 +161,8 @@ const NavbarNew = ({ loginType }) => {
         location.pathname.lastIndexOf("/") + 1
       );
       return location.pathname === "/datahub/costeward/view/" + tempId ||
+        location.pathname === "/home/costeward" ||
+        location.pathname === "/home/costeward/view/" + tempId ||
         location.pathname === "/datahub/costeward/edit/" + tempId
         ? true
         : false;
@@ -164,7 +171,38 @@ const NavbarNew = ({ loginType }) => {
       let tempId = location.pathname.slice(
         location.pathname.lastIndexOf("/") + 1
       );
-      return location.pathname === "/home/costeward/view/" + tempId
+      return location.pathname === "/home/costeward/view/" + tempId ||
+        location.pathname === "/home/costeward"
+        ? true
+        : false;
+    }
+  };
+
+  const isNavLinkActiveForHome = (itemName) => {
+    if (loginType === "admin") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/datasets" ||
+        location.pathname === "/home/datasets/" + tempId
+        ? true
+        : false;
+    }
+    if (loginType === "participant") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/datasets" ||
+        location.pathname === "/home/datasets/" + tempId
+        ? true
+        : false;
+    }
+    if (loginType === "guest") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/datasets" ||
+        location.pathname === "/home/datasets/" + tempId
         ? true
         : false;
     }
@@ -213,7 +251,7 @@ const NavbarNew = ({ loginType }) => {
             src={
               UrlConstant.base_url_without_slash + adminData?.organization?.logo
             }
-            alt="footerLogo"
+            alt="HeaderLogo"
           />
         </Box>
         <Box className="d-flex align-items-center">
@@ -258,38 +296,8 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )} */}
-          {loginType === "admin" ||
-          loginType === "participant" ||
-          loginType === "guest" ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={navInActiveStyle}
-              to={
-                loginType === "admin"
-                  ? "/datahub/new_datasets"
-                  : loginType === "participant"
-                  ? "/participant/new_datasets"
-                  : loginType === "guest"
-                  ? "/home/datasets"
-                  : "/"
-              }
-              onClick={() => handleSelect("datasets")}
-            >
-              {isNavLinkActiveForDot("datasets") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
-              ) : (
-                <></>
-              )}
-              Datasets
-            </NavLink>
-          ) : (
-            <></>
-          )}
-          {loginType === "admin" || loginType === "guest" ? (
+          {(loginType === "admin" || loginType === "guest") &&
+          !isLoggedInUserParticipant() ? (
             <NavLink
               activeStyle={navActiveStyle}
               style={
@@ -317,6 +325,41 @@ const NavbarNew = ({ loginType }) => {
                 <></>
               )}
               Participants
+            </NavLink>
+          ) : (
+            <></>
+          )}
+          {loginType === "admin" ||
+          loginType === "participant" ||
+          loginType === "guest" ? (
+            <NavLink
+              activeStyle={navActiveStyle}
+              style={
+                isNavLinkActiveForHome("datasets")
+                  ? navActiveStyle
+                  : navInActiveStyle
+              }
+              to={
+                loginType === "admin"
+                  ? "/datahub/new_datasets"
+                  : loginType === "participant"
+                  ? "/participant/new_datasets"
+                  : loginType === "guest"
+                  ? "/home/datasets"
+                  : "/"
+              }
+              onClick={() => handleSelect("datasets")}
+            >
+              {isNavLinkActiveForDot("datasets") ? (
+                <img
+                  className={style.dotStyle}
+                  src={require("../../Assets/Img/green_dot.svg")}
+                  alt="dot"
+                />
+              ) : (
+                <></>
+              )}
+              Datasets
             </NavLink>
           ) : (
             <></>

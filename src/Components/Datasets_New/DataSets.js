@@ -47,7 +47,7 @@ const DataSets = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const [state, setState] = useState([0, 1, 2, 3, 4, 5]);
-  const [searchDatasetsName, setSearchDatasetsName] = useState();
+  const [searchDatasetsName, setSearchDatasetsName] = useState(null);
   const debouncedSearchValue = useDebounce(searchDatasetsName, 1000);
   const [filterState, setFilterState] = useState({});
   const [datasetList, setDatasetList] = useState([]);
@@ -139,14 +139,27 @@ const DataSets = (props) => {
         setFilterState(payload);
       }
     } else {
-      payload = { ...filterState };
+      if (!Object.keys(filterState).length) {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
+        payload = { ...filterState };
+      }
     }
     let guestUrl = "";
     if (user == "guest") {
       guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
       payload = "";
     }
-    let accessToken = getTokenLocal() ?? false;
+    // console.log(user, "user inside the microste");
+    let accessToken = user !== "guest" ? getTokenLocal() : false;
+
     callLoader(true);
     HTTPService(
       method,
@@ -196,18 +209,26 @@ const DataSets = (props) => {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = true;
-        if (searchDatasetsName?.length > 2) {
-          payload["name__icontains"] = searchDatasetsName;
-        }
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
         setFilterState(payload);
       }
     } else {
-      payload = { ...filterState };
+      if (!Object.keys(filterState).length) {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = true;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
+        payload = { ...filterState };
+      }
     }
-    let accessToken = getTokenLocal() ?? false;
+    let accessToken = user !== "guest" ? getTokenLocal() : false;
     callLoader(true);
     HTTPService(
       "POST",
@@ -262,13 +283,14 @@ const DataSets = (props) => {
     }
   };
   const handleSearch = async (isLoadMore) => {
-    if (searchDatasetsName?.length < 3 && searchDatasetsName !== "")
-      searchDatasetsName = "";
+    let searchText = searchDatasetsName;
+    searchText ? callLoader(true) : callLoader(false);
+    if (searchText?.length < 3 && searchText !== "") searchText = "";
     let data = {};
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
-    data["name__icontains"] = searchDatasetsName;
+    data["name__icontains"] = searchText;
     if (isLoggedInUserCoSteward()) {
       data["on_boarded_by"] = true;
     }
@@ -277,8 +299,10 @@ const DataSets = (props) => {
     } else {
       data["others"] = false;
     }
-    callLoader(true);
-    await HTTPService("POST", getUrl(isLoadMore), data, false, true)
+
+    let accessToken = user !== "guest" ? getTokenLocal() : false;
+
+    await HTTPService("POST", getUrl(isLoadMore), data, false, accessToken)
       .then((response) => {
         callLoader(false);
         if (response.data.next == null) {
@@ -291,9 +315,11 @@ const DataSets = (props) => {
         } else {
           if (value === 0) {
             setDatasetUrl(response.data.next);
+            searchText === "" && setFilterState({});
             setShowLoadMoreAdmin(true);
           } else {
             setMemberDatasetUrl(response.data.next);
+            searchText === "" && setFilterState({});
             setShowLoadMoreMember(true);
           }
         }
@@ -306,7 +332,6 @@ const DataSets = (props) => {
           }
         } else {
           finalDataList = [...response.data.results];
-          console.log(finalDataList);
         }
         if (value === 1) {
           setMemberDatasetList(finalDataList);
@@ -363,7 +388,7 @@ const DataSets = (props) => {
         ? UrlConstant.base_url + UrlConstant.microsite_category
         : UrlConstant.base_url + UrlConstant.add_category_edit_category;
     let isAuthorization = user == "guest" ? false : true;
-    let checkforAccess = getTokenLocal() ?? false;
+    let checkforAccess = user !== "guest" ? getTokenLocal() : false;
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
         let prepareArr = [];
@@ -522,7 +547,9 @@ const DataSets = (props) => {
   }, [value]);
 
   useEffect(() => {
-    handleSearch();
+    if (debouncedSearchValue !== null) {
+      handleSearch();
+    }
   }, [debouncedSearchValue]);
   useEffect(() => {
     getAllGeoGraphies();
@@ -539,10 +566,10 @@ const DataSets = (props) => {
         <div className="title">Datasets Explorer</div>
         <div className="d-flex justify-content-center">
           <div className="description">
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
             Unleash the power of data-driven agriculture - your ultimate dataset
             explorer for smarter decisions!
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
         <TextField

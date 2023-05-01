@@ -22,6 +22,10 @@ import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
 import NoData from "../../Components/NoData/NoData";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { message, Popconfirm } from "antd";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
 
 const ParticipantAndCoStewardDetailsNew = (props) => {
   // to show as participants page pass isCosteward = true
@@ -362,26 +366,75 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         >
           {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
             <>
-              <Button
-                variant="outlined"
-                className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
-                onClick={handlePopper}
+              <Popconfirm
+                title={
+                  <span style={{ marginTop: "3px !important" }}>
+                    Delete the {isCosteward ? "Co-steward" : "Participant"}
+                  </span>
+                }
+                description={
+                  <span>
+                    Are you sure to delete this{" "}
+                    {isCosteward ? "Co-steward" : "Participant"}{" "}
+                    <strong>{organisationName}</strong> ?
+                  </span>
+                }
+                onConfirm={deleteParticipants}
+                icon={
+                  <ExclamationCircleFilled
+                    style={{ color: "red", marginTop: "-3px" }}
+                  />
+                }
+                okText="Yes"
+                cancelText="No"
+                okType="danger"
               >
-                <img
-                  className={LocalStyle.imgLogo}
-                  src={require("../../Assets/Img/delete_logo.svg")}
-                />
-                Delete {isCosteward ? "Co-steward" : "Participant"}
-              </Button>
-              <CustomDeletePopper
-                handleDelete={deleteParticipants}
-                open={openPopper}
-                anchorEl={anchorEl}
-                closePopper={setOpenPopper}
-              />
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: "#FF5630",
+                    fontFamily: "Public Sans",
+                    fontWeight: "700",
+                    fontSize: "15px",
+                    border: "1px solid rgba(255, 86, 48, 0.48)",
+                    width: "200px",
+                    height: "48px",
+                    marginRight: "28px",
+                    textTransform: "none",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(255, 86, 48, 0.48)",
+                    },
+                  }}
+                  // variant="outlined"
+                >
+                  Delete {isCosteward ? "Co-steward" : "Participant"}
+                  <DeleteOutlineIcon
+                    sx={{
+                      fill: "#FF5630",
+                      fontSize: "22px",
+                      marginLeft: "4px",
+                    }}
+                  />
+                </Button>
+              </Popconfirm>
               <Button
                 variant="outlined"
-                className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
+                sx={{
+                  color: "#00AB55",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: "15px",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                  width: "200px",
+                  height: "48px",
+                  textTransform: "none !important",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                  },
+                }}
+                // variant="outlined"
                 onClick={(e) =>
                   history.push(
                     `/datahub/${
@@ -390,11 +443,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   )
                 }
               >
-                <img
-                  className={LocalStyle.imgLogo}
-                  src={require("../../Assets/Img/edit_logo.svg")}
-                />
                 Edit {isCosteward ? "Co-steward" : "Participant"}
+                <EditIcon
+                  sx={{
+                    fill: "#00AB55",
+                    fontSize: "22px",
+                    marginLeft: "4px",
+                    marginBottom: "2px",
+                  }}
+                />
               </Button>
             </>
           ) : (

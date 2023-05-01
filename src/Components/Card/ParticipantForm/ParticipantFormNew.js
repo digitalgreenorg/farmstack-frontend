@@ -728,6 +728,7 @@ const ParticipantFormNew = (props) => {
                     value={selectedCosteward}
                     onChange={handlelistofCosteward}
                   >
+                    <MenuItem value=""><em>None</em></MenuItem>
                     {selectCoSteward.map((listofcosteward, index) => {
                       return (
                         <MenuItem key={index} value={listofcosteward.user}>

@@ -157,8 +157,13 @@ const CategoryDetails = (props) => {
         console.log(response);
         if (!props.isCategorySetting) {
           setActiveStep((prev) => prev + 1);
-        } else {
+        } else{
+          if(!props.isCategorySetting){
           callToast("Request successfull", "success", true);
+          }
+        }
+        if(props.isCategorySetting && response.status === 201) {
+        callToast("Category settings updated successfully", "success", true);
         }
       })
       .catch((e) => {

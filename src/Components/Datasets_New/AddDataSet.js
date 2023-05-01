@@ -53,6 +53,8 @@ const AddDataSet = (props) => {
   const [toDate, setToDate] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDatasetCreated, setIsDatasetCreated] = useState(false);
+  const [fromDateError, setFromDateError] = useState(false);
+  const [toDateError, setToDateError] = useState(false);
 
   // Upload File
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -280,15 +282,14 @@ const AddDataSet = (props) => {
       });
   };
 
-  useEffect(() => {
-    // edit Dataset API call
+  const getDatasetForEdit = (dId) => {
     if (props.datasetIdForEdit) {
       (() => {
         let accessToken = getTokenLocal() ?? false;
         let url =
           UrlConstant.base_url +
           UrlConstant.datasetview +
-          props.datasetIdForEdit +
+          (dId ? dId : props.datasetIdForEdit) +
           "/";
         callLoader(true);
         HTTPService("GET", url, "", false, true, accessToken)
@@ -414,6 +415,10 @@ const AddDataSet = (props) => {
           });
       })();
     }
+  };
+  useEffect(() => {
+    // edit Dataset API call
+    getDatasetForEdit();
   }, []);
   return (
     <Box>
@@ -478,6 +483,7 @@ const AddDataSet = (props) => {
                   Upload or import
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
             <Tab
               label={
@@ -521,6 +527,10 @@ const AddDataSet = (props) => {
             setToDate={setToDate}
             isUpdating={isUpdating}
             setIsUpdating={setIsUpdating}
+            fromDateError={fromDateError}
+            setFromDateError={setFromDateError}
+            toDateError={toDateError}
+            setToDateError={setToDateError}
             validator={validator}
             errorDataSetName={errorDataSetName}
             seteErrorDataSetName={seteErrorDataSetName}
@@ -565,6 +575,7 @@ const AddDataSet = (props) => {
             standardisedFileLink={standardisedFileLink}
             setStandardisedFileLink={setStandardisedFileLink}
             validator={validator}
+            getDatasetForEdit={getDatasetForEdit}
           />
         </TabPanel>
         <TabPanel value={value} index={3}>

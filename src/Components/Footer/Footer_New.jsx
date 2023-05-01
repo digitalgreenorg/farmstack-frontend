@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -44,11 +45,8 @@ const FooterNew = () => {
     HTTPService(method, url, "", false, false, false, false, false)
       .then((response) => {
         setAdminData(response.data);
-        console.log(response);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   }, []);
   return (
     <Box sx={{ padding: "40px", marginLeft: "144px", marginRight: "144px" }}>
@@ -75,7 +73,6 @@ const FooterNew = () => {
               Datahub admin phone
             </div>
             <div className={`${style.footerDarkText} mt-2 text-left`}>
-              {console.log(adminData, "adminData")}
               {adminData?.user?.phone_number ?? ""}
             </div>
           </div>
@@ -95,7 +92,10 @@ const FooterNew = () => {
             <div className="d-flex justify-content-between w-100">
               <div
                 className={`${style.footerLightText} ${style.quickLinks}`}
-                onClick={() => history.push("/home")}
+                onClick={() => {
+                  history.push("/home");
+                  goToTop(0);
+                }}
               >
                 Home
               </div>
@@ -123,16 +123,23 @@ const FooterNew = () => {
             <div className="d-flex justify-content-between w-100">
               <div
                 className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+                onClick={() => window.open("https://farmstack.co/")}
               >
                 About Farmstack
               </div>
 
-              <div
-                className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
-                onClick={() => history.push("/login")}
-              >
-                Login
-              </div>
+              {isLoggedInUserAdmin() ||
+              isLoggedInUserCoSteward() ||
+              isLoggedInUserParticipant() ? (
+                ""
+              ) : (
+                <div
+                  className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
+                  onClick={() => history.push("/login")}
+                >
+                  Login
+                </div>
+              )}
             </div>
             <div className="d-flex justify-content-between w-100">
               <div
@@ -142,11 +149,18 @@ const FooterNew = () => {
                 Datasets
               </div>
 
-              <div
-                className={`${style.footerLightText} ${style.quickLinks} mt-10`}
-              >
-                Get started
-              </div>
+              {isLoggedInUserAdmin() ||
+              isLoggedInUserCoSteward() ||
+              isLoggedInUserParticipant() ? (
+                ""
+              ) : (
+                <div
+                  className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+                  onClick={() => history.push("/login")}
+                >
+                  Get started
+                </div>
+              )}
             </div>
             <div className="d-flex justify-content-between w-100">
               <div

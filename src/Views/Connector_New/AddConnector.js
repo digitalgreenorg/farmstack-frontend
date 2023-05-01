@@ -784,7 +784,7 @@ const AddConnector = (props) => {
     props.connectorIdForView,
     isDatasetIntegrationListModeOn,
   ]);
-  console.log(props);
+  console.log(completeData, "connector data");
   return (
     <Box>
       <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
@@ -822,6 +822,7 @@ const AddConnector = (props) => {
           label="Connector name"
           value={connectorData.name}
           onChange={handleChange}
+          disabled={props.isEditModeOn ? true : false}
           inputProps={{ maxLength: 100 }}
         />
         <TextField

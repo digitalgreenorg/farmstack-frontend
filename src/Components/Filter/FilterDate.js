@@ -1,7 +1,8 @@
-import { Box, Button, Card, TextField } from "@mui/material";
+import { Box, Button, Card, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import React from "react";
+import moment from "moment";
+import React, { useState } from "react";
 
 const FilterDate = ({
   fromDate,
@@ -13,22 +14,47 @@ const FilterDate = ({
   setShowFilter,
   callApply,
 }) => {
+  const [fromDateError, setFromDateError] = useState(false);
+  const [toDateError, setToDateError] = useState(false);
+
   const handleClose = () => {
     callApply();
     setShowFilter(false);
   };
   const handleFromDate = (value) => {
-    let tempDates = [...dates];
-    tempDates[0].fromDate = value;
-    setDates(tempDates);
-    setFromDate(value);
+    let currentDate = new Date();
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+    if (
+      moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
+      moment(value).isSameOrBefore(currentDate)
+    ) {
+      let tempDates = [...dates];
+      tempDates[0].fromDate = value;
+      setDates(tempDates);
+      setFromDate(value);
+      setFromDateError(false);
+    } else {
+      setFromDateError(true);
+      setFromDate("");
+    }
   };
 
   const handleToDate = (value) => {
-    let tempDates = [...dates];
-    tempDates[0].toDate = value;
-    setDates(tempDates);
-    setToDate(value);
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+    if (
+      moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
+      moment(value).isSameOrAfter(fromDate) &&
+      moment(value).isSameOrBefore(new Date())
+    ) {
+      let tempDates = [...dates];
+      tempDates[0].toDate = value;
+      setDates(tempDates);
+      setToDate(value);
+      setToDateError(false);
+    } else {
+      setToDateError(true);
+      setToDate("");
+    }
   };
   return (
     <div style={{ marginLeft: "144px", marginRight: "144px" }}>
@@ -88,6 +114,22 @@ const FilterDate = ({
                           },
                         },
                       }}
+                      helperText={
+                        <Typography
+                          sx={{
+                            fontFamily: "Montserrat !important",
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#FF0000",
+                            textAlign: "left",
+                          }}
+                        >
+                          {fromDateError
+                            ? "Please enter the valid start date of the data capture interval."
+                            : ""}
+                        </Typography>
+                      }
                     />
                   )}
                   // error={props.dataCaptureStartErrorMessage ? true : false}
@@ -101,6 +143,7 @@ const FilterDate = ({
                   inputFormat="dd/MM/yyyy"
                   label="End Date"
                   maxDate={new Date()}
+                  minDate={fromDate}
                   value={toDate}
                   onChange={(value) => handleToDate(value)}
                   PaperProps={{
@@ -136,6 +179,22 @@ const FilterDate = ({
                           },
                         },
                       }}
+                      helperText={
+                        <Typography
+                          sx={{
+                            fontFamily: "Montserrat !important",
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#FF0000",
+                            textAlign: "left",
+                          }}
+                        >
+                          {toDateError
+                            ? "Please enter the valid end date of the data capture interval."
+                            : ""}
+                        </Typography>
+                      }
                     />
                   )}
                   // error={props.dataCaptureStartErrorMessage ? true : false}
@@ -162,7 +221,19 @@ const FilterDate = ({
                 },
               }}
               variant="outlined"
-              onClick={() => setShowFilter(false)}
+              onClick={() => {
+                if (
+                  !dates[0]?.fromDate ||
+                  !dates[0]?.toDate ||
+                  fromDateError ||
+                  toDateError
+                ) {
+                  setDates([{ fromDate: null, toDate: null }]);
+                  setFromDate("");
+                  setToDate("");
+                }
+                setShowFilter(false);
+              }}
             >
               Close
             </Button>
@@ -181,6 +252,7 @@ const FilterDate = ({
                   color: "#fffff",
                 },
               }}
+              disabled={fromDate && toDate ? false : true}
               variant="contained"
               onClick={() => handleClose()}
             >
