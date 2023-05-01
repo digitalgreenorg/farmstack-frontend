@@ -4,12 +4,12 @@
   border: 1px solid #00ab55 !important;
 }
 .card {
-  max-width: 100% !important;
-  max-width: 368;
-  height: 314;
+  width: 350px !important;
+  max-width: 450px;
+  height: 314px;
   border: 1px solid #f2f3f5 !important;
   border-radius: 16px !important;
-  margin: 12px;
+  margin: 15px;
   height: 314px;
 }
 .img_container {
