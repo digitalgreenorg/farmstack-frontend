@@ -497,6 +497,8 @@ const AddConnector = (props) => {
         maps: payload,
       };
       if (props.isEditModeOn) {
+        if (props.isEditModeOn)
+          finalPayload["integrated_file"] = integratedFilePath;
         url =
           UrlConstant.base_url +
           UrlConstant.joining_the_table +

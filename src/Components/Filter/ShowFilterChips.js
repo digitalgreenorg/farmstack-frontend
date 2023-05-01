@@ -1,9 +1,45 @@
 import { Box, Chip } from "@mui/material";
 import React from "react";
 import { dateTimeFormat } from "../../Utils/Common";
+import DeleteIcon from "@mui/icons-material/Delete";
+const ShowFilterChips = ({
+  geographies,
+  categorises,
+  dates,
 
-const ShowFilterChips = ({ geographies, categorises, dates }) => {
-  console.log(dates);
+  setDates,
+  setFromDate,
+  setToDate,
+  setGeography,
+  setGeographies,
+  setAllCategories,
+  setCategorises,
+  handleCheckBox,
+}) => {
+  // console.log(dates);
+
+  const handleDelete = (main, keyName, value, index, filter_type) => {
+    console.log(main, keyName, value, filter_type);
+    switch (filter_type) {
+      case filter_type == "to_date":
+        console.log(dates, value);
+        // code block
+        break;
+      case filter_type == "from_date":
+        // code block
+        break;
+      case filter_type == "geography":
+        // code block
+        break;
+      case "category":
+        handleCheckBox(keyName, value);
+        break;
+      default:
+        // code block
+        return;
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -13,7 +49,7 @@ const ShowFilterChips = ({ geographies, categorises, dates }) => {
         marginTop: "20px",
       }}
     >
-      {geographies?.map((each) => {
+      {geographies?.map((each, ind) => {
         if (!each) return;
         return (
           <Chip
@@ -23,6 +59,9 @@ const ShowFilterChips = ({ geographies, categorises, dates }) => {
               marginBottom: "15px",
             }}
             label={each}
+            onDelete={() =>
+              handleDelete(geographies, "", each, ind, "geography")
+            }
           />
         );
       })}
@@ -38,6 +77,9 @@ const ShowFilterChips = ({ geographies, categorises, dates }) => {
                     marginBottom: "15px",
                   }}
                   label={res}
+                  onDelete={() =>
+                    handleDelete(categorises, key, res, ind, "category")
+                  }
                 />
               );
             })}
@@ -55,6 +97,9 @@ const ShowFilterChips = ({ geographies, categorises, dates }) => {
                   marginBottom: "15px",
                 }}
                 label={dateTimeFormat(each.fromDate, false)}
+                onDelete={() =>
+                  handleDelete(dates, "", each.fromDate, "", "from_date")
+                }
               />
             ) : (
               <></>
@@ -67,6 +112,7 @@ const ShowFilterChips = ({ geographies, categorises, dates }) => {
                   marginBottom: "15px",
                 }}
                 label={dateTimeFormat(each.toDate, false)}
+                onDelete={() => handleDelete(dates, "", each.toDate, "to_date")}
               />
             ) : (
               <></>
