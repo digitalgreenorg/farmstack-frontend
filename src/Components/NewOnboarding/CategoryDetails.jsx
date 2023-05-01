@@ -128,6 +128,7 @@ const CategoryDetails = (props) => {
       let catList = [...categoryNamesList];
       catList.splice(ind);
       setCategoryNameList([...catList]);
+      callToast("Please submit to save the changes!", "info", true);
     }
     arr.splice(index, 1);
     setAllCategories([...arr]);
@@ -157,13 +158,13 @@ const CategoryDetails = (props) => {
         console.log(response);
         if (!props.isCategorySetting) {
           setActiveStep((prev) => prev + 1);
-        } else{
-          if(!props.isCategorySetting){
-          callToast("Request successfull", "success", true);
+        } else {
+          if (!props.isCategorySetting) {
+            callToast("Request successfull", "success", true);
           }
         }
-        if(props.isCategorySetting && response.status === 201) {
-        callToast("Category settings updated successfully", "success", true);
+        if (props.isCategorySetting && response.status === 201) {
+          callToast("Category settings updated successfully", "success", true);
         }
       })
       .catch((e) => {

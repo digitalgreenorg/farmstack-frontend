@@ -117,6 +117,14 @@ const CompanyPolicies = (props) => {
       .then((response) => {
         console.log(response);
         callLoader(false);
+        if (
+          props.isPolicySettings &&
+          (response.status === 201 || response.status === 200)
+        ) {
+          callToast("Policy settings updated successfully!", "success", true);
+        } else if (props.isPolicySettings && response.status === 204) {
+          callToast("Policy deleted successfully", "success", true);
+        }
         if (method == "POST") {
           //after getting the response correclty trying to create accordion detail
           let arr = [...allPolicies, response.data];
@@ -127,9 +135,6 @@ const CompanyPolicies = (props) => {
         } else if (method == "PATCH") {
           // getListOfPolicies();
           return response;
-        }
-        if (props.isPolicySettings && response.status === 201) {
-          callToast("Policy settings updated successfully!", "success", true);
         }
       })
       .catch(async (e) => {
@@ -243,7 +248,7 @@ const CompanyPolicies = (props) => {
     const [policyNameError, setPolicyNameError] = useState("");
     const [dataOfFile, setDataOfFile] = useState(data.file);
     const [localKey, setLocalKey] = useState(0);
-    const [fileSizeErrorE, setFileSizeErrorE] = useState("")
+    const [fileSizeErrorE, setFileSizeErrorE] = useState("");
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
@@ -251,7 +256,7 @@ const CompanyPolicies = (props) => {
       setPolicySize(file.size);
       setIsLogoLinkE(false);
       setLocalKey(localKey + 1);
-      setFileSizeErrorE("")
+      setFileSizeErrorE("");
     };
 
     const handleDeleteFile = () => {
@@ -262,7 +267,7 @@ const CompanyPolicies = (props) => {
       setPolicySize("");
       setIsLogoLinkE(false);
       setLocalKey(localKey + 1);
-      setFileSizeErrorE("")
+      setFileSizeErrorE("");
     };
     useEffect(() => {
       console.log("uploadedPolicyE", uploadedPolicyE);

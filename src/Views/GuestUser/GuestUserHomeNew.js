@@ -12,6 +12,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
+import { TypeAnimation } from "react-type-animation";
 
 const GuestUserHome = () => {
   let history = useHistory();
@@ -27,12 +28,24 @@ const GuestUserHome = () => {
                 Explore true power of data
               </Typography>
               <Typography
+                style={{ height: "120px" }}
                 className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Revolutionary approach to data exchange in agriculture by
-                fostering collaboration between organisations and harnessing the
-                power of collective data.
+                <TypeAnimation
+                  sequence={[
+                    ` Revolutionary approach to data exchange in agriculture by
+        fostering collaboration between organisations and harnessing the
+        power of collective data.`, // Types 'Three' without deleting 'Two'
+                    () => {
+                      console.log("Sequence completed");
+                    },
+                  ]}
+                  wrapper="span"
+                  cursor={true}
+                  repeat={true}
+                  style={{ fontSize: "20px", display: "inline-block" }}
+                />
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
@@ -86,7 +99,7 @@ const GuestUserHome = () => {
           <Col xs={12} sm={12} md={12} xl={6}>
             <img
               className={LocalStyle.micrositeLogo}
-              src={require("../../Assets/Img/microsite_landing_img.svg")}
+              src={require("../../Assets/Img/Farmstack V2.0/home1.svg")}
             />
             <span></span>
           </Col>
@@ -106,12 +119,21 @@ const GuestUserHome = () => {
         </Typography>
         <DatasetListNew user={"guest"} />
       </Container>
-      <div className={LocalStyle.gradientContainer}>
+      <div
+        className={LocalStyle.gradientContainer}
+        style={{ position: "relative" }}
+      >
         <img
           src={require("../../Assets/Img/microsite_yellow_gradient_img.svg")}
         />
         <Row className={LocalStyle.gradientTextContainer}>
-          <Col sm={12} md={6}>
+          <Col sm={12} md={3}>
+            <img
+              style={{ position: "absolute", top: "-130px", left: "0px" }}
+              src={require("../../Assets/Img/Farmstack V2.0/home2.svg")}
+            />
+          </Col>
+          <Col sm={12} md={3}>
             <Typography
               className={`${LocalStyle.title} ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
             >
@@ -187,7 +209,7 @@ const GuestUserHome = () => {
           <Col xs={12} sm={12} md={12} xl={6}>
             <img
               className={LocalStyle.micrositeLogo}
-              src={require("../../Assets/Img/microsite_landing_img2.svg")}
+              src={require("../../Assets/Img/Farmstack V2.0/home3.svg")}
             />
           </Col>
           <Col xs={12} sm={12} md={12} xl={6}>
@@ -280,7 +302,7 @@ const GuestUserHome = () => {
           </Button>
         </Row>
         <Row>
-          <img src={require("../../Assets/Img/microsite_landing_img3.svg")} />
+          <img src={require("../../Assets/Img/Farmstack V2.0/home4.svg")} />
         </Row>
       </Container>
     </>

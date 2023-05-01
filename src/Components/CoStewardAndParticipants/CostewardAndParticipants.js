@@ -423,13 +423,19 @@ const CoStewardAndParticipantsCard = (props) => {
             {coStewardOrParticipantsList?.map((item, index) => {
               return (
                 <>
-                  <Row id={title + "-list-view-" + index}>
+                  <Row
+                    id={title + "-list-view-" + index}
+                    className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
+                  >
                     {title === "Co-steward" ? (
                       <>
                         <Col
                           onClick={() => handleViewDataset(item?.user_id)}
                           id={title + " list-view-title-" + index}
-                          className={LocalStyle.content_title}
+                          className={
+                            LocalStyle.content_title +
+                            " datasets_list_view_text datasets_list_view_name green_text w-100 text-left"
+                          }
                           xs={4}
                           sm={4}
                           md={4}

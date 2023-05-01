@@ -51,7 +51,7 @@
   margin: 0 0 50px 0px;
 }
 
-.pointContainer>span {
+.pointContainer > span {
   line-height: 20px !important;
 }
 
@@ -77,7 +77,7 @@
   top: 92px;
   margin: auto;
   width: 100%;
-  padding: 0 144px !important;
+  /* padding: 0 144px !important; */
 }
 
 .gradientTextContainer .title {
