@@ -59,9 +59,9 @@ const ShowFilterChips = ({
               marginBottom: "15px",
             }}
             label={each}
-            onDelete={() =>
-              handleDelete(geographies, "", each, ind, "geography")
-            }
+            // onDelete={() =>
+            //   handleDelete(geographies, "", each, ind, "geography")
+            // }
           />
         );
       })}
@@ -77,9 +77,9 @@ const ShowFilterChips = ({
                     marginBottom: "15px",
                   }}
                   label={res}
-                  onDelete={() =>
-                    handleDelete(categorises, key, res, ind, "category")
-                  }
+                  // onDelete={() =>
+                  //   handleDelete(categorises, key, res, ind, "category")
+                  // }
                 />
               );
             })}
@@ -97,9 +97,9 @@ const ShowFilterChips = ({
                   marginBottom: "15px",
                 }}
                 label={dateTimeFormat(each.fromDate, false)}
-                onDelete={() =>
-                  handleDelete(dates, "", each.fromDate, "", "from_date")
-                }
+                // onDelete={() =>
+                //   handleDelete(dates, "", each.fromDate, "", "from_date")
+                // }
               />
             ) : (
               <></>
@@ -112,7 +112,7 @@ const ShowFilterChips = ({
                   marginBottom: "15px",
                 }}
                 label={dateTimeFormat(each.toDate, false)}
-                onDelete={() => handleDelete(dates, "", each.toDate, "to_date")}
+                // onDelete={() => handleDelete(dates, "", each.toDate, "to_date")}
               />
             ) : (
               <></>
