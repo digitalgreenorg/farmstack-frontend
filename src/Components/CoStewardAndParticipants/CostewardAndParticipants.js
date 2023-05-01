@@ -38,7 +38,7 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/datahub/participants/view/approve/${id}`);
     } else if (title == "Our Participants are") {
       history.push(`/home/participants/view/${id}`);
-    } else if (title == "Our co-stewards are") {
+    } else if (title == "Co-stewards - Community builders") {
       history.push(`/home/costeward/view/${id}`);
     }
   };
@@ -407,14 +407,14 @@ const CoStewardAndParticipantsCard = (props) => {
               ""
             )}
           </Row>
-          {/* <hr /> */}
+          <hr />
           <div className={LocalStyle.cardContainerList}>
             {coStewardOrParticipantsList?.map((item, index) => {
               return (
                 <>
-                  <Row id={title + "-list-view-" + index}>
-                    {title === "Co-steward" ? (
-                      <>
+                  {title === "Co-steward" ? (
+                    <>
+                      <Row id={title + "-list-view-" + index}>
                         <Col
                           onClick={() => handleViewDataset(item?.user_id)}
                           id={title + " list-view-title-" + index}
@@ -444,10 +444,13 @@ const CoStewardAndParticipantsCard = (props) => {
                         >
                           {item?.number_of_participants}
                         </Col>
-                      </>
-                    ) : title === "Participants" ||
-                      title === "New participant requests" ? (
-                      <>
+                      </Row>
+                      <hr />
+                    </>
+                  ) : title === "Participants" ||
+                    title === "New participant requests" ? (
+                    <>
+                      <Row id={title + "-list-view-" + index}>
                         <Col
                           onClick={() => handleViewDataset(item?.user_id)}
                           id={title + " list-view-title-" + index}
@@ -468,12 +471,12 @@ const CoStewardAndParticipantsCard = (props) => {
                         >
                           {item?.dataset_count}
                         </Col>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </Row>
-                  {/* <hr /> */}
+                      </Row>
+                      <hr />
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </>
               );
             })}
