@@ -139,7 +139,18 @@ const DataSets = (props) => {
         setFilterState(payload);
       }
     } else {
-      payload = { ...filterState };
+      if (!Object.keys(filterState).length) {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
+        payload = { ...filterState };
+      }
     }
     let guestUrl = "";
     if (user == "guest") {
@@ -148,7 +159,7 @@ const DataSets = (props) => {
     }
     // console.log(user, "user inside the microste");
     let accessToken = user !== "guest" ? getTokenLocal() : false;
-    console.log(accessToken, "accessToken");
+
     callLoader(true);
     HTTPService(
       method,
@@ -198,16 +209,24 @@ const DataSets = (props) => {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = true;
-        if (searchDatasetsName?.length > 2) {
-          payload["name__icontains"] = searchDatasetsName;
-        }
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
         setFilterState(payload);
       }
     } else {
-      payload = { ...filterState };
+      if (!Object.keys(filterState).length) {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = true;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
+        payload = { ...filterState };
+      }
     }
     let accessToken = user !== "guest" ? getTokenLocal() : false;
     callLoader(true);
@@ -296,9 +315,11 @@ const DataSets = (props) => {
         } else {
           if (value === 0) {
             setDatasetUrl(response.data.next);
+            searchText === "" && setFilterState({});
             setShowLoadMoreAdmin(true);
           } else {
             setMemberDatasetUrl(response.data.next);
+            searchText === "" && setFilterState({});
             setShowLoadMoreMember(true);
           }
         }
@@ -311,7 +332,6 @@ const DataSets = (props) => {
           }
         } else {
           finalDataList = [...response.data.results];
-          console.log(finalDataList);
         }
         if (value === 1) {
           setMemberDatasetList(finalDataList);
@@ -546,10 +566,10 @@ const DataSets = (props) => {
         <div className="title">Datasets Explorer</div>
         <div className="d-flex justify-content-center">
           <div className="description">
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
             Unleash the power of data-driven agriculture - your ultimate dataset
             explorer for smarter decisions!
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
         <TextField

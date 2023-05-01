@@ -282,15 +282,14 @@ const AddDataSet = (props) => {
       });
   };
 
-  useEffect(() => {
-    // edit Dataset API call
+  const getDatasetForEdit = (dId) => {
     if (props.datasetIdForEdit) {
       (() => {
         let accessToken = getTokenLocal() ?? false;
         let url =
           UrlConstant.base_url +
           UrlConstant.datasetview +
-          props.datasetIdForEdit +
+          (dId ? dId : props.datasetIdForEdit) +
           "/";
         callLoader(true);
         HTTPService("GET", url, "", false, true, accessToken)
@@ -416,6 +415,10 @@ const AddDataSet = (props) => {
           });
       })();
     }
+  };
+  useEffect(() => {
+    // edit Dataset API call
+    getDatasetForEdit();
   }, []);
   return (
     <Box>
@@ -480,6 +483,7 @@ const AddDataSet = (props) => {
                   Upload or import
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
             <Tab
               label={
@@ -571,6 +575,7 @@ const AddDataSet = (props) => {
             standardisedFileLink={standardisedFileLink}
             setStandardisedFileLink={setStandardisedFileLink}
             validator={validator}
+            getDatasetForEdit={getDatasetForEdit}
           />
         </TabPanel>
         <TabPanel value={value} index={3}>

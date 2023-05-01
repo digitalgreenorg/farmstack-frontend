@@ -15,7 +15,7 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 
 function GuestUserParticipants(props) {
-  const { title, description } = props;
+  const { title, description, isCosteward } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
@@ -136,10 +136,10 @@ function GuestUserParticipants(props) {
             className={LocalStyle.description}
             style={{ width: description && "74%" }}
           >
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
             {description ??
               "Meet the Change Makers: Our Community Members Who Are Transforming Agriculture."}
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
       </Row>
@@ -183,7 +183,7 @@ function GuestUserParticipants(props) {
       <Row className={LocalStyle.participantsContainer}>
         <CoStewardAndParticipantsCard
           guestUser={true}
-          isCosteward={title ? true : false}
+          isCosteward={isCosteward ? true : false}
           title={title ?? "Our Participants are"}
           viewType={"grid"}
           // setViewType={setViewType}
