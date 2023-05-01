@@ -29,7 +29,16 @@ const FileWithAction = ({
     HTTPService("GET", url, "", false, true, accessToken)
       .then((res) => {
         callLoader(false);
-        download(res?.data, name);
+        console.log(typeof res?.data, name, "res?.data, name");
+        if (typeof res?.data != "string") {
+          download(
+            JSON.stringify(res?.data, null, 2),
+            name,
+            "application/json"
+          );
+        } else {
+          download(res?.data, name);
+        }
         callToast("File downloaded successfully!", "success", true);
       })
       .catch((err) => {

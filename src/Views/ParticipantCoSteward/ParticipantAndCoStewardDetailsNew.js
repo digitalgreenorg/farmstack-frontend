@@ -406,7 +406,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                       border: "1px solid rgba(255, 86, 48, 0.48)",
                     },
                   }}
-                  variant="outlined"
                 >
                   Delete {isCosteward ? "Co-steward" : "Participant"}
                   <DeleteOutlineIcon
@@ -434,7 +433,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                     border: "1px solid rgba(0, 171, 85, 0.48)",
                   },
                 }}
-                variant="outlined"
                 onClick={(e) =>
                   history.push(
                     `/datahub/${

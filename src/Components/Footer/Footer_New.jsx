@@ -63,13 +63,15 @@ const FooterNew = () => {
         <div className={`contact`}>
           <div className={`${style.footerTitle}`}>Contacts</div>
           <div className="mb-30 mt-20">
-            <div className={`${style.footerLightText} text-left`}>Email</div>
+            <div className={`${style.footerLightTextOnly} text-left`}>
+              Email
+            </div>
             <div className={`${style.footerDarkText} mt-2 text-left`}>
               {adminData?.user?.email ?? ""}
             </div>
           </div>
           <div className="mb-30">
-            <div className={`${style.footerLightText} text-left`}>
+            <div className={`${style.footerLightTextOnly} text-left`}>
               Datahub admin phone
             </div>
             <div className={`${style.footerDarkText} mt-2 text-left`}>
@@ -77,7 +79,7 @@ const FooterNew = () => {
             </div>
           </div>
           <div>
-            <div className={`${style.footerLightText} text-left`}>
+            <div className={`${style.footerLightTextOnly} text-left`}>
               Organization Website
             </div>
             <div className={`${style.link} mt-2`}>

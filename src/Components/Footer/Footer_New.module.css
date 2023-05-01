@@ -13,6 +13,14 @@
   color: #000000;
 }
 
+.footerLightTextOnly {
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+  /* cursor: pointer; */
+}
 .footerLightText {
   font-family: "Montserrat";
   font-weight: 400;
@@ -51,7 +59,7 @@
 }
 
 .quickLinks:hover {
-  color: #00AB55;
+  color: #00ab55;
 }
 
 @media only screen and (min-width: 600px) and (max-width: 900px) {

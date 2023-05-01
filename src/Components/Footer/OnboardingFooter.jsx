@@ -8,6 +8,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
+import UrlConstant from "../../Constants/UrlConstants";
 const OnboardingFooter = () => {
   const history = useHistory();
   const [adminData, setAdminData] = useState(null);
@@ -33,7 +34,8 @@ const OnboardingFooter = () => {
   };
   useEffect(() => {
     let url =
-      "https://datahubethdev.farmstack.co/be/microsite/admin_organization/";
+      UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
+
     let method = "GET";
     // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
     HTTPService(method, url, "", false, false, false, false, false)

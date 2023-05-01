@@ -720,6 +720,17 @@ const DataSets = (props) => {
             geographies={geographies}
             categorises={categorises}
             dates={dates}
+            // date setters
+            setFromDate={setFromDate}
+            setToDate={setToDate}
+            setDates={setDates}
+            //geography setters
+            setGeography={setGeography}
+            setGeographies={setGeographies}
+            //category setters
+            setAllCategories={setAllCategories}
+            setCategorises={setCategorises}
+            handleCheckBox={handleCheckBox}
           />
         ) : (
           <></>
