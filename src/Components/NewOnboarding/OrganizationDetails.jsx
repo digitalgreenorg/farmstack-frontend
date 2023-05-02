@@ -146,7 +146,7 @@ const OrganizationDetails = (props) => {
     callLoader(true);
     let url;
     let method;
-    if (isLoggedInUserAdmin() && !alreadyOnboarded) {
+    if (!alreadyOnboarded) {
       method = "POST";
       url = UrlConstant.base_url + UrlConstant.org;
     } else {
