@@ -167,7 +167,7 @@ const Standardise = ({
   const handleMaskCheckBox = (columnName, index) => {
     let tmpMaskedColumns = [...maskedColumns];
     if (!tmpMaskedColumns.includes(columnName)) {
-      tmpMaskedColumns[index] = columnName;
+      tmpMaskedColumns.splice(index, 0, columnName);
     } else {
       const ind = tmpMaskedColumns.indexOf(columnName);
       if (ind > -1) {
