@@ -503,7 +503,7 @@ const StandardizationInOnbord = (props) => {
     // setIsLoader(true);
     HTTPService("POST", url, data, false, true, isaccesstoken)
       .then((response) => {
-        callToast("Onboarding successfull", "success", true);
+        callToast("Onboarded successfuly", "success", true);
         // setIsLoader(false);
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {

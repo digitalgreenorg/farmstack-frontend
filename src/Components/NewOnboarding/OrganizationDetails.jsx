@@ -71,7 +71,7 @@ const OrganizationDetails = (props) => {
     HTTPService("POST", url, data, false, true, getTokenLocal())
       .then((response) => {
         // setIsLoader(false);
-        callToast("Onboarded", "success", true);
+        callToast("Onboarded successfuly", "success", true);
 
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
@@ -182,8 +182,11 @@ const OrganizationDetails = (props) => {
         console.log(response);
         if (isLoggedInUserAdmin() && !props.isOrgSetting) {
           setActiveStep((prev) => prev + 1);
-        } else if ((isLoggedInUserParticipant() || isLoggedInUserCoSteward()) && !props.isOrgSetting) {
-          callToast("Onboarded", "success", true);
+        } else if (
+          (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) &&
+          !props.isOrgSetting
+        ) {
+          // callToast("Onboarded successfuly", "success", true);
           setOnBoardedTrue();
         }
         if (props.isOrgSetting && response.status === 201)
@@ -452,13 +455,12 @@ const OrganizationDetails = (props) => {
                   }
                 >
                   {countryNameList?.map((countryName, index) => {
-                  return (
-                    <MenuItem value={countryName.label}>
-                      {countryName.label}
-                    </MenuItem>
-                  );
-                })}
-                  
+                    return (
+                      <MenuItem value={countryName.label}>
+                        {countryName.label}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
             </Col>
