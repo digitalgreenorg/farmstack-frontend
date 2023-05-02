@@ -144,13 +144,15 @@ const OrganizationDetails = (props) => {
   const handleSubmitOrganizationDetails = (e) => {
     e.preventDefault();
     callLoader(true);
+    let url;
     let method;
     if (isLoggedInUserAdmin() && !alreadyOnboarded) {
       method = "POST";
+      url = UrlConstant.base_url + UrlConstant.org;
     } else {
       method = "PUT";
+      url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
     }
-    let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
     var bodyFormData = new FormData();
     bodyFormData.append("user_id", getUserLocal());
     bodyFormData.append(
