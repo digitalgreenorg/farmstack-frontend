@@ -110,30 +110,18 @@ const Standardise = ({
     let payload = {
       id: standardiseFile,
     };
-    if (standardiseFile && isEditModeOn) {
+    setIsFetchedData(false);
+    if (standardiseFile) {
       callLoader(true);
+      console.log(isFetchedData, "getFileColumnNames trigger 1");
       HTTPService("POST", url, payload, false, accessToken)
         .then((response) => {
           setKeysInUploadedDataset(response.data);
-          getDatasetForEdit(datasetId);
+          isEditModeOn
+            ? getDatasetForEdit(datasetId)
+            : getDatasetForEdit(datasetId, "idCreated");
           callLoader(false);
-        })
-        .catch((e) => {
-          callLoader(false);
-          callToast(
-            "Something went wrong while fetching columns",
-            "error",
-            true
-          );
-          console.log(e);
-        });
-    }
-    if (standardiseFile && !isEditModeOn) {
-      callLoader(true);
-      HTTPService("POST", url, payload, false, accessToken)
-        .then((response) => {
-          setKeysInUploadedDataset(response.data);
-          callLoader(false);
+          console.log(isFetchedData, "getFileColumnNames trigger 2");
         })
         .catch((e) => {
           callLoader(false);
@@ -148,6 +136,7 @@ const Standardise = ({
   };
   const getStandardiziedTemplate = () => {
     let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
+    console.log(isFetchedData, "getStandardiziedTemplate trigger 1");
     HTTPService("GET", url, false, false, true)
       .then((response) => {
         if (response.status == 200) {
@@ -159,7 +148,8 @@ const Standardise = ({
           let tmpStandardisedColum = [...standardisedColum];
           tmpStandardisedColum.fill("");
           setStandardisedColumn(tmpStandardisedColum);
-          setIsFetchedData(true);
+          console.log(isFetchedData, "getStandardiziedTemplate trigger 2");
+          getFileColumnNames();
         }
       })
       .catch((e) => {
@@ -195,15 +185,6 @@ const Standardise = ({
     setMaskedColumns(tmpMaskedColumns);
   };
   const handleStandaiseFile = () => {
-    // saving standardised config
-    // let tmpAllStandardisedFile = { ...allStandardisedFile }
-    // tmpAllStandardisedFile[standardiseFile] = {
-    //     standardised_templete_category: datapointCategory,
-    //     standardised_column: standardisedColum,
-    //     masked_columns: maskedColumns
-    // }
-    // setAllStandardisedFile(tmpAllStandardisedFile)
-
     // preparing payload
     let standardisationConfiguration = {};
     keysInUploadedDataset.forEach((column, index) => {
@@ -247,6 +228,7 @@ const Standardise = ({
         tmpStandardisedFileLink[standardiseFile] =
           response?.data?.standardised_file_path;
         setStandardisedFileLink(tmpStandardisedFileLink);
+        setIsFetchedData(false);
       })
       .catch((e) => {
         callLoader(false);
@@ -277,8 +259,7 @@ const Standardise = ({
 
   useEffect(() => {
     getStandardiziedTemplate();
-    getFileColumnNames();
-    if (!isEditModeOn && !standardisedUpcomingFiles) {
+    if (!isEditModeOn && !standardisedUpcomingFiles?.length) {
       setStandardisedColumn([]);
       setMaskedColumns([]);
       const result = standardiseFiles.filter((obj) => {
@@ -287,6 +268,49 @@ const Standardise = ({
       setStandardisedColumn(
         standardiseFiles[result?.[0]?.file]?.standardised_column
       );
+      setIsFetchedData(false);
+    }
+    console.log(isFetchedData);
+    if (!isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
+      let tmpArr = standardisedUpcomingFiles.filter(
+        (item) => item.id === standardiseFile
+      );
+      let standardised_obj = tmpArr?.[0]?.standardisation_config;
+      let tmpStandardisedColum = [...standardisedColum];
+      let tempMaskedColumns = [];
+      let tempdPointCategories = [];
+      standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
+      keysInUploadedDataset.forEach((column, index) => {
+        Object.keys(standardised_obj).forEach(function (key, ind) {
+          if (column === key) {
+            tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
+            tempdPointCategories[index] = standardised_obj[key].mapped_category;
+            if (standardised_obj[key].masked) {
+              tempMaskedColumns[index] = key;
+            }
+          }
+        });
+      });
+      let finalTemp = [];
+      tempdPointCategories.forEach((res, ind) => {
+        datapointCategories.forEach((item, index) => {
+          if (res === item.datapoint_category) {
+            finalTemp[ind] = item;
+          }
+        });
+      });
+      let tmpColumn = [...datapointAttributes];
+
+      finalTemp.forEach((attribute, index) => {
+        if (attribute?.datapoint_attributes) {
+          tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+        }
+      });
+      setDatapointCategory(finalTemp);
+      setDatapointAttributes(tmpColumn);
+      setStandardisedColumn(tmpStandardisedColum);
+      setMaskedColumns(tempMaskedColumns);
+      setIsFetchedData(false);
     }
     setExpanded(true);
   }, [standardiseFile]);
@@ -335,7 +359,8 @@ const Standardise = ({
       setIsFetchedData(false);
     }
   }, [standardiseFile, keysInUploadedDataset]);
-
+  // console.log(datapointCategory);
+  console.log(isFetchedData);
   return (
     <div className="mt-20">
       <Typography
