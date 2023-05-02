@@ -79,7 +79,7 @@ const ProfileDetails = (props) => {
     HTTPService("POST", url, data, false, true, getTokenLocal())
       .then((response) => {
         // setIsLoader(false);
-        callToast("Onboarded", "success", true);
+        callToast("Onboarded successfuly", "success", true);
 
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
