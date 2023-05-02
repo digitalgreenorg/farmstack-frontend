@@ -689,10 +689,9 @@ const AddConnector = (props) => {
   };
   console.log(finalDatasetAfterIntegration);
   const handleChange = (e) => {
-    console.log(e.target.value);
     let value = e.target.name;
     if (value == "name") {
-      if (e.target.value && connectorData.name) {
+      if (e.target.value.trim()) {
         setIsConditionForConnectorDataForSaveMet(true);
         setIsAllConditionForSaveMet(true);
       } else {
@@ -711,7 +710,7 @@ const AddConnector = (props) => {
           })
         : e.preventDefault();
     } else {
-      if (e.target.value && connectorData.desc) {
+      if (e.target.value.trim()) {
         setIsConditionForConnectorDataForSaveMet(true);
         // setIsAllConditionForSaveMet(true);
       } else {
