@@ -34,6 +34,7 @@ const OrganizationDetails = (props) => {
   const [islogoLink, setIsLogoLink] = useState(false);
   const countryNameList = useMemo(() => countryList().getData(), []);
   const { setActiveStep } = props;
+  const [alreadyOnboarded, setAlreadyOnboarded] = useState(false);
   const [organisationDetails, setOrganisationDetails] = useState({
     organisation_name: "",
     organisation_mail_id: "",
@@ -143,7 +144,12 @@ const OrganizationDetails = (props) => {
   const handleSubmitOrganizationDetails = (e) => {
     e.preventDefault();
     callLoader(true);
-    let method = "PUT";
+    let method;
+    if (isLoggedInUserAdmin() && !alreadyOnboarded) {
+      method = "POST";
+    } else {
+      method = "PUT";
+    }
     let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
     var bodyFormData = new FormData();
     bodyFormData.append("user_id", getUserLocal());
@@ -275,6 +281,9 @@ const OrganizationDetails = (props) => {
         console.log(response);
         let data = response.data;
         let org = response.data.organization;
+        if (org?.logo) {
+          setAlreadyOnboarded(true);
+        }
         setOrganisationDetails({
           organisation_name: org.name,
           organisation_mail_id: org.org_email,
