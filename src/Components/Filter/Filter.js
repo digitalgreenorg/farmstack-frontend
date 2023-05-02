@@ -11,6 +11,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 const contentDetailsStyle = {
   display: "grid",
@@ -29,13 +30,21 @@ const Filter = ({
   cities,
   setShowFilter,
   callApply,
+  categorises,
+  handleClickAway,
+  setUpdate,
 }) => {
   const handleClose = () => {
     callApply();
     setShowFilter(false);
   };
 
+  // useEffect(() => {
+  //   callApply();
+  // }, [geographies, categorises]);
+
   return (
+    // <ClickAwayListener onClickAway={handleClickAway}>
     <div style={{ marginLeft: "144px", marginRight: "144px" }}>
       <Card
         sx={{
@@ -83,12 +92,18 @@ const Filter = ({
             <Box className="d-flex justify-content-between">
               <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
                 <InputLabel id="test-select-label">Select Country</InputLabel>
+                {console.log(
+                  geography?.country?.name,
+                  "geography?.country?.name",
+                  geographies
+                )}
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={geography?.country?.name}
                   renderValue={() => geographies[0]}
                   onChange={(e) => {
+                    setUpdate((prev) => prev + 1);
                     setGeography((prev) => ({
                       ...prev,
                       country: e.target.value,
@@ -137,12 +152,14 @@ const Filter = ({
               </FormControl>
               <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
                 <InputLabel id="test-select-label">Select State</InputLabel>
+
                 <Select
                   renderValue={() => geographies[1]}
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={geography?.state?.name}
                   onChange={(e) => {
+                    setUpdate((prev) => prev + 1);
                     setGeography((prev) => ({
                       ...prev,
                       state: e.target.value,
@@ -196,6 +213,7 @@ const Filter = ({
                   renderValue={() => geographies[2]}
                   value={geography?.city?.name}
                   onChange={(e) => {
+                    setUpdate((prev) => prev + 1);
                     setGeography((prev) => ({
                       ...prev,
                       city: e.target.value,
@@ -265,7 +283,7 @@ const Filter = ({
             >
               Close
             </Button>
-            <Button
+            {/* <Button
               sx={{
                 fontFamily: "Montserrat",
                 fontWeight: 700,
@@ -284,11 +302,12 @@ const Filter = ({
               onClick={() => handleClose()}
             >
               Apply
-            </Button>
+            </Button> */}
           </Box>
         </Box>
       </Card>
     </div>
+    // </ClickAwayListener>
   );
 };
 

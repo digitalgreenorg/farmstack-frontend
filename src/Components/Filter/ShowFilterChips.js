@@ -1,5 +1,5 @@
-import { Box, Chip } from "@mui/material";
-import React from "react";
+import { Box, Button, Chip } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { dateTimeFormat } from "../../Utils/Common";
 import DeleteIcon from "@mui/icons-material/Delete";
 const ShowFilterChips = ({
@@ -8,37 +8,87 @@ const ShowFilterChips = ({
   dates,
 
   setDates,
+  handleFromDate,
+  handleToDate,
   setFromDate,
   setToDate,
+  geography,
   setGeography,
   setGeographies,
   setAllCategories,
   setCategorises,
   handleCheckBox,
+  getAllCategoryAndSubCategory,
+  callApply,
+  setUpdate,
 }) => {
   // console.log(dates);
-
+  // const [updater, setUpdate] = useState(0);
   const handleDelete = (main, keyName, value, index, filter_type) => {
     console.log(main, keyName, value, filter_type);
+    setUpdate((prev) => prev + 1);
     switch (filter_type) {
-      case filter_type == "to_date":
-        console.log(dates, value);
-        // code block
+      case "date":
+        handleToDate("");
+        handleFromDate("");
+        // setUpdate((prev) => prev + 1);
+        // callApply();
         break;
-      case filter_type == "from_date":
-        // code block
+      case "from_date":
+        handleToDate("");
+        handleFromDate("");
+
+        // callApply();
         break;
-      case filter_type == "geography":
-        // code block
+      case "geography":
+        let arr = [...geographies];
+
+        let obj = { ...geography };
+        console.log(typeof index);
+        switch (index) {
+          case 0:
+            obj["country"] = null;
+            obj["state"] = "";
+            obj["city"] = "";
+            arr.splice(index);
+            console.log(obj, arr);
+            break;
+          case 1:
+            obj["state"] = null;
+            obj["city"] = null;
+            arr.splice(index);
+            break;
+
+          case 2:
+            obj["city"] = null;
+            arr[2] = "";
+            break;
+
+          default:
+            obj["country"] = null;
+            obj["state"] = null;
+            obj["city"] = null;
+            arr.splice(index);
+            break;
+        }
+        setGeography({ ...obj });
+        setGeographies([...arr]);
+        // callApply();
         break;
       case "category":
         handleCheckBox(keyName, value);
+        // callApply();
+        // getAllCategoryAndSubCategory();
         break;
       default:
         // code block
         return;
     }
   };
+  // useEffect(() => {
+  //   callApply();
+  //   // console.log("use");
+  // }, [geographies, categorises, dates]);
 
   return (
     <Box
@@ -58,10 +108,11 @@ const ShowFilterChips = ({
               marginRight: "15px",
               marginBottom: "15px",
             }}
+            key={each + ind}
             label={each}
-            // onDelete={() =>
-            //   handleDelete(geographies, "", each, ind, "geography")
-            // }
+            onDelete={() =>
+              handleDelete(geographies, "", each, ind, "geography")
+            }
           />
         );
       })}
@@ -76,10 +127,11 @@ const ShowFilterChips = ({
                     marginRight: "15px",
                     marginBottom: "15px",
                   }}
+                  key={res + ind}
                   label={res}
-                  // onDelete={() =>
-                  //   handleDelete(categorises, key, res, ind, "category")
-                  // }
+                  onDelete={() =>
+                    handleDelete(categorises, key, res, ind, "category")
+                  }
                 />
               );
             })}
@@ -87,6 +139,7 @@ const ShowFilterChips = ({
         );
       })}
       {dates?.map((each) => {
+        console.log(dates);
         return (
           <>
             {each.fromDate ? (
@@ -96,30 +149,65 @@ const ShowFilterChips = ({
                   marginRight: "15px",
                   marginBottom: "15px",
                 }}
-                label={dateTimeFormat(each.fromDate, false)}
-                // onDelete={() =>
-                //   handleDelete(dates, "", each.fromDate, "", "from_date")
-                // }
+                label={` ${dateTimeFormat(each.fromDate, false)} - ${
+                  each.toDate
+                    ? dateTimeFormat(each.toDate, false)
+                    : "Select end date"
+                }`}
+                onDelete={() =>
+                  handleDelete(dates, "", each.fromDate, 0, "date")
+                }
               />
             ) : (
               <></>
             )}
-            {each.toDate ? (
+            {/* {each.toDate ? (
               <Chip
                 sx={{
                   marginLeft: "5px",
                   marginRight: "15px",
                   marginBottom: "15px",
                 }}
-                label={dateTimeFormat(each.toDate, false)}
-                // onDelete={() => handleDelete(dates, "", each.toDate, "to_date")}
+                label={`To : ${dateTimeFormat(each.toDate, false)}`}
+                onDelete={() =>
+                  handleDelete(dates, "", each.toDate, 1, "to_date")
+                }
               />
             ) : (
               <></>
-            )}
+            )} */}
           </>
         );
       })}
+
+      {/* {dates[0].fromDate ||
+      dates[0].toDate ||
+      Object.keys(categorises)?.length > 0 ||
+      geographies.length > 0 ? (
+        <Button
+          sx={{
+            fontFamily: "Montserrat",
+            fontWeight: 700,
+            fontSize: "14px",
+            width: "86px",
+            height: "36px",
+            background: "#00AB55",
+            borderRadius: "8px",
+            textTransform: "none",
+            "&:hover": {
+              backgroundColor: "#00AB55",
+              color: "#fffff",
+            },
+          }}
+          // disabled={fromDate && toDate ? false : true}
+          variant="contained"
+          // onClick={() => handleClose()}
+        >
+          Apply
+        </Button>
+      ) : (
+        ""
+      )} */}
     </Box>
   );
 };
