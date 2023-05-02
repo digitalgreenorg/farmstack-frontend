@@ -146,7 +146,7 @@ const OrganizationDetails = (props) => {
     callLoader(true);
     let url;
     let method;
-    if (isLoggedInUserAdmin() && !alreadyOnboarded) {
+    if (!alreadyOnboarded) {
       method = "POST";
       url = UrlConstant.base_url + UrlConstant.org;
     } else {
@@ -283,7 +283,7 @@ const OrganizationDetails = (props) => {
         console.log(response);
         let data = response.data;
         let org = response.data.organization;
-        if (org?.logo) {
+        if (org) {
           setAlreadyOnboarded(true);
         }
         setOrganisationDetails({
