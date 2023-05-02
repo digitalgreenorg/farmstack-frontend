@@ -258,7 +258,7 @@ const CompanyPolicies = (props) => {
       setLocalKey(localKey + 1);
       setFileSizeErrorE("");
     };
-
+    
     const handleDeleteFile = () => {
       console.log("isfile deleted", uploadedPolicyE);
       setUploadedPolicyE(null);
@@ -491,8 +491,8 @@ const CompanyPolicies = (props) => {
           }}
         >
           <Popconfirm
-            title="Delete the connector"
-            description="Are you sure to delete this connector?"
+            title="Delete the policy"
+            description="Are you sure to delete this policy?"
             onConfirm={(e) => confirm(e, index)}
             onCancel={() => console.log("cancelled")}
             okText="Yes"
@@ -625,7 +625,6 @@ const CompanyPolicies = (props) => {
                   placeholder="Description"
                   toolbarConfig={toolbarConfig}
                   value={companyPolicyValue}
-                  // onKeyDown={handledatasetnameKeydown}
                   onChange={handlegovLawChange}
                   required
                   className="rich_text_editor"
@@ -723,7 +722,7 @@ const CompanyPolicies = (props) => {
           </div>
           <div className={styles.button_grp}>
             <Button
-              disabled={companyPolicyDescription && policyName ? false : true}
+              disabled={(companyPolicyDescription || uploadedPolicy) && policyName ? false : true}
               onClick={() => handleAddPolicy()}
               className={global_style.primary_button + " " + styles.next_button}
             >
@@ -759,7 +758,6 @@ const CompanyPolicies = (props) => {
                       placeholder="Description"
                       toolbarConfig={toolbarConfig}
                       value={companyPolicyValue}
-                      // onKeyDown={handledatasetnameKeydown}
                       onChange={handlegovLawChange}
                       required
                       className="rich_text_editor"
@@ -862,7 +860,7 @@ const CompanyPolicies = (props) => {
               <div className={styles.button_grp}>
                 <Button
                   disabled={
-                    companyPolicyDescription && policyName ? false : true
+                    (uploadedPolicy || companyPolicyDescription) && policyName ? false : true
                   }
                   onClick={() => handleAddPolicy()}
                   className={
