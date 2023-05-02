@@ -12,6 +12,7 @@ const FarmStackProvider = ({ children }) => {
     type: "",
     message: "",
   });
+  const [adminData, setAdminData] = useState(null);
 
   function callLoader(condtion) {
     setIsLoading(condtion);
@@ -26,6 +27,8 @@ const FarmStackProvider = ({ children }) => {
     isLoading,
     toastDetail,
     callToast,
+    setAdminData,
+    adminData,
   };
   return (
     <FarmStackContext.Provider value={values}>
