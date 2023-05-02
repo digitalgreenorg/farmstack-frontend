@@ -36,7 +36,6 @@ const StandardiseRow = ({
   // console.log(datapointCategory?.[index], "rowfow");
   const [isSelectorOpen, setisSelectorOpen] = useState(false);
   const clearCategory = (index) => {
-    console.log("standardise");
     let tmpStandardisedColum = [...standardisedColum];
     tmpStandardisedColum[index] = "";
     setStandardisedColumn(tmpStandardisedColum);
