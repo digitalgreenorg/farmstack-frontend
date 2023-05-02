@@ -283,7 +283,7 @@ const OrganizationDetails = (props) => {
         console.log(response);
         let data = response.data;
         let org = response.data.organization;
-        if (org?.logo) {
+        if (org) {
           setAlreadyOnboarded(true);
         }
         setOrganisationDetails({
