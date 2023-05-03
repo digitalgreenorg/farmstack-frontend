@@ -110,29 +110,14 @@ const Standardise = ({
     let payload = {
       id: standardiseFile,
     };
-    if (standardiseFile && isEditModeOn) {
+    if (standardiseFile) {
       callLoader(true);
       HTTPService("POST", url, payload, false, accessToken)
         .then((response) => {
           setKeysInUploadedDataset(response.data);
-          getDatasetForEdit(datasetId);
-          callLoader(false);
-        })
-        .catch((e) => {
-          callLoader(false);
-          callToast(
-            "Something went wrong while fetching columns",
-            "error",
-            true
-          );
-          console.log(e);
-        });
-    }
-    if (standardiseFile && !isEditModeOn) {
-      callLoader(true);
-      HTTPService("POST", url, payload, false, accessToken)
-        .then((response) => {
-          setKeysInUploadedDataset(response.data);
+          isEditModeOn
+            ? getDatasetForEdit(datasetId)
+            : getDatasetForEdit(datasetId, "idCreated");
           callLoader(false);
         })
         .catch((e) => {
@@ -159,6 +144,7 @@ const Standardise = ({
           let tmpStandardisedColum = [...standardisedColum];
           tmpStandardisedColum.fill("");
           setStandardisedColumn(tmpStandardisedColum);
+          getFileColumnNames();
           setIsFetchedData(true);
         }
       })
@@ -195,15 +181,6 @@ const Standardise = ({
     setMaskedColumns(tmpMaskedColumns);
   };
   const handleStandaiseFile = () => {
-    // saving standardised config
-    // let tmpAllStandardisedFile = { ...allStandardisedFile }
-    // tmpAllStandardisedFile[standardiseFile] = {
-    //     standardised_templete_category: datapointCategory,
-    //     standardised_column: standardisedColum,
-    //     masked_columns: maskedColumns
-    // }
-    // setAllStandardisedFile(tmpAllStandardisedFile)
-
     // preparing payload
     let standardisationConfiguration = {};
     keysInUploadedDataset.forEach((column, index) => {
@@ -277,8 +254,7 @@ const Standardise = ({
 
   useEffect(() => {
     getStandardiziedTemplate();
-    getFileColumnNames();
-    if (!isEditModeOn && !standardisedUpcomingFiles) {
+    if (!isEditModeOn && !standardisedUpcomingFiles?.length) {
       setStandardisedColumn([]);
       setMaskedColumns([]);
       const result = standardiseFiles.filter((obj) => {
@@ -287,6 +263,7 @@ const Standardise = ({
       setStandardisedColumn(
         standardiseFiles[result?.[0]?.file]?.standardised_column
       );
+      setIsFetchedData(false);
     }
     setExpanded(true);
   }, [standardiseFile]);
@@ -327,7 +304,49 @@ const Standardise = ({
           tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
         }
       });
+      setDatapointCategory(finalTemp);
+      setDatapointAttributes(tmpColumn);
+      setStandardisedColumn(tmpStandardisedColum);
+      setMaskedColumns(tempMaskedColumns);
+      setIsFetchedData(false);
+    }
+    if (!isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
+      console.log(isEditModeOn, standardisedUpcomingFiles, isFetchedData);
+      let tmpArr = standardisedUpcomingFiles.filter(
+        (item) => item.id === standardiseFile
+      );
+      let standardised_obj = tmpArr?.[0]?.standardisation_config;
+      let tmpStandardisedColum = [...standardisedColum];
+      let tempMaskedColumns = [];
+      let tempdPointCategories = [];
+      standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
+      keysInUploadedDataset.forEach((column, index) => {
+        Object.keys(standardised_obj).forEach(function (key, ind) {
+          if (column === key) {
+            tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
+            tempdPointCategories[index] = standardised_obj[key].mapped_category;
+            if (standardised_obj[key].masked) {
+              tempMaskedColumns[index] = key;
+            }
+          }
+        });
+      });
+      let finalTemp = [];
+      tempdPointCategories.forEach((res, ind) => {
+        datapointCategories.forEach((item, index) => {
+          if (res === item.datapoint_category) {
+            finalTemp[ind] = item;
+          }
+        });
+      });
+      let tmpColumn = [...datapointAttributes];
 
+      finalTemp.forEach((attribute, index) => {
+        if (attribute?.datapoint_attributes) {
+          tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+        }
+      });
+      console.log(finalTemp);
       setDatapointCategory(finalTemp);
       setDatapointAttributes(tmpColumn);
       setStandardisedColumn(tmpStandardisedColum);
@@ -335,7 +354,7 @@ const Standardise = ({
       setIsFetchedData(false);
     }
   }, [standardiseFile, keysInUploadedDataset]);
-
+  console.log(datapointCategory, "datapointCategory");
   return (
     <div className="mt-20">
       <Typography
