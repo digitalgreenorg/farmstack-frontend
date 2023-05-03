@@ -84,7 +84,7 @@ function GuestUserParticipants(props) {
 
     searchTimeout = setTimeout(() => {
       // setSearcParticipantsName(name);
-      if (name.trim().length > 2) {
+      if (name?.length > 2 || name?.length === 0) {
         let data = {};
         data["name"] = name.trim();
 
@@ -166,7 +166,7 @@ function GuestUserParticipants(props) {
         className="input_field"
         placeholder={title ? "Search co-steward.." : "Search participant.."}
         value={searcParticipantsName}
-        onChange={(e) => handleSearch(e.target.value)}
+        onChange={(e) => handleSearch(e.target.value.trimStart())}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

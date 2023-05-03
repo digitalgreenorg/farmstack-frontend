@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Divider,
   FormControl,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -10,17 +12,21 @@ import {
   Typography,
 } from "@mui/material";
 import CheckBoxWithText from "./CheckBoxWithText";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 const StandardiseRow = ({
   keyName,
   index,
   datapointAttributes,
+  setDatapointAttributes,
   templates,
   setTemplates,
   template,
   setTemplate,
   datapointCategories,
   datapointCategory,
+  setDatapointCategory,
   handleMaskCheckBox,
   datapointCategoryChange,
   standardisedColum,
@@ -28,6 +34,21 @@ const StandardiseRow = ({
   maskedColumns,
 }) => {
   // console.log(datapointCategory?.[index], "rowfow");
+  const [isSelectorOpen, setisSelectorOpen] = useState(false);
+  const clearCategory = (index) => {
+    let tmpStandardisedColum = [...standardisedColum];
+    tmpStandardisedColum[index] = "";
+    setStandardisedColumn(tmpStandardisedColum);
+
+    let tmpArr = [...datapointCategory];
+    tmpArr[index] = "";
+    setDatapointCategory(tmpArr);
+
+    let tempAttr = [...datapointAttributes];
+    tempAttr[index] = [];
+    setDatapointAttributes(tempAttr);
+  };
+
   return (
     <div className="mt-50" key={index}>
       <Box className="d-flex justify-content-between align-items-center w-100 mb-20">
@@ -61,6 +82,8 @@ const StandardiseRow = ({
                   : ""
               }
               onChange={(e) => datapointCategoryChange(e.target.value, index)}
+              open={isSelectorOpen}
+              onClose={() => setisSelectorOpen(false)}
               sx={{
                 textAlign: "left",
                 ".MuiOutlinedInput-notchedOutline": {
@@ -72,9 +95,42 @@ const StandardiseRow = ({
                 "&:hover .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#919EAB",
                 },
+                ".MuiOutlinedInput-input": {
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  width: "185px",
+                },
+                ".MuiPopover-root": {
+                  display: isSelectorOpen ? "block" : "none",
+                },
               }}
               label="Datapoint category"
               placeholder="Datapoint category"
+              endAdornment={
+                <InputAdornment position="end">
+                  {datapointCategory?.[index]?.datapoint_category ? (
+                    <HighlightOffIcon
+                      sx={{
+                        // marginRight: "25px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => clearCategory(index)}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  <span onBlur={() => setisSelectorOpen(!isSelectorOpen)}>
+                    <ExpandMoreIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => setisSelectorOpen(!isSelectorOpen)}
+                    />
+                  </span>
+                </InputAdornment>
+              }
+              IconComponent={(props) => {
+                return <></>;
+              }}
             >
               {datapointCategories?.map((item) => (
                 <MenuItem key={item.datapoint_category} value={item}>
@@ -113,6 +169,9 @@ const StandardiseRow = ({
               }}
               label="Datapoint Attribute"
               placeholder="Datapoint Attribute"
+              IconComponent={(props) => {
+                return <ExpandMoreIcon {...props} />;
+              }}
             >
               {datapointAttributes[index]?.map((item) => (
                 <MenuItem key={item} value={item}>

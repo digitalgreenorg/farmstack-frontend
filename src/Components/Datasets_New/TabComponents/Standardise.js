@@ -110,7 +110,25 @@ const Standardise = ({
     let payload = {
       id: standardiseFile,
     };
-    if (standardiseFile) {
+    if (standardiseFile && isEditModeOn) {
+      callLoader(true);
+      HTTPService("POST", url, payload, false, accessToken)
+        .then((response) => {
+          setKeysInUploadedDataset(response.data);
+          getDatasetForEdit(datasetId);
+          callLoader(false);
+        })
+        .catch((e) => {
+          callLoader(false);
+          callToast(
+            "Something went wrong while fetching columns",
+            "error",
+            true
+          );
+          console.log(e);
+        });
+    }
+    if (standardiseFile && !isEditModeOn) {
       callLoader(true);
       HTTPService("POST", url, payload, false, accessToken)
         .then((response) => {
@@ -258,8 +276,8 @@ const Standardise = ({
   }, []);
 
   useEffect(() => {
-    getFileColumnNames();
     getStandardiziedTemplate();
+    getFileColumnNames();
     if (!isEditModeOn && !standardisedUpcomingFiles) {
       setStandardisedColumn([]);
       setMaskedColumns([]);
@@ -420,8 +438,10 @@ const Standardise = ({
                       template={template}
                       setTemplate={setTemplate}
                       datapointAttributes={datapointAttributes}
+                      setDatapointAttributes={setDatapointAttributes}
                       datapointCategories={datapointCategories}
                       datapointCategory={datapointCategory}
+                      setDatapointCategory={setDatapointCategory}
                       standardiseNames={standardiseNames}
                       setStandardiseNames={setStandardiseNames}
                       standardiseName={standardiseName}
