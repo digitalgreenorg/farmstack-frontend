@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "mdbreact/dist/css/mdb.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
@@ -35,8 +35,26 @@ import GuestRoutes from "./Layout/GuestRoutes";
 import GuestUserDatasets from "./Components/GuestUser/GuestUserDatasets";
 import NewError from "./Components/Error/NewError";
 import GuestUserContactNew from "./Views/GuestUser/GuestUserContactNew";
+import UrlConstant from "./Constants/UrlConstants";
+import HTTPService from "./Services/HTTPService";
 function App() {
-  const { isLoading, toastDetail } = useContext(FarmStackContext);
+  const { isLoading, toastDetail, setAdminData } = useContext(FarmStackContext);
+  function getAdminData() {
+    let url =
+      UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
+    let method = "GET";
+    // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
+    HTTPService(method, url, "", false, false, false, false, false)
+      .then((response) => {
+        setAdminData(response.data);
+      })
+      .catch((error) => {
+        console.log("error");
+      });
+  }
+  useEffect(() => {
+    getAdminData();
+  }, []);
   return (
     <React.Fragment>
       {isLoading ? <Loader /> : ""}
