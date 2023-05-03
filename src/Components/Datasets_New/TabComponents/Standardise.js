@@ -269,8 +269,49 @@ const Standardise = ({
   }, [standardiseFile]);
 
   useEffect(() => {
-    console.log(isEditModeOn, standardisedUpcomingFiles, isFetchedData);
     if (isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
+      let tmpArr = standardisedUpcomingFiles.filter(
+        (item) => item.id === standardiseFile
+      );
+      let standardised_obj = tmpArr?.[0]?.standardisation_config;
+      let tmpStandardisedColum = [...standardisedColum];
+      let tempMaskedColumns = [];
+      let tempdPointCategories = [];
+      standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
+      keysInUploadedDataset.forEach((column, index) => {
+        Object.keys(standardised_obj).forEach(function (key, ind) {
+          if (column === key) {
+            tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
+            tempdPointCategories[index] = standardised_obj[key].mapped_category;
+            if (standardised_obj[key].masked) {
+              tempMaskedColumns[index] = key;
+            }
+          }
+        });
+      });
+      let finalTemp = [];
+      tempdPointCategories.forEach((res, ind) => {
+        datapointCategories.forEach((item, index) => {
+          if (res === item.datapoint_category) {
+            finalTemp[ind] = item;
+          }
+        });
+      });
+      let tmpColumn = [...datapointAttributes];
+
+      finalTemp.forEach((attribute, index) => {
+        if (attribute?.datapoint_attributes) {
+          tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+        }
+      });
+      setDatapointCategory(finalTemp);
+      setDatapointAttributes(tmpColumn);
+      setStandardisedColumn(tmpStandardisedColum);
+      setMaskedColumns(tempMaskedColumns);
+      setIsFetchedData(false);
+    }
+    if (!isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
+      console.log(isEditModeOn, standardisedUpcomingFiles, isFetchedData);
       let tmpArr = standardisedUpcomingFiles.filter(
         (item) => item.id === standardiseFile
       );
