@@ -1,0 +1,114 @@
+.container {
+  margin: 25px 144px;
+  text-align: left;
+}
+
+.greenBox {
+  justify-content: center;
+  height: 40px;
+  background: #00ab55;
+  border-radius: 6px;
+  width: 40px;
+  display: flex;
+  padding: 8px;
+  margin: 0 10px;
+}
+
+.micrositeLogo {
+  width: 100%;
+}
+
+.titleContainer,
+.buttonContainer {
+  margin: 50px auto;
+}
+
+.title {
+  margin: 10px auto;
+  line-height: 78px !important;
+}
+
+.lastTitle {
+  margin: 10px auto;
+  line-height: 46px !important;
+}
+
+.description {
+  line-height: 27px !important;
+  margin: 15px auto !important;
+  font-size: 22px !important;
+  font-style: italic !important;
+  color: #565c63 !important;
+}
+
+.primaryButton {
+  padding: 11px 38px !important;
+}
+
+.pointContainer {
+  display: flex;
+  align-items: center;
+  margin: 0 0 50px 0px;
+}
+
+.pointContainer > span {
+  line-height: 20px !important;
+}
+
+.centeredAlignTitle {
+  align-items: center;
+  display: flex;
+  width: 900px;
+  margin: auto !important;
+  text-align: center;
+  line-height: 39px !important;
+}
+
+.centeredButtonContainer {
+  margin: auto !important;
+}
+
+.gradientContainer {
+  position: relative;
+}
+
+.gradientTextContainer {
+  position: absolute;
+  top: 92px;
+  margin: auto;
+  width: 100%;
+  /* padding: 0 144px !important; */
+}
+
+.gradientTextContainer .title {
+  line-height: 39px !important;
+  width: 350px;
+  text-align: left;
+  margin: auto;
+}
+
+.gradientTextContainer .description {
+  line-height: 27px;
+  width: 450px;
+  text-align: left;
+  margin: auto;
+}
+
+.viewDatasetButtonContainer {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.viewDatasetButton {
+  margin: auto !important;
+  padding: 11px 38px !important;
+}
+
+.participanttitleContainer .title,
+.description {
+  text-align: left;
+}
+
+.alignLeft {
+  justify-content: left;
+}

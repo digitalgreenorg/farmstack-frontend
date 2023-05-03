@@ -2,14 +2,33 @@ import LocalStorageConstants from "../Constants/LocalStorageConstants";
 import RegexConstants from "../Constants/RegexConstants";
 import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 import FileSaver from "file-saver";
+import HTTPService from "../Services/HTTPService";
+import UrlConstant from "../Constants/UrlConstants";
+import { useHistory } from "react-router-dom";
+import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+const converter = require("json-2-csv");
+
 export const setTokenLocal = (token) => {
   localStorage.setItem(
     LocalStorageConstants.KEYS.JWTToken,
     JSON.stringify(token)
   );
 };
+export const setRefreshTokenLocal = (token) => {
+  localStorage.setItem(
+    LocalStorageConstants.KEYS.refresh_token,
+    JSON.stringify(token)
+  );
+};
 export const getTokenLocal = () => {
   const tokenString = localStorage.getItem(LocalStorageConstants.KEYS.JWTToken);
+  const userToken = JSON.parse(tokenString);
+  return userToken;
+};
+export const getRefreshTokenLocal = () => {
+  const tokenString = localStorage.getItem(
+    LocalStorageConstants.KEYS.refresh_token
+  );
   const userToken = JSON.parse(tokenString);
   return userToken;
 };
@@ -94,41 +113,125 @@ export const handleNameFieldEntry = (fieldValue, e) => {
   }
 };
 
-export const GetErrorHandlingRoute = (e) => {
-  var errorMessage = "";
-  if (e.response && e.response.data && e.response.data.message) {
-    errorMessage = e.response.data.message;
-  } else if (e.response && e.response.data) {
-    try {
-      JSON.parse(e.response.data);
-      errorMessage = String(e.response.data);
-    } catch (e) {
-      if (e.response) {
-        errorMessage = e.response.statusText;
-      } else {
-        errorMessage = "Unknown";
+export const refreshToken = async () => {
+  try {
+    const url = UrlConstant.base_url + UrlConstant.refesh;
+
+    const refreshToken = JSON.parse(localStorage.getItem("refresh"));
+    if (!refreshToken) {
+      let error = {
+        toast: false,
+        path: "/error/401",
+        status: 401,
+        message: "Refresh token is not valid",
+      };
+      return error;
+    }
+    localStorage.setItem("lastPathname", window.location.href);
+    const response = await HTTPService("POST", url, {
+      refresh: refreshToken,
+    });
+
+    if (response?.status === 200) {
+      localStorage.setItem("JWTToken", JSON.stringify(response?.data?.access));
+      const lastPathname = localStorage.getItem("lastPathname");
+      if (lastPathname) {
+        let error = {
+          toast: true,
+          path: lastPathname,
+          status: 200,
+          message: "New access token has been set successfully.",
+        };
+        return error;
       }
     }
-  } else if (e.response) {
-    errorMessage = e.response.statusText;
-  } else {
-    errorMessage = "unknown";
+  } catch (e) {
+    let error = {
+      toast: false,
+      path: "/error/401",
+      status: 401,
+      message: "Refresh token is not valid",
+    };
+    return error;
   }
-  setErrorLocal({
-    ErrorCode: e.response ? e.response.status : "unknown",
-    ErrorMessage: errorMessage,
-  });
-  if (
-    e.response != null &&
-    e.response != undefined &&
-    e.response.status == HTTP_CONSTANTS.SESSION_TIMEOUT
+};
+
+export const GetErrorHandlingRoute = async (e) => {
+  var errorMessage = "";
+  console.log(e?.response?.data, e.response?.status, "error");
+  if (e?.response?.data && e?.response?.status == 401) {
+    let resultOfRefresh = await refreshToken();
+    return resultOfRefresh;
+  } else if (
+    (e?.response?.data && e?.response?.status == 403) ||
+    (e?.response?.data && e?.response?.status >= 500)
   ) {
-    console.log(e.response.status);
-    return "/sessionexpired";
-  } else {
-    console.log(e.response);
-    return "/error";
+    return {
+      toast: false,
+      path: "/error/" + e.response.status,
+      status: e.response.status,
+      message: e?.response?.data?.message,
+      data: e?.response?.data,
+    };
+  } else if (
+    e?.response?.data &&
+    (e?.response?.status == 404 || e?.response?.status == 405)
+  ) {
+    return {
+      toast: true,
+      path: "/error/" + e?.response?.status,
+      status: e.response.status,
+      message: e?.response?.data?.message,
+      data: e?.response?.data,
+    };
   }
+
+  // if (e?.response && e?.response?.data && e?.response?.data?.message) {
+  //   errorMessage = e.response.data.message;
+  // } else if (e.response && e.response.data) {
+  //   try {
+  //     JSON.parse(e.response.data);
+  //     errorMessage = String(e.response.data);
+  //   } catch (e) {
+  //     if (e.response) {
+  //       errorMessage = e.response.statusText;
+  //     } else {
+  //       errorMessage = "Unknown";
+  //     }
+  //   }
+  // } else if (e.response) {
+  //   errorMessage = e.response.statusText;
+  // } else {
+  //   errorMessage = "unknown";
+  // }
+  // console.log(errorMessage, "errorMessage159");
+  // setErrorLocal({
+  //   ErrorCode: e.response ? e.response.status : "",
+  //   ErrorMessage: errorMessage,
+  // });
+  // if (
+  //   e.response != null &&
+  //   e.response != undefined &&
+  //   e?.response?.status == HTTP_CONSTANTS.SESSION_TIMEOUT
+  // ) {
+  //   let response = refreshToken();
+  //   if (response) {
+  //     return {
+  //       message: "verified",
+  //       statusCode: 200,
+  //     };
+  //   } else {
+  //     return {
+  //       message: "not_verified",
+  //       statusCode: 401,
+  //     };
+  //   }
+  // } else {
+  //   return {
+  //     message: errorMessage,
+  //     statusCode: e.response ? e.response.status : "",
+  //   };
+  // }
 };
 
 export const setRoleLocal = (role) => {
@@ -150,7 +253,7 @@ export const getErrorLocal = () => {
 export const isLoggedInUserAdmin = () => {
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_ADMIN.toLowerCase()
     : false;
 };
 
@@ -158,14 +261,14 @@ export const isLoggedInUserParticipant = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT.toLowerCase()
     : false;
 };
 export const isLoggedInUserCoSteward = () => {
   //return true;
   return getRoleLocal()
     ? getRoleLocal().toLowerCase() ==
-    LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
+        LocalStorageConstants.ROLES.DATAHUB_CO_STEWARD.toLowerCase()
     : false;
 };
 
@@ -203,8 +306,32 @@ export const flushLocalstorage = () => {
 };
 
 export const downloadAttachment = (uri, name) => {
-  console.log("click on download", uri, name)
+  console.log("click on download", uri, name);
   FileSaver.saveAs(uri, name);
+};
+
+export const downloadDocument = (row, name) => {
+  converter.json2csv(row, async (err, csv) => {
+    if (err) {
+      throw err;
+    }
+    // print CSV string
+    console.log(csv);
+    download(csv, name);
+  });
+};
+
+export const download = (data, name, type) => {
+  console.log(data, type);
+  const blob = new Blob([data], { type: type ? type : "text/csv" });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.setAttribute("hidden", "");
+  a.setAttribute("href", url);
+  a.setAttribute("download", name);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 };
 
 export const GetErrorKey = (e, keyList) => {

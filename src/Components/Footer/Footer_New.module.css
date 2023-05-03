@@ -1,0 +1,137 @@
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.footerTitle {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+}
+
+.footerLightTextOnly {
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+  /* cursor: pointer; */
+}
+.footerLightText {
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+  cursor: pointer;
+}
+
+.footerDarkText {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #000000;
+}
+
+.link {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #0038ff;
+}
+
+.flexWidth {
+  flex: 0 0 33.5%;
+}
+
+.buttonText {
+  font-family: "Montserrat" !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  line-height: 26px !important;
+}
+
+.quickLinks:hover {
+  color: #00ab55;
+}
+
+@media only screen and (min-width: 600px) and (max-width: 900px) {
+  .footerTitle {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .footerLightText {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .footerDarkText {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .link {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .buttonText {
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    line-height: 22px !important;
+  }
+
+  .inputFieldSubscribe {
+    width: 364px !important;
+    height: 56px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .footerTitle {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .footerLightText {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .footerDarkText {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .link {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .buttonText {
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    line-height: 22px !important;
+  }
+
+  .inputFieldSubscribe {
+    width: 364px !important;
+    height: 56px;
+  }
+}

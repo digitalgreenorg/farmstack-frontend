@@ -1,0 +1,30 @@
+.title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-size: 64px;
+  line-height: 78px;
+  text-align: center;
+  color: #585d60;
+}
+
+.description {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400 !important;
+  font-size: 22px;
+  line-height: 27px;
+  text-align: center;
+  color: #000000;
+  margin-top: 32px;
+}
+
+.titleContainer {
+  justify-content: center;
+}
+
+.title2 {
+  margin: 50px 0;
+}
+
+.participantsContainer {
+  display: block;
+}

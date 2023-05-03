@@ -1,0 +1,105 @@
+.listAndGridViewButton {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.listViewButton {
+  display: flex;
+  flex-direction: column;
+}
+.listAndGridViewButton > div {
+  /* display: inline-block; */
+  margin: 0 10px;
+}
+.titleContainer {
+  margin: 50px 0;
+}
+.title {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 400px;
+}
+.loadMoreButton {
+  width: 100%;
+  box-shadow: none;
+  margin-top: 50px;
+  min-width: 350px;
+}
+.buttonContainer {
+  align-items: center;
+  width: 100%;
+}
+.viewType {
+  display: flex;
+  align-items: center;
+}
+.activeView {
+  color: #00ab55;
+  cursor: pointer;
+}
+.inActiveView {
+  color: #3d4a52;
+  cursor: pointer !important;
+}
+.content_title {
+  /* font-weight: 700; */
+  /* font-size: 20px; */
+  line-height: 24px;
+  color: #00ab55;
+  width: 287px;
+  text-align: start;
+  /* margin: 0px 0 30px 0; */
+  padding-left: 25px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.listHeader1 {
+  display: flex;
+  justify-content: left;
+  padding-left: 25px;
+}
+.cardContainer {
+  /* overflow-x: hidden; */
+  /* max-height: 700px;
+  overflow-y: scroll; */
+}
+.cardContainerList {
+  /* overflow-x: hidden;
+  max-height: 600px;
+  overflow-y: scroll; */
+}
+.img_container {
+  margin: 50px auto;
+}
+.addTitle {
+  justify-content: center;
+}
+.card {
+  padding: 24px;
+  max-width: 100% !important;
+  max-width: 368;
+  height: 314;
+  border: 1px solid #2cd37f !important;
+  border-radius: 16px !important;
+  margin: 12px;
+  cursor: pointer;
+  height: 314px;
+}
+.primary {
+  box-shadow: none;
+  padding: 8px 22px !important;
+  height: 48px !important;
+  margin: 0px !important;
+  border-radius: 8px;
+}
+.listAndgridViewImg {
+  margin: 0 8px;
+}
+.listAndGridViewTextContainer {
+  flex-direction: row-reverse;
+  margin: 30px 0;
+}

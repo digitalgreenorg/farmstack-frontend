@@ -16,6 +16,7 @@ const UrlConstant = {
   // base_url_without_slash: "https://ada8-106-51-85-143.in.ngrok.io",
   login: "accounts/login/",
   otp: "accounts/otp/",
+  refesh: "token/refresh/",
   participant: "datahub/participant/",
   costewardlist_selfregister: "datahub/participant/get_list_co_steward/",
   support: "datahub/support/filters_tickets/",
@@ -40,12 +41,27 @@ const UrlConstant = {
   // dataset_list: 'datahub/datasets/',
   dataset: "datahub/datasets/",
   dataseteth: "datahub/dataset/v2/temp_datasets/",
-  check_dataset_name_and_description_in_database: "datahub/dataset/v2/validate_dataset/",
+  check_dataset_name_and_description_in_database:
+    "datahub/dataset/v2/validate_dataset/",
   datasetethcancel: "datahub/dataset/v2/temp_datasets/?delete_dir=True",
   datasetview: "datahub/dataset/v2/",
-  datasetview_guest: "microsite/datasets/",
+  datasetview_guest: "microsite/datasets/dataset_filters/",
+  datasetview__guest: "microsite/datasets/",
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
+
+  // new_datasets_v2 api
+  add_basic_dataset: "datahub/new_dataset_v2/",
+  upload_files: "datahub/dataset_files/",
+  list_of_files: "datahub/dataset_files/?dataset=",
+  get_file_columns: "datahub/dataset/v2/get_dataset_file_columns/",
+  standardised_file: "datahub/dataset_files/",
+  usage_policy: "datahub/dataset_files/",
+  delete_dataset: "datahub/new_dataset_v2/",
+  download_file: "protected-media/?id=",
+  public_download_file: "microsite/microsite_media_view?id=",
+  ask_for_permission: "datahub/usage_policies/",
+  grant_for_permission: "datahub/usage_policies/",
 
   guest_organization_details: "microsite/admin_organization/",
   guest_dataset_listing: "microsite/datasets/",
@@ -70,8 +86,13 @@ const UrlConstant = {
   search_dataset_end_point_admin: "datahub/dataset/v2/dataset_filters/",
   search_dataset_end_point_participant: "datahub/dataset/v2/dataset_filters/",
   search_dataset_end_point_guest: "microsite/datasets/dataset_filters/",
-  microsite_costeward_end_point: "microsite/participant/organizations/?co_steward=True",
+  microsite_search_participants: "microsite/participant/",
+  microsite_costeward_end_point:
+    "microsite/participant/organizations/?co_steward=True",
   microsite_participant_end_point: "microsite/participant/organizations/",
+  microsite_participant_end_point_new: "microsite/participant/",
+  microsite_get_policy: "microsite/policy/",
+  microsite_category: "microsite/datasets/category/",
 
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",
@@ -91,17 +112,22 @@ const UrlConstant = {
   // Standardization
 
   standardization_post_data: "datahub/standardise/",
-  standardization_update_data: "datahub/standardise/update_standardisation_template/",
+  standardization_update_data:
+    "datahub/standardise/update_standardisation_template/",
   standardization_delete_category: "datahub/standardise/",
   standardization_get_data: "datahub/standardise/",
-  standardization_get_all_file_name: "datahub/dataset/v2/temp_dataset_files/?dataset_name=",
-  standardization_get_file_columns: "datahub/dataset/v2/temp_dataset_file_columns/",
+  standardization_get_all_file_name:
+    "datahub/dataset/v2/temp_dataset_files/?dataset_name=",
+  standardization_get_file_columns:
+    "datahub/dataset/v2/temp_dataset_file_columns/",
   standardise_file: "datahub/dataset/v2/standardise/",
 
   joining_the_table: "connectors/integration/",
   integration_connectors: "connectors/",
   list_of_connectors: "connectors/",
 
+  //new v2 urls
+  datahub_policy: "datahub/policy/",
 };
 
 export default UrlConstant;
