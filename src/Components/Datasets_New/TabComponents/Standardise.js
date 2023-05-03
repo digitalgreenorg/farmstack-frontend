@@ -110,10 +110,8 @@ const Standardise = ({
     let payload = {
       id: standardiseFile,
     };
-    setIsFetchedData(false);
     if (standardiseFile) {
       callLoader(true);
-      console.log(isFetchedData, "getFileColumnNames trigger 1");
       HTTPService("POST", url, payload, false, accessToken)
         .then((response) => {
           setKeysInUploadedDataset(response.data);
@@ -121,7 +119,6 @@ const Standardise = ({
             ? getDatasetForEdit(datasetId)
             : getDatasetForEdit(datasetId, "idCreated");
           callLoader(false);
-          console.log(isFetchedData, "getFileColumnNames trigger 2");
         })
         .catch((e) => {
           callLoader(false);
@@ -136,7 +133,6 @@ const Standardise = ({
   };
   const getStandardiziedTemplate = () => {
     let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
-    console.log(isFetchedData, "getStandardiziedTemplate trigger 1");
     HTTPService("GET", url, false, false, true)
       .then((response) => {
         if (response.status == 200) {
@@ -148,8 +144,8 @@ const Standardise = ({
           let tmpStandardisedColum = [...standardisedColum];
           tmpStandardisedColum.fill("");
           setStandardisedColumn(tmpStandardisedColum);
-          console.log(isFetchedData, "getStandardiziedTemplate trigger 2");
           getFileColumnNames();
+          setIsFetchedData(true);
         }
       })
       .catch((e) => {
@@ -228,7 +224,6 @@ const Standardise = ({
         tmpStandardisedFileLink[standardiseFile] =
           response?.data?.standardised_file_path;
         setStandardisedFileLink(tmpStandardisedFileLink);
-        setIsFetchedData(false);
       })
       .catch((e) => {
         callLoader(false);
@@ -270,52 +265,11 @@ const Standardise = ({
       );
       setIsFetchedData(false);
     }
-    console.log(isFetchedData);
-    if (!isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
-      let tmpArr = standardisedUpcomingFiles.filter(
-        (item) => item.id === standardiseFile
-      );
-      let standardised_obj = tmpArr?.[0]?.standardisation_config;
-      let tmpStandardisedColum = [...standardisedColum];
-      let tempMaskedColumns = [];
-      let tempdPointCategories = [];
-      standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
-      keysInUploadedDataset.forEach((column, index) => {
-        Object.keys(standardised_obj).forEach(function (key, ind) {
-          if (column === key) {
-            tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
-            tempdPointCategories[index] = standardised_obj[key].mapped_category;
-            if (standardised_obj[key].masked) {
-              tempMaskedColumns[index] = key;
-            }
-          }
-        });
-      });
-      let finalTemp = [];
-      tempdPointCategories.forEach((res, ind) => {
-        datapointCategories.forEach((item, index) => {
-          if (res === item.datapoint_category) {
-            finalTemp[ind] = item;
-          }
-        });
-      });
-      let tmpColumn = [...datapointAttributes];
-
-      finalTemp.forEach((attribute, index) => {
-        if (attribute?.datapoint_attributes) {
-          tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
-        }
-      });
-      setDatapointCategory(finalTemp);
-      setDatapointAttributes(tmpColumn);
-      setStandardisedColumn(tmpStandardisedColum);
-      setMaskedColumns(tempMaskedColumns);
-      setIsFetchedData(false);
-    }
     setExpanded(true);
   }, [standardiseFile]);
 
   useEffect(() => {
+    console.log(isEditModeOn, standardisedUpcomingFiles, isFetchedData);
     if (isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
       let tmpArr = standardisedUpcomingFiles.filter(
         (item) => item.id === standardiseFile
@@ -351,7 +305,7 @@ const Standardise = ({
           tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
         }
       });
-
+      console.log(finalTemp);
       setDatapointCategory(finalTemp);
       setDatapointAttributes(tmpColumn);
       setStandardisedColumn(tmpStandardisedColum);
@@ -359,8 +313,7 @@ const Standardise = ({
       setIsFetchedData(false);
     }
   }, [standardiseFile, keysInUploadedDataset]);
-  // console.log(datapointCategory);
-  console.log(isFetchedData);
+  console.log(datapointCategory, "datapointCategory");
   return (
     <div className="mt-20">
       <Typography
