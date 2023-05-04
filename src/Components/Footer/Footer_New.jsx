@@ -67,7 +67,6 @@ const FooterNew = () => {
   }, []);
   return (
     <>
-      <Divider className="mt-50" />
       <Box sx={containerStyle}>
         <div className="logo_container text-left">
           <img

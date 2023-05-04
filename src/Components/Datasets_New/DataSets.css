@@ -66,7 +66,7 @@
 
 .filter {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     margin-top: 50px;
     margin-bottom: 6px;
 }
@@ -305,6 +305,20 @@
 @media only screen and (min-width: 600px) and (max-width: 900px) {
     .datasets_card {
         grid-template-columns: repeat(2, 1fr);
+        grid-gap: 22px;
+    }
+}
+
+@media only screen and (min-width: 900px) and (max-width: 1500px) {
+    .datasets_card {
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 22px;
+    }
+}
+
+@media only screen and (min-width: 1500px) {
+    .datasets_card {
+        grid-template-columns: repeat(4, 1fr);
         grid-gap: 22px;
     }
 }
