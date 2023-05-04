@@ -10,6 +10,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
   isLoggedInUserCoSteward,
+  getRoleLocal,
 } from "../../Utils/Common";
 import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -450,8 +451,11 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <NavLink
               to={
-                loginType == "guest" && getUserLocal()
-                  ? "/datahub/dashboard"
+                getRoleLocal() == "datahub_participant_root"
+                  ? "/participant/new_datasets"
+                  : getRoleLocal() == "datahub_admin" ||
+                    getRoleLocal() == "datahub_co_steward"
+                  ? "/datahub/new_datasets"
                   : "/login"
               }
               activeStyle={navActiveStyle}
