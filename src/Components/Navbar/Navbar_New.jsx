@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
@@ -10,9 +10,12 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
   isLoggedInUserCoSteward,
+  getRoleLocal,
 } from "../../Utils/Common";
 import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
+import PopoverNavbar from "./PopoverNavbar";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const navActiveStyle = {
   fontFamily: "Montserrat",
@@ -36,6 +39,15 @@ const navInActiveStyle = {
 const NavbarNew = ({ loginType }) => {
   const history = useHistory();
   const location = useLocation();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : miniLaptop ? "50px" : "144px",
+    marginRight: mobile || tablet ? "30px" : miniLaptop ? "50px" : "144px",
+  };
 
   const [adminData, setAdminData] = useState(null);
   const [isSelected, setIsSelected] = useState("");
@@ -230,6 +242,7 @@ const NavbarNew = ({ loginType }) => {
     }
   };
   const handleSelect = (item) => {
+    console.log("user role on click of login is admin",getRoleLocal() === "datahub_admin")
     setIsSelected(item);
   };
   useEffect(() => {
@@ -237,45 +250,63 @@ const NavbarNew = ({ loginType }) => {
   }, []);
 
   return (
-    <Box
-      className={`d-flex justify-content-between ${style.navbarContainer} ${globalStyle.white_background}`}
-    >
-      <Box
-        className="d-flex justify-content-between w-100"
-        sx={{ marginLeft: "144px", marginRight: "144px" }}
-      >
-        <Box className="d-flex align-items-center">
-          <img
-            // src={require("../../Assets/Img/footer_logo.svg")}
-            style={{ height: "auto", width: "172px", maxHeight: "65px" }}
-            src={
-              UrlConstant.base_url_without_slash + adminData?.organization?.logo
-            }
-            alt="HeaderLogo"
-          />
-        </Box>
-        <Box className="d-flex align-items-center">
-          <NavLink
-            activeStyle={
-              isNavLinkActive("/home") ? navActiveStyle : navInActiveStyle
-            }
-            style={navInActiveStyle}
-            to="/home"
-            onClick={() => handleSelect("home")}
+    <Box sx={{ width: "100vw" }}>
+      {mobile || tablet ? (
+        <PopoverNavbar
+          history={history}
+          loginType={loginType}
+          isNavLinkActive={isNavLinkActive}
+          style={style}
+          imgUrl={
+            UrlConstant.base_url_without_slash + adminData?.organization?.logo
+          }
+          isNavLinkActiveForDot={isNavLinkActiveForDot}
+          isNavLinkActiveForCostewardDot={isNavLinkActiveForCostewardDot}
+          isNavLinkActiveForHome={isNavLinkActiveForHome}
+          handleSelect={handleSelect}
+          handleSignOut={handleSignOut}
+        />
+      ) : (
+        <Box
+          className={`d-flex justify-content-between ${style.navbarContainer} ${globalStyle.white_background}`}
+        >
+          <Box
+            className="d-flex justify-content-between w-100"
+            sx={containerStyle}
           >
-            {isNavLinkActive("/home") ? (
+            <Box className="d-flex align-items-center">
               <img
-                className={style.dotStyle}
-                src={require("../../Assets/Img/green_dot.svg")}
-                alt="dot"
+                // src={require("../../Assets/Img/footer_logo.svg")}
+                style={{ height: "auto", width: "172px", maxHeight: "65px" }}
+                src={
+                  UrlConstant.base_url_without_slash +
+                  adminData?.organization?.logo
+                }
+                alt="HeaderLogo"
               />
-            ) : (
-              <></>
-            )}
-            Home
-          </NavLink>
+            </Box>
+            <Box className="d-flex align-items-center">
+              <NavLink
+                activeStyle={
+                  isNavLinkActive("/home") ? navActiveStyle : navInActiveStyle
+                }
+                style={navInActiveStyle}
+                to="/home"
+                onClick={() => handleSelect("home")}
+              >
+                {isNavLinkActive("/home") ? (
+                  <img
+                    className={style.dotStyle}
+                    src={require("../../Assets/Img/green_dot.svg")}
+                    alt="dot"
+                  />
+                ) : (
+                  <></>
+                )}
+                Home
+              </NavLink>
 
-          {/* {loginType === "admin" ? (
+              {/* {loginType === "admin" ? (
             <NavLink
               activeStyle={navActiveStyle}
               style={navInActiveStyle}
@@ -296,102 +327,102 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )} */}
-          {(loginType === "admin" || loginType === "guest") &&
-          !isLoggedInUserParticipant() ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={
-                isNavLinkActiveForCostewardDot("costeward")
-                  ? navActiveStyle
-                  : navInActiveStyle
-              }
-              to={
-                loginType === "admin"
-                  ? "/datahub/participants"
-                  : loginType === "guest"
-                  ? "/home/participants"
-                  : ""
-              }
-              onClick={() => handleSelect("participants")}
-            >
-              {isNavLinkActiveForDot("participants") ||
-              isNavLinkActiveForCostewardDot("costeward") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
+              {(loginType === "admin" || loginType === "guest") &&
+              !isLoggedInUserParticipant() ? (
+                <NavLink
+                  activeStyle={navActiveStyle}
+                  style={
+                    isNavLinkActiveForCostewardDot("costeward")
+                      ? navActiveStyle
+                      : navInActiveStyle
+                  }
+                  to={
+                    loginType === "admin"
+                      ? "/datahub/participants"
+                      : loginType === "guest"
+                      ? "/home/participants"
+                      : ""
+                  }
+                  onClick={() => handleSelect("participants")}
+                >
+                  {isNavLinkActiveForDot("participants") ||
+                  isNavLinkActiveForCostewardDot("costeward") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Participants
+                </NavLink>
               ) : (
                 <></>
               )}
-              Participants
-            </NavLink>
-          ) : (
-            <></>
-          )}
-          {loginType === "admin" ||
-          loginType === "participant" ||
-          loginType === "guest" ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={
-                isNavLinkActiveForHome("datasets")
-                  ? navActiveStyle
-                  : navInActiveStyle
-              }
-              to={
-                loginType === "admin"
-                  ? "/datahub/new_datasets"
-                  : loginType === "participant"
-                  ? "/participant/new_datasets"
-                  : loginType === "guest"
-                  ? "/home/datasets"
-                  : "/"
-              }
-              onClick={() => handleSelect("datasets")}
-            >
-              {isNavLinkActiveForDot("datasets") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
+              {loginType === "admin" ||
+              loginType === "participant" ||
+              loginType === "guest" ? (
+                <NavLink
+                  activeStyle={navActiveStyle}
+                  style={
+                    isNavLinkActiveForHome("datasets")
+                      ? navActiveStyle
+                      : navInActiveStyle
+                  }
+                  to={
+                    loginType === "admin"
+                      ? "/datahub/new_datasets"
+                      : loginType === "participant"
+                      ? "/participant/new_datasets"
+                      : loginType === "guest"
+                      ? "/home/datasets"
+                      : "/"
+                  }
+                  onClick={() => handleSelect("datasets")}
+                >
+                  {isNavLinkActiveForDot("datasets") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Datasets
+                </NavLink>
               ) : (
                 <></>
               )}
-              Datasets
-            </NavLink>
-          ) : (
-            <></>
-          )}
-          {loginType === "admin" || loginType === "participant" ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={navInActiveStyle}
-              to={
-                loginType === "admin"
-                  ? "/datahub/connectors"
-                  : loginType === "participant"
-                  ? "/participant/connectors"
-                  : ""
-              }
-              onClick={() => handleSelect("connectors")}
-            >
-              {isNavLinkActiveForDot("connectors") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
+              {loginType === "admin" || loginType === "participant" ? (
+                <NavLink
+                  activeStyle={navActiveStyle}
+                  style={navInActiveStyle}
+                  to={
+                    loginType === "admin"
+                      ? "/datahub/connectors"
+                      : loginType === "participant"
+                      ? "/participant/connectors"
+                      : ""
+                  }
+                  onClick={() => handleSelect("connectors")}
+                >
+                  {isNavLinkActiveForDot("connectors") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Connectors
+                </NavLink>
               ) : (
                 <></>
               )}
-              Connectors
-            </NavLink>
-          ) : (
-            <></>
-          )}
-          {/* {loginType === "admin" ? (
+              {/* {loginType === "admin" ? (
             <NavLink
               activeStyle={navActiveStyle}
               style={navInActiveStyle}
@@ -412,111 +443,111 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <></>
           )} */}
-          {loginType === "admin" || loginType === "participant" ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={navInActiveStyle}
-              to={
-                loginType === "admin"
-                  ? "/datahub/settings/1"
-                  : loginType === "participant"
-                  ? "/participant/settings/1"
-                  : ""
-              }
-              onClick={() => handleSelect("settings")}
-            >
-              {isNavLinkActive(
-                loginType === "admin"
-                  ? "/datahub/settings/1"
-                  : loginType === "participant"
-                  ? "/participant/settings/1"
-                  : ""
-              ) ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
+              {loginType === "admin" || loginType === "participant" ? (
+                <NavLink
+                  activeStyle={navActiveStyle}
+                  style={navInActiveStyle}
+                  to={
+                    loginType === "admin"
+                      ? "/datahub/settings/1"
+                      : loginType === "participant"
+                      ? "/participant/settings/1"
+                      : ""
+                  }
+                  onClick={() => handleSelect("settings")}
+                >
+                  {isNavLinkActive(
+                    loginType === "admin"
+                      ? "/datahub/settings/1"
+                      : loginType === "participant"
+                      ? "/participant/settings/1"
+                      : ""
+                  ) ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Settings
+                </NavLink>
               ) : (
                 <></>
               )}
-              Settings
-            </NavLink>
-          ) : (
-            <></>
-          )}
-          {getUserLocal() && loginType !== "guest" ? (
-            <></>
-          ) : (
-            <NavLink
-              to={
-                loginType == "guest" && getUserLocal()
-                  ? "/datahub/dashboard"
-                  : "/login"
-              }
-              activeStyle={navActiveStyle}
-              style={navInActiveStyle}
-              onClick={() => handleSelect("login")}
-            >
-              {isNavLinkActive("/login") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
-              ) : (
+              {getUserLocal() && loginType !== "guest" ? (
                 <></>
+              ) : (
+                <NavLink
+                  to={
+                    "/login"
+                  }
+                  activeStyle={navActiveStyle}
+                  style={navInActiveStyle}
+                  onClick={() => handleSelect("login")}
+                >
+                  {isNavLinkActive("/login") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Login
+                </NavLink>
               )}
-              Login
-            </NavLink>
-          )}
-          <Box>
-            {getUserLocal() && loginType !== "guest" ? (
-              <Button
-                sx={{
-                  fontFamily: "Montserrat !important",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  width: "94px",
-                  height: "34px",
-                  background: "#00AB55",
-                  borderRadius: "8px",
-                  textTransform: "none",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#00AB55",
-                    color: "#fffff",
-                  },
-                }}
-                onClick={(e) => handleSignOut(e)}
-              >
-                Signout
-              </Button>
-            ) : (
-              <Button
-                sx={{
-                  fontFamily: "Montserrat !important",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  width: "94px",
-                  height: "34px",
-                  background: "#00AB55",
-                  borderRadius: "8px",
-                  textTransform: "none",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#00AB55",
-                    color: "#fffff",
-                  },
-                }}
-                onClick={() => history.push("/home/register")}
-              >
-                Register
-              </Button>
-            )}
+              <Box>
+                {getUserLocal() && loginType !== "guest" ? (
+                  <Button
+                    sx={{
+                      fontFamily: "Montserrat !important",
+                      fontWeight: 700,
+                      fontSize: "14px",
+                      width: "94px",
+                      height: "34px",
+                      background: "#00AB55",
+                      borderRadius: "8px",
+                      textTransform: "none",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "#00AB55",
+                        color: "#fffff",
+                      },
+                    }}
+                    onClick={(e) => handleSignOut(e)}
+                  >
+                    Signout
+                  </Button>
+                ) : (
+                  <Button
+                    sx={{
+                      fontFamily: "Montserrat !important",
+                      fontWeight: 700,
+                      fontSize: "14px",
+                      width: "94px",
+                      height: "34px",
+                      background: "#00AB55",
+                      borderRadius: "8px",
+                      textTransform: "none",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "#00AB55",
+                        color: "#fffff",
+                      },
+                    }}
+                    onClick={() => history.push("/home/register")}
+                  >
+                    Register
+                  </Button>
+                )}
+              </Box>
+            </Box>
           </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };
