@@ -73,7 +73,7 @@
 
 .filter_md {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     margin-top: 50px;
     margin-bottom: 6px;
 }
@@ -97,7 +97,7 @@
 
 .filter_text_md {
     display: flex;
-    margin-left: 12.34px;
+    margin-left: 5.34px;
     cursor: pointer;
 }
 

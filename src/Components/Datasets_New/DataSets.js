@@ -744,7 +744,7 @@ const DataSets = (props) => {
             </Box>
             <Box
               className={`d-flex ${
-                mobile || tablet ? "justify-content-end" : ""
+                mobile || tablet ? "justify-content-center" : ""
               }`}
             >
               <div
@@ -758,6 +758,7 @@ const DataSets = (props) => {
                 <img
                   src={require("../../Assets/Img/geography_new.svg")}
                   alt="geography"
+                  style={mobile ? { height: "12px" } : {}}
                 />
                 <span
                   className={`${
@@ -785,6 +786,7 @@ const DataSets = (props) => {
                 <img
                   src={require("../../Assets/Img/crop_new.svg")}
                   alt="crop"
+                  style={mobile ? { height: "12px" } : {}}
                 />
                 <span
                   className={`${
@@ -812,6 +814,7 @@ const DataSets = (props) => {
                 <img
                   src={require("../../Assets/Img/by_date.svg")}
                   alt="by date"
+                  style={mobile ? { height: "12px" } : {}}
                 />
                 <span
                   className={`${

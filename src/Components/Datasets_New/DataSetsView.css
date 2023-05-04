@@ -22,6 +22,14 @@
     color: #000000 !important;
 }
 
+.view_datasets_bold_text_sm {
+    font-family: 'Montserrat' !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    line-height: 24px !important;
+    color: #000000 !important;
+}
+
 .ml-134 {
     margin-left: 134px !important;
 }

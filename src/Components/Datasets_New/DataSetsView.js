@@ -593,7 +593,13 @@ const DataSetsView = (props) => {
                 <Typography className="view_datasets_light_text">
                   Organisation address
                 </Typography>
-                <Typography className="view_datasets_bold_text">
+                <Typography
+                  className={
+                    mobile
+                      ? "view_datasets_bold_text_sm"
+                      : "view_datasets_bold_text"
+                  }
+                >
                   {orgAddress}
                 </Typography>
               </div>
@@ -601,10 +607,22 @@ const DataSetsView = (props) => {
                 <Typography className="view_datasets_light_text">
                   Root user details
                 </Typography>
-                <Typography className="view_datasets_bold_text">
+                <Typography
+                  className={
+                    mobile
+                      ? "view_datasets_bold_text_sm"
+                      : "view_datasets_bold_text"
+                  }
+                >
                   {userDetails?.first_name + " " + userDetails?.last_name}
                 </Typography>
-                <Typography className="view_datasets_bold_text">
+                <Typography
+                  className={
+                    mobile
+                      ? "view_datasets_bold_text_sm"
+                      : "view_datasets_bold_text"
+                  }
+                >
                   {userDetails?.email}
                 </Typography>
               </div>
