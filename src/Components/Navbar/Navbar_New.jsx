@@ -231,6 +231,7 @@ const NavbarNew = ({ loginType }) => {
     }
   };
   const handleSelect = (item) => {
+    console.log("user role on click of login is admin",getRoleLocal() === "datahub_admin")
     setIsSelected(item);
   };
   useEffect(() => {
@@ -451,12 +452,13 @@ const NavbarNew = ({ loginType }) => {
           ) : (
             <NavLink
               to={
-                getRoleLocal() == "datahub_participant_root"
-                  ? "/participant/new_datasets"
-                  : getRoleLocal() === "datahub_admin" ||
-                    getRoleLocal() == "datahub_co_steward"
-                  ? "/datahub/new_datasets"
-                  : "/login"
+                // getRoleLocal() == "datahub_participant_root"
+                //   ? "/participant/new_datasets"
+                //   : getRoleLocal() === "datahub_admin" ||
+                //     getRoleLocal() == "datahub_co_steward"
+                //   ? "/datahub/new_datasets"
+                //   : 
+                  "/login"
               }
               activeStyle={navActiveStyle}
               style={navInActiveStyle}
