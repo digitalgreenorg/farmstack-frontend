@@ -105,11 +105,12 @@ function Datahub(props) {
         }
         let role = roleId[response?.data?.role_id];
         let localRole = getRoleLocal();
+        // if (localRole != role) {
+        //   history.push("/login");
+        //   return;
+        // }
         setRoleLocal(role);
         setVerifyLocalData(true);
-        if (localRole != role) {
-          // reRender(render + 1);
-        }
         // console.log(
         //   "response to verify local data role in datahub",
         //   getRoleLocal(),

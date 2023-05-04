@@ -83,8 +83,10 @@ function Participant(props) {
           return;
         }
         let role = roleId[response?.data?.role_id];
-        // if (getRoleLocal() != role) {
-        //   reRender(render + 1);
+        let localRole = getRoleLocal();
+        // if (localRole != role) {
+        //   history.push("/login");
+        //   return;
         // }
         setRoleLocal(role);
         setVerifyLocalData(true);
