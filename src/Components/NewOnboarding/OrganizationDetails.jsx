@@ -56,6 +56,49 @@ const OrganizationDetails = (props) => {
     organisation_description_error: "",
     organisation_logo_error_logo: "",
   });
+
+  const clearErrors = (name) => {
+    let Message = "";
+    console.log(name, Message);
+    switch (name) {
+      case "organisation_mail_id":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_mail_id_error: Message,
+        });
+        break;
+      case "organisation_website_link":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_website_link_error: Message,
+        });
+        break;
+      case "organisation_address":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_address_error: Message,
+        });
+        break;
+      case "organisation_contact_number":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_contact_number_error: Message,
+        });
+        break;
+      case "organisation_description":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_description_error: Message,
+        });
+        break;
+      case "organisation_name":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_name_error: Message,
+        });
+        break;
+    }
+  };
   const [uploadedLogo, setUploadedLogo] = useState(null);
 
   const setOnBoardedTrue = () => {
@@ -89,7 +132,7 @@ const OrganizationDetails = (props) => {
       });
   };
   const handleOrgChange = (e, countryData) => {
-    console.log(e.target);
+    clearErrors(e.target.name);
     if (e.target) {
       setOrganisationDetails({
         ...organisationDetails,
@@ -125,7 +168,7 @@ const OrganizationDetails = (props) => {
 
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
-    console.log(uploadedLogo);
+    console.log(uploadedLogo, "inside useEffect");
     if (!uploadedLogo) {
       setPreview(null);
       return;
@@ -210,49 +253,45 @@ const OrganizationDetails = (props) => {
         var errorKeys = returnValues[0];
         var errorMessages = returnValues[1];
         if (errorKeys.length > 0) {
+          let errorObj = {};
+          let keyValueOfErrorAndName = {
+            org_email: "organisation_mail_id_error",
+            website: "organisation_website_link_error",
+            address: "organisation_address_error",
+            phone_number: "organisation_contact_number_error",
+            org_description: "organisation_description_error",
+            name: "organisation_name_error",
+            logo: "organisation_logo_error_logo",
+          };
           for (var i = 0; i < errorKeys.length; i++) {
             switch (errorKeys[i]) {
               case "org_email":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_mail_id_error: errorMessages[i],
-                });
+                errorObj["organisation_mail_id_error"] = errorMessages[i];
+
                 break;
               case "website":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_website_link_error: errorMessages[i],
-                });
+                errorObj["organisation_website_link_error"] = errorMessages[i];
+
                 break;
               case "address":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_address_error: errorMessages[i],
-                });
+                errorObj["organisation_address_error"] = errorMessages[i];
+
                 break;
               case "phone_number":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_contact_number_error: errorMessages[i],
-                });
+                errorObj["organisation_contact_number_error"] =
+                  errorMessages[i];
+
                 break;
               case "org_description":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_description_error: errorMessages[i],
-                });
+                errorObj["organisation_description_error"] = errorMessages[i];
+
                 break;
               case "name":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_name_error: errorMessages[i],
-                });
+                errorObj["organisation_name_error"] = errorMessages[i];
+
                 break;
               case "logo":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_logo_error_logo: errorMessages[i],
-                });
+                errorObj["organisation_logo_error_logo"] = errorMessages[i];
                 break;
               default:
                 let error = await GetErrorHandlingRoute(e);
@@ -263,6 +302,7 @@ const OrganizationDetails = (props) => {
                 break;
             }
           }
+          setOrganisationDetailsError(errorObj);
         } else {
           let error = await GetErrorHandlingRoute(e);
           if (error) {
@@ -272,6 +312,11 @@ const OrganizationDetails = (props) => {
         }
       });
   };
+
+  console.log(
+    "organisation_logo_error_logo",
+    organisationDetailsError.organisation_logo_error_logo
+  );
   const getOrganizationData = () => {
     callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
@@ -313,7 +358,7 @@ const OrganizationDetails = (props) => {
         }
       });
   };
-  console.log(preview, uploadedLogo);
+  // console.log(preview, uploadedLogo);
 
   useEffect(() => {
     getOrganizationData();
@@ -562,7 +607,6 @@ const OrganizationDetails = (props) => {
               >
                 {preview && "Uploaded file"}
               </div>
-              {console.log(preview)}
               {preview && (
                 <div className={styles.text_left + " " + styles.preview_box}>
                   {preview && (
