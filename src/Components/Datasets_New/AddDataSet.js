@@ -125,6 +125,7 @@ const AddDataSet = (props) => {
             setIsDatasetCreated(true);
           }
           setValue(value + 1);
+          getDatasetForEdit(res?.data?.id, "idCreated");
         })
         .catch(async (err) => {
           callLoader(false);
@@ -188,7 +189,6 @@ const AddDataSet = (props) => {
         return true;
       }
     } else if (value === 1) {
-      console.log(uploadedFiles, sqlFiles, postgresFiles, restApifiles);
       if (
         uploadedFiles?.length ||
         sqlFiles?.length ||
@@ -282,8 +282,8 @@ const AddDataSet = (props) => {
       });
   };
 
-  const getDatasetForEdit = (dId) => {
-    if (props.datasetIdForEdit) {
+  const getDatasetForEdit = (dId, idCreated) => {
+    if (props.datasetIdForEdit || idCreated) {
       (() => {
         let accessToken = getTokenLocal() ?? false;
         let url =

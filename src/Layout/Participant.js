@@ -56,6 +56,8 @@ import UrlConstant from "../Constants/UrlConstants";
 
 function Participant(props) {
   const [render, reRender] = useState(0);
+  const [verifyLocalData, setVerifyLocalData] = useState(false);
+
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
   let roleId = {
@@ -81,10 +83,11 @@ function Participant(props) {
           return;
         }
         let role = roleId[response?.data?.role_id];
-        if (getRoleLocal() != role) {
-          reRender(render + 1);
-        }
+        // if (getRoleLocal() != role) {
+        //   reRender(render + 1);
+        // }
         setRoleLocal(role);
+        setVerifyLocalData(true);
         console.log(
           "response to verify local data role in datahub",
           getRoleLocal(),
@@ -109,7 +112,7 @@ function Participant(props) {
   useEffect(() => {
     verifyUserDataOfLocal();
   }, []);
-  return (
+  return verifyLocalData ? (
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
@@ -255,6 +258,8 @@ function Participant(props) {
         props.history.push("/login")
       )}
     </>
+  ) : (
+    <></>
   );
 }
 export default Participant;

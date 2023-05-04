@@ -78,6 +78,7 @@ function Datahub(props) {
   // useEffect(() => {
   // }, []);
   const [render, reRender] = useState(0);
+  const [verifyLocalData, setVerifyLocalData] = useState(false);
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
   let roleId = {
@@ -105,14 +106,15 @@ function Datahub(props) {
         let role = roleId[response?.data?.role_id];
         let localRole = getRoleLocal();
         setRoleLocal(role);
+        setVerifyLocalData(true);
         if (localRole != role) {
-          reRender(render + 1);
+          // reRender(render + 1);
         }
-        console.log(
-          "response to verify local data role in datahub",
-          getRoleLocal(),
-          isLoggedInUserAdmin()
-        );
+        // console.log(
+        //   "response to verify local data role in datahub",
+        //   getRoleLocal(),
+        //   isLoggedInUserAdmin()
+        // );
       })
       .catch(async (e) => {
         console.log("error to verify local data", e);
@@ -133,7 +135,7 @@ function Datahub(props) {
     verifyUserDataOfLocal();
   }, []);
 
-  return (
+  return verifyLocalData ? (
     <>
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
@@ -331,6 +333,8 @@ function Datahub(props) {
         props.history.push("/login")
       )}
     </>
+  ) : (
+    <></>
   );
 }
 export default Datahub;
