@@ -1,4 +1,12 @@
-import { Box, Button, Card, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import moment from "moment";
@@ -17,6 +25,15 @@ const FilterDate = ({
   handleClickAway,
   setUpdate,
 }) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+
+  const containerStyle = {
+    marginLeft: mobile || tablet || miniLaptop ? "0px" : "144px",
+    marginRight: mobile || tablet || miniLaptop ? "0px" : "144px",
+  };
   const [fromDateError, setFromDateError] = useState(false);
   const [toDateError, setToDateError] = useState(false);
 
@@ -68,7 +85,7 @@ const FilterDate = ({
   console.log(fromDate, "fromDate", toDate);
   return (
     // <ClickAwayListener onClickAway={handleClickAway}>
-    <div style={{ marginLeft: "144px", marginRight: "144px" }}>
+    <div style={containerStyle}>
       <Card
         sx={{
           boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -77,11 +94,15 @@ const FilterDate = ({
       >
         <Box className="pt-20">
           <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "20px",
-            }}
+            sx={
+              mobile
+                ? { marginTop: "20px" }
+                : {
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "20px",
+                  }
+            }
           >
             <div>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -109,7 +130,7 @@ const FilterDate = ({
                       id="filled-basic"
                       variant="outlined"
                       sx={{
-                        width: "468px",
+                        width: mobile ? "250px" : "468px",
                         svg: { color: "#00AB55" },
                         "& .MuiInputBase-input": {
                           height: "36px",
@@ -149,7 +170,12 @@ const FilterDate = ({
               </LocalizationProvider>
             </div>
 
-            <div style={{ marginLeft: "24px" }}>
+            <div
+              style={{
+                marginLeft: mobile ? "0px" : "24px",
+                marginTop: mobile ? "20px" : "0px",
+              }}
+            >
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   key={toDate}
@@ -175,10 +201,10 @@ const FilterDate = ({
                       id="filled-basic"
                       variant="outlined"
                       sx={{
-                        width: "468px",
+                        width: mobile ? "250px" : "468px",
                         svg: { color: "#00AB55" },
                         "& .MuiInputBase-input": {
-                          height: "36px",
+                          height: mobile ? "30px" : "36px",
                         },
                         "& .MuiOutlinedInput-root": {
                           "& fieldset": {
@@ -215,7 +241,11 @@ const FilterDate = ({
               </LocalizationProvider>
             </div>
           </Box>
-          <Box className="text-right mt-20 mb-20 mr-20">
+          <Box
+            className={`mt-20 mb-20 ${
+              mobile ? "text-center" : "text-right mr-20"
+            }`}
+          >
             <Button
               sx={{
                 fontFamily: "Montserrat",
@@ -224,7 +254,7 @@ const FilterDate = ({
                 border: "1px solid rgba(0, 171, 85, 0.48)",
                 color: "#00AB55",
                 width: "86px",
-                height: "36px",
+                height: mobile ? "30px" : "36px",
                 borderRadius: "8px",
                 textTransform: "none",
                 marginRight: "30px",

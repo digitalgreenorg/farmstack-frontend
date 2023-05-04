@@ -16,7 +16,8 @@ body {
 
 .center_keeping_conatiner {
   /* border: 1px solid red; */
-  width: 1440px;
+  width: 100vw;
+  height: 100vh;
   /* margin-left: 2 */
   margin: 0 auto;
 }
@@ -1177,6 +1178,32 @@ textarea {
 .input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
+}
+
+.input_field_subscribe_sm {
+  border-radius: 8px !important;
+  width: 327px !important;
+  height: 30px !important;
+}
+
+.input_field_subscribe_sm .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+  padding-right: 0px !important;
+  border-radius: 8px !important;
+  height: 30px !important;
+  width: 327px !important;
+}
+
+.input_field_subscribe_md {
+  border-radius: 8px !important;
+  width: 273px !important;
+  height: 30px !important;
+}
+
+.input_field_subscribe_md .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+  padding-right: 0px !important;
+  border-radius: 8px !important;
+  height: 32px !important;
+  width: 273px !important;
 }
 
 /* .input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {

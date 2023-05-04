@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import React, { useContext } from "react";
 import { downloadDocument, getTokenLocal, download } from "../../Utils/Common";
 import File from "./TabComponents/File";
@@ -22,6 +22,11 @@ const FileWithAction = ({
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+
   const handleDownload = () => {
     let accessToken = getTokenLocal() ?? false;
     let url = UrlConstant.base_url + UrlConstant.download_file + id;
@@ -166,7 +171,11 @@ const FileWithAction = ({
     }
   };
   return (
-    <Box className="d-flex justify-content-between w-100">
+    <Box
+      className={
+        mobile || tablet ? "w-100" : "d-flex justify-content-between w-100"
+      }
+    >
       <Box className="d-flex align-items-center">
         <File
           index={index}
@@ -194,7 +203,10 @@ const FileWithAction = ({
         )}
       </Box>
 
-      <Box className="d-flex align-items-center">
+      <Box
+        className="d-flex align-items-center"
+        sx={{ marginTop: mobile ? "15px" : "" }}
+      >
         {/* <div className="type_dataset">{fileType}</div> */}
         <Tag
           className="d-flex align-items-center justify-content-center"
@@ -213,8 +225,8 @@ const FileWithAction = ({
           sx={{
             fontFamily: "Montserrat",
             fontWeight: 700,
-            fontSize: "15px",
-            width: "220px",
+            fontSize: mobile ? "11px" : "15px",
+            width: mobile ? "195px" : "220px",
             height: "48px",
             border: "1px solid rgba(0, 171, 85, 0.48)",
             borderRadius: "8px",
