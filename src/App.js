@@ -37,6 +37,14 @@ import NewError from "./Components/Error/NewError";
 import GuestUserContactNew from "./Views/GuestUser/GuestUserContactNew";
 import UrlConstant from "./Constants/UrlConstants";
 import HTTPService from "./Services/HTTPService";
+import {
+  getUserLocal,
+  flushLocalstorage,
+  setUserId,
+  setRoleLocal,
+  getRoleLocal,
+  isLoggedInUserAdmin,
+} from "./Utils/Common";
 function App() {
   const { isLoading, toastDetail, setAdminData } = useContext(FarmStackContext);
   function getAdminData() {
@@ -52,7 +60,41 @@ function App() {
         console.log("error");
       });
   }
+
+  let roleId = {
+    1: "datahub_admin",
+    3: "datahub_participant_root",
+    6: "datahub_co_steward",
+  };
+
+  const verifyUserDataOfLocal = () => {
+    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
+    let userId = getUserLocal();
+    if (!userId) {
+      flushLocalstorage();
+      return;
+    }
+    let params = { user_id: userId };
+    HTTPService("GET", url, params, false, false, false)
+      .then((response) => {
+        console.log("response to verify local data", response);
+        if (!response?.data?.on_boarded) {
+          flushLocalstorage();
+          return;
+        }
+        setRoleLocal(roleId[response?.data?.role_id]);
+        console.log(
+          "response to verify local data role",
+          getRoleLocal(),
+          isLoggedInUserAdmin()
+        );
+      })
+      .catch((err) => {
+        console.log("error to verify local data", err);
+      });
+  };
   useEffect(() => {
+    // verifyUserDataOfLocal();
     getAdminData();
   }, []);
   return (

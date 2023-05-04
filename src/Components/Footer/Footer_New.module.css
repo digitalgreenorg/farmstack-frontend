@@ -5,6 +5,11 @@
   margin-top: 50px;
 }
 
+.footerContentMd {
+  width: 100%;
+  margin-top: 50px;
+}
+
 .footerTitle {
   font-family: "Montserrat";
   font-weight: 600;
@@ -21,6 +26,7 @@
   color: #000000;
   /* cursor: pointer; */
 }
+
 .footerLightText {
   font-family: "Montserrat";
   font-weight: 400;
@@ -60,6 +66,18 @@
 
 .quickLinks:hover {
   color: #00ab55;
+}
+
+.ml63 {
+  margin-left: 63px;
+}
+
+.ml50 {
+  margin-left: 50px;
+}
+
+.w268 {
+  width: 268px;
 }
 
 @media only screen and (min-width: 600px) and (max-width: 900px) {
