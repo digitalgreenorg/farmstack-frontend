@@ -10,6 +10,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserParticipant,
   isLoggedInUserCoSteward,
+  getRoleLocal,
 } from "../../Utils/Common";
 import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -241,6 +242,7 @@ const NavbarNew = ({ loginType }) => {
     }
   };
   const handleSelect = (item) => {
+    console.log("user role on click of login is admin",getRoleLocal() === "datahub_admin")
     setIsSelected(item);
   };
   useEffect(() => {
@@ -479,9 +481,7 @@ const NavbarNew = ({ loginType }) => {
               ) : (
                 <NavLink
                   to={
-                    loginType == "guest" && getUserLocal()
-                      ? "/datahub/dashboard"
-                      : "/login"
+                    "/login"
                   }
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
