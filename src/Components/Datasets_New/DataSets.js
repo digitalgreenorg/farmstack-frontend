@@ -6,6 +6,7 @@ import {
   InputAdornment,
   TextField,
 } from "@mui/material";
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { useHistory } from "react-router-dom";
 import {
   GetErrorHandlingRoute,
@@ -31,6 +32,7 @@ import EmptyFile from "./TabComponents/EmptyFile";
 import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
 import FilterDate from "../Filter/FilterDate";
 import useDebounce from "../../hooks/useDebounce";
+import moment from "moment";
 
 const cardSx = {
   maxWidth: 368,
@@ -64,6 +66,8 @@ const DataSets = (props) => {
   const [memberDatasetUrl, setMemberDatasetUrl] = useState(
     UrlConstant.base_url + UrlConstant.dataset_participant_list
   );
+
+  const [updater, setUpdate] = useState(0);
 
   // TabIndex
   const [value, setValue] = useState(0);
@@ -364,6 +368,7 @@ const DataSets = (props) => {
   };
 
   const handleCheckBox = (keyName, value) => {
+    setUpdate((prev) => prev + 1);
     let tempCategories = { ...categorises };
     let tempJson = Object.keys(categorises);
     if (tempJson.includes(keyName)) {
@@ -407,11 +412,17 @@ const DataSets = (props) => {
           if (keys.length) {
             let tCategory = categorises?.[keys];
             prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
+              console.log(
+                tCategory?.includes(res),
+                tCategory,
+                res,
+                "tCategory?.includes(res)"
+              );
               return (
                 <CheckBoxWithText
                   key={ind}
                   text={res}
-                  checked={tCategory?.includes(res)}
+                  checked={tCategory?.includes(res) ? true : false}
                   categoryKeyName={keys[0]}
                   keyName={res}
                   handleCheckBox={handleCheckBox}
@@ -435,6 +446,8 @@ const DataSets = (props) => {
   };
 
   const getAllGeoGraphies = () => {
+    setStates([]);
+    setCities([]);
     setCountries(Country.getAllCountries());
     if (geography?.country) {
       setStates(State?.getStatesOfCountry(geography?.country?.isoCode));
@@ -447,6 +460,12 @@ const DataSets = (props) => {
         )
       );
     }
+  };
+
+  const handleClickAway = (e) => {
+    console.log("tri");
+    // e.stopPropagation();
+    setShowFilter(false);
   };
 
   const callApply = (isLoadMore) => {
@@ -539,6 +558,58 @@ const DataSets = (props) => {
       });
   };
 
+  const handleFromDate = (value) => {
+    console.log("handleFromDate");
+    let currentDate = new Date();
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+    if (
+      moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
+      moment(value).isSameOrBefore(currentDate)
+    ) {
+      let tempDates = [...dates];
+      tempDates[0].fromDate = value;
+      setDates(tempDates);
+      setFromDate(value);
+      // setUpdate((prev) => prev + 1);
+      // setFromDateError(false);
+    } else {
+      // setFromDateError(true);
+      console.log("inside from date");
+      let tempDates = [...dates];
+      tempDates[0].fromDate = null;
+      setDates(tempDates);
+      // setUpdate((prev) => prev + 1);
+      handleToDate("");
+      setFromDate("");
+    }
+    // setUpdate((prev) => prev + 1);
+  };
+
+  const handleToDate = (value) => {
+    console.log("called", dates);
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+    if (
+      moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
+      moment(value).isSameOrAfter(fromDate) &&
+      moment(value).isSameOrBefore(new Date())
+    ) {
+      let tempDates = [...dates];
+      tempDates[0].toDate = value;
+      setDates(tempDates);
+      setToDate(value);
+      // setUpdate((prev) => prev + 1);
+      // setToDateError(false);
+    } else {
+      let tempDates = [...dates];
+      console.log(tempDates, "tempDates");
+      tempDates[0].toDate = null;
+      setDates(tempDates);
+      // setUpdate((prev) => prev + 1);
+      // setToDateError(true);
+      setToDate("");
+    }
+  };
+
   useEffect(() => {
     if (user === "guest") {
       getDataSets(false);
@@ -556,11 +627,17 @@ const DataSets = (props) => {
   }, [debouncedSearchValue]);
   useEffect(() => {
     getAllGeoGraphies();
+    console.log("called useEffect");
   }, [geography, type]);
 
   useEffect(() => {
     getAllCategoryAndSubCategory();
   }, [categorises, type]);
+
+  useEffect(() => {
+    console.log("Updator");
+    callApply();
+  }, [updater]);
 
   return (
     <>
@@ -606,134 +683,159 @@ const DataSets = (props) => {
             ),
           }}
         />
-        <div className="filter">
-          <div
-            className={
-              showFilter && type === "geography"
-                ? "d-flex align-items-center filter_text_container_active"
-                : "d-flex align-items-center filter_text_container"
-            }
-            onClick={() => handleFilterClick("geography")}
-          >
-            <img
-              src={require("../../Assets/Img/geography_new.svg")}
-              alt="geography"
-            />
-            <span className="filter_text">
-              Geography <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
-            </span>
-          </div>
+        {/* <ClickAwayListener onClickAway={handleClickAway}> */}
+        <div>
+          <div className="filter">
+            <div
+              className={
+                showFilter && type === "geography"
+                  ? "d-flex align-items-center filter_text_container_active"
+                  : "d-flex align-items-center filter_text_container"
+              }
+              onClick={() => handleFilterClick("geography")}
+            >
+              <img
+                src={require("../../Assets/Img/geography_new.svg")}
+                alt="geography"
+              />
+              <span className="filter_text">
+                Geography <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+              </span>
+            </div>
 
-          <div
-            className={
-              showFilter && type === "categories"
-                ? "d-flex align-items-center filter_text_container_active"
-                : "d-flex align-items-center filter_text_container"
-            }
-            onClick={() => handleFilterClick("categories")}
-          >
-            <img src={require("../../Assets/Img/crop_new.svg")} alt="crop" />
-            <span className="filter_text">
-              Categories <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
-            </span>
-          </div>
+            <div
+              className={
+                showFilter && type === "categories"
+                  ? "d-flex align-items-center filter_text_container_active"
+                  : "d-flex align-items-center filter_text_container"
+              }
+              onClick={() => handleFilterClick("categories")}
+            >
+              <img src={require("../../Assets/Img/crop_new.svg")} alt="crop" />
+              <span className="filter_text">
+                Categories <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+              </span>
+            </div>
 
-          <div
-            className={
-              showFilter && type === "date"
-                ? "d-flex align-items-center filter_text_container_active"
-                : "d-flex align-items-center filter_text_container"
-            }
-            onClick={() => handleFilterClick("date")}
-          >
-            <img src={require("../../Assets/Img/by_date.svg")} alt="by date" />
-            <span className="filter_text">
-              By Date <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
-            </span>
+            <div
+              className={
+                showFilter && type === "date"
+                  ? "d-flex align-items-center filter_text_container_active"
+                  : "d-flex align-items-center filter_text_container"
+              }
+              onClick={() => handleFilterClick("date")}
+            >
+              <img
+                src={require("../../Assets/Img/by_date.svg")}
+                alt="by date"
+              />
+              <span className="filter_text">
+                By Date <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+              </span>
+            </div>
+            <div
+              className="d-flex align-items-center filter_text_container"
+              onClick={() => {
+                setType("");
+                setCategorises([]);
+                setGeographies([]);
+                setDates([{ fromDate: null, toDate: null }]);
+                setFromDate("");
+                setToDate("");
+                setSearchDatasetsName("");
+                clearFilter();
+                setFilterState({});
+              }}
+            >
+              <img
+                src={require("../../Assets/Img/clear_all.svg")}
+                alt="clear all"
+              />
+              <span className="filter_text">Clear all</span>
+            </div>
           </div>
-          <div
-            className="d-flex align-items-center filter_text_container"
-            onClick={() => {
-              setType("");
-              setCategorises([]);
-              setGeographies([]);
-              setDates([{ fromDate: null, toDate: null }]);
-              setFromDate("");
-              setToDate("");
-              setSearchDatasetsName("");
-              clearFilter();
-              setFilterState({});
-            }}
-          >
-            <img
-              src={require("../../Assets/Img/clear_all.svg")}
-              alt="clear all"
-            />
-            <span className="filter_text">Clear all</span>
-          </div>
-        </div>
-        {showFilter ? (
-          type === "geography" ? (
-            <Filter
-              type={type}
-              dataType={"component"}
-              geography={geography}
-              setGeography={setGeography}
-              geographies={geographies}
-              setGeographies={setGeographies}
-              countries={countries}
-              states={states}
-              cities={cities}
-              showFilter={showFilter}
-              setShowFilter={setShowFilter}
-              callApply={callApply}
-            />
-          ) : type === "categories" ? (
-            <Filter
-              type={type}
-              dataType={"list"}
-              content={allCategories}
-              showFilter={showFilter}
-              setShowFilter={setShowFilter}
-              callApply={callApply}
-            />
+          {/* <div style={{ border: "1px solid" }}> */}
+          {showFilter ? (
+            type === "geography" ? (
+              <Filter
+                setUpdate={setUpdate}
+                handleClickAway={handleClickAway}
+                type={type}
+                dataType={"component"}
+                geography={geography}
+                setGeography={setGeography}
+                geographies={geographies}
+                setGeographies={setGeographies}
+                countries={countries}
+                states={states}
+                cities={cities}
+                showFilter={showFilter}
+                setShowFilter={setShowFilter}
+                callApply={callApply}
+              />
+            ) : type === "categories" ? (
+              <Filter
+                setUpdate={setUpdate}
+                handleClickAway={handleClickAway}
+                categorises={categorises}
+                type={type}
+                dataType={"list"}
+                content={allCategories}
+                showFilter={showFilter}
+                setShowFilter={setShowFilter}
+                callApply={callApply}
+              />
+            ) : (
+              <FilterDate
+                setUpdate={setUpdate}
+                handleClickAway={handleClickAway}
+                type={type}
+                dataType={"date"}
+                fromDate={fromDate}
+                setFromDate={setFromDate}
+                toDate={toDate}
+                setToDate={setToDate}
+                dates={dates}
+                setDates={setDates}
+                showFilter={showFilter}
+                setShowFilter={setShowFilter}
+                callApply={callApply}
+              />
+            )
           ) : (
-            <FilterDate
-              type={type}
-              dataType={"date"}
-              fromDate={fromDate}
-              setFromDate={setFromDate}
-              toDate={toDate}
-              setToDate={setToDate}
-              dates={dates}
-              setDates={setDates}
-              showFilter={showFilter}
-              setShowFilter={setShowFilter}
-              callApply={callApply}
-            />
-          )
-        ) : (
-          <></>
-        )}
+            <></>
+          )}
+        </div>
+
+        {/* </div> */}
+        {/* </ClickAwayListener> */}
+
         {geographies?.length ||
         Object.keys(categorises).length ||
         dates[0]?.fromDate ||
         dates[0]?.toDate ? (
           <ShowFilterChips
+            getAllCategoryAndSubCategory={getAllCategoryAndSubCategory}
             geographies={geographies}
             categorises={categorises}
             dates={dates}
             // date setters
+
+            handleFromDate={handleFromDate}
+            handleToDate={handleToDate}
             setFromDate={setFromDate}
             setToDate={setToDate}
             setDates={setDates}
             //geography setters
+            geography={geography}
             setGeography={setGeography}
             setGeographies={setGeographies}
             //category setters
             setAllCategories={setAllCategories}
             setCategorises={setCategorises}
             handleCheckBox={handleCheckBox}
+            callApply={callApply}
+            setUpdate={setUpdate}
           />
         ) : (
           <></>
