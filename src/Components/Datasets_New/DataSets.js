@@ -158,8 +158,16 @@ const DataSets = (props) => {
     }
     let guestUrl = "";
     if (user == "guest") {
-      guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
-      payload = "";
+      if (!isLoadMore) {
+        guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
+        payload = "";
+      }
+      if (isLoadMore) {
+        guestUrl = datasetUrl;
+      }
+      if (isLoadMore && !datasetUrl) {
+        return;
+      }
     }
     // console.log(user, "user inside the microste");
     let accessToken = user !== "guest" ? getTokenLocal() : false;
