@@ -228,8 +228,8 @@ const AddDataSet = (props) => {
       geography: geography,
       constantly_update: isUpdating,
       data_capture_start:
-        !isUpdating && fromDate ? fromDate.toISOString() : null,
-      data_capture_end: !isUpdating && toDate ? toDate.toISOString() : null,
+        !isUpdating && fromDate ? fromDate : null,
+      data_capture_end: !isUpdating && toDate ? toDate : null,
     };
     let url = "";
     let method = "";

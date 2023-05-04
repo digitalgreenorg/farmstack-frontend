@@ -906,7 +906,6 @@ const CompanyPolicies = (props) => {
             // console.log(allPolicies, each_policy);
             return (
               <ControlledAccordions
-                key={each_policy}
                 data={each_policy}
                 index={index}
                 heading={each_policy.name}
