@@ -47,6 +47,7 @@ const UrlConstant = {
   datasetview: "datahub/dataset/v2/",
   datasetview_guest: "microsite/datasets/dataset_filters/",
   datasetview__guest: "microsite/datasets/",
+  verify_local_data_of_user: "microsite/microsite_user_data/user_data/",
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
 
