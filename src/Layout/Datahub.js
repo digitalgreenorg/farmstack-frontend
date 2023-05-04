@@ -101,6 +101,7 @@ function Datahub(props) {
         console.log("response to verify local data in datahub", response);
         if (!response?.data?.on_boarded) {
           flushLocalstorage();
+          history.push("/login");
           return;
         }
         let role = roleId[response?.data?.role_id];
