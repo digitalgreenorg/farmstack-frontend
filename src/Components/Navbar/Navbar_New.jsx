@@ -453,7 +453,7 @@ const NavbarNew = ({ loginType }) => {
               to={
                 getRoleLocal() == "datahub_participant_root"
                   ? "/participant/new_datasets"
-                  : getRoleLocal() === "datahub_admin" ||
+                  : getRoleLocal() == "datahub_admin" ||
                     getRoleLocal() == "datahub_co_steward"
                   ? "/datahub/new_datasets"
                   : "/login"
