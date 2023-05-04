@@ -247,6 +247,8 @@ const CompanyPolicies = (props) => {
     const [dataOfFile, setDataOfFile] = useState(data.file);
     const [localKey, setLocalKey] = useState(0);
     const [fileSizeErrorE, setFileSizeErrorE] = useState("");
+    const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
+
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
@@ -284,6 +286,11 @@ const CompanyPolicies = (props) => {
     const handleDescChange = (value) => {
       setEditorpolicyDescValue(value);
       setPolicyDesc(value.toString("html"));
+      if (value.toString("html") !== "<p><br></p>") {
+        setSaveButtonEnabled(true);
+      } else {
+        setSaveButtonEnabled(false);
+      }
     };
     const handleChangePolicyName = (e) => {
       setPolicyNameUnderAccordion(e.target.value);
@@ -498,6 +505,14 @@ const CompanyPolicies = (props) => {
           </Popconfirm>
           {isEditModeOn ? (
             <Button
+              disabled={
+                (uploadedPolicyE ||
+                  dataOfFile ||
+                  (policyDesc && saveButtonEnabled)) &&
+                policyNameUnderAccordion
+                  ? false
+                  : true
+              }
               onClick={(prev) => handleSave()}
               className={global_style.primary_button + " " + styles.edit_button}
             >
@@ -895,6 +910,7 @@ const CompanyPolicies = (props) => {
             // console.log(allPolicies, each_policy);
             return (
               <ControlledAccordions
+                key={each_policy}
                 data={each_policy}
                 index={index}
                 heading={each_policy.name}
