@@ -636,7 +636,7 @@ const OrganizationDetails = (props) => {
           </Row>
         ) : (
           <div className={styles.button_grp}>
-            <Button
+            {/* <Button
               onClick={() =>
                 !isLoggedInUserAdmin()
                   ? setOnBoardedTrue()
@@ -646,7 +646,7 @@ const OrganizationDetails = (props) => {
             >
               {" "}
               Finish later
-            </Button>
+            </Button> */}
             <Button
               disabled={
                 organisationDetails.organisation_address &&

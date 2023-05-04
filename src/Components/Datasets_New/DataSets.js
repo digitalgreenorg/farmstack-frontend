@@ -66,6 +66,7 @@ const DataSets = (props) => {
   const [memberDatasetUrl, setMemberDatasetUrl] = useState(
     UrlConstant.base_url + UrlConstant.dataset_participant_list
   );
+  const [guestUserDatasetUrl, setGuestUserDatasetUrl] = useState("");
 
   const [updater, setUpdate] = useState(0);
 
