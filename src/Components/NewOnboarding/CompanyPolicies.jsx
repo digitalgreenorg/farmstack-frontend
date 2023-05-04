@@ -286,11 +286,7 @@ const CompanyPolicies = (props) => {
     const handleDescChange = (value) => {
       setEditorpolicyDescValue(value);
       setPolicyDesc(value.toString("html"));
-      if (value.toString("html") !== "<p><br></p>") {
-        setSaveButtonEnabled(true);
-      } else {
-        setSaveButtonEnabled(false);
-      }
+      setSaveButtonEnabled(value.toString("html") !== "");
     };
     const handleChangePolicyName = (e) => {
       setPolicyNameUnderAccordion(e.target.value);
@@ -505,14 +501,14 @@ const CompanyPolicies = (props) => {
           </Popconfirm>
           {isEditModeOn ? (
             <Button
-              disabled={
-                (uploadedPolicyE ||
-                  dataOfFile ||
-                  (policyDesc && saveButtonEnabled)) &&
-                policyNameUnderAccordion
-                  ? false
-                  : true
-              }
+            disabled={
+              (uploadedPolicyE ||
+                dataOfFile ||
+                (policyDesc !== "<p><br></p>")) &&
+              policyNameUnderAccordion
+                ? false
+                : true
+            }
               onClick={(prev) => handleSave()}
               className={global_style.primary_button + " " + styles.edit_button}
             >
