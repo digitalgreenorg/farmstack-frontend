@@ -16,6 +16,7 @@ import {
   getOrgLocal,
   getTokenLocal,
   getUserLocal,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -628,6 +629,7 @@ const DataSets = (props) => {
     if (user === "guest") {
       getDataSets(false);
     }
+    goToTop(0);
   }, []);
 
   useEffect(() => {
