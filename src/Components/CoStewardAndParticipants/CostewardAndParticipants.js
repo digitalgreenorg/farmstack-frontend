@@ -73,7 +73,7 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <Box>
           <Typography
-            id={title + "title"}
+           id={title?.split(" ")[0]   + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${
               mobile ? LocalStyle.titleSm : LocalStyle.title
             }`}
@@ -121,7 +121,7 @@ const CoStewardAndParticipantsCard = (props) => {
             )}
             <Row className={LocalStyle.listAndGridViewTextContainer}>
               <div
-                id={title + "grid-view"}
+                id={title?.split(" ")[0]   + "grid-view"}
                 className={LocalStyle.viewType}
                 onClick={() => setViewType("grid")}
               >
@@ -136,7 +136,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   }
                 />
                 <span
-                  id={title + "grid-view-title"}
+                  id={title?.split(" ")[0]   + "grid-view-title"}
                   className={
                     viewType === "grid"
                       ? `${LocalStyle.activeView}`
@@ -148,7 +148,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 </span>
               </div>
               <div
-                id={title + "list-view"}
+                id={title?.split(" ")[0]   + "list-view"}
                 onClick={() => setViewType("list")}
                 className={LocalStyle.viewType}
               >
@@ -161,7 +161,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   }
                 />
                 <span
-                  id={title + "list-view-title"}
+                  id={title?.split(" ")[0]   + "list-view-title"}
                   className={
                     viewType === "list"
                       ? `${LocalStyle.activeView}`
@@ -196,7 +196,7 @@ const CoStewardAndParticipantsCard = (props) => {
               ""
             )}
             <div
-              id={title + "grid-view"}
+              id={title?.split(" ")[0]  + "grid-view"}
               className={LocalStyle.viewType}
               onClick={() => setViewType("grid")}
             >
@@ -211,7 +211,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 }
               />
               <span
-                id={title + "grid-view-title"}
+                id={title?.split(" ")[0]  + "grid-view-title"}
                 className={
                   viewType === "grid"
                     ? `${LocalStyle.activeView}`
@@ -223,7 +223,7 @@ const CoStewardAndParticipantsCard = (props) => {
               </span>
             </div>
             <div
-              id={title + "list-view"}
+              id={title?.split(" ")[0]  + "list-view"}
               onClick={() => setViewType("list")}
               className={LocalStyle.viewType}
             >
@@ -236,7 +236,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 }
               />
               <span
-                id={title + "list-view-title"}
+                id={title?.split(" ")[0]  + "list-view-title"}
                 className={
                   viewType === "list"
                     ? `${LocalStyle.activeView}`
@@ -265,12 +265,12 @@ const CoStewardAndParticipantsCard = (props) => {
         unmountOnExit
       >
         <Row
-          id={title + "grid-card-container-id"}
+          id={title?.split(" ")[0]  + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
           {title == "Participants" ? (
             <Col
-              id={title + "grid-card-id"}
+              id={title?.split(" ")[0]  + "grid-card-id"}
               className={GlobalStyle.padding0}
               xs={12}
               sm={12}
@@ -279,7 +279,7 @@ const CoStewardAndParticipantsCard = (props) => {
               onClick={() => history.push("/datahub/participants/add")}
             >
               <Card
-                id={`${title ? title : "title"}-card-${index ? index : ""}`}
+                id={`${title ? title?.split(" ")[0]  : "title"}-card-${index ? index : ""}`}
                 className={LocalStyle.card}
               >
                 {/* <div
@@ -291,7 +291,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   
                 </div> */}
                 <Typography
-                  id={title + "title"}
+                  id={title?.split(" ")[0]  + "title"}
                   className={`${GlobalStyle.size20} ${GlobalStyle.bold700} ${LocalStyle.addTitle}`}
                 >
                   Add New Participant
@@ -299,7 +299,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 <div className={LocalStyle.img_container}>
                   <img
                     className={LocalStyle.img}
-                    id={`${title ? title : "title"}-card-img-${
+                    id={`${title ? title?.split(" ")[0]  : "title"}-card-img-${
                       index ? index : ""
                     }`}
                     src={require("../../Assets/Img/add_img.svg")}
@@ -307,7 +307,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   />
                 </div>
                 <div
-                  id={`${title ? title : "title"}-card-title-${
+                  id={`${title ? title?.split(" ")[0]  : "title"}-card-title-${
                     index ? index : ""
                   }`}
                   className={LocalStyle.addCardDescription}
@@ -324,7 +324,7 @@ const CoStewardAndParticipantsCard = (props) => {
             let id = participant?.user_id;
             return (
               <Col
-                id={title + "grid-card-id"}
+                id={title?.split(" ")[0]  + "grid-card-id"+index}
                 className={GlobalStyle.padding0}
                 xs={12}
                 sm={12}
@@ -444,7 +444,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       <>
                         <Col
                           onClick={() => handleViewDataset(item?.user_id)}
-                          id={title + " list-view-title-" + index}
+                          id={title?.split(" ")[0]  + "list-view-title-" + index}
                           className={
                             LocalStyle.content_title +
                             " datasets_list_view_text datasets_list_view_name green_text w-100 text-left"
@@ -480,7 +480,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       <>
                         <Col
                           onClick={() => handleViewDataset(item?.user_id)}
-                          id={title + " list-view-title-" + index}
+                          id={title?.split(" ")[0]  + "list-view-title-" + index}
                           className={LocalStyle.content_title}
                           xs={6}
                           sm={6}
@@ -490,7 +490,7 @@ const CoStewardAndParticipantsCard = (props) => {
                           {item?.organization?.name}
                         </Col>
                         <Col
-                          id={title + " list-view-datasets-no-" + index}
+                          id={title?.split(" ")[0]  + " list-view-datasets-no-" + index}
                           xs={6}
                           sm={6}
                           md={6}
@@ -517,7 +517,7 @@ const CoStewardAndParticipantsCard = (props) => {
         <Box className={LocalStyle.buttonContainer}>
           <Button
             onClick={handleLoadMoreButton}
-            id={title + "-load-more-button"}
+            id={title?.split(" ")[0]  + "-load-more-button"}
             variant="outlined"
             className={`${
               mobile || tablet

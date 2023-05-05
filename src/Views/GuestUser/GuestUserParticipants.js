@@ -167,6 +167,7 @@ function GuestUserParticipants(props) {
       </Row> */}
 
       <TextField
+      id="search-participants-in-guest-user-id"
         sx={{
           "& .MuiOutlinedInput-root": {
             "& fieldset": {

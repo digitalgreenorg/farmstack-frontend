@@ -61,6 +61,7 @@ const GuestUserHome = () => {
                       : "/login"
                   )
                 }
+                id="home-get-started-btn"
                 className={`${LocalStyle.primaryButton} ${GlobalStyles.primary_button}`}
               >
                 Get Started
@@ -171,11 +172,12 @@ const GuestUserHome = () => {
               <b style={{ fontWeight: "bold" }}></b>
             </Typography>
           </div>
-          <ParticipantsCarouselNew isCosteward={true} />
+          <ParticipantsCarouselNew title="Our co-steward network" isCosteward={true} />
           <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
             <Button
               className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
               onClick={() => history.push("/home/costeward")}
+              id="home-view-all-costeward-btn-id"
             >
               View all co-steward
             </Button>
@@ -196,11 +198,12 @@ const GuestUserHome = () => {
             <b style={{ fontWeight: "bold" }}></b>
           </Typography>
         </div>
-        <ParticipantsCarouselNew />
+        <ParticipantsCarouselNew title="Our Participants are" />
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
             className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
             onClick={() => history.push("/home/participants")}
+            id="home-view-all-participants-btn-id"
           >
             View all participants
           </Button>
@@ -297,6 +300,7 @@ const GuestUserHome = () => {
                   : "/login"
               )
             }
+            id="home-get-started-btn2-id"
           >
             Get Started
           </Button>

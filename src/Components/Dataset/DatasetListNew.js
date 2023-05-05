@@ -111,6 +111,7 @@ const DatasetListNew = (props) => {
               sm={12}
               md={6}
               xl={4}
+              id="dataset-view-card"
             >
               <DatasetCart
                 publishDate={dataset?.created_at}

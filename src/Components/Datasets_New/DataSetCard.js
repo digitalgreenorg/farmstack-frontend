@@ -22,6 +22,7 @@ const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
       onClick={() =>
         history.push(handleCardClick(item?.id), { data: title, tab: value })
       }
+      id={`dataset-card-view-id${title? title.split(" ")?.join("-") : item.name.split(" ")?.join("-")}`}
     >
       <div className="published">
         <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
