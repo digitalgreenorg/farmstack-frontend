@@ -5,7 +5,11 @@ import UrlConstant from "../../Constants/UrlConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./GuestUserLegalNew.module.css";
 import HTTPService from "../../Services/HTTPService";
-import { downloadAttachment, GetErrorHandlingRoute } from "../../Utils/Common";
+import {
+  downloadAttachment,
+  GetErrorHandlingRoute,
+  goToTop,
+} from "../../Utils/Common";
 import { Button, Typography } from "@mui/material";
 import CustomTabs from "../../Components/Tabs/Tabs";
 import { Box } from "@mui/system";
@@ -63,6 +67,7 @@ const GuestUserLegalNew = (props) => {
   };
   useEffect(() => {
     getLegalData();
+    goToTop();
   }, []);
 
   console.log("on load", tabLabels, tabValue);
