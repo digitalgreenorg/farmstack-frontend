@@ -249,6 +249,8 @@ const NavbarNew = ({ loginType }) => {
     getAccountDetails();
   }, []);
 
+  // give id to all clickble events
+
   return (
     <Box sx={{ width: "100vw" }}>
       {mobile || tablet ? (
@@ -287,6 +289,7 @@ const NavbarNew = ({ loginType }) => {
             </Box>
             <Box className="d-flex align-items-center">
               <NavLink
+              id="navbar-home"
                 activeStyle={
                   isNavLinkActive("/home") ? navActiveStyle : navInActiveStyle
                 }
@@ -330,6 +333,7 @@ const NavbarNew = ({ loginType }) => {
               {(loginType === "admin" || loginType === "guest") &&
               !isLoggedInUserParticipant() ? (
                 <NavLink
+                id="navbar-participants"
                   activeStyle={navActiveStyle}
                   style={
                     isNavLinkActiveForCostewardDot("costeward")
@@ -364,6 +368,7 @@ const NavbarNew = ({ loginType }) => {
               loginType === "participant" ||
               loginType === "guest" ? (
                 <NavLink
+                id="navbar-dataset"
                   activeStyle={navActiveStyle}
                   style={
                     isNavLinkActiveForHome("datasets")
@@ -397,6 +402,7 @@ const NavbarNew = ({ loginType }) => {
               )}
               {loginType === "admin" || loginType === "participant" ? (
                 <NavLink
+                id="navbar-connectors"
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
                   to={
@@ -445,6 +451,7 @@ const NavbarNew = ({ loginType }) => {
           )} */}
               {loginType === "admin" || loginType === "participant" ? (
                 <NavLink
+                id="navbar-settings"
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
                   to={
@@ -480,6 +487,7 @@ const NavbarNew = ({ loginType }) => {
                 <></>
               ) : (
                 <NavLink
+                id="navbar-login"
                   to={
                     "/login"
                   }
@@ -502,6 +510,7 @@ const NavbarNew = ({ loginType }) => {
               <Box>
                 {getUserLocal() && loginType !== "guest" ? (
                   <Button
+                  id="navbar-signout"
                     sx={{
                       fontFamily: "Montserrat !important",
                       fontWeight: 700,
@@ -523,6 +532,7 @@ const NavbarNew = ({ loginType }) => {
                   </Button>
                 ) : (
                   <Button
+                  id="navbar-register"
                     sx={{
                       fontFamily: "Montserrat !important",
                       fontWeight: 700,

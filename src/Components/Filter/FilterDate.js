@@ -126,8 +126,8 @@ const FilterDate = ({
                   }}
                   renderInput={(params) => (
                     <TextField
+                    id="filter-by-date-from-date"
                       {...params}
-                      id="filled-basic"
                       variant="outlined"
                       sx={{
                         width: mobile ? "250px" : "468px",
@@ -198,7 +198,7 @@ const FilterDate = ({
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      id="filled-basic"
+                      id="filter-by-date-to-date"
                       variant="outlined"
                       sx={{
                         width: mobile ? "250px" : "468px",
@@ -277,6 +277,7 @@ const FilterDate = ({
                 }
                 setShowFilter(false);
               }}
+              id="date-filter-close-btn-id"
             >
               Close
             </Button>

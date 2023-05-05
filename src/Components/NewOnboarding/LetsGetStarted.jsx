@@ -24,6 +24,7 @@ const LetsGetStarted = (props) => {
           className={
             global_style.primary_button + " " + styles.lets_get_started
           }
+          id="login-get-started-btn"
         >
           Let's get started
         </Button>
