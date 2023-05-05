@@ -19,6 +19,7 @@ import {
 } from "../../Utils/Common";
 import { CSSTransition } from "react-transition-group";
 import { Popconfirm } from "antd";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [sizeError, setSizeError] = useState("");
@@ -248,7 +249,17 @@ const CompanyPolicies = (props) => {
     const [localKey, setLocalKey] = useState(0);
     const [fileSizeErrorE, setFileSizeErrorE] = useState("");
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [open, setOpen] = React.useState(false);
+    const id = "delete-popper";
 
+    const handleDeletePopper = (event) => {
+      setAnchorEl(event.currentTarget);
+      setOpen(true);
+    };
+    const closePopper = () => {
+      setOpen(false);
+    };
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
@@ -481,34 +492,34 @@ const CompanyPolicies = (props) => {
             gap: "10px",
           }}
         >
-          <Popconfirm
-            title="Delete the policy"
-            description="Are you sure to delete this policy?"
-            onConfirm={(e) => confirm(e, index)}
-            onCancel={() => console.log("cancelled")}
-            okText="Yes"
-            cancelText="No"
+          <CustomDeletePopper
+            DeleteItem={policyNameUnderAccordion}
+            anchorEl={anchorEl}
+            handleDelete={(e) => confirm(e, index)}
+            id={id}
+            open={open}
+            closePopper={closePopper}
+          />
+          <Button
+            className={
+              global_style.secondary_button_error +
+              " " +
+              styles.delete_button_policy
+            } 
+            onClick={handleDeletePopper}
           >
-            <Button
-              className={
-                global_style.secondary_button_error +
-                " " +
-                styles.delete_button_policy
-              }
-            >
-              Delete
-            </Button>
-          </Popconfirm>
+            Delete
+          </Button>
           {isEditModeOn ? (
             <Button
-            disabled={
-              (uploadedPolicyE ||
-                dataOfFile ||
-                (policyDesc !== "<p><br></p>")) &&
-              policyNameUnderAccordion
-                ? false
-                : true
-            }
+              disabled={
+                (uploadedPolicyE ||
+                  dataOfFile ||
+                  (policyDesc !== "<p><br></p>")) &&
+                policyNameUnderAccordion
+                  ? false
+                  : true
+              }
               onClick={(prev) => handleSave()}
               className={global_style.primary_button + " " + styles.edit_button}
             >

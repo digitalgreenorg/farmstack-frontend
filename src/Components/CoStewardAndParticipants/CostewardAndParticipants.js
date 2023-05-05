@@ -1,4 +1,4 @@
-import { Typography, Card } from "@mui/material";
+import { Typography, Card, useTheme, useMediaQuery, Box } from "@mui/material";
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
@@ -21,7 +21,14 @@ const CoStewardAndParticipantsCard = (props) => {
     isCosteward,
   } = props;
   const history = useHistory();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
@@ -59,15 +66,19 @@ const CoStewardAndParticipantsCard = (props) => {
   //   const viewType = grid
   return (
     <>
-      <Row className={LocalStyle.titleContainer}>
-        <Col xs={6} sm={6} md={6} xl={6} className={GlobalStyle.padding0}>
+      <Row
+        className={
+          mobile ? LocalStyle.titleContainerSm : LocalStyle.titleContainer
+        }
+      >
+        <Box>
           <Typography
             id={title?.split(" ")[0]   + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
             {title}
           </Typography>
-        </Col>
+        </Box>
         {viewType === "list" && title === "Participants" ? (
           <Col
             className={LocalStyle.listViewButton}
@@ -501,19 +512,20 @@ const CoStewardAndParticipantsCard = (props) => {
       {/* // )} */}
       {/* </Row> */}
       {loadMoreButton ? (
-        <Row className={LocalStyle.buttonContainer}>
-          <Col xs={0} sm={0} md={2} lg={4}></Col>
-          <Col xs={12} sm={12} md={8} lg={4}>
-            <Button
-              onClick={handleLoadMoreButton}
-              id={title?.split(" ")[0]  + "-load-more-button"}
-              variant="outlined"
-              className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
-            >
-              Load more
-            </Button>
-          </Col>
-        </Row>
+        <Box className={LocalStyle.buttonContainer}>
+          <Button
+            onClick={handleLoadMoreButton}
+            variant="outlined"
+            className={`${
+              mobile || tablet
+                ? LocalStyle.pButtonStyleMd
+                : LocalStyle.pButtonStyle
+            }`}
+            id={title?.split(" ")[0]  + "-load-more-button"}
+          >
+            Load more
+          </Button>
+        </Box>
       ) : (
         ""
       )}

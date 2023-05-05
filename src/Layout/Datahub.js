@@ -33,6 +33,7 @@ import {
   setRoleLocal,
   getUserLocal,
   GetErrorHandlingRoute,
+  goToTop,
 } from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
 import Footer from "../Components/Footer/Footer";
@@ -135,6 +136,7 @@ function Datahub(props) {
 
   useEffect(() => {
     verifyUserDataOfLocal();
+    goToTop(0);
   }, []);
 
   return verifyLocalData ? (

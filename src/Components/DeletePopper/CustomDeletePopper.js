@@ -7,7 +7,7 @@ import LocalStyle from "./CustomDeletePopper.module.css";
 import { Button, Typography } from "@mui/material";
 
 const CustomDeletePopper = (props) => {
-  const { anchorEl, handleDelete, id, open, closePopper } = props;
+  const { anchorEl, handleDelete, id, open, closePopper, DeleteItem } = props;
   return (
     <Popper id={id} open={open} anchorEl={anchorEl} transition>
       {({ TransitionProps }) => (
@@ -23,7 +23,7 @@ const CustomDeletePopper = (props) => {
                 variant="h4"
               >
                 {" "}
-                Delete Files?
+                Delete {DeleteItem}?
               </Typography>
             </div>
             <Typography
