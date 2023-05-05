@@ -74,16 +74,25 @@ const StandardizationInOnbord = (props) => {
       duration: 5,
     });
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(Array(allDatapoints.length).fill(null));
   const [open, setOpen] = React.useState(false);
-  const id = "delete-popper";
-
-  const handleDelete = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen(true);
+   const id = "delete-popper";
+  const handleDelete = (event, index) => {
+    setAnchorEl((prevAnchorEl) => {
+      const newAnchorEl = [...prevAnchorEl];
+      newAnchorEl[index] = event.currentTarget;
+      console.log("event is triggering", newAnchorEl, anchorEl, index)
+      return newAnchorEl;
+    });
   };
-  const closePopper = () => {
+  const handleClose = (index) => {
+
+    const newAnchorEls = [...anchorEl];
+    newAnchorEls[index] = null;
+    setAnchorEl(newAnchorEls);
     setOpen(false);
+    console.log("newAnchorEls", newAnchorEls)
+    
   };
 
   console.log("all datapoints", allDatapoints);
@@ -268,6 +277,15 @@ const StandardizationInOnbord = (props) => {
     console.log("tmpAllAttributes", tmpAllAttributes);
   };
 
+  const confirm = (e, index) => {
+     handleDatapointCategoryDelete(index);
+     e.stopPropagation();
+     setAnchorEl((prevAnchorEl) => {
+      const newAnchorEl = [...prevAnchorEl];
+      newAnchorEl[index] = null;
+      return newAnchorEl;
+    });
+  } 
   const handleDatapointCategoryDelete = (index) => {
     if (allDatapoints[index]["id"]) {
       console.log("id", allDatapoints[index]["id"]);
@@ -850,14 +868,11 @@ const StandardizationInOnbord = (props) => {
                       <Col style={{ textAlign: "right", margin: "20px" }}>
                         <CustomDeletePopper
                           DeleteItem={"Datapoint category"}
-                          anchorEl={anchorEl}
-                          handleDelete={(e) => {
-                            handleDatapointCategoryDelete(index);
-                            e.stopPropagation();
-                          }}
+                          anchorEl={anchorEl[index]}
+                          handleDelete={(e) => confirm(e, index)}
                           id={id}
-                          open={open}
-                          closePopper={closePopper}
+                          open={anchorEl[index] !== null && anchorEl[index] !== undefined}
+                          closePopper={() =>handleClose(index)}
                         />
                         <Button
                           id="apply_policies"
@@ -868,7 +883,7 @@ const StandardizationInOnbord = (props) => {
                             " " +
                             styles.delete_button_policy
                           }
-                          onClick={handleDelete}
+                          onClick={(event) => handleDelete(event, index)}
                         >
                           Delete
                         </Button>
@@ -1051,3 +1066,4 @@ const StandardizationInOnbord = (props) => {
 };
 
 export default StandardizationInOnbord;
+

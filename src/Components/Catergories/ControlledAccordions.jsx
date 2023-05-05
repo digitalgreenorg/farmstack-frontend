@@ -89,8 +89,13 @@ export default function ControlledAccordions(props) {
             ""
           ) : (<>
             <CustomDeletePopper
+            DeleteItem={"File"}
             anchorEl={anchorEl}
-            handleDelete={(e) => accordionDelete(e, index)}
+            handleDelete={(e) => {
+              accordionDelete(e, index);
+              setAnchorEl(null); // Reset anchorEl to null
+              setOpen(false); // Reset open to false
+            }}
             id={id}
             open={open}
             closePopper={closePopper}
