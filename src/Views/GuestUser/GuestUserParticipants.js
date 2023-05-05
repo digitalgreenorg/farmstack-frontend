@@ -3,10 +3,13 @@ import { Col, Container, Row } from "react-bootstrap";
 import LocalStyle from "./GuestUsetParticipants.module.css";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import {
+  Box,
   IconButton,
   InputAdornment,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
@@ -17,6 +20,14 @@ import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipa
 function GuestUserParticipants(props) {
   const { title, description, isCosteward } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [loadMoreButton, setLoadMoreButton] = useState(false);
@@ -126,15 +137,21 @@ function GuestUserParticipants(props) {
   console.log("something", coStewardOrParticipantsList);
 
   return (
-    <Container>
+    <Box style={containerStyle}>
       <Row className={LocalStyle.titleContainer}>
-        <div className={LocalStyle.title}>
+        <div className={mobile ? LocalStyle.titleSm : LocalStyle.title}>
           {title ?? "Participants Network"}
         </div>
         <div className="d-flex justify-content-center">
           <div
-            className={LocalStyle.description}
-            style={{ width: description && "74%" }}
+            className={
+              mobile
+                ? LocalStyle.descriptionSm
+                : tablet
+                ? LocalStyle.descriptionMd
+                : LocalStyle.description
+            }
+            // style={{ width: description && "74%" }}
           >
             <b style={{ fontWeight: "bold" }}></b>
             {description ??
@@ -154,6 +171,7 @@ function GuestUserParticipants(props) {
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
               borderColor: "#919EAB",
+              borderRadius: "30px",
             },
             "&:hover fieldset": {
               borderColor: "#919EAB",
@@ -163,7 +181,13 @@ function GuestUserParticipants(props) {
             },
           },
         }}
-        className="input_field"
+        className={
+          mobile
+            ? LocalStyle.inputFieldSm
+            : tablet
+            ? LocalStyle.inputFieldMd
+            : LocalStyle.inputField
+        }
         placeholder={title ? "Search co-steward.." : "Search participant.."}
         value={searcParticipantsName}
         onChange={(e) => handleSearch(e.target.value.trimStart())}
@@ -180,7 +204,7 @@ function GuestUserParticipants(props) {
           ),
         }}
       />
-      <Row className={LocalStyle.participantsContainer}>
+      <Box className={LocalStyle.participantsContainer}>
         <CoStewardAndParticipantsCard
           guestUser={true}
           isCosteward={isCosteward ? true : false}
@@ -191,8 +215,8 @@ function GuestUserParticipants(props) {
           loadMoreButton={loadMoreButton}
           handleLoadMoreButton={getListOnClickOfLoadMore}
         />
-      </Row>
-    </Container>
+      </Box>
+    </Box>
   );
 }
 

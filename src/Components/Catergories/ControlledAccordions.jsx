@@ -7,6 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import global_styles from "../../Assets/CSS/global.module.css";
 import EditIcon from "@mui/icons-material/Edit";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 export default function ControlledAccordions(props) {
   const {
     data,
@@ -22,6 +23,17 @@ export default function ControlledAccordions(props) {
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const id = "delete-popper";
+
+  const handleDeletePopper = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+  const closePopper = () => {
+    setOpen(false);
   };
 
   return (
@@ -75,9 +87,21 @@ export default function ControlledAccordions(props) {
           </Typography>
           {onOpenHideDelete && expanded == "panel1" ? (
             ""
-          ) : (
-            <DeleteOutlineIcon onClick={(e) => accordionDelete(e, index)} />
-          )}
+          ) : (<>
+            <CustomDeletePopper
+            DeleteItem={"File"}
+            anchorEl={anchorEl}
+            handleDelete={(e) => {
+              accordionDelete(e, index);
+              setAnchorEl(null); // Reset anchorEl to null
+              setOpen(false); // Reset open to false
+            }}
+            id={id}
+            open={open}
+            closePopper={closePopper}
+          />
+            <DeleteOutlineIcon onClick={handleDeletePopper} />
+            </>)}
         </AccordionSummary>
         <AccordionDetails>
           {Component && <Component data={data} index={index} />}

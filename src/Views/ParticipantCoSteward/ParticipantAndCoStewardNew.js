@@ -19,6 +19,7 @@ import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import {
   GetErrorHandlingRoute,
   getUserLocal,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
 } from "../../Utils/Common";
@@ -140,6 +141,7 @@ const ParticipantsAndCoStewardNew = () => {
       setTabLabels(["Co-Steward", "Participant", "New Participant Requests"]);
       // console.log();
     }
+    goToTop(0);
   }, []);
 
   console.log("is login user", isLoggedInUserAdmin());

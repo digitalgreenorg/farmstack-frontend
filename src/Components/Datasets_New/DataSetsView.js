@@ -35,6 +35,7 @@ import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Popconfirm } from "antd";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 
 const DataSetsView = (props) => {
   const { userType } = props;
@@ -100,6 +101,19 @@ const DataSetsView = (props) => {
   const [orgDetails, setOrgDetails] = useState();
   const [orgAddress, setOrgAddress] = useState();
   const [userDetails, setUserDetails] = useState();
+
+  //Custom popper
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+
+  const handleDeletePopper = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+  const closePopper = () => {
+    setOpen(false);
+  };
+
 
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
@@ -409,29 +423,14 @@ const DataSetsView = (props) => {
           {history.location?.state?.tab === "my_organisation" &&
           userType !== "guest" ? (
             <Box>
-              <Popconfirm
-                title={
-                  <span style={{ marginTop: "3px !important" }}>
-                    Delete the dataset
-                  </span>
-                }
-                description={
-                  <span>
-                    Are you sure to delete this dataset{" "}
-                    <strong>{dataSetName}</strong> ?
-                  </span>
-                }
-                onConfirm={handleDelete}
-                icon={
-                  <ExclamationCircleFilled
-                    style={{ color: "red", marginTop: "-3px" }}
-                  />
-                }
-                okText="Yes"
-                cancelText="No"
-                okType="danger"
-                placement="bottom"
-              >
+              <CustomDeletePopper
+                DeleteItem={dataSetName}
+                anchorEl={anchorEl}
+                handleDelete={handleDelete}
+                id={id}
+                open={open}
+                closePopper={closePopper}
+              />
                 <Button
                   sx={{
                     color: "#FF5630",
@@ -449,6 +448,7 @@ const DataSetsView = (props) => {
                     },
                   }}
                   variant="outlined"
+                  onClick={handleDeletePopper}
                 >
                   Delete dataset{" "}
                   <DeleteOutlineIcon
@@ -459,7 +459,6 @@ const DataSetsView = (props) => {
                     }}
                   />
                 </Button>
-              </Popconfirm>
               <Button
                 sx={{
                   color: "#00AB55",
