@@ -43,14 +43,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  // const [organisationname, setorganisationname] = useState("");
-  // const [organisationaddress, setorganisationaddress] = useState("");
-  // const [orginsationemail, setorginsationemail] = useState("");
-  // const [countryvalue, setcountryvalue] = useState("");
-  // const [contactnumber, setcontactnumber] = useState("");
-  // const [websitelink, setwebsitelink] = useState("");
-
-  // const [organisationlength, setorganisationlength] = useState(3);
   const [istrusted, setistrusted] = React.useState(false);
   const [isorganisationemailerror, setisorganisationemailerror] =
     useState(false);
@@ -82,18 +74,18 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const [loadMoreUrl, setLoadMoreUrl] = useState([]);
   const [datasetLoadMoreUrl, setDatasetLoadMoreUrl] = useState("");
   const [openDeletePoper, setOpenDeletePoper] = useState(false);
-
-  // const [isLoader, callLoader] = useState(false);
   const history = useHistory();
   const { id } = useParams();
 
-  const [openPopper, setOpenPopper] = useState(false);
-  const [anchorEl, setAnchorEl] = useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
 
-  const handlePopper = (event) => {
-    console.log("event", event, event.currentTarget);
+  const handleDeletePopper = (event) => {
     setAnchorEl(event.currentTarget);
-    setOpenPopper((previousOpen) => !previousOpen);
+    setOpen(true);
+  };
+  const closePopper = () => {
+    setOpen(false);
   };
 
   // const canBeOpen = open && Boolean(anchorEl);
@@ -404,57 +396,43 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         >
           {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
             <>
-              <Popconfirm
-                title={
-                  <span style={{ marginTop: "3px !important" }}>
-                    Delete the {isCosteward ? "Co-steward" : "Participant"}
-                  </span>
-                }
-                description={
-                  <span>
-                    Are you sure to delete this{" "}
-                    {isCosteward ? "Co-steward" : "Participant"}{" "}
-                    <strong>{organisationName}</strong> ?
-                  </span>
-                }
-                onConfirm={deleteParticipants}
-                icon={
-                  <ExclamationCircleFilled
-                    style={{ color: "red", marginTop: "-3px" }}
-                  />
-                }
-                okText="Yes"
-                cancelText="No"
-                okType="danger"
-              >
-                <Button
-                  variant="outlined"
-                  sx={{
-                    color: "#FF5630",
-                    fontFamily: "Public Sans",
-                    fontWeight: "700",
-                    fontSize: "15px",
+              <CustomDeletePopper
+                DeleteItem={organisationName}
+                anchorEl={anchorEl}
+                handleDelete={deleteParticipants}
+                id={id}
+                open={open}
+                closePopper={closePopper}
+              />
+
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "#FF5630",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: "15px",
+                  border: "1px solid rgba(255, 86, 48, 0.48)",
+                  width: "200px",
+                  height: "48px",
+                  marginRight: "28px",
+                  textTransform: "none",
+                  "&:hover": {
+                    background: "none",
                     border: "1px solid rgba(255, 86, 48, 0.48)",
-                    width: "200px",
-                    height: "48px",
-                    marginRight: "28px",
-                    textTransform: "none",
-                    "&:hover": {
-                      background: "none",
-                      border: "1px solid rgba(255, 86, 48, 0.48)",
-                    },
+                  },
+                }}
+                onClick={handleDeletePopper}
+              >
+                Delete {isCosteward ? "Co-steward" : "Participant"}
+                <DeleteOutlineIcon
+                  sx={{
+                    fill: "#FF5630",
+                    fontSize: "22px",
+                    marginLeft: "4px",
                   }}
-                >
-                  Delete {isCosteward ? "Co-steward" : "Participant"}
-                  <DeleteOutlineIcon
-                    sx={{
-                      fill: "#FF5630",
-                      fontSize: "22px",
-                      marginLeft: "4px",
-                    }}
-                  />
-                </Button>
-              </Popconfirm>
+                />
+              </Button>
               <Button
                 variant="outlined"
                 sx={{
