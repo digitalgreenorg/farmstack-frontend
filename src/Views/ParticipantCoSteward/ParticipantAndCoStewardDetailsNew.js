@@ -344,7 +344,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   console.log("logoPath", logoPath);
 
   return (
-    <Box className={LocalStyle.container}>
+    <Box className={mobile ? LocalStyle.container : LocalStyle.containerMain}>
       <Row
         className={
           mobile ? "justify-content-center mt-20" : "justify-content-start"
