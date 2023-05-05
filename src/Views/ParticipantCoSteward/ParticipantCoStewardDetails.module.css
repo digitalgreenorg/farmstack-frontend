@@ -26,6 +26,12 @@
   text-align: left;
 }
 
+.containerMain {
+  margin-left: 144px;
+  margin-right: 144px;
+  text-align: left;
+}
+
 .buttonContainer {
   display: flex;
   justify-content: end;
