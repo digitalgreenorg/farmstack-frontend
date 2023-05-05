@@ -73,8 +73,10 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <Box>
           <Typography
-            id={title?.split(" ")[0]   + "title"}
-            className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
+           id={title?.split(" ")[0]   + "title"}
+            className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${
+              mobile ? LocalStyle.titleSm : LocalStyle.title
+            }`}
           >
             {title}
           </Typography>
@@ -515,13 +517,13 @@ const CoStewardAndParticipantsCard = (props) => {
         <Box className={LocalStyle.buttonContainer}>
           <Button
             onClick={handleLoadMoreButton}
+            id={title?.split(" ")[0]  + "-load-more-button"}
             variant="outlined"
             className={`${
               mobile || tablet
                 ? LocalStyle.pButtonStyleMd
                 : LocalStyle.pButtonStyle
             }`}
-            id={title?.split(" ")[0]  + "-load-more-button"}
           >
             Load more
           </Button>
