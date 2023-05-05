@@ -132,13 +132,14 @@ const OrganizationDetails = (props) => {
       });
   };
   const handleOrgChange = (e, countryData) => {
-    clearErrors(e.target.name);
     if (e.target) {
+      clearErrors(e.target.name);
       setOrganisationDetails({
         ...organisationDetails,
         [e.target.name]: e.target.value,
       });
     } else {
+      clearErrors("organisation_contact_number");
       if (!isPhoneValid(e, countryData)) {
         setOrganisationDetailsError((prevState) => ({
           ...prevState,
@@ -454,9 +455,10 @@ const OrganizationDetails = (props) => {
                 id="organisation_contact_number"
                 name="organisation_contact_number"
                 value={organisationDetails.organisation_contact_number}
-                onChange={(value, countryData) =>
-                  handleOrgChange(value, countryData)
-                }
+                onChange={(value, countryData) => {
+                  console.log(value, countryData);
+                  handleOrgChange(value, countryData);
+                }}
                 error={
                   organisationDetailsError.organisation_contact_number_error
                     ? true

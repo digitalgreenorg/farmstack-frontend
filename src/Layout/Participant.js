@@ -15,6 +15,7 @@ import {
   getRoleLocal,
   getTokenLocal,
   getUserLocal,
+  goToTop,
   isLoggedInUserParticipant,
   setRoleLocal,
 } from "../Utils/Common";
@@ -114,6 +115,7 @@ function Participant(props) {
 
   useEffect(() => {
     verifyUserDataOfLocal();
+    goToTop(0);
   }, []);
   return verifyLocalData ? (
     <>
