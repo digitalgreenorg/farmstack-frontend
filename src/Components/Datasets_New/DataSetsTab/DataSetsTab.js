@@ -239,6 +239,7 @@ const DataSetsTab = ({
                           }
                         : handleCardClick
                     }
+                    
                   />
                 ))}
               </div>
@@ -268,6 +269,7 @@ const DataSetsTab = ({
                   mobile || tablet ? "d_button_style_md" : "d_button_style"
                 }
                 onClick={() => getDataSets(true)}
+                id="dataset-loadmore-btn"
               >
                 Load more
               </Button>
