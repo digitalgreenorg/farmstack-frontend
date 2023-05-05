@@ -187,10 +187,10 @@ export default function OnBoarding() {
         callLoader(false);
 
         setAdminData(response.data);
-        if (response.data?.organization?.logo) {
-          let stepNumber = response.data?.organization?.logo ? 0 : -1;
-          setActiveStep(stepNumber);
-        }
+        // if (response.data?.organization?.logo) {
+        let stepNumber = response.data?.organization?.logo ? 0 : -1;
+        setActiveStep(stepNumber);
+        // }
       })
       .catch((error) => {
         callLoader(false);
