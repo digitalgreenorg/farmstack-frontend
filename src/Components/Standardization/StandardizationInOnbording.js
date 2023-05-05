@@ -42,6 +42,7 @@ import global_style from "../../Assets/CSS/global.module.css";
 import styles from "../NewOnboarding/onboarding.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { Col, Row } from "react-bootstrap";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 
 const StandardizationInOnbord = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -72,6 +73,17 @@ const StandardizationInOnbord = (props) => {
       content: text,
       duration: 5,
     });
+  };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const id = "delete-popper";
+
+  const handleDelete = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+  const closePopper = () => {
+    setOpen(false);
   };
 
   console.log("all datapoints", allDatapoints);
@@ -836,6 +848,17 @@ const StandardizationInOnbord = (props) => {
                     </div>
                     <Row>
                       <Col style={{ textAlign: "right", margin: "20px" }}>
+                        <CustomDeletePopper
+                          DeleteItem={"Datapoint category"}
+                          anchorEl={anchorEl}
+                          handleDelete={(e) => {
+                            handleDatapointCategoryDelete(index);
+                            e.stopPropagation();
+                          }}
+                          id={id}
+                          open={open}
+                          closePopper={closePopper}
+                        />
                         <Button
                           id="apply_policies"
                           variant="outlined"
@@ -845,10 +868,7 @@ const StandardizationInOnbord = (props) => {
                             " " +
                             styles.delete_button_policy
                           }
-                          onClick={(e) => {
-                            handleDatapointCategoryDelete(index);
-                            e.stopPropagation();
-                          }}
+                          onClick={handleDelete}
                         >
                           Delete
                         </Button>
