@@ -1,4 +1,10 @@
-import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Button,
+  Card,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useEffect, useState, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
@@ -339,23 +345,39 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
   return (
     <Box className={LocalStyle.container}>
-      <Row>
-        <Col
-          xs={12}
-          sm={6}
-          md={4}
-          xl={4}
-          className={
-            mobile ? LocalStyle.highlitedImgSm : LocalStyle.highlitedImg
-          }
-        >
-          {logoPath ? (
-            <img src={UrlConstant.base_url_without_slash + logoPath} />
-          ) : (
-            <h1 className={LocalStyle.firstLetterOnLogo}>
-              {organisationName?.split("")[0]?.toUpperCase()}
-            </h1>
-          )}
+      <Row
+        className={
+          mobile ? "justify-content-center mt-20" : "justify-content-start"
+        }
+      >
+        <Col xs={12} sm={6} md={4} xl={4}>
+          <Card
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: mobile ? "100%" : "275px !important",
+              height: "262px",
+              background: "#ffffff",
+              border: "1px solid #f2f3f5",
+              boxShadow: "-40px 40px 80px rgba(145, 158, 171, 0.16)",
+              borderRadius: "16px",
+            }}
+            className={
+              mobile ? LocalStyle.highlitedImgSm : LocalStyle.highlitedImg
+            }
+          >
+            {logoPath ? (
+              <img
+                src={UrlConstant.base_url_without_slash + logoPath}
+                style={{ width: "179px", height: "90px" }}
+              />
+            ) : (
+              <h1 className={LocalStyle.firstLetterOnLogo}>
+                {organisationName?.split("")[0]?.toUpperCase()}
+              </h1>
+            )}
+          </Card>
         </Col>
       </Row>
       <Row className={LocalStyle.section}>
