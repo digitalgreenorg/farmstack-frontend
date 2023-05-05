@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
@@ -33,7 +33,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   let { isCosteward, isParticipantRequest, user, userTypeCosteward, title } =
     props;
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
-
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   // const [organisationname, setorganisationname] = useState("");
   // const [organisationaddress, setorganisationaddress] = useState("");
@@ -336,9 +338,17 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   console.log("logoPath", logoPath);
 
   return (
-    <Container className={LocalStyle.container}>
+    <Box className={LocalStyle.container}>
       <Row>
-        <Col xs={12} sm={6} md={4} xl={4} className={LocalStyle.highlitedImg}>
+        <Col
+          xs={12}
+          sm={6}
+          md={4}
+          xl={4}
+          className={
+            mobile ? LocalStyle.highlitedImgSm : LocalStyle.highlitedImg
+          }
+        >
           {logoPath ? (
             <img src={UrlConstant.base_url_without_slash + logoPath} />
           ) : (
@@ -472,7 +482,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {organisationName}
               </Typography>
             </Col>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-30" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Website Link</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -490,7 +506,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {orginsationEmail}
               </Typography>
             </Col>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Address</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -526,7 +548,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       <Row className={LocalStyle.textRow}>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Row>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>First Name</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -534,7 +562,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {firstName}
               </Typography>
             </Col>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Last Name</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -543,8 +577,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               </Typography>
             </Col>
           </Row>
-          <Row className={LocalStyle.textRow}>
-            <Col className={GlobalStyle.padding0} xs={12} sm={12} md={6} xl={6}>
+          <Row className={mobile ? "" : "mt-30"}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Email</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -552,7 +592,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {userEmail}
               </Typography>
             </Col>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Contact Number</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -707,18 +753,32 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Row>
         </>
       ) : (
-        <Row className={LocalStyle.backButtonContainerAlingCenter}>
+        <Box className={LocalStyle.backButtonContainerAlingCenter}>
           <Button
             id={"details-page-load-more-dataset-button"}
+            sx={{
+              fontFamily: "Montserrat",
+              fontWeight: 700,
+              fontSize: "16px",
+              width: mobile ? "245px" : "350px",
+              height: "48px",
+              border: "1px solid rgba(0, 171, 85, 0.48)",
+              borderRadius: "8px",
+              color: "#00AB55",
+              textTransform: "none",
+              "&:hover": {
+                background: "none",
+                border: "1px solid rgba(0, 171, 85, 0.48)",
+              },
+            }}
             variant="outlined"
-            className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
             onClick={() => history.go(-1)}
           >
             Back
           </Button>
-        </Row>
+        </Box>
       )}
-    </Container>
+    </Box>
   );
 };
 
