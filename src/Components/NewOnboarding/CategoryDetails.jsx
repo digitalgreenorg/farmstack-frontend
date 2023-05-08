@@ -385,6 +385,7 @@ const CategoryDetails = (props) => {
           </Col>
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button
+              id="addnew-category-button"
               onClick={() => setIsFormVisible(true)}
               className={global_style.primary_button + " " + styles.next_button}
               style={{ width: "auto" }}

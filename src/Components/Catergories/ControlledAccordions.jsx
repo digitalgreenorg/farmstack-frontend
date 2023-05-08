@@ -30,7 +30,7 @@ export default function ControlledAccordions(props) {
 
   const handleDeletePopper = (event) => {
     setAnchorEl(event.currentTarget);
-    setOpen(true);
+    setOpen(true);    
   };
   const closePopper = () => {
     setOpen(false);
@@ -85,7 +85,7 @@ export default function ControlledAccordions(props) {
               ""
             )}
           </Typography>
-          {onOpenHideDelete && expanded == "panel1" ? (
+          {isPolicy && onOpenHideDelete && !anchorEl && !open && expanded  == "panel1" ? (
             ""
           ) : (<>
             <CustomDeletePopper
