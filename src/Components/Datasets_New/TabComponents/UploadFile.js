@@ -817,6 +817,7 @@ const UploadFile = ({
               marginLeft: "10px",
               cursor: "pointer",
             }}
+            id="add-dataset-file-upload-id"
           >
             File upload
           </Typography>
@@ -846,6 +847,7 @@ const UploadFile = ({
               marginLeft: "10px",
               marginTop: "31px",
             }}
+            id="add-dataset-upload-type-mysql"
           >
             Mysql
           </Typography>
@@ -862,6 +864,7 @@ const UploadFile = ({
               marginLeft: "10px",
               marginTop: "22px",
             }}
+            id="add-dataset-upload-type-postgres"
           >
             Postgres
           </Typography>
@@ -891,6 +894,7 @@ const UploadFile = ({
               marginLeft: "10px",
               marginTop: "22px",
             }}
+            id="add-dataset-upload-type-rest-api"
           >
             Rest API
           </Typography>
@@ -901,6 +905,7 @@ const UploadFile = ({
             <>
               <div className="cursor-pointer">
                 <FileUploader
+                id="add-dataset-upload-file-id"
                   key={key}
                   handleChange={handleFileChange}
                   // onClick={(e) => (e.target.value = null)}
@@ -916,6 +921,7 @@ const UploadFile = ({
                 {files?.map((item, index) => (
                   <>
                     <File
+                    id={`add-dataset-uploaded-file${index}`}
                       index={index}
                       name={item.name}
                       size={item.size}
@@ -945,6 +951,7 @@ const UploadFile = ({
                       }}
                       variant="outlined"
                       onClick={() => setFiles([])}
+                      id="add-dataset-clear-all-file"
                     >
                       Clear
                     </Button>
@@ -967,6 +974,7 @@ const UploadFile = ({
                       }}
                       variant="outlined"
                       onClick={() => handleUpload()}
+                      id="add-dataset-upload-file-btn"
                     >
                       Upload
                     </Button>

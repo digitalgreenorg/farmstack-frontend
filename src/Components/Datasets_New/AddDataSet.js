@@ -427,6 +427,7 @@ const AddDataSet = (props) => {
           <span
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
+            id="add-dataset-breadcrum"
           >
             Datasets
           </span>
@@ -469,6 +470,7 @@ const AddDataSet = (props) => {
                   Basic details
                 </span>
               }
+              id="add-dataset-tab-1"
             />
             <Tab
               sx={{
@@ -484,8 +486,10 @@ const AddDataSet = (props) => {
                 </span>
               }
               disabled={datasetId || props.datasetIdForEdit ? false : true}
+              id="add-dataset-tab-2"
             />
             <Tab
+              id="add-dataset-tab-3"
               label={
                 <span
                   className={value == 2 ? "tab_header_selected" : "tab_header"}
@@ -495,6 +499,7 @@ const AddDataSet = (props) => {
               }
             />
             <Tab
+              id="add-dataset-tab-4"
               label={
                 <span
                   className={value == 3 ? "tab_header_selected" : "tab_header"}
@@ -504,6 +509,7 @@ const AddDataSet = (props) => {
               }
             />
             <Tab
+              id="add-dataset-tab-5"
               label={
                 <span
                   className={value == 4 ? "tab_header_selected" : "tab_header"}
@@ -610,6 +616,7 @@ const AddDataSet = (props) => {
           sx={{ marginTop: "50px", marginBottom: "100px" }}
         >
           <Button
+          id="add-dataset-cancel-btn"
             sx={{
               fontFamily: "Montserrat",
               fontWeight: 700,
@@ -631,6 +638,7 @@ const AddDataSet = (props) => {
             Cancel
           </Button>
           <Button
+          id="add-dataset-submit-btn"
             disabled={isDisabled()}
             sx={{
               fontFamily: "Montserrat",

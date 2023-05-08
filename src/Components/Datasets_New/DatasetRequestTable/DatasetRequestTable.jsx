@@ -647,6 +647,7 @@ const DatasetRequestTable = () => {
                           fontFamily: "Montserrat",
                           textAlign: "center",
                         }}
+                        id="dataset-request-detail"
                       >
                         Detail
                       </span>
@@ -762,6 +763,7 @@ const DatasetRequestTable = () => {
                           fontFamily: "Montserrat",
                           textAlign: "center",
                         }}
+                        id="dataset-request-detail2"
                       >
                         Detail
                       </span>
