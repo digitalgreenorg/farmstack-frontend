@@ -1,4 +1,4 @@
-import { Box, Button, Chip } from "@mui/material";
+import { Box, Button, Chip, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { dateTimeFormat } from "../../Utils/Common";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -24,6 +24,16 @@ const ShowFilterChips = ({
 }) => {
   // console.log(dates);
   // const [updater, setUpdate] = useState(0);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const containerStyle = {
+    marginLeft: mobile ? "0px" : "144px",
+    marginRight: mobile ? "0px" : "144px",
+    textAlign: "left",
+    marginTop: "20px",
+  };
+
   const handleDelete = (main, keyName, value, index, filter_type) => {
     console.log(main, keyName, value, filter_type);
     setUpdate((prev) => prev + 1);
@@ -91,18 +101,12 @@ const ShowFilterChips = ({
   // }, [geographies, categorises, dates]);
 
   return (
-    <Box
-      sx={{
-        marginLeft: "144px",
-        marginRight: "144px",
-        textAlign: "left",
-        marginTop: "20px",
-      }}
-    >
+    <Box sx={containerStyle}>
       {geographies?.map((each, ind) => {
         if (!each) return;
         return (
           <Chip
+          id={`geographies-filter-chips-id${ind}`}
             sx={{
               marginLeft: "5px",
               marginRight: "15px",
@@ -132,18 +136,20 @@ const ShowFilterChips = ({
                   onDelete={() =>
                     handleDelete(categorises, key, res, ind, "category")
                   }
+                  id={`category-filter-chips-id${ind}`}
                 />
               );
             })}
           </>
         );
       })}
-      {dates?.map((each) => {
+      {dates?.map((each,index) => {
         console.log(dates);
         return (
           <>
             {each.fromDate ? (
               <Chip
+              id={`date-filter-chips-id${index}`}
                 sx={{
                   marginLeft: "5px",
                   marginRight: "15px",

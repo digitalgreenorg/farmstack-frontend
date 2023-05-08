@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Box, Tab, Tabs, Divider, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Tab,
+  Tabs,
+  Divider,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import "./DataSetsTab.css";
 import AddDataSetCardNew from "../AddDataSetCard";
 import DataSetCardNew from "../DataSetCard";
@@ -54,6 +63,15 @@ const DataSetsTab = ({
   clearFilter,
   setFilterState,
 }) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
+
   const [isGrid, setIsGrid] = useState(true);
   const [isGridOther, setIsGridOther] = useState(true);
   const [isGridSteward, setIsGridSteward] = useState(true);
@@ -92,7 +110,7 @@ const DataSetsTab = ({
 
   return (
     <Box className="w-100">
-      <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
+      <Box sx={containerStyle}>
         {user !== "guest" ? (
           <Box
             sx={{
@@ -221,6 +239,7 @@ const DataSetsTab = ({
                           }
                         : handleCardClick
                     }
+                    
                   />
                 ))}
               </div>
@@ -246,8 +265,11 @@ const DataSetsTab = ({
             {showLoadMoreAdmin ? (
               <Button
                 variant="outlined"
-                className="d_button_style"
+                className={
+                  mobile || tablet ? "d_button_style_md" : "d_button_style"
+                }
                 onClick={() => getDataSets(true)}
+                id="dataset-loadmore-btn"
               >
                 Load more
               </Button>

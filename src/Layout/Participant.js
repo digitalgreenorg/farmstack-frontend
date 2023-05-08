@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ParticipantNavbar from "../Components/Navbar/ParticipantNavbar";
 import Home from "../Views/Role/Participant/home/Home";
 import {
@@ -7,8 +7,18 @@ import {
   Route,
   Redirect,
   withRouter,
+  useHistory,
 } from "react-router-dom";
-import { getTokenLocal, isLoggedInUserParticipant } from "../Utils/Common";
+import {
+  flushLocalstorage,
+  GetErrorHandlingRoute,
+  getRoleLocal,
+  getTokenLocal,
+  getUserLocal,
+  goToTop,
+  isLoggedInUserParticipant,
+  setRoleLocal,
+} from "../Utils/Common";
 import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
 import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
 import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
@@ -41,14 +51,78 @@ import AddConnector from "../Views/Connector_New/AddConnector";
 import EditConnector from "../Views/Connector_New/EditConnector";
 import EditDataset from "../Components/Datasets_New/EditDataset";
 import Settings from "../Components/SettingsNew/Settings";
+import HTTPService from "../Services/HTTPService";
+import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import UrlConstant from "../Constants/UrlConstants";
 
 function Participant(props) {
-  return (
+  const [render, reRender] = useState(0);
+  const [verifyLocalData, setVerifyLocalData] = useState(false);
+
+  const history = useHistory();
+  const { callToast } = useContext(FarmStackContext);
+  let roleId = {
+    1: "datahub_admin",
+    3: "datahub_participant_root",
+    6: "datahub_co_steward",
+  };
+
+  const verifyUserDataOfLocal = () => {
+    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
+    let userId = getUserLocal();
+    let returnValue = false;
+    if (!userId) {
+      flushLocalstorage();
+      return;
+    }
+    let params = { user_id: userId };
+    HTTPService("GET", url, params, false, false, false)
+      .then(async (response) => {
+        console.log("response to verify local data in datahub", response);
+        if (!response?.data?.on_boarded) {
+          flushLocalstorage();
+          history.push("/login");
+          return;
+        }
+        let role = roleId[response?.data?.role_id];
+        let localRole = getRoleLocal();
+        // if (localRole != role) {
+        //   history.push("/login");
+        //   return;
+        // }
+        setRoleLocal(role);
+        setVerifyLocalData(true);
+        console.log(
+          "response to verify local data role in datahub",
+          getRoleLocal(),
+          isLoggedInUserParticipant()
+        );
+      })
+      .catch(async (e) => {
+        console.log("error to verify local data", e);
+        let error = await GetErrorHandlingRoute(e);
+        if (error.toast) {
+          callToast(
+            error?.message ?? "user login details are corrupted",
+            error.status == 200 ? "success" : "error",
+            error.toast
+          );
+        } else {
+          history.push(error?.path);
+        }
+      });
+  };
+
+  useEffect(() => {
+    verifyUserDataOfLocal();
+    goToTop(0);
+  }, []);
+  return verifyLocalData ? (
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
           {/* <ParticipantNavbar /> */}
-          <NavbarNew loginType={'participant'} />
+          <NavbarNew loginType={"participant"} />
           <div className="minHeight67vhParticipantPage">
             <Switch>
               <Route
@@ -170,10 +244,7 @@ function Participant(props) {
               >
                 <DatasetIntegration />
               </Route> */}
-              <Route
-                exact
-                path="/participant/connectors"
-              >
+              <Route exact path="/participant/connectors">
                 <Connectors />
               </Route>
               {/* <Route
@@ -182,7 +253,6 @@ function Participant(props) {
               >
               <ConnectorsList/>
               </Route> */}
-
             </Switch>
           </div>
           {/* <Footer /> */}
@@ -193,6 +263,8 @@ function Participant(props) {
         props.history.push("/login")
       )}
     </>
+  ) : (
+    <></>
   );
 }
 export default Participant;

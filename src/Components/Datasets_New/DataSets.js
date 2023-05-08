@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
+  Button,
   Divider,
   IconButton,
   InputAdornment,
   TextField,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { useHistory } from "react-router-dom";
@@ -13,6 +16,7 @@ import {
   getOrgLocal,
   getTokenLocal,
   getUserLocal,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -48,6 +52,11 @@ const DataSets = (props) => {
   const { user } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+
   const [state, setState] = useState([0, 1, 2, 3, 4, 5]);
   const [searchDatasetsName, setSearchDatasetsName] = useState(null);
   const debouncedSearchValue = useDebounce(searchDatasetsName, 1000);
@@ -66,6 +75,7 @@ const DataSets = (props) => {
   const [memberDatasetUrl, setMemberDatasetUrl] = useState(
     UrlConstant.base_url + UrlConstant.dataset_participant_list
   );
+  const [guestUserDatasetUrl, setGuestUserDatasetUrl] = useState("");
 
   const [updater, setUpdate] = useState(0);
 
@@ -158,8 +168,16 @@ const DataSets = (props) => {
     }
     let guestUrl = "";
     if (user == "guest") {
-      guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
-      payload = "";
+      if (!isLoadMore) {
+        guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
+        payload = "";
+      }
+      if (isLoadMore) {
+        guestUrl = datasetUrl;
+      }
+      if (isLoadMore && !datasetUrl) {
+        return;
+      }
     }
     // console.log(user, "user inside the microste");
     let accessToken = user !== "guest" ? getTokenLocal() : false;
@@ -611,6 +629,7 @@ const DataSets = (props) => {
     if (user === "guest") {
       getDataSets(false);
     }
+    goToTop(0);
   }, []);
 
   useEffect(() => {
@@ -640,9 +659,9 @@ const DataSets = (props) => {
     <>
       <Box sx={{ padding: "40px", maxWidth: "100%" }}>
         {/* section-1 */}
-        <div className="title">Datasets Explorer</div>
+        <div className={mobile ? "title_sm" : "title"}>Datasets Explorer</div>
         <div className="d-flex justify-content-center">
-          <div className="description">
+          <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>
             Unleash the power of data-driven agriculture - your ultimate dataset
             explorer for smarter decisions!
@@ -650,10 +669,12 @@ const DataSets = (props) => {
           </div>
         </div>
         <TextField
+        id="dataset-search-input-id"
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor: "#919EAB",
+                borderRadius: "30px",
               },
               "&:hover fieldset": {
                 borderColor: "#919EAB",
@@ -663,7 +684,13 @@ const DataSets = (props) => {
               },
             },
           }}
-          className="input_field"
+          className={
+            mobile
+              ? "input_field_sm"
+              : tablet
+              ? "input_field_md"
+              : "input_field"
+          }
           placeholder="Search dataset.."
           value={searchDatasetsName}
           onChange={(e) => setSearchDatasetsName(e.target.value.trim())}
@@ -682,74 +709,178 @@ const DataSets = (props) => {
         />
         {/* <ClickAwayListener onClickAway={handleClickAway}> */}
         <div>
-          <div className="filter">
-            <div
-              className={
-                showFilter && type === "geography"
-                  ? "d-flex align-items-center filter_text_container_active"
-                  : "d-flex align-items-center filter_text_container"
-              }
-              onClick={() => handleFilterClick("geography")}
+          <div
+            className={
+              mobile
+                ? "filter_sm"
+                : tablet
+                ? "filter_md"
+                : miniLaptop
+                ? "filter_slg"
+                : "filter"
+            }
+          >
+            <Box className="text-right">
+              {mobile ? (
+                <Box
+                  sx={{
+                    fontFamily: "Montserrat",
+                    fontWeight: 700,
+                    fontSize: "12px",
+                    height: "48px",
+                    border: "none",
+                    color: "#00AB55",
+                    textTransform: "none",
+                    "&:hover": {
+                      background: "none",
+                      border: "none",
+                    },
+                  }}
+                  onClick={() => {
+                    setType("");
+                    setCategorises([]);
+                    setGeographies([]);
+                    setDates([{ fromDate: null, toDate: null }]);
+                    setFromDate("");
+                    setToDate("");
+                    setSearchDatasetsName("");
+                    clearFilter();
+                    setFilterState({});
+                  }}
+                  id="clear-all-in-dataset-filter-id"
+                >
+                  Clear all
+                </Box>
+              ) : (
+                <></>
+              )}
+            </Box>
+            <Box
+              className={`d-flex ${
+                mobile || tablet ? "justify-content-center" : ""
+              }`}
             >
-              <img
-                src={require("../../Assets/Img/geography_new.svg")}
-                alt="geography"
-              />
-              <span className="filter_text">
-                Geography <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
-              </span>
-            </div>
+              <div
+                className={
+                  showFilter && type === "geography"
+                    ? "d-flex align-items-center filter_text_container_active"
+                    : "d-flex align-items-center filter_text_container"
+                }
+                onClick={() => handleFilterClick("geography")}
+                id="dataset-filter-by-geography-id"
+              >
+                <img
+                  src={require("../../Assets/Img/geography_new.svg")}
+                  alt="geography"
+                  style={mobile ? { height: "12px" } : {}}
+                />
+                <span
+                  className={`${
+                    mobile || tablet ? "filter_text_md" : "filter_text"
+                  } 
+                ${mobile ? "ft-12" : ""}
+                `}
+                >
+                  Geography{" "}
+                  {mobile ? (
+                    <></>
+                  ) : (
+                    <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+                  )}
+                </span>
+              </div>
+              <div
+                className={
+                  showFilter && type === "categories"
+                    ? "d-flex align-items-center filter_text_container_active"
+                    : "d-flex align-items-center filter_text_container"
+                }
+                onClick={() => handleFilterClick("categories")}
+                id="dataset-filter-by-categories-id"
+              >
+                <img
+                  src={require("../../Assets/Img/crop_new.svg")}
+                  alt="crop"
+                  style={mobile ? { height: "12px" } : {}}
+                />
+                <span
+                  className={`${
+                    mobile || tablet ? "filter_text_md" : "filter_text"
+                  } 
+                ${mobile ? "ft-12" : ""}
+                `}
+                >
+                  Categories{" "}
+                  {mobile ? (
+                    <></>
+                  ) : (
+                    <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+                  )}
+                </span>
+              </div>
+              <div
+                className={
+                  showFilter && type === "date"
+                    ? "d-flex align-items-center filter_text_container_active"
+                    : "d-flex align-items-center filter_text_container"
+                }
+                onClick={() => handleFilterClick("date")}
+                id="dataset-filter-by-date-id"
+                
+              >
+                <img
+                  src={require("../../Assets/Img/by_date.svg")}
+                  alt="by date"
+                  style={mobile ? { height: "12px" } : {}}
+                />
+                <span
+                  className={`${
+                    mobile || tablet ? "filter_text_md" : "filter_text"
+                  } 
+                ${mobile ? "ft-12" : ""}
+                `}
+                >
+                  By Date{" "}
+                  {mobile ? (
+                    <></>
+                  ) : (
+                    <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+                  )}
+                </span>
+              </div>
+              {mobile ? (
+                <></>
+              ) : (
+                <div
+                  className="d-flex align-items-center filter_text_container"
 
-            <div
-              className={
-                showFilter && type === "categories"
-                  ? "d-flex align-items-center filter_text_container_active"
-                  : "d-flex align-items-center filter_text_container"
-              }
-              onClick={() => handleFilterClick("categories")}
-            >
-              <img src={require("../../Assets/Img/crop_new.svg")} alt="crop" />
-              <span className="filter_text">
-                Categories <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
-              </span>
-            </div>
-
-            <div
-              className={
-                showFilter && type === "date"
-                  ? "d-flex align-items-center filter_text_container_active"
-                  : "d-flex align-items-center filter_text_container"
-              }
-              onClick={() => handleFilterClick("date")}
-            >
-              <img
-                src={require("../../Assets/Img/by_date.svg")}
-                alt="by date"
-              />
-              <span className="filter_text">
-                By Date <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
-              </span>
-            </div>
-            <div
-              className="d-flex align-items-center filter_text_container"
-              onClick={() => {
-                setType("");
-                setCategorises([]);
-                setGeographies([]);
-                setDates([{ fromDate: null, toDate: null }]);
-                setFromDate("");
-                setToDate("");
-                setSearchDatasetsName("");
-                clearFilter();
-                setFilterState({});
-              }}
-            >
-              <img
-                src={require("../../Assets/Img/clear_all.svg")}
-                alt="clear all"
-              />
-              <span className="filter_text">Clear all</span>
-            </div>
+                  onClick={() => {
+                    setType("");
+                    setCategorises([]);
+                    setGeographies([]);
+                    setDates([{ fromDate: null, toDate: null }]);
+                    setFromDate("");
+                    setToDate("");
+                    setSearchDatasetsName("");
+                    clearFilter();
+                    setFilterState({});
+                  }}
+                id="dataset-filter-clear-all-id"
+                >
+                  <img
+                    src={require("../../Assets/Img/clear_all.svg")}
+                    alt="clear all"
+                  />
+                  <span
+                    className={
+                      mobile || tablet ? "filter_text_md" : "filter_text"
+                    }
+                  >
+                    Clear all
+                  </span>
+                </div>
+              )}
+            </Box>
           </div>
           {/* <div style={{ border: "1px solid" }}> */}
           {showFilter ? (

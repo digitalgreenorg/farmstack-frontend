@@ -10,6 +10,8 @@ import {
   Popover,
   Select,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 
@@ -34,6 +36,15 @@ const Filter = ({
   handleClickAway,
   setUpdate,
 }) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+
+  const containerStyle = {
+    marginLeft: mobile || tablet || miniLaptop ? "0px" : "144px",
+    marginRight: mobile || tablet || miniLaptop ? "0px" : "144px",
+  };
   const handleClose = () => {
     callApply();
     setShowFilter(false);
@@ -45,7 +56,7 @@ const Filter = ({
 
   return (
     // <ClickAwayListener onClickAway={handleClickAway}>
-    <div style={{ marginLeft: "144px", marginRight: "144px" }}>
+    <div style={containerStyle}>
       <Card
         sx={{
           boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -80,7 +91,7 @@ const Filter = ({
                         sx={type === "categories" ? contentDetailsStyle : {}}
                       >
                         {acc?.details?.map((detail, index) => (
-                          <Box key={index}>{detail}</Box>
+                          <Box id={`${acc?.title[0]}-${detail}-${index}`} key={index}>{detail}</Box>
                         ))}
                       </Box>
                     </Box>
@@ -89,8 +100,12 @@ const Filter = ({
               </Box>
             </>
           ) : (
-            <Box className="d-flex justify-content-between">
-              <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
+            <Box className={mobile ? "" : "d-flex justify-content-between"}>
+              <FormControl
+                fullWidth
+                sx={{ width: mobile ? "250px" : "330px" }}
+                className="mt-30"
+              >
                 <InputLabel id="test-select-label">Select Country</InputLabel>
                 {console.log(
                   geography?.country?.name,
@@ -99,7 +114,7 @@ const Filter = ({
                 )}
                 <Select
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id="dataset-filter-by-country-id"
                   value={geography?.country?.name}
                   renderValue={() => geographies[0]}
                   onChange={(e) => {
@@ -143,20 +158,24 @@ const Filter = ({
                   label="Select Country"
                   placeholder="Select Country"
                 >
-                  {countries?.map((item) => (
-                    <MenuItem key={item} value={item}>
+                  {countries?.map((item,index) => (
+                    <MenuItem id={`dataset-filter-country-id${index}`} key={item} value={item}>
                       {item.name}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
-              <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
+              <FormControl
+                fullWidth
+                sx={{ width: mobile ? "250px" : "330px" }}
+                className="mt-30"
+              >
                 <InputLabel id="test-select-label">Select State</InputLabel>
 
                 <Select
                   renderValue={() => geographies[1]}
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id="select-country-in-geography-id"
                   value={geography?.state?.name}
                   onChange={(e) => {
                     setUpdate((prev) => prev + 1);
@@ -198,18 +217,22 @@ const Filter = ({
                   label="Select State"
                   placeholder="Select State"
                 >
-                  {states?.map((item) => (
-                    <MenuItem key={item} value={item}>
+                  {states?.map((item,index) => (
+                    <MenuItem id={`select-country-in-geography-id${index}`} key={item} value={item}>
                       {item.name}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
-              <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
+              <FormControl
+                fullWidth
+                sx={{ width: mobile ? "250px" : "330px" }}
+                className="mt-30"
+              >
                 <InputLabel id="test-select-label">Select City</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id="select-state-in-geography-id"
                   renderValue={() => geographies[2]}
                   value={geography?.city?.name}
                   onChange={(e) => {
@@ -251,8 +274,8 @@ const Filter = ({
                   label="Select City"
                   placeholder="Select City"
                 >
-                  {cities?.map((item) => (
-                    <MenuItem key={item} value={item}>
+                  {cities?.map((item,index) => (
+                    <MenuItem id={`select-state-in-geography-id${index}`} key={item} value={item}>
                       {item.name}
                     </MenuItem>
                   ))}
@@ -260,7 +283,11 @@ const Filter = ({
               </FormControl>
             </Box>
           )}
-          <Box className="text-right mt-20 mb-20 mr-20">
+          <Box
+            className={`mt-20 mb-20 ${
+              mobile ? "text-center" : "text-right mr-20"
+            }`}
+          >
             <Button
               sx={{
                 fontFamily: "Montserrat",
@@ -280,6 +307,7 @@ const Filter = ({
               }}
               variant="outlined"
               onClick={() => setShowFilter(false)}
+              id="dataset-close-filter-id"
             >
               Close
             </Button>

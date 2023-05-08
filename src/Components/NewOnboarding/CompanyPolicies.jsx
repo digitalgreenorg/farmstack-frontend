@@ -11,7 +11,6 @@ import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg
 import ControlledAccordions from "../Catergories/ControlledAccordions";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTMLReactParser from "html-react-parser";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import {
   GetErrorHandlingRoute,
@@ -20,6 +19,7 @@ import {
 } from "../../Utils/Common";
 import { CSSTransition } from "react-transition-group";
 import { Popconfirm } from "antd";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [sizeError, setSizeError] = useState("");
@@ -217,7 +217,6 @@ const CompanyPolicies = (props) => {
 
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
-    console.log(uploadedPolicy);
     if (!uploadedPolicy) {
       setPreview(undefined);
       return;
@@ -249,6 +248,18 @@ const CompanyPolicies = (props) => {
     const [dataOfFile, setDataOfFile] = useState(data.file);
     const [localKey, setLocalKey] = useState(0);
     const [fileSizeErrorE, setFileSizeErrorE] = useState("");
+    const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [open, setOpen] = React.useState(false);
+    const id = "delete-popper";
+
+    const handleDeletePopper = (event) => {
+      setAnchorEl(event.currentTarget);
+      setOpen(true);
+    };
+    const closePopper = () => {
+      setOpen(false);
+    };
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
@@ -270,32 +281,23 @@ const CompanyPolicies = (props) => {
       setFileSizeErrorE("");
     };
     useEffect(() => {
-      console.log("uploadedPolicyE", uploadedPolicyE);
       if (uploadedPolicyE) {
-        console.log("uploadedPolicyE is calling", uploadedPolicyE);
         const objectUrl = URL.createObjectURL(uploadedPolicyE);
         setPreviewE(objectUrl);
         setIsLogoLinkE(false);
       } else if (dataOfFile) {
-        console.log("data is calling", dataOfFile);
         setPreviewE(dataOfFile);
         setIsLogoLinkE(true);
       } else {
-        console.log("dataOfFile is null");
         setPreviewE(null);
         setIsLogoLinkE(false);
       }
     }, [uploadedPolicyE, dataOfFile]);
 
-    useEffect(() => {
-      console.log("previewE updated:", previewE);
-      console.log("logoLink is calling", isLogoLinkE);
-      console.log("status of uploadedPolicy", uploadedPolicy);
-    }, [previewE, isLogoLinkE, uploadedPolicy]);
-
     const handleDescChange = (value) => {
       setEditorpolicyDescValue(value);
       setPolicyDesc(value.toString("html"));
+      setSaveButtonEnabled(value.toString("html") !== "");
     };
     const handleChangePolicyName = (e) => {
       setPolicyNameUnderAccordion(e.target.value);
@@ -490,26 +492,34 @@ const CompanyPolicies = (props) => {
             gap: "10px",
           }}
         >
-          <Popconfirm
-            title="Delete the connector"
-            description="Are you sure to delete this connector?"
-            onConfirm={(e) => confirm(e, index)}
-            onCancel={() => console.log("cancelled")}
-            okText="Yes"
-            cancelText="No"
+          <CustomDeletePopper
+            DeleteItem={policyNameUnderAccordion}
+            anchorEl={anchorEl}
+            handleDelete={(e) => confirm(e, index)}
+            id={id}
+            open={open}
+            closePopper={closePopper}
+          />
+          <Button
+            className={
+              global_style.secondary_button_error +
+              " " +
+              styles.delete_button_policy
+            } 
+            onClick={handleDeletePopper}
           >
-            <Button
-              className={
-                global_style.secondary_button_error +
-                " " +
-                styles.delete_button_policy
-              }
-            >
-              Delete
-            </Button>
-          </Popconfirm>
+            Delete
+          </Button>
           {isEditModeOn ? (
             <Button
+              disabled={
+                (uploadedPolicyE ||
+                  dataOfFile ||
+                  (policyDesc !== "<p><br></p>")) &&
+                policyNameUnderAccordion
+                  ? false
+                  : true
+              }
               onClick={(prev) => handleSave()}
               className={global_style.primary_button + " " + styles.edit_button}
             >
@@ -563,9 +573,16 @@ const CompanyPolicies = (props) => {
     RichTextEditor.createValueFromString(companyPolicyDescription, "html")
   );
   const [descriptionError, setdescriptionError] = useState("");
+  const [enableButton, setEnableButton] = useState(false);
+
   const handlegovLawChange = (value) => {
     setEditorGovLawValue(value);
     setcompanyPolicyDescription(value.toString("html"));
+    if (value.toString("html") !== "<p><br></p>") {
+      setEnableButton(true);
+    } else {
+      setEnableButton(false);
+    }
   };
   useEffect(() => {
     getListOfPolicies();
@@ -625,7 +642,6 @@ const CompanyPolicies = (props) => {
                   placeholder="Description"
                   toolbarConfig={toolbarConfig}
                   value={companyPolicyValue}
-                  // onKeyDown={handledatasetnameKeydown}
                   onChange={handlegovLawChange}
                   required
                   className="rich_text_editor"
@@ -723,7 +739,13 @@ const CompanyPolicies = (props) => {
           </div>
           <div className={styles.button_grp}>
             <Button
-              disabled={companyPolicyDescription && policyName ? false : true}
+              disabled={
+                ((companyPolicyDescription && enableButton) ||
+                  uploadedPolicy) &&
+                policyName
+                  ? false
+                  : true
+              }
               onClick={() => handleAddPolicy()}
               className={global_style.primary_button + " " + styles.next_button}
             >
@@ -759,7 +781,6 @@ const CompanyPolicies = (props) => {
                       placeholder="Description"
                       toolbarConfig={toolbarConfig}
                       value={companyPolicyValue}
-                      // onKeyDown={handledatasetnameKeydown}
                       onChange={handlegovLawChange}
                       required
                       className="rich_text_editor"
@@ -862,7 +883,11 @@ const CompanyPolicies = (props) => {
               <div className={styles.button_grp}>
                 <Button
                   disabled={
-                    companyPolicyDescription && policyName ? false : true
+                    (uploadedPolicy ||
+                      (companyPolicyDescription && enableButton)) &&
+                    policyName
+                      ? false
+                      : true
                   }
                   onClick={() => handleAddPolicy()}
                   className={

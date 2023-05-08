@@ -9,6 +9,8 @@ import {
   MenuItem,
   Select,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import "./DataSetsView.css";
 import FileTable from "./FileTable";
@@ -33,12 +35,21 @@ import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Popconfirm } from "antd";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 
 const DataSetsView = (props) => {
   const { userType } = props;
   const history = useHistory();
   const { id } = useParams();
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   const [categories, setCategories] = useState([]);
   const [allDatasets, setAllDatasets] = useState([]);
   const [approvalStatus, setApprovalStatus] = useState(false);
@@ -90,6 +101,19 @@ const DataSetsView = (props) => {
   const [orgDetails, setOrgDetails] = useState();
   const [orgAddress, setOrgAddress] = useState();
   const [userDetails, setUserDetails] = useState();
+
+  //Custom popper
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+
+  const handleDeletePopper = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+  const closePopper = () => {
+    setOpen(false);
+  };
+
 
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
@@ -376,13 +400,7 @@ const DataSetsView = (props) => {
   console.log(history.location?.state);
   return (
     <Box>
-      <Box
-        sx={{
-          marginLeft: "144px",
-          marginRight: "144px",
-          marginBottom: "100px",
-        }}
-      >
+      <Box sx={containerStyle}>
         <div className="text-left mt-50">
           <span
             className="add_light_text cursor-pointer breadcrumbItem"
@@ -405,29 +423,14 @@ const DataSetsView = (props) => {
           {history.location?.state?.tab === "my_organisation" &&
           userType !== "guest" ? (
             <Box>
-              <Popconfirm
-                title={
-                  <span style={{ marginTop: "3px !important" }}>
-                    Delete the dataset
-                  </span>
-                }
-                description={
-                  <span>
-                    Are you sure to delete this dataset{" "}
-                    <strong>{dataSetName}</strong> ?
-                  </span>
-                }
-                onConfirm={handleDelete}
-                icon={
-                  <ExclamationCircleFilled
-                    style={{ color: "red", marginTop: "-3px" }}
-                  />
-                }
-                okText="Yes"
-                cancelText="No"
-                okType="danger"
-                placement="bottom"
-              >
+              <CustomDeletePopper
+                DeleteItem={dataSetName}
+                anchorEl={anchorEl}
+                handleDelete={handleDelete}
+                id={id}
+                open={open}
+                closePopper={closePopper}
+              />
                 <Button
                   sx={{
                     color: "#FF5630",
@@ -445,6 +448,7 @@ const DataSetsView = (props) => {
                     },
                   }}
                   variant="outlined"
+                  onClick={handleDeletePopper}
                 >
                   Delete dataset{" "}
                   <DeleteOutlineIcon
@@ -455,7 +459,6 @@ const DataSetsView = (props) => {
                     }}
                   />
                 </Button>
-              </Popconfirm>
               <Button
                 sx={{
                   color: "#00AB55",
@@ -490,8 +493,8 @@ const DataSetsView = (props) => {
           )}
         </Box>
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
-        <Box className="d-flex mt-38">
-          <Box sx={{ width: "638px" }}>
+        <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
+          <Box sx={{ width: mobile ? "" : "638px" }}>
             <Typography className="view_agriculture_heading text-left">
               {dataSetName}
             </Typography>
@@ -502,11 +505,15 @@ const DataSetsView = (props) => {
               {dataSetDescription}
             </Typography>
           </Box>
-          <Box className="ml-134">
+          <Box className={mobile ? "" : "ml-134"}>
             {/* <Box className="text-left">
               <div className="type_dataset">Public dataset</div>
             </Box> */}
-            <Typography className="view_datasets_light_text text-left">
+            <Typography
+              className={`view_datasets_light_text text-left ${
+                mobile ? "mt-25" : ""
+              }`}
+            >
               Data Capture Interval
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
@@ -585,18 +592,36 @@ const DataSetsView = (props) => {
                 <Typography className="view_datasets_light_text">
                   Organisation address
                 </Typography>
-                <Typography className="view_datasets_bold_text">
+                <Typography
+                  className={
+                    mobile
+                      ? "view_datasets_bold_text_sm"
+                      : "view_datasets_bold_text"
+                  }
+                >
                   {orgAddress}
                 </Typography>
               </div>
-              <div className="text-left ml-79">
+              <div className={`text-left ${mobile ? "ml-28" : "ml-79"}`}>
                 <Typography className="view_datasets_light_text">
                   Root user details
                 </Typography>
-                <Typography className="view_datasets_bold_text">
+                <Typography
+                  className={
+                    mobile
+                      ? "view_datasets_bold_text_sm"
+                      : "view_datasets_bold_text"
+                  }
+                >
                   {userDetails?.first_name + " " + userDetails?.last_name}
                 </Typography>
-                <Typography className="view_datasets_bold_text">
+                <Typography
+                  className={
+                    mobile
+                      ? "view_datasets_bold_text_sm"
+                      : "view_datasets_bold_text"
+                  }
+                >
                   {userDetails?.email}
                 </Typography>
               </div>
@@ -611,7 +636,7 @@ const DataSetsView = (props) => {
               fontFamily: "Montserrat",
               fontWeight: 700,
               fontSize: "16px",
-              width: "171px",
+              width: mobile ? "145px" : "171px",
               height: "48px",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",

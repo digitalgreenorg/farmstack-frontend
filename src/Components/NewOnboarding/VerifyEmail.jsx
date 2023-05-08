@@ -309,6 +309,7 @@ const VerifyEmailStep = (props) => {
       {agreement && (
         <div className={styles.agreement}>
           <Checkbox
+          id="login-agree-terms-and-condition-check-box"
             checked={agreementChecked}
             onClick={(e) => setAgreementChecked(e.target.checked)}
             className={styles.checkbox}
@@ -371,6 +372,7 @@ const VerifyEmailStep = (props) => {
               : ""
           }
           className={global_style.primary_button + " " + styles.send_otp}
+          id="send-otp-btn"
         >
           {" "}
           {!isValidEmailSent ? "Send OTP" : "Verify"}
