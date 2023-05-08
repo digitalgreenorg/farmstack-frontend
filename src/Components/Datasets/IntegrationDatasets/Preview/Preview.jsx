@@ -255,6 +255,7 @@ const Preview = (props) => {
           }}
         >
           <Button
+            id="cancel-button"
             onClick={() => {
               history.push("/datahub/connectors");
               resetAll(true, true, true, true, setCol, setRow);
@@ -266,6 +267,7 @@ const Preview = (props) => {
           {/* </Col> */}
           {/* <Col lg={3}> */}
           <Button
+            id="integrate-more-datasets-button"
             onClick={() => integrateMore(1)}
             variant="contained"
             sx={{
@@ -300,6 +302,7 @@ const Preview = (props) => {
           completeData?.[0]?.right_on?.length &&
           completeData.length != 1 ? (
             <Button
+              id="save-connector-button"
               onClick={() => {
                 temporaryDeletedCards.forEach((item, i) => {
                   if (item) {
@@ -343,6 +346,7 @@ const Preview = (props) => {
                 closePopper={closePopper}
               />
               <Button
+                id="delete-connector-button"
                 onClick={handleDeletePopper}
                 sx={{
                   fontFamily: "Public Sans",

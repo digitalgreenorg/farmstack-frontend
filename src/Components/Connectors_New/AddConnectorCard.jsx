@@ -17,10 +17,11 @@ const AddConnectorCard = ({ history, addConnector }) => {
       className="card cursor-pointer"
       sx={cardSx}
       onClick={() => history.push(addConnector())}
+      id="add-connector"
     >
       <div className={style.addNewCard}>Add New Connector</div>
       <div>
-        <img src={require("../../Assets/Img/add_new.svg")} alt="add" />
+        <img id="add-connector-button" src={require("../../Assets/Img/add_new.svg")} alt="add" />
       </div>
       <div className={style.addNewCardText}>
         Add details about your connector.

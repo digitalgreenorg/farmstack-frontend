@@ -22,6 +22,7 @@ const OutlinedButton = ({ text, fontWeight, fontSize, width, height, border, rad
                     border: "1px solid rgba(0, 171, 85, 0.48)"
                 }
             }}
+            id="join-more-button"
             variant="outlined"
             onClick={() => handleClick()}>{text}</Button>
     )
