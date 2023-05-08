@@ -85,11 +85,7 @@ export default function ControlledAccordions(props) {
               ""
             )}
           </Typography>
-          {isPolicy &&
-          onOpenHideDelete &&
-          !anchorEl &&
-          !open &&
-          expanded == "panel1" ? (
+          {onOpenHideDelete && !anchorEl && !open && expanded == "panel1" ? (
             ""
           ) : (
             <>
