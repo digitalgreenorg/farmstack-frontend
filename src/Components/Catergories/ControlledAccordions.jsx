@@ -30,7 +30,7 @@ export default function ControlledAccordions(props) {
 
   const handleDeletePopper = (event) => {
     setAnchorEl(event.currentTarget);
-    setOpen(true);    
+    setOpen(true);
   };
   const closePopper = () => {
     setOpen(false);
@@ -85,23 +85,29 @@ export default function ControlledAccordions(props) {
               ""
             )}
           </Typography>
-          {isPolicy && onOpenHideDelete && !anchorEl && !open && expanded  == "panel1" ? (
+          {isPolicy &&
+          onOpenHideDelete &&
+          !anchorEl &&
+          !open &&
+          expanded == "panel1" ? (
             ""
-          ) : (<>
-            <CustomDeletePopper
-            DeleteItem={"File"}
-            anchorEl={anchorEl}
-            handleDelete={(e) => {
-              accordionDelete(e, index);
-              setAnchorEl(null); // Reset anchorEl to null
-              setOpen(false); // Reset open to false
-            }}
-            id={id}
-            open={open}
-            closePopper={closePopper}
-          />
-            <DeleteOutlineIcon onClick={handleDeletePopper} />
-            </>)}
+          ) : (
+            <>
+              <CustomDeletePopper
+                DeleteItem={"File"}
+                anchorEl={anchorEl}
+                handleDelete={(e) => {
+                  accordionDelete(e, index);
+                  setAnchorEl(null); // Reset anchorEl to null
+                  setOpen(false); // Reset open to false
+                }}
+                id={id}
+                open={open}
+                closePopper={closePopper}
+              />
+              <DeleteOutlineIcon onClick={handleDeletePopper} />
+            </>
+          )}
         </AccordionSummary>
         <AccordionDetails>
           {Component && <Component data={data} index={index} />}
