@@ -358,6 +358,7 @@ const ProfileDetails = (props) => {
               }
               onClick={(e) => handleSubmitProfileData(e)}
               className={global_style.primary_button + " " + styles.next_button}
+              id="nextbutton_account_onboard"
             >
               {" "}
               Next
