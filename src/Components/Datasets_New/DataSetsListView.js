@@ -41,6 +41,7 @@ const DataSetsListView = ({
                 tab: value,
               })
             }
+            id={`${item?.name?.split(" ").join("-")}-dataset-list-view-card`}
           >
             <Typography className="datasets_list_view_text datasets_list_view_name green_text w-100 text-left ml-20">
               {item?.name}
