@@ -3,6 +3,11 @@
   text-align: left;
 }
 
+.containerMd {
+  margin: 25px 30px;
+  text-align: left;
+}
+
 .greenBox {
   justify-content: center;
   height: 40px;
@@ -18,14 +23,20 @@
   width: 100%;
 }
 
-.titleContainer,
+.titleContainer {
+  margin: 50px auto;
+}
+
+.titleContainerSm {
+  margin: 30px auto;
+}
+
 .buttonContainer {
   margin: 50px auto;
 }
 
 .title {
   margin: 10px auto;
-  line-height: 78px !important;
 }
 
 .lastTitle {
@@ -39,6 +50,22 @@
   font-size: 22px !important;
   font-style: italic !important;
   color: #565c63 !important;
+  text-align: left;
+}
+
+.descriptionMd {
+  line-height: 20px !important;
+  margin: 15px auto !important;
+  font-size: 12px !important;
+  font-style: italic !important;
+  color: #565c63 !important;
+  width: 344px !important;
+  text-align: left;
+}
+
+.bgMd {
+  height: 373px;
+  position: absolute;
 }
 
 .primaryButton {
@@ -51,14 +78,14 @@
   margin: 0 0 50px 0px;
 }
 
-.pointContainer > span {
+.pointContainer>span {
   line-height: 20px !important;
 }
 
 .centeredAlignTitle {
   align-items: center;
   display: flex;
-  width: 900px;
+  width: 100%;
   margin: auto !important;
   text-align: center;
   line-height: 39px !important;
@@ -70,6 +97,7 @@
 
 .gradientContainer {
   position: relative;
+  text-align: center;
 }
 
 .gradientTextContainer {
@@ -77,14 +105,57 @@
   top: 92px;
   margin: auto;
   width: 100%;
+  display: flex !important;
+  justify-content: space-around !important;
+  /* padding: 0 144px !important; */
+}
+
+.gradientTextContainerMd {
+  position: absolute;
+  top: 55px;
+  margin: auto;
+  width: 100%;
+  display: flex !important;
+  justify-content: space-around !important;
+  /* padding: 0 144px !important; */
+}
+
+.gradientTextContainerTab {
+  position: absolute;
+  top: 33px;
+  margin: auto;
+  width: 100%;
+  display: flex !important;
+  justify-content: space-around !important;
+  /* padding: 0 144px !important; */
+}
+
+.gradientTextContainerSm {
+  position: absolute;
+  top: 33px;
+  margin: auto;
+  width: 100%;
+  display: flex !important;
+  justify-content: space-between !important;
   /* padding: 0 144px !important; */
 }
 
 .gradientTextContainer .title {
-  line-height: 39px !important;
   width: 350px;
   text-align: left;
   margin: auto;
+}
+
+.lineheight_39 {
+  line-height: 39px !important;
+}
+
+.lineheight_27 {
+  line-height: 27px !important;
+}
+
+.lineheight_78 {
+  line-height: 78px !important;
 }
 
 .gradientTextContainer .description {

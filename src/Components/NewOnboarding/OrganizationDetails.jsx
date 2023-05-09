@@ -643,7 +643,7 @@ const OrganizationDetails = (props) => {
           <Row>
             <Col style={{ textAlign: "right", margin: "20px" }}>
               <Button
-                id="cancelbutton_account"
+                id="cancelbutton_org"
                 variant="outlined"
                 className={global_style.secondary_button}
                 onClick={() =>
@@ -655,7 +655,7 @@ const OrganizationDetails = (props) => {
                 Cancel
               </Button>
               <Button
-                id="submitbutton_account"
+                id="submitbutton_org"
                 variant="outlined"
                 className={
                   global_style.primary_button + " " + styles.next_button
@@ -710,6 +710,7 @@ const OrganizationDetails = (props) => {
               }
               onClick={(e) => handleSubmitOrganizationDetails(e)}
               className={global_style.primary_button + " " + styles.next_button}
+              id="nextbutton_org_onboard"
             >
               {" "}
               {isLoggedInUserAdmin() ? "Next" : "Finish"}
