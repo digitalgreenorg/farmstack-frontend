@@ -374,7 +374,7 @@ const Standardise = ({
           <InputLabel>File name</InputLabel>
           <Select
             labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            id="standardi-seselect-file-name"
             value={standardiseFile}
             onChange={(e) => setStandardiseFile(e.target.value)}
             sx={{
@@ -394,11 +394,11 @@ const Standardise = ({
           >
             {standardiseFiles &&
               standardiseFiles?.length &&
-              standardiseFiles?.map((item) => {
+              standardiseFiles?.map((item,index) => {
                 // let index = item?.file?.lastIndexOf("/");
                 // let fileName = item?.file?.slice(index + 1);
                 return (
-                  <MenuItem key={item?.id} value={item?.id}>
+                  <MenuItem id={`standardise-file-name-${index}`} key={item?.id} value={item?.id}>
                     {item?.label}
                   </MenuItem>
                 );
@@ -490,6 +490,7 @@ const Standardise = ({
                       }}
                       variant="contained"
                       onClick={() => handleStandaiseFile()}
+                      id={`standardise-apply-btn`}
                     >
                       Apply
                     </Button>

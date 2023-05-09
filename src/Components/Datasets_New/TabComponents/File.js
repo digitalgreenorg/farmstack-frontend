@@ -55,6 +55,7 @@ const File = ({
             }}
           >
             <img
+            id={`accordion-uploaded-file-delete-button-id${index}`}
               className="cursor-pointer"
               onClick={() => handleClick(index, id, name, type)}
               src={require("../../../Assets/Img/delete_dark.svg")}
@@ -65,7 +66,7 @@ const File = ({
         )}
       </div>
       {showDeleteIcon ? (
-        <Divider sx={{ marginTop: "10px", marginBottom: "10px" }} />
+        <Divider  sx={{ marginTop: "10px", marginBottom: "10px" }} />
       ) : (
         <></>
       )}

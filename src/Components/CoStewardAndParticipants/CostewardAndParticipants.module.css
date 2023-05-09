@@ -27,7 +27,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
   /* min-width: 400px; */
+}
+.titleParentDiv{
+  width: 50%;
 }
 
 .titleSm {
