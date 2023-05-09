@@ -420,7 +420,7 @@ const DataSetsView = (props) => {
           </span>
         </div>
         <Box className="d-flex justify-content-between align-items-baseline">
-          <div className="bold_title mt-50">{"Dataset Detailssss"}</div>
+          <div className="bold_title mt-50">{"Dataset Details"}</div>
           {history.location?.state?.tab === "my_organisation" &&
           userType !== "guest" ? (
             <Box>
