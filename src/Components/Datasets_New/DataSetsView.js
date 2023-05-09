@@ -29,6 +29,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  dateTimeFormat
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
@@ -517,7 +518,7 @@ const DataSetsView = (props) => {
               Data Capture Interval
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
-              {fromDate + " - " + toDate}
+              {dateTimeFormat(fromDate) + " - " + dateTimeFormat(toDate)}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-25">
               Geography

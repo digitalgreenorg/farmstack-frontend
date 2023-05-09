@@ -152,7 +152,7 @@ const SelectConnector = ({
             >
               {template?.dataset_list?.map((item, index) => {
                 return (
-                  <MenuItem key={item?.id} value={item?.id}>
+                  <MenuItem key={item?.id} value={item?.id} id="menu-datasetname">
                     {item?.name}
                   </MenuItem>
                 );
@@ -176,7 +176,7 @@ const SelectConnector = ({
             >
               {template?.file_list?.map((item, index) => {
                 return (
-                  <MenuItem key={index} value={item?.standardised_file ?? ""}>
+                  <MenuItem key={index} value={item?.standardised_file ?? ""} id="menu-datasetfile">
                     {item?.file_name}
                   </MenuItem>
                 );
