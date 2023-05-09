@@ -394,7 +394,7 @@ const ParticipantFormNew = (props) => {
           <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
-              id="organisation-name-id"
+                id="organisation-name-id"
                 className={LocalStyle.textField}
                 label="Organisation Name"
                 fullWidth
@@ -416,7 +416,7 @@ const ParticipantFormNew = (props) => {
             </Col>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
-              id="add-participant-mail-id"
+                id="add-participant-mail-id"
                 className={LocalStyle.textField}
                 label="Mail Id "
                 type="email"
@@ -441,7 +441,7 @@ const ParticipantFormNew = (props) => {
           <Row>
             <Col xs={12}>
               <TextField
-              id="add-participant-website-link"
+                id="add-participant-website-link"
                 className={LocalStyle.textField}
                 label="Website Link"
                 fullWidth
@@ -457,7 +457,7 @@ const ParticipantFormNew = (props) => {
           <Row>
             <Col xs={12}>
               <TextField
-              id="add-participant-organisation-address"
+                id="add-participant-organisation-address"
                 className={LocalStyle.textField}
                 label="Organisation Address "
                 fullWidth
@@ -497,7 +497,10 @@ const ParticipantFormNew = (props) => {
                   >
                     {countryNameList?.map((countryName, index) => {
                       return (
-                        <MenuItem id={`country-${countryName+index}`} value={countryName.label}>
+                        <MenuItem
+                          id={`country-${countryName + index}`}
+                          value={countryName.label}
+                        >
                           {countryName.label}
                         </MenuItem>
                       );
@@ -597,7 +600,7 @@ const ParticipantFormNew = (props) => {
         <Row>
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
-            id="add-participant-mail-id"
+              id="add-participant-mail-id"
               className={LocalStyle.textField}
               label="Mail Id "
               type="email"
@@ -667,7 +670,7 @@ const ParticipantFormNew = (props) => {
                   <Checkbox
                     checked={isCoSteward}
                     onChange={() => setIsCoSteward(!isCoSteward)}
-                    id='add-participant-make-costeward'
+                    id="add-participant-make-costeward"
                   />
                   <Typography
                     className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
@@ -699,7 +702,6 @@ const ParticipantFormNew = (props) => {
                 sx={{
                   width: "100%",
                   textAlign: "left",
-                  height: "48px",
                   paddingLeft: "28px",
                   paddingTop: "15px",
                   margin: "20px 0px",
@@ -737,10 +739,16 @@ const ParticipantFormNew = (props) => {
                     value={selectedCosteward}
                     onChange={handlelistofCosteward}
                   >
-                    <MenuItem value=""><em>None</em></MenuItem>
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
                     {selectCoSteward.map((listofcosteward, index) => {
                       return (
-                        <MenuItem id={"select-costeward-"+index} key={index} value={listofcosteward.user}>
+                        <MenuItem
+                          id={"select-costeward-" + index}
+                          key={index}
+                          value={listofcosteward.user}
+                        >
                           {" "}
                           {listofcosteward.organization_name}{" "}
                         </MenuItem>
