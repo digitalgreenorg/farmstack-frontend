@@ -72,6 +72,7 @@ const ControlledAccordion = ({
           }}
           expanded={expanded === acc.panel}
           onChange={handleChange(acc.panel)}
+          id={`uploaded-file-accordion-${index}`}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -113,7 +114,7 @@ const ControlledAccordion = ({
               }
             >
               {acc?.details?.map((detail, index) => (
-                <Box key={index} sx={detailsStyle}>
+                <Box id={`dataset-accourdion-details-${index}`} key={index} sx={detailsStyle}>
                   {detail}
                 </Box>
               ))}

@@ -825,6 +825,7 @@ const AddConnector = (props) => {
           onChange={handleChange}
           disabled={props.isEditModeOn ? true : false}
           inputProps={{ maxLength: 100 }}
+          id="connector-name"
         />
         <TextField
           fullWidth
@@ -840,6 +841,7 @@ const AddConnector = (props) => {
           value={connectorData.desc}
           onChange={handleChange}
           inputProps={{ maxLength: 512 }}
+          id="connector-description"
         />
         <SelectConnector
           text={"Select datasets for connector"}

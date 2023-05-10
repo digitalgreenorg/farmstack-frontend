@@ -70,8 +70,8 @@ const StandardiseRow = ({
           <FormControl fullWidth sx={{ width: "273px" }}>
             <InputLabel>Datapoint category</InputLabel>
             <Select
+            id={`standardise-datapoint-category${index}`}
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
               key={index}
               value={
                 datapointCategory?.[index] ? datapointCategory?.[index] : ""
@@ -133,8 +133,10 @@ const StandardiseRow = ({
               }}
             >
               {datapointCategories?.map((item) => (
-                <MenuItem key={item.datapoint_category} value={item}>
-                  {item.datapoint_category}
+                <MenuItem 
+                id={`standardise-datapoint-category-option-${index+item?.datapoint_category}`}
+                key={item.datapoint_category} value={item}>
+                  {item?.datapoint_category}
                 </MenuItem>
               ))}
             </Select>
@@ -145,7 +147,7 @@ const StandardiseRow = ({
             <InputLabel>Datapoint Attribute</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id={`standardise-datapoint-attribute${index}`}
               key={index}
               value={
                 standardisedColum?.[index] ? standardisedColum?.[index] : ""
@@ -174,7 +176,9 @@ const StandardiseRow = ({
               }}
             >
               {datapointAttributes[index]?.map((item) => (
-                <MenuItem key={item} value={item}>
+                <MenuItem 
+                id={`standardise-datapoint-attribute-${index+item}`}
+                 key={item} value={item}>
                   {item}
                 </MenuItem>
               ))}
@@ -189,6 +193,7 @@ const StandardiseRow = ({
             keyIndex={index}
             keyIndexPassed={true}
             handleCheckBox={handleMaskCheckBox}
+            id={`standardise-column}`}
           />
         </Box>
       </Box>

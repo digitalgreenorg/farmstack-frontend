@@ -27,6 +27,7 @@ const ApiConfiguration = (props) => {
         Connection Name
       </Typography>
       <TextField
+       id={`upload-dataset-api-url-id`}
         fullWidth
         required
         helperText={
@@ -75,7 +76,7 @@ const ApiConfiguration = (props) => {
         <InputLabel>Auth Type</InputLabel>
         <Select
           labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          id={`upload-dataset-api-select-auth-type-id`}
           required
           value={props.authType}
           onChange={(e) => props.setAuthType(e.target.value)}
@@ -94,9 +95,12 @@ const ApiConfiguration = (props) => {
           label="Auth Type"
           placeholder="Auth Type"
         >
-          {props.authTypes?.map((item) => {
+          {props.authTypes?.map((item,index) => {
             return (
-              <MenuItem key={item} value={item}>
+              <MenuItem 
+       id={`upload-dataset-api-auth-type-${index}`}
+
+              key={item} value={item}>
                 {item}
               </MenuItem>
             );
@@ -106,6 +110,7 @@ const ApiConfiguration = (props) => {
       {props.authType && props.authType !== "NO_AUTH" ? (
         props.authType === "BEARER" ? (
           <TextField
+       id={`upload-dataset-api-auth-token-id`}
             fullWidth
             required
             helperText={
@@ -150,6 +155,8 @@ const ApiConfiguration = (props) => {
         ) : (
           <>
             <TextField
+       id={`upload-dataset-api-key-id`}
+
               fullWidth
               required
               sx={{
@@ -173,6 +180,7 @@ const ApiConfiguration = (props) => {
               onChange={(e) => props.setAuthApiKeyName(e.target.value)}
             />
             <TextField
+       id={`upload-dataset-api-key-value-id`}
               fullWidth
               required
               sx={{
@@ -226,6 +234,7 @@ const ApiConfiguration = (props) => {
         </Button> */}
       </Box>
       <TextField
+       id={`upload-dataset-api-name-of-import-file-id`}
         fullWidth
         required
         helperText={
@@ -290,6 +299,7 @@ const ApiConfiguration = (props) => {
           Disconnect
         </Button> */}
         <Button
+       id={`upload-dataset-api-import-btn`}
           sx={{
             fontFamily: "Montserrat",
             fontWeight: 700,

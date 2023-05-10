@@ -148,6 +148,7 @@ const DataSetsTab = ({
                     className={
                       value == 0 ? "tab_header_selected" : "tab_header"
                     }
+                    id="dataset-my-orgnanisation-tab"
                   >
                     My Organisation
                   </span>
@@ -164,6 +165,7 @@ const DataSetsTab = ({
                     className={
                       value == 1 ? "tab_header_selected" : "tab_header"
                     }
+                    id="dataset-other-organisation-tab"
                   >
                     Other Organisation
                   </span>
@@ -180,6 +182,7 @@ const DataSetsTab = ({
                     className={
                       value == 2 ? "tab_header_selected" : "tab_header"
                     }
+                    id="dataset-requests-tab"
                   >
                     Requests
                   </span>
@@ -226,6 +229,7 @@ const DataSetsTab = ({
                 )}
                 {datasetList?.map((item) => (
                   <DataSetCardNew
+                  id="dataset-card-in-dataset"
                     key={item?.id}
                     history={history}
                     item={item}
@@ -312,6 +316,7 @@ const DataSetsTab = ({
                 variant="outlined"
                 className="d_button_style"
                 onClick={() => getOtherDataSets(true)}
+                id="dataset-list-view-load-more-btn"
               >
                 Load more
               </Button>
