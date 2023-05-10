@@ -44,7 +44,9 @@ const CustomCard = (props) => {
         <div
           id={`${title ? title : "title"}-card-title-${index ? index : ""}`}
           className={
-            mobile ? LocalStyle.content_title_sm : LocalStyle.content_title
+            mobile || tablet
+              ? LocalStyle.content_title_sm
+              : LocalStyle.content_title
           }
         >
           {title ? title : ""}

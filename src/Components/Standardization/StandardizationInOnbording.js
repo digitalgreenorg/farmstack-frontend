@@ -74,25 +74,25 @@ const StandardizationInOnbord = (props) => {
       duration: 5,
     });
   };
-  const [anchorEl, setAnchorEl] = React.useState(Array(allDatapoints.length).fill(null));
+  const [anchorEl, setAnchorEl] = React.useState(
+    Array(allDatapoints.length).fill(null)
+  );
   const [open, setOpen] = React.useState(false);
-   const id = "delete-popper";
+  const id = "delete-popper";
   const handleDelete = (event, index) => {
     setAnchorEl((prevAnchorEl) => {
       const newAnchorEl = [...prevAnchorEl];
       newAnchorEl[index] = event.currentTarget;
-      console.log("event is triggering", newAnchorEl, anchorEl, index)
+      console.log("event is triggering", newAnchorEl, anchorEl, index);
       return newAnchorEl;
     });
   };
   const handleClose = (index) => {
-
     const newAnchorEls = [...anchorEl];
     newAnchorEls[index] = null;
     setAnchorEl(newAnchorEls);
     setOpen(false);
-    console.log("newAnchorEls", newAnchorEls)
-    
+    console.log("newAnchorEls", newAnchorEls);
   };
 
   console.log("all datapoints", allDatapoints);
@@ -278,14 +278,14 @@ const StandardizationInOnbord = (props) => {
   };
 
   const confirm = (e, index) => {
-     handleDatapointCategoryDelete(index);
-     e.stopPropagation();
-     setAnchorEl((prevAnchorEl) => {
+    handleDatapointCategoryDelete(index);
+    e.stopPropagation();
+    setAnchorEl((prevAnchorEl) => {
       const newAnchorEl = [...prevAnchorEl];
       newAnchorEl[index] = null;
       return newAnchorEl;
     });
-  } 
+  };
   const handleDatapointCategoryDelete = (index) => {
     if (allDatapoints[index]["id"]) {
       console.log("id", allDatapoints[index]["id"]);
@@ -680,6 +680,7 @@ const StandardizationInOnbord = (props) => {
                     {editCategoryTitle[index] ? (
                       <IconButton>
                         <Button
+                          id="update-button-category"
                           onClick={() =>
                             handleNameExistsUpdate(
                               index,
@@ -798,6 +799,7 @@ const StandardizationInOnbord = (props) => {
                             src={add_icon}
                             alt="add"
                             onClick={() => handleAddDatapointAttribute(index)}
+                            id="add-subcategories-button"
                           />
                         </Col>
                       </Row>
@@ -871,11 +873,14 @@ const StandardizationInOnbord = (props) => {
                           anchorEl={anchorEl[index]}
                           handleDelete={(e) => confirm(e, index)}
                           id={id}
-                          open={anchorEl[index] !== null && anchorEl[index] !== undefined}
-                          closePopper={() =>handleClose(index)}
+                          open={
+                            anchorEl[index] !== null &&
+                            anchorEl[index] !== undefined
+                          }
+                          closePopper={() => handleClose(index)}
                         />
                         <Button
-                          id="apply_policies"
+                          id="delete_button_datapoint"
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
@@ -888,7 +893,7 @@ const StandardizationInOnbord = (props) => {
                           Delete
                         </Button>
                         <Button
-                          id="apply_policies"
+                          id="edit_button_datapoint"
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
@@ -1066,4 +1071,3 @@ const StandardizationInOnbord = (props) => {
 };
 
 export default StandardizationInOnbord;
-

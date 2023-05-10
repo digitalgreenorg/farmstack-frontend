@@ -54,7 +54,7 @@ const TableImport = (props) => {
         <InputLabel>Select table</InputLabel>
         <Select
           labelId="demo-simple-select-label"
-          id="demo-simple-select"
+       id={`${props.dbName}-upload-dataset-select-id`}
           value={props.tableName}
           onChange={props.handleTableChange}
           sx={{
@@ -72,8 +72,10 @@ const TableImport = (props) => {
           label="Select table"
           placeholder="Select table"
         >
-          {props.menus?.map((menu) => (
-            <MenuItem value={menu}>{menu}</MenuItem>
+          {props.menus?.map((menu,index) => (
+            <MenuItem 
+       id={`${props.dbName}-upload-dataset-select-id-${index}`}
+             value={menu}>{menu}</MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -108,6 +110,8 @@ const TableImport = (props) => {
                       key={index}
                       onChange={(e) => props.handleCheckBoxCheck(e, eachCol)}
                       checked={eachCol.checked}
+       id={`${props.dbName}-uploaded-data-checkbox-id-${index}`}
+
                     />
                   }
                   label={eachCol.value}
@@ -145,11 +149,12 @@ const TableImport = (props) => {
               borderRadius: "8px",
             }}
           >
-            {props.allColumns?.map((eachColSelected) => {
+            {props.allColumns?.map((eachColSelected,index) => {
               return eachColSelected.checked ? (
                 <Chip
                   sx={{ marginLeft: "5px", marginRight: "15px" }}
                   label={eachColSelected.value}
+       id={`${props.dbName}-upload-dataset-colum-id-${index}`}
                 />
               ) : (
                 ""
@@ -189,6 +194,7 @@ const TableImport = (props) => {
         Example: filename_01.xls, filename_01.xls.
       </Typography>
       <TextField
+       id={`${props.dbName}-upload-dataset-filename-id`}
         fullWidth
         required
         helperText={
@@ -201,6 +207,7 @@ const TableImport = (props) => {
               color: "#FF0000",
               textAlign: "left",
             }}
+            
           >
             {!props.validator &&
             (!props.fileName !== null ||
@@ -248,6 +255,7 @@ const TableImport = (props) => {
           }}
           variant="outlined"
           onClick={() => props.handleDisconnect()}
+       id={`${props.dbName}-upload-dataset-disconnect-btn`}
         >
           Disconnect
         </Button>
@@ -271,6 +279,7 @@ const TableImport = (props) => {
           variant="outlined"
           disabled={props.fileName ? false : true}
           onClick={() => props.handleImport()}
+       id={`${props.dbName}-upload-dataset-import-btn`}
         >
           Import
         </Button>

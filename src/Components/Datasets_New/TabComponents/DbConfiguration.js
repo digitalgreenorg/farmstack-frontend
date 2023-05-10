@@ -53,6 +53,7 @@ const DbConfiguration = (props) => {
         required
         helperText={
           <Typography
+          id={`${props.dbName}-upload-dataset-db-name-id`}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: "400",
@@ -91,6 +92,7 @@ const DbConfiguration = (props) => {
         onChange={(e) => props.setDbaseName(e.target.value)}
       />
       <TextField
+       id={`${props.dbName}-upload-dataset-user-name-id`}
         fullWidth
         required
         helperText={
@@ -133,6 +135,7 @@ const DbConfiguration = (props) => {
         onChange={(e) => props.setUserName(e.target.value)}
       />
       <TextField
+       id={`${props.dbName}-upload-dataset-password-id`}
         fullWidth
         required
         helperText={
@@ -189,6 +192,7 @@ const DbConfiguration = (props) => {
         }}
       />
       <TextField
+       id={`${props.dbName}-upload-dataset-database-host-url-id`}
         fullWidth
         required
         helperText={
@@ -231,6 +235,7 @@ const DbConfiguration = (props) => {
         onChange={(e) => props.setDbUrl(e.target.value)}
       />
       <TextField
+       id={`${props.dbName}-upload-dataset-port-id`}
         fullWidth
         required
         helperText={
@@ -296,6 +301,7 @@ const DbConfiguration = (props) => {
           }}
           variant="outlined"
           onClick={() => props.handleClearFields()}
+       id={`${props.dbName}-upload-dataset-clear-btn`}
         >
           Clear
         </Button>
@@ -327,6 +333,7 @@ const DbConfiguration = (props) => {
               : true
           }
           onClick={() => props.handleConnect()}
+       id={`${props.dbName}-upload-dataset-connect-btn`}
         >
           Connect
         </Button>

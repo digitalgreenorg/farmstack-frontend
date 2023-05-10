@@ -133,8 +133,10 @@ const BasicDetails = ({
         required
         onChange={(e) => handleDatasetName(e)}
         disabled={datasetIdForEdit ? true : false}
+        id="add-dataset-name"
       />
       <TextField
+      id="add-dataset-description"
         fullWidth
         multiline
         minRows={4}
@@ -213,7 +215,7 @@ const BasicDetails = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  id="filled-basic"
+                  id="add-dataset-capture-interval-from-date"
                   variant="outlined"
                   sx={{
                     width: "468px",
@@ -280,7 +282,8 @@ const BasicDetails = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  id="filled-basic"
+                  id="add-dataset-capture-interval-to-date"
+                  
                   variant="outlined"
                   required={isUpdating ? false : true}
                   sx={{
@@ -325,6 +328,7 @@ const BasicDetails = ({
         </div>
       </Box>
       <CheckBoxWithText
+      id="add-dataset-coustanly-updating"
         text={"Constantly updating"}
         checked={isUpdating}
         handleCheckBox={handleCheckBox}

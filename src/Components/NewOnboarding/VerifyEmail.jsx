@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, Checkbox, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  TextField,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 // import { CheckBox } from "@mui/icons-material";
 import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
@@ -30,7 +36,8 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const VerifyEmailStep = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
-
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [agreementChecked, setAgreementChecked] = useState(
     localStorage.getItem("dev_mode") ? true : false
   );
@@ -261,7 +268,7 @@ const VerifyEmailStep = (props) => {
   console.log(isEmailValid);
   useEffect(() => {}, []);
   return (
-    <div>
+    <div style={{ margin: mobile ? "30px" : "" }}>
       <div className={styles.email_id_label}>
         {" "}
         {isValidEmailSent ? "Enter the OTP" : "Enter your email id"}
@@ -309,7 +316,7 @@ const VerifyEmailStep = (props) => {
       {agreement && (
         <div className={styles.agreement}>
           <Checkbox
-          id="login-agree-terms-and-condition-check-box"
+            id="login-agree-terms-and-condition-check-box"
             checked={agreementChecked}
             onClick={(e) => setAgreementChecked(e.target.checked)}
             className={styles.checkbox}
@@ -323,7 +330,7 @@ const VerifyEmailStep = (props) => {
       {timer && isValidEmailSent && (
         <div
           style={{
-            width: "564px",
+            maxWidth: "564px",
             margin: "auto",
             display: "flex",
             justifyContent: "right",

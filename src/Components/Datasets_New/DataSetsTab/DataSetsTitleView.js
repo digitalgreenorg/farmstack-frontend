@@ -21,6 +21,7 @@ const DataSetsTitleView = ({
           <div
             className="d-flex mr-30 cursor-pointer"
             onClick={() => setIsGrid(false)}
+            id="dataset-list-view-id"
           >
             <img
               className="mr-7"
@@ -39,6 +40,7 @@ const DataSetsTitleView = ({
           <div
             className="d-flex cursor-pointer"
             onClick={() => setIsGrid(true)}
+            id="dataset-grid-view-id"
           >
             <img
               className="mr-7"
@@ -77,6 +79,7 @@ const DataSetsTitleView = ({
                     background: "#00AB55",
                   },
                 }}
+                id="dataset-add-new-dataset"
               >
                 + New dataset
               </Button>

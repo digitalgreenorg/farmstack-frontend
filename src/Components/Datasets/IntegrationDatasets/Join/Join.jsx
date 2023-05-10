@@ -131,6 +131,7 @@ const Join = (props) => {
       >
         <div style={{ display: "flex" }}>
           <Segmented
+            id="join-by-connector"
             style={{ flex: 3.5 }}
             value={value}
             onChange={setValue}
@@ -206,7 +207,7 @@ const Join = (props) => {
                       {index == 0 &&
                         each.columnsSelected?.map((eachFile, ind_) => {
                           return (
-                            <MenuItem key={ind_} value={eachFile + ""}>
+                            <MenuItem key={ind_} value={eachFile + ""} id="file-columns">
                               {eachFile}
                             </MenuItem>
                           );
@@ -256,7 +257,7 @@ const Join = (props) => {
                             )
                           ) {
                             return (
-                              <MenuItem key={ind_} value={eachFile + ""}>
+                              <MenuItem key={ind_} value={eachFile + ""} id="file-columns">
                                 {eachFile}
                               </MenuItem>
                             );

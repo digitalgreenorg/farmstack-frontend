@@ -1,4 +1,10 @@
-import { Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import GlobalStyles from "../../Assets/CSS/global.module.css";
@@ -16,19 +22,39 @@ import { TypeAnimation } from "react-type-animation";
 
 const GuestUserHome = () => {
   let history = useHistory();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   return (
     <>
-      <Container className={LocalStyle.container}>
+      <Box
+        className={
+          mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
+        }
+      >
         <Row>
           <Col xs={12} sm={12} md={12} xl={6}>
-            <div className={`${LocalStyle.titleContainer}`}>
+            <div
+              className={`${
+                mobile ? LocalStyle.titleContainerSm : LocalStyle.titleContainer
+              }`}
+            >
               <Typography
-                className={`${LocalStyle.title} ${GlobalStyles.bold300} ${GlobalStyles.size64} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.title} ${GlobalStyles.bold300} ${
+                  mobile ? GlobalStyles.size24 : GlobalStyles.size64
+                } ${GlobalStyles.highlighted_text} ${
+                  mobile ? "" : LocalStyle.lineheight_78
+                }`}
               >
                 Explore true power of data
               </Typography>
               <Typography
-                style={{ height: "120px" }}
+                // style={{ height: "120px" }}
                 className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
@@ -49,7 +75,7 @@ const GuestUserHome = () => {
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
-            <Row className={`${LocalStyle.buttonContainer}`}>
+            <Row className={LocalStyle.buttonContainer}>
               <Button
                 onClick={() =>
                   history.push(
@@ -119,31 +145,72 @@ const GuestUserHome = () => {
           with Dataset Explorer.
         </Typography>
         <DatasetListNew user={"guest"} />
-      </Container>
-      <div
-        className={LocalStyle.gradientContainer}
-        style={{ position: "relative" }}
-      >
+      </Box>
+      <Box className={LocalStyle.gradientContainer}>
         <img
-          src={require("../../Assets/Img/microsite_yellow_gradient_img.svg")}
+          src={require(mobile
+            ? "../../Assets/Img/yellowbg.svg"
+            : "../../Assets/Img/microsite_yellow_gradient_img.svg")}
+          width={"100%"}
+          // height={mobile ? "221px" : tablet || miniLaptop ? "334px" : "auto"}
+          className={mobile || tablet || miniLaptop ? "bgMd" : "bgMd"}
         />
-        <Row className={LocalStyle.gradientTextContainer}>
-          <Col sm={12} md={3}>
+        <Box
+          className={
+            mobile
+              ? LocalStyle.gradientTextContainerSm
+              : tablet
+              ? LocalStyle.gradientTextContainerTab
+              : miniLaptop
+              ? LocalStyle.gradientTextContainerMd
+              : LocalStyle.gradientTextContainer
+          }
+        >
+          <Box>
             <img
-              style={{ position: "absolute", top: "-130px", left: "0px" }}
+              style={{
+                position: "absolute",
+                top: mobile
+                  ? "-44px"
+                  : tablet
+                  ? "-58px"
+                  : miniLaptop
+                  ? "-77px"
+                  : "-130px",
+                left: "0px",
+                height: mobile
+                  ? "124px"
+                  : tablet
+                  ? "220px"
+                  : miniLaptop
+                  ? "282px"
+                  : "406px",
+              }}
               src={require("../../Assets/Img/Farmstack V2.0/home2.svg")}
             />
-          </Col>
-          <Col sm={12} md={3}>
+          </Box>
+          <Box
+            className={`${
+              mobile || tablet || miniLaptop ? "d-flex flex-column" : "d-flex"
+            } ${mobile ? "mt-39" : ""}`}
+          >
             <Typography
-              className={`${LocalStyle.title} ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+              className={`${LocalStyle.title} ${GlobalStyles.bold500} ${
+                tablet || miniLaptop ? GlobalStyles.size16 : GlobalStyles.size32
+              } ${GlobalStyles.highlighted_text} ${
+                tablet ? LocalStyle.lineheight_27 : LocalStyle.lineheight_39
+              }`}
             >
               With Farmstack great things will happen
             </Typography>
-          </Col>
-          <Col sm={12} md={6}>
             <Typography
-              className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+              className={`${
+                tablet || miniLaptop
+                  ? LocalStyle.descriptionMd
+                  : LocalStyle.description
+              } ${GlobalStyles.bold400} ${
+                tablet || miniLaptop ? GlobalStyles.size12 : GlobalStyles.size22
+              } ${GlobalStyles.highlighted_text}`}
             >
               <b style={{ fontWeight: "bold" }}></b>
               Farmstack enables seamless data sharing, breaks down silos, and
@@ -152,11 +219,11 @@ const GuestUserHome = () => {
               categorization, enhancing its usability and value.
               <b style={{ fontWeight: "bold" }}></b>
             </Typography>
-          </Col>
-        </Row>
-      </div>
-      <Container style={{ marginLeft: "144px", marginRight: "144px" }}>
-        <div>
+          </Box>
+        </Box>
+      </Box>
+      <Box style={containerStyle}>
+        <div style={{ marginTop: "50px" }}>
           <div className={LocalStyle.participanttitleContainer}>
             <Typography
               className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
@@ -172,7 +239,10 @@ const GuestUserHome = () => {
               <b style={{ fontWeight: "bold" }}></b>
             </Typography>
           </div>
-          <ParticipantsCarouselNew title="Our co-steward network" isCosteward={true} />
+          <ParticipantsCarouselNew
+            title="Our co-steward network"
+            isCosteward={true}
+          />
           <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
             <Button
               className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
@@ -306,9 +376,12 @@ const GuestUserHome = () => {
           </Button>
         </Row>
         <Row>
-          <img src={require("../../Assets/Img/Farmstack V2.0/home4.svg")} />
+          <img
+            src={require("../../Assets/Img/Farmstack V2.0/home4.svg")}
+            width={"100%"}
+          />
         </Row>
-      </Container>
+      </Box>
     </>
   );
 };

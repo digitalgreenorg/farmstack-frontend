@@ -172,7 +172,7 @@ const Categorise = (props) => {
               <InputLabel id="test-select-label">Select Country</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                id="geography-select-country"
                 value={props.geography?.country?.name}
                 renderValue={() => props.geography?.country?.name}
                 onChange={(e) =>
@@ -200,7 +200,7 @@ const Categorise = (props) => {
                 placeholder="Select Country"
               >
                 {countries?.map((item) => (
-                  <MenuItem key={item} value={item}>
+                  <MenuItem id={`geography-select-country${item?.name}`} key={item} value={item}>
                     {item.name}
                   </MenuItem>
                 ))}
@@ -210,7 +210,7 @@ const Categorise = (props) => {
               <InputLabel id="test-select-label">Select State</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                id="geography-select-state"
                 value={props.geography?.state?.name}
                 onChange={(e) =>
                   props.setGeography((prev) => ({
@@ -238,7 +238,9 @@ const Categorise = (props) => {
                 placeholder="Select State"
               >
                 {states?.map((item) => (
-                  <MenuItem key={item} value={item}>
+                  <MenuItem
+                  id={`geography-select-state${item?.name}`} 
+                   key={item} value={item}>
                     {item.name}
                   </MenuItem>
                 ))}
@@ -248,7 +250,7 @@ const Categorise = (props) => {
               <InputLabel id="test-select-label">Select City</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                id={`geography-select-city`} 
                 value={props.geography?.city?.name}
                 onChange={(e) =>
                   props.setGeography((prev) => ({
@@ -276,7 +278,9 @@ const Categorise = (props) => {
                 placeholder="Select City"
               >
                 {cities?.map((item) => (
-                  <MenuItem key={item} value={item}>
+                  <MenuItem
+                  id={`geography-select-city${item?.name}`} 
+                   key={item} value={item}>
                     {item.name}
                   </MenuItem>
                 ))}
