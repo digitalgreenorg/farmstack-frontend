@@ -124,6 +124,7 @@ function Participant(props) {
           {/* <ParticipantNavbar /> */}
           <NavbarNew loginType={"participant"} />
           <div className="minHeight67vhParticipantPage">
+          <br/>
             <Switch>
               <Route
                 exact

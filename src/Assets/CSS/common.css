@@ -761,11 +761,14 @@ MuiLinearProgress-determinate {
 
 .minHeight67vhParticipantPage {
   min-height: 67.5vh;
+  margin-top: 100px;
+
   /* border: 1px solid red; */
   /* max-height: 100vh; */
 }
 
 .minHeight67vhDatahubPage {
+  margin-top: 100px;
   min-height: 67.5vh;
   /* border: 1px solid red; */
   /* max-height: 100vh; */

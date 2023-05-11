@@ -228,10 +228,10 @@ const GuestUserHome = () => {
             <Typography
               className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
             >
-              Our co-steward network
+              Co-steward
             </Typography>
             <Typography
-              className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+              className={`${LocalStyle.description} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
             >
               <b style={{ fontWeight: "bold" }}></b>
               Organisations who facilitate their own private network of
@@ -257,10 +257,10 @@ const GuestUserHome = () => {
           <Typography
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
           >
-            Our Participants are
+            Participants
           </Typography>
           <Typography
-            className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+            className={`${LocalStyle.description} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
           >
             <b style={{ fontWeight: "bold" }}></b>
             Organisations that share our vision and are committed to making a

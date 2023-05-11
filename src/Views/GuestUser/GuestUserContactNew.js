@@ -12,7 +12,7 @@ import {
   Radio,
 } from "@mui/material";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
+import { GetErrorHandlingRoute, GetErrorKey, goToTop } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
@@ -234,6 +234,7 @@ const GuestUserContactNew = () => {
   };
   useEffect(() => {
     getDatahubAdminDetails();
+    goToTop(0)
   }, []);
 
   return (
@@ -242,20 +243,18 @@ const GuestUserContactNew = () => {
         <div className={LocalStyle.title}>Talk with us</div>
         <div className="d-flex justify-content-center">
           <div className={LocalStyle.description}>
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
             We are eager to connect with organizations, researchers, and
             individuals who share our passion for revolutionizing agriculture.
             If you have questions, suggestions or would like to explore
             collaboration opportunities, please don't hesitate to get in touch
             with us.
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
           </div>
         </div>
       </Row>
       <Row className={LocalStyle.title2}>
-        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
+        {/* <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
           Say hello..
-        </Typography>
+        </Typography> */}
       </Row>
       <Row>
         <Col lg={6} md={12}>
@@ -399,9 +398,9 @@ const GuestUserContactNew = () => {
         </Button>
       </Row>
       <Row className={LocalStyle.title2}>
-        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
+        {/* <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
           Touch with us!
-        </Typography>
+        </Typography> */}
       </Row>
       <Row className={LocalStyle.adminDetailsContainer}>
         <Col lg={10}>

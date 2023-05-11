@@ -41,6 +41,7 @@ const GuestRoutes = () => {
       )}
       {/* <NavbarNew loginType={"guest"} /> */}
       <div className="minHeight67vhDatahubPage">
+      <br/>
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
           <Route exact path="/home/datasets" component={GuestUserDatatsets} />
