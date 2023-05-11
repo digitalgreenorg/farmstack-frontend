@@ -34,7 +34,7 @@ const CoStewardAndParticipantsCard = (props) => {
   const handleViewDataset = (id) => {
     if (guestUser && isCosteward) {
       history.push(`/home/costeward/view/${id}`);
-    } else if (guestUser && !isCosteward) {
+    } else if (guestUser && !isCosteward || title == "Co-steward participants") {
       history.push(`/home/participants/view/${id}`);
     } else if (title == "Participants" || title == "Co-steward participants") {
       history.push(`/datahub/participants/view/${id}`);
