@@ -119,6 +119,25 @@ const Join = (props) => {
   const getJoinFieldArray = () => {
     return [...Array(each?.noOfjoin).keys()];
   };
+  const clearJoinFields = () => {
+    let arr = [...completeData];
+    let obj = { ...each };
+
+    //clear join typ
+    obj["type"] = "";
+    arr[index] = obj;
+
+    // clear left join field
+    obj["left_on"] = [];
+    arr[index] = { ...obj };
+
+    // clear right join field
+    obj["right_on"] = [];
+    arr[index] = { ...obj };
+
+    setCompleteData([...arr]);
+    setJoinType("");
+  };
 
   return (
     index == indexShow && (
@@ -165,6 +184,27 @@ const Join = (props) => {
               {value == "Join by" ? "Join" : "Integrated data preview"}
             </Box>
             <Box>
+              <Button
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                  borderRadius: "8px",
+                  color: "#00AB55",
+                  textTransform: "none",
+                  marginRight: "25px",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                  },
+                }}
+                variant="outlined"
+                id={`join-condition-clear-btn`}
+                onClick={() => clearJoinFields()}
+              >
+                Clear
+              </Button>
               <OutlinedButton
                 text={
                   <>
@@ -207,7 +247,11 @@ const Join = (props) => {
                       {index == 0 &&
                         each.columnsSelected?.map((eachFile, ind_) => {
                           return (
-                            <MenuItem key={ind_} value={eachFile + ""} id="file-columns">
+                            <MenuItem
+                              key={ind_}
+                              value={eachFile + ""}
+                              id="file-columns"
+                            >
                               {eachFile}
                             </MenuItem>
                           );
@@ -257,7 +301,11 @@ const Join = (props) => {
                             )
                           ) {
                             return (
-                              <MenuItem key={ind_} value={eachFile + ""} id="file-columns">
+                              <MenuItem
+                                key={ind_}
+                                value={eachFile + ""}
+                                id="file-columns"
+                              >
                                 {eachFile}
                               </MenuItem>
                             );
