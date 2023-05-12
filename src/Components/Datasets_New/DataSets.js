@@ -657,9 +657,17 @@ const DataSets = (props) => {
 
   return (
     <>
-      <Box sx={{ maxWidth: "100%" }}>
+      <Box
+        sx={{
+          maxWidth: "100%",
+          marginLeft: mobile || tablet ? "30px" : "0px",
+          marginRight: mobile || tablet ? "30px" : "0px",
+        }}
+      >
         {/* section-1 */}
-        <div className={mobile ? "title_sm" : "title"}>Datasets Explorer</div>
+        <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
+          Datasets Explorer
+        </div>
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>

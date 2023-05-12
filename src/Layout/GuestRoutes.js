@@ -28,9 +28,11 @@ import GuestUserContactNew from "../Views/GuestUser/GuestUserContactNew";
 import GuestUserCoStewardNew from "../Views/GuestUser/GuestUserCoStewardNew";
 import GuestUserCostewardDetailsNew from "../Views/GuestUser/GuestUserCostewardDetailsNew";
 import RegisterParticipants from "../Components/GuestUser/RegisterParticipants";
-import { Divider } from "@mui/material";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
 
 const GuestRoutes = () => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div className="center_keeping_conatiner">
       {isLoggedInUserAdmin() || isLoggedInUserCoSteward() ? (
@@ -41,7 +43,13 @@ const GuestRoutes = () => {
         <NavbarNew loginType={"guest"} />
       )}
       {/* <NavbarNew loginType={"guest"} /> */}
-      <div className={"minHeight67vhDatahubPage" + " " + "mt-150"}>
+      <div
+        className={
+          mobile
+            ? "minHeight67vhDatahubPage" + " " + "mt-70"
+            : "minHeight67vhDatahubPage" + " " + "mt-150"
+        }
+      >
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
           <Route exact path="/home/datasets" component={GuestUserDatatsets} />
