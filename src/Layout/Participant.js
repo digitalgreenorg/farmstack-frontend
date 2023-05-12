@@ -123,7 +123,7 @@ function Participant(props) {
         <div className="center_keeping_conatiner">
           {/* <ParticipantNavbar /> */}
           <NavbarNew loginType={"participant"} />
-          <div className="minHeight67vhParticipantPage">
+          <div className={"minHeight67vhParticipantPage" + " " + "mt-150"}>
             <Switch>
               <Route
                 exact

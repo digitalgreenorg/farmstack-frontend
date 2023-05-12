@@ -242,7 +242,10 @@ const NavbarNew = ({ loginType }) => {
     }
   };
   const handleSelect = (item) => {
-    console.log("user role on click of login is admin",getRoleLocal() === "datahub_admin")
+    console.log(
+      "user role on click of login is admin",
+      getRoleLocal() === "datahub_admin"
+    );
     setIsSelected(item);
   };
   useEffect(() => {
@@ -252,7 +255,7 @@ const NavbarNew = ({ loginType }) => {
   // give id to all clickble events
 
   return (
-    <Box sx={{ width: "100vw" }}>
+    <Box sx={{ width: "100vw" }} className={style.sticky}>
       {mobile || tablet ? (
         <PopoverNavbar
           history={history}
@@ -289,7 +292,7 @@ const NavbarNew = ({ loginType }) => {
             </Box>
             <Box className="d-flex align-items-center">
               <NavLink
-              id="navbar-home"
+                id="navbar-home"
                 activeStyle={
                   isNavLinkActive("/home") ? navActiveStyle : navInActiveStyle
                 }
@@ -333,7 +336,7 @@ const NavbarNew = ({ loginType }) => {
               {(loginType === "admin" || loginType === "guest") &&
               !isLoggedInUserParticipant() ? (
                 <NavLink
-                id="navbar-participants"
+                  id="navbar-participants"
                   activeStyle={navActiveStyle}
                   style={
                     isNavLinkActiveForCostewardDot("costeward")
@@ -368,7 +371,7 @@ const NavbarNew = ({ loginType }) => {
               loginType === "participant" ||
               loginType === "guest" ? (
                 <NavLink
-                id="navbar-dataset"
+                  id="navbar-dataset"
                   activeStyle={navActiveStyle}
                   style={
                     isNavLinkActiveForHome("datasets")
@@ -402,7 +405,7 @@ const NavbarNew = ({ loginType }) => {
               )}
               {loginType === "admin" || loginType === "participant" ? (
                 <NavLink
-                id="navbar-connectors"
+                  id="navbar-connectors"
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
                   to={
@@ -451,7 +454,7 @@ const NavbarNew = ({ loginType }) => {
           )} */}
               {loginType === "admin" || loginType === "participant" ? (
                 <NavLink
-                id="navbar-settings"
+                  id="navbar-settings"
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
                   to={
@@ -487,10 +490,8 @@ const NavbarNew = ({ loginType }) => {
                 <></>
               ) : (
                 <NavLink
-                id="navbar-login"
-                  to={
-                    "/login"
-                  }
+                  id="navbar-login"
+                  to={"/login"}
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
                   onClick={() => handleSelect("login")}
@@ -510,7 +511,7 @@ const NavbarNew = ({ loginType }) => {
               <Box>
                 {getUserLocal() && loginType !== "guest" ? (
                   <Button
-                  id="navbar-signout"
+                    id="navbar-signout"
                     sx={{
                       fontFamily: "Montserrat !important",
                       fontWeight: 700,
@@ -532,7 +533,7 @@ const NavbarNew = ({ loginType }) => {
                   </Button>
                 ) : (
                   <Button
-                  id="navbar-register"
+                    id="navbar-register"
                     sx={{
                       fontFamily: "Montserrat !important",
                       fontWeight: 700,
