@@ -29,7 +29,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-  dateTimeFormat
+  dateTimeFormat,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
@@ -114,7 +114,6 @@ const DataSetsView = (props) => {
   const closePopper = () => {
     setOpen(false);
   };
-
 
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
@@ -432,34 +431,34 @@ const DataSetsView = (props) => {
                 open={open}
                 closePopper={closePopper}
               />
-                <Button
-                  sx={{
-                    color: "#FF5630",
-                    fontFamily: "Public Sans",
-                    fontWeight: "700",
-                    fontSize: "15px",
+              <Button
+                sx={{
+                  color: "#FF5630",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: "15px",
+                  border: "1px solid rgba(255, 86, 48, 0.48)",
+                  width: "172px",
+                  height: "48px",
+                  marginRight: "28px",
+                  textTransform: "none",
+                  "&:hover": {
+                    background: "none",
                     border: "1px solid rgba(255, 86, 48, 0.48)",
-                    width: "172px",
-                    height: "48px",
-                    marginRight: "28px",
-                    textTransform: "none",
-                    "&:hover": {
-                      background: "none",
-                      border: "1px solid rgba(255, 86, 48, 0.48)",
-                    },
+                  },
+                }}
+                variant="outlined"
+                onClick={handleDeletePopper}
+              >
+                Delete dataset{" "}
+                <DeleteOutlineIcon
+                  sx={{
+                    fill: "#FF5630",
+                    fontSize: "22px",
+                    marginLeft: "4px",
                   }}
-                  variant="outlined"
-                  onClick={handleDeletePopper}
-                >
-                  Delete dataset{" "}
-                  <DeleteOutlineIcon
-                    sx={{
-                      fill: "#FF5630",
-                      fontSize: "22px",
-                      marginLeft: "4px",
-                    }}
-                  />
-                </Button>
+                />
+              </Button>
               <Button
                 sx={{
                   color: "#00AB55",
@@ -518,7 +517,9 @@ const DataSetsView = (props) => {
               Data Capture Interval
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
-              {dateTimeFormat(fromDate) + " - " + dateTimeFormat(toDate)}
+              {fromDate !== "NA" && toDate !== "NA"
+                ? dateTimeFormat(fromDate) + " - " + dateTimeFormat(toDate)
+                : "NA"}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-25">
               Geography

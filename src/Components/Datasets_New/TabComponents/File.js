@@ -1,6 +1,6 @@
 import { Divider, Typography } from "@mui/material";
 import React from "react";
-
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 const File = ({
   index,
   name,
@@ -54,11 +54,14 @@ const File = ({
               width: "100%",
             }}
           >
-            <img
-            id={`accordion-uploaded-file-delete-button-id${index}`}
+            <DeleteOutlineIcon
+              id={`accordion-uploaded-file-delete-button-id${index}`}
               className="cursor-pointer"
               onClick={() => handleClick(index, id, name, type)}
-              src={require("../../../Assets/Img/delete_dark.svg")}
+              sx={{
+                fill: "#FF5630",
+                fontSize: "24px",
+              }}
             />
           </div>
         ) : (
@@ -66,7 +69,7 @@ const File = ({
         )}
       </div>
       {showDeleteIcon ? (
-        <Divider  sx={{ marginTop: "10px", marginBottom: "10px" }} />
+        <Divider sx={{ marginTop: "10px", marginBottom: "10px" }} />
       ) : (
         <></>
       )}

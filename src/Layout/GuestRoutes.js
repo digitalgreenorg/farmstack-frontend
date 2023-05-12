@@ -28,6 +28,7 @@ import GuestUserContactNew from "../Views/GuestUser/GuestUserContactNew";
 import GuestUserCoStewardNew from "../Views/GuestUser/GuestUserCoStewardNew";
 import GuestUserCostewardDetailsNew from "../Views/GuestUser/GuestUserCostewardDetailsNew";
 import RegisterParticipants from "../Components/GuestUser/RegisterParticipants";
+import { Divider } from "@mui/material";
 
 const GuestRoutes = () => {
   return (
@@ -40,7 +41,7 @@ const GuestRoutes = () => {
         <NavbarNew loginType={"guest"} />
       )}
       {/* <NavbarNew loginType={"guest"} /> */}
-      <div className="minHeight67vhDatahubPage">
+      <div className={"minHeight67vhDatahubPage" + " " + "mt-150"}>
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
           <Route exact path="/home/datasets" component={GuestUserDatatsets} />
@@ -74,6 +75,7 @@ const GuestRoutes = () => {
           <Route exact path="/home/contact" component={GuestUserContactNew} />
         </Switch>
       </div>
+      <Divider className="mt-50" />
       <FooterNew />
     </div>
   );

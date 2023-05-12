@@ -146,7 +146,7 @@ function Datahub(props) {
         <div className="center_keeping_conatiner">
           {/* <Navbar /> */}
           <NavbarNew loginType={"admin"} />
-          <div className="minHeight67vhDatahubPage">
+          <div className={"minHeight67vhDatahubPage" + " " + "mt-150"}>
             <Switch>
               <Route
                 exact
