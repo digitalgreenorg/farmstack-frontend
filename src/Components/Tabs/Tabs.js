@@ -46,22 +46,29 @@ const CustomTabs = (props) => {
           },
         }}
         value={tabValue}
+        variant="scrollable"
+        scrollButtons
+        allowScrollButtonsMobile
         onChange={handleChange}
         aria-label="tabs"
         orientation={orientation ?? "horizontal"}
       >
-        {TabLabels?.map((label, index) => (
-          <Tab
-            sx={{
-              "&.MuiButtonBase-root": {
-                minWidth: "200px",
-                alignItems: "center",
-              },
-            }}
-            id={label + index}
-            label={label}
-          />
-        ))}
+        {TabLabels?.map((label, index) => {
+          console.log("tab value ", label);
+
+          return (
+            <Tab
+              sx={{
+                "&.MuiButtonBase-root": {
+                  minWidth: "200px",
+                  alignItems: "center",
+                },
+              }}
+              id={label + index}
+              label={label}
+            />
+          );
+        })}
         {/* <Tab label="Co-Steward" />
           <Tab label="Participant" />
           <Tab label="New Participant Requests" /> */}

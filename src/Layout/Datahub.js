@@ -155,6 +155,7 @@ function Datahub(props) {
                 : "minHeight67vhDatahubPage" + " " + "mt-150"
             }
           >
+            <br/>
             <Switch>
               <Route
                 exact

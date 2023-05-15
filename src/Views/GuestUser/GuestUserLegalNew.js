@@ -10,15 +10,30 @@ import {
   GetErrorHandlingRoute,
   goToTop,
 } from "../../Utils/Common";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import CustomTabs from "../../Components/Tabs/Tabs";
 import { Box } from "@mui/system";
 import HTMLReactParser from "html-react-parser";
 import NoDataAvailable from "../../Components/Dashboard/NoDataAvailable/NoDataAvailable";
+import ControlledAccordion from "../../Components/Accordion/Accordion";
+import PolicyContent from "./PolicyContent";
 
+const customDetailsStyle = {
+  fontFamily: "'Montserrat' !important",
+  fontWeight: "400 !important",
+  fontSize: "13px !important",
+  lineHeight: "20px !important",
+  color: "#212B36 !important",
+  textAlign: "left",
+  marginBottom: "24px !important",
+};
 const GuestUserLegalNew = (props) => {
   const [legalData, setLegalData] = useState([]);
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
   const [tabValue, setTabValue] = useState(0);
   const [tabLabels, setTabLabels] = useState([
     // "Confidential",
@@ -32,6 +47,7 @@ const GuestUserLegalNew = (props) => {
     // "security policy",
     // "Governing Lawwwww",
   ]);
+  const [policies, setPolicies] = useState([]);
 
   const getLegalData = () => {
     callLoader(true);
@@ -54,6 +70,26 @@ const GuestUserLegalNew = (props) => {
             tmpLabels.push(policy.name);
           });
           setTabLabels(tmpLabels);
+
+          // prepare accordion for mobile, tablet view
+          let tempPolicies = [];
+          response.forEach((policy, index) => {
+            let obj = {
+              panel: index + 1,
+              title: policy.name,
+              details: policy?.description
+                ? [
+                    <PolicyContent
+                      description={HTMLReactParser(policy?.description)}
+                      url={policy?.file}
+                    />,
+                  ]
+                : [],
+            };
+            tempPolicies.push(obj);
+          });
+          setPolicies(tempPolicies);
+          // end prep.
           console.log("tmpLabels", tmpLabels);
         } else {
           console.log("something is wrong in .then");
@@ -73,12 +109,29 @@ const GuestUserLegalNew = (props) => {
   console.log("on load", tabLabels, tabValue);
   let url = legalData[tabValue]?.file;
 
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   return (
-    <Container>
+    <Box sx={containerStyle}>
       <Row className={LocalStyle.titleContainer}>
-        <div className={LocalStyle.title}>Legal Policies</div>
+        <div
+          className={LocalStyle.title}
+          style={{
+            fontSize: mobile ? "50px" : "64px",
+          }}
+        >
+          Legal Policies
+        </div>
         <div className="d-flex justify-content-center">
-          <div className={LocalStyle.description}>
+          <div
+            className={LocalStyle.description}
+            style={{
+              width: mobile || tablet ? "auto" : "956px",
+              fontSize: mobile ? "15px" : tablet ? "18px" : "22px",
+            }}
+          >
             <b style={{ fontWeight: "bold" }}>&ldquo;</b>
             Data governance policy documents, providing precise data usage and
             management guidelines within the Farmstack ecosystem. This feature
@@ -94,66 +147,81 @@ const GuestUserLegalNew = (props) => {
         </Typography>
       </Row>
       {tabLabels?.length > 0 ? (
-        <Row>
-          <Col className={LocalStyle.policyTabCol} lg={4}>
-            <CustomTabs
-              tabValue={tabValue}
-              setTabValue={setTabValue}
-              TabLabels={tabLabels}
-              orientation="vertical"
-              filledBackground={true}
-              isPolicy={true}
-            />
-          </Col>
-          <Col className={LocalStyle.policyDetailsCol} lg={8}>
-            <div className={LocalStyle.policyDetailsMainContainer}>
-              <div className={LocalStyle.policyDetailsContainer}>
-                <Typography
-                  className={`${GlobalStyle.size32} ${GlobalStyle.bold600} ${LocalStyle.policyDetailsTitle}`}
-                >
-                  {legalData[tabValue]?.name}
-                </Typography>
-                <Typography
-                  className={`${GlobalStyle.size16} ${GlobalStyle.bold400} ${LocalStyle.policyDetailsDescription}`}
-                >
-                  {legalData[tabValue]?.description
-                    ? HTMLReactParser(legalData[tabValue]?.description)
-                    : ""}
-                </Typography>
-              </div>
-              {url ? (
-                <Row className={LocalStyle.backButtonContainer}>
-                  <Button
-                    id={"details-page-load-more-dataset-button"}
-                    variant="outlined"
-                    className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
-                    onClick={() => downloadAttachment(url)}
-                  >
-                    <img
-                      className={LocalStyle.imgTags}
-                      src={require("../../Assets/Img/new_download.svg")}
-                    />
-                    Download document
-                  </Button>
-                  <Button
-                    id={"details-page-load-more-dataset-button"}
-                    variant="outlined"
-                    className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
-                    onClick={() => window.open(url, "_blank")}
-                  >
-                    <img
-                      className={LocalStyle.imgTags}
-                      src={require("../../Assets/Img/view.svg")}
-                    />
-                    View document
-                  </Button>
-                </Row>
-              ) : (
-                ""
-              )}
-            </div>
-          </Col>
-        </Row>
+        <>
+          {mobile || tablet ? (
+            <Box>
+              <ControlledAccordion
+                data={policies}
+                isTables={true}
+                isCustomDetailStyle={true}
+                customDetailsStyle={customDetailsStyle}
+              />
+            </Box>
+          ) : (
+            <>
+              <Box
+                className="mt-50"
+                sx={{ borderBottom: 1, borderColor: "divider" }}
+              >
+                <CustomTabs
+                  tabValue={tabValue}
+                  setTabValue={setTabValue}
+                  TabLabels={tabLabels}
+                />
+              </Box>
+              <Row lg={12}>
+                <Col className={LocalStyle.policyDetailsCol}>
+                  <div className={LocalStyle.policyDetailsMainContainer}>
+                    <div className={LocalStyle.policyDetailsContainer}>
+                      <Typography
+                        className={`${GlobalStyle.size32} ${GlobalStyle.bold600} ${LocalStyle.policyDetailsTitle}`}
+                      >
+                        {legalData[tabValue]?.name}
+                      </Typography>
+                      <Typography
+                        className={`${GlobalStyle.size16} ${GlobalStyle.bold400} ${LocalStyle.policyDetailsDescription}`}
+                      >
+                        {legalData[tabValue]?.description
+                          ? HTMLReactParser(legalData[tabValue]?.description)
+                          : ""}
+                      </Typography>
+                    </div>
+                    {url ? (
+                      <Row className={LocalStyle.backButtonContainer}>
+                        <Button
+                          id={"details-page-load-more-dataset-button"}
+                          variant="outlined"
+                          className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
+                          onClick={() => downloadAttachment(url)}
+                        >
+                          <img
+                            className={LocalStyle.imgTags}
+                            src={require("../../Assets/Img/new_download.svg")}
+                          />
+                          Download document
+                        </Button>
+                        <Button
+                          id={"details-page-load-more-dataset-button"}
+                          variant="outlined"
+                          className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
+                          onClick={() => window.open(url, "_blank")}
+                        >
+                          <img
+                            className={LocalStyle.imgTags}
+                            src={require("../../Assets/Img/view.svg")}
+                          />
+                          View document
+                        </Button>
+                      </Row>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </Col>
+              </Row>{" "}
+            </>
+          )}
+        </>
       ) : (
         <NoDataAvailable
           message={
@@ -161,7 +229,7 @@ const GuestUserLegalNew = (props) => {
           }
         />
       )}
-    </Container>
+    </Box>
   );
 };
 
