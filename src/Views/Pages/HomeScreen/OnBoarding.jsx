@@ -35,6 +35,7 @@ import FooterNew from "../../../Components/Footer/Footer_New";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
+import { Divider } from "@mui/material";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -396,7 +397,7 @@ export default function OnBoarding() {
           <DatapointDetails setActiveStep={setActiveStep} />
         </CSSTransition>
       )}
-
+  <Divider className="mt-50" />
       {activeStep == 0 ? <FooterNew /> : <OnboardingFooter />}
     </Stack>
   );

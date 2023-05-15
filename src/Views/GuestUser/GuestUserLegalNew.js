@@ -75,6 +75,7 @@ const GuestUserLegalNew = (props) => {
 
   return (
     <Container>
+
       <Row className={LocalStyle.titleContainer}>
         <div className={LocalStyle.title}>Legal Policies</div>
         <div className="d-flex justify-content-center">
@@ -94,18 +95,29 @@ const GuestUserLegalNew = (props) => {
         </Typography>
       </Row>
       {tabLabels?.length > 0 ? (
-        <Row>
-          <Col className={LocalStyle.policyTabCol} lg={4}>
+        <>
+        {/* <Row lg={12}> */}
+          {/* <Col className={LocalStyle.policyTabCol}>
             <CustomTabs
               tabValue={tabValue}
               setTabValue={setTabValue}
               TabLabels={tabLabels}
-              orientation="vertical"
-              filledBackground={true}
-              isPolicy={true}
+              // orientation="vertical"
+              // filledBackground={true}
+              // isPolicy={true}
             />
-          </Col>
-          <Col className={LocalStyle.policyDetailsCol} lg={8}>
+          </Col> */}
+          <Box className="mt-50" sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <CustomTabs
+          tabValue={tabValue}
+          setTabValue={setTabValue}
+          TabLabels={tabLabels}
+        />
+      </Box>
+         
+        {/* </Row> */}
+        <Row lg={12}>
+           <Col className={LocalStyle.policyDetailsCol} >
             <div className={LocalStyle.policyDetailsMainContainer}>
               <div className={LocalStyle.policyDetailsContainer}>
                 <Typography
@@ -154,6 +166,7 @@ const GuestUserLegalNew = (props) => {
             </div>
           </Col>
         </Row>
+        </>
       ) : (
         <NoDataAvailable
           message={

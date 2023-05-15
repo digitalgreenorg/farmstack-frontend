@@ -28,11 +28,11 @@
 }
 
 .policyDetailsMainContainer {
-  width: 800px;
-  border: 1px solid #00ab55;
-  border-radius: 30px;
-  text-align: left;
-  padding: 50px !important;
+  width: 100%;
+      /* border: 1px solid #00ab55; */
+    /* border-radius: 0 0 30px 30px; */
+    text-align: left;
+    padding: 50px 20px!important;
 }
 
 .policyDetailsDescription {

@@ -50,8 +50,12 @@ const CustomTabs = (props) => {
         aria-label="tabs"
         orientation={orientation ?? "horizontal"}
       >
-        {TabLabels?.map((label, index) => (
-          <Tab
+        {TabLabels?.map((label, index) => {
+          console.log("tab value ",label)
+
+          return (
+
+            <Tab
             sx={{
               "&.MuiButtonBase-root": {
                 minWidth: "200px",
@@ -60,8 +64,10 @@ const CustomTabs = (props) => {
             }}
             id={label + index}
             label={label}
-          />
-        ))}
+            />
+            )
+        }
+        )}
         {/* <Tab label="Co-Steward" />
           <Tab label="Participant" />
           <Tab label="New Participant Requests" /> */}
