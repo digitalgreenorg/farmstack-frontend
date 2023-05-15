@@ -658,9 +658,16 @@ const AddConnector = (props) => {
       })
       .catch((err) => {
         callLoader(false);
-        callToast("Something went wrong!", "error", true);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
+        } else if (err?.response?.status === 400) {
+          if (err?.response?.data?.name) {
+            setErrorConnectorName(err?.response?.data?.name);
+          } else if (err?.response?.data?.description) {
+            setErrorConnectorDesc(err?.response?.data?.description);
+          } else {
+            callToast("Something went wrong!", "error", true);
+          }
         } else {
           if (condition == "integrate") {
             setIsAllConditionForSaveMet(false);
@@ -826,6 +833,8 @@ const AddConnector = (props) => {
           disabled={props.isEditModeOn ? true : false}
           inputProps={{ maxLength: 100 }}
           id="connector-name"
+          error={errorConnectorName ? true : false}
+          helperText={errorConnectorName ? errorConnectorName : ""}
         />
         <TextField
           fullWidth
@@ -842,6 +851,8 @@ const AddConnector = (props) => {
           onChange={handleChange}
           inputProps={{ maxLength: 512 }}
           id="connector-description"
+          error={errorConnectorDesc ? true : false}
+          helperText={errorConnectorDesc ? errorConnectorDesc : ""}
         />
         <SelectConnector
           text={"Select datasets for connector"}

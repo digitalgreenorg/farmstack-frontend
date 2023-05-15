@@ -96,11 +96,13 @@ const ParticipantsAndCoStewardNew = () => {
         if (response?.data?.results)
           setCoStewardOrParticipantsList(response.data.results);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        callToast(error?.message, 
+          error?.status === 200 ? "success" : "error",
+          true);
         console.log(e);
       });
   };
@@ -122,11 +124,13 @@ const ParticipantsAndCoStewardNew = () => {
           setCoStewardOrParticipantsList(finalDataList);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        callToast(error?.message, 
+          error?.status === 200 ? "success" : "error",
+          true);
         console.log(e);
       });
   };

@@ -114,7 +114,11 @@ const CategoryDetails = (props) => {
         callLoader(false);
         GetErrorHandlingRoute(e).then((errorObject) => {
           console.log(errorObject);
-          callToast(errorObject?.message, "error", true);
+          callToast(
+            errorObject?.message,
+            errorObject?.status === 200 ? "success" : "error",
+            true
+          );
         });
       });
   };
@@ -171,7 +175,11 @@ const CategoryDetails = (props) => {
         callLoader(false);
         GetErrorHandlingRoute(e).then((errorObject) => {
           console.log(errorObject);
-          callToast(errorObject?.message, "error", true);
+          callToast(
+            errorObject?.message,
+            errorObject?.status === 200 ? "success" : "error",
+            true
+          );
         });
       });
   };

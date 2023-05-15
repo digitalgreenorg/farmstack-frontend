@@ -168,7 +168,9 @@ const ProfileDetails = (props) => {
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, "error", true);
+                  callToast(error?.message, 
+                    error?.status === 200 ? "success" : "error",
+                    true);
                 }
                 break;
             }
@@ -176,7 +178,9 @@ const ProfileDetails = (props) => {
         } else {
           let error = await GetErrorHandlingRoute(e);
           if (error) {
-            callToast(error?.message ?? "Unknown", "error", true);
+            callToast(error?.message ?? "Unknown", 
+            error?.status === 200 ? "success" : "error",
+            true);
           }
         }
       });
@@ -204,8 +208,8 @@ const ProfileDetails = (props) => {
 
           callToast(
             response?.message ?? "Error occurred while getting policy details",
-            response.status == 201 ? "success" : "error",
-            response.toast
+            response?.status == 200 ? "success" : "error",
+            response?.toast
           );
         } else {
           history.push(response?.path);

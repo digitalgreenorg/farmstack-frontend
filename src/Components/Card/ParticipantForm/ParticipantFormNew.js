@@ -600,7 +600,7 @@ const ParticipantFormNew = (props) => {
         <Row>
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
-              id="add-participant-mail-id"
+              id="add-participant-rootuser-mail-id"
               className={LocalStyle.textField}
               label="Mail Id "
               type="email"
