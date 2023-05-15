@@ -1250,12 +1250,24 @@ textarea {
   margin-top: 30px !important;
 }
 
+.mt-28 {
+  margin-top: 28px !important;
+}
+
 .mt-39 {
   margin-top: 39px !important;
 }
 
 .mt-50 {
   margin-top: 50px !important;
+}
+
+.mt-70 {
+  margin-top: 70px !important;
+}
+
+.mt-150 {
+  margin-top: 150px !important;
 }
 
 .mb-50 {

@@ -35,3 +35,10 @@
 .mr-50 {
     margin-right: 50px !important;
 }
+
+.sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1100;
+    background: #ffffff;
+}

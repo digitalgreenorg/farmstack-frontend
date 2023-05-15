@@ -192,11 +192,15 @@ const GuestUserHome = () => {
           <Box
             className={`${
               mobile || tablet || miniLaptop ? "d-flex flex-column" : "d-flex"
-            } ${mobile ? "mt-39" : ""}`}
+            } ${mobile ? "mt-28" : ""}`}
           >
             <Typography
               className={`${LocalStyle.title} ${GlobalStyles.bold500} ${
-                tablet || miniLaptop ? GlobalStyles.size16 : GlobalStyles.size32
+                mobile
+                  ? GlobalStyles.size12
+                  : tablet || miniLaptop
+                  ? GlobalStyles.size16
+                  : GlobalStyles.size32
               } ${GlobalStyles.highlighted_text} ${
                 tablet ? LocalStyle.lineheight_27 : LocalStyle.lineheight_39
               }`}

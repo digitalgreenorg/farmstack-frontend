@@ -657,9 +657,17 @@ const DataSets = (props) => {
 
   return (
     <>
-      <Box sx={{ padding: "40px", maxWidth: "100%" }}>
+      <Box
+        sx={{
+          maxWidth: "100%",
+          marginLeft: mobile || tablet ? "30px" : "0px",
+          marginRight: mobile || tablet ? "30px" : "0px",
+        }}
+      >
         {/* section-1 */}
-        <div className={mobile ? "title_sm" : "title"}>Datasets Explorer</div>
+        <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
+          Datasets Explorer
+        </div>
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>
@@ -669,7 +677,7 @@ const DataSets = (props) => {
           </div>
         </div>
         <TextField
-        id="dataset-search-input-id"
+          id="dataset-search-input-id"
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
@@ -826,7 +834,6 @@ const DataSets = (props) => {
                 }
                 onClick={() => handleFilterClick("date")}
                 id="dataset-filter-by-date-id"
-                
               >
                 <img
                   src={require("../../Assets/Img/by_date.svg")}
@@ -853,7 +860,6 @@ const DataSets = (props) => {
               ) : (
                 <div
                   className="d-flex align-items-center filter_text_container"
-
                   onClick={() => {
                     setType("");
                     setCategorises([]);
@@ -865,7 +871,7 @@ const DataSets = (props) => {
                     clearFilter();
                     setFilterState({});
                   }}
-                id="dataset-filter-clear-all-id"
+                  id="dataset-filter-clear-all-id"
                 >
                   <img
                     src={require("../../Assets/Img/clear_all.svg")}

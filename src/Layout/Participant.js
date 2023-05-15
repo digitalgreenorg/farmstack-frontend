@@ -43,7 +43,7 @@ import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
 import FooterNew from "../Components/Footer/Footer_New";
-import { Divider } from "@mui/material";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 import DataSets from "../Components/Datasets_New/DataSets";
 import DataSetsView from "../Components/Datasets_New/DataSetsView";
@@ -58,7 +58,8 @@ import UrlConstant from "../Constants/UrlConstants";
 function Participant(props) {
   const [render, reRender] = useState(0);
   const [verifyLocalData, setVerifyLocalData] = useState(false);
-
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
   let roleId = {
@@ -123,8 +124,14 @@ function Participant(props) {
         <div className="center_keeping_conatiner">
           {/* <ParticipantNavbar /> */}
           <NavbarNew loginType={"participant"} />
-          <div className="minHeight67vhParticipantPage">
-          <br/>
+          <div
+            className={
+              mobile
+                ? "minHeight67vhParticipantPage" + " " + "mt-70"
+                : "minHeight67vhParticipantPage" + " " + "mt-150"
+            }
+          >
+            <br/>
             <Switch>
               <Route
                 exact

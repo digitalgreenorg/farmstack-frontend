@@ -16,6 +16,17 @@
     line-height: 78px;
     text-align: center;
     color: #585D60;
+    margin-top: 20px;
+}
+
+.title_md {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 78px;
+    text-align: center;
+    color: #585D60;
+    margin-top: 50px;
 }
 
 .description {
