@@ -92,12 +92,18 @@ const ParticipantsCarouselNew = (props) => {
         // }
         if (response?.data?.results) setParticipantsList(response.data.results);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
-        console.log(e);
+        if (error) {
+          callToast(
+            error?.message,
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+          console.log(e);
+        }
       });
   };
   console.log("participants list ", participantsList);

@@ -297,7 +297,11 @@ const OrganizationDetails = (props) => {
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, "error", true);
+                  callToast(
+                    error?.message,
+                    error?.status === 200 ? "success" : "error",
+                    true
+                  );
                   console.log(e, error);
                 }
                 break;
@@ -307,7 +311,11 @@ const OrganizationDetails = (props) => {
         } else {
           let error = await GetErrorHandlingRoute(e);
           if (error) {
-            callToast(error?.message, "error", true);
+            callToast(
+              error?.message,
+              error?.status === 200 ? "success" : "error",
+              true
+            );
             console.log(e, error);
           }
         }
@@ -355,7 +363,11 @@ const OrganizationDetails = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log(e, error);
         if (error) {
-          callToast(error?.message, "error", true);
+          callToast(
+            error?.message,
+            error?.status === 200 ? "success" : "error",
+            true
+          );
         }
       });
   };
