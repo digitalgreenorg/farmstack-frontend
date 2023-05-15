@@ -43,6 +43,8 @@ const ControlledAccordion = ({
   showDeleteIcon,
   customPadding,
   isTables,
+  isCustomDetailStyle,
+  customDetailsStyle,
 }) => {
   const [expanded, setExpanded] = useState(
     selectedPanelIndex ? selectedPanelIndex : false
@@ -114,7 +116,11 @@ const ControlledAccordion = ({
               }
             >
               {acc?.details?.map((detail, index) => (
-                <Box id={`dataset-accourdion-details-${index}`} key={index} sx={detailsStyle}>
+                <Box
+                  id={`dataset-accourdion-details-${index}`}
+                  key={index}
+                  sx={isCustomDetailStyle ? customDetailsStyle : detailsStyle}
+                >
                   {detail}
                 </Box>
               ))}
