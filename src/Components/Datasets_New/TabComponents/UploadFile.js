@@ -95,7 +95,10 @@ const UploadFile = ({
   const handleFileChange = (file) => {
     setFile(file);
     setKey(key + 1);
-    setFiles((prev) => [...prev, file]);
+    let tempFiles = [...files];
+    tempFiles.push(...file);
+    setFiles(tempFiles);
+    // setFiles((prev) => [...prev, file]);
   };
   const handleDelete = (index, id, filename, type) => {
     let source = "";
@@ -908,6 +911,7 @@ const UploadFile = ({
                   id="add-dataset-upload-file-id"
                   key={key}
                   handleChange={handleFileChange}
+                  multiple={true}
                   // onClick={(e) => (e.target.value = null)}
                   children={
                     <img

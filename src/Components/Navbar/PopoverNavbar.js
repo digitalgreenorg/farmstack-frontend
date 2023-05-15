@@ -47,7 +47,7 @@ const PopoverNavbar = ({
       className="d-flex"
       sx={{
         boxShadow: "0px 6px 16px rgba(145, 158, 171, 0.16)",
-        height: "44px",
+        height: "60px",
         padding: "10px 16px",
       }}
     >
