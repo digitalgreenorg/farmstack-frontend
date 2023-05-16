@@ -100,9 +100,11 @@ const ParticipantsAndCoStewardNew = () => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error?.message, 
+        callToast(
+          error?.message,
           error?.status === 200 ? "success" : "error",
-          true);
+          true
+        );
         console.log(e);
       });
   };
@@ -128,9 +130,11 @@ const ParticipantsAndCoStewardNew = () => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error?.message, 
+        callToast(
+          error?.message,
           error?.status === 200 ? "success" : "error",
-          true);
+          true
+        );
         console.log(e);
       });
   };
@@ -182,7 +186,9 @@ const ParticipantsAndCoStewardNew = () => {
             </span>
             <span className="add_light_text ml-16 fw600">
               {tabValue == 0
-                ? "Co-Steward"
+                ? isLoggedInUserCoSteward()
+                  ? "Participant"
+                  : "Co-Steward"
                 : tabValue == 1
                 ? "Participant"
                 : "New Participants requests"}
