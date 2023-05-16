@@ -28,7 +28,7 @@ const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
         <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
         <span className="published_text">
           Published on:{" "}
-          {item?.created_at ? dateTimeFormat(item?.created_at, false) : "NA"}
+          {item?.created_at ? dateTimeFormat(item?.created_at, false) : "Not Available"}
         </span>
       </div>
       <div className="d_content_title">{item?.name}</div>
@@ -56,7 +56,7 @@ const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
                 Object.keys(item?.category)?.[0]
               )
             ) : (
-              "NA"
+              "Not Available"
             )}
           </span>
         </div>
@@ -65,7 +65,7 @@ const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
           <span className="location_text">
             {item?.geography?.country?.name
               ? item?.geography?.country?.name
-              : "NA"}
+              : "Not Available"}
           </span>
         </div>
         {/* <div className="calendar">
@@ -74,7 +74,7 @@ const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
             alt="calendar"
           />
           <span className="calendar_text">
-            {item?.updated_at ? dateTimeFormat(item.updated_at, false) : "NA"}
+            {item?.updated_at ? dateTimeFormat(item.updated_at, false) : "Not Available"}
           </span>
         </div> */}
       </div>

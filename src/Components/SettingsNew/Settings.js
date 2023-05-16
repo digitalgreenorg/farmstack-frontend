@@ -3,7 +3,7 @@ import Tab from "@mui/material/Tab";
 import { TabContext } from "@mui/lab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import {Container } from "react-bootstrap";
+import {Col, Container, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import Box from "@mui/material/Box";
 import AccountSetting from "./AccountSettings";
@@ -15,6 +15,7 @@ import OrganizationDetails from "../NewOnboarding/OrganizationDetails";
 import DatapointSettings from "./DatapointSettings";
 import { isLoggedInUserCoSteward, isLoggedInUserParticipant } from "../../Utils/Common";
 import LocalStyle from "./Settings.module.css"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 
 export default function Settings(props) {
@@ -50,7 +51,30 @@ export default function Settings(props) {
           },
           "& .Mui-selected": { color: "#00AB55 !important" },
         }}>
+           <Row style={{margin: "0 144px"}} >
+        <Col>
+          <div className="text-left mt-50">
+            <span
+              className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => history.push("/datahub/settings/:1")}
+            >
+              Settings
+            </span>
+            <span className="add_light_text ml-16">
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            </span>
+            <span className="add_light_text ml-16 fw600">
+             {value == 1 ? "Account settings" : value == 2? "Organisation settings" :
+             value == 3 ? "Policy settings"
+             : value == 4 ? "Categories settings"
+             : value == 5 ? "Datapoint settings"
+              : ""}
+            </span>
+          </div>
+        </Col>
+      </Row>
            <Container>
+         
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Account settings" value="1" />
               <Tab label="Organisation settings" value="2" />

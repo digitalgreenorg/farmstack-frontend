@@ -98,12 +98,23 @@ const ParticipantsAndCoStewardNew = () => {
       })
       .catch(async (e) => {
         callLoader(false);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error?.message, 
+        //   error?.status === 200 ? "success" : "error",
+        //   true);
+        // console.log(e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error?.message, 
-          error?.status === 200 ? "success" : "error",
-          true);
         console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -116,10 +127,12 @@ const ParticipantsAndCoStewardNew = () => {
           setLoadMoreButton(false);
         } else {
           setLoadMoreButton(true);
-          if (response?.data?.next) setLoadMoreUrl(response.data.next);
+          if (response?.data?.next){
+            setLoadMoreUrl(response.data.next);
+          } 
         }
         let datalist = coStewardOrParticipantsList;
-        if (response?.data?.next) {
+        if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
           setCoStewardOrParticipantsList(finalDataList);
         }
@@ -128,10 +141,15 @@ const ParticipantsAndCoStewardNew = () => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error?.message, 
-          error?.status === 200 ? "success" : "error",
-          true);
         console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -166,7 +184,7 @@ const ParticipantsAndCoStewardNew = () => {
   ];
 
   return (
-    <Container style={{ marginLeft: "144px", marginRight: "144px" }}>
+    <div style={{ marginLeft: "144px", marginRight: "144px" }}>
       <Row>
         <Col>
           <div className="text-left mt-50">
@@ -322,7 +340,7 @@ const ParticipantsAndCoStewardNew = () => {
             ))}
         </>
       )}
-    </Container>
+    </div>
   );
 };
 

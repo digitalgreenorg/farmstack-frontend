@@ -36,7 +36,7 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/home/costeward/view/${id}`);
     } else if (
       (guestUser && !isCosteward) ||
-      title == "Co-steward participants"
+      title == "Co-steward participants" && guestUser
     ) {
       history.push(`/home/participants/view/${id}`);
     } else if (title == "Participants" || title == "Co-steward participants") {
@@ -45,6 +45,9 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/datahub/costeward/view/${id}`);
     } else if (title == "New participant requests") {
       history.push(`/datahub/participants/view/approve/${id}`);
+    }
+    else if(title == "Our Participants are" && guestUser){
+      history.push("/home/participants/view/:id")
     }
     // if (
     //   (title == "Participants" || title == "Co-steward participants") &&
@@ -436,11 +439,15 @@ const CoStewardAndParticipantsCard = (props) => {
               ""
             )}
           </Row>
-          {/* <hr /> */}
+            {viewType=="list" ? 
           <div className={LocalStyle.cardContainerList}>
-            {coStewardOrParticipantsList?.map((item, index) => {
+            
+            <hr/>
+            {
+            coStewardOrParticipantsList?.map((item, index) => {
               return (
                 <>
+
                   <Row
                     id={title + "-list-view-" + index}
                     className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
@@ -511,12 +518,14 @@ const CoStewardAndParticipantsCard = (props) => {
                     ) : (
                       ""
                     )}
+
                   </Row>
-                  {/* <hr /> */}
+                  <hr/>
                 </>
               );
             })}
-          </div>
+            </div> 
+             : ""}
         </>
       </CSSTransition>
 
