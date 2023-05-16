@@ -30,6 +30,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   dateTimeFormat,
+  GetErrorHandlingRoute,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
@@ -39,7 +40,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 
 const DataSetsView = (props) => {
-  const { userType } = props;
+  const { userType, breadcrumbFromRoute } = props;
   const history = useHistory();
   const { id } = useParams();
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -142,13 +143,20 @@ const DataSetsView = (props) => {
           history.push(`/participant/new_datasets`);
         }
       })
-      .catch((err) => {
+      .catch( async(e) => {
         callLoader(false);
-        callToast(
-          "Something went wrong while deleting Dataset!",
-          "error",
-          true
-        );
+        
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong while deleting Dataset!", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -388,10 +396,22 @@ const DataSetsView = (props) => {
         });
         setCategories(tempCategories);
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        callToast("Something went wrong while loading dataset!", "error", true);
-        console.log("error while loading dataset", e);
+        // callToast("Something went wrong while loading dataset!", "error", true);
+        // console.log("error while loading dataset", e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong while loading dataset", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
+        
       });
   };
   useEffect(() => {
@@ -406,7 +426,7 @@ const DataSetsView = (props) => {
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
-            Datasets
+            {breadcrumbFromRoute?? "Datasets"} 
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -519,17 +539,19 @@ const DataSetsView = (props) => {
             <Typography className="view_datasets_bold_text text-left mt-3">
               {fromDate !== "NA" && toDate !== "NA"
                 ? dateTimeFormat(fromDate) + " - " + dateTimeFormat(toDate)
-                : "NA"}
+                : "Not Available"}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-25">
               Geography
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
+              {/* IF GEOGRAPHY COUNTRY SAATE AND CITY ALL ARE "NA" THEN SHOW "Not Available" */}
+              {!geography?.country?.name && !geography?.state?.name && !geography?.city?.name ? "Not Available" : "" }
               {geography?.country?.name
                 ? geography?.country?.name + ", "
-                : "NA, "}
-              {geography?.state?.name ? geography?.state?.name + ", " : "NA, "}
-              {geography?.city?.name ? geography?.city?.name : "NA"}
+                : ""}
+              {geography?.state?.name ? geography?.state?.name + ", " : ""}
+              {geography?.city?.name ? geography?.city?.name : ""}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-25">
               Constantly updating{" "}

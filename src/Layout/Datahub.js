@@ -124,7 +124,7 @@ function Datahub(props) {
       .catch(async (e) => {
         console.log("error to verify local data", e);
         let error = await GetErrorHandlingRoute(e);
-        if (error.toast) {
+        if (error?.toast) {
           callToast(
             error?.message ?? "user login details are corrupted",
             error.status == 200 ? "success" : "error",
@@ -152,7 +152,7 @@ function Datahub(props) {
             className={
               mobile
                 ? "minHeight67vhDatahubPage" + " " + "mt-70"
-                : "minHeight67vhDatahubPage" + " " + "mt-150"
+                : "minHeight67vhDatahubPage"
             }
           >
             <br/>
