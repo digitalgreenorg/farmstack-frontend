@@ -200,7 +200,9 @@ const ParticipantsAndCoStewardNew = () => {
             </span>
             <span className="add_light_text ml-16 fw600">
               {tabValue == 0
-                ? "Co-Steward"
+                ? isLoggedInUserCoSteward()
+                  ? "Participant"
+                  : "Co-Steward"
                 : tabValue == 1
                 ? "Participant"
                 : "New Participants requests"}
