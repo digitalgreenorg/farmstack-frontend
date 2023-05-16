@@ -36,7 +36,7 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/home/costeward/view/${id}`);
     } else if (
       (guestUser && !isCosteward) ||
-      title == "Co-steward participants" && guestUser
+      (title == "Co-steward participants" && guestUser)
     ) {
       history.push(`/home/participants/view/${id}`);
     } else if (title == "Participants" || title == "Co-steward participants") {
@@ -45,9 +45,8 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/datahub/costeward/view/${id}`);
     } else if (title == "New participant requests") {
       history.push(`/datahub/participants/view/approve/${id}`);
-    }
-    else if(title == "Our Participants are" && guestUser){
-      history.push("/home/participants/view/:id")
+    } else if (title == "Our Participants are" && guestUser) {
+      history.push("/home/participants/view/:id");
     }
     // if (
     //   (title == "Participants" || title == "Co-steward participants") &&
@@ -330,6 +329,7 @@ const CoStewardAndParticipantsCard = (props) => {
           )}
           {coStewardOrParticipantsList?.map((participant, index) => {
             let id = participant?.user_id;
+            console.log("participant",participant)
             return (
               <Col
                 id={title?.split(" ")[0] + "grid-card-id" + index}
@@ -340,19 +340,22 @@ const CoStewardAndParticipantsCard = (props) => {
                 xl={4}
                 onClick={() => handleViewDataset(id)}
               >
+                
                 <CustomCard
                   image={participant?.organization?.logo}
                   title={participant?.organization?.name}
-                  subTitle1="Datasets"
+                  subTitle1={title=="New participant requests" ? "User" : "Datasets"}
                   subTitle2={
                     title == "Participants" || title == "Our Participants are"
                       ? "Root user"
+                      : title=="New participant requests" ? "User email"
                       : "No.of participants"
                   }
-                  subTitle1Value={participant?.dataset_count}
+                  subTitle1Value={ title=="New participant requests" ? participant?.user?.first_name : participant?.dataset_count}
                   subTitle2Value={
                     title == "Participants" || title == "Our Participants are"
                       ? participant?.user?.first_name
+                      :  title == "New participant requests" ? participant?.user?.email
                       : participant?.number_of_participants
                   }
                   index={index}
@@ -413,8 +416,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   No.of participants
                 </Col>
               </>
-            ) : title === "Participants" ||
-              title === "New participant requests" ? (
+            ) : title === "Participants" ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -435,97 +437,174 @@ const CoStewardAndParticipantsCard = (props) => {
                   No.of datasets
                 </Col>
               </>
+            ) : title === "New participant requests" ? (
+              <>
+                <Col
+                  className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  xl={4}
+                >
+                  Organisation name
+                </Col>
+                <Col
+                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} ${LocalStyle.alignLeft}`}
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  xl={4}
+                >
+                  User
+                </Col>
+                <Col
+                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} ${LocalStyle.alignLeft}`}
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  xl={4}
+                >
+                  User email
+                </Col>
+              </>
             ) : (
               ""
             )}
           </Row>
-            {viewType=="list" ? 
-          <div className={LocalStyle.cardContainerList}>
-            
-            <hr/>
-            {
-            coStewardOrParticipantsList?.map((item, index) => {
-              return (
-                <>
-
-                  <Row
-                    id={title + "-list-view-" + index}
-                    className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
-                  >
-                    {title === "Co-steward" ? (
-                      <>
-                        <Col
-                          onClick={() => handleViewDataset(item?.user_id)}
-                          id={title?.split(" ")[0] + "list-view-title-" + index}
-                          className={
-                            LocalStyle.content_title +
-                            " datasets_list_view_text datasets_list_view_name green_text w-100 text-left"
-                          }
-                          xs={4}
-                          sm={4}
-                          md={4}
-                          xl={4}
-                        >
-                          {item?.organization?.name}
-                        </Col>
-                        <Col
-                          xs={4}
-                          sm={4}
-                          md={4}
-                          xl={4}
-                          id={title + " list-view-datasets-no-" + index}
-                        >
-                          {item?.dataset_count}
-                        </Col>
-                        <Col
-                          id={title + " list-view-participant-no-" + index}
-                          xs={4}
-                          sm={4}
-                          md={4}
-                          xl={4}
-                        >
-                          {item?.number_of_participants}
-                        </Col>
-                      </>
-                    ) : title === "Participants" ||
-                      title === "New participant requests" ? (
-                      <>
-                        <Col
-                          onClick={() => handleViewDataset(item?.user_id)}
-                          id={title?.split(" ")[0] + "list-view-title-" + index}
-                          className={LocalStyle.content_title}
-                          xs={6}
-                          sm={6}
-                          md={6}
-                          xl={6}
-                        >
-                          {item?.organization?.name}
-                        </Col>
-                        <Col
-                          id={
-                            title?.split(" ")[0] +
-                            " list-view-datasets-no-" +
-                            index
-                          }
-                          xs={6}
-                          sm={6}
-                          md={6}
-                          xl={6}
-                        >
-                          {item?.dataset_count}
-                        </Col>
-                      </>
-                    ) : (
-                      ""
-                    )}
-
-                  </Row>
-                  <hr/>
-                </>
-              );
-            })}
-            </div> 
-             : ""}
+          {viewType == "list" ? (
+            <div className={LocalStyle.cardContainerList}>
+              <hr />
+              {coStewardOrParticipantsList?.map((item, index) => {
+                return (
+                  <>
+                    <Row
+                      id={title + "-list-view-" + index}
+                      className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
+                    >
+                      {title === "Co-steward" ? (
+                        <>
+                          <Col
+                            onClick={() => handleViewDataset(item?.user_id)}
+                            id={
+                              title?.split(" ")[0] + "list-view-title-" + index
+                            }
+                            className={
+                              LocalStyle.content_title +
+                              " datasets_list_view_text datasets_list_view_name green_text w-100 text-left"
+                            }
+                            xs={4}
+                            sm={4}
+                            md={4}
+                            xl={4}
+                          >
+                            {item?.organization?.name}
+                          </Col>
+                          <Col
+                            xs={4}
+                            sm={4}
+                            md={4}
+                            xl={4}
+                            id={title + " list-view-datasets-no-" + index}
+                          >
+                            {item?.dataset_count}
+                          </Col>
+                          <Col
+                            id={title + " list-view-participant-no-" + index}
+                            xs={4}
+                            sm={4}
+                            md={4}
+                            xl={4}
+                          >
+                            {item?.number_of_participants}
+                          </Col>
+                        </>
+                      ) : title === "Participants" ? (
+                        <>
+                          <Col
+                            onClick={() => handleViewDataset(item?.user_id)}
+                            id={
+                              title?.split(" ")[0] + "list-view-title-" + index
+                            }
+                            className={LocalStyle.content_title}
+                            xs={6}
+                            sm={6}
+                            md={6}
+                            xl={6}
+                          >
+                            {item?.organization?.name}
+                          </Col>
+                          <Col
+                            id={
+                              title?.split(" ")[0] +
+                              " list-view-datasets-no-" +
+                              index
+                            }
+                            xs={6}
+                            sm={6}
+                            md={6}
+                            xl={6}
+                          >
+                            {item?.dataset_count}
+                          </Col>
+                        </>
+                      ) : title === "New participant requests" ? (
+                        <>
+                          <Col
+                            onClick={() => handleViewDataset(item?.user_id)}
+                            id={
+                              title?.split(" ")[0] + "list-view-title-" + index
+                            }
+                            className={LocalStyle.content_title}
+                            xs={4}
+                            sm={4}
+                            md={4}
+                            xl={4}
+                          >
+                            {item?.organization?.name}
+                          </Col>
+                          <Col
+                            className={LocalStyle.alignLeft}
+                            id={
+                              title?.split(" ")[0] +
+                              " list-view-user-name-no-" +
+                              index
+                            }
+                            xs={4}
+                            sm={4}
+                            md={4}
+                            xl={4}
+                          >
+                            {item?.user?.first_name +
+                              " " +
+                              item?.user?.last_name}
+                          </Col>
+                          <Col
+                            className={LocalStyle.alignLeft}
+                            id={
+                              title?.split(" ")[0] +
+                              " list-view-user-email-no-" +
+                              index
+                            }
+                            xs={4}
+                            sm={4}
+                            md={4}
+                            xl={4}
+                          >
+                            {item?.user?.email}
+                          </Col>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </Row>
+                    <hr />
+                  </>
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )}
         </>
       </CSSTransition>
 

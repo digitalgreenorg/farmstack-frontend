@@ -32,6 +32,7 @@ import {
   GetErrorHandlingRoute,
   GetErrorKey,
   getUserLocal,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   validateInputField,
@@ -231,7 +232,7 @@ const ParticipantFormNew = (props) => {
         console.log(response);
         if (response.status == 201) {
           handleCancel(true);
-          // callToast(error.message, "success", true);
+          callToast("Registered successfully!", "success", true);
         }
       })
       .catch( async(e) => {
@@ -300,6 +301,7 @@ const ParticipantFormNew = (props) => {
         //   }
         
       });
+      goToTop(0)
   };
 
   const getDataOnEdit = () => {
@@ -397,6 +399,7 @@ const ParticipantFormNew = (props) => {
             history.push(error.path)
           }
       });
+      
   };
 
   useEffect(() => {
