@@ -32,6 +32,7 @@ import {
   GetErrorHandlingRoute,
   GetErrorKey,
   getUserLocal,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   validateInputField,
@@ -231,10 +232,10 @@ const ParticipantFormNew = (props) => {
         console.log(response);
         if (response.status == 201) {
           handleCancel(true);
-          // callToast(error.message, "success", true);
+          callToast("Registered successfully!", "success", true);
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
         console.log(e);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
@@ -275,18 +276,32 @@ const ParticipantFormNew = (props) => {
             }
           }
         } else {
-          let error = GetErrorHandlingRoute(e);
-
+          let error = await GetErrorHandlingRoute(e);
           console.log("Error obj", error);
-          callToast(error.message, "error", true);
-          console.log("err in switch", e);
+          console.log(e);
+          if(error.toast){
+            callToast( "Something went wrong", 
+              error?.status === 200 ? "success" : "error",
+              true);
+            }
+            if(error.path){
+              history.push(error.path)
+            }
         }
-        let error = GetErrorHandlingRoute(e);
-
-        console.log("Error obj", error);
-        callToast(error.message, "error", true);
-        console.log("err in switch", e);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // console.log(e);
+        // if(error.toast){
+        //   callToast(error?.message || "Something went wrong while loading dataset", 
+        //     error?.status === 200 ? "success" : "error",
+        //     true);
+        //   }
+        //   if(error.path){
+        //     history.push(error.path)
+        //   }
+        
       });
+      goToTop(0)
   };
 
   const getDataOnEdit = () => {
@@ -330,13 +345,24 @@ const ParticipantFormNew = (props) => {
           setIsCoSteward(false);
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
 
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        // console.log("err in switch", e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
-        console.log("err in switch", e);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -357,11 +383,23 @@ const ParticipantFormNew = (props) => {
         setSelectCoSteward([...response.data]);
         console.log("response of costewards", response.data);
       })
-      .catch((e) => {
+      .catch( async(e) => {
         // setMessageForSnackBar("Get list of Co-Stewards failed!!!");
         // setIsLoader(false);
         // history.push(GetErrorHandlingRoute(e));
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
+      
   };
 
   useEffect(() => {

@@ -16,13 +16,17 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
+import {useHistory} from "react-router-dom"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+
 
 function GuestUserParticipants(props) {
-  const { title, description, isCosteward } = props;
+  const { title, description, isCosteward, breadcrumbFromRoute } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const history = useHistory()
 
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
@@ -53,11 +57,22 @@ function GuestUserParticipants(props) {
         if (response?.data?.results)
           setCoStewardOrParticipantsList(response.data.results);
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
         console.log(e);
       });
   };
@@ -79,12 +94,23 @@ function GuestUserParticipants(props) {
         setCoStewardOrParticipantsList(finalDataList);
         // }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        // callToast(error.message, "error", true);
         console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
   const handleSearch = (name, isLoadMore) => {
@@ -123,8 +149,19 @@ function GuestUserParticipants(props) {
             console.log(finalDataList, "fdlist");
             setCoStewardOrParticipantsList(finalDataList);
           })
-          .catch((e) => {
+          .catch( async(e) => {
             console.log(e);
+            let error = await GetErrorHandlingRoute(e);
+            console.log("Error obj", error);
+            console.log(e);
+            if(error.toast){
+              callToast(error?.message || "Something went wrong", 
+                error?.status === 200 ? "success" : "error",
+                true);
+              }
+              if(error.path){
+                history.push(error.path)
+              }
           });
       }
     }, DEBOUNCE_DELAY);
@@ -138,6 +175,27 @@ function GuestUserParticipants(props) {
 
   return (
     <Box style={containerStyle}>
+       <Row>
+        <Col>
+          <div className="text-left mt-50">
+            <span
+              className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => {
+              history.push("/home")
+              } }
+            >
+               {breadcrumbFromRoute?? "Home"}
+            </span>
+            <span className="add_light_text ml-16">
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            </span>
+            <span className="add_light_text ml-16 fw600">
+              {isCosteward ? "Co-stewards" : "Participants"}
+            
+            </span>
+          </div>
+        </Col>
+      </Row>
       <Row className={LocalStyle.titleContainer}>
         <div className={mobile ? LocalStyle.titleSm : LocalStyle.title}>
           {title ?? "Participants Network"}

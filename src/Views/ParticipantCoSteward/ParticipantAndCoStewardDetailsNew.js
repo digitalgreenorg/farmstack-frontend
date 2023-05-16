@@ -22,6 +22,7 @@ import {
   getOrgLocal,
   getUserLocal,
 } from "../../Utils/Common";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
@@ -36,7 +37,7 @@ import EditIcon from "@mui/icons-material/Edit";
 const ParticipantAndCoStewardDetailsNew = (props) => {
   // to show as participants page pass isCosteward = true
   //  as participants request pass isParticipantRequest = true
-  let { isCosteward, isParticipantRequest, user, userTypeCosteward, title } =
+  let { isCosteward, isParticipantRequest, user, userTypeCosteward, title, breadcrumbFromRoute } =
     props;
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const theme = useTheme();
@@ -150,12 +151,23 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           response?.data?.organization_id
         ); //Get dataset list of this user
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        // console.log(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
         console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -190,12 +202,23 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         if (response?.data?.results)
           setCoStewardOrParticipantsList(response.data.results);
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        // console.log(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
         console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -216,16 +239,26 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           setCoStewardOrParticipantsList(finalDataList);
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // callToast(error.message, "error", true);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
         console.log(e);
       });
   };
 
-  const deleteParticipants = () => {
+  const deleteParticipants = (reject) => {
     callLoader(true);
     HTTPService(
       "DELETE",
@@ -238,15 +271,31 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         callLoader(false);
         console.log("otp valid", response);
         if (response.status === 204) {
+          
+          if(reject){
+          callToast("Rejected successfully!", "success", true);
+          }else{
           callToast("Delete successfully!", "success", true);
+          }
           history.go(-1);
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
         console.log("err", e);
       });
   };
@@ -279,11 +328,22 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         if (res?.data?.next) setDatasetLoadMoreUrl(res.data.next);
         else setDatasetLoadMoreUrl("");
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
         console.log("err", e);
       });
   };
@@ -307,21 +367,35 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     HTTPService(method, url, payload, false, true)
       .then((response) => {
         callLoader(false);
-        if (method === "PUT") {
-          history.go(-1);
-        }
+        
         if (response?.data?.next == null) {
           setLoadMoreButton(false);
         } else {
           setLoadMoreButton(true);
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
-        if (response?.data?.results)
+        if (response?.data?.results){
           setCoStewardOrParticipantsList(response.data.results);
+        }
+        if (approval_endpoint) {
+          callToast("Approved successfully", "success", true);
+            history.go(-1);
+        }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
         console.log("Error obj", error);
         callToast(error.message, "error", true);
       });
@@ -343,6 +417,28 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           : LocalStyle.containerMain
       }
     >
+      <Row>
+        <Col>
+          <div className="text-left mt-50">
+            <span
+              className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => history.push("/datahub/participants/")}
+            >
+              {breadcrumbFromRoute?? "Participant"}
+            </span>
+            <span className="add_light_text ml-16">
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            </span>
+            <span className="add_light_text ml-16 fw600">
+              {isCosteward && !isParticipantRequest
+                ? "Co-Steward details"
+                : !isCosteward && !isParticipantRequest ? "Participant details"
+                : "New Participants requests details"}
+                {/* {isParticipantRequest ? "" : ""} */}
+            </span>
+          </div>
+        </Col>
+      </Row>
       <Row
         className={
           mobile ? "justify-content-center mt-20" : "justify-content-start"
@@ -615,7 +711,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Row>
         </Col>
       </Row>
-
+              {
+                !isParticipantRequest ? <>
+                
       <Row className={LocalStyle.section}>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Typography
@@ -667,6 +765,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           ""
         )}
       </Row>
+      </> : ""
+              }
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
           <Col xs={0} sm={0} md={2} lg={4}></Col>
@@ -744,7 +844,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               id={"details-page-load-more-dataset-button"}
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
-              onClick={deleteParticipants}
+              onClick={()=>deleteParticipants(true)}
             >
               Reject
             </Button>

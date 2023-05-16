@@ -19,7 +19,7 @@ const DatasetCart = (props) => {
         <img src={require("../../Assets/Img/globe_img.svg")} />
         <span className="published_text">
           Published on:{" "}
-          {publishDate?.split("T")[0] ? publishDate?.split("T")[0] : "NA"}
+          {publishDate?.split("T")[0] ? publishDate?.split("T")[0] : "Not Available"}
         </span>
       </div>
       <div className="d_content_title">{title}</div>
@@ -37,13 +37,13 @@ const DatasetCart = (props) => {
               ? category?.length > 1
                 ? `${category[0]} (+${category.length - 1})`
                 : category?.[0]
-              : "NA"}
+              : "Not Available"}
           </span>
         </div>
         <div className="location">
           <img src={require("../../Assets/Img/location.svg")} alt="location" />
           <span className="location_text">
-            {geography?.country?.name ? geography?.country?.name : "NA"}
+            {geography?.country?.name ? geography?.country?.name : "Not Available"}
           </span>
         </div>
       </div>

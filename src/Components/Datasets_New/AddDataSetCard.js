@@ -12,7 +12,7 @@ const cardSx = {
 const AddDataSetCardNew = ({ history, addDataset }) => {
     return (
         <Card id="dataset-add-new-dataset-in-gridview" className='card cursor-pointer' sx={cardSx} onClick={() => history.push(addDataset())}>
-            <div className='add_new_dataset'>Add New DataSet</div>
+            <div className='add_new_dataset'>Add New Dataset</div>
             <div>
                 <img src={require('../../Assets/Img/add_new.svg')} alt="add" />
             </div>

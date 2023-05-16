@@ -134,7 +134,6 @@ const ParticipantsCarouselNew = (props) => {
         //     error?.status === 200 ? "success" : "error",
         //     true
         //   );
-
         //   console.log(e);
         // }
         let error = await GetErrorHandlingRoute(e);
