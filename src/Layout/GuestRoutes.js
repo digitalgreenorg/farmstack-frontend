@@ -50,6 +50,7 @@ const GuestRoutes = () => {
             : "minHeight67vhDatahubPage" + " " + "mt-150"
         }
       >
+        <br/>
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
           <Route exact path="/home/datasets" component={GuestUserDatatsets} />

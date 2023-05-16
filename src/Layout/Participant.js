@@ -131,6 +131,7 @@ function Participant(props) {
                 : "minHeight67vhParticipantPage" + " " + "mt-150"
             }
           >
+            <br/>
             <Switch>
               <Route
                 exact

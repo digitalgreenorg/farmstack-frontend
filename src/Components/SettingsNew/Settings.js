@@ -14,6 +14,7 @@ import ProfileDetails from "../NewOnboarding/ProfileDetails";
 import OrganizationDetails from "../NewOnboarding/OrganizationDetails";
 import DatapointSettings from "./DatapointSettings";
 import { isLoggedInUserCoSteward, isLoggedInUserParticipant } from "../../Utils/Common";
+import LocalStyle from "./Settings.module.css"
 
 
 export default function Settings(props) {
@@ -26,7 +27,7 @@ export default function Settings(props) {
   };
   return (
   
-      <div >
+      <div>
         <TabContext value={value} >
           <Box  sx={{
           "& .MuiTabs-indicator": { backgroundColor: "#00AB55 !important" },

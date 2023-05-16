@@ -178,7 +178,11 @@ const CompanyPolicies = (props) => {
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, "error", true);
+                  callToast(
+                    error?.message,
+                    error?.status === 200 ? "success" : "error",
+                    true
+                  );
                 }
                 break;
             }
@@ -186,7 +190,11 @@ const CompanyPolicies = (props) => {
         } else {
           let error = await GetErrorHandlingRoute(e);
           if (error) {
-            callToast(error?.message, "error", true);
+            callToast(
+              error?.message,
+              error?.status === 200 ? "success" : "error",
+              true
+            );
           }
         }
       });
@@ -210,7 +218,11 @@ const CompanyPolicies = (props) => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         if (error) {
-          callToast(error?.message, "error", true);
+          callToast(
+            error?.message,
+            error?.status === 200 ? "success" : "error",
+            true
+          );
         }
       });
   };

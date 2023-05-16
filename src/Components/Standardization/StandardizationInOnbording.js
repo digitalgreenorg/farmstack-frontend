@@ -462,7 +462,7 @@ const StandardizationInOnbord = (props) => {
         let tmpAllAttributes = { ...allAttributes };
         tmpAllAttributes[index] = [];
         setAllAttributes(tmpAllAttributes);
-        callToast("Category deleted successfully.", "success");
+        callToast("Category deleted successfully.", "success", true);
 
         let tmpAllDatapoints = [...allDatapoints];
         tmpAllDatapoints.splice(index, 1);

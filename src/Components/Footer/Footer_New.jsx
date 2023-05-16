@@ -118,7 +118,10 @@ const FooterNew = () => {
                 </div>
                 <div className={`${style.link} mt-2`}>
                   {" "}
+                  <a target="_blank"  href={adminData?.organization?.website ?? ""} >
+
                   {adminData?.organization?.website ?? ""}
+                  </a>
                 </div>
               </div>
             </div>
