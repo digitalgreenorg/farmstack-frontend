@@ -72,12 +72,25 @@ const DatasetListNew = (props) => {
         if (res?.data?.next) setLoadMoreUrl(res.data.next);
         else setLoadMoreUrl("");
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        // console.log("err", e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
-        console.log("err", e);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
