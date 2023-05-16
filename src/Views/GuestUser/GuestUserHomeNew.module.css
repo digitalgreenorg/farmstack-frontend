@@ -44,10 +44,29 @@
   line-height: 46px !important;
 }
 
-.description {
+.textDescription {
   line-height: 27px !important;
   margin: 15px auto !important;
   font-size: 22px !important;
+  font-style: italic !important;
+  color: #565c63 !important;
+  text-align: left;
+}
+
+.description {
+  line-height: 27px !important;
+  /* margin: 15px auto !important; */
+  font-size: 22px !important;
+  font-style: italic !important;
+  color: #565c63 !important;
+  text-align: left;
+  width: 450px;
+}
+
+.descriptionSm {
+  line-height: 20px !important;
+  margin: 15px auto !important;
+  font-size: 12px !important;
   font-style: italic !important;
   color: #565c63 !important;
   text-align: left;
@@ -60,6 +79,26 @@
   font-style: italic !important;
   color: #565c63 !important;
   width: 344px !important;
+  text-align: left;
+}
+
+.descriptionlg {
+  line-height: 50px !important;
+  margin: 65px auto !important;
+  font-size: 36px !important;
+  font-style: italic !important;
+  color: #565c63 !important;
+  width: fit-content !important;
+  text-align: left;
+}
+
+.descriptionXlg {
+  line-height: 69px !important;
+  margin: 70px auto !important;
+  font-size: 30px !important;
+  font-style: italic !important;
+  color: #565c63 !important;
+  /* width: 1415px !important; */
   text-align: left;
 }
 
@@ -158,6 +197,10 @@
   line-height: 78px !important;
 }
 
+.mt45 {
+  margin-top: 45px !important;
+}
+
 .gradientTextContainer .description {
   line-height: 27px;
   width: 450px;
@@ -182,4 +225,10 @@
 
 .alignLeft {
   justify-content: left;
+}
+
+@media only screen and (min-width: 1850px) {
+  .micrositeLogo {
+    height: 660px;
+  }
 }

@@ -101,16 +101,12 @@ const DatasetListNew = (props) => {
       ) : (
         ""
       )}
-      <Row>
+      <Row className={LocalStyle.datasets_card}>
         {datasetList?.map((dataset, index) => {
           console.log("datasets ", dataset);
           return (
             <Col
               onClick={() => history.push(handleCardClick(dataset?.id))}
-              xs={12}
-              sm={12}
-              md={6}
-              xl={4}
               id="dataset-view-card"
             >
               <DatasetCart
