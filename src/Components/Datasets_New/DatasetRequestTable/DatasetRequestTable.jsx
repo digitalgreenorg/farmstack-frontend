@@ -525,7 +525,7 @@ const DatasetRequestTable = () => {
                                     }}
                                     renderInput={(params) => (
                                       <TextField
-                                      id="dataset-request-recevie-data-field"
+                                        id="dataset-request-recevie-data-field"
                                         disabled
                                         {...params}
                                         variant="outlined"
@@ -636,6 +636,9 @@ const DatasetRequestTable = () => {
                             ? "Recall"
                             : "Reject"}
                         </Button>
+                      )}
+                      {row.approval_status === "rejected" && (
+                        <div>No Action available</div>
                       )}
                     </TableCell>
                     <TableCell>

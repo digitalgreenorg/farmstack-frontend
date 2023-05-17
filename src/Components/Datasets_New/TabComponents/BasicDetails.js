@@ -82,18 +82,6 @@ const BasicDetails = ({
 
   return (
     <div className="mt-20">
-      <Typography
-        sx={{
-          fontFamily: "Montserrat !important",
-          fontWeight: "600",
-          fontSize: "32px",
-          lineHeight: "40px",
-          color: "#000000",
-          textAlign: "left",
-        }}
-      >
-        {datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
-      </Typography>
       <TextField
         fullWidth
         error={errorDataSetName ? true : false}
@@ -136,7 +124,7 @@ const BasicDetails = ({
         id="add-dataset-name"
       />
       <TextField
-      id="add-dataset-description"
+        id="add-dataset-description"
         fullWidth
         multiline
         minRows={4}
@@ -283,7 +271,6 @@ const BasicDetails = ({
                 <TextField
                   {...params}
                   id="add-dataset-capture-interval-to-date"
-                  
                   variant="outlined"
                   required={isUpdating ? false : true}
                   sx={{
@@ -328,7 +315,7 @@ const BasicDetails = ({
         </div>
       </Box>
       <CheckBoxWithText
-      id="add-dataset-coustanly-updating"
+        id="add-dataset-coustanly-updating"
         text={"Constantly updating"}
         checked={isUpdating}
         handleCheckBox={handleCheckBox}
