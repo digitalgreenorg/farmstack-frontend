@@ -30,7 +30,7 @@ const ParticipantsAndCoStewardNew = () => {
   const history = useHistory();
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState( parseInt(localStorage.getItem("participantAndCostewardTabValue")) || 0);
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [viewType, setViewType] = useState("grid");
@@ -156,6 +156,9 @@ const ParticipantsAndCoStewardNew = () => {
   useEffect(() => {
     setCoStewardOrParticipantsList([]);
     getCoStewardOrParticipantsOnLoad();
+    
+      localStorage.setItem("participantAndCostewardTabValue",tabValue)
+    
   }, [tabValue]);
 
   useEffect(() => {
@@ -164,6 +167,9 @@ const ParticipantsAndCoStewardNew = () => {
       // console.log();
     }
     goToTop(0);
+    // remove participantAndCostewardTabValue from local on page load
+      localStorage.removeItem("participantAndCostewardTabValue")
+    
   }, []);
 
   console.log("is login user", isLoggedInUserAdmin());

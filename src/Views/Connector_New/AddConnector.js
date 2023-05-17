@@ -244,8 +244,19 @@ const AddConnector = (props) => {
           setTemplate({ ...template, dataset_list: [...res.data] });
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch( async(e) => {
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
+        console.log(e);
       });
   };
   const resetAll = (main, connector, join, goback, func1, func2) => {

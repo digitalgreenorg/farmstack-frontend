@@ -184,10 +184,12 @@ function GuestUserParticipants(props) {
               history.push("/home")
               } }
             >
-               {breadcrumbFromRoute?? "Home"}
+               {breadcrumbFromRoute?? ""}
             </span>
             <span className="add_light_text ml-16">
+             {breadcrumbFromRoute? 
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            : ""}
             </span>
             <span className="add_light_text ml-16 fw600">
               {isCosteward ? "Co-stewards" : "Participants"}
