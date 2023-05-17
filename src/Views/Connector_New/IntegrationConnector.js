@@ -135,6 +135,7 @@ const IntegrationConnector = ({ index, completeData, setCompleteData, data, orgL
                                             />
                                             {indexShow != index && (
                                                 <img
+                                                id={"connecter-join-link-id"}
                                                     src={require('../../Assets/Img/link_icon.svg')}
                                                     alt=""
                                                 />
