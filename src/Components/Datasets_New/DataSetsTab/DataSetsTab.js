@@ -122,6 +122,9 @@ const DataSetsTab = ({
           >
             <Tabs
               className="tabs"
+              variant="scrollable"
+              scrollButtons
+              allowScrollButtonsMobile
               sx={{
                 "& .MuiTabs-indicator": {
                   backgroundColor: "#00AB55 !important",
@@ -229,7 +232,7 @@ const DataSetsTab = ({
                 )}
                 {datasetList?.map((item) => (
                   <DataSetCardNew
-                  id="dataset-card-in-dataset"
+                    id="dataset-card-in-dataset"
                     key={item?.id}
                     history={history}
                     item={item}
@@ -243,7 +246,6 @@ const DataSetsTab = ({
                           }
                         : handleCardClick
                     }
-                    
                   />
                 ))}
               </div>
@@ -314,7 +316,9 @@ const DataSetsTab = ({
             {showLoadMoreMember ? (
               <Button
                 variant="outlined"
-                className="d_button_style"
+                className={
+                  mobile || tablet ? "d_button_style_md" : "d_button_style"
+                }
                 onClick={() => getOtherDataSets(true)}
                 id="dataset-list-view-load-more-btn"
               >
