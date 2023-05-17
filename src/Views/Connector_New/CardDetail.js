@@ -30,6 +30,7 @@ const CardDetail = (props) => {
   };
   const closePopper = () => {
     setOpen(false);
+    setAnchorEl(null);
   };
 
   const handleSelectAll = (e) => {
@@ -115,6 +116,8 @@ const CardDetail = (props) => {
     setTemporaryDeletedCards([...temporaryDeletedCards, ...deleteArr]);
     setCompleteData([...arr]);
     setTotalCounter((prev) => prev - 1);
+    setAnchorEl(null); // Reset anchorEl to null
+    setOpen(false); // Reset open to false
   };
 
   return (
@@ -194,13 +197,13 @@ const CardDetail = (props) => {
           <CustomDeletePopper
             DeleteItem={"card"}
             anchorEl={anchorEl}
-            handleDelete={(e) => handleDelete(e)}
+            handleDelete={handleDelete}
             id={id}
             open={open}
             closePopper={closePopper}
           />
           <img
-            onClick={handleDeletePopper}
+            onClick={(event) => handleDeletePopper(event)}
             className="cursor-pointer"
             src={require("../../Assets/Img/delete_black_unfill.svg")}
             id="delete-integration-card"
