@@ -405,7 +405,7 @@ const OrganizationDetails = (props) => {
       <div className={styles.main_box}>
         <div className={styles.main_label}>
           {props.isOrgSetting
-            ? "Organisation setting"
+            ? "Organisation settings"
             : " Organisation Details"}
         </div>
 

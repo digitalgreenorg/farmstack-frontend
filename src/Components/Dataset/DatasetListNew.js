@@ -114,11 +114,11 @@ const DatasetListNew = (props) => {
       ) : (
         ""
       )}
-      <Row className={LocalStyle.datasets_card}>
+      <Box className={LocalStyle.datasets_card}>
         {datasetList?.map((dataset, index) => {
           console.log("datasets ", dataset);
           return (
-            <Col
+            <Box
               onClick={() => history.push(handleCardClick(dataset?.id))}
               id="dataset-view-card"
             >
@@ -130,7 +130,7 @@ const DatasetListNew = (props) => {
                 category={Object.keys(dataset?.category)}
                 update={dataset?.updated_at}
               />
-            </Col>
+            </Box>
           );
         })}
         {datasetList.length == 0 ? (
@@ -147,7 +147,7 @@ const DatasetListNew = (props) => {
         ) : (
           ""
         )}
-      </Row>
+      </Box>
 
       {user === "guest" ? (
         <>
