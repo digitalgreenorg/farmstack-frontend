@@ -776,6 +776,7 @@ const CompanyPolicies = (props) => {
               Add
             </Button>
           </div>
+          <hr className={styles.guestDividerHr}></hr>
         </>
       ) : (
         <>
@@ -928,6 +929,7 @@ const CompanyPolicies = (props) => {
                   Add
                 </Button>
               </div>
+              <hr className={styles.guestDividerHr}></hr>
             </>
           )}
         </>
