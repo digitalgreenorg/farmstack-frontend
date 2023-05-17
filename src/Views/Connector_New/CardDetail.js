@@ -2,6 +2,7 @@ import { Box, Card, Checkbox, Divider, Typography } from "@mui/material";
 import React from "react";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import style from "./connector.module.css";
+import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
 const CardDetail = (props) => {
   const {
     setIsAllConditionForSaveMet,
@@ -16,7 +17,21 @@ const CardDetail = (props) => {
     setCompleteData,
     index,
     completeData,
+    anchorEl,
+    setAnchorEl,
+    open,
+    setOpen,
+    id,
   } = props;
+
+  const handleDeletePopper = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+  const closePopper = () => {
+    setOpen(false);
+    setAnchorEl(null);
+  };
 
   const handleSelectAll = (e) => {
     let arr = [...completeData];
@@ -101,6 +116,8 @@ const CardDetail = (props) => {
     setTemporaryDeletedCards([...temporaryDeletedCards, ...deleteArr]);
     setCompleteData([...arr]);
     setTotalCounter((prev) => prev - 1);
+    setAnchorEl(null); // Reset anchorEl to null
+    setOpen(false); // Reset open to false
   };
 
   return (
@@ -177,8 +194,16 @@ const CardDetail = (props) => {
           </div>
         </Box>
         <Box className="mr-20">
+          <CustomDeletePopper
+            DeleteItem={"card"}
+            anchorEl={anchorEl}
+            handleDelete={handleDelete}
+            id={id}
+            open={open}
+            closePopper={closePopper}
+          />
           <img
-            onClick={() => handleDelete()}
+            onClick={(event) => handleDeletePopper(event)}
             className="cursor-pointer"
             src={require("../../Assets/Img/delete_black_unfill.svg")}
             id="delete-integration-card"
