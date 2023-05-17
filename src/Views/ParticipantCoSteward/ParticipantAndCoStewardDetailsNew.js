@@ -37,8 +37,14 @@ import EditIcon from "@mui/icons-material/Edit";
 const ParticipantAndCoStewardDetailsNew = (props) => {
   // to show as participants page pass isCosteward = true
   //  as participants request pass isParticipantRequest = true
-  let { isCosteward, isParticipantRequest, user, userTypeCosteward, title, breadcrumbFromRoute } =
-    props;
+  let {
+    isCosteward,
+    isParticipantRequest,
+    user,
+    userTypeCosteward,
+    title,
+    breadcrumbFromRoute,
+  } = props;
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -151,7 +157,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           response?.data?.organization_id
         ); //Get dataset list of this user
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // let error = GetErrorHandlingRoute(e);
         // console.log("Error obj", error);
@@ -160,14 +166,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -202,7 +210,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         if (response?.data?.results)
           setCoStewardOrParticipantsList(response.data.results);
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // let error = GetErrorHandlingRoute(e);
         // console.log("Error obj", error);
@@ -211,14 +219,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -239,21 +249,23 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           setCoStewardOrParticipantsList(finalDataList);
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // let error = GetErrorHandlingRoute(e);
         // callToast(error.message, "error", true);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log(e);
       });
   };
@@ -271,16 +283,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         callLoader(false);
         console.log("otp valid", response);
         if (response.status === 204) {
-          
-          if(reject){
-          callToast("Rejected successfully!", "success", true);
-          }else{
-          callToast("Delete successfully!", "success", true);
+          if (reject) {
+            callToast("Rejected successfully!", "success", true);
+          } else {
+            callToast("Delete successfully!", "success", true);
           }
           history.go(-1);
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // let error = GetErrorHandlingRoute(e);
         // console.log("Error obj", error);
@@ -288,14 +299,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log("err", e);
       });
   };
@@ -328,7 +341,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         if (res?.data?.next) setDatasetLoadMoreUrl(res.data.next);
         else setDatasetLoadMoreUrl("");
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // let error = GetErrorHandlingRoute(e);
         // console.log("Error obj", error);
@@ -336,14 +349,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log("err", e);
       });
   };
@@ -367,35 +382,37 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     HTTPService(method, url, payload, false, true)
       .then((response) => {
         callLoader(false);
-        
+
         if (response?.data?.next == null) {
           setLoadMoreButton(false);
         } else {
           setLoadMoreButton(true);
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
-        if (response?.data?.results){
+        if (response?.data?.results) {
           setCoStewardOrParticipantsList(response.data.results);
         }
         if (approval_endpoint) {
           callToast("Approved successfully", "success", true);
-            history.go(-1);
+          history.go(-1);
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // let error = GetErrorHandlingRoute(e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log("Error obj", error);
         callToast(error.message, "error", true);
       });
@@ -412,7 +429,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   return (
     <Box
       className={
-        mobile || user === "guest"
+        mobile || tablet || user === "guest"
           ? LocalStyle.container
           : LocalStyle.containerMain
       }
@@ -424,7 +441,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               className="add_light_text cursor-pointer breadcrumbItem"
               onClick={() => history.push("/datahub/participants/")}
             >
-              {breadcrumbFromRoute?? "Participant"}
+              {breadcrumbFromRoute ?? "Participant"}
             </span>
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
@@ -432,9 +449,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             <span className="add_light_text ml-16 fw600">
               {isCosteward && !isParticipantRequest
                 ? "Co-Steward details"
-                : !isCosteward && !isParticipantRequest ? "Participant details"
+                : !isCosteward && !isParticipantRequest
+                ? "Participant details"
                 : "New Participants requests details"}
-                {/* {isParticipantRequest ? "" : ""} */}
+              {/* {isParticipantRequest ? "" : ""} */}
             </span>
           </div>
         </Col>
@@ -711,62 +729,63 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Row>
         </Col>
       </Row>
-              {
-                !isParticipantRequest ? <>
-                
-      <Row className={LocalStyle.section}>
-        <Col xs={12} sm={12} md={6} xl={6}>
-          <Typography
-            // id={title + "-form-title"}
-            className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
-          >
-            List of Datasets
-          </Typography>
-        </Col>
-      </Row>
-      <Row>
-        {datasetList?.map((dataset, index) => {
-          console.log("datasets ", dataset);
-          return (
-            <Col
-              onClick={() =>
-                user == "guest"
-                  ? history.push(`/home/datasets/${dataset.id}`)
-                  : history.push(`/datahub/new_datasets/view/${dataset.id}`)
-              }
-              xs={12}
-              sm={12}
-              md={6}
-              xl={4}
-            >
-              <DatasetCart
-                publishDate={dataset?.created_at}
-                title={dataset?.name}
-                orgnisationName={dataset?.organization?.name}
-                city={dataset?.organization?.address?.city}
-                category={Object.keys(dataset?.category)}
-                update={dataset?.updated_at}
-              />
+      {!isParticipantRequest ? (
+        <>
+          <Row className={LocalStyle.section}>
+            <Col xs={12} sm={12} md={6} xl={6}>
+              <Typography
+                // id={title + "-form-title"}
+                className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
+              >
+                List of Datasets
+              </Typography>
             </Col>
-          );
-        })}
-        {datasetList.length == 0 ? (
-          <Box className={LocalStyle.noDataBox} p={3}>
-            <NoData
-              title={""}
-              subTitle={"As of now there are no datasets"}
-              // primaryButton={"Add participant"}
-              // primaryButtonOnClick={() =>
-              //   history.push("/datahub/participants/add")
-              // }
-            />
-          </Box>
-        ) : (
-          ""
-        )}
-      </Row>
-      </> : ""
-              }
+          </Row>
+          <Row>
+            {datasetList?.map((dataset, index) => {
+              console.log("datasets ", dataset);
+              return (
+                <Col
+                  onClick={() =>
+                    user == "guest"
+                      ? history.push(`/home/datasets/${dataset.id}`)
+                      : history.push(`/datahub/new_datasets/view/${dataset.id}`)
+                  }
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  xl={4}
+                >
+                  <DatasetCart
+                    publishDate={dataset?.created_at}
+                    title={dataset?.name}
+                    orgnisationName={dataset?.organization?.name}
+                    city={dataset?.organization?.address?.city}
+                    category={Object.keys(dataset?.category)}
+                    update={dataset?.updated_at}
+                  />
+                </Col>
+              );
+            })}
+            {datasetList.length == 0 ? (
+              <Box className={LocalStyle.noDataBox} p={3}>
+                <NoData
+                  title={""}
+                  subTitle={"As of now there are no datasets"}
+                  // primaryButton={"Add participant"}
+                  // primaryButtonOnClick={() =>
+                  //   history.push("/datahub/participants/add")
+                  // }
+                />
+              </Box>
+            ) : (
+              ""
+            )}
+          </Row>
+        </>
+      ) : (
+        ""
+      )}
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
           <Col xs={0} sm={0} md={2} lg={4}></Col>
@@ -844,7 +863,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               id={"details-page-load-more-dataset-button"}
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
-              onClick={()=>deleteParticipants(true)}
+              onClick={() => deleteParticipants(true)}
             >
               Reject
             </Button>
