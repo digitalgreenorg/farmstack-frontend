@@ -699,8 +699,8 @@ const StandardizationInOnbord = (props) => {
                         </Button>
                       </IconButton>
                     ) : null}
-                    {/* <div> */}
-                    {/* <IconButton
+
+                    <IconButton
                       onClick={(e) => {
                         // this funtion will make a particular index of editCategoryTitle array true
                         e.stopPropagation();
@@ -711,16 +711,21 @@ const StandardizationInOnbord = (props) => {
                       }}
                     >
                       <EditIcon />
-                    </IconButton> */}
-                    {/* <IconButton
-                      onClick={(e) => {
-                        handleDatapointCategoryDelete(index);
-                        e.stopPropagation();
-                      }}
-                    >
+                    </IconButton>
+                    <CustomDeletePopper
+                      DeleteItem={"Datapoint category"}
+                      anchorEl={anchorEl[index]}
+                      handleDelete={(e) => confirm(e, index)}
+                      id={id}
+                      open={
+                        anchorEl[index] !== null &&
+                        anchorEl[index] !== undefined
+                      }
+                      closePopper={() => handleClose(index)}
+                    />
+                    <IconButton onClick={(event) => handleDelete(event, index)}>
                       <DeleteOutlineIcon />
-                    </IconButton> */}
-                    {/* </div> */}
+                    </IconButton>
                   </AccordionSummary>
                   <AccordionDetails>
                     <div className="attribute-main-div">
