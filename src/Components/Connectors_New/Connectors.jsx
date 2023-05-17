@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddConnectorCard from "./AddConnectorCard";
 import ConnectorCardView from "./ConnectorCardView";
 import ConnectorListView from "./ConnectorListView";
@@ -24,6 +24,9 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 const Connectors = () => {
   const [isGrid, setIsGrid] = useState(true);
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [connectors, setConnectors] = useState([]);
   const [connectorUrl, setConnectorUrl] = useState("");
   const [showLoadMore, setShowLoadMore] = useState(true);
@@ -84,8 +87,13 @@ const Connectors = () => {
   }, []);
 
   return (
-    <Box sx={{ padding: "40px", maxWidth: "100%" }}>
-      <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
+    <Box sx={{ maxWidth: "100%" }}>
+      <Box
+        sx={{
+          marginLeft: mobile || tablet ? "30px" : "144px",
+          marginRight: mobile || tablet ? "30px" : "144px",
+        }}
+      >
         <div className="text-left">
           <span className={style.lightTextTitle}>Connectors</span>
         </div>
@@ -153,9 +161,9 @@ const Connectors = () => {
                 <OutlinedButton
                   text={"Load more"}
                   fontWeight={"700"}
-                  fontSize={"16px"}
-                  width={"368px"}
-                  height={"48px"}
+                  fontSize={mobile || tablet ? "14px" : "16px"}
+                  width={mobile || tablet ? "162px" : "368px"}
+                  height={mobile || tablet ? "36px" : "48px"}
                   mt={"50px"}
                   handleClick={() => getConnectors(true)}
                 />
