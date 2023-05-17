@@ -620,17 +620,19 @@ const CategoryDetails = (props) => {
                 >
                   <TextField
                     className="edit_head_name_accordion"
-                    style={{ height: "8px", width: "100%" }}
+                    style={{ height: "30px", width: "100%" }}
                     value={category.category_name}
                     onChange={(e) => handleChangeHeadName(e, index)}
                     onClick={(e) => e.stopPropagation()}
-                    sx={{
-                      "&.MuiTextField-root": {
-                        display: "flex",
-                        flexDirection: "inherit",
-                        width: "500px",
-                      },
-                    }}
+                    // sx={{
+                    //   "&.MuiTextField-root": {
+                    //     display: "flex",
+                    //     flexDirection: "inherit",
+                    //     width: "500px",
+                    //   },
+                    // }}
+                    variant="outlined"
+                    label="Category name"
                     // InputProps={{
                     //   endAdornment: (
                     //     <InputAdornment position="end">
