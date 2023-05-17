@@ -15,6 +15,7 @@
 .primary_background {
   background-color: #00ab55 !important;
 }
+
 /* .primary_button {
   font-weight: 700 !important;
   font-size: 15px !important;
@@ -38,6 +39,7 @@
   border: 1px solid #00ab55 !important;
   background-color: #ffffff !important;
 }
+
 .outlined_button:active {
   color: #00ab55 !important;
   border: 1px solid #00ab55 !important;
@@ -55,6 +57,7 @@
 .highlighted_text {
   color: #212b36 !important;
 }
+
 .title_text {
   color: #00ab55 !important;
 }
@@ -138,6 +141,11 @@
 .size40 {
   font-size: 40px !important;
 }
+
+.size45 {
+  font-size: 45px !important;
+}
+
 .size64 {
   font-size: 64px !important;
 }
@@ -145,9 +153,11 @@
 .blue {
   color: #3366ff;
 }
+
 .padding0 {
   padding: 0 !important;
 }
+
 .font_family {
   font-family: Montserrat !important;
 }
@@ -168,11 +178,13 @@
   margin: 0px !important;
   color: #ffffff !important;
 }
+
 .primary_button:active {
   background-color: #00ab55 !important;
   outline: none !important;
   border: none !important;
 }
+
 .primary_button:disabled {
   background: rgba(145, 158, 171, 0.24) !important;
   border-radius: 8px !important;
@@ -196,10 +208,9 @@
   margin: 0px !important;
 }
 
-.secondary_button:active {
-}
-.secondary_button:hover {
-}
+.secondary_button:active {}
+
+.secondary_button:hover {}
 
 .secondary_button_error {
   font-family: Montserrat !important;

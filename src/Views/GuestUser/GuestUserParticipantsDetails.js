@@ -5,7 +5,7 @@ import LocalStyle from "./GuestUserParticipantsDetails.module.css";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 function GuestUserParticipantsDetails(props) {
-  const { userTypeCosteward } = props;
+  const { userTypeCosteward, breadcrumbFromRoute } = props;
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -17,7 +17,7 @@ function GuestUserParticipantsDetails(props) {
   };
   return (
     <div style={containerStyle}>
-      <Row className={LocalStyle.titleContainer}>
+      {/* <Row className={LocalStyle.titleContainer}>
         <div
           className={mobile || tablet ? LocalStyle.title_sm : LocalStyle.title}
         >
@@ -37,12 +37,13 @@ function GuestUserParticipantsDetails(props) {
             Agriculture.
           </div>
         </div>
-      </Row>
+      </Row> */}
       <ParticipantAndCoStewardDetailsNew
         userTypeCosteward={userTypeCosteward}
         title={userTypeCosteward}
         user="guest"
         isCosteward={userTypeCosteward ? true : false}
+        breadcrumbFromRoute={breadcrumbFromRoute}
       />
     </div>
   );

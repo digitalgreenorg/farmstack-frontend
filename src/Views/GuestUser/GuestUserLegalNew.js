@@ -17,6 +17,7 @@ import HTMLReactParser from "html-react-parser";
 import NoDataAvailable from "../../Components/Dashboard/NoDataAvailable/NoDataAvailable";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
 import PolicyContent from "./PolicyContent";
+import { useHistory } from "react-router-dom";
 
 const customDetailsStyle = {
   fontFamily: "'Montserrat' !important",
@@ -31,6 +32,7 @@ const GuestUserLegalNew = (props) => {
   const [legalData, setLegalData] = useState([]);
   const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
+  const history = useHistory()
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
@@ -95,10 +97,21 @@ const GuestUserLegalNew = (props) => {
           console.log("something is wrong in .then");
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        console.log("error", GetErrorHandlingRoute(e));
-        callToast(GetErrorHandlingRoute(e).message, "error", true);
+        // console.log("error", GetErrorHandlingRoute(e));
+        // callToast(GetErrorHandlingRoute(e).message, "error", true);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
   useEffect(() => {
