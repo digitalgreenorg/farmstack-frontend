@@ -263,21 +263,33 @@ const AddDataSet = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        if (props.isEditModeOn && props.datasetIdForEdit) {
-          callToast(
-            "Something went wrong while updating dataset!",
-            "error",
-            false
-          );
-        } else {
-          callToast(
-            "Something went wrong while adding dataset!",
-            "error",
-            false
-          );
-        }
+        // if (props.isEditModeOn && props.datasetIdForEdit) {
+        //   callToast(
+        //     "Something went wrong while updating dataset!",
+        //     "error",
+        //     false
+        //   );
+        // } else {
+        //   callToast(
+        //     "Something went wrong while adding dataset!",
+        //     "error",
+        //     false
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || (props.isEditModeOn && props.datasetIdForEdit ?
+            "Something went wrong while updating dataset!" : "Something went wrong while adding dataset!" ), 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
         console.log(e);
       });
   };
@@ -404,14 +416,24 @@ const AddDataSet = (props) => {
             });
             setAllFilesAccessibility(tempAccessibilities);
           })
-          .catch((e) => {
+          .catch( async(e) => {
             callLoader(false);
-            callToast(
-              "Something went wrong while loading dataset!",
-              "error",
-              true
-            );
-            console.log("error while loading dataset", e);
+            // callToast(
+            //   "Something went wrong while loading dataset!",
+            //   "error",
+            //   true
+            // );
+            let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong while loading dataset!", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
           });
       })();
     }

@@ -20,6 +20,7 @@ import {
 import { CSSTransition } from "react-transition-group";
 import { Popconfirm } from "antd";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+import { useHistory } from "react-router-dom";
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [sizeError, setSizeError] = useState("");
@@ -35,6 +36,7 @@ const CompanyPolicies = (props) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   const [key, setKey] = useState(0);
+  const history = useHistory()
 
   const handleUploadPolicy = (file) => {
     console.log("function is calling");
@@ -188,13 +190,24 @@ const CompanyPolicies = (props) => {
             }
           }
         } else {
+          // let error = await GetErrorHandlingRoute(e);
+          // if (error) {
+          //   callToast(
+          //     error?.message,
+          //     error?.status === 200 ? "success" : "error",
+          //     true
+          //   );
+          // }
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
-            callToast(
-              error?.message,
-              error?.status === 200 ? "success" : "error",
-              true
-            );
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
           }
         }
       });
@@ -216,14 +229,25 @@ const CompanyPolicies = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
+        // let error = await GetErrorHandlingRoute(e);
+        // if (error) {
+        //   callToast(
+        //     error?.message,
+        //     error?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // }
         let error = await GetErrorHandlingRoute(e);
-        if (error) {
-          callToast(
-            error?.message,
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
             error?.status === 200 ? "success" : "error",
-            true
-          );
-        }
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 

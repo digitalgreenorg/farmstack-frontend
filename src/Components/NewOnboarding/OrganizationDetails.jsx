@@ -309,14 +309,25 @@ const OrganizationDetails = (props) => {
           }
           setOrganisationDetailsError(errorObj);
         } else {
+          // let error = await GetErrorHandlingRoute(e);
+          // if (error) {
+          //   callToast(
+          //     error?.message,
+          //     error?.status === 200 ? "success" : "error",
+          //     true
+          //   );
+          //   console.log(e, error);
+          // }
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
-            callToast(
-              error?.message,
-              error?.status === 200 ? "success" : "error",
-              true
-            );
-            console.log(e, error);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
           }
         }
       });
@@ -360,15 +371,26 @@ const OrganizationDetails = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log(e, error);
+        // if (error) {
+        //   callToast(
+        //     error?.message,
+        //     error?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // }
         let error = await GetErrorHandlingRoute(e);
-        console.log(e, error);
-        if (error) {
-          callToast(
-            error?.message,
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
             error?.status === 200 ? "success" : "error",
-            true
-          );
-        }
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
   // console.log(preview, uploadedLogo);

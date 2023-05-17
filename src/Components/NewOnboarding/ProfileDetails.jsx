@@ -90,8 +90,20 @@ const ProfileDetails = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch((e) => {
-        callToast("Some error occurred", "error", true);
+      .catch( async(e) => {
+        // callToast("Some error occurred", "error", true);
+        callLoader(false)
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
         console.log(e);
       });
   };
@@ -176,11 +188,22 @@ const ProfileDetails = (props) => {
             }
           }
         } else {
+          // let error = await GetErrorHandlingRoute(e);
+          // if (error) {
+          //   callToast(error?.message ?? "Unknown", 
+          //   error?.status === 200 ? "success" : "error",
+          //   true);
+          // }
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
-            callToast(error?.message ?? "Unknown", 
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
             error?.status === 200 ? "success" : "error",
             true);
+          }
+          if(error.path){
+            history.push(error.path)
           }
         }
       });
