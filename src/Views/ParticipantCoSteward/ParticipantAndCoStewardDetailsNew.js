@@ -437,6 +437,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {/* {isParticipantRequest ? "" : ""} */}
             </span>
           </div>
+          
         </Col>
       </Row>
       <Row
@@ -482,6 +483,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           >
             {isCosteward ? "Co-steward details" : "Participants details"}
           </Typography>
+          <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          {isCosteward ? "Explore details of co-steward organizations within the community" 
+          : !isCosteward && !isParticipantRequest ? "Dive into the details of participants empowering community connections and collaboration."
+          : "View information and profiles of organization who have requested to join your community."}
+        </Typography>
         </Col>
         <Col
           className={LocalStyle.buttonContainer}
@@ -645,6 +653,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               ? "Co-steward user details"
               : "Participant Root User Details"}
           </Typography>
+          <Typography className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`} > {isCosteward ? "Explore individuals representing their organization as co-stewards." : "Profile of the designated representative from organization harnessing the platform."} </Typography>
         </Col>
       </Row>
       <Row className={LocalStyle.textRow}>
@@ -722,7 +731,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           >
             List of Datasets
           </Typography>
+          <Typography className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`} > {isCosteward ? "Browse the list of datasets contributed by this co-steward." : "Browse the list of datasets contributed by this partiicpants."} </Typography>
         </Col>
+        
       </Row>
       <Row>
         {datasetList?.map((dataset, index) => {
@@ -790,6 +801,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {isCosteward ? (
         <CoStewardAndParticipantsCard
           title={"Co-steward participants"}
+          subTitle="Explore the orgnizations who are part of this co-steward's community."
           user={user}
           viewType={false}
           // setViewType={setViewType}

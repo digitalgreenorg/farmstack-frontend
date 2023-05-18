@@ -20,6 +20,8 @@ import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -262,7 +264,7 @@ const AddDataSet = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // if (props.isEditModeOn && props.datasetIdForEdit) {
         //   callToast(
@@ -280,15 +282,19 @@ const AddDataSet = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || (props.isEditModeOn && props.datasetIdForEdit ?
-            "Something went wrong while updating dataset!" : "Something went wrong while adding dataset!" ), 
+        if (error.toast) {
+          callToast(
+            error?.message ||
+              (props.isEditModeOn && props.datasetIdForEdit
+                ? "Something went wrong while updating dataset!"
+                : "Something went wrong while adding dataset!"),
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log(e);
       });
   };
@@ -415,7 +421,7 @@ const AddDataSet = (props) => {
             });
             setAllFilesAccessibility(tempAccessibilities);
           })
-          .catch( async(e) => {
+          .catch(async (e) => {
             callLoader(false);
             // callToast(
             //   "Something went wrong while loading dataset!",
@@ -423,16 +429,18 @@ const AddDataSet = (props) => {
             //   true
             // );
             let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong while loading dataset!", 
-            error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            console.log("Error obj", error);
+            console.log(e);
+            if (error.toast) {
+              callToast(
+                error?.message || "Something went wrong while loading dataset!",
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path) {
+              history.push(error.path);
+            }
           });
       })();
     }
@@ -472,6 +480,13 @@ const AddDataSet = (props) => {
           }}
         >
           {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
+        </Typography>
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          {props.datasetIdForEdit
+            ? "Modify and update your existing dataset."
+            : "Upload and publish a new dataset for sharing and collaboration."}{" "}
         </Typography>
         <Box
           sx={{

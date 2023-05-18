@@ -246,3 +246,11 @@
 .error {
   color: red !important;
 }
+.textDescription {
+  line-height: 27px !important;
+  margin: auto !important;
+  font-size: 16px !important;
+  font-style: italic !important;
+  color: #565c63 !important;
+  text-align: left;
+}

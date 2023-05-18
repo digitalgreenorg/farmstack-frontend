@@ -235,7 +235,7 @@ const ParticipantFormNew = (props) => {
           callToast("Registered successfully!", "success", true);
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         console.log(e);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
@@ -279,29 +279,30 @@ const ParticipantFormNew = (props) => {
           let error = await GetErrorHandlingRoute(e);
           console.log("Error obj", error);
           console.log(e);
-          if(error.toast){
-            callToast( "Something went wrong", 
+          if (error.toast) {
+            callToast(
+              "Something went wrong",
               error?.status === 200 ? "success" : "error",
-              true);
-            }
-            if(error.path){
-              history.push(error.path)
-            }
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
         }
         // let error = await GetErrorHandlingRoute(e);
         // console.log("Error obj", error);
         // console.log(e);
         // if(error.toast){
-        //   callToast(error?.message || "Something went wrong while loading dataset", 
+        //   callToast(error?.message || "Something went wrong while loading dataset",
         //     error?.status === 200 ? "success" : "error",
         //     true);
         //   }
         //   if(error.path){
         //     history.push(error.path)
         //   }
-        
       });
-      goToTop(0)
+    goToTop(0);
   };
 
   const getDataOnEdit = () => {
@@ -345,7 +346,7 @@ const ParticipantFormNew = (props) => {
           setIsCoSteward(false);
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // let error = GetErrorHandlingRoute(e);
 
@@ -355,14 +356,16 @@ const ParticipantFormNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -383,23 +386,24 @@ const ParticipantFormNew = (props) => {
         setSelectCoSteward([...response.data]);
         console.log("response of costewards", response.data);
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         // setMessageForSnackBar("Get list of Co-Stewards failed!!!");
         // setIsLoader(false);
         // history.push(GetErrorHandlingRoute(e));
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
-      
   };
 
   useEffect(() => {
@@ -425,6 +429,13 @@ const ParticipantFormNew = (props) => {
               {isEditModeOn
                 ? "Edit Participant organisation details"
                 : "Add Participant organisation details"}
+            </Typography>
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {isEditModeOn
+                ? " Update and modify your organization information as a participant."
+                : "Provide information about your organization when joining as a participant."}
             </Typography>
           </Col>
         </Row>
@@ -605,6 +616,14 @@ const ParticipantFormNew = (props) => {
               {isEditModeOn
                 ? "Edit Participant root user details"
                 : "Add Participant root user details"}
+            </Typography>
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {" "}
+              {isEditModeOn
+                ? "Modify and update your user details as the designated representative of your organization."
+                : "Enter your details as the authorized user of organization."}{" "}
             </Typography>
           </Col>
         </Row>

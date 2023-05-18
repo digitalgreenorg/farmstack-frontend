@@ -5,6 +5,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CheckBoxWithText from "./CheckBoxWithText";
 import moment from "moment";
 import { isDateSame } from "../../../Utils/Common";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const BasicDetails = ({
   datasetIdForEdit,
@@ -177,6 +178,11 @@ const BasicDetails = ({
         }}
       >
         Data capture interval
+      </Typography>
+      <Typography
+        className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+      >
+        Specify the start and end dates of data collection.
       </Typography>
       <Box sx={{ display: "flex", marginTop: "20px" }}>
         <div>

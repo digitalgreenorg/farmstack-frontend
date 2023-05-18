@@ -13,6 +13,7 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { fileUpload, getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -804,6 +805,11 @@ const UploadFile = ({
         }}
       >
         Upload or imports
+      </Typography>
+      <Typography
+        className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+      >
+        Easily upload data or import from APIs and databases.{" "}
       </Typography>
       <Box className="d-flex" sx={{ marginTop: "30px" }}>
         <div className="imports_style">

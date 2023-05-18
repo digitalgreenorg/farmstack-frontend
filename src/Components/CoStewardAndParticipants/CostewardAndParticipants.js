@@ -19,6 +19,7 @@ const CoStewardAndParticipantsCard = (props) => {
     user,
     guestUser,
     isCosteward,
+    subTitle
   } = props;
   const history = useHistory();
   const theme = useTheme();
@@ -85,6 +86,11 @@ const CoStewardAndParticipantsCard = (props) => {
           >
             {title}
           </Typography>
+          <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          {subTitle}
+        </Typography>
         </Box>
         {viewType === "list" && title === "Participants" ? (
           <Col

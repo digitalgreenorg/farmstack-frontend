@@ -13,6 +13,8 @@ import { getTokenLocal } from "../../../Utils/Common";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { Country, State, City } from "country-state-city";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
+
 const Categorise = (props) => {
   const [allCategories, setAllCategories] = useState([]);
   const [countries, setCountries] = useState([]);
@@ -145,6 +147,12 @@ const Categorise = (props) => {
         }}
       >
         Categories
+      </Typography>
+      <Typography
+        className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+      >
+        {" "}
+        Organize and classify your uploaded data into relevant categories.{" "}
       </Typography>
       <div className="mt-30">
         <ControlledAccordion

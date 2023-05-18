@@ -74,9 +74,9 @@ export default function Settings(props) {
            <Container>
          
             <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Account settings" value="1" />
-              <Tab label="Organisation settings" value="2" />
-              <Tab
+              <Tab id="account-settigns-tab-id" label="Account settings" value="1" />
+              <Tab id="organisation-settings-tab-id" label="Organisation settings" value="2" />
+              <Tab id="policy-settings-tab-id"
                 label={
                   !isLoggedInUserCoSteward() && !isLoggedInUserParticipant()
                     ? "Policy settings"
@@ -84,7 +84,7 @@ export default function Settings(props) {
                 }
                 value="3"
               />
-              <Tab
+              <Tab id="categories-settings-tab-id"
                 label={
                   !isLoggedInUserCoSteward() && !isLoggedInUserParticipant()
                     ? "Categories settings"
@@ -92,7 +92,7 @@ export default function Settings(props) {
                 }
                 value="4"
               />
-              <Tab
+              <Tab id="datapoint-settings-tab-id"
                 label={
                   !isLoggedInUserCoSteward() && !isLoggedInUserParticipant()
                     ? "Datapoint settings"
