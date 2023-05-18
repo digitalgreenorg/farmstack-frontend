@@ -115,7 +115,7 @@ const SelectConnector = ({
             <InputLabel>Select organisation</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="select_org_name"
               value={template?.org_id}
               onChange={(e) => {
                 setOrganisationName(e.target.value);
@@ -138,7 +138,7 @@ const SelectConnector = ({
             <InputLabel>Select dataset</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="select_dataset"
               value={template?.dataset_id}
               onChange={(e) => {
                 setDataset(e.target.value);
@@ -163,7 +163,7 @@ const SelectConnector = ({
             <InputLabel>Select file</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="select_dataset_file"
               value={template?.file_name}
               onChange={(e) => {
                 handleChangeSelector(e.target.value, "file");
