@@ -58,7 +58,7 @@ export default function ControlledAccordions(props) {
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
-          id="panel1bh-header"
+          id={`panel${index}bh-header`}
           onClick={(e) => handleEditHeading(false, e, index)}
           sx={{}}
         >
@@ -80,6 +80,7 @@ export default function ControlledAccordions(props) {
               <EditIcon
                 fontSize="small"
                 onClick={(e) => handleEditHeading(true, e, index)}
+                id="edit-icon"
               />
             ) : (
               ""
@@ -101,7 +102,10 @@ export default function ControlledAccordions(props) {
                 open={open}
                 closePopper={closePopper}
               />
-              <DeleteOutlineIcon onClick={handleDeletePopper} />
+              <DeleteOutlineIcon
+                onClick={handleDeletePopper}
+                id="delete-icon"
+              />
             </>
           )}
         </AccordionSummary>

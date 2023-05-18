@@ -90,20 +90,22 @@ const ProfileDetails = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         // callToast("Some error occurred", "error", true);
-        callLoader(false)
+        callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log(e);
       });
   };
@@ -180,9 +182,11 @@ const ProfileDetails = (props) => {
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, 
+                  callToast(
+                    error?.message,
                     error?.status === 200 ? "success" : "error",
-                    true);
+                    true
+                  );
                 }
                 break;
             }
@@ -190,20 +194,22 @@ const ProfileDetails = (props) => {
         } else {
           // let error = await GetErrorHandlingRoute(e);
           // if (error) {
-          //   callToast(error?.message ?? "Unknown", 
+          //   callToast(error?.message ?? "Unknown",
           //   error?.status === 200 ? "success" : "error",
           //   true);
           // }
           let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
-            error?.status === 200 ? "success" : "error",
-            true);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
           }
-          if(error.path){
-            history.push(error.path)
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
@@ -370,6 +376,7 @@ const ProfileDetails = (props) => {
             <Button
               onClick={() => setActiveStep((prev) => prev + 1)}
               className={global_style.secondary_button}
+              id="finish-later-button"
             >
               {" "}
               Finish later
