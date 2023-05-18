@@ -742,10 +742,10 @@ const AddConnector = (props) => {
     } else {
       if (e.target.value.trim()) {
         setIsConditionForConnectorDataForSaveMet(true);
-        // setIsAllConditionForSaveMet(true);
+        setIsAllConditionForSaveMet(true);
       } else {
         setIsConditionForConnectorDataForSaveMet(false);
-        // setIsAllConditionForSaveMet(false);
+        setIsAllConditionForSaveMet(false);
       }
       setErrorConnectorDesc("");
       setConnectorData({

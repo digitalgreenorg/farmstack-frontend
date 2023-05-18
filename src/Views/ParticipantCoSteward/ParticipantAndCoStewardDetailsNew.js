@@ -502,7 +502,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Typography>
         </Col>
         <Col
-          className={LocalStyle.buttonContainer}
+          className={`${LocalStyle.buttonContainer} ${mobile ? "mt-20" : ""}`}
           xs={12}
           sm={12}
           md={6}
@@ -525,7 +525,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   color: "#FF5630",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: "15px",
+                  fontSize: mobile ? "9px" : "15px",
                   border: "1px solid rgba(255, 86, 48, 0.48)",
                   width: "200px",
                   height: "48px",
@@ -553,7 +553,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   color: "#00AB55",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: "15px",
+                  fontSize: mobile ? "9px" : "15px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
                   width: "200px",
                   height: "48px",

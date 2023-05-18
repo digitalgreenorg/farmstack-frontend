@@ -143,20 +143,22 @@ const DataSetsView = (props) => {
           history.push(`/participant/new_datasets`);
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
-        
+
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong while deleting Dataset!", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while deleting Dataset!",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -396,22 +398,23 @@ const DataSetsView = (props) => {
         });
         setCategories(tempCategories);
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // callToast("Something went wrong while loading dataset!", "error", true);
         // console.log("error while loading dataset", e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong while loading dataset", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while loading dataset",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
-        
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   useEffect(() => {
@@ -426,7 +429,7 @@ const DataSetsView = (props) => {
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
-            {breadcrumbFromRoute?? "Datasets"} 
+            {breadcrumbFromRoute ?? "Datasets"}
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -438,11 +441,15 @@ const DataSetsView = (props) => {
               : "Other Organisation"}
           </span>
         </div>
-        <Box className="d-flex justify-content-between align-items-baseline">
+        <Box
+          className={
+            mobile ? "" : "d-flex justify-content-between align-items-baseline"
+          }
+        >
           <div className="bold_title mt-50">{"Dataset Details"}</div>
           {history.location?.state?.tab === "my_organisation" &&
           userType !== "guest" ? (
-            <Box>
+            <Box className={mobile ? "d-flex" : ""}>
               <CustomDeletePopper
                 DeleteItem={dataSetName}
                 anchorEl={anchorEl}
@@ -456,7 +463,7 @@ const DataSetsView = (props) => {
                   color: "#FF5630",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: "15px",
+                  fontSize: mobile ? "11px" : "15px",
                   border: "1px solid rgba(255, 86, 48, 0.48)",
                   width: "172px",
                   height: "48px",
@@ -484,7 +491,7 @@ const DataSetsView = (props) => {
                   color: "#00AB55",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: "15px",
+                  fontSize: mobile ? "11px" : "15px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
                   width: "172px",
                   height: "48px",
@@ -546,10 +553,12 @@ const DataSetsView = (props) => {
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
               {/* IF GEOGRAPHY COUNTRY SAATE AND CITY ALL ARE "NA" THEN SHOW "Not Available" */}
-              {!geography?.country?.name && !geography?.state?.name && !geography?.city?.name ? "Not Available" : "" }
-              {geography?.country?.name
-                ? geography?.country?.name + ", "
+              {!geography?.country?.name &&
+              !geography?.state?.name &&
+              !geography?.city?.name
+                ? "Not Available"
                 : ""}
+              {geography?.country?.name ? geography?.country?.name + ", " : ""}
               {geography?.state?.name ? geography?.state?.name + ", " : ""}
               {geography?.city?.name ? geography?.city?.name : ""}
             </Typography>
