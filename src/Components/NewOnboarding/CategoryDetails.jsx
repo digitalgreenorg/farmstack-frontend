@@ -110,16 +110,27 @@ const CategoryDetails = (props) => {
         setCategoryNameList([...categoryNames]);
         setAllCategories([...categories]);
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        GetErrorHandlingRoute(e).then((errorObject) => {
-          console.log(errorObject);
-          callToast(
-            errorObject?.message,
-            errorObject?.status === 200 ? "success" : "error",
-            true
-          );
-        });
+        // GetErrorHandlingRoute(e).then((errorObject) => {
+        //   console.log(errorObject);
+        //   callToast(
+        //     errorObject?.message,
+        //     errorObject?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // });
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -171,16 +182,27 @@ const CategoryDetails = (props) => {
           callToast("Category settings updated successfully", "success", true);
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        GetErrorHandlingRoute(e).then((errorObject) => {
-          console.log(errorObject);
-          callToast(
-            errorObject?.message,
-            errorObject?.status === 200 ? "success" : "error",
-            true
-          );
-        });
+        // GetErrorHandlingRoute(e).then((errorObject) => {
+        //   console.log(errorObject);
+        //   callToast(
+        //     errorObject?.message,
+        //     errorObject?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // });
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
   const [enableSave, setEnableSave] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, Divider, Tab, Tabs } from "@mui/material";
+import { Box, Button, Divider, Tab, Tabs, Typography } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import {
   GetErrorKey,
@@ -227,8 +227,7 @@ const AddDataSet = (props) => {
       category: categorises,
       geography: geography,
       constantly_update: isUpdating,
-      data_capture_start:
-        !isUpdating && fromDate ? fromDate : null,
+      data_capture_start: !isUpdating && fromDate ? fromDate : null,
       data_capture_end: !isUpdating && toDate ? toDate : null,
     };
     let url = "";
@@ -263,21 +262,33 @@ const AddDataSet = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
-        if (props.isEditModeOn && props.datasetIdForEdit) {
-          callToast(
-            "Something went wrong while updating dataset!",
-            "error",
-            false
-          );
-        } else {
-          callToast(
-            "Something went wrong while adding dataset!",
-            "error",
-            false
-          );
-        }
+        // if (props.isEditModeOn && props.datasetIdForEdit) {
+        //   callToast(
+        //     "Something went wrong while updating dataset!",
+        //     "error",
+        //     false
+        //   );
+        // } else {
+        //   callToast(
+        //     "Something went wrong while adding dataset!",
+        //     "error",
+        //     false
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || (props.isEditModeOn && props.datasetIdForEdit ?
+            "Something went wrong while updating dataset!" : "Something went wrong while adding dataset!" ), 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
         console.log(e);
       });
   };
@@ -404,14 +415,24 @@ const AddDataSet = (props) => {
             });
             setAllFilesAccessibility(tempAccessibilities);
           })
-          .catch((e) => {
+          .catch( async(e) => {
             callLoader(false);
-            callToast(
-              "Something went wrong while loading dataset!",
-              "error",
-              true
-            );
-            console.log("error while loading dataset", e);
+            // callToast(
+            //   "Something went wrong while loading dataset!",
+            //   "error",
+            //   true
+            // );
+            let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong while loading dataset!", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
           });
       })();
     }
@@ -439,9 +460,22 @@ const AddDataSet = (props) => {
             {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
           </span>
         </div>
+        <Typography
+          sx={{
+            fontFamily: "Montserrat !important",
+            fontWeight: "600",
+            fontSize: "32px",
+            lineHeight: "40px",
+            color: "#000000",
+            textAlign: "left",
+            marginTop: "50px",
+          }}
+        >
+          {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
+        </Typography>
         <Box
           sx={{
-            marginTop: "63px",
+            marginTop: "30px",
             borderBottom: 1,
             borderColor: "divider",
             borderBottom: "1px solid #3D4A52 !important",
@@ -616,7 +650,7 @@ const AddDataSet = (props) => {
           sx={{ marginTop: "50px", marginBottom: "100px" }}
         >
           <Button
-          id="add-dataset-cancel-btn"
+            id="add-dataset-cancel-btn"
             sx={{
               fontFamily: "Montserrat",
               fontWeight: 700,
@@ -638,7 +672,7 @@ const AddDataSet = (props) => {
             Cancel
           </Button>
           <Button
-          id="add-dataset-submit-btn"
+            id="add-dataset-submit-btn"
             disabled={isDisabled()}
             sx={{
               fontFamily: "Montserrat",

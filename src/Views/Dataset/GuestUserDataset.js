@@ -11,7 +11,7 @@ const GuestUserDatatsets = () => {
   return (
     <div>
     
-      <DataSets breadcrumbFromRoute={"Home"} user="guest" />
+      <DataSets user="guest" />
       {/* <DataSetsListView /> */}
     </div>
   );

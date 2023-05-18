@@ -24,13 +24,19 @@ import {
   isLoggedInUserCoSteward,
 } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useMediaQuery, useTheme } from "@mui/material";
 const ParticipantsAndCoStewardNew = () => {
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState(
+    parseInt(localStorage.getItem("participantAndCostewardTabValue")) || 0
+  );
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [viewType, setViewType] = useState("grid");
@@ -100,21 +106,23 @@ const ParticipantsAndCoStewardNew = () => {
         callLoader(false);
         // let error = await GetErrorHandlingRoute(e);
         // console.log("Error obj", error);
-        // callToast(error?.message, 
+        // callToast(error?.message,
         //   error?.status === 200 ? "success" : "error",
         //   true);
         // console.log(e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -127,9 +135,9 @@ const ParticipantsAndCoStewardNew = () => {
           setLoadMoreButton(false);
         } else {
           setLoadMoreButton(true);
-          if (response?.data?.next){
+          if (response?.data?.next) {
             setLoadMoreUrl(response.data.next);
-          } 
+          }
         }
         let datalist = coStewardOrParticipantsList;
         if (response?.data?.results) {
@@ -142,20 +150,24 @@ const ParticipantsAndCoStewardNew = () => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
   useEffect(() => {
     setCoStewardOrParticipantsList([]);
     getCoStewardOrParticipantsOnLoad();
+
+    localStorage.setItem("participantAndCostewardTabValue", tabValue);
   }, [tabValue]);
 
   useEffect(() => {
@@ -164,6 +176,8 @@ const ParticipantsAndCoStewardNew = () => {
       // console.log();
     }
     goToTop(0);
+    // remove participantAndCostewardTabValue from local on page load
+    localStorage.removeItem("participantAndCostewardTabValue");
   }, []);
 
   console.log("is login user", isLoggedInUserAdmin());
@@ -184,7 +198,12 @@ const ParticipantsAndCoStewardNew = () => {
   ];
 
   return (
-    <div style={{ marginLeft: "144px", marginRight: "144px" }}>
+    <div
+      style={{
+        marginLeft: mobile || tablet ? "30px" : "144px",
+        marginRight: mobile || tablet ? "30px" : "144px",
+      }}
+    >
       <Row>
         <Col>
           <div className="text-left mt-50">

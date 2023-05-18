@@ -151,6 +151,8 @@ const Categorise = (props) => {
           data={allCategories}
           customBorder={true}
           customPadding={true}
+          addHeaderBackground={true}
+          headerBackground={"#eafbf3"}
         />
       </div>
       <Box className="d-flex mt-50">
@@ -183,6 +185,7 @@ const Categorise = (props) => {
                 }
                 sx={{
                   textAlign: "left",
+                  color: "rgb(0, 171, 85)",
                   "&.MuiInputBase-root": {
                     height: "56px",
                   },
@@ -200,7 +203,11 @@ const Categorise = (props) => {
                 placeholder="Select Country"
               >
                 {countries?.map((item) => (
-                  <MenuItem id={`geography-select-country${item?.name}`} key={item} value={item}>
+                  <MenuItem
+                    id={`geography-select-country${item?.name}`}
+                    key={item}
+                    value={item}
+                  >
                     {item.name}
                   </MenuItem>
                 ))}
@@ -221,6 +228,7 @@ const Categorise = (props) => {
                 renderValue={() => props.geography?.state?.name}
                 sx={{
                   textAlign: "left",
+                  color: "rgb(0, 171, 85)",
                   "&.MuiInputBase-root": {
                     height: "56px",
                   },
@@ -239,8 +247,10 @@ const Categorise = (props) => {
               >
                 {states?.map((item) => (
                   <MenuItem
-                  id={`geography-select-state${item?.name}`} 
-                   key={item} value={item}>
+                    id={`geography-select-state${item?.name}`}
+                    key={item}
+                    value={item}
+                  >
                     {item.name}
                   </MenuItem>
                 ))}
@@ -250,7 +260,7 @@ const Categorise = (props) => {
               <InputLabel id="test-select-label">Select City</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
-                id={`geography-select-city`} 
+                id={`geography-select-city`}
                 value={props.geography?.city?.name}
                 onChange={(e) =>
                   props.setGeography((prev) => ({
@@ -261,6 +271,7 @@ const Categorise = (props) => {
                 renderValue={() => props.geography?.city?.name}
                 sx={{
                   textAlign: "left",
+                  color: "rgb(0, 171, 85)",
                   "&.MuiInputBase-root": {
                     height: "56px",
                   },
@@ -279,8 +290,10 @@ const Categorise = (props) => {
               >
                 {cities?.map((item) => (
                   <MenuItem
-                  id={`geography-select-city${item?.name}`} 
-                   key={item} value={item}>
+                    id={`geography-select-city${item?.name}`}
+                    key={item}
+                    value={item}
+                  >
                     {item.name}
                   </MenuItem>
                 ))}

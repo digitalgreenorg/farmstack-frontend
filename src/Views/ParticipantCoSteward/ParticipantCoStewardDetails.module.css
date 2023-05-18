@@ -24,6 +24,8 @@
 
 .container {
   text-align: left;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .containerMain {

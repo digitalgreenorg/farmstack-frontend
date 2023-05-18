@@ -379,6 +379,7 @@ const Standardise = ({
             onChange={(e) => setStandardiseFile(e.target.value)}
             sx={{
               textAlign: "left",
+              color: "rgb(0, 171, 85)",
               ".MuiOutlinedInput-notchedOutline": {
                 borderColor: "#919EAB",
               },
@@ -394,11 +395,15 @@ const Standardise = ({
           >
             {standardiseFiles &&
               standardiseFiles?.length &&
-              standardiseFiles?.map((item,index) => {
+              standardiseFiles?.map((item, index) => {
                 // let index = item?.file?.lastIndexOf("/");
                 // let fileName = item?.file?.slice(index + 1);
                 return (
-                  <MenuItem id={`standardise-file-name-${index}`} key={item?.id} value={item?.id}>
+                  <MenuItem
+                    id={`standardise-file-name-${index}`}
+                    key={item?.id}
+                    value={item?.id}
+                  >
                     {item?.label}
                   </MenuItem>
                 );
@@ -432,6 +437,7 @@ const Standardise = ({
                 sx={{
                   "&.MuiAccordionSummary-root": {
                     borderBottom: expanded ? "1px solid #919EAB" : "",
+                    backgroundColor: "#eafbf3",
                   },
                 }}
               >

@@ -360,37 +360,48 @@ const StandardizationInOnbord = (props) => {
           }
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         setIsLoading(false);
         //   success('Standardization template created successfully')
-        console.log(e, e?.response?.data);
-        if (
-          e.response != null &&
-          e.response != undefined &&
-          (e.response.status === 401 || e.response.status === 502)
-        ) {
-          setError(true);
-          callToast(
-            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
-            "error",
-            true
-          );
-          // success(
-          //   e.response.data && e.response.data.message
-          //     ? e.response.data.message
-          //     : "User not registered", "error"
-          // );
-          // GetErrorHandlingRoute(e).then((errorObject) => {
-          //   callToast(errorObject?.message, "error", true);
-          // });
-        } else {
-          setError(true);
-          callToast(
-            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
-            "error",
-            true
-          );
-        }
+        // console.log(e, e?.response?.data);
+        // if (
+        //   e.response != null &&
+        //   e.response != undefined &&
+        //   (e.response.status === 401 || e.response.status === 502)
+        // ) {
+        //   setError(true);
+        //   callToast(
+        //     JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
+        //     "error",
+        //     true
+        //   );
+        //   // success(
+        //   //   e.response.data && e.response.data.message
+        //   //     ? e.response.data.message
+        //   //     : "User not registered", "error"
+        //   // );
+        //   // GetErrorHandlingRoute(e).then((errorObject) => {
+        //   //   callToast(errorObject?.message, "error", true);
+        //   // });
+        // } else {
+        //   setError(true);
+        //   callToast(
+        //     JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
+        //     "error",
+        //     true
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -419,32 +430,43 @@ const StandardizationInOnbord = (props) => {
           console.log("tmp in get call attributes", tmp, tmpDes, allAttributes);
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         callLoader(false);
 
         //   success('Standardization template created successfully')
+        // console.log(e);
+        // if (
+        //   e.response != null &&
+        //   e.response != undefined &&
+        //   (e.response.status === 401 || e.response.status === 502)
+        // ) {
+        //   setError(true);
+        //   // success(
+        //   //   e.response.data && e.response.data.message
+        //   //     ? e.response.data.message
+        //   //     : "User not registered", "error"
+        //   // );
+        //   history.push(GetErrorHandlingRoute(e));
+        // } else {
+        //   setError(false);
+        //   callToast(
+        //     e.response.data && e.response.data.message
+        //       ? e.response.data.message
+        //       : "Something went wrong.",
+        //     "error"
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
         console.log(e);
-        if (
-          e.response != null &&
-          e.response != undefined &&
-          (e.response.status === 401 || e.response.status === 502)
-        ) {
-          setError(true);
-          // success(
-          //   e.response.data && e.response.data.message
-          //     ? e.response.data.message
-          //     : "User not registered", "error"
-          // );
-          history.push(GetErrorHandlingRoute(e));
-        } else {
-          setError(false);
-          callToast(
-            e.response.data && e.response.data.message
-              ? e.response.data.message
-              : "Something went wrong.",
-            "error"
-          );
-        }
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -469,32 +491,43 @@ const StandardizationInOnbord = (props) => {
         setAllDataPoints(tmpAllDatapoints);
         return true;
       })
-      .catch((e) => {
+      .catch( async(e) => {
         setIsLoading(false);
         console.log(e);
-        if (
-          e.response != null &&
-          e.response != undefined &&
-          (e.response.status === 401 || e.response.status === 502)
-        ) {
-          setError(true);
-          GetErrorHandlingRoute(e).then((errorObject) => {
-            console.log(errorObject);
-            callToast(
-              errorObject?.message ? errorObject?.message : "",
-              "error",
-              true
-            );
-          });
-        } else {
-          setError(false);
-          callToast(
-            e.response.data && e.response.data.message
-              ? e.response.data.message
-              : "Something went wrong.",
-            "error"
-          );
-        }
+        // if (
+        //   e.response != null &&
+        //   e.response != undefined &&
+        //   (e.response.status === 401 || e.response.status === 502)
+        // ) {
+        //   setError(true);
+        //   GetErrorHandlingRoute(e).then((errorObject) => {
+        //     console.log(errorObject);
+        //     callToast(
+        //       errorObject?.message ? errorObject?.message : "",
+        //       "error",
+        //       true
+        //     );
+        //   });
+        // } else {
+        //   setError(false);
+        //   callToast(
+        //     e.response.data && e.response.data.message
+        //       ? e.response.data.message
+        //       : "Something went wrong.",
+        //     "error"
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -544,14 +577,25 @@ const StandardizationInOnbord = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch((e) => {
+      .catch( async(e) => {
         // setIsLoader(false);
         // console.log(e);
-        callToast(
-          JSON.stringify(e?.response?.data ?? "Some error occurred"),
-          "error",
-          true
-        );
+        // callToast(
+        //   JSON.stringify(e?.response?.data ?? "Some error occurred"),
+        //   "error",
+        //   true
+        // );
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
   useEffect(() => {

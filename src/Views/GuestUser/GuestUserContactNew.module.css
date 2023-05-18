@@ -18,6 +18,17 @@
   margin-top: 32px;
 }
 
+.descriptionSm {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400 !important;
+  font-size: 16px;
+  line-height: 31px;
+  text-align: center;
+  font-style: italic !important;
+  color: #565c63 !important;
+  margin-top: 32px;
+}
+
 .titleContainer {
   justify-content: center;
 }
@@ -63,6 +74,12 @@
   display: flex;
   justify-content: space-between;
   width: 50%;
+}
+
+.radioButtonContainerSm {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .adminDetailsContainer {

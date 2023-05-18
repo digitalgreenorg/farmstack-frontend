@@ -5,6 +5,7 @@ import {
   Divider,
   InputAdornment,
   TextField,
+  createTheme,
   useTheme,
 } from "@mui/material";
 import style from "./Footer_New.module.css";
@@ -23,16 +24,45 @@ const FooterNew = () => {
   const handleSubscribe = () => {};
   const history = useHistory();
   const [adminData, setAdminData] = useState(null);
-  const theme = useTheme();
+  // const theme = useTheme();
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1650,
+        xxl: 1980,
+      },
+    },
+  });
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  const laptop = useMediaQuery(theme.breakpoints.down("xl"));
+  const desktop = useMediaQuery(theme.breakpoints.down("xl"));
+  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
 
   const containerStyle = {
     padding: mobile || tablet ? "" : "40px",
     paddingTop: mobile || tablet ? "40px" : "",
-    marginLeft: mobile || tablet ? "30px" : "144px",
-    marginRight: mobile || tablet ? "30px" : "144px",
+    marginLeft:
+      mobile || tablet
+        ? "30px"
+        : desktop
+        ? "144px"
+        : largeDesktop
+        ? "300px"
+        : "144px",
+    marginRight:
+      mobile || tablet
+        ? "30px"
+        : desktop
+        ? "144px"
+        : largeDesktop
+        ? "400px"
+        : "144px",
   };
   const handleItemClick = (name) => {
     if (name === "datasets") {
@@ -68,7 +98,12 @@ const FooterNew = () => {
   return (
     <>
       <Box sx={containerStyle}>
-        <div className="logo_container text-left">
+        <div
+          style={{
+            textAlign: "left",
+            // marginLeft: desktop ? "352px" : "0px"
+          }}
+        >
           <img
             style={{
               height: "auto",
@@ -118,9 +153,11 @@ const FooterNew = () => {
                 </div>
                 <div className={`${style.link} mt-2`}>
                   {" "}
-                  <a target="_blank"  href={adminData?.organization?.website ?? ""} >
-
-                  {adminData?.organization?.website ?? ""}
+                  <a
+                    target="_blank"
+                    href={adminData?.organization?.website ?? ""}
+                  >
+                    {adminData?.organization?.website ?? ""}
                   </a>
                 </div>
               </div>

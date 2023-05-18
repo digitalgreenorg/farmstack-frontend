@@ -710,13 +710,17 @@ const DataSets = (props) => {
                 breadcrumbFromRoute=="Home" ? history.push("/home") : history.push("/datahub/new_datasets")
               } }
             >
-               {breadcrumbFromRoute?? "Dataset"}
+               {breadcrumbFromRoute?? ""}
             </span>
             <span className="add_light_text ml-16">
+             {
+              breadcrumbFromRoute ?
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              : ""
+             }
             </span>
             <span className="add_light_text ml-16 fw600">
-              {breadcrumbFromRoute == "Home" ? "Datasets" : value == 0 ? "My organisation datasets" : value == 1 ? "Other organisation datasets" : value == 2 ? "Request received" : "" }
+              {!breadcrumbFromRoute ? "Datasets" : value == 0 ? "My organisation datasets" : value == 1 ? "Other organisation datasets" : value == 2 ? "Request received" : "" }
               
                 {/* {isParticipantRequest ? "" : ""} */}
             </span>
