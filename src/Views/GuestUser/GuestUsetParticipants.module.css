@@ -74,6 +74,10 @@
   justify-content: center;
 }
 
+.titleContainerXl {
+  display: block;
+}
+
 .title2 {
   margin: 50px 0;
 }

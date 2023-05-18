@@ -6,6 +6,8 @@ import {
   MenuItem,
   Select,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ControlledAccordion from "../../Accordion/Accordion";
 import CheckBoxWithText from "./CheckBoxWithText";
@@ -16,6 +18,8 @@ import { Country, State, City } from "country-state-city";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const Categorise = (props) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [allCategories, setAllCategories] = useState([]);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
@@ -177,7 +181,7 @@ const Categorise = (props) => {
           >
             Geography
           </Typography>
-          <Box className="d-flex justify-content-between">
+          <Box className={mobile ? "mt-50" : "d-flex justify-content-between"}>
             <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
               <InputLabel id="test-select-label">Select Country</InputLabel>
               <Select

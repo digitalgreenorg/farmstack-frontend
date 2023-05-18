@@ -419,7 +419,7 @@ const ParticipantFormNew = (props) => {
 
   return (
     <>
-      <div className={LocalStyle.organisationFormContainer}>
+      <div>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
             <Typography
@@ -606,7 +606,7 @@ const ParticipantFormNew = (props) => {
           </Row>
         </Form>
       </div>
-      <div className={LocalStyle.organisationFormContainer}>
+      <div>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
             <Typography

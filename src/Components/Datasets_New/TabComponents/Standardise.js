@@ -11,6 +11,8 @@ import {
   MenuItem,
   Select,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./Standardise.css";
@@ -52,6 +54,8 @@ const Standardise = ({
   getDatasetForEdit,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [data, setData] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [standardisedColum, setStandardisedColumn] = useState([]);
@@ -378,7 +382,7 @@ const Standardise = ({
         standardized formats and structures.{" "}
       </Typography>
       <Box className="text-left mt-30">
-        <FormControl fullWidth sx={{ width: "368px" }}>
+        <FormControl fullWidth sx={{ width: mobile ? "100%" : "368px" }}>
           <InputLabel>File name</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -461,31 +465,33 @@ const Standardise = ({
               </AccordionSummary>
               <AccordionDetails>
                 <Box>
-                  {keysInUploadedDataset?.map((keyName, index) => (
-                    <StandardiseRow
-                      keyName={keyName}
-                      index={index}
-                      key={index}
-                      templates={templates}
-                      setTemplates={setTemplates}
-                      template={template}
-                      setTemplate={setTemplate}
-                      datapointAttributes={datapointAttributes}
-                      setDatapointAttributes={setDatapointAttributes}
-                      datapointCategories={datapointCategories}
-                      datapointCategory={datapointCategory}
-                      setDatapointCategory={setDatapointCategory}
-                      standardiseNames={standardiseNames}
-                      setStandardiseNames={setStandardiseNames}
-                      standardiseName={standardiseName}
-                      setStandardiseName={setStandardiseName}
-                      standardisedColum={standardisedColum}
-                      setStandardisedColumn={setStandardisedColumn}
-                      maskedColumns={maskedColumns}
-                      datapointCategoryChange={datapointCategoryChange}
-                      handleMaskCheckBox={handleMaskCheckBox}
-                    />
-                  ))}
+                  <Box sx={{ overflow: "auto" }}>
+                    {keysInUploadedDataset?.map((keyName, index) => (
+                      <StandardiseRow
+                        keyName={keyName}
+                        index={index}
+                        key={index}
+                        templates={templates}
+                        setTemplates={setTemplates}
+                        template={template}
+                        setTemplate={setTemplate}
+                        datapointAttributes={datapointAttributes}
+                        setDatapointAttributes={setDatapointAttributes}
+                        datapointCategories={datapointCategories}
+                        datapointCategory={datapointCategory}
+                        setDatapointCategory={setDatapointCategory}
+                        standardiseNames={standardiseNames}
+                        setStandardiseNames={setStandardiseNames}
+                        standardiseName={standardiseName}
+                        setStandardiseName={setStandardiseName}
+                        standardisedColum={standardisedColum}
+                        setStandardisedColumn={setStandardisedColumn}
+                        maskedColumns={maskedColumns}
+                        datapointCategoryChange={datapointCategoryChange}
+                        handleMaskCheckBox={handleMaskCheckBox}
+                      />
+                    ))}
+                  </Box>
                   <Box className="text-right mt-30 mb-26">
                     <Button
                       sx={{

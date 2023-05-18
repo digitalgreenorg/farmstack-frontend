@@ -10,15 +10,25 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Box,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { GetErrorHandlingRoute, GetErrorKey, goToTop } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  goToTop,
+} from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 
 const GuestUserContactNew = () => {
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
   let history = useHistory();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -234,15 +244,22 @@ const GuestUserContactNew = () => {
   };
   useEffect(() => {
     getDatahubAdminDetails();
-    goToTop(0)
+    goToTop(0);
   }, []);
-
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   return (
-    <Container>
+    <Box sx={containerStyle}>
       <Row className={LocalStyle.titleContainer}>
         <div className={LocalStyle.title}>Talk with us</div>
         <div className="d-flex justify-content-center">
-          <div className={LocalStyle.description}>
+          <div
+            className={
+              mobile ? LocalStyle.descriptionSm : LocalStyle.description
+            }
+          >
             We are eager to connect with organizations, researchers, and
             individuals who share our passion for revolutionizing agriculture.
             If you have questions, suggestions or would like to explore
@@ -320,7 +337,13 @@ const GuestUserContactNew = () => {
         </Col>
       </Row>
       <Row>
-        <Col className={LocalStyle.radioButtonContainer} lg={12}>
+        <Col
+          className={
+            mobile
+              ? LocalStyle.radioButtonContainerSm
+              : LocalStyle.radioButtonContainer
+          }
+        >
           {/* <FormControl component="fieldset" margin="normal" required> */}
           {/* <FormLabel component="legend">Select an option</FormLabel> */}
           {/* <RadioGroup aria-label="contactType" name="contactType"> */}
@@ -343,12 +366,20 @@ const GuestUserContactNew = () => {
             <FormControlLabel
               value="Become a Participant"
               control={<Radio />}
-              label="Become a Participant (Data Provider / Consumer)"
+              label={
+                <span style={{ fontSize: mobile ? "12px" : "16px" }}>
+                  Become a Participant (Data Provider / Consumer)
+                </span>
+              }
             />
             <FormControlLabel
               value="Other queries"
               control={<Radio />}
-              label="Other queries (Describe your query in detail)"
+              label={
+                <span style={{ fontSize: mobile ? "12px" : "16px" }}>
+                  Other queries (Describe your query in detail)
+                </span>
+              }
             />
           </RadioGroup>
           {/* </div> */}
@@ -482,7 +513,7 @@ const GuestUserContactNew = () => {
           </Row>
         </Col>
       </Row>
-    </Container>
+    </Box>
   );
 };
 

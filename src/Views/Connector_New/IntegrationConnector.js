@@ -174,6 +174,7 @@ const IntegrationConnector = ({
                       />
                       {indexShow != index && (
                         <img
+                          id="link-icon"
                           src={require("../../Assets/Img/link_icon.svg")}
                           alt=""
                         />

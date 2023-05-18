@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Box, Divider, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import SelectConnector from "./SelectConnector";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -41,6 +48,9 @@ const textFieldStyle = {
 const AddConnector = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [connectorName, setConnectorName] = useState("");
   const [connectorDescription, setConnectorDescription] = useState("");
   const [organisationName, setOrganisationName] = useState();
@@ -244,18 +254,20 @@ const AddConnector = (props) => {
           setTemplate({ ...template, dataset_list: [...res.data] });
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log(e);
       });
   };
@@ -730,10 +742,10 @@ const AddConnector = (props) => {
     } else {
       if (e.target.value.trim()) {
         setIsConditionForConnectorDataForSaveMet(true);
-        // setIsAllConditionForSaveMet(true);
+        setIsAllConditionForSaveMet(true);
       } else {
         setIsConditionForConnectorDataForSaveMet(false);
-        // setIsAllConditionForSaveMet(false);
+        setIsAllConditionForSaveMet(false);
       }
       setErrorConnectorDesc("");
       setConnectorData({
@@ -806,7 +818,12 @@ const AddConnector = (props) => {
   console.log(completeData, "connector data");
   return (
     <Box>
-      <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
+      <Box
+        sx={{
+          marginLeft: mobile || tablet ? "30px" : "144px",
+          marginRight: mobile || tablet ? "30px" : "144px",
+        }}
+      >
         <div className="text-left mt-50">
           <span
             className="add_light_text cursor-pointer breadcrumbItem"

@@ -92,7 +92,7 @@ const CoStewardAndParticipantsCard = (props) => {
           {subTitle}
         </Typography>
         </Box>
-        {viewType === "list" && title === "Participants" ? (
+        {viewType === "list" && title === "Participants" && !mobile ? (
           <Col
             className={LocalStyle.listViewButton}
             xs={6}
@@ -185,7 +185,7 @@ const CoStewardAndParticipantsCard = (props) => {
               </div>
             </Row>
           </Col>
-        ) : viewType && setViewType ? (
+        ) : viewType && setViewType && !mobile ? (
           <Col
             className={LocalStyle.listAndGridViewButton}
             xs={6}
@@ -335,7 +335,7 @@ const CoStewardAndParticipantsCard = (props) => {
           )}
           {coStewardOrParticipantsList?.map((participant, index) => {
             let id = participant?.user_id;
-            console.log("participant",participant)
+            console.log("participant", participant);
             return (
               <Col
                 id={title?.split(" ")[0] + "grid-card-id" + index}
@@ -346,22 +346,29 @@ const CoStewardAndParticipantsCard = (props) => {
                 xl={4}
                 onClick={() => handleViewDataset(id)}
               >
-                
                 <CustomCard
                   image={participant?.organization?.logo}
                   title={participant?.organization?.name}
-                  subTitle1={title=="New participant requests" ? "User" : "Datasets"}
+                  subTitle1={
+                    title == "New participant requests" ? "User" : "Datasets"
+                  }
                   subTitle2={
                     title == "Participants" || title == "Our Participants are"
                       ? "Root user"
-                      : title=="New participant requests" ? "User email"
+                      : title == "New participant requests"
+                      ? "User email"
                       : "No.of participants"
                   }
-                  subTitle1Value={ title=="New participant requests" ? participant?.user?.first_name : participant?.dataset_count}
+                  subTitle1Value={
+                    title == "New participant requests"
+                      ? participant?.user?.first_name
+                      : participant?.dataset_count
+                  }
                   subTitle2Value={
                     title == "Participants" || title == "Our Participants are"
                       ? participant?.user?.first_name
-                      :  title == "New participant requests" ? participant?.user?.email
+                      : title == "New participant requests"
+                      ? participant?.user?.email
                       : participant?.number_of_participants
                   }
                   index={index}

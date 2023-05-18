@@ -71,10 +71,10 @@ const Join = (props) => {
     generateData,
   } = props;
   const [joinTypeArr, setJoinTypeArr] = useState([
-    { name: "left", black: leftB, green: leftG },
-    { name: "right", black: rightB, green: rightG },
-    { name: "inner", black: innerB, green: innerG },
-    { name: "outer", black: fullB, green: fullG },
+    { name: "left", black: leftB, green: leftG , id: "leftjoin"},
+    { name: "right", black: rightB, green: rightG, id: "rightjoin"},
+    { name: "inner", black: innerB, green: innerG, id: "innerjoin"},
+    { name: "outer", black: fullB, green: fullG, id: "outerjoin"},
   ]);
 
   const handleChangeJoin = (e, ind, source) => {
@@ -215,6 +215,7 @@ const Join = (props) => {
                 fontWeight={"700"}
                 fontSize={"13px"}
                 handleClick={handleMoreJoinFields}
+                id={`join-condition-join-more-btn`}
               />
             </Box>
           </Box>
@@ -333,6 +334,7 @@ const Join = (props) => {
                 {joinTypeArr.map((eachT, ind) => {
                   return (
                     <span
+                      id={eachT.id}
                       key={ind}
                       onClick={() => selectThisType(eachT.name)}
                       className={
@@ -343,7 +345,7 @@ const Join = (props) => {
                     >
                       <div className={styles.selectedTypeMainBox}>
                         {" "}
-                        {each.type == eachT.name && (
+                        {each.type == eachT.name && eachT.id && (
                           <img
                             style={{ marginRight: "4px" }}
                             height={"20px"}
@@ -367,9 +369,11 @@ const Join = (props) => {
                             each.type == eachT.name ? eachT.green : eachT.black
                           }
                           alt={eachT.name}
+                          id={eachT.id}
                         />
                       </div>
                       <span
+                        id={eachT.id}
                         className={
                           each.type == eachT.name
                             ? styles.SlabelTypeJoin
@@ -476,7 +480,7 @@ const Join = (props) => {
                   color: "#fffff",
                 },
               }}
-              id="generate_button"
+              id="download_integrated_data_button"
               disabled={
                 each.type &&
                 each?.right_on?.length > 0 &&
