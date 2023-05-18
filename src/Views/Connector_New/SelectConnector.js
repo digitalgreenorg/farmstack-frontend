@@ -114,8 +114,8 @@ const SelectConnector = ({
           <FormControl fullWidth sx={{ width: "270px", height: "54px" }}>
             <InputLabel>Select organisation</InputLabel>
             <Select
-              labelId={"connectors-select-orgnisation-id"}
-              id="demo-simple-select"
+              labelId="demo-simple-select-label"
+              id={"connectors-select-orgnisation-id"}
               value={template?.org_id}
               onChange={(e) => {
                 setOrganisationName(e.target.value);
