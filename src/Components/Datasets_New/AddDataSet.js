@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, Divider, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Tab,
+  Tabs,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useHistory } from "react-router-dom";
 import {
   GetErrorKey,
@@ -39,6 +48,14 @@ function TabPanel(props) {
 const AddDataSet = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   const [value, setValue] = useState(0);
   const [validator, setValidator] = useState(false);
 
@@ -262,7 +279,7 @@ const AddDataSet = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // if (props.isEditModeOn && props.datasetIdForEdit) {
         //   callToast(
@@ -280,15 +297,19 @@ const AddDataSet = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || (props.isEditModeOn && props.datasetIdForEdit ?
-            "Something went wrong while updating dataset!" : "Something went wrong while adding dataset!" ), 
+        if (error.toast) {
+          callToast(
+            error?.message ||
+              (props.isEditModeOn && props.datasetIdForEdit
+                ? "Something went wrong while updating dataset!"
+                : "Something went wrong while adding dataset!"),
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log(e);
       });
   };
@@ -415,7 +436,7 @@ const AddDataSet = (props) => {
             });
             setAllFilesAccessibility(tempAccessibilities);
           })
-          .catch( async(e) => {
+          .catch(async (e) => {
             callLoader(false);
             // callToast(
             //   "Something went wrong while loading dataset!",
@@ -423,16 +444,18 @@ const AddDataSet = (props) => {
             //   true
             // );
             let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong while loading dataset!", 
-            error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            console.log("Error obj", error);
+            console.log(e);
+            if (error.toast) {
+              callToast(
+                error?.message || "Something went wrong while loading dataset!",
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path) {
+              history.push(error.path);
+            }
           });
       })();
     }
@@ -443,7 +466,7 @@ const AddDataSet = (props) => {
   }, []);
   return (
     <Box>
-      <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
+      <Box sx={containerStyle}>
         <div className="text-left mt-50">
           <span
             className="add_light_text cursor-pointer breadcrumbItem"
@@ -493,6 +516,9 @@ const AddDataSet = (props) => {
               },
               "& .Mui-selected": { color: "#00AB55 !important" },
             }}
+            variant="scrollable"
+            scrollButtons
+            allowScrollButtonsMobile
             value={value}
             onChange={handleChange}
           >
