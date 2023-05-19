@@ -653,7 +653,7 @@ const CategoryDetails = (props) => {
                     value={category.category_name}
                     onChange={(e) => handleChangeHeadName(e, index)}
                     onClick={(e) => e.stopPropagation()}
-                    id="edit-head-accordian-name"
+                    id={`edit-${index}-head-accordian-name`}
                     // sx={{
                     //   "&.MuiTextField-root": {
                     //     display: "flex",

@@ -115,19 +115,19 @@ export default function Settings(props) {
               />
             </TabList>
           </Container>
-          <TabPanel value="1" id="account-settings">
+          <TabPanel value="1">
             <AccountSetting />
           </TabPanel>
-          <TabPanel value="2" id="org-settings">
+          <TabPanel value="2">
             <OrganisationSettings />
           </TabPanel>
-          <TabPanel value="3" id="policy-settings">
+          <TabPanel value="3">
             <PolicySettings />
           </TabPanel>
-          <TabPanel value="4" id="category-settings">
+          <TabPanel value="4">
             <CategorySettings />
           </TabPanel>
-          <TabPanel value="5" id="datapoint-settings">
+          <TabPanel value="5">
             <DatapointSettings />
           </TabPanel>
         </Box>

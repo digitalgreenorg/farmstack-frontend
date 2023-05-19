@@ -104,7 +104,7 @@ export default function ControlledAccordions(props) {
               />
               <DeleteOutlineIcon
                 onClick={handleDeletePopper}
-                id="delete-icon"
+                id={`${index}delete-icon`}
               />
             </>
           )}
