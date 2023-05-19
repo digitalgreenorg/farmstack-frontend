@@ -25,6 +25,7 @@ const ContainedButton = ({ text, fontWeight, fontSize, fontFamily, width, height
             }}
             disabled={disabled}
             variant="cotained"
+            id="add-connector-button"
             onClick={() => handleClick()}>{text}</Button>
     )
 }

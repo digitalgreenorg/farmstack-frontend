@@ -19,6 +19,8 @@ import {
 } from "../../Utils/Common";
 import { CSSTransition } from "react-transition-group";
 import { Popconfirm } from "antd";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+import { useHistory } from "react-router-dom";
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [sizeError, setSizeError] = useState("");
@@ -34,6 +36,7 @@ const CompanyPolicies = (props) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   const [key, setKey] = useState(0);
+  const history = useHistory();
 
   const handleUploadPolicy = (file) => {
     console.log("function is calling");
@@ -177,15 +180,36 @@ const CompanyPolicies = (props) => {
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, "error", true);
+                  callToast(
+                    error?.message,
+                    error?.status === 200 ? "success" : "error",
+                    true
+                  );
                 }
                 break;
             }
           }
         } else {
+          // let error = await GetErrorHandlingRoute(e);
+          // if (error) {
+          //   callToast(
+          //     error?.message,
+          //     error?.status === 200 ? "success" : "error",
+          //     true
+          //   );
+          // }
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
-            callToast(error?.message, "error", true);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
@@ -207,9 +231,26 @@ const CompanyPolicies = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
+        // let error = await GetErrorHandlingRoute(e);
+        // if (error) {
+        //   callToast(
+        //     error?.message,
+        //     error?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // }
         let error = await GetErrorHandlingRoute(e);
-        if (error) {
-          callToast(error?.message, "error", true);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -248,7 +289,17 @@ const CompanyPolicies = (props) => {
     const [localKey, setLocalKey] = useState(0);
     const [fileSizeErrorE, setFileSizeErrorE] = useState("");
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [open, setOpen] = React.useState(false);
+    const id = "delete-popper";
 
+    const handleDeletePopper = (event) => {
+      setAnchorEl(event.currentTarget);
+      setOpen(true);
+    };
+    const closePopper = () => {
+      setOpen(false);
+    };
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
@@ -422,6 +473,7 @@ const CompanyPolicies = (props) => {
                   <div className={styles.each_preview_policy}>
                     <div>
                       <img
+                        id="document-upload-logo"
                         height={"52px"}
                         width={"42px"}
                         className={styles.document_upload_logo}
@@ -429,6 +481,7 @@ const CompanyPolicies = (props) => {
                       />
 
                       <span
+                        id="file-preview"
                         className={global_style.blue + " " + styles.link}
                         onClick={() => window.open(previewE)}
                       >
@@ -439,7 +492,7 @@ const CompanyPolicies = (props) => {
                           ? dataOfFile?.split("/").at(-1)
                           : ""}
                       </span>
-                      <span className={global_style.light_text}>
+                      <span id="file-size" className={global_style.light_text}>
                         {policySize && (policySize / 1000000).toFixed(2) + "MB"}
                       </span>
                     </div>
@@ -481,36 +534,38 @@ const CompanyPolicies = (props) => {
             gap: "10px",
           }}
         >
-          <Popconfirm
-            title="Delete the policy"
-            description="Are you sure to delete this policy?"
-            onConfirm={(e) => confirm(e, index)}
-            onCancel={() => console.log("cancelled")}
-            okText="Yes"
-            cancelText="No"
+          <CustomDeletePopper
+            DeleteItem={policyNameUnderAccordion}
+            anchorEl={anchorEl}
+            handleDelete={(e) => confirm(e, index)}
+            id={id}
+            open={open}
+            closePopper={closePopper}
+          />
+          <Button
+            className={
+              global_style.secondary_button_error +
+              " " +
+              styles.delete_button_policy
+            }
+            onClick={handleDeletePopper}
+            id="delete-button-policy"
           >
-            <Button
-              className={
-                global_style.secondary_button_error +
-                " " +
-                styles.delete_button_policy
-              }
-            >
-              Delete
-            </Button>
-          </Popconfirm>
+            Delete
+          </Button>
           {isEditModeOn ? (
             <Button
-            disabled={
-              (uploadedPolicyE ||
-                dataOfFile ||
-                (policyDesc !== "<p><br></p>")) &&
-              policyNameUnderAccordion
-                ? false
-                : true
-            }
+              disabled={
+                (uploadedPolicyE ||
+                  dataOfFile ||
+                  policyDesc !== "<p><br></p>") &&
+                policyNameUnderAccordion
+                  ? false
+                  : true
+              }
               onClick={(prev) => handleSave()}
               className={global_style.primary_button + " " + styles.edit_button}
+              id="save-button-policy"
             >
               {/* <a style={{ color: "white" }} href={data.file ? data.file : ""}> */}
               Save
@@ -522,6 +577,7 @@ const CompanyPolicies = (props) => {
               className={
                 global_style.outlined_button + " " + styles.edit_button
               }
+              id="edit-button-policy"
             >
               {/* <a style={{ color: "white" }} href={data.file ? data.file : ""}> */}
               Edit
@@ -588,6 +644,7 @@ const CompanyPolicies = (props) => {
           </Col>
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button
+              id="addnew-policy-button"
               onClick={() => setIsFormVisible(true)}
               className={global_style.primary_button + " " + styles.next_button}
             >
@@ -665,6 +722,7 @@ const CompanyPolicies = (props) => {
                   setSizeError={() =>
                     setFileError("Maximum file size allowed is 25MB")
                   }
+                  id="upload-policy-file"
                 />
               </Col>
               <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -685,6 +743,7 @@ const CompanyPolicies = (props) => {
                       <div className={styles.each_preview_policy}>
                         <div>
                           <img
+                            id="document-logo"
                             height={"52px"}
                             width={"42px"}
                             className={styles.document_upload_logo}
@@ -692,12 +751,16 @@ const CompanyPolicies = (props) => {
                           />
 
                           <span
+                            id="file-preview"
                             className={global_style.blue + " " + styles.link}
                             onClick={() => window.open(preview)}
                           >
                             {uploadedPolicy.name + " "}{" "}
                           </span>
-                          <span className={global_style.light_text}>
+                          <span
+                            id="filesize"
+                            className={global_style.light_text}
+                          >
                             {uploadedPolicy.size &&
                               (uploadedPolicy.size / 1000000).toFixed(2)}
                             MB
@@ -707,6 +770,7 @@ const CompanyPolicies = (props) => {
                           onClick={() => handleDeletePolicy()}
                           style={{ cursor: "pointer" }}
                           fontSize="small"
+                          id="cancel-policy-file"
                         />
                       </div>
                     )}
@@ -728,6 +792,7 @@ const CompanyPolicies = (props) => {
           </div>
           <div className={styles.button_grp}>
             <Button
+              id="add-policy-button"
               disabled={
                 ((companyPolicyDescription && enableButton) ||
                   uploadedPolicy) &&
@@ -741,6 +806,7 @@ const CompanyPolicies = (props) => {
               Add
             </Button>
           </div>
+          <hr className={styles.guestDividerHr}></hr>
         </>
       ) : (
         <>
@@ -804,6 +870,7 @@ const CompanyPolicies = (props) => {
                       setSizeError={() =>
                         setFileError("Maximum file size allowed is 25MB")
                       }
+                      id="upload-policy-file"
                     />
                   </Col>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -826,6 +893,7 @@ const CompanyPolicies = (props) => {
                           <div className={styles.each_preview_policy}>
                             <div>
                               <img
+                                id="uploadfile-logo"
                                 height={"52px"}
                                 width={"42px"}
                                 className={styles.document_upload_logo}
@@ -833,6 +901,7 @@ const CompanyPolicies = (props) => {
                               />
 
                               <span
+                                id="preview-file"
                                 className={
                                   global_style.blue + " " + styles.link
                                 }
@@ -840,7 +909,10 @@ const CompanyPolicies = (props) => {
                               >
                                 {uploadedPolicy.name + " "}{" "}
                               </span>
-                              <span className={global_style.light_text}>
+                              <span
+                                id="filesize"
+                                className={global_style.light_text}
+                              >
                                 {uploadedPolicy.size &&
                                   (uploadedPolicy.size / 1000000).toFixed(2)}
                                 MB
@@ -850,6 +922,7 @@ const CompanyPolicies = (props) => {
                               onClick={() => handleDeletePolicy()}
                               style={{ cursor: "pointer" }}
                               fontSize="small"
+                              id="cancel-policy-file"
                             />
                           </div>
                         )}
@@ -871,6 +944,7 @@ const CompanyPolicies = (props) => {
               </div>
               <div className={styles.button_grp}>
                 <Button
+                  id="add-policy-button"
                   disabled={
                     (uploadedPolicy ||
                       (companyPolicyDescription && enableButton)) &&
@@ -887,6 +961,7 @@ const CompanyPolicies = (props) => {
                   Add
                 </Button>
               </div>
+              <hr className={styles.guestDividerHr}></hr>
             </>
           )}
         </>
@@ -924,6 +999,7 @@ const CompanyPolicies = (props) => {
           <Button
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.secondary_button}
+            id="policy-button-onboard-finishlater"
           >
             {" "}
             Finish later
@@ -932,6 +1008,7 @@ const CompanyPolicies = (props) => {
             disabled={allPolicies.length > 0 ? false : true}
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.primary_button + " " + styles.next_button}
+            id="policy-button-onboard-next"
           >
             {" "}
             Next

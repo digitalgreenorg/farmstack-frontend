@@ -42,6 +42,7 @@ import global_style from "../../Assets/CSS/global.module.css";
 import styles from "../NewOnboarding/onboarding.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { Col, Row } from "react-bootstrap";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 
 const StandardizationInOnbord = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -72,6 +73,26 @@ const StandardizationInOnbord = (props) => {
       content: text,
       duration: 5,
     });
+  };
+  const [anchorEl, setAnchorEl] = React.useState(
+    Array(allDatapoints.length).fill(null)
+  );
+  const [open, setOpen] = React.useState(false);
+  const id = "delete-popper";
+  const handleDelete = (event, index) => {
+    setAnchorEl((prevAnchorEl) => {
+      const newAnchorEl = [...prevAnchorEl];
+      newAnchorEl[index] = event.currentTarget;
+      console.log("event is triggering", newAnchorEl, anchorEl, index);
+      return newAnchorEl;
+    });
+  };
+  const handleClose = (index) => {
+    const newAnchorEls = [...anchorEl];
+    newAnchorEls[index] = null;
+    setAnchorEl(newAnchorEls);
+    setOpen(false);
+    console.log("newAnchorEls", newAnchorEls);
   };
 
   console.log("all datapoints", allDatapoints);
@@ -256,6 +277,15 @@ const StandardizationInOnbord = (props) => {
     console.log("tmpAllAttributes", tmpAllAttributes);
   };
 
+  const confirm = (e, index) => {
+    handleDatapointCategoryDelete(index);
+    e.stopPropagation();
+    setAnchorEl((prevAnchorEl) => {
+      const newAnchorEl = [...prevAnchorEl];
+      newAnchorEl[index] = null;
+      return newAnchorEl;
+    });
+  };
   const handleDatapointCategoryDelete = (index) => {
     if (allDatapoints[index]["id"]) {
       console.log("id", allDatapoints[index]["id"]);
@@ -330,36 +360,49 @@ const StandardizationInOnbord = (props) => {
           }
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         setIsLoading(false);
         //   success('Standardization template created successfully')
-        console.log(e, e?.response?.data);
-        if (
-          e.response != null &&
-          e.response != undefined &&
-          (e.response.status === 401 || e.response.status === 502)
-        ) {
-          setError(true);
+        // console.log(e, e?.response?.data);
+        // if (
+        //   e.response != null &&
+        //   e.response != undefined &&
+        //   (e.response.status === 401 || e.response.status === 502)
+        // ) {
+        //   setError(true);
+        //   callToast(
+        //     JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
+        //     "error",
+        //     true
+        //   );
+        //   // success(
+        //   //   e.response.data && e.response.data.message
+        //   //     ? e.response.data.message
+        //   //     : "User not registered", "error"
+        //   // );
+        //   // GetErrorHandlingRoute(e).then((errorObject) => {
+        //   //   callToast(errorObject?.message, "error", true);
+        //   // });
+        // } else {
+        //   setError(true);
+        //   callToast(
+        //     JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
+        //     "error",
+        //     true
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
           callToast(
-            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
-            "error",
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
             true
           );
-          // success(
-          //   e.response.data && e.response.data.message
-          //     ? e.response.data.message
-          //     : "User not registered", "error"
-          // );
-          // GetErrorHandlingRoute(e).then((errorObject) => {
-          //   callToast(errorObject?.message, "error", true);
-          // });
-        } else {
-          setError(true);
-          callToast(
-            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
-            "error",
-            true
-          );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -389,31 +432,44 @@ const StandardizationInOnbord = (props) => {
           console.log("tmp in get call attributes", tmp, tmpDes, allAttributes);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
 
         //   success('Standardization template created successfully')
+        // console.log(e);
+        // if (
+        //   e.response != null &&
+        //   e.response != undefined &&
+        //   (e.response.status === 401 || e.response.status === 502)
+        // ) {
+        //   setError(true);
+        //   // success(
+        //   //   e.response.data && e.response.data.message
+        //   //     ? e.response.data.message
+        //   //     : "User not registered", "error"
+        //   // );
+        //   history.push(GetErrorHandlingRoute(e));
+        // } else {
+        //   setError(false);
+        //   callToast(
+        //     e.response.data && e.response.data.message
+        //       ? e.response.data.message
+        //       : "Something went wrong.",
+        //     "error"
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
         console.log(e);
-        if (
-          e.response != null &&
-          e.response != undefined &&
-          (e.response.status === 401 || e.response.status === 502)
-        ) {
-          setError(true);
-          // success(
-          //   e.response.data && e.response.data.message
-          //     ? e.response.data.message
-          //     : "User not registered", "error"
-          // );
-          history.push(GetErrorHandlingRoute(e));
-        } else {
-          setError(false);
+        if (error.toast) {
           callToast(
-            e.response.data && e.response.data.message
-              ? e.response.data.message
-              : "Something went wrong.",
-            "error"
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
           );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -432,38 +488,51 @@ const StandardizationInOnbord = (props) => {
         let tmpAllAttributes = { ...allAttributes };
         tmpAllAttributes[index] = [];
         setAllAttributes(tmpAllAttributes);
-        callToast("Category deleted successfully.", "success");
+        callToast("Category deleted successfully.", "success", true);
 
         let tmpAllDatapoints = [...allDatapoints];
         tmpAllDatapoints.splice(index, 1);
         setAllDataPoints(tmpAllDatapoints);
         return true;
       })
-      .catch((e) => {
+      .catch(async (e) => {
         setIsLoading(false);
         console.log(e);
-        if (
-          e.response != null &&
-          e.response != undefined &&
-          (e.response.status === 401 || e.response.status === 502)
-        ) {
-          setError(true);
-          GetErrorHandlingRoute(e).then((errorObject) => {
-            console.log(errorObject);
-            callToast(
-              errorObject?.message ? errorObject?.message : "",
-              "error",
-              true
-            );
-          });
-        } else {
-          setError(false);
+        // if (
+        //   e.response != null &&
+        //   e.response != undefined &&
+        //   (e.response.status === 401 || e.response.status === 502)
+        // ) {
+        //   setError(true);
+        //   GetErrorHandlingRoute(e).then((errorObject) => {
+        //     console.log(errorObject);
+        //     callToast(
+        //       errorObject?.message ? errorObject?.message : "",
+        //       "error",
+        //       true
+        //     );
+        //   });
+        // } else {
+        //   setError(false);
+        //   callToast(
+        //     e.response.data && e.response.data.message
+        //       ? e.response.data.message
+        //       : "Something went wrong.",
+        //     "error"
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
           callToast(
-            e.response.data && e.response.data.message
-              ? e.response.data.message
-              : "Something went wrong.",
-            "error"
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
           );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -514,14 +583,27 @@ const StandardizationInOnbord = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         // setIsLoader(false);
         // console.log(e);
-        callToast(
-          JSON.stringify(e?.response?.data ?? "Some error occurred"),
-          "error",
-          true
-        );
+        // callToast(
+        //   JSON.stringify(e?.response?.data ?? "Some error occurred"),
+        //   "error",
+        //   true
+        // );
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   useEffect(() => {
@@ -602,7 +684,7 @@ const StandardizationInOnbord = (props) => {
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
-                    id="panel1a-header"
+                    id={`panel${index}1a-header`}
                     className="attribute-accordion-titile"
                   >
                     {/* <Typography className="accordion-title" variant="h5">
@@ -650,6 +732,7 @@ const StandardizationInOnbord = (props) => {
                     {editCategoryTitle[index] ? (
                       <IconButton>
                         <Button
+                          id={`update-${index}-button-category`}
                           onClick={() =>
                             handleNameExistsUpdate(
                               index,
@@ -668,8 +751,8 @@ const StandardizationInOnbord = (props) => {
                         </Button>
                       </IconButton>
                     ) : null}
-                    {/* <div> */}
-                    {/* <IconButton
+
+                    <IconButton
                       onClick={(e) => {
                         // this funtion will make a particular index of editCategoryTitle array true
                         e.stopPropagation();
@@ -678,18 +761,27 @@ const StandardizationInOnbord = (props) => {
                         console.log("edit title", tmp, editCategoryTitle);
                         setEditCategoryTitle(tmp);
                       }}
+                      id={`edit-${index}-datapoint`}
                     >
                       <EditIcon />
-                    </IconButton> */}
-                    {/* <IconButton
-                      onClick={(e) => {
-                        handleDatapointCategoryDelete(index);
-                        e.stopPropagation();
-                      }}
+                    </IconButton>
+                    <CustomDeletePopper
+                      DeleteItem={"Datapoint category"}
+                      anchorEl={anchorEl[index]}
+                      handleDelete={(e) => confirm(e, index)}
+                      id={id}
+                      open={
+                        anchorEl[index] !== null &&
+                        anchorEl[index] !== undefined
+                      }
+                      closePopper={() => handleClose(index)}
+                    />
+                    <IconButton
+                      id={`delete-${index}-datapoint`}
+                      onClick={(event) => handleDelete(event, index)}
                     >
                       <DeleteOutlineIcon />
-                    </IconButton> */}
-                    {/* </div> */}
+                    </IconButton>
                   </AccordionSummary>
                   <AccordionDetails>
                     <div className="attribute-main-div">
@@ -768,6 +860,7 @@ const StandardizationInOnbord = (props) => {
                             src={add_icon}
                             alt="add"
                             onClick={() => handleAddDatapointAttribute(index)}
+                            id="add-subcategories-button"
                           />
                         </Col>
                       </Row>
@@ -808,6 +901,7 @@ const StandardizationInOnbord = (props) => {
                                                 arrIndex
                                               )
                                             }
+                                            id="delete-datapoint-attribute"
                                           >
                                             <DeleteOutlineIcon />
                                           </IconButton>
@@ -836,8 +930,19 @@ const StandardizationInOnbord = (props) => {
                     </div>
                     <Row>
                       <Col style={{ textAlign: "right", margin: "20px" }}>
+                        <CustomDeletePopper
+                          DeleteItem={"Datapoint category"}
+                          anchorEl={anchorEl[index]}
+                          handleDelete={(e) => confirm(e, index)}
+                          id={id}
+                          open={
+                            anchorEl[index] !== null &&
+                            anchorEl[index] !== undefined
+                          }
+                          closePopper={() => handleClose(index)}
+                        />
                         <Button
-                          id="apply_policies"
+                          id={`delete-${index}-button-datapoint`}
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
@@ -845,15 +950,12 @@ const StandardizationInOnbord = (props) => {
                             " " +
                             styles.delete_button_policy
                           }
-                          onClick={(e) => {
-                            handleDatapointCategoryDelete(index);
-                            e.stopPropagation();
-                          }}
+                          onClick={(event) => handleDelete(event, index)}
                         >
                           Delete
                         </Button>
                         <Button
-                          id="apply_policies"
+                          id={`edit-${index}-button-datapoint`}
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
@@ -947,9 +1049,15 @@ const StandardizationInOnbord = (props) => {
                   // }
                   // helperText={organisationDetailsError.organisation_country_error}
                 >
-                  <MenuItem value={"in"}>India</MenuItem>
-                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                  <MenuItem value={"in"} id="India">
+                    India
+                  </MenuItem>
+                  <MenuItem value={"eth"} id="Ethiopia">
+                    Ethiopia
+                  </MenuItem>
+                  <MenuItem value={"kenya"} id="Kenya">
+                    Kenya
+                  </MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -974,9 +1082,15 @@ const StandardizationInOnbord = (props) => {
                   // }
                   // helperText={organisationDetailsError.organisation_country_error}
                 >
-                  <MenuItem value={"in"}>India</MenuItem>
-                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                  <MenuItem value={"in"} id="India">
+                    India
+                  </MenuItem>
+                  <MenuItem value={"eth"} id="Ethiopia">
+                    Ethiopia
+                  </MenuItem>
+                  <MenuItem value={"kenya"} id="Kenya">
+                    Kenya
+                  </MenuItem>
                 </Select>
               </FormControl>
             </div>

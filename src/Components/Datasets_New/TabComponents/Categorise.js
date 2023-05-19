@@ -6,6 +6,8 @@ import {
   MenuItem,
   Select,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ControlledAccordion from "../../Accordion/Accordion";
 import CheckBoxWithText from "./CheckBoxWithText";
@@ -14,6 +16,8 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { Country, State, City } from "country-state-city";
 const Categorise = (props) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [allCategories, setAllCategories] = useState([]);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
@@ -151,6 +155,8 @@ const Categorise = (props) => {
           data={allCategories}
           customBorder={true}
           customPadding={true}
+          addHeaderBackground={true}
+          headerBackground={"#eafbf3"}
         />
       </div>
       <Box className="d-flex mt-50">
@@ -167,12 +173,12 @@ const Categorise = (props) => {
           >
             Geography
           </Typography>
-          <Box className="d-flex justify-content-between">
+          <Box className={mobile ? "mt-50" : "d-flex justify-content-between"}>
             <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
               <InputLabel id="test-select-label">Select Country</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                id="geography-select-country"
                 value={props.geography?.country?.name}
                 renderValue={() => props.geography?.country?.name}
                 onChange={(e) =>
@@ -183,6 +189,7 @@ const Categorise = (props) => {
                 }
                 sx={{
                   textAlign: "left",
+                  color: "rgb(0, 171, 85)",
                   "&.MuiInputBase-root": {
                     height: "56px",
                   },
@@ -200,7 +207,11 @@ const Categorise = (props) => {
                 placeholder="Select Country"
               >
                 {countries?.map((item) => (
-                  <MenuItem key={item} value={item}>
+                  <MenuItem
+                    id={`geography-select-country${item?.name}`}
+                    key={item}
+                    value={item}
+                  >
                     {item.name}
                   </MenuItem>
                 ))}
@@ -210,7 +221,7 @@ const Categorise = (props) => {
               <InputLabel id="test-select-label">Select State</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                id="geography-select-state"
                 value={props.geography?.state?.name}
                 onChange={(e) =>
                   props.setGeography((prev) => ({
@@ -221,6 +232,7 @@ const Categorise = (props) => {
                 renderValue={() => props.geography?.state?.name}
                 sx={{
                   textAlign: "left",
+                  color: "rgb(0, 171, 85)",
                   "&.MuiInputBase-root": {
                     height: "56px",
                   },
@@ -238,7 +250,11 @@ const Categorise = (props) => {
                 placeholder="Select State"
               >
                 {states?.map((item) => (
-                  <MenuItem key={item} value={item}>
+                  <MenuItem
+                    id={`geography-select-state${item?.name}`}
+                    key={item}
+                    value={item}
+                  >
                     {item.name}
                   </MenuItem>
                 ))}
@@ -248,7 +264,7 @@ const Categorise = (props) => {
               <InputLabel id="test-select-label">Select City</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                id={`geography-select-city`}
                 value={props.geography?.city?.name}
                 onChange={(e) =>
                   props.setGeography((prev) => ({
@@ -259,6 +275,7 @@ const Categorise = (props) => {
                 renderValue={() => props.geography?.city?.name}
                 sx={{
                   textAlign: "left",
+                  color: "rgb(0, 171, 85)",
                   "&.MuiInputBase-root": {
                     height: "56px",
                   },
@@ -276,7 +293,11 @@ const Categorise = (props) => {
                 placeholder="Select City"
               >
                 {cities?.map((item) => (
-                  <MenuItem key={item} value={item}>
+                  <MenuItem
+                    id={`geography-select-city${item?.name}`}
+                    key={item}
+                    value={item}
+                  >
                     {item.name}
                   </MenuItem>
                 ))}

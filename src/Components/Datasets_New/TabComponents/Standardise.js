@@ -11,6 +11,8 @@ import {
   MenuItem,
   Select,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./Standardise.css";
@@ -51,6 +53,8 @@ const Standardise = ({
   getDatasetForEdit,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [data, setData] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [standardisedColum, setStandardisedColumn] = useState([]);
@@ -370,15 +374,16 @@ const Standardise = ({
         Standardise
       </Typography>
       <Box className="text-left mt-30">
-        <FormControl fullWidth sx={{ width: "368px" }}>
+        <FormControl fullWidth sx={{ width: mobile ? "100%" : "368px" }}>
           <InputLabel>File name</InputLabel>
           <Select
             labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            id="standardi-seselect-file-name"
             value={standardiseFile}
             onChange={(e) => setStandardiseFile(e.target.value)}
             sx={{
               textAlign: "left",
+              color: "rgb(0, 171, 85)",
               ".MuiOutlinedInput-notchedOutline": {
                 borderColor: "#919EAB",
               },
@@ -394,11 +399,15 @@ const Standardise = ({
           >
             {standardiseFiles &&
               standardiseFiles?.length &&
-              standardiseFiles?.map((item) => {
+              standardiseFiles?.map((item, index) => {
                 // let index = item?.file?.lastIndexOf("/");
                 // let fileName = item?.file?.slice(index + 1);
                 return (
-                  <MenuItem key={item?.id} value={item?.id}>
+                  <MenuItem
+                    id={`standardise-file-name-${index}`}
+                    key={item?.id}
+                    value={item?.id}
+                  >
                     {item?.label}
                   </MenuItem>
                 );
@@ -432,6 +441,7 @@ const Standardise = ({
                 sx={{
                   "&.MuiAccordionSummary-root": {
                     borderBottom: expanded ? "1px solid #919EAB" : "",
+                    backgroundColor: "#eafbf3",
                   },
                 }}
               >
@@ -447,31 +457,33 @@ const Standardise = ({
               </AccordionSummary>
               <AccordionDetails>
                 <Box>
-                  {keysInUploadedDataset?.map((keyName, index) => (
-                    <StandardiseRow
-                      keyName={keyName}
-                      index={index}
-                      key={index}
-                      templates={templates}
-                      setTemplates={setTemplates}
-                      template={template}
-                      setTemplate={setTemplate}
-                      datapointAttributes={datapointAttributes}
-                      setDatapointAttributes={setDatapointAttributes}
-                      datapointCategories={datapointCategories}
-                      datapointCategory={datapointCategory}
-                      setDatapointCategory={setDatapointCategory}
-                      standardiseNames={standardiseNames}
-                      setStandardiseNames={setStandardiseNames}
-                      standardiseName={standardiseName}
-                      setStandardiseName={setStandardiseName}
-                      standardisedColum={standardisedColum}
-                      setStandardisedColumn={setStandardisedColumn}
-                      maskedColumns={maskedColumns}
-                      datapointCategoryChange={datapointCategoryChange}
-                      handleMaskCheckBox={handleMaskCheckBox}
-                    />
-                  ))}
+                  <Box sx={{ overflow: "auto" }}>
+                    {keysInUploadedDataset?.map((keyName, index) => (
+                      <StandardiseRow
+                        keyName={keyName}
+                        index={index}
+                        key={index}
+                        templates={templates}
+                        setTemplates={setTemplates}
+                        template={template}
+                        setTemplate={setTemplate}
+                        datapointAttributes={datapointAttributes}
+                        setDatapointAttributes={setDatapointAttributes}
+                        datapointCategories={datapointCategories}
+                        datapointCategory={datapointCategory}
+                        setDatapointCategory={setDatapointCategory}
+                        standardiseNames={standardiseNames}
+                        setStandardiseNames={setStandardiseNames}
+                        standardiseName={standardiseName}
+                        setStandardiseName={setStandardiseName}
+                        standardisedColum={standardisedColum}
+                        setStandardisedColumn={setStandardisedColumn}
+                        maskedColumns={maskedColumns}
+                        datapointCategoryChange={datapointCategoryChange}
+                        handleMaskCheckBox={handleMaskCheckBox}
+                      />
+                    ))}
+                  </Box>
                   <Box className="text-right mt-30 mb-26">
                     <Button
                       sx={{
@@ -490,6 +502,7 @@ const Standardise = ({
                       }}
                       variant="contained"
                       onClick={() => handleStandaiseFile()}
+                      id={`standardise-apply-btn`}
                     >
                       Apply
                     </Button>

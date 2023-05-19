@@ -95,7 +95,10 @@ const UploadFile = ({
   const handleFileChange = (file) => {
     setFile(file);
     setKey(key + 1);
-    setFiles((prev) => [...prev, file]);
+    let tempFiles = [...files];
+    tempFiles.push(...file);
+    setFiles(tempFiles);
+    // setFiles((prev) => [...prev, file]);
   };
   const handleDelete = (index, id, filename, type) => {
     let source = "";
@@ -817,6 +820,7 @@ const UploadFile = ({
               marginLeft: "10px",
               cursor: "pointer",
             }}
+            id="add-dataset-file-upload-id"
           >
             File upload
           </Typography>
@@ -846,8 +850,9 @@ const UploadFile = ({
               marginLeft: "10px",
               marginTop: "31px",
             }}
+            id="add-dataset-upload-type-mysql"
           >
-            Mysql
+            MySQL
           </Typography>
           <Typography
             onClick={() => setSelectedUploadType("postgres")}
@@ -862,8 +867,9 @@ const UploadFile = ({
               marginLeft: "10px",
               marginTop: "22px",
             }}
+            id="add-dataset-upload-type-postgres"
           >
-            Postgres
+            PostgreSQL
           </Typography>
           {/* <Typography
                         onClick={() => setSelectedUploadType('sqlite')}
@@ -891,6 +897,7 @@ const UploadFile = ({
               marginLeft: "10px",
               marginTop: "22px",
             }}
+            id="add-dataset-upload-type-rest-api"
           >
             Rest API
           </Typography>
@@ -901,8 +908,10 @@ const UploadFile = ({
             <>
               <div className="cursor-pointer">
                 <FileUploader
+                  id="add-dataset-upload-file-id"
                   key={key}
                   handleChange={handleFileChange}
+                  multiple={true}
                   // onClick={(e) => (e.target.value = null)}
                   children={
                     <img
@@ -916,6 +925,7 @@ const UploadFile = ({
                 {files?.map((item, index) => (
                   <>
                     <File
+                      id={`add-dataset-uploaded-file${index}`}
                       index={index}
                       name={item.name}
                       size={item.size}
@@ -945,6 +955,7 @@ const UploadFile = ({
                       }}
                       variant="outlined"
                       onClick={() => setFiles([])}
+                      id="add-dataset-clear-all-file"
                     >
                       Clear
                     </Button>
@@ -957,16 +968,18 @@ const UploadFile = ({
                         height: "48px",
                         border: "1px solid rgba(0, 171, 85, 0.48)",
                         borderRadius: "8px",
-                        color: "#00AB55",
+                        color: "#ffffff",
                         textTransform: "none",
                         marginLeft: "60px",
+                        background: "#00AB55",
                         "&:hover": {
-                          background: "none",
-                          border: "1px solid rgba(0, 171, 85, 0.48)",
+                          background: "#00AB55",
+                          color: "#ffffff",
                         },
                       }}
-                      variant="outlined"
+                      variant="contained"
                       onClick={() => handleUpload()}
+                      id="add-dataset-upload-file-btn"
                     >
                       Upload
                     </Button>
@@ -1144,7 +1157,7 @@ const UploadFile = ({
               marginBottom: "20px",
             }}
           >
-            List of files upload
+            List of files
           </Typography>
           <Box>
             <ControlledAccordion

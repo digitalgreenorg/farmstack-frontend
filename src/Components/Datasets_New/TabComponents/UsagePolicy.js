@@ -163,7 +163,7 @@ const UsagePolicy = (props) => {
           <InputLabel>File name</InputLabel>
           <Select
             labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            id="usege-policy-select-file"
             value={file}
             onChange={(e) => setFile(e.target.value)}
             sx={{
@@ -217,6 +217,7 @@ const UsagePolicy = (props) => {
               value={"publicChecked"}
               control={
                 <Radio
+          id="usege-policy-pulic-dataset-checkbox"
                   onClick={(e) => handleClick(e, "public")}
                   checked={file && selectedValue === "public"}
                   disabled={file ? false : true}
@@ -280,6 +281,8 @@ const UsagePolicy = (props) => {
               value={"isRegisteredCheched"}
               control={
                 <Radio
+          id="usege-policy-register-user-dataset-checkbox"
+
                   onClick={(e) => handleClick(e, "registered")}
                   value="registered"
                   checked={file && selectedValue === "registered"}
@@ -428,6 +431,7 @@ const UsagePolicy = (props) => {
             }}
             disabled={file ? false : true}
             onClick={() => submitPolicy()}
+            id={`usege-policy-apply-btn`}
           >
             Apply
           </Button>

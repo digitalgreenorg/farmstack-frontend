@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Typography, useMediaQuery, useTheme } from "@mui/material";
 import style from "./Connector.module.css";
 import ContainedButton from "../Button/ContainedButton";
 import { CSSTransition } from "react-transition-group";
@@ -11,10 +11,12 @@ const ConnectorTitleView = ({
   addConnector,
   isConnectors,
 }) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div className="d-flex justify-content-between">
       <div className={style.boldTitle}>{title}</div>
-      {isConnectors ? (
+      {isConnectors && !mobile ? (
         <div className="d-flex align-items-center mt-50">
           <div
             className="d-flex mr-30 cursor-pointer"

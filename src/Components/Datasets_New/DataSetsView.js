@@ -29,15 +29,18 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  dateTimeFormat,
+  GetErrorHandlingRoute,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Popconfirm } from "antd";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 
 const DataSetsView = (props) => {
-  const { userType } = props;
+  const { userType, breadcrumbFromRoute } = props;
   const history = useHistory();
   const { id } = useParams();
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -101,6 +104,18 @@ const DataSetsView = (props) => {
   const [orgAddress, setOrgAddress] = useState();
   const [userDetails, setUserDetails] = useState();
 
+  //Custom popper
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+
+  const handleDeletePopper = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+  const closePopper = () => {
+    setOpen(false);
+  };
+
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
     let url = "";
@@ -128,13 +143,22 @@ const DataSetsView = (props) => {
           history.push(`/participant/new_datasets`);
         }
       })
-      .catch((err) => {
+      .catch(async (e) => {
         callLoader(false);
-        callToast(
-          "Something went wrong while deleting Dataset!",
-          "error",
-          true
-        );
+
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while deleting Dataset!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -374,10 +398,23 @@ const DataSetsView = (props) => {
         });
         setCategories(tempCategories);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        callToast("Something went wrong while loading dataset!", "error", true);
-        console.log("error while loading dataset", e);
+        // callToast("Something went wrong while loading dataset!", "error", true);
+        // console.log("error while loading dataset", e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while loading dataset",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   useEffect(() => {
@@ -392,7 +429,7 @@ const DataSetsView = (props) => {
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
-            Datasets
+            {breadcrumbFromRoute ?? "Datasets"}
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -404,68 +441,57 @@ const DataSetsView = (props) => {
               : "Other Organisation"}
           </span>
         </div>
-        <Box className="d-flex justify-content-between align-items-baseline">
+        <Box
+          className={
+            mobile ? "" : "d-flex justify-content-between align-items-baseline"
+          }
+        >
           <div className="bold_title mt-50">{"Dataset Details"}</div>
           {history.location?.state?.tab === "my_organisation" &&
           userType !== "guest" ? (
-            <Box>
-              <Popconfirm
-                title={
-                  <span style={{ marginTop: "3px !important" }}>
-                    Delete the dataset
-                  </span>
-                }
-                description={
-                  <span>
-                    Are you sure to delete this dataset{" "}
-                    <strong>{dataSetName}</strong> ?
-                  </span>
-                }
-                onConfirm={handleDelete}
-                icon={
-                  <ExclamationCircleFilled
-                    style={{ color: "red", marginTop: "-3px" }}
-                  />
-                }
-                okText="Yes"
-                cancelText="No"
-                okType="danger"
-                placement="bottom"
-              >
-                <Button
-                  sx={{
-                    color: "#FF5630",
-                    fontFamily: "Public Sans",
-                    fontWeight: "700",
-                    fontSize: "15px",
+            <Box className={mobile ? "d-flex" : ""}>
+              <CustomDeletePopper
+                DeleteItem={dataSetName}
+                anchorEl={anchorEl}
+                handleDelete={handleDelete}
+                id={id}
+                open={open}
+                closePopper={closePopper}
+              />
+              <Button
+                sx={{
+                  color: "#FF5630",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: mobile ? "11px" : "15px",
+                  border: "1px solid rgba(255, 86, 48, 0.48)",
+                  width: "172px",
+                  height: "48px",
+                  marginRight: "28px",
+                  textTransform: "none",
+                  "&:hover": {
+                    background: "none",
                     border: "1px solid rgba(255, 86, 48, 0.48)",
-                    width: "172px",
-                    height: "48px",
-                    marginRight: "28px",
-                    textTransform: "none",
-                    "&:hover": {
-                      background: "none",
-                      border: "1px solid rgba(255, 86, 48, 0.48)",
-                    },
+                  },
+                }}
+                variant="outlined"
+                onClick={handleDeletePopper}
+              >
+                Delete dataset{" "}
+                <DeleteOutlineIcon
+                  sx={{
+                    fill: "#FF5630",
+                    fontSize: "22px",
+                    marginLeft: "4px",
                   }}
-                  variant="outlined"
-                >
-                  Delete dataset{" "}
-                  <DeleteOutlineIcon
-                    sx={{
-                      fill: "#FF5630",
-                      fontSize: "22px",
-                      marginLeft: "4px",
-                    }}
-                  />
-                </Button>
-              </Popconfirm>
+                />
+              </Button>
               <Button
                 sx={{
                   color: "#00AB55",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: "15px",
+                  fontSize: mobile ? "11px" : "15px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
                   width: "172px",
                   height: "48px",
@@ -518,17 +544,23 @@ const DataSetsView = (props) => {
               Data Capture Interval
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
-              {fromDate + " - " + toDate}
+              {fromDate !== "NA" && toDate !== "NA"
+                ? dateTimeFormat(fromDate) + " - " + dateTimeFormat(toDate)
+                : "Not Available"}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-25">
               Geography
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
-              {geography?.country?.name
-                ? geography?.country?.name + ", "
-                : "NA, "}
-              {geography?.state?.name ? geography?.state?.name + ", " : "NA, "}
-              {geography?.city?.name ? geography?.city?.name : "NA"}
+              {/* IF GEOGRAPHY COUNTRY SAATE AND CITY ALL ARE "NA" THEN SHOW "Not Available" */}
+              {!geography?.country?.name &&
+              !geography?.state?.name &&
+              !geography?.city?.name
+                ? "Not Available"
+                : ""}
+              {geography?.country?.name ? geography?.country?.name + ", " : ""}
+              {geography?.state?.name ? geography?.state?.name + ", " : ""}
+              {geography?.city?.name ? geography?.city?.name : ""}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-25">
               Constantly updating{" "}

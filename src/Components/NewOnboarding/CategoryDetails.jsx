@@ -110,12 +110,29 @@ const CategoryDetails = (props) => {
         setCategoryNameList([...categoryNames]);
         setAllCategories([...categories]);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        GetErrorHandlingRoute(e).then((errorObject) => {
-          console.log(errorObject);
-          callToast(errorObject?.message, "error", true);
-        });
+        // GetErrorHandlingRoute(e).then((errorObject) => {
+        //   console.log(errorObject);
+        //   callToast(
+        //     errorObject?.message,
+        //     errorObject?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // });
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -167,12 +184,29 @@ const CategoryDetails = (props) => {
           callToast("Category settings updated successfully", "success", true);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        GetErrorHandlingRoute(e).then((errorObject) => {
-          console.log(errorObject);
-          callToast(errorObject?.message, "error", true);
-        });
+        // GetErrorHandlingRoute(e).then((errorObject) => {
+        //   console.log(errorObject);
+        //   callToast(
+        //     errorObject?.message,
+        //     errorObject?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // });
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   const [enableSave, setEnableSave] = useState(false);
@@ -303,6 +337,7 @@ const CategoryDetails = (props) => {
           </Col>
           <Col lg={6} sm={12} style={{ textAlign: "left", display: "flex" }}>
             <img
+              id="add-sub-category-button"
               disabled={!subCatError ? false : true}
               style={{ alignSelf: "center", cursor: "pointer" }}
               src={add_icon}
@@ -324,7 +359,7 @@ const CategoryDetails = (props) => {
                     placeholder="Sub-category"
                     label="Sub-category"
                     variant="outlined"
-                    id="each_subcategory"
+                    id={`${index}each_subcategory`}
                     name="each_subcategory"
                     value={each_sub_category}
                     onChange={(e) => handleEditSubcategory(e, index)}
@@ -350,6 +385,7 @@ const CategoryDetails = (props) => {
                               handleDeleteSubCategory(index, each_sub_category)
                             }
                             style={{ color: "#212b36", cursor: "pointer" }}
+                            id={`delete${index}-sub-category`}
                           />
                         </InputAdornment>
                       ),
@@ -384,6 +420,7 @@ const CategoryDetails = (props) => {
           </Col>
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button
+              id="addnew-category-button"
               onClick={() => setIsFormVisible(true)}
               className={global_style.primary_button + " " + styles.next_button}
               style={{ width: "auto" }}
@@ -406,6 +443,7 @@ const CategoryDetails = (props) => {
                   texts={`Drop files here or click browse thorough your machine
                 Supports: XLX, CSV files`}
                   maxSize={2}
+                  id="upload-category-file"
                 />
               </Col>
             )}
@@ -443,6 +481,7 @@ const CategoryDetails = (props) => {
                           onClick={() => handleDeleteCategory()}
                           style={{ cursor: "pointer" }}
                           fontSize="small"
+                          id="cancel-category-file"
                         />
                       </div>
                     )}
@@ -518,6 +557,7 @@ const CategoryDetails = (props) => {
           </div>
           <div className={styles.button_grp}>
             <Button
+              id="add-category-button"
               disabled={categoryName ? false : true}
               onClick={() => createCategory()}
               className={global_style.primary_button + " " + styles.next_button}
@@ -570,6 +610,7 @@ const CategoryDetails = (props) => {
               </div>
               <div className={styles.button_grp}>
                 <Button
+                  id="add-category-button"
                   disabled={categoryName ? false : true}
                   onClick={() => createCategory()}
                   className={
@@ -608,17 +649,20 @@ const CategoryDetails = (props) => {
                 >
                   <TextField
                     className="edit_head_name_accordion"
-                    style={{ height: "8px", width: "100%" }}
+                    style={{ height: "30px", width: "100%" }}
                     value={category.category_name}
                     onChange={(e) => handleChangeHeadName(e, index)}
                     onClick={(e) => e.stopPropagation()}
-                    sx={{
-                      "&.MuiTextField-root": {
-                        display: "flex",
-                        flexDirection: "inherit",
-                        width: "500px",
-                      },
-                    }}
+                    id={`edit-${index}-head-accordian-name`}
+                    // sx={{
+                    //   "&.MuiTextField-root": {
+                    //     display: "flex",
+                    //     flexDirection: "inherit",
+                    //     width: "500px",
+                    //   },
+                    // }}
+                    variant="outlined"
+                    label="Category name"
                     // InputProps={{
                     //   endAdornment: (
                     //     <InputAdornment position="end">
@@ -658,6 +702,7 @@ const CategoryDetails = (props) => {
           <Button
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.secondary_button}
+            id="finishlater-button-category"
           >
             {" "}
             Finish later
@@ -671,6 +716,7 @@ const CategoryDetails = (props) => {
             }
             onClick={() => handleSubmitCategories()}
             className={global_style.primary_button + " " + styles.next_button}
+            id="next-button-category"
           >
             {" "}
             Next
@@ -681,6 +727,7 @@ const CategoryDetails = (props) => {
           <Button
             onClick={() => history.push("/datahub/new_datasets")}
             className={global_style.secondary_button}
+            id="cancel-button-category"
           >
             {" "}
             Cancel
@@ -694,6 +741,7 @@ const CategoryDetails = (props) => {
             }
             onClick={() => handleSubmitCategories()}
             className={global_style.primary_button + " " + styles.next_button}
+            id="submit-button-category"
           >
             {" "}
             Submit

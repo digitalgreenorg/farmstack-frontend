@@ -1,7 +1,6 @@
 .title {
   font-family: "Montserrat", sans-serif;
   font-weight: 300;
-  font-size: 64px;
   line-height: 78px;
   text-align: center;
   color: #585d60;
@@ -10,13 +9,11 @@
 .description {
   font-family: "Montserrat", sans-serif;
   font-weight: 400 !important;
-  font-size: 22px;
   line-height: 31px;
   text-align: center;
   font-style: italic !important;
   color: #565c63 !important;
   margin-top: 32px;
-  width: 956px;
 }
 
 .titleContainer {
@@ -28,11 +25,11 @@
 }
 
 .policyDetailsMainContainer {
-  width: 800px;
-  border: 1px solid #00ab55;
-  border-radius: 30px;
+  width: 100%;
+  /* border: 1px solid #00ab55; */
+  /* border-radius: 0 0 30px 30px; */
   text-align: left;
-  padding: 50px !important;
+  padding: 50px 20px !important;
 }
 
 .policyDetailsDescription {

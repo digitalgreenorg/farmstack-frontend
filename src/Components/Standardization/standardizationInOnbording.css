@@ -21,7 +21,7 @@
   /* height: 120px !important; */
   min-height: 120px !important;
   max-height: 120px !important;
-  overflow: scroll !important;
+  /* overflow: scroll !important; */
 }
 .data-point-input-box-container {
   margin: auto !important;

@@ -245,6 +245,7 @@ const DatasetRequestTable = () => {
             style={{ background: "#00ab55" }}
             checked={showRequestSent}
             onChange={setShowRequestSent}
+            id="dataset-requests-receive-and-sent-toggle"
           />
           <Typography className={global_styles.bold600}>Sent</Typography>
         </Col>
@@ -524,9 +525,9 @@ const DatasetRequestTable = () => {
                                     }}
                                     renderInput={(params) => (
                                       <TextField
+                                        id="dataset-request-recevie-data-field"
                                         disabled
                                         {...params}
-                                        id="filled-basic"
                                         variant="outlined"
                                         sx={{
                                           width: "300px",
@@ -575,12 +576,14 @@ const DatasetRequestTable = () => {
                                   <Button
                                     className={global_styles.secondary_button}
                                     onClick={() => handleCancel()}
+                                    id="dataset-request-recevied-cancel-btn"
                                   >
                                     Cancel
                                   </Button>
                                   <Button
                                     className={global_styles.primary_button}
                                     onClick={() => handleOk("approved", row.id)}
+                                    id="dataset-request-recevied-approve-btn"
                                   >
                                     Approve
                                   </Button>
@@ -609,6 +612,7 @@ const DatasetRequestTable = () => {
                                 width: "100px",
                               }}
                               onClick={() => showPopconfirm(index)}
+                              id="dataset-request-recevied-approve-btn2"
                             >
                               Approve
                             </Button>{" "}
@@ -626,11 +630,15 @@ const DatasetRequestTable = () => {
                             fontFamily: "Montserrat",
                           }}
                           onClick={() => SubmitHandler("rejected", row.id)}
+                          id="dataset-request-recevied-recall-reject-btn"
                         >
                           {row.approval_status == "approved"
                             ? "Recall"
                             : "Reject"}
                         </Button>
+                      )}
+                      {row.approval_status === "rejected" && (
+                        <div>No Action available</div>
                       )}
                     </TableCell>
                     <TableCell>
@@ -642,6 +650,7 @@ const DatasetRequestTable = () => {
                           fontFamily: "Montserrat",
                           textAlign: "center",
                         }}
+                        id="dataset-request-detail"
                       >
                         Detail
                       </span>
@@ -757,6 +766,7 @@ const DatasetRequestTable = () => {
                           fontFamily: "Montserrat",
                           textAlign: "center",
                         }}
+                        id="dataset-request-detail2"
                       >
                         Detail
                       </span>

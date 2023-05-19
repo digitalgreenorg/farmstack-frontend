@@ -58,7 +58,7 @@ import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/Participa
 import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
-import { Divider } from "@mui/material";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import FooterNew from "../Components/Footer/Footer_New";
 import CostewardDetailsNew from "../Views/ParticipantCoSteward/CostewardDetailsNew";
 import AddParticipantNew from "../Views/Participants/AddParticipantNew";
@@ -78,6 +78,8 @@ function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
   // }, []);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [render, reRender] = useState(0);
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   const history = useHistory();
@@ -122,7 +124,7 @@ function Datahub(props) {
       .catch(async (e) => {
         console.log("error to verify local data", e);
         let error = await GetErrorHandlingRoute(e);
-        if (error.toast) {
+        if (error?.toast) {
           callToast(
             error?.message ?? "user login details are corrupted",
             error.status == 200 ? "success" : "error",
@@ -146,7 +148,14 @@ function Datahub(props) {
         <div className="center_keeping_conatiner">
           {/* <Navbar /> */}
           <NavbarNew loginType={"admin"} />
-          <div className="minHeight67vhDatahubPage">
+          <div
+            className={
+              mobile
+                ? "minHeight67vhDatahubPage" + " " + "mt-70"
+                : "minHeight67vhDatahubPage"
+            }
+          >
+            <br/>
             <Switch>
               <Route
                 exact

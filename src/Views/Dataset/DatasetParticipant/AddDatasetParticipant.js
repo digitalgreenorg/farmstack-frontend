@@ -494,7 +494,7 @@ export default function AddDataset(props) {
                 Geography &&
                 !CheckEndDate &&
                 file &&
-                ( Switchchecked || fromdate) &&  
+                (Switchchecked || fromdate) &&
                 file.size < 2097152 &&
                 (Crop_data == true ||
                   Practice_data == true ||

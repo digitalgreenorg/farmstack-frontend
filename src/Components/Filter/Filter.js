@@ -91,7 +91,7 @@ const Filter = ({
                         sx={type === "categories" ? contentDetailsStyle : {}}
                       >
                         {acc?.details?.map((detail, index) => (
-                          <Box key={index}>{detail}</Box>
+                          <Box id={`${acc?.title[0]}-${detail}-${index}`} key={index}>{detail}</Box>
                         ))}
                       </Box>
                     </Box>
@@ -114,7 +114,7 @@ const Filter = ({
                 )}
                 <Select
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id="dataset-filter-by-country-id"
                   value={geography?.country?.name}
                   renderValue={() => geographies[0]}
                   onChange={(e) => {
@@ -158,8 +158,8 @@ const Filter = ({
                   label="Select Country"
                   placeholder="Select Country"
                 >
-                  {countries?.map((item) => (
-                    <MenuItem key={item} value={item}>
+                  {countries?.map((item,index) => (
+                    <MenuItem id={`dataset-filter-country-id${index}`} key={item} value={item}>
                       {item.name}
                     </MenuItem>
                   ))}
@@ -175,7 +175,7 @@ const Filter = ({
                 <Select
                   renderValue={() => geographies[1]}
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id="select-country-in-geography-id"
                   value={geography?.state?.name}
                   onChange={(e) => {
                     setUpdate((prev) => prev + 1);
@@ -217,8 +217,8 @@ const Filter = ({
                   label="Select State"
                   placeholder="Select State"
                 >
-                  {states?.map((item) => (
-                    <MenuItem key={item} value={item}>
+                  {states?.map((item,index) => (
+                    <MenuItem id={`select-country-in-geography-id${index}`} key={item} value={item}>
                       {item.name}
                     </MenuItem>
                   ))}
@@ -232,7 +232,7 @@ const Filter = ({
                 <InputLabel id="test-select-label">Select City</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id="select-state-in-geography-id"
                   renderValue={() => geographies[2]}
                   value={geography?.city?.name}
                   onChange={(e) => {
@@ -274,8 +274,8 @@ const Filter = ({
                   label="Select City"
                   placeholder="Select City"
                 >
-                  {cities?.map((item) => (
-                    <MenuItem key={item} value={item}>
+                  {cities?.map((item,index) => (
+                    <MenuItem id={`select-state-in-geography-id${index}`} key={item} value={item}>
                       {item.name}
                     </MenuItem>
                   ))}
@@ -307,6 +307,7 @@ const Filter = ({
               }}
               variant="outlined"
               onClick={() => setShowFilter(false)}
+              id="dataset-close-filter-id"
             >
               Close
             </Button>

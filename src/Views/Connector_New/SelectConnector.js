@@ -115,7 +115,7 @@ const SelectConnector = ({
             <InputLabel>Select organisation</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id={"connectors-select-orgnisation-id"}
               value={template?.org_id}
               onChange={(e) => {
                 setOrganisationName(e.target.value);
@@ -125,9 +125,9 @@ const SelectConnector = ({
               label="Select Organisation"
               placeholder="Select Organisation"
             >
-              {organisations?.map((item) => {
+              {organisations?.map((item,index) => {
                 return (
-                  <MenuItem key={item?.org_id} value={item?.org_id}>
+                  <MenuItem id={"connectors-select-orgnisation-id-option"+index} key={item?.org_id} value={item?.org_id}>
                     {item?.name}
                   </MenuItem>
                 );
@@ -138,7 +138,7 @@ const SelectConnector = ({
             <InputLabel>Select dataset</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id={"connectors-select-dataset-id"}
               value={template?.dataset_id}
               onChange={(e) => {
                 setDataset(e.target.value);
@@ -152,7 +152,7 @@ const SelectConnector = ({
             >
               {template?.dataset_list?.map((item, index) => {
                 return (
-                  <MenuItem key={item?.id} value={item?.id}>
+                  <MenuItem id={"connectors-select-dataset-id-option"+index} key={item?.id} value={item?.id} >
                     {item?.name}
                   </MenuItem>
                 );
@@ -163,7 +163,7 @@ const SelectConnector = ({
             <InputLabel>Select file</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id={"connectors-select-file-id"}
               value={template?.file_name}
               onChange={(e) => {
                 handleChangeSelector(e.target.value, "file");
@@ -176,7 +176,7 @@ const SelectConnector = ({
             >
               {template?.file_list?.map((item, index) => {
                 return (
-                  <MenuItem key={index} value={item?.standardised_file ?? ""}>
+                  <MenuItem id={"connectors-select-file-id-option"+index} key={index} value={item?.standardised_file ?? ""} >
                     {item?.file_name}
                   </MenuItem>
                 );

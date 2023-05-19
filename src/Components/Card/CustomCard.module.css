@@ -3,8 +3,8 @@
   cursor: pointer;
   border: 1px solid #00ab55 !important;
 }
+
 .card {
-  width: 350px !important;
   max-width: 450px;
   height: 314px;
   border: 1px solid #f2f3f5 !important;
@@ -12,9 +12,11 @@
   margin: 15px;
   height: 314px;
 }
+
 .img_container {
   margin: 40px 53px 30px 40px;
 }
+
 .content_title {
   /* font-family: "Montserrat"; */
   font-weight: 700;
@@ -22,6 +24,20 @@
   line-height: 24px;
   color: #00ab55;
   width: 287px;
+  text-align: start;
+  margin: 0px 41px 30px 40px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content_title_sm {
+  /* font-family: "Montserrat"; */
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #00ab55;
+  max-width: 287px;
   text-align: start;
   margin: 0px 41px 30px 40px !important;
   white-space: nowrap;
@@ -45,6 +61,16 @@
   text-align: center;
 }
 
+.content_text1_sm {
+  /* font-family: "Montserrat"; */
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: start;
+  color: #000000;
+  text-align: center;
+}
+
 .content_text2 {
   font-family: "Montserrat";
   font-weight: 600;
@@ -59,14 +85,37 @@
   text-overflow: ellipsis;
   width: 150px;
 }
+
+.content_text2_sm {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+  text-align: start;
+  color: #000000;
+  margin-top: 2px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 150px;
+}
+
 .displayFlex {
   display: flex;
   justify-content: space-around;
 }
+
 .img {
   width: 251px;
   height: 76px;
 }
+
+.imgSm {
+  width: 230px;
+  height: 76px;
+}
+
 .firstLetterOnLogo {
   text-align: center;
   font-size: 60px;

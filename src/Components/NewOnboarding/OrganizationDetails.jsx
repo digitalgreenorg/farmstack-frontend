@@ -297,7 +297,11 @@ const OrganizationDetails = (props) => {
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, "error", true);
+                  callToast(
+                    error?.message,
+                    error?.status === 200 ? "success" : "error",
+                    true
+                  );
                   console.log(e, error);
                 }
                 break;
@@ -305,10 +309,27 @@ const OrganizationDetails = (props) => {
           }
           setOrganisationDetailsError(errorObj);
         } else {
+          // let error = await GetErrorHandlingRoute(e);
+          // if (error) {
+          //   callToast(
+          //     error?.message,
+          //     error?.status === 200 ? "success" : "error",
+          //     true
+          //   );
+          //   console.log(e, error);
+          // }
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
-            callToast(error?.message, "error", true);
-            console.log(e, error);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
@@ -352,10 +373,27 @@ const OrganizationDetails = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log(e, error);
+        // if (error) {
+        //   callToast(
+        //     error?.message,
+        //     error?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // }
         let error = await GetErrorHandlingRoute(e);
-        console.log(e, error);
-        if (error) {
-          callToast(error?.message, "error", true);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -371,7 +409,7 @@ const OrganizationDetails = (props) => {
       <div className={styles.main_box}>
         <div className={styles.main_label}>
           {props.isOrgSetting
-            ? "Organisation setting"
+            ? "Organisation settings"
             : " Organisation Details"}
         </div>
 
@@ -589,6 +627,7 @@ const OrganizationDetails = (props) => {
                 maxSize={2}
                 isMultiple={false}
                 handleChange={handleUpload}
+                id="org-upload-file"
                 // setSizeError={() =>
                 //   setOrganisationDetailsError({
                 //     ...organisationDetailsError,
@@ -622,6 +661,7 @@ const OrganizationDetails = (props) => {
                     }}
                     style={{ cursor: "pointer" }}
                     fontSize="small"
+                    id="cancel-uploaded-file"
                   />
                 </div>
               )}
@@ -643,7 +683,7 @@ const OrganizationDetails = (props) => {
           <Row>
             <Col style={{ textAlign: "right", margin: "20px" }}>
               <Button
-                id="cancelbutton_account"
+                id="cancelbutton_org"
                 variant="outlined"
                 className={global_style.secondary_button}
                 onClick={() =>
@@ -655,7 +695,7 @@ const OrganizationDetails = (props) => {
                 Cancel
               </Button>
               <Button
-                id="submitbutton_account"
+                id="submitbutton_org"
                 variant="outlined"
                 className={
                   global_style.primary_button + " " + styles.next_button
@@ -710,6 +750,7 @@ const OrganizationDetails = (props) => {
               }
               onClick={(e) => handleSubmitOrganizationDetails(e)}
               className={global_style.primary_button + " " + styles.next_button}
+              id="nextbutton_org_onboard"
             >
               {" "}
               {isLoggedInUserAdmin() ? "Next" : "Finish"}

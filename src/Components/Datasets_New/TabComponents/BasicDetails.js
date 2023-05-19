@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Checkbox, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CheckBoxWithText from "./CheckBoxWithText";
@@ -30,7 +37,10 @@ const BasicDetails = ({
 }) => {
   const limitChar = 100;
   const limitCharDesc = 512;
-
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
   const handleDatasetName = (e) => {
     seteErrorDataSetName("");
     if (e.target.value.toString().length <= limitChar) {
@@ -82,18 +92,6 @@ const BasicDetails = ({
 
   return (
     <div className="mt-20">
-      <Typography
-        sx={{
-          fontFamily: "Montserrat !important",
-          fontWeight: "600",
-          fontSize: "32px",
-          lineHeight: "40px",
-          color: "#000000",
-          textAlign: "left",
-        }}
-      >
-        {datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
-      </Typography>
       <TextField
         fullWidth
         error={errorDataSetName ? true : false}
@@ -133,8 +131,10 @@ const BasicDetails = ({
         required
         onChange={(e) => handleDatasetName(e)}
         disabled={datasetIdForEdit ? true : false}
+        id="add-dataset-name"
       />
       <TextField
+        id="add-dataset-description"
         fullWidth
         multiline
         minRows={4}
@@ -188,7 +188,7 @@ const BasicDetails = ({
       >
         Data capture interval
       </Typography>
-      <Box sx={{ display: "flex", marginTop: "20px" }}>
+      <Box sx={{ display: mobile ? "block" : "flex", marginTop: "20px" }}>
         <div>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
@@ -213,10 +213,16 @@ const BasicDetails = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  id="filled-basic"
+                  id="add-dataset-capture-interval-from-date"
                   variant="outlined"
                   sx={{
-                    width: "468px",
+                    width: mobile
+                      ? "100%"
+                      : tablet
+                      ? "340px"
+                      : miniLaptop
+                      ? "300px"
+                      : "468px",
                     svg: { color: "#00AB55" },
                     "& .MuiInputBase-input": {
                       height: "36px",
@@ -257,7 +263,12 @@ const BasicDetails = ({
           </LocalizationProvider>
         </div>
 
-        <div style={{ marginLeft: "24px" }}>
+        <div
+          style={{
+            marginLeft: mobile ? "0px" : "24px",
+            marginTop: mobile ? "20px" : "",
+          }}
+        >
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               inputFormat="dd/MM/yyyy"
@@ -280,11 +291,17 @@ const BasicDetails = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  id="filled-basic"
+                  id="add-dataset-capture-interval-to-date"
                   variant="outlined"
                   required={isUpdating ? false : true}
                   sx={{
-                    width: "468px",
+                    width: mobile
+                      ? "100%"
+                      : tablet
+                      ? "340px"
+                      : miniLaptop
+                      ? "300px"
+                      : "468px",
                     svg: { color: "#00AB55" },
                     "& .MuiInputBase-input": {
                       height: "36px",
@@ -325,6 +342,7 @@ const BasicDetails = ({
         </div>
       </Box>
       <CheckBoxWithText
+        id="add-dataset-coustanly-updating"
         text={"Constantly updating"}
         checked={isUpdating}
         handleCheckBox={handleCheckBox}

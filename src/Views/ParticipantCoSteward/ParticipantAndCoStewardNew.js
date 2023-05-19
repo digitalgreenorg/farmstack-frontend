@@ -24,13 +24,19 @@ import {
   isLoggedInUserCoSteward,
 } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useMediaQuery, useTheme } from "@mui/material";
 const ParticipantsAndCoStewardNew = () => {
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState(
+    parseInt(localStorage.getItem("participantAndCostewardTabValue")) || 0
+  );
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [viewType, setViewType] = useState("grid");
@@ -96,12 +102,27 @@ const ParticipantsAndCoStewardNew = () => {
         if (response?.data?.results)
           setCoStewardOrParticipantsList(response.data.results);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error?.message,
+        //   error?.status === 200 ? "success" : "error",
+        //   true);
+        // console.log(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
         console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -114,26 +135,39 @@ const ParticipantsAndCoStewardNew = () => {
           setLoadMoreButton(false);
         } else {
           setLoadMoreButton(true);
-          if (response?.data?.next) setLoadMoreUrl(response.data.next);
+          if (response?.data?.next) {
+            setLoadMoreUrl(response.data.next);
+          }
         }
         let datalist = coStewardOrParticipantsList;
-        if (response?.data?.next) {
+        if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
           setCoStewardOrParticipantsList(finalDataList);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
         console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
   useEffect(() => {
     setCoStewardOrParticipantsList([]);
     getCoStewardOrParticipantsOnLoad();
+
+    localStorage.setItem("participantAndCostewardTabValue", tabValue);
   }, [tabValue]);
 
   useEffect(() => {
@@ -142,6 +176,8 @@ const ParticipantsAndCoStewardNew = () => {
       // console.log();
     }
     goToTop(0);
+    // remove participantAndCostewardTabValue from local on page load
+    localStorage.removeItem("participantAndCostewardTabValue");
   }, []);
 
   console.log("is login user", isLoggedInUserAdmin());
@@ -162,7 +198,12 @@ const ParticipantsAndCoStewardNew = () => {
   ];
 
   return (
-    <Container style={{ marginLeft: "144px", marginRight: "144px" }}>
+    <div
+      style={{
+        marginLeft: mobile || tablet ? "30px" : "144px",
+        marginRight: mobile || tablet ? "30px" : "144px",
+      }}
+    >
       <Row>
         <Col>
           <div className="text-left mt-50">
@@ -178,7 +219,9 @@ const ParticipantsAndCoStewardNew = () => {
             </span>
             <span className="add_light_text ml-16 fw600">
               {tabValue == 0
-                ? "Co-Steward"
+                ? isLoggedInUserCoSteward()
+                  ? "Participant"
+                  : "Co-Steward"
                 : tabValue == 1
                 ? "Participant"
                 : "New Participants requests"}
@@ -318,7 +361,7 @@ const ParticipantsAndCoStewardNew = () => {
             ))}
         </>
       )}
-    </Container>
+    </div>
   );
 };
 
