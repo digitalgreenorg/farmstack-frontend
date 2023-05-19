@@ -80,7 +80,7 @@ export default function ControlledAccordions(props) {
               <EditIcon
                 fontSize="small"
                 onClick={(e) => handleEditHeading(true, e, index)}
-                id="edit-icon"
+                id={`${index}edit-icon`}
               />
             ) : (
               ""

@@ -359,7 +359,7 @@ const CategoryDetails = (props) => {
                     placeholder="Sub-category"
                     label="Sub-category"
                     variant="outlined"
-                    id="each_subcategory"
+                    id={`${index}each_subcategory`}
                     name="each_subcategory"
                     value={each_sub_category}
                     onChange={(e) => handleEditSubcategory(e, index)}
@@ -385,7 +385,7 @@ const CategoryDetails = (props) => {
                               handleDeleteSubCategory(index, each_sub_category)
                             }
                             style={{ color: "#212b36", cursor: "pointer" }}
-                            id="delete-sub-category"
+                            id={`delete${index}-sub-category`}
                           />
                         </InputAdornment>
                       ),
