@@ -732,7 +732,7 @@ const StandardizationInOnbord = (props) => {
                     {editCategoryTitle[index] ? (
                       <IconButton>
                         <Button
-                          id="update-button-category"
+                          id={`update-${index}-button-category`}
                           onClick={() =>
                             handleNameExistsUpdate(
                               index,
@@ -761,7 +761,7 @@ const StandardizationInOnbord = (props) => {
                         console.log("edit title", tmp, editCategoryTitle);
                         setEditCategoryTitle(tmp);
                       }}
-                      id="edit-datapoint"
+                      id={`edit-${index}-datapoint`}
                     >
                       <EditIcon />
                     </IconButton>
@@ -777,7 +777,7 @@ const StandardizationInOnbord = (props) => {
                       closePopper={() => handleClose(index)}
                     />
                     <IconButton
-                      id="delete-datapoint"
+                      id={`delete-${index}-datapoint`}
                       onClick={(event) => handleDelete(event, index)}
                     >
                       <DeleteOutlineIcon />
@@ -942,7 +942,7 @@ const StandardizationInOnbord = (props) => {
                           closePopper={() => handleClose(index)}
                         />
                         <Button
-                          id="delete_button_datapoint"
+                          id={`delete-${index}-button-datapoint`}
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
@@ -955,7 +955,7 @@ const StandardizationInOnbord = (props) => {
                           Delete
                         </Button>
                         <Button
-                          id="edit_button_datapoint"
+                          id={`edit-${index}-button-datapoint`}
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
