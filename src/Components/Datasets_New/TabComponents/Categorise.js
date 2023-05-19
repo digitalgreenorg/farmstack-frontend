@@ -156,7 +156,7 @@ const Categorise = (props) => {
         className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
       >
         {" "}
-        Organize and classify your uploaded data into relevant categories.{" "}
+        Organize and classify your dataset into relevant categories.{" "}
       </Typography>
       <div className="mt-30">
         <ControlledAccordion
@@ -180,6 +180,12 @@ const Categorise = (props) => {
             }}
           >
             Geography
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {" "}
+              Organize and classify your dataset to respective geography.{" "}
+            </Typography>
           </Typography>
           <Box className={mobile ? "mt-50" : "d-flex justify-content-between"}>
             <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">

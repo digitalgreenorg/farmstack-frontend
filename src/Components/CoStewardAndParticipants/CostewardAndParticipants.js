@@ -19,7 +19,7 @@ const CoStewardAndParticipantsCard = (props) => {
     user,
     guestUser,
     isCosteward,
-    subTitle
+    subTitle,
   } = props;
   const history = useHistory();
   const theme = useTheme();
@@ -46,7 +46,7 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/datahub/costeward/view/${id}`);
     } else if (title == "New participant requests") {
       history.push(`/datahub/participants/view/approve/${id}`);
-    } else if (title == "Our Participants are" && guestUser) {
+    } else if (title == "Participants" && guestUser) {
       history.push("/home/participants/view/:id");
     }
     // if (
@@ -87,10 +87,10 @@ const CoStewardAndParticipantsCard = (props) => {
             {title}
           </Typography>
           <Typography
-          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
-        >
-          {subTitle}
-        </Typography>
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {subTitle}
+          </Typography>
         </Box>
         {viewType === "list" && title === "Participants" && !mobile ? (
           <Col
@@ -325,8 +325,8 @@ const CoStewardAndParticipantsCard = (props) => {
                   }`}
                   className={LocalStyle.addCardDescription}
                 >
-                  Add details about your dataset and make discoverable to other
-                  participants in our network.
+                  Expand your network by adding new participants to collaborate
+                  and exchange data.
                 </div>
               </Card>
             </Col>

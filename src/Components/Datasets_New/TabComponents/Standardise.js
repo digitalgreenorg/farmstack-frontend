@@ -378,7 +378,7 @@ const Standardise = ({
         className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
       >
         {" "}
-        Enhance the quality and consistency of your uploaded data by applying
+        Enhance the quality and consistency of your dataset by applying
         standardized formats and structures.{" "}
       </Typography>
       <Box className="text-left mt-30">

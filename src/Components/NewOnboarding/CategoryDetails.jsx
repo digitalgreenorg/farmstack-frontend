@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, InputAdornment, TextField } from "@mui/material";
+import { Button, InputAdornment, TextField, Typography } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import FileUploaderMain from "../Generic/FileUploader";
@@ -17,6 +17,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
 import { ClickAwayListener } from "@mui/base";
 import { useHistory } from "react-router-dom";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 const CategoryDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
 
@@ -417,6 +418,13 @@ const CategoryDetails = (props) => {
         <Row className={styles.main_label}>
           <Col xs={12} sm={6} md={6} xl={6}>
             Category Settings
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {props.isCategorySetting
+                ? "Create and update categories to organize datasets."
+                : ""}
+            </Typography>
           </Col>
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button

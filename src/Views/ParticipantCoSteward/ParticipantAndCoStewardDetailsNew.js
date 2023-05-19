@@ -504,10 +504,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
             {isCosteward
-              ? "Explore details of co-steward organizations within the community"
+              ? "Explore details of co-steward organization."
               : !isCosteward && !isParticipantRequest
-              ? "Dive into the details of participants empowering community connections and collaboration."
-              : "View information and profiles of organization who have requested to join your community."}
+              ? "Dive into the details of participants empowering community."
+              : "Organization who have requested to join your community."}
           </Typography>
         </Col>
         <Col
@@ -676,9 +676,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
             {" "}
-            {isCosteward
-              ? "Explore individuals representing their organization as co-stewards."
-              : "Profile of the designated representative from organization harnessing the platform."}{" "}
+            {"Profile of the designated representative."}{" "}
           </Typography>
         </Col>
       </Row>
@@ -762,7 +760,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {" "}
                 {isCosteward
                   ? "Browse the list of datasets contributed by this co-steward."
-                  : "Browse the list of datasets contributed by this partiicpants."}{" "}
+                  : "Browse the list of datasets contributed by this partiicpant."}{" "}
               </Typography>
             </Col>
           </Row>
@@ -834,7 +832,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {isCosteward ? (
         <CoStewardAndParticipantsCard
           title={"Co-steward participants"}
-          subTitle="Explore the orgnizations who are part of this co-steward's community."
+          subTitle="Explore the participants who are part of this co-steward's community."
           user={user}
           viewType={false}
           // setViewType={setViewType}

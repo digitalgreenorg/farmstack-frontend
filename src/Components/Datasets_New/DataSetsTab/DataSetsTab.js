@@ -206,7 +206,11 @@ const DataSetsTab = ({
                   ? "List of datasets"
                   : "My organisation datasets"
               }
-              subTitle={user!="guest" ? "Datasets uploaded by your organization." : ""}
+              subTitle={
+                user != "guest"
+                  ? "Datasets uploaded by your organization."
+                  : "Browse the list of datasets contributed by partiicpants."
+              }
               isGrid={isGrid}
               setIsGrid={setIsGrid}
               history={history}

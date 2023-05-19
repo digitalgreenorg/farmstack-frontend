@@ -271,7 +271,7 @@ const VerifyEmailStep = (props) => {
     <div style={{ margin: mobile ? "30px" : "" }}>
       <div className={styles.email_id_label}>
         {" "}
-        {isValidEmailSent ? "Enter the OTP" : "Enter your email id"}
+        {isValidEmailSent ? "Enter the OTP" : "Enter your email Id"}
       </div>
 
       <div className={styles.email_id_sub_label}>
@@ -282,9 +282,9 @@ const VerifyEmailStep = (props) => {
       <div className={styles.inputs}>
         <TextField
           fullWidth
-          placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
+          placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Email"}
           id="email_id_for_login"
-          label={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
+          label={isValidEmailSent ? "Enter 6 digit OTP" : "Email"}
           variant="outlined"
           value={isValidEmailSent ? otp : emailId}
           onChange={(e) =>
@@ -323,7 +323,14 @@ const VerifyEmailStep = (props) => {
           />{" "}
           <span className={styles.agreement_line}>
             {" "}
-            Agree to the Farmstack terms and privacy policy.
+            Agree to the{" "}
+            <span
+              className={styles.termsAndConditionClass}
+              onClick={() => history.push("/home/legal")}
+            >
+              terms and privacy
+            </span>{" "}
+            policies.
           </span>
         </div>
       )}

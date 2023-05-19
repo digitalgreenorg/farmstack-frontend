@@ -809,7 +809,7 @@ const UploadFile = ({
       <Typography
         className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
       >
-        Easily upload data or import from APIs and databases.{" "}
+        Easily upload data or import from databases and APIs.{" "}
       </Typography>
       <Box className="d-flex" sx={{ marginTop: "30px" }}>
         <div className="imports_style">

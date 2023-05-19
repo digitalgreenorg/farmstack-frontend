@@ -255,7 +255,9 @@ const ParticipantsAndCoStewardNew = () => {
             ) : (
               <CoStewardAndParticipantsCard
                 title={"Co-steward"}
-                subTitle={"Facilitators of secure data sharing networks and community builders."}
+                subTitle={
+                  "Facilitators of secure data sharing networks and community builders."
+                }
                 viewType={viewType}
                 setViewType={setViewType}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
@@ -284,7 +286,9 @@ const ParticipantsAndCoStewardNew = () => {
             ) : (
               <CoStewardAndParticipantsCard
                 title={"Participants"}
-                subTitle={"Vision-driven organizations committed to making a positive impact."}
+                subTitle={
+                  "Vision-driven organizations committed to making a positive impact."
+                }
                 viewType={viewType}
                 setViewType={setViewType}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
@@ -304,7 +308,9 @@ const ParticipantsAndCoStewardNew = () => {
             ) : (
               <CoStewardAndParticipantsCard
                 title={"New participant requests"}
-                subTitle={"Manage and review requests from organization seeking to join your community."}
+                subTitle={
+                  "Manage requests from organization seeking to join your community."
+                }
                 viewType={viewType}
                 setViewType={setViewType}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
@@ -336,7 +342,9 @@ const ParticipantsAndCoStewardNew = () => {
             ) : (
               <CoStewardAndParticipantsCard
                 title={"Participants"}
-                subTitle={"Vision-driven organizations committed to making a positive impact."}
+                subTitle={
+                  "Vision-driven organizations committed to making a positive impact."
+                }
                 viewType={viewType}
                 setViewType={setViewType}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
@@ -356,7 +364,9 @@ const ParticipantsAndCoStewardNew = () => {
             ) : (
               <CoStewardAndParticipantsCard
                 title={"New participant requests"}
-                subTitle={"Manage and review requests from organization seeking to join your community."}
+                subTitle={
+                  "Manage requests from organization seeking to join your community."
+                }
                 viewType={viewType}
                 setViewType={setViewType}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}

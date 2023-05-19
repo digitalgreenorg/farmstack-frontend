@@ -892,7 +892,7 @@ const AddConnector = (props) => {
         <SelectConnector
           text={"Select datasets for connector"}
           subTitle={
-            "Choose the datasets to be integrated and connected through the connector for seamless data flow and integration."
+            "Choose the datasets to be integrated to create your ideal dataset."
           }
           connectorName={connectorName}
           connectorDescription={connectorDescription}
@@ -927,6 +927,12 @@ const AddConnector = (props) => {
               }}
             >
               Integration Connector
+              <Typography
+                className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+              >
+                Customize your integration by selecting the columns of datasets
+                to join.
+              </Typography>
             </Typography>
             <Box>
               <IntegrationConnector

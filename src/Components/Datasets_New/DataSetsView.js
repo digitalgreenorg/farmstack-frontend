@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -589,13 +590,16 @@ const DataSetsView = (props) => {
           <ControlledAccordion data={categories} />
         </Box>
         <div className="bold_title mt-50">{"Dataset files"}</div>
-        <Typography className="view_datasets_light_text text-left mt-20">
+        <Alert
+          severity="warning"
+          className="view_datasets_light_text text-left mt-20"
+        >
           <span className="view_datasets_bold_text">Note: </span>This dataset is
           solely meant to be used as a source of information. Even through
           accuracy is the goal, the steward is not accountable for the
           information. Please let the admin know if you have any information you
           think is inaccurate.
-        </Typography>
+        </Alert>
         <Box className="mt-20">
           <ControlledAccordion data={files} isTables={true} />
         </Box>

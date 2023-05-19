@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, FormControl, InputLabel, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -28,6 +34,8 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
 import RegexConstants from "../../Constants/RegexConstants";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
+
 const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -411,6 +419,13 @@ const OrganizationDetails = (props) => {
           {props.isOrgSetting
             ? "Organisation settings"
             : " Organisation Details"}
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {props.isOrgSetting
+              ? "Manage and update your organization's details to reflect accurate and up-to-date information."
+              : ""}
+          </Typography>
         </div>
 
         {props.isOrgSetting ? (

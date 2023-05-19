@@ -163,7 +163,7 @@ const UsagePolicy = (props) => {
         className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
       >
         {" "}
-        Define access limitations and permissions for your data.{" "}
+        Define access limitations and permissions for your dataset.{" "}
       </Typography>
       <Box className="text-left mt-30">
         <FormControl fullWidth sx={{ width: "368px" }}>

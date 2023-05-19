@@ -566,6 +566,7 @@ const AddDataSet = (props) => {
                   Standardise
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
             <Tab
               id="add-dataset-tab-4"
@@ -576,6 +577,7 @@ const AddDataSet = (props) => {
                   Categorise
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
             <Tab
               id="add-dataset-tab-5"
@@ -586,6 +588,7 @@ const AddDataSet = (props) => {
                   Usage policy
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
           </Tabs>
         </Box>

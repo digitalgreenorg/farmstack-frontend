@@ -309,17 +309,18 @@ const GuestUserHome = () => {
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
             <div className={`${LocalStyle.titleContainer}`}>
               <Typography
-                className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold600} ${GlobalStyles.size28} ${GlobalStyles.highlighted_text}`}
               >
-                Elevate Your Data Exchange Platform
+                Driving Insights, Thriving Community
               </Typography>
               <Typography
                 className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Empower admins from Steward Organizations to effortlessly
-                configure and manage their data exchange platform, ensuring a
-                seamless and secure experience for all participants.
+                Foster data-driven decisions and collaboration by empowering
+                participants to access, showcase, upload, import, standardize,
+                categorize, and securely publish diverse datasets, cultivating a
+                thriving community for data exchange.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
