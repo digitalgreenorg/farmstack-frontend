@@ -110,7 +110,7 @@ const CategoryDetails = (props) => {
         setCategoryNameList([...categoryNames]);
         setAllCategories([...categories]);
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // GetErrorHandlingRoute(e).then((errorObject) => {
         //   console.log(errorObject);
@@ -123,14 +123,16 @@ const CategoryDetails = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -182,7 +184,7 @@ const CategoryDetails = (props) => {
           callToast("Category settings updated successfully", "success", true);
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // GetErrorHandlingRoute(e).then((errorObject) => {
         //   console.log(errorObject);
@@ -195,14 +197,16 @@ const CategoryDetails = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   const [enableSave, setEnableSave] = useState(false);
@@ -355,7 +359,7 @@ const CategoryDetails = (props) => {
                     placeholder="Sub-category"
                     label="Sub-category"
                     variant="outlined"
-                    id="each_subcategory"
+                    id={`${index}each_subcategory`}
                     name="each_subcategory"
                     value={each_sub_category}
                     onChange={(e) => handleEditSubcategory(e, index)}
@@ -381,6 +385,7 @@ const CategoryDetails = (props) => {
                               handleDeleteSubCategory(index, each_sub_category)
                             }
                             style={{ color: "#212b36", cursor: "pointer" }}
+                            id={`delete${index}-sub-category`}
                           />
                         </InputAdornment>
                       ),
@@ -438,6 +443,7 @@ const CategoryDetails = (props) => {
                   texts={`Drop files here or click browse thorough your machine
                 Supports: XLX, CSV files`}
                   maxSize={2}
+                  id="upload-category-file"
                 />
               </Col>
             )}
@@ -475,6 +481,7 @@ const CategoryDetails = (props) => {
                           onClick={() => handleDeleteCategory()}
                           style={{ cursor: "pointer" }}
                           fontSize="small"
+                          id="cancel-category-file"
                         />
                       </div>
                     )}
@@ -646,6 +653,7 @@ const CategoryDetails = (props) => {
                     value={category.category_name}
                     onChange={(e) => handleChangeHeadName(e, index)}
                     onClick={(e) => e.stopPropagation()}
+                    id={`edit-${index}-head-accordian-name`}
                     // sx={{
                     //   "&.MuiTextField-root": {
                     //     display: "flex",

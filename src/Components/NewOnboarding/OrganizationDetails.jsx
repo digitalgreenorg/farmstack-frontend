@@ -319,15 +319,17 @@ const OrganizationDetails = (props) => {
           //   console.log(e, error);
           // }
           let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
-            error?.status === 200 ? "success" : "error",
-            true);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
           }
-          if(error.path){
-            history.push(error.path)
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
@@ -383,14 +385,16 @@ const OrganizationDetails = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   // console.log(preview, uploadedLogo);
@@ -623,6 +627,7 @@ const OrganizationDetails = (props) => {
                 maxSize={2}
                 isMultiple={false}
                 handleChange={handleUpload}
+                id="org-upload-file"
                 // setSizeError={() =>
                 //   setOrganisationDetailsError({
                 //     ...organisationDetailsError,
@@ -656,6 +661,7 @@ const OrganizationDetails = (props) => {
                     }}
                     style={{ cursor: "pointer" }}
                     fontSize="small"
+                    id="cancel-uploaded-file"
                   />
                 </div>
               )}

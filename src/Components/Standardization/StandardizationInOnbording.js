@@ -360,7 +360,7 @@ const StandardizationInOnbord = (props) => {
           }
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         setIsLoading(false);
         //   success('Standardization template created successfully')
         // console.log(e, e?.response?.data);
@@ -394,14 +394,16 @@ const StandardizationInOnbord = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -430,7 +432,7 @@ const StandardizationInOnbord = (props) => {
           console.log("tmp in get call attributes", tmp, tmpDes, allAttributes);
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
 
         //   success('Standardization template created successfully')
@@ -459,14 +461,16 @@ const StandardizationInOnbord = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -491,7 +495,7 @@ const StandardizationInOnbord = (props) => {
         setAllDataPoints(tmpAllDatapoints);
         return true;
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         setIsLoading(false);
         console.log(e);
         // if (
@@ -520,14 +524,16 @@ const StandardizationInOnbord = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -577,7 +583,7 @@ const StandardizationInOnbord = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         // setIsLoader(false);
         // console.log(e);
         // callToast(
@@ -588,14 +594,16 @@ const StandardizationInOnbord = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   useEffect(() => {
@@ -676,7 +684,7 @@ const StandardizationInOnbord = (props) => {
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
-                    id="panel1a-header"
+                    id={`panel${index}1a-header`}
                     className="attribute-accordion-titile"
                   >
                     {/* <Typography className="accordion-title" variant="h5">
@@ -724,7 +732,7 @@ const StandardizationInOnbord = (props) => {
                     {editCategoryTitle[index] ? (
                       <IconButton>
                         <Button
-                          id="update-button-category"
+                          id={`update-${index}-button-category`}
                           onClick={() =>
                             handleNameExistsUpdate(
                               index,
@@ -753,6 +761,7 @@ const StandardizationInOnbord = (props) => {
                         console.log("edit title", tmp, editCategoryTitle);
                         setEditCategoryTitle(tmp);
                       }}
+                      id={`edit-${index}-datapoint`}
                     >
                       <EditIcon />
                     </IconButton>
@@ -767,7 +776,10 @@ const StandardizationInOnbord = (props) => {
                       }
                       closePopper={() => handleClose(index)}
                     />
-                    <IconButton onClick={(event) => handleDelete(event, index)}>
+                    <IconButton
+                      id={`delete-${index}-datapoint`}
+                      onClick={(event) => handleDelete(event, index)}
+                    >
                       <DeleteOutlineIcon />
                     </IconButton>
                   </AccordionSummary>
@@ -889,6 +901,7 @@ const StandardizationInOnbord = (props) => {
                                                 arrIndex
                                               )
                                             }
+                                            id="delete-datapoint-attribute"
                                           >
                                             <DeleteOutlineIcon />
                                           </IconButton>
@@ -929,7 +942,7 @@ const StandardizationInOnbord = (props) => {
                           closePopper={() => handleClose(index)}
                         />
                         <Button
-                          id="delete_button_datapoint"
+                          id={`delete-${index}-button-datapoint`}
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
@@ -942,7 +955,7 @@ const StandardizationInOnbord = (props) => {
                           Delete
                         </Button>
                         <Button
-                          id="edit_button_datapoint"
+                          id={`edit-${index}-button-datapoint`}
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
@@ -1036,9 +1049,15 @@ const StandardizationInOnbord = (props) => {
                   // }
                   // helperText={organisationDetailsError.organisation_country_error}
                 >
-                  <MenuItem value={"in"}>India</MenuItem>
-                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                  <MenuItem value={"in"} id="India">
+                    India
+                  </MenuItem>
+                  <MenuItem value={"eth"} id="Ethiopia">
+                    Ethiopia
+                  </MenuItem>
+                  <MenuItem value={"kenya"} id="Kenya">
+                    Kenya
+                  </MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -1063,9 +1082,15 @@ const StandardizationInOnbord = (props) => {
                   // }
                   // helperText={organisationDetailsError.organisation_country_error}
                 >
-                  <MenuItem value={"in"}>India</MenuItem>
-                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                  <MenuItem value={"in"} id="India">
+                    India
+                  </MenuItem>
+                  <MenuItem value={"eth"} id="Ethiopia">
+                    Ethiopia
+                  </MenuItem>
+                  <MenuItem value={"kenya"} id="Kenya">
+                    Kenya
+                  </MenuItem>
                 </Select>
               </FormControl>
             </div>
