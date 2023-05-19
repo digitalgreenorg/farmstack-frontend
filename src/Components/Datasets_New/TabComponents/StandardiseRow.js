@@ -78,6 +78,7 @@ const StandardiseRow = ({
             <Select
               id={`standardise-datapoint-category${index}`}
               labelId="demo-simple-select-label"
+              className="datapoint-category-classname"
               key={index}
               value={
                 datapointCategory?.[index] ? datapointCategory?.[index] : ""

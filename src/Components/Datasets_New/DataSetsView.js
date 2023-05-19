@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -38,6 +39,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Popconfirm } from "antd";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 
 const DataSetsView = (props) => {
   const { userType, breadcrumbFromRoute } = props;
@@ -446,7 +448,18 @@ const DataSetsView = (props) => {
             mobile ? "" : "d-flex justify-content-between align-items-baseline"
           }
         >
-          <div className="bold_title mt-50">{"Dataset Details"}</div>
+          <div className="bold_title mt-50">
+            {"Dataset Details"}
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {" "}
+              {history.location?.state?.tab === "my_organisation"
+                ? "Explore in-depth information about your uploaded dataset."
+                : "Explore the detailed information and characteristics of datasets."}{" "}
+            </Typography>
+          </div>
+
           {history.location?.state?.tab === "my_organisation" &&
           userType !== "guest" ? (
             <Box className={mobile ? "d-flex" : ""}>
@@ -577,13 +590,16 @@ const DataSetsView = (props) => {
           <ControlledAccordion data={categories} />
         </Box>
         <div className="bold_title mt-50">{"Dataset files"}</div>
-        <Typography className="view_datasets_light_text text-left mt-20">
+        <Alert
+          severity="warning"
+          className="view_datasets_light_text text-left mt-20"
+        >
           <span className="view_datasets_bold_text">Note: </span>This dataset is
           solely meant to be used as a source of information. Even through
           accuracy is the goal, the steward is not accountable for the
           information. Please let the admin know if you have any information you
           think is inaccurate.
-        </Typography>
+        </Alert>
         <Box className="mt-20">
           <ControlledAccordion data={files} isTables={true} />
         </Box>
@@ -603,7 +619,14 @@ const DataSetsView = (props) => {
           <></>
         )}
         {history.location?.state?.tab !== "my_organisation" && (
-          <div className="bold_title mt-50">{"Organisation Details"}</div>
+          <div className="bold_title mt-50">
+            {"Organisation Details"}
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              Details of the organization that owns the dataset.
+            </Typography>
+          </div>
         )}
         {history.location?.state?.tab !== "my_organisation" && (
           <Box>

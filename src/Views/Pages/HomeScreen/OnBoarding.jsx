@@ -304,9 +304,10 @@ export default function OnBoarding() {
       )}
       {activeStep >= 0 && (
         <div className={styles.description}>
-          Discover and explore data potential with Dataset Explorer. Generate
-          ideal datasets. <br />
-          <span className={global_styles.bold600}>Welcome aboard!</span>
+          Login to access a world of data collaboration, insights, and
+          innovation. <br />
+          Let's make data-driven decisions together. <br />
+          {/* <span className={global_styles.bold600}>Welcome aboard!</span> */}
         </div>
       )}
       <CSSTransition
@@ -397,7 +398,7 @@ export default function OnBoarding() {
           <DatapointDetails setActiveStep={setActiveStep} />
         </CSSTransition>
       )}
-  <Divider className="mt-50" />
+      <Divider className="mt-50" />
       {activeStep == 0 ? <FooterNew /> : <OnboardingFooter />}
     </Stack>
   );

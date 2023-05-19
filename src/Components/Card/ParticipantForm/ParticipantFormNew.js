@@ -430,6 +430,13 @@ const ParticipantFormNew = (props) => {
                 ? "Edit Participant organisation details"
                 : "Add Participant organisation details"}
             </Typography>
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {isEditModeOn
+                ? " Update and modify your organization information as a participant."
+                : "Provide information about your organization when joining as a participant."}
+            </Typography>
           </Col>
         </Row>
         <Form onSubmit={handleSubmit}>
@@ -609,6 +616,14 @@ const ParticipantFormNew = (props) => {
               {isEditModeOn
                 ? "Edit Participant root user details"
                 : "Add Participant root user details"}
+            </Typography>
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {" "}
+              {isEditModeOn
+                ? "Modify and update your user details as the designated representative of your organization."
+                : "Enter your details as the authorized user of organization."}{" "}
             </Typography>
           </Col>
         </Row>

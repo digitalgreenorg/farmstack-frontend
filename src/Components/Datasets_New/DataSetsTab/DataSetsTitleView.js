@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const DataSetsTitleView = ({
   title,
@@ -7,13 +8,17 @@ const DataSetsTitleView = ({
   setIsGrid,
   history,
   addDataset,
+  subTitle,
   user,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div className="d-flex justify-content-between">
-      <div className="bold_title">{title}</div>
+      <div className="bold_title">{title}
+      <Typography className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`} > {subTitle} </Typography>
+
+      </div>
       {mobile ? (
         <></>
       ) : (

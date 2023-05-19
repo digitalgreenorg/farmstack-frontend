@@ -15,6 +15,8 @@ import { getTokenLocal } from "../../../Utils/Common";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { Country, State, City } from "country-state-city";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
+
 const Categorise = (props) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -150,6 +152,12 @@ const Categorise = (props) => {
       >
         Categories
       </Typography>
+      <Typography
+        className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+      >
+        {" "}
+        Organize and classify your dataset into relevant categories.{" "}
+      </Typography>
       <div className="mt-30">
         <ControlledAccordion
           data={allCategories}
@@ -172,6 +180,12 @@ const Categorise = (props) => {
             }}
           >
             Geography
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {" "}
+              Organize and classify your dataset to respective geography.{" "}
+            </Typography>
           </Typography>
           <Box className={mobile ? "mt-50" : "d-flex justify-content-between"}>
             <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">

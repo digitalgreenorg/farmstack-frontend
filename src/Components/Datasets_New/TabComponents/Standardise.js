@@ -22,6 +22,7 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
 import { getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const detailsStyle = {
   fontFamily: "'Montserrat' !important",
@@ -372,6 +373,13 @@ const Standardise = ({
         }}
       >
         Standardise
+      </Typography>
+      <Typography
+        className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+      >
+        {" "}
+        Enhance the quality and consistency of your dataset by applying
+        standardized formats and structures.{" "}
       </Typography>
       <Box className="text-left mt-30">
         <FormControl fullWidth sx={{ width: mobile ? "100%" : "368px" }}>
