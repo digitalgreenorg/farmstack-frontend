@@ -36,7 +36,7 @@ const CompanyPolicies = (props) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   const [key, setKey] = useState(0);
-  const history = useHistory()
+  const history = useHistory();
 
   const handleUploadPolicy = (file) => {
     console.log("function is calling");
@@ -199,15 +199,17 @@ const CompanyPolicies = (props) => {
           //   );
           // }
           let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
-            error?.status === 200 ? "success" : "error",
-            true);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
           }
-          if(error.path){
-            history.push(error.path)
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
@@ -240,14 +242,16 @@ const CompanyPolicies = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -718,6 +722,7 @@ const CompanyPolicies = (props) => {
                   setSizeError={() =>
                     setFileError("Maximum file size allowed is 25MB")
                   }
+                  id="upload-policy-file"
                 />
               </Col>
               <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -765,6 +770,7 @@ const CompanyPolicies = (props) => {
                           onClick={() => handleDeletePolicy()}
                           style={{ cursor: "pointer" }}
                           fontSize="small"
+                          id="cancel-policy-file"
                         />
                       </div>
                     )}
@@ -864,6 +870,7 @@ const CompanyPolicies = (props) => {
                       setSizeError={() =>
                         setFileError("Maximum file size allowed is 25MB")
                       }
+                      id="upload-policy-file"
                     />
                   </Col>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -915,6 +922,7 @@ const CompanyPolicies = (props) => {
                               onClick={() => handleDeletePolicy()}
                               style={{ cursor: "pointer" }}
                               fontSize="small"
+                              id="cancel-policy-file"
                             />
                           </div>
                         )}
