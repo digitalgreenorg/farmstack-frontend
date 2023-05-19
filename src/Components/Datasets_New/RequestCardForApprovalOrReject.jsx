@@ -32,6 +32,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { daysSincePublish } from "../NewOnboarding/utils";
 import { Badge, Popconfirm } from "antd";
 import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 const RequestCardForApprovalOrReject = (props) => {
   const { data, setApprovalStatus, approvalStatus } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -213,6 +214,12 @@ const RequestCardForApprovalOrReject = (props) => {
             >
               List of requests
             </div>
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {" "}
+              View the list of access requests for your dataset.{" "}
+            </Typography>
           </Col>
           <Col lg={6} md={12} sm={12} style={{ textAlign: "right" }}>
             <ToggleButtonGroup

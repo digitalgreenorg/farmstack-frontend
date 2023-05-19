@@ -31,6 +31,7 @@ import Preview from "../../Components/Datasets/IntegrationDatasets/Preview/Previ
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import RegexConstants from "../../Constants/RegexConstants";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 const textFieldStyle = {
   borderRadius: "8px",
   "& .MuiOutlinedInput-root": {
@@ -846,7 +847,13 @@ const AddConnector = (props) => {
             lineHeight: "40px",
           }}
         >
-          Create and integration connector
+          Create an integration connector
+        </Typography>
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          Seamlessly create an integration connector for efficient data
+          integration.
         </Typography>
         <TextField
           fullWidth
@@ -884,6 +891,9 @@ const AddConnector = (props) => {
         />
         <SelectConnector
           text={"Select datasets for connector"}
+          subTitle={
+            "Choose the datasets to be integrated and connected through the connector for seamless data flow and integration."
+          }
           connectorName={connectorName}
           connectorDescription={connectorDescription}
           organisations={orgList}

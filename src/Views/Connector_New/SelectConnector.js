@@ -51,6 +51,7 @@ const selectStyle = {
 
 const SelectConnector = ({
   text,
+  subTitle,
   organisations,
   organisationName,
   setOrganisationName,
@@ -93,6 +94,11 @@ const SelectConnector = ({
       >
         {text}
       </Typography>
+      <Typography
+        className={`${globalStyle.textDescription} text-left ${globalStyle.bold400} ${globalStyle.highlighted_text}`}
+      >
+        {subTitle}
+      </Typography>
       {counterForIntegrator === completeData.length && (
         <div style={{ textAlign: "left", marginTop: "12px" }}>
           To choose other files for integration, click on integrate more
@@ -125,9 +131,13 @@ const SelectConnector = ({
               label="Select Organisation"
               placeholder="Select Organisation"
             >
-              {organisations?.map((item,index) => {
+              {organisations?.map((item, index) => {
                 return (
-                  <MenuItem id={"connectors-select-orgnisation-id-option"+index} key={item?.org_id} value={item?.org_id}>
+                  <MenuItem
+                    id={"connectors-select-orgnisation-id-option" + index}
+                    key={item?.org_id}
+                    value={item?.org_id}
+                  >
                     {item?.name}
                   </MenuItem>
                 );
@@ -152,7 +162,11 @@ const SelectConnector = ({
             >
               {template?.dataset_list?.map((item, index) => {
                 return (
-                  <MenuItem id={"connectors-select-dataset-id-option"+index} key={item?.id} value={item?.id} >
+                  <MenuItem
+                    id={"connectors-select-dataset-id-option" + index}
+                    key={item?.id}
+                    value={item?.id}
+                  >
                     {item?.name}
                   </MenuItem>
                 );
@@ -176,7 +190,11 @@ const SelectConnector = ({
             >
               {template?.file_list?.map((item, index) => {
                 return (
-                  <MenuItem id={"connectors-select-file-id-option"+index} key={index} value={item?.standardised_file ?? ""} >
+                  <MenuItem
+                    id={"connectors-select-file-id-option" + index}
+                    key={index}
+                    value={item?.standardised_file ?? ""}
+                  >
                     {item?.file_name}
                   </MenuItem>
                 );
