@@ -21,16 +21,48 @@ const ParticipantsCarouselNew = (props) => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: participantsList?.length >= 3 ? 3 : participantsList?.length,
-    slidesToScroll:
-      participantsList?.length >= 3 ? 3 : participantsList?.length,
+    // slidesToShow: participantsList?.length >= 3 ? 3 : participantsList?.length,
+    // slidesToScroll:
+    //   participantsList?.length >= 3 ? 3 : participantsList?.length,
     autoplay: true,
     className: LocalStyle.slides,
     responsive: [
       {
+        breakpoint: 3060,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 2560,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1920,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3,
+          arrows: false,
+        },
+      },
+      {
         breakpoint: 1440,
         settings: {
           slidesToShow: 3,
+          slidesToScroll: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 2,
           slidesToScroll: 2,
           arrows: false,
         },
@@ -92,12 +124,31 @@ const ParticipantsCarouselNew = (props) => {
         // }
         if (response?.data?.results) setParticipantsList(response.data.results);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // if (error) {
+        //   callToast(
+        //     error?.message,
+        //     error?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        //   console.log(e);
+        // }
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
         console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   console.log("participants list ", participantsList);

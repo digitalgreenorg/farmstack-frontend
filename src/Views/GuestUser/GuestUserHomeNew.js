@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Typography,
+  createTheme,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -19,13 +20,27 @@ import {
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import { TypeAnimation } from "react-type-animation";
-
+import imageFilename from "../../Assets/Img/microsite_yellow_gradient_img.svg";
 const GuestUserHome = () => {
   let history = useHistory();
-  const theme = useTheme();
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1620,
+        xxl: 2560,
+      },
+    },
+  });
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
+
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
@@ -55,7 +70,7 @@ const GuestUserHome = () => {
               </Typography>
               <Typography
                 // style={{ height: "120px" }}
-                className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
                 <TypeAnimation
@@ -98,13 +113,13 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
-                <span>Orchestrate network of data </span>
+                <span>Connect, Share, Discover </span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
-                <span>Invite data providers and consumers</span>
+                <span>Unlock data insights</span>
               </Col>
             </Row>
             <Row>
@@ -139,74 +154,80 @@ const GuestUserHome = () => {
           Datasets
         </Typography>
         <Typography
-          className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
           Discover and explore the potential of data to generate ideal datasets
           with Dataset Explorer.
         </Typography>
         <DatasetListNew user={"guest"} />
       </Box>
-      <Box className={LocalStyle.gradientContainer}>
-        <img
-          src={require(mobile
-            ? "../../Assets/Img/yellowbg.svg"
-            : "../../Assets/Img/microsite_yellow_gradient_img.svg")}
-          width={"100%"}
-          // height={mobile ? "221px" : tablet || miniLaptop ? "334px" : "auto"}
-          className={mobile || tablet || miniLaptop ? "bgMd" : "bgMd"}
-        />
+      <Box
+        sx={{
+          backgroundImage: `url(${imageFilename})`,
+          backgroundRepeat: "no-repeat",
+          width: "100%",
+          backgroundSize: "cover",
+          position: "relative",
+        }}
+      >
         <Box
-          className={
-            mobile
-              ? LocalStyle.gradientTextContainerSm
-              : tablet
-              ? LocalStyle.gradientTextContainerTab
-              : miniLaptop
-              ? LocalStyle.gradientTextContainerMd
-              : LocalStyle.gradientTextContainer
-          }
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
         >
-          <Box>
+          <Box sx={{ flexBasis: desktop ? "20%" : "30%" }}>
             <img
-              style={{
-                position: "absolute",
-                top: mobile
-                  ? "-44px"
-                  : tablet
-                  ? "-58px"
-                  : miniLaptop
-                  ? "-77px"
-                  : "-130px",
-                left: "0px",
-                height: mobile
-                  ? "124px"
-                  : tablet
-                  ? "220px"
-                  : miniLaptop
-                  ? "282px"
-                  : "406px",
-              }}
               src={require("../../Assets/Img/Farmstack V2.0/home2.svg")}
+              width={mobile ? "152px" : "none"}
             />
           </Box>
           <Box
-            className={`${
-              mobile || tablet || miniLaptop ? "d-flex flex-column" : "d-flex"
-            } ${mobile ? "mt-39" : ""}`}
+            sx={{
+              display: mobile || tablet || miniLaptop ? "flex" : "flex",
+              flexDirection: mobile || tablet || miniLaptop ? "column" : "row",
+              alignItems: mobile ? "baseline" : "center",
+              flexBasis: desktop ? "80%" : "70%",
+              padding: mobile ? "20px" : "",
+            }}
           >
             <Typography
               className={`${LocalStyle.title} ${GlobalStyles.bold500} ${
-                tablet || miniLaptop ? GlobalStyles.size16 : GlobalStyles.size32
+                mobile
+                  ? GlobalStyles.size12
+                  : tablet || miniLaptop
+                  ? GlobalStyles.size16
+                  : largeDesktop
+                  ? GlobalStyles.size32
+                  : GlobalStyles.size32
               } ${GlobalStyles.highlighted_text} ${
-                tablet ? LocalStyle.lineheight_27 : LocalStyle.lineheight_39
-              }`}
+                mobile
+                  ? ""
+                  : tablet
+                  ? LocalStyle.lineheight_27
+                  : LocalStyle.lineheight_39
+              } ${mobile ? LocalStyle.mt45 : ""}`}
+              sx={{
+                width:
+                  mobile || miniLaptop || desktop || largeDesktop
+                    ? "auto !important"
+                    : "350px !important",
+                marginRight: mobile || tablet || miniLaptop ? "" : "28px",
+              }}
             >
               With Farmstack great things will happen
             </Typography>
             <Typography
               className={`${
-                tablet || miniLaptop
+                mobile
+                  ? LocalStyle.descriptionSm
+                  : tablet || miniLaptop
                   ? LocalStyle.descriptionMd
+                  : desktop
+                  ? LocalStyle.descriptionlg
+                  : largeDesktop
+                  ? LocalStyle.descriptionXlg
                   : LocalStyle.description
               } ${GlobalStyles.bold400} ${
                 tablet || miniLaptop ? GlobalStyles.size12 : GlobalStyles.size22
@@ -228,10 +249,10 @@ const GuestUserHome = () => {
             <Typography
               className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
             >
-              Our co-steward network
+              Co-steward
             </Typography>
             <Typography
-              className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+              className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
             >
               <b style={{ fontWeight: "bold" }}></b>
               Organisations who facilitate their own private network of
@@ -257,10 +278,10 @@ const GuestUserHome = () => {
           <Typography
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
           >
-            Our Participants are
+            Participants
           </Typography>
           <Typography
-            className={`${LocalStyle.description} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+            className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
           >
             <b style={{ fontWeight: "bold" }}></b>
             Organisations that share our vision and are committed to making a
@@ -279,26 +300,26 @@ const GuestUserHome = () => {
           </Button>
         </Row>
         <Row>
-          <Col xs={12} sm={12} md={12} xl={6}>
+          <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
             <img
               className={LocalStyle.micrositeLogo}
               src={require("../../Assets/Img/Farmstack V2.0/home3.svg")}
             />
           </Col>
-          <Col xs={12} sm={12} md={12} xl={6}>
+          <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
             <div className={`${LocalStyle.titleContainer}`}>
               <Typography
-                className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold600} ${GlobalStyles.size28} ${GlobalStyles.highlighted_text}`}
               >
-                Elevate Your Data Exchange Platform
+                Driving Insights, Thriving Community
               </Typography>
               <Typography
-                className={`${LocalStyle.description} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Empower admins from Steward Organizations to effortlessly
-                configure and manage their data exchange platform, ensuring a
-                seamless and secure experience for all participants.
+                Foster data-driven decisions by collaborating with participants
+                to seamlessly share datasets and unlock their true potential by
+                integrating datasets.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
@@ -314,16 +335,14 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
-                <span className="text-left">
-                  Empowering Agricultural Communities{" "}
-                </span>
+                <span className="text-left">Strengthen Collaboration </span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
                 <span className="text-left">
-                  Promoting Transparency and Trust
+                  Unleash the Power of Connectors
                 </span>
               </Col>
             </Row>
@@ -332,15 +351,13 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point3.svg")} />
                 </span>
-                <span className="text-left">Strengthening Collaboration</span>
+                <span className="text-left">Enable Use cases</span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point4.svg")} />
                 </span>
-                <span className="text-left">
-                  Unleashing the Power of Data Integration Connectors
-                </span>
+                <span className="text-left">Scale-up your impact </span>
               </Col>
             </Row>
           </Col>

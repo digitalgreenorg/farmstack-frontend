@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, FormControl, InputLabel, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -28,6 +34,8 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
 import RegexConstants from "../../Constants/RegexConstants";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
+
 const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -297,7 +305,11 @@ const OrganizationDetails = (props) => {
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, "error", true);
+                  callToast(
+                    error?.message,
+                    error?.status === 200 ? "success" : "error",
+                    true
+                  );
                   console.log(e, error);
                 }
                 break;
@@ -305,10 +317,27 @@ const OrganizationDetails = (props) => {
           }
           setOrganisationDetailsError(errorObj);
         } else {
+          // let error = await GetErrorHandlingRoute(e);
+          // if (error) {
+          //   callToast(
+          //     error?.message,
+          //     error?.status === 200 ? "success" : "error",
+          //     true
+          //   );
+          //   console.log(e, error);
+          // }
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
-            callToast(error?.message, "error", true);
-            console.log(e, error);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
@@ -352,10 +381,27 @@ const OrganizationDetails = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log(e, error);
+        // if (error) {
+        //   callToast(
+        //     error?.message,
+        //     error?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // }
         let error = await GetErrorHandlingRoute(e);
-        console.log(e, error);
-        if (error) {
-          callToast(error?.message, "error", true);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -371,8 +417,15 @@ const OrganizationDetails = (props) => {
       <div className={styles.main_box}>
         <div className={styles.main_label}>
           {props.isOrgSetting
-            ? "Organisation setting"
+            ? "Organisation settings"
             : " Organisation Details"}
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {props.isOrgSetting
+              ? "Manage and update your organization's details to reflect accurate and up-to-date information."
+              : ""}
+          </Typography>
         </div>
 
         {props.isOrgSetting ? (
@@ -589,6 +642,7 @@ const OrganizationDetails = (props) => {
                 maxSize={2}
                 isMultiple={false}
                 handleChange={handleUpload}
+                id="org-upload-file"
                 // setSizeError={() =>
                 //   setOrganisationDetailsError({
                 //     ...organisationDetailsError,
@@ -622,6 +676,7 @@ const OrganizationDetails = (props) => {
                     }}
                     style={{ cursor: "pointer" }}
                     fontSize="small"
+                    id="cancel-uploaded-file"
                   />
                 </div>
               )}

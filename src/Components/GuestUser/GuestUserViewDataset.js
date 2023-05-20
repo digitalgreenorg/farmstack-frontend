@@ -4,7 +4,7 @@ import DataSetsView from "../Datasets_New/DataSetsView";
 const GuestUserViewDataset = () => {
   return (
     <>
-      <DataSetsView userType="guest" />
+      <DataSetsView breadcrumbFromRoute={"Home"} userType="guest" />
     </>
   );
 };

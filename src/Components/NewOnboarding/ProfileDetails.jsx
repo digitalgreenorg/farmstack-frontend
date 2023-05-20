@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
 import MuiPhoneNumber from "material-ui-phone-number";
@@ -18,6 +18,7 @@ import {
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 
 const ProfileDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -90,8 +91,22 @@ const ProfileDetails = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch((e) => {
-        callToast("Some error occurred", "error", true);
+      .catch(async (e) => {
+        // callToast("Some error occurred", "error", true);
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log(e);
       });
   };
@@ -168,15 +183,34 @@ const ProfileDetails = (props) => {
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, "error", true);
+                  callToast(
+                    error?.message,
+                    error?.status === 200 ? "success" : "error",
+                    true
+                  );
                 }
                 break;
             }
           }
         } else {
+          // let error = await GetErrorHandlingRoute(e);
+          // if (error) {
+          //   callToast(error?.message ?? "Unknown",
+          //   error?.status === 200 ? "success" : "error",
+          //   true);
+          // }
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
-            callToast(error?.message ?? "Unknown", "error", true);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
@@ -204,8 +238,8 @@ const ProfileDetails = (props) => {
 
           callToast(
             response?.message ?? "Error occurred while getting policy details",
-            response.status == 201 ? "success" : "error",
-            response.toast
+            response?.status == 200 ? "success" : "error",
+            response?.toast
           );
         } else {
           history.push(response?.path);
@@ -222,6 +256,13 @@ const ProfileDetails = (props) => {
       <div className={styles.main_box}>
         <div className={styles.main_label}>
           {props.isAccountSetting ? "Account settings" : "Profile Details"}{" "}
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {props.isAccountSetting
+              ? "Customize and manage your account settings to ensure a personalized and seamless experience."
+              : ""}
+          </Typography>
         </div>
 
         {props.isAccountSetting ? (
@@ -343,6 +384,7 @@ const ProfileDetails = (props) => {
             <Button
               onClick={() => setActiveStep((prev) => prev + 1)}
               className={global_style.secondary_button}
+              id="finish-later-button"
             >
               {" "}
               Finish later

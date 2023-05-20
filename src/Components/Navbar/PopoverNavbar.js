@@ -44,17 +44,17 @@ const PopoverNavbar = ({
   const id = open ? "simple-popover" : undefined;
   return (
     <Box
-      className="d-flex"
+      className="d-flex align-items-center"
       sx={{
         boxShadow: "0px 6px 16px rgba(145, 158, 171, 0.16)",
-        height: "44px",
+        height: "60px",
         padding: "10px 16px",
       }}
     >
       <Box aria-describedby={id} variant="contained" onClick={handleClick}>
         <img src={require("../../Assets/Img/menu.svg")} />
       </Box>
-      <Box>
+      <Box sx={{ marginLeft: "5px" }}>
         <img
           // src={require("../../Assets/Img/footer_logo.svg")}
           style={{ height: "auto", width: "75px", maxHeight: "30px" }}

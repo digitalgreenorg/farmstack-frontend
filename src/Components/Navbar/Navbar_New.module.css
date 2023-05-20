@@ -26,8 +26,19 @@
 .navbarContainer {
     box-shadow: 0px 6px 16px rgba(145, 158, 171, 0.16);
     height: 88px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
 }
 
 .mr-50 {
     margin-right: 50px !important;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    z-index: 1100;
+    background: #ffffff;
 }

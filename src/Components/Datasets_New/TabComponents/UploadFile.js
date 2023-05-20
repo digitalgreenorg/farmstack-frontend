@@ -13,6 +13,7 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { fileUpload, getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -95,7 +96,10 @@ const UploadFile = ({
   const handleFileChange = (file) => {
     setFile(file);
     setKey(key + 1);
-    setFiles((prev) => [...prev, file]);
+    let tempFiles = [...files];
+    tempFiles.push(...file);
+    setFiles(tempFiles);
+    // setFiles((prev) => [...prev, file]);
   };
   const handleDelete = (index, id, filename, type) => {
     let source = "";
@@ -802,6 +806,11 @@ const UploadFile = ({
       >
         Upload or imports
       </Typography>
+      <Typography
+        className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+      >
+        Easily upload data or import from databases and APIs.{" "}
+      </Typography>
       <Box className="d-flex" sx={{ marginTop: "30px" }}>
         <div className="imports_style">
           <Typography
@@ -849,7 +858,7 @@ const UploadFile = ({
             }}
             id="add-dataset-upload-type-mysql"
           >
-            Mysql
+            MySQL
           </Typography>
           <Typography
             onClick={() => setSelectedUploadType("postgres")}
@@ -866,7 +875,7 @@ const UploadFile = ({
             }}
             id="add-dataset-upload-type-postgres"
           >
-            Postgres
+            PostgreSQL
           </Typography>
           {/* <Typography
                         onClick={() => setSelectedUploadType('sqlite')}
@@ -905,9 +914,10 @@ const UploadFile = ({
             <>
               <div className="cursor-pointer">
                 <FileUploader
-                id="add-dataset-upload-file-id"
+                  id="add-dataset-upload-file-id"
                   key={key}
                   handleChange={handleFileChange}
+                  multiple={true}
                   // onClick={(e) => (e.target.value = null)}
                   children={
                     <img
@@ -921,7 +931,7 @@ const UploadFile = ({
                 {files?.map((item, index) => (
                   <>
                     <File
-                    id={`add-dataset-uploaded-file${index}`}
+                      id={`add-dataset-uploaded-file${index}`}
                       index={index}
                       name={item.name}
                       size={item.size}
@@ -964,15 +974,16 @@ const UploadFile = ({
                         height: "48px",
                         border: "1px solid rgba(0, 171, 85, 0.48)",
                         borderRadius: "8px",
-                        color: "#00AB55",
+                        color: "#ffffff",
                         textTransform: "none",
                         marginLeft: "60px",
+                        background: "#00AB55",
                         "&:hover": {
-                          background: "none",
-                          border: "1px solid rgba(0, 171, 85, 0.48)",
+                          background: "#00AB55",
+                          color: "#ffffff",
                         },
                       }}
-                      variant="outlined"
+                      variant="contained"
                       onClick={() => handleUpload()}
                       id="add-dataset-upload-file-btn"
                     >
@@ -1152,7 +1163,7 @@ const UploadFile = ({
               marginBottom: "20px",
             }}
           >
-            List of files upload
+            List of files
           </Typography>
           <Box>
             <ControlledAccordion

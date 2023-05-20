@@ -9,7 +9,7 @@ const JoinLink = () => {
     return (
         <div>
             <span style={lineStyle} className={style.pt2}></span>
-            <div className={`${style.mtMinus11} ${style.mbMinus12} cursor-pointer`}><img src={require('../../Assets/Img/link_icon.svg')} /></div>
+            <div className={`${style.mtMinus11} ${style.mbMinus12} cursor-pointer`}><img src={require('../../Assets/Img/link_icon.svg')} id="integrated-card-link-button"/></div>
             <span style={lineStyle}></span>
         </div>
     )

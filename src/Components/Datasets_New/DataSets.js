@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { useHistory } from "react-router-dom";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import {
   GetErrorHandlingRoute,
   getOrgLocal,
@@ -37,6 +38,7 @@ import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
 import FilterDate from "../Filter/FilterDate";
 import useDebounce from "../../hooks/useDebounce";
 import moment from "moment";
+import { Col, Row } from "react-bootstrap";
 
 const cardSx = {
   maxWidth: 368,
@@ -49,7 +51,8 @@ const cardSx = {
   },
 };
 const DataSets = (props) => {
-  const { user } = props;
+  const { user, breadcrumbFromRoute } = props;
+  console.log("breadcrumbFromRoute",breadcrumbFromRoute)
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
@@ -362,8 +365,19 @@ const DataSets = (props) => {
         }
         return;
       })
-      .catch((e) => {
+      .catch ( async(e) => {
         callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
   // filter-popovers handling
@@ -455,8 +469,19 @@ const DataSets = (props) => {
         });
         setAllCategories(tempCategories);
       })
-      .catch((e) => {
+      .catch( async(e) => {
         console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -567,9 +592,20 @@ const DataSets = (props) => {
           setMemberDatasetList(finalDataList);
         }
       })
-      .catch((err) => {
+      .catch( async(e) => {
         callLoader(false);
-        console.log(err);
+        console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if(error.toast){
+          callToast(error?.message || "Something went wrong", 
+            error?.status === 200 ? "success" : "error",
+            true);
+          }
+          if(error.path){
+            history.push(error.path)
+          }
       });
   };
 
@@ -657,19 +693,53 @@ const DataSets = (props) => {
 
   return (
     <>
-      <Box sx={{ padding: "40px", maxWidth: "100%" }}>
+    
+      <Box
+        sx={{
+          maxWidth: "100%",
+          marginLeft: mobile || tablet ? "30px" : "144px",
+          marginRight: mobile || tablet ? "30px" : "144px",
+        }}
+      >
+        <Row>
+        <Col>
+          <div className="text-left mt-50">
+            <span
+              className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => {
+                breadcrumbFromRoute=="Home" ? history.push("/home") : history.push("/datahub/new_datasets")
+              } }
+            >
+               {breadcrumbFromRoute?? ""}
+            </span>
+            <span className="add_light_text ml-16">
+             {
+              breadcrumbFromRoute ?
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              : ""
+             }
+            </span>
+            <span className="add_light_text ml-16 fw600">
+              {!breadcrumbFromRoute ? "Datasets" : value == 0 ? "My organisation datasets" : value == 1 ? "Other organisation datasets" : value == 2 ? "Request received" : "" }
+              
+                {/* {isParticipantRequest ? "" : ""} */}
+            </span>
+          </div>
+        </Col>
+      </Row>
         {/* section-1 */}
-        <div className={mobile ? "title_sm" : "title"}>Datasets Explorer</div>
+        <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
+          Datasets Explorer
+        </div>
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>
-            Unleash the power of data-driven agriculture - your ultimate dataset
-            explorer for smarter decisions!
+            Unleash the power of data-driven agriculture - Your ultimate dataset explorer for smarter decisions.
             <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
         <TextField
-        id="dataset-search-input-id"
+          id="dataset-search-input-id"
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
@@ -826,7 +896,6 @@ const DataSets = (props) => {
                 }
                 onClick={() => handleFilterClick("date")}
                 id="dataset-filter-by-date-id"
-                
               >
                 <img
                   src={require("../../Assets/Img/by_date.svg")}
@@ -853,7 +922,6 @@ const DataSets = (props) => {
               ) : (
                 <div
                   className="d-flex align-items-center filter_text_container"
-
                   onClick={() => {
                     setType("");
                     setCategorises([]);
@@ -865,7 +933,7 @@ const DataSets = (props) => {
                     clearFilter();
                     setFilterState({});
                   }}
-                id="dataset-filter-clear-all-id"
+                  id="dataset-filter-clear-all-id"
                 >
                   <img
                     src={require("../../Assets/Img/clear_all.svg")}

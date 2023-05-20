@@ -72,12 +72,25 @@ const DatasetListNew = (props) => {
         if (res?.data?.next) setLoadMoreUrl(res.data.next);
         else setLoadMoreUrl("");
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        // console.log("err", e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
-        console.log("err", e);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -101,16 +114,18 @@ const DatasetListNew = (props) => {
       ) : (
         ""
       )}
-      <Row>
+      <Box
+        className={
+          datasetList.length != 0
+            ? LocalStyle.datasets_card
+            : LocalStyle.dataset_flex
+        }
+      >
         {datasetList?.map((dataset, index) => {
           console.log("datasets ", dataset);
           return (
-            <Col
+            <Box
               onClick={() => history.push(handleCardClick(dataset?.id))}
-              xs={12}
-              sm={12}
-              md={6}
-              xl={4}
               id="dataset-view-card"
             >
               <DatasetCart
@@ -121,7 +136,7 @@ const DatasetListNew = (props) => {
                 category={Object.keys(dataset?.category)}
                 update={dataset?.updated_at}
               />
-            </Col>
+            </Box>
           );
         })}
         {datasetList.length == 0 ? (
@@ -138,7 +153,7 @@ const DatasetListNew = (props) => {
         ) : (
           ""
         )}
-      </Row>
+      </Box>
 
       {user === "guest" ? (
         <>

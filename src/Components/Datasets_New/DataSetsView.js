@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -29,7 +30,8 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-  dateTimeFormat
+  dateTimeFormat,
+  GetErrorHandlingRoute,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
@@ -37,9 +39,10 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Popconfirm } from "antd";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 
 const DataSetsView = (props) => {
-  const { userType } = props;
+  const { userType, breadcrumbFromRoute } = props;
   const history = useHistory();
   const { id } = useParams();
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -115,7 +118,6 @@ const DataSetsView = (props) => {
     setOpen(false);
   };
 
-
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
     let url = "";
@@ -143,13 +145,22 @@ const DataSetsView = (props) => {
           history.push(`/participant/new_datasets`);
         }
       })
-      .catch((err) => {
+      .catch(async (e) => {
         callLoader(false);
-        callToast(
-          "Something went wrong while deleting Dataset!",
-          "error",
-          true
-        );
+
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while deleting Dataset!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -389,10 +400,23 @@ const DataSetsView = (props) => {
         });
         setCategories(tempCategories);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        callToast("Something went wrong while loading dataset!", "error", true);
-        console.log("error while loading dataset", e);
+        // callToast("Something went wrong while loading dataset!", "error", true);
+        // console.log("error while loading dataset", e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while loading dataset",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   useEffect(() => {
@@ -407,7 +431,7 @@ const DataSetsView = (props) => {
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
-            Datasets
+            {breadcrumbFromRoute ?? "Datasets"}
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -419,11 +443,26 @@ const DataSetsView = (props) => {
               : "Other Organisation"}
           </span>
         </div>
-        <Box className="d-flex justify-content-between align-items-baseline">
-          <div className="bold_title mt-50">{"Dataset Details"}</div>
+        <Box
+          className={
+            mobile ? "" : "d-flex justify-content-between align-items-baseline"
+          }
+        >
+          <div className="bold_title mt-50">
+            {"Dataset Details"}
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {" "}
+              {history.location?.state?.tab === "my_organisation"
+                ? "Explore in-depth information about your uploaded dataset."
+                : "Explore the detailed information and characteristics of datasets."}{" "}
+            </Typography>
+          </div>
+
           {history.location?.state?.tab === "my_organisation" &&
           userType !== "guest" ? (
-            <Box>
+            <Box className={mobile ? "d-flex" : ""}>
               <CustomDeletePopper
                 DeleteItem={dataSetName}
                 anchorEl={anchorEl}
@@ -432,40 +471,40 @@ const DataSetsView = (props) => {
                 open={open}
                 closePopper={closePopper}
               />
-                <Button
-                  sx={{
-                    color: "#FF5630",
-                    fontFamily: "Public Sans",
-                    fontWeight: "700",
-                    fontSize: "15px",
+              <Button
+                sx={{
+                  color: "#FF5630",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: mobile ? "11px" : "15px",
+                  border: "1px solid rgba(255, 86, 48, 0.48)",
+                  width: "172px",
+                  height: "48px",
+                  marginRight: "28px",
+                  textTransform: "none",
+                  "&:hover": {
+                    background: "none",
                     border: "1px solid rgba(255, 86, 48, 0.48)",
-                    width: "172px",
-                    height: "48px",
-                    marginRight: "28px",
-                    textTransform: "none",
-                    "&:hover": {
-                      background: "none",
-                      border: "1px solid rgba(255, 86, 48, 0.48)",
-                    },
+                  },
+                }}
+                variant="outlined"
+                onClick={handleDeletePopper}
+              >
+                Delete dataset{" "}
+                <DeleteOutlineIcon
+                  sx={{
+                    fill: "#FF5630",
+                    fontSize: "22px",
+                    marginLeft: "4px",
                   }}
-                  variant="outlined"
-                  onClick={handleDeletePopper}
-                >
-                  Delete dataset{" "}
-                  <DeleteOutlineIcon
-                    sx={{
-                      fill: "#FF5630",
-                      fontSize: "22px",
-                      marginLeft: "4px",
-                    }}
-                  />
-                </Button>
+                />
+              </Button>
               <Button
                 sx={{
                   color: "#00AB55",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: "15px",
+                  fontSize: mobile ? "11px" : "15px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
                   width: "172px",
                   height: "48px",
@@ -518,17 +557,23 @@ const DataSetsView = (props) => {
               Data Capture Interval
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
-              {dateTimeFormat(fromDate) + " - " + dateTimeFormat(toDate)}
+              {fromDate !== "NA" && toDate !== "NA"
+                ? dateTimeFormat(fromDate) + " - " + dateTimeFormat(toDate)
+                : "Not Available"}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-25">
               Geography
             </Typography>
             <Typography className="view_datasets_bold_text text-left mt-3">
-              {geography?.country?.name
-                ? geography?.country?.name + ", "
-                : "NA, "}
-              {geography?.state?.name ? geography?.state?.name + ", " : "NA, "}
-              {geography?.city?.name ? geography?.city?.name : "NA"}
+              {/* IF GEOGRAPHY COUNTRY SAATE AND CITY ALL ARE "NA" THEN SHOW "Not Available" */}
+              {!geography?.country?.name &&
+              !geography?.state?.name &&
+              !geography?.city?.name
+                ? "Not Available"
+                : ""}
+              {geography?.country?.name ? geography?.country?.name + ", " : ""}
+              {geography?.state?.name ? geography?.state?.name + ", " : ""}
+              {geography?.city?.name ? geography?.city?.name : ""}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-25">
               Constantly updating{" "}
@@ -545,13 +590,16 @@ const DataSetsView = (props) => {
           <ControlledAccordion data={categories} />
         </Box>
         <div className="bold_title mt-50">{"Dataset files"}</div>
-        <Typography className="view_datasets_light_text text-left mt-20">
+        <Alert
+          severity="warning"
+          className="view_datasets_light_text text-left mt-20"
+        >
           <span className="view_datasets_bold_text">Note: </span>This dataset is
           solely meant to be used as a source of information. Even through
           accuracy is the goal, the steward is not accountable for the
           information. Please let the admin know if you have any information you
           think is inaccurate.
-        </Typography>
+        </Alert>
         <Box className="mt-20">
           <ControlledAccordion data={files} isTables={true} />
         </Box>
@@ -571,7 +619,14 @@ const DataSetsView = (props) => {
           <></>
         )}
         {history.location?.state?.tab !== "my_organisation" && (
-          <div className="bold_title mt-50">{"Organisation Details"}</div>
+          <div className="bold_title mt-50">
+            {"Organisation Details"}
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              Details of the organization that owns the dataset.
+            </Typography>
+          </div>
         )}
         {history.location?.state?.tab !== "my_organisation" && (
           <Box>

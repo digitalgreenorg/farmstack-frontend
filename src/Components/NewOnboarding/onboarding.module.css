@@ -267,6 +267,11 @@
 .edit_button {
   width: 172px;
 }
+.termsAndConditionClass {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
 
 /* Extra small devices (phones, 320px and up) */
 @media (min-width: 320px) {
@@ -278,13 +283,17 @@
 }
 
 /* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {}
+@media (min-width: 576px) {
+}
 
 /* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {}
+@media (min-width: 768px) {
+}
 
 /* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {}
+@media (min-width: 992px) {
+}
 
 /* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {}
+@media (min-width: 1200px) {
+}

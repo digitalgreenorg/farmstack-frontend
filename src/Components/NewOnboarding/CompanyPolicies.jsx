@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 
 import FileUploaderMain from "../Generic/FileUploader";
@@ -20,6 +20,9 @@ import {
 import { CSSTransition } from "react-transition-group";
 import { Popconfirm } from "antd";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+import { useHistory } from "react-router-dom";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
+
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [sizeError, setSizeError] = useState("");
@@ -35,6 +38,7 @@ const CompanyPolicies = (props) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   const [key, setKey] = useState(0);
+  const history = useHistory();
 
   const handleUploadPolicy = (file) => {
     console.log("function is calling");
@@ -178,15 +182,36 @@ const CompanyPolicies = (props) => {
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, "error", true);
+                  callToast(
+                    error?.message,
+                    error?.status === 200 ? "success" : "error",
+                    true
+                  );
                 }
                 break;
             }
           }
         } else {
+          // let error = await GetErrorHandlingRoute(e);
+          // if (error) {
+          //   callToast(
+          //     error?.message,
+          //     error?.status === 200 ? "success" : "error",
+          //     true
+          //   );
+          // }
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
-            callToast(error?.message, "error", true);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
@@ -208,9 +233,26 @@ const CompanyPolicies = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
+        // let error = await GetErrorHandlingRoute(e);
+        // if (error) {
+        //   callToast(
+        //     error?.message,
+        //     error?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // }
         let error = await GetErrorHandlingRoute(e);
-        if (error) {
-          callToast(error?.message, "error", true);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -601,6 +643,13 @@ const CompanyPolicies = (props) => {
         <Row className={styles.main_label}>
           <Col xs={12} sm={6} md={6} xl={6}>
             {props.isPolicySettings ? "Policy Settings" : "Company Policies"}
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {props.isPolicySettings
+                ? "Update your organization's data sharing policies."
+                : ""}
+            </Typography>
           </Col>
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button
@@ -682,6 +731,7 @@ const CompanyPolicies = (props) => {
                   setSizeError={() =>
                     setFileError("Maximum file size allowed is 25MB")
                   }
+                  id="upload-policy-file"
                 />
               </Col>
               <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -729,6 +779,7 @@ const CompanyPolicies = (props) => {
                           onClick={() => handleDeletePolicy()}
                           style={{ cursor: "pointer" }}
                           fontSize="small"
+                          id="cancel-policy-file"
                         />
                       </div>
                     )}
@@ -764,6 +815,7 @@ const CompanyPolicies = (props) => {
               Add
             </Button>
           </div>
+          <hr className={styles.guestDividerHr}></hr>
         </>
       ) : (
         <>
@@ -827,6 +879,7 @@ const CompanyPolicies = (props) => {
                       setSizeError={() =>
                         setFileError("Maximum file size allowed is 25MB")
                       }
+                      id="upload-policy-file"
                     />
                   </Col>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -878,6 +931,7 @@ const CompanyPolicies = (props) => {
                               onClick={() => handleDeletePolicy()}
                               style={{ cursor: "pointer" }}
                               fontSize="small"
+                              id="cancel-policy-file"
                             />
                           </div>
                         )}
@@ -916,6 +970,7 @@ const CompanyPolicies = (props) => {
                   Add
                 </Button>
               </div>
+              <hr className={styles.guestDividerHr}></hr>
             </>
           )}
         </>

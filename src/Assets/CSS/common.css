@@ -761,11 +761,14 @@ MuiLinearProgress-determinate {
 
 .minHeight67vhParticipantPage {
   min-height: 67.5vh;
+  margin-top: 100px;
+
   /* border: 1px solid red; */
   /* max-height: 100vh; */
 }
 
 .minHeight67vhDatahubPage {
+  margin-top: 100px;
   min-height: 67.5vh;
   /* border: 1px solid red; */
   /* max-height: 100vh; */
@@ -1247,12 +1250,24 @@ textarea {
   margin-top: 30px !important;
 }
 
+.mt-28 {
+  margin-top: 28px !important;
+}
+
 .mt-39 {
   margin-top: 39px !important;
 }
 
 .mt-50 {
   margin-top: 50px !important;
+}
+
+.mt-70 {
+  margin-top: 70px !important;
+}
+
+.mt-150 {
+  margin-top: 150px !important;
 }
 
 .mb-50 {
@@ -1338,9 +1353,10 @@ textarea {
   max-height: 250px !important;
 }
 
-.edit_head_name_accordion .MuiInputBase-root:nth-child(1) {
-  width: 70% !important;
-  height: 40px !important;
+.edit_head_name_accordion {
+    width: 950px;
+    height: 50px;
+    margin: 20px auto !important;
 }
 
 .accordions_in_onboarding .MuiAccordionSummary-content {
