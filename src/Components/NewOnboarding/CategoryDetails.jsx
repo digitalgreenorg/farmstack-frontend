@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, InputAdornment, TextField } from "@mui/material";
+import { Button, InputAdornment, TextField, Typography } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import FileUploaderMain from "../Generic/FileUploader";
@@ -17,6 +17,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
 import { ClickAwayListener } from "@mui/base";
 import { useHistory } from "react-router-dom";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 const CategoryDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
 
@@ -110,16 +111,29 @@ const CategoryDetails = (props) => {
         setCategoryNameList([...categoryNames]);
         setAllCategories([...categories]);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        GetErrorHandlingRoute(e).then((errorObject) => {
-          console.log(errorObject);
+        // GetErrorHandlingRoute(e).then((errorObject) => {
+        //   console.log(errorObject);
+        //   callToast(
+        //     errorObject?.message,
+        //     errorObject?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // });
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
           callToast(
-            errorObject?.message,
-            errorObject?.status === 200 ? "success" : "error",
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
             true
           );
-        });
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -171,16 +185,29 @@ const CategoryDetails = (props) => {
           callToast("Category settings updated successfully", "success", true);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        GetErrorHandlingRoute(e).then((errorObject) => {
-          console.log(errorObject);
+        // GetErrorHandlingRoute(e).then((errorObject) => {
+        //   console.log(errorObject);
+        //   callToast(
+        //     errorObject?.message,
+        //     errorObject?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // });
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
           callToast(
-            errorObject?.message,
-            errorObject?.status === 200 ? "success" : "error",
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
             true
           );
-        });
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   const [enableSave, setEnableSave] = useState(false);
@@ -333,7 +360,7 @@ const CategoryDetails = (props) => {
                     placeholder="Sub-category"
                     label="Sub-category"
                     variant="outlined"
-                    id="each_subcategory"
+                    id={`${index}each_subcategory`}
                     name="each_subcategory"
                     value={each_sub_category}
                     onChange={(e) => handleEditSubcategory(e, index)}
@@ -359,6 +386,7 @@ const CategoryDetails = (props) => {
                               handleDeleteSubCategory(index, each_sub_category)
                             }
                             style={{ color: "#212b36", cursor: "pointer" }}
+                            id={`delete${index}-sub-category`}
                           />
                         </InputAdornment>
                       ),
@@ -390,6 +418,13 @@ const CategoryDetails = (props) => {
         <Row className={styles.main_label}>
           <Col xs={12} sm={6} md={6} xl={6}>
             Category Settings
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {props.isCategorySetting
+                ? "Create and update categories to organize datasets."
+                : ""}
+            </Typography>
           </Col>
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button
@@ -416,6 +451,7 @@ const CategoryDetails = (props) => {
                   texts={`Drop files here or click browse thorough your machine
                 Supports: XLX, CSV files`}
                   maxSize={2}
+                  id="upload-category-file"
                 />
               </Col>
             )}
@@ -453,6 +489,7 @@ const CategoryDetails = (props) => {
                           onClick={() => handleDeleteCategory()}
                           style={{ cursor: "pointer" }}
                           fontSize="small"
+                          id="cancel-category-file"
                         />
                       </div>
                     )}
@@ -620,17 +657,20 @@ const CategoryDetails = (props) => {
                 >
                   <TextField
                     className="edit_head_name_accordion"
-                    style={{ height: "8px", width: "100%" }}
+                    style={{ height: "30px", width: "100%" }}
                     value={category.category_name}
                     onChange={(e) => handleChangeHeadName(e, index)}
                     onClick={(e) => e.stopPropagation()}
-                    sx={{
-                      "&.MuiTextField-root": {
-                        display: "flex",
-                        flexDirection: "inherit",
-                        width: "500px",
-                      },
-                    }}
+                    id={`edit-${index}-head-accordian-name`}
+                    // sx={{
+                    //   "&.MuiTextField-root": {
+                    //     display: "flex",
+                    //     flexDirection: "inherit",
+                    //     width: "500px",
+                    //   },
+                    // }}
+                    variant="outlined"
+                    label="Category name"
                     // InputProps={{
                     //   endAdornment: (
                     //     <InputAdornment position="end">

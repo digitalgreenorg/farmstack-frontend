@@ -160,3 +160,38 @@
 .mr45 {
     margin-right: 45px !important;
 }
+
+@media only screen and (max-width: 600px) {
+    .connectorCard {
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 20px;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 900px) {
+    .connectorCard {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 22px;
+    }
+}
+
+@media only screen and (min-width: 900px) and (max-width: 1200px) {
+    .connectorCard {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 22px;
+    }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1650px) {
+    .connectorCard {
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 22px;
+    }
+}
+
+@media only screen and (min-width: 1650px) {
+    .connectorCard {
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 18px;
+    }
+}

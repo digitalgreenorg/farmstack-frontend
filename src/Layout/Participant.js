@@ -128,7 +128,7 @@ function Participant(props) {
             className={
               mobile
                 ? "minHeight67vhParticipantPage" + " " + "mt-70"
-                : "minHeight67vhParticipantPage" + " " + "mt-150"
+                : "minHeight67vhParticipantPage"
             }
           >
             <br/>

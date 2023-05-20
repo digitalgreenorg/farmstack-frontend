@@ -45,6 +45,8 @@ const ControlledAccordion = ({
   isTables,
   isCustomDetailStyle,
   customDetailsStyle,
+  addHeaderBackground,
+  headerBackground,
 }) => {
   const [expanded, setExpanded] = useState(
     selectedPanelIndex ? selectedPanelIndex : false
@@ -86,6 +88,9 @@ const ControlledAccordion = ({
                   customBorder && expanded === acc.panel
                     ? "1px solid #919EAB"
                     : "",
+                backgroundColor: addHeaderBackground
+                  ? headerBackground
+                  : "none",
               },
             }}
           >

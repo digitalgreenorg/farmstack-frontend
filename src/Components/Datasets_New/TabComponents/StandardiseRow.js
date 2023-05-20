@@ -10,6 +10,8 @@ import {
   Select,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import CheckBoxWithText from "./CheckBoxWithText";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -34,6 +36,10 @@ const StandardiseRow = ({
   maskedColumns,
 }) => {
   // console.log(datapointCategory?.[index], "rowfow");
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
   const [isSelectorOpen, setisSelectorOpen] = useState(false);
   const clearCategory = (index) => {
     let tmpStandardisedColum = [...standardisedColum];
@@ -61,17 +67,18 @@ const StandardiseRow = ({
             lineHeight: "24px",
             color: "#000000",
             textAlign: "left",
-            width: "100px",
+            width: mobile || tablet ? "100%" : "100px",
           }}
         >
           {keyName}
         </Typography>
-        <Box className="">
+        <Box className={mobile || tablet || miniLaptop ? "m-3" : ""}>
           <FormControl fullWidth sx={{ width: "273px" }}>
             <InputLabel>Datapoint category</InputLabel>
             <Select
-            id={`standardise-datapoint-category${index}`}
+              id={`standardise-datapoint-category${index}`}
               labelId="demo-simple-select-label"
+              className="datapoint-category-classname"
               key={index}
               value={
                 datapointCategory?.[index] ? datapointCategory?.[index] : ""
@@ -133,16 +140,20 @@ const StandardiseRow = ({
               }}
             >
               {datapointCategories?.map((item) => (
-                <MenuItem 
-                id={`standardise-datapoint-category-option-${index+item?.datapoint_category}`}
-                key={item.datapoint_category} value={item}>
+                <MenuItem
+                  id={`standardise-datapoint-category-option-${
+                    index + item?.datapoint_category
+                  }`}
+                  key={item.datapoint_category}
+                  value={item}
+                >
                   {item?.datapoint_category}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
         </Box>
-        <Box className="">
+        <Box className={mobile || tablet || miniLaptop ? "m-3" : ""}>
           <FormControl fullWidth sx={{ width: "273px" }}>
             <InputLabel>Datapoint Attribute</InputLabel>
             <Select
@@ -176,9 +187,11 @@ const StandardiseRow = ({
               }}
             >
               {datapointAttributes[index]?.map((item) => (
-                <MenuItem 
-                id={`standardise-datapoint-attribute-${index+item}`}
-                 key={item} value={item}>
+                <MenuItem
+                  id={`standardise-datapoint-attribute-${index + item}`}
+                  key={item}
+                  value={item}
+                >
                   {item}
                 </MenuItem>
               ))}

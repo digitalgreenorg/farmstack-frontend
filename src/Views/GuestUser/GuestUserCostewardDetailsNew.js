@@ -4,7 +4,7 @@ import GuestUserParticipantsDetails from "./GuestUserParticipantsDetails";
 function GuestUserCostewardDetailsNew() {
   return (
     <>
-      <GuestUserParticipantsDetails userTypeCosteward={"Our co-stewards"} />
+      <GuestUserParticipantsDetails breadcrumbFromRoute={"Home"} userTypeCosteward={"Our co-stewards"} />
     </>
   );
 }
