@@ -357,7 +357,7 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point4.svg")} />
                 </span>
-                <span className="text-left">Scale-up your impact</span>
+                <span className="text-left">Scale-up your impact </span>
               </Col>
             </Row>
           </Col>
