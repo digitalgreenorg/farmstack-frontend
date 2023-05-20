@@ -113,13 +113,13 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
-                <span>Orchestrate network of data </span>
+                <span>Connect, Share, Discover </span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
-                <span>Invite data providers and consumers</span>
+                <span>Unlock data insights</span>
               </Col>
             </Row>
             <Row>
@@ -154,7 +154,7 @@ const GuestUserHome = () => {
           Datasets
         </Typography>
         <Typography
-          className={`${LocalStyle.textDescription} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
           Discover and explore the potential of data to generate ideal datasets
           with Dataset Explorer.
@@ -317,10 +317,9 @@ const GuestUserHome = () => {
                 className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Foster data-driven decisions and collaboration by empowering
-                participants to access, showcase, upload, import, standardize,
-                categorize, and securely publish diverse datasets, cultivating a
-                thriving community for data exchange.
+                Foster data-driven decisions by collaborating with participants
+                to seamlessly share datasets and unlock their true potential by
+                integrating datasets.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
@@ -336,16 +335,14 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
-                <span className="text-left">
-                  Empowering Agricultural Communities{" "}
-                </span>
+                <span className="text-left">Strengthen Collaboration </span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
                 <span className="text-left">
-                  Promoting Transparency and Trust
+                  Unleash the Power of Connectors
                 </span>
               </Col>
             </Row>
@@ -354,15 +351,13 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point3.svg")} />
                 </span>
-                <span className="text-left">Strengthening Collaboration</span>
+                <span className="text-left">Enable Use cases</span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point4.svg")} />
                 </span>
-                <span className="text-left">
-                  Unleashing the Power of Data Integration Connectors
-                </span>
+                <span className="text-left">Scale-up your impact </span>
               </Col>
             </Row>
           </Col>

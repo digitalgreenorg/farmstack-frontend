@@ -114,7 +114,13 @@ const DatasetListNew = (props) => {
       ) : (
         ""
       )}
-      <Box className={LocalStyle.datasets_card}>
+      <Box
+        className={
+          datasetList.length != 0
+            ? LocalStyle.datasets_card
+            : LocalStyle.dataset_flex
+        }
+      >
         {datasetList?.map((dataset, index) => {
           console.log("datasets ", dataset);
           return (
