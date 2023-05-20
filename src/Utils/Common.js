@@ -127,7 +127,7 @@ export const refreshToken = async () => {
       };
       return error;
     }
-    localStorage.setItem("lastPathname", window.location.href);
+    localStorage.setItem("lastPathname", window.location.pathname);
     const response = await HTTPService("POST", url, {
       refresh: refreshToken,
     });
