@@ -105,6 +105,14 @@ const UploadFile = ({
     let source = "";
     if (type === "file_upload") {
       source = "file";
+      console.log(id, "idasdsadc");
+      // if (!id) {
+      //   console.log(index);
+      //   let filteredElements = uploadedFiles.filter((item, i) => i != index);
+      //   console.log(filteredElements);
+      //   setUploadedFiles(filteredElements);
+      //   return;
+      // }
     } else if (type === "sqlFiles") {
       source = "mysql";
     } else if (type === "postgresFiles") {
@@ -931,7 +939,8 @@ const UploadFile = ({
                 {files?.map((item, index) => (
                   <>
                     <File
-                      id={`add-dataset-uploaded-file${index}`}
+                      id={item?.id ?? ""}
+                      // id={`add-dataset-uploaded-file${index}`}
                       index={index}
                       name={item.name}
                       size={item.size}
