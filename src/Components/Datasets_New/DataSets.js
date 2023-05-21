@@ -52,7 +52,7 @@ const cardSx = {
 };
 const DataSets = (props) => {
   const { user, breadcrumbFromRoute } = props;
-  console.log("breadcrumbFromRoute",breadcrumbFromRoute)
+  console.log("breadcrumbFromRoute", breadcrumbFromRoute);
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
@@ -173,8 +173,8 @@ const DataSets = (props) => {
     if (user == "guest") {
       if (!isLoadMore) {
         guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
-        payload = "";
       }
+      payload = "";
       if (isLoadMore) {
         guestUrl = datasetUrl;
       }
@@ -183,7 +183,7 @@ const DataSets = (props) => {
       }
     }
     // console.log(user, "user inside the microste");
-    let accessToken = user !== "guest" ? getTokenLocal() : false;
+    let accessToken = user != "guest" ? getTokenLocal() : false;
 
     callLoader(true);
     HTTPService(
@@ -326,6 +326,9 @@ const DataSets = (props) => {
     }
 
     let accessToken = user !== "guest" ? getTokenLocal() : false;
+    if (user == "guest") {
+      data = "";
+    }
 
     await HTTPService("POST", getUrl(isLoadMore), data, false, accessToken)
       .then((response) => {
@@ -365,19 +368,21 @@ const DataSets = (props) => {
         }
         return;
       })
-      .catch ( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   // filter-popovers handling
@@ -469,19 +474,21 @@ const DataSets = (props) => {
         });
         setAllCategories(tempCategories);
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         console.log(e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -545,6 +552,9 @@ const DataSets = (props) => {
     let guestUsetFilterUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
     let isAuthorization = user == "guest" ? false : true;
+    if (user == "guest") {
+      payload = "";
+    }
     callLoader(true);
     HTTPService(
       "POST",
@@ -592,20 +602,22 @@ const DataSets = (props) => {
           setMemberDatasetList(finalDataList);
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         console.log(e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -693,7 +705,6 @@ const DataSets = (props) => {
 
   return (
     <>
-    
       <Box
         sx={{
           maxWidth: "100%",
@@ -702,31 +713,43 @@ const DataSets = (props) => {
         }}
       >
         <Row>
-        <Col>
-          <div className="text-left mt-50">
-            <span
-              className="add_light_text cursor-pointer breadcrumbItem"
-              onClick={() => {
-                breadcrumbFromRoute=="Home" ? history.push("/home") : history.push("/datahub/new_datasets")
-              } }
-            >
-               {breadcrumbFromRoute?? ""}
-            </span>
-            <span className="add_light_text ml-16">
-             {
-              breadcrumbFromRoute ?
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
-              : ""
-             }
-            </span>
-            <span className="add_light_text ml-16 fw600">
-              {!breadcrumbFromRoute ? "Datasets" : value == 0 ? "My organisation datasets" : value == 1 ? "Other organisation datasets" : value == 2 ? "Request received" : "" }
-              
+          <Col>
+            <div className="text-left mt-50">
+              <span
+                className="add_light_text cursor-pointer breadcrumbItem"
+                onClick={() => {
+                  breadcrumbFromRoute == "Home"
+                    ? history.push("/home")
+                    : history.push("/datahub/new_datasets");
+                }}
+              >
+                {breadcrumbFromRoute ?? ""}
+              </span>
+              <span className="add_light_text ml-16">
+                {breadcrumbFromRoute ? (
+                  <ArrowForwardIosIcon
+                    sx={{ fontSize: "14px", fill: "#00ab55" }}
+                  />
+                ) : (
+                  ""
+                )}
+              </span>
+              <span className="add_light_text ml-16 fw600">
+                {!breadcrumbFromRoute
+                  ? "Datasets"
+                  : value == 0
+                  ? "My organisation datasets"
+                  : value == 1
+                  ? "Other organisation datasets"
+                  : value == 2
+                  ? "Request received"
+                  : ""}
+
                 {/* {isParticipantRequest ? "" : ""} */}
-            </span>
-          </div>
-        </Col>
-      </Row>
+              </span>
+            </div>
+          </Col>
+        </Row>
         {/* section-1 */}
         <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
           Datasets Explorer
@@ -734,7 +757,8 @@ const DataSets = (props) => {
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>
-            Unleash the power of data-driven agriculture - Your ultimate dataset explorer for smarter decisions.
+            Unleash the power of data-driven agriculture - Your ultimate dataset
+            explorer for smarter decisions.
             <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>

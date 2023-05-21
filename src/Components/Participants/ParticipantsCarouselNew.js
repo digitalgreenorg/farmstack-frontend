@@ -21,16 +21,17 @@ const ParticipantsCarouselNew = (props) => {
     dots: true,
     infinite: true,
     speed: 500,
-    // slidesToShow: participantsList?.length >= 3 ? 3 : participantsList?.length,
-    // slidesToScroll:
-    //   participantsList?.length >= 3 ? 3 : participantsList?.length,
+    slidesToShow: participantsList?.length >= 3 ? 3 : participantsList?.length,
+    slidesToScroll:
+      participantsList?.length >= 3 ? 3 : participantsList?.length,
     autoplay: true,
     className: LocalStyle.slides,
     responsive: [
       {
         breakpoint: 3060,
         settings: {
-          slidesToShow: 4,
+          slidesToShow:
+            participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
           arrows: false,
         },
@@ -38,7 +39,8 @@ const ParticipantsCarouselNew = (props) => {
       {
         breakpoint: 2560,
         settings: {
-          slidesToShow: 4,
+          slidesToShow:
+            participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
           arrows: false,
         },
@@ -46,7 +48,8 @@ const ParticipantsCarouselNew = (props) => {
       {
         breakpoint: 1920,
         settings: {
-          slidesToShow: 4,
+          slidesToShow:
+            participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
           arrows: false,
         },
@@ -54,7 +57,8 @@ const ParticipantsCarouselNew = (props) => {
       {
         breakpoint: 1440,
         settings: {
-          slidesToShow: 3,
+          slidesToShow:
+            participantsList.length >= 3 ? 3 : participantsList.length,
           slidesToScroll: 2,
           arrows: false,
         },
@@ -122,6 +126,8 @@ const ParticipantsCarouselNew = (props) => {
         //   setLoadMoreButton(true);
         //   if (response?.data?.next) setLoadMoreUrl(response.data.next);
         // }
+        // let tmpData = response.data.results;
+        console.log();
         if (response?.data?.results) setParticipantsList(response.data.results);
       })
       .catch(async (e) => {
