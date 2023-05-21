@@ -522,7 +522,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <CustomDeletePopper
                 DeleteItem={organisationName}
                 anchorEl={anchorEl}
-                handleDelete={deleteParticipants}
+                handleDelete={() => deleteParticipants(false)}
                 id={id}
                 open={open}
                 closePopper={closePopper}
