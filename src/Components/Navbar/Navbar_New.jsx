@@ -62,6 +62,9 @@ const NavbarNew = ({ loginType }) => {
     )
       .then((response) => {
         setAdminData(response.data);
+        if (!response.data?.organization?.logo) {
+          history.push("/login");
+        }
       })
       .catch((e) => {});
   };

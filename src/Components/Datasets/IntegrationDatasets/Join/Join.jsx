@@ -71,10 +71,10 @@ const Join = (props) => {
     generateData,
   } = props;
   const [joinTypeArr, setJoinTypeArr] = useState([
-    { name: "left", black: leftB, green: leftG , id: "leftjoin"},
-    { name: "right", black: rightB, green: rightG, id: "rightjoin"},
-    { name: "inner", black: innerB, green: innerG, id: "innerjoin"},
-    { name: "outer", black: fullB, green: fullG, id: "outerjoin"},
+    { name: "left", black: leftB, green: leftG, id: "leftjoin" },
+    { name: "right", black: rightB, green: rightG, id: "rightjoin" },
+    { name: "inner", black: innerB, green: innerG, id: "innerjoin" },
+    { name: "outer", black: fullB, green: fullG, id: "outerjoin" },
   ]);
 
   const handleChangeJoin = (e, ind, source) => {
@@ -122,6 +122,7 @@ const Join = (props) => {
   const clearJoinFields = () => {
     let arr = [...completeData];
     let obj = { ...each };
+    obj["noOfjoin"] = 1;
 
     //clear join typ
     obj["type"] = "";
@@ -133,6 +134,8 @@ const Join = (props) => {
 
     // clear right join field
     obj["right_on"] = [];
+
+    console.log(obj);
     arr[index] = { ...obj };
 
     setCompleteData([...arr]);
@@ -289,7 +292,9 @@ const Join = (props) => {
                       id="secondary_col_select_for_join"
                       required
                       sx={selectStyle}
-                      value={each?.right_on ? each?.right_on[ind] : ""}
+                      value={
+                        each?.right_on?.length > 0 ? each?.right_on[ind] : ""
+                      }
                       onChange={(e) => handleChangeJoin(e, ind, "join2")}
                       label="Join column (right)"
                       // multiple
