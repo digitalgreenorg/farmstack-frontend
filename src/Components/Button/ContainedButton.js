@@ -10,17 +10,17 @@ const ContainedButton = ({ text, fontWeight, fontSize, fontFamily, width, height
                 fontSize: fontSize,
                 width: width,
                 height: height,
-                border: border ? border : "1px solid rgba(0, 171, 85, 0.48)",
+                border: disabled ? '1px solid rgba(0, 0, 0, 0.1)' : border || '1px solid rgba(0, 171, 85, 0.48)',
                 borderRadius: radius ? radius : '8px',
-                color: "white",
-                background: "#00AB55",
+                color: disabled ? 'rgba(0, 0, 0, 0.5)' : 'white',
+                background: disabled ? 'rgba(0, 0, 0, 0.1)' : '#00AB55',
                 textTransform: 'none',
                 marginLeft: ml ? ml : '',
                 marginRight: mr ? mr : '',
                 marginTop: mt ? mt : '',
                 '&:hover': {
-                    backgroundColor: '#00AB55',
-                    color: '#fffff',
+                    backgroundColor: disabled ? 'rgba(0, 0, 0, 0.1)' : '#00AB55',
+                    color: disabled ? 'rgba(0, 0, 0, 0.5)' : '#ffffff',
                 }
             }}
             disabled={disabled}
