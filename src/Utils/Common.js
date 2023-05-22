@@ -161,6 +161,7 @@ export const GetErrorHandlingRoute = async (e) => {
   console.log(e?.response?.data, e.response?.status, "error");
   if (e?.response?.data && e?.response?.status == 401) {
     let resultOfRefresh = await refreshToken();
+    window.location.reload();
     return resultOfRefresh;
   } else if (
     (e?.response?.data && e?.response?.status == 403) ||
