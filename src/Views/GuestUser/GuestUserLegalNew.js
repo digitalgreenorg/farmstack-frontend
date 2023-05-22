@@ -130,7 +130,7 @@ const GuestUserLegalNew = (props) => {
   };
   return (
     <Box sx={containerStyle}>
-      <Row className={LocalStyle.titleContainer}>
+      <div className={LocalStyle.titleContainer}>
         <div
           className={LocalStyle.title}
           style={{
@@ -155,7 +155,7 @@ const GuestUserLegalNew = (props) => {
             {/* <b style={{ fontWeight: "bold" }}>&rdquo;</b> */}
           </div>
         </div>
-      </Row>
+      </div>
       <Row className={LocalStyle.title2}>
         <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
           Our terms are
