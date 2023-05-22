@@ -32,7 +32,7 @@ const GuestUserLegalNew = (props) => {
   const [legalData, setLegalData] = useState([]);
   const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
-  const history = useHistory()
+  const history = useHistory();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
@@ -97,21 +97,23 @@ const GuestUserLegalNew = (props) => {
           console.log("something is wrong in .then");
         }
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         // console.log("error", GetErrorHandlingRoute(e));
         // callToast(GetErrorHandlingRoute(e).message, "error", true);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
-            true);
-          }
-          if(error.path){
-            history.push(error.path)
-          }
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   useEffect(() => {
@@ -128,7 +130,7 @@ const GuestUserLegalNew = (props) => {
   };
   return (
     <Box sx={containerStyle}>
-      <Row className={LocalStyle.titleContainer}>
+      <div className={LocalStyle.titleContainer}>
         <div
           className={LocalStyle.title}
           style={{
@@ -145,15 +147,15 @@ const GuestUserLegalNew = (props) => {
               fontSize: mobile ? "15px" : tablet ? "18px" : "22px",
             }}
           >
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            {/* <b style={{ fontWeight: "bold" }}>&ldquo;</b> */}
             Data governance policy documents, providing precise data usage and
             management guidelines within the Farmstack ecosystem. This feature
             promotes responsible data sharing and ensures compliance with
             industry standards.
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+            {/* <b style={{ fontWeight: "bold" }}>&rdquo;</b> */}
           </div>
         </div>
-      </Row>
+      </div>
       <Row className={LocalStyle.title2}>
         <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
           Our terms are
