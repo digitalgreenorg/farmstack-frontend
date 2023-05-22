@@ -176,7 +176,9 @@ export const GetErrorHandlingRoute = async (e) => {
     };
   } else if (
     e?.response?.data &&
-    (e?.response?.status == 404 || e?.response?.status == 405)
+    (e?.response?.status == 404 ||
+      e?.response?.status == 405 ||
+      e?.response?.status == 400)
   ) {
     return {
       toast: true,

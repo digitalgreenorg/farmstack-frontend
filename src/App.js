@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useco, useState } from "react";
 import "mdbreact/dist/css/mdb.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
@@ -46,17 +46,25 @@ import {
   isLoggedInUserAdmin,
 } from "./Utils/Common";
 function App() {
-  const { isLoading, toastDetail, setAdminData } = useContext(FarmStackContext);
+  const { isLoading, toastDetail, setAdminData, callLoader } =
+    useContext(FarmStackContext);
+  const [isOnboarded, setIsOnboarded] = useState(true);
+
   function getAdminData() {
     let url =
       UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
     let method = "GET";
     // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
+    callLoader(true);
     HTTPService(method, url, "", false, false, false, false, false)
       .then((response) => {
+        callLoader(false);
         setAdminData(response.data);
+        let isOnboarded = response.data?.organization?.logo ? true : false;
+        setIsOnboarded(isOnboarded);
       })
       .catch((error) => {
+        callLoader(false);
         console.log("error");
       });
   }
@@ -93,6 +101,32 @@ function App() {
         console.log("error to verify local data", err);
       });
   };
+
+  // function getAdminData() {
+  //   callLoader(true);
+  //   let url =
+  //     UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
+  //   let method = "GET";
+  //   // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
+  //   HTTPService(method, url, "", false, false, false, false, false)
+  //     .then((response) => {
+  //       callLoader(false);
+
+  //       setAdminData(response.data);
+  //       // if (response.data?.organization?.logo) {
+
+  //       // setActiveStep(stepNumber);
+  //       // }
+  //     })
+  //     .catch((error) => {
+  //       callLoader(false);
+
+  //       console.log("error");
+  //     });
+  // }
+
+  console.log("isonboarded", isOnboarded);
+
   useEffect(() => {
     // verifyUserDataOfLocal();
     getAdminData();
@@ -115,21 +149,35 @@ function App() {
         <Route  path="/login/profile" component={ProfileScreen} /> */}
           {/* <Route exact path="/datahub/login" component={Login} /> */}
           {/* <Route exact path="/participant/login" component={Login} /> */}
+
           <Route exact path="/login" component={OnBoarding} />
           <Route path="/datahub" component={Datahub} />
           <Route path="/participant" component={Participant} />
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error/:status" component={NewError} />
-          <Route path="/home" component={GuestRoutes} />
-          {/* <Route exact path="/home/viewdataset/:id" component={Viewdetails} /> */}
-          <Route exact path="/legal" component={GuestUserLegal} />
-          <Route exact path="/contact" component={GuestUserContactNew} />
+
           <Route
             exact
             path="/participantregistration"
             component={AddParticipantRegistrationForm}
           />
-          <Redirect from="/" to="/home" />
+          {!isOnboarded ? (
+            <>
+              <Redirect from="/" to="/login" />
+              <Redirect from="*" to="/login" />
+              {/* <Redirect from="/home" to="/login" />
+              <Redirect from="/home/legal" to="/login" /> */}
+              {/* <Redirect from="/home/contact" to="/login" /> */}
+            </>
+          ) : (
+            <>
+              <Route path="/home" component={GuestRoutes} />
+              {/* <Route exact path="/home/viewdataset/:id" component={Viewdetails} /> */}
+              <Route exact path="/legal" component={GuestUserLegal} />
+              <Route exact path="/contact" component={GuestUserContactNew} />
+              <Redirect from="/" to="/home" />
+            </>
+          )}
         </Switch>
       </Router>
     </React.Fragment>
