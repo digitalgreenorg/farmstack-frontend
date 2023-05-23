@@ -913,7 +913,7 @@ const StandardizationInOnbord = (props) => {
                                                 arrIndex
                                               )
                                             }
-                                            id="delete-datapoint-attribute"
+                                            id={`delete-${arrIndex}-datapoint-attribute`}
                                           >
                                             <DeleteOutlineIcon />
                                           </IconButton>
