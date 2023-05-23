@@ -8,6 +8,46 @@ import CustomGraph from "../../Components/Graph/CustomGraph";
 import CustomDashBoardTable from "../../Components/CustomDashboardTable.js/CustomDashBoardTable";
 
 function DashboardNew() {
+  const data = {
+    labels: ["Label 1", "Label 2", "Label 3"],
+    datasets: [
+      {
+        data: [10, 20, 30],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      },
+    ],
+  };
+  const cropDistributionData = {
+    labels: ["Label 1", "Label 2", "Label 3"],
+    datasets: [
+      {
+        data: [10, 20, 30],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      },
+    ],
+  };
+  const livestockDistributionData = {
+    labels: ["Cattle", "Poultry", "Sheep"],
+    datasets: [
+      {
+        data: [40, 30, 20],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      },
+    ],
+  };
+  const irrigationMethodsData = {
+    labels: ["Sprinkler", "Drip", "Flood"],
+    datasets: [
+      {
+        data: [50, 15, 35],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      },
+    ],
+  };
   return (
     <Box className={`${localeStyle.dashboardContainer}`}>
       <Box className={`${localeStyle.basicDetailsContainer}`}>
@@ -72,10 +112,46 @@ function DashboardNew() {
         </FormControl>
       </Box>
       <Box className={`${localeStyle.graphContainer}`}>
-        <CustomGraph title="Datasets by Cateogries" />
-        <CustomGraph title="Datasets by Cateogries" />
-        <CustomGraph title="Datasets by Cateogries" />
+        <CustomGraph
+          data={irrigationMethodsData}
+          title="Datasets by Cateogries"
+          chartType="doughnut"
+        />
+        <CustomGraph data={data} title="Dataset by Sources" chartType="bar" />
+        <CustomGraph
+          data={cropDistributionData}
+          title="Dataset by Geography"
+          chartType="pie"
+        />
         <CustomDashBoardTable />
+      </Box>
+      <Box>
+        <span
+          className={`${globalStyle.size24} ${globalStyle.bold700} ${localeStyle.secondaryColor}`}
+        >
+          Connectors
+        </span>
+        <div className={`${localeStyle.connectorsDataContainer}`}>
+          <div
+            className={`${localeStyle.connectorsData} ${localeStyle.userBasicData}`}
+          >
+            <div>
+              <span>Total No. Of connectors</span>
+              <span>15</span>
+            </div>
+            <div>
+              <span>My Datasets Integrated</span>
+              <span>15</span>
+            </div>
+            <div>
+              <span>Others datasets Integrated</span>
+              <span>15</span>
+            </div>
+          </div>
+          <div>
+            <CustomDashBoardTable />
+          </div>
+        </div>
       </Box>
     </Box>
   );

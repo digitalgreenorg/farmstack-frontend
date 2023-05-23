@@ -1,4 +1,27 @@
 .container {
   height: 400px;
-  width: 45%;
+  width: 95%;
+  border: 1px solid #c8c3c3;
+  border-radius: 10px;
+  margin: 10px;
+}
+.barChartContainer {
+  height: 400px;
+  width: 95%;
+  border: 1px solid #c8c3c3;
+  border-radius: 10px;
+  margin: 10px;
+}
+.barChartContainer canvas {
+  /* width: 350px !important; */
+  height: 300px !important;
+}
+.container canvas {
+  width: 350px !important;
+  height: 350px !important;
+}
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 20px 30px;
 }

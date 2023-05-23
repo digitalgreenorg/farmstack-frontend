@@ -66,3 +66,25 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
+.connectorsDataContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.connectorsDataContainer > div {
+  width: 45%;
+}
+.connectorsData > div {
+  height: 100%;
+}
+.connectorsData > div > span:nth-child(1) {
+  height: 40%;
+  text-align: center;
+  padding: 5px;
+}
+.userBasicData {
+  border: 1px solid #c8c3c3;
+  border-radius: 10px;
+}
+.connectorsData {
+  height: 130px;
+}
