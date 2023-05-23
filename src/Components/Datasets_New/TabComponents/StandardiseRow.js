@@ -122,6 +122,7 @@ const StandardiseRow = ({
                         // marginRight: "25px",
                         cursor: "pointer",
                       }}
+                      id={`standardise-clear-datapoint-category${index}`}
                       onClick={() => clearCategory(index)}
                     />
                   ) : (
@@ -130,6 +131,7 @@ const StandardiseRow = ({
                   <span onBlur={() => setisSelectorOpen(!isSelectorOpen)}>
                     <ExpandMoreIcon
                       sx={{ cursor: "pointer" }}
+                      id={`standardise-select-datapoint-category${index}`}
                       onClick={() => setisSelectorOpen(!isSelectorOpen)}
                     />
                   </span>
@@ -183,7 +185,12 @@ const StandardiseRow = ({
               label="Datapoint Attribute"
               placeholder="Datapoint Attribute"
               IconComponent={(props) => {
-                return <ExpandMoreIcon {...props} />;
+                return (
+                  <ExpandMoreIcon
+                    {...props}
+                    id={`standardise-select-datapoint-attribute${index}`}
+                  />
+                );
               }}
             >
               {datapointAttributes[index]?.map((item) => (
