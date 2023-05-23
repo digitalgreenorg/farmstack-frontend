@@ -435,6 +435,7 @@ const UsagePolicy = (props) => {
                 color: "#fffff",
               },
             }}
+            variant="contained"
             disabled={file ? false : true}
             onClick={() => submitPolicy()}
             id={`usege-policy-apply-btn`}
