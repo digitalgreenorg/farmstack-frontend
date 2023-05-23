@@ -78,7 +78,7 @@ const CoStewardAndParticipantsCard = (props) => {
           mobile ? LocalStyle.titleContainerSm : LocalStyle.titleContainer
         }
       >
-        <Box className={LocalStyle.titleParentDiv}>
+        <Box className={subTitle ? LocalStyle.titleParentDiv : "w-100"}>
           <Typography
             id={title?.split(" ")[0] + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${
