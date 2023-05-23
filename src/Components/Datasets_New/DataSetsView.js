@@ -601,7 +601,11 @@ const DataSetsView = (props) => {
           think is inaccurate.
         </Alert>
         <Box className="mt-20">
-          <ControlledAccordion data={files} isTables={true} />
+          <ControlledAccordion
+            data={files}
+            emptyMessage={"No dataset files uploaded"}
+            isTables={true}
+          />
         </Box>
         <Divider className="mt-50" />
         {console.log(history)}

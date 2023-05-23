@@ -78,7 +78,7 @@ const CoStewardAndParticipantsCard = (props) => {
           mobile ? LocalStyle.titleContainerSm : LocalStyle.titleContainer
         }
       >
-        <Box className={LocalStyle.titleParentDiv}>
+        <Box className={subTitle ? LocalStyle.titleParentDiv : "w-100"}>
           <Typography
             id={title?.split(" ")[0] + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${
@@ -188,14 +188,18 @@ const CoStewardAndParticipantsCard = (props) => {
           </Col>
         ) : viewType && setViewType && !mobile ? (
           <Col
-            className={LocalStyle.listAndGridViewButton}
+            className={
+              tablet && title == "Participants"
+                ? LocalStyle.listAndGridViewButtonMd
+                : LocalStyle.listAndGridViewButton
+            }
             xs={6}
             sm={6}
             md={6}
             xl={6}
           >
             {title == "Participants" ? (
-              <div>
+              <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
                   onClick={() => history.push("/datahub/participants/invite")}

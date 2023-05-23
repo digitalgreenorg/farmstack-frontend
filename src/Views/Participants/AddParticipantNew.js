@@ -7,11 +7,11 @@ import { useHistory } from "react-router-dom";
 // import ParticipantFormNew from "../../Components/Card/ParticipantFormNew/ParticipantFormNew";
 
 const AddParticipantNew = (props) => {
-  const {breadcrumbFromRoute} = props
+  const { breadcrumbFromRoute } = props;
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const history = useHistory()
+  const history = useHistory();
   return (
     <Box
       sx={{
@@ -19,25 +19,31 @@ const AddParticipantNew = (props) => {
         marginRight: mobile || tablet ? "30px" : "144px",
       }}
     >
-      <Row>
-        <Col>
-          <div className="text-left mt-50">
-            <span
-              className="add_light_text cursor-pointer breadcrumbItem"
-              onClick={() => history.push("/datahub/participants/")}
-            >
-              {breadcrumbFromRoute?? "Participant"}
-            </span>
-            <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
-            </span>
-            <span className="add_light_text ml-16 fw600">
-              Add
+      {props.userType !== "guest" ? (
+        <Row>
+          <Col>
+            <div className="text-left mt-50">
+              <span
+                className="add_light_text cursor-pointer breadcrumbItem"
+                onClick={() => history.push("/datahub/participants/")}
+              >
+                {breadcrumbFromRoute ?? "Participant"}
+              </span>
+              <span className="add_light_text ml-16">
+                <ArrowForwardIosIcon
+                  sx={{ fontSize: "14px", fill: "#00ab55" }}
+                />
+              </span>
+              <span className="add_light_text ml-16 fw600">
+                Add
                 {/* {isParticipantRequest ? "" : ""} */}
-            </span>
-          </div>
-        </Col>
-      </Row>
+              </span>
+            </div>
+          </Col>
+        </Row>
+      ) : (
+        <></>
+      )}
       <ParticipantFormNew userType={props.userType} />
     </Box>
   );

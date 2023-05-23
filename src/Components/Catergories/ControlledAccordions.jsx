@@ -26,7 +26,6 @@ export default function ControlledAccordions(props) {
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
-  const id = "delete-popper";
 
   const handleDeletePopper = (event) => {
     setAnchorEl(event.currentTarget);
@@ -98,7 +97,7 @@ export default function ControlledAccordions(props) {
                   setAnchorEl(null); // Reset anchorEl to null
                   setOpen(false); // Reset open to false
                 }}
-                id={id}
+                id={`${index}-delete-popper-icon`}
                 open={open}
                 closePopper={closePopper}
               />
@@ -109,7 +108,7 @@ export default function ControlledAccordions(props) {
             </>
           )}
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails id={`${index}-accordian-detail`}>
           {Component && <Component data={data} index={index} />}
         </AccordionDetails>
       </Accordion>
