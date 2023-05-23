@@ -1007,7 +1007,7 @@ const DataSets = (props) => {
                 setShowFilter={setShowFilter}
                 callApply={callApply}
               />
-            ) : (
+            ) : type === "date" ? (
               <FilterDate
                 setUpdate={setUpdate}
                 handleClickAway={handleClickAway}
@@ -1023,6 +1023,8 @@ const DataSets = (props) => {
                 setShowFilter={setShowFilter}
                 callApply={callApply}
               />
+            ) : (
+              <></>
             )
           ) : (
             <></>

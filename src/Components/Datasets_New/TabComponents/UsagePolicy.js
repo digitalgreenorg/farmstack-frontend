@@ -192,7 +192,11 @@ const UsagePolicy = (props) => {
               files?.length &&
               files?.map((item) => {
                 return (
-                  <MenuItem key={item?.id} value={item?.id}>
+                  <MenuItem
+                    key={item?.id}
+                    value={item?.id}
+                    id={`usage_policy-file-name-${item?.id}`}
+                  >
                     {item?.label}
                   </MenuItem>
                 );

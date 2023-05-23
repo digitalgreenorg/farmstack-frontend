@@ -232,7 +232,11 @@ const ParticipantFormNew = (props) => {
         console.log(response);
         if (response.status == 201) {
           handleCancel(true);
-          callToast("Registered successfully!", "success", true);
+          callToast(
+            isEditModeOn ? "Updated successfully!" : "Registered successfully!",
+            "success",
+            true
+          );
         }
       })
       .catch(async (e) => {
