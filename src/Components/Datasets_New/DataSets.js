@@ -327,7 +327,8 @@ const DataSets = (props) => {
 
     let accessToken = user !== "guest" ? getTokenLocal() : false;
     if (user == "guest") {
-      data = "";
+      data = {};
+      data["name__icontains"] = searchText;
     }
 
     await HTTPService("POST", getUrl(isLoadMore), data, false, accessToken)
@@ -520,6 +521,9 @@ const DataSets = (props) => {
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
     payload["others"] = value === 0 ? false : true;
+    if (user == "guest") {
+      payload = {};
+    }
     if (
       geography?.country?.name ||
       geography?.state?.name ||
@@ -552,9 +556,7 @@ const DataSets = (props) => {
     let guestUsetFilterUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
     let isAuthorization = user == "guest" ? false : true;
-    if (user == "guest") {
-      payload = "";
-    }
+
     callLoader(true);
     HTTPService(
       "POST",
