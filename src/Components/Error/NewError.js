@@ -51,6 +51,10 @@ export default function NewError(props) {
   useEffect(() => {
     //    flushLocalstorage();
     // setErrorLocal({})
+    if (status == 401) {
+      // flush local
+      localStorage.clear();
+    }
   }, []);
 
   return (
