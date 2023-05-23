@@ -7,6 +7,7 @@ import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
+import { getTokenLocal } from "../../Utils/Common";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {
@@ -279,7 +280,7 @@ const CoStewardAndParticipantsCard = (props) => {
           id={title?.split(" ")[0] + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
-          {title == "Participants" ? (
+          {title == "Participants" && getTokenLocal() ? (
             <Col
               id={title?.split(" ")[0] + "grid-card-id"}
               className={GlobalStyle.padding0}
