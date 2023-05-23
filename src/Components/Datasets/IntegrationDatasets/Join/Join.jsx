@@ -238,7 +238,7 @@ const Join = (props) => {
                     {/* {console.log(each)} */}
                     <Select
                       labelId="primary_col_label_for_join"
-                      id="primary_col_select_for_join"
+                      id={`primary_col_${ind}_select_for_join`}
                       required
                       value={
                         each?.left_on?.length > 0 ? each?.left_on[ind] : ""
@@ -254,7 +254,7 @@ const Join = (props) => {
                             <MenuItem
                               key={ind_}
                               value={eachFile + ""}
-                              id="file-columns"
+                              id={`file-${ind_}-columns-left`}
                             >
                               {eachFile}
                             </MenuItem>
@@ -264,7 +264,7 @@ const Join = (props) => {
                         completeData[index - 1].next_left?.map(
                           (eachFile, ind_) => {
                             return (
-                              <MenuItem key={ind_} value={eachFile + ""}>
+                              <MenuItem key={ind_} value={eachFile + ""} id={`file-${ind_}-columns-left`}>
                                 {eachFile}
                               </MenuItem>
                             );
@@ -310,7 +310,7 @@ const Join = (props) => {
                               <MenuItem
                                 key={ind_}
                                 value={eachFile + ""}
-                                id="file-columns"
+                                id={`file-${ind_}-columns-right`}
                               >
                                 {eachFile}
                               </MenuItem>
@@ -464,6 +464,7 @@ const Join = (props) => {
                 onClick={(e) => {
                   generateData(index, "integrate");
                 }}
+                variant="contained"
               >
                 Apply
               </Button>
