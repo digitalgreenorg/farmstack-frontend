@@ -308,7 +308,6 @@ const DataSets = (props) => {
     }
   };
   const handleSearch = async (isLoadMore) => {
-    console.log("handle search is happening")
     let searchText = searchDatasetsName;
     searchText ? callLoader(true) : callLoader(false);
     if (searchText?.length < 3 && searchText !== "") searchText = "";
