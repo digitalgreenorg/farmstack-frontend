@@ -16,7 +16,7 @@ function GuestUserParticipantsDetails(props) {
     marginRight: mobile || tablet ? "30px" : "144px",
   };
   return (
-    <div style={containerStyle}>
+    <div>
       {/* <Row className={LocalStyle.titleContainer}>
         <div
           className={mobile || tablet ? LocalStyle.title_sm : LocalStyle.title}
