@@ -464,6 +464,7 @@ const Join = (props) => {
                 onClick={(e) => {
                   generateData(index, "integrate");
                 }}
+                variant="contained"
               >
                 Apply
               </Button>
