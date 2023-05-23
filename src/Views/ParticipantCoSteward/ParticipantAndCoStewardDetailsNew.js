@@ -286,7 +286,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           if (reject) {
             callToast("Rejected successfully!", "success", true);
           } else {
-            callToast("Delete successfully!", "success", true);
+            callToast("Deleted successfully!", "success", true);
           }
           history.go(-1);
         }

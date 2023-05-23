@@ -331,6 +331,7 @@ const FooterNew = () => {
                     endAdornment: (
                       <InputAdornment position="end">
                         <ContainedButton
+                          disabled={true}
                           text={"Subscribe"}
                           fontWeight={"700"}
                           fontFamily={"Public Sans"}

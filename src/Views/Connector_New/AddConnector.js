@@ -680,8 +680,10 @@ const AddConnector = (props) => {
 
         // goToTop(2000)
       })
-      .catch((err) => {
+      .catch(async (err) => {
         callLoader(false);
+        let error = await GetErrorHandlingRoute(err);
+        console.log("error in integration", err, error);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
         } else if (err?.response?.status === 400) {
@@ -690,7 +692,7 @@ const AddConnector = (props) => {
           } else if (err?.response?.data?.description) {
             setErrorConnectorDesc(err?.response?.data?.description);
           } else {
-            callToast("Something went wrong!", "error", true);
+            callToast(error.message ?? "Something went wrong!", "error", true);
           }
         } else {
           if (condition == "integrate") {

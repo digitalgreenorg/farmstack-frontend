@@ -23,6 +23,8 @@ import {
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
+import { isPhoneValid } from "../../Components/NewOnboarding/utils";
+import MuiPhoneNumber from "material-ui-phone-number";
 
 const GuestUserContactNew = () => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -59,6 +61,14 @@ const GuestUserContactNew = () => {
   const handleRadioButton = (e) => {
     // console.log("handleRadioButton value", e.target.value);
     setSubject(e.target.value);
+  };
+  const handleContactNumber = (e, countryData) => {
+    if (!isPhoneValid(e, countryData)) {
+      setContactNumberErrorMessage("Invalid phone number");
+    } else {
+      setContactNumberErrorMessage(null);
+    }
+    setContactNumber(e);
   };
 
   const getDatahubAdminDetails = () => {
@@ -321,19 +331,22 @@ const GuestUserContactNew = () => {
           />
         </Col>
         <Col lg={6} md={12}>
-          <TextField
-            id="contactNumber"
-            label="Contact Number"
-            placeholder="Enter your phone number"
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            value={contactNumber}
-            onChange={(e) => setContactNumber(e.target.value)}
-            error={contactNumberErrorMessage}
-            helperText={contactNumberErrorMessage ?? ""}
-          />
+          <MuiPhoneNumber
+              fullWidth
+              required
+              defaultCountry={"in"}
+              margin="normal"
+              countryCodeEditable={false}
+              placeholder="Contact Number"
+              label="Contact Number"
+              variant="outlined"
+              name="contact_number"
+              value={contactNumber}
+              onChange={(e, countryData) => handleContactNumber(e, countryData)}
+              error={contactNumberErrorMessage}
+              helperText={contactNumberErrorMessage ?? ""}
+              id="contactNumber"
+            />
         </Col>
       </Row>
       <Row>
@@ -414,7 +427,7 @@ const GuestUserContactNew = () => {
           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
           onClick={() => addNewGuestUserData()}
           disabled={
-            !firstName || !email || !contactNumber || !subject || !describeQuery
+            !firstName || !email || !contactNumber || !subject || !describeQuery || contactNumberErrorMessage
           }
         >
           Submit
