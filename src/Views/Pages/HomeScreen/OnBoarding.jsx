@@ -273,7 +273,11 @@ export default function OnBoarding() {
     >
       {/* {isLoggedInUserAdmin() && ( */}
       <div className={styles.farmstack_logo}>
-        <img src={new_farmstack_main_logo} alt="Farmstack" />
+        <img
+          className={styles.farmstack_logo_img}
+          src={new_farmstack_main_logo}
+          alt="Farmstack"
+        />
       </div>
       {/* )} */}
 
