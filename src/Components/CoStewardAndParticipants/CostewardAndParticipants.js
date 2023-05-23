@@ -188,14 +188,18 @@ const CoStewardAndParticipantsCard = (props) => {
           </Col>
         ) : viewType && setViewType && !mobile ? (
           <Col
-            className={LocalStyle.listAndGridViewButton}
+            className={
+              tablet && title == "Participants"
+                ? LocalStyle.listAndGridViewButtonMd
+                : LocalStyle.listAndGridViewButton
+            }
             xs={6}
             sm={6}
             md={6}
             xl={6}
           >
             {title == "Participants" ? (
-              <div>
+              <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
                   onClick={() => history.push("/datahub/participants/invite")}
