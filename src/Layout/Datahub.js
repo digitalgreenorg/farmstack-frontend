@@ -74,6 +74,7 @@ import EditDataset from "../Components/Datasets_New/EditDataset";
 import UrlConstant from "../Constants/UrlConstants";
 import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import DashboardNew from "../Views/Dashboard/DashboardNew";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -155,7 +156,7 @@ function Datahub(props) {
                 : "minHeight67vhDatahubPage"
             }
           >
-            <br/>
+            <br />
             <Switch>
               <Route
                 exact
@@ -189,6 +190,11 @@ function Datahub(props) {
                 component={AddParticipantNew}
               />
               <Route exact path="/datahub/dashboard" component={Dashboard} />
+              <Route
+                exact
+                path="/datahub/new_dashboard"
+                component={DashboardNew}
+              />
 
               <Route
                 exact
@@ -322,6 +328,7 @@ function Datahub(props) {
                 path="/datahub/participants/addcosteward"
                 component={AddCoSteward}
               />
+
               {/* <Route
                 exact
                 path="/datahub/connectors"
