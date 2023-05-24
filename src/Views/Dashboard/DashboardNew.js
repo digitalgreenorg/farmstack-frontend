@@ -27,7 +27,7 @@ function DashboardNew() {
   });
   const [geographyChart, setGeographyChart] = useState({});
   const [categoryChart, setCategoryChart] = useState({});
-  const [org, setOrg] = useState("my_organisation");
+  const [org, setOrg] = useState("other_organisation");
   const history = useHistory();
   const colors = [
     "#00AB55", // Green
@@ -185,9 +185,9 @@ function DashboardNew() {
     callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.new_datahub_dashboard;
     let payload = {};
-    if (org == "other_organisation") {
+    if (org != "other_organisation") {
       payload = {
-        other_org: "True",
+        my_org: "True",
       };
     }
 
@@ -378,8 +378,9 @@ function DashboardNew() {
         <FormControl sx={{ width: "150px" }}>
           <NativeSelect
             sx={{ fontWeight: "500" }}
-            defaultValue={"my_organisation"}
+            defaultValue={"other_organisation"}
             onChange={(e) => setOrg(e.target.value)}
+            value={org}
           >
             <option value={"my_organisation"}>My organisation</option>
             <option value={"other_organisation"}>Other organisation</option>
