@@ -13,9 +13,13 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 const Sidebar = ({ sideMenus }) => {
   const ref1 = useRef(null);
+  const ref11 = useRef(null);
+  const ref12 = useRef(null);
   const ref2 = useRef(null);
+  const ref21 = useRef(null);
   const ref3 = useRef(null);
   const ref4 = useRef(null);
+  const ref41 = useRef(null);
   const ref5 = useRef(null);
   const ref6 = useRef(null);
   const ref7 = useRef(null);
@@ -24,8 +28,9 @@ const Sidebar = ({ sideMenus }) => {
 
   const [open, setOpen] = useState("");
   const [activeMenu, setActiveMenu] = useState("");
+  const [activeSubMenu, setActiveSubMenu] = useState("");
   const executeScroll = (index) => {
-    switch (index) {
+    switch (parseInt(index)) {
       case 1:
         setActiveMenu(0);
         ref1.current.scrollIntoView({
@@ -34,9 +39,36 @@ const Sidebar = ({ sideMenus }) => {
           inline: "start",
         });
         break;
+      case 11:
+        setActiveMenu(0);
+        setActiveSubMenu(11);
+        ref11.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "start",
+        });
+        break;
+      case 12:
+        setActiveMenu(0);
+        setActiveSubMenu(12);
+        ref12.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "start",
+        });
+        break;
       case 2:
         setActiveMenu(1);
         ref2.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "start",
+        });
+        break;
+      case 21:
+        setActiveMenu(1);
+        setActiveSubMenu(21);
+        ref21.current.scrollIntoView({
           behavior: "smooth",
           block: "start",
           inline: "start",
@@ -53,6 +85,15 @@ const Sidebar = ({ sideMenus }) => {
       case 4:
         setActiveMenu(3);
         ref4.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "start",
+        });
+        break;
+      case 41:
+        setActiveMenu(3);
+        setActiveSubMenu(41);
+        ref41.current.scrollIntoView({
           behavior: "smooth",
           block: "start",
           inline: "start",
@@ -110,6 +151,7 @@ const Sidebar = ({ sideMenus }) => {
           margin: "30px",
           boxShadow: "rgba(17, 17, 26, 0.1) 0px 0px 16px",
           display: "flex",
+          position: "fixed",
         }}
       >
         <List
@@ -168,8 +210,30 @@ const Sidebar = ({ sideMenus }) => {
                   unmountOnExit
                 >
                   <List component="div" disablePadding>
-                    {sMenu?.menuItems?.map((mItem, index) => (
-                      <ListItemButton key={index} sx={{ pl: 4 }}>
+                    {sMenu?.menuItems?.map((mItem, ind) => (
+                      <ListItemButton
+                        key={ind}
+                        sx={{
+                          pl: 4,
+                          backgroundColor:
+                            open === index &&
+                            activeSubMenu ===
+                              parseInt(index + 1 + String(ind + 1))
+                              ? "#eafbf3"
+                              : "",
+                          "&:hover": {
+                            backgroundColor:
+                              open === index &&
+                              activeSubMenu ===
+                                parseInt(index + 1 + String(ind + 1))
+                                ? "#eafbf3"
+                                : "",
+                          },
+                        }}
+                        onClick={() =>
+                          executeScroll(index + 1 + String(ind + 1))
+                        }
+                      >
                         <ListItemText primary={mItem} />
                       </ListItemButton>
                     ))}
@@ -210,7 +274,7 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
 
-            <h2>Problem Statement</h2>
+            <h2 ref={ref11}>Problem Statement</h2>
             <p>
               The agricultural sector faces several challenges that prevent the
               effective use of collected data:
@@ -244,7 +308,7 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
 
-            <h2>Solution</h2>
+            <h2 ref={ref12}>Solution</h2>
             <p>
               Farmstack, an open-source data exchange platform, has been
               developed to tackle these issues and unlock the full potential of
@@ -287,7 +351,7 @@ const Sidebar = ({ sideMenus }) => {
           </Box>
           <Box ref={ref2} className="text-left">
             <h1>Introducing Farmstack</h1>
-            <h2>Revolutionising Data Exchange in Agriculture</h2>
+            <h2 ref={ref21}>Revolutionising Data Exchange in Agriculture</h2>
             <p>
               Discover the power of Farmstack, a groundbreaking data exchange
               platform that streamlines collaboration between key players in the
@@ -355,7 +419,7 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
 
-            <h2>Participant Management</h2>
+            <h2 ref={ref41}>Participant Management</h2>
             <p>
               Farmstack Participant Management offers admins a comprehensive
               suite of tools to manage and engage with participants, fostering a
