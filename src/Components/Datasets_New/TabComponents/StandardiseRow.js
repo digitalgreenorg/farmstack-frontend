@@ -141,10 +141,10 @@ const StandardiseRow = ({
                 return <></>;
               }}
             >
-              {datapointCategories?.map((item) => (
+              {datapointCategories?.map((item, optIndex) => (
                 <MenuItem
                   id={`standardise-datapoint-category-option-${
-                    index + item?.datapoint_category
+                    index + optIndex
                   }`}
                   key={item.datapoint_category}
                   value={item}
@@ -193,9 +193,9 @@ const StandardiseRow = ({
                 );
               }}
             >
-              {datapointAttributes[index]?.map((item) => (
+              {datapointAttributes[index]?.map((item, optIndex) => (
                 <MenuItem
-                  id={`standardise-datapoint-attribute-${index + item}`}
+                  id={`standardise-datapoint-attribute-${index + optIndex}`}
                   key={item}
                   value={item}
                 >
