@@ -92,16 +92,7 @@ const GuestUserHome = () => {
             </div>
             <Row className={LocalStyle.buttonContainer}>
               <Button
-                onClick={() =>
-                  history.push(
-                    getUserLocal() &&
-                      (isLoggedInUserAdmin() || isLoggedInUserCoSteward())
-                      ? "/datahub/new_datasets"
-                      : getUserLocal() && isLoggedInUserParticipant()
-                      ? "/participant/new_datasets"
-                      : "/login"
-                  )
-                }
+                onClick={() => history.push("/home/get-started")}
                 id="home-get-started-btn"
                 className={`${LocalStyle.primaryButton} ${GlobalStyles.primary_button}`}
               >
@@ -377,16 +368,7 @@ const GuestUserHome = () => {
         <Row className={`${LocalStyle.buttonContainer}`}>
           <Button
             className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button}`}
-            onClick={() =>
-              history.push(
-                getUserLocal() &&
-                  (isLoggedInUserAdmin() || isLoggedInUserCoSteward())
-                  ? "/datahub/new_datasets"
-                  : getUserLocal() && isLoggedInUserParticipant()
-                  ? "/participant/new_datasets"
-                  : "/login"
-              )
-            }
+            onClick={() => history.push("/home/get-started")}
             id="home-get-started-btn2-id"
           >
             Get Started
