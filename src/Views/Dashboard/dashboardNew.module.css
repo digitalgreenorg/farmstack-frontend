@@ -65,13 +65,14 @@
 .graphContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-gap: 50px;
 }
 .connectorsDataContainer {
   display: flex;
   justify-content: space-between;
 }
 .connectorsDataContainer > div {
-  width: 45%;
+  width: 100%;
 }
 .connectorsData > div {
   height: 100%;
@@ -87,4 +88,12 @@
 }
 .connectorsData {
   height: 130px;
+}
+.connectorsDataContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 50px;
+}
+.connectorsDataContainer > div {
+  margin: 10px 0;
 }

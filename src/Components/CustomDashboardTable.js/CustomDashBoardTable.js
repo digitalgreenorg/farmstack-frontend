@@ -33,7 +33,9 @@ function CustomDashBoardTable(props) {
               {recentDatasetTable ? <TableCell align="right"></TableCell> : ""}
               <TableCell align="right"></TableCell>
 
-              <TableCell align="right">View all</TableCell>
+              <TableCell sx={{ color: "#00AB55" }} align="right">
+                View all
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -58,7 +60,9 @@ function CustomDashBoardTable(props) {
                     <TableCell align="right">
                       {item?.category?.name ?? "Not available"}
                     </TableCell>
-                    <TableCell align="right">View</TableCell>
+                    <TableCell sx={{ color: "#00AB55" }} align="right">
+                      View
+                    </TableCell>
                   </>
                 ) : (
                   <>
@@ -67,7 +71,9 @@ function CustomDashBoardTable(props) {
                         ? item?.dataset_count + " Datasets"
                         : "Not available"}
                     </TableCell>
-                    <TableCell align="right">View</TableCell>
+                    <TableCell sx={{ color: "#00AB55" }} align="right">
+                      View
+                    </TableCell>
                   </>
                 )}
               </TableRow>
