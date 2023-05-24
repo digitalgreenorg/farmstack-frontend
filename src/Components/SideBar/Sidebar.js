@@ -255,20 +255,20 @@ const Sidebar = ({ sideMenus }) => {
           <Box ref={ref1} className="text-left">
             <h1>Overview</h1>
             <ul>
-              <li>
+              <li className="p-2">
                 The agricultural sector is a diverse ecosystem involving
                 numerous organisations.
               </li>
-              <li>
+              <li className="p-2">
                 These organisations collaborate with farmers to implement a wide
                 array of projects.
               </li>
-              <li>
+              <li className="p-2">
                 Key players include government and non-government entities,
                 NGOs, not-for-profit organisations, researchers, and for-profit
                 companies.
               </li>
-              <li>
+              <li className="p-2">
                 During project implementation, valuable data is collected that
                 could improve agricultural practices and outcomes for farmers.
               </li>
@@ -280,28 +280,28 @@ const Sidebar = ({ sideMenus }) => {
               effective use of collected data:
             </p>
             <ul>
-              <li>
+              <li className="p-2">
                 Working in silos: Organisations often operate independently,
                 leading to limited communication and collaboration.
               </li>
-              <li>
+              <li className="p-2">
                 Lack of trust: Trust issues between organisations hinder the
                 sharing and exchanging of crucial data.
               </li>
-              <li>
+              <li className="p-2">
                 Fragmented data: Data is often scattered across various sources
                 and organisations, making it difficult to access and analyse.
               </li>
-              <li>
+              <li className="p-2">
                 Inconsistent data standards: The absence of unified data
                 standards and formats further complicates data sharing and
                 analysis.
               </li>
-              <li>
+              <li className="p-2">
                 Poor categorisation: Data is often poorly categorised or
                 organised, reducing usability and value.
               </li>
-              <li>
+              <li className="p-2">
                 Data underutilisation: Due to the above challenges, much of the
                 collected data becomes outdated or underutilised, preventing
                 farmers' development of better use cases.
@@ -315,33 +315,33 @@ const Sidebar = ({ sideMenus }) => {
               the collected data:
             </p>
             <ul>
-              <li>
+              <li className="p-2">
                 Seamless data sharing: Farmstack enables organisations in the
                 agricultural sector to share and exchange data easily.
               </li>
-              <li>
+              <li className="p-2">
                 Overcoming silos: The platform helps break down organisational
                 barriers, fostering improved collaboration.
               </li>
-              <li>
+              <li className="p-2">
                 Building trust: Farmstack encourages trust-building among
                 organisations, promoting a more open and collaborative
                 environment.
               </li>
-              <li>
+              <li className="p-2">
                 Data consolidation: Farmstack combines fragmented data from
                 various sources, making it more accessible and valuable.
               </li>
-              <li>
+              <li className="p-2">
                 Standardisation: The platform promotes the adoption of unified
                 data standards and formats, facilitating better data sharing and
                 analysis.
               </li>
-              <li>
+              <li className="p-2">
                 Improved categorisation: Farmstack aids in better organisation
                 and categorisation of data, enhancing its usability and value.
               </li>
-              <li>
+              <li className="p-2">
                 Impactful use cases: By harnessing the potential of collective
                 data, Farmstack facilitates the development of more effective
                 use cases for farmers, ultimately leading to improved
@@ -351,7 +351,9 @@ const Sidebar = ({ sideMenus }) => {
           </Box>
           <Box ref={ref2} className="text-left">
             <h1>Introducing Farmstack</h1>
-            <h2 ref={ref21}>Revolutionising Data Exchange in Agriculture</h2>
+            <h2 ref={ref21} className="pt-2">
+              Revolutionising Data Exchange in Agriculture
+            </h2>
             <p>
               Discover the power of Farmstack, a groundbreaking data exchange
               platform that streamlines collaboration between key players in the
@@ -368,18 +370,28 @@ const Sidebar = ({ sideMenus }) => {
               platform while performing crucial tasks such as:
             </p>
             <ul>
-              <li>Hosting and managing cutting-edge Farmstack software</li>
-              <li>Orchestrating a seamless data exchange network</li>
-              <li>Defining robust data exchange and usage policies</li>
-              <li>Ensuring easy data discovery on the platform</li>
-              <li>
+              <li className="p-2">
+                Hosting and managing cutting-edge Farmstack software
+              </li>
+              <li className="p-2">
+                Orchestrating a seamless data exchange network
+              </li>
+              <li className="p-2">
+                Defining robust data exchange and usage policies
+              </li>
+              <li className="p-2">
+                Ensuring easy data discovery on the platform
+              </li>
+              <li className="p-2">
                 Establishing industry-leading data standards and categories
               </li>
-              <li>
+              <li className="p-2">
                 Expertly managing the data provider and consumer organisations,
                 known as participants
               </li>
-              <li>Supervising datasets with diligence and precision</li>
+              <li className="p-2">
+                Supervising datasets with diligence and precision
+              </li>
             </ul>
             <p>
               Stewards can contribute to the valuable data pool by joining the
@@ -397,23 +409,23 @@ const Sidebar = ({ sideMenus }) => {
               of responsibilities, including:
             </p>
             <ul>
-              <li>
+              <li className="p-2">
                 Showcasing their data for easy discoverability by other
                 participants
               </li>
-              <li>
+              <li className="p-2">
                 Uploading datasets in diverse formats, including XLS, CSV, PDF,
                 and image files
               </li>
-              <li>
+              <li className="p-2">
                 Seamlessly importing datasets from databases like MySQL,
                 PostgreSQL, SQLite, or REST APIs.
               </li>
-              <li>
+              <li className="p-2">
                 Standardizing and categorizing data to maintain the highest
                 quality
               </li>
-              <li>
+              <li className="p-2">
                 Publishing data with confidence after applying secure usage
                 policies
               </li>
@@ -427,19 +439,19 @@ const Sidebar = ({ sideMenus }) => {
               the agricultural sector.
             </p>
             <ul>
-              <li>
+              <li className="p-2">
                 Streamlined participant onboarding: Admins can easily add or
                 invite new participants through email, ensuring a seamless
                 onboarding experience. Users can also request or register as
                 participants, with admin approvals ensuring the right
                 stakeholders join the platform.
               </li>
-              <li>
+              <li className="p-2">
                 Efficient Participant Management: Admins can effortlessly update
                 or delete participant profiles, maintaining an organized and
                 efficient FarmStack ecosystem.
               </li>
-              <li>
+              <li className="p-2">
                 Empower Co-Stewards: Admins have the ability to promote
                 participants as co-stewards, encouraging collaboration and joint
                 stewardship of the data exchange platform.
@@ -456,31 +468,33 @@ const Sidebar = ({ sideMenus }) => {
               policy implementation.
             </p>
             <ul>
-              <li>Effortless Dataset Creation</li>
+              <li className="p-2">Effortless Dataset Creation</li>
               <p>
                 Users can quickly create datasets by providing metadata,
                 ensuring accurate and organised information that enhances
                 discoverability.
               </p>
-              <li>Versatile data uploads</li>
+              <li className="p-2">Versatile data uploads</li>
               <p>
                 Supporting a wide array of formats, users can upload multiple
                 files for a dataset, including XLS, CSV, JPG, PNG, TIFF, and
                 PDF.
               </p>
-              <li>Seamless data import and integration</li>
+              <li className="p-2">Seamless data import and integration</li>
               <p>
                 Easily import and publish data from various sources like MySQL,
                 PostgreSQL, MongoDB, SQLite, and REST APIs, consolidating
                 valuable information into one powerful platform.
               </p>
-              <li>Intelligent Dataset Categorization and Standardisation</li>
+              <li className="p-2">
+                Intelligent Dataset Categorization and Standardisation
+              </li>
               <p>
                 Efficiently categorise datasets based on factors like value
                 chain and geography while standardising data for improved
                 consistency and usability across the platform.
               </p>
-              <li>Tailored Usage Policies</li>
+              <li className="p-2">Tailored Usage Policies</li>
             </ul>
           </Box>
           <Box ref={ref6} className="text-left">
@@ -496,19 +510,19 @@ const Sidebar = ({ sideMenus }) => {
             </p>
             <p>By leveraging data integration connectors, participants can:</p>
             <ul>
-              <li>
+              <li className="p-2">
                 Select and merge datasets from various organisations to create
                 enriched data sources.
               </li>
-              <li>
+              <li className="p-2">
                 Uncover hidden insights and patterns that may not be apparent
                 when analysing individual datasets.
               </li>
-              <li>
+              <li className="p-2">
                 Facilitate collaboration and knowledge sharing between
                 organisations.
               </li>
-              <li>
+              <li className="p-2">
                 Drive the development of more effective and innovative use cases
                 that benefit farmers worldwide.
               </li>
@@ -531,7 +545,7 @@ const Sidebar = ({ sideMenus }) => {
               making finding and utilising relevant datasets easier.
             </p>
             <ul>
-              <li>
+              <li className="p-2">
                 <strong>Configure Categories and Subcategories</strong>
                 <p>
                   Admins can effortlessly create and configure categories and
@@ -540,7 +554,7 @@ const Sidebar = ({ sideMenus }) => {
                   Farmstack ecosystem.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>Update categories and subcategories.</strong>
                 <p>
                   Admins have the flexibility to update existing categories and
@@ -549,7 +563,7 @@ const Sidebar = ({ sideMenus }) => {
                   agricultural sector.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>Delete categories and subcategories.</strong>
                 <p>
                   Admins can easily delete specific categories and subcategories
@@ -569,7 +583,7 @@ const Sidebar = ({ sideMenus }) => {
               usability of the data.
             </p>
             <ul>
-              <li>
+              <li className="p-2">
                 <strong>Create Data Standardisation Templates</strong>
                 <p>
                   Admins can quickly create templates for data standardisation,
@@ -577,7 +591,7 @@ const Sidebar = ({ sideMenus }) => {
                   adhere to a consistent format.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>Update Existing Templates</strong>
                 <p>
                   Admins can easily update existing data standardisation
@@ -585,7 +599,7 @@ const Sidebar = ({ sideMenus }) => {
                   to the evolving needs of the agricultural community.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>Delete Data Standardisation Templates</strong>
                 <p>
                   Admins can delete data standardisation templates when
@@ -598,7 +612,7 @@ const Sidebar = ({ sideMenus }) => {
           <Box ref={ref9} className="text-left">
             <h1>Frequently asked questions</h1>
             <ol>
-              <li>
+              <li className="p-2">
                 <strong>What is FarmStack?</strong>
                 <p>
                   Farmstack is a data exchange platform designed for the
@@ -608,7 +622,7 @@ const Sidebar = ({ sideMenus }) => {
                   full potential of agricultural data.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>Who can use Farmstack?</strong>
                 <p>
                   Farmstack is designed for various organisations in the
@@ -617,7 +631,7 @@ const Sidebar = ({ sideMenus }) => {
                   for-profit entities, and not-for-profit organisations.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   How does Farmstack ensure data security and compliance?
                 </strong>
@@ -629,7 +643,7 @@ const Sidebar = ({ sideMenus }) => {
                   adherence to industry-standard security practices.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>What types of data can I upload to Farmstack?</strong>
                 <p>
                   Farmstack supports various data formats, including XLS, CSV,
@@ -638,7 +652,7 @@ const Sidebar = ({ sideMenus }) => {
                   SQLite, and REST APIs.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   How does Farmstack help standardise and categorise data?
                 </strong>
@@ -651,7 +665,7 @@ const Sidebar = ({ sideMenus }) => {
                   subcategories for better data organisation.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   Can I join and export datasets from different organisations?
                 </strong>
@@ -661,7 +675,7 @@ const Sidebar = ({ sideMenus }) => {
                   fostering data-driven insights and cutting-edge solutions.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   How can Farmstack help automate my data management processes?
                 </strong>
@@ -674,7 +688,7 @@ const Sidebar = ({ sideMenus }) => {
                   time-based fetches.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   How do I become a participant or a steward on Farmstack?
                 </strong>
@@ -687,7 +701,7 @@ const Sidebar = ({ sideMenus }) => {
                   both.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   What is the Farmstack's Data for Good philosophy?
                 </strong>
@@ -698,7 +712,7 @@ const Sidebar = ({ sideMenus }) => {
                   for farmers and the agriculture sector as a whole.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   How can I get in touch for support or more information?
                 </strong>
@@ -708,7 +722,7 @@ const Sidebar = ({ sideMenus }) => {
                   Contact Us page. Our team is always here to help!
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>What are the key features of Farmstack?</strong>
                 <p>
                   Farmstack offers extensive features, including dataset
@@ -718,7 +732,7 @@ const Sidebar = ({ sideMenus }) => {
                   data pipeline automation.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   Can I use Farmstack to share confidential or sensitive data?
                 </strong>
@@ -728,7 +742,7 @@ const Sidebar = ({ sideMenus }) => {
                   download permissions for sensitive or confidential data.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   How does Farmstack facilitate collaboration among
                   organisations?
@@ -741,7 +755,7 @@ const Sidebar = ({ sideMenus }) => {
                   innovation.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>What is a digital public good (DPG)?</strong>
                 <p>
                   A digital public good is an openly licensed digital solution
@@ -751,7 +765,7 @@ const Sidebar = ({ sideMenus }) => {
                   by the Digital Public Goods Alliance.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   Who are the main partners and supporters of Farmstack?
                 </strong>
@@ -761,7 +775,7 @@ const Sidebar = ({ sideMenus }) => {
                   Walmart Labs, and UK Aid.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   Can I customise Farmstack to match my organisation's branding?
                 </strong>
@@ -771,7 +785,7 @@ const Sidebar = ({ sideMenus }) => {
                   organisation's identity.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   How do I request a new feature or report an issue with
                   Farmstack?
@@ -782,7 +796,7 @@ const Sidebar = ({ sideMenus }) => {
                   and strive to continually improve Farmstack.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   Is there any cost associated with using Farmstack?
                 </strong>
@@ -793,7 +807,7 @@ const Sidebar = ({ sideMenus }) => {
                   the platform, depending on their specific requirements.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   How can I stay updated on the latest news and developments
                   related to Farmstack?
@@ -804,7 +818,7 @@ const Sidebar = ({ sideMenus }) => {
                   social media, or visit the News section on our website.
                 </p>
               </li>
-              <li>
+              <li className="p-2">
                 <strong>
                   Can Farmstack be used for other sectors besides agriculture?
                 </strong>
