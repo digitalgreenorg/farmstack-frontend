@@ -7,8 +7,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box } from "@mui/system";
+import localStyle from "./customDashBoardTable.module.css";
 
-function CustomDashBoardTable() {
+function CustomDashBoardTable(props) {
+  const { data, title, recentConnectorsTable, recentDatasetTable } = props;
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
   }
@@ -22,19 +24,22 @@ function CustomDashBoardTable() {
     createData("Frozen yoghurt", "Wheat", "Oromia", 24, 4.0),
   ];
   return (
-    <Box>
+    <Box className={localStyle.container}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 400 }} aria-label="simple table">
           <TableHead>
-            <TableRow>
-              <TableCell>Recent Datasets</TableCell>
+            <TableRow className={localStyle.tableHead}>
+              <TableCell>{title}</TableCell>
+              {recentDatasetTable ? <TableCell align="right"></TableCell> : ""}
+              <TableCell align="right"></TableCell>
+
               <TableCell align="right">View all</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {data?.map((item, index) => (
               <TableRow
-                key={row.name}
+                key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell
@@ -43,11 +48,28 @@ function CustomDashBoardTable() {
                   component="th"
                   scope="row"
                 >
-                  {row.name}
+                  {item?.name ?? "Not available"}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">View</TableCell>
+                {recentDatasetTable ? (
+                  <>
+                    <TableCell align="right">
+                      {item?.category?.name ?? "Not available"}
+                    </TableCell>
+                    <TableCell align="right">
+                      {item?.category?.name ?? "Not available"}
+                    </TableCell>
+                    <TableCell align="right">View</TableCell>
+                  </>
+                ) : (
+                  <>
+                    <TableCell align="right">
+                      {item?.dataset_count
+                        ? item?.dataset_count + " Datasets"
+                        : "Not available"}
+                    </TableCell>
+                    <TableCell align="right">View</TableCell>
+                  </>
+                )}
               </TableRow>
             ))}
           </TableBody>

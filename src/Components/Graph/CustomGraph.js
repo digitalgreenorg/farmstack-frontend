@@ -9,6 +9,8 @@ function CustomGraph(props) {
   const chartContainer = useRef(null);
   const chartInstance = useRef(null);
 
+  console.log("data in graph", title, data);
+
   useEffect(() => {
     if (chartContainer.current) {
       // Destroy the previous chart instance if it exists
@@ -20,7 +22,7 @@ function CustomGraph(props) {
       const ctx = chartContainer.current.getContext("2d");
       chartInstance.current = new Chart(ctx, {
         type: chartType,
-        data: data,
+        data: typeof data != Number ? data : {},
         options: {
           plugins: {
             legend: {

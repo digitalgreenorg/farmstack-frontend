@@ -1,13 +1,33 @@
 // Creating a dashboard for app
 
 import { Box, FormControl, NativeSelect, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import CustomGraph from "../../Components/Graph/CustomGraph";
 import CustomDashBoardTable from "../../Components/CustomDashboardTable.js/CustomDashBoardTable";
+import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import UrlConstant from "../../Constants/UrlConstants";
+import HTTPService from "../../Services/HTTPService";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
+import { useHistory } from "react-router-dom";
 
 function DashboardNew() {
+  const { callLoader, callToast } = useContext(FarmStackContext);
+  const [dashboardData, setDashboardData] = useState("");
+  const [fileChart, setFileChart] = useState({
+    labels: ["Label 1", "Label 2", "Label 3"],
+    datasets: [
+      {
+        data: [10, 20, 30],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      },
+    ],
+  });
+  const [geographyChart, setGeographyChart] = useState({});
+  const [categoryChart, setCategoryChart] = useState({});
+  const history = useHistory();
   const data = {
     labels: ["Label 1", "Label 2", "Label 3"],
     datasets: [
@@ -48,6 +68,94 @@ function DashboardNew() {
       },
     ],
   };
+
+  const getDashboard = () => {
+    callLoader(true);
+    let url = UrlConstant.base_url + UrlConstant.new_datahub_dashboard;
+    HTTPService("GET", url, false, false, true)
+      .then((response) => {
+        callLoader(false);
+        console.log(response);
+        setDashboardData(response?.data);
+        formatData();
+      })
+      .catch((e) => {
+        callLoader(false);
+        let error = GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        // console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
+  const formatData = () => {
+    // labels: ["Label 1", "Label 2", "Label 3"],
+    // datasets: [
+    //   {
+    //     data: [10, 20, 30],
+    //     backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+    //     hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+    //   },
+    // ],
+    let tmpLabels = [];
+    let datasets = {
+      data: [],
+    };
+    if (!dashboardData) {
+      return;
+    }
+    dashboardData.dataset_file_metrics.forEach((item) => {
+      tmpLabels.push(item?.datasets__source);
+      datasets.data.push(item?.dataset_count);
+    });
+    setFileChart({
+      labels: tmpLabels,
+      datasets: [datasets],
+    });
+    console.log("data after format1", {
+      labels: tmpLabels,
+      datasets: [datasets],
+    });
+    tmpLabels = [];
+    datasets = {
+      data: [],
+    };
+    dashboardData.dataset_state_metrics.forEach((item) => {
+      tmpLabels.push(item?.state_name);
+      datasets.data.push(item?.dataset_count);
+    });
+    setGeographyChart({
+      labels: tmpLabels,
+      datasets: [datasets],
+    });
+    tmpLabels = Object.keys(dashboardData?.dataset_category_metrics);
+    datasets = [
+      {
+        data: Object.values(dashboardData?.dataset_category_metrics),
+      },
+    ];
+    setCategoryChart({
+      labels: tmpLabels,
+      datasets: datasets,
+    });
+  };
+
+  useEffect(() => {
+    getDashboard();
+  }, []);
+  useEffect(() => {
+    formatData();
+  }, [dashboardData]);
+
   return (
     <Box className={`${localeStyle.dashboardContainer}`}>
       <Box className={`${localeStyle.basicDetailsContainer}`}>
@@ -82,15 +190,17 @@ function DashboardNew() {
           <div className={`${localeStyle.userBasicData}`}>
             <div>
               <span>Participants</span>
-              <span>15</span>
+              <span>
+                {dashboardData?.total_participants?.participants_count}
+              </span>
             </div>
             <div>
               <span>Datasets</span>
-              <span>15</span>
+              <span>{dashboardData?.total_dataset_count}</span>
             </div>
             <div>
               <span>Connectors</span>
-              <span>15</span>
+              <span>{dashboardData?.total_connectors_count}</span>
             </div>
           </div>
         </div>
@@ -113,17 +223,25 @@ function DashboardNew() {
       </Box>
       <Box className={`${localeStyle.graphContainer}`}>
         <CustomGraph
-          data={irrigationMethodsData}
-          title="Datasets by Cateogries"
+          data={categoryChart}
+          title="Datasets by Categories"
           chartType="doughnut"
         />
-        <CustomGraph data={data} title="Dataset by Sources" chartType="bar" />
         <CustomGraph
-          data={cropDistributionData}
+          data={fileChart}
+          title="Dataset by Sources"
+          chartType="bar"
+        />
+        <CustomGraph
+          data={geographyChart}
           title="Dataset by Geography"
           chartType="pie"
         />
-        <CustomDashBoardTable />
+        <CustomDashBoardTable
+          recentDatasetTable={true}
+          title="Recent Datasets"
+          data={dashboardData.recent_connectors}
+        />
       </Box>
       <Box>
         <span
@@ -137,19 +255,23 @@ function DashboardNew() {
           >
             <div>
               <span>Total No. Of connectors</span>
-              <span>15</span>
+              <span>{dashboardData?.total_connectors_count}</span>
             </div>
             <div>
               <span>My Datasets Integrated</span>
-              <span>15</span>
+              <span>{dashboardData?.my_dataset_used_in_connectors}</span>
             </div>
             <div>
               <span>Others datasets Integrated</span>
-              <span>15</span>
+              <span>{dashboardData?.other_datasets_used_in_my_connectors}</span>
             </div>
           </div>
           <div>
-            <CustomDashBoardTable />
+            <CustomDashBoardTable
+              recentConnectorsTable={true}
+              title="Recent Connectors"
+              data={dashboardData?.recent_datasets}
+            />
           </div>
         </div>
       </Box>
