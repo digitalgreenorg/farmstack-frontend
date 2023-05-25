@@ -129,6 +129,7 @@ const UrlConstant = {
 
   //new v2 urls
   datahub_policy: "datahub/policy/",
+  new_datahub_dashboard: "datahub/newdashboard/dashboard/",
 };
 
 export default UrlConstant;
