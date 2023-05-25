@@ -9,8 +9,12 @@ import CustomDashBoardTable from "../../Components/CustomDashboardTable.js/Custo
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  isLoggedInUserParticipant,
+} from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
+import { Chart } from "chart.js";
 
 function DashboardNew() {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -27,7 +31,7 @@ function DashboardNew() {
   });
   const [geographyChart, setGeographyChart] = useState({});
   const [categoryChart, setCategoryChart] = useState({});
-  const [org, setOrg] = useState("other_organisation");
+  const [org, setOrg] = useState("my_organisation");
   const history = useHistory();
   const colors = [
     "#00AB55", // Green
@@ -140,47 +144,6 @@ function DashboardNew() {
     "#D2D270", // Bright Dark Khaki
   ];
 
-  const data = {
-    labels: ["Label 1", "Label 2", "Label 3"],
-    datasets: [
-      {
-        data: [10, 20, 30],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-      },
-    ],
-  };
-  const cropDistributionData = {
-    labels: ["Label 1", "Label 2", "Label 3"],
-    datasets: [
-      {
-        data: [10, 20, 30],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-      },
-    ],
-  };
-  const livestockDistributionData = {
-    labels: ["Cattle", "Poultry", "Sheep"],
-    datasets: [
-      {
-        data: [40, 30, 20],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-      },
-    ],
-  };
-  const irrigationMethodsData = {
-    labels: ["Sprinkler", "Drip", "Flood"],
-    datasets: [
-      {
-        data: [50, 15, 35],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-      },
-    ],
-  };
-
   const getDashboard = () => {
     callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.new_datahub_dashboard;
@@ -268,11 +231,16 @@ function DashboardNew() {
         tmpLabels.push(item?.datasets__source);
         datasets.data.push(item?.dataset_count);
       });
-      datasets.backgroundColor = "#00AB55";
-      datasets.hoverBackgroundColor = backgroundColors.splice(
-        0,
-        datasets.data.length
-      );
+      datasets.backgroundColor = [
+        "#36a2eb",
+        "#ff6384",
+        "#4bc0c0",
+        "#ff9f40",
+        "#9966ff",
+        "#ffcd56",
+        "#c9cbcf",
+      ];
+      datasets.hoverBackgroundColor = "#af0000";
     }
     setFileChart({
       labels: tmpLabels,
@@ -293,11 +261,17 @@ function DashboardNew() {
         tmpLabels.push(item?.state_name ?? "Others");
         datasets.data.push(item?.dataset_count);
       });
-      datasets.backgroundColor = "#0b03a9";
-      datasets.hoverBackgroundColor = backgroundColors.splice(
-        0,
-        datasets.data.length
-      );
+      datasets.backgroundColor = Chart.defaults.color.primary;
+      datasets.backgroundColor = [
+        "#36a2eb",
+        "#ff6384",
+        "#4bc0c0",
+        "#ff9f40",
+        "#9966ff",
+        "#ffcd56",
+        "#c9cbcf",
+      ];
+      datasets.hoverBackgroundColor = "#af0000";
     }
     setGeographyChart({
       labels: tmpLabels,
@@ -313,7 +287,16 @@ function DashboardNew() {
       tmpLabels = Object.keys(dashboardData?.dataset_category_metrics);
       datasets = {
         data: Object.values(dashboardData?.dataset_category_metrics),
-        backgroundColor: "#d14f4f",
+        // backgroundColor: "#d14f4f",
+        backgroundColor: [
+          "#36a2eb",
+          "#ff6384",
+          "#4bc0c0",
+          "#ff9f40",
+          "#9966ff",
+          "#ffcd56",
+          "#c9cbcf",
+        ],
         hoverBackgroundColor: "#af0000",
       };
     }
@@ -346,16 +329,16 @@ function DashboardNew() {
       <Box className={`${localeStyle.basicDetailsContainer}`}>
         <div className={`${localeStyle.titleContainer}`}>
           <div
-            className={`${localeStyle.title} ${globalStyle.size16}  ${globalStyle.bold700}`}
+            className={`${localeStyle.title} ${globalStyle.size32}  ${globalStyle.bold700}`}
           >
             {" "}
-            Hello Imran{" "}
+            Hello {dashboardData?.user?.first_name}{" "}
           </div>
           <div
-            classname={`${localeStyle.title} ${globalStyle.bold700} ${globalStyle.size16} ${localeStyle.secondaryColor}`}
+            className={`${localeStyle.subTitle} ${globalStyle.size20} ${globalStyle.bold500} ${localeStyle.secondaryColor}`}
           >
-            {" "}
-            Here you can track the activities of your network.{" "}
+            Track and optimize network activities effortlessly. Gain valuable
+            insights for efficient operations.
           </div>
         </div>
         <div className={`${localeStyle.userBasicDataContainer}`}>
@@ -368,7 +351,9 @@ function DashboardNew() {
               <div
                 className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor}`}
               >
-                Imran shaikh
+                {dashboardData?.user?.first_name +
+                  " " +
+                  dashboardData?.user?.last_name}
               </div>
             </div>
           </div>
@@ -396,17 +381,21 @@ function DashboardNew() {
         >
           Datasets
         </span>
-        <FormControl sx={{ width: "150px" }}>
-          <NativeSelect
-            sx={{ fontWeight: "500" }}
-            defaultValue={"other_organisation"}
-            onChange={(e) => setOrg(e.target.value)}
-            value={org}
-          >
-            <option value={"my_organisation"}>My organisation</option>
-            <option value={"other_organisation"}>Other organisation</option>
-          </NativeSelect>
-        </FormControl>
+        {!isLoggedInUserParticipant() ? (
+          <FormControl sx={{ width: "150px" }}>
+            <NativeSelect
+              sx={{ fontWeight: "500" }}
+              defaultValue={"my_organisation"}
+              onChange={(e) => setOrg(e.target.value)}
+              value={org}
+            >
+              <option value={"my_organisation"}>My organisation</option>
+              <option value={"other_organisation"}>Other organisation</option>
+            </NativeSelect>
+          </FormControl>
+        ) : (
+          ""
+        )}
       </Box>
       <Box className={`${localeStyle.graphContainer}`}>
         <CustomGraph
@@ -427,7 +416,7 @@ function DashboardNew() {
         <CustomDashBoardTable
           recentDatasetTable={true}
           title="Recent Datasets"
-          data={dashboardData.recent_connectors}
+          data={dashboardData.recent_datasets}
         />
       </Box>
       <Box>
@@ -457,7 +446,7 @@ function DashboardNew() {
             <CustomDashBoardTable
               recentConnectorsTable={true}
               title="Recent Connectors"
-              data={dashboardData?.recent_datasets}
+              data={dashboardData?.recent_connectors}
             />
           </div>
         </div>

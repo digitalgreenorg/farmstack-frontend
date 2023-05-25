@@ -8,13 +8,15 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box } from "@mui/system";
 import localStyle from "./customDashBoardTable.module.css";
+import { useHistory } from "react-router-dom";
 
 function CustomDashBoardTable(props) {
   const { data, title, recentConnectorsTable, recentDatasetTable } = props;
+  const history = useHistory();
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
   }
-
+  console.log("data in table", title, data);
   const rows = [
     createData("Frozen yoghurt", "Wheat", "Oromia", 24, 4.0),
     createData("Frozen yoghurt", "Wheat", "Oromia", 24, 4.0),
@@ -33,7 +35,15 @@ function CustomDashBoardTable(props) {
               {recentDatasetTable ? <TableCell align="right"></TableCell> : ""}
               <TableCell align="right"></TableCell>
 
-              <TableCell sx={{ color: "#00AB55" }} align="right">
+              <TableCell
+                onClick={() =>
+                  recentDatasetTable
+                    ? history.push("/datahub/new_datasets")
+                    : history.push("/datahub/connectors")
+                }
+                sx={{ color: "#00AB55", cursor: "pointer" }}
+                align="right"
+              >
                 View all
               </TableCell>
             </TableRow>
@@ -60,7 +70,13 @@ function CustomDashBoardTable(props) {
                     <TableCell align="right">
                       {item?.category?.name ?? "Not available"}
                     </TableCell>
-                    <TableCell sx={{ color: "#00AB55" }} align="right">
+                    <TableCell
+                      onClick={() =>
+                        history.push(`/datahub/new_datasets/view/${item?.id}`)
+                      }
+                      sx={{ color: "#00AB55" }}
+                      align="right"
+                    >
                       View
                     </TableCell>
                   </>
@@ -71,7 +87,13 @@ function CustomDashBoardTable(props) {
                         ? item?.dataset_count + " Datasets"
                         : "Not available"}
                     </TableCell>
-                    <TableCell sx={{ color: "#00AB55" }} align="right">
+                    <TableCell
+                      onClick={() =>
+                        history.push(`/datahub/connectors/edit/${item?.id}`)
+                      }
+                      sx={{ color: "#00AB55" }}
+                      align="right"
+                    >
                       View
                     </TableCell>
                   </>

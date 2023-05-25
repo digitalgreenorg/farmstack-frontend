@@ -84,7 +84,7 @@
 }
 .userBasicData {
   border: 1px solid #c8c3c3;
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
 }
 .connectorsData {
   height: 130px;
@@ -96,4 +96,8 @@
 }
 .connectorsDataContainer > div {
   margin: 10px 0;
+}
+.subTitle {
+  font-style: italic;
+  width: 90%;
 }
