@@ -264,7 +264,11 @@ const Join = (props) => {
                         completeData[index - 1].next_left?.map(
                           (eachFile, ind_) => {
                             return (
-                              <MenuItem key={ind_} value={eachFile + ""} id={`file-${ind_}-columns-left`}>
+                              <MenuItem
+                                key={ind_}
+                                value={eachFile + ""}
+                                id={`file-${ind_}-columns-left`}
+                              >
                                 {eachFile}
                               </MenuItem>
                             );
@@ -411,7 +415,7 @@ const Join = (props) => {
           {value == "Join by" ? (
             <>
               <Button
-                id="generate_button"
+                id="generate_button_cancel"
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: 700,
@@ -434,7 +438,7 @@ const Join = (props) => {
                 Cancel
               </Button>
               <Button
-                id="generate_button"
+                id="generate_button_apply"
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: 700,

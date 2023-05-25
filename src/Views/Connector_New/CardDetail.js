@@ -206,7 +206,7 @@ const CardDetail = (props) => {
             onClick={(event) => handleDeletePopper(event)}
             className="cursor-pointer"
             src={require("../../Assets/Img/delete_black_unfill.svg")}
-            id="delete-integration-card"
+            id={`delete-integration-card${index}`}
           />
         </Box>
       </Box>

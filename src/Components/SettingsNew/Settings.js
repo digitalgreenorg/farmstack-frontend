@@ -84,7 +84,11 @@ export default function Settings(props) {
           </Row>
           <Container>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Account settings" value="1" id="account-settings" />
+              <Tab
+                label="Account settings"
+                value="1"
+                id={`1account-settings`}
+              />
               <Tab label="Organisation settings" value="2" id="org-settings" />
               <Tab
                 label={
