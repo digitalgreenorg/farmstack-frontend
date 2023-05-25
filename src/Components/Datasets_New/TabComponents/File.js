@@ -55,7 +55,7 @@ const File = ({
             }}
           >
             <DeleteOutlineIcon
-              id={`accordion-uploaded-file-delete-button-id${id}`}
+              id={`accordion-uploaded-file-delete-button-id${index}`}
               className="cursor-pointer"
               onClick={() => handleClick(index, id, name, type)}
               sx={{

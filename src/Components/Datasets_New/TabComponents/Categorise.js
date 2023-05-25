@@ -72,6 +72,7 @@ const Categorise = (props) => {
               <CheckBoxWithText
                 key={ind}
                 text={res}
+                keyIndex={index}
                 checked={tCategory?.includes(res)}
                 categoryKeyName={keys[0]}
                 keyName={res}
