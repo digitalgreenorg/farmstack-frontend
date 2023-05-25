@@ -196,7 +196,7 @@ function DashboardNew() {
         callLoader(false);
         console.log(response);
         setDashboardData(response?.data);
-        formatData();
+        formatData(response?.data);
       })
       .catch((e) => {
         callLoader(false);
@@ -253,7 +253,7 @@ function DashboardNew() {
 
   console.log("colorShades(#00AB55)", colorShades("#00AB55", 50));
 
-  const formatData = () => {
+  const formatData = (dashboardData) => {
     let tmpLabels = [];
     let datasets = {
       data: [],
@@ -263,15 +263,17 @@ function DashboardNew() {
     if (!dashboardData) {
       return;
     }
-    dashboardData.dataset_file_metrics.forEach((item) => {
-      tmpLabels.push(item?.datasets__source);
-      datasets.data.push(item?.dataset_count);
-    });
-    datasets.backgroundColor = "#00AB55";
-    datasets.hoverBackgroundColor = backgroundColors.splice(
-      0,
-      datasets.data.length
-    );
+    if (dashboardData.dataset_file_metrics) {
+      dashboardData.dataset_file_metrics.forEach((item) => {
+        tmpLabels.push(item?.datasets__source);
+        datasets.data.push(item?.dataset_count);
+      });
+      datasets.backgroundColor = "#00AB55";
+      datasets.hoverBackgroundColor = backgroundColors.splice(
+        0,
+        datasets.data.length
+      );
+    }
     setFileChart({
       labels: tmpLabels,
       datasets: [datasets],
@@ -286,39 +288,58 @@ function DashboardNew() {
       backgroundColor: [],
       hoverBackgroundColor: [],
     };
-    dashboardData.dataset_state_metrics.forEach((item) => {
-      tmpLabels.push(item?.state_name);
-      datasets.data.push(item?.dataset_count);
-    });
-    datasets.backgroundColor = "#0b03a9";
-    datasets.hoverBackgroundColor = backgroundColors.splice(
-      0,
-      datasets.data.length
-    );
+    if (dashboardData.dataset_state_metrics) {
+      dashboardData.dataset_state_metrics.forEach((item) => {
+        tmpLabels.push(item?.state_name ?? "Others");
+        datasets.data.push(item?.dataset_count);
+      });
+      datasets.backgroundColor = "#0b03a9";
+      datasets.hoverBackgroundColor = backgroundColors.splice(
+        0,
+        datasets.data.length
+      );
+    }
     setGeographyChart({
       labels: tmpLabels,
       datasets: [datasets],
     });
-    tmpLabels = Object.keys(dashboardData?.dataset_category_metrics);
-    datasets = [
-      {
+    tmpLabels = [];
+    datasets = {
+      data: [],
+      backgroundColor: [],
+      hoverBackgroundColor: [],
+    };
+    if (dashboardData?.dataset_category_metrics) {
+      tmpLabels = Object.keys(dashboardData?.dataset_category_metrics);
+      datasets = {
         data: Object.values(dashboardData?.dataset_category_metrics),
         backgroundColor: "#d14f4f",
         hoverBackgroundColor: "#af0000",
-      },
-    ];
+      };
+    }
     setCategoryChart({
       labels: tmpLabels,
-      datasets: datasets,
+      datasets: [datasets],
     });
   };
 
   useEffect(() => {
+    setDashboardData({});
+    setCategoryChart({});
+    setFileChart({});
+    setGeographyChart({});
     getDashboard();
   }, [org]);
+  // useEffect(() => {
+  //   formatData();
+  // }, [dashboardData]);
   useEffect(() => {
-    formatData();
-  }, [dashboardData]);
+    // setDashboardData({});
+    // setCategoryChart({});
+    // setFileChart({});
+    // setGeographyChart({});
+    getDashboard();
+  }, []);
 
   return (
     <Box className={`${localeStyle.dashboardContainer}`}>

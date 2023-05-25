@@ -49,7 +49,13 @@ function CustomGraph(props) {
         <p>{title}</p>
 
         <div>
-          <canvas ref={chartContainer}></canvas>
+          {data?.datasets?.[0]?.data ? (
+            <canvas ref={chartContainer}></canvas>
+          ) : (
+            <>
+              <h2>No dataset</h2>
+            </>
+          )}
         </div>
       </div>
     </Box>
