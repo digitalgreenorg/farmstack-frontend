@@ -457,6 +457,7 @@ const DataSets = (props) => {
                 <CheckBoxWithText
                   key={ind}
                   text={res}
+                  keyIndex={ind}
                   checked={tCategory?.includes(res) ? true : false}
                   categoryKeyName={keys[0]}
                   keyName={res}

@@ -190,12 +190,12 @@ const UsagePolicy = (props) => {
           >
             {files &&
               files?.length &&
-              files?.map((item) => {
+              files?.map((item, index) => {
                 return (
                   <MenuItem
                     key={item?.id}
                     value={item?.id}
-                    id={`usage_policy-file-name-${item?.id}`}
+                    id={`usage_policy-file-name-${index}`}
                   >
                     {item?.label}
                   </MenuItem>
