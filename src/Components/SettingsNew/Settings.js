@@ -17,6 +17,7 @@ import {
 } from "../../Utils/Common";
 import LocalStyle from "./Settings.module.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { Tabs } from "@mui/material";
 
 export default function Settings(props) {
   const history = useHistory();
@@ -83,9 +84,18 @@ export default function Settings(props) {
             </Col>
           </Row>
           <Container>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Account settings" value="1" id="account-settings" />
-              <Tab label="Organisation settings" value="2" id="org-settings" />
+            <Tabs onChange={handleChange} aria-label="lab API tabs example">
+              <Tab
+                label="Account settings"
+                value="1"
+                aria-labelledby="account-settings-1"
+                id="account-settings-1"
+              />
+              <Tab
+                label="Organisation settings"
+                value="2"
+                id="org-settings-2"
+              />
               <Tab
                 label={
                   !isLoggedInUserCoSteward() && !isLoggedInUserParticipant()
@@ -93,7 +103,7 @@ export default function Settings(props) {
                     : ""
                 }
                 value="3"
-                id="policy-settings"
+                id="policy-settings-3"
               />
               <Tab
                 label={
@@ -102,7 +112,7 @@ export default function Settings(props) {
                     : ""
                 }
                 value="4"
-                id="category-settings"
+                id="category-settings-4"
               />
               <Tab
                 label={
@@ -111,23 +121,23 @@ export default function Settings(props) {
                     : ""
                 }
                 value="5"
-                id="datapoint-settings"
+                id="datapoint-settings-5"
               />
-            </TabList>
+            </Tabs>
           </Container>
-          <TabPanel value="1">
+          <TabPanel value="1" id="account-settings-1">
             <AccountSetting />
           </TabPanel>
-          <TabPanel value="2">
+          <TabPanel value="2" id="org-settings-2">
             <OrganisationSettings />
           </TabPanel>
-          <TabPanel value="3">
+          <TabPanel value="3" id="policy-settings-3">
             <PolicySettings />
           </TabPanel>
-          <TabPanel value="4">
+          <TabPanel value="4" id="category-settings-4">
             <CategorySettings />
           </TabPanel>
-          <TabPanel value="5">
+          <TabPanel value="5" id="datapoint-settings-5">
             <DatapointSettings />
           </TabPanel>
         </Box>

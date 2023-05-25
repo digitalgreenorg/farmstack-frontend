@@ -30,7 +30,11 @@ const CheckBoxWithText = ({
     <Box sx={{ display: "flex", alignItems: "center", marginTop: "4px" }}>
       <div>
         <Checkbox
+<<<<<<< HEAD
           id={`check-box-${text?.split(" ").join("-")}`}
+=======
+          id={`check-box-${keyIndex}`}
+>>>>>>> 31793d6e184c0aff311168428da34a8095d3b272
           sx={{
             "&.Mui-checked": {
               color: "#00AB55 !important",
