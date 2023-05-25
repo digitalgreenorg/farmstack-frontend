@@ -152,6 +152,7 @@ const Sidebar = ({ sideMenus }) => {
           boxShadow: "rgba(17, 17, 26, 0.1) 0px 0px 16px",
           display: "flex",
           position: "fixed",
+          zIndex: "1100",
         }}
       >
         <List

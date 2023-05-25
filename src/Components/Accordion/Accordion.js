@@ -26,6 +26,7 @@ const accordionTitleStyle = {
   fontSize: "16px !important",
   lineHeight: "24px !important",
   color: "#212B36 !important",
+  textAlign: "left !important",
 };
 
 const accordionSummaryStyle = {
