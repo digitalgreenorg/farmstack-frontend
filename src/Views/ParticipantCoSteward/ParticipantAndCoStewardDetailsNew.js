@@ -429,9 +429,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   return (
     <Box
       className={
-        mobile || tablet || user === "guest"
-          ? LocalStyle.container
-          : LocalStyle.containerMain
+        mobile || tablet ? LocalStyle.container : LocalStyle.containerMain
       }
     >
       <Row>

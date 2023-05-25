@@ -206,7 +206,7 @@ const CardDetail = (props) => {
             onClick={(event) => handleDeletePopper(event)}
             className="cursor-pointer"
             src={require("../../Assets/Img/delete_black_unfill.svg")}
-            id="delete-integration-card"
+            id={`delete-integration-card${index}`}
           />
         </Box>
       </Box>
@@ -231,7 +231,7 @@ const CardDetail = (props) => {
             checked={
               data?.availabeColumns?.length == data?.columnsSelected?.length
             }
-            id="select-all-columns"
+            id={`select-all-${index}-columns`}
           />
           <Typography
             className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${style.ml9}`}
@@ -248,7 +248,7 @@ const CardDetail = (props) => {
         <Divider />
         <Box className={`${style.gridStyle} ${style.mb13}`}>
           {data?.availabeColumns?.length > 0 &&
-            data.availabeColumns?.map((col) => (
+            data.availabeColumns?.map((col, index) => (
               <Box
                 className={`${style.mt23} ${style.ml7} ${style.mr34} d-flex`}
               >
@@ -262,7 +262,7 @@ const CardDetail = (props) => {
                   }
                   onChange={(e) => handleColumnCheck(e, col)}
                   checked={data?.columnsSelected?.includes(col)}
-                  id="select-columns"
+                  id={`select-columns${index}-files`}
                 />
                 <Typography
                   className={`${globalStyle.bold400} ${globalStyle.size16}  ${style.lightText} ${style.ml9}`}

@@ -448,6 +448,7 @@ const CompanyPolicies = (props) => {
                 setSizeError={() =>
                   setFileSizeErrorE("Maximum file size allowed is 25MB")
                 }
+                id="file_uploader-update"
               />
               {/* <div>{"sizeError"}</div> */}
             </Col>
@@ -502,6 +503,7 @@ const CompanyPolicies = (props) => {
                       onClick={() => handleDeleteFile()}
                       style={{ cursor: "pointer" }}
                       fontSize="small"
+                      id="cancel-uploaded-file-icon"
                     />
                   </div>
                 )}

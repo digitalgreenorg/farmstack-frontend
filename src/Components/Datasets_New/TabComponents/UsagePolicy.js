@@ -190,9 +190,13 @@ const UsagePolicy = (props) => {
           >
             {files &&
               files?.length &&
-              files?.map((item) => {
+              files?.map((item, index) => {
                 return (
-                  <MenuItem key={item?.id} value={item?.id}>
+                  <MenuItem
+                    key={item?.id}
+                    value={item?.id}
+                    id={`usage_policy-file-name-${index}`}
+                  >
                     {item?.label}
                   </MenuItem>
                 );
@@ -435,6 +439,7 @@ const UsagePolicy = (props) => {
                 color: "#fffff",
               },
             }}
+            variant="contained"
             disabled={file ? false : true}
             onClick={() => submitPolicy()}
             id={`usege-policy-apply-btn`}

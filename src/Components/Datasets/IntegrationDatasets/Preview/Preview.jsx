@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Stack, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "../dataset_integration.module.css";
@@ -48,6 +48,8 @@ const Preview = (props) => {
     downloadDocument,
   } = props;
   const history = useHistory();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [col, setCol] = useState([]);
   const [row, setRow] = useState([]);
   //Custom popper
@@ -243,7 +245,7 @@ const Preview = (props) => {
         </div>
       </Row>
       <hr />
-      <Row style={{ marginTop: "50px" }}>
+      <Row style={{ marginTop: mobile ? "" : "50px" }}>
         <Col lg={3}></Col>
         <Col
           lg={9}
@@ -252,6 +254,7 @@ const Preview = (props) => {
             justifyContent: "right",
             alignItems: "center",
             gap: "20px",
+            flexDirection: mobile ? "column" : "row",
           }}
         >
           <Button
@@ -279,7 +282,7 @@ const Preview = (props) => {
               borderRadius: "8px",
               color: "white",
               textTransform: "none",
-              marginRight: "30px",
+              marginRight: mobile ? "" : "30px",
               background: "#00AB55",
               "&:hover": {
                 background: "#00AB55",
@@ -357,7 +360,7 @@ const Preview = (props) => {
                   borderRadius: "8px",
                   color: "white",
                   textTransform: "none",
-                  marginRight: "30px",
+                  marginRight: mobile ? "" : "30px",
                   background: "#FF5630",
                   "&:hover": {
                     background: "#FF5630",

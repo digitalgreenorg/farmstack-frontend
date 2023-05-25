@@ -78,7 +78,7 @@ const StandardizationInOnbord = (props) => {
     Array(allDatapoints.length).fill(null)
   );
   const [open, setOpen] = React.useState(false);
-  const id = "delete-popper";
+
   const handleDelete = (event, index) => {
     setAnchorEl((prevAnchorEl) => {
       const newAnchorEl = [...prevAnchorEl];
@@ -717,7 +717,7 @@ const StandardizationInOnbord = (props) => {
                         }}
                         inputProps={{ maxLength: 250 }}
                         className="datapoint-name-input-box"
-                        id="datapoint-name-input-box-id"
+                        id={`datapoint-${index}-name-input-box-id-on`}
                         label="Datapoint category name"
                         variant="outlined"
                         helperText={
@@ -781,7 +781,7 @@ const StandardizationInOnbord = (props) => {
                       DeleteItem={"Datapoint category"}
                       anchorEl={anchorEl[index]}
                       handleDelete={(e) => confirm(e, index)}
-                      id={id}
+                      id={`delete-${index}-delete-popper-icon`}
                       open={
                         anchorEl[index] !== null &&
                         anchorEl[index] !== undefined
@@ -913,7 +913,7 @@ const StandardizationInOnbord = (props) => {
                                                 arrIndex
                                               )
                                             }
-                                            id="delete-datapoint-attribute"
+                                            id={`delete-${arrIndex}-datapoint-attribute`}
                                           >
                                             <DeleteOutlineIcon />
                                           </IconButton>
@@ -946,7 +946,7 @@ const StandardizationInOnbord = (props) => {
                           DeleteItem={"Datapoint category"}
                           anchorEl={anchorEl[index]}
                           handleDelete={(e) => confirm(e, index)}
-                          id={id}
+                          id={`delete-${index}-delete-popper-button`}
                           open={
                             anchorEl[index] !== null &&
                             anchorEl[index] !== undefined
