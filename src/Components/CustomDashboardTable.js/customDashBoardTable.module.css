@@ -1,0 +1,12 @@
+.tableHead {
+  /* width: 230%;
+  display: flex !important;
+  justify-content: space-between; */
+}
+.tableHead th {
+  border: none !important;
+}
+.container {
+  margin: 10px 0;
+  width: 95%;
+}
