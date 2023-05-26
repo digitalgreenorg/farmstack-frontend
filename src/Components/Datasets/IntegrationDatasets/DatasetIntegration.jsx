@@ -639,7 +639,7 @@ const DatasetIntegration = (props) => {
       .then((res) => {
         setLoader(false);
         if (condition == "integrate") {
-          console.log("inside integrate", res.data);
+          console.log("inside integrate", res.data, res?.data?.no_of_records);
           setIntegratedFilePath(
             res?.data?.integrated_file ? res?.data?.integrated_file : ""
           );

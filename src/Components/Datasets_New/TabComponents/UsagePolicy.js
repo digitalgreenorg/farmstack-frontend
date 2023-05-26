@@ -353,6 +353,7 @@ const UsagePolicy = (props) => {
             handleCheckBox={handleCheckBox}
             isDisabled={selectedValue === "registered" ? false : true}
             isCustomFont={true}
+            keyIndex={0}
           />
         </Box>
         <Box sx={{ marginLeft: "107px" }}>
@@ -365,6 +366,7 @@ const UsagePolicy = (props) => {
             handleCheckBox={handleCheckBox}
             isDisabled={selectedValue === "registered" ? false : true}
             isCustomFont={true}
+            keyIndex={1}
           />
         </Box>
         {/* <Box sx={{ marginLeft: '143px' }}>

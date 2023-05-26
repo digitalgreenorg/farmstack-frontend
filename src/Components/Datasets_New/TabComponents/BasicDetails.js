@@ -277,6 +277,7 @@ const BasicDetails = ({
         >
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
+              id={"add-dataset-capture-interval-to"}
               inputFormat="dd/MM/yyyy"
               label="End Date"
               minDate={fromDate}
