@@ -228,7 +228,12 @@ function DashboardNew() {
     }
     if (dashboardData.dataset_file_metrics) {
       dashboardData.dataset_file_metrics.forEach((item) => {
-        tmpLabels.push(item?.datasets__source);
+        let size = (item?.total_size / (1024 * 1024)).toFixed(2);
+        tmpLabels.push(
+          `${item?.datasets__source} (${
+            item?.total_size / (1024 * 1024) ? size + "mb" : "Not available"
+          })`
+        );
         datasets.data.push(item?.dataset_count);
       });
       datasets.backgroundColor = [
@@ -284,21 +289,23 @@ function DashboardNew() {
       hoverBackgroundColor: [],
     };
     if (dashboardData?.dataset_category_metrics) {
-      tmpLabels = Object.keys(dashboardData?.dataset_category_metrics);
-      datasets = {
-        data: Object.values(dashboardData?.dataset_category_metrics),
-        // backgroundColor: "#d14f4f",
-        backgroundColor: [
-          "#36a2eb",
-          "#ff6384",
-          "#4bc0c0",
-          "#ff9f40",
-          "#9966ff",
-          "#ffcd56",
-          "#c9cbcf",
-        ],
-        hoverBackgroundColor: "#af0000",
-      };
+      if (Object.keys(dashboardData?.dataset_category_metrics).length) {
+        tmpLabels = Object.keys(dashboardData?.dataset_category_metrics);
+        datasets = {
+          data: Object.values(dashboardData?.dataset_category_metrics),
+          // backgroundColor: "#d14f4f",
+          backgroundColor: [
+            "#36a2eb",
+            "#ff6384",
+            "#4bc0c0",
+            "#ff9f40",
+            "#9966ff",
+            "#ffcd56",
+            "#c9cbcf",
+          ],
+          hoverBackgroundColor: "#af0000",
+        };
+      }
     }
     setCategoryChart({
       labels: tmpLabels,
@@ -324,6 +331,8 @@ function DashboardNew() {
     getDashboard();
   }, []);
 
+  let logoUrl = UrlConstant.base_url + "media/" + dashboardData?.user?.logo;
+
   return (
     <Box className={`${localeStyle.dashboardContainer}`}>
       <Box className={`${localeStyle.basicDetailsContainer}`}>
@@ -343,10 +352,11 @@ function DashboardNew() {
         </div>
         <div className={`${localeStyle.userBasicDataContainer}`}>
           <div className={`${localeStyle.userBasicDataImg}`}>
-            <img src={require("../../Assets/Img/empower_now.svg")} />
+            {dashboardData?.user?.org_name}
+            {dashboardData?.user ? <img src={logoUrl} /> : ""}
             <div>
               <div className={`${globalStyle.size26} ${globalStyle.bold600}`}>
-                EmpowerNow
+                {dashboardData?.user?.org_name}
               </div>
               <div
                 className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor}`}

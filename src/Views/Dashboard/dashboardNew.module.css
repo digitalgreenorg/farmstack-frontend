@@ -101,3 +101,6 @@
   font-style: italic;
   width: 90%;
 }
+.userBasicDataImg img {
+  height: 65px;
+}

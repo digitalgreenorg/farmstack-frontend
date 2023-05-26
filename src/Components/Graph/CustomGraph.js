@@ -63,20 +63,20 @@ function CustomGraph(props) {
               axis: "x", // Customize based on the desired axis
               animationDuration: 400,
             },
-            tooltip: {
-              enabled: false,
-              mode: "custom",
-              position: "nearest",
-              external: (
-                <Tooltip style={{ height: "200px !important" }} title="Delete">
-                  dsfgkjhbdsjkfjkhsdhjkfhjas
-                </Tooltip>
-              ),
-              intersect: false,
-              callbacks: {
-                label: (context) => context.label,
-              },
-            },
+            // tooltip: {
+            //   enabled: false,
+            //   mode: "custom",
+            //   position: "nearest",
+            //   external: (
+            //     <Tooltip style={{ height: "200px !important" }} title="Delete">
+            //       dsfgkjhbdsjkfjkhsdhjkfhjas
+            //     </Tooltip>
+            //   ),
+            //   intersect: false,
+            //   callbacks: {
+            //     label: (context) => context.label,
+            //   },
+            // },
           },
         },
       });
@@ -95,7 +95,7 @@ function CustomGraph(props) {
         <p>{title}</p>
 
         <div>
-          {data?.datasets?.[0]?.data ? (
+          {data?.datasets?.[0]?.data?.length ? (
             <canvas ref={chartContainer}></canvas>
           ) : (
             <>
