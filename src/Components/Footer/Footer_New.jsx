@@ -261,7 +261,7 @@ const FooterNew = () => {
                   ) : (
                     <div
                       className={`${style.footerLightText} ${style.quickLinks} mt-10`}
-                      onClick={() => history.push("/login")}
+                      onClick={() => history.push("/home/get-started")}
                     >
                       Get started
                     </div>

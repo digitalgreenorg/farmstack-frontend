@@ -49,7 +49,7 @@ const UploadFile = ({
   const [selectedUploadType, setSelectedUploadType] = useState("file_upload");
   const [selectedPanel, setSelectedPanel] = useState();
   const [file, setFile] = useState();
-
+  const [isSizeError, setIsSizeError] = useState(false);
   const [mySqlDbName, setMySqlDbName] = useState();
   const [mySqlUserName, setMySqlUserName] = useState();
   const [mySqlPassword, setMySqlPassword] = useState();
@@ -99,6 +99,7 @@ const UploadFile = ({
   const [allColumns, setAllColumns] = useState([]);
 
   const handleFileChange = (file) => {
+    setIsSizeError(false);
     setFile(file);
     setKey(key + 1);
     let tempFiles = [...files];
@@ -1019,6 +1020,8 @@ const UploadFile = ({
                   key={key}
                   handleChange={handleFileChange}
                   multiple={true}
+                  maxSize={50}
+                  onSizeError={(file) => setIsSizeError(true)}
                   // onClick={(e) => (e.target.value = null)}
                   children={
                     <img
@@ -1028,6 +1031,11 @@ const UploadFile = ({
                   }
                 />
               </div>
+              <Typography className="text-danger">
+                {isSizeError
+                  ? "File size exceeds the maximum limit, it can't be more than 50 mb."
+                  : ""}
+              </Typography>
               <div className="list_files mt-20">
                 {files?.map((item, index) => (
                   <>
