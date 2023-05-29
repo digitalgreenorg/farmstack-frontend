@@ -227,6 +227,22 @@ const AddDataSet = (props) => {
     }
   };
 
+  const shouldTabDisabled = () => {
+    console.log(
+      sqlFiles || postgresFiles || restApifiles || files | uploadedFiles
+    );
+    if (
+      (datasetId || props.datasetIdForEdit) &&
+      (sqlFiles?.length > 0 ||
+        postgresFiles?.length > 0 ||
+        restApifiles?.length > 0 ||
+        uploadedFiles?.length > 0)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/new_datasets";
@@ -566,7 +582,7 @@ const AddDataSet = (props) => {
                   Standardise
                 </span>
               }
-              disabled={datasetId || props.datasetIdForEdit ? false : true}
+              disabled={shouldTabDisabled()}
             />
             <Tab
               id="add-dataset-tab-4"
@@ -577,7 +593,7 @@ const AddDataSet = (props) => {
                   Categorise
                 </span>
               }
-              disabled={datasetId || props.datasetIdForEdit ? false : true}
+              disabled={shouldTabDisabled()}
             />
             <Tab
               id="add-dataset-tab-5"
@@ -588,7 +604,7 @@ const AddDataSet = (props) => {
                   Usage policy
                 </span>
               }
-              disabled={datasetId || props.datasetIdForEdit ? false : true}
+              disabled={shouldTabDisabled()}
             />
           </Tabs>
         </Box>
