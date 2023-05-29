@@ -49,7 +49,7 @@ const UploadFile = ({
   const [selectedUploadType, setSelectedUploadType] = useState("file_upload");
   const [selectedPanel, setSelectedPanel] = useState();
   const [file, setFile] = useState();
-
+  const [isSizeError, setIsSizeError] = useState(false);
   const [mySqlDbName, setMySqlDbName] = useState();
   const [mySqlUserName, setMySqlUserName] = useState();
   const [mySqlPassword, setMySqlPassword] = useState();
@@ -98,15 +98,21 @@ const UploadFile = ({
 
   const [allColumns, setAllColumns] = useState([]);
 
+  const [fileSizeError, setFileSizeError] = useState("");
+  const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
+
   const handleFileChange = (file) => {
+    setIsSizeError(false);
     setFile(file);
     setKey(key + 1);
     let tempFiles = [...files];
     tempFiles.push(...file);
     setFiles(tempFiles);
     // setFiles((prev) => [...prev, file]);
+    setFileSizeError("")
   };
   const handleDelete = (index, id, filename, type) => {
+    setFileSizeError("")
     let source = "";
     if (type === "file_upload") {
       source = "file";
@@ -348,6 +354,7 @@ const UploadFile = ({
   };
 
   const getUpdatedFile = async (fileItem) => {
+    setFileSizeError("")
     let bodyFormData = new FormData();
     bodyFormData.append("dataset", datasetId);
     bodyFormData.append("source", "file");
@@ -1019,6 +1026,8 @@ const UploadFile = ({
                   key={key}
                   handleChange={handleFileChange}
                   multiple={true}
+                  maxSize={50}
+                  onSizeError={(file) => setIsSizeError(true)}
                   // onClick={(e) => (e.target.value = null)}
                   children={
                     <img
@@ -1026,8 +1035,17 @@ const UploadFile = ({
                       src={require("../../../Assets/Img/Upload.svg")}
                     />
                   }
+                  maxSize={50}
+                  onSizeError={() => setFileSizeError("Maximum file size allowed is 50MB")}  
+                  types={fileTypes}
                 />
+                <span style={{ color: "red", fontSize: "14px", textAlign: "left"}}>{fileSizeError}</span>
               </div>
+              <Typography className="text-danger">
+                {isSizeError
+                  ? "File size exceeds the maximum limit, it can't be more than 50 mb."
+                  : ""}
+              </Typography>
               <div className="list_files mt-20">
                 {files?.map((item, index) => (
                   <>
