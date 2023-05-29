@@ -177,7 +177,10 @@ const ParticipantsAndCoStewardNew = () => {
     }
     goToTop(0);
     // remove participantAndCostewardTabValue from local on page load
-    localStorage.removeItem("participantAndCostewardTabValue");
+    let tabValue = localStorage.getItem("participantAndCostewardTabValue");
+    if (tabValue == 0) {
+      localStorage.removeItem("participantAndCostewardTabValue");
+    }
   }, []);
 
   console.log("is login user", isLoggedInUserAdmin());

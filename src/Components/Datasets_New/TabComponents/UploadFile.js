@@ -11,7 +11,12 @@ import TableImport from "./TableImport";
 import ApiConfiguration from "./ApiConfiguration";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { fileUpload, getTokenLocal } from "../../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  fileUpload,
+  getTokenLocal,
+} from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
@@ -44,7 +49,7 @@ const UploadFile = ({
   const [selectedUploadType, setSelectedUploadType] = useState("file_upload");
   const [selectedPanel, setSelectedPanel] = useState();
   const [file, setFile] = useState();
-
+  const [isSizeError, setIsSizeError] = useState(false);
   const [mySqlDbName, setMySqlDbName] = useState();
   const [mySqlUserName, setMySqlUserName] = useState();
   const [mySqlPassword, setMySqlPassword] = useState();
@@ -93,15 +98,21 @@ const UploadFile = ({
 
   const [allColumns, setAllColumns] = useState([]);
 
+  const [fileSizeError, setFileSizeError] = useState("");
+  const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
+
   const handleFileChange = (file) => {
+    setIsSizeError(false);
     setFile(file);
     setKey(key + 1);
     let tempFiles = [...files];
     tempFiles.push(...file);
     setFiles(tempFiles);
     // setFiles((prev) => [...prev, file]);
+    setFileSizeError("")
   };
   const handleDelete = (index, id, filename, type) => {
+    setFileSizeError("")
     let source = "";
     if (type === "file_upload") {
       source = "file";
@@ -343,6 +354,7 @@ const UploadFile = ({
   };
 
   const getUpdatedFile = async (fileItem) => {
+    setFileSizeError("")
     let bodyFormData = new FormData();
     bodyFormData.append("dataset", datasetId);
     bodyFormData.append("source", "file");
@@ -473,6 +485,46 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
+          console.log(err.response.data);
+          let returnValues = GetErrorKey(err, [
+            "dbname",
+            "username",
+            "password",
+            "host",
+            "port",
+            "error",
+          ]);
+          console.log(returnValues);
+          let errorKeys = returnValues[0];
+          let errorMessages = returnValues[1];
+          if (errorKeys.length > 0) {
+            for (let i = 0; i < errorKeys.length; i++) {
+              console.log(errorKeys[i]);
+              switch (errorKeys[i]) {
+                case "dbname":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "username":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "password":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "host":
+                  console.log("hello");
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "port":
+                  console.log("hello");
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                //if error occurs Alert will be shown as Snackbar
+                default:
+                  callToast("Connection establishment failed!", "error", true);
+                  break;
+              }
+            }
+          }
         });
     } else if (selectedUploadType === "postgres") {
       let bodyData = {
@@ -500,6 +552,43 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
+          let returnValues = GetErrorKey(err, [
+            "dbname",
+            "username",
+            "password",
+            "host",
+            "port",
+            "error",
+          ]);
+          console.log(returnValues);
+          let errorKeys = returnValues[0];
+          let errorMessages = returnValues[1];
+          if (errorKeys.length > 0) {
+            for (let i = 0; i < errorKeys.length; i++) {
+              console.log(errorKeys[i]);
+              switch (errorKeys[i]) {
+                case "dbname":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "username":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "password":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "host":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "port":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                //if error occurs Alert will be shown as Snackbar
+                default:
+                  callToast("Connection establishment failed!", "error", true);
+                  break;
+              }
+            }
+          }
         });
     } else if (selectedUploadType === "sqlite") {
       let bodyData = {
@@ -685,6 +774,11 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
+          callToast(
+            "Some error occured while exporting the file.",
+            "error",
+            true
+          );
         });
     } else if (selectedUploadType === "postgres") {
       let query = postgresFileName;
@@ -725,6 +819,11 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
+          callToast(
+            "Some error occured while exporting the file.",
+            "error",
+            true
+          );
         });
     }
     // else if (selectedUploadType === 'sqlite') {
@@ -796,6 +895,7 @@ const UploadFile = ({
         })
         .catch((err) => {
           console.log(err);
+          callToast(err.response?.data?.message, "error", true);
         });
     }
   };
@@ -926,6 +1026,8 @@ const UploadFile = ({
                   key={key}
                   handleChange={handleFileChange}
                   multiple={true}
+                  maxSize={50}
+                  onSizeError={(file) => setIsSizeError(true)}
                   // onClick={(e) => (e.target.value = null)}
                   children={
                     <img
@@ -933,8 +1035,17 @@ const UploadFile = ({
                       src={require("../../../Assets/Img/Upload.svg")}
                     />
                   }
+                  maxSize={50}
+                  onSizeError={() => setFileSizeError("Maximum file size allowed is 50MB")}  
+                  types={fileTypes}
                 />
+                <span style={{ color: "red", fontSize: "14px", textAlign: "left"}}>{fileSizeError}</span>
               </div>
+              <Typography className="text-danger">
+                {isSizeError
+                  ? "File size exceeds the maximum limit, it can't be more than 50 mb."
+                  : ""}
+              </Typography>
               <div className="list_files mt-20">
                 {files?.map((item, index) => (
                   <>
