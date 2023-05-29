@@ -593,6 +593,9 @@ const AddConnector = (props) => {
           setNoOfRecords(
             res?.data?.no_of_records ? res?.data?.no_of_records : 0
           );
+          if (res?.data?.no_of_records == 0) {
+            callToast("No records matched.", "info", true);
+          }
 
           setFinalDatasetAfterIntegration([...res.data?.data?.data]);
           let allKeys =

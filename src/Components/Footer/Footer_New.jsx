@@ -305,13 +305,13 @@ const FooterNew = () => {
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: "#00AB55",
+                        borderColor: "#6c757d",
                       },
                       "&:hover fieldset": {
-                        borderColor: "#00AB55",
+                        borderColor: "#6c757d",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#00AB55",
+                        borderColor: "#6c757d",
                       },
                     },
                   }}

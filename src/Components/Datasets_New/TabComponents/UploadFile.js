@@ -11,7 +11,12 @@ import TableImport from "./TableImport";
 import ApiConfiguration from "./ApiConfiguration";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { fileUpload, getTokenLocal } from "../../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  fileUpload,
+  getTokenLocal,
+} from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
@@ -473,6 +478,46 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
+          console.log(err.response.data);
+          let returnValues = GetErrorKey(err, [
+            "dbname",
+            "username",
+            "password",
+            "host",
+            "port",
+            "error",
+          ]);
+          console.log(returnValues);
+          let errorKeys = returnValues[0];
+          let errorMessages = returnValues[1];
+          if (errorKeys.length > 0) {
+            for (let i = 0; i < errorKeys.length; i++) {
+              console.log(errorKeys[i]);
+              switch (errorKeys[i]) {
+                case "dbname":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "username":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "password":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "host":
+                  console.log("hello");
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "port":
+                  console.log("hello");
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                //if error occurs Alert will be shown as Snackbar
+                default:
+                  callToast("Connection establishment failed!", "error", true);
+                  break;
+              }
+            }
+          }
         });
     } else if (selectedUploadType === "postgres") {
       let bodyData = {
@@ -500,6 +545,43 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
+          let returnValues = GetErrorKey(err, [
+            "dbname",
+            "username",
+            "password",
+            "host",
+            "port",
+            "error",
+          ]);
+          console.log(returnValues);
+          let errorKeys = returnValues[0];
+          let errorMessages = returnValues[1];
+          if (errorKeys.length > 0) {
+            for (let i = 0; i < errorKeys.length; i++) {
+              console.log(errorKeys[i]);
+              switch (errorKeys[i]) {
+                case "dbname":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "username":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "password":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "host":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                case "port":
+                  callToast(errorMessages[i], "error", true);
+                  break;
+                //if error occurs Alert will be shown as Snackbar
+                default:
+                  callToast("Connection establishment failed!", "error", true);
+                  break;
+              }
+            }
+          }
         });
     } else if (selectedUploadType === "sqlite") {
       let bodyData = {
@@ -685,6 +767,11 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
+          callToast(
+            "Some error occured while exporting the file.",
+            "error",
+            true
+          );
         });
     } else if (selectedUploadType === "postgres") {
       let query = postgresFileName;
@@ -725,6 +812,11 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
+          callToast(
+            "Some error occured while exporting the file.",
+            "error",
+            true
+          );
         });
     }
     // else if (selectedUploadType === 'sqlite') {
@@ -796,6 +888,7 @@ const UploadFile = ({
         })
         .catch((err) => {
           console.log(err);
+          callToast(err.response?.data?.message, "error", true);
         });
     }
   };
