@@ -98,6 +98,9 @@ const UploadFile = ({
 
   const [allColumns, setAllColumns] = useState([]);
 
+  const [fileSizeError, setFileSizeError] = useState("");
+  const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
+
   const handleFileChange = (file) => {
     setFile(file);
     setKey(key + 1);
@@ -105,8 +108,10 @@ const UploadFile = ({
     tempFiles.push(...file);
     setFiles(tempFiles);
     // setFiles((prev) => [...prev, file]);
+    setFileSizeError("")
   };
   const handleDelete = (index, id, filename, type) => {
+    setFileSizeError("")
     let source = "";
     if (type === "file_upload") {
       source = "file";
@@ -348,6 +353,7 @@ const UploadFile = ({
   };
 
   const getUpdatedFile = async (fileItem) => {
+    setFileSizeError("")
     let bodyFormData = new FormData();
     bodyFormData.append("dataset", datasetId);
     bodyFormData.append("source", "file");
@@ -1026,7 +1032,11 @@ const UploadFile = ({
                       src={require("../../../Assets/Img/Upload.svg")}
                     />
                   }
+                  maxSize={50}
+                  onSizeError={() => setFileSizeError("Maximum file size allowed is 50MB")}  
+                  types={fileTypes}
                 />
+                <span style={{ color: "red", fontSize: "14px", textAlign: "left"}}>{fileSizeError}</span>
               </div>
               <div className="list_files mt-20">
                 {files?.map((item, index) => (
