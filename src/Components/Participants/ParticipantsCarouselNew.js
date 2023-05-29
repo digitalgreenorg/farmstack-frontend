@@ -199,15 +199,16 @@ const ParticipantsCarouselNew = (props) => {
                   sm={12}
                   md={6}
                   xl={4}
-                  onClick={() =>
+                  onClick={() => {
+                    localStorage.setItem("last_route", "/home");
                     isCosteward
                       ? history.push(
                           `/home/costeward/view/${participant?.user_id}`
                         )
                       : history.push(
                           `/home/participants/view/${participant?.user_id}`
-                        )
-                  }
+                        );
+                  }}
                 >
                   <CustomCard
                     image={participant?.organization?.logo}
