@@ -43,7 +43,7 @@ import styles from "../NewOnboarding/onboarding.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { Col, Row } from "react-bootstrap";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
-
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 const StandardizationInOnbord = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
@@ -78,7 +78,7 @@ const StandardizationInOnbord = (props) => {
     Array(allDatapoints.length).fill(null)
   );
   const [open, setOpen] = React.useState(false);
-  const id = "delete-popper";
+
   const handleDelete = (event, index) => {
     setAnchorEl((prevAnchorEl) => {
       const newAnchorEl = [...prevAnchorEl];
@@ -622,10 +622,13 @@ const StandardizationInOnbord = (props) => {
       <div className={styles.main_box}>
         <div className={styles.main_label}>
           <div>Datapoint category details</div>
-          <div className={styles.sub_label}>
-            Enter the datapoints and datapoints attributes, we will show to
-            others!
-          </div>
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {props.inSettings
+              ? "Create and update datapoints to standardise datasets."
+              : ""}
+          </Typography>
         </div>
         <div className="data-point-input-box-container">
           <TextField
@@ -670,7 +673,16 @@ const StandardizationInOnbord = (props) => {
 
         <div className="attribute-container">
           {allDatapoints?.length > 0 && (
-            <div className={styles.main_label}>Datapoint attributes</div>
+            <div className={styles.main_label}>
+              Datapoint attributes
+              <Typography
+                className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+              >
+                {inSettings
+                  ? "Customize and control datapoint attributes for accuracy and relevance."
+                  : ""}
+              </Typography>
+            </div>
           )}
           {allDatapoints?.map((item, index) => {
             // let tmpAllAttributes = {...allAttributes}
@@ -705,7 +717,7 @@ const StandardizationInOnbord = (props) => {
                         }}
                         inputProps={{ maxLength: 250 }}
                         className="datapoint-name-input-box"
-                        id="datapoint-name-input-box-id"
+                        id={`datapoint-${index}-name-input-box-id-on`}
                         label="Datapoint category name"
                         variant="outlined"
                         helperText={
@@ -769,7 +781,7 @@ const StandardizationInOnbord = (props) => {
                       DeleteItem={"Datapoint category"}
                       anchorEl={anchorEl[index]}
                       handleDelete={(e) => confirm(e, index)}
-                      id={id}
+                      id={`delete-${index}-delete-popper-icon`}
                       open={
                         anchorEl[index] !== null &&
                         anchorEl[index] !== undefined
@@ -901,7 +913,7 @@ const StandardizationInOnbord = (props) => {
                                                 arrIndex
                                               )
                                             }
-                                            id="delete-datapoint-attribute"
+                                            id={`delete-${arrIndex}-datapoint-attribute`}
                                           >
                                             <DeleteOutlineIcon />
                                           </IconButton>
@@ -934,7 +946,7 @@ const StandardizationInOnbord = (props) => {
                           DeleteItem={"Datapoint category"}
                           anchorEl={anchorEl[index]}
                           handleDelete={(e) => confirm(e, index)}
-                          id={id}
+                          id={`delete-${index}-delete-popper-button`}
                           open={
                             anchorEl[index] !== null &&
                             anchorEl[index] !== undefined

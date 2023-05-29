@@ -92,16 +92,7 @@ const GuestUserHome = () => {
             </div>
             <Row className={LocalStyle.buttonContainer}>
               <Button
-                onClick={() =>
-                  history.push(
-                    getUserLocal() &&
-                      (isLoggedInUserAdmin() || isLoggedInUserCoSteward())
-                      ? "/datahub/new_datasets"
-                      : getUserLocal() && isLoggedInUserParticipant()
-                      ? "/participant/new_datasets"
-                      : "/login"
-                  )
-                }
+                onClick={() => history.push("/home/get-started")}
                 id="home-get-started-btn"
                 className={`${LocalStyle.primaryButton} ${GlobalStyles.primary_button}`}
               >
@@ -113,13 +104,13 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
-                <span>Orchestrate network of data </span>
+                <span>Connect, Share, Discover </span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
-                <span>Invite data providers and consumers</span>
+                <span>Unlock data insights</span>
               </Col>
             </Row>
             <Row>
@@ -154,7 +145,7 @@ const GuestUserHome = () => {
           Datasets
         </Typography>
         <Typography
-          className={`${LocalStyle.textDescription} text-center ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
           Discover and explore the potential of data to generate ideal datasets
           with Dataset Explorer.
@@ -309,17 +300,17 @@ const GuestUserHome = () => {
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
             <div className={`${LocalStyle.titleContainer}`}>
               <Typography
-                className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold600} ${GlobalStyles.size28} ${GlobalStyles.highlighted_text}`}
               >
-                Elevate Your Data Exchange Platform
+                Driving Insights, Thriving Community
               </Typography>
               <Typography
                 className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Empower admins from Steward Organizations to effortlessly
-                configure and manage their data exchange platform, ensuring a
-                seamless and secure experience for all participants.
+                Foster data-driven decisions by collaborating with participants
+                to seamlessly share datasets and unlock their true potential by
+                integrating datasets.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
@@ -335,16 +326,14 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
-                <span className="text-left">
-                  Empowering Agricultural Communities{" "}
-                </span>
+                <span className="text-left">Strengthen Collaboration </span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
                 <span className="text-left">
-                  Promoting Transparency and Trust
+                  Unleash the Power of Connectors
                 </span>
               </Col>
             </Row>
@@ -353,15 +342,13 @@ const GuestUserHome = () => {
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point3.svg")} />
                 </span>
-                <span className="text-left">Strengthening Collaboration</span>
+                <span className="text-left">Enable Use cases</span>
               </Col>
               <Col className={`${LocalStyle.pointContainer}`} xl={6}>
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point4.svg")} />
                 </span>
-                <span className="text-left">
-                  Unleashing the Power of Data Integration Connectors
-                </span>
+                <span className="text-left">Scale-up your impact </span>
               </Col>
             </Row>
           </Col>
@@ -381,16 +368,7 @@ const GuestUserHome = () => {
         <Row className={`${LocalStyle.buttonContainer}`}>
           <Button
             className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button}`}
-            onClick={() =>
-              history.push(
-                getUserLocal() &&
-                  (isLoggedInUserAdmin() || isLoggedInUserCoSteward())
-                  ? "/datahub/new_datasets"
-                  : getUserLocal() && isLoggedInUserParticipant()
-                  ? "/participant/new_datasets"
-                  : "/login"
-              )
-            }
+            onClick={() => history.push("/home/get-started")}
             id="home-get-started-btn2-id"
           >
             Get Started

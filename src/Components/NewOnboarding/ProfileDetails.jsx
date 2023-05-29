@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
 import MuiPhoneNumber from "material-ui-phone-number";
@@ -18,6 +18,7 @@ import {
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 
 const ProfileDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -255,6 +256,13 @@ const ProfileDetails = (props) => {
       <div className={styles.main_box}>
         <div className={styles.main_label}>
           {props.isAccountSetting ? "Account settings" : "Profile Details"}{" "}
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {props.isAccountSetting
+              ? "Customize and manage your account settings to ensure a personalized and seamless experience."
+              : ""}
+          </Typography>
         </div>
 
         {props.isAccountSetting ? (

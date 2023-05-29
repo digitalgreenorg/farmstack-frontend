@@ -51,6 +51,7 @@ const selectStyle = {
 
 const SelectConnector = ({
   text,
+  subTitle,
   organisations,
   organisationName,
   setOrganisationName,
@@ -92,6 +93,11 @@ const SelectConnector = ({
         }}
       >
         {text}
+      </Typography>
+      <Typography
+        className={`${globalStyle.textDescription} text-left ${globalStyle.bold400} ${globalStyle.highlighted_text}`}
+      >
+        {subTitle}
       </Typography>
       {counterForIntegrator === completeData.length && (
         <div style={{ textAlign: "left", marginTop: "12px" }}>

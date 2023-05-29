@@ -29,6 +29,7 @@ import GuestUserCoStewardNew from "../Views/GuestUser/GuestUserCoStewardNew";
 import GuestUserCostewardDetailsNew from "../Views/GuestUser/GuestUserCostewardDetailsNew";
 import RegisterParticipants from "../Components/GuestUser/RegisterParticipants";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
+import GetStarted from "../Views/GetStarted/GetStarted";
 
 const GuestRoutes = () => {
   const theme = useTheme();
@@ -50,9 +51,10 @@ const GuestRoutes = () => {
             : "minHeight67vhDatahubPage"
         }
       >
-        <br/>
+        <br />
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
+          <Route exact path="/home/get-started" component={GetStarted} />
           <Route exact path="/home/datasets" component={GuestUserDatatsets} />
           <Route
             exact

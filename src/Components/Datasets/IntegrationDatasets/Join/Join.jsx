@@ -71,10 +71,10 @@ const Join = (props) => {
     generateData,
   } = props;
   const [joinTypeArr, setJoinTypeArr] = useState([
-    { name: "left", black: leftB, green: leftG , id: "leftjoin"},
-    { name: "right", black: rightB, green: rightG, id: "rightjoin"},
-    { name: "inner", black: innerB, green: innerG, id: "innerjoin"},
-    { name: "outer", black: fullB, green: fullG, id: "outerjoin"},
+    { name: "left", black: leftB, green: leftG, id: "leftjoin" },
+    { name: "right", black: rightB, green: rightG, id: "rightjoin" },
+    { name: "inner", black: innerB, green: innerG, id: "innerjoin" },
+    { name: "outer", black: fullB, green: fullG, id: "outerjoin" },
   ]);
 
   const handleChangeJoin = (e, ind, source) => {
@@ -122,6 +122,7 @@ const Join = (props) => {
   const clearJoinFields = () => {
     let arr = [...completeData];
     let obj = { ...each };
+    obj["noOfjoin"] = 1;
 
     //clear join typ
     obj["type"] = "";
@@ -133,6 +134,8 @@ const Join = (props) => {
 
     // clear right join field
     obj["right_on"] = [];
+
+    console.log(obj);
     arr[index] = { ...obj };
 
     setCompleteData([...arr]);
@@ -235,7 +238,7 @@ const Join = (props) => {
                     {/* {console.log(each)} */}
                     <Select
                       labelId="primary_col_label_for_join"
-                      id="primary_col_select_for_join"
+                      id={`primary_col_${ind}_select_for_join`}
                       required
                       value={
                         each?.left_on?.length > 0 ? each?.left_on[ind] : ""
@@ -251,7 +254,7 @@ const Join = (props) => {
                             <MenuItem
                               key={ind_}
                               value={eachFile + ""}
-                              id="file-columns"
+                              id={`file-${ind_}-columns-left`}
                             >
                               {eachFile}
                             </MenuItem>
@@ -261,7 +264,11 @@ const Join = (props) => {
                         completeData[index - 1].next_left?.map(
                           (eachFile, ind_) => {
                             return (
-                              <MenuItem key={ind_} value={eachFile + ""}>
+                              <MenuItem
+                                key={ind_}
+                                value={eachFile + ""}
+                                id={`file-${ind_}-columns-left`}
+                              >
                                 {eachFile}
                               </MenuItem>
                             );
@@ -289,7 +296,9 @@ const Join = (props) => {
                       id="secondary_col_select_for_join"
                       required
                       sx={selectStyle}
-                      value={each?.right_on ? each?.right_on[ind] : ""}
+                      value={
+                        each?.right_on?.length > 0 ? each?.right_on[ind] : ""
+                      }
                       onChange={(e) => handleChangeJoin(e, ind, "join2")}
                       label="Join column (right)"
                       // multiple
@@ -305,7 +314,7 @@ const Join = (props) => {
                               <MenuItem
                                 key={ind_}
                                 value={eachFile + ""}
-                                id="file-columns"
+                                id={`file-${ind_}-columns-right`}
                               >
                                 {eachFile}
                               </MenuItem>
@@ -406,7 +415,7 @@ const Join = (props) => {
           {value == "Join by" ? (
             <>
               <Button
-                id="generate_button"
+                id="generate_button_cancel"
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: 700,
@@ -429,7 +438,7 @@ const Join = (props) => {
                 Cancel
               </Button>
               <Button
-                id="generate_button"
+                id="generate_button_apply"
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: 700,
@@ -459,6 +468,7 @@ const Join = (props) => {
                 onClick={(e) => {
                   generateData(index, "integrate");
                 }}
+                variant="contained"
               >
                 Apply
               </Button>

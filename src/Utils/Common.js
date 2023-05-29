@@ -127,7 +127,7 @@ export const refreshToken = async () => {
       };
       return error;
     }
-    localStorage.setItem("lastPathname", window.location.href);
+    localStorage.setItem("lastPathname", window.location.pathname);
     const response = await HTTPService("POST", url, {
       refresh: refreshToken,
     });
@@ -161,6 +161,9 @@ export const GetErrorHandlingRoute = async (e) => {
   console.log(e?.response?.data, e.response?.status, "error");
   if (e?.response?.data && e?.response?.status == 401) {
     let resultOfRefresh = await refreshToken();
+    if (resultOfRefresh.status != 401) {
+      window.location.reload();
+    }
     return resultOfRefresh;
   } else if (
     (e?.response?.data && e?.response?.status == 403) ||
@@ -175,7 +178,9 @@ export const GetErrorHandlingRoute = async (e) => {
     };
   } else if (
     e?.response?.data &&
-    (e?.response?.status == 404 || e?.response?.status == 405)
+    (e?.response?.status == 404 ||
+      e?.response?.status == 405 ||
+      e?.response?.status == 400)
   ) {
     return {
       toast: true,

@@ -32,6 +32,7 @@ import {
 } from "@mui/material";
 import { CSSTransition } from "react-transition-group";
 import { Badge, Popconfirm, Switch } from "antd";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const DatasetRequestTable = () => {
   const { isLoading, toastDetail, callLoader, callToast } =
@@ -230,6 +231,14 @@ const DatasetRequestTable = () => {
           }
         >
           Request {showRequestSent ? "sent" : "received"}
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {" "}
+            {showRequestSent
+              ? "Track the status of your dataset access requests."
+              : "Review requests from organizations seeking access to your dataset."}{" "}
+          </Typography>
         </Col>
         <Col
           lg={6}
@@ -296,8 +305,8 @@ const DatasetRequestTable = () => {
                           "& .MuiTableCell-root": {
                             fontFamily: "Montserrat",
                           },
-                          textAlign: "left",
-                          alignItems: "left",
+                          textAlign: "center",
+                          alignItems: "center",
                         }}
                         className={styles.file_table_column}
                       >
@@ -694,7 +703,7 @@ const DatasetRequestTable = () => {
                             fontFamily: "Montserrat",
                           },
                           alignItems: "center",
-                          textAlign: "center",
+                          textAlign: "left",
                         }}
                         className={styles.file_table_column}
                       >
@@ -735,7 +744,7 @@ const DatasetRequestTable = () => {
                             : row.approval_status == "approved"
                             ? "#00ab55"
                             : "#c09507",
-                        textAlign: "center",
+                        textAlign: "left",
                       }}
                       component="th"
                       scope="row"

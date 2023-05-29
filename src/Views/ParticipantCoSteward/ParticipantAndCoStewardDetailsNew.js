@@ -286,7 +286,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           if (reject) {
             callToast("Rejected successfully!", "success", true);
           } else {
-            callToast("Delete successfully!", "success", true);
+            callToast("Deleted successfully!", "success", true);
           }
           history.go(-1);
         }
@@ -429,9 +429,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   return (
     <Box
       className={
-        mobile || tablet || user === "guest"
-          ? LocalStyle.container
-          : LocalStyle.containerMain
+        mobile || tablet ? LocalStyle.container : LocalStyle.containerMain
       }
     >
       <Row>
@@ -500,6 +498,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           >
             {isCosteward ? "Co-steward details" : "Participants details"}
           </Typography>
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {isCosteward
+              ? "Explore details of co-steward organization."
+              : !isCosteward && !isParticipantRequest
+              ? "Dive into the details of participants empowering community."
+              : "Organization who have requested to join your community."}
+          </Typography>
         </Col>
         <Col
           className={`${LocalStyle.buttonContainer} ${mobile ? "mt-20" : ""}`}
@@ -513,7 +520,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <CustomDeletePopper
                 DeleteItem={organisationName}
                 anchorEl={anchorEl}
-                handleDelete={deleteParticipants}
+                handleDelete={() => deleteParticipants(false)}
                 id={id}
                 open={open}
                 closePopper={closePopper}
@@ -663,6 +670,12 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               ? "Co-steward user details"
               : "Participant Root User Details"}
           </Typography>
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {" "}
+            {"Profile of the designated representative."}{" "}
+          </Typography>
         </Col>
       </Row>
       <Row className={LocalStyle.textRow}>
@@ -739,6 +752,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               >
                 List of Datasets
               </Typography>
+              <Typography
+                className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+              >
+                {" "}
+                {isCosteward
+                  ? "Browse the list of datasets contributed by this co-steward."
+                  : "Browse the list of datasets contributed by this partiicpant."}{" "}
+              </Typography>
             </Col>
           </Row>
           <Row>
@@ -809,6 +830,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {isCosteward ? (
         <CoStewardAndParticipantsCard
           title={"Co-steward participants"}
+          subTitle="Explore the participants who are part of this co-steward's community."
           user={user}
           viewType={false}
           // setViewType={setViewType}

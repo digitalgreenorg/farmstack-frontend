@@ -26,6 +26,7 @@ const accordionTitleStyle = {
   fontSize: "16px !important",
   lineHeight: "24px !important",
   color: "#212B36 !important",
+  textAlign: "left !important",
 };
 
 const accordionSummaryStyle = {
@@ -47,6 +48,7 @@ const ControlledAccordion = ({
   customDetailsStyle,
   addHeaderBackground,
   headerBackground,
+  emptyMessage,
 }) => {
   const [expanded, setExpanded] = useState(
     selectedPanelIndex ? selectedPanelIndex : false
@@ -120,15 +122,19 @@ const ControlledAccordion = ({
                   : accordionSummaryStyle
               }
             >
-              {acc?.details?.map((detail, index) => (
-                <Box
-                  id={`dataset-accourdion-details-${index}`}
-                  key={index}
-                  sx={isCustomDetailStyle ? customDetailsStyle : detailsStyle}
-                >
-                  {detail}
-                </Box>
-              ))}
+              {acc?.details?.length ? (
+                acc?.details.map((detail, index) => (
+                  <Box
+                    id={`dataset-accourdion-details-${index}`}
+                    key={index}
+                    sx={isCustomDetailStyle ? customDetailsStyle : detailsStyle}
+                  >
+                    {detail}
+                  </Box>
+                ))
+              ) : (
+                <Box>{emptyMessage}</Box>
+              )}
             </Box>
           </AccordionDetails>
         </Accordion>

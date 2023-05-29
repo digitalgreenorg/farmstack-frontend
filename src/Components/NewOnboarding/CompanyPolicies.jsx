@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 
 import FileUploaderMain from "../Generic/FileUploader";
@@ -21,6 +21,8 @@ import { CSSTransition } from "react-transition-group";
 import { Popconfirm } from "antd";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { useHistory } from "react-router-dom";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
+
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [sizeError, setSizeError] = useState("");
@@ -446,6 +448,7 @@ const CompanyPolicies = (props) => {
                 setSizeError={() =>
                   setFileSizeErrorE("Maximum file size allowed is 25MB")
                 }
+                id="file_uploader-update"
               />
               {/* <div>{"sizeError"}</div> */}
             </Col>
@@ -500,6 +503,7 @@ const CompanyPolicies = (props) => {
                       onClick={() => handleDeleteFile()}
                       style={{ cursor: "pointer" }}
                       fontSize="small"
+                      id="cancel-uploaded-file-icon"
                     />
                   </div>
                 )}
@@ -641,6 +645,13 @@ const CompanyPolicies = (props) => {
         <Row className={styles.main_label}>
           <Col xs={12} sm={6} md={6} xl={6}>
             {props.isPolicySettings ? "Policy Settings" : "Company Policies"}
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {props.isPolicySettings
+                ? "Update your organization's data sharing policies."
+                : ""}
+            </Typography>
           </Col>
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button

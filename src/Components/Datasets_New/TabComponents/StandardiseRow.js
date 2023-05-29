@@ -78,6 +78,7 @@ const StandardiseRow = ({
             <Select
               id={`standardise-datapoint-category${index}`}
               labelId="demo-simple-select-label"
+              className="datapoint-category-classname"
               key={index}
               value={
                 datapointCategory?.[index] ? datapointCategory?.[index] : ""
@@ -121,6 +122,7 @@ const StandardiseRow = ({
                         // marginRight: "25px",
                         cursor: "pointer",
                       }}
+                      id={`standardise-clear-datapoint-category${index}`}
                       onClick={() => clearCategory(index)}
                     />
                   ) : (
@@ -129,6 +131,7 @@ const StandardiseRow = ({
                   <span onBlur={() => setisSelectorOpen(!isSelectorOpen)}>
                     <ExpandMoreIcon
                       sx={{ cursor: "pointer" }}
+                      id={`standardise-select-datapoint-category${index}`}
                       onClick={() => setisSelectorOpen(!isSelectorOpen)}
                     />
                   </span>
@@ -138,10 +141,10 @@ const StandardiseRow = ({
                 return <></>;
               }}
             >
-              {datapointCategories?.map((item) => (
+              {datapointCategories?.map((item, optIndex) => (
                 <MenuItem
                   id={`standardise-datapoint-category-option-${
-                    index + item?.datapoint_category
+                    index + optIndex
                   }`}
                   key={item.datapoint_category}
                   value={item}
@@ -182,12 +185,17 @@ const StandardiseRow = ({
               label="Datapoint Attribute"
               placeholder="Datapoint Attribute"
               IconComponent={(props) => {
-                return <ExpandMoreIcon {...props} />;
+                return (
+                  <ExpandMoreIcon
+                    {...props}
+                    id={`standardise-select-datapoint-attribute${index}`}
+                  />
+                );
               }}
             >
-              {datapointAttributes[index]?.map((item) => (
+              {datapointAttributes[index]?.map((item, optIndex) => (
                 <MenuItem
-                  id={`standardise-datapoint-attribute-${index + item}`}
+                  id={`standardise-datapoint-attribute-${index + optIndex}`}
                   key={item}
                   value={item}
                 >

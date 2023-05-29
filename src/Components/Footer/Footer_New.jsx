@@ -305,13 +305,13 @@ const FooterNew = () => {
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: "#00AB55",
+                        borderColor: "#6c757d",
                       },
                       "&:hover fieldset": {
-                        borderColor: "#00AB55",
+                        borderColor: "#6c757d",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#00AB55",
+                        borderColor: "#6c757d",
                       },
                     },
                   }}
@@ -331,6 +331,7 @@ const FooterNew = () => {
                     endAdornment: (
                       <InputAdornment position="end">
                         <ContainedButton
+                          disabled={true}
                           text={"Subscribe"}
                           fontWeight={"700"}
                           fontFamily={"Public Sans"}

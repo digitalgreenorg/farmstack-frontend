@@ -29,6 +29,8 @@ import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -496,6 +498,13 @@ const AddDataSet = (props) => {
         >
           {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
         </Typography>
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          {props.datasetIdForEdit
+            ? "Modify and update your existing dataset."
+            : "Upload and publish a new dataset for sharing and collaboration."}{" "}
+        </Typography>
         <Box
           sx={{
             marginTop: "30px",
@@ -557,6 +566,7 @@ const AddDataSet = (props) => {
                   Standardise
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
             <Tab
               id="add-dataset-tab-4"
@@ -567,6 +577,7 @@ const AddDataSet = (props) => {
                   Categorise
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
             <Tab
               id="add-dataset-tab-5"
@@ -577,6 +588,7 @@ const AddDataSet = (props) => {
                   Usage policy
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
             />
           </Tabs>
         </Box>

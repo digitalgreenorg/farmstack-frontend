@@ -28,6 +28,8 @@
     font-size: 13px !important;
     line-height: 24px !important;
     color: #000000 !important;
+    max-width: 200px;
+    word-wrap: break-word;
 }
 
 .ml-134 {

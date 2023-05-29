@@ -144,6 +144,9 @@ function GuestUserParticipants(props) {
         // setFilterState(data);
         let guestUsetFilterUrl =
           UrlConstant.base_url + UrlConstant.microsite_search_participants;
+        if (isCosteward) {
+          data["co_steward"] = "True";
+        }
         HTTPService("GET", guestUsetFilterUrl, data, false, false)
           .then((response) => {
             if (response.data.next == null) {
@@ -294,7 +297,7 @@ function GuestUserParticipants(props) {
         <CoStewardAndParticipantsCard
           guestUser={true}
           isCosteward={isCosteward ? true : false}
-          title={title ?? "Our Participants are"}
+          title={title ?? "Participants"}
           viewType={"grid"}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}

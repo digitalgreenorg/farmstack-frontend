@@ -31,6 +31,7 @@ import Preview from "../../Components/Datasets/IntegrationDatasets/Preview/Previ
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import RegexConstants from "../../Constants/RegexConstants";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 const textFieldStyle = {
   borderRadius: "8px",
   "& .MuiOutlinedInput-root": {
@@ -592,6 +593,9 @@ const AddConnector = (props) => {
           setNoOfRecords(
             res?.data?.no_of_records ? res?.data?.no_of_records : 0
           );
+          if (res?.data?.no_of_records == 0) {
+            callToast("No records matched.", "info", true);
+          }
 
           setFinalDatasetAfterIntegration([...res.data?.data?.data]);
           let allKeys =
@@ -679,8 +683,10 @@ const AddConnector = (props) => {
 
         // goToTop(2000)
       })
-      .catch((err) => {
+      .catch(async (err) => {
         callLoader(false);
+        let error = await GetErrorHandlingRoute(err);
+        console.log("error in integration", err, error);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
         } else if (err?.response?.status === 400) {
@@ -689,7 +695,7 @@ const AddConnector = (props) => {
           } else if (err?.response?.data?.description) {
             setErrorConnectorDesc(err?.response?.data?.description);
           } else {
-            callToast("Something went wrong!", "error", true);
+            callToast(error.message ?? "Something went wrong!", "error", true);
           }
         } else {
           if (condition == "integrate") {
@@ -846,7 +852,13 @@ const AddConnector = (props) => {
             lineHeight: "40px",
           }}
         >
-          Create and integration connector
+          Create an integration connector
+        </Typography>
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          Seamlessly create an integration connector for efficient data
+          integration.
         </Typography>
         <TextField
           fullWidth
@@ -884,6 +896,9 @@ const AddConnector = (props) => {
         />
         <SelectConnector
           text={"Select datasets for connector"}
+          subTitle={
+            "Choose the datasets to be integrated to create your ideal dataset."
+          }
           connectorName={connectorName}
           connectorDescription={connectorDescription}
           organisations={orgList}
@@ -917,6 +932,12 @@ const AddConnector = (props) => {
               }}
             >
               Integration Connector
+              <Typography
+                className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+              >
+                Customize your integration by selecting the columns of datasets
+                to join.
+              </Typography>
             </Typography>
             <Box>
               <IntegrationConnector

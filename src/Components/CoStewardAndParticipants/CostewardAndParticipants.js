@@ -7,6 +7,7 @@ import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
+import { getTokenLocal } from "../../Utils/Common";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {
@@ -19,6 +20,7 @@ const CoStewardAndParticipantsCard = (props) => {
     user,
     guestUser,
     isCosteward,
+    subTitle,
   } = props;
   const history = useHistory();
   const theme = useTheme();
@@ -45,7 +47,7 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/datahub/costeward/view/${id}`);
     } else if (title == "New participant requests") {
       history.push(`/datahub/participants/view/approve/${id}`);
-    } else if (title == "Our Participants are" && guestUser) {
+    } else if (title == "Participants" && guestUser) {
       history.push("/home/participants/view/:id");
     }
     // if (
@@ -76,7 +78,7 @@ const CoStewardAndParticipantsCard = (props) => {
           mobile ? LocalStyle.titleContainerSm : LocalStyle.titleContainer
         }
       >
-        <Box className={LocalStyle.titleParentDiv}>
+        <Box className={subTitle ? LocalStyle.titleParentDiv : "w-100"}>
           <Typography
             id={title?.split(" ")[0] + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${
@@ -84,6 +86,11 @@ const CoStewardAndParticipantsCard = (props) => {
             }`}
           >
             {title}
+          </Typography>
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {subTitle}
           </Typography>
         </Box>
         {viewType === "list" && title === "Participants" && !mobile ? (
@@ -181,14 +188,18 @@ const CoStewardAndParticipantsCard = (props) => {
           </Col>
         ) : viewType && setViewType && !mobile ? (
           <Col
-            className={LocalStyle.listAndGridViewButton}
+            className={
+              tablet && title == "Participants"
+                ? LocalStyle.listAndGridViewButtonMd
+                : LocalStyle.listAndGridViewButton
+            }
             xs={6}
             sm={6}
             md={6}
             xl={6}
           >
             {title == "Participants" ? (
-              <div>
+              <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
                   onClick={() => history.push("/datahub/participants/invite")}
@@ -273,7 +284,7 @@ const CoStewardAndParticipantsCard = (props) => {
           id={title?.split(" ")[0] + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
-          {title == "Participants" ? (
+          {title == "Participants" && getTokenLocal() ? (
             <Col
               id={title?.split(" ")[0] + "grid-card-id"}
               className={GlobalStyle.padding0}
@@ -319,8 +330,8 @@ const CoStewardAndParticipantsCard = (props) => {
                   }`}
                   className={LocalStyle.addCardDescription}
                 >
-                  Add details about your dataset and make discoverable to other
-                  participants in our network.
+                  Expand your network by adding new participants to collaborate
+                  and exchange data.
                 </div>
               </Card>
             </Col>
