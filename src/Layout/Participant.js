@@ -54,6 +54,19 @@ import Settings from "../Components/SettingsNew/Settings";
 import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import UrlConstant from "../Constants/UrlConstants";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import { makeStyles } from '@mui/styles';
+import Support from "../Components/Support_New/Support";
+const useStyles = makeStyles((theme) => ({
+  floatingButton: {
+    position: 'fixed',
+    bottom: '16px',
+    right: '-600px',
+    zIndex: 1000,
+    color: "white"
+  },
+}));
 
 function Participant(props) {
   const [render, reRender] = useState(0);
@@ -62,6 +75,8 @@ function Participant(props) {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
+  const classes = useStyles();
+  
   let roleId = {
     1: "datahub_admin",
     3: "datahub_participant_root",
@@ -255,6 +270,9 @@ function Participant(props) {
               <Route exact path="/participant/connectors">
                 <Connectors />
               </Route>
+              <Route exact path="/participant/support">
+                <Support />
+              </Route>
               {/* <Route
               exact
               path="/participant/connectors/list"
@@ -263,7 +281,9 @@ function Participant(props) {
               </Route> */}
             </Switch>
           </div>
-          {/* <Footer /> */}
+          <Fab className={classes.floatingButton}  sx={{ color: "white"}} onClick={() => {props.history.push("/participant/support") }}>
+            <AddIcon />
+            </Fab> 
           <Divider className="mt-50" />
           <FooterNew />
         </div>
