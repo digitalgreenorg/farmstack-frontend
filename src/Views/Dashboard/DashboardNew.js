@@ -173,6 +173,7 @@ function DashboardNew() {
             true
           );
         }
+        console.log("error", error);
         if (error.path) {
           history.push(error.path);
         }
