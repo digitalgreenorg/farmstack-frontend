@@ -35,6 +35,7 @@ import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
 import RegexConstants from "../../Constants/RegexConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import parse from 'html-react-parser'
 
 const OrganizationDetails = (props) => {
   const history = useHistory();
@@ -369,7 +370,7 @@ const OrganizationDetails = (props) => {
           organisation_address: org.address.address,
           organisation_country: org.address.country,
           organisation_pin_code: org.address.pincode,
-          organisation_description: org.org_description,
+          organisation_description:  parse(org.org_description) || org.org_description,
         });
         setPreview(
           org.logo ? UrlConstant.base_url_without_slash + org.logo : null
