@@ -1,12 +1,12 @@
 .container {
-  height: 450px;
+  height: 500px;
   width: 99%;
   border: 1px solid #c8c3c3;
   border-radius: 10px;
   margin: 10px 0;
 }
 .barChartContainer {
-  height: 450px;
+  height: 500px;
   width: 99%;
   border: 1px solid #c8c3c3;
   border-radius: 10px;
@@ -25,4 +25,11 @@
   font-size: 22px;
   font-weight: 600;
   margin: 20px 30px;
+}
+.title > p:nth-child(2) {
+  font-size: 16px;
+  font-weight: 500;
+}
+.title > div > div {
+  margin: 30% auto;
 }
