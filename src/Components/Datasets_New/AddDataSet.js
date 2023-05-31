@@ -14,6 +14,7 @@ import {
   GetErrorKey,
   getTokenLocal,
   getUserMapId,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -482,6 +483,11 @@ const AddDataSet = (props) => {
     // edit Dataset API call
     getDatasetForEdit();
   }, []);
+
+  useEffect(() => {
+    goToTop();
+  }, [value]);
+
   return (
     <Box>
       <Box sx={containerStyle}>
