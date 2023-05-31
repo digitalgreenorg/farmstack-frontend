@@ -10,6 +10,7 @@ export default function UploadDataset(props) {
         cursor: "pointer",
         background: "#F4F6F8",
       }}
+      id={`file-upload-drag-and-drop-${props.index}`}
     >
       <p className="accountsettingsheader" style={{ paddingTop: "24px" }}>
         {props.uploadtitle}

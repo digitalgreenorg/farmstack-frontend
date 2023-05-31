@@ -172,15 +172,21 @@ const DataSetsView = (props) => {
     }
   };
   const handleClickRoutes = () => {
-    if (isLoggedInUserParticipant() && getTokenLocal()) {
+    // let lastRoute = localStorage.getItem("last_route");
+    // localStorage.removeItem("last_route");
+    // if (lastRoute) {
+    //   return lastRoute;
+    // } else
+    if (isLoggedInUserParticipant() && getTokenLocal() && userType != "guest") {
       return "/participant/new_datasets";
     } else if (
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) &&
-      getTokenLocal()
+      getTokenLocal() &&
+      userType != "guest"
     ) {
       return "/datahub/new_datasets";
     } else {
-      return "/home/datasets";
+      return "/home";
     }
   };
   const getDataset = () => {

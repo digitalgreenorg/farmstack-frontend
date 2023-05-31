@@ -437,7 +437,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
-              onClick={() => history.push("/datahub/participants/")}
+              onClick={() => {
+                let last_route = localStorage.getItem("last_route");
+                localStorage.removeItem("last_route");
+                if (last_route) {
+                  history.push(last_route);
+                } else {
+                  history.push("/datahub/participants/");
+                }
+              }}
             >
               {breadcrumbFromRoute ?? "Participant"}
             </span>
@@ -832,6 +840,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           title={"Co-steward participants"}
           subTitle="Explore the participants who are part of this co-steward's community."
           user={user}
+          guestUser={user}
           viewType={false}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
