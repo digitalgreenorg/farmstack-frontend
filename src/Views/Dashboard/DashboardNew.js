@@ -239,9 +239,11 @@ function DashboardNew() {
         let uploadType = item?.datasets__source;
 
         tmpLabels.push(
-          `${uploadTypeObj[uploadType]} (${
-            item?.total_size / (1024 * 1024) ? size + "MB" : "Not available"
-          })`
+          `${uploadTypeObj[uploadType]}`
+          // `
+          //  (${
+          //   item?.total_size / (1024 * 1024) ? size + "MB" : "Not available"
+          // })`
         );
         datasets.data.push(item?.dataset_count);
       });
@@ -416,7 +418,7 @@ function DashboardNew() {
         )}
       </Box>
       <div className={localeStyle.subTitle}>
-        <p>Discover and Explore Datasets</p>
+        <p>Discover and Explore Insights</p>
       </div>
       <Box className={`${localeStyle.graphContainer}`}>
         <CustomGraph
