@@ -104,3 +104,7 @@
 .userBasicDataImg img {
   height: 65px;
 }
+.subTitle > p {
+  font-size: 16px;
+  font-weight: 500;
+}

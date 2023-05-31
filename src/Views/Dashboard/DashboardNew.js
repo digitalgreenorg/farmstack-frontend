@@ -228,11 +228,19 @@ function DashboardNew() {
       return;
     }
     if (dashboardData.dataset_file_metrics) {
+      let uploadTypeObj = {
+        file: "File",
+        live_api: "API",
+        mysql: "MySQL",
+        postgresql: "PostgreSQL",
+      };
       dashboardData.dataset_file_metrics.forEach((item) => {
         let size = (item?.total_size / (1024 * 1024)).toFixed(2);
+        let uploadType = item?.datasets__source;
+
         tmpLabels.push(
-          `${item?.datasets__source} (${
-            item?.total_size / (1024 * 1024) ? size + "mb" : "Not available"
+          `${uploadTypeObj[uploadType]} (${
+            item?.total_size / (1024 * 1024) ? size + "MB" : "Not available"
           })`
         );
         datasets.data.push(item?.dataset_count);
@@ -332,7 +340,7 @@ function DashboardNew() {
     getDashboard();
   }, []);
 
-  let logoUrl = UrlConstant.base_url + "media/" + dashboardData?.user?.logo;
+  let logoUrl = UrlConstant.base_url + "/" + dashboardData?.user?.logo;
 
   return (
     <Box className={`${localeStyle.dashboardContainer}`}>
@@ -353,11 +361,10 @@ function DashboardNew() {
         </div>
         <div className={`${localeStyle.userBasicDataContainer}`}>
           <div className={`${localeStyle.userBasicDataImg}`}>
-            {dashboardData?.user?.org_name}
             {dashboardData?.user ? <img src={logoUrl} /> : ""}
             <div>
               <div className={`${globalStyle.size26} ${globalStyle.bold600}`}>
-                {dashboardData?.user?.org_name}
+                {dashboardData?.user?.name}
               </div>
               <div
                 className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor}`}
@@ -408,26 +415,33 @@ function DashboardNew() {
           ""
         )}
       </Box>
+      <div className={localeStyle.subTitle}>
+        <p>Discover and Explore Datasets</p>
+      </div>
       <Box className={`${localeStyle.graphContainer}`}>
         <CustomGraph
           data={categoryChart}
           title="Datasets by Categories"
           chartType="doughnut"
+          subTitle="Unleash insights of dataset distribution by category."
         />
         <CustomGraph
           data={fileChart}
           title="Dataset by Sources"
           chartType="bar"
+          subTitle="Unleash insights categorized datasets based on upload methods."
         />
         <CustomGraph
           data={geographyChart}
           title="Dataset by Geography"
           chartType="pie"
+          subTitle="Unlock insights on geographically categorized datasets."
         />
         <CustomDashBoardTable
           recentDatasetTable={true}
           title="Recent Datasets"
           data={dashboardData.recent_datasets}
+          subTitle="Connector Insights and Recent Connector"
         />
       </Box>
       <Box>
@@ -435,6 +449,9 @@ function DashboardNew() {
           className={`${globalStyle.size24} ${globalStyle.bold700} ${localeStyle.secondaryColor}`}
         >
           Connectors
+          <div className={localeStyle.subTitle}>
+            <p>Connector Insights and Recent Connector</p>
+          </div>
         </span>
         <div className={`${localeStyle.connectorsDataContainer}`}>
           <div
@@ -458,6 +475,7 @@ function DashboardNew() {
               recentConnectorsTable={true}
               title="Recent Connectors"
               data={dashboardData?.recent_connectors}
+              subTitle="Discover the Latest Connectors"
             />
           </div>
         </div>
