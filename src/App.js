@@ -45,6 +45,7 @@ import {
   getRoleLocal,
   isLoggedInUserAdmin,
 } from "./Utils/Common";
+import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
 function App() {
   const { isLoading, toastDetail, setAdminData } = useContext(FarmStackContext);
   function getAdminData() {
@@ -106,22 +107,14 @@ function App() {
         ""
       )}
       <Router>
+        <ScrollToTop />
         <Switch>
-          {/* <Route exact path="/login" component={Login} />
-          <Route exact path="/login/profile" component={ProfileScreen} />
-          <Route exact path="/login/org" component={OrganisationScreen} />
-          <Route exact path="/login/branding" component={BrandingScreen} />
-          <Route exact path="/login/policies" component={Policies} />
-        <Route  path="/login/profile" component={ProfileScreen} /> */}
-          {/* <Route exact path="/datahub/login" component={Login} /> */}
-          {/* <Route exact path="/participant/login" component={Login} /> */}
           <Route exact path="/login" component={OnBoarding} />
           <Route path="/datahub" component={Datahub} />
           <Route path="/participant" component={Participant} />
           <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error/:status" component={NewError} />
           <Route path="/home" component={GuestRoutes} />
-          {/* <Route exact path="/home/viewdataset/:id" component={Viewdetails} /> */}
           <Route exact path="/legal" component={GuestUserLegal} />
           <Route exact path="/contact" component={GuestUserContactNew} />
           <Route
