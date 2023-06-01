@@ -7,10 +7,14 @@ import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { getUserMapId } from "../../Utils/Common";
 import { Tag } from "antd";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 
 const FileWithAction = ({
   index,
+  datasetId,
   name,
   id,
   fileType,
@@ -22,6 +26,7 @@ const FileWithAction = ({
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
+  const location = useLocation();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -170,6 +175,17 @@ const FileWithAction = ({
       return "#f50";
     }
   };
+
+  const isLoggedInUserFromHome = () => {
+    if (
+      location.pathname === "/home/datasets/" + datasetId &&
+      getTokenLocal()
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return (
     <Box
       className={
@@ -234,6 +250,7 @@ const FileWithAction = ({
             textTransform: "none",
             marginLeft: "35px",
             marginRight: "25px",
+            display: isLoggedInUserFromHome() ? "none" : "",
             "&:hover": {
               background: "none",
               border: "1px solid rgba(0, 171, 85, 0.48)",
