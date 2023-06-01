@@ -317,6 +317,29 @@ const NavbarNew = ({ loginType }) => {
                   )}
                   Dashboard
                 </NavLink>
+              ) : loginType === "participant" ? (
+                <NavLink
+                  id="navbar-new_dashboard"
+                  activeStyle={
+                    isNavLinkActive("/participant/new_dashboard")
+                      ? navActiveStyle
+                      : navInActiveStyle
+                  }
+                  style={navInActiveStyle}
+                  to="/participant/new_dashboard"
+                  onClick={() => handleSelect("new_dashboard")}
+                >
+                  {isNavLinkActive("/participant/new_dashboard") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Dashboard
+                </NavLink>
               ) : (
                 ""
               )}
