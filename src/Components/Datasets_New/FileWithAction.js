@@ -1,6 +1,12 @@
 import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import React, { useContext } from "react";
-import { downloadDocument, getTokenLocal, download } from "../../Utils/Common";
+import {
+  downloadDocument,
+  getTokenLocal,
+  download,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+} from "../../Utils/Common";
 import File from "./TabComponents/File";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
@@ -179,7 +185,8 @@ const FileWithAction = ({
   const isLoggedInUserFromHome = () => {
     if (
       location.pathname === "/home/datasets/" + datasetId &&
-      getTokenLocal()
+      getTokenLocal() &&
+      (fileType === "registered" || fileType === "private")
     ) {
       return true;
     } else {
@@ -269,6 +276,39 @@ const FileWithAction = ({
             ? "Download"
             : "Login to Download"}
         </Button>
+        {isLoggedInUserFromHome() ? (
+          <Button
+            sx={{
+              fontFamily: "Montserrat",
+              fontWeight: 700,
+              fontSize: mobile ? "11px" : "15px",
+              width: mobile ? "195px" : "220px",
+              height: "48px",
+              border: "1px solid rgba(0, 171, 85, 0.48)",
+              borderRadius: "8px",
+              color: "#00AB55",
+              textTransform: "none",
+              marginLeft: "35px",
+              marginRight: "25px",
+              "&:hover": {
+                background: "none",
+                border: "1px solid rgba(0, 171, 85, 0.48)",
+              },
+            }}
+            variant="outlined"
+            onClick={() =>
+              history.push(
+                isLoggedInUserAdmin || isLoggedInUserCoSteward
+                  ? "/datahub/new_datasets"
+                  : "/participant/new_datasets"
+              )
+            }
+          >
+            Explore Datasets
+          </Button>
+        ) : (
+          <></>
+        )}
       </Box>
     </Box>
   );
