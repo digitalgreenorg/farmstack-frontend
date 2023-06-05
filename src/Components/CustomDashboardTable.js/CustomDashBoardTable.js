@@ -110,59 +110,77 @@ function CustomDashBoardTable(props) {
               </TableHead>
 
               <TableBody>
-                {data?.map((item, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell
-                      style={{ fontWeight: "600" }}
-                      minWidth={"150px"}
-                      component="th"
-                      scope="row"
-                    >
-                      {item?.name ?? "Not available"}
-                    </TableCell>
-                    {recentDatasetTable ? (
-                      <>
-                        <TableCell>
-                          {item?.category?.name ?? "Not available"}
-                        </TableCell>
-                        <TableCell>
-                          {item?.category?.name ?? "Not available"}
-                        </TableCell>
-                        <TableCell
-                          onClick={() =>
-                            history.push(
+                {data?.map((item, index) => {
+                  let category = item?.category
+                    ? Object.keys(item.category)
+                    : [];
+                  return (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        recentDatasetTable
+                          ? history.push(
                               `/datahub/new_datasets/view/${item?.id}`
                             )
-                          }
-                          sx={{ color: "#00AB55", cursor: "pointer" }}
-                          align="right"
-                        >
-                          View
-                        </TableCell>
-                      </>
-                    ) : (
-                      <>
-                        <TableCell align="right">
-                          {item?.dataset_count
-                            ? item?.dataset_count + " Datasets"
-                            : "Not available"}
-                        </TableCell>
-                        <TableCell
-                          onClick={() =>
-                            history.push(`/datahub/connectors/edit/${item?.id}`)
-                          }
-                          sx={{ color: "#00AB55", cursor: "pointer" }}
-                          align="right"
-                        >
-                          View
-                        </TableCell>
-                      </>
-                    )}
-                  </TableRow>
-                ))}
+                          : history.push(
+                              `/datahub/connectors/edit/${item?.id}`
+                            );
+                      }}
+                    >
+                      <TableCell
+                        style={{ fontWeight: "600" }}
+                        minWidth={"150px"}
+                        component="th"
+                        scope="row"
+                      >
+                        {item?.name ?? "Not available"}
+                      </TableCell>
+                      {recentDatasetTable ? (
+                        <>
+                          <TableCell>
+                            {category.length > 1
+                              ? category[0] + "+" + category.length - 1
+                              : category.length == 1
+                              ? category[0]
+                              : "Not available"}
+                          </TableCell>
+                          <TableCell>
+                            {item?.geography?.country?.name ?? "Not available"}
+                          </TableCell>
+                          <TableCell
+                            sx={{ color: "#00AB55", cursor: "pointer" }}
+                            align="right"
+                          >
+                            View
+                          </TableCell>
+                        </>
+                      ) : (
+                        <>
+                          <TableCell align="right">
+                            {item?.dataset_count
+                              ? item?.dataset_count + " Datasets"
+                              : "Not available"}
+                          </TableCell>
+                          <TableCell
+                            onClick={() =>
+                              history.push(
+                                `/datahub/connectors/edit/${item?.id}`
+                              )
+                            }
+                            sx={{ color: "#00AB55", cursor: "pointer" }}
+                            align="right"
+                          >
+                            View
+                          </TableCell>
+                        </>
+                      )}
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </>
