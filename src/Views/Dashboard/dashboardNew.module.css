@@ -32,6 +32,7 @@
 }
 .userBasicDataImg > div {
   margin: 25px 0;
+  width: 100%;
 }
 .userBasicDataImg > img {
   margin: 25px;
@@ -107,4 +108,10 @@
 .subTitle > p {
   font-size: 16px;
   font-weight: 500;
+}
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 90%;
 }

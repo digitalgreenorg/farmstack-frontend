@@ -95,7 +95,7 @@ function App() {
       });
   };
   useEffect(() => {
-    // verifyUserDataOfLocal();
+    verifyUserDataOfLocal();
     getAdminData();
   }, []);
   return (

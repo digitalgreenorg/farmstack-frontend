@@ -365,11 +365,13 @@ function DashboardNew() {
           <div className={`${localeStyle.userBasicDataImg}`}>
             {dashboardData?.user ? <img src={logoUrl} /> : ""}
             <div>
-              <div className={`${globalStyle.size26} ${globalStyle.bold600}`}>
+              <div
+                className={`${globalStyle.size26} ${globalStyle.bold600} ${localeStyle.ellipsis}`}
+              >
                 {dashboardData?.user?.name}
               </div>
               <div
-                className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor}`}
+                className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor} ${localeStyle.ellipsis}`}
               >
                 {dashboardData?.user?.first_name +
                   " " +
