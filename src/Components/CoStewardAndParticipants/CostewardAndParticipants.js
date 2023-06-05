@@ -21,6 +21,7 @@ const CoStewardAndParticipantsCard = (props) => {
     guestUser,
     isCosteward,
     subTitle,
+    isCostewardsParticipant,
   } = props;
   const history = useHistory();
   const theme = useTheme();
@@ -34,7 +35,10 @@ const CoStewardAndParticipantsCard = (props) => {
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
-    if (guestUser && isCosteward) {
+    console.log("isCostewardsParticipant", isCostewardsParticipant);
+    if (isCostewardsParticipant) {
+      history.push(`/datahub/costeward/participants/view/${id}`);
+    } else if (guestUser && isCosteward) {
       history.push(`/home/costeward/view/${id}`);
       localStorage.setItem("last_route", "/home");
     } else if (
