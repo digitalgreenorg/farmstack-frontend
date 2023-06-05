@@ -293,7 +293,6 @@ const CompanyPolicies = (props) => {
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
-    const id = "delete-popper";
 
     const handleDeletePopper = (event) => {
       setAnchorEl(event.currentTarget);
@@ -378,7 +377,7 @@ const CompanyPolicies = (props) => {
               placeholder="Policy name"
               label="Policy name"
               variant="outlined"
-              id="policyName"
+              id={`${index}-policyName-update`}
               name="policyName"
               value={policyNameUnderAccordion}
               onChange={(e) => handleChangePolicyName(e)}
@@ -402,7 +401,7 @@ const CompanyPolicies = (props) => {
               onChange={handleDescChange}
               required
               className="rich_text_editor"
-              id="rich_text_editor"
+              id={`${index}rich_text_editor-update`}
               name="bodyText"
               type="string"
               multiline
@@ -448,7 +447,7 @@ const CompanyPolicies = (props) => {
                 setSizeError={() =>
                   setFileSizeErrorE("Maximum file size allowed is 25MB")
                 }
-                id="file_uploader-update"
+                id={`${index}-file-update`}
               />
               {/* <div>{"sizeError"}</div> */}
             </Col>
@@ -503,7 +502,7 @@ const CompanyPolicies = (props) => {
                       onClick={() => handleDeleteFile()}
                       style={{ cursor: "pointer" }}
                       fontSize="small"
-                      id="cancel-uploaded-file-icon"
+                      id={`${index}-cancel-uploaded-file-icon`}
                     />
                   </div>
                 )}
@@ -542,9 +541,11 @@ const CompanyPolicies = (props) => {
             DeleteItem={policyNameUnderAccordion}
             anchorEl={anchorEl}
             handleDelete={(e) => confirm(e, index)}
-            id={id}
+            id={"delete-popper-id"}
             open={open}
             closePopper={closePopper}
+            deletePopperId={`${index}-delete-popper-policy-button`}
+            cancelPopperId={`${index}-cancel-popper-policy-button`}
           />
           <Button
             className={

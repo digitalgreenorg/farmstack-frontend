@@ -43,7 +43,7 @@ function GuestUserParticipantsDetails(props) {
         title={userTypeCosteward}
         user="guest"
         isCosteward={userTypeCosteward ? true : false}
-        breadcrumbFromRoute={breadcrumbFromRoute}
+        breadcrumbFromRoute={breadcrumbFromRoute ?? "Home"}
       />
     </div>
   );

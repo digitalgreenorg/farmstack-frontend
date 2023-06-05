@@ -1,13 +1,14 @@
 import React, { useRef, useEffect } from "react";
 import { Box } from "@mui/system";
 import localStyle from "./customGraph.module.css";
-import Chart from "chart.js/auto";
+import Chart, { SubTitle } from "chart.js/auto";
 import { Tooltip } from "@material-ui/core";
+import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 
 // import "chart.js/auto/Chart.css";
 
 function CustomGraph(props) {
-  const { title, data, chartType } = props;
+  const { title, data, chartType, subTitle } = props;
   const chartContainer = useRef(null);
   const chartInstance = useRef(null);
 
@@ -31,10 +32,24 @@ function CustomGraph(props) {
           hover: {
             mode: "nearest",
             intersect: true,
-            axis: "x", // Customize based on the desired axis
+            axis: "xy", // Customize based on the desired axis
             animationDuration: 400,
           },
-          // ...existing plugins
+          scales: {
+            xAxes: [
+              {
+                ticks: {
+                  callback: function (label) {
+                    if (/\s/.test(label)) {
+                      return label.split(" ");
+                    } else {
+                      return label;
+                    }
+                  },
+                },
+              },
+            ],
+          },
 
           // Configure label options on hover
 
@@ -63,20 +78,20 @@ function CustomGraph(props) {
               axis: "x", // Customize based on the desired axis
               animationDuration: 400,
             },
-            tooltip: {
-              enabled: false,
-              mode: "custom",
-              position: "nearest",
-              external: (
-                <Tooltip style={{ height: "200px !important" }} title="Delete">
-                  dsfgkjhbdsjkfjkhsdhjkfhjas
-                </Tooltip>
-              ),
-              intersect: false,
-              callbacks: {
-                label: (context) => context.label,
-              },
-            },
+            // tooltip: {
+            //   enabled: false,
+            //   mode: "custom",
+            //   position: "nearest",
+            //   external: (
+            //     <Tooltip style={{ height: "200px !important" }} title="Delete">
+            //       dsfgkjhbdsjkfjkhsdhjkfhjas
+            //     </Tooltip>
+            //   ),
+            //   intersect: false,
+            //   callbacks: {
+            //     label: (context) => context.label,
+            //   },
+            // },
           },
         },
       });
@@ -93,13 +108,15 @@ function CustomGraph(props) {
     >
       <div className={`${localStyle.title}`}>
         <p>{title}</p>
+        <p>{subTitle}</p>
 
         <div>
-          {data?.datasets?.[0]?.data ? (
+          {data?.datasets?.[0]?.data?.length ? (
             <canvas ref={chartContainer}></canvas>
           ) : (
             <>
-              <h2>No dataset</h2>
+              {/* <h2>No dataset</h2> */}
+              <EmptyFile text="No datasets" />
             </>
           )}
         </div>

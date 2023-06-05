@@ -54,6 +54,7 @@ import Settings from "../Components/SettingsNew/Settings";
 import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import UrlConstant from "../Constants/UrlConstants";
+import DashboardNew from "../Views/Dashboard/DashboardNew";
 
 function Participant(props) {
   const [render, reRender] = useState(0);
@@ -131,7 +132,7 @@ function Participant(props) {
                 : "minHeight67vhParticipantPage"
             }
           >
-            <br/>
+            <br />
             <Switch>
               <Route
                 exact
@@ -245,6 +246,11 @@ function Participant(props) {
                 exact
                 path="/participant/dataset/view/:id"
                 component={ViewMetaDatasetDetails}
+              />
+              <Route
+                exact
+                path="/participant/new_dashboard"
+                component={DashboardNew}
               />
               {/* <Route
                 exact
