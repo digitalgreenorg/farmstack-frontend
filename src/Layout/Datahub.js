@@ -75,6 +75,7 @@ import UrlConstant from "../Constants/UrlConstants";
 import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
+import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -162,6 +163,11 @@ function Datahub(props) {
                 exact
                 path="/datahub/participants/view/:id"
                 component={ParticipantsAndCoStewardDetailsNew}
+              />
+              <Route
+                exact
+                path="/datahub/costeward/participants/view/:id"
+                component={CostewardsParticipant}
               />
               <Route
                 exact

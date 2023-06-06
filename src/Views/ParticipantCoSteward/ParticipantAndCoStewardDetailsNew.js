@@ -44,6 +44,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     userTypeCosteward,
     title,
     breadcrumbFromRoute,
+    isCostewardsParticipant,
   } = props;
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const theme = useTheme();
@@ -523,7 +524,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
+          {!isParticipantRequest &&
+          !userTypeCosteward &&
+          user !== "guest" &&
+          !isCostewardsParticipant ? (
             <>
               <CustomDeletePopper
                 DeleteItem={organisationName}
@@ -842,6 +846,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           user={user}
           guestUser={user}
           viewType={false}
+          isCostewardsParticipant={user ? false : true}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
           loadMoreButton={loadMoreUrl}

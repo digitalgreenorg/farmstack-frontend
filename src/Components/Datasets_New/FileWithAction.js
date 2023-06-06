@@ -45,7 +45,7 @@ const FileWithAction = ({
     HTTPService("GET", url, "", false, true, accessToken)
       .then((res) => {
         callLoader(false);
-        console.log(typeof res?.data, name, "res?.data, name");
+        console.log(typeof res?.data, res?.data, name, "res?.data, name");
         if (typeof res?.data != "string") {
           download(
             JSON.stringify(res?.data, null, 2),
