@@ -368,14 +368,17 @@ function DashboardNew() {
               <div
                 className={`${globalStyle.size26} ${globalStyle.bold600} ${localeStyle.ellipsis}`}
               >
-                {dashboardData?.user?.name}
+                {dashboardData?.user?.name ?? "Not available"}
               </div>
               <div
                 className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor} ${localeStyle.ellipsis}`}
               >
-                {dashboardData?.user?.first_name +
-                  " " +
-                  dashboardData?.user?.last_name}
+                {dashboardData?.user?.first_name &&
+                dashboardData?.user?.last_name
+                  ? dashboardData?.user?.first_name +
+                    " " +
+                    dashboardData?.user?.last_name
+                  : "Not available"}
               </div>
             </div>
           </div>
@@ -383,16 +386,16 @@ function DashboardNew() {
             <div>
               <span>Participants</span>
               <span>
-                {dashboardData?.total_participants?.participants_count}
+                {dashboardData?.total_participants?.participants_count ?? 0}
               </span>
             </div>
             <div>
               <span>Datasets</span>
-              <span>{dashboardData?.total_dataset_count}</span>
+              <span>{dashboardData?.total_dataset_count ?? 0}</span>
             </div>
             <div>
               <span>Connectors</span>
-              <span>{dashboardData?.total_connectors_count}</span>
+              <span>{dashboardData?.total_connectors_count ?? 0}</span>
             </div>
           </div>
         </div>
