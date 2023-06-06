@@ -27,7 +27,7 @@ const ApiConfiguration = (props) => {
         Connection Name
       </Typography>
       <TextField
-       id={`upload-dataset-api-url-id`}
+        id={`upload-dataset-api-url-id`}
         fullWidth
         required
         helperText={
@@ -95,12 +95,13 @@ const ApiConfiguration = (props) => {
           label="Auth Type"
           placeholder="Auth Type"
         >
-          {props.authTypes?.map((item,index) => {
+          {props.authTypes?.map((item, index) => {
             return (
-              <MenuItem 
-       id={`upload-dataset-api-auth-type-${index}`}
-
-              key={item} value={item}>
+              <MenuItem
+                id={`upload-dataset-api-auth-type-${index}`}
+                key={item}
+                value={item}
+              >
                 {item}
               </MenuItem>
             );
@@ -110,7 +111,7 @@ const ApiConfiguration = (props) => {
       {props.authType && props.authType !== "NO_AUTH" ? (
         props.authType === "BEARER" ? (
           <TextField
-       id={`upload-dataset-api-auth-token-id`}
+            id={`upload-dataset-api-auth-token-id`}
             fullWidth
             required
             helperText={
@@ -155,8 +156,7 @@ const ApiConfiguration = (props) => {
         ) : (
           <>
             <TextField
-       id={`upload-dataset-api-key-id`}
-
+              id={`upload-dataset-api-key-id`}
               fullWidth
               required
               sx={{
@@ -180,7 +180,7 @@ const ApiConfiguration = (props) => {
               onChange={(e) => props.setAuthApiKeyName(e.target.value)}
             />
             <TextField
-       id={`upload-dataset-api-key-value-id`}
+              id={`upload-dataset-api-key-value-id`}
               fullWidth
               required
               sx={{
@@ -234,7 +234,7 @@ const ApiConfiguration = (props) => {
         </Button> */}
       </Box>
       <TextField
-       id={`upload-dataset-api-name-of-import-file-id`}
+        id={`upload-dataset-api-name-of-import-file-id`}
         fullWidth
         required
         helperText={
@@ -274,7 +274,9 @@ const ApiConfiguration = (props) => {
         placeholder="Name of import file"
         label="Name of import file"
         value={props.exportFileName}
-        onChange={(e) => props.setExportFileName(e.target.value)}
+        onChange={(e) => {
+          props.setExportFileName(e.target.value.trimStart());
+        }}
       />
       <Box sx={{ textAlign: "end", marginTop: "31px" }}>
         {/* <Button
@@ -299,7 +301,7 @@ const ApiConfiguration = (props) => {
           Disconnect
         </Button> */}
         <Button
-       id={`upload-dataset-api-import-btn`}
+          id={`upload-dataset-api-import-btn`}
           sx={{
             fontFamily: "Montserrat",
             fontWeight: 700,
@@ -317,7 +319,19 @@ const ApiConfiguration = (props) => {
             },
           }}
           variant="outlined"
-          disabled={props.exportFileName ? false : true}
+          disabled={
+            props.api &&
+            (props.authType === "NO_AUTH"
+              ? true
+              : props.authType === "API_KEY"
+              ? props.authApiKeyName && props.authApiKeyValue
+              : props.authType === "BEARER" && props.authToken
+              ? true
+              : false) &&
+            props.exportFileName
+              ? false
+              : true
+          }
           onClick={() => props.handleExport()}
         >
           Import
