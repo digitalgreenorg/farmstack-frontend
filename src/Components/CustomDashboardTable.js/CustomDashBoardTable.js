@@ -12,6 +12,11 @@ import { useHistory } from "react-router-dom";
 import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 import { Button } from "@mui/material";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import {
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
+} from "../../Utils/Common";
 
 function CustomDashBoardTable(props) {
   const { data, title, recentConnectorsTable, recentDatasetTable, subTitle } =
@@ -44,9 +49,19 @@ function CustomDashBoardTable(props) {
               <Button
                 id="add-participant-submit-button"
                 onClick={() =>
-                  recentDatasetTable
+                  // recentDatasetTable
+                  //   ? history.push("/datahub/new_datasets/add")
+                  //   : history.push("/datahub/connectors/add")
+                  recentDatasetTable &&
+                  (isLoggedInUserAdmin() || isLoggedInUserCoSteward())
                     ? history.push("/datahub/new_datasets/add")
-                    : history.push("/datahub/connectors/add")
+                    : isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                    ? history.push("/datahub/connectors/add")
+                    : recentDatasetTable && isLoggedInUserParticipant()
+                    ? history.push("/participant/new_datasets/add")
+                    : isLoggedInUserParticipant()
+                    ? history.push("/participant/connectors/add")
+                    : ""
                 }
                 className={`${GlobalStyle.primary_button} ${localStyle.primary}`}
               >
@@ -65,9 +80,16 @@ function CustomDashBoardTable(props) {
               </div>
               <div
                 onClick={() =>
-                  recentDatasetTable
+                  recentDatasetTable &&
+                  (isLoggedInUserAdmin() || isLoggedInUserCoSteward())
                     ? history.push("/datahub/new_datasets")
-                    : history.push("/datahub/connectors")
+                    : isLoggedInUserAdmin() || isLoggedInUserCoSteward
+                    ? history.push("/datahub/connectors")
+                    : recentDatasetTable && isLoggedInUserParticipant()
+                    ? history.push("/participant/new_datasets")
+                    : isLoggedInUserParticipant()
+                    ? history.push("/participant/connectors")
+                    : ""
                 }
                 style={{
                   color: "#00AB55",
@@ -96,11 +118,11 @@ function CustomDashBoardTable(props) {
                   {/* <TableCell align="right"></TableCell> */}
 
                   <TableCell
-                    onClick={() =>
-                      recentDatasetTable
-                        ? history.push("/datahub/new_datasets")
-                        : history.push("/datahub/connectors")
-                    }
+                    // onClick={() =>
+                    //   recentDatasetTable
+                    //     ? history.push("/datahub/new_datasets")
+                    //     : history.push("/datahub/connectors")
+                    // }
                     // sx={{ color: "#00AB55", cursor: "pointer" }}
                     align="right"
                   >
@@ -121,15 +143,24 @@ function CustomDashBoardTable(props) {
                         "&:last-child td, &:last-child th": { border: 0 },
                         cursor: "pointer",
                       }}
-                      onClick={() => {
-                        recentDatasetTable
+                      onClick={() =>
+                        recentDatasetTable &&
+                        (isLoggedInUserAdmin() || isLoggedInUserCoSteward())
                           ? history.push(
                               `/datahub/new_datasets/view/${item?.id}`
                             )
-                          : history.push(
-                              `/datahub/connectors/edit/${item?.id}`
-                            );
-                      }}
+                          : isLoggedInUserAdmin() || isLoggedInUserCoSteward
+                          ? history.push(`/datahub/connectors/edit/${item?.id}`)
+                          : recentDatasetTable && isLoggedInUserParticipant()
+                          ? history.push(
+                              `/participant/new_datasets/view/${item?.id}`
+                            )
+                          : isLoggedInUserParticipant()
+                          ? history.push(
+                              `/participant/connectors/edit/${item?.id}`
+                            )
+                          : ""
+                      }
                     >
                       <TableCell
                         style={{ fontWeight: "600" }}

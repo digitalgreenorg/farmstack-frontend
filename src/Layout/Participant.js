@@ -103,11 +103,12 @@ function Participant(props) {
       .catch(async (e) => {
         console.log("error to verify local data", e);
         let error = await GetErrorHandlingRoute(e);
-        if (error.toast) {
+        console.log("error", error);
+        if (error?.toast) {
           callToast(
             error?.message ?? "user login details are corrupted",
-            error.status == 200 ? "success" : "error",
-            error.toast
+            error?.status == 200 ? "success" : "error",
+            error?.toast
           );
         } else {
           history.push(error?.path);
