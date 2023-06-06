@@ -952,7 +952,16 @@ const UploadFile = ({
             Imports
           </Typography>
           <Typography
-            onClick={() => setSelectedUploadType("mysql")}
+            onClick={() => {
+              setSelectedUploadType("mysql");
+              setIsMySqlConnected(false);
+              setMySqlDbName("");
+              setMySqlUserName("");
+              setMySqlPassword("");
+              setMySqlDbUrl("");
+              setMySqlPort("");
+              setIsMySqlSaveCreds(false);
+            }}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: selectedUploadType === "mysql" ? "700" : "500",
@@ -969,7 +978,16 @@ const UploadFile = ({
             MySQL
           </Typography>
           <Typography
-            onClick={() => setSelectedUploadType("postgres")}
+            onClick={() => {
+              setSelectedUploadType("postgres");
+              setIsPostgresConnected(false);
+              setPostgresDbName("");
+              setPostgresUserName("");
+              setPostgresPassword("");
+              setPostgresDbUrl("");
+              setPostgresPort("");
+              setIsPostgresSaveCreds(false);
+            }}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: selectedUploadType === "postgres" ? "700" : "500",
