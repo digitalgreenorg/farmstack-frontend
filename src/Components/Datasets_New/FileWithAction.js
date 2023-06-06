@@ -298,7 +298,7 @@ const FileWithAction = ({
             variant="outlined"
             onClick={() =>
               history.push(
-                isLoggedInUserAdmin || isLoggedInUserCoSteward
+                isLoggedInUserAdmin() || isLoggedInUserCoSteward()
                   ? "/datahub/new_datasets"
                   : "/participant/new_datasets"
               )
