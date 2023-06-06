@@ -126,11 +126,11 @@ const FilterDate = ({
                   }}
                   renderInput={(params) => (
                     <TextField
-                    id="filter-by-date-from-date"
+                      id="filter-by-date-from-date"
                       {...params}
                       variant="outlined"
                       sx={{
-                        width: mobile ? "250px" : "468px",
+                        width: mobile ? "250px" : "388px",
                         svg: { color: "#00AB55" },
                         "& .MuiInputBase-input": {
                           height: "36px",
@@ -201,7 +201,7 @@ const FilterDate = ({
                       id="filter-by-date-to-date"
                       variant="outlined"
                       sx={{
-                        width: mobile ? "250px" : "468px",
+                        width: mobile ? "250px" : "388px",
                         svg: { color: "#00AB55" },
                         "& .MuiInputBase-input": {
                           height: mobile ? "30px" : "36px",

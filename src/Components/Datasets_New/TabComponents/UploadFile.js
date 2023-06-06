@@ -109,10 +109,10 @@ const UploadFile = ({
     tempFiles.push(...file);
     setFiles(tempFiles);
     // setFiles((prev) => [...prev, file]);
-    setFileSizeError("")
+    setFileSizeError("");
   };
   const handleDelete = (index, id, filename, type) => {
-    setFileSizeError("")
+    setFileSizeError("");
     let source = "";
     if (type === "file_upload") {
       source = "file";
@@ -354,7 +354,7 @@ const UploadFile = ({
   };
 
   const getUpdatedFile = async (fileItem) => {
-    setFileSizeError("")
+    setFileSizeError("");
     let bodyFormData = new FormData();
     bodyFormData.append("dataset", datasetId);
     bodyFormData.append("source", "file");
@@ -1035,11 +1035,13 @@ const UploadFile = ({
                       src={require("../../../Assets/Img/Upload.svg")}
                     />
                   }
-                  maxSize={50}
-                  onSizeError={() => setFileSizeError("Maximum file size allowed is 50MB")}  
                   types={fileTypes}
                 />
-                <span style={{ color: "red", fontSize: "14px", textAlign: "left"}}>{fileSizeError}</span>
+                <span
+                  style={{ color: "red", fontSize: "14px", textAlign: "left" }}
+                >
+                  {fileSizeError}
+                </span>
               </div>
               <Typography className="text-danger">
                 {isSizeError

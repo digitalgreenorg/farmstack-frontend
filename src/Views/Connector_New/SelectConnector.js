@@ -112,7 +112,7 @@ const SelectConnector = ({
           display:
             counterForIntegrator == completeData.length ? "none" : "block",
         }}
-        offsetTop={0}
+        offsetTop={90}
       >
         <Box
           className={`${styles.selectors} all_selectors_as_sticky d-flex justify-content-between align-items-baseline mt-20`}
