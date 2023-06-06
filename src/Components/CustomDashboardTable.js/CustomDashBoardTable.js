@@ -149,7 +149,7 @@ function CustomDashBoardTable(props) {
                           ? history.push(
                               `/datahub/new_datasets/view/${item?.id}`
                             )
-                          : isLoggedInUserAdmin() || isLoggedInUserCoSteward
+                          : isLoggedInUserAdmin() || isLoggedInUserCoSteward()
                           ? history.push(`/datahub/connectors/edit/${item?.id}`)
                           : recentDatasetTable && isLoggedInUserParticipant()
                           ? history.push(
