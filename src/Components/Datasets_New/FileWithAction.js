@@ -29,6 +29,7 @@ const FileWithAction = ({
   getDataset,
   isOther,
   userType,
+  fileSize,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
@@ -231,7 +232,7 @@ const FileWithAction = ({
         <File
           index={index}
           name={name}
-          size={657489}
+          size={fileSize}
           showDeleteIcon={false}
           type={"file_upload"}
           isTables={true}
