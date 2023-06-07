@@ -39,21 +39,6 @@ const FileWithAction = ({
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
   const datasetDownloader = (fileUrl, name, type) => {
-    // const anchor = document.createElement("a");
-    // anchor.style.display = "none";
-    // document.body.appendChild(anchor);
-    // anchor.setAttribute("hidden", "");
-
-    // // Set the download attribute and file URL
-    // anchor.setAttribute("download", name);
-    // anchor.setAttribute("href", fileUrl);
-    // // anchor.setAttribute("target", "_blank");
-
-    // // Trigger the click event to start the download
-    // anchor.click();
-
-    // // Clean up the anchor element
-    // document.body.removeChild(anchor);
     fetch(fileUrl)
       .then((response) => response.blob())
       .then((blob) => {
@@ -82,12 +67,8 @@ const FileWithAction = ({
       .then((res) => {
         callLoader(false);
         console.log(typeof res?.data, res?.data, name, "res?.data, name");
-        if (!name?.endsWith("csv")) {
-          datasetDownloader(url, name);
-        } else {
-          //for csv as we are getting the res.data and need to be modified before downloading so using common js function for downloading it
-          download(res?.data, name);
-        }
+        datasetDownloader(url, name);
+
         callToast("File downloaded successfully!", "success", true);
       })
       .catch((err) => {
