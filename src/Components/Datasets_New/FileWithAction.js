@@ -38,21 +38,54 @@ const FileWithAction = ({
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
+  const datasetDownloader = (fileUrl, name, type) => {
+    // const anchor = document.createElement("a");
+    // anchor.style.display = "none";
+    // document.body.appendChild(anchor);
+    // anchor.setAttribute("hidden", "");
+
+    // // Set the download attribute and file URL
+    // anchor.setAttribute("download", name);
+    // anchor.setAttribute("href", fileUrl);
+    // // anchor.setAttribute("target", "_blank");
+
+    // // Trigger the click event to start the download
+    // anchor.click();
+
+    // // Clean up the anchor element
+    // document.body.removeChild(anchor);
+    fetch(fileUrl)
+      .then((response) => response.blob())
+      .then((blob) => {
+        // Create a temporary link element
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = name; // Set the desired file name here
+
+        // Simulate a click event to download the file
+        link.click();
+
+        // Clean up the object URL
+        URL.revokeObjectURL(link.href);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   const handleDownload = () => {
     let accessToken = getTokenLocal() ?? false;
     let url = UrlConstant.base_url + UrlConstant.download_file + id;
     callLoader(true);
+    // datasetDownloader(url);
     HTTPService("GET", url, "", false, true, accessToken)
       .then((res) => {
         callLoader(false);
         console.log(typeof res?.data, res?.data, name, "res?.data, name");
-        if (typeof res?.data != "string") {
-          download(
-            JSON.stringify(res?.data, null, 2),
-            name,
-            "application/json"
-          );
+        if (!name?.endsWith("csv")) {
+          datasetDownloader(url, name);
         } else {
+          //for csv as we are getting the res.data and need to be modified before downloading so using common js function for downloading it
           download(res?.data, name);
         }
         callToast("File downloaded successfully!", "success", true);
