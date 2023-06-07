@@ -29,6 +29,7 @@ const FileWithAction = ({
   getDataset,
   isOther,
   userType,
+  fileSize,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
@@ -39,9 +40,17 @@ const FileWithAction = ({
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
   const datasetDownloader = (fileUrl, name, type) => {
-    fetch(fileUrl)
+    let accessToken = getTokenLocal() ?? false;
+    fetch(fileUrl, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    })
       .then((response) => response.blob())
       .then((blob) => {
+        callLoader(false);
+        callToast("File downloaded successfully!", "success", true);
         // Create a temporary link element
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
@@ -54,24 +63,6 @@ const FileWithAction = ({
         URL.revokeObjectURL(link.href);
       })
       .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
-  const handleDownload = () => {
-    let accessToken = getTokenLocal() ?? false;
-    let url = UrlConstant.base_url + UrlConstant.download_file + id;
-    callLoader(true);
-    // datasetDownloader(url);
-    HTTPService("GET", url, "", false, true, accessToken)
-      .then((res) => {
-        callLoader(false);
-        console.log(typeof res?.data, res?.data, name, "res?.data, name");
-        datasetDownloader(url, name);
-
-        callToast("File downloaded successfully!", "success", true);
-      })
-      .catch((err) => {
         callLoader(false);
         callToast(
           "Something went wrong while downloading the file.",
@@ -79,6 +70,30 @@ const FileWithAction = ({
           true
         );
       });
+  };
+
+  const handleDownload = () => {
+    let accessToken = getTokenLocal() ?? false;
+    let url = UrlConstant.base_url + UrlConstant.download_file + id;
+    callLoader(true);
+    datasetDownloader(url, name);
+
+    // HTTPService("GET", url, "", false, true, accessToken)
+    //   .then((res) => {
+    //     callLoader(false);
+    //     console.log(typeof res?.data, res?.data, name, "res?.data, name");
+    //     datasetDownloader(url, name);
+
+    //     callToast("File downloaded successfully!", "success", true);
+    //   })
+    //   .catch((err) => {
+    //     callLoader(false);
+    //     callToast(
+    //       "Something went wrong while downloading the file.",
+    //       "error",
+    //       true
+    //     );
+    //   });
   };
   const askToDownload = () => {
     let accessToken = getTokenLocal() ?? false;
@@ -217,7 +232,7 @@ const FileWithAction = ({
         <File
           index={index}
           name={name}
-          size={657489}
+          size={fileSize}
           showDeleteIcon={false}
           type={"file_upload"}
           isTables={true}

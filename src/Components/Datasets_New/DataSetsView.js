@@ -280,6 +280,7 @@ const DataSetsView = (props) => {
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 <FileTable fileData={tempFile} />
@@ -312,6 +313,7 @@ const DataSetsView = (props) => {
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
@@ -346,6 +348,7 @@ const DataSetsView = (props) => {
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
@@ -380,6 +383,7 @@ const DataSetsView = (props) => {
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
