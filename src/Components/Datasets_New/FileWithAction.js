@@ -38,23 +38,37 @@ const FileWithAction = ({
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
+  const datasetDownloader = (fileUrl, name, type) => {
+    fetch(fileUrl)
+      .then((response) => response.blob())
+      .then((blob) => {
+        // Create a temporary link element
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = name; // Set the desired file name here
+
+        // Simulate a click event to download the file
+        link.click();
+
+        // Clean up the object URL
+        URL.revokeObjectURL(link.href);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   const handleDownload = () => {
     let accessToken = getTokenLocal() ?? false;
     let url = UrlConstant.base_url + UrlConstant.download_file + id;
     callLoader(true);
+    // datasetDownloader(url);
     HTTPService("GET", url, "", false, true, accessToken)
       .then((res) => {
         callLoader(false);
         console.log(typeof res?.data, res?.data, name, "res?.data, name");
-        if (typeof res?.data != "string") {
-          download(
-            JSON.stringify(res?.data, null, 2),
-            name,
-            "application/json"
-          );
-        } else {
-          download(res?.data, name);
-        }
+        datasetDownloader(url, name);
+
         callToast("File downloaded successfully!", "success", true);
       })
       .catch((err) => {
