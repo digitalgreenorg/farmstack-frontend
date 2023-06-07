@@ -960,6 +960,9 @@ const UploadFile = ({
               setMySqlPassword("");
               setMySqlDbUrl("");
               setMySqlPort("");
+              setSqlTables([]);
+              setMysqlFileName("");
+              setAllColumns([]);
               setIsMySqlSaveCreds(false);
             }}
             sx={{
@@ -986,6 +989,9 @@ const UploadFile = ({
               setPostgresPassword("");
               setPostgresDbUrl("");
               setPostgresPort("");
+              setPostgresTables([]);
+              setPostgresFileName("");
+              setAllColumns([]);
               setIsPostgresSaveCreds(false);
             }}
             sx={{
@@ -1017,7 +1023,15 @@ const UploadFile = ({
                             marginTop: '22px'
                         }}>SQLite</Typography> */}
           <Typography
-            onClick={() => setSelectedUploadType("rest_api")}
+            onClick={() => {
+              setSelectedUploadType("rest_api");
+              setApi("");
+              setAuthType("");
+              setAuthApiKeyName("");
+              setAuthApiKeyValue("");
+              setAuthToken("");
+              setExportFileName("");
+            }}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: selectedUploadType === "rest_api" ? "700" : "500",

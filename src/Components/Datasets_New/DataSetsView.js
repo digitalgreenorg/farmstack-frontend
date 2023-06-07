@@ -40,6 +40,7 @@ import { Popconfirm } from "antd";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import { Col, Row } from "react-bootstrap";
 
 const DataSetsView = (props) => {
   const { userType, breadcrumbFromRoute } = props;
@@ -279,6 +280,7 @@ const DataSetsView = (props) => {
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 <FileTable fileData={tempFile} />
@@ -311,6 +313,7 @@ const DataSetsView = (props) => {
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
@@ -345,6 +348,7 @@ const DataSetsView = (props) => {
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
@@ -379,6 +383,7 @@ const DataSetsView = (props) => {
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
@@ -658,8 +663,23 @@ const DataSetsView = (props) => {
               </Box>
             </Card>
 
-            <div className="d-flex mt-30">
-              <div className="text-left w-313">
+            <Row className="">
+              <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
+                <Typography className="view_datasets_light_text">
+                  Organisation name
+                </Typography>
+                <Typography
+                  className={
+                    mobile
+                      ? "view_datasets_bold_text_sm"
+                      : "view_datasets_bold_text"
+                  }
+                >
+                  {orgDetails?.name}
+                </Typography>
+              </Col>
+              {/* <hr /> */}
+              <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
                 <Typography className="view_datasets_light_text">
                   Organisation address
                 </Typography>
@@ -672,8 +692,8 @@ const DataSetsView = (props) => {
                 >
                   {orgAddress}
                 </Typography>
-              </div>
-              <div className={`text-left ${mobile ? "ml-28" : "ml-79"}`}>
+              </Col>
+              <Col xl={4} lg={4} md={6} sm={6} className={`text-left mt-30`}>
                 <Typography className="view_datasets_light_text">
                   Root user details
                 </Typography>
@@ -695,8 +715,8 @@ const DataSetsView = (props) => {
                 >
                   {userDetails?.email}
                 </Typography>
-              </div>
-            </div>
+              </Col>
+            </Row>
           </Box>
         )}
         <Divider className="mt-50" />
