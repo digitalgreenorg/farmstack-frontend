@@ -109,10 +109,10 @@ const UploadFile = ({
     tempFiles.push(...file);
     setFiles(tempFiles);
     // setFiles((prev) => [...prev, file]);
-    setFileSizeError("")
+    setFileSizeError("");
   };
   const handleDelete = (index, id, filename, type) => {
-    setFileSizeError("")
+    setFileSizeError("");
     let source = "";
     if (type === "file_upload") {
       source = "file";
@@ -354,7 +354,7 @@ const UploadFile = ({
   };
 
   const getUpdatedFile = async (fileItem) => {
-    setFileSizeError("")
+    setFileSizeError("");
     let bodyFormData = new FormData();
     bodyFormData.append("dataset", datasetId);
     bodyFormData.append("source", "file");
@@ -952,7 +952,19 @@ const UploadFile = ({
             Imports
           </Typography>
           <Typography
-            onClick={() => setSelectedUploadType("mysql")}
+            onClick={() => {
+              setSelectedUploadType("mysql");
+              setIsMySqlConnected(false);
+              setMySqlDbName("");
+              setMySqlUserName("");
+              setMySqlPassword("");
+              setMySqlDbUrl("");
+              setMySqlPort("");
+              setSqlTables([]);
+              setMysqlFileName("");
+              setAllColumns([]);
+              setIsMySqlSaveCreds(false);
+            }}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: selectedUploadType === "mysql" ? "700" : "500",
@@ -969,7 +981,19 @@ const UploadFile = ({
             MySQL
           </Typography>
           <Typography
-            onClick={() => setSelectedUploadType("postgres")}
+            onClick={() => {
+              setSelectedUploadType("postgres");
+              setIsPostgresConnected(false);
+              setPostgresDbName("");
+              setPostgresUserName("");
+              setPostgresPassword("");
+              setPostgresDbUrl("");
+              setPostgresPort("");
+              setPostgresTables([]);
+              setPostgresFileName("");
+              setAllColumns([]);
+              setIsPostgresSaveCreds(false);
+            }}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: selectedUploadType === "postgres" ? "700" : "500",
@@ -999,7 +1023,15 @@ const UploadFile = ({
                             marginTop: '22px'
                         }}>SQLite</Typography> */}
           <Typography
-            onClick={() => setSelectedUploadType("rest_api")}
+            onClick={() => {
+              setSelectedUploadType("rest_api");
+              setApi("");
+              setAuthType("");
+              setAuthApiKeyName("");
+              setAuthApiKeyValue("");
+              setAuthToken("");
+              setExportFileName("");
+            }}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: selectedUploadType === "rest_api" ? "700" : "500",
@@ -1035,11 +1067,13 @@ const UploadFile = ({
                       src={require("../../../Assets/Img/Upload.svg")}
                     />
                   }
-                  maxSize={50}
-                  onSizeError={() => setFileSizeError("Maximum file size allowed is 50MB")}  
                   types={fileTypes}
                 />
-                <span style={{ color: "red", fontSize: "14px", textAlign: "left"}}>{fileSizeError}</span>
+                <span
+                  style={{ color: "red", fontSize: "14px", textAlign: "left" }}
+                >
+                  {fileSizeError}
+                </span>
               </div>
               <Typography className="text-danger">
                 {isSizeError
