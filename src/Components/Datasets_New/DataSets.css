@@ -247,6 +247,10 @@
   font-size: 16px;
   line-height: 22px;
   color: #000000;
+  white-space: nowrap;
+  width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .location_text {
@@ -257,7 +261,7 @@
   line-height: 22px;
   color: #000000;
   white-space: nowrap;
-  width: 40%;
+  width: 80%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
