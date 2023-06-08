@@ -9,6 +9,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -58,20 +59,25 @@ const StandardiseRow = ({
   return (
     <div className="mt-50" key={index}>
       <Box className="d-flex justify-content-between align-items-center w-100 mb-20">
-        <Typography
-          className="ml-16"
-          sx={{
-            fontFamily: "Montserrat !important",
-            fontWeight: "400",
-            fontSize: "20px",
-            lineHeight: "24px",
-            color: "#000000",
-            textAlign: "left",
-            width: mobile || tablet ? "100%" : "100px",
-          }}
-        >
-          {keyName}
-        </Typography>
+        <Tooltip arrow title={keyName}>
+          <Typography
+            className="ml-16"
+            sx={{
+              fontFamily: "Montserrat !important",
+              fontWeight: "400",
+              fontSize: "20px",
+              lineHeight: "24px",
+              color: "#000000",
+              textAlign: "left",
+              width: mobile || tablet ? "100%" : "135px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {keyName}
+          </Typography>
+        </Tooltip>
         <Box className={mobile || tablet || miniLaptop ? "m-3" : ""}>
           <FormControl fullWidth sx={{ width: "273px" }}>
             <InputLabel>Datapoint category</InputLabel>
