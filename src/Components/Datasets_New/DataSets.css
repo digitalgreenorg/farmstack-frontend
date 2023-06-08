@@ -226,12 +226,14 @@
 .category {
   display: flex;
   align-items: center;
+  max-width: 50%;
 }
 
 .location {
   margin-left: 15px;
   display: flex;
   align-items: center;
+  max-width: 50%;
 }
 
 .calendar {
