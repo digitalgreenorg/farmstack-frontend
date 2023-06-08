@@ -245,7 +245,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
         let datalist = coStewardOrParticipantsList;
-        if (response?.data?.next) {
+        if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
           setCoStewardOrParticipantsList(finalDataList);
         }
@@ -821,8 +821,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       )}
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
-          <Col xs={0} sm={0} md={2} lg={4}></Col>
-          <Col xs={12} sm={12} md={8} lg={4}>
+          <Col xs={12} sm={12} md={12} lg={12}>
             <Button
               id={"details-page-load-more-dataset-button"}
               variant="outlined"

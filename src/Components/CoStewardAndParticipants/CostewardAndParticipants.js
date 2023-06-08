@@ -637,18 +637,20 @@ const CoStewardAndParticipantsCard = (props) => {
       {/* </Row> */}
       {loadMoreButton ? (
         <Box className={LocalStyle.buttonContainer}>
-          <Button
-            onClick={handleLoadMoreButton}
-            id={title?.split(" ")[0] + "-load-more-button"}
-            variant="outlined"
-            className={`${
-              mobile || tablet
-                ? LocalStyle.pButtonStyleMd
-                : LocalStyle.pButtonStyle
-            }`}
-          >
-            Load more
-          </Button>
+          <div>
+            <Button
+              onClick={handleLoadMoreButton}
+              id={title?.split(" ")[0] + "-load-more-button"}
+              variant="outlined"
+              className={`${
+                mobile || tablet
+                  ? LocalStyle.pButtonStyleMd
+                  : LocalStyle.pButtonStyle
+              }`}
+            >
+              Load more
+            </Button>
+          </div>
         </Box>
       ) : (
         ""

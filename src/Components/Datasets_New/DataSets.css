@@ -226,12 +226,14 @@
 .category {
   display: flex;
   align-items: center;
+  max-width: 150px;
 }
 
 .location {
   margin-left: 15px;
   display: flex;
   align-items: center;
+  max-width: 150px;
 }
 
 .calendar {
@@ -248,7 +250,7 @@
   line-height: 22px;
   color: #000000;
   white-space: nowrap;
-  width: 80%;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -261,7 +263,7 @@
   line-height: 22px;
   color: #000000;
   white-space: nowrap;
-  width: 80%;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
