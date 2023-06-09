@@ -257,14 +257,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if (error.toast) {
+        if (error?.toast) {
           callToast(
             error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
             true
           );
         }
-        if (error.path) {
+        if (error?.path) {
           history.push(error.path);
         }
         console.log(e);
@@ -819,20 +819,18 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       ) : (
         ""
       )}
-      {datasetLoadMoreUrl ? (
+      {!datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
-          <Col xs={12} sm={12} md={12} lg={12}>
-            <Button
-              id={"details-page-load-more-dataset-button"}
-              variant="outlined"
-              className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
-              onClick={() =>
-                getDatasetOfParticipantOrCoSteward(true, userId, orgId)
-              } // passing true will call loadmore api
-            >
-              Load more
-            </Button>
-          </Col>
+          <Button
+            id={"details-page-load-more-dataset-button"}
+            variant="outlined"
+            className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
+            onClick={() =>
+              getDatasetOfParticipantOrCoSteward(true, userId, orgId)
+            } // passing true will call loadmore api
+          >
+            Load more
+          </Button>
         </Row>
       ) : (
         ""

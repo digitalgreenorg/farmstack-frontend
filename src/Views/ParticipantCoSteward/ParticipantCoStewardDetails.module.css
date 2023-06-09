@@ -38,6 +38,10 @@
   display: flex;
   justify-content: end;
 }
+.buttonContainer > button {
+  width: 33%;
+  margin: auto;
+}
 
 .outlined_button {
   padding: 5px !important;
