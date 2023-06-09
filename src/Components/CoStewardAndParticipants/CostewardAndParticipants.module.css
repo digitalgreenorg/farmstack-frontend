@@ -162,8 +162,8 @@
   border-radius: 8px;
 }
 .buttonContainer > div {
-  width: 30%;
-  margin: auto;
+  width: 33%;
+  margin-left: 33%;
 }
 
 .listAndgridViewImg {
