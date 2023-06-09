@@ -333,9 +333,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
     HTTPService("POST", url, payload, false, isAuthorization)
       .then((res) => {
-        if (isParticipantRequest) {
-          callLoader(false);
-        }
+        callLoader(false);
+        // if (isParticipantRequest) {
+        // }
         console.log("res", res);
         let data = [...datasetList, ...res?.data?.results];
         setDatasetList(data);

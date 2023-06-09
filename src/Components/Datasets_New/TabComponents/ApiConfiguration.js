@@ -67,7 +67,7 @@ const ApiConfiguration = (props) => {
         placeholder="API"
         label="API"
         value={props.api}
-        onChange={(e) => props.setApi(e.target.value)}
+        onChange={(e) => props.setApi(e.target.value.trimStart())}
         InputProps={{
           startAdornment: <InputAdornment position="start">GET</InputAdornment>,
         }}
@@ -151,7 +151,7 @@ const ApiConfiguration = (props) => {
             placeholder="Auth token"
             label="Auth token"
             value={props.authToken}
-            onChange={(e) => props.setAuthToken(e.target.value)}
+            onChange={(e) => props.setAuthToken(e.target.value.trimStart())}
           />
         ) : (
           <>
@@ -177,7 +177,9 @@ const ApiConfiguration = (props) => {
               placeholder="Api Key Name"
               label="Api Key Name"
               value={props.authApiKeyName}
-              onChange={(e) => props.setAuthApiKeyName(e.target.value)}
+              onChange={(e) =>
+                props.setAuthApiKeyName(e.target.value.trimStart())
+              }
             />
             <TextField
               id={`upload-dataset-api-key-value-id`}
@@ -201,7 +203,9 @@ const ApiConfiguration = (props) => {
               placeholder="Api Key Value"
               label="Api Key Value"
               value={props.authApiKeyValue}
-              onChange={(e) => props.setAuthApiKeyValue(e.target.value)}
+              onChange={(e) =>
+                props.setAuthApiKeyValue(e.target.value.trimStart())
+              }
             />
           </>
         )
