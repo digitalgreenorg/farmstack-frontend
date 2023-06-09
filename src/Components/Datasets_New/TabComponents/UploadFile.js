@@ -459,10 +459,10 @@ const UploadFile = ({
     callLoader(true);
     if (selectedUploadType === "mysql") {
       let bodyData = {
-        database: mySqlDbName,
-        username: mySqlUserName,
-        password: mySqlPassword,
-        host: mySqlDbUrl,
+        database: mySqlDbName.trim(),
+        username: mySqlUserName.trim(),
+        password: mySqlPassword.trim(),
+        host: mySqlDbUrl.trim(),
         port: mySqlPort,
         database_type: "mysql",
       };
@@ -528,10 +528,10 @@ const UploadFile = ({
         });
     } else if (selectedUploadType === "postgres") {
       let bodyData = {
-        dbname: postgresDbName,
-        user: postgresUserName,
-        password: postgresPassword,
-        host: postgresDbUrl,
+        dbname: postgresDbName.trim(),
+        user: postgresUserName.trim(),
+        password: postgresPassword.trim(),
+        host: postgresDbUrl.trim(),
         port: postgresPort,
         database_type: "postgresql",
       };
@@ -867,20 +867,21 @@ const UploadFile = ({
       let body = {
         dataset: datasetId,
         dataset_name: dataSetName,
-        url: api,
-        file_name: exportFileName,
+        url: api.trim(),
+        file_name: exportFileName.trim(),
         source: "live_api",
         auth_type: authType,
       };
       if (authType === "NO_AUTH") {
         // do nothing for now
       } else if (authType === "API_KEY" && authApiKeyName && authApiKeyValue) {
-        body["api_key_name"] = authApiKeyName;
-        body["api_key_value"] = authApiKeyValue;
+        body["api_key_name"] = authApiKeyName.trim();
+        body["api_key_value"] = authApiKeyValue.trim();
       } else if (authType === "BEARER") {
-        body["token"] = authToken;
+        body["token"] = authToken.trim();
       }
       let accessToken = getTokenLocal() ?? false;
+      callLoader(true);
       HTTPService(
         "POST",
         UrlConstant.base_url + UrlConstant.live_api,
@@ -890,10 +891,12 @@ const UploadFile = ({
         accessToken
       )
         .then((res) => {
+          callLoader(false);
           setRestApiFiles([...restApifiles, res.data]);
           setIsApiConnected(true);
         })
         .catch((err) => {
+          callLoader(false);
           console.log(err);
           callToast(err.response?.data?.message, "error", true);
         });

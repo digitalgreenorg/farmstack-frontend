@@ -21,6 +21,7 @@ import {
 } from "../../Utils/Common";
 import { TypeAnimation } from "react-type-animation";
 import imageFilename from "../../Assets/Img/microsite_yellow_gradient_img.svg";
+import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 const GuestUserHome = () => {
   let history = useHistory();
   const theme = createTheme({
@@ -47,6 +48,7 @@ const GuestUserHome = () => {
   };
   return (
     <>
+      <ScrollToTop />
       <Box
         className={
           mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
