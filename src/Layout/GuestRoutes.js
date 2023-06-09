@@ -35,6 +35,7 @@ import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import GetStarted from "../Views/GetStarted/GetStarted";
 import UrlConstant from "../Constants/UrlConstants";
 import HTTPService from "../Services/HTTPService";
+import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 
 const GuestRoutes = () => {
   const theme = useTheme();
@@ -82,6 +83,7 @@ const GuestRoutes = () => {
 
   return (
     <div className="center_keeping_conatiner">
+      <ScrollToTop />
       {(isLoggedInUserAdmin() || isLoggedInUserCoSteward()) &&
       (isVerified || verifyUserDataOfLocal()) ? (
         <NavbarNew loginType={"admin"} />
