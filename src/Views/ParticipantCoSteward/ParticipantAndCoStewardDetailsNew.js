@@ -257,14 +257,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if (error.toast) {
+        if (error?.toast) {
           callToast(
             error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
             true
           );
         }
-        if (error.path) {
+        if (error?.path) {
           history.push(error.path);
         }
         console.log(e);
