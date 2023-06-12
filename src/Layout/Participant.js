@@ -76,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
 }));
+import DashboardNew from "../Views/Dashboard/DashboardNew";
 
 function Participant(props) {
   const [render, reRender] = useState(0);
@@ -127,11 +128,12 @@ function Participant(props) {
       .catch(async (e) => {
         console.log("error to verify local data", e);
         let error = await GetErrorHandlingRoute(e);
-        if (error.toast) {
+        console.log("error", error);
+        if (error?.toast) {
           callToast(
             error?.message ?? "user login details are corrupted",
-            error.status == 200 ? "success" : "error",
-            error.toast
+            error?.status == 200 ? "success" : "error",
+            error?.toast
           );
         } else {
           history.push(error?.path);
@@ -162,7 +164,7 @@ function Participant(props) {
                 : "minHeight67vhParticipantPage"
             }
           >
-            <br/>
+            <br />
             <Switch>
               <Route
                 exact
@@ -278,6 +280,12 @@ function Participant(props) {
                 component={ViewMetaDatasetDetails}
               />
                {/* <Route
+              <Route
+                exact
+                path="/participant/new_dashboard"
+                component={DashboardNew}
+              />
+              {/* <Route
                 exact
                 path="/participant/connectors"
               >

@@ -44,6 +44,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     userTypeCosteward,
     title,
     breadcrumbFromRoute,
+    isCostewardsParticipant,
   } = props;
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const theme = useTheme();
@@ -244,7 +245,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
         let datalist = coStewardOrParticipantsList;
-        if (response?.data?.next) {
+        if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
           setCoStewardOrParticipantsList(finalDataList);
         }
@@ -256,14 +257,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if (error.toast) {
+        if (error?.toast) {
           callToast(
             error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
             true
           );
         }
-        if (error.path) {
+        if (error?.path) {
           history.push(error.path);
         }
         console.log(e);
@@ -332,9 +333,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
     HTTPService("POST", url, payload, false, isAuthorization)
       .then((res) => {
-        if (isParticipantRequest) {
-          callLoader(false);
-        }
+        callLoader(false);
+        // if (isParticipantRequest) {
+        // }
         console.log("res", res);
         let data = [...datasetList, ...res?.data?.results];
         setDatasetList(data);
@@ -437,7 +438,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
-              onClick={() => history.push("/datahub/participants/")}
+              onClick={() => {
+                let last_route = localStorage.getItem("last_route");
+                localStorage.removeItem("last_route");
+                if (last_route) {
+                  history.push(last_route);
+                } else {
+                  history.push("/datahub/participants/");
+                }
+              }}
             >
               {breadcrumbFromRoute ?? "Participant"}
             </span>
@@ -515,7 +524,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
+          {!isParticipantRequest &&
+          !userTypeCosteward &&
+          user !== "guest" &&
+          !isCostewardsParticipant ? (
             <>
               <CustomDeletePopper
                 DeleteItem={organisationName}
@@ -809,19 +821,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       )}
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
-          <Col xs={0} sm={0} md={2} lg={4}></Col>
-          <Col xs={12} sm={12} md={8} lg={4}>
-            <Button
-              id={"details-page-load-more-dataset-button"}
-              variant="outlined"
-              className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
-              onClick={() =>
-                getDatasetOfParticipantOrCoSteward(true, userId, orgId)
-              } // passing true will call loadmore api
-            >
-              Load more
-            </Button>
-          </Col>
+          <Button
+            id={"details-page-load-more-dataset-button"}
+            variant="outlined"
+            className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
+            onClick={() =>
+              getDatasetOfParticipantOrCoSteward(true, userId, orgId)
+            } // passing true will call loadmore api
+          >
+            Load more
+          </Button>
         </Row>
       ) : (
         ""
@@ -832,10 +841,12 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           title={"Co-steward participants"}
           subTitle="Explore the participants who are part of this co-steward's community."
           user={user}
+          guestUser={user}
           viewType={false}
+          isCostewardsParticipant={user ? false : true}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
-          loadMoreButton={loadMoreUrl}
+          loadMoreButton={loadMoreButton}
           handleLoadMoreButton={handleLoadMoreButton}
         />
       ) : (

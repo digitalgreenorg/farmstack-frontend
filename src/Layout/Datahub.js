@@ -81,6 +81,7 @@ import Support from "../Components/Support_New/Support";
 import SupportView from "../Components/Support_New/SupportView";
 import AskSupport from "../Components/Support_New/SupportForm";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
+import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
 const useStyles = makeStyles((theme) => ({
   floatingButton: {
     position: 'fixed',
@@ -97,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
 }));
+
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -192,6 +194,11 @@ function Datahub(props) {
                 exact
                 path="/datahub/participants/view/:id"
                 component={ParticipantsAndCoStewardDetailsNew}
+              />
+              <Route
+                exact
+                path="/datahub/costeward/participants/view/:id"
+                component={CostewardsParticipant}
               />
               <Route
                 exact

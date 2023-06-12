@@ -104,7 +104,7 @@ function GuestUserParticipants(props) {
         }
         let datalist = coStewardOrParticipantsList;
         // if (response?.data?.results) {
-        let finalDataList = [...datalist, ...response.data.results];
+        let finalDataList = [...datalist, ...response?.data?.results];
         setCoStewardOrParticipantsList(finalDataList);
         // }
       })

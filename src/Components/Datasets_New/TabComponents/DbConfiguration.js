@@ -89,7 +89,7 @@ const DbConfiguration = (props) => {
         placeholder="Database name"
         label="Database name"
         value={props.dbaseName}
-        onChange={(e) => props.setDbaseName(e.target.value)}
+        onChange={(e) => props.setDbaseName(e.target.value.trimStart())}
       />
       <TextField
         id={`${props.dbName}-upload-dataset-user-name-id`}
@@ -132,7 +132,7 @@ const DbConfiguration = (props) => {
         placeholder="User name"
         label="User name"
         value={props.userName}
-        onChange={(e) => props.setUserName(e.target.value)}
+        onChange={(e) => props.setUserName(e.target.value.trimStart())}
       />
       <TextField
         id={`${props.dbName}-upload-dataset-password-id`}
@@ -176,7 +176,7 @@ const DbConfiguration = (props) => {
         label="Password"
         value={props.password}
         type={showPassword ? "text" : "password"}
-        onChange={(e) => props.setPassword(e.target.value)}
+        onChange={(e) => props.setPassword(e.target.value.trimStart())}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -232,7 +232,7 @@ const DbConfiguration = (props) => {
         placeholder="Database host URL"
         label="Database host URL"
         value={props.dbUrl}
-        onChange={(e) => props.setDbUrl(e.target.value)}
+        onChange={(e) => props.setDbUrl(e.target.value.trimStart())}
       />
       <TextField
         id={`${props.dbName}-upload-dataset-port-id`}

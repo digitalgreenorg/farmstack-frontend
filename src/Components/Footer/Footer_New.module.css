@@ -58,6 +58,8 @@
   font-size: 16px;
   line-height: 20px;
   color: #0038ff;
+  word-wrap: break-word;
+  width: 240px;
 }
 
 .flexWidth {

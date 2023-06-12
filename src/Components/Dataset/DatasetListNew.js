@@ -36,6 +36,7 @@ const DatasetListNew = (props) => {
 
   const handleCardClick = (id) => {
     if (user === "guest") {
+      localStorage.setItem("last_route", "/home");
       return `/home/datasets/${id}`;
     } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/new_datasets/${id}`;

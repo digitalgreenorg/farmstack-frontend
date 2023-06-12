@@ -21,6 +21,7 @@ const CoStewardAndParticipantsCard = (props) => {
     guestUser,
     isCosteward,
     subTitle,
+    isCostewardsParticipant,
   } = props;
   const history = useHistory();
   const theme = useTheme();
@@ -34,12 +35,17 @@ const CoStewardAndParticipantsCard = (props) => {
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
-    if (guestUser && isCosteward) {
+    console.log("isCostewardsParticipant", isCostewardsParticipant);
+    if (isCostewardsParticipant) {
+      history.push(`/datahub/costeward/participants/view/${id}`);
+    } else if (guestUser && isCosteward) {
       history.push(`/home/costeward/view/${id}`);
+      localStorage.setItem("last_route", "/home");
     } else if (
       (guestUser && !isCosteward) ||
       (title == "Co-steward participants" && guestUser)
     ) {
+      localStorage.setItem("last_route", "/home");
       history.push(`/home/participants/view/${id}`);
     } else if (title == "Participants" || title == "Co-steward participants") {
       history.push(`/datahub/participants/view/${id}`);
@@ -48,6 +54,7 @@ const CoStewardAndParticipantsCard = (props) => {
     } else if (title == "New participant requests") {
       history.push(`/datahub/participants/view/approve/${id}`);
     } else if (title == "Participants" && guestUser) {
+      localStorage.setItem("last_route", "/home");
       history.push("/home/participants/view/:id");
     }
     // if (
@@ -630,18 +637,20 @@ const CoStewardAndParticipantsCard = (props) => {
       {/* </Row> */}
       {loadMoreButton ? (
         <Box className={LocalStyle.buttonContainer}>
-          <Button
-            onClick={handleLoadMoreButton}
-            id={title?.split(" ")[0] + "-load-more-button"}
-            variant="outlined"
-            className={`${
-              mobile || tablet
-                ? LocalStyle.pButtonStyleMd
-                : LocalStyle.pButtonStyle
-            }`}
-          >
-            Load more
-          </Button>
+          <div>
+            <Button
+              onClick={handleLoadMoreButton}
+              id={title?.split(" ")[0] + "-load-more-button"}
+              variant="outlined"
+              className={`${
+                mobile || tablet
+                  ? LocalStyle.pButtonStyleMd
+                  : LocalStyle.pButtonStyle
+              }`}
+            >
+              Load more
+            </Button>
+          </div>
         </Box>
       ) : (
         ""
