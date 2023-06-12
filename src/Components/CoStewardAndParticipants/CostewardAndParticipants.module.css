@@ -163,7 +163,7 @@
 }
 .buttonContainer > div {
   width: 33%;
-  margin-left: 33%;
+  margin: auto;
 }
 
 .listAndgridViewImg {

@@ -819,7 +819,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       ) : (
         ""
       )}
-      {!datasetLoadMoreUrl ? (
+      {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
           <Button
             id={"details-page-load-more-dataset-button"}
@@ -846,7 +846,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           isCostewardsParticipant={user ? false : true}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
-          loadMoreButton={loadMoreUrl}
+          loadMoreButton={loadMoreButton}
           handleLoadMoreButton={handleLoadMoreButton}
         />
       ) : (
