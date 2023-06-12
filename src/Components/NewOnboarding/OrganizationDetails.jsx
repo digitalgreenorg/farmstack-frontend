@@ -1,13 +1,22 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
 import {
+  Box,
   Button,
   FormControl,
   InputLabel,
   TextField,
   Typography,
 } from "@mui/material";
+
 import global_style from "../../Assets/CSS/global.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -32,7 +41,9 @@ import HTTPService from "../../Services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
-import { isPhoneValid } from "./utils";
+import getCroppedImg, { isPhoneValid } from "./utils";
+import ReactEasyCropperForFarmstack from "../Generic/ReactEasyCropperForFarmstack";
+import Modal from "@mui/material/Modal";
 import RegexConstants from "../../Constants/RegexConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import parse from "html-react-parser";
@@ -41,6 +52,10 @@ const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const countryNameList = useMemo(() => countryList().getData(), []);
   const { setActiveStep } = props;
   const [alreadyOnboarded, setAlreadyOnboarded] = useState(false);
@@ -168,30 +183,92 @@ const OrganizationDetails = (props) => {
   };
 
   const [preview, setPreview] = useState();
+  const [tempImage, setTempImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const canvasRef = useRef(null);
   const [key, setKey] = useState(0);
-  const handleUpload = (file) => {
+
+  const handleFileForCrop = (file) => {
     console.log(file);
-    setIsLogoLink(false);
-    setUploadedLogo(file);
+    setSelectedImage(URL.createObjectURL(file));
+    setTempImage(file);
+    setOpen(true);
     setKey(key + 1); // generate a new key when a file is uploaded
   };
+  // const handleUpload = (file) => {
+  //   console.log(file);
+  //   setIsLogoLink(false);
+  //   setUploadedLogo(file);
+
+  // const handleUpload = (file) => {
+  //   console.log(file);
+  //   setIsLogoLink(false);
+  //   setUploadedLogo(file);
+  // };
+
+  const convertImageUrlToObject = async (imageUrl) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const contentType = response.headers.get("content-type");
+      console.log(contentType, "contentType");
+      const filename = tempImage?.name ?? "logo.png"; // You can implement this function to extract the filename from the URL
+      const file = new File([blob], filename, { type: contentType });
+      return file;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const showCroppedImage = useCallback(async () => {
+    try {
+      const croppedImage = await getCroppedImg(
+        selectedImage, // string url
+        croppedAreaPixels, // updated as per user x and y and other values
+        0
+      );
+      let croppedImageObjectAfterConvert = await convertImageUrlToObject(
+        croppedImage
+      );
+      console.log("org logo", croppedImageObjectAfterConvert);
+      setUploadedLogo(croppedImageObjectAfterConvert);
+      setPreview(croppedImage);
+      setIsLogoLink(false);
+      setOpen(false);
+    } catch (e) {
+      console.error(e);
+      setOpen(false);
+    }
+  }, [croppedAreaPixels]);
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    console.log(croppedArea, croppedAreaPixels);
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
 
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
-    console.log(uploadedLogo, "inside useEffect");
-    if (!uploadedLogo) {
-      setPreview(null);
-      return;
-    }
-    setOrganisationDetailsError({
-      ...organisationDetailsError,
-      organisation_logo_error_logo: "",
-    });
-    const objectUrl = URL.createObjectURL(uploadedLogo);
-    setPreview(objectUrl);
-
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl);
+    // console.log(uploadedLogo);
+    // if (!uploadedLogo) {
+    //   setPreview(null);
+    //   console.log("NULL");
+    //   return;
+    // }
+    // setOrganisationDetailsError({
+    //   ...organisationDetailsError,
+    //   organisation_logo_error_logo: "",
+    // });
+    // if (selectedImage) {
+    //   setPreview(selectedImage);
+    //   console.log("select image");
+    //   return;
+    // }
+    // const objectUrl = URL.createObjectURL(uploadedLogo);
+    // setPreview(selectedImage);
+    // // free memory when ever this component is unmounted
+    // return () => URL.revokeObjectURL(objectUrl);
   }, [uploadedLogo]);
 
   const handleSubmitOrganizationDetails = (e) => {
@@ -644,7 +721,7 @@ const OrganizationDetails = (props) => {
                 }
                 maxSize={2}
                 isMultiple={false}
-                handleChange={handleUpload}
+                handleChange={handleFileForCrop}
                 id="org-upload-file"
                 // setSizeError={() =>
                 //   setOrganisationDetailsError({
@@ -777,6 +854,23 @@ const OrganizationDetails = (props) => {
         )}
         {/* <div className={styles.send_otp_div}>
 </div> */}
+
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={{ height: "300px", width: "300px" }}>
+            {selectedImage && (
+              <ReactEasyCropperForFarmstack
+                file={selectedImage}
+                handleCropComplete={onCropComplete}
+                showCroppedImage={showCroppedImage}
+              />
+            )}
+          </Box>
+        </Modal>
       </div>
     </>
   );
