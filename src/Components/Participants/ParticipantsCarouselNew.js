@@ -16,19 +16,90 @@ import LocalStyle from "./ParticipantsCarouselNew.module.css";
 
 const ParticipantsCarouselNew = (props) => {
   const { isCosteward } = props;
+  const [participantsList, setParticipantsList] = useState([]);
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    autoplay: true,
+    // slidesToShow: participantsList?.length >= 3 ? 3 : participantsList?.length,
+    // slidesToScroll:
+    //   participantsList?.length >= 3 ? 3 : participantsList?.length,
+    // autoplay: true,
     className: LocalStyle.slides,
+    responsive: [
+      {
+        breakpoint: 3060,
+        settings: {
+          slidesToShow:
+            participantsList.length >= 4 ? 4 : participantsList.length,
+          slidesToScroll: 3,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 2560,
+        settings: {
+          slidesToShow:
+            participantsList.length >= 4 ? 4 : participantsList.length,
+          slidesToScroll: 3,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1920,
+        settings: {
+          slidesToShow:
+            participantsList.length >= 4 ? 4 : participantsList.length,
+          slidesToScroll: 3,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1440,
+        settings: {
+          slidesToShow:
+            participantsList.length >= 3 ? 3 : participantsList.length,
+          slidesToScroll: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+        },
+      },
+    ],
   };
   let title = isCosteward ? "Co-steward" : "Participants";
   const history = useHistory();
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
-  const [participantsList, setParticipantsList] = useState([]);
   // const [loadMoreUrl, setLoadMoreUrl] = useState("");
 
   const getCoStewardOrParticipantsOnLoad = (
@@ -55,14 +126,35 @@ const ParticipantsCarouselNew = (props) => {
         //   setLoadMoreButton(true);
         //   if (response?.data?.next) setLoadMoreUrl(response.data.next);
         // }
+        // let tmpData = response.data.results;
+        console.log();
         if (response?.data?.results) setParticipantsList(response.data.results);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // if (error) {
+        //   callToast(
+        //     error?.message,
+        //     error?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        //   console.log(e);
+        // }
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
         console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   console.log("participants list ", participantsList);
@@ -107,15 +199,16 @@ const ParticipantsCarouselNew = (props) => {
                   sm={12}
                   md={6}
                   xl={4}
-                  onClick={() =>
+                  onClick={() => {
+                    localStorage.setItem("last_route", "/home");
                     isCosteward
                       ? history.push(
                           `/home/costeward/view/${participant?.user_id}`
                         )
                       : history.push(
                           `/home/participants/view/${participant?.user_id}`
-                        )
-                  }
+                        );
+                  }}
                 >
                   <CustomCard
                     image={participant?.organization?.logo}

@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Box, Tab, Tabs, Divider, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Tab,
+  Tabs,
+  Divider,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import "./DataSetsTab.css";
 import AddDataSetCardNew from "../AddDataSetCard";
 import DataSetCardNew from "../DataSetCard";
@@ -54,6 +63,15 @@ const DataSetsTab = ({
   clearFilter,
   setFilterState,
 }) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
+
   const [isGrid, setIsGrid] = useState(true);
   const [isGridOther, setIsGridOther] = useState(true);
   const [isGridSteward, setIsGridSteward] = useState(true);
@@ -92,7 +110,7 @@ const DataSetsTab = ({
 
   return (
     <Box className="w-100">
-      <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
+      <Box sx={containerStyle}>
         {user !== "guest" ? (
           <Box
             sx={{
@@ -104,6 +122,9 @@ const DataSetsTab = ({
           >
             <Tabs
               className="tabs"
+              variant="scrollable"
+              scrollButtons
+              allowScrollButtonsMobile
               sx={{
                 "& .MuiTabs-indicator": {
                   backgroundColor: "#00AB55 !important",
@@ -130,6 +151,7 @@ const DataSetsTab = ({
                     className={
                       value == 0 ? "tab_header_selected" : "tab_header"
                     }
+                    id="dataset-my-orgnanisation-tab"
                   >
                     My Organisation
                   </span>
@@ -146,6 +168,7 @@ const DataSetsTab = ({
                     className={
                       value == 1 ? "tab_header_selected" : "tab_header"
                     }
+                    id="dataset-other-organisation-tab"
                   >
                     Other Organisation
                   </span>
@@ -162,6 +185,7 @@ const DataSetsTab = ({
                     className={
                       value == 2 ? "tab_header_selected" : "tab_header"
                     }
+                    id="dataset-requests-tab"
                   >
                     Requests
                   </span>
@@ -181,6 +205,11 @@ const DataSetsTab = ({
                 user === "guest"
                   ? "List of datasets"
                   : "My organisation datasets"
+              }
+              subTitle={
+                user != "guest"
+                  ? "Datasets uploaded by your organization."
+                  : "Browse the list of datasets contributed by partiicpants."
               }
               isGrid={isGrid}
               setIsGrid={setIsGrid}
@@ -208,6 +237,7 @@ const DataSetsTab = ({
                 )}
                 {datasetList?.map((item) => (
                   <DataSetCardNew
+                    id="dataset-card-in-dataset"
                     key={item?.id}
                     history={history}
                     item={item}
@@ -246,8 +276,11 @@ const DataSetsTab = ({
             {showLoadMoreAdmin ? (
               <Button
                 variant="outlined"
-                className="d_button_style"
+                className={
+                  mobile || tablet ? "d_button_style_md" : "d_button_style"
+                }
                 onClick={() => getDataSets(true)}
+                id="dataset-loadmore-btn"
               >
                 Load more
               </Button>
@@ -260,6 +293,7 @@ const DataSetsTab = ({
           <Box className="mb-100">
             <DataSetsTitleView
               title={"Other organisation datasets"}
+              subTitle=" Explore details of datasets uploaded by other organizations."
               isGrid={isGridOther}
               setIsGrid={setIsGridOther}
               history={history}
@@ -288,8 +322,11 @@ const DataSetsTab = ({
             {showLoadMoreMember ? (
               <Button
                 variant="outlined"
-                className="d_button_style"
+                className={
+                  mobile || tablet ? "d_button_style_md" : "d_button_style"
+                }
                 onClick={() => getOtherDataSets(true)}
+                id="dataset-list-view-load-more-btn"
               >
                 Load more
               </Button>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import DatasetSelect from "./DatasetSelect/DatasetSelect";
 import Join from "./Join/Join";
@@ -28,10 +28,12 @@ import { Affix } from "antd";
 import { AddIcCallOutlined } from "@material-ui/icons";
 import ConnectorsList from "../../IntegrationConnectors/ConnectorsList";
 import FileSaver from "file-saver";
+import { FarmStackContext } from "../../Contexts/FarmStackContext";
 const converter = require("json-2-csv");
 const fs = require("fs");
 
 const DatasetIntegration = (props) => {
+  const { callToast } = useContext(FarmStackContext);
   const [isEditModeOn, setIsEditModeOn] = useState(false);
   const [counterForIntegrator, setCounterForIntegration] = useState(2);
   const [isEdited, setIsEdited] = useState(false);
@@ -637,7 +639,7 @@ const DatasetIntegration = (props) => {
       .then((res) => {
         setLoader(false);
         if (condition == "integrate") {
-          console.log("inside integrate", res.data);
+          console.log("inside integrate", res.data, res?.data?.no_of_records);
           setIntegratedFilePath(
             res?.data?.integrated_file ? res?.data?.integrated_file : ""
           );
@@ -711,9 +713,17 @@ const DatasetIntegration = (props) => {
 
         // goToTop(2000)
       })
-      .catch((err) => {
-        if (err?.response?.status == 401 || err?.response?.status == 502) {
+      .catch(async (err) => {
+        setLoader(false);
+        let error = await GetErrorHandlingRoute(err);
+        if (error.status == 401 || error.status == 502) {
           history.push(GetErrorHandlingRoute(err));
+        } else if (error.status == 400) {
+          callToast(
+            error.message ?? "Something went wrong while integration.",
+            "error",
+            true
+          );
         } else {
           if (condition == "integrate") {
             setIsAllConditionForSaveMet(false);

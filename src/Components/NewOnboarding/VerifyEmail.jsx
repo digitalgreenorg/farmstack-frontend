@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, Checkbox, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  TextField,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 // import { CheckBox } from "@mui/icons-material";
 import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
@@ -30,7 +36,8 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const VerifyEmailStep = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
-
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [agreementChecked, setAgreementChecked] = useState(
     localStorage.getItem("dev_mode") ? true : false
   );
@@ -261,10 +268,10 @@ const VerifyEmailStep = (props) => {
   console.log(isEmailValid);
   useEffect(() => {}, []);
   return (
-    <div>
+    <div style={{ margin: mobile ? "30px" : "" }}>
       <div className={styles.email_id_label}>
         {" "}
-        {isValidEmailSent ? "Enter the OTP" : "Enter your email id"}
+        {isValidEmailSent ? "Enter the OTP" : "Enter your email Id"}
       </div>
 
       <div className={styles.email_id_sub_label}>
@@ -275,9 +282,9 @@ const VerifyEmailStep = (props) => {
       <div className={styles.inputs}>
         <TextField
           fullWidth
-          placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
+          placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Email"}
           id="email_id_for_login"
-          label={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
+          label={isValidEmailSent ? "Enter 6 digit OTP" : "Email"}
           variant="outlined"
           value={isValidEmailSent ? otp : emailId}
           onChange={(e) =>
@@ -295,7 +302,7 @@ const VerifyEmailStep = (props) => {
             if (e.key == " ") {
               e.preventDefault();
             } else if (e.key == "Enter") {
-              if (!isValidEmailSent && emailId) {
+              if (!isValidEmailSent && emailId && agreementChecked) {
                 handleSubmit("email");
               } else if (isValidEmailSent && otp) {
                 handleSubmit("otp");
@@ -309,20 +316,28 @@ const VerifyEmailStep = (props) => {
       {agreement && (
         <div className={styles.agreement}>
           <Checkbox
+            id="login-agree-terms-and-condition-check-box"
             checked={agreementChecked}
             onClick={(e) => setAgreementChecked(e.target.checked)}
             className={styles.checkbox}
           />{" "}
           <span className={styles.agreement_line}>
             {" "}
-            Agree to the Farmstack terms and privacy policy.
+            Agree to the{" "}
+            <span
+              className={styles.termsAndConditionClass}
+              onClick={() => history.push("/home/legal")}
+            >
+              terms and privacy
+            </span>{" "}
+            policies.
           </span>
         </div>
       )}
       {timer && isValidEmailSent && (
         <div
           style={{
-            width: "564px",
+            maxWidth: "564px",
             margin: "auto",
             display: "flex",
             justifyContent: "right",
@@ -371,6 +386,7 @@ const VerifyEmailStep = (props) => {
               : ""
           }
           className={global_style.primary_button + " " + styles.send_otp}
+          id="send-otp-btn"
         >
           {" "}
           {!isValidEmailSent ? "Send OTP" : "Verify"}

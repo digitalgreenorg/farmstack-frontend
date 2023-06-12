@@ -2,18 +2,22 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   Button,
-  Card,
   Divider,
   IconButton,
   InputAdornment,
   TextField,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { useHistory } from "react-router-dom";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import {
   GetErrorHandlingRoute,
   getOrgLocal,
   getTokenLocal,
   getUserLocal,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -32,6 +36,9 @@ import { City, Country, State } from "country-state-city";
 import EmptyFile from "./TabComponents/EmptyFile";
 import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
 import FilterDate from "../Filter/FilterDate";
+import useDebounce from "../../hooks/useDebounce";
+import moment from "moment";
+import { Col, Row } from "react-bootstrap";
 
 const cardSx = {
   maxWidth: 368,
@@ -44,11 +51,18 @@ const cardSx = {
   },
 };
 const DataSets = (props) => {
-  const { user } = props;
+  const { user, breadcrumbFromRoute } = props;
+  console.log("breadcrumbFromRoute", breadcrumbFromRoute);
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+
   const [state, setState] = useState([0, 1, 2, 3, 4, 5]);
-  const [searchDatasetsName, setSearchDatasetsName] = useState();
+  const [searchDatasetsName, setSearchDatasetsName] = useState(null);
+  const debouncedSearchValue = useDebounce(searchDatasetsName, 1000);
   const [filterState, setFilterState] = useState({});
   const [datasetList, setDatasetList] = useState([]);
   const [filteredDatasetList, setFilteredDatasetList] = useState([]);
@@ -64,6 +78,9 @@ const DataSets = (props) => {
   const [memberDatasetUrl, setMemberDatasetUrl] = useState(
     UrlConstant.base_url + UrlConstant.dataset_participant_list
   );
+  const [guestUserDatasetUrl, setGuestUserDatasetUrl] = useState("");
+
+  const [updater, setUpdate] = useState(0);
 
   // TabIndex
   const [value, setValue] = useState(0);
@@ -94,7 +111,6 @@ const DataSets = (props) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [dates, setDates] = useState([{ fromDate: null, toDate: null }]);
-
   const resetUrls = () => {
     adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
     memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
@@ -112,112 +128,15 @@ const DataSets = (props) => {
     }
   };
 
-  const handleSearch = (name, isLoadMore) => {
-    setSearchDatasetsName(name.trim());
-    if (name.trim().length > 2) {
-      let data = {};
-      data["user_id"] = getUserLocal();
-      data["org_id"] = getOrgLocal();
-      data["name__icontains"] = name.trim();
-      if (value === 0) {
-        data["others"] = false;
-      } else {
-        data["others"] = true;
-      }
-      setFilterState(data);
-      let guestUsetFilterUrl =
-        UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
-      let isAuthorization = user == "guest" ? false : true;
-      if (value === 0) {
-        HTTPService(
-          "POST",
-          user == "guest"
-            ? guestUsetFilterUrl
-            : !isLoadMore
-            ? searchUrl
-            : memberDatasetUrl
-            ? memberDatasetUrl
-            : searchUrl,
-          data,
-          false,
-          isAuthorization
-        )
-          .then((response) => {
-            if (response.data.next == null) {
-              setFilterState({});
-              setShowLoadMoreAdmin(false);
-            } else {
-              setDatasetUrl(response.data.next);
-              setShowLoadMoreAdmin(true);
-            }
-            let finalDataList = [];
-            if (isLoadMore) {
-              finalDataList = [
-                ...filteredDatasetList,
-                ...response.data.results,
-              ];
-            } else {
-              finalDataList = [...response.data.results];
-            }
-            console.log(finalDataList, "fdlist");
-            setFilteredDatasetList(finalDataList);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (value === 1) {
-        HTTPService(
-          "POST",
-
-          !isLoadMore
-            ? searchUrl
-            : memberDatasetUrl
-            ? memberDatasetUrl
-            : searchUrl,
-          data,
-          false,
-          true
-        )
-          .then((response) => {
-            if (response.data.next == null) {
-              setFilterState({});
-              setShowLoadMoreMember(false);
-            } else {
-              setMemberDatasetUrl(response.data.next);
-              setShowLoadMoreMember(true);
-            }
-            let finalDataList = [];
-            if (isLoadMore) {
-              finalDataList = [
-                ...filteredMemberDatasetList,
-                ...response.data.results,
-              ];
-            } else {
-              finalDataList = [...response.data.results];
-            }
-            setFilteredMemberDatasetList(finalDataList);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    } else {
-      setFilteredDatasetList([]);
-      setFilteredMemberDatasetList([]);
-      // if (value === 0) {
-      //   getDataSets(false);
-      // }
-      // if (value === 1) {
-      //   getOtherDataSets(false);
-      // }
-    }
-  };
-
   const clearFilter = () => {
     if (value === 0) {
+      setFilteredDatasetList([]);
+      setFilterState({});
       getDataSets(false);
     }
     if (value === 1) {
+      setFilteredMemberDatasetList();
+      setFilterState({});
       getOtherDataSets(false);
     }
   };
@@ -237,18 +156,35 @@ const DataSets = (props) => {
         setFilterState(payload);
       }
     } else {
-      payload = { ...filterState };
+      if (!Object.keys(filterState).length) {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
+        payload = { ...filterState };
+      }
     }
     let guestUrl = "";
     if (user == "guest") {
-      guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
+      if (!isLoadMore) {
+        guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
+      }
       payload = "";
-      // method = "GET";
+      if (isLoadMore) {
+        guestUrl = datasetUrl;
+      }
+      if (isLoadMore && !datasetUrl) {
+        return;
+      }
     }
+    // console.log(user, "user inside the microste");
+    let accessToken = user != "guest" ? getTokenLocal() : false;
 
-    // console.log("url",guestUrl)
-
-    let accessToken = getTokenLocal() ?? false;
     callLoader(true);
     HTTPService(
       method,
@@ -304,9 +240,20 @@ const DataSets = (props) => {
         setFilterState(payload);
       }
     } else {
-      payload = { ...filterState };
+      if (!Object.keys(filterState).length) {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = true;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
+        payload = { ...filterState };
+      }
     }
-    let accessToken = getTokenLocal() ?? false;
+    let accessToken = user !== "guest" ? getTokenLocal() : false;
     callLoader(true);
     HTTPService(
       "POST",
@@ -347,7 +294,98 @@ const DataSets = (props) => {
         }
       });
   };
+  const getUrl = (isLoadMore) => {
+    if (user === "guest") {
+      let guestUsetFilterUrl =
+        UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
+      return guestUsetFilterUrl;
+    } else {
+      if (!isLoadMore) {
+        return searchUrl;
+      } else {
+        return value === 0 ? datasetUrl : memberDatasetUrl;
+      }
+    }
+  };
+  const handleSearch = async (isLoadMore) => {
+    let searchText = searchDatasetsName;
+    searchText ? callLoader(true) : callLoader(false);
+    if (searchText?.length < 3 && searchText !== "") searchText = "";
+    let data = {};
+    setFilterState({});
+    data["user_id"] = getUserLocal();
+    data["org_id"] = getOrgLocal();
+    data["name__icontains"] = searchText;
+    if (isLoggedInUserCoSteward()) {
+      data["on_boarded_by"] = true;
+    }
+    if (value === 1) {
+      data["others"] = true;
+    } else {
+      data["others"] = false;
+    }
 
+    let accessToken = user !== "guest" ? getTokenLocal() : false;
+    if (user == "guest") {
+      data = {};
+      data["name__icontains"] = searchText;
+    }
+
+    await HTTPService("POST", getUrl(isLoadMore), data, false, accessToken)
+      .then((response) => {
+        callLoader(false);
+        if (response.data.next == null) {
+          if (value === 0) {
+            setShowLoadMoreAdmin(false);
+          } else {
+            setShowLoadMoreMember(false);
+          }
+          setFilterState({});
+        } else {
+          if (value === 0) {
+            setDatasetUrl(response.data.next);
+            searchText === "" && setFilterState({});
+            setShowLoadMoreAdmin(true);
+          } else {
+            setMemberDatasetUrl(response.data.next);
+            searchText === "" && setFilterState({});
+            setShowLoadMoreMember(true);
+          }
+        }
+        let finalDataList = [];
+        if (isLoadMore) {
+          if (value === 1) {
+            finalDataList = [...memberDatasetList, ...response.data.results];
+          } else {
+            finalDataList = [...datasetList, ...response.data.results];
+          }
+        } else {
+          finalDataList = [...response.data.results];
+        }
+        if (value === 1) {
+          setMemberDatasetList(finalDataList);
+        } else {
+          setDatasetList(finalDataList);
+        }
+        return;
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
   // filter-popovers handling
   const handleFilterClick = (type) => {
     if (type === "geography") {
@@ -365,6 +403,7 @@ const DataSets = (props) => {
   };
 
   const handleCheckBox = (keyName, value) => {
+    setUpdate((prev) => prev + 1);
     let tempCategories = { ...categorises };
     let tempJson = Object.keys(categorises);
     if (tempJson.includes(keyName)) {
@@ -386,27 +425,13 @@ const DataSets = (props) => {
     }
   };
 
-  const handleGeoCheckBox = (keyName) => {
-    let tempGeographies = [...geographies];
-    if (tempGeographies.includes(keyName)) {
-      const index = tempGeographies.indexOf(keyName);
-      if (index > -1) {
-        tempGeographies.splice(index, 1);
-        setGeographies(tempGeographies);
-      }
-    } else {
-      tempGeographies.push(keyName);
-      setGeographies((prev) => [...prev, keyName]);
-    }
-  };
-
   const getAllCategoryAndSubCategory = () => {
     let url =
       user == "guest"
         ? UrlConstant.base_url + UrlConstant.microsite_category
         : UrlConstant.base_url + UrlConstant.add_category_edit_category;
     let isAuthorization = user == "guest" ? false : true;
-    let checkforAccess = getTokenLocal() ?? false;
+    let checkforAccess = user !== "guest" ? getTokenLocal() : false;
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
         let prepareArr = [];
@@ -422,11 +447,18 @@ const DataSets = (props) => {
           if (keys.length) {
             let tCategory = categorises?.[keys];
             prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
+              console.log(
+                tCategory?.includes(res),
+                tCategory,
+                res,
+                "tCategory?.includes(res)"
+              );
               return (
                 <CheckBoxWithText
                   key={ind}
                   text={res}
-                  checked={tCategory?.includes(res)}
+                  keyIndex={ind}
+                  checked={tCategory?.includes(res) ? true : false}
                   categoryKeyName={keys[0]}
                   keyName={res}
                   handleCheckBox={handleCheckBox}
@@ -444,12 +476,27 @@ const DataSets = (props) => {
         });
         setAllCategories(tempCategories);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
   const getAllGeoGraphies = () => {
+    setStates([]);
+    setCities([]);
     setCountries(Country.getAllCountries());
     if (geography?.country) {
       setStates(State?.getStatesOfCountry(geography?.country?.isoCode));
@@ -464,11 +511,20 @@ const DataSets = (props) => {
     }
   };
 
+  const handleClickAway = (e) => {
+    console.log("tri");
+    // e.stopPropagation();
+    setShowFilter(false);
+  };
+
   const callApply = (isLoadMore) => {
     let payload = {};
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
     payload["others"] = value === 0 ? false : true;
+    if (user == "guest") {
+      payload = {};
+    }
     if (
       geography?.country?.name ||
       geography?.state?.name ||
@@ -501,6 +557,7 @@ const DataSets = (props) => {
     let guestUsetFilterUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
     let isAuthorization = user == "guest" ? false : true;
+
     callLoader(true);
     HTTPService(
       "POST",
@@ -548,19 +605,82 @@ const DataSets = (props) => {
           setMemberDatasetList(finalDataList);
         }
       })
-      .catch((err) => {
+      .catch(async (e) => {
         callLoader(false);
-        console.log(err);
+        console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
+  };
+
+  const handleFromDate = (value) => {
+    console.log("handleFromDate");
+    let currentDate = new Date();
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+    if (
+      moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
+      moment(value).isSameOrBefore(currentDate)
+    ) {
+      let tempDates = [...dates];
+      tempDates[0].fromDate = value;
+      setDates(tempDates);
+      setFromDate(value);
+      // setUpdate((prev) => prev + 1);
+      // setFromDateError(false);
+    } else {
+      // setFromDateError(true);
+      console.log("inside from date");
+      let tempDates = [...dates];
+      tempDates[0].fromDate = null;
+      setDates(tempDates);
+      // setUpdate((prev) => prev + 1);
+      handleToDate("");
+      setFromDate("");
+    }
+    // setUpdate((prev) => prev + 1);
+  };
+
+  const handleToDate = (value) => {
+    console.log("called", dates);
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+    if (
+      moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
+      moment(value).isSameOrAfter(fromDate) &&
+      moment(value).isSameOrBefore(new Date())
+    ) {
+      let tempDates = [...dates];
+      tempDates[0].toDate = value;
+      setDates(tempDates);
+      setToDate(value);
+      // setUpdate((prev) => prev + 1);
+      // setToDateError(false);
+    } else {
+      let tempDates = [...dates];
+      console.log(tempDates, "tempDates");
+      tempDates[0].toDate = null;
+      setDates(tempDates);
+      // setUpdate((prev) => prev + 1);
+      // setToDateError(true);
+      setToDate("");
+    }
   };
 
   useEffect(() => {
     if (user === "guest") {
       getDataSets(false);
     }
-    // if (user !== "guest" && value === 1) {
-    // getOtherDataSets(false);
-    // }
+    goToTop(0);
   }, []);
 
   useEffect(() => {
@@ -568,31 +688,90 @@ const DataSets = (props) => {
   }, [value]);
 
   useEffect(() => {
+    if (debouncedSearchValue !== null) {
+      handleSearch();
+    }
+  }, [debouncedSearchValue]);
+  useEffect(() => {
     getAllGeoGraphies();
+    console.log("called useEffect");
   }, [geography, type]);
 
   useEffect(() => {
     getAllCategoryAndSubCategory();
   }, [categorises, type]);
-  console.log(datasetList, "dsets");
+
+  useEffect(() => {
+    console.log("Updator");
+    callApply();
+  }, [updater]);
+
   return (
     <>
-      <Box sx={{ padding: "40px", maxWidth: "100%" }}>
+      <Box
+        sx={{
+          maxWidth: "100%",
+          marginLeft: mobile || tablet ? "30px" : "144px",
+          marginRight: mobile || tablet ? "30px" : "144px",
+        }}
+      >
+        <Row>
+          <Col>
+            <div className="text-left mt-50">
+              <span
+                className="add_light_text cursor-pointer breadcrumbItem"
+                onClick={() => {
+                  breadcrumbFromRoute == "Home"
+                    ? history.push("/home")
+                    : history.push("/datahub/new_datasets");
+                }}
+              >
+                {breadcrumbFromRoute ?? ""}
+              </span>
+              <span className="add_light_text ml-16">
+                {breadcrumbFromRoute ? (
+                  <ArrowForwardIosIcon
+                    sx={{ fontSize: "14px", fill: "#00ab55" }}
+                  />
+                ) : (
+                  ""
+                )}
+              </span>
+              <span className="add_light_text ml-16 fw600">
+                {!breadcrumbFromRoute
+                  ? "Datasets"
+                  : value == 0
+                  ? "My organisation datasets"
+                  : value == 1
+                  ? "Other organisation datasets"
+                  : value == 2
+                  ? "Request received"
+                  : ""}
+
+                {/* {isParticipantRequest ? "" : ""} */}
+              </span>
+            </div>
+          </Col>
+        </Row>
         {/* section-1 */}
-        <div className="title">Datasets Explorer</div>
+        <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
+          Datasets Explorer
+        </div>
         <div className="d-flex justify-content-center">
-          <div className="description">
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
-            Unleash the power of data-driven agriculture - your ultimate dataset
-            explorer for smarter decisions!
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+          <div className={mobile ? "description_sm" : "description"}>
+            <b style={{ fontWeight: "bold" }}></b>
+            Unleash the power of data-driven agriculture - Your ultimate dataset
+            explorer for smarter decisions.
+            <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
         <TextField
+          id="dataset-search-input-id"
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor: "#919EAB",
+                borderRadius: "30px",
               },
               "&:hover fieldset": {
                 borderColor: "#919EAB",
@@ -602,10 +781,16 @@ const DataSets = (props) => {
               },
             },
           }}
-          className="input_field"
+          className={
+            mobile
+              ? "input_field_sm"
+              : tablet
+              ? "input_field_md"
+              : "input_field"
+          }
           placeholder="Search dataset.."
           value={searchDatasetsName}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => setSearchDatasetsName(e.target.value.trim())}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -619,123 +804,263 @@ const DataSets = (props) => {
             ),
           }}
         />
-        <div className="filter">
+        {/* <ClickAwayListener onClickAway={handleClickAway}> */}
+        <div>
           <div
             className={
-              showFilter && type === "geography"
-                ? "d-flex align-items-center filter_text_container_active"
-                : "d-flex align-items-center filter_text_container"
+              mobile
+                ? "filter_sm"
+                : tablet
+                ? "filter_md"
+                : miniLaptop
+                ? "filter_slg"
+                : "filter"
             }
-            onClick={() => handleFilterClick("geography")}
           >
-            <img
-              src={require("../../Assets/Img/geography_new.svg")}
-              alt="geography"
-            />
-            <span className="filter_text">
-              Geography <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
-            </span>
+            <Box className="text-right">
+              {mobile ? (
+                <Box
+                  sx={{
+                    fontFamily: "Montserrat",
+                    fontWeight: 700,
+                    fontSize: "12px",
+                    height: "48px",
+                    border: "none",
+                    color: "#00AB55",
+                    textTransform: "none",
+                    "&:hover": {
+                      background: "none",
+                      border: "none",
+                    },
+                  }}
+                  onClick={() => {
+                    setType("");
+                    setCategorises([]);
+                    setGeographies([]);
+                    setDates([{ fromDate: null, toDate: null }]);
+                    setFromDate("");
+                    setToDate("");
+                    setSearchDatasetsName("");
+                    clearFilter();
+                    setFilterState({});
+                  }}
+                  id="clear-all-in-dataset-filter-id"
+                >
+                  Clear all
+                </Box>
+              ) : (
+                <></>
+              )}
+            </Box>
+            <Box
+              className={`d-flex ${
+                mobile || tablet ? "justify-content-center" : ""
+              }`}
+            >
+              <div
+                className={
+                  showFilter && type === "geography"
+                    ? "d-flex align-items-center filter_text_container_active"
+                    : "d-flex align-items-center filter_text_container"
+                }
+                onClick={() => handleFilterClick("geography")}
+                id="dataset-filter-by-geography-id"
+              >
+                <img
+                  src={require("../../Assets/Img/geography_new.svg")}
+                  alt="geography"
+                  style={mobile ? { height: "12px" } : {}}
+                />
+                <span
+                  className={`${
+                    mobile || tablet ? "filter_text_md" : "filter_text"
+                  } 
+                ${mobile ? "ft-12" : ""}
+                `}
+                >
+                  Geography{" "}
+                  {mobile ? (
+                    <></>
+                  ) : (
+                    <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+                  )}
+                </span>
+              </div>
+              <div
+                className={
+                  showFilter && type === "categories"
+                    ? "d-flex align-items-center filter_text_container_active"
+                    : "d-flex align-items-center filter_text_container"
+                }
+                onClick={() => handleFilterClick("categories")}
+                id="dataset-filter-by-categories-id"
+              >
+                <img
+                  src={require("../../Assets/Img/crop_new.svg")}
+                  alt="crop"
+                  style={mobile ? { height: "12px" } : {}}
+                />
+                <span
+                  className={`${
+                    mobile || tablet ? "filter_text_md" : "filter_text"
+                  } 
+                ${mobile ? "ft-12" : ""}
+                `}
+                >
+                  Categories{" "}
+                  {mobile ? (
+                    <></>
+                  ) : (
+                    <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+                  )}
+                </span>
+              </div>
+              <div
+                className={
+                  showFilter && type === "date"
+                    ? "d-flex align-items-center filter_text_container_active"
+                    : "d-flex align-items-center filter_text_container"
+                }
+                onClick={() => handleFilterClick("date")}
+                id="dataset-filter-by-date-id"
+              >
+                <img
+                  src={require("../../Assets/Img/by_date.svg")}
+                  alt="by date"
+                  style={mobile ? { height: "12px" } : {}}
+                />
+                <span
+                  className={`${
+                    mobile || tablet ? "filter_text_md" : "filter_text"
+                  } 
+                ${mobile ? "ft-12" : ""}
+                `}
+                >
+                  By Date{" "}
+                  {mobile ? (
+                    <></>
+                  ) : (
+                    <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+                  )}
+                </span>
+              </div>
+              {mobile ? (
+                <></>
+              ) : (
+                <div
+                  className="d-flex align-items-center filter_text_container"
+                  onClick={() => {
+                    setType("");
+                    setCategorises([]);
+                    setGeographies([]);
+                    setDates([{ fromDate: null, toDate: null }]);
+                    setFromDate("");
+                    setToDate("");
+                    setSearchDatasetsName("");
+                    clearFilter();
+                    setFilterState({});
+                  }}
+                  id="dataset-filter-clear-all-id"
+                >
+                  <img
+                    src={require("../../Assets/Img/clear_all.svg")}
+                    alt="clear all"
+                  />
+                  <span
+                    className={
+                      mobile || tablet ? "filter_text_md" : "filter_text"
+                    }
+                  >
+                    Clear all
+                  </span>
+                </div>
+              )}
+            </Box>
           </div>
-
-          <div
-            className={
-              showFilter && type === "categories"
-                ? "d-flex align-items-center filter_text_container_active"
-                : "d-flex align-items-center filter_text_container"
-            }
-            onClick={() => handleFilterClick("categories")}
-          >
-            <img src={require("../../Assets/Img/crop_new.svg")} alt="crop" />
-            <span className="filter_text">
-              Categories <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
-            </span>
-          </div>
-
-          <div
-            className={
-              showFilter && type === "date"
-                ? "d-flex align-items-center filter_text_container_active"
-                : "d-flex align-items-center filter_text_container"
-            }
-            onClick={() => handleFilterClick("date")}
-          >
-            <img src={require("../../Assets/Img/by_date.svg")} alt="by date" />
-            <span className="filter_text">
-              By Date <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
-            </span>
-          </div>
-          <div
-            className="d-flex align-items-center filter_text_container"
-            onClick={() => {
-              setType("");
-              setCategorises([]);
-              setGeographies([]);
-              setDates([{ fromDate: null, toDate: null }]);
-              setFromDate("");
-              setToDate("");
-              setSearchDatasetsName("");
-              clearFilter();
-              setFilterState({});
-            }}
-          >
-            <img
-              src={require("../../Assets/Img/clear_all.svg")}
-              alt="clear all"
-            />
-            <span className="filter_text">Clear all</span>
-          </div>
-        </div>
-        {showFilter ? (
-          type === "geography" ? (
-            <Filter
-              type={type}
-              dataType={"component"}
-              geography={geography}
-              setGeography={setGeography}
-              geographies={geographies}
-              setGeographies={setGeographies}
-              countries={countries}
-              states={states}
-              cities={cities}
-              showFilter={showFilter}
-              setShowFilter={setShowFilter}
-              callApply={callApply}
-            />
-          ) : type === "categories" ? (
-            <Filter
-              type={type}
-              dataType={"list"}
-              content={allCategories}
-              showFilter={showFilter}
-              setShowFilter={setShowFilter}
-              callApply={callApply}
-            />
+          {/* <div style={{ border: "1px solid" }}> */}
+          {showFilter ? (
+            type === "geography" ? (
+              <Filter
+                setUpdate={setUpdate}
+                handleClickAway={handleClickAway}
+                type={type}
+                dataType={"component"}
+                geography={geography}
+                setGeography={setGeography}
+                geographies={geographies}
+                setGeographies={setGeographies}
+                countries={countries}
+                states={states}
+                cities={cities}
+                showFilter={showFilter}
+                setShowFilter={setShowFilter}
+                callApply={callApply}
+              />
+            ) : type === "categories" ? (
+              <Filter
+                setUpdate={setUpdate}
+                handleClickAway={handleClickAway}
+                categorises={categorises}
+                type={type}
+                dataType={"list"}
+                content={allCategories}
+                showFilter={showFilter}
+                setShowFilter={setShowFilter}
+                callApply={callApply}
+              />
+            ) : type === "date" ? (
+              <FilterDate
+                setUpdate={setUpdate}
+                handleClickAway={handleClickAway}
+                type={type}
+                dataType={"date"}
+                fromDate={fromDate}
+                setFromDate={setFromDate}
+                toDate={toDate}
+                setToDate={setToDate}
+                dates={dates}
+                setDates={setDates}
+                showFilter={showFilter}
+                setShowFilter={setShowFilter}
+                callApply={callApply}
+              />
+            ) : (
+              <></>
+            )
           ) : (
-            <FilterDate
-              type={type}
-              dataType={"date"}
-              fromDate={fromDate}
-              setFromDate={setFromDate}
-              toDate={toDate}
-              setToDate={setToDate}
-              dates={dates}
-              setDates={setDates}
-              showFilter={showFilter}
-              setShowFilter={setShowFilter}
-              callApply={callApply}
-            />
-          )
-        ) : (
-          <></>
-        )}
+            <></>
+          )}
+        </div>
+
+        {/* </div> */}
+        {/* </ClickAwayListener> */}
+
         {geographies?.length ||
         Object.keys(categorises).length ||
         dates[0]?.fromDate ||
         dates[0]?.toDate ? (
           <ShowFilterChips
+            getAllCategoryAndSubCategory={getAllCategoryAndSubCategory}
             geographies={geographies}
             categorises={categorises}
             dates={dates}
+            // date setters
+
+            handleFromDate={handleFromDate}
+            handleToDate={handleToDate}
+            setFromDate={setFromDate}
+            setToDate={setToDate}
+            setDates={setDates}
+            //geography setters
+            geography={geography}
+            setGeography={setGeography}
+            setGeographies={setGeographies}
+            //category setters
+            setAllCategories={setAllCategories}
+            setCategorises={setCategorises}
+            handleCheckBox={handleCheckBox}
+            callApply={callApply}
+            setUpdate={setUpdate}
           />
         ) : (
           <></>
@@ -786,14 +1111,8 @@ const DataSets = (props) => {
           state={state}
           value={value}
           setValue={setValue}
-          datasetList={
-            filteredDatasetList?.length ? filteredDatasetList : datasetList
-          }
-          memberDatasetList={
-            filteredMemberDatasetList?.length
-              ? filteredMemberDatasetList
-              : memberDatasetList
-          }
+          datasetList={datasetList}
+          memberDatasetList={memberDatasetList}
           filteredDatasetList={filteredDatasetList}
           filteredMemberDatasetList={filteredMemberDatasetList}
           getDataSets={getDataSets}

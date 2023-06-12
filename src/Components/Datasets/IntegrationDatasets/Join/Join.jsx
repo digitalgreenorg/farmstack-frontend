@@ -71,10 +71,10 @@ const Join = (props) => {
     generateData,
   } = props;
   const [joinTypeArr, setJoinTypeArr] = useState([
-    { name: "left", black: leftB, green: leftG },
-    { name: "right", black: rightB, green: rightG },
-    { name: "inner", black: innerB, green: innerG },
-    { name: "outer", black: fullB, green: fullG },
+    { name: "left", black: leftB, green: leftG, id: "leftjoin" },
+    { name: "right", black: rightB, green: rightG, id: "rightjoin" },
+    { name: "inner", black: innerB, green: innerG, id: "innerjoin" },
+    { name: "outer", black: fullB, green: fullG, id: "outerjoin" },
   ]);
 
   const handleChangeJoin = (e, ind, source) => {
@@ -119,6 +119,28 @@ const Join = (props) => {
   const getJoinFieldArray = () => {
     return [...Array(each?.noOfjoin).keys()];
   };
+  const clearJoinFields = () => {
+    let arr = [...completeData];
+    let obj = { ...each };
+    obj["noOfjoin"] = 1;
+
+    //clear join typ
+    obj["type"] = "";
+    arr[index] = obj;
+
+    // clear left join field
+    obj["left_on"] = [];
+    arr[index] = { ...obj };
+
+    // clear right join field
+    obj["right_on"] = [];
+
+    console.log(obj);
+    arr[index] = { ...obj };
+
+    setCompleteData([...arr]);
+    setJoinType("");
+  };
 
   return (
     index == indexShow && (
@@ -131,6 +153,7 @@ const Join = (props) => {
       >
         <div style={{ display: "flex" }}>
           <Segmented
+            id="join-by-connector"
             style={{ flex: 3.5 }}
             value={value}
             onChange={setValue}
@@ -164,6 +187,27 @@ const Join = (props) => {
               {value == "Join by" ? "Join" : "Integrated data preview"}
             </Box>
             <Box>
+              <Button
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                  borderRadius: "8px",
+                  color: "#00AB55",
+                  textTransform: "none",
+                  marginRight: "25px",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                  },
+                }}
+                variant="outlined"
+                id={`join-condition-clear-btn`}
+                onClick={() => clearJoinFields()}
+              >
+                Clear
+              </Button>
               <OutlinedButton
                 text={
                   <>
@@ -174,6 +218,7 @@ const Join = (props) => {
                 fontWeight={"700"}
                 fontSize={"13px"}
                 handleClick={handleMoreJoinFields}
+                id={`join-condition-join-more-btn`}
               />
             </Box>
           </Box>
@@ -193,7 +238,7 @@ const Join = (props) => {
                     {/* {console.log(each)} */}
                     <Select
                       labelId="primary_col_label_for_join"
-                      id="primary_col_select_for_join"
+                      id={`primary_col_${ind}_select_for_join`}
                       required
                       value={
                         each?.left_on?.length > 0 ? each?.left_on[ind] : ""
@@ -206,7 +251,11 @@ const Join = (props) => {
                       {index == 0 &&
                         each.columnsSelected?.map((eachFile, ind_) => {
                           return (
-                            <MenuItem key={ind_} value={eachFile + ""}>
+                            <MenuItem
+                              key={ind_}
+                              value={eachFile + ""}
+                              id={`file-${ind_}-columns-left`}
+                            >
                               {eachFile}
                             </MenuItem>
                           );
@@ -215,7 +264,11 @@ const Join = (props) => {
                         completeData[index - 1].next_left?.map(
                           (eachFile, ind_) => {
                             return (
-                              <MenuItem key={ind_} value={eachFile + ""}>
+                              <MenuItem
+                                key={ind_}
+                                value={eachFile + ""}
+                                id={`file-${ind_}-columns-left`}
+                              >
                                 {eachFile}
                               </MenuItem>
                             );
@@ -243,7 +296,9 @@ const Join = (props) => {
                       id="secondary_col_select_for_join"
                       required
                       sx={selectStyle}
-                      value={each?.right_on ? each?.right_on[ind] : ""}
+                      value={
+                        each?.right_on?.length > 0 ? each?.right_on[ind] : ""
+                      }
                       onChange={(e) => handleChangeJoin(e, ind, "join2")}
                       label="Join column (right)"
                       // multiple
@@ -256,7 +311,11 @@ const Join = (props) => {
                             )
                           ) {
                             return (
-                              <MenuItem key={ind_} value={eachFile + ""}>
+                              <MenuItem
+                                key={ind_}
+                                value={eachFile + ""}
+                                id={`file-${ind_}-columns-right`}
+                              >
                                 {eachFile}
                               </MenuItem>
                             );
@@ -284,6 +343,7 @@ const Join = (props) => {
                 {joinTypeArr.map((eachT, ind) => {
                   return (
                     <span
+                      id={eachT.id}
                       key={ind}
                       onClick={() => selectThisType(eachT.name)}
                       className={
@@ -294,7 +354,7 @@ const Join = (props) => {
                     >
                       <div className={styles.selectedTypeMainBox}>
                         {" "}
-                        {each.type == eachT.name && (
+                        {each.type == eachT.name && eachT.id && (
                           <img
                             style={{ marginRight: "4px" }}
                             height={"20px"}
@@ -318,9 +378,11 @@ const Join = (props) => {
                             each.type == eachT.name ? eachT.green : eachT.black
                           }
                           alt={eachT.name}
+                          id={eachT.id}
                         />
                       </div>
                       <span
+                        id={eachT.id}
                         className={
                           each.type == eachT.name
                             ? styles.SlabelTypeJoin
@@ -353,7 +415,7 @@ const Join = (props) => {
           {value == "Join by" ? (
             <>
               <Button
-                id="generate_button"
+                id="generate_button_cancel"
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: 700,
@@ -376,7 +438,7 @@ const Join = (props) => {
                 Cancel
               </Button>
               <Button
-                id="generate_button"
+                id="generate_button_apply"
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: 700,
@@ -397,13 +459,16 @@ const Join = (props) => {
                   each?.right_on?.length &&
                   connectorData.name &&
                   connectorData.desc &&
-                  each?.left_on?.length > 0
+                  each?.left_on?.length > 0 &&
+                  completeData[index + 1]?.columnsSelected?.length > 0 &&
+                  each?.columnsSelected?.length > 0
                     ? false
                     : true
                 }
                 onClick={(e) => {
                   generateData(index, "integrate");
                 }}
+                variant="contained"
               >
                 Apply
               </Button>
@@ -425,7 +490,7 @@ const Join = (props) => {
                   color: "#fffff",
                 },
               }}
-              id="generate_button"
+              id="download_integrated_data_button"
               disabled={
                 each.type &&
                 each?.right_on?.length > 0 &&

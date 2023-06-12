@@ -17,6 +17,7 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
 import { getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const UsagePolicy = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -158,12 +159,18 @@ const UsagePolicy = (props) => {
       >
         Usage policy
       </Typography>
+      <Typography
+        className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+      >
+        {" "}
+        Define access limitations and permissions for your dataset.{" "}
+      </Typography>
       <Box className="text-left mt-30">
         <FormControl fullWidth sx={{ width: "368px" }}>
           <InputLabel>File name</InputLabel>
           <Select
             labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            id="usege-policy-select-file"
             value={file}
             onChange={(e) => setFile(e.target.value)}
             sx={{
@@ -183,9 +190,13 @@ const UsagePolicy = (props) => {
           >
             {files &&
               files?.length &&
-              files?.map((item) => {
+              files?.map((item, index) => {
                 return (
-                  <MenuItem key={item?.id} value={item?.id}>
+                  <MenuItem
+                    key={item?.id}
+                    value={item?.id}
+                    id={`usage_policy-file-name-${index}`}
+                  >
                     {item?.label}
                   </MenuItem>
                 );
@@ -217,6 +228,7 @@ const UsagePolicy = (props) => {
               value={"publicChecked"}
               control={
                 <Radio
+                  id="usege-policy-pulic-dataset-checkbox"
                   onClick={(e) => handleClick(e, "public")}
                   checked={file && selectedValue === "public"}
                   disabled={file ? false : true}
@@ -280,6 +292,7 @@ const UsagePolicy = (props) => {
               value={"isRegisteredCheched"}
               control={
                 <Radio
+                  id="usege-policy-register-user-dataset-checkbox"
                   onClick={(e) => handleClick(e, "registered")}
                   value="registered"
                   checked={file && selectedValue === "registered"}
@@ -340,6 +353,7 @@ const UsagePolicy = (props) => {
             handleCheckBox={handleCheckBox}
             isDisabled={selectedValue === "registered" ? false : true}
             isCustomFont={true}
+            keyIndex={0}
           />
         </Box>
         <Box sx={{ marginLeft: "107px" }}>
@@ -352,6 +366,7 @@ const UsagePolicy = (props) => {
             handleCheckBox={handleCheckBox}
             isDisabled={selectedValue === "registered" ? false : true}
             isCustomFont={true}
+            keyIndex={1}
           />
         </Box>
         {/* <Box sx={{ marginLeft: '143px' }}>
@@ -426,8 +441,10 @@ const UsagePolicy = (props) => {
                 color: "#fffff",
               },
             }}
+            variant="contained"
             disabled={file ? false : true}
             onClick={() => submitPolicy()}
+            id={`usege-policy-apply-btn`}
           >
             Apply
           </Button>

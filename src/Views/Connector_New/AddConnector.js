@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Box, Divider, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import SelectConnector from "./SelectConnector";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -24,6 +31,7 @@ import Preview from "../../Components/Datasets/IntegrationDatasets/Preview/Previ
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import RegexConstants from "../../Constants/RegexConstants";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 const textFieldStyle = {
   borderRadius: "8px",
   "& .MuiOutlinedInput-root": {
@@ -41,6 +49,9 @@ const textFieldStyle = {
 const AddConnector = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [connectorName, setConnectorName] = useState("");
   const [connectorDescription, setConnectorDescription] = useState("");
   const [organisationName, setOrganisationName] = useState();
@@ -244,8 +255,21 @@ const AddConnector = (props) => {
           setTemplate({ ...template, dataset_list: [...res.data] });
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(async (e) => {
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+        console.log(e);
       });
   };
   const resetAll = (main, connector, join, goback, func1, func2) => {
@@ -497,6 +521,8 @@ const AddConnector = (props) => {
         maps: payload,
       };
       if (props.isEditModeOn) {
+        if (props.isEditModeOn)
+          finalPayload["integrated_file"] = integratedFilePath;
         url =
           UrlConstant.base_url +
           UrlConstant.joining_the_table +
@@ -567,6 +593,9 @@ const AddConnector = (props) => {
           setNoOfRecords(
             res?.data?.no_of_records ? res?.data?.no_of_records : 0
           );
+          if (res?.data?.no_of_records == 0) {
+            callToast("No records matched.", "info", true);
+          }
 
           setFinalDatasetAfterIntegration([...res.data?.data?.data]);
           let allKeys =
@@ -654,11 +683,20 @@ const AddConnector = (props) => {
 
         // goToTop(2000)
       })
-      .catch((err) => {
+      .catch(async (err) => {
         callLoader(false);
-        callToast("Something went wrong!", "error", true);
+        let error = await GetErrorHandlingRoute(err);
+        console.log("error in integration", err, error);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
+        } else if (err?.response?.status === 400) {
+          if (err?.response?.data?.name) {
+            setErrorConnectorName(err?.response?.data?.name);
+          } else if (err?.response?.data?.description) {
+            setErrorConnectorDesc(err?.response?.data?.description);
+          } else {
+            callToast(error.message ?? "Something went wrong!", "error", true);
+          }
         } else {
           if (condition == "integrate") {
             setIsAllConditionForSaveMet(false);
@@ -687,10 +725,9 @@ const AddConnector = (props) => {
   };
   console.log(finalDatasetAfterIntegration);
   const handleChange = (e) => {
-    console.log(e.target.value);
     let value = e.target.name;
     if (value == "name") {
-      if (e.target.value && connectorData.name) {
+      if (e.target.value.trim()) {
         setIsConditionForConnectorDataForSaveMet(true);
         setIsAllConditionForSaveMet(true);
       } else {
@@ -709,12 +746,12 @@ const AddConnector = (props) => {
           })
         : e.preventDefault();
     } else {
-      if (e.target.value && connectorData.desc) {
+      if (e.target.value.trim()) {
         setIsConditionForConnectorDataForSaveMet(true);
-        // setIsAllConditionForSaveMet(true);
+        setIsAllConditionForSaveMet(true);
       } else {
         setIsConditionForConnectorDataForSaveMet(false);
-        // setIsAllConditionForSaveMet(false);
+        setIsAllConditionForSaveMet(false);
       }
       setErrorConnectorDesc("");
       setConnectorData({
@@ -784,10 +821,15 @@ const AddConnector = (props) => {
     props.connectorIdForView,
     isDatasetIntegrationListModeOn,
   ]);
-  console.log(props);
+  console.log(completeData, "connector data");
   return (
     <Box>
-      <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
+      <Box
+        sx={{
+          marginLeft: mobile || tablet ? "30px" : "144px",
+          marginRight: mobile || tablet ? "30px" : "144px",
+        }}
+      >
         <div className="text-left mt-50">
           <span
             className="add_light_text cursor-pointer breadcrumbItem"
@@ -810,7 +852,13 @@ const AddConnector = (props) => {
             lineHeight: "40px",
           }}
         >
-          Create and integration connector
+          Create an integration connector
+        </Typography>
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          Seamlessly create an integration connector for efficient data
+          integration.
         </Typography>
         <TextField
           fullWidth
@@ -822,7 +870,11 @@ const AddConnector = (props) => {
           label="Connector name"
           value={connectorData.name}
           onChange={handleChange}
+          disabled={props.isEditModeOn ? true : false}
           inputProps={{ maxLength: 100 }}
+          id="connector-name"
+          error={errorConnectorName ? true : false}
+          helperText={errorConnectorName ? errorConnectorName : ""}
         />
         <TextField
           fullWidth
@@ -838,9 +890,15 @@ const AddConnector = (props) => {
           value={connectorData.desc}
           onChange={handleChange}
           inputProps={{ maxLength: 512 }}
+          id="connector-description"
+          error={errorConnectorDesc ? true : false}
+          helperText={errorConnectorDesc ? errorConnectorDesc : ""}
         />
         <SelectConnector
           text={"Select datasets for connector"}
+          subTitle={
+            "Choose the datasets to be integrated to create your ideal dataset."
+          }
           connectorName={connectorName}
           connectorDescription={connectorDescription}
           organisations={orgList}
@@ -874,6 +932,12 @@ const AddConnector = (props) => {
               }}
             >
               Integration Connector
+              <Typography
+                className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+              >
+                Customize your integration by selecting the columns of datasets
+                to join.
+              </Typography>
             </Typography>
             <Box>
               <IntegrationConnector

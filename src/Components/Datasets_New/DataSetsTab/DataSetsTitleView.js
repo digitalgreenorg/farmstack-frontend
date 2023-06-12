@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
+import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const DataSetsTitleView = ({
   title,
@@ -7,76 +8,92 @@ const DataSetsTitleView = ({
   setIsGrid,
   history,
   addDataset,
+  subTitle,
   user,
 }) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div className="d-flex justify-content-between">
-      <div className="bold_title">{title}</div>
-      <div className="d-flex align-items-center mt-50 mb-20">
-        <div
-          className="d-flex mr-30 cursor-pointer"
-          onClick={() => setIsGrid(false)}
-        >
-          <img
-            className="mr-7"
-            src={require(`../../../Assets/Img/${
-              isGrid ? "list_view_gray.svg" : "list_view_green.svg"
-            }`)}
-          />
-          <Typography
-            sx={{
-              color: !isGrid ? "#00AB55" : "#3D4A52",
-            }}
+      <div className="bold_title">{title}
+      <Typography className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`} > {subTitle} </Typography>
+
+      </div>
+      {mobile ? (
+        <></>
+      ) : (
+        <div className="d-flex align-items-center mt-50 mb-20">
+          <div
+            className="d-flex mr-30 cursor-pointer"
+            onClick={() => setIsGrid(false)}
+            id="dataset-list-view-id"
           >
-            List view
-          </Typography>
-        </div>
-        <div className="d-flex cursor-pointer" onClick={() => setIsGrid(true)}>
-          <img
-            className="mr-7"
-            src={require(`../../../Assets/Img/${
-              isGrid ? "grid_view_green.svg" : "grid_view_gray.svg"
-            }`)}
-          />
-          <Typography
-            sx={{
-              color: isGrid ? "#00AB55" : "#3D4A52",
-            }}
-          >
-            Grid view
-          </Typography>
-        </div>
-        {!isGrid &&
-        // user != "guest" &&
-        (title === "My organisation datasets" ||
-          title === "Co-steward datasets") ? (
-          <div className="d-flex">
-            <Button
-              onClick={() => history.push(addDataset())}
+            <img
+              className="mr-7"
+              src={require(`../../../Assets/Img/${
+                isGrid ? "list_view_gray.svg" : "list_view_green.svg"
+              }`)}
+            />
+            <Typography
               sx={{
-                fontFamily: "Montserrat !important",
-                fontWeight: 700,
-                fontSize: "15px",
-                width: "149px",
-                height: "48px",
-                border: "1px solid rgba(0, 171, 85, 0.48)",
-                borderRadius: "8px",
-                color: "#FFFFFF",
-                background: "#00AB55",
-                textTransform: "none",
-                marginLeft: "52px",
-                "&:hover": {
-                  background: "#00AB55",
-                },
+                color: !isGrid ? "#00AB55" : "#3D4A52",
               }}
             >
-              + New dataset
-            </Button>
+              List view
+            </Typography>
           </div>
-        ) : (
-          <></>
-        )}
-      </div>
+          <div
+            className="d-flex cursor-pointer"
+            onClick={() => setIsGrid(true)}
+            id="dataset-grid-view-id"
+          >
+            <img
+              className="mr-7"
+              src={require(`../../../Assets/Img/${
+                isGrid ? "grid_view_green.svg" : "grid_view_gray.svg"
+              }`)}
+            />
+            <Typography
+              sx={{
+                color: isGrid ? "#00AB55" : "#3D4A52",
+              }}
+            >
+              Grid view
+            </Typography>
+          </div>
+          {!isGrid &&
+          // user != "guest" &&
+          (title === "My organisation datasets" ||
+            title === "Co-steward datasets") ? (
+            <div className="d-flex">
+              <Button
+                onClick={() => history.push(addDataset())}
+                sx={{
+                  fontFamily: "Montserrat !important",
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  width: "149px",
+                  height: "48px",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                  borderRadius: "8px",
+                  color: "#FFFFFF",
+                  background: "#00AB55",
+                  textTransform: "none",
+                  marginLeft: "52px",
+                  "&:hover": {
+                    background: "#00AB55",
+                  },
+                }}
+                id="dataset-add-new-dataset"
+              >
+                + New dataset
+              </Button>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
+      )}
     </div>
   );
 };

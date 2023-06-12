@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ParticipantNavbar from "../Components/Navbar/ParticipantNavbar";
 import Home from "../Views/Role/Participant/home/Home";
 import {
@@ -7,8 +7,18 @@ import {
   Route,
   Redirect,
   withRouter,
+  useHistory,
 } from "react-router-dom";
-import { getTokenLocal, isLoggedInUserParticipant } from "../Utils/Common";
+import {
+  flushLocalstorage,
+  GetErrorHandlingRoute,
+  getRoleLocal,
+  getTokenLocal,
+  getUserLocal,
+  goToTop,
+  isLoggedInUserParticipant,
+  setRoleLocal,
+} from "../Utils/Common";
 import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
 import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
 import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
@@ -33,7 +43,7 @@ import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
 import FooterNew from "../Components/Footer/Footer_New";
-import { Divider } from "@mui/material";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 import DataSets from "../Components/Datasets_New/DataSets";
 import DataSetsView from "../Components/Datasets_New/DataSetsView";
@@ -41,15 +51,89 @@ import AddConnector from "../Views/Connector_New/AddConnector";
 import EditConnector from "../Views/Connector_New/EditConnector";
 import EditDataset from "../Components/Datasets_New/EditDataset";
 import Settings from "../Components/SettingsNew/Settings";
+import HTTPService from "../Services/HTTPService";
+import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import UrlConstant from "../Constants/UrlConstants";
+import DashboardNew from "../Views/Dashboard/DashboardNew";
 
 function Participant(props) {
-  return (
+  const [render, reRender] = useState(0);
+  const [verifyLocalData, setVerifyLocalData] = useState(false);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const history = useHistory();
+  const { callToast } = useContext(FarmStackContext);
+  let roleId = {
+    1: "datahub_admin",
+    3: "datahub_participant_root",
+    6: "datahub_co_steward",
+  };
+
+  const verifyUserDataOfLocal = () => {
+    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
+    let userId = getUserLocal();
+    let returnValue = false;
+    if (!userId) {
+      flushLocalstorage();
+      return;
+    }
+    let params = { user_id: userId };
+    HTTPService("GET", url, params, false, false, false)
+      .then(async (response) => {
+        console.log("response to verify local data in datahub", response);
+        if (!response?.data?.on_boarded) {
+          flushLocalstorage();
+          history.push("/login");
+          return;
+        }
+        let role = roleId[response?.data?.role_id];
+        let localRole = getRoleLocal();
+        // if (localRole != role) {
+        //   history.push("/login");
+        //   return;
+        // }
+        setRoleLocal(role);
+        setVerifyLocalData(true);
+        console.log(
+          "response to verify local data role in datahub",
+          getRoleLocal(),
+          isLoggedInUserParticipant()
+        );
+      })
+      .catch(async (e) => {
+        console.log("error to verify local data", e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("error", error);
+        if (error?.toast) {
+          callToast(
+            error?.message ?? "user login details are corrupted",
+            error?.status == 200 ? "success" : "error",
+            error?.toast
+          );
+        } else {
+          history.push(error?.path);
+        }
+      });
+  };
+
+  useEffect(() => {
+    verifyUserDataOfLocal();
+    goToTop(0);
+  }, []);
+  return verifyLocalData ? (
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
           {/* <ParticipantNavbar /> */}
-          <NavbarNew loginType={'participant'} />
-          <div className="minHeight67vhParticipantPage">
+          <NavbarNew loginType={"participant"} />
+          <div
+            className={
+              mobile
+                ? "minHeight67vhParticipantPage" + " " + "mt-70"
+                : "minHeight67vhParticipantPage"
+            }
+          >
+            <br />
             <Switch>
               <Route
                 exact
@@ -164,16 +248,18 @@ function Participant(props) {
                 path="/participant/dataset/view/:id"
                 component={ViewMetaDatasetDetails}
               />
+              <Route
+                exact
+                path="/participant/new_dashboard"
+                component={DashboardNew}
+              />
               {/* <Route
                 exact
                 path="/participant/connectors"
               >
                 <DatasetIntegration />
               </Route> */}
-              <Route
-                exact
-                path="/participant/connectors"
-              >
+              <Route exact path="/participant/connectors">
                 <Connectors />
               </Route>
               {/* <Route
@@ -182,7 +268,6 @@ function Participant(props) {
               >
               <ConnectorsList/>
               </Route> */}
-
             </Switch>
           </div>
           {/* <Footer /> */}
@@ -193,6 +278,8 @@ function Participant(props) {
         props.history.push("/login")
       )}
     </>
+  ) : (
+    <></>
   );
 }
 export default Participant;

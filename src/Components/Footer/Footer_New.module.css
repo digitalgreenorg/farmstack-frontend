@@ -5,12 +5,33 @@
   margin-top: 50px;
 }
 
+.footerContentMd {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.footerContentXl {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 50px;
+}
+
 .footerTitle {
   font-family: "Montserrat";
   font-weight: 600;
   font-size: 20px;
   line-height: 24px;
   color: #000000;
+}
+
+.footerLightTextOnly {
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+  /* cursor: pointer; */
 }
 
 .footerLightText {
@@ -37,6 +58,8 @@
   font-size: 16px;
   line-height: 20px;
   color: #0038ff;
+  word-wrap: break-word;
+  width: 240px;
 }
 
 .flexWidth {
@@ -51,7 +74,19 @@
 }
 
 .quickLinks:hover {
-  color: #00AB55;
+  color: #00ab55;
+}
+
+.ml63 {
+  margin-left: 63px;
+}
+
+.ml50 {
+  margin-left: 50px;
+}
+
+.w268 {
+  width: 268px;
 }
 
 @media only screen and (min-width: 600px) and (max-width: 900px) {

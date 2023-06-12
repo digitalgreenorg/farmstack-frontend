@@ -8,6 +8,7 @@ const CheckBoxWithText = ({
   isDisabled,
   keyName,
   keyIndex,
+  keyIndexPassed,
   categoryKeyName,
   fontSize,
 }) => {
@@ -18,7 +19,7 @@ const CheckBoxWithText = ({
   const handleKey = (keyName) => {
     if (keyName && categoryKeyName) {
       handleCheckBox(categoryKeyName, keyName);
-    } else if (keyName && keyIndex) {
+    } else if (keyName && keyIndexPassed) {
       handleCheckBox(keyName, keyIndex);
     } else {
       handleCheckBox(keyName);
@@ -29,6 +30,7 @@ const CheckBoxWithText = ({
     <Box sx={{ display: "flex", alignItems: "center", marginTop: "4px" }}>
       <div>
         <Checkbox
+          id={`check-box-${keyIndex}`}
           sx={{
             "&.Mui-checked": {
               color: "#00AB55 !important",

@@ -42,3 +42,6 @@
 .infoIcon > svg {
   height: 20px !important;
 }
+.title + p {
+  margin-left: 15px !important;
+}

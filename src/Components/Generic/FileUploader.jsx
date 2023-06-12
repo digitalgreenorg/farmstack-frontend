@@ -13,17 +13,20 @@ const FileUploaderMain = (props) => {
     disabled,
     setSizeError,
     texts,
+    key,
+    id
   } = props;
   return (
     <>
       <span className="AddDatasetmainheading">{props.title}</span>
       <FileUploader
-        id="file_uploader_locally"
+        key={key} // set the key prop to force a re-render when the key changes
+        id={id}
         disabled={disabled}
         name="file"
         multiple={isMultiple}
         maxSize={maxSize}
-        onSizeError={() => setSizeError()}
+        onSizeError={() => (setSizeError ? setSizeError() : "")}
         handleChange={handleChange}
         types={fileTypes}
         children={
@@ -32,6 +35,7 @@ const FileUploaderMain = (props) => {
             uploades={message ? message : "Drag and drop"}
             uploadtitle=""
             maxSize={maxSize ? maxSize + "MB" : "2MB"}
+            index={id}
           />
         }
         classes="fileUpload"

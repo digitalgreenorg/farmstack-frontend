@@ -10,15 +10,27 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Box,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  goToTop,
+} from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
+import { isPhoneValid } from "../../Components/NewOnboarding/utils";
+import MuiPhoneNumber from "material-ui-phone-number";
 
 const GuestUserContactNew = () => {
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
   let history = useHistory();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -49,6 +61,14 @@ const GuestUserContactNew = () => {
   const handleRadioButton = (e) => {
     // console.log("handleRadioButton value", e.target.value);
     setSubject(e.target.value);
+  };
+  const handleContactNumber = (e, countryData) => {
+    if (!isPhoneValid(e, countryData)) {
+      setContactNumberErrorMessage("Invalid phone number");
+    } else {
+      setContactNumberErrorMessage(null);
+    }
+    setContactNumber(e);
   };
 
   const getDatahubAdminDetails = () => {
@@ -234,28 +254,34 @@ const GuestUserContactNew = () => {
   };
   useEffect(() => {
     getDatahubAdminDetails();
+    goToTop(0);
   }, []);
-
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   return (
-    <Container>
+    <Box sx={containerStyle}>
       <Row className={LocalStyle.titleContainer}>
         <div className={LocalStyle.title}>Talk with us</div>
         <div className="d-flex justify-content-center">
-          <div className={LocalStyle.description}>
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+          <div
+            className={
+              mobile ? LocalStyle.descriptionSm : LocalStyle.description
+            }
+          >
             We are eager to connect with organizations, researchers, and
             individuals who share our passion for revolutionizing agriculture.
             If you have questions, suggestions or would like to explore
             collaboration opportunities, please don't hesitate to get in touch
             with us.
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
           </div>
         </div>
       </Row>
       <Row className={LocalStyle.title2}>
-        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
+        {/* <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
           Say hello..
-        </Typography>
+        </Typography> */}
       </Row>
       <Row>
         <Col lg={6} md={12}>
@@ -305,23 +331,32 @@ const GuestUserContactNew = () => {
           />
         </Col>
         <Col lg={6} md={12}>
-          <TextField
-            id="contactNumber"
-            label="Contact Number"
-            placeholder="Enter your phone number"
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            value={contactNumber}
-            onChange={(e) => setContactNumber(e.target.value)}
-            error={contactNumberErrorMessage}
-            helperText={contactNumberErrorMessage ?? ""}
-          />
+          <MuiPhoneNumber
+              fullWidth
+              required
+              defaultCountry={"in"}
+              margin="normal"
+              countryCodeEditable={false}
+              placeholder="Contact Number"
+              label="Contact Number"
+              variant="outlined"
+              name="contact_number"
+              value={contactNumber}
+              onChange={(e, countryData) => handleContactNumber(e, countryData)}
+              error={contactNumberErrorMessage}
+              helperText={contactNumberErrorMessage ?? ""}
+              id="contactNumber"
+            />
         </Col>
       </Row>
       <Row>
-        <Col className={LocalStyle.radioButtonContainer} lg={12}>
+        <Col
+          className={
+            mobile
+              ? LocalStyle.radioButtonContainerSm
+              : LocalStyle.radioButtonContainer
+          }
+        >
           {/* <FormControl component="fieldset" margin="normal" required> */}
           {/* <FormLabel component="legend">Select an option</FormLabel> */}
           {/* <RadioGroup aria-label="contactType" name="contactType"> */}
@@ -344,12 +379,20 @@ const GuestUserContactNew = () => {
             <FormControlLabel
               value="Become a Participant"
               control={<Radio />}
-              label="Become a Participant (Data Provider / Consumer)"
+              label={
+                <span style={{ fontSize: mobile ? "12px" : "16px" }}>
+                  Become a Participant (Data Provider / Consumer)
+                </span>
+              }
             />
             <FormControlLabel
               value="Other queries"
               control={<Radio />}
-              label="Other queries (Describe your query in detail)"
+              label={
+                <span style={{ fontSize: mobile ? "12px" : "16px" }}>
+                  Other queries (Describe your query in detail)
+                </span>
+              }
             />
           </RadioGroup>
           {/* </div> */}
@@ -384,7 +427,7 @@ const GuestUserContactNew = () => {
           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
           onClick={() => addNewGuestUserData()}
           disabled={
-            !firstName || !email || !contactNumber || !subject || !describeQuery
+            !firstName || !email || !contactNumber || !subject || !describeQuery || contactNumberErrorMessage
           }
         >
           Submit
@@ -399,9 +442,9 @@ const GuestUserContactNew = () => {
         </Button>
       </Row>
       <Row className={LocalStyle.title2}>
-        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
+        {/* <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
           Touch with us!
-        </Typography>
+        </Typography> */}
       </Row>
       <Row className={LocalStyle.adminDetailsContainer}>
         <Col lg={10}>
@@ -483,7 +526,7 @@ const GuestUserContactNew = () => {
           </Row>
         </Col>
       </Row>
-    </Container>
+    </Box>
   );
 };
 

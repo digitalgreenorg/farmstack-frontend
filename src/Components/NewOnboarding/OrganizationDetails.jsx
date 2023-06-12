@@ -4,10 +4,19 @@ import React, {
   useEffect,
   useRef,
   useState,
+  useMemo,
 } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Box, Button, FormControl, InputLabel, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
+
 import global_style from "../../Assets/CSS/global.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -15,6 +24,8 @@ import Select from "@mui/material/Select";
 import FileUploaderMain from "../Generic/FileUploader";
 import MuiPhoneNumber from "material-ui-phone-number";
 import UrlConstant from "../../Constants/UrlConstants";
+import countryList from "react-select-country-list";
+
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
@@ -24,6 +35,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  validateInputField,
 } from "../../Utils/Common";
 import HTTPService from "../../Services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -32,6 +44,10 @@ import { useHistory } from "react-router-dom";
 import getCroppedImg, { isPhoneValid } from "./utils";
 import ReactEasyCropperForFarmstack from "../Generic/ReactEasyCropperForFarmstack";
 import Modal from "@mui/material/Modal";
+import RegexConstants from "../../Constants/RegexConstants";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
+import parse from "html-react-parser";
+
 const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -40,7 +56,9 @@ const OrganizationDetails = (props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const countryNameList = useMemo(() => countryList().getData(), []);
   const { setActiveStep } = props;
+  const [alreadyOnboarded, setAlreadyOnboarded] = useState(false);
   const [organisationDetails, setOrganisationDetails] = useState({
     organisation_name: "",
     organisation_mail_id: "",
@@ -62,6 +80,49 @@ const OrganizationDetails = (props) => {
     organisation_description_error: "",
     organisation_logo_error_logo: "",
   });
+
+  const clearErrors = (name) => {
+    let Message = "";
+    console.log(name, Message);
+    switch (name) {
+      case "organisation_mail_id":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_mail_id_error: Message,
+        });
+        break;
+      case "organisation_website_link":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_website_link_error: Message,
+        });
+        break;
+      case "organisation_address":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_address_error: Message,
+        });
+        break;
+      case "organisation_contact_number":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_contact_number_error: Message,
+        });
+        break;
+      case "organisation_description":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_description_error: Message,
+        });
+        break;
+      case "organisation_name":
+        setOrganisationDetailsError({
+          ...organisationDetailsError,
+          organisation_name_error: Message,
+        });
+        break;
+    }
+  };
   const [uploadedLogo, setUploadedLogo] = useState(null);
 
   const setOnBoardedTrue = () => {
@@ -78,13 +139,13 @@ const OrganizationDetails = (props) => {
     HTTPService("POST", url, data, false, true, getTokenLocal())
       .then((response) => {
         // setIsLoader(false);
-        callToast("Onboarded", "success", true);
+        callToast("Onboarded successfuly", "success", true);
 
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
           history.push("/datahub/new_datasets");
         } else if (isLoggedInUserParticipant()) {
-          history.push("/participant/datasets");
+          history.push("/participant/new_datasets");
         } else if (isLoggedInUserCoSteward()) {
           history.push("/datahub/new_datasets");
         }
@@ -95,13 +156,14 @@ const OrganizationDetails = (props) => {
       });
   };
   const handleOrgChange = (e, countryData) => {
-    console.log(e.target);
     if (e.target) {
+      clearErrors(e.target.name);
       setOrganisationDetails({
         ...organisationDetails,
         [e.target.name]: e.target.value,
       });
     } else {
+      clearErrors("organisation_contact_number");
       if (!isPhoneValid(e, countryData)) {
         setOrganisationDetailsError((prevState) => ({
           ...prevState,
@@ -126,13 +188,20 @@ const OrganizationDetails = (props) => {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   const canvasRef = useRef(null);
+  const [key, setKey] = useState(0);
 
   const handleFileForCrop = (file) => {
     console.log(file);
     setSelectedImage(URL.createObjectURL(file));
     setTempImage(file);
     setOpen(true);
+    setKey(key + 1); // generate a new key when a file is uploaded
   };
+  // const handleUpload = (file) => {
+  //   console.log(file);
+  //   setIsLogoLink(false);
+  //   setUploadedLogo(file);
+
   // const handleUpload = (file) => {
   //   console.log(file);
   //   setIsLogoLink(false);
@@ -205,8 +274,15 @@ const OrganizationDetails = (props) => {
   const handleSubmitOrganizationDetails = (e) => {
     e.preventDefault();
     callLoader(true);
-    let method = "PUT";
-    let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
+    let url;
+    let method;
+    if (!alreadyOnboarded) {
+      method = "POST";
+      url = UrlConstant.base_url + UrlConstant.org;
+    } else {
+      method = "PUT";
+      url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
+    }
     var bodyFormData = new FormData();
     bodyFormData.append("user_id", getUserLocal());
     bodyFormData.append(
@@ -244,10 +320,19 @@ const OrganizationDetails = (props) => {
         console.log(response);
         if (isLoggedInUserAdmin() && !props.isOrgSetting) {
           setActiveStep((prev) => prev + 1);
-        } else if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
-          callToast("Onboarded", "success", true);
+        } else if (
+          (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) &&
+          !props.isOrgSetting
+        ) {
+          // callToast("Onboarded successfuly", "success", true);
           setOnBoardedTrue();
         }
+        if (props.isOrgSetting && response.status === 201)
+          callToast(
+            "Organisation settings updated successfully!",
+            "success",
+            true
+          );
       })
       .catch(async (e) => {
         callLoader(false);
@@ -255,68 +340,91 @@ const OrganizationDetails = (props) => {
         var errorKeys = returnValues[0];
         var errorMessages = returnValues[1];
         if (errorKeys.length > 0) {
+          let errorObj = {};
+          let keyValueOfErrorAndName = {
+            org_email: "organisation_mail_id_error",
+            website: "organisation_website_link_error",
+            address: "organisation_address_error",
+            phone_number: "organisation_contact_number_error",
+            org_description: "organisation_description_error",
+            name: "organisation_name_error",
+            logo: "organisation_logo_error_logo",
+          };
           for (var i = 0; i < errorKeys.length; i++) {
             switch (errorKeys[i]) {
               case "org_email":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_mail_id_error: errorMessages[i],
-                });
+                errorObj["organisation_mail_id_error"] = errorMessages[i];
+
                 break;
               case "website":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_website_link_error: errorMessages[i],
-                });
+                errorObj["organisation_website_link_error"] = errorMessages[i];
+
                 break;
               case "address":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_address_error: errorMessages[i],
-                });
+                errorObj["organisation_address_error"] = errorMessages[i];
+
                 break;
               case "phone_number":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_contact_number_error: errorMessages[i],
-                });
+                errorObj["organisation_contact_number_error"] =
+                  errorMessages[i];
+
                 break;
               case "org_description":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_description_error: errorMessages[i],
-                });
+                errorObj["organisation_description_error"] = errorMessages[i];
+
                 break;
               case "name":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_name_error: errorMessages[i],
-                });
+                errorObj["organisation_name_error"] = errorMessages[i];
+
                 break;
               case "logo":
-                setOrganisationDetailsError({
-                  ...organisationDetailsError,
-                  organisation_logo_error_logo: errorMessages[i],
-                });
+                errorObj["organisation_logo_error_logo"] = errorMessages[i];
                 break;
               default:
                 let error = await GetErrorHandlingRoute(e);
                 if (error) {
-                  callToast(error?.message, "error", true);
+                  callToast(
+                    error?.message,
+                    error?.status === 200 ? "success" : "error",
+                    true
+                  );
                   console.log(e, error);
                 }
                 break;
             }
           }
+          setOrganisationDetailsError(errorObj);
         } else {
+          // let error = await GetErrorHandlingRoute(e);
+          // if (error) {
+          //   callToast(
+          //     error?.message,
+          //     error?.status === 200 ? "success" : "error",
+          //     true
+          //   );
+          //   console.log(e, error);
+          // }
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
-            callToast(error?.message, "error", true);
-            console.log(e, error);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
   };
+
+  console.log(
+    "organisation_logo_error_logo",
+    organisationDetailsError.organisation_logo_error_logo
+  );
   const getOrganizationData = () => {
     callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
@@ -328,6 +436,9 @@ const OrganizationDetails = (props) => {
         console.log(response);
         let data = response.data;
         let org = response.data.organization;
+        if (org != "null") {
+          setAlreadyOnboarded(true);
+        }
         setOrganisationDetails({
           organisation_name: org.name,
           organisation_mail_id: org.org_email,
@@ -336,7 +447,9 @@ const OrganizationDetails = (props) => {
           organisation_address: org.address.address,
           organisation_country: org.address.country,
           organisation_pin_code: org.address.pincode,
-          organisation_description: org.org_description,
+          organisation_description: org.org_description
+            ? parse(org.org_description)
+            : org.org_description,
         });
         setPreview(
           org.logo ? UrlConstant.base_url_without_slash + org.logo : null
@@ -348,14 +461,31 @@ const OrganizationDetails = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log(e, error);
+        // if (error) {
+        //   callToast(
+        //     error?.message,
+        //     error?.status === 200 ? "success" : "error",
+        //     true
+        //   );
+        // }
         let error = await GetErrorHandlingRoute(e);
-        console.log(e, error);
-        if (error) {
-          callToast(error?.message, "error", true);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error?.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error?.path) {
+          history.push(error.path);
         }
       });
   };
-  console.log(preview, uploadedLogo);
+  // console.log(preview, uploadedLogo);
 
   useEffect(() => {
     getOrganizationData();
@@ -367,8 +497,15 @@ const OrganizationDetails = (props) => {
       <div className={styles.main_box}>
         <div className={styles.main_label}>
           {props.isOrgSetting
-            ? "Organisation setting"
+            ? "Organisation settings"
             : " Organisation Details"}
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {props.isOrgSetting
+              ? "Manage and update your organization's details to reflect accurate and up-to-date information."
+              : ""}
+          </Typography>
         </div>
 
         {props.isOrgSetting ? (
@@ -451,9 +588,10 @@ const OrganizationDetails = (props) => {
                 id="organisation_contact_number"
                 name="organisation_contact_number"
                 value={organisationDetails.organisation_contact_number}
-                onChange={(value, countryData) =>
-                  handleOrgChange(value, countryData)
-                }
+                onChange={(value, countryData) => {
+                  console.log(value, countryData);
+                  handleOrgChange(value, countryData);
+                }}
                 error={
                   organisationDetailsError.organisation_contact_number_error
                     ? true
@@ -507,9 +645,13 @@ const OrganizationDetails = (props) => {
                     organisationDetailsError.organisation_country_error
                   }
                 >
-                  <MenuItem value={"in"}>India</MenuItem>
-                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                  {countryNameList?.map((countryName, index) => {
+                    return (
+                      <MenuItem value={countryName.label}>
+                        {countryName.label}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
             </Col>
@@ -520,12 +662,17 @@ const OrganizationDetails = (props) => {
                 placeholder="PIN Code"
                 label="PIN Code"
                 variant="outlined"
-                type="number"
                 id="organisation_pin_code"
                 name="organisation_pin_code"
                 value={organisationDetails.organisation_pin_code}
                 onChange={(e) => {
-                  if (e.target.value.length <= 10) {
+                  if (
+                    e.target.value.length <= 10 &&
+                    validateInputField(
+                      e.target.value,
+                      RegexConstants.PINCODE_REGEX_NEWUI
+                    )
+                  ) {
                     handleOrgChange(e);
                   }
                 }}
@@ -568,12 +715,14 @@ const OrganizationDetails = (props) => {
           <Row>
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
               <FileUploaderMain
+                key={key} // set the key prop to force a re-render when the key changes
                 texts={
                   "Drop files here or click browse thorough your machine,File size not more than "
                 }
                 maxSize={2}
                 isMultiple={false}
                 handleChange={handleFileForCrop}
+                id="org-upload-file"
                 // setSizeError={() =>
                 //   setOrganisationDetailsError({
                 //     ...organisationDetailsError,
@@ -594,7 +743,6 @@ const OrganizationDetails = (props) => {
               >
                 {preview && "Uploaded file"}
               </div>
-              {console.log(preview)}
               {preview && (
                 <div className={styles.text_left + " " + styles.preview_box}>
                   {preview && (
@@ -604,9 +752,11 @@ const OrganizationDetails = (props) => {
                     onClick={() => {
                       setPreview(null);
                       setUploadedLogo(null);
+                      setKey(key + 1); // generate a new key when a file is deleted
                     }}
                     style={{ cursor: "pointer" }}
                     fontSize="small"
+                    id="cancel-uploaded-file"
                   />
                 </div>
               )}
@@ -628,15 +778,19 @@ const OrganizationDetails = (props) => {
           <Row>
             <Col style={{ textAlign: "right", margin: "20px" }}>
               <Button
-                id="cancelbutton_account"
+                id="cancelbutton_org"
                 variant="outlined"
                 className={global_style.secondary_button}
-                onClick={() => history.push("/datahub/new_datasets")}
+                onClick={() =>
+                  isLoggedInUserParticipant()
+                    ? history.push("/participant/new_datasets")
+                    : history.push("/datahub/new_datasets")
+                }
               >
                 Cancel
               </Button>
               <Button
-                id="submitbutton_account"
+                id="submitbutton_org"
                 variant="outlined"
                 className={
                   global_style.primary_button + " " + styles.next_button
@@ -647,7 +801,7 @@ const OrganizationDetails = (props) => {
                   organisationDetails.organisation_country &&
                   organisationDetails.organisation_description &&
                   organisationDetails.organisation_name &&
-                  organisationDetails.organisation_pin_code.length > 5 &&
+                  organisationDetails.organisation_pin_code.length > 4 &&
                   organisationDetails.organisation_contact_number &&
                   !organisationDetailsError.organisation_contact_number_error &&
                   organisationDetails.organisation_website_link &&
@@ -663,7 +817,7 @@ const OrganizationDetails = (props) => {
           </Row>
         ) : (
           <div className={styles.button_grp}>
-            <Button
+            {/* <Button
               onClick={() =>
                 !isLoggedInUserAdmin()
                   ? setOnBoardedTrue()
@@ -673,7 +827,7 @@ const OrganizationDetails = (props) => {
             >
               {" "}
               Finish later
-            </Button>
+            </Button> */}
             <Button
               disabled={
                 organisationDetails.organisation_address &&
@@ -681,7 +835,7 @@ const OrganizationDetails = (props) => {
                 organisationDetails.organisation_country &&
                 organisationDetails.organisation_description &&
                 organisationDetails.organisation_name &&
-                organisationDetails.organisation_pin_code.length > 5 &&
+                organisationDetails.organisation_pin_code.length > 4 &&
                 organisationDetails.organisation_contact_number &&
                 organisationDetails.organisation_website_link &&
                 !organisationDetailsError.organisation_contact_number_error &&
@@ -691,6 +845,7 @@ const OrganizationDetails = (props) => {
               }
               onClick={(e) => handleSubmitOrganizationDetails(e)}
               className={global_style.primary_button + " " + styles.next_button}
+              id="nextbutton_org_onboard"
             >
               {" "}
               {isLoggedInUserAdmin() ? "Next" : "Finish"}

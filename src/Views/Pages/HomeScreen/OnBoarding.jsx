@@ -32,6 +32,10 @@ import {
   isLoggedInUserParticipant,
 } from "../../../Utils/Common";
 import FooterNew from "../../../Components/Footer/Footer_New";
+import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
+import HTTPService from "../../../Services/HTTPService";
+import UrlConstant from "../../../Constants/UrlConstants";
+import { Divider } from "@mui/material";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -166,7 +170,39 @@ ColorlibStepIcon.propTypes = {
 };
 
 export default function OnBoarding() {
-  const [activeStep, setActiveStep] = React.useState(getTokenLocal() ? 0 : -1);
+  const { adminData, setAdminData, callLoader } =
+    React.useContext(FarmStackContext);
+  // console.log(adminData?.organization?.logo, " adminData?.organization?.logo");
+  // let stepNumber = adminData?.organization?.logo ? 0 : -1;
+  // console.log(stepNumber);
+  const [activeStep, setActiveStep] = React.useState(0);
+
+  function getAdminData() {
+    callLoader(true);
+    let url =
+      UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
+    let method = "GET";
+    // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
+    HTTPService(method, url, "", false, false, false, false, false)
+      .then((response) => {
+        callLoader(false);
+
+        setAdminData(response.data);
+        // if (response.data?.organization?.logo) {
+        let stepNumber = response.data?.organization?.logo ? 0 : -1;
+        setActiveStep(stepNumber);
+        // }
+      })
+      .catch((error) => {
+        callLoader(false);
+
+        console.log("error");
+      });
+  }
+  React.useEffect(() => {
+    getAdminData();
+  }, []);
+
   let dev_mode =
     Window?.ENV_VARS?.REACT_APP_DEV_MODE || process.env.REACT_APP_DEV_MODE;
   console.log(dev_mode);
@@ -237,7 +273,11 @@ export default function OnBoarding() {
     >
       {/* {isLoggedInUserAdmin() && ( */}
       <div className={styles.farmstack_logo}>
-        <img src={new_farmstack_main_logo} alt="Farmstack" />
+        <img
+          className={styles.farmstack_logo_img}
+          src={new_farmstack_main_logo}
+          alt="Farmstack"
+        />
       </div>
       {/* )} */}
 
@@ -268,9 +308,10 @@ export default function OnBoarding() {
       )}
       {activeStep >= 0 && (
         <div className={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. "Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit.
+          Login to access a world of data collaboration, insights, and
+          innovation. <br />
+          Let's make data-driven decisions together. <br />
+          {/* <span className={global_styles.bold600}>Welcome aboard!</span> */}
         </div>
       )}
       <CSSTransition
@@ -361,7 +402,7 @@ export default function OnBoarding() {
           <DatapointDetails setActiveStep={setActiveStep} />
         </CSSTransition>
       )}
-
+      <Divider className="mt-50" />
       {activeStep == 0 ? <FooterNew /> : <OnboardingFooter />}
     </Stack>
   );

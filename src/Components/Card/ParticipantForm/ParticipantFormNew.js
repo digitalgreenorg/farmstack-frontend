@@ -32,6 +32,7 @@ import {
   GetErrorHandlingRoute,
   GetErrorKey,
   getUserLocal,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   validateInputField,
@@ -231,10 +232,14 @@ const ParticipantFormNew = (props) => {
         console.log(response);
         if (response.status == 201) {
           handleCancel(true);
-          // callToast(error.message, "success", true);
+          callToast(
+            isEditModeOn ? "Updated successfully!" : "Registered successfully!",
+            "success",
+            true
+          );
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
         console.log(e);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
@@ -275,18 +280,33 @@ const ParticipantFormNew = (props) => {
             }
           }
         } else {
-          let error = GetErrorHandlingRoute(e);
-
+          let error = await GetErrorHandlingRoute(e);
           console.log("Error obj", error);
-          callToast(error.message, "error", true);
-          console.log("err in switch", e);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
         }
-        let error = GetErrorHandlingRoute(e);
-
-        console.log("Error obj", error);
-        callToast(error.message, "error", true);
-        console.log("err in switch", e);
+        // let error = await GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // console.log(e);
+        // if(error.toast){
+        //   callToast(error?.message || "Something went wrong while loading dataset",
+        //     error?.status === 200 ? "success" : "error",
+        //     true);
+        //   }
+        //   if(error.path){
+        //     history.push(error.path)
+        //   }
       });
+    goToTop(0);
   };
 
   const getDataOnEdit = () => {
@@ -330,13 +350,26 @@ const ParticipantFormNew = (props) => {
           setIsCoSteward(false);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
 
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        // console.log("err in switch", e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
-        console.log("err in switch", e);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -357,10 +390,23 @@ const ParticipantFormNew = (props) => {
         setSelectCoSteward([...response.data]);
         console.log("response of costewards", response.data);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         // setMessageForSnackBar("Get list of Co-Stewards failed!!!");
         // setIsLoader(false);
         // history.push(GetErrorHandlingRoute(e));
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -377,7 +423,7 @@ const ParticipantFormNew = (props) => {
 
   return (
     <>
-      <div className={LocalStyle.organisationFormContainer}>
+      <div>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
             <Typography
@@ -388,12 +434,20 @@ const ParticipantFormNew = (props) => {
                 ? "Edit Participant organisation details"
                 : "Add Participant organisation details"}
             </Typography>
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {isEditModeOn
+                ? " Update and modify your organization information as a participant."
+                : "Provide information about your organization when joining as a participant."}
+            </Typography>
           </Col>
         </Row>
         <Form onSubmit={handleSubmit}>
           <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
+                id="organisation-name-id"
                 className={LocalStyle.textField}
                 label="Organisation Name"
                 fullWidth
@@ -415,6 +469,7 @@ const ParticipantFormNew = (props) => {
             </Col>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
+                id="add-participant-mail-id"
                 className={LocalStyle.textField}
                 label="Mail Id "
                 type="email"
@@ -439,6 +494,7 @@ const ParticipantFormNew = (props) => {
           <Row>
             <Col xs={12}>
               <TextField
+                id="add-participant-website-link"
                 className={LocalStyle.textField}
                 label="Website Link"
                 fullWidth
@@ -454,6 +510,7 @@ const ParticipantFormNew = (props) => {
           <Row>
             <Col xs={12}>
               <TextField
+                id="add-participant-organisation-address"
                 className={LocalStyle.textField}
                 label="Organisation Address "
                 fullWidth
@@ -493,7 +550,10 @@ const ParticipantFormNew = (props) => {
                   >
                     {countryNameList?.map((countryName, index) => {
                       return (
-                        <MenuItem value={countryName.label}>
+                        <MenuItem
+                          id={`country-${countryName + index}`}
+                          value={countryName.label}
+                        >
                           {countryName.label}
                         </MenuItem>
                       );
@@ -528,30 +588,29 @@ const ParticipantFormNew = (props) => {
             </Col>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
-                type={"number"}
                 className={LocalStyle.textField}
                 label="PIN Code "
                 fullWidth
                 required
                 value={organisationPinCode}
-                // onChange={(event) => setOrganisationPinCode(event.target.value)}
                 onChange={(e) => {
-                  if (e.target.value.length > 10)
-                    e.target.value = e.target.value.substring(0, 10);
-                  // validateInputField(
-                  //   e.target.value,
-                  //   RegexConstants.PINCODE_REGEX
-                  // )
-                  // ?
-                  setOrganisationPinCode(e.target.value.trim());
-                  // : e.preventDefault();
+                  if (
+                    e.target.value.length <= 10 &&
+                    validateInputField(
+                      e.target.value,
+                      RegexConstants.PINCODE_REGEX_NEWUI
+                    )
+                  ) {
+                    setOrganisationPinCode(e.target.value.trim());
+                  }
                 }}
+                id="add-participant-pin-code"
               />
             </Col>
           </Row>
         </Form>
       </div>
-      <div className={LocalStyle.organisationFormContainer}>
+      <div>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
             <Typography
@@ -561,6 +620,14 @@ const ParticipantFormNew = (props) => {
               {isEditModeOn
                 ? "Edit Participant root user details"
                 : "Add Participant root user details"}
+            </Typography>
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {" "}
+              {isEditModeOn
+                ? "Modify and update your user details as the designated representative of your organization."
+                : "Enter your details as the authorized user of organization."}{" "}
             </Typography>
           </Col>
         </Row>
@@ -575,6 +642,7 @@ const ParticipantFormNew = (props) => {
               onChange={(event) => setFirstName(event.target.value)}
               error={firstNameErrorMessage}
               helperText={firstNameErrorMessage ? firstNameErrorMessage : ""}
+              id="add-participant-first-name"
             />
           </Col>
           <Col xs={12} sm={6} md={6} xl={6}>
@@ -586,12 +654,14 @@ const ParticipantFormNew = (props) => {
               onChange={(event) => setLastName(event.target.value)}
               error={lastNameErrorMessage}
               helperText={lastNameErrorMessage ? lastNameErrorMessage : ""}
+              id="add-participant-last-name"
             />
           </Col>
         </Row>
         <Row>
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
+              id="add-participant-rootuser-mail-id"
               className={LocalStyle.textField}
               label="Mail Id "
               type="email"
@@ -638,12 +708,12 @@ const ParticipantFormNew = (props) => {
               placeholder="Contact Number"
               label="Contact Number"
               variant="outlined"
-              id="contact_number"
               name="contact_number"
               value={contactNumber}
               onChange={(e, countryData) => handleContactNumber(e, countryData)}
               error={orgContactErrorMessage ? true : false}
               helperText={orgContactErrorMessage}
+              id="add-participant-phone-number"
             />
           </Col>
         </Row>
@@ -661,6 +731,7 @@ const ParticipantFormNew = (props) => {
                   <Checkbox
                     checked={isCoSteward}
                     onChange={() => setIsCoSteward(!isCoSteward)}
+                    id="add-participant-make-costeward"
                   />
                   <Typography
                     className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
@@ -692,7 +763,6 @@ const ParticipantFormNew = (props) => {
                 sx={{
                   width: "100%",
                   textAlign: "left",
-                  height: "48px",
                   paddingLeft: "28px",
                   paddingTop: "15px",
                   margin: "20px 0px",
@@ -730,9 +800,16 @@ const ParticipantFormNew = (props) => {
                     value={selectedCosteward}
                     onChange={handlelistofCosteward}
                   >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
                     {selectCoSteward.map((listofcosteward, index) => {
                       return (
-                        <MenuItem key={index} value={listofcosteward.user}>
+                        <MenuItem
+                          id={"select-costeward-" + index}
+                          key={index}
+                          value={listofcosteward.user}
+                        >
                           {" "}
                           {listofcosteward.organization_name}{" "}
                         </MenuItem>
@@ -785,6 +862,18 @@ const ParticipantFormNew = (props) => {
       </div>
       <Row className={LocalStyle.buttonContainer}>
         <Button
+          disabled={
+            organisationName &&
+            organisationEmail &&
+            address &&
+            organisationPinCode.length > 4 &&
+            firstName &&
+            email &&
+            contactNumber &&
+            !orgContactErrorMessage
+              ? false
+              : true
+          }
           id="add-participant-submit-button"
           onClick={addNewParticipants}
           className={`${GlobalStyle.primary_button} ${LocalStyle.primaryButton}`}

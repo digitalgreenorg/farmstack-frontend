@@ -46,6 +46,8 @@ const UrlConstant = {
   datasetethcancel: "datahub/dataset/v2/temp_datasets/?delete_dir=True",
   datasetview: "datahub/dataset/v2/",
   datasetview_guest: "microsite/datasets/dataset_filters/",
+  datasetview__guest: "microsite/datasets/",
+  verify_local_data_of_user: "microsite/microsite_user_data/user_data/",
   datasetparticipant: "participant/datasets/",
   onboarded: "accounts/login/onboarded/",
 
@@ -127,6 +129,7 @@ const UrlConstant = {
 
   //new v2 urls
   datahub_policy: "datahub/policy/",
+  new_datahub_dashboard: "datahub/newdashboard/dashboard/",
 };
 
 export default UrlConstant;

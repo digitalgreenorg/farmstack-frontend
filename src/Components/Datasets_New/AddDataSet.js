@@ -1,10 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, Divider, Tab, Tabs } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Tab,
+  Tabs,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useHistory } from "react-router-dom";
 import {
   GetErrorKey,
   getTokenLocal,
   getUserMapId,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -20,6 +30,8 @@ import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -39,6 +51,14 @@ function TabPanel(props) {
 const AddDataSet = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   const [value, setValue] = useState(0);
   const [validator, setValidator] = useState(false);
 
@@ -53,6 +73,8 @@ const AddDataSet = (props) => {
   const [toDate, setToDate] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDatasetCreated, setIsDatasetCreated] = useState(false);
+  const [fromDateError, setFromDateError] = useState(false);
+  const [toDateError, setToDateError] = useState(false);
 
   // Upload File
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -123,6 +145,7 @@ const AddDataSet = (props) => {
             setIsDatasetCreated(true);
           }
           setValue(value + 1);
+          getDatasetForEdit(res?.data?.id, "idCreated");
         })
         .catch(async (err) => {
           callLoader(false);
@@ -186,7 +209,6 @@ const AddDataSet = (props) => {
         return true;
       }
     } else if (value === 1) {
-      console.log(uploadedFiles, sqlFiles, postgresFiles, restApifiles);
       if (
         uploadedFiles?.length ||
         sqlFiles?.length ||
@@ -206,6 +228,22 @@ const AddDataSet = (props) => {
     }
   };
 
+  const shouldTabDisabled = () => {
+    console.log(
+      sqlFiles || postgresFiles || restApifiles || files | uploadedFiles
+    );
+    if (
+      (datasetId || props.datasetIdForEdit) &&
+      (sqlFiles?.length > 0 ||
+        postgresFiles?.length > 0 ||
+        restApifiles?.length > 0 ||
+        uploadedFiles?.length > 0)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/new_datasets";
@@ -225,9 +263,8 @@ const AddDataSet = (props) => {
       category: categorises,
       geography: geography,
       constantly_update: isUpdating,
-      data_capture_start:
-        !isUpdating && fromDate ? fromDate.toISOString() : null,
-      data_capture_end: !isUpdating && toDate ? toDate.toISOString() : null,
+      data_capture_start: !isUpdating && fromDate ? fromDate : null,
+      data_capture_end: !isUpdating && toDate ? toDate : null,
     };
     let url = "";
     let method = "";
@@ -261,34 +298,49 @@ const AddDataSet = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        if (props.isEditModeOn && props.datasetIdForEdit) {
+        // if (props.isEditModeOn && props.datasetIdForEdit) {
+        //   callToast(
+        //     "Something went wrong while updating dataset!",
+        //     "error",
+        //     false
+        //   );
+        // } else {
+        //   callToast(
+        //     "Something went wrong while adding dataset!",
+        //     "error",
+        //     false
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
           callToast(
-            "Something went wrong while updating dataset!",
-            "error",
-            false
+            error?.message ||
+              (props.isEditModeOn && props.datasetIdForEdit
+                ? "Something went wrong while updating dataset!"
+                : "Something went wrong while adding dataset!"),
+            error?.status === 200 ? "success" : "error",
+            true
           );
-        } else {
-          callToast(
-            "Something went wrong while adding dataset!",
-            "error",
-            false
-          );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
         console.log(e);
       });
   };
 
-  useEffect(() => {
-    // edit Dataset API call
-    if (props.datasetIdForEdit) {
+  const getDatasetForEdit = (dId, idCreated) => {
+    if (props.datasetIdForEdit || idCreated) {
       (() => {
         let accessToken = getTokenLocal() ?? false;
         let url =
           UrlConstant.base_url +
           UrlConstant.datasetview +
-          props.datasetIdForEdit +
+          (dId ? dId : props.datasetIdForEdit) +
           "/";
         callLoader(true);
         HTTPService("GET", url, "", false, true, accessToken)
@@ -403,25 +455,47 @@ const AddDataSet = (props) => {
             });
             setAllFilesAccessibility(tempAccessibilities);
           })
-          .catch((e) => {
+          .catch(async (e) => {
             callLoader(false);
-            callToast(
-              "Something went wrong while loading dataset!",
-              "error",
-              true
-            );
-            console.log("error while loading dataset", e);
+            // callToast(
+            //   "Something went wrong while loading dataset!",
+            //   "error",
+            //   true
+            // );
+            let error = await GetErrorHandlingRoute(e);
+            console.log("Error obj", error);
+            console.log(e);
+            if (error.toast) {
+              callToast(
+                error?.message || "Something went wrong while loading dataset!",
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path) {
+              history.push(error.path);
+            }
           });
       })();
     }
+  };
+  useEffect(() => {
+    // edit Dataset API call
+    getDatasetForEdit();
   }, []);
+
+  useEffect(() => {
+    goToTop();
+  }, [value]);
+
   return (
     <Box>
-      <Box sx={{ marginLeft: "144px", marginRight: "144px" }}>
+      <Box sx={containerStyle}>
         <div className="text-left mt-50">
           <span
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
+            id="add-dataset-breadcrum"
           >
             Datasets
           </span>
@@ -433,9 +507,29 @@ const AddDataSet = (props) => {
             {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
           </span>
         </div>
+        <Typography
+          sx={{
+            fontFamily: "Montserrat !important",
+            fontWeight: "600",
+            fontSize: "32px",
+            lineHeight: "40px",
+            color: "#000000",
+            textAlign: "left",
+            marginTop: "50px",
+          }}
+        >
+          {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
+        </Typography>
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          {props.datasetIdForEdit
+            ? "Modify and update your existing dataset."
+            : "Upload and publish a new dataset for sharing and collaboration."}{" "}
+        </Typography>
         <Box
           sx={{
-            marginTop: "63px",
+            marginTop: "30px",
             borderBottom: 1,
             borderColor: "divider",
             borderBottom: "1px solid #3D4A52 !important",
@@ -453,6 +547,9 @@ const AddDataSet = (props) => {
               },
               "& .Mui-selected": { color: "#00AB55 !important" },
             }}
+            variant="scrollable"
+            scrollButtons
+            allowScrollButtonsMobile
             value={value}
             onChange={handleChange}
           >
@@ -464,6 +561,7 @@ const AddDataSet = (props) => {
                   Basic details
                 </span>
               }
+              id="add-dataset-tab-1"
             />
             <Tab
               sx={{
@@ -478,8 +576,11 @@ const AddDataSet = (props) => {
                   Upload or import
                 </span>
               }
+              disabled={datasetId || props.datasetIdForEdit ? false : true}
+              id="add-dataset-tab-2"
             />
             <Tab
+              id="add-dataset-tab-3"
               label={
                 <span
                   className={value == 2 ? "tab_header_selected" : "tab_header"}
@@ -487,8 +588,10 @@ const AddDataSet = (props) => {
                   Standardise
                 </span>
               }
+              disabled={shouldTabDisabled()}
             />
             <Tab
+              id="add-dataset-tab-4"
               label={
                 <span
                   className={value == 3 ? "tab_header_selected" : "tab_header"}
@@ -496,8 +599,10 @@ const AddDataSet = (props) => {
                   Categorise
                 </span>
               }
+              disabled={shouldTabDisabled()}
             />
             <Tab
+              id="add-dataset-tab-5"
               label={
                 <span
                   className={value == 4 ? "tab_header_selected" : "tab_header"}
@@ -505,6 +610,7 @@ const AddDataSet = (props) => {
                   Usage policy
                 </span>
               }
+              disabled={shouldTabDisabled()}
             />
           </Tabs>
         </Box>
@@ -521,6 +627,10 @@ const AddDataSet = (props) => {
             setToDate={setToDate}
             isUpdating={isUpdating}
             setIsUpdating={setIsUpdating}
+            fromDateError={fromDateError}
+            setFromDateError={setFromDateError}
+            toDateError={toDateError}
+            setToDateError={setToDateError}
             validator={validator}
             errorDataSetName={errorDataSetName}
             seteErrorDataSetName={seteErrorDataSetName}
@@ -565,6 +675,7 @@ const AddDataSet = (props) => {
             standardisedFileLink={standardisedFileLink}
             setStandardisedFileLink={setStandardisedFileLink}
             validator={validator}
+            getDatasetForEdit={getDatasetForEdit}
           />
         </TabPanel>
         <TabPanel value={value} index={3}>
@@ -599,6 +710,7 @@ const AddDataSet = (props) => {
           sx={{ marginTop: "50px", marginBottom: "100px" }}
         >
           <Button
+            id="add-dataset-cancel-btn"
             sx={{
               fontFamily: "Montserrat",
               fontWeight: 700,
@@ -620,6 +732,7 @@ const AddDataSet = (props) => {
             Cancel
           </Button>
           <Button
+            id="add-dataset-submit-btn"
             disabled={isDisabled()}
             sx={{
               fontFamily: "Montserrat",

@@ -3,20 +3,47 @@ import { Col, Container, Row } from "react-bootstrap";
 import LocalStyle from "./GuestUsetParticipants.module.css";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import {
+  Box,
   IconButton,
   InputAdornment,
   TextField,
   Typography,
+  createTheme,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
+import { useHistory } from "react-router-dom";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 function GuestUserParticipants(props) {
-  const { title, description } = props;
+  const { title, description, isCosteward, breadcrumbFromRoute } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1650,
+        xxl: 2210,
+      },
+    },
+  });
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
+  const history = useHistory();
+
+  const containerStyle = {
+    marginLeft: mobile || tablet ? "30px" : "144px",
+    marginRight: mobile || tablet ? "30px" : "144px",
+  };
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [loadMoreButton, setLoadMoreButton] = useState(false);
@@ -42,11 +69,24 @@ function GuestUserParticipants(props) {
         if (response?.data?.results)
           setCoStewardOrParticipantsList(response.data.results);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log(e);
       });
   };
@@ -64,16 +104,29 @@ function GuestUserParticipants(props) {
         }
         let datalist = coStewardOrParticipantsList;
         // if (response?.data?.results) {
-        let finalDataList = [...datalist, ...response.data.results];
+        let finalDataList = [...datalist, ...response?.data?.results];
         setCoStewardOrParticipantsList(finalDataList);
         // }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        // callToast(error.message, "error", true);
         console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   const handleSearch = (name, isLoadMore) => {
@@ -84,13 +137,16 @@ function GuestUserParticipants(props) {
 
     searchTimeout = setTimeout(() => {
       // setSearcParticipantsName(name);
-      if (name.trim().length > 2) {
+      if (name?.length > 2 || name?.length === 0) {
         let data = {};
         data["name"] = name.trim();
 
         // setFilterState(data);
         let guestUsetFilterUrl =
           UrlConstant.base_url + UrlConstant.microsite_search_participants;
+        if (isCosteward) {
+          data["co_steward"] = "True";
+        }
         HTTPService("GET", guestUsetFilterUrl, data, false, false)
           .then((response) => {
             if (response.data.next == null) {
@@ -112,8 +168,21 @@ function GuestUserParticipants(props) {
             console.log(finalDataList, "fdlist");
             setCoStewardOrParticipantsList(finalDataList);
           })
-          .catch((e) => {
+          .catch(async (e) => {
             console.log(e);
+            let error = await GetErrorHandlingRoute(e);
+            console.log("Error obj", error);
+            console.log(e);
+            if (error.toast) {
+              callToast(
+                error?.message || "Something went wrong",
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path) {
+              history.push(error.path);
+            }
           });
       }
     }, DEBOUNCE_DELAY);
@@ -126,20 +195,56 @@ function GuestUserParticipants(props) {
   console.log("something", coStewardOrParticipantsList);
 
   return (
-    <Container>
-      <Row className={LocalStyle.titleContainer}>
-        <div className={LocalStyle.title}>
+    <Box style={containerStyle}>
+      <Row>
+        <Col>
+          <div className="text-left mt-50">
+            <span
+              className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => {
+                history.push("/home");
+              }}
+            >
+              {breadcrumbFromRoute ?? ""}
+            </span>
+            <span className="add_light_text ml-16">
+              {breadcrumbFromRoute ? (
+                <ArrowForwardIosIcon
+                  sx={{ fontSize: "14px", fill: "#00ab55" }}
+                />
+              ) : (
+                ""
+              )}
+            </span>
+            <span className="add_light_text ml-16 fw600">
+              {isCosteward ? "Co-stewards" : "Participants"}
+            </span>
+          </div>
+        </Col>
+      </Row>
+      <Row
+        className={
+          largeDesktop ? LocalStyle.titleContainerXl : LocalStyle.titleContainer
+        }
+      >
+        <div className={mobile ? LocalStyle.titleSm : LocalStyle.title}>
           {title ?? "Participants Network"}
         </div>
         <div className="d-flex justify-content-center">
           <div
-            className={LocalStyle.description}
-            style={{ width: description && "74%" }}
+            className={
+              mobile
+                ? LocalStyle.descriptionSm
+                : tablet
+                ? LocalStyle.descriptionMd
+                : LocalStyle.description
+            }
+            // style={{ width: description && "74%" }}
           >
-            <b style={{ fontWeight: "bold" }}>&ldquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
             {description ??
               "Meet the Change Makers: Our Community Members Who Are Transforming Agriculture."}
-            <b style={{ fontWeight: "bold" }}>&rdquo;</b>
+            <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
       </Row>
@@ -150,10 +255,12 @@ function GuestUserParticipants(props) {
       </Row> */}
 
       <TextField
+        id="search-participants-in-guest-user-id"
         sx={{
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
               borderColor: "#919EAB",
+              borderRadius: "30px",
             },
             "&:hover fieldset": {
               borderColor: "#919EAB",
@@ -163,10 +270,16 @@ function GuestUserParticipants(props) {
             },
           },
         }}
-        className="input_field"
+        className={
+          mobile
+            ? LocalStyle.inputFieldSm
+            : tablet
+            ? LocalStyle.inputFieldMd
+            : LocalStyle.inputField
+        }
         placeholder={title ? "Search co-steward.." : "Search participant.."}
         value={searcParticipantsName}
-        onChange={(e) => handleSearch(e.target.value)}
+        onChange={(e) => handleSearch(e.target.value.trimStart())}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -180,19 +293,19 @@ function GuestUserParticipants(props) {
           ),
         }}
       />
-      <Row className={LocalStyle.participantsContainer}>
+      <Box className={LocalStyle.participantsContainer}>
         <CoStewardAndParticipantsCard
           guestUser={true}
-          isCosteward={title ? true : false}
-          title={title ?? "Our Participants are"}
+          isCosteward={isCosteward ? true : false}
+          title={title ?? "Participants"}
           viewType={"grid"}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
           loadMoreButton={loadMoreButton}
           handleLoadMoreButton={getListOnClickOfLoadMore}
         />
-      </Row>
-    </Container>
+      </Box>
+    </Box>
   );
 }
 

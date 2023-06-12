@@ -11,7 +11,15 @@ import DataSetsListView from "../Components/Datasets_New/DataSetsListView";
 import FooterNew from "../Components/Footer/Footer_New";
 import GuestUserDatasets from "../Components/GuestUser/GuestUserDatasets";
 import NavbarNew from "../Components/Navbar/Navbar_New";
-import { getUserLocal } from "../Utils/Common";
+import {
+  flushLocalstorage,
+  getRoleLocal,
+  getUserLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
+  setRoleLocal,
+} from "../Utils/Common";
 import GuestUserDatatsets from "../Views/Dataset/GuestUserDataset";
 import GuestUserHomeNew from "../Views/GuestUser/GuestUserHomeNew";
 import GuestUserLegalNew from "../Views/GuestUser/GuestUserLegalNew";
@@ -23,19 +31,80 @@ import GuestUserContactNew from "../Views/GuestUser/GuestUserContactNew";
 import GuestUserCoStewardNew from "../Views/GuestUser/GuestUserCoStewardNew";
 import GuestUserCostewardDetailsNew from "../Views/GuestUser/GuestUserCostewardDetailsNew";
 import RegisterParticipants from "../Components/GuestUser/RegisterParticipants";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
+import GetStarted from "../Views/GetStarted/GetStarted";
+import UrlConstant from "../Constants/UrlConstants";
+import HTTPService from "../Services/HTTPService";
+import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 
 const GuestRoutes = () => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [isVerified, setIsVerified] = useState(false);
+
+  let roleId = {
+    1: "datahub_admin",
+    3: "datahub_participant_root",
+    6: "datahub_co_steward",
+  };
+
+  const verifyUserDataOfLocal = () => {
+    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
+    let userId = getUserLocal();
+    if (!userId) {
+      flushLocalstorage();
+      isVerified(false);
+      return false;
+    }
+    let params = { user_id: userId };
+    HTTPService("GET", url, params, false, false, false)
+      .then((response) => {
+        console.log("response to verify local data", response);
+        if (!response?.data?.on_boarded) {
+          flushLocalstorage();
+          setIsVerified(false);
+          return false;
+        }
+        setRoleLocal(roleId[response?.data?.role_id]);
+        console.log(
+          "response to verify local data role",
+          getRoleLocal(),
+          isLoggedInUserAdmin()
+        );
+      })
+      .catch((err) => {
+        console.log("error to verify local data", err);
+        setIsVerified(true);
+        return true;
+      });
+    setIsVerified(true);
+    return true;
+  };
+
   return (
     <div className="center_keeping_conatiner">
-      {getUserLocal() ? (
+      <ScrollToTop />
+      {(isLoggedInUserAdmin() || isLoggedInUserCoSteward()) &&
+      (isVerified || verifyUserDataOfLocal()) ? (
         <NavbarNew loginType={"admin"} />
+      ) : isLoggedInUserParticipant() &&
+        (isVerified || verifyUserDataOfLocal()) ? (
+        <NavbarNew loginType={"participant"} />
       ) : (
         <NavbarNew loginType={"guest"} />
       )}
       {/* <NavbarNew loginType={"guest"} /> */}
-      <div className="minHeight67vhDatahubPage">
+      <div
+        className={
+          mobile
+            ? "minHeight67vhDatahubPage" + " " + "mt-70"
+            : "minHeight67vhDatahubPage"
+        }
+      >
+        <br />
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
+          <Route exact path="/home/get-started" component={GetStarted} />
           <Route exact path="/home/datasets" component={GuestUserDatatsets} />
           <Route
             exact
@@ -67,6 +136,7 @@ const GuestRoutes = () => {
           <Route exact path="/home/contact" component={GuestUserContactNew} />
         </Switch>
       </div>
+      <Divider className="mt-50" />
       <FooterNew />
     </div>
   );

@@ -127,7 +127,7 @@ export const refreshToken = async () => {
       };
       return error;
     }
-    localStorage.setItem("lastPathname", window.location.href);
+    localStorage.setItem("lastPathname", window.location.pathname);
     const response = await HTTPService("POST", url, {
       refresh: refreshToken,
     });
@@ -161,6 +161,9 @@ export const GetErrorHandlingRoute = async (e) => {
   console.log(e?.response?.data, e.response?.status, "error");
   if (e?.response?.data && e?.response?.status == 401) {
     let resultOfRefresh = await refreshToken();
+    if (resultOfRefresh.status != 401) {
+      window.location.reload();
+    }
     return resultOfRefresh;
   } else if (
     (e?.response?.data && e?.response?.status == 403) ||
@@ -175,13 +178,23 @@ export const GetErrorHandlingRoute = async (e) => {
     };
   } else if (
     e?.response?.data &&
-    (e?.response?.status == 404 || e?.response?.status == 405)
+    (e?.response?.status == 404 ||
+      e?.response?.status == 405 ||
+      e?.response?.status == 400)
   ) {
     return {
       toast: true,
       path: "/error/" + e?.response?.status,
       status: e.response.status,
       message: e?.response?.data?.message,
+      data: e?.response?.data,
+    };
+  } else {
+    return {
+      toast: false,
+      path: "/error/" + 500,
+      status: "error",
+      message: "Something went wrong!",
       data: e?.response?.data,
     };
   }
@@ -321,8 +334,9 @@ export const downloadDocument = (row, name) => {
   });
 };
 
-export const download = (data, name) => {
-  const blob = new Blob([data], { type: "text/csv" });
+export const download = (data, name, type) => {
+  console.log(data, type);
+  const blob = new Blob([data], { type: type ? type : "text/csv" });
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.setAttribute("hidden", "");

@@ -16,10 +16,12 @@ import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
+import { useHistory } from "react-router-dom";
 
 const InviteParticipantsNew = (props) => {
   let title = "Invite Participants";
   let errorTextField = LocalStyle.customTextFieldError;
+  const history = useHistory();
 
   const { callToast, callLoader } = useContext(FarmStackContext);
   let errorTextFieldClass = "";
@@ -59,6 +61,7 @@ const InviteParticipantsNew = (props) => {
       } else if (!validator.isEmail(email)) {
         errorTextFieldClass = "error";
         console.log("error");
+        callToast("Please enter valid email.", "error", true);
       }
     }
     console.log("hanldeEnterClick");
@@ -66,7 +69,7 @@ const InviteParticipantsNew = (props) => {
 
   const handleSubmit = () => {
     if (validator.isEmail(email)) {
-      callToast("Please press enter after entring email!", "info", true);
+      callToast("Please press enter after entering email!", "info", true);
       return;
     } else if (email !== "") {
       callToast("Please enter valid email and press enter!", "info", true);
@@ -88,7 +91,7 @@ const InviteParticipantsNew = (props) => {
         setAllEmails([]);
         setInviteNote(RichTextEditor.createEmptyValue);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
         var returnValues = GetErrorKey(e, Object.keys(data));
         var errorKeys = returnValues[0];
@@ -106,15 +109,29 @@ const InviteParticipantsNew = (props) => {
           }
         } else {
           console.log("error ", GetErrorHandlingRoute(e));
-          callToast(GetErrorHandlingRoute(e).message, "error", true);
+
+          let error = await GetErrorHandlingRoute(e);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
         }
       });
   };
 
   const handleCancel = () => {
     setAllEmails([]);
-    email("");
+    setEmail("");
     setInviteNote(RichTextEditor.createEmptyValue);
+    history.go(-1);
   };
 
   return (

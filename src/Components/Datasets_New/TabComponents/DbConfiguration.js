@@ -51,6 +51,7 @@ const DbConfiguration = (props) => {
       <TextField
         fullWidth
         required
+        id={`${props.dbName}-upload-dataset-db-name-id`}
         helperText={
           <Typography
             sx={{
@@ -88,9 +89,10 @@ const DbConfiguration = (props) => {
         placeholder="Database name"
         label="Database name"
         value={props.dbaseName}
-        onChange={(e) => props.setDbaseName(e.target.value)}
+        onChange={(e) => props.setDbaseName(e.target.value.trimStart())}
       />
       <TextField
+        id={`${props.dbName}-upload-dataset-user-name-id`}
         fullWidth
         required
         helperText={
@@ -130,9 +132,10 @@ const DbConfiguration = (props) => {
         placeholder="User name"
         label="User name"
         value={props.userName}
-        onChange={(e) => props.setUserName(e.target.value)}
+        onChange={(e) => props.setUserName(e.target.value.trimStart())}
       />
       <TextField
+        id={`${props.dbName}-upload-dataset-password-id`}
         fullWidth
         required
         helperText={
@@ -173,7 +176,7 @@ const DbConfiguration = (props) => {
         label="Password"
         value={props.password}
         type={showPassword ? "text" : "password"}
-        onChange={(e) => props.setPassword(e.target.value)}
+        onChange={(e) => props.setPassword(e.target.value.trimStart())}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -189,6 +192,7 @@ const DbConfiguration = (props) => {
         }}
       />
       <TextField
+        id={`${props.dbName}-upload-dataset-database-host-url-id`}
         fullWidth
         required
         helperText={
@@ -228,9 +232,10 @@ const DbConfiguration = (props) => {
         placeholder="Database host URL"
         label="Database host URL"
         value={props.dbUrl}
-        onChange={(e) => props.setDbUrl(e.target.value)}
+        onChange={(e) => props.setDbUrl(e.target.value.trimStart())}
       />
       <TextField
+        id={`${props.dbName}-upload-dataset-port-id`}
         fullWidth
         required
         helperText={
@@ -270,7 +275,11 @@ const DbConfiguration = (props) => {
         placeholder="Port"
         label="Port"
         value={props.port}
-        onChange={(e) => props.setPort(e.target.value)}
+        onChange={(e) => {
+          const input = e.target.value.replace(/\D/g, ""); // replace all non-numeric characters with an empty string
+          e.target.value = input.slice(0, 5); // limit input to 5 characters
+          props.setPort(input.slice(0, 5)); // set the port value to the input, limited to 5 characters
+        }}
       />
       {/* <CheckBoxWithText text={"Save credentials"} handleCheckBox={props.handleCheckBox} /> */}
       <Box sx={{ marginTop: "31px", textAlign: "end" }}>
@@ -292,6 +301,7 @@ const DbConfiguration = (props) => {
           }}
           variant="outlined"
           onClick={() => props.handleClearFields()}
+          id={`${props.dbName}-upload-dataset-clear-btn`}
         >
           Clear
         </Button>
@@ -323,6 +333,7 @@ const DbConfiguration = (props) => {
               : true
           }
           onClick={() => props.handleConnect()}
+          id={`${props.dbName}-upload-dataset-connect-btn`}
         >
           Connect
         </Button>

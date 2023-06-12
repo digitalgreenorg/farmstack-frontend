@@ -22,6 +22,20 @@
     color: #000000 !important;
 }
 
+.wordWrap {
+    word-wrap: break-word;
+}
+
+.view_datasets_bold_text_sm {
+    font-family: 'Montserrat' !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    line-height: 24px !important;
+    color: #000000 !important;
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
 .ml-134 {
     margin-left: 134px !important;
 }
@@ -48,6 +62,10 @@
 
 .ml-79 {
     margin-left: 79px;
+}
+
+.ml-28 {
+    margin-left: 28px;
 }
 
 .ml-39 {

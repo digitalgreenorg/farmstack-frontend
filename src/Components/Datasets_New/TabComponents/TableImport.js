@@ -15,6 +15,14 @@ import {
 import React from "react";
 
 const TableImport = (props) => {
+  const hasAnyColumnChecked = () => {
+    const key = "checked";
+    const hasValue = props?.allColumns.some(
+      (obj) => obj.hasOwnProperty(key) && obj[key] === true
+    );
+    return hasValue;
+  };
+
   return (
     <Box>
       <Typography
@@ -54,7 +62,7 @@ const TableImport = (props) => {
         <InputLabel>Select table</InputLabel>
         <Select
           labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          id={`${props.dbName}-upload-dataset-select-id`}
           value={props.tableName}
           onChange={props.handleTableChange}
           sx={{
@@ -72,8 +80,13 @@ const TableImport = (props) => {
           label="Select table"
           placeholder="Select table"
         >
-          {props.menus?.map((menu) => (
-            <MenuItem value={menu}>{menu}</MenuItem>
+          {props.menus?.map((menu, index) => (
+            <MenuItem
+              id={`${props.dbName}-upload-dataset-select-id-${index}`}
+              value={menu}
+            >
+              {menu}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -108,6 +121,7 @@ const TableImport = (props) => {
                       key={index}
                       onChange={(e) => props.handleCheckBoxCheck(e, eachCol)}
                       checked={eachCol.checked}
+                      id={`${props.dbName}-uploaded-data-checkbox-id-${index}`}
                     />
                   }
                   label={eachCol.value}
@@ -145,11 +159,12 @@ const TableImport = (props) => {
               borderRadius: "8px",
             }}
           >
-            {props.allColumns?.map((eachColSelected) => {
+            {props.allColumns?.map((eachColSelected, index) => {
               return eachColSelected.checked ? (
                 <Chip
                   sx={{ marginLeft: "5px", marginRight: "15px" }}
                   label={eachColSelected.value}
+                  id={`${props.dbName}-upload-dataset-colum-id-${index}`}
                 />
               ) : (
                 ""
@@ -189,6 +204,7 @@ const TableImport = (props) => {
         Example: filename_01.xls, filename_01.xls.
       </Typography>
       <TextField
+        id={`${props.dbName}-upload-dataset-filename-id`}
         fullWidth
         required
         helperText={
@@ -227,7 +243,7 @@ const TableImport = (props) => {
         }}
         placeholder="File name"
         value={props.fileName}
-        onChange={(e) => props.setFileName(e.target.value)}
+        onChange={(e) => props.setFileName(e.target.value.trimStart())}
       />
       <Box sx={{ marginTop: "31px", textAlign: "end" }}>
         <Button
@@ -248,6 +264,7 @@ const TableImport = (props) => {
           }}
           variant="outlined"
           onClick={() => props.handleDisconnect()}
+          id={`${props.dbName}-upload-dataset-disconnect-btn`}
         >
           Disconnect
         </Button>
@@ -269,8 +286,13 @@ const TableImport = (props) => {
             },
           }}
           variant="outlined"
-          disabled={props.fileName ? false : true}
+          disabled={
+            props.fileName && props.tableName && hasAnyColumnChecked()
+              ? false
+              : true
+          }
           onClick={() => props.handleImport()}
+          id={`${props.dbName}-upload-dataset-import-btn`}
         >
           Import
         </Button>

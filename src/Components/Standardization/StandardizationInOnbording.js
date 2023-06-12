@@ -42,7 +42,8 @@ import global_style from "../../Assets/CSS/global.module.css";
 import styles from "../NewOnboarding/onboarding.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { Col, Row } from "react-bootstrap";
-
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+import GlobalStyle from "../../Assets/CSS/global.module.css";
 const StandardizationInOnbord = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
@@ -72,6 +73,26 @@ const StandardizationInOnbord = (props) => {
       content: text,
       duration: 5,
     });
+  };
+  const [anchorEl, setAnchorEl] = React.useState(
+    Array(allDatapoints.length).fill(null)
+  );
+  const [open, setOpen] = React.useState(false);
+
+  const handleDelete = (event, index) => {
+    setAnchorEl((prevAnchorEl) => {
+      const newAnchorEl = [...prevAnchorEl];
+      newAnchorEl[index] = event.currentTarget;
+      console.log("event is triggering", newAnchorEl, anchorEl, index);
+      return newAnchorEl;
+    });
+  };
+  const handleClose = (index) => {
+    const newAnchorEls = [...anchorEl];
+    newAnchorEls[index] = null;
+    setAnchorEl(newAnchorEls);
+    setOpen(false);
+    console.log("newAnchorEls", newAnchorEls);
   };
 
   console.log("all datapoints", allDatapoints);
@@ -140,24 +161,8 @@ const StandardizationInOnbord = (props) => {
 
     let tmpAllDatapoints = [...allDatapoints];
     console.log("error array", accordionDatapointNameError);
-
-    //Check if category name already exist or not
-    // let returnFromFuntion = false
-    // tmpAllDatapoints.forEach((category)=>{
-    //   if(category.datapoint_category === newValue) {
-    //     let tmpDatapointNameError = [...accordionDatapointNameError]
-    //tmpDatapointNameError[index] = ` ${newValue} Category already exists!`
-    //     setAccordionDatapointNameError(tmpDatapointNameError)
-    //     returnFromFuntion = true;
-    //     return
-    //   }
-    // })
-    // if(returnFromFuntion) return
-    // let tmpDatapointNameError = [...accordionDatapointNameError]
-    //     tmpDatapointNameError[index] = ""
-    //     setAccordionDatapointNameError(tmpDatapointNameError)
     if (newValue.length < 51) {
-      tmpAllDatapoints[index].datapoint_category = newValue;
+      tmpAllDatapoints[index].datapoint_category = newValue.trimStart();
       setAllDataPoints(tmpAllDatapoints);
     } else {
       return;
@@ -232,25 +237,28 @@ const StandardizationInOnbord = (props) => {
   };
 
   const handleAddDatapointAttribute = (index) => {
-    if (!allAttributes[index][0]) {
+    if (!allAttributes[index] || !allAttributes[index][0]) {
       return;
     }
     setSaveButtonEnabled(true);
 
     let tmpAllAttributes = { ...allAttributes };
     const newAttribute = tmpAllAttributes[index][0].trimStart();
-    if (tmpAllAttributes[index].slice(1).some(attr => attr === newAttribute)) {
-      console.error(`Attribute "${newAttribute}" already exists for datapoint ${tmpAllAttributes[index][1]}`);
-      let nameAlreadyExist = [...attributeErrorMessage]
-      nameAlreadyExist[index] = `"${newAttribute}" already exists for datapoint`
-      setAttributeErrorMessage(nameAlreadyExist)
+    if (
+      tmpAllAttributes[index].slice(1).some((attr) => attr === newAttribute)
+    ) {
+      console.error(
+        `Attribute "${newAttribute}" already exists for datapoint ${tmpAllAttributes[index][1]}`
+      );
+      let nameAlreadyExist = [...attributeErrorMessage];
+      nameAlreadyExist[
+        index
+      ] = `"${newAttribute}" already exists for datapoint`;
+      setAttributeErrorMessage(nameAlreadyExist);
       return;
     }
-    if (tmpAllAttributes[index].length === 1) {
-      tmpAllAttributes[index][0] = newAttribute;
-    } else {
-      tmpAllAttributes[index].push(newAttribute);
-    }
+    tmpAllAttributes[index].push(tmpAllAttributes[index][0]);
+    tmpAllAttributes[index][0] = "";
     setAllAttributes(tmpAllAttributes);
 
     // For Des
@@ -258,16 +266,26 @@ const StandardizationInOnbord = (props) => {
     tmpAllAttributesDes[index].push(tmpAllAttributesDes[index][0]);
     tmpAllAttributesDes[index][0] = "";
     setAllAttributesDes(tmpAllAttributesDes);
-    setAttributeErrorMessage("")
+    setAttributeErrorMessage("");
     console.log("all Des", tmpAllAttributesDes);
   };
   const handleDatapointAtticuteDelete = (index, arrIndex) => {
     let tmpAllAttributes = { ...allAttributes };
     tmpAllAttributes[index].splice(arrIndex, 1);
     setAllAttributes(tmpAllAttributes);
+    setSaveButtonEnabled(true);
     console.log("tmpAllAttributes", tmpAllAttributes);
   };
 
+  const confirm = (e, index) => {
+    handleDatapointCategoryDelete(index);
+    e.stopPropagation();
+    setAnchorEl((prevAnchorEl) => {
+      const newAnchorEl = [...prevAnchorEl];
+      newAnchorEl[index] = null;
+      return newAnchorEl;
+    });
+  };
   const handleDatapointCategoryDelete = (index) => {
     if (allDatapoints[index]["id"]) {
       console.log("id", allDatapoints[index]["id"]);
@@ -301,13 +319,20 @@ const StandardizationInOnbord = (props) => {
 
     console.log("final payload", payload);
 
-    let method = inSettings ? "PUT" : isOnborading ? "POST" : "POST";
-    let url = isOnborading
-      ? UrlConstant.base_url + UrlConstant.standardization_post_data
-      : inSettings
-      ? UrlConstant.base_url + UrlConstant.standardization_update_data
-      : UrlConstant.base_url + UrlConstant.standardization_post_data;
-
+    let method, url;
+    if (inSettings) {
+      method = "PUT";
+      url = UrlConstant.base_url + UrlConstant.standardization_update_data;
+    } else if (
+      isOnborading &&
+      (!allDatapoints === null || allDatapoints.length > 0)
+    ) {
+      method = "PUT";
+      url = UrlConstant.base_url + UrlConstant.standardization_update_data;
+    } else {
+      method = isOnborading ? "POST" : "POST";
+      url = UrlConstant.base_url + UrlConstant.standardization_post_data;
+    }
     setIsLoading(true);
     HTTPService(
       method,
@@ -335,36 +360,49 @@ const StandardizationInOnbord = (props) => {
           }
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         setIsLoading(false);
         //   success('Standardization template created successfully')
-        console.log(e, e?.response?.data);
-        if (
-          e.response != null &&
-          e.response != undefined &&
-          (e.response.status === 401 || e.response.status === 502)
-        ) {
-          setError(true);
+        // console.log(e, e?.response?.data);
+        // if (
+        //   e.response != null &&
+        //   e.response != undefined &&
+        //   (e.response.status === 401 || e.response.status === 502)
+        // ) {
+        //   setError(true);
+        //   callToast(
+        //     JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
+        //     "error",
+        //     true
+        //   );
+        //   // success(
+        //   //   e.response.data && e.response.data.message
+        //   //     ? e.response.data.message
+        //   //     : "User not registered", "error"
+        //   // );
+        //   // GetErrorHandlingRoute(e).then((errorObject) => {
+        //   //   callToast(errorObject?.message, "error", true);
+        //   // });
+        // } else {
+        //   setError(true);
+        //   callToast(
+        //     JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
+        //     "error",
+        //     true
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
           callToast(
-            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
-            "error",
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
             true
           );
-          // success(
-          //   e.response.data && e.response.data.message
-          //     ? e.response.data.message
-          //     : "User not registered", "error"
-          // );
-          // GetErrorHandlingRoute(e).then((errorObject) => {
-          //   callToast(errorObject?.message, "error", true);
-          // });
-        } else {
-          setError(true);
-          callToast(
-            JSON.stringify(e?.response?.data[0]) ?? "Some error occured",
-            "error",
-            true
-          );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -394,31 +432,44 @@ const StandardizationInOnbord = (props) => {
           console.log("tmp in get call attributes", tmp, tmpDes, allAttributes);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
 
         //   success('Standardization template created successfully')
+        // console.log(e);
+        // if (
+        //   e.response != null &&
+        //   e.response != undefined &&
+        //   (e.response.status === 401 || e.response.status === 502)
+        // ) {
+        //   setError(true);
+        //   // success(
+        //   //   e.response.data && e.response.data.message
+        //   //     ? e.response.data.message
+        //   //     : "User not registered", "error"
+        //   // );
+        //   history.push(GetErrorHandlingRoute(e));
+        // } else {
+        //   setError(false);
+        //   callToast(
+        //     e.response.data && e.response.data.message
+        //       ? e.response.data.message
+        //       : "Something went wrong.",
+        //     "error"
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
         console.log(e);
-        if (
-          e.response != null &&
-          e.response != undefined &&
-          (e.response.status === 401 || e.response.status === 502)
-        ) {
-          setError(true);
-          // success(
-          //   e.response.data && e.response.data.message
-          //     ? e.response.data.message
-          //     : "User not registered", "error"
-          // );
-          history.push(GetErrorHandlingRoute(e));
-        } else {
-          setError(false);
+        if (error.toast) {
           callToast(
-            e.response.data && e.response.data.message
-              ? e.response.data.message
-              : "Something went wrong.",
-            "error"
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
           );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -437,38 +488,51 @@ const StandardizationInOnbord = (props) => {
         let tmpAllAttributes = { ...allAttributes };
         tmpAllAttributes[index] = [];
         setAllAttributes(tmpAllAttributes);
-        callToast("Category deleted successfully.", "success");
+        callToast("Category deleted successfully.", "success", true);
 
         let tmpAllDatapoints = [...allDatapoints];
         tmpAllDatapoints.splice(index, 1);
         setAllDataPoints(tmpAllDatapoints);
         return true;
       })
-      .catch((e) => {
+      .catch(async (e) => {
         setIsLoading(false);
         console.log(e);
-        if (
-          e.response != null &&
-          e.response != undefined &&
-          (e.response.status === 401 || e.response.status === 502)
-        ) {
-          setError(true);
-          GetErrorHandlingRoute(e).then((errorObject) => {
-            console.log(errorObject);
-            callToast(
-              errorObject?.message ? errorObject?.message : "",
-              "error",
-              true
-            );
-          });
-        } else {
-          setError(false);
+        // if (
+        //   e.response != null &&
+        //   e.response != undefined &&
+        //   (e.response.status === 401 || e.response.status === 502)
+        // ) {
+        //   setError(true);
+        //   GetErrorHandlingRoute(e).then((errorObject) => {
+        //     console.log(errorObject);
+        //     callToast(
+        //       errorObject?.message ? errorObject?.message : "",
+        //       "error",
+        //       true
+        //     );
+        //   });
+        // } else {
+        //   setError(false);
+        //   callToast(
+        //     e.response.data && e.response.data.message
+        //       ? e.response.data.message
+        //       : "Something went wrong.",
+        //     "error"
+        //   );
+        // }
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
           callToast(
-            e.response.data && e.response.data.message
-              ? e.response.data.message
-              : "Something went wrong.",
-            "error"
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
           );
+        }
+        if (error.path) {
+          history.push(error.path);
         }
       });
   };
@@ -508,7 +572,7 @@ const StandardizationInOnbord = (props) => {
     // setIsLoader(true);
     HTTPService("POST", url, data, false, true, isaccesstoken)
       .then((response) => {
-        callToast("Onboarding successfull", "success", true);
+        callToast("Onboarded successfuly", "success", true);
         // setIsLoader(false);
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
@@ -519,14 +583,27 @@ const StandardizationInOnbord = (props) => {
           history.push("/datahub/new_datasets");
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         // setIsLoader(false);
         // console.log(e);
-        callToast(
-          JSON.stringify(e?.response?.data ?? "Some error occurred"),
-          "error",
-          true
-        );
+        // callToast(
+        //   JSON.stringify(e?.response?.data ?? "Some error occurred"),
+        //   "error",
+        //   true
+        // );
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
   useEffect(() => {
@@ -545,10 +622,13 @@ const StandardizationInOnbord = (props) => {
       <div className={styles.main_box}>
         <div className={styles.main_label}>
           <div>Datapoint category details</div>
-          <div className={styles.sub_label}>
-            Enter the datapoints and datapoints attributes, we will show to
-            others!
-          </div>
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {props.inSettings
+              ? "Create and update datapoints to standardise datasets."
+              : ""}
+          </Typography>
         </div>
         <div className="data-point-input-box-container">
           <TextField
@@ -593,7 +673,16 @@ const StandardizationInOnbord = (props) => {
 
         <div className="attribute-container">
           {allDatapoints?.length > 0 && (
-            <div className={styles.main_label}>Datapoint attributes</div>
+            <div className={styles.main_label}>
+              Datapoint attributes
+              <Typography
+                className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+              >
+                {inSettings
+                  ? "Customize and control datapoint attributes for accuracy and relevance."
+                  : ""}
+              </Typography>
+            </div>
           )}
           {allDatapoints?.map((item, index) => {
             // let tmpAllAttributes = {...allAttributes}
@@ -607,7 +696,7 @@ const StandardizationInOnbord = (props) => {
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
-                    id="panel1a-header"
+                    id={`datapoint-category-${index}-accordian`}
                     className="attribute-accordion-titile"
                   >
                     {/* <Typography className="accordion-title" variant="h5">
@@ -628,7 +717,7 @@ const StandardizationInOnbord = (props) => {
                         }}
                         inputProps={{ maxLength: 250 }}
                         className="datapoint-name-input-box"
-                        id="datapoint-name-input-box-id"
+                        id={`datapoint-${index}-name-input-edit`}
                         label="Datapoint category name"
                         variant="outlined"
                         helperText={
@@ -655,6 +744,7 @@ const StandardizationInOnbord = (props) => {
                     {editCategoryTitle[index] ? (
                       <IconButton>
                         <Button
+                          id={`update-${index}-button-category`}
                           onClick={() =>
                             handleNameExistsUpdate(
                               index,
@@ -673,8 +763,8 @@ const StandardizationInOnbord = (props) => {
                         </Button>
                       </IconButton>
                     ) : null}
-                    {/* <div> */}
-                    {/* <IconButton
+
+                    <IconButton
                       onClick={(e) => {
                         // this funtion will make a particular index of editCategoryTitle array true
                         e.stopPropagation();
@@ -683,18 +773,29 @@ const StandardizationInOnbord = (props) => {
                         console.log("edit title", tmp, editCategoryTitle);
                         setEditCategoryTitle(tmp);
                       }}
+                      id={`edit-${index}-datapoint`}
                     >
                       <EditIcon />
-                    </IconButton> */}
-                    {/* <IconButton
-                      onClick={(e) => {
-                        handleDatapointCategoryDelete(index);
-                        e.stopPropagation();
-                      }}
+                    </IconButton>
+                    <CustomDeletePopper
+                      DeleteItem={"Datapoint category"}
+                      anchorEl={anchorEl[index]}
+                      handleDelete={(e) => confirm(e, index)}
+                      id={`delete-${index}-delete-popper-icon`}
+                      open={
+                        anchorEl[index] !== null &&
+                        anchorEl[index] !== undefined
+                      }
+                      closePopper={() => handleClose(index)}
+                      deletePopperId={`${index}-delete-popper-accordian-button-datapoint`}
+                      cancelPopperId={`${index}-cancel-popper-accordian-button-datapoint`}
+                    />
+                    <IconButton
+                      id={`delete-${index}-datapoint`}
+                      onClick={(event) => handleDelete(event, index)}
                     >
                       <DeleteOutlineIcon />
-                    </IconButton> */}
-                    {/* </div> */}
+                    </IconButton>
                   </AccordionSummary>
                   <AccordionDetails>
                     <div className="attribute-main-div">
@@ -773,6 +874,7 @@ const StandardizationInOnbord = (props) => {
                             src={add_icon}
                             alt="add"
                             onClick={() => handleAddDatapointAttribute(index)}
+                            id="add-subcategories-button"
                           />
                         </Col>
                       </Row>
@@ -813,6 +915,7 @@ const StandardizationInOnbord = (props) => {
                                                 arrIndex
                                               )
                                             }
+                                            id={`delete-${arrIndex}-datapoint-attribute`}
                                           >
                                             <DeleteOutlineIcon />
                                           </IconButton>
@@ -841,8 +944,21 @@ const StandardizationInOnbord = (props) => {
                     </div>
                     <Row>
                       <Col style={{ textAlign: "right", margin: "20px" }}>
+                        <CustomDeletePopper
+                          DeleteItem={"Datapoint category"}
+                          anchorEl={anchorEl[index]}
+                          handleDelete={(e) => confirm(e, index)}
+                          id={`delete-${index}-delete-popper-button`}
+                          open={
+                            anchorEl[index] !== null &&
+                            anchorEl[index] !== undefined
+                          }
+                          closePopper={() => handleClose(index)}
+                          deletePopperId={`${index}-delete-popper-datapoint-button`}
+                          cancelPopperId={`${index}-cancel-popper-datapoint-button`}
+                        />
                         <Button
-                          id="apply_policies"
+                          id={`delete-${index}-button-datapoint`}
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
@@ -850,15 +966,12 @@ const StandardizationInOnbord = (props) => {
                             " " +
                             styles.delete_button_policy
                           }
-                          onClick={(e) => {
-                            handleDatapointCategoryDelete(index);
-                            e.stopPropagation();
-                          }}
+                          onClick={(event) => handleDelete(event, index)}
                         >
                           Delete
                         </Button>
                         <Button
-                          id="apply_policies"
+                          id={`edit-${index}-button-datapoint`}
                           variant="outlined"
                           style={{ margin: "20px" }}
                           className={
@@ -952,9 +1065,15 @@ const StandardizationInOnbord = (props) => {
                   // }
                   // helperText={organisationDetailsError.organisation_country_error}
                 >
-                  <MenuItem value={"in"}>India</MenuItem>
-                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                  <MenuItem value={"in"} id="India">
+                    India
+                  </MenuItem>
+                  <MenuItem value={"eth"} id="Ethiopia">
+                    Ethiopia
+                  </MenuItem>
+                  <MenuItem value={"kenya"} id="Kenya">
+                    Kenya
+                  </MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -979,9 +1098,15 @@ const StandardizationInOnbord = (props) => {
                   // }
                   // helperText={organisationDetailsError.organisation_country_error}
                 >
-                  <MenuItem value={"in"}>India</MenuItem>
-                  <MenuItem value={"eth"}>Ethiopia</MenuItem>
-                  <MenuItem value={"kenya"}>Kenya</MenuItem>
+                  <MenuItem value={"in"} id="India">
+                    India
+                  </MenuItem>
+                  <MenuItem value={"eth"} id="Ethiopia">
+                    Ethiopia
+                  </MenuItem>
+                  <MenuItem value={"kenya"} id="Kenya">
+                    Kenya
+                  </MenuItem>
                 </Select>
               </FormControl>
             </div>

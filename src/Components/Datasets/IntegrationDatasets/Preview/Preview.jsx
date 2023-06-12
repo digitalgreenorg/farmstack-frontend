@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Stack, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "../dataset_integration.module.css";
@@ -8,6 +8,7 @@ import NoDataAvailable from "../../../Dashboard/NoDataAvailable/NoDataAvailable"
 import { Affix } from "antd";
 import { message, Popconfirm } from "antd";
 import { useHistory } from "react-router-dom";
+import CustomDeletePopper from "../../../DeletePopper/CustomDeletePopper";
 
 function NoResultsOverlay() {
   return (
@@ -47,8 +48,22 @@ const Preview = (props) => {
     downloadDocument,
   } = props;
   const history = useHistory();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [col, setCol] = useState([]);
   const [row, setRow] = useState([]);
+  //Custom popper
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const id = "delete-popper";
+
+  const handleDeletePopper = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+  const closePopper = () => {
+    setOpen(false);
+  };
 
   const confirm = (e) => {
     deleteConnector();
@@ -230,7 +245,7 @@ const Preview = (props) => {
         </div>
       </Row>
       <hr />
-      <Row style={{ marginTop: "50px" }}>
+      <Row style={{ marginTop: mobile ? "" : "50px" }}>
         <Col lg={3}></Col>
         <Col
           lg={9}
@@ -239,9 +254,11 @@ const Preview = (props) => {
             justifyContent: "right",
             alignItems: "center",
             gap: "20px",
+            flexDirection: mobile ? "column" : "row",
           }}
         >
           <Button
+            id="cancel-button"
             onClick={() => {
               history.push("/datahub/connectors");
               resetAll(true, true, true, true, setCol, setRow);
@@ -253,6 +270,7 @@ const Preview = (props) => {
           {/* </Col> */}
           {/* <Col lg={3}> */}
           <Button
+            id="integrate-more-datasets-button"
             onClick={() => integrateMore(1)}
             variant="contained"
             sx={{
@@ -264,7 +282,7 @@ const Preview = (props) => {
               borderRadius: "8px",
               color: "white",
               textTransform: "none",
-              marginRight: "30px",
+              marginRight: mobile ? "" : "30px",
               background: "#00AB55",
               "&:hover": {
                 background: "#00AB55",
@@ -281,51 +299,58 @@ const Preview = (props) => {
             "isAllConditionForSaveMet "
           )}
           {finalDatasetAfterIntegration.length > 0 &&
-            isAllConditionForSaveMet &&
-            isConditionForConnectorDataForSaveMet &&
-            completeData.length != 1 && (
-              <Button
-                onClick={() => {
-                  temporaryDeletedCards.forEach((item, i) => {
-                    if (item) {
-                      console.log(item);
-                      generateData(i, "delete_map_card", item);
-                    }
-                  });
-                  generateData(completeData.length - 2, "save");
-                }}
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: 700,
-                  fontSize: "15px",
-                  width: "200px",
-                  height: "48px",
-                  background: "#00AB55",
-                  borderRadius: "8px",
-                  textTransform: "none",
-                  color: "white !important",
-                  "&:hover": {
-                    backgroundColor: "#00AB55",
-                    color: "#fffff",
-                  },
-                }}
-              >
-                Save connector
-              </Button>
-            )}
+          isAllConditionForSaveMet &&
+          isConditionForConnectorDataForSaveMet &&
+          completeData?.[0]?.left_on?.length &&
+          completeData?.[0]?.right_on?.length &&
+          completeData.length != 1 ? (
+            <Button
+              id="save-connector-button"
+              onClick={() => {
+                temporaryDeletedCards.forEach((item, i) => {
+                  if (item) {
+                    console.log(item);
+                    generateData(i, "delete_map_card", item);
+                  }
+                });
+                generateData(completeData.length - 2, "save");
+              }}
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: 700,
+                fontSize: "15px",
+                width: "200px",
+                height: "48px",
+                background: "#00AB55",
+                borderRadius: "8px",
+                textTransform: "none",
+                color: "white !important",
+                "&:hover": {
+                  backgroundColor: "#00AB55",
+                  color: "#fffff",
+                },
+              }}
+            >
+              Save connector
+            </Button>
+          ) : (
+            <></>
+          )}
           {/* </Col> */}
           {/* <Col lg={2}> */}
           {isEditModeOn && (
-            <Popconfirm
-              title="Delete the connector"
-              description="Are you sure to delete this connector?"
-              onConfirm={confirm}
-              onCancel={cancel}
-              okText="Yes"
-              cancelText="No"
-            >
+            <>
+              <CustomDeletePopper
+                DeleteItem={connectorData?.name}
+                anchorEl={anchorEl}
+                handleDelete={confirm}
+                id={id}
+                open={open}
+                closePopper={closePopper}
+              />
               <Button
-                //  onClick={() => deleteConnector()}
+                id="delete-connector-button"
+                onClick={handleDeletePopper}
                 sx={{
                   fontFamily: "Public Sans",
                   fontWeight: 700,
@@ -335,7 +360,7 @@ const Preview = (props) => {
                   borderRadius: "8px",
                   color: "white",
                   textTransform: "none",
-                  marginRight: "30px",
+                  marginRight: mobile ? "" : "30px",
                   background: "#FF5630",
                   "&:hover": {
                     background: "#FF5630",
@@ -344,7 +369,7 @@ const Preview = (props) => {
               >
                 Delete connector
               </Button>
-            </Popconfirm>
+            </>
           )}
         </Col>
       </Row>

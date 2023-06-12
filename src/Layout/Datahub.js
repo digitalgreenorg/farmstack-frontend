@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Navbar from "../Components/Navbar/Navbar";
 import {
   BrowserRouter as Router,
@@ -6,6 +6,7 @@ import {
   Route,
   Redirect,
   withRouter,
+  useHistory,
 } from "react-router-dom";
 import AddCoSteward from "../Components/CoSteward/AddCoSteward";
 import ParticipantCoStewardManagement from "../Views/ParticipantCoSteward/ParticipantCoStewardManagement";
@@ -22,11 +23,17 @@ import Support from "../Views/Support/Support";
 // import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
 import DatasetAdmin from "../Views/Dataset/DatasetAdmin/DatasetAdmin";
 // import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
+  flushLocalstorage,
+  getRoleLocal,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
+  setRoleLocal,
+  getUserLocal,
+  GetErrorHandlingRoute,
+  goToTop,
 } from "../Utils/Common";
 import SampleDataSet from "../Views/Support/SampleDataSet";
 import Footer from "../Components/Footer/Footer";
@@ -51,7 +58,7 @@ import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/Participa
 import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
-import { Divider } from "@mui/material";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import FooterNew from "../Components/Footer/Footer_New";
 import CostewardDetailsNew from "../Views/ParticipantCoSteward/CostewardDetailsNew";
 import AddParticipantNew from "../Views/Participants/AddParticipantNew";
@@ -64,23 +71,103 @@ import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 import ParticipantApproveNew from "../Views/ParticipantCoSteward/ParticipantsApproveNew";
 import InviteParticipantsNew from "../Views/Participants/InviteParticipantsNew";
 import EditDataset from "../Components/Datasets_New/EditDataset";
+import UrlConstant from "../Constants/UrlConstants";
+import HTTPService from "../Services/HTTPService";
+import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import DashboardNew from "../Views/Dashboard/DashboardNew";
+import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
   // }, []);
-  return (
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [render, reRender] = useState(0);
+  const [verifyLocalData, setVerifyLocalData] = useState(false);
+  const history = useHistory();
+  const { callToast } = useContext(FarmStackContext);
+  let roleId = {
+    1: "datahub_admin",
+    3: "datahub_participant_root",
+    6: "datahub_co_steward",
+  };
+
+  const verifyUserDataOfLocal = () => {
+    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
+    let userId = getUserLocal();
+    let returnValue = false;
+    if (!userId) {
+      flushLocalstorage();
+      return;
+    }
+    let params = { user_id: userId };
+    HTTPService("GET", url, params, false, false, false)
+      .then(async (response) => {
+        console.log("response to verify local data in datahub", response);
+        if (!response?.data?.on_boarded) {
+          flushLocalstorage();
+          history.push("/login");
+          return;
+        }
+        let role = roleId[response?.data?.role_id];
+        let localRole = getRoleLocal();
+        // if (localRole != role) {
+        //   history.push("/login");
+        //   return;
+        // }
+        setRoleLocal(role);
+        setVerifyLocalData(true);
+        // console.log(
+        //   "response to verify local data role in datahub",
+        //   getRoleLocal(),
+        //   isLoggedInUserAdmin()
+        // );
+      })
+      .catch(async (e) => {
+        console.log("error to verify local data", e);
+        let error = await GetErrorHandlingRoute(e);
+        if (error?.toast) {
+          callToast(
+            error?.message ?? "user login details are corrupted",
+            error.status == 200 ? "success" : "error",
+            error.toast
+          );
+        } else {
+          history.push(error?.path);
+        }
+      });
+  };
+
+  useEffect(() => {
+    verifyUserDataOfLocal();
+    goToTop(0);
+  }, []);
+
+  return verifyLocalData ? (
     <>
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
         <div className="center_keeping_conatiner">
           {/* <Navbar /> */}
           <NavbarNew loginType={"admin"} />
-          <div className="minHeight67vhDatahubPage">
+          <div
+            className={
+              mobile
+                ? "minHeight67vhDatahubPage" + " " + "mt-70"
+                : "minHeight67vhDatahubPage"
+            }
+          >
+            <br />
             <Switch>
               <Route
                 exact
                 path="/datahub/participants/view/:id"
                 component={ParticipantsAndCoStewardDetailsNew}
+              />
+              <Route
+                exact
+                path="/datahub/costeward/participants/view/:id"
+                component={CostewardsParticipant}
               />
               <Route
                 exact
@@ -109,6 +196,11 @@ function Datahub(props) {
                 component={AddParticipantNew}
               />
               <Route exact path="/datahub/dashboard" component={Dashboard} />
+              <Route
+                exact
+                path="/datahub/new_dashboard"
+                component={DashboardNew}
+              />
 
               <Route
                 exact
@@ -242,6 +334,7 @@ function Datahub(props) {
                 path="/datahub/participants/addcosteward"
                 component={AddCoSteward}
               />
+
               {/* <Route
                 exact
                 path="/datahub/connectors"
@@ -266,6 +359,8 @@ function Datahub(props) {
         props.history.push("/login")
       )}
     </>
+  ) : (
+    <></>
   );
 }
 export default Datahub;

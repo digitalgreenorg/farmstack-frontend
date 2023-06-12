@@ -1,4 +1,10 @@
-import { Button, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useEffect, useState, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
@@ -16,29 +22,35 @@ import {
   getOrgLocal,
   getUserLocal,
 } from "../../Utils/Common";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
 import NoData from "../../Components/NoData/NoData";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { message, Popconfirm } from "antd";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
 
 const ParticipantAndCoStewardDetailsNew = (props) => {
   // to show as participants page pass isCosteward = true
   //  as participants request pass isParticipantRequest = true
-  let { isCosteward, isParticipantRequest, user, userTypeCosteward, title } =
-    props;
+  let {
+    isCosteward,
+    isParticipantRequest,
+    user,
+    userTypeCosteward,
+    title,
+    breadcrumbFromRoute,
+    isCostewardsParticipant,
+  } = props;
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
-
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  // const [organisationname, setorganisationname] = useState("");
-  // const [organisationaddress, setorganisationaddress] = useState("");
-  // const [orginsationemail, setorginsationemail] = useState("");
-  // const [countryvalue, setcountryvalue] = useState("");
-  // const [contactnumber, setcontactnumber] = useState("");
-  // const [websitelink, setwebsitelink] = useState("");
-
-  // const [organisationlength, setorganisationlength] = useState(3);
   const [istrusted, setistrusted] = React.useState(false);
   const [isorganisationemailerror, setisorganisationemailerror] =
     useState(false);
@@ -70,18 +82,18 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const [loadMoreUrl, setLoadMoreUrl] = useState([]);
   const [datasetLoadMoreUrl, setDatasetLoadMoreUrl] = useState("");
   const [openDeletePoper, setOpenDeletePoper] = useState(false);
-
-  // const [isLoader, callLoader] = useState(false);
   const history = useHistory();
   const { id } = useParams();
 
-  const [openPopper, setOpenPopper] = useState(false);
-  const [anchorEl, setAnchorEl] = useState("");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
 
-  const handlePopper = (event) => {
-    console.log("event", event, event.currentTarget);
+  const handleDeletePopper = (event) => {
     setAnchorEl(event.currentTarget);
-    setOpenPopper((previousOpen) => !previousOpen);
+    setOpen(true);
+  };
+  const closePopper = () => {
+    setOpen(false);
   };
 
   // const canBeOpen = open && Boolean(anchorEl);
@@ -146,12 +158,25 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           response?.data?.organization_id
         ); //Get dataset list of this user
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        // console.log(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
         console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -186,12 +211,25 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         if (response?.data?.results)
           setCoStewardOrParticipantsList(response.data.results);
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        // console.log(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
         console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -207,21 +245,33 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
         let datalist = coStewardOrParticipantsList;
-        if (response?.data?.next) {
+        if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
           setCoStewardOrParticipantsList(finalDataList);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // callToast(error.message, "error", true);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        console.log(e);
+        if (error?.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error?.path) {
+          history.push(error.path);
+        }
         console.log(e);
       });
   };
 
-  const deleteParticipants = () => {
+  const deleteParticipants = (reject) => {
     callLoader(true);
     HTTPService(
       "DELETE",
@@ -234,15 +284,32 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         callLoader(false);
         console.log("otp valid", response);
         if (response.status === 204) {
-          callToast("Delete successfully!", "success", true);
+          if (reject) {
+            callToast("Rejected successfully!", "success", true);
+          } else {
+            callToast("Deleted successfully!", "success", true);
+          }
           history.go(-1);
         }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log("err", e);
       });
   };
@@ -266,20 +333,33 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
     HTTPService("POST", url, payload, false, isAuthorization)
       .then((res) => {
-        if (isParticipantRequest) {
-          callLoader(false);
-        }
+        callLoader(false);
+        // if (isParticipantRequest) {
+        // }
         console.log("res", res);
         let data = [...datasetList, ...res?.data?.results];
         setDatasetList(data);
         if (res?.data?.next) setDatasetLoadMoreUrl(res.data.next);
         else setDatasetLoadMoreUrl("");
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        // console.log("Error obj", error);
+        // callToast(error.message, "error", true);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        callToast(error.message, "error", true);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log("err", e);
       });
   };
@@ -303,21 +383,37 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     HTTPService(method, url, payload, false, true)
       .then((response) => {
         callLoader(false);
-        if (method === "PUT") {
-          history.go(-1);
-        }
+
         if (response?.data?.next == null) {
           setLoadMoreButton(false);
         } else {
           setLoadMoreButton(true);
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
-        if (response?.data?.results)
+        if (response?.data?.results) {
           setCoStewardOrParticipantsList(response.data.results);
+        }
+        if (approval_endpoint) {
+          callToast("Approved successfully", "success", true);
+          history.go(-1);
+        }
       })
-      .catch((e) => {
+      .catch(async (e) => {
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        // let error = GetErrorHandlingRoute(e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
         console.log("Error obj", error);
         callToast(error.message, "error", true);
       });
@@ -332,16 +428,75 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   console.log("logoPath", logoPath);
 
   return (
-    <Container className={LocalStyle.container}>
+    <Box
+      className={
+        mobile || tablet ? LocalStyle.container : LocalStyle.containerMain
+      }
+    >
       <Row>
-        <Col xs={12} sm={6} md={4} xl={4} className={LocalStyle.highlitedImg}>
-          {logoPath ? (
-            <img src={UrlConstant.base_url_without_slash + logoPath} />
-          ) : (
-            <h1 className={LocalStyle.firstLetterOnLogo}>
-              {organisationName?.split("")[0]?.toUpperCase()}
-            </h1>
-          )}
+        <Col>
+          <div className="text-left mt-50">
+            <span
+              className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => {
+                let last_route = localStorage.getItem("last_route");
+                localStorage.removeItem("last_route");
+                if (last_route) {
+                  history.push(last_route);
+                } else {
+                  history.push("/datahub/participants/");
+                }
+              }}
+            >
+              {breadcrumbFromRoute ?? "Participant"}
+            </span>
+            <span className="add_light_text ml-16">
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            </span>
+            <span className="add_light_text ml-16 fw600">
+              {isCosteward && !isParticipantRequest
+                ? "Co-Steward details"
+                : !isCosteward && !isParticipantRequest
+                ? "Participant details"
+                : "New Participants requests details"}
+              {/* {isParticipantRequest ? "" : ""} */}
+            </span>
+          </div>
+        </Col>
+      </Row>
+      <Row
+        className={
+          mobile ? "justify-content-center mt-20" : "justify-content-start"
+        }
+      >
+        <Col xs={12} sm={6} md={4} xl={4}>
+          <Card
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: mobile ? "100%" : "275px !important",
+              height: "262px",
+              background: "#ffffff",
+              border: "1px solid #f2f3f5",
+              boxShadow: "-40px 40px 80px rgba(145, 158, 171, 0.16)",
+              borderRadius: "16px",
+            }}
+            className={
+              mobile ? LocalStyle.highlitedImgSm : LocalStyle.highlitedImg
+            }
+          >
+            {logoPath ? (
+              <img
+                src={UrlConstant.base_url_without_slash + logoPath}
+                style={{ width: "179px", height: "90px" }}
+              />
+            ) : (
+              <h1 className={LocalStyle.firstLetterOnLogo}>
+                {organisationName?.split("")[0]?.toUpperCase()}
+              </h1>
+            )}
+          </Card>
         </Col>
       </Row>
       <Row className={LocalStyle.section}>
@@ -352,36 +507,81 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           >
             {isCosteward ? "Co-steward details" : "Participants details"}
           </Typography>
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {isCosteward
+              ? "Explore details of co-steward organization."
+              : !isCosteward && !isParticipantRequest
+              ? "Dive into the details of participants empowering community."
+              : "Organization who have requested to join your community."}
+          </Typography>
         </Col>
         <Col
-          className={LocalStyle.buttonContainer}
+          className={`${LocalStyle.buttonContainer} ${mobile ? "mt-20" : ""}`}
           xs={12}
           sm={12}
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
+          {!isParticipantRequest &&
+          !userTypeCosteward &&
+          user !== "guest" &&
+          !isCostewardsParticipant ? (
             <>
-              <Button
-                variant="outlined"
-                className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
-                onClick={handlePopper}
-              >
-                <img
-                  className={LocalStyle.imgLogo}
-                  src={require("../../Assets/Img/delete_logo.svg")}
-                />
-                Delete {isCosteward ? "Co-steward" : "Participant"}
-              </Button>
               <CustomDeletePopper
-                handleDelete={deleteParticipants}
-                open={openPopper}
+                DeleteItem={organisationName}
                 anchorEl={anchorEl}
-                closePopper={setOpenPopper}
+                handleDelete={() => deleteParticipants(false)}
+                id={id}
+                open={open}
+                closePopper={closePopper}
               />
+
               <Button
                 variant="outlined"
-                className={`${GlobalStyle.outlined_button} ${LocalStyle.outlined_button}`}
+                sx={{
+                  color: "#FF5630",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: mobile ? "9px" : "15px",
+                  border: "1px solid rgba(255, 86, 48, 0.48)",
+                  width: "200px",
+                  height: "48px",
+                  marginRight: "28px",
+                  textTransform: "none",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(255, 86, 48, 0.48)",
+                  },
+                }}
+                onClick={handleDeletePopper}
+              >
+                Delete {isCosteward ? "Co-steward" : "Participant"}
+                <DeleteOutlineIcon
+                  sx={{
+                    fill: "#FF5630",
+                    fontSize: "22px",
+                    marginLeft: "4px",
+                  }}
+                />
+              </Button>
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "#00AB55",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: mobile ? "9px" : "15px",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                  width: "200px",
+                  height: "48px",
+                  textTransform: "none !important",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                  },
+                }}
                 onClick={(e) =>
                   history.push(
                     `/datahub/${
@@ -390,11 +590,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   )
                 }
               >
-                <img
-                  className={LocalStyle.imgLogo}
-                  src={require("../../Assets/Img/edit_logo.svg")}
-                />
                 Edit {isCosteward ? "Co-steward" : "Participant"}
+                <EditIcon
+                  sx={{
+                    fill: "#00AB55",
+                    fontSize: "22px",
+                    marginLeft: "4px",
+                    marginBottom: "2px",
+                  }}
+                />
               </Button>
             </>
           ) : (
@@ -417,7 +621,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {organisationName}
               </Typography>
             </Col>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-30" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Website Link</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -435,7 +645,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {orginsationEmail}
               </Typography>
             </Col>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Address</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -466,12 +682,24 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               ? "Co-steward user details"
               : "Participant Root User Details"}
           </Typography>
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {" "}
+            {"Profile of the designated representative."}{" "}
+          </Typography>
         </Col>
       </Row>
       <Row className={LocalStyle.textRow}>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Row>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>First Name</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -479,7 +707,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {firstName}
               </Typography>
             </Col>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Last Name</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -488,8 +722,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               </Typography>
             </Col>
           </Row>
-          <Row className={LocalStyle.textRow}>
-            <Col className={GlobalStyle.padding0} xs={12} sm={12} md={6} xl={6}>
+          <Row className={mobile ? "" : "mt-30"}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Email</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -497,7 +737,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {userEmail}
               </Typography>
             </Col>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col
+              className={mobile ? "mt-20" : ""}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={6}
+            >
               <Typography>Contact Number</Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -508,73 +754,83 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Row>
         </Col>
       </Row>
-
-      <Row className={LocalStyle.section}>
-        <Col xs={12} sm={12} md={6} xl={6}>
-          <Typography
-            // id={title + "-form-title"}
-            className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
-          >
-            List of Datasets
-          </Typography>
-        </Col>
-      </Row>
-      <Row>
-        {datasetList?.map((dataset, index) => {
-          console.log("datasets ", dataset);
-          return (
-            <Col
-              onClick={() =>
-                user == "guest"
-                  ? history.push(`/home/datasets/${dataset.id}`)
-                  : history.push(`/datahub/new_datasets/view/${dataset.id}`)
-              }
-              xs={12}
-              sm={12}
-              md={6}
-              xl={4}
-            >
-              <DatasetCart
-                publishDate={dataset?.created_at}
-                title={dataset?.name}
-                orgnisationName={dataset?.organization?.name}
-                city={dataset?.organization?.address?.city}
-                category={Object.keys(dataset?.category)}
-                update={dataset?.updated_at}
-              />
+      {!isParticipantRequest ? (
+        <>
+          <Row className={LocalStyle.section}>
+            <Col xs={12} sm={12} md={6} xl={6}>
+              <Typography
+                // id={title + "-form-title"}
+                className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
+              >
+                List of Datasets
+              </Typography>
+              <Typography
+                className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+              >
+                {" "}
+                {isCosteward
+                  ? "Browse the list of datasets contributed by this co-steward."
+                  : "Browse the list of datasets contributed by this partiicpant."}{" "}
+              </Typography>
             </Col>
-          );
-        })}
-        {datasetList.length == 0 ? (
-          <Box className={LocalStyle.noDataBox} p={3}>
-            <NoData
-              title={""}
-              subTitle={"As of now there are no datasets"}
-              // primaryButton={"Add participant"}
-              // primaryButtonOnClick={() =>
-              //   history.push("/datahub/participants/add")
-              // }
-            />
-          </Box>
-        ) : (
-          ""
-        )}
-      </Row>
+          </Row>
+          <Row>
+            {datasetList?.map((dataset, index) => {
+              console.log("datasets ", dataset);
+              return (
+                <Col
+                  onClick={() =>
+                    user == "guest"
+                      ? history.push(`/home/datasets/${dataset.id}`)
+                      : history.push(`/datahub/new_datasets/view/${dataset.id}`)
+                  }
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  xl={4}
+                >
+                  <DatasetCart
+                    publishDate={dataset?.created_at}
+                    title={dataset?.name}
+                    orgnisationName={dataset?.organization?.name}
+                    city={dataset?.organization?.address?.city}
+                    category={Object.keys(dataset?.category)}
+                    update={dataset?.updated_at}
+                  />
+                </Col>
+              );
+            })}
+            {datasetList.length == 0 ? (
+              <Box className={LocalStyle.noDataBox} p={3}>
+                <NoData
+                  title={""}
+                  subTitle={"As of now there are no datasets"}
+                  // primaryButton={"Add participant"}
+                  // primaryButtonOnClick={() =>
+                  //   history.push("/datahub/participants/add")
+                  // }
+                />
+              </Box>
+            ) : (
+              ""
+            )}
+          </Row>
+        </>
+      ) : (
+        ""
+      )}
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
-          <Col xs={0} sm={0} md={2} lg={4}></Col>
-          <Col xs={12} sm={12} md={8} lg={4}>
-            <Button
-              id={"details-page-load-more-dataset-button"}
-              variant="outlined"
-              className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
-              onClick={() =>
-                getDatasetOfParticipantOrCoSteward(true, userId, orgId)
-              } // passing true will call loadmore api
-            >
-              Load more
-            </Button>
-          </Col>
+          <Button
+            id={"details-page-load-more-dataset-button"}
+            variant="outlined"
+            className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
+            onClick={() =>
+              getDatasetOfParticipantOrCoSteward(true, userId, orgId)
+            } // passing true will call loadmore api
+          >
+            Load more
+          </Button>
         </Row>
       ) : (
         ""
@@ -583,11 +839,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {isCosteward ? (
         <CoStewardAndParticipantsCard
           title={"Co-steward participants"}
+          subTitle="Explore the participants who are part of this co-steward's community."
           user={user}
+          guestUser={user}
           viewType={false}
+          isCostewardsParticipant={user ? false : true}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
-          loadMoreButton={loadMoreUrl}
+          loadMoreButton={loadMoreButton}
           handleLoadMoreButton={handleLoadMoreButton}
         />
       ) : (
@@ -637,7 +896,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               id={"details-page-load-more-dataset-button"}
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
-              onClick={deleteParticipants}
+              onClick={() => deleteParticipants(true)}
             >
               Reject
             </Button>
@@ -652,18 +911,32 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Row>
         </>
       ) : (
-        <Row className={LocalStyle.backButtonContainerAlingCenter}>
+        <Box className={LocalStyle.backButtonContainerAlingCenter}>
           <Button
             id={"details-page-load-more-dataset-button"}
+            sx={{
+              fontFamily: "Montserrat",
+              fontWeight: 700,
+              fontSize: "16px",
+              width: mobile ? "245px" : "350px",
+              height: "48px",
+              border: "1px solid rgba(0, 171, 85, 0.48)",
+              borderRadius: "8px",
+              color: "#00AB55",
+              textTransform: "none",
+              "&:hover": {
+                background: "none",
+                border: "1px solid rgba(0, 171, 85, 0.48)",
+              },
+            }}
             variant="outlined"
-            className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
             onClick={() => history.go(-1)}
           >
             Back
           </Button>
-        </Row>
+        </Box>
       )}
-    </Container>
+    </Box>
   );
 };
 
