@@ -13,7 +13,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 const contentDetailsStyle = {
   display: "grid",

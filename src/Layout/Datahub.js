@@ -19,7 +19,7 @@ import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
 // import Settings from "../Views/Settings/Settings/Settings";
 import Settings from "../Components/SettingsNew/Settings";
-import Support from "../Views/Support/Support";
+// import Support from "../Views/Support/Support";
 // import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
 import DatasetAdmin from "../Views/Dataset/DatasetAdmin/DatasetAdmin";
 // import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
@@ -75,6 +75,28 @@ import UrlConstant from "../Constants/UrlConstants";
 import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
+import Fab from "@mui/material/Fab";
+import { makeStyles } from "@mui/styles";
+import Support from "../Components/Support_New/Support";
+import SupportView from "../Components/Support_New/SupportView";
+import AskSupport from "../Components/Support_New/SupportForm";
+import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
+const useStyles = makeStyles((theme) => ({
+  floatingButton: {
+    position: 'fixed',
+    bottom: '20px',
+    right: "-600px",
+    zIndex: 1000,
+    color: 'white',
+    // transition: 'transform 0.3s ease',
+    // transform: 'translateX(100%)',
+    // '&:hover': {
+    //   transform: 'translateX(0)',
+    //   borderRadius: '50%',
+    //   boxShadow: '0px 0px 10px 5px rgba(0, 0, 0, 0.1)',
+    // },
+  },
+}));
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
   // useEffect(() => {
@@ -85,11 +107,13 @@ function Datahub(props) {
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
+  const [showButton, setShowButton] = useState(false);
   let roleId = {
     1: "datahub_admin",
     3: "datahub_participant_root",
     6: "datahub_co_steward",
   };
+  const classes = useStyles();
 
   const verifyUserDataOfLocal = () => {
     let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
@@ -136,10 +160,16 @@ function Datahub(props) {
         }
       });
   };
+  const shouldRenderButton = () => {
+    const currentPath = window.location.pathname;
+    const excludedPaths = ["/datahub/support", "/datahub/support/add"]; // Add the paths where the floating button should be excluded
+    return !excludedPaths.includes(currentPath);
+  };
 
   useEffect(() => {
     verifyUserDataOfLocal();
     goToTop(0);
+    setShowButton(true);
   }, []);
 
   return verifyLocalData ? (
@@ -343,9 +373,28 @@ function Datahub(props) {
               <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
               </Route>
+              <Route exact path="/datahub/support">
+                <Support />
+              </Route>
+              <Route exact path="/datahub/support/add">
+                <AskSupport />
+              </Route>
+              <Route exact path="/datahub/support/view/:id">
+                <SupportView />
+              </Route>
             </Switch>
           </div>
           {/* <Footer /> */}
+          {shouldRenderButton() && showButton && (
+            <Fab
+              className={classes.floatingButton}
+              onClick={() => {
+                props.history.push("/datahub/support");
+              }}
+            >
+              <AddIcCallRoundedIcon />
+            </Fab>
+          )}
           <Divider className="mt-50" />
           <FooterNew />
         </div>
