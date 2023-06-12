@@ -189,6 +189,14 @@ export const GetErrorHandlingRoute = async (e) => {
       message: e?.response?.data?.message,
       data: e?.response?.data,
     };
+  } else {
+    return {
+      toast: false,
+      path: "/error/" + 500,
+      status: "error",
+      message: "Something went wrong!",
+      data: e?.response?.data,
+    };
   }
 
   // if (e?.response && e?.response?.data && e?.response?.data?.message) {

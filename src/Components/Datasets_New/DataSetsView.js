@@ -558,7 +558,7 @@ const DataSetsView = (props) => {
             <Typography className="view_datasets_light_text text-left mt-20">
               Description
             </Typography>
-            <Typography className="view_datasets_bold_text text-left mt-3">
+            <Typography className="view_datasets_bold_text wordWrap text-left mt-3">
               {dataSetDescription}
             </Typography>
           </Box>
