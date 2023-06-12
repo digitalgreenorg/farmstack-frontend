@@ -60,6 +60,7 @@ import { makeStyles } from "@mui/styles";
 import Support from "../Components/Support_New/Support";
 import AskSupport from "../Components/Support_New/SupportForm";
 import SupportView from "../Components/Support_New/SupportView";
+import DashboardNew from "../Views/Dashboard/DashboardNew";
 const useStyles = makeStyles((theme) => ({
   floatingButton: {
     position: 'fixed',
@@ -76,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
 }));
-import DashboardNew from "../Views/Dashboard/DashboardNew";
 
 function Participant(props) {
   const [render, reRender] = useState(0);
