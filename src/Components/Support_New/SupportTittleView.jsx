@@ -112,7 +112,14 @@ export default function SupportTittleView({
   const getTicketListOnLoadMore = () => {
     callLoader(true);
     console.log("loadMoreUrl", loadMoreUrl)
-    HTTPService("POST", loadMoreUrl, "", false, true)
+    let payload = {};
+
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      payload = {
+        others: tabValue === 1,
+      };
+    }
+    HTTPService("POST", loadMoreUrl, JSON.stringify(payload), false, true)
       .then((response) => {
         callLoader(false);
         if (response?.data?.next == null) {
@@ -147,41 +154,7 @@ export default function SupportTittleView({
         }
       });
   };
-  const getTicketListOnLoadMoreSecondTab = () => {
-    console.log("tab 2 is happening")
-    callLoader(true);
-    HTTPService("POST", loadMoreUrl, "", false, true)
-      .then((response) => {
-        callLoader(false);
-        if (response?.data?.next == null) {
-          setLoadMoreButton(false);
-        } else {
-          setLoadMoreButton(true);
-          if (response?.data?.next) {
-            setLoadMoreUrl(response.data.next);
-          }
-        }
-          let datalist = ticketList;
-          let finalDataList = [...datalist, ...response.data.results];
-          setTicketList(finalDataList);
-      })
-      .catch(async (e) => {
-        callLoader(false);
-        let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if (error.toast) {
-          callToast(
-            error?.message || "Something went wrong",
-            error?.status === 200 ? "success" : "error",
-            true
-          );
-        }
-        if (error.path) {
-          history.push(error.path);
-        }
-      });
-  };
+
 
   const handleLoadMore = () => {
     getTicketListOnLoadMore()
@@ -446,7 +419,7 @@ export default function SupportTittleView({
                         {loadMoreButton ? (
                           <Col xs={12} sm={12} md={6} lg={6}>
                             <Button
-                              onClick={() => getTicketListOnLoadMoreSecondTab()}
+                              onClick={() => getTicketListOnLoadMore()}
                               variant="outlied"
                               className={`${LocalStyle.pButtonStyle}`}
                               style={{ "text-transform": "none" }}
@@ -475,7 +448,7 @@ export default function SupportTittleView({
                       {loadMoreButton ? (
                         <Col xs={12} sm={12} md={6} lg={6}>
                           <Button
-                            onClick={() => getTicketListOnLoadMoreSecondTab()}
+                            onClick={() => getTicketListOnLoadMore()}
                             variant="outlied"
                             className={`${LocalStyle.pButtonStyle}`}
                             style={{ "text-transform": "none" }}
