@@ -19,16 +19,21 @@
 # Build react app
 FROM node:14-alpine as build
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --production --silent
+COPY package.json ./
+RUN apk add --no-cache yarn     # Install Yarn
+RUN yarn install --production --silent    # Use Yarn instead of npm
 COPY . .
-RUN yarn build
+RUN yarn run build    # Use Yarn instead of npm
 
-# Production image
+
+# copy static files and run nginx server
 FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
-ADD nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-image /app/build /usr/share/nginx/html
+COPY ./public.crt /etc/nginx/cert/public.crt
+COPY ./private.key /etc/nginx/cert/private.key
 EXPOSE 80
-
+EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]
+
 
