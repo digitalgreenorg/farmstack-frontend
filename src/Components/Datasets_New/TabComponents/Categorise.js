@@ -121,24 +121,24 @@ const Categorise = (props) => {
     console.log(props.geography);
   }, [props.geography]);
 
-  function renderCountryValue(selectedValue) {
-    const selectedOption = countries.find(
-      (option) => option.name === selectedValue
-    );
-    return selectedOption ? selectedOption.name : "";
-  }
-  function renderStateValue(selectedValue) {
-    const selectedOption = states.find(
-      (option) => option.name === selectedValue
-    );
-    return selectedOption ? selectedOption.name : "";
-  }
-  function renderCityValue(selectedValue) {
-    const selectedOption = cities.find(
-      (option) => option.name === selectedValue
-    );
-    return selectedOption ? selectedOption.name : "";
-  }
+  // function renderCountryValue(selectedValue) {
+  //   const selectedOption = countries.find(
+  //     (option) => option.name === selectedValue
+  //   );
+  //   return selectedOption ? selectedOption.name : "";
+  // }
+  // function renderStateValue(selectedValue) {
+  //   const selectedOption = states.find(
+  //     (option) => option.name === selectedValue
+  //   );
+  //   return selectedOption ? selectedOption.name : "";
+  // }
+  // function renderCityValue(selectedValue) {
+  //   const selectedOption = cities.find(
+  //     (option) => option.name === selectedValue
+  //   );
+  //   return selectedOption ? selectedOption.name : "";
+  // }
   return (
     <div className="mt-20">
       <Typography

@@ -8,31 +8,20 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import Login from "./Views/Login/Login";
-import ProfileScreen from "./Views/Login/ProfileScreen";
-import Participants from "./Views/Participants/Participants";
-import AddParticipants from "./Views/Participants/AddParticipants";
-import EditParticipants from "./Views/Participants/EditParticipants";
-import ViewParticipants from "./Views/Participants/ViewParticipants";
+
 import Datahub from "./Layout/Datahub";
 import Participant from "./Layout/Participant";
-import Error from "./Components/Error/Error";
 import SessionExpired from "./Components/SessionExpired/SessionExpired";
-import GuestUserHome from "./Views/GuestUser/GuestUserHome";
+
 import GuestUserLegal from "./Views/GuestUser/GuestUserLegal";
-import GuestUserContact from "./Views/GuestUser/GuestUserContact";
+
 import AddParticipantRegistrationForm from "./Components/PatricipantRegistration/AddParticipantRegistrationform";
-import ViewMetaDatasetDetails from "./Components/AdminDatasetConnection/ViewMetaDatasetDetails";
-import Viewdetails from "./Components/GuestUser/Viewdetails";
-import GuestUserMainHomePage from "./Views/GuestUser/GuestUserMainHomePage";
+
 import OnBoarding from "./Views/Pages/HomeScreen/OnBoarding";
-import FarmStackProvider, {
-  FarmStackContext,
-} from "./Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "./Components/Contexts/FarmStackContext";
 import Loader from "./Components/Loader/Loader";
 import Toast from "./Components/Generic/Toast";
 import GuestRoutes from "./Layout/GuestRoutes";
-import GuestUserDatasets from "./Components/GuestUser/GuestUserDatasets";
 import NewError from "./Components/Error/NewError";
 import GuestUserContactNew from "./Views/GuestUser/GuestUserContactNew";
 import UrlConstant from "./Constants/UrlConstants";
@@ -40,7 +29,6 @@ import HTTPService from "./Services/HTTPService";
 import {
   getUserLocal,
   flushLocalstorage,
-  setUserId,
   setRoleLocal,
   getRoleLocal,
   isLoggedInUserAdmin,
