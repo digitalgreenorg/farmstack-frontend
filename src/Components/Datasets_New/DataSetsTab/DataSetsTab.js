@@ -235,8 +235,9 @@ const DataSetsTab = ({
                 ) : (
                   ""
                 )}
-                {datasetList?.map((item) => (
+                {datasetList?.map((item, index) => (
                   <DataSetCardNew
+                    index={index}
                     id="dataset-card-in-dataset"
                     key={item?.id}
                     history={history}
@@ -301,8 +302,9 @@ const DataSetsTab = ({
             />
             {isGridOther ? (
               <div className="datasets_card">
-                {memberDatasetList?.map((item) => (
+                {memberDatasetList?.map((item, index) => (
                   <DataSetCardNew
+                    index={index}
                     key={item?.id}
                     value={value === 1 ? "other_organisation" : ""}
                     history={history}
