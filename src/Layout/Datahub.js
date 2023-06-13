@@ -1,29 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import Navbar from "../Components/Navbar/Navbar";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
-  withRouter,
   useHistory,
 } from "react-router-dom";
 import AddCoSteward from "../Components/CoSteward/AddCoSteward";
-import ParticipantCoStewardManagement from "../Views/ParticipantCoSteward/ParticipantCoStewardManagement";
-import Participants from "../Views/Participants/Participants";
-import AddParticipants from "../Views/Participants/AddParticipants";
-import EditParticipants from "../Views/Participants/EditParticipants";
-import ViewParticipants from "../Views/Participants/ViewParticipants";
-import InviteParticipants from "../Views/Participants/InviteParticipants";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
-// import Settings from "../Views/Settings/Settings/Settings";
 import Settings from "../Components/SettingsNew/Settings";
 import Support from "../Views/Support/Support";
-// import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
-import DatasetAdmin from "../Views/Dataset/DatasetAdmin/DatasetAdmin";
-// import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
-import { useParams } from "react-router-dom";
+
 import {
   flushLocalstorage,
   getRoleLocal,
@@ -35,24 +22,16 @@ import {
   GetErrorHandlingRoute,
   goToTop,
 } from "../Utils/Common";
-import SampleDataSet from "../Views/Support/SampleDataSet";
-import Footer from "../Components/Footer/Footer";
+
 import Dashboard from "../Views/Dashboard/Dashboard";
-import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
-import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
-import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
+
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
-import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
-import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
-import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
+
 import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
-import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
-import ViewCoSteward from "../Components/Participants/ViewCoSteword";
-import EditCoSteward from "../Components/Participants/EditCoSteward";
-import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
+
 import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
 import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
@@ -77,12 +56,8 @@ import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
 import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
 function Datahub(props) {
-  // const [activePage, setactivePage] = useState("");
-  // useEffect(() => {
-  // }, []);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [render, reRender] = useState(0);
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
@@ -95,7 +70,6 @@ function Datahub(props) {
   const verifyUserDataOfLocal = () => {
     let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
     let userId = getUserLocal();
-    let returnValue = false;
     if (!userId) {
       flushLocalstorage();
       return;

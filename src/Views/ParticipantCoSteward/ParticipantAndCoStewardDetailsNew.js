@@ -6,9 +6,8 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
-import CustomCard from "../../Components/Card/CustomCard";
 import DatasetCart from "../../Components/DatasetCard/DatasetCard";
 import UrlConstants from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
@@ -17,20 +16,12 @@ import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
-import {
-  GetErrorHandlingRoute,
-  getOrgLocal,
-  getUserLocal,
-} from "../../Utils/Common";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import Popper from "@mui/material/Popper";
-import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
 import NoData from "../../Components/NoData/NoData";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { message, Popconfirm } from "antd";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -42,25 +33,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     isParticipantRequest,
     user,
     userTypeCosteward,
-    title,
     breadcrumbFromRoute,
     isCostewardsParticipant,
   } = props;
-  const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [istrusted, setistrusted] = React.useState(false);
-  const [isorganisationemailerror, setisorganisationemailerror] =
-    useState(false);
-  const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
-  const [iswebsitelinkrerror, setwebsitelinkerror] = useState(false);
-  const [isuseremailerror, setisuseremailerror] = useState(false);
-  const [isSuccess, setisSuccess] = useState(true);
-  const [isDelete, setisDelete] = useState(false);
-  const [isDeleteCoSteward, setisDeleteCoSteward] = useState(false);
-  const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
 
   const [logoPath, setLogoPath] = useState("");
   const [organisationName, setOrganisationName] = useState("");
@@ -81,7 +62,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const [loadMoreButton, setLoadMoreButton] = useState([]);
   const [loadMoreUrl, setLoadMoreUrl] = useState([]);
   const [datasetLoadMoreUrl, setDatasetLoadMoreUrl] = useState("");
-  const [openDeletePoper, setOpenDeletePoper] = useState(false);
   const history = useHistory();
   const { id } = useParams();
 

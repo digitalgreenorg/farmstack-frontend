@@ -6,7 +6,6 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 import { getTokenLocal } from "../../Utils/Common";
 
 const CoStewardAndParticipantsCard = (props) => {
@@ -17,7 +16,6 @@ const CoStewardAndParticipantsCard = (props) => {
     title, // card is being render based in title if title is changing check all condition based on title
     handleLoadMoreButton,
     loadMoreButton,
-    user,
     guestUser,
     isCosteward,
     subTitle,
@@ -28,10 +26,6 @@ const CoStewardAndParticipantsCard = (props) => {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
-  const containerStyle = {
-    marginLeft: mobile || tablet ? "30px" : "144px",
-    marginRight: mobile || tablet ? "30px" : "144px",
-  };
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {

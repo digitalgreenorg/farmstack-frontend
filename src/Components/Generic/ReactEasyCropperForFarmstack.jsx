@@ -117,7 +117,7 @@ export default function ReactEasyCropperForFarmstack(props) {
         image={props.file}
         crop={crop}
         zoom={zoom}
-        aspect={5 / 1}
+        aspect={3.17}
         onCropChange={setCrop}
         onCropComplete={props.handleCropComplete}
         onZoomChange={setZoom}

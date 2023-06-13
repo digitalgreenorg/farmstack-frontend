@@ -5,10 +5,6 @@ import {
   Button,
   Card,
   Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
   useMediaQuery,
   useTheme,
@@ -17,11 +13,9 @@ import "./DataSetsView.css";
 import FileTable from "./FileTable";
 import FileWithAction from "./FileWithAction";
 import { useHistory, useParams } from "react-router-dom";
-import FooterNew from "../Footer/Footer_New";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../Accordion/Accordion";
-import OutlinedButton from "../Button/OutlinedButton";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import {
@@ -36,8 +30,6 @@ import {
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { Popconfirm } from "antd";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { Col, Row } from "react-bootstrap";

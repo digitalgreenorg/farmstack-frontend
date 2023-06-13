@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import ParticipantNavbar from "../Components/Navbar/ParticipantNavbar";
 import Home from "../Views/Role/Participant/home/Home";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
-  withRouter,
   useHistory,
 } from "react-router-dom";
 import {
@@ -19,18 +16,13 @@ import {
   isLoggedInUserParticipant,
   setRoleLocal,
 } from "../Utils/Common";
-import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
-import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
+
 import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
 // import Participantsettings from "../Views/Settings/ParticipantSettings/Participantsettings";
 
-import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
-import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
-import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
 import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
-import Footer from "../Components/Footer/Footer";
 import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
 
 import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
@@ -38,8 +30,6 @@ import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Projec
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
-import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
-import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
 import FooterNew from "../Components/Footer/Footer_New";
@@ -57,7 +47,6 @@ import UrlConstant from "../Constants/UrlConstants";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
 
 function Participant(props) {
-  const [render, reRender] = useState(0);
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -95,7 +84,7 @@ function Participant(props) {
         setRoleLocal(role);
         setVerifyLocalData(true);
         console.log(
-          "response to verify local data role in datahub",
+          "response to verify local data role in datahubasasas",
           getRoleLocal(),
           isLoggedInUserParticipant()
         );
