@@ -54,6 +54,8 @@ const ParticipantFormNew = (props) => {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [organisationName, setOrganisationName] = useState("");
   const [organisationEmail, setOrganisationEmail] = useState("");
+  const [isValid, setIsValid] = useState(true);
+  const [isValidRootMail, setIsValidRootMail] = useState(true);
   const [website, setWebsite] = useState("");
   const [address, setAddress] = useState("");
   const [organisationPinCode, setOrganisationPinCode] = useState("");
@@ -409,7 +411,11 @@ const ParticipantFormNew = (props) => {
         }
       });
   };
-
+  const validateEmail = (email) => {
+    // Regular expression for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
   useEffect(() => {
     if (isEditModeOn) {
       getDataOnEdit();
@@ -478,15 +484,10 @@ const ParticipantFormNew = (props) => {
                 value={organisationEmail}
                 disabled={isEditModeOn}
                 onChange={(e) => {
-                  // validateInputField(
-                  //   e.target.value,
-                  //   RegexConstants.NO_SPACE_REGEX
-                  // )
-                  //   ?
                   setOrganisationEmail(e.target.value.trim());
-                  // : e.preventDefault();
+                  setIsValid(validateEmail(e.target.value));
                 }}
-                error={orgEmailErrorMessage ? true : false}
+                error={orgEmailErrorMessage || !isValid ? true : false}
                 helperText={orgEmailErrorMessage ? orgEmailErrorMessage : ""}
               />
             </Col>
@@ -670,15 +671,10 @@ const ParticipantFormNew = (props) => {
               value={email}
               disabled={isEditModeOn}
               onChange={(e) => {
-                // validateInputField(
-                //   e.target.value,
-                //   RegexConstants.NO_SPACE_REGEX
-                // )
-                //   ?
                 setEmail(e.target.value.trim());
-                // : e.preventDefault();
+                setIsValidRootMail(validateEmail(e.target.value));
               }}
-              error={emailErrorMessage ? true : false}
+              error={emailErrorMessage || !isValidRootMail ? true : false}
               helperText={emailErrorMessage ? emailErrorMessage : ""}
             />
             {/* <TextField
@@ -865,6 +861,8 @@ const ParticipantFormNew = (props) => {
           disabled={
             organisationName &&
             organisationEmail &&
+            isValid &&
+            isValidRootMail &&
             address &&
             organisationPinCode.length > 4 &&
             firstName &&
