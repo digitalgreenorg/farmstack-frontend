@@ -9,7 +9,6 @@ import AddCoSteward from "../Components/CoSteward/AddCoSteward";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
 import Settings from "../Components/SettingsNew/Settings";
-import Support from "../Views/Support/Support";
 
 import {
   flushLocalstorage,
@@ -120,7 +119,7 @@ function Datahub(props) {
   };
   const shouldRenderButton = () => {
     const currentPath = window.location.pathname;
-    const excludedPaths = ["/datahub/support", "/datahub/support/add","/datahub/support/view/:id"]; // Add the paths where the floating button should be excluded
+    const excludedPaths = ["/datahub/support", "/datahub/support/add", "/datahub/support/view/:id"]; // Add the paths where the floating button should be excluded
     return !excludedPaths.includes(currentPath);
   };
 
