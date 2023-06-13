@@ -1,14 +1,13 @@
-# # Build react app
+
+# Build react app
 FROM node:14 as build-image
 WORKDIR /app
 COPY package.json ./
-RUN apk add --no-cache yarn     # Install Yarn
-RUN yarn install --production --silent    # Use Yarn instead of npm
+RUN npm install --force
 COPY . ./
-RUN yarn run build    # Use Yarn instead of npm
+RUN npm run build
 
-
-# # copy static files and run nginx server
+# copy static files and run nginx server
 FROM nginx:alpine
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-image /app/build /usr/share/nginx/html
@@ -17,6 +16,4 @@ COPY ./private.key /etc/nginx/cert/private.key
 EXPOSE 80
 EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]
-
-
 
