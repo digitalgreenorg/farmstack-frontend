@@ -312,7 +312,8 @@ const StandardizationInOnbord = (props) => {
     for (let index = 0; allDatapoints[index]; index++) {
       let attributeObj = {};
       for (let i = 1; i < allAttributes[index].length; i++) {
-        attributeObj[allAttributes[index][i]] = allAttributesDes[index][i];
+        attributeObj[allAttributes[index][i]] =
+          allAttributesDes[index][i] ?? "";
       }
       payload[index]["datapoint_attributes"] = attributeObj;
     }

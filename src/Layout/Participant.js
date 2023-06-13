@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import ParticipantNavbar from "../Components/Navbar/ParticipantNavbar";
 import Home from "../Views/Role/Participant/home/Home";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
-  withRouter,
   useHistory,
 } from "react-router-dom";
 import {
@@ -19,18 +16,13 @@ import {
   isLoggedInUserParticipant,
   setRoleLocal,
 } from "../Utils/Common";
-import AddDataSetParticipant from "../Views/Role/Participant/Dataset/AddDataSetParticipant";
-import EditDatasetParticipant from "../Views/Role/Participant/Dataset/EditDatasetParticipant";
+
 import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
 // import Participantsettings from "../Views/Settings/ParticipantSettings/Participantsettings";
 
-import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
-import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
-import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
 import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
-import Footer from "../Components/Footer/Footer";
 import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
 
 import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
@@ -38,8 +30,6 @@ import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Projec
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
-import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
-import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import Connectors from "../Components/Connectors_New/Connectors";
 import FooterNew from "../Components/Footer/Footer_New";
@@ -54,15 +44,22 @@ import Settings from "../Components/SettingsNew/Settings";
 import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import UrlConstant from "../Constants/UrlConstants";
+import Fab from "@mui/material/Fab";
+import AddIcCallRoundedIcon from '@mui/icons-material/AddIcCallRounded';
+import Support from "../Components/Support_New/Support";
+import AskSupport from "../Components/Support_New/SupportForm";
+import SupportView from "../Components/Support_New/SupportView";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
+import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
 
 function Participant(props) {
-  const [render, reRender] = useState(0);
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
+  const [showButton, setShowButton] = useState(false);
+
   let roleId = {
     1: "datahub_admin",
     3: "datahub_participant_root",
@@ -95,7 +92,7 @@ function Participant(props) {
         setRoleLocal(role);
         setVerifyLocalData(true);
         console.log(
-          "response to verify local data role in datahub",
+          "response to verify local data role in datahubasasas",
           getRoleLocal(),
           isLoggedInUserParticipant()
         );
@@ -115,10 +112,16 @@ function Participant(props) {
         }
       });
   };
+  const shouldRenderButton = () => {
+    const currentPath = window.location.pathname;
+    const excludedPaths = ["/participant/support", "/participant/support/add", "/participant/support/view/"]; // Add the paths where the floating button should be excluded
+    return !excludedPaths.includes(currentPath);
+  };
 
   useEffect(() => {
     verifyUserDataOfLocal();
     goToTop(0);
+    setShowButton(true);
   }, []);
   return verifyLocalData ? (
     <>
@@ -160,7 +163,7 @@ function Participant(props) {
                 exact
                 path="/participant/new_datasets/add"
                 component={AddDataSetParticipantNew}
-              />
+              />              
               {/* end */}
               {/* <Route
                 exact
@@ -178,7 +181,7 @@ function Participant(props) {
                 path="/participant/datasets/add"
                 component={AddDataset}
               />
-              {/* <Route
+                 {/* <Route
                 exact
                 path="/participant/datasets/edit/:id"
                 component={EditDatasetParticipant}
@@ -203,7 +206,7 @@ function Participant(props) {
                 path="/participant/settings/:id"
                 component={Settings}
               />
-              {/* <Route
+                  {/* <Route
                 exact
                 path="/participant/settings/adddepartment"
                 component={DepartmentSettings}
@@ -212,12 +215,12 @@ function Participant(props) {
                 exact
                 path="/participant/settings/editdepartment/:id"
                 component={EditDepartmentSettings}
-              />
+              />  
               {/* <Route
-                exact
-                path="/participant/settings/viewdepartment/:id/"
-                component={ViewDepartment}
-              /> */}
+              exact
+              path="/participant/settings/viewdepartment/:id/"
+              component={ViewDepartment}
+            /> */}
               <Route
                 exact
                 path="/participant/settings/project/add"
@@ -248,6 +251,7 @@ function Participant(props) {
                 path="/participant/dataset/view/:id"
                 component={ViewMetaDatasetDetails}
               />
+               {/* <Route
               <Route
                 exact
                 path="/participant/new_dashboard"
@@ -262,7 +266,16 @@ function Participant(props) {
               <Route exact path="/participant/connectors">
                 <Connectors />
               </Route>
-              {/* <Route
+              <Route exact path="/participant/support">
+                <Support />
+              </Route>
+              <Route exact path="/participant/support/add">
+                <AskSupport />
+              </Route>
+              <Route exact path="/participant/support/view/:id">
+                <SupportView />
+              </Route>
+                 {/* <Route
               exact
               path="/participant/connectors/list"
               >
@@ -270,7 +283,16 @@ function Participant(props) {
               </Route> */}
             </Switch>
           </div>
-          {/* <Footer /> */}
+          {shouldRenderButton() && showButton &&  (
+              <Fab
+              style={{position: "fixed", bottom: "20px", right: "30px", zIndex: 1000,}}
+                onClick={() => {
+                  props.history.push("/participant/support");
+                }}
+              >
+                <AddIcCallRoundedIcon />
+              </Fab>
+          )}
           <Divider className="mt-50" />
           <FooterNew />
         </div>
