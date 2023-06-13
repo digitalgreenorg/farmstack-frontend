@@ -53,31 +53,24 @@ export default function SupportTittleView({
       if (tabValue == 0) {
         payload = {
           others: false,
-          user_map: getUserMapId(),
         };
       } else if (tabValue == 1) {
         payload = {
           others: true,
-          user_map: getUserMapId(),
         };
       }
     } else if (isLoggedInUserCoSteward()) {
       if (tabValue == 0) {
         payload = {
           others: false,
-          user_map: getUserMapId(),
         };
       } else if (tabValue == 1) {
         payload = {
           others: true,
-          user_map: getUserMapId(),
         };
       }
     } else {
-        payload = {
-          others: "",
-          user_map: getUserMapId(),
-        };
+        payload = {};
       }
 
     callLoader(true);
