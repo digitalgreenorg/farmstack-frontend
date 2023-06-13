@@ -122,7 +122,19 @@ export default function ReactEasyCropperForFarmstack(props) {
         onCropComplete={props.handleCropComplete}
         onZoomChange={setZoom}
       />
-      <div className={styles.sliderContainer}>
+      <div
+        className={styles.sliderContainer}
+        style={{
+          borderRadius: "10px",
+          backgroundColor: "white",
+          zIndex: 10,
+          position: "absolute",
+          width: "386px",
+          bottom: "10px",
+          right: "10px",
+          padding: "25px",
+        }}
+      >
         <Typography variant="overline">Zoom</Typography>
         <Slider
           value={zoom}
@@ -133,15 +145,15 @@ export default function ReactEasyCropperForFarmstack(props) {
           //   classes={{ root: styles.slider }}
           onChange={(e, zoom) => setZoom(zoom)}
         />
+        <Button
+          onClick={props.showCroppedImage}
+          variant="contained"
+          color="primary"
+          className={global_style.primary_button}
+        >
+          Done
+        </Button>
       </div>
-      <Button
-        onClick={props.showCroppedImage}
-        variant="contained"
-        color="primary"
-        className={global_style.primary_button}
-      >
-        Done
-      </Button>
     </>
   );
 }
