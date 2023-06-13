@@ -19,10 +19,10 @@
 # Build react app
 FROM node:14-alpine as build
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --production --silent
+COPY package.json ./
+RUN npm install --production --silent
 COPY . .
-RUN yarn build
+RUN npm run build
 
 # Production image
 FROM nginx:alpine
