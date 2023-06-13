@@ -56,27 +56,10 @@ import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import UrlConstant from "../Constants/UrlConstants";
 import Fab from "@mui/material/Fab";
 import AddIcCallRoundedIcon from '@mui/icons-material/AddIcCallRounded';
-import { makeStyles } from "@mui/styles";
 import Support from "../Components/Support_New/Support";
 import AskSupport from "../Components/Support_New/SupportForm";
 import SupportView from "../Components/Support_New/SupportView";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
-const useStyles = makeStyles((theme) => ({
-  floatingButton: {
-    position: 'fixed',
-    bottom: '20px',
-    right: "-600px",
-    zIndex: 1000,
-    color: 'white',
-    // transition: 'transform 0.3s ease',
-    // transform: 'translateX(100%)',
-    // '&:hover': {
-    //   transform: 'translateX(0)',
-    //   borderRadius: '50%',
-    //   boxShadow: '0px 0px 10px 5px rgba(0, 0, 0, 0.1)',
-    // },
-  },
-}));
 
 function Participant(props) {
   const [render, reRender] = useState(0);
@@ -85,7 +68,6 @@ function Participant(props) {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
-  const classes = useStyles();
   const [showButton, setShowButton] = useState(false);
 
   let roleId = {
@@ -313,7 +295,7 @@ function Participant(props) {
           </div>
           {shouldRenderButton() && showButton &&  (
               <Fab
-                className={classes.floatingButton}
+              style={{position: "absolute", bottom: "20px", right: "30px", zIndex: 1000,}}
                 onClick={() => {
                   props.history.push("/participant/support");
                 }}

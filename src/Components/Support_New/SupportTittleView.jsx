@@ -81,9 +81,15 @@ export default function SupportTittleView({
           setLoadMoreButton(false);
         } else {
           setLoadMoreButton(true);
-          if (response?.data?.next) setLoadMoreUrl(response.data.next);
+          if (response?.data?.next) {
+            setLoadMoreUrl(response.data.next);
+            console.log("next", response.data.next)
+          }
         }
-        if (response?.data?.results) setTicketList(response.data.results);
+        if (response?.data?.results) {
+           setTicketList(response.data.results);
+           console.log(response.data.results)
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -105,6 +111,7 @@ export default function SupportTittleView({
 
   const getTicketListOnLoadMore = () => {
     callLoader(true);
+    console.log("loadMoreUrl", loadMoreUrl)
     HTTPService("POST", loadMoreUrl, "", false, true)
       .then((response) => {
         callLoader(false);
@@ -114,6 +121,7 @@ export default function SupportTittleView({
           setLoadMoreButton(true);
           if (response?.data?.next) {
             setLoadMoreUrl(response.data.next);
+            console.log(response.data.next)
           }
         }
         let datalist = ticketList;
@@ -139,6 +147,45 @@ export default function SupportTittleView({
         }
       });
   };
+  const getTicketListOnLoadMoreSecondTab = () => {
+    console.log("tab 2 is happening")
+    callLoader(true);
+    HTTPService("POST", loadMoreUrl, "", false, true)
+      .then((response) => {
+        callLoader(false);
+        if (response?.data?.next == null) {
+          setLoadMoreButton(false);
+        } else {
+          setLoadMoreButton(true);
+          if (response?.data?.next) {
+            setLoadMoreUrl(response.data.next);
+          }
+        }
+          let datalist = ticketList;
+          let finalDataList = [...datalist, ...response.data.results];
+          setTicketList(finalDataList);
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
+  const handleLoadMore = () => {
+    getTicketListOnLoadMore()
+  }
   const handleSupportViewRoute = (id) => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/support/view/${id}`;
@@ -159,6 +206,12 @@ export default function SupportTittleView({
       setTabLabels(["My Tickets", "My network tickets"]);
     }
   }, []);
+  useEffect(() => {
+    let tabValue = localStorage.getItem("supportTicketsTabValue");
+    if (tabValue == 0) {
+      localStorage.removeItem("supportTicketsTabValue");
+    }
+  })
   return (
     <>
       {isLoggedInUserAdmin() || isLoggedInUserCoSteward() ? (
@@ -300,7 +353,7 @@ export default function SupportTittleView({
                         {loadMoreButton ? (
                           <Col xs={12} sm={12} md={6} lg={6}>
                             <Button
-                              onClick={() => getTicketListOnLoadMore()}
+                              onClick={() => handleLoadMore()}
                               variant="outlied"
                               className={`${LocalStyle.pButtonStyle}`}
                               style={{ "text-transform": "none" }}
@@ -330,7 +383,7 @@ export default function SupportTittleView({
                         {loadMoreButton ? (
                           <Col xs={12} sm={12} md={6} lg={6}>
                             <Button
-                              onClick={() => getTicketListOnLoadMore()}
+                              onClick={() => handleLoadMore()}
                               variant="outlied"
                               className={`${LocalStyle.pButtonStyle}`}
                               style={{ "text-transform": "none" }}
@@ -393,7 +446,7 @@ export default function SupportTittleView({
                         {loadMoreButton ? (
                           <Col xs={12} sm={12} md={6} lg={6}>
                             <Button
-                              onClick={() => getTicketListOnLoadMore()}
+                              onClick={() => getTicketListOnLoadMoreSecondTab()}
                               variant="outlied"
                               className={`${LocalStyle.pButtonStyle}`}
                               style={{ "text-transform": "none" }}
@@ -422,7 +475,7 @@ export default function SupportTittleView({
                       {loadMoreButton ? (
                         <Col xs={12} sm={12} md={6} lg={6}>
                           <Button
-                            onClick={() => getTicketListOnLoadMore()}
+                            onClick={() => getTicketListOnLoadMoreSecondTab()}
                             variant="outlied"
                             className={`${LocalStyle.pButtonStyle}`}
                             style={{ "text-transform": "none" }}
@@ -567,7 +620,7 @@ export default function SupportTittleView({
                     {loadMoreButton ? (
                       <Col xs={12} sm={12} md={6} lg={6}>
                         <Button
-                          onClick={() => getTicketListOnLoadMore()}
+                          onClick={() => handleLoadMore()}
                           variant="outlied"
                           className={`${LocalStyle.pButtonStyle}`}
                           style={{ "text-transform": "none" }}
@@ -596,7 +649,7 @@ export default function SupportTittleView({
                   {loadMoreButton ? (
                     <Col xs={12} sm={12} md={6} lg={6}>
                       <Button
-                        onClick={() => getTicketListOnLoadMore()}
+                        onClick={() => handleLoadMore()}
                         variant="outlied"
                         className={`${LocalStyle.pButtonStyle}`}
                         style={{ "text-transform": "none" }}

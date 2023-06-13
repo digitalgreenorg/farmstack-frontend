@@ -39,7 +39,7 @@ const SupportCard = ({
         <div className="published">
           <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
           <span className="published_text">
-            Published on: {date ? dateTimeFormat(date, false) : "NA"}
+            Published on: {date ? date : "NA"}
           </span>
         </div>
         <div className="d_content_title">{ticketname ? ticketname : "NA"}</div>

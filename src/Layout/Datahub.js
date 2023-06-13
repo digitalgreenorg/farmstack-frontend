@@ -76,28 +76,11 @@ import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
 import Fab from "@mui/material/Fab";
-import { makeStyles } from "@mui/styles";
 import Support from "../Components/Support_New/Support";
 import SupportView from "../Components/Support_New/SupportView";
 import AskSupport from "../Components/Support_New/SupportForm";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
-const useStyles = makeStyles((theme) => ({
-  floatingButton: {
-    position: 'fixed',
-    bottom: '20px',
-    right: "-600px",
-    zIndex: 1000,
-    color: 'white',
-    // transition: 'transform 0.3s ease',
-    // transform: 'translateX(100%)',
-    // '&:hover': {
-    //   transform: 'translateX(0)',
-    //   borderRadius: '50%',
-    //   boxShadow: '0px 0px 10px 5px rgba(0, 0, 0, 0.1)',
-    // },
-  },
-}));
 
 function Datahub(props) {
   // const [activePage, setactivePage] = useState("");
@@ -115,7 +98,6 @@ function Datahub(props) {
     3: "datahub_participant_root",
     6: "datahub_co_steward",
   };
-  const classes = useStyles();
 
   const verifyUserDataOfLocal = () => {
     let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
@@ -394,7 +376,7 @@ function Datahub(props) {
           {/* <Footer /> */}
           {shouldRenderButton() && showButton && (
             <Fab
-              className={classes.floatingButton}
+              style={{position: "absolute", bottom: "20px", right: "30px", zIndex: 1000,}}
               onClick={() => {
                 props.history.push("/datahub/support");
               }}
