@@ -50,6 +50,7 @@ import Support from "../Components/Support_New/Support";
 import AskSupport from "../Components/Support_New/SupportForm";
 import SupportView from "../Components/Support_New/SupportView";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
+import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
 
 function Participant(props) {
   const [verifyLocalData, setVerifyLocalData] = useState(false);
@@ -284,7 +285,7 @@ function Participant(props) {
           </div>
           {shouldRenderButton() && showButton &&  (
               <Fab
-              style={{position: "absolute", bottom: "20px", right: "30px", zIndex: 1000,}}
+              style={{position: "fixed", bottom: "20px", right: "30px", zIndex: 1000,}}
                 onClick={() => {
                   props.history.push("/participant/support");
                 }}

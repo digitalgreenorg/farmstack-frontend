@@ -353,7 +353,7 @@ function Datahub(props) {
           {/* <Footer /> */}
           {shouldRenderButton() && showButton && (
             <Fab
-              style={{position: "absolute", bottom: "20px", right: "30px", zIndex: 1000,}}
+              style={{position: "fixed", bottom: "20px", right: "30px", zIndex: 1000,}}
               onClick={() => {
                 props.history.push("/datahub/support");
               }}
