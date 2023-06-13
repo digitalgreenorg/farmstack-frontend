@@ -126,7 +126,10 @@
   margin-right: 10px;
 }
 .iconStyleResolution {
-  margin-right: 100px;
+  margin-right: 10px;
   text-align: right;
   margin-top: 30px;
+}
+.resMessageStyle{
+  width: 500px !important
 }

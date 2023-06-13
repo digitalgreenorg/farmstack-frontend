@@ -30,7 +30,6 @@ import {
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 export default function SupportView(props) {
   const { id } = useParams();
-  const { messageId } = useParams();
   const [title, setTitle] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [queryField, setQueryField] = useState("");
@@ -45,11 +44,11 @@ export default function SupportView(props) {
   const [resolutionMessage, setResolutionMessage] = useState([]);
   const history = useHistory();
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState("")
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [editResolutionMessage, setEditResolutionMessage] = useState([]);
-  const [uploadFile, setUploadFile] = useState(null)
-  const [hoveredMessage, setHoveredMessage] = useState("")
-
+  const [uploadFile, setUploadFile] = useState(null);
+  const [hoveredMessage, setHoveredMessage] = useState("");
+  const [resolutionFileError, setResolutionFileError] = useState("");
   const handleSupportViewRoute = () => {
     if (isLoggedInUserCoSteward() || isLoggedInUserAdmin()) {
       return `/datahub/support`;
@@ -59,7 +58,7 @@ export default function SupportView(props) {
   };
   const handleClearResolutionField = () => {
     setResolution("");
-    setResolutionError("")
+    setResolutionError("");
   };
   const handleMouseEnter = (index) => {
     setHoveredIndex(index);
@@ -69,11 +68,10 @@ export default function SupportView(props) {
     setHoveredIndex(null);
   };
   const handleUpdateResolutionMessage = (index, newValue) => {
-    
     let message = [...resolutionMessage];
     message[index] = newValue.trimStart();
     setResolutionMessage(message);
-  }
+  };
   const handleSubmitResolution = (e) => {
     e.preventDefault();
     callLoader(true);
@@ -81,8 +79,8 @@ export default function SupportView(props) {
     var bodyFormData = new FormData();
     bodyFormData.append("resolution_text", resolutionfield);
     bodyFormData.append("ticket", id);
-    if(uploadFile) {
-      bodyFormData.append("solution_attachments", uploadFile)
+    if (uploadFile) {
+      bodyFormData.append("solution_attachments", uploadFile);
     }
     HTTPService(
       "POST",
@@ -98,8 +96,8 @@ export default function SupportView(props) {
         console.log(response);
         if (response?.status == 201) {
           handleClearResolutionField(true);
-          setUploadFile("")
-          getSupportTicketDetail()
+          setUploadFile("");
+          getSupportTicketDetail();
           callToast(
             "Your message has been sent successfully!",
             "success",
@@ -144,50 +142,41 @@ export default function SupportView(props) {
   const handleUpgradeResolutionMessage = (e, index) => {
     e.preventDefault();
     callLoader(true);
-  
-    const updateResolutionMessage = (messageId) => {
-      var bodyFormData = new FormData();
-      bodyFormData.append("resolution_text", resolutionMessage[index]); // Get the resolution text from the specific index
-      bodyFormData.append("ticket", id[index]);
-  
-      HTTPService(
-        "PUT",
-        UrlConstants.base_url + UrlConstants.support_resolution + messageId + "/",
-        bodyFormData,
-        true,
-        true,
-        false,
-        false
-      )
-        .then((response) => {
-          console.log(response);
-          if (response?.status == 200) {
-            getSupportTicketDetail();
-          }
-        })
-        .catch(async (e) => {
-          console.log(e);
-          let error = await GetErrorHandlingRoute(e);
-          console.log(e);
-          if (error?.toast) {
-            callToast(
-              "Something went wrong",
-              error?.status === 200 ? "success" : "error",
-              true
-            );
-          }
-          if (error.path) {
-            history.push(error.path);
-          }
-        });
-    };
-  
-    resolutionMessage.forEach((message) => {
-      if (message.id) {
-        updateResolutionMessage(message.id);
-      }
-    });
-  
+    const messageId = resolutionMessage[index].id;
+    var bodyFormData = new FormData();
+    bodyFormData.append("resolution_text", resolutionMessage[index]); // Get the resolution text from the specific index
+    bodyFormData.append("ticket", id);
+
+    HTTPService(
+      "PUT",
+      UrlConstants.base_url + UrlConstants.support_resolution + messageId + "/",
+      bodyFormData,
+      true,
+      true,
+      false,
+      false
+    )
+      .then((response) => {
+        console.log(response);
+        if (response?.status == 200) {
+          getSupportTicketDetail();
+        }
+      })
+      .catch(async (e) => {
+        console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        console.log(e);
+        if (error?.toast) {
+          callToast(
+            "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
     callLoader(false);
   };
   const getSupportTicketDetail = () => {
@@ -210,8 +199,9 @@ export default function SupportView(props) {
         setUserName(response.data.ticket.user_map.user.first_name);
         setCreatedDate(response.data.ticket.created_at);
         setLogoPath(response.data.ticket.user_map.organization?.logo);
-        setResolutionMessage(response.data.resolutions)
-        setSelectedStatus(response?.data?.ticket?.status)
+        setResolutionMessage(response.data.resolutions);
+        setSelectedStatus(response?.data?.ticket?.status);
+
       })
       .catch(async (e) => {
         callLoader(false);
@@ -258,25 +248,24 @@ export default function SupportView(props) {
             "success",
             true
           );
-          getSupportTicketDetail()
+          getSupportTicketDetail();
         }
       })
       .catch(async (e) => {
         callLoader(false);
         console.log(e);
-          let error = await GetErrorHandlingRoute(e);
-          console.log(e);
-          if (error?.toast) {
-            callToast(
-              "Something went wrong",
-              error?.status === 200 ? "success" : "error",
-              true
-            );
-          }
-          if (error.path) {
-            history.push(error.path);
-          }
-
+        let error = await GetErrorHandlingRoute(e);
+        console.log(e);
+        if (error?.toast) {
+          callToast(
+            "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
       });
   };
 
@@ -291,9 +280,7 @@ export default function SupportView(props) {
             <div className="text-left mt-50">
               <span
                 className="add_light_text cursor-pointer breadcrumbItem"
-                onClick={() =>
-                  history.push(handleSupportViewRoute())
-                }
+                onClick={() => history.push(handleSupportViewRoute())}
               >
                 Support
                 {/* {breadcrumbFromRoute ?? "Participant"} */}
@@ -494,6 +481,8 @@ export default function SupportView(props) {
               hoveredMessage={hoveredMessage}
               setHoveredMessage={setHoveredMessage}
               logoPath={logoPath}
+              resolutionFileError={resolutionFileError}
+              setResolutionFileError={setResolutionFileError}
             />
           </Col>
         </Row>
@@ -529,9 +518,7 @@ export default function SupportView(props) {
           </Col>
           <Col style={{ textAlign: "right", margin: "20px" }}>
             <Button
-               onClick={() =>
-                history.push(handleSupportViewRoute())
-              }
+              onClick={() => history.push(handleSupportViewRoute())}
               className={`${GlobalStyle.outlined_button} ${LocalStyle.supportButton}`}
               id="cancel-button-support"
               variant="outlined"
@@ -541,7 +528,7 @@ export default function SupportView(props) {
             </Button>
 
             <Button
-              //disabled={queryField && title && selectedCategory ? false : true}
+              disabled={selectedStatus || ticketStatus ? false : true}
               onClick={(e) => handleUpdateSupportTicket(e)}
               className={`${GlobalStyle.primary_buttonSupport} ${LocalStyle.supportButton}`}
               id="Submit-button-support"

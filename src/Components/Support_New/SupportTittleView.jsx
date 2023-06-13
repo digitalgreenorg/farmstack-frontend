@@ -46,21 +46,42 @@ export default function SupportTittleView({
   };
   const getListOfTickets = () => {
     console.log("get list is happening");
-     
-    let selectedTabs = tabValue === 1 ? true : ""
+
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
-    let payload = {
-      others: selectedTabs,
-      user_map: getUserMapId()
-    };
+    let payload = {};
+    if (isLoggedInUserAdmin()) {
+      if (tabValue == 0) {
+        payload = {
+          others: false,
+          user_map: getUserMapId(),
+        };
+      } else if (tabValue == 1) {
+        payload = {
+          others: true,
+          user_map: getUserMapId(),
+        };
+      }
+    } else if (isLoggedInUserCoSteward()) {
+      if (tabValue == 0) {
+        payload = {
+          others: false,
+          user_map: getUserMapId(),
+        };
+      } else if (tabValue == 1) {
+        payload = {
+          others: true,
+          user_map: getUserMapId(),
+        };
+      }
+    } else {
+        payload = {
+          others: "",
+          user_map: getUserMapId(),
+        };
+      }
+
     callLoader(true);
-    HTTPService(
-      "POST",
-      url,
-      JSON.stringify(payload),
-      false,
-      true
-    )
+    HTTPService("POST", url, JSON.stringify(payload), false, true)
       .then((response) => {
         callLoader(false);
         if (response?.data?.next == null) {
@@ -135,21 +156,32 @@ export default function SupportTittleView({
 
   useEffect(() => {
     getListOfTickets();
-  }, []);
+  }, [tabValue]);
 
   useEffect(() => {
     if (isLoggedInUserAdmin()) {
       setTabLabels(["Co-Steward Tickets", "Other Tickets"]);
     }
-
-    localStorage.removeItem("participantAndCostewardTabValue");
+    if (isLoggedInUserCoSteward()) {
+      setTabLabels(["My Tickets", "My network tickets"]);
+    }
   }, []);
   return (
     <>
       {isLoggedInUserAdmin() || isLoggedInUserCoSteward() ? (
         <Container>
           <div className="d-flex justify-content-between">
-            <div className="bold_title">{"List of my ticktes"}</div>
+            <div className="bold_title">
+              {isLoggedInUserAdmin()
+                ? tabValue === 0
+                  ? "List of Costeward tickets"
+                  : "List of other tickets"
+                : isLoggedInUserCoSteward()
+                ? tabValue === 0
+                  ? "List of my tickets"
+                  : "List of my network tickets"
+                : "List of other tickets"}
+            </div>
             {ticketList.length > 0 && !isLoading ? (
               <div className="d-flex align-items-center mt-50 mb-20">
                 <div
@@ -228,7 +260,7 @@ export default function SupportTittleView({
             {" "}
             <Divider />
           </div>
-          {tabValue === 0 && (
+          {tabValue == 0 ? (
             <>
               {isGrid ? (
                 <>
@@ -266,7 +298,6 @@ export default function SupportTittleView({
                               user_name={data?.user_map?.user?.first_name}
                               handleSupportViewRoute={handleSupportViewRoute}
                               supportId={data?.id}
-
                             />
                           </Col>
                         ))}
@@ -293,44 +324,40 @@ export default function SupportTittleView({
                 </>
               ) : (
                 <>
-                  {ticketList.length > 0 && isLoading ? (
-                    <>
-                      <div>
-                        <SupportList
-                          ticketList={ticketList}
-                          handleSupportViewRoute={handleSupportViewRoute}
-                        />
-                      </div>
-                      <div>
-                        <Row style={{ "margin-top": "10px" }}>
-                          <Col xs={12} sm={12} md={6} lg={3}></Col>
-                          {loadMoreButton ? (
-                            <Col xs={12} sm={12} md={6} lg={6}>
-                              <Button
-                                onClick={() => getTicketListOnLoadMore()}
-                                variant="outlied"
-                                className={`${LocalStyle.pButtonStyle}`}
-                                style={{ "text-transform": "none" }}
-                              >
-                                Load more
-                              </Button>
-                            </Col>
-                          ) : (
-                            <></>
-                          )}
-                        </Row>
-                      </div>{" "}
-                    </>
-                  ) : (
-                    ""
-                  )}
+                  <>
+                    <div>
+                      <SupportList
+                        ticketList={ticketList}
+                        handleSupportViewRoute={handleSupportViewRoute}
+                      />
+                    </div>
+                    <div>
+                      <Row style={{ "margin-top": "10px" }}>
+                        <Col xs={12} sm={12} md={6} lg={3}></Col>
+                        {loadMoreButton ? (
+                          <Col xs={12} sm={12} md={6} lg={6}>
+                            <Button
+                              onClick={() => getTicketListOnLoadMore()}
+                              variant="outlied"
+                              className={`${LocalStyle.pButtonStyle}`}
+                              style={{ "text-transform": "none" }}
+                            >
+                              Load more
+                            </Button>
+                          </Col>
+                        ) : (
+                          <></>
+                        )}
+                      </Row>
+                    </div>{" "}
+                  </>
                 </>
               )}{" "}
             </>
-          )}
-          {tabValue === 1 && (
+          ) : "" }
+          {tabValue == 1 ? (
             <>
-              {isGrid ? (
+              {isGrid && tabValue === 1 ? (
                 <>
                   {ticketList.length === 0 && !isLoading ? (
                     <Box p={3}>
@@ -418,7 +445,7 @@ export default function SupportTittleView({
                 </>
               )}{" "}
             </>
-          )}
+          ) : "" }
         </Container>
       ) : (
         <Container>
