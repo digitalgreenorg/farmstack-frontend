@@ -9,7 +9,6 @@ import AddCoSteward from "../Components/CoSteward/AddCoSteward";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
 import Settings from "../Components/SettingsNew/Settings";
-import Support from "../Views/Support/Support";
 
 import {
   flushLocalstorage,
@@ -54,13 +53,20 @@ import UrlConstant from "../Constants/UrlConstants";
 import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
+import Fab from "@mui/material/Fab";
+import Support from "../Components/Support_New/Support";
+import SupportView from "../Components/Support_New/SupportView";
+import AskSupport from "../Components/Support_New/SupportForm";
+import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
+
 function Datahub(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
+  const [showButton, setShowButton] = useState(false);
   let roleId = {
     1: "datahub_admin",
     3: "datahub_participant_root",
@@ -111,10 +117,20 @@ function Datahub(props) {
         }
       });
   };
+  const shouldRenderButton = () => {
+    const currentPath = window.location.pathname;
+    const excludedPaths = [
+      "/datahub/support",
+      "/datahub/support/add",
+      "/datahub/support/view/"
+    ]; // Add the paths where the floating button should be excluded
+    return !excludedPaths.some(path => currentPath.includes(path));
+  };
 
   useEffect(() => {
     verifyUserDataOfLocal();
     goToTop(0);
+    setShowButton(true);
   }, []);
 
   return verifyLocalData ? (
@@ -323,9 +339,28 @@ function Datahub(props) {
               <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
               </Route>
+              <Route exact path="/datahub/support">
+                <Support />
+              </Route>
+              <Route exact path="/datahub/support/add">
+                <AskSupport />
+              </Route>
+              <Route exact path="/datahub/support/view/:id">
+                <SupportView />
+              </Route>
             </Switch>
           </div>
           {/* <Footer /> */}
+          {shouldRenderButton() && showButton && (
+            <Fab
+              style={{position: "absolute", bottom: "20px", right: "30px", zIndex: 1000,}}
+              onClick={() => {
+                props.history.push("/datahub/support");
+              }}
+            >
+              <AddIcCallRoundedIcon />
+            </Fab>
+          )}
           <Divider className="mt-50" />
           <FooterNew />
         </div>
