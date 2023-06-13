@@ -113,7 +113,7 @@ function Participant(props) {
   };
   const shouldRenderButton = () => {
     const currentPath = window.location.pathname;
-    const excludedPaths = ["/participant/support", "/participant/support/add", "/participant/support/view/:id"]; // Add the paths where the floating button should be excluded
+    const excludedPaths = ["/participant/support", "/participant/support/add", "/participant/support/view/"]; // Add the paths where the floating button should be excluded
     return !excludedPaths.includes(currentPath);
   };
 

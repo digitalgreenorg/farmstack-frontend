@@ -119,8 +119,12 @@ function Datahub(props) {
   };
   const shouldRenderButton = () => {
     const currentPath = window.location.pathname;
-    const excludedPaths = ["/datahub/support", "/datahub/support/add", "/datahub/support/view/:id"]; // Add the paths where the floating button should be excluded
-    return !excludedPaths.includes(currentPath);
+    const excludedPaths = [
+      "/datahub/support",
+      "/datahub/support/add",
+      "/datahub/support/view/"
+    ]; // Add the paths where the floating button should be excluded
+    return !excludedPaths.some(path => currentPath.includes(path));
   };
 
   useEffect(() => {
