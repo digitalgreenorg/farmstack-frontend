@@ -1,15 +1,6 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-  withRouter,
-} from "react-router-dom";
-import ViewDataSet from "../Components/Datasets/viewDataSet";
-import DataSetsListView from "../Components/Datasets_New/DataSetsListView";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
-import GuestUserDatasets from "../Components/GuestUser/GuestUserDatasets";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import {
   flushLocalstorage,
@@ -23,7 +14,6 @@ import {
 import GuestUserDatatsets from "../Views/Dataset/GuestUserDataset";
 import GuestUserHomeNew from "../Views/GuestUser/GuestUserHomeNew";
 import GuestUserLegalNew from "../Views/GuestUser/GuestUserLegalNew";
-import DataSetsView from "../Components/Datasets_New/DataSetsView";
 import GuestUserViewDataset from "../Components/GuestUser/GuestUserViewDataset";
 import GuestUserParticipants from "../Views/GuestUser/GuestUserParticipants";
 import GuestUserParticipantsDetails from "../Views/GuestUser/GuestUserParticipantsDetails";
