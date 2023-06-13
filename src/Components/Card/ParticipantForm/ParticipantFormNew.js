@@ -516,7 +516,12 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={address}
-                onChange={(event) => setAddress(event.target.value)}
+                onChange={(event) => {
+                  console.log("event.target.value", event.target.value);
+                  if (event.target.value?.length < 256) {
+                    setAddress(event.target.value);
+                  }
+                }}
               />
             </Col>
           </Row>
