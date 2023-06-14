@@ -549,8 +549,14 @@ const DataSets = (props) => {
     }
     if (fromDate && toDate) {
       let tempDateRange = [];
-      tempDateRange.push(fromDate);
-      tempDateRange.push(toDate);
+      tempDateRange.push(
+        new Date(
+          fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+        ).toJSON()
+      );
+      tempDateRange.push(
+        new Date(toDate.getTime() - toDate.getTimezoneOffset() * 60000).toJSON()
+      );
       payload["updated_at__range"] = tempDateRange;
     }
     setFilterState(payload);
