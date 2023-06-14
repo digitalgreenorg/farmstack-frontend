@@ -125,7 +125,7 @@ export default function SupportResolution({
                     <UpgradeIcon />
                   </IconButton>
                 ) : (
-                  hoveredIndex === resolutionMessage.length - 1 &&
+                  hoveredIndex === resolutionMessage.length - 1 && (item.user_map.id == getUserMapId()) &&
                   hoveredIndex === index && (
                     <IconButton
                       size="small"
