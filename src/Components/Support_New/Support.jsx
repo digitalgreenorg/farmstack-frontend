@@ -17,6 +17,10 @@ import CustomTabs from "../../Components/Tabs/Tabs";
 import { useHistory } from "react-router-dom";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import UrlConstants from "../../Constants/UrlConstants";
+import FilterDate from "../Filter/FilterDate";
+import SupportFilterStatus from "./SupportFilterStatus";
+import SupportFilterCategory from "./SupportFilterCategory";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 export default function Support(props) {
   const [ticketList, setTicketList] = useState([]);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
@@ -24,15 +28,171 @@ export default function Support(props) {
   const [searchTickets, setSearchTickets] = useState(null);
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
+  const [ListOfTickets, setlistOfTickets] = useState([]);
   const [tabValue, setTabValue] = useState(
     parseInt(localStorage.getItem("supportTicketsTabValue")) || 0
   );
+  const [showFilter, setShowFilter] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [type, setType] = useState("");
+  const [dates, setDates] = useState([{ fromDate: null, toDate: null }]);
+  const [updater, setUpdate] = useState(0);
   let [tabLabels, setTabLabels] = useState(
     isLoggedInUserAdmin()
       ? ["Costeward tickets", "Other tickets"]
       : ["My tickets", "My network tickets"]
   );
+  const handleFilterClick = (type) => {
+    if (type === "status") {
+      setType(type);
+      setShowFilter(true);
+    } else if (type === "categories") {
+      setType(type);
+      setShowFilter(true);
+    } else if (type === "date") {
+      setType(type);
+      setShowFilter(true);
+    }
+  };
+  const handleFilterByStatus = (e, isLoadMore) => {
+    callLoader(true);
+    setStatusFilter(e.target.value);
+    console.log("filter by status is happening");
+    let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
+    let payload = {};
 
+    payload = {
+      status: e.target.value,
+    };
+    HTTPService("POST", url, JSON.stringify(payload), false, true)
+      .then((response) => {
+        callLoader(false);
+        if (response.data.next == null) {
+          setLoadMoreButton(false);
+        } else {
+          setLoadMoreUrl(response.data.next);
+          setLoadMoreButton(true);
+        }
+        let finalDataList = [];
+        if (isLoadMore) {
+          finalDataList = [...ticketList, ...response.data.results];
+        } else {
+          finalDataList = [...response.data.results];
+        }
+        console.log(finalDataList, "fdlist");
+        setTicketList(finalDataList);
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+  const handleFilterByCategory = (e, isLoadMore) => {
+    callLoader(true);
+    setCategoryFilter(e.target.value);
+    console.log("filter by category is happening");
+    let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
+    const requestBody = {
+      category: e.target.value, // Use the selected value
+    };
+    HTTPService("POST", url, JSON.stringify(requestBody), false, true)
+      .then((response) => {
+        callLoader(false);
+
+        if (response.data.next == null) {
+          setLoadMoreButton(false);
+        } else {
+          setLoadMoreUrl(response.data.next);
+          setLoadMoreButton(true);
+        }
+        let finalDataList = [];
+        if (isLoadMore) {
+          finalDataList = [...ticketList, ...response.data.results];
+        } else {
+          finalDataList = [...response.data.results];
+        }
+        console.log(finalDataList, "fdlist");
+        setTicketList(finalDataList);
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+  const handleFilterByDate = (isLoadMore) => {
+    callLoader(true);
+    console.log("filter by status is happening");
+    let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
+    let payload = {};
+    if (fromDate && toDate) {
+      let tempDateRange = [];
+      tempDateRange.push(fromDate);
+      tempDateRange.push(toDate);
+      payload["updated_at__range"] = tempDateRange;
+    }
+    HTTPService("POST", url, JSON.stringify(payload), false, true)
+      .then((response) => {
+        callLoader(false);
+
+        if (response.data.next == null) {
+          setLoadMoreButton(false);
+        } else {
+          setLoadMoreUrl(response.data.next);
+          setLoadMoreButton(true);
+        }
+        let finalDataList = [];
+        if (isLoadMore) {
+          finalDataList = [...ticketList, ...response.data.results];
+        } else {
+          finalDataList = [...response.data.results];
+        }
+        console.log(finalDataList, "fdlist");
+        setTicketList(finalDataList);
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
   const handleSearchTickets = (name, isLoadMore) => {
     if (name === undefined) return;
     setSearchTickets(name);
@@ -87,6 +247,14 @@ export default function Support(props) {
       }
     }, DEBOUNCE_DELAY);
   };
+  useEffect(() => {
+    localStorage.setItem("supportTicketsTabValue", tabValue.toString());
+  }, [tabValue]);
+
+  useEffect(() => {
+    handleFilterByDate();
+  }, [toDate]);
+
   return (
     <>
       <Row style={{ margin: "0 144px" }}>
@@ -104,6 +272,12 @@ export default function Support(props) {
                   ? "Co-steward tickets"
                   : tabValue === 1
                   ? "Other tickets"
+                  : isLoggedInUserCoSteward()
+                  ? tabValue === 0
+                    ? "Co-steward tickets"
+                    : tabValue === 1
+                    ? "Other tickets"
+                    : ""
                   : ""
                 : "My tickets"}
             </span>
@@ -164,73 +338,119 @@ export default function Support(props) {
         }}
       />
       <div>
-        {/* <Box
-          sx={{
-            fontFamily: "Montserrat",
-            fontWeight: 700,
-            fontSize: "12px",
-            height: "48px",
-            border: "none",
-            color: "#00AB55",
-            textTransform: "none",
-            "&:hover": {
-              background: "none",
-              border: "none",
-            },
-          }}
-        >
-          {" "}
-          Clear all
-        </Box>  */}
-        <Box
-          sx={{
-            fontFamily: "Montserrat",
-            fontWeight: 700,
-            fontSize: "12px",
-            height: "48px",
-            border: "none",
-            color: "#00AB55",
-            textTransform: "none",
-            "&:hover": {
-              background: "none",
-              border: "none",
-            },
-          }}
-        >
-          <Row className={LocalStyle.filter}>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <div>
+        <div className={"filter"}>
+          <Box className={`d-flex`}>
+            <div
+              className={
+                showFilter && type === "status"
+                  ? "d-flex align-items-center filter_text_container_active"
+                  : "d-flex align-items-center filter_text_container"
+              }
+              onClick={() => handleFilterClick("status")}
+              id="dataset-filter-by-geography-id"
+            >
               <img
                 src={require("../../Assets/Img/supportStatus.svg")}
                 alt="status"
               />
-              </div>
-              <div>
-              <span>Status</span>
-              </div>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <div>
+              <span className={"filter_text"}>
+                Status <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+              </span>
+            </div>
+            <div
+              className={
+                showFilter && type === "category"
+                  ? "d-flex align-items-center filter_text_container_active"
+                  : "d-flex align-items-center filter_text_container"
+              }
+              onClick={() => handleFilterClick("categories")}
+              id="dataset-filter-by-categories-id"
+            >
               <img
                 src={require("../../Assets/Img/category.svg")}
                 alt="category"
               />
-              </div>
-              <div>
-              <span>Category</span>
-              </div>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={4}>
-              <div>
-              <img src={require("../../Assets/Img/by_date.svg")} alt="status" />
-              
-              </div>
-              <div>
-              <span>By date</span>
-              </div>
-            </Col>
-          </Row>
-        </Box>
+              <span className="filter_text">
+                Categories <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+              </span>
+            </div>
+            <div
+              className={
+                showFilter && type === "date"
+                  ? "d-flex align-items-center filter_text_container_active"
+                  : "d-flex align-items-center filter_text_container"
+              }
+              onClick={() => handleFilterClick("date")}
+              id="dataset-filter-by-date-id"
+            >
+              <img
+                src={require("../../Assets/Img/by_date.svg")}
+                alt="by date"
+              />
+              <span className={"filter_text"}>
+                By Date <KeyboardArrowDownIcon sx={{ fill: "#212529" }} />
+              </span>
+            </div>
+            <div
+              className="d-flex align-items-center filter_text_container"
+              onClick={() => {
+                setType("");
+                setDates([{ fromDate: null, toDate: null }]);
+                setFromDate("");
+                setToDate("");
+                setCategoryFilter("");
+                setStatusFilter("");
+                setShowFilter(false);
+              }}
+              id="dataset-filter-clear-all-id"
+            >
+              <img
+                src={require("../../Assets/Img/clear_all.svg")}
+                alt="clear all"
+              />
+              <span className={"filter_text"}>Clear all</span>
+            </div>
+          </Box>
+        </div>
+        {showFilter ? (
+          type === "status" ? (
+            <SupportFilterStatus
+              statusFilter={statusFilter}
+              showFilter={showFilter}
+              setShowFilter={setShowFilter}
+              type={type}
+              setStatusFilter={setStatusFilter}
+              handleFilterByStatus={handleFilterByStatus}
+            />
+          ) : type === "categories" ? (
+            <SupportFilterCategory
+              showFilter={showFilter}
+              setShowFilter={setShowFilter}
+              type={type}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              handleFilterByCategory={handleFilterByCategory}
+            />
+          ) : type === "date" ? (
+            <FilterDate
+              setUpdate={setUpdate}
+              type={type}
+              dataType={"date"}
+              fromDate={fromDate}
+              setFromDate={setFromDate}
+              toDate={toDate}
+              setToDate={setToDate}
+              dates={dates}
+              setDates={setDates}
+              showFilter={showFilter}
+              setShowFilter={setShowFilter}
+            />
+          ) : (
+            <></>
+          )
+        ) : (
+          <></>
+        )}
       </div>
       <SupportTittleView
         tabValue={tabValue}
@@ -243,6 +463,8 @@ export default function Support(props) {
         setLoadMoreUrl={setLoadMoreUrl}
         loadMoreButton={loadMoreButton}
         setLoadMoreButton={setLoadMoreButton}
+        ListOfTickets={ListOfTickets}
+        setlistOfTickets={setlistOfTickets}
       />
     </>
   );
