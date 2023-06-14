@@ -38,7 +38,7 @@ export default function SupportFilterStatus({
           <Select
             labelId="demo-simple-select-label"
             id="dataset-filter-by-country-id"
-            onChange={handleFilterByStatus}
+            onChange={(e) => handleFilterByStatus(e,false)}
             sx={{
               textAlign: "left",
               "&.MuiInputBase-root": {

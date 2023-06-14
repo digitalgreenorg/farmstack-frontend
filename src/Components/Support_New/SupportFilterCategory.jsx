@@ -37,7 +37,7 @@ export default function SupportFilterCategory({
           <Select
             labelId="demo-simple-select-label"
             id="dataset-filter-by-country-id"
-            onChange={handleFilterByCategory}
+            onChange={(e) => handleFilterByCategory(e, false)}
             sx={{
               textAlign: "left",
               "&.MuiInputBase-root": {

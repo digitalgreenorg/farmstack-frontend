@@ -173,7 +173,7 @@ export default function SupportTittleView({
 
   useEffect(() => {
     if (isLoggedInUserAdmin()) {
-      setTabLabels(["Co-Steward Tickets", "Other Tickets"]);
+      setTabLabels(["Co-Steward Tickets", "Participant Tickets"]);
     }
     if (isLoggedInUserCoSteward()) {
       setTabLabels(["My Tickets", "My network tickets"]);

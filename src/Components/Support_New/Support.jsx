@@ -42,7 +42,7 @@ export default function Support(props) {
   const [updater, setUpdate] = useState(0);
   let [tabLabels, setTabLabels] = useState(
     isLoggedInUserAdmin()
-      ? ["Costeward tickets", "Other tickets"]
+      ? ["Costeward tickets", "Participant tickets"]
       : ["My tickets", "My network tickets"]
   );
   const handleFilterClick = (type) => {
@@ -62,23 +62,30 @@ export default function Support(props) {
     setStatusFilter(e.target.value);
     console.log("filter by status is happening");
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
-    let payload = {};
-    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+    let data = {};
+    if (isLoggedInUserAdmin()) {
       if (tabValue == 0) {
-        payload = {
-          status: e.target.value,
-        };
+        data["status"] = e.target.value;
+        data["others"] = false;
       } else if (tabValue == 1) {
-        payload = {
-          status: e.target.value,
-        };
+        data["status"] = e.target.value;
+        data["others"] = true;
+      } 
+    } else if (isLoggedInUserCoSteward()) {
+      if (tabValue == 0) {
+        data["status"] = e.target.value;
+        data["others"] = false;
+      } else if (tabValue == 1) {
+        data["status"] = e.target.value;
+        data["others"] = true;
       }
     } else {
-      payload = {
-        status: e.target.value,
-      };
+      data["status"] = e.target.value;
     }
-    HTTPService("POST", url, JSON.stringify(payload), false, true)
+    if (isLoadMore) {
+      data["status"] = e.target.value;
+    }
+    HTTPService("POST", url, data, false, true)
       .then((response) => {
         callLoader(false);
         if (response.data.next == null) {
@@ -86,14 +93,21 @@ export default function Support(props) {
         } else {
           setLoadMoreUrl(response.data.next);
           setLoadMoreButton(true);
-        } 
+        }
         let finalDataList = [];
         if (isLoadMore) {
           finalDataList = [...ticketList, ...response.data.results];
         } else {
           finalDataList = [...response.data.results];
         }
-        console.log(finalDataList, "fdlist");
+        console.log(
+          "list as per filter123",
+          isLoadMore,
+          finalDataList,
+          response.data.results,
+          ticketList
+        );
+        console.log("list as per filter123isloadmore", isLoadMore);
         setTicketList(finalDataList);
       })
       .catch(async (e) => {
@@ -118,10 +132,30 @@ export default function Support(props) {
     setCategoryFilter(e.target.value);
     console.log("filter by category is happening");
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
-    const requestBody = {
-      category: e.target.value, // Use the selected value
-    };
-    HTTPService("POST", url, JSON.stringify(requestBody), false, true)
+    let data = {};
+    if (isLoggedInUserAdmin()) {
+      if (tabValue == 0) {
+        data["category"] = e.target.value;
+        data["others"] = false;
+      } else if (tabValue == 1) {
+        data["category"] = e.target.value;
+        data["others"] = true;
+      }
+    } else if (isLoggedInUserCoSteward()) {
+      if (tabValue == 0) {
+        data["category"] = e.target.value;
+        data["others"] = false;
+      } else if (tabValue == 1) {
+        data["category"] = e.target.value;
+        data["others"] = true;
+      }
+    } else {
+      data["category"] = e.target.value;
+    }
+    if (isLoadMore) {
+      data["category"] = e.target.value;
+    }
+    HTTPService("POST", url, data, false, true)
       .then((response) => {
         callLoader(false);
 
@@ -162,11 +196,50 @@ export default function Support(props) {
     console.log("filter by status is happening");
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
     let payload = {};
-    if (fromDate && toDate) {
-      let tempDateRange = [];
-      tempDateRange.push(fromDate);
-      tempDateRange.push(toDate);
-      payload["updated_at__range"] = tempDateRange;
+
+    if (isLoggedInUserAdmin()) {
+      if (tabValue == 0) {
+        if (fromDate && toDate) {
+          let tempDateRange = [];
+          tempDateRange.push(fromDate);
+          tempDateRange.push(toDate);
+          payload["updated_at__range"] = tempDateRange;
+          payload["others"] = false;
+        }
+      } else if (tabValue == 1) {
+        if (fromDate && toDate) {
+          let tempDateRange = [];
+          tempDateRange.push(fromDate);
+          tempDateRange.push(toDate);
+          payload["updated_at__range"] = tempDateRange;
+          payload["others"] = true;
+        }
+      }
+    } else if (isLoggedInUserCoSteward()) {
+      if (tabValue == 0) {
+        if (fromDate && toDate) {
+          let tempDateRange = [];
+          tempDateRange.push(fromDate);
+          tempDateRange.push(toDate);
+          payload["updated_at__range"] = tempDateRange;
+          payload["others"] = false;
+        }
+      } else if (tabValue == 1) {
+        if (fromDate && toDate) {
+          let tempDateRange = [];
+          tempDateRange.push(fromDate);
+          tempDateRange.push(toDate);
+          payload["updated_at__range"] = tempDateRange;
+          payload["others"] = true;
+        }
+      }
+    } else {
+      if (fromDate && toDate) {
+        let tempDateRange = [];
+        tempDateRange.push(fromDate);
+        tempDateRange.push(toDate);
+        payload["updated_at__range"] = tempDateRange;
+      }
     }
     HTTPService("POST", url, JSON.stringify(payload), false, true)
       .then((response) => {
@@ -214,11 +287,29 @@ export default function Support(props) {
     searchTimeout = setTimeout(() => {
       if (name?.length > 2 || name?.length !== "") {
         let data = {};
-        data["name__icontains"] = name.trimStart();
+        if (isLoggedInUserAdmin()) {
+          if (tabValue == 0) {
+            data["ticket_title__icontains"] = name.trimStart();
+            data["others"] = false;
+          } else if (tabValue == 1) {
+            data["ticket_title__icontains"] = name.trimStart();
+            data["others"] = true;
+          }
+        } else if (isLoggedInUserCoSteward()) {
+          if (tabValue == 0) {
+            data["ticket_title__icontains"] = name.trimStart();
+            data["others"] = false;
+          } else if (tabValue == 1) {
+            data["ticket_title__icontains"] = name.trimStart();
+            data["others"] = true;
+          }
+        } else {
+          data["ticket_title__icontains"] = name.trimStart();
+        }
 
         HTTPService(
           "POST",
-          UrlConstants.base_url + UrlConstants.search_support_ticket,
+          UrlConstants.base_url + UrlConstants.support_ticket_tab,
           data,
           false,
           true
@@ -258,12 +349,9 @@ export default function Support(props) {
       }
     }, DEBOUNCE_DELAY);
   };
-  useEffect(() => {
-    localStorage.setItem("supportTicketsTabValue", tabValue.toString());
-  }, [tabValue]);
 
   useEffect(() => {
-    handleFilterByDate();
+    handleFilterByDate(false);
   }, [toDate]);
 
   return (
@@ -282,7 +370,7 @@ export default function Support(props) {
                 ? tabValue === 0
                   ? "Co-steward tickets"
                   : tabValue === 1
-                  ? "Other tickets"
+                  ? "Participant tickets"
                   : isLoggedInUserCoSteward()
                   ? tabValue === 0
                     ? "My tickets"
