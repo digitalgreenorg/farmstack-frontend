@@ -45,11 +45,12 @@ import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import UrlConstant from "../Constants/UrlConstants";
 import Fab from "@mui/material/Fab";
-import AddIcCallRoundedIcon from '@mui/icons-material/AddIcCallRounded';
+import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import Support from "../Components/Support_New/Support";
 import AskSupport from "../Components/Support_New/SupportForm";
 import SupportView from "../Components/Support_New/SupportView";
-import DashboardNew from "../Views/Dashboard/DashboardNew";
+// import DashboardNew from "../Views/Dashboard/DashboardNew";
+// import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
 
 function Participant(props) {
   const [verifyLocalData, setVerifyLocalData] = useState(false);
@@ -113,7 +114,11 @@ function Participant(props) {
   };
   const shouldRenderButton = () => {
     const currentPath = window.location.pathname;
-    const excludedPaths = ["/participant/support", "/participant/support/add", "/participant/support/view/"]; // Add the paths where the floating button should be excluded
+    const excludedPaths = [
+      "/participant/support",
+      "/participant/support/add",
+      "/participant/support/view/",
+    ]; // Add the paths where the floating button should be excluded
     return !excludedPaths.includes(currentPath);
   };
 
@@ -162,7 +167,7 @@ function Participant(props) {
                 exact
                 path="/participant/new_datasets/add"
                 component={AddDataSetParticipantNew}
-              />              
+              />
               {/* end */}
               {/* <Route
                 exact
@@ -180,7 +185,7 @@ function Participant(props) {
                 path="/participant/datasets/add"
                 component={AddDataset}
               />
-                 {/* <Route
+              {/* <Route
                 exact
                 path="/participant/datasets/edit/:id"
                 component={EditDatasetParticipant}
@@ -205,7 +210,7 @@ function Participant(props) {
                 path="/participant/settings/:id"
                 component={Settings}
               />
-                  {/* <Route
+              {/* <Route
                 exact
                 path="/participant/settings/adddepartment"
                 component={DepartmentSettings}
@@ -214,7 +219,7 @@ function Participant(props) {
                 exact
                 path="/participant/settings/editdepartment/:id"
                 component={EditDepartmentSettings}
-              />  
+              />
               {/* <Route
               exact
               path="/participant/settings/viewdepartment/:id/"
@@ -250,7 +255,7 @@ function Participant(props) {
                 path="/participant/dataset/view/:id"
                 component={ViewMetaDatasetDetails}
               />
-               {/* <Route
+              {/* <Route
               <Route
                 exact
                 path="/participant/new_dashboard"
@@ -274,7 +279,7 @@ function Participant(props) {
               <Route exact path="/participant/support/view/:id">
                 <SupportView />
               </Route>
-                 {/* <Route
+              {/* <Route
               exact
               path="/participant/connectors/list"
               >
@@ -282,15 +287,20 @@ function Participant(props) {
               </Route> */}
             </Switch>
           </div>
-          {shouldRenderButton() && showButton &&  (
-              <Fab
-              style={{position: "fixed", bottom: "20px", right: "30px", zIndex: 1000,}}
-                onClick={() => {
-                  props.history.push("/participant/support");
-                }}
-              >
-                <AddIcCallRoundedIcon />
-              </Fab>
+          {shouldRenderButton() && showButton && (
+            <Fab
+              style={{
+                position: "fixed",
+                bottom: "20px",
+                right: "30px",
+                zIndex: 1000,
+              }}
+              onClick={() => {
+                props.history.push("/participant/support");
+              }}
+            >
+              <AddIcCallRoundedIcon />
+            </Fab>
           )}
           <Divider className="mt-50" />
           <FooterNew />
