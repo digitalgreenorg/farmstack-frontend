@@ -36,6 +36,7 @@ export default function SupportResolution({
   resolutionFileError,
   setResolutionFileError,
   userLoggedIn,
+  updateResErrorMessage,
 }) {
   const fileTypes = ["doc", "PDF"];
   console.log("get id", getUserMapId());
@@ -62,7 +63,7 @@ export default function SupportResolution({
                 sm={6}
                 md={4}
                 lg={4}
-                style={{ maxWidth: "50px", margin: "15px" }}
+                style={{ maxWidth: "50px", margin: "15px",}}
               >
                 <Avatar
                   alt="Remy Sharp"
@@ -98,11 +99,13 @@ export default function SupportResolution({
                     label="Resolution message"
                     variant="outlined"
                     style={{ marginTop: "20px" }}
+                    error={updateResErrorMessage ? true : false}
+                    helperText={updateResErrorMessage ? updateResErrorMessage : ""}
                   />
                 ) : (
                   <div
                     //className={LocalStyle.resMessageStyle}
-                    style={{ marginTop: "30px", maxWidth: "700px" }}
+                    style={{ marginTop: "30px", maxWidth: "700px", wordBreak: "break-all"  }}
                   >
                     {item.resolution_text}
                   </div>
