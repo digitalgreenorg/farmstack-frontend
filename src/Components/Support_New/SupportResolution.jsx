@@ -35,12 +35,15 @@ export default function SupportResolution({
   logoPath,
   resolutionFileError,
   setResolutionFileError,
+  userLoggedIn,
+  updateResErrorMessage,
 }) {
   const fileTypes = ["doc", "PDF"];
   console.log("get id", getUserMapId());
 
   const handleFileChange = (file) => {
     setUploadFile(file);
+    setResolutionFileError("")
     console.log(file);
   };
   const handleCancelFile = () => {
@@ -60,7 +63,7 @@ export default function SupportResolution({
                 sm={6}
                 md={4}
                 lg={4}
-                style={{ maxWidth: "50px", margin: "15px" }}
+                style={{ maxWidth: "50px", margin: "15px",}}
               >
                 <Avatar
                   alt="Remy Sharp"
@@ -96,11 +99,13 @@ export default function SupportResolution({
                     label="Resolution message"
                     variant="outlined"
                     style={{ marginTop: "20px" }}
+                    error={updateResErrorMessage ? true : false}
+                    helperText={updateResErrorMessage ? updateResErrorMessage : ""}
                   />
                 ) : (
                   <div
                     //className={LocalStyle.resMessageStyle}
-                    style={{ marginTop: "30px", maxWidth: "700px" }}
+                    style={{ marginTop: "30px", maxWidth: "700px", wordBreak: "break-all"  }}
                   >
                     {item.resolution_text}
                   </div>
@@ -120,7 +125,7 @@ export default function SupportResolution({
                     <UpgradeIcon />
                   </IconButton>
                 ) : (
-                  hoveredIndex === resolutionMessage.length - 1 &&
+                  hoveredIndex === resolutionMessage.length - 1 && (item?.user_map?.id == getUserMapId()) &&
                   hoveredIndex === index && (
                     <IconButton
                       size="small"
@@ -182,7 +187,7 @@ export default function SupportResolution({
           >
             <Avatar
               alt="Remy Sharp"
-              src={UrlConstant.base_url_without_slash + logoPath}
+              src={UrlConstant.base_url_without_slash + userLoggedIn}
               sx={{ width: 44, height: 44 }}
             />
           </Col>

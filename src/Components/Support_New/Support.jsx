@@ -9,6 +9,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import HTTPService from "../../Services/HTTPService";
@@ -83,8 +84,8 @@ export default function Support(props) {
         };
       }
     } else {
-        payload = {};
-      }
+      payload = {};
+    }
 
     callLoader(true);
     HTTPService("POST", url, JSON.stringify(payload), false, true)
@@ -96,12 +97,12 @@ export default function Support(props) {
           setLoadMoreButton(true);
           if (response?.data?.next) {
             setLoadMoreUrl(response.data.next);
-            console.log("next", response.data.next)
+            console.log("next", response.data.next);
           }
         }
         if (response?.data?.results) {
-           setTicketList(response.data.results);
-           console.log(response.data.results)
+          setTicketList(response.data.results);
+          console.log(response.data.results);
         }
       })
       .catch(async (e) => {
@@ -124,7 +125,7 @@ export default function Support(props) {
 
   const getTicketListOnLoadMore = () => {
     callLoader(true);
-    console.log("loadMoreUrl", loadMoreUrl)
+    console.log("loadMoreUrl", loadMoreUrl);
     let payload = {};
 
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -141,7 +142,7 @@ export default function Support(props) {
           setLoadMoreButton(true);
           if (response?.data?.next) {
             setLoadMoreUrl(response.data.next);
-            console.log(response.data.next)
+            console.log(response.data.next);
           }
         }
         let datalist = ticketList;
@@ -181,7 +182,7 @@ export default function Support(props) {
       } else if (tabValue == 1) {
         data["status"] = e.target.value;
         data["others"] = true;
-      } 
+      }
     } else if (isLoggedInUserCoSteward()) {
       if (tabValue == 0) {
         data["status"] = e.target.value;
@@ -476,21 +477,21 @@ export default function Support(props) {
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
             </span>
-            <span className="add_light_text ml-16 fw600">
-              {isLoggedInUserAdmin()
-                ? tabValue === 0
-                  ? "Co-steward tickets"
-                  : tabValue === 1
-                  ? "Participant tickets"
-                  : isLoggedInUserCoSteward()
-                  ? tabValue === 0
-                    ? "My tickets"
-                    : tabValue === 1
-                    ? "My network tickets"
-                    : ""
-                  : ""
-                : "My tickets"}
-            </span>
+            {isLoggedInUserAdmin() ? (
+              <span className="add_light_text ml-16 fw600">
+                {tabValue === 0 ? "Co-steward tickets" : "Participant tickets"}
+              </span>
+            ) : null}
+
+            {isLoggedInUserCoSteward() ? (
+              <span className="add_light_text ml-16 fw600">
+                {tabValue === 0 ? "My tickets" : "My network tickets"}
+              </span>
+            ) : null}
+
+            {isLoggedInUserParticipant() ? (
+              <span className="add_light_text ml-16 fw600">My tickets</span>
+            ) : null}
           </div>
         </Col>
       </Row>

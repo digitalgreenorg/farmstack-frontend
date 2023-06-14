@@ -49,6 +49,8 @@ export default function SupportView(props) {
   const [uploadFile, setUploadFile] = useState(null);
   const [hoveredMessage, setHoveredMessage] = useState("");
   const [resolutionFileError, setResolutionFileError] = useState("");
+  const [userLoggedIn, setUserLoggedIn] = useState("");
+  const [updateResErrorMessage, setUpdateResErrorMessage] = useState("")
   const handleSupportViewRoute = () => {
     if (isLoggedInUserCoSteward() || isLoggedInUserAdmin()) {
       return `/datahub/support`;
@@ -67,10 +69,12 @@ export default function SupportView(props) {
   const handleMouseLeave = () => {
     setHoveredIndex(null);
   };
-  const handleUpdateResolutionMessage = (index, newValue) => {
-    let message = [...resolutionMessage];
-    message[index] = newValue.trimStart();
-    setResolutionMessage(message);
+  const handleUpdateResolutionMessage = (index, newValue, e) => {
+    e.stopPropagation(); 
+    const updatedResolutionMessage = [...resolutionMessage];
+    updatedResolutionMessage[index].resolution_text = newValue.trimStart();
+    setResolutionMessage(updatedResolutionMessage);
+    setUpdateResErrorMessage("")
   };
   const handleSubmitResolution = (e) => {
     e.preventDefault();
@@ -144,8 +148,7 @@ export default function SupportView(props) {
     callLoader(true);
     const messageId = resolutionMessage[index].id;
     var bodyFormData = new FormData();
-    bodyFormData.append("resolution_text", resolutionMessage[index]); // Get the resolution text from the specific index
-    bodyFormData.append("ticket", id);
+    bodyFormData.append("resolution_text", resolutionMessage[index].resolution_text); // Get the resolution text from the specific index
 
     HTTPService(
       "PUT",
@@ -163,18 +166,36 @@ export default function SupportView(props) {
         }
       })
       .catch(async (e) => {
+        callLoader(false);
         console.log(e);
-        let error = await GetErrorHandlingRoute(e);
-        console.log(e);
-        if (error?.toast) {
-          callToast(
-            "Something went wrong",
-            error?.status === 200 ? "success" : "error",
-            true
-          );
-        }
-        if (error.path) {
-          history.push(error.path);
+        var returnValues = GetErrorKey(e, bodyFormData.keys());
+        var errorKeys = returnValues[0];
+        var errorMessages = returnValues[1];
+        if (errorKeys.length > 0) {
+          for (var i = 0; i < errorKeys.length; i++) {
+            switch (errorKeys[i]) {
+              case "resolution_text":
+                setUpdateResErrorMessage(errorMessages[i]);
+                break;
+              default:
+                let error = GetErrorHandlingRoute(e);
+                callToast(error?.message, "error", true);
+                break;
+            }
+          }
+        } else {
+          let error = await GetErrorHandlingRoute(e);
+          console.log(e);
+          if (error?.toast) {
+            callToast(
+              "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
         }
       });
     callLoader(false);
@@ -201,6 +222,7 @@ export default function SupportView(props) {
         setLogoPath(response.data.ticket.user_map.organization?.logo);
         setResolutionMessage(response.data.resolutions);
         setSelectedStatus(response?.data?.ticket?.status);
+        setUserLoggedIn(response.data.logged_in_organization.org_logo)
 
       })
       .catch(async (e) => {
@@ -483,6 +505,8 @@ export default function SupportView(props) {
               logoPath={logoPath}
               resolutionFileError={resolutionFileError}
               setResolutionFileError={setResolutionFileError}
+              userLoggedIn={userLoggedIn}
+              updateResErrorMessage={updateResErrorMessage}
             />
           </Col>
         </Row>
