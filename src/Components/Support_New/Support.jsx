@@ -63,10 +63,21 @@ export default function Support(props) {
     console.log("filter by status is happening");
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
     let payload = {};
-
-    payload = {
-      status: e.target.value,
-    };
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      if (tabValue == 0) {
+        payload = {
+          status: e.target.value,
+        };
+      } else if (tabValue == 1) {
+        payload = {
+          status: e.target.value,
+        };
+      }
+    } else {
+      payload = {
+        status: e.target.value,
+      };
+    }
     HTTPService("POST", url, JSON.stringify(payload), false, true)
       .then((response) => {
         callLoader(false);
@@ -75,7 +86,7 @@ export default function Support(props) {
         } else {
           setLoadMoreUrl(response.data.next);
           setLoadMoreButton(true);
-        }
+        } 
         let finalDataList = [];
         if (isLoadMore) {
           finalDataList = [...ticketList, ...response.data.results];
