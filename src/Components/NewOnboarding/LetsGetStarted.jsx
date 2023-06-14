@@ -6,7 +6,7 @@ import styles from "./onboarding.module.css";
 import { Button } from "@mui/material";
 
 const LetsGetStarted = (props) => {
-  const { activeStep, setActiveStep } = props;
+  const { setActiveStep } = props;
   return (
     <>
       <div className={styles.get_started_image}>

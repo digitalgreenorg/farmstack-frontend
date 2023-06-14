@@ -5,7 +5,6 @@ import {
   AccordionSummary,
   Box,
   Button,
-  Divider,
   FormControl,
   InputLabel,
   MenuItem,
@@ -24,15 +23,15 @@ import { getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
-const detailsStyle = {
-  fontFamily: "'Montserrat' !important",
-  fontWeight: "400 !important",
-  fontSize: "16px !important",
-  lineHeight: "22px !important",
-  color: "#212B36 !important",
-  textAlign: "left",
-  marginBottom: "24px !important",
-};
+// const detailsStyle = {
+//   fontFamily: "'Montserrat' !important",
+//   fontWeight: "400 !important",
+//   fontSize: "16px !important",
+//   lineHeight: "22px !important",
+//   color: "#212B36 !important",
+//   textAlign: "left",
+//   marginBottom: "24px !important",
+// };
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
