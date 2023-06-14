@@ -274,9 +274,9 @@ export default function Support(props) {
                   ? "Other tickets"
                   : isLoggedInUserCoSteward()
                   ? tabValue === 0
-                    ? "Co-steward tickets"
+                    ? "My tickets"
                     : tabValue === 1
-                    ? "Other tickets"
+                    ? "My network tickets"
                     : ""
                   : ""
                 : "My tickets"}
