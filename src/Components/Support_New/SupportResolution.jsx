@@ -35,12 +35,14 @@ export default function SupportResolution({
   logoPath,
   resolutionFileError,
   setResolutionFileError,
+  userLoggedIn,
 }) {
   const fileTypes = ["doc", "PDF"];
   console.log("get id", getUserMapId());
 
   const handleFileChange = (file) => {
     setUploadFile(file);
+    setResolutionFileError("")
     console.log(file);
   };
   const handleCancelFile = () => {
@@ -182,7 +184,7 @@ export default function SupportResolution({
           >
             <Avatar
               alt="Remy Sharp"
-              src={UrlConstant.base_url_without_slash + logoPath}
+              src={UrlConstant.base_url_without_slash + userLoggedIn}
               sx={{ width: 44, height: 44 }}
             />
           </Col>
