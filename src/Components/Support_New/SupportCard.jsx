@@ -69,7 +69,7 @@ const SupportCard = ({
               {user_name ? user_name : "NA"}
             </span>
           </div>
-          <div className="calendar">
+          <div className={`${LocalStyle.statusCol}`}>
             <img
               src={require("../../Assets/Img/supportStatus.svg")}
               alt="calendar"

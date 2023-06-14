@@ -18,6 +18,11 @@
   line-height: 22px;
   color: #000000;
 }
+.statusCol {
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+}
 .textFieldSupport {
   margin: 15px !important;
 }
