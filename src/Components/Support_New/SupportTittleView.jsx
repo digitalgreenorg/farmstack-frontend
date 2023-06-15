@@ -48,8 +48,8 @@ export default function SupportTittleView({
   };
 
   const handleLoadMore = () => {
-    getTicketListOnLoadMore()
-  }
+    getTicketListOnLoadMore();
+  };
   const handleSupportViewRoute = (id) => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/support/view/${id}`;
@@ -75,7 +75,7 @@ export default function SupportTittleView({
     if (tabValue == 0) {
       localStorage.removeItem("supportTicketsTabValue");
     }
-  })
+  });
   return (
     <>
       {isLoggedInUserAdmin() || isLoggedInUserCoSteward() ? (
@@ -176,12 +176,25 @@ export default function SupportTittleView({
                 <>
                   {ticketList.length === 0 && !isLoading ? (
                     <Box p={3}>
-                      <NoData
-                        title={"There is no tickets"}
-                        subTitle={
-                          "As of now there is no tickets from co-stewards end"
-                        }
-                      />
+                      {isLoggedInUserCoSteward ? (
+                        <NoData
+                          title={"There is no tickets"}
+                          subTitle={
+                            "As of now there is no tickets from your end, so rise a ticket!"
+                          }
+                          primaryButton={"+ Raise new request "}
+                          primaryButtonOnClick={() =>
+                            history.push(handleAddTicketRoutes())
+                          }
+                        />
+                      ) : (
+                        <NoData
+                          title={"There is no tickets"}
+                          subTitle={
+                            "As of now there is no tickets from co-stewards end"
+                          }
+                        />
+                      )}
                     </Box>
                   ) : (
                     <div>
@@ -264,7 +277,9 @@ export default function SupportTittleView({
                 </>
               )}{" "}
             </>
-          ) : "" }
+          ) : (
+            ""
+          )}
           {tabValue == 1 ? (
             <>
               {isGrid && tabValue === 1 ? (
@@ -355,7 +370,9 @@ export default function SupportTittleView({
                 </>
               )}{" "}
             </>
-          ) : "" }
+          ) : (
+            ""
+          )}
         </Container>
       ) : (
         <Container>

@@ -8,7 +8,7 @@ import { IconButton } from "@mui/material";
 import UrlConstant from "../../Constants/UrlConstants";
 import EditIcon from "@mui/icons-material/Edit";
 import { getUserMapId } from "../../Utils/Common";
-import UpgradeIcon from "@mui/icons-material/Upgrade";
+import SendIcon from '@mui/icons-material/Send';
 import { FileUploader } from "react-drag-drop-files";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import FileDownloadSharpIcon from "@mui/icons-material/FileDownloadSharp";
@@ -38,7 +38,7 @@ export default function SupportResolution({
   userLoggedIn,
   updateResErrorMessage,
 }) {
-  const fileTypes = ["doc", "PDF"];
+  const fileTypes = ["pdf", "doc", "jpeg", "png", "docx" ];
   console.log("get id", getUserMapId());
 
   const handleFileChange = (file) => {
@@ -122,7 +122,7 @@ export default function SupportResolution({
                   <IconButton
                     onClick={(e) => handleUpgradeResolutionMessage(e, index)}
                   >
-                    <UpgradeIcon />
+                    <SendIcon />
                   </IconButton>
                 ) : (
                   hoveredIndex === resolutionMessage.length - 1 && (item?.user_map?.id == getUserMapId()) &&
