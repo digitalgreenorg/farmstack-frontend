@@ -245,28 +245,28 @@ export default function Support(props) {
     console.log("filter by category is happening");
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
     let data = {};
-      if (isLoggedInUserAdmin()) {
-        if (tabValue == 0) {
-          data["category"] = e.target.value;
-          data["others"] = false;
-        } else if (tabValue == 1) {
-          data["category"] = e.target.value;
-          data["others"] = true;
-        }
-      } else if (isLoggedInUserCoSteward()) {
-        if (tabValue == 0) {
-          data["category"] = e.target.value;
-          data["others"] = false;
-        } else if (tabValue == 1) {
-          data["category"] = e.target.value;
-          data["others"] = true;
-        }
-      } else {
+    if (isLoggedInUserAdmin()) {
+      if (tabValue == 0) {
         data["category"] = e.target.value;
-      }
-      if (isLoadMore) {
+        data["others"] = false;
+      } else if (tabValue == 1) {
         data["category"] = e.target.value;
+        data["others"] = true;
       }
+    } else if (isLoggedInUserCoSteward()) {
+      if (tabValue == 0) {
+        data["category"] = e.target.value;
+        data["others"] = false;
+      } else if (tabValue == 1) {
+        data["category"] = e.target.value;
+        data["others"] = true;
+      }
+    } else {
+      data["category"] = e.target.value;
+    }
+    if (isLoadMore) {
+      data["category"] = e.target.value;
+    }
     HTTPService("POST", url, data, false, true)
       .then((response) => {
         callLoader(false);
@@ -652,7 +652,7 @@ export default function Support(props) {
                 setCategoryFilter("");
                 setStatusFilter("");
                 setShowFilter(false);
-                setSearchTickets("")
+                setSearchTickets("");
                 getListOfTickets();
               }}
               id="dataset-filter-clear-all-id"
