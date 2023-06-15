@@ -1,12 +1,11 @@
 import { Box, Button, Stack, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import styles from "../dataset_integration.module.css";
 import download_data from "../../../../Assets/Img/download_data.svg";
 import { DataGrid } from "@mui/x-data-grid";
 import NoDataAvailable from "../../../Dashboard/NoDataAvailable/NoDataAvailable";
-import { Affix } from "antd";
-import { message, Popconfirm } from "antd";
+import { message } from "antd";
 import { useHistory } from "react-router-dom";
 import CustomDeletePopper from "../../../DeletePopper/CustomDeletePopper";
 
@@ -36,14 +35,11 @@ const Preview = (props) => {
     isAllConditionForSaveMet,
     connectorData,
     generateData,
-    setIsDatasetIntegrationListModeOn,
     deleteConnector,
-    counterForIntegrator,
     completeData,
     isEditModeOn,
     integrateMore,
     resetAll,
-    generatedConnectorData,
     finalDatasetAfterIntegration,
     downloadDocument,
   } = props;

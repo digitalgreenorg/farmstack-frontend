@@ -5,7 +5,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 const SelectWithOption = (props) => {
-  const { value, setValue } = props;
+  const { setValue } = props;
   const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {

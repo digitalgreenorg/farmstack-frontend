@@ -45,9 +45,6 @@ const Standardise = ({
   datasetId,
   isEditModeOn,
   standardisedUpcomingFiles,
-  dataSetName,
-  allStandardisedFile,
-  setAllStandardisedFile,
   standardisedFileLink,
   setStandardisedFileLink,
   getDatasetForEdit,
@@ -61,17 +58,14 @@ const Standardise = ({
   const [maskedColumns, setMaskedColumns] = useState([]);
   const [standardiseFiles, setStandardiseFiles] = useState([]);
   const [standardiseFile, setStandardiseFile] = useState("");
-  const [standardiseFileId, setStandardiseFileId] = useState("");
   const [templates, setTemplates] = useState([]);
   const [template, setTemplate] = useState();
   const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([]);
   const [datapointCategories, setDatapointCategories] = useState([]);
   const [datapointCategory, setDatapointCategory] = useState([]);
   const [datapointAttributes, setDatapointAttributes] = useState([]);
-  const [datapointAttribute, setDatapointAttribute] = useState();
   const [standardiseNames, setStandardiseNames] = useState([]);
   const [standardiseName, setStandardiseName] = useState();
-  const [alreadyStandardizedFiles, setAlreadyStandardizedFiles] = useState([]);
   const [isFetchedData, setIsFetchedData] = useState(false);
   const fileExt = ["xlsx", "xls", "csv"];
 

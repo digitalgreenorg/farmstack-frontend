@@ -11,11 +11,6 @@ import {
 
 import Datahub from "./Layout/Datahub";
 import Participant from "./Layout/Participant";
-import SessionExpired from "./Components/SessionExpired/SessionExpired";
-
-import GuestUserLegal from "./Views/GuestUser/GuestUserLegal";
-
-import AddParticipantRegistrationForm from "./Components/PatricipantRegistration/AddParticipantRegistrationform";
 
 import OnBoarding from "./Views/Pages/HomeScreen/OnBoarding";
 import { FarmStackContext } from "./Components/Contexts/FarmStackContext";
@@ -26,13 +21,7 @@ import NewError from "./Components/Error/NewError";
 import GuestUserContactNew from "./Views/GuestUser/GuestUserContactNew";
 import UrlConstant from "./Constants/UrlConstants";
 import HTTPService from "./Services/HTTPService";
-import {
-  getUserLocal,
-  flushLocalstorage,
-  setRoleLocal,
-  getRoleLocal,
-  isLoggedInUserAdmin,
-} from "./Utils/Common";
+import { getUserLocal, flushLocalstorage, setRoleLocal } from "./Utils/Common";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
 function App() {
   const { isLoading, toastDetail, setAdminData } = useContext(FarmStackContext);
@@ -46,7 +35,7 @@ function App() {
         setAdminData(response.data);
       })
       .catch((error) => {
-        console.log("error");
+        console.log("error", error);
       });
   }
 
@@ -66,20 +55,14 @@ function App() {
     let params = { user_id: userId };
     HTTPService("GET", url, params, false, false, false)
       .then((response) => {
-        console.log("response to verify local data", response);
         if (!response?.data?.on_boarded) {
           flushLocalstorage();
           return;
         }
         setRoleLocal(roleId[response?.data?.role_id]);
-        console.log(
-          "response to verify local data role",
-          getRoleLocal(),
-          isLoggedInUserAdmin()
-        );
       })
       .catch((err) => {
-        console.log("error to verify local data", err);
+        console.log("error", err);
       });
   };
   useEffect(() => {
@@ -100,16 +83,9 @@ function App() {
           <Route exact path="/login" component={OnBoarding} />
           <Route path="/datahub" component={Datahub} />
           <Route path="/participant" component={Participant} />
-          <Route path="/sessionexpired" component={SessionExpired} />
           <Route path="/error/:status" component={NewError} />
           <Route path="/home" component={GuestRoutes} />
-          <Route exact path="/legal" component={GuestUserLegal} />
           <Route exact path="/contact" component={GuestUserContactNew} />
-          <Route
-            exact
-            path="/participantregistration"
-            component={AddParticipantRegistrationForm}
-          />
           <Redirect from="/" to="/home" />
         </Switch>
       </Router>
