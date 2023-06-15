@@ -19,21 +19,9 @@ import {
 } from "../../Utils/Common";
 
 function CustomDashBoardTable(props) {
-  const { data, title, recentConnectorsTable, recentDatasetTable, subTitle } =
-    props;
+  const { data, title, recentDatasetTable, subTitle } = props;
   const history = useHistory();
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  console.log("data in table", title, data);
-  const rows = [
-    createData("Frozen yoghurt", "Wheat", "Oromia", 24, 4.0),
-    createData("Frozen yoghurt", "Wheat", "Oromia", 24, 4.0),
 
-    createData("Frozen yoghurt", "Wheat", "Oromia", 24, 4.0),
-
-    createData("Frozen yoghurt", "Wheat", "Oromia", 24, 4.0),
-  ];
   return (
     <Box className={localStyle.container}>
       <TableContainer component={Paper}>

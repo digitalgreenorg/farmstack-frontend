@@ -1,9 +1,7 @@
 import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import React, { useContext } from "react";
 import {
-  downloadDocument,
   getTokenLocal,
-  download,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
 } from "../../Utils/Common";

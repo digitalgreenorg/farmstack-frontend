@@ -1,11 +1,11 @@
-import * as React from 'react';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
-import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
+import * as React from "react";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import ListItemText from "@mui/material/ListItemText";
+import Select from "@mui/material/Select";
+import Checkbox from "@mui/material/Checkbox";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -18,14 +18,8 @@ const MenuProps = {
   },
 };
 
-
-
-
 export default function MultipleSelectCheckmarks(props) {
-  const { handler, category, list, heading, selectedCat } = props
-
-
-
+  const { handler, category, list, heading } = props;
 
   return (
     <div>
@@ -38,7 +32,7 @@ export default function MultipleSelectCheckmarks(props) {
           value={category}
           onChange={handler}
           input={<OutlinedInput label={heading} />}
-          renderValue={(selected) => selected.join(', ')}
+          renderValue={(selected) => selected.join(", ")}
           MenuProps={MenuProps}
         >
           {list.map((name) => (

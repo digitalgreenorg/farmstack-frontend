@@ -1,14 +1,5 @@
 import React, { useEffect, useMemo, useState, useContext } from "react";
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Select,
-  MenuItem,
-  InputLabel,
-} from "@material-ui/core";
+import { FormControl, Select, MenuItem, InputLabel } from "@material-ui/core";
 import {
   Typography,
   TextField,
@@ -18,12 +9,10 @@ import {
   Alert,
   Stack,
 } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import LocalStyle from "./ParticipantForm.module.css";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import labels from "../../../Constants/labels";
 import UrlConstants from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
@@ -39,7 +28,6 @@ import {
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
-import InfoIcon from "@mui/icons-material/Info";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { isPhoneValid } from "../../NewOnboarding/utils";
@@ -50,8 +38,6 @@ const ParticipantFormNew = (props) => {
   const history = useHistory();
   const countryNameList = useMemo(() => countryList().getData(), []);
   const { id } = useParams();
-
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [organisationName, setOrganisationName] = useState("");
   const [organisationEmail, setOrganisationEmail] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -102,14 +88,6 @@ const ParticipantFormNew = (props) => {
     // perform form submission logic here
   };
 
-  const isValidURL = (string) => {
-    var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
-    return res !== null;
-  };
-  const isValidCapsUrl = (string) => {
-    var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
-    return res1 !== null;
-  };
   const handleContactNumber = (e, countryData) => {
     if (!isPhoneValid(e, countryData)) {
       setOrgContactErrorMessage("Invalid phone number");
