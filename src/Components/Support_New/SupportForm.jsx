@@ -291,9 +291,9 @@ export default function AskSupport(props) {
               key={key}
               isMultiple={false}
               texts={
-                "Drop files here or click browse thorough your machine, supported files are JPEG, PNG, PDF and Docx file size not more than"
+                "Drop files here or click browse thorough your machine, supported files are JPEG, PNG, PDF, Doc and Docx file size not more than"
               }
-              fileTypes={["pdf", "doc"]}
+              fileTypes={["pdf", "doc", "jpeg", "png", "docx" ]}
               handleChange={handleUploadSupportFile}
               maxSize={2}
               setSizeError={() =>

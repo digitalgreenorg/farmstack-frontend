@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import DataSetCard from "../../Components/Datasets/DataSetCard";
 import { Col, Row } from "react-bootstrap";
 import Button from "@mui/material/Button";
-import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
 import { useHistory } from "react-router-dom";
 import {
   isLoggedInUserAdmin,
@@ -63,14 +61,16 @@ export default function DataSetListing(props) {
             <AddDatasetCard
               firstText={screenlabels.dataset.add_dataset}
               secondText={screenlabels.dataset.add_dataset_text}
-              addevent={() => history.push(getAddUrl())}></AddDatasetCard>
+              addevent={() => history.push(getAddUrl())}
+            ></AddDatasetCard>
           )
           // <AddCard firstText={screenlabels.addparticipants.firstText} secondText={screenlabels.addparticipants.secondText} addevent={() => history.push('/datahub/participants/add')}></AddCard>
         }
         {(!props.datasetList || props.datasetList.length === 0) && (
           <NoDatasetCard
             firstText={screenlabels.dataset.no_dataset_text1}
-            secondText={screenlabels.dataset.no_dataset_text2}></NoDatasetCard>
+            secondText={screenlabels.dataset.no_dataset_text2}
+          ></NoDatasetCard>
         )}
         {props.datasetList &&
           props.datasetList.map((dataset) => (
@@ -81,9 +81,7 @@ export default function DataSetListing(props) {
               orgName={dataset.organization.name}
               visiblity={dataset.is_public}
               publishedon={dataset.created_at}
-              cropDetail={
-                "N/A"
-              }
+              cropDetail={"N/A"}
               geography={dataset.geography}
               orgLogo={dataset.organization.logo}
               description={dataset.description}
@@ -131,7 +129,8 @@ export default function DataSetListing(props) {
               onClick={() => props.getDatasetList(true)}
               variant="outlined"
               className="cancelbtn"
-              style={{ "text-transform": "none" }}>
+              style={{ "text-transform": "none" }}
+            >
               Load more
             </Button>
           </Col>

@@ -6,20 +6,13 @@ import Success from "../../../Components/Success/Success";
 import Delete from "../../../Components/Delete/Delete";
 import Row from "react-bootstrap/Row";
 import Button from "@mui/material/Button";
-import THEME_COLORS from "../../../Constants/ColorConstants";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
 import { useLocation, useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
 import { GetErrorHandlingRoute, isRoleName } from "../../../Utils/Common";
-// const useStyles = {
-//     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },
-//     btn: { width: "420px", height: "42px", "margin-top": "30px", background: "#ffffff", opacity: "0.5", border: "2px solid #c09507", color: "black" },
-//     btnPosition: { "text-align": "center"},
-//     marginrowtop: { "margin-top": "20px" },
-//     marginrowtop8px: { "margin-top": "8px" }
-// };
+//
 
 function ViewDepartment(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);

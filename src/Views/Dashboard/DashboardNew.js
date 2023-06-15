@@ -19,16 +19,7 @@ import { Chart } from "chart.js";
 function DashboardNew() {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [dashboardData, setDashboardData] = useState("");
-  const [fileChart, setFileChart] = useState({
-    labels: ["Label 1", "Label 2", "Label 3"],
-    datasets: [
-      {
-        data: [10, 20, 30],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-      },
-    ],
-  });
+  const [fileChart, setFileChart] = useState({});
   const [geographyChart, setGeographyChart] = useState({});
   const [categoryChart, setCategoryChart] = useState({});
   const [org, setOrg] = useState("my_organisation");
@@ -274,7 +265,11 @@ function DashboardNew() {
     };
     if (dashboardData.dataset_state_metrics) {
       dashboardData.dataset_state_metrics.forEach((item) => {
-        tmpLabels.push(item?.state_name ?? "Others");
+        let tmpStateName = item?.state_name;
+        if (tmpStateName && tmpStateName.length > 20) {
+          tmpStateName = tmpStateName.substring(0, 20) + "...";
+        }
+        tmpLabels.push(tmpStateName ?? "Others");
         datasets.data.push(item?.dataset_count);
       });
       datasets.backgroundColor = Chart.defaults.color.primary;
@@ -300,8 +295,17 @@ function DashboardNew() {
       hoverBackgroundColor: [],
     };
     if (dashboardData?.dataset_category_metrics) {
+      let allCategories = Object.keys(dashboardData?.dataset_category_metrics);
+      let tmpAllCategories = [];
+      allCategories.forEach((item, index) => {
+        if (item.length > 20) {
+          tmpAllCategories.push(item.substring(0, 20) + "...");
+        } else {
+          tmpAllCategories.push(item);
+        }
+      });
       if (Object.keys(dashboardData?.dataset_category_metrics).length) {
-        tmpLabels = Object.keys(dashboardData?.dataset_category_metrics);
+        tmpLabels = tmpAllCategories;
         datasets = {
           data: Object.values(dashboardData?.dataset_category_metrics),
           // backgroundColor: "#d14f4f",

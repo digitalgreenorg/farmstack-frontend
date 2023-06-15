@@ -11,7 +11,6 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
 import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import CustomTabs from "../../Components/Tabs/Tabs";
@@ -60,7 +59,7 @@ export default function Support(props) {
   };
   const getListOfTickets = () => {
     console.log("get list is happening");
-
+    
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
     let payload = {};
     if (isLoggedInUserAdmin()) {
@@ -313,16 +312,32 @@ export default function Support(props) {
       if (tabValue == 0) {
         if (fromDate && toDate) {
           let tempDateRange = [];
-          tempDateRange.push(fromDate);
-          tempDateRange.push(toDate);
+          tempDateRange.push(
+            new Date(
+              fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
+          tempDateRange.push(
+            new Date(
+              toDate.getTime() - toDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
           payload["updated_at__range"] = tempDateRange;
           payload["others"] = false;
         }
       } else if (tabValue == 1) {
         if (fromDate && toDate) {
           let tempDateRange = [];
-          tempDateRange.push(fromDate);
-          tempDateRange.push(toDate);
+          tempDateRange.push(
+            new Date(
+              fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
+          tempDateRange.push(
+            new Date(
+              toDate.getTime() - toDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
           payload["updated_at__range"] = tempDateRange;
           payload["others"] = true;
         }
@@ -331,16 +346,32 @@ export default function Support(props) {
       if (tabValue == 0) {
         if (fromDate && toDate) {
           let tempDateRange = [];
-          tempDateRange.push(fromDate);
-          tempDateRange.push(toDate);
+          tempDateRange.push(
+            new Date(
+              fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
+          tempDateRange.push(
+            new Date(
+              toDate.getTime() - toDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
           payload["updated_at__range"] = tempDateRange;
           payload["others"] = false;
         }
       } else if (tabValue == 1) {
         if (fromDate && toDate) {
           let tempDateRange = [];
-          tempDateRange.push(fromDate);
-          tempDateRange.push(toDate);
+          tempDateRange.push(
+            new Date(
+              fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
+          tempDateRange.push(
+            new Date(
+              toDate.getTime() - toDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
           payload["updated_at__range"] = tempDateRange;
           payload["others"] = true;
         }
@@ -348,8 +379,16 @@ export default function Support(props) {
     } else {
       if (fromDate && toDate) {
         let tempDateRange = [];
-        tempDateRange.push(fromDate);
-        tempDateRange.push(toDate);
+        tempDateRange.push(
+          new Date(
+            fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+          ).toJSON()
+        );
+        tempDateRange.push(
+          new Date(
+            toDate.getTime() - toDate.getTimezoneOffset() * 60000
+          ).toJSON()
+        );
         payload["updated_at__range"] = tempDateRange;
       }
     }
@@ -612,6 +651,7 @@ export default function Support(props) {
                 setCategoryFilter("");
                 setStatusFilter("");
                 setShowFilter(false);
+                setSearchTickets("");
                 getListOfTickets();
               }}
               id="dataset-filter-clear-all-id"

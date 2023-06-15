@@ -8,30 +8,20 @@ import SupportCard from "./SupportCard";
 import SupportList from "./SupportList";
 import { Row, Col } from "react-bootstrap";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-import HTTPService from "../../Services/HTTPService";
-import UrlConstants from "../../Constants/UrlConstants";
 import {
-  GetErrorHandlingRoute,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   dateTimeFormat,
-  getUserMapId,
 } from "../../Utils/Common";
 import LocalStyle from "./Support.module.css";
 import NoData from "../NoData/NoData";
 
 export default function SupportTittleView({
   tabValue,
-  setTabValue,
-  tabLabels,
   setTabLabels,
   ticketList,
-  setTicketList,
-  loadMoreUrl,
-  setLoadMoreUrl,
   loadMoreButton,
-  setLoadMoreButton,
   getTicketListOnLoadMore,
   getListOfTickets,
 }) {
@@ -48,8 +38,8 @@ export default function SupportTittleView({
   };
 
   const handleLoadMore = () => {
-    getTicketListOnLoadMore()
-  }
+    getTicketListOnLoadMore();
+  };
   const handleSupportViewRoute = (id) => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/support/view/${id}`;
@@ -75,7 +65,7 @@ export default function SupportTittleView({
     if (tabValue == 0) {
       localStorage.removeItem("supportTicketsTabValue");
     }
-  })
+  });
   return (
     <>
       {isLoggedInUserAdmin() || isLoggedInUserCoSteward() ? (
@@ -176,12 +166,25 @@ export default function SupportTittleView({
                 <>
                   {ticketList.length === 0 && !isLoading ? (
                     <Box p={3}>
-                      <NoData
-                        title={"There is no tickets"}
-                        subTitle={
-                          "As of now there is no tickets from co-stewards end"
-                        }
-                      />
+                      {isLoggedInUserCoSteward() ? (
+                        <NoData
+                          title={"There is no tickets"}
+                          subTitle={
+                            "As of now there is no tickets from your end, so rise a ticket!"
+                          }
+                          primaryButton={"+ Raise new request "}
+                          primaryButtonOnClick={() =>
+                            history.push(handleAddTicketRoutes())
+                          }
+                        />
+                      ) : (
+                        <NoData
+                          title={"There is no tickets"}
+                          subTitle={
+                            "As of now there is no tickets from co-stewards end"
+                          }
+                        />
+                      )}
                     </Box>
                   ) : (
                     <div>
@@ -264,7 +267,9 @@ export default function SupportTittleView({
                 </>
               )}{" "}
             </>
-          ) : "" }
+          ) : (
+            ""
+          )}
           {tabValue == 1 ? (
             <>
               {isGrid && tabValue === 1 ? (
@@ -355,7 +360,9 @@ export default function SupportTittleView({
                 </>
               )}{" "}
             </>
-          ) : "" }
+          ) : (
+            ""
+          )}
         </Container>
       ) : (
         <Container>

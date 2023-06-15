@@ -1,22 +1,16 @@
 import React, { useContext, useState } from "react";
-import { Box, Button, Divider, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import "./UploadFile.css";
 import { FileUploader } from "react-drag-drop-files";
 import ControlledAccordion from "../../Accordion/Accordion";
 import File from "./File";
 import EmptyFile from "./EmptyFile";
-import CheckBoxWithText from "./CheckBoxWithText";
 import DbConfiguration from "./DbConfiguration";
 import TableImport from "./TableImport";
 import ApiConfiguration from "./ApiConfiguration";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import {
-  GetErrorHandlingRoute,
-  GetErrorKey,
-  fileUpload,
-  getTokenLocal,
-} from "../../../Utils/Common";
+import { GetErrorKey, getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
@@ -47,7 +41,6 @@ const UploadFile = ({
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [selectedUploadType, setSelectedUploadType] = useState("file_upload");
-  const [selectedPanel, setSelectedPanel] = useState();
   const [file, setFile] = useState();
   const [isSizeError, setIsSizeError] = useState(false);
   const [mySqlDbName, setMySqlDbName] = useState();
@@ -88,7 +81,6 @@ const UploadFile = ({
   const [mySqlTableName, setMySqlTableName] = useState();
   const [postgresFileName, setPostgresFileName] = useState();
   const [postgresTableName, setPostgresTableName] = useState();
-  const [sqliteFileName, setSqliteFileName] = useState();
   const [sqliteTableName, setSqliteTableName] = useState();
 
   const [sqlTables, setSqlTables] = useState(["1_Person.csv"]);

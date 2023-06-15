@@ -12,6 +12,7 @@ import PolicySettings from "./PolicySettings";
 import CategorySettings from "./CategorySettings";
 import DatapointSettings from "./DatapointSettings";
 import {
+  isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
@@ -26,6 +27,13 @@ export default function Settings(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     history.push(newValue);
+  };
+  const handleAddSettingRoutes = () => {
+    if (isLoggedInUserCoSteward() || isLoggedInUserAdmin()) {
+      return `/datahub/settings/1`;
+    } else if (isLoggedInUserParticipant()) {
+      return `/participant/settings/1`;
+    }
   };
   return (
     <div>
@@ -58,7 +66,7 @@ export default function Settings(props) {
               <div className="text-left mt-50">
                 <span
                   className="add_light_text cursor-pointer breadcrumbItem"
-                  onClick={() => history.push("/datahub/settings/:1")}
+                  onClick={() => history.push(handleAddSettingRoutes())}
                 >
                   Settings
                 </span>
