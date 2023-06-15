@@ -32,6 +32,8 @@ export default function SupportTittleView({
   setLoadMoreUrl,
   loadMoreButton,
   setLoadMoreButton,
+  getTicketListOnLoadMore,
+  getListOfTickets,
 }) {
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const [isGrid, setIsGrid] = useState(true);
@@ -44,117 +46,6 @@ export default function SupportTittleView({
       return `/participant/support/add`;
     }
   };
-  const getListOfTickets = () => {
-    console.log("get list is happening");
-
-    let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
-    let payload = {};
-    if (isLoggedInUserAdmin()) {
-      if (tabValue == 0) {
-        payload = {
-          others: false,
-        };
-      } else if (tabValue == 1) {
-        payload = {
-          others: true,
-        };
-      }
-    } else if (isLoggedInUserCoSteward()) {
-      if (tabValue == 0) {
-        payload = {
-          others: false,
-        };
-      } else if (tabValue == 1) {
-        payload = {
-          others: true,
-        };
-      }
-    } else {
-        payload = {};
-      }
-
-    callLoader(true);
-    HTTPService("POST", url, JSON.stringify(payload), false, true)
-      .then((response) => {
-        callLoader(false);
-        if (response?.data?.next == null) {
-          setLoadMoreButton(false);
-        } else {
-          setLoadMoreButton(true);
-          if (response?.data?.next) {
-            setLoadMoreUrl(response.data.next);
-            console.log("next", response.data.next)
-          }
-        }
-        if (response?.data?.results) {
-           setTicketList(response.data.results);
-           console.log(response.data.results)
-        }
-      })
-      .catch(async (e) => {
-        callLoader(false);
-        let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if (error.toast) {
-          callToast(
-            error?.message || "Something went wrong",
-            error?.status === 200 ? "success" : "error",
-            true
-          );
-        }
-        if (error.path) {
-          history.push(error.path);
-        }
-      });
-  };
-
-  const getTicketListOnLoadMore = () => {
-    callLoader(true);
-    console.log("loadMoreUrl", loadMoreUrl)
-    let payload = {};
-
-    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
-      payload = {
-        others: tabValue === 1,
-      };
-    }
-    HTTPService("POST", loadMoreUrl, JSON.stringify(payload), false, true)
-      .then((response) => {
-        callLoader(false);
-        if (response?.data?.next == null) {
-          setLoadMoreButton(false);
-        } else {
-          setLoadMoreButton(true);
-          if (response?.data?.next) {
-            setLoadMoreUrl(response.data.next);
-            console.log(response.data.next)
-          }
-        }
-        let datalist = ticketList;
-        if (response?.data?.results) {
-          let finalDataList = [...datalist, ...response.data.results];
-          setTicketList(finalDataList);
-        }
-      })
-      .catch(async (e) => {
-        callLoader(false);
-        let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if (error.toast) {
-          callToast(
-            error?.message || "Something went wrong",
-            error?.status === 200 ? "success" : "error",
-            true
-          );
-        }
-        if (error.path) {
-          history.push(error.path);
-        }
-      });
-  };
-
 
   const handleLoadMore = () => {
     getTicketListOnLoadMore()
@@ -173,7 +64,7 @@ export default function SupportTittleView({
 
   useEffect(() => {
     if (isLoggedInUserAdmin()) {
-      setTabLabels(["Co-Steward Tickets", "Other Tickets"]);
+      setTabLabels(["Co-Steward Tickets", "Participant Tickets"]);
     }
     if (isLoggedInUserCoSteward()) {
       setTabLabels(["My Tickets", "My network tickets"]);
