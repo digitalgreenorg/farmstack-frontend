@@ -18,7 +18,6 @@ export default function SupportResolution({
   resolutionfield,
   setResolution,
   handleSubmitResolution,
-  handleClearResolutionField,
   resolutionError,
   resolutionMessage,
   handleMouseEnter,
@@ -30,9 +29,7 @@ export default function SupportResolution({
   handleUpgradeResolutionMessage,
   uploadFile,
   setUploadFile,
-  hoveredMessage,
   setHoveredMessage,
-  logoPath,
   resolutionFileError,
   setResolutionFileError,
   userLoggedIn,
@@ -243,6 +240,7 @@ export default function SupportResolution({
                 marginBottom: "20px",
                 marginRight: "100px",
                 marginTop: "20px",
+                border: "none",
               }}
             >
               <FileUploader

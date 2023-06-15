@@ -11,7 +11,6 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
 import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import CustomTabs from "../../Components/Tabs/Tabs";
@@ -60,7 +59,7 @@ export default function Support(props) {
   };
   const getListOfTickets = () => {
     console.log("get list is happening");
-
+    
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
     let payload = {};
     if (isLoggedInUserAdmin()) {
