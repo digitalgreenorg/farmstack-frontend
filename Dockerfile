@@ -1,14 +1,10 @@
-# Stage 1: Install dependencies
-FROM node:14 as dependencies
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install --force
 
-# Stage 2: Build the app
-FROM node:14 as build
+# Build react app
+FROM node:14 as build-image
 WORKDIR /app
+COPY package.json ./
+RUN npm install --force
 COPY . ./
-COPY --from=dependencies /app/node_modules ./node_modules
 RUN npm run build
 
 # copy static files and run nginx server
