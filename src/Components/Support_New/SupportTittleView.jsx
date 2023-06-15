@@ -8,30 +8,20 @@ import SupportCard from "./SupportCard";
 import SupportList from "./SupportList";
 import { Row, Col } from "react-bootstrap";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-import HTTPService from "../../Services/HTTPService";
-import UrlConstants from "../../Constants/UrlConstants";
 import {
-  GetErrorHandlingRoute,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   dateTimeFormat,
-  getUserMapId,
 } from "../../Utils/Common";
 import LocalStyle from "./Support.module.css";
 import NoData from "../NoData/NoData";
 
 export default function SupportTittleView({
   tabValue,
-  setTabValue,
-  tabLabels,
   setTabLabels,
   ticketList,
-  setTicketList,
-  loadMoreUrl,
-  setLoadMoreUrl,
   loadMoreButton,
-  setLoadMoreButton,
   getTicketListOnLoadMore,
   getListOfTickets,
 }) {
@@ -176,7 +166,7 @@ export default function SupportTittleView({
                 <>
                   {ticketList.length === 0 && !isLoading ? (
                     <Box p={3}>
-                      {isLoggedInUserCoSteward ? (
+                      {isLoggedInUserCoSteward() ? (
                         <NoData
                           title={"There is no tickets"}
                           subTitle={

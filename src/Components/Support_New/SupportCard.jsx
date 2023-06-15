@@ -1,7 +1,6 @@
 import { Card } from "@mui/material";
 import React from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { dateTimeFormat } from "../../Utils/Common";
 import LocalStyle from "./Support.module.css";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 

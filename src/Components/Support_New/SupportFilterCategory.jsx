@@ -1,24 +1,14 @@
 import { Card } from "@mui/material";
 import React from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { dateTimeFormat } from "../../Utils/Common";
-import LocalStyle from "./Support.module.css";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
 import {
-  TextField,
   Select,
   FormControl,
   MenuItem,
   InputLabel,
-  Typography,
-  Button,
 } from "@material-ui/core";
 
 export default function SupportFilterCategory({
-  showFilter,
-  setShowFilter,
   categoryFilter,
-  setCategoryFilter,
   handleFilterByCategory,
 }) {
   return (
