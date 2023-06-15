@@ -49,7 +49,7 @@ import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import Support from "../Components/Support_New/Support";
 import AskSupport from "../Components/Support_New/SupportForm";
 import SupportView from "../Components/Support_New/SupportView";
-// import DashboardNew from "../Views/Dashboard/DashboardNew";
+import DashboardNew from "../Views/Dashboard/DashboardNew";
 // import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
 
 function Participant(props) {
@@ -255,7 +255,7 @@ function Participant(props) {
                 path="/participant/dataset/view/:id"
                 component={ViewMetaDatasetDetails}
               />
-              {/* <Route
+              {/* {/* <Route */}
               <Route
                 exact
                 path="/participant/new_dashboard"
