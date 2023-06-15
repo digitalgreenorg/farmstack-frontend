@@ -27,6 +27,7 @@ const ConnectorTitleView = ({
               src={require(`../../Assets/Img/${
                 isGrid ? "list_view_gray.svg" : "list_view_green.svg"
               }`)}
+              alt="list_view_image"
             />
             <Typography
               sx={{
@@ -45,6 +46,7 @@ const ConnectorTitleView = ({
               src={require(`../../Assets/Img/${
                 isGrid ? "grid_view_green.svg" : "grid_view_gray.svg"
               }`)}
+              alt="grid_view_image"
             />
             <Typography
               sx={{

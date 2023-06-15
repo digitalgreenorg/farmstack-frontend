@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
-import { Col, Row } from "react-bootstrap";
 import {
   Button,
   Checkbox,
@@ -13,8 +12,7 @@ import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
 // import { logIn } from "./utils";
 import HTTPService from "../../Services/HTTPService";
-import OtpCountDownTimer from "../signup/OtpCountDownTimer";
-import Countdown from "react-countdown";
+
 import validator from "validator";
 import {
   GetErrorHandlingRoute,
@@ -46,7 +44,6 @@ const VerifyEmailStep = (props) => {
   const [emailId, setEmailId] = useState("");
   const [otp, setOtp] = useState("");
   const [isValidEmailSent, setIsValidEmailSent] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [gotOtp, setGotOtp] = useState(false);
   const [key, setKey] = useState(0);
 

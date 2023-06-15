@@ -79,17 +79,6 @@ const DataSetsView = (props) => {
   const [toDate, setToDate] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
 
-  // Upload File
-  // const [files, setFiles] = useState([]);
-  const [sqlFiles, setSqlFiles] = useState([]);
-  const [postgresFiles, setPostgresFiles] = useState([]);
-  const [sqLiteFiles, setSqLiteFiles] = useState([]);
-  const [restApifiles, setRestApiFiles] = useState([]);
-
-  // Standardise
-  const [allStandardisedFile, setAllStandardisedFile] = useState({});
-  const [standardisedFileLink, setStandardisedFileLink] = useState({});
-
   // Categories
   // const [categorises, setCategorises] = useState({})
   const [geography, setGeography] = useState();

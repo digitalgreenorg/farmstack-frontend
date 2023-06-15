@@ -23,7 +23,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const Connectors = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));

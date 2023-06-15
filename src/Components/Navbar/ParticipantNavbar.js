@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Nav,
-  NavLink,
-  Bars,
-  NavMenu,
-  NavBtn,
-  NavBtnLink,
-} from "./NavbarElements";
+import { Nav, NavLink, NavMenu, NavBtn, NavBtnLink } from "./NavbarElements";
 import labels from "../../Constants/labels";
-import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
 import { flushLocalstorage, getUserLocal } from "../../Utils/Common";
@@ -17,7 +9,6 @@ import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
 
 const ParticipantNavbar = (props) => {
   const [profile, setprofile] = useState(null);
@@ -121,11 +112,14 @@ const ParticipantNavbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
           </NavLink> */}
-          <NavLink to="/participant/settings" activeStyle
+          <NavLink
+            to="/participant/settings"
+            activeStyle
             onClick={(e) => {
               e.preventDefault();
               history.push("/participant/settings/1");
-            }}>
+            }}
+          >
             <img
               className="boldimage"
               src={require("../../Assets/Img/settings.svg")}
@@ -144,7 +138,8 @@ const ParticipantNavbar = (props) => {
             <Button
               variant="outlined"
               className="signoutbtn-navbar"
-              startIcon={<Avatar src={profile} />}>
+              startIcon={<Avatar src={profile} />}
+            >
               {screenlabels.navbar.Signout}
             </Button>
           </NavBtn>
