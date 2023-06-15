@@ -245,28 +245,28 @@ export default function Support(props) {
     console.log("filter by category is happening");
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
     let data = {};
-    if (isLoggedInUserAdmin()) {
-      if (tabValue == 0) {
+      if (isLoggedInUserAdmin()) {
+        if (tabValue == 0) {
+          data["category"] = e.target.value;
+          data["others"] = false;
+        } else if (tabValue == 1) {
+          data["category"] = e.target.value;
+          data["others"] = true;
+        }
+      } else if (isLoggedInUserCoSteward()) {
+        if (tabValue == 0) {
+          data["category"] = e.target.value;
+          data["others"] = false;
+        } else if (tabValue == 1) {
+          data["category"] = e.target.value;
+          data["others"] = true;
+        }
+      } else {
         data["category"] = e.target.value;
-        data["others"] = false;
-      } else if (tabValue == 1) {
-        data["category"] = e.target.value;
-        data["others"] = true;
       }
-    } else if (isLoggedInUserCoSteward()) {
-      if (tabValue == 0) {
+      if (isLoadMore) {
         data["category"] = e.target.value;
-        data["others"] = false;
-      } else if (tabValue == 1) {
-        data["category"] = e.target.value;
-        data["others"] = true;
       }
-    } else {
-      data["category"] = e.target.value;
-    }
-    if (isLoadMore) {
-      data["category"] = e.target.value;
-    }
     HTTPService("POST", url, data, false, true)
       .then((response) => {
         callLoader(false);
@@ -313,16 +313,32 @@ export default function Support(props) {
       if (tabValue == 0) {
         if (fromDate && toDate) {
           let tempDateRange = [];
-          tempDateRange.push(fromDate);
-          tempDateRange.push(toDate);
+          tempDateRange.push(
+            new Date(
+              fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
+          tempDateRange.push(
+            new Date(
+              toDate.getTime() - toDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
           payload["updated_at__range"] = tempDateRange;
           payload["others"] = false;
         }
       } else if (tabValue == 1) {
         if (fromDate && toDate) {
           let tempDateRange = [];
-          tempDateRange.push(fromDate);
-          tempDateRange.push(toDate);
+          tempDateRange.push(
+            new Date(
+              fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
+          tempDateRange.push(
+            new Date(
+              toDate.getTime() - toDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
           payload["updated_at__range"] = tempDateRange;
           payload["others"] = true;
         }
@@ -331,16 +347,32 @@ export default function Support(props) {
       if (tabValue == 0) {
         if (fromDate && toDate) {
           let tempDateRange = [];
-          tempDateRange.push(fromDate);
-          tempDateRange.push(toDate);
+          tempDateRange.push(
+            new Date(
+              fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
+          tempDateRange.push(
+            new Date(
+              toDate.getTime() - toDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
           payload["updated_at__range"] = tempDateRange;
           payload["others"] = false;
         }
       } else if (tabValue == 1) {
         if (fromDate && toDate) {
           let tempDateRange = [];
-          tempDateRange.push(fromDate);
-          tempDateRange.push(toDate);
+          tempDateRange.push(
+            new Date(
+              fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
+          tempDateRange.push(
+            new Date(
+              toDate.getTime() - toDate.getTimezoneOffset() * 60000
+            ).toJSON()
+          );
           payload["updated_at__range"] = tempDateRange;
           payload["others"] = true;
         }
@@ -348,8 +380,16 @@ export default function Support(props) {
     } else {
       if (fromDate && toDate) {
         let tempDateRange = [];
-        tempDateRange.push(fromDate);
-        tempDateRange.push(toDate);
+        tempDateRange.push(
+          new Date(
+            fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+          ).toJSON()
+        );
+        tempDateRange.push(
+          new Date(
+            toDate.getTime() - toDate.getTimezoneOffset() * 60000
+          ).toJSON()
+        );
         payload["updated_at__range"] = tempDateRange;
       }
     }
@@ -612,6 +652,7 @@ export default function Support(props) {
                 setCategoryFilter("");
                 setStatusFilter("");
                 setShowFilter(false);
+                setSearchTickets("")
                 getListOfTickets();
               }}
               id="dataset-filter-clear-all-id"
