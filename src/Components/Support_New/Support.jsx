@@ -133,7 +133,7 @@ export default function Support(props) {
 
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       payload = {
-        others: tabValue === 1,  
+        others: tabValue === 1, 
       };
     }
     HTTPService("POST", loadMoreUrl, JSON.stringify(payload), false, true)
