@@ -39,12 +39,16 @@ export default function Support(props) {
   const [toDate, setToDate] = useState("");
   const [type, setType] = useState("");
   const [dates, setDates] = useState([{ fromDate: null, toDate: null }]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [updater, setUpdate] = useState(0);
   let [tabLabels, setTabLabels] = useState(
     isLoggedInUserAdmin()
       ? ["Costeward tickets", "Participant tickets"]
       : ["My tickets", "My network tickets"]
   );
+  const handleLoadMore = () => {
+    getTicketListOnLoadMore();
+  };
   const handleFilterClick = (type) => {
     if (type === "status") {
       setType(type);
@@ -129,7 +133,7 @@ export default function Support(props) {
 
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       payload = {
-        others: tabValue === 1,
+        others: tabValue === 1,  
       };
     }
     HTTPService("POST", loadMoreUrl, JSON.stringify(payload), false, true)
@@ -193,9 +197,9 @@ export default function Support(props) {
     } else {
       data["status"] = e.target.value;
     }
-    if (isLoadMore) {
-      data["status"] = e.target.value;
-    }
+  if (isLoadMore) {
+    data["status"] = e.target.value;
+  }
     HTTPService("POST", url, data, false, true)
       .then((response) => {
         callLoader(false);
@@ -436,7 +440,7 @@ export default function Support(props) {
     clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
-      if (name?.length > 2 || name?.length !== "") {
+      if (name?.length < 3 && name?.length !== "") name = "" ;
         let data = {};
         if (isLoggedInUserAdmin()) {
           if (tabValue == 0) {
@@ -497,9 +501,30 @@ export default function Support(props) {
               history.push(error.path);
             }
           });
-      }
     }, DEBOUNCE_DELAY);
   };
+  useEffect(() => {
+    // Call the Categoryfilter function whenever tabValue changes
+   setCategoryFilter("")
+   setShowFilter(false)
+  }, [tabValue]);
+  useEffect(() => {
+    // Call the status function whenever tabValue changes
+   setStatusFilter("")
+   setShowFilter(false)
+  }, [tabValue]);
+
+  useEffect(() => {
+    // Call the date function whenever tabValue changes
+   setFromDate("")
+   setToDate("")
+   setShowFilter(false)
+  }, [tabValue]);
+
+  useEffect(() => {
+    // Call the search function whenever tabValue changes
+    handleSearchTickets(searchQuery, false);
+  }, [tabValue]);
 
   useEffect(() => {
     handleFilterByDate(false);
@@ -554,7 +579,7 @@ export default function Support(props) {
         ""
       )}
 
-      <TextField
+       <TextField
         id="dataset-search-input-id"
         sx={{
           "& .MuiOutlinedInput-root": {
@@ -586,7 +611,7 @@ export default function Support(props) {
             </InputAdornment>
           ),
         }}
-      />
+      /> 
       <div>
         <div className={"filter"}>
           <Box className={`d-flex`}>
@@ -719,6 +744,8 @@ export default function Support(props) {
         setlistOfTickets={setlistOfTickets}
         getTicketListOnLoadMore={getTicketListOnLoadMore}
         getListOfTickets={getListOfTickets}
+        statusFilter={statusFilter}
+        handleLoadMore={handleLoadMore}
       />
     </>
   );
