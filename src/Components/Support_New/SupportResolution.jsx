@@ -111,6 +111,7 @@ export default function SupportResolution({
                         <IconButton
                           size="small"
                           aria-label="Edit"
+                          style={{marginRight: "25px"}}
                           onClick={(e) => {
                             e.stopPropagation();
                             let tmp = [...editResolutionMessage];
