@@ -55,6 +55,7 @@ const OrganizationDetails = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const fileTypes = ["jpg", "jpeg", "png"];
 
   const countryNameList = useMemo(() => countryList().getData(), []);
   const { setActiveStep } = props;
@@ -725,6 +726,7 @@ const OrganizationDetails = (props) => {
                 isMultiple={false}
                 handleChange={handleFileForCrop}
                 id="org-upload-file"
+                fileTypes={fileTypes}
                 // setSizeError={() =>
                 //   setOrganisationDetailsError({
                 //     ...organisationDetailsError,
