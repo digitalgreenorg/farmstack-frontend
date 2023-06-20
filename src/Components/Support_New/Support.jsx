@@ -63,7 +63,7 @@ export default function Support(props) {
   };
   const getListOfTickets = () => {
     console.log("get list is happening");
-    
+
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
     let payload = {};
     if (isLoggedInUserAdmin()) {
@@ -133,7 +133,7 @@ export default function Support(props) {
 
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       payload = {
-        others: tabValue === 1, 
+        others: tabValue === 1,
       };
     }
     HTTPService("POST", loadMoreUrl, JSON.stringify(payload), false, true)
@@ -197,9 +197,9 @@ export default function Support(props) {
     } else {
       data["status"] = e.target.value;
     }
-  if (isLoadMore) {
-    data["status"] = e.target.value;
-  }
+    if (isLoadMore) {
+      data["status"] = e.target.value;
+    }
     HTTPService("POST", url, data, false, true)
       .then((response) => {
         callLoader(false);
@@ -440,88 +440,84 @@ export default function Support(props) {
     clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
-      if (name?.length < 3 && name?.length !== "") name = "" ;
-        let data = {};
-        if (isLoggedInUserAdmin()) {
-          if (tabValue == 0) {
-            data["ticket_title__icontains"] = name.trimStart();
-            data["others"] = false;
-          } else if (tabValue == 1) {
-            data["ticket_title__icontains"] = name.trimStart();
-            data["others"] = true;
-          }
-        } else if (isLoggedInUserCoSteward()) {
-          if (tabValue == 0) {
-            data["ticket_title__icontains"] = name.trimStart();
-            data["others"] = false;
-          } else if (tabValue == 1) {
-            data["ticket_title__icontains"] = name.trimStart();
-            data["others"] = true;
-          }
-        } else {
+      if (name?.length < 3 && name?.length !== "") name = "";
+      let data = {};
+      if (isLoggedInUserAdmin()) {
+        if (tabValue == 0) {
           data["ticket_title__icontains"] = name.trimStart();
+          data["others"] = false;
+        } else if (tabValue == 1) {
+          data["ticket_title__icontains"] = name.trimStart();
+          data["others"] = true;
         }
+      } else if (isLoggedInUserCoSteward()) {
+        if (tabValue == 0) {
+          data["ticket_title__icontains"] = name.trimStart();
+          data["others"] = false;
+        } else if (tabValue == 1) {
+          data["ticket_title__icontains"] = name.trimStart();
+          data["others"] = true;
+        }
+      } else {
+        data["ticket_title__icontains"] = name.trimStart();
+      }
 
-        HTTPService(
-          "POST",
-          UrlConstants.base_url + UrlConstants.support_ticket_tab,
-          data,
-          false,
-          true
-        )
-          .then((response) => {
-            if (response.data.next == null) {
-              setLoadMoreButton(false);
-            } else {
-              setLoadMoreUrl(response.data.next);
-              setLoadMoreButton(true);
-            }
-            let finalDataList = [];
-            if (isLoadMore) {
-              finalDataList = [...ticketList, ...response.data.results];
-            } else {
-              finalDataList = [...response.data.results];
-            }
-            console.log(finalDataList, "fdlist");
-            setTicketList(finalDataList);
-          })
-          .catch(async (e) => {
-            console.log(e);
-            let error = await GetErrorHandlingRoute(e);
-            console.log("Error obj", error);
-            console.log(e);
-            if (error.toast) {
-              callToast(
-                error?.message || "Something went wrong",
-                error?.status === 200 ? "success" : "error",
-                true
-              );
-            }
-            if (error.path) {
-              history.push(error.path);
-            }
-          });
+      HTTPService(
+        "POST",
+        UrlConstants.base_url + UrlConstants.support_ticket_tab,
+        data,
+        false,
+        true
+      )
+        .then((response) => {
+          if (response.data.next == null) {
+            setLoadMoreButton(false);
+          } else {
+            setLoadMoreUrl(response.data.next);
+            setLoadMoreButton(true);
+          }
+          let finalDataList = [];
+          if (isLoadMore) {
+            finalDataList = [...ticketList, ...response.data.results];
+          } else {
+            finalDataList = [...response.data.results];
+          }
+          console.log(finalDataList, "fdlist");
+          setTicketList(finalDataList);
+        })
+        .catch(async (e) => {
+          console.log(e);
+          let error = await GetErrorHandlingRoute(e);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
+        });
     }, DEBOUNCE_DELAY);
   };
+
   useEffect(() => {
     // Call the Categoryfilter function whenever tabValue changes
-   setCategoryFilter("")
-   setShowFilter(false)
-  }, [tabValue]);
-  useEffect(() => {
+    setCategoryFilter("");
+    setShowFilter(false);
+
     // Call the status function whenever tabValue changes
-   setStatusFilter("")
-   setShowFilter(false)
-  }, [tabValue]);
+    setStatusFilter("");
+    setShowFilter(false);
 
-  useEffect(() => {
     // Call the date function whenever tabValue changes
-   setFromDate("")
-   setToDate("")
-   setShowFilter(false)
-  }, [tabValue]);
+    setFromDate("");
+    setToDate("");
+    setShowFilter(false);
 
-  useEffect(() => {
     // Call the search function whenever tabValue changes
     handleSearchTickets(searchQuery, false);
   }, [tabValue]);
@@ -579,7 +575,7 @@ export default function Support(props) {
         ""
       )}
 
-       <TextField
+      <TextField
         id="dataset-search-input-id"
         sx={{
           "& .MuiOutlinedInput-root": {
@@ -611,7 +607,7 @@ export default function Support(props) {
             </InputAdornment>
           ),
         }}
-      /> 
+      />
       <div>
         <div className={"filter"}>
           <Box className={`d-flex`}>
@@ -698,6 +694,7 @@ export default function Support(props) {
               type={type}
               setStatusFilter={setStatusFilter}
               handleFilterByStatus={handleFilterByStatus}
+              getListOfTickets={getListOfTickets}
             />
           ) : type === "categories" ? (
             <SupportFilterCategory
@@ -707,6 +704,7 @@ export default function Support(props) {
               categoryFilter={categoryFilter}
               setCategoryFilter={setCategoryFilter}
               handleFilterByCategory={handleFilterByCategory}
+              getListOfTickets={getListOfTickets}
             />
           ) : type === "date" ? (
             <FilterDate

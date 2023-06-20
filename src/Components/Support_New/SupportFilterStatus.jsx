@@ -1,15 +1,19 @@
 import { Card } from "@mui/material";
 import React from "react";
 import {
-  Select,
   FormControl,
-  MenuItem,
-  InputLabel,
+  FormControlLabel,
+  Checkbox,
+  FormLabel,
 } from "@material-ui/core";
+import { Box, Button } from "@mui/material";
 
 export default function SupportFilterStatus({
   statusFilter,
   handleFilterByStatus,
+  setShowFilter,
+  setStatusFilter,
+  getListOfTickets,
 }) {
   return (
     <>
@@ -17,43 +21,73 @@ export default function SupportFilterStatus({
         sx={{
           boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
           padding: "15px",
-          width: "500px",
+          width: "650px",
           marginTop: "10px",
-          marginLeft: "500px",
+          marginLeft: "400px",
+          borderRadius: "12px",
         }}
       >
         <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
-          <InputLabel id="test-select-label">Select Status</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="dataset-filter-by-country-id"
-            onChange={(e) => handleFilterByStatus(e,false)}
-            sx={{
+          <FormLabel
+            style={{
+              color: "black",
               textAlign: "left",
-              "&.MuiInputBase-root": {
-                height: "56px",
-              },
-              ".MuiOutlinedInput-notchedOutline": {
-                borderColor: "#919EAB",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#919EAB",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#919EAB",
-              },
+              fontFamily: "Montserrat",
+              fontWeight: 700,
+              fontSize: "16px",
             }}
-            label="Select Country"
-            placeholder="Select Country"
-            value={statusFilter}
           >
-            <MenuItem value={"open"} id="open">
-              Open
-            </MenuItem>
-            <MenuItem value={"closed"} id="closed">
-              Closed
-            </MenuItem>
-          </Select>
+            Select Status
+          </FormLabel>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={statusFilter === "open"}
+                value="open"
+                id="open"
+                onChange={(e) => handleFilterByStatus(e, false)}
+              />
+            }
+            label="Open"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={statusFilter === "closed"}
+                value="closed"
+                id="closed"
+                onChange={(e) => handleFilterByStatus(e, false)}
+              />
+            }
+            label="Closed"
+          />
+          <Box className={`mt-20 mb-20 ${"text-right mr-20"}`}>
+            <Button
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: 700,
+                fontSize: "14px",
+                width: "86px",
+                height: "36px",
+                textTransform: "none",
+                marginRight: "30px",
+              }}
+              style={{
+                color: "#00AB55",
+                border: "1px solid rgba(0, 171, 85, 0.48)",
+                borderRadius: "8px",
+              }}
+              variant="outlined"
+              onClick={() => {
+                setShowFilter(false);
+                setStatusFilter("");
+                getListOfTickets()
+              }}
+              id="status-close-filter-id"
+            >
+              Close
+            </Button>
+          </Box>
         </FormControl>
       </Card>
     </>
