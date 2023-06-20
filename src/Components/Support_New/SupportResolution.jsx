@@ -233,11 +233,11 @@ export default function SupportResolution({
                 name="file"
                 types={fileTypes}
                 children={
-                  <IconButton>
+                  <IconButton style={{border: "none"}}>
                     <AttachFileIcon />
                   </IconButton>
                 }
-                classes="fileUpload"
+                classes={LocalStyle.fileUploadResoultion}
                 maxSize={2}
                 onSizeError={() =>
                   setResolutionFileError("Maximum file size allowed is 2MB")
