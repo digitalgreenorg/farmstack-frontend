@@ -614,7 +614,9 @@ const OrganizationDetails = (props) => {
                 id="organisation_address"
                 name="organisation_address"
                 value={organisationDetails.organisation_address}
-                onChange={(e) => handleOrgChange(e)}
+                onChange={(e) =>
+                  e.target.value.length <= 255 ? handleOrgChange(e) : ""
+                }
                 error={
                   organisationDetailsError.organisation_address_error
                     ? true
