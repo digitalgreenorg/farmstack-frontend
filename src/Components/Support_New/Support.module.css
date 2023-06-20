@@ -129,3 +129,8 @@
 .resMessageStyle{
   width: 500px !important
 }
+.fileUploadResoultion {
+  width: 100% !important;
+  float: left !important;
+  border: none !important;
+}
