@@ -171,7 +171,9 @@ const Preview = (props) => {
       >
         <div className={styles.data_before_download}>
           <div className={`${styles.light_text}`}>File name</div>
-          <div className={`${styles.dark_text} text-truncate`}>
+          <div
+            className={`${styles.dark_text} text-truncate ${styles.file_name_break_word}`}
+          >
             {connectorData?.name}.csv
           </div>
         </div>

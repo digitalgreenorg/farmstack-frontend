@@ -653,7 +653,7 @@ const DataSetsView = (props) => {
                   className={
                     mobile
                       ? "view_datasets_bold_text_sm"
-                      : "view_datasets_bold_text"
+                      : "view_datasets_bold_text break_word"
                   }
                 >
                   {orgDetails?.name}
@@ -668,7 +668,7 @@ const DataSetsView = (props) => {
                   className={
                     mobile
                       ? "view_datasets_bold_text_sm"
-                      : "view_datasets_bold_text"
+                      : "view_datasets_bold_text break_word"
                   }
                 >
                   {orgAddress}
@@ -682,7 +682,7 @@ const DataSetsView = (props) => {
                   className={
                     mobile
                       ? "view_datasets_bold_text_sm"
-                      : "view_datasets_bold_text"
+                      : "view_datasets_bold_text break_word"
                   }
                 >
                   {userDetails?.first_name + " " + userDetails?.last_name}
@@ -691,7 +691,7 @@ const DataSetsView = (props) => {
                   className={
                     mobile
                       ? "view_datasets_bold_text_sm"
-                      : "view_datasets_bold_text"
+                      : "view_datasets_bold_text break_word"
                   }
                 >
                   {userDetails?.email}
