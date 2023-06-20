@@ -24,6 +24,8 @@ export default function SupportTittleView({
   loadMoreButton,
   getTicketListOnLoadMore,
   getListOfTickets,
+  statusFilter,
+  handleLoadMore
 }) {
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const [isGrid, setIsGrid] = useState(true);
@@ -37,9 +39,6 @@ export default function SupportTittleView({
     }
   };
 
-  const handleLoadMore = () => {
-    getTicketListOnLoadMore();
-  };
   const handleSupportViewRoute = (id) => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/support/view/${id}`;
