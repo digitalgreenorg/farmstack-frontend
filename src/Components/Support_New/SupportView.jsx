@@ -162,7 +162,11 @@ export default function SupportView(props) {
       .then((response) => {
         console.log(response);
         if (response?.status == 200) {
+          callLoader(true);
           getSupportTicketDetail();
+          let tmp = [...editResolutionMessage]
+          tmp[index] = false
+          setEditResolutionMessage(tmp);
         }
       })
       .catch(async (e) => {

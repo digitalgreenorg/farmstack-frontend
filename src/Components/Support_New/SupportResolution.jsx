@@ -92,7 +92,7 @@ export default function SupportResolution({
                       }
                     />
                   ) : (
-                    <span style={{ width: "90%", wordBreak: "break-all" }}>
+                    <span style={{ width: "90%", wordBreak: "break-all", marginLeft: "10px" }}>
                       {item?.resolution_text}
                     </span>
                   )}
