@@ -399,7 +399,8 @@ const ParticipantFormNew = (props) => {
   };
   const validateEmail = (email) => {
     // Regular expression for email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex =
+      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+(\.(gov|org|co|com(\.[A-Za-z]{2})?)|(\.[A-Za-z]{2}))$/;
     return emailRegex.test(email);
   };
   useEffect(() => {
