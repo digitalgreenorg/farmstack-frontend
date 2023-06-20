@@ -39,12 +39,16 @@ export default function Support(props) {
   const [toDate, setToDate] = useState("");
   const [type, setType] = useState("");
   const [dates, setDates] = useState([{ fromDate: null, toDate: null }]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [updater, setUpdate] = useState(0);
   let [tabLabels, setTabLabels] = useState(
     isLoggedInUserAdmin()
       ? ["Costeward tickets", "Participant tickets"]
       : ["My tickets", "My network tickets"]
   );
+  const handleLoadMore = () => {
+    getTicketListOnLoadMore();
+  };
   const handleFilterClick = (type) => {
     if (type === "status") {
       setType(type);
@@ -59,7 +63,7 @@ export default function Support(props) {
   };
   const getListOfTickets = () => {
     console.log("get list is happening");
-    
+
     let url = UrlConstants.base_url + UrlConstants.support_ticket_tab;
     let payload = {};
     if (isLoggedInUserAdmin()) {
@@ -436,70 +440,87 @@ export default function Support(props) {
     clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
-      if (name?.length > 2 || name?.length !== "") {
-        let data = {};
-        if (isLoggedInUserAdmin()) {
-          if (tabValue == 0) {
-            data["ticket_title__icontains"] = name.trimStart();
-            data["others"] = false;
-          } else if (tabValue == 1) {
-            data["ticket_title__icontains"] = name.trimStart();
-            data["others"] = true;
-          }
-        } else if (isLoggedInUserCoSteward()) {
-          if (tabValue == 0) {
-            data["ticket_title__icontains"] = name.trimStart();
-            data["others"] = false;
-          } else if (tabValue == 1) {
-            data["ticket_title__icontains"] = name.trimStart();
-            data["others"] = true;
-          }
-        } else {
+      if (name?.length < 3 && name?.length !== "") name = "";
+      let data = {};
+      if (isLoggedInUserAdmin()) {
+        if (tabValue == 0) {
           data["ticket_title__icontains"] = name.trimStart();
+          data["others"] = false;
+        } else if (tabValue == 1) {
+          data["ticket_title__icontains"] = name.trimStart();
+          data["others"] = true;
         }
-
-        HTTPService(
-          "POST",
-          UrlConstants.base_url + UrlConstants.support_ticket_tab,
-          data,
-          false,
-          true
-        )
-          .then((response) => {
-            if (response.data.next == null) {
-              setLoadMoreButton(false);
-            } else {
-              setLoadMoreUrl(response.data.next);
-              setLoadMoreButton(true);
-            }
-            let finalDataList = [];
-            if (isLoadMore) {
-              finalDataList = [...ticketList, ...response.data.results];
-            } else {
-              finalDataList = [...response.data.results];
-            }
-            console.log(finalDataList, "fdlist");
-            setTicketList(finalDataList);
-          })
-          .catch(async (e) => {
-            console.log(e);
-            let error = await GetErrorHandlingRoute(e);
-            console.log("Error obj", error);
-            console.log(e);
-            if (error.toast) {
-              callToast(
-                error?.message || "Something went wrong",
-                error?.status === 200 ? "success" : "error",
-                true
-              );
-            }
-            if (error.path) {
-              history.push(error.path);
-            }
-          });
+      } else if (isLoggedInUserCoSteward()) {
+        if (tabValue == 0) {
+          data["ticket_title__icontains"] = name.trimStart();
+          data["others"] = false;
+        } else if (tabValue == 1) {
+          data["ticket_title__icontains"] = name.trimStart();
+          data["others"] = true;
+        }
+      } else {
+        data["ticket_title__icontains"] = name.trimStart();
       }
+
+      HTTPService(
+        "POST",
+        UrlConstants.base_url + UrlConstants.support_ticket_tab,
+        data,
+        false,
+        true
+      )
+        .then((response) => {
+          if (response.data.next == null) {
+            setLoadMoreButton(false);
+          } else {
+            setLoadMoreUrl(response.data.next);
+            setLoadMoreButton(true);
+          }
+          let finalDataList = [];
+          if (isLoadMore) {
+            finalDataList = [...ticketList, ...response.data.results];
+          } else {
+            finalDataList = [...response.data.results];
+          }
+          console.log(finalDataList, "fdlist");
+          setTicketList(finalDataList);
+        })
+        .catch(async (e) => {
+          console.log(e);
+          let error = await GetErrorHandlingRoute(e);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
+        });
     }, DEBOUNCE_DELAY);
   };
+
+  useEffect(() => {
+    // Call the Categoryfilter function whenever tabValue changes
+    setCategoryFilter("");
+    setShowFilter(false);
+
+    // Call the status function whenever tabValue changes
+    setStatusFilter("");
+    setShowFilter(false);
+
+    // Call the date function whenever tabValue changes
+    setFromDate("");
+    setToDate("");
+    setShowFilter(false);
+
+    // Call the search function whenever tabValue changes
+    handleSearchTickets(searchQuery, false);
+  }, [tabValue]);
 
   useEffect(() => {
     handleFilterByDate(false);
@@ -673,6 +694,7 @@ export default function Support(props) {
               type={type}
               setStatusFilter={setStatusFilter}
               handleFilterByStatus={handleFilterByStatus}
+              getListOfTickets={getListOfTickets}
             />
           ) : type === "categories" ? (
             <SupportFilterCategory
@@ -682,6 +704,7 @@ export default function Support(props) {
               categoryFilter={categoryFilter}
               setCategoryFilter={setCategoryFilter}
               handleFilterByCategory={handleFilterByCategory}
+              getListOfTickets={getListOfTickets}
             />
           ) : type === "date" ? (
             <FilterDate
@@ -719,6 +742,8 @@ export default function Support(props) {
         setlistOfTickets={setlistOfTickets}
         getTicketListOnLoadMore={getTicketListOnLoadMore}
         getListOfTickets={getListOfTickets}
+        statusFilter={statusFilter}
+        handleLoadMore={handleLoadMore}
       />
     </>
   );
