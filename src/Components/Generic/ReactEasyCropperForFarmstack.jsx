@@ -150,6 +150,7 @@ export default function ReactEasyCropperForFarmstack(props) {
           variant="contained"
           color="primary"
           className={global_style.primary_button}
+          id={"crop-image-preview-done-btn"}
         >
           Done
         </Button>
