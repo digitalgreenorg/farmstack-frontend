@@ -130,6 +130,7 @@ function CustomDashBoardTable(props) {
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
                         cursor: "pointer",
+                        width: "100px",
                       }}
                       onClick={() =>
                         recentDatasetTable &&
@@ -151,10 +152,13 @@ function CustomDashBoardTable(props) {
                       }
                     >
                       <TableCell
-                        style={{ fontWeight: "600" }}
-                        minWidth={"150px"}
+                        style={{
+                          fontWeight: "600",
+                          maxWidth: "150px",
+                        }}
                         component="th"
                         scope="row"
+                        className={localStyle.ellipsis}
                       >
                         {item?.name ?? "Not available"}
                       </TableCell>
@@ -167,7 +171,14 @@ function CustomDashBoardTable(props) {
                               ? category[0]
                               : "Not available"}
                           </TableCell>
-                          <TableCell>
+                          <TableCell
+                            style={{
+                              maxWidth: "100px",
+                            }}
+                            component="th"
+                            scope="row"
+                            className={localStyle.ellipsis}
+                          >
                             {item?.geography?.country?.name ?? "Not available"}
                           </TableCell>
                           <TableCell

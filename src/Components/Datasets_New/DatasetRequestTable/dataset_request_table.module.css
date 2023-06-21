@@ -49,3 +49,8 @@
 .ant_buttons .ant-btn-primary {
   border: 1px solid red !important;
 }
+.ellipses {
+  text-overflow: ellipsis !important ;
+  white-space: nowrap;
+  overflow: hidden;
+}
