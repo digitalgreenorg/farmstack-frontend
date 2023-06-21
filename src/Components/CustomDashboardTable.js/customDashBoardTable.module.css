@@ -38,3 +38,8 @@
   font-size: 16px;
   font-weight: 500;
 }
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
