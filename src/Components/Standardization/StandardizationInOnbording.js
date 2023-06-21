@@ -651,6 +651,7 @@ const StandardizationInOnbord = (props) => {
             onChange={(e) => handleDatapointCategoryDescription(e)}
             onKeyDown={handledescriptionKeydowndes}
             inputProps={{ maxLength: 250 }}
+            style={{marginTop: "5px"}}
             multiline
             size="small"
             className="datapoint-name-input-box-description"

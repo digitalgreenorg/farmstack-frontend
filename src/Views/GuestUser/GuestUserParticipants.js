@@ -198,23 +198,19 @@ function GuestUserParticipants(props) {
     <Box style={containerStyle}>
       <Row>
         <Col>
-          <div className="text-left mt-50">
+          <div className="text-left mt-50"> 
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
               onClick={() => {
                 history.push("/home");
               }}
             >
-              {breadcrumbFromRoute ?? ""}
+              {"Home"}
             </span>
             <span className="add_light_text ml-16">
-              {breadcrumbFromRoute ? (
                 <ArrowForwardIosIcon
                   sx={{ fontSize: "14px", fill: "#00ab55" }}
                 />
-              ) : (
-                ""
-              )}
             </span>
             <span className="add_light_text ml-16 fw600">
               {isCosteward ? "Co-stewards" : "Participants"}

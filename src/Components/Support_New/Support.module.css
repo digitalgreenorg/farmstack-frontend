@@ -135,6 +135,6 @@
   border: none !important;
   
 }
-.fileUploadResoultion:focus{
+.fileUploadResoultion:focus-within{
   border: none !important;
 }
