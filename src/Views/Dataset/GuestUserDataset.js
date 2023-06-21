@@ -4,8 +4,7 @@ import DataSets from "../../Components/Datasets_New/DataSets";
 const GuestUserDatatsets = () => {
   return (
     <div>
-      <DataSets user="guest" />
-      {/* <DataSetsListView /> */}
+      <DataSets user="guest" breadcrumbFromRoute={"Home"} />
     </div>
   );
 };
