@@ -114,4 +114,5 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 90%;
+  max-width: 200px;
 }

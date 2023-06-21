@@ -328,7 +328,7 @@ const DatasetRequestTable = () => {
                   >
                     <TableCell component="th" scope="row">
                       <div style={{ display: "flex", gap: "20px" }}>
-                        <span>
+                        <span style={{ width: "50%" }}>
                           <div
                             className={
                               global_styles.bold600 + " " + global_styles.size16
@@ -338,7 +338,7 @@ const DatasetRequestTable = () => {
                           </div>
                           <div>Dataset name</div>
                         </span>
-                        <span>
+                        <span style={{ width: "50%" }}>
                           <div
                             className={
                               global_styles.bold600 + " " + global_styles.size16
