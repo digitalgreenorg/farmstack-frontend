@@ -1,15 +1,19 @@
 import { Card } from "@mui/material";
 import React from "react";
 import {
-  Select,
   FormControl,
-  MenuItem,
-  InputLabel,
+  FormControlLabel,
+  Checkbox,
+  FormLabel,
 } from "@material-ui/core";
+import { Box, Button } from "@mui/material";
 
 export default function SupportFilterCategory({
   categoryFilter,
   handleFilterByCategory,
+  setShowFilter,
+  setCategoryFilter,
+  getListOfTickets
 }) {
   return (
     <>
@@ -17,56 +21,118 @@ export default function SupportFilterCategory({
         sx={{
           boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
           padding: "15px",
-          width: "500px",
+          width: "650px",
           marginTop: "10px",
-          marginLeft: "500px",
+          marginLeft: "400px",
+          borderRadius: "12px",
         }}
       >
         <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
-          <InputLabel id="test-select-label">Select Category</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="dataset-filter-by-country-id"
-            onChange={(e) => handleFilterByCategory(e, false)}
-            sx={{
+          <FormLabel
+            style={{
+              color: "black",
               textAlign: "left",
-              "&.MuiInputBase-root": {
-                height: "56px",
-              },
-              ".MuiOutlinedInput-notchedOutline": {
-                borderColor: "#919EAB",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#919EAB",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#919EAB",
-              },
+              fontFamily: "Montserrat",
+              fontWeight: 700,
+              fontSize: "16px",
             }}
-            label="Select Country"
-            placeholder="Select Country"
-            value={categoryFilter}
           >
-            <MenuItem value={"certificate"} id="Certificate">
-              Certificate
-            </MenuItem>
-            <MenuItem value={"connectors"} id="connectors">
-              Connectors
-            </MenuItem>
-            <MenuItem value={"datasets"} id="datasets">
-              Datasets
-            </MenuItem>
-            <MenuItem value={"user_accounts"} id="User_accounts">
-              User_accounts
-            </MenuItem>
-            <MenuItem value={"usage_policy"} id="Usage_policy">
-              Usage_policy
-            </MenuItem>
-            <MenuItem value={"others"} id="Others">
-              Others
-            </MenuItem>
-          </Select>
+            Select Category
+          </FormLabel>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={categoryFilter === "certificate"}
+                value="certificate"
+                id="certificate"
+                onChange={(e) => handleFilterByCategory(e, false)}
+              />
+            }
+            label="Certificate"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={categoryFilter === "connectors"}
+                value="connectors"
+                id="connectors"
+                onChange={(e) => handleFilterByCategory(e, false)}
+              />
+            }
+            label="Connectors"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={categoryFilter === "datasets"}
+                value="datasets"
+                id="datasets"
+                onChange={(e) => handleFilterByCategory(e, false)}
+              />
+            }
+            label="Datasets"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={categoryFilter === "user_accounts"}
+                value="user_accounts"
+                id="user_accounts"
+                onChange={(e) => handleFilterByCategory(e, false)}
+              />
+            }
+            label="User_accounts"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={categoryFilter === "usage_policy"}
+                value="usage_policy"
+                id="usage_policy"
+                onChange={(e) => handleFilterByCategory(e, false)}
+              />
+            }
+            label="Usage_policy"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={categoryFilter === "others"}
+                value="others"
+                id="others"
+                onChange={(e) => handleFilterByCategory(e, false)}
+              />
+            }
+            label="Others"
+          />
         </FormControl>
+        <Box className={`mt-20 mb-20 ${"text-right mr-20"}`}>
+          <Button
+            sx={{
+              fontFamily: "Montserrat",
+              fontWeight: 700,
+              fontSize: "14px",
+              width: "86px",
+              height: "36px",
+              textTransform: "none",
+              marginRight: "30px",
+            }}
+            style={{
+              color: "#00AB55",
+              border: "1px solid rgba(0, 171, 85, 0.48)",
+              borderRadius: "8px",
+            }}
+            variant="outlined"
+            onClick={() => {
+              setShowFilter(false);
+              setCategoryFilter("");
+              getListOfTickets();
+            }}
+            id="category-close-filter-id"
+          >
+            Close
+          </Button>
+        </Box>
       </Card>
     </>
   );

@@ -145,11 +145,10 @@ export default function SupportView(props) {
   };
   const handleUpgradeResolutionMessage = (e, index) => {
     e.preventDefault();
-    callLoader(true);
     const messageId = resolutionMessage[index].id;
     var bodyFormData = new FormData();
     bodyFormData.append("resolution_text", resolutionMessage[index].resolution_text); // Get the resolution text from the specific index
-
+    callLoader(true);
     HTTPService(
       "PUT",
       UrlConstants.base_url + UrlConstants.support_resolution + messageId + "/",
@@ -162,7 +161,11 @@ export default function SupportView(props) {
       .then((response) => {
         console.log(response);
         if (response?.status == 200) {
+          callLoader(false);
           getSupportTicketDetail();
+          let tmp = [...editResolutionMessage]
+          tmp[index] = false
+          setEditResolutionMessage(tmp);
         }
       })
       .catch(async (e) => {

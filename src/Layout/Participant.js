@@ -119,7 +119,7 @@ function Participant(props) {
       "/participant/support/add",
       "/participant/support/view/",
     ]; // Add the paths where the floating button should be excluded
-    return !excludedPaths.includes(currentPath);
+    return !excludedPaths.some(path => currentPath.includes(path));
   };
 
   useEffect(() => {

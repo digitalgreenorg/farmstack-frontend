@@ -8,7 +8,7 @@ import { IconButton } from "@mui/material";
 import UrlConstant from "../../Constants/UrlConstants";
 import EditIcon from "@mui/icons-material/Edit";
 import { getUserMapId } from "../../Utils/Common";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
 import { FileUploader } from "react-drag-drop-files";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import FileDownloadSharpIcon from "@mui/icons-material/FileDownloadSharp";
@@ -35,12 +35,12 @@ export default function SupportResolution({
   userLoggedIn,
   updateResErrorMessage,
 }) {
-  const fileTypes = ["pdf", "doc", "jpeg", "png", "docx" ];
+  const fileTypes = ["pdf", "doc", "jpeg", "png", "docx"];
   console.log("get id", getUserMapId());
 
   const handleFileChange = (file) => {
     setUploadFile(file);
-    setResolutionFileError("")
+    setResolutionFileError("");
     console.log(file);
   };
   const handleCancelFile = () => {
@@ -55,96 +55,81 @@ export default function SupportResolution({
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
             >
-              <Col
-                xs={12}
-                sm={6}
-                md={4}
-                lg={4}
-                style={{ maxWidth: "50px", margin: "15px",}}
-              >
-                <Avatar
-                  alt="Remy Sharp"
-                  src={
-                    UrlConstant.base_url_without_slash +
-                    item?.user_map?.organization?.logo
-                  }
-                  sx={{ width: 44, height: 44 }}
-                />
-              </Col>
-              <Col xs={12} sm={6} md={4} lg={4}>
-                {editResolutionMessage[index] ? (
-                  <TextField
-                    value={item.resolution_text}
-                    required
-                    onChange={(e) =>
-                      handleUpdateResolutionMessage(
-                        index,
-                        e.target.value.trimStart(),
-                        e
-                      )
+              <Col xs={12} sm={12} md={12} lg={12}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={
+                      UrlConstant.base_url_without_slash +
+                      item?.user_map?.organization?.logo
                     }
-                    sx={{
-                      "&.MuiTextField-root": {
-                        textAlign: "left",
-                        maxWidth: "700px",
-                        marginBottom: "30px",
-                      },
-                    }}
-                    minRows={2}
-                    inputProps={{ maxLength: 250 }}
-                    className="datapoint-name-input-box"
-                    label="Resolution message"
-                    variant="outlined"
-                    style={{ marginTop: "20px" }}
-                    error={updateResErrorMessage ? true : false}
-                    helperText={updateResErrorMessage ? updateResErrorMessage : ""}
+                    sx={{ width: 44, height: 44, margin: "15px" }}
                   />
-                ) : (
-                  <div
-                    //className={LocalStyle.resMessageStyle}
-                    style={{ marginTop: "30px", maxWidth: "700px", wordBreak: "break-all"  }}
-                  >
-                    {item.resolution_text}
-                  </div>
-                )}
-              </Col>
-              <Col
-                xs={12}
-                sm={6}
-                md={4}
-                lg={4}
-                className={LocalStyle.iconStyleResolution}
-              >
-                {editResolutionMessage[index] ? (
-                  <IconButton
-                    onClick={(e) => handleUpgradeResolutionMessage(e, index)}
-                  >
-                    <SendIcon />
-                  </IconButton>
-                ) : (
-                  hoveredIndex === resolutionMessage.length - 1 && (item?.user_map?.id == getUserMapId()) &&
-                  hoveredIndex === index && (
+                  {editResolutionMessage[index] ? (
+                    <TextField
+                      value={item.resolution_text}
+                      required
+                      onChange={(e) =>
+                        handleUpdateResolutionMessage(
+                          index,
+                          e.target.value.trimStart(),
+                          e
+                        )
+                      }
+                      sx={{
+                        "&.MuiTextField-root": {
+                          width: "87%",
+                        },
+                      }}
+                      minRows={2}
+                      inputProps={{ maxLength: 250 }}
+                      className="datapoint-name-input-box"
+                      label="Resolution message"
+                      variant="outlined"
+                      error={updateResErrorMessage ? true : false}
+                      helperText={
+                        updateResErrorMessage ? updateResErrorMessage : ""
+                      }
+                    />
+                  ) : (
+                    <span style={{ width: "90%", wordBreak: "break-all", marginLeft: "10px" }}>
+                      {item?.resolution_text}
+                    </span>
+                  )}
+                  {editResolutionMessage[index] ? (
                     <IconButton
-                      size="small"
-                      aria-label="Edit"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        let tmp = [...editResolutionMessage];
-                        tmp[index] = true;
-                        console.log("edit title", tmp, editResolutionMessage);
-                        setEditResolutionMessage(tmp);
-                      }}
-                      onMouseEnter={() => {
-                        setHoveredMessage("Click to edit the last message");
-                      }}
-                      onMouseLeave={() => {
-                        setHoveredMessage("");
-                      }}
+                      onClick={(e) => handleUpgradeResolutionMessage(e, index)}
+                      style={{ margin: "15px" }}
                     >
-                      <EditIcon />
+                      <SendIcon />
                     </IconButton>
-                  )
-                )}
+                  ) : (
+                    hoveredIndex === resolutionMessage.length - 1 &&
+                    item?.user_map?.id == getUserMapId() &&
+                    hoveredIndex === index && (
+                      <>
+                        <IconButton
+                          size="small"
+                          aria-label="Edit"
+                          style={{marginRight: "25px"}}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            let tmp = [...editResolutionMessage];
+                            tmp[index] = true;
+                            console.log(
+                              "edit title",
+                              tmp,
+                              editResolutionMessage
+                            );
+                            setEditResolutionMessage(tmp);
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </>
+                    )
+                  )}
+                </div>
               </Col>
             </Row>
             {item.solution_attachments ? (
@@ -248,11 +233,11 @@ export default function SupportResolution({
                 name="file"
                 types={fileTypes}
                 children={
-                  <IconButton>
+                  <IconButton style={{border: "none"}}>
                     <AttachFileIcon />
                   </IconButton>
                 }
-                classes="fileUpload"
+                classes={LocalStyle.fileUploadResoultion}
                 maxSize={2}
                 onSizeError={() =>
                   setResolutionFileError("Maximum file size allowed is 2MB")
