@@ -1352,6 +1352,7 @@ textarea {
 .public-DraftEditor-content {
   height: 150px !important;
   max-height: 250px !important;
+  font-family: "Montserrat" !important;
 }
 
 .edit_head_name_accordion {
