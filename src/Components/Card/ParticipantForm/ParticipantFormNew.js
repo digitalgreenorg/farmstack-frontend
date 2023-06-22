@@ -475,7 +475,13 @@ const ParticipantFormNew = (props) => {
                   setIsValid(validateEmail(e.target.value));
                 }}
                 error={orgEmailErrorMessage || !isValid ? true : false}
-                helperText={orgEmailErrorMessage ? orgEmailErrorMessage : ""}
+                helperText={
+                  orgEmailErrorMessage
+                    ? orgEmailErrorMessage
+                    : !isValid
+                    ? "Please enter vaild email!"
+                    : ""
+                }
               />
             </Col>
           </Row>
@@ -490,7 +496,8 @@ const ParticipantFormNew = (props) => {
                 onChange={handleOrgWebsite}
                 error={orgWebsiteErrorMessage}
                 helperText={
-                  orgWebsiteErrorMessage ? "Enter Valid Website Link" : orgWebsiteErrorMessage }
+                  orgWebsiteErrorMessage ? "Enter Valid Website Link" : ""
+                }
               />
             </Col>
           </Row>
@@ -666,7 +673,13 @@ const ParticipantFormNew = (props) => {
                 setIsValidRootMail(validateEmail(e.target.value));
               }}
               error={emailErrorMessage || !isValidRootMail ? true : false}
-              helperText={emailErrorMessage ? emailErrorMessage : ""}
+              helperText={
+                emailErrorMessage
+                  ? emailErrorMessage
+                  : !isValidRootMail
+                  ? "Please enter vaild email!"
+                  : ""
+              }
             />
             {/* <TextField
               className={LocalStyle.textField}

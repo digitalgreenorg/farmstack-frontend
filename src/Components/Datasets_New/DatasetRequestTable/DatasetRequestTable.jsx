@@ -299,14 +299,15 @@ const DatasetRequestTable = () => {
                   }}
                 >
                   {requestReceivedColumns.map((eachHead, index) => {
+                    let alignItems = index == 1 ? "left" : "center";
                     return (
                       <TableCell
                         sx={{
                           "& .MuiTableCell-root": {
                             fontFamily: "Montserrat",
                           },
-                          textAlign: "center",
-                          alignItems: "center",
+                          textAlign: alignItems,
+                          alignItems: alignItems,
                         }}
                         className={styles.file_table_column}
                       >
@@ -325,13 +326,22 @@ const DatasetRequestTable = () => {
                       textTransform: "capitalize",
                     }}
                     className={global_styles.bold500}
+                    style={{ width: "100%" }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      style={{ width: "30%", maxWidth: "350px" }}
+                      component="th"
+                      scope="row"
+                    >
                       <div style={{ display: "flex", gap: "20px" }}>
                         <span style={{ width: "50%" }}>
                           <div
                             className={
-                              global_styles.bold600 + " " + global_styles.size16
+                              global_styles.bold600 +
+                              " " +
+                              global_styles.size16 +
+                              " " +
+                              global_styles.ellipses
                             }
                           >
                             {row.dataset_name}
@@ -341,7 +351,11 @@ const DatasetRequestTable = () => {
                         <span style={{ width: "50%" }}>
                           <div
                             className={
-                              global_styles.bold600 + " " + global_styles.size16
+                              global_styles.bold600 +
+                              " " +
+                              global_styles.size16 +
+                              " " +
+                              global_styles.ellipses
                             }
                           >
                             {" "}
@@ -355,8 +369,13 @@ const DatasetRequestTable = () => {
                       <div style={{ display: "flex", gap: "20px" }}>
                         <div>
                           <div
+                            style={{ maxWidth: "150px" }}
                             className={
-                              global_styles.bold600 + " " + global_styles.size16
+                              global_styles.bold600 +
+                              " " +
+                              global_styles.size16 +
+                              " " +
+                              global_styles.ellipses
                             }
                           >
                             {row.organization_name}
@@ -414,7 +433,10 @@ const DatasetRequestTable = () => {
                             ></Badge>
                           </div>
 
-                          <div style={{ fontStyle: "italic", width: "112px" }}>
+                          <div
+                            style={{ fontStyle: "italic", width: "112px" }}
+                            className={global_styles.ellipses}
+                          >
                             {row.approval_status == "approved"
                               ? `Till : ${row.accessibility_time ?? "NA"}`
                               : ""}
@@ -424,8 +446,13 @@ const DatasetRequestTable = () => {
                         <div>
                           <div
                             className={
-                              global_styles.bold600 + " " + global_styles.size16
+                              global_styles.bold600 +
+                              " " +
+                              global_styles.size16 +
+                              " " +
+                              global_styles.ellipses
                             }
+                            style={{ maxWidth: "112px" }}
                           >
                             {row.updated_at?.substring(0, 10)}
                           </div>
@@ -723,16 +750,36 @@ const DatasetRequestTable = () => {
                     }}
                     className={global_styles.bold500}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      style={{ width: "20%", maxWidth: "150px" }}
+                      className={global_styles.ellipses}
+                    >
                       {row.dataset_name}
                     </TableCell>
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      style={{ width: "20%", maxWidth: "150px" }}
+                      className={global_styles.ellipses}
+                    >
                       {row.file_name}
                     </TableCell>
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      style={{ width: "15%", maxWidth: "150px" }}
+                      className={global_styles.ellipses}
+                    >
                       {row.organization_name}
                     </TableCell>
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      style={{ width: "15%", maxWidth: "150px" }}
+                      className={global_styles.ellipses}
+                    >
                       {row.accessibility_time}
                     </TableCell>
 

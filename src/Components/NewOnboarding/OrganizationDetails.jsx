@@ -52,7 +52,8 @@ const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const fileTypes = ["jpg", "jpeg", "png"];
@@ -491,7 +492,12 @@ const OrganizationDetails = (props) => {
       });
   };
   // console.log(preview, uploadedLogo);
-
+  const validateEmail = (email) => {
+    // Regular expression for email validation
+    const emailRegex =
+      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+(\.(gov|org|co|com(\.[A-Za-z]{2})?)|(\.[A-Za-z]{2}))$/;
+    return emailRegex.test(email);
+  };
   useEffect(() => {
     getOrganizationData();
     goToTop(0);
@@ -549,13 +555,22 @@ const OrganizationDetails = (props) => {
                 id="organisation_mail_id"
                 name="organisation_mail_id"
                 value={organisationDetails.organisation_mail_id}
-                onChange={(e) => handleOrgChange(e)}
+                onChange={(e) => {
+                  handleOrgChange(e);
+                  setIsValid(validateEmail(e.target.value));
+                }}
                 error={
-                  organisationDetailsError.organisation_mail_id_error
+                  organisationDetailsError.organisation_mail_id_error ||
+                  !isValid
                     ? true
                     : false
                 }
-                helperText={organisationDetailsError.organisation_mail_id_error}
+                helperText={
+                  organisationDetailsError.organisation_mail_id_error ||
+                  !isValid
+                    ? "Please enter valid emailId !"
+                    : ""
+                }
               />
             </Col>
           </Row>
@@ -840,6 +855,7 @@ const OrganizationDetails = (props) => {
               disabled={
                 organisationDetails.organisation_address &&
                 organisationDetails.organisation_mail_id &&
+                isValid &&
                 organisationDetails.organisation_country &&
                 organisationDetails.organisation_description &&
                 organisationDetails.organisation_name &&

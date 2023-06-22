@@ -137,10 +137,11 @@ const CardDetail = (props) => {
               Organisation name
             </Typography>
             <Typography
-              className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`}
+              className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${globalStyle.ellipses}`}
               sx={{
                 fontFamily: "Montserrat !important",
                 lineHeight: "24px",
+                maxWidth: "250px",
               }}
             >
               {data?.org_name}
@@ -148,7 +149,7 @@ const CardDetail = (props) => {
           </div>
           <div className={`${style.ml80} text-left`}>
             <Typography
-              className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`}
+              className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color} `}
               sx={{
                 fontFamily: "Montserrat !important",
                 lineHeight: "40px",
@@ -157,10 +158,11 @@ const CardDetail = (props) => {
               Dataset name
             </Typography>
             <Typography
-              className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`}
+              className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${globalStyle.ellipses}`}
               sx={{
                 fontFamily: "Montserrat !important",
                 lineHeight: "24px",
+                maxWidth: "250px",
               }}
             >
               {data?.dataset_name ? decodeURI(data.dataset_name) : ""}
@@ -168,7 +170,7 @@ const CardDetail = (props) => {
           </div>
           <div className={`${style.ml84} text-left`}>
             <Typography
-              className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`}
+              className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color} `}
               sx={{
                 fontFamily: "Montserrat !important",
                 lineHeight: "40px",
@@ -177,10 +179,11 @@ const CardDetail = (props) => {
               File name
             </Typography>
             <Typography
-              className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`}
+              className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${globalStyle.ellipses}`}
               sx={{
                 fontFamily: "Montserrat !important",
                 lineHeight: "24px",
+                maxWidth: "250px",
               }}
             >
               {data?.file_name
@@ -265,10 +268,11 @@ const CardDetail = (props) => {
                   id={`select-columns${index}-files`}
                 />
                 <Typography
-                  className={`${globalStyle.bold400} ${globalStyle.size16}  ${style.lightText} ${style.ml9}`}
+                  className={`${globalStyle.bold400} ${globalStyle.size16}  ${style.lightText} ${style.ml9} ${globalStyle.ellipses}`}
                   sx={{
                     fontFamily: "Montserrat !important",
                     lineHeight: "22px",
+                    maxWidth: "200px",
                   }}
                 >
                   {col}
