@@ -133,8 +133,9 @@
   width: 100% !important;
   float: left !important;
   border: none !important;
+  outline: none !important;
   
 }
-.fileUploadResoultion:focus{
-  border: none !important;
+.fileUploadResoultion:focus-within{
+  outline: none !important;
 }
