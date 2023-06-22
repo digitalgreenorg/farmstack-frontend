@@ -4,8 +4,7 @@ import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 import FileSaver from "file-saver";
 import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
-import { useHistory } from "react-router-dom";
-import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+
 const converter = require("json-2-csv");
 
 export const setTokenLocal = (token) => {
@@ -187,6 +186,14 @@ export const GetErrorHandlingRoute = async (e) => {
       path: "/error/" + e?.response?.status,
       status: e.response.status,
       message: e?.response?.data?.message,
+      data: e?.response?.data,
+    };
+  } else {
+    return {
+      toast: false,
+      path: "/error/" + 500,
+      status: "error",
+      message: "Something went wrong!",
       data: e?.response?.data,
     };
   }

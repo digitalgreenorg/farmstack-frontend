@@ -25,8 +25,6 @@ import LetsGetStarted from "../../../Components/NewOnboarding/LetsGetStarted";
 import global_styles from "../../../Assets/CSS/global.module.css";
 import { CSSTransition } from "react-transition-group";
 import {
-  getTokenLocal,
-  getUserLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,

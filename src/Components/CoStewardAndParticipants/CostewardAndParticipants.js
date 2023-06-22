@@ -6,7 +6,6 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 import { getTokenLocal } from "../../Utils/Common";
 
 const CoStewardAndParticipantsCard = (props) => {
@@ -17,29 +16,30 @@ const CoStewardAndParticipantsCard = (props) => {
     title, // card is being render based in title if title is changing check all condition based on title
     handleLoadMoreButton,
     loadMoreButton,
-    user,
     guestUser,
     isCosteward,
     subTitle,
+    isCostewardsParticipant,
   } = props;
   const history = useHistory();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
-  const containerStyle = {
-    marginLeft: mobile || tablet ? "30px" : "144px",
-    marginRight: mobile || tablet ? "30px" : "144px",
-  };
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
-    if (guestUser && isCosteward) {
+    console.log("isCostewardsParticipant", isCostewardsParticipant);
+    if (isCostewardsParticipant) {
+      history.push(`/datahub/costeward/participants/view/${id}`);
+    } else if (guestUser && isCosteward) {
       history.push(`/home/costeward/view/${id}`);
+      localStorage.setItem("last_route", "/home");
     } else if (
       (guestUser && !isCosteward) ||
       (title == "Co-steward participants" && guestUser)
     ) {
+      localStorage.setItem("last_route", "/home");
       history.push(`/home/participants/view/${id}`);
     } else if (title == "Participants" || title == "Co-steward participants") {
       history.push(`/datahub/participants/view/${id}`);
@@ -48,6 +48,7 @@ const CoStewardAndParticipantsCard = (props) => {
     } else if (title == "New participant requests") {
       history.push(`/datahub/participants/view/approve/${id}`);
     } else if (title == "Participants" && guestUser) {
+      localStorage.setItem("last_route", "/home");
       history.push("/home/participants/view/:id");
     }
     // if (
@@ -630,18 +631,20 @@ const CoStewardAndParticipantsCard = (props) => {
       {/* </Row> */}
       {loadMoreButton ? (
         <Box className={LocalStyle.buttonContainer}>
-          <Button
-            onClick={handleLoadMoreButton}
-            id={title?.split(" ")[0] + "-load-more-button"}
-            variant="outlined"
-            className={`${
-              mobile || tablet
-                ? LocalStyle.pButtonStyleMd
-                : LocalStyle.pButtonStyle
-            }`}
-          >
-            Load more
-          </Button>
+          <div>
+            <Button
+              onClick={handleLoadMoreButton}
+              id={title?.split(" ")[0] + "-load-more-button"}
+              variant="outlined"
+              className={`${
+                mobile || tablet
+                  ? LocalStyle.pButtonStyleMd
+                  : LocalStyle.pButtonStyle
+              }`}
+            >
+              Load more
+            </Button>
+          </div>
         </Box>
       ) : (
         ""

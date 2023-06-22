@@ -6,9 +6,8 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
-import CustomCard from "../../Components/Card/CustomCard";
 import DatasetCart from "../../Components/DatasetCard/DatasetCard";
 import UrlConstants from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
@@ -17,20 +16,12 @@ import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
-import {
-  GetErrorHandlingRoute,
-  getOrgLocal,
-  getUserLocal,
-} from "../../Utils/Common";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import Popper from "@mui/material/Popper";
-import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
 import NoData from "../../Components/NoData/NoData";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { message, Popconfirm } from "antd";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -42,24 +33,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     isParticipantRequest,
     user,
     userTypeCosteward,
-    title,
     breadcrumbFromRoute,
+    isCostewardsParticipant,
   } = props;
-  const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [istrusted, setistrusted] = React.useState(false);
-  const [isorganisationemailerror, setisorganisationemailerror] =
-    useState(false);
-  const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
-  const [iswebsitelinkrerror, setwebsitelinkerror] = useState(false);
-  const [isuseremailerror, setisuseremailerror] = useState(false);
-  const [isSuccess, setisSuccess] = useState(true);
-  const [isDelete, setisDelete] = useState(false);
-  const [isDeleteCoSteward, setisDeleteCoSteward] = useState(false);
-  const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
 
   const [logoPath, setLogoPath] = useState("");
   const [organisationName, setOrganisationName] = useState("");
@@ -80,7 +62,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const [loadMoreButton, setLoadMoreButton] = useState([]);
   const [loadMoreUrl, setLoadMoreUrl] = useState([]);
   const [datasetLoadMoreUrl, setDatasetLoadMoreUrl] = useState("");
-  const [openDeletePoper, setOpenDeletePoper] = useState(false);
   const history = useHistory();
   const { id } = useParams();
 
@@ -244,7 +225,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
         let datalist = coStewardOrParticipantsList;
-        if (response?.data?.next) {
+        if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
           setCoStewardOrParticipantsList(finalDataList);
         }
@@ -256,14 +237,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if (error.toast) {
+        if (error?.toast) {
           callToast(
             error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
             true
           );
         }
-        if (error.path) {
+        if (error?.path) {
           history.push(error.path);
         }
         console.log(e);
@@ -332,9 +313,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
     HTTPService("POST", url, payload, false, isAuthorization)
       .then((res) => {
-        if (isParticipantRequest) {
-          callLoader(false);
-        }
+        callLoader(false);
+        // if (isParticipantRequest) {
+        // }
         console.log("res", res);
         let data = [...datasetList, ...res?.data?.results];
         setDatasetList(data);
@@ -437,7 +418,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
-              onClick={() => history.push("/datahub/participants/")}
+              onClick={() => {
+                let last_route = localStorage.getItem("last_route");
+                localStorage.removeItem("last_route");
+                if (last_route) {
+                  history.push(last_route);
+                } else {
+                  history.push("/datahub/participants/");
+                }
+              }}
             >
               {breadcrumbFromRoute ?? "Participant"}
             </span>
@@ -515,7 +504,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
+          {!isParticipantRequest &&
+          !userTypeCosteward &&
+          user !== "guest" &&
+          !isCostewardsParticipant ? (
             <>
               <CustomDeletePopper
                 DeleteItem={organisationName}
@@ -809,19 +801,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       )}
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
-          <Col xs={0} sm={0} md={2} lg={4}></Col>
-          <Col xs={12} sm={12} md={8} lg={4}>
-            <Button
-              id={"details-page-load-more-dataset-button"}
-              variant="outlined"
-              className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
-              onClick={() =>
-                getDatasetOfParticipantOrCoSteward(true, userId, orgId)
-              } // passing true will call loadmore api
-            >
-              Load more
-            </Button>
-          </Col>
+          <Button
+            id={"details-page-load-more-dataset-button"}
+            variant="outlined"
+            className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
+            onClick={() =>
+              getDatasetOfParticipantOrCoSteward(true, userId, orgId)
+            } // passing true will call loadmore api
+          >
+            Load more
+          </Button>
         </Row>
       ) : (
         ""
@@ -832,10 +821,12 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           title={"Co-steward participants"}
           subTitle="Explore the participants who are part of this co-steward's community."
           user={user}
+          guestUser={user}
           viewType={false}
+          isCostewardsParticipant={user ? false : true}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
-          loadMoreButton={loadMoreUrl}
+          loadMoreButton={loadMoreButton}
           handleLoadMoreButton={handleLoadMoreButton}
         />
       ) : (

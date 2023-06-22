@@ -1,7 +1,5 @@
 import React from "react";
-import { Container, Row } from "react-bootstrap";
 import ParticipantAndCoStewardDetailsNew from "../ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
-import LocalStyle from "./GuestUserParticipantsDetails.module.css";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 function GuestUserParticipantsDetails(props) {
@@ -11,10 +9,6 @@ function GuestUserParticipantsDetails(props) {
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const containerStyle = {
-    marginLeft: mobile || tablet ? "30px" : "144px",
-    marginRight: mobile || tablet ? "30px" : "144px",
-  };
   return (
     <div>
       {/* <Row className={LocalStyle.titleContainer}>
@@ -43,7 +37,7 @@ function GuestUserParticipantsDetails(props) {
         title={userTypeCosteward}
         user="guest"
         isCosteward={userTypeCosteward ? true : false}
-        breadcrumbFromRoute={breadcrumbFromRoute}
+        breadcrumbFromRoute={breadcrumbFromRoute ?? "Home"}
       />
     </div>
   );

@@ -261,7 +261,7 @@ const FooterNew = () => {
                   ) : (
                     <div
                       className={`${style.footerLightText} ${style.quickLinks} mt-10`}
-                      onClick={() => history.push("/login")}
+                      onClick={() => history.push("/home/get-started")}
                     >
                       Get started
                     </div>
@@ -305,13 +305,13 @@ const FooterNew = () => {
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: "#00AB55",
+                        borderColor: "#6c757d",
                       },
                       "&:hover fieldset": {
-                        borderColor: "#00AB55",
+                        borderColor: "#6c757d",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#00AB55",
+                        borderColor: "#6c757d",
                       },
                     },
                   }}

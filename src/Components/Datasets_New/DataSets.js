@@ -549,8 +549,14 @@ const DataSets = (props) => {
     }
     if (fromDate && toDate) {
       let tempDateRange = [];
-      tempDateRange.push(fromDate);
-      tempDateRange.push(toDate);
+      tempDateRange.push(
+        new Date(
+          fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+        ).toJSON()
+      );
+      tempDateRange.push(
+        new Date(toDate.getTime() - toDate.getTimezoneOffset() * 60000).toJSON()
+      );
       payload["updated_at__range"] = tempDateRange;
     }
     setFilterState(payload);
@@ -721,24 +727,22 @@ const DataSets = (props) => {
               <span
                 className="add_light_text cursor-pointer breadcrumbItem"
                 onClick={() => {
-                  breadcrumbFromRoute == "Home"
+                  breadcrumbFromRoute === "Home"
                     ? history.push("/home")
-                    : history.push("/datahub/new_datasets");
+                    : isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                    ? history.push("/datahub/new_datasets")
+                    : history.push("/participant/new_datasets");
                 }}
               >
-                {breadcrumbFromRoute ?? ""}
+                {breadcrumbFromRoute ? breadcrumbFromRoute : "Datasets"}
               </span>
               <span className="add_light_text ml-16">
-                {breadcrumbFromRoute ? (
-                  <ArrowForwardIosIcon
-                    sx={{ fontSize: "14px", fill: "#00ab55" }}
-                  />
-                ) : (
-                  ""
-                )}
+                <ArrowForwardIosIcon
+                  sx={{ fontSize: "14px", fill: "#00ab55" }}
+                />
               </span>
               <span className="add_light_text ml-16 fw600">
-                {!breadcrumbFromRoute
+                {user
                   ? "Datasets"
                   : value == 0
                   ? "My organisation datasets"

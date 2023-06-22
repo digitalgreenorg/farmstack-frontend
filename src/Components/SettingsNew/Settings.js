@@ -12,6 +12,7 @@ import PolicySettings from "./PolicySettings";
 import CategorySettings from "./CategorySettings";
 import DatapointSettings from "./DatapointSettings";
 import {
+  isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
@@ -26,6 +27,13 @@ export default function Settings(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     history.push(newValue);
+  };
+  const handleAddSettingRoutes = () => {
+    if (isLoggedInUserCoSteward() || isLoggedInUserAdmin()) {
+      return `/datahub/settings/1`;
+    } else if (isLoggedInUserParticipant()) {
+      return `/participant/settings/1`;
+    }
   };
   return (
     <div>
@@ -44,7 +52,6 @@ export default function Settings(props) {
               wordWrap: "normal !important",
               textTransform: "none !important",
               minWidth: "220px !important",
-              borderBottom: "1px solid #3D4A52",
               fontWeight: "400",
               fontSize: "16px !important",
               fontFamily: "Montserrat !important",
@@ -58,7 +65,7 @@ export default function Settings(props) {
               <div className="text-left mt-50">
                 <span
                   className="add_light_text cursor-pointer breadcrumbItem"
-                  onClick={() => history.push("/datahub/settings/:1")}
+                  onClick={() => history.push(handleAddSettingRoutes())}
                 >
                   Settings
                 </span>
@@ -84,7 +91,11 @@ export default function Settings(props) {
             </Col>
           </Row>
           <Container>
-            <Tabs onChange={handleChange} aria-label="lab API tabs example">
+            <Tabs
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+              style={{ borderBottom: "1px solid #3D4A52" }}
+            >
               <Tab
                 label="Account settings"
                 value="1"
@@ -96,33 +107,30 @@ export default function Settings(props) {
                 value="2"
                 id="org-settings-2"
               />
-              <Tab
-                label={
-                  !isLoggedInUserCoSteward() && !isLoggedInUserParticipant()
-                    ? "Policy settings"
-                    : ""
-                }
-                value="3"
-                id="policy-settings-3"
-              />
-              <Tab
-                label={
-                  !isLoggedInUserCoSteward() && !isLoggedInUserParticipant()
-                    ? "Categories settings"
-                    : ""
-                }
-                value="4"
-                id="category-settings-4"
-              />
-              <Tab
-                label={
-                  !isLoggedInUserCoSteward() && !isLoggedInUserParticipant()
-                    ? "Datapoint settings"
-                    : ""
-                }
-                value="5"
-                id="datapoint-settings-5"
-              />
+
+              {!isLoggedInUserCoSteward() && !isLoggedInUserParticipant() ? (
+                <Tab label="Policy settings" value="3" id="policy-settings-3" />
+              ) : (
+                ""
+              )}
+              {!isLoggedInUserCoSteward() && !isLoggedInUserParticipant() ? (
+                <Tab
+                  label="Categories settings"
+                  value="4"
+                  id="category-settings-4"
+                />
+              ) : (
+                ""
+              )}
+              {!isLoggedInUserCoSteward() && !isLoggedInUserParticipant() ? (
+                <Tab
+                  label="Datapoint settings"
+                  value="5"
+                  id="datapoint-settings-5"
+                />
+              ) : (
+                ""
+              )}
             </Tabs>
           </Container>
           <TabPanel value="1" id="account-settings-1">
@@ -131,15 +139,21 @@ export default function Settings(props) {
           <TabPanel value="2" id="org-settings-2">
             <OrganisationSettings />
           </TabPanel>
-          <TabPanel value="3" id="policy-settings-3">
-            <PolicySettings />
-          </TabPanel>
-          <TabPanel value="4" id="category-settings-4">
-            <CategorySettings />
-          </TabPanel>
-          <TabPanel value="5" id="datapoint-settings-5">
-            <DatapointSettings />
-          </TabPanel>
+          {!isLoggedInUserCoSteward() && !isLoggedInUserParticipant() ? (
+            <>
+              <TabPanel value="3" id="policy-settings-3">
+                <PolicySettings />
+              </TabPanel>
+              <TabPanel value="4" id="category-settings-4">
+                <CategorySettings />
+              </TabPanel>
+              <TabPanel value="5" id="datapoint-settings-5">
+                <DatapointSettings />
+              </TabPanel>
+            </>
+          ) : (
+            ""
+          )}
         </Box>
       </TabContext>
     </div>

@@ -312,7 +312,8 @@ const StandardizationInOnbord = (props) => {
     for (let index = 0; allDatapoints[index]; index++) {
       let attributeObj = {};
       for (let i = 1; i < allAttributes[index].length; i++) {
-        attributeObj[allAttributes[index][i]] = allAttributesDes[index][i];
+        attributeObj[allAttributes[index][i]] =
+          allAttributesDes[index][i] ?? "";
       }
       payload[index]["datapoint_attributes"] = attributeObj;
     }
@@ -650,6 +651,7 @@ const StandardizationInOnbord = (props) => {
             onChange={(e) => handleDatapointCategoryDescription(e)}
             onKeyDown={handledescriptionKeydowndes}
             inputProps={{ maxLength: 250 }}
+            style={{marginTop: "5px"}}
             multiline
             size="small"
             className="datapoint-name-input-box-description"
@@ -696,7 +698,7 @@ const StandardizationInOnbord = (props) => {
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
-                    id={`panel${index}1a-header`}
+                    id={`datapoint-category-${index}-accordian`}
                     className="attribute-accordion-titile"
                   >
                     {/* <Typography className="accordion-title" variant="h5">
@@ -717,7 +719,7 @@ const StandardizationInOnbord = (props) => {
                         }}
                         inputProps={{ maxLength: 250 }}
                         className="datapoint-name-input-box"
-                        id={`datapoint-${index}-name-input-box-id-on`}
+                        id={`datapoint-${index}-name-input-edit`}
                         label="Datapoint category name"
                         variant="outlined"
                         helperText={
@@ -787,6 +789,8 @@ const StandardizationInOnbord = (props) => {
                         anchorEl[index] !== undefined
                       }
                       closePopper={() => handleClose(index)}
+                      deletePopperId={`${index}-delete-popper-accordian-button-datapoint`}
+                      cancelPopperId={`${index}-cancel-popper-accordian-button-datapoint`}
                     />
                     <IconButton
                       id={`delete-${index}-datapoint`}
@@ -952,6 +956,8 @@ const StandardizationInOnbord = (props) => {
                             anchorEl[index] !== undefined
                           }
                           closePopper={() => handleClose(index)}
+                          deletePopperId={`${index}-delete-popper-datapoint-button`}
+                          cancelPopperId={`${index}-cancel-popper-datapoint-button`}
                         />
                         <Button
                           id={`delete-${index}-button-datapoint`}

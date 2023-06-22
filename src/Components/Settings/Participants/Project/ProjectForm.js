@@ -5,24 +5,18 @@ import { Container } from "react-bootstrap";
 import TextField from "@mui/material/TextField";
 import { useHistory, useLocation } from "react-router-dom";
 
-import Link from "@mui/material/Link";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import "./ProjectForm.css";
 
-import {
-  validateInputField,
-  handleUnwantedSpace,
-  isRoleName,
-} from "../../../../Utils/Common";
-import RegexConstants from "../../../../Constants/RegexConstants";
+import { isRoleName } from "../../../../Utils/Common";
 import labels from "../../../../Constants/labels";
 
 export default function ProjectForm(props) {
   const history = useHistory();
-  const location = useLocation()
+  const location = useLocation();
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
 
   //   const [department, setdepartment] = React.useState("");
@@ -56,12 +50,12 @@ export default function ProjectForm(props) {
   //   };
 
   const getTabNumber = () => {
-    if(isRoleName(location.pathname) == '/datahub/'){
-      return '7'
-    } else{
-      return '5'
+    if (isRoleName(location.pathname) == "/datahub/") {
+      return "7";
+    } else {
+      return "5";
     }
-  }
+  };
 
   return (
     <Container className="projectform">
@@ -69,15 +63,21 @@ export default function ProjectForm(props) {
         <Col className="supportViewDetailsbackimage">
           <span
             onClick={() => {
-              history.push(isRoleName(location.pathname)+"settings/"+getTabNumber());
-            }}>
+              history.push(
+                isRoleName(location.pathname) + "settings/" + getTabNumber()
+              );
+            }}
+          >
             <img src={require("../../../../Assets/Img/Vector.svg")} alt="new" />
           </span>
           <span
             className="supportViewDetailsback"
             onClick={() => {
-              history.push(isRoleName(location.pathname)+"settings/"+getTabNumber());
-            }}>
+              history.push(
+                isRoleName(location.pathname) + "settings/" + getTabNumber()
+              );
+            }}
+          >
             {"Back"}
           </span>
         </Col>
@@ -97,7 +97,8 @@ export default function ProjectForm(props) {
               labelId="demo-simple-select-required-label"
               id="demo-simple-select-required"
               value={props.department}
-              onChange={props.handleChangeDepartment}>
+              onChange={props.handleChangeDepartment}
+            >
               {props.department_variable.map((department, index) => (
                 <MenuItem key={department.id} value={department.id}>
                   {department.department_name}

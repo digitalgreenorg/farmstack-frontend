@@ -294,6 +294,55 @@ const NavbarNew = ({ loginType }) => {
               />
             </Box>
             <Box className="d-flex align-items-center">
+              {loginType === "admin" ? (
+                <NavLink
+                  id="navbar-new_dashboard"
+                  activeStyle={
+                    isNavLinkActive("/datahub/new_dashboard")
+                      ? navActiveStyle
+                      : navInActiveStyle
+                  }
+                  style={navInActiveStyle}
+                  to="/datahub/new_dashboard"
+                  onClick={() => handleSelect("new_dashboard")}
+                >
+                  {isNavLinkActive("/datahub/new_dashboard") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Dashboard
+                </NavLink>
+              ) : loginType === "participant" ? (
+                <NavLink
+                  id="navbar-new_dashboard"
+                  activeStyle={
+                    isNavLinkActive("/participant/new_dashboard")
+                      ? navActiveStyle
+                      : navInActiveStyle
+                  }
+                  style={navInActiveStyle}
+                  to="/participant/new_dashboard"
+                  onClick={() => handleSelect("new_dashboard")}
+                >
+                  {isNavLinkActive("/participant/new_dashboard") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Dashboard
+                </NavLink>
+              ) : (
+                ""
+              )}
               <NavLink
                 id="navbar-home"
                 activeStyle={

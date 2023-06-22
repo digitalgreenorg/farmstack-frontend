@@ -7,20 +7,16 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import GlobalStyles from "../../Assets/CSS/global.module.css";
 import DatasetListNew from "../../Components/Dataset/DatasetListNew";
 import ParticipantsCarouselNew from "../../Components/Participants/ParticipantsCarouselNew";
 import LocalStyle from "./GuestUserHomeNew.module.css";
 import { useHistory } from "react-router-dom";
-import {
-  getUserLocal,
-  isLoggedInUserAdmin,
-  isLoggedInUserCoSteward,
-  isLoggedInUserParticipant,
-} from "../../Utils/Common";
+
 import { TypeAnimation } from "react-type-animation";
 import imageFilename from "../../Assets/Img/microsite_yellow_gradient_img.svg";
+import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 const GuestUserHome = () => {
   let history = useHistory();
   const theme = createTheme({
@@ -47,6 +43,7 @@ const GuestUserHome = () => {
   };
   return (
     <>
+      <ScrollToTop />
       <Box
         className={
           mobile || tablet ? LocalStyle.containerMd : LocalStyle.container

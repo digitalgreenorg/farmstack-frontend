@@ -14,6 +14,7 @@ import {
   GetErrorKey,
   getTokenLocal,
   getUserMapId,
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -102,16 +103,27 @@ const AddDataSet = (props) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  console.log("todate1", toDate);
 
   const handleNext = () => {
     if (value === 0) {
+      let tmpTodate = new Date(toDate);
+      let tmpFromDate = new Date(fromDate);
       let body = {
         user_map: getUserMapId(),
         name: dataSetName,
         description: dataSetDescription,
         constantly_update: isUpdating,
-        data_capture_start: isUpdating ? null : fromDate,
-        data_capture_end: isUpdating ? null : toDate,
+        data_capture_start: isUpdating
+          ? null
+          : new Date(
+              tmpFromDate.getTime() - tmpFromDate.getTimezoneOffset() * 60000
+            ).toJSON(),
+        data_capture_end: isUpdating
+          ? null
+          : new Date(
+              tmpTodate.getTime() - tmpTodate.getTimezoneOffset() * 60000
+            ).toJSON(),
       };
       let accessToken = getTokenLocal() ?? false;
       let url = "";
@@ -227,6 +239,22 @@ const AddDataSet = (props) => {
     }
   };
 
+  const shouldTabDisabled = () => {
+    console.log(
+      sqlFiles || postgresFiles || restApifiles || files | uploadedFiles
+    );
+    if (
+      (datasetId || props.datasetIdForEdit) &&
+      (sqlFiles?.length > 0 ||
+        postgresFiles?.length > 0 ||
+        restApifiles?.length > 0 ||
+        uploadedFiles?.length > 0)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/new_datasets";
@@ -337,6 +365,7 @@ const AddDataSet = (props) => {
                 ? response.data.data_capture_start
                 : ""
             );
+            // console.log("settodate", toDate, response?.data?.data_capture_end);
             setToDate(
               response.data.data_capture_end
                 ? response.data.data_capture_end
@@ -466,6 +495,11 @@ const AddDataSet = (props) => {
     // edit Dataset API call
     getDatasetForEdit();
   }, []);
+
+  useEffect(() => {
+    goToTop();
+  }, [value]);
+
   return (
     <Box>
       <Box sx={containerStyle}>
@@ -566,7 +600,7 @@ const AddDataSet = (props) => {
                   Standardise
                 </span>
               }
-              disabled={datasetId || props.datasetIdForEdit ? false : true}
+              disabled={shouldTabDisabled()}
             />
             <Tab
               id="add-dataset-tab-4"
@@ -577,7 +611,7 @@ const AddDataSet = (props) => {
                   Categorise
                 </span>
               }
-              disabled={datasetId || props.datasetIdForEdit ? false : true}
+              disabled={shouldTabDisabled()}
             />
             <Tab
               id="add-dataset-tab-5"
@@ -588,7 +622,7 @@ const AddDataSet = (props) => {
                   Usage policy
                 </span>
               }
-              disabled={datasetId || props.datasetIdForEdit ? false : true}
+              disabled={shouldTabDisabled()}
             />
           </Tabs>
         </Box>

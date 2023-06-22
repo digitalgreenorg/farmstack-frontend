@@ -1,14 +1,5 @@
 import React, { useEffect, useMemo, useState, useContext } from "react";
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Select,
-  MenuItem,
-  InputLabel,
-} from "@material-ui/core";
+import { FormControl, Select, MenuItem, InputLabel } from "@material-ui/core";
 import {
   Typography,
   TextField,
@@ -18,12 +9,10 @@ import {
   Alert,
   Stack,
 } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import LocalStyle from "./ParticipantForm.module.css";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import labels from "../../../Constants/labels";
 import UrlConstants from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
@@ -39,7 +28,6 @@ import {
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
-import InfoIcon from "@mui/icons-material/Info";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { isPhoneValid } from "../../NewOnboarding/utils";
@@ -50,10 +38,10 @@ const ParticipantFormNew = (props) => {
   const history = useHistory();
   const countryNameList = useMemo(() => countryList().getData(), []);
   const { id } = useParams();
-
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [organisationName, setOrganisationName] = useState("");
   const [organisationEmail, setOrganisationEmail] = useState("");
+  const [isValid, setIsValid] = useState(true);
+  const [isValidRootMail, setIsValidRootMail] = useState(true);
   const [website, setWebsite] = useState("");
   const [address, setAddress] = useState("");
   const [organisationPinCode, setOrganisationPinCode] = useState("");
@@ -100,14 +88,6 @@ const ParticipantFormNew = (props) => {
     // perform form submission logic here
   };
 
-  const isValidURL = (string) => {
-    var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
-    return res !== null;
-  };
-  const isValidCapsUrl = (string) => {
-    var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
-    return res1 !== null;
-  };
   const handleContactNumber = (e, countryData) => {
     if (!isPhoneValid(e, countryData)) {
       setOrgContactErrorMessage("Invalid phone number");
@@ -409,7 +389,20 @@ const ParticipantFormNew = (props) => {
         }
       });
   };
-
+  const handleOrgWebsite = (e) => {
+    e.target.value = e.target.value.trim();
+    setWebsite(e.target.value);
+    setOrgWebsiteErrorMessage(
+      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX) &&
+        !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX)
+    );
+  };
+  const validateEmail = (email) => {
+    // Regular expression for email validation
+    const emailRegex =
+      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+(\.(gov|org|co|com(\.[A-Za-z]{2})?)|(\.[A-Za-z]{2}))$/;
+    return emailRegex.test(email);
+  };
   useEffect(() => {
     if (isEditModeOn) {
       getDataOnEdit();
@@ -478,15 +471,10 @@ const ParticipantFormNew = (props) => {
                 value={organisationEmail}
                 disabled={isEditModeOn}
                 onChange={(e) => {
-                  // validateInputField(
-                  //   e.target.value,
-                  //   RegexConstants.NO_SPACE_REGEX
-                  // )
-                  //   ?
                   setOrganisationEmail(e.target.value.trim());
-                  // : e.preventDefault();
+                  setIsValid(validateEmail(e.target.value));
                 }}
-                error={orgEmailErrorMessage ? true : false}
+                error={orgEmailErrorMessage || !isValid ? true : false}
                 helperText={orgEmailErrorMessage ? orgEmailErrorMessage : ""}
               />
             </Col>
@@ -499,11 +487,10 @@ const ParticipantFormNew = (props) => {
                 label="Website Link"
                 fullWidth
                 value={website}
-                onChange={(event) => setWebsite(event.target.value.trim())}
+                onChange={handleOrgWebsite}
                 error={orgWebsiteErrorMessage}
                 helperText={
-                  orgWebsiteErrorMessage ? orgWebsiteErrorMessage : ""
-                }
+                  orgWebsiteErrorMessage ? "Enter Valid Website Link" : orgWebsiteErrorMessage }
               />
             </Col>
           </Row>
@@ -516,7 +503,12 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={address}
-                onChange={(event) => setAddress(event.target.value)}
+                onChange={(event) => {
+                  console.log("event.target.value", event.target.value);
+                  if (event.target.value?.length < 256) {
+                    setAddress(event.target.value);
+                  }
+                }}
               />
             </Col>
           </Row>
@@ -670,15 +662,10 @@ const ParticipantFormNew = (props) => {
               value={email}
               disabled={isEditModeOn}
               onChange={(e) => {
-                // validateInputField(
-                //   e.target.value,
-                //   RegexConstants.NO_SPACE_REGEX
-                // )
-                //   ?
                 setEmail(e.target.value.trim());
-                // : e.preventDefault();
+                setIsValidRootMail(validateEmail(e.target.value));
               }}
-              error={emailErrorMessage ? true : false}
+              error={emailErrorMessage || !isValidRootMail ? true : false}
               helperText={emailErrorMessage ? emailErrorMessage : ""}
             />
             {/* <TextField
@@ -865,6 +852,8 @@ const ParticipantFormNew = (props) => {
           disabled={
             organisationName &&
             organisationEmail &&
+            isValid &&
+            isValidRootMail &&
             address &&
             organisationPinCode.length > 4 &&
             firstName &&

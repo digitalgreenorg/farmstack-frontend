@@ -1,16 +1,24 @@
 import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import React, { useContext } from "react";
-import { downloadDocument, getTokenLocal, download } from "../../Utils/Common";
+import {
+  getTokenLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+} from "../../Utils/Common";
 import File from "./TabComponents/File";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { getUserMapId } from "../../Utils/Common";
 import { Tag } from "antd";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 
 const FileWithAction = ({
   index,
+  datasetId,
   name,
   id,
   fileType,
@@ -19,34 +27,40 @@ const FileWithAction = ({
   getDataset,
   isOther,
   userType,
+  fileSize,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
+  const location = useLocation();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const handleDownload = () => {
+  const datasetDownloader = (fileUrl, name, type) => {
     let accessToken = getTokenLocal() ?? false;
-    let url = UrlConstant.base_url + UrlConstant.download_file + id;
-    callLoader(true);
-    HTTPService("GET", url, "", false, true, accessToken)
-      .then((res) => {
+    fetch(fileUrl, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    })
+      .then((response) => response.blob())
+      .then((blob) => {
         callLoader(false);
-        console.log(typeof res?.data, name, "res?.data, name");
-        if (typeof res?.data != "string") {
-          download(
-            JSON.stringify(res?.data, null, 2),
-            name,
-            "application/json"
-          );
-        } else {
-          download(res?.data, name);
-        }
         callToast("File downloaded successfully!", "success", true);
+        // Create a temporary link element
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = name; // Set the desired file name here
+
+        // Simulate a click event to download the file
+        link.click();
+
+        // Clean up the object URL
+        URL.revokeObjectURL(link.href);
       })
-      .catch((err) => {
+      .catch((error) => {
         callLoader(false);
         callToast(
           "Something went wrong while downloading the file.",
@@ -54,6 +68,30 @@ const FileWithAction = ({
           true
         );
       });
+  };
+
+  const handleDownload = () => {
+    let accessToken = getTokenLocal() ?? false;
+    let url = UrlConstant.base_url + UrlConstant.download_file + id;
+    callLoader(true);
+    datasetDownloader(url, name);
+
+    // HTTPService("GET", url, "", false, true, accessToken)
+    //   .then((res) => {
+    //     callLoader(false);
+    //     console.log(typeof res?.data, res?.data, name, "res?.data, name");
+    //     datasetDownloader(url, name);
+
+    //     callToast("File downloaded successfully!", "success", true);
+    //   })
+    //   .catch((err) => {
+    //     callLoader(false);
+    //     callToast(
+    //       "Something went wrong while downloading the file.",
+    //       "error",
+    //       true
+    //     );
+    //   });
   };
   const askToDownload = () => {
     let accessToken = getTokenLocal() ?? false;
@@ -170,6 +208,18 @@ const FileWithAction = ({
       return "#f50";
     }
   };
+
+  const isLoggedInUserFromHome = () => {
+    if (
+      location.pathname === "/home/datasets/" + datasetId &&
+      getTokenLocal() &&
+      (fileType === "registered" || fileType === "private")
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return (
     <Box
       className={
@@ -180,7 +230,7 @@ const FileWithAction = ({
         <File
           index={index}
           name={name}
-          size={657489}
+          size={fileSize}
           showDeleteIcon={false}
           type={"file_upload"}
           isTables={true}
@@ -234,6 +284,7 @@ const FileWithAction = ({
             textTransform: "none",
             marginLeft: "35px",
             marginRight: "25px",
+            display: isLoggedInUserFromHome() ? "none" : "",
             "&:hover": {
               background: "none",
               border: "1px solid rgba(0, 171, 85, 0.48)",
@@ -252,6 +303,39 @@ const FileWithAction = ({
             ? "Download"
             : "Login to Download"}
         </Button>
+        {isLoggedInUserFromHome() ? (
+          <Button
+            sx={{
+              fontFamily: "Montserrat",
+              fontWeight: 700,
+              fontSize: mobile ? "11px" : "15px",
+              width: mobile ? "195px" : "220px",
+              height: "48px",
+              border: "1px solid rgba(0, 171, 85, 0.48)",
+              borderRadius: "8px",
+              color: "#00AB55",
+              textTransform: "none",
+              marginLeft: "35px",
+              marginRight: "25px",
+              "&:hover": {
+                background: "none",
+                border: "1px solid rgba(0, 171, 85, 0.48)",
+              },
+            }}
+            variant="outlined"
+            onClick={() =>
+              history.push(
+                isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                  ? "/datahub/new_datasets"
+                  : "/participant/new_datasets"
+              )
+            }
+          >
+            Explore Datasets
+          </Button>
+        ) : (
+          <></>
+        )}
       </Box>
     </Box>
   );

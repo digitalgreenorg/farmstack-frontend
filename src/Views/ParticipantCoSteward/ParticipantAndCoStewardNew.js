@@ -177,7 +177,10 @@ const ParticipantsAndCoStewardNew = () => {
     }
     goToTop(0);
     // remove participantAndCostewardTabValue from local on page load
-    localStorage.removeItem("participantAndCostewardTabValue");
+    let tabValue = localStorage.getItem("participantAndCostewardTabValue");
+    if (tabValue == 0) {
+      localStorage.removeItem("participantAndCostewardTabValue");
+    }
   }, []);
 
   console.log("is login user", isLoggedInUserAdmin());
@@ -222,8 +225,10 @@ const ParticipantsAndCoStewardNew = () => {
                 ? isLoggedInUserCoSteward()
                   ? "Participant"
                   : "Co-Steward"
-                : tabValue == 1
+                : tabValue == 1 && isLoggedInUserAdmin()
                 ? "Participant"
+                : tabValue == 1 && isLoggedInUserCoSteward()
+                ? "New Participants requests"
                 : "New Participants requests"}
             </span>
           </div>
@@ -279,7 +284,7 @@ const ParticipantsAndCoStewardNew = () => {
                   }
                   secondaryButton={"+ Invite participants"}
                   secondaryButtonOnClick={() =>
-                    history.push("/datahub/participants/inviteparticipants")
+                    history.push("/datahub/participants/invite")
                   }
                 />
               </Box>
@@ -335,7 +340,7 @@ const ParticipantsAndCoStewardNew = () => {
                   }
                   secondaryButton={"+ Invite participants"}
                   secondaryButtonOnClick={() =>
-                    history.push("/datahub/participants/inviteparticipants")
+                    history.push("/datahub/participants/invite")
                   }
                 />
               </Box>
