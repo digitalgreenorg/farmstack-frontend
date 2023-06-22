@@ -161,7 +161,7 @@ const OrganizationDetails = (props) => {
       clearErrors(e.target.name);
       setOrganisationDetails({
         ...organisationDetails,
-        [e.target.name]: e.target.value,
+        [e.target.name]: e.target.value.trimStart(),
       });
     } else {
       clearErrors("organisation_contact_number");
@@ -197,6 +197,10 @@ const OrganizationDetails = (props) => {
     setTempImage(file);
     setOpen(true);
     setKey(key + 1); // generate a new key when a file is uploaded
+    setOrganisationDetailsError({
+      ...organisationDetailsError,
+      organisation_logo_error_logo: "",
+    })
   };
   // const handleUpload = (file) => {
   //   console.log(file);
@@ -727,12 +731,12 @@ const OrganizationDetails = (props) => {
                 handleChange={handleFileForCrop}
                 id="org-upload-file"
                 fileTypes={fileTypes}
-                // setSizeError={() =>
-                //   setOrganisationDetailsError({
-                //     ...organisationDetailsError,
-                //     organisation_logo_error_logo: "Maximum size exceeds",
-                //   })
-                // }
+                setSizeError={() =>
+                  setOrganisationDetailsError({
+                    ...organisationDetailsError,
+                    organisation_logo_error_logo: "Maximum file size allowed is 2MB",
+                  })
+                }
               />
             </Col>
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
