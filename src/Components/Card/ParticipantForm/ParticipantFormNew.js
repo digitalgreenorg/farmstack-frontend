@@ -496,9 +496,7 @@ const ParticipantFormNew = (props) => {
                 onChange={handleOrgWebsite}
                 error={orgWebsiteErrorMessage}
                 helperText={
-                  orgWebsiteErrorMessage
-                    ? "Enter Valid Website Link"
-                    : orgWebsiteErrorMessage
+                  orgWebsiteErrorMessage ? "Enter Valid Website Link" : ""
                 }
               />
             </Col>
