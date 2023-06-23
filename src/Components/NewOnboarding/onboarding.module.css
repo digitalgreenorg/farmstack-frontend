@@ -259,7 +259,13 @@
 .download_button {
   margin-left: 50px !important;
 }
-
+.link {
+  max-width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
 .link:hover {
   text-decoration: underline;
   cursor: pointer;
@@ -296,5 +302,8 @@
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
+@media (max-width: 1200px) {
+  .link {
+    max-width: 250px;
+  }
 }

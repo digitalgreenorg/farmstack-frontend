@@ -335,14 +335,8 @@ function DashboardNew() {
     setGeographyChart({});
     getDashboard();
   }, [org]);
-  // useEffect(() => {
-  //   formatData();
-  // }, [dashboardData]);
+
   useEffect(() => {
-    // setDashboardData({});
-    // setCategoryChart({});
-    // setFileChart({});
-    // setGeographyChart({});
     getDashboard();
   }, []);
 
@@ -386,13 +380,25 @@ function DashboardNew() {
               </div>
             </div>
           </div>
-          <div className={`${localeStyle.userBasicData}`}>
-            <div>
-              <span>Participants</span>
-              <span>
-                {dashboardData?.total_participants?.participants_count ?? 0}
-              </span>
-            </div>
+          <div
+            className={
+              isLoggedInUserParticipant()
+                ? `${localeStyle.userBasicData} ${localeStyle.userBasicDataForParticipant}`
+                : localeStyle.userBasicData
+            }
+          >
+            {!isLoggedInUserParticipant() ? (
+              <>
+                <div>
+                  <span>Participants</span>
+                  <span>
+                    {dashboardData?.total_participants?.participants_count ?? 0}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
             <div>
               <span>Datasets</span>
               <span>{dashboardData?.total_dataset_count ?? 0}</span>
