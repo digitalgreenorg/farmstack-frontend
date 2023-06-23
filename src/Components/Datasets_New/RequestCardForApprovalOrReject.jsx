@@ -308,9 +308,10 @@ const RequestCardForApprovalOrReject = (props) => {
                                       />
                                       <div
                                         style={{
-                                          // width: "100px",
+                                          maxWidth: "150px",
                                           overflow: "hidden",
                                           textOverflow: "ellipsis",
+                                          textWrap: "nowrap",
                                         }}
                                         className={local_style.link_name}
                                       >
@@ -382,8 +383,13 @@ const RequestCardForApprovalOrReject = (props) => {
                                       className={
                                         global_styles.bold600 +
                                         " " +
-                                        global_styles.size14
+                                        global_styles.size14 +
+                                        " " +
+                                        global_style.ellipses
                                       }
+                                      style={{
+                                        maxWidth: "200px",
+                                      }}
                                     >
                                       {/* <Avatar
                                   alt="Remy Sharp"
@@ -403,8 +409,13 @@ const RequestCardForApprovalOrReject = (props) => {
                                       className={
                                         global_styles.bold600 +
                                         " " +
-                                        global_styles.size14
+                                        global_styles.size14 +
+                                        " " +
+                                        global_style.ellipses
                                       }
+                                      style={{
+                                        maxWidth: "200px",
+                                      }}
                                     >
                                       {" "}
                                       {eachUsagePolicy.organization.org_email}
@@ -418,8 +429,13 @@ const RequestCardForApprovalOrReject = (props) => {
                                       className={
                                         global_styles.bold600 +
                                         " " +
-                                        global_styles.size14
+                                        global_styles.size14 +
+                                        " " +
+                                        global_style.ellipses
                                       }
+                                      style={{
+                                        maxWidth: "150px",
+                                      }}
                                     >
                                       {" "}
                                       {
