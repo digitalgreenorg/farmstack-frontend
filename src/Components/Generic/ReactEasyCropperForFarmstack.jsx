@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
-import { Button } from "@mui/material";
+import { Button, FormControlLabel, Switch } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import { styled } from "@mui/material/styles";
 
@@ -90,12 +90,20 @@ const styles = (theme) => ({
   },
 });
 
+const label = { inputProps: { "aria-label": "Switch demo" } };
+
 export default function ReactEasyCropperForFarmstack(props) {
+  //default value of rectangular crop is on/enabled
+  const [isRectangularCropModeOn, setIsRectangularCropModeOn] = useState(true);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     console.log(croppedArea, croppedAreaPixels);
   }, []);
+
+  const handleCropTypeChange = (status) => {
+    setIsRectangularCropModeOn(status);
+  };
 
   //   const handleCropComplete = () => {
   //     const canvas = canvasRef.current;
@@ -117,7 +125,7 @@ export default function ReactEasyCropperForFarmstack(props) {
         image={props.file}
         crop={crop}
         zoom={zoom}
-        aspect={3.17}
+        aspect={isRectangularCropModeOn ? 3.17 : 1}
         onCropChange={setCrop}
         onCropComplete={props.handleCropComplete}
         onZoomChange={setZoom}
@@ -133,8 +141,59 @@ export default function ReactEasyCropperForFarmstack(props) {
           bottom: "10px",
           right: "10px",
           padding: "25px",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
+        <div
+          className="crop-type"
+          style={{
+            display: "flex",
+            margin: "auto",
+            justifyContent: "space-evenly",
+            width: "100%",
+            marginBottom: "20px",
+          }}
+        >
+          <div
+            style={{
+              padding: "2px",
+              border: "1px solid #00ab55",
+              borderRadius: "2px",
+            }}
+          >
+            <div
+              onClick={() => handleCropTypeChange(true)}
+              style={{
+                height: "30px",
+                width: "70px",
+                border: "1px dashed #00ab55",
+                borderRadius: "2px",
+                background: isRectangularCropModeOn ? "#00ab55" : "white",
+                cursor: "pointer",
+              }}
+            ></div>
+          </div>
+          <div
+            style={{
+              padding: "2px",
+              border: "1px solid #00ab55",
+              borderRadius: "2px",
+            }}
+          >
+            <div
+              onClick={() => handleCropTypeChange(false)}
+              style={{
+                cursor: "pointer",
+                height: "30px",
+                width: "30px",
+                border: "1px dashed #00ab55",
+                borderRadius: "2px",
+                background: !isRectangularCropModeOn ? "#00ab55" : "white",
+              }}
+            ></div>
+          </div>
+        </div>
         <Typography variant="overline">Zoom</Typography>
         <Slider
           value={zoom}
@@ -145,6 +204,7 @@ export default function ReactEasyCropperForFarmstack(props) {
           //   classes={{ root: styles.slider }}
           onChange={(e, zoom) => setZoom(zoom)}
         />
+
         <Button
           onClick={props.showCroppedImage}
           variant="contained"
