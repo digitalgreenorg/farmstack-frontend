@@ -388,12 +388,7 @@ const ParticipantFormNew = (props) => {
       });
   };
   const handleOrgWebsite = (e) => {
-    e.target.value = e.target.value.trim();
-    setWebsite(e.target.value);
-    setOrgWebsiteErrorMessage(
-      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX) &&
-        !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX)
-    );
+    setWebsite(e.target.value.trim());
   };
   const validateEmail = (email) => {
     // Regular expression for email validation
@@ -487,7 +482,7 @@ const ParticipantFormNew = (props) => {
                 onChange={handleOrgWebsite}
                 error={orgWebsiteErrorMessage}
                 helperText={
-                  orgWebsiteErrorMessage ? "Enter Valid Website Link" : ""
+                  orgWebsiteErrorMessage ? orgWebsiteErrorMessage : ""
                 }
               />
             </Col>
