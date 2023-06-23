@@ -49,7 +49,7 @@ const ProfileDetails = (props) => {
   });
   const handleChangeProfileDetails = (e, countryData) => {
     if (e.target) {
-      setProfileDetails({ ...profileDetails, [e.target.name]: e.target.value });
+      setProfileDetails({ ...profileDetails, [e.target.name]: e.target.value.trimStart() });
     } else {
       if (!isPhoneValid(e, countryData)) {
         setProfileDetailsError((prevState) => ({

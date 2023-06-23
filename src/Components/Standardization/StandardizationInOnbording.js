@@ -632,33 +632,41 @@ const StandardizationInOnbord = (props) => {
           </Typography>
         </div>
         <div className="data-point-input-box-container">
-          <TextField
-            required
-            value={datapointName}
-            onChange={(e) => handleDatapointCategoryName(e)}
-            onKeyDown={handleNameField}
-            inputProps={{ maxLength: 250 }}
-            className="datapoint-name-input-box"
-            id="datapoint-name-input-box-id"
-            label="Datapoint category name"
-            variant="outlined"
-            error={datapointNameError ? datapointNameError : ""}
-            helperText={datapointNameError ? datapointNameError : ""}
-          />
-          <TextField
-            required
-            value={datapointDes}
-            onChange={(e) => handleDatapointCategoryDescription(e)}
-            onKeyDown={handledescriptionKeydowndes}
-            inputProps={{ maxLength: 250 }}
-            style={{marginTop: "5px"}}
-            multiline
-            size="small"
-            className="datapoint-name-input-box-description"
-            id="datapoint-name-input-box-description-id"
-            label="Datapoint category description"
-            variant="outlined"
-          />
+          <Row>
+            <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                required
+                fullWidth
+                value={datapointName}
+                onChange={(e) => handleDatapointCategoryName(e)}
+                onKeyDown={handleNameField}
+                inputProps={{ maxLength: 250 }}
+                id="datapoint-name-input-box-id"
+                label="Datapoint category name"
+                variant="outlined"
+                error={datapointNameError ? datapointNameError : ""}
+                helperText={datapointNameError ? datapointNameError : ""}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                required
+                fullWidth
+                value={datapointDes}
+                onChange={(e) => handleDatapointCategoryDescription(e)}
+                onKeyDown={handledescriptionKeydowndes}
+                inputProps={{ maxLength: 250 }}
+                rows={4}
+                multiline
+                size="small"
+                id="datapoint-name-input-box-description-id"
+                label="Datapoint category description"
+                variant="outlined"
+              />
+            </Col>
+          </Row>
         </div>
         <div className="datapoint-add-button-classname">
           <Button
