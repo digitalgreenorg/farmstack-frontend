@@ -388,8 +388,7 @@ const ParticipantFormNew = (props) => {
       });
   };
   const handleOrgWebsite = (e) => {
-    e.target.value = e.target.value.trim();
-    setWebsite(e.target.value);
+    setWebsite(e.target.value.trim());
   };
   const validateEmail = (email) => {
     // Regular expression for email validation
