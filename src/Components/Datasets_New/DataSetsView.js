@@ -634,9 +634,14 @@ const DataSetsView = (props) => {
             <Card className="organisation_icon_card">
               <Box className="d-flex h-100 align-items-center">
                 {orgDetails?.logo ? (
-                  <img src={orgDetails?.logo} alt="footerLogo" />
+                  <img
+                    style={{ width: "100%" }}
+                    src={orgDetails?.logo}
+                    alt="footerLogo"
+                  />
                 ) : (
                   <img
+                    style={{ width: "100%" }}
                     src={require("../../Assets/Img/footer_logo.svg")}
                     alt="footerLogo"
                   />

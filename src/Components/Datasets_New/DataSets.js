@@ -143,9 +143,24 @@ const DataSets = (props) => {
 
   const getDataSets = (isLoadMore) => {
     let method = "POST";
+    let payload = {};
+    console.log(
+      "🚀 ~ file: DataSets.js:151 ~ getDataSets ~ filterState:",
+      filterState
+    );
+
     if (!isLoadMore) {
       resetUrls();
       if (!Object.keys(filterState).length) {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -182,6 +197,7 @@ const DataSets = (props) => {
         return;
       }
     }
+    console.log("🚀 ~ file: DataSets.js:178 ~ getDataSets ~ payload:", payload);
     // console.log(user, "user inside the microste");
     let accessToken = user != "guest" ? getTokenLocal() : false;
 
@@ -234,6 +250,15 @@ const DataSets = (props) => {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = true;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }

@@ -1190,7 +1190,8 @@ textarea {
   height: 30px !important;
 }
 
-.input_field_subscribe_sm .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_sm
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 30px !important;
@@ -1203,7 +1204,8 @@ textarea {
   height: 30px !important;
 }
 
-.input_field_subscribe_md .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_md
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 32px !important;
@@ -1356,9 +1358,9 @@ textarea {
 }
 
 .edit_head_name_accordion {
-    width: 950px;
-    height: 50px;
-    margin: 20px auto !important;
+  width: 950px;
+  height: 50px;
+  margin: 20px auto !important;
 }
 
 .accordions_in_onboarding .MuiAccordionSummary-content {
