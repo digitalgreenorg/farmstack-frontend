@@ -203,10 +203,6 @@ button.submitbtn:hover {
   border-bottom: 1px solid #c09507 !important;
 }
 
-.css-1aquho2-MuiTabs-indicator {
-  background-color: #c09507 !important;
-}
-
 .boldimage {
   display: none;
 }
@@ -215,7 +211,7 @@ button.submitbtn:hover {
   display: block;
 }
 
-.react-multi-email > input {
+.react-multi-email>input {
   background: none !important;
 }
 
@@ -227,14 +223,14 @@ button.submitbtn:hover {
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor > div:first-child {
+.invite-participant-text-editor>div:first-child {
   background: #f1f1f1 !important;
   border: none !important;
   border-bottom: 1px solid #9aa1a9 !important;
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor > div:first-child > div:first-child {
+.invite-participant-text-editor>div:first-child>div:first-child {
   text-align: left;
 }
 
@@ -250,11 +246,6 @@ button.submitbtn:hover {
   border-left: 1px solid #d8af28 !important;
   border-right: 1px solid #d8af28 !important;
   border-top: 1px solid #d8af28 !important;
-}
-
-.settingsTabs .MuiTabs-indicator {
-  background: #c09507 !important;
-  border-bottom: none !important;
 }
 
 .particaipancard .MuiCardHeader-title {
@@ -280,23 +271,6 @@ button.submitbtn:hover {
   opacity: 0.5;
 }
 
-/* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
-  background: #FFFFFF;
-  border: 1px solid #D8AF28 !important;
-  text-transform: capitalize !important;
-  font-weight: 400 !important;
-  width: 200px;
-} */
-:not(.Mui-selected).MuiTab-root {
-  background: #ffffff;
-  text-transform: none !important;
-  font-weight: 400 !important;
-  width: 225px;
-  border-left: 1px solid #d8af28 !important;
-  border-right: 1px solid #d8af28 !important;
-  border-top: 1px solid #d8af28 !important;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -307,12 +281,6 @@ input::-webkit-inner-spin-button {
 
   background-color: #FFDB64 !important;
 } */
-
-.MuiTabs-root .MuiButtonBase-root {
-  /* width: 162.5px !important; */
-
-  /* border: 1px solid red !important; */
-}
 
 /* Firefox */
 input[type="number"] {
@@ -508,7 +476,7 @@ button.submitbtnupdt {
   border-top: 1px solid rgba(238, 238, 238, 0.5);
 }
 
-.react-multi-email.empty > span[data-placeholder] {
+.react-multi-email.empty>span[data-placeholder] {
   display: inline;
   color: #3d4a52 !important;
 }
@@ -848,11 +816,6 @@ button.disbalesubmitbtndept {
   font-weight: 700;
 }
 
-/* :not(.Mui-selected).MuiTab-root{
-  text-transform: none !important;
-
-} */
-
 .recharts-tooltip-wrapper {
   border: none !important;
 }
@@ -1178,8 +1141,7 @@ textarea {
   height: 56px;
 }
 
-.input_field_subscribe
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
 }
@@ -1190,8 +1152,7 @@ textarea {
   height: 30px !important;
 }
 
-.input_field_subscribe_sm
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_sm .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 30px !important;
@@ -1204,8 +1165,7 @@ textarea {
   height: 30px !important;
 }
 
-.input_field_subscribe_md
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_md .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 32px !important;
@@ -1378,6 +1338,7 @@ textarea {
   border-left: none !important;
   /* padding: 30px 30px; */
 }
+
 .MuiSlider-colorPrimary {
   color: #00ab55 !important;
 }
