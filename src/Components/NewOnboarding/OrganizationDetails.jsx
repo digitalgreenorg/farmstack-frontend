@@ -52,7 +52,7 @@ const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const fileTypes = ["jpg", "jpeg", "png"];
@@ -161,7 +161,10 @@ const OrganizationDetails = (props) => {
       clearErrors(e.target.name);
       setOrganisationDetails({
         ...organisationDetails,
-        [e.target.name]: e.target.value,
+        [e.target.name]:
+          e.target.name === "organisation_mail_id"
+            ? e.target.value.trim()
+            : e.target.value.trimStart(),
       });
     } else {
       clearErrors("organisation_contact_number");
@@ -197,6 +200,10 @@ const OrganizationDetails = (props) => {
     setTempImage(file);
     setOpen(true);
     setKey(key + 1); // generate a new key when a file is uploaded
+    setOrganisationDetailsError({
+      ...organisationDetailsError,
+      organisation_logo_error_logo: "",
+    })
   };
   // const handleUpload = (file) => {
   //   console.log(file);
@@ -487,7 +494,12 @@ const OrganizationDetails = (props) => {
       });
   };
   // console.log(preview, uploadedLogo);
-
+  const validateEmail = (email) => {
+    // Regular expression for email validation
+    const emailRegex =
+      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+(\.(gov|org|co|com(\.[A-Za-z]{2})?)|(\.[A-Za-z]{2}))$/;
+    return emailRegex.test(email);
+  };
   useEffect(() => {
     getOrganizationData();
     goToTop(0);
@@ -551,7 +563,11 @@ const OrganizationDetails = (props) => {
                     ? true
                     : false
                 }
-                helperText={organisationDetailsError.organisation_mail_id_error}
+                helperText={
+                  organisationDetailsError.organisation_mail_id_error
+                    ? organisationDetailsError.organisation_mail_id_error
+                    : ""
+                }
               />
             </Col>
           </Row>
@@ -727,12 +743,12 @@ const OrganizationDetails = (props) => {
                 handleChange={handleFileForCrop}
                 id="org-upload-file"
                 fileTypes={fileTypes}
-                // setSizeError={() =>
-                //   setOrganisationDetailsError({
-                //     ...organisationDetailsError,
-                //     organisation_logo_error_logo: "Maximum size exceeds",
-                //   })
-                // }
+                setSizeError={() =>
+                  setOrganisationDetailsError({
+                    ...organisationDetailsError,
+                    organisation_logo_error_logo: "Maximum file size allowed is 2MB",
+                  })
+                }
               />
             </Col>
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>

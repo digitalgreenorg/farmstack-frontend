@@ -227,7 +227,8 @@
 
 .preview_logo {
   height: 60px;
-  width: 180px;
+  width: auto;
+  max-width: 180px;
   margin: 10px;
 }
 

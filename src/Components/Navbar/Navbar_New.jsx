@@ -285,7 +285,12 @@ const NavbarNew = ({ loginType }) => {
             <Box className="d-flex align-items-center">
               <img
                 // src={require("../../Assets/Img/footer_logo.svg")}
-                style={{ height: "auto", width: "172px", maxHeight: "65px" }}
+                style={{
+                  height: "auto",
+                  maxWidth: "172px",
+                  width: "auto",
+                  maxHeight: "65px",
+                }}
                 src={
                   UrlConstant.base_url_without_slash +
                   adminData?.organization?.logo
