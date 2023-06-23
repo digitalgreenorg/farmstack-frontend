@@ -484,7 +484,14 @@ const CompanyPolicies = (props) => {
 
                       <span
                         id="file-preview"
-                        className={global_style.blue + " " + styles.link}
+                        className={
+                          global_style.blue +
+                          " " +
+                          styles.link +
+                          " " +
+                          global_style.ellipses
+                        }
+                        style={{ width: "100%" }}
                         onClick={() => window.open(previewE)}
                       >
                         {/* {console.log(uploadedPolicyE, "uploadedPolicyE")} */}
@@ -766,6 +773,7 @@ const CompanyPolicies = (props) => {
                             id="file-preview"
                             className={global_style.blue + " " + styles.link}
                             onClick={() => window.open(preview)}
+                            style={{ width: "100%" }}
                           >
                             {uploadedPolicy.name + " "}{" "}
                           </span>

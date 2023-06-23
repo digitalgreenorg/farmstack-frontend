@@ -116,3 +116,6 @@
   width: 90%;
   max-width: 200px;
 }
+.userBasicDataForParticipant > div {
+  width: 50% !important;
+}
