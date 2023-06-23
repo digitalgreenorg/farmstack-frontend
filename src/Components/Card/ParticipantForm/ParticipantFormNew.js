@@ -40,8 +40,6 @@ const ParticipantFormNew = (props) => {
   const { id } = useParams();
   const [organisationName, setOrganisationName] = useState("");
   const [organisationEmail, setOrganisationEmail] = useState("");
-  const [isValid, setIsValid] = useState(true);
-  const [isValidRootMail, setIsValidRootMail] = useState(true);
   const [website, setWebsite] = useState("");
   const [address, setAddress] = useState("");
   const [organisationPinCode, setOrganisationPinCode] = useState("");
@@ -472,16 +470,9 @@ const ParticipantFormNew = (props) => {
                 disabled={isEditModeOn}
                 onChange={(e) => {
                   setOrganisationEmail(e.target.value.trim());
-                  setIsValid(validateEmail(e.target.value));
                 }}
-                error={orgEmailErrorMessage || !isValid ? true : false}
-                helperText={
-                  orgEmailErrorMessage
-                    ? orgEmailErrorMessage
-                    : !isValid
-                    ? "Please enter vaild email!"
-                    : ""
-                }
+                error={orgEmailErrorMessage ? true : false}
+                helperText={orgEmailErrorMessage ? orgEmailErrorMessage : ""}
               />
             </Col>
           </Row>
@@ -670,16 +661,9 @@ const ParticipantFormNew = (props) => {
               disabled={isEditModeOn}
               onChange={(e) => {
                 setEmail(e.target.value.trim());
-                setIsValidRootMail(validateEmail(e.target.value));
               }}
-              error={emailErrorMessage || !isValidRootMail ? true : false}
-              helperText={
-                emailErrorMessage
-                  ? emailErrorMessage
-                  : !isValidRootMail
-                  ? "Please enter vaild email!"
-                  : ""
-              }
+              error={emailErrorMessage ? true : false}
+              helperText={emailErrorMessage ? emailErrorMessage : ""}
             />
             {/* <TextField
               className={LocalStyle.textField}
@@ -865,8 +849,6 @@ const ParticipantFormNew = (props) => {
           disabled={
             organisationName &&
             organisationEmail &&
-            isValid &&
-            isValidRootMail &&
             address &&
             organisationPinCode.length > 4 &&
             firstName &&

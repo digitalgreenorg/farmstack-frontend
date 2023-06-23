@@ -53,7 +53,6 @@ const OrganizationDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
   const [open, setOpen] = useState(false);
-  const [isValid, setIsValid] = useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const fileTypes = ["jpg", "jpeg", "png"];
@@ -162,7 +161,10 @@ const OrganizationDetails = (props) => {
       clearErrors(e.target.name);
       setOrganisationDetails({
         ...organisationDetails,
-        [e.target.name]: e.target.value.trimStart(),
+        [e.target.name]:
+          e.target.name === "organisation_mail_id"
+            ? e.target.value.trim()
+            : e.target.value,
       });
     } else {
       clearErrors("organisation_contact_number");
@@ -555,20 +557,15 @@ const OrganizationDetails = (props) => {
                 id="organisation_mail_id"
                 name="organisation_mail_id"
                 value={organisationDetails.organisation_mail_id}
-                onChange={(e) => {
-                  handleOrgChange(e);
-                  setIsValid(validateEmail(e.target.value));
-                }}
+                onChange={(e) => handleOrgChange(e)}
                 error={
-                  organisationDetailsError.organisation_mail_id_error ||
-                  !isValid
+                  organisationDetailsError.organisation_mail_id_error
                     ? true
                     : false
                 }
                 helperText={
-                  organisationDetailsError.organisation_mail_id_error ||
-                  !isValid
-                    ? "Please enter valid emailId !"
+                  organisationDetailsError.organisation_mail_id_error
+                    ? organisationDetailsError.organisation_mail_id_error
                     : ""
                 }
               />
@@ -855,7 +852,6 @@ const OrganizationDetails = (props) => {
               disabled={
                 organisationDetails.organisation_address &&
                 organisationDetails.organisation_mail_id &&
-                isValid &&
                 organisationDetails.organisation_country &&
                 organisationDetails.organisation_description &&
                 organisationDetails.organisation_name &&
