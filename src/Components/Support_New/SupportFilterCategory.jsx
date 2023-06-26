@@ -15,6 +15,14 @@ export default function SupportFilterCategory({
   setCategoryFilter,
   getListOfTickets
 }) {
+  const handleCheckboxChange = (e, checked) => {
+    if (checked) {
+      handleFilterByCategory(e, false);
+    } else {
+      setCategoryFilter("");
+      getListOfTickets()
+    }
+  };
   return (
     <>
       <Card
@@ -45,7 +53,7 @@ export default function SupportFilterCategory({
                 checked={categoryFilter === "certificate"}
                 value="certificate"
                 id="certificate"
-                onChange={(e) => handleFilterByCategory(e, false)}
+                onChange={(e) => handleCheckboxChange(e, e.target.checked)}
               />
             }
             label="Certificate"
@@ -56,7 +64,7 @@ export default function SupportFilterCategory({
                 checked={categoryFilter === "connectors"}
                 value="connectors"
                 id="connectors"
-                onChange={(e) => handleFilterByCategory(e, false)}
+                onChange={(e) => handleCheckboxChange(e, e.target.checked)}
               />
             }
             label="Connectors"
@@ -67,7 +75,7 @@ export default function SupportFilterCategory({
                 checked={categoryFilter === "datasets"}
                 value="datasets"
                 id="datasets"
-                onChange={(e) => handleFilterByCategory(e, false)}
+                onChange={(e) => handleCheckboxChange(e, e.target.checked)}
               />
             }
             label="Datasets"
@@ -78,7 +86,7 @@ export default function SupportFilterCategory({
                 checked={categoryFilter === "user_accounts"}
                 value="user_accounts"
                 id="user_accounts"
-                onChange={(e) => handleFilterByCategory(e, false)}
+                onChange={(e) => handleCheckboxChange(e, e.target.checked)}
               />
             }
             label="User_accounts"
@@ -89,7 +97,7 @@ export default function SupportFilterCategory({
                 checked={categoryFilter === "usage_policy"}
                 value="usage_policy"
                 id="usage_policy"
-                onChange={(e) => handleFilterByCategory(e, false)}
+                onChange={(e) => handleCheckboxChange(e, e.target.checked)}
               />
             }
             label="Usage_policy"
@@ -100,7 +108,7 @@ export default function SupportFilterCategory({
                 checked={categoryFilter === "others"}
                 value="others"
                 id="others"
-                onChange={(e) => handleFilterByCategory(e, false)}
+                onChange={(e) => handleCheckboxChange(e, e.target.checked)}
               />
             }
             label="Others"
