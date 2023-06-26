@@ -107,16 +107,21 @@
 }
 
 .img {
-  width: 251px;
+  max-width: 251px;
+  width: auto;
   height: 76px;
+  margin-left: 0;
+  display: block;
 }
 
 .imgSm {
-  width: 230px;
+  width: auto;
+  max-width: 230px;
   height: 76px;
+  display: block;
 }
 
 .firstLetterOnLogo {
-  text-align: center;
+  text-align: left;
   font-size: 60px;
 }
