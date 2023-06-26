@@ -618,7 +618,7 @@ export default function Support(props) {
                   : "d-flex align-items-center filter_text_container"
               }
               onClick={() => handleFilterClick("status")}
-              id="dataset-filter-by-geography-id"
+              id="status_filter"
             >
               <img
                 src={require("../../Assets/Img/supportStatus.svg")}
@@ -635,7 +635,7 @@ export default function Support(props) {
                   : "d-flex align-items-center filter_text_container"
               }
               onClick={() => handleFilterClick("categories")}
-              id="dataset-filter-by-categories-id"
+              id="support-filter-by-categories-id"
             >
               <img
                 src={require("../../Assets/Img/category.svg")}
@@ -652,7 +652,7 @@ export default function Support(props) {
                   : "d-flex align-items-center filter_text_container"
               }
               onClick={() => handleFilterClick("date")}
-              id="dataset-filter-by-date-id"
+              id="support-filter-by-date-id"
             >
               <img
                 src={require("../../Assets/Img/by_date.svg")}
