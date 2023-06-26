@@ -155,6 +155,7 @@ const StandardizationInOnbord = (props) => {
     setAllDataPoints(tmpAllDatapoints);
     setDatapointName("");
     setDatapointDes("");
+    callToast("Please submit to save the changes!", "info", true);
   };
   const handleUpdateCategoryName = (index, newValue) => {
     setSaveButtonEnabled(true);
