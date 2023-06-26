@@ -342,7 +342,7 @@ const CompanyPolicies = (props) => {
       setSaveButtonEnabled(value.toString("html") !== "");
     };
     const handleChangePolicyName = (e) => {
-      setPolicyNameUnderAccordion(e.target.value);
+      setPolicyNameUnderAccordion(e.target.value.trimStart());
     };
     const handleSave = async () => {
       let payload = new FormData();
