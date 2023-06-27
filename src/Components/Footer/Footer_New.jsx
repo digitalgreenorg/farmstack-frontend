@@ -20,6 +20,7 @@ import {
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import globalStyle from "../../Assets/CSS/global.module.css";
 const FooterNew = () => {
   const handleSubscribe = () => {};
   const history = useHistory();
@@ -130,13 +131,15 @@ const FooterNew = () => {
           } text-left`}
         >
           <Box className="d-flex justify-content-between">
-            <div className={`contact`}>
+            <div className={style.contact}>
               <div className={`${style.footerTitle}`}>Contacts</div>
               <div className="mb-30 mt-20">
                 <div className={`${style.footerLightTextOnly} text-left`}>
                   Email
                 </div>
-                <div className={`${style.footerDarkText} mt-2 text-left`}>
+                <div
+                  className={`${style.footerDarkText} mt-2 text-left ${globalStyle.break_word}`}
+                >
                   {adminData?.user?.email ?? ""}
                 </div>
               </div>
@@ -203,7 +206,7 @@ const FooterNew = () => {
                   } w-100`}
                 >
                   <div
-                    className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+                    className={`${style.footerLightText} ${style.quickLinks} mt-10 ${globalStyle.break_word}`}
                   >
                     About {adminData?.organization?.name ?? ""}
                   </div>

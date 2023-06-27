@@ -2,49 +2,10 @@ import React, { useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
-import { Button, FormControlLabel, Switch } from "@mui/material";
+import { Button, FormControlLabel, Switch, Tooltip } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import { styled } from "@mui/material/styles";
-
-const PrettoSlider = styled(Slider)({
-  color: "#52af77",
-  height: 8,
-  "& .MuiSlider-track": {
-    border: "none",
-  },
-  "& .MuiSlider-thumb": {
-    height: 24,
-    width: 24,
-    backgroundColor: "#fff",
-    border: "2px solid currentColor",
-    "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
-      boxShadow: "inherit",
-    },
-    "&:before": {
-      display: "none",
-    },
-  },
-  "& .MuiSlider-valueLabel": {
-    lineHeight: 1.2,
-    fontSize: 12,
-    background: "unset",
-    padding: 0,
-    width: 32,
-    height: 32,
-    borderRadius: "50% 50% 50% 0",
-    backgroundColor: "#52af77",
-    transformOrigin: "bottom left",
-    transform: "translate(50%, -100%) rotate(-45deg) scale(0)",
-    "&:before": { display: "none" },
-    "&.MuiSlider-valueLabelOpen": {
-      transform: "translate(50%, -100%) rotate(-45deg) scale(1)",
-    },
-    "& > *": {
-      transform: "rotate(45deg)",
-    },
-  },
-});
-
+import InfoIcon from "@mui/icons-material/Info";
 const styles = (theme) => ({
   cropContainer: {
     position: "relative",
@@ -95,14 +56,31 @@ const label = { inputProps: { "aria-label": "Switch demo" } };
 export default function ReactEasyCropperForFarmstack(props) {
   //default value of rectangular crop is on/enabled
   const [isRectangularCropModeOn, setIsRectangularCropModeOn] = useState(true);
+  const [isCustomModeOn, setIsCustomModeOn] = useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [customRatio, setCustomRatio] = useState({
+    width: 1,
+    height: 1,
+  });
+
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     console.log(croppedArea, croppedAreaPixels);
   }, []);
 
-  const handleCropTypeChange = (status) => {
-    setIsRectangularCropModeOn(status);
+  const handleChangeCustomRatio = (e) => {
+    if (e.target.value >= 1) {
+      setCustomRatio({ ...customRatio, [e.target.name]: e.target.value });
+    }
+  };
+  const handleCropTypeChange = (status, type) => {
+    if (type == "custom") {
+      setIsCustomModeOn(status);
+      // setIsRectangularCropModeOn(false);
+    } else {
+      setIsRectangularCropModeOn(status);
+      setIsCustomModeOn(false);
+    }
   };
 
   //   const handleCropComplete = () => {
@@ -125,7 +103,15 @@ export default function ReactEasyCropperForFarmstack(props) {
         image={props.file}
         crop={crop}
         zoom={zoom}
-        aspect={isRectangularCropModeOn ? 3.17 : 1}
+        aspect={
+          isCustomModeOn
+            ? customRatio.width && customRatio.height
+              ? customRatio.width / customRatio.height
+              : 1
+            : isRectangularCropModeOn
+            ? 3.17
+            : 1
+        }
         onCropChange={setCrop}
         onCropComplete={props.handleCropComplete}
         onZoomChange={setZoom}
@@ -169,7 +155,10 @@ export default function ReactEasyCropperForFarmstack(props) {
                 width: "70px",
                 border: "1px dashed #00ab55",
                 borderRadius: "2px",
-                background: isRectangularCropModeOn ? "#00ab55" : "white",
+                background:
+                  isRectangularCropModeOn && !isCustomModeOn
+                    ? "#00ab55"
+                    : "white",
                 cursor: "pointer",
               }}
             ></div>
@@ -189,15 +178,115 @@ export default function ReactEasyCropperForFarmstack(props) {
                 width: "30px",
                 border: "1px dashed #00ab55",
                 borderRadius: "2px",
-                background: !isRectangularCropModeOn ? "#00ab55" : "white",
+                background:
+                  !isRectangularCropModeOn && !isCustomModeOn
+                    ? "#00ab55"
+                    : "white",
               }}
             ></div>
           </div>
+          <div
+            style={{
+              padding: "2px",
+              border: "1px solid #00ab55",
+              borderRadius: "2px",
+            }}
+          >
+            <div
+              onClick={() => handleCropTypeChange(true, "custom")}
+              style={{
+                height: "30px",
+                width: "120px",
+                // border: "0.5px dashed #00ab55",
+                borderRadius: "2px",
+                background: isCustomModeOn ? "white" : "white",
+              }}
+            >
+              {isCustomModeOn ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                    background: isCustomModeOn ? "white" : "white",
+                  }}
+                >
+                  <div>
+                    {" "}
+                    <input
+                      onChange={handleChangeCustomRatio}
+                      name="width"
+                      style={{
+                        display: "block",
+                        width: "50px",
+                      }}
+                      type="number"
+                      min={1}
+                      step={0.01}
+                      onKeyPress={(e) => {
+                        if (e.key <= "0") e.preventDefault();
+                      }}
+                    />{" "}
+                  </div>
+                  <div>X</div>
+                  <div>
+                    {" "}
+                    <input
+                      onChange={handleChangeCustomRatio}
+                      name="height"
+                      style={{
+                        display: "block",
+                        width: "50px",
+                      }}
+                      type="number"
+                      min={1}
+                      step={0.01}
+                      onKeyPress={(e) => {
+                        if (e.key <= "0") e.preventDefault();
+                      }}
+                    />{" "}
+                  </div>
+                </div>
+              ) : (
+                "Custom"
+              )}
+            </div>
+          </div>
+          <Tooltip title="We recommend maintaining an aspect ratio of 3.17 or 1 for uploaded image">
+            <InfoIcon />
+          </Tooltip>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="overline">Aspect : </Typography>
+          <Typography variant="overline">
+            Width :{" "}
+            {isCustomModeOn
+              ? customRatio.width
+              : isRectangularCropModeOn
+              ? 3.17
+              : 1}
+          </Typography>
+          /
+          <Typography variant="overline">
+            Height :
+            {isCustomModeOn
+              ? customRatio.height
+              : isRectangularCropModeOn
+              ? 1
+              : 1}
+          </Typography>
         </div>
         <Typography variant="overline">Zoom</Typography>
         <Slider
           value={zoom}
-          min={1}
+          min={-1}
           max={3}
           step={0.1}
           aria-labelledby="Zoom"

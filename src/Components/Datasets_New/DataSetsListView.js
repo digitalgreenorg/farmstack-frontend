@@ -14,7 +14,7 @@ const DataSetsListView = ({
     <div className="mt-50">
       <Box className="d-flex justify-content-between mb-20">
         <Typography className="datasets_list_view_title w-100 text-left ml-20">
-          DataSet name
+          Dataset name
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-left ml-90">
           Organisation
@@ -46,10 +46,10 @@ const DataSetsListView = ({
             <Typography className="datasets_list_view_text datasets_list_view_name green_text w-100 text-left ml-20">
               {item?.name}
             </Typography>
-            <Typography className="datasets_list_view_text w-100 text-left ml-90">
+            <Typography className="datasets_list_view_text w-100 text-left ml-90 datasets_list_view_details_ellipsis">
               {item?.organization?.name}
             </Typography>
-            <Typography className="datasets_list_view_text w-100 text-left">
+            <Typography className="datasets_list_view_text w-100 text-left datasets_list_view_details_ellipsis">
               {Object.keys(item?.category).length ? (
                 Object.keys(item?.category).length > 1 ? (
                   <>
@@ -66,7 +66,7 @@ const DataSetsListView = ({
                 "NA"
               )}
             </Typography>
-            <Typography className="datasets_list_view_text w-100 text-left">
+            <Typography className="datasets_list_view_text w-100 text-left datasets_list_view_details_ellipsis">
               {item?.geography?.country?.name
                 ? item?.geography?.country?.name
                 : "NA"}

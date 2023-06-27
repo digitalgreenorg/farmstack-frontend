@@ -385,6 +385,7 @@ const ProfileDetails = (props) => {
               onClick={() => setActiveStep((prev) => prev + 1)}
               className={global_style.secondary_button}
               id="finish-later-button"
+              style={{ paddingRight: "25px" }}
             >
               {" "}
               Finish later

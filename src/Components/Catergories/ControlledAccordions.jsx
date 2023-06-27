@@ -60,32 +60,36 @@ export default function ControlledAccordions(props) {
           aria-controls="panel1bh-content"
           id={`accordian-${index}-header`}
           onClick={(e) => handleEditHeading(false, e, index)}
-          sx={{}}
         >
           <Typography
             className={global_styles.bold600 + " " + global_styles.size24}
             sx={{
               width: "95%",
-              flexShrink: 0,
-              textAlign: "left",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              // flexShrink: 0,
+              // textAlign: "left",
+              // display: "flex",
+              // flexDirection: "row",
+              // justifyContent: "space-between",
               marginRight: "20px",
-              alignItems: "center",
+              textAlign: "left",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              maxWidth: "800px",
             }}
           >
             {heading}{" "}
-            {isHeadEditing ? (
-              <EditIcon
-                fontSize="small"
-                onClick={(e) => handleEditHeading(true, e, index)}
-                id={`${index}edit-icon`}
-              />
-            ) : (
-              ""
-            )}
           </Typography>
+          {isHeadEditing ? (
+            <EditIcon
+              style={{ margin: "0 10px" }}
+              fontSize="small"
+              onClick={(e) => handleEditHeading(true, e, index)}
+              id={`${index}edit-icon`}
+            />
+          ) : (
+            ""
+          )}
           {onOpenHideDelete && !anchorEl && !open && expanded == "panel1" ? (
             ""
           ) : (

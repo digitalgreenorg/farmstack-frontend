@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/system/Box";
-import LocalStyle from "./Tabs.module.css"
+import LocalStyle from "./Tabs.module.css";
 
 const CustomTabs = (props) => {
   // this component expects 3 things in props
@@ -57,6 +57,8 @@ const CustomTabs = (props) => {
       >
         {TabLabels?.map((label, index) => {
           console.log("tab value ", label);
+          let updatedLabel =
+            label?.length > 25 ? label.substring(0, 25) + "..." : label;
 
           return (
             <Tab
@@ -67,7 +69,7 @@ const CustomTabs = (props) => {
                 },
               }}
               id={label + index}
-              label={label}
+              label={updatedLabel}
             />
           );
         })}

@@ -103,7 +103,8 @@
   width: 90%;
 }
 .userBasicDataImg img {
-  height: 65px;
+  height: auto;
+  max-height: 90px;
 }
 .subTitle > p {
   font-size: 16px;

@@ -718,6 +718,7 @@ const CategoryDetails = (props) => {
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.secondary_button}
             id="finishlater-button-category"
+            style={{ paddingRight: "25px" }}
           >
             {" "}
             Finish later

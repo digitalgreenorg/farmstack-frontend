@@ -77,6 +77,13 @@ const Categorise = (props) => {
                 categoryKeyName={keys[0]}
                 keyName={res}
                 handleCheckBox={handleCheckBox}
+                customStyle={{
+                  width: "auto",
+                  maxWidth: "350px",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               />
             );
           });
@@ -164,6 +171,15 @@ const Categorise = (props) => {
           data={allCategories}
           customBorder={true}
           customPadding={true}
+          isCustomStyle={true}
+          titleStyle={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "900px",
+          }}
+          isCustomDetailStyle={true}
+          customDetailsStyle={{ display: "inline-block", width: "30%" }}
           addHeaderBackground={true}
           headerBackground={"#eafbf3"}
         />
