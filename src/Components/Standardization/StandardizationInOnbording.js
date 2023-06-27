@@ -623,7 +623,7 @@ const StandardizationInOnbord = (props) => {
       {contextHolder}
       <div className={styles.main_box}>
         <div className={styles.main_label}>
-          <div>Datapoint category details</div>
+          <div>Datapoint details</div>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
@@ -643,7 +643,7 @@ const StandardizationInOnbord = (props) => {
                 onKeyDown={handleNameField}
                 inputProps={{ maxLength: 250 }}
                 id="datapoint-name-input-box-id"
-                label="Datapoint category name"
+                label="Datapoint name"
                 variant="outlined"
                 error={datapointNameError ? datapointNameError : ""}
                 helperText={datapointNameError ? datapointNameError : ""}
@@ -653,7 +653,6 @@ const StandardizationInOnbord = (props) => {
           <Row>
             <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
               <TextField
-                required
                 fullWidth
                 value={datapointDes}
                 onChange={(e) => handleDatapointCategoryDescription(e)}
@@ -663,7 +662,7 @@ const StandardizationInOnbord = (props) => {
                 multiline
                 size="small"
                 id="datapoint-name-input-box-description-id"
-                label="Datapoint category description"
+                label="Datapoint description"
                 variant="outlined"
               />
             </Col>
@@ -676,7 +675,7 @@ const StandardizationInOnbord = (props) => {
             className={global_style.primary_button + " " + styles.next_button}
             id="add-datapoint-button"
             onClick={handleAddDatapoint}
-            disabled={!datapointName || !datapointDes}
+            disabled={!datapointName}
           >
             Add
           </Button>
@@ -906,6 +905,8 @@ const StandardizationInOnbord = (props) => {
                                   className={styles.margintopbottom10}
                                 >
                                   <TextField
+                                    required
+                                    disabled
                                     fullWidth
                                     InputProps={{
                                       endAdornment: (
@@ -1152,6 +1153,7 @@ const StandardizationInOnbord = (props) => {
               className={global_style.secondary_button}
               id="add-finish-later-datapoint-button"
               onClick={() => setOnBoardedTrue()}
+              style={{ paddingRight: "25px" }}
             >
               Finish later
             </Button>

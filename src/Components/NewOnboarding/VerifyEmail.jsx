@@ -279,9 +279,9 @@ const VerifyEmailStep = (props) => {
       <div className={styles.inputs}>
         <TextField
           fullWidth
-          placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Email"}
+          placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
           id="email_id_for_login"
-          label={isValidEmailSent ? "Enter 6 digit OTP" : "Email"}
+          label={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
           variant="outlined"
           value={isValidEmailSent ? otp : emailId}
           onChange={(e) =>
@@ -320,14 +320,13 @@ const VerifyEmailStep = (props) => {
           />{" "}
           <span className={styles.agreement_line}>
             {" "}
-            Agree to the{" "}
+            Agree to the Farmstack{" "}
             <span
               className={styles.termsAndConditionClass}
               onClick={() => history.push("/home/legal")}
             >
-              terms and privacy
+              terms and privacy policy.
             </span>{" "}
-            policies.
           </span>
         </div>
       )}

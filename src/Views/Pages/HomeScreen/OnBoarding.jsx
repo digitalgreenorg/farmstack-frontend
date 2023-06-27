@@ -209,32 +209,32 @@ export default function OnBoarding() {
   if (isLoggedInUserAdmin()) {
     steps = [
       {
-        label: "Verify Email ID",
+        label: "Verify mail id",
         subLabel: "Step 1",
         completed: false,
       },
       {
-        label: "Profile Details",
+        label: "Profile details",
         subLabel: "Step 2",
         completed: false,
       },
       {
-        label: "Organisation Details",
+        label: "Organisation details",
         subLabel: "Step 3",
         completed: false,
       },
       {
-        label: "Company Policies",
+        label: "Company policies",
         subLabel: "Step 4",
         completed: false,
       },
       {
-        label: "Category Details",
+        label: "Category details",
         subLabel: "Step 5",
         completed: false,
       },
       {
-        label: "DataPoint Details",
+        label: "DataPoint details",
         subLabel: "Step 6",
         completed: false,
       },
@@ -242,17 +242,17 @@ export default function OnBoarding() {
   } else if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
     steps = [
       {
-        label: "Verify Email ID",
+        label: "Verify mail id",
         subLabel: "Step 1",
         completed: false,
       },
       {
-        label: "Profile Details",
+        label: "Profile details",
         subLabel: "Step 2",
         completed: false,
       },
       {
-        label: "Organisation Details",
+        label: "Organisation details",
         subLabel: "Step 3",
         completed: false,
       },
