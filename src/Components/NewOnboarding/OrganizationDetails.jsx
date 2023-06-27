@@ -203,19 +203,8 @@ const OrganizationDetails = (props) => {
     setOrganisationDetailsError({
       ...organisationDetailsError,
       organisation_logo_error_logo: "",
-    })
+    });
   };
-  // const handleUpload = (file) => {
-  //   console.log(file);
-  //   setIsLogoLink(false);
-  //   setUploadedLogo(file);
-
-  // const handleUpload = (file) => {
-  //   console.log(file);
-  //   setIsLogoLink(false);
-  //   setUploadedLogo(file);
-  // };
-
   const convertImageUrlToObject = async (imageUrl) => {
     try {
       const response = await fetch(imageUrl);
@@ -258,27 +247,8 @@ const OrganizationDetails = (props) => {
 
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
-    // console.log(uploadedLogo);
-    // if (!uploadedLogo) {
-    //   setPreview(null);
-    //   console.log("NULL");
-    //   return;
-    // }
-    // setOrganisationDetailsError({
-    //   ...organisationDetailsError,
-    //   organisation_logo_error_logo: "",
-    // });
-    // if (selectedImage) {
-    //   setPreview(selectedImage);
-    //   console.log("select image");
-    //   return;
-    // }
-    // const objectUrl = URL.createObjectURL(uploadedLogo);
-    // setPreview(selectedImage);
-    // // free memory when ever this component is unmounted
-    // return () => URL.revokeObjectURL(objectUrl);
+    console.log("uploadedLogo", uploadedLogo);
   }, [uploadedLogo]);
-
   const handleSubmitOrganizationDetails = (e) => {
     e.preventDefault();
     callLoader(true);
@@ -403,15 +373,6 @@ const OrganizationDetails = (props) => {
           }
           setOrganisationDetailsError(errorObj);
         } else {
-          // let error = await GetErrorHandlingRoute(e);
-          // if (error) {
-          //   callToast(
-          //     error?.message,
-          //     error?.status === 200 ? "success" : "error",
-          //     true
-          //   );
-          //   console.log(e, error);
-          // }
           let error = await GetErrorHandlingRoute(e);
           console.log("Error obj", error);
           console.log(e);
@@ -463,21 +424,9 @@ const OrganizationDetails = (props) => {
           org.logo ? UrlConstant.base_url_without_slash + org.logo : null
         );
         setIsLogoLink(true);
-        // setUploadedLogo(
-        //   org.logo ? UrlConstant.base_url_without_slash + org.logo : null
-        // );
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = await GetErrorHandlingRoute(e);
-        // console.log(e, error);
-        // if (error) {
-        //   callToast(
-        //     error?.message,
-        //     error?.status === 200 ? "success" : "error",
-        //     true
-        //   );
-        // }
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -492,13 +441,6 @@ const OrganizationDetails = (props) => {
           history.push(error.path);
         }
       });
-  };
-  // console.log(preview, uploadedLogo);
-  const validateEmail = (email) => {
-    // Regular expression for email validation
-    const emailRegex =
-      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+(\.(gov|org|co|com(\.[A-Za-z]{2})?)|(\.[A-Za-z]{2}))$/;
-    return emailRegex.test(email);
   };
   useEffect(() => {
     getOrganizationData();
@@ -736,7 +678,20 @@ const OrganizationDetails = (props) => {
               <FileUploaderMain
                 key={key} // set the key prop to force a re-render when the key changes
                 texts={
-                  "Drop files here or click browse thorough your machine,File size not more than "
+                  <span>
+                    {"Drop files here or click "}
+                    <a
+                      href="#"
+                      style={{
+                        textDecoration: "underline",
+                        color: "#00ab55",
+                        display: "inline-block",
+                      }}
+                    >
+                      {" browse "}
+                    </a>
+                    {" through your machine, File size not more than"}
+                  </span>
                 }
                 maxSize={2}
                 isMultiple={false}
@@ -746,7 +701,8 @@ const OrganizationDetails = (props) => {
                 setSizeError={() =>
                   setOrganisationDetailsError({
                     ...organisationDetailsError,
-                    organisation_logo_error_logo: "Maximum file size allowed is 2MB",
+                    organisation_logo_error_logo:
+                      "Maximum file size allowed is 2MB",
                   })
                 }
               />
@@ -760,25 +716,37 @@ const OrganizationDetails = (props) => {
                   " " +
                   styles.text_left
                 }
+                style={{ marginBottom: "20px", marginLeft: "5px" }}
               >
                 {preview && "Uploaded file"}
               </div>
               {preview && (
-                <div className={styles.text_left + " " + styles.preview_box}>
-                  {preview && (
-                    <img className={styles.preview_logo} src={preview} />
-                  )}
-                  <CancelIcon
-                    onClick={() => {
-                      setPreview(null);
-                      setUploadedLogo(null);
-                      setKey(key + 1); // generate a new key when a file is deleted
-                    }}
-                    style={{ cursor: "pointer" }}
-                    fontSize="small"
-                    id="cancel-uploaded-file"
-                  />
-                </div>
+                <>
+                  <div className={styles.text_left + " " + styles.preview_box}>
+                    {preview && (
+                      <img className={styles.preview_logo} src={preview} />
+                    )}
+                    <CancelIcon
+                      onClick={() => {
+                        setPreview(null);
+                        setUploadedLogo(null);
+                        setKey(key + 1); // generate a new key when a file is deleted
+                      }}
+                      style={{
+                        cursor: "pointer",
+                        marginBottom: "70px",
+                        fill: "rgba(0, 0, 0, 0.48)",
+                      }}
+                      fontSize="medium"
+                      id="cancel-uploaded-file"
+                    />
+                  </div>
+                  <div className={styles.text_left}>
+                    {preview
+                      ? preview?.split("/").pop()
+                      : uploadedLogo && uploadedLogo?.name}
+                  </div>
+                </>
               )}
               <div
                 className={
@@ -837,17 +805,6 @@ const OrganizationDetails = (props) => {
           </Row>
         ) : (
           <div className={styles.button_grp}>
-            {/* <Button
-              onClick={() =>
-                !isLoggedInUserAdmin()
-                  ? setOnBoardedTrue()
-                  : setActiveStep((prev) => prev + 1)
-              }
-              className={global_style.secondary_button}
-            >
-              {" "}
-              Finish later
-            </Button> */}
             <Button
               disabled={
                 organisationDetails.organisation_address &&
@@ -872,9 +829,6 @@ const OrganizationDetails = (props) => {
             </Button>
           </div>
         )}
-        {/* <div className={styles.send_otp_div}>
-</div> */}
-
         <Modal
           open={open}
           onClose={handleClose}

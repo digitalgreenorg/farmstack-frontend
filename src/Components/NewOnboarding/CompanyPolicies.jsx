@@ -22,6 +22,7 @@ import { Popconfirm } from "antd";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import Divider from "@mui/material/Divider";
 
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -421,7 +422,11 @@ const CompanyPolicies = (props) => {
             </span>
           </Col>
         </Row>
-
+        <Row>
+          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+            <Divider>or</Divider>
+          </Col>
+        </Row>
         <Row>
           <CSSTransition
             appear={isEditModeOn}
@@ -440,7 +445,20 @@ const CompanyPolicies = (props) => {
                 key={localKey}
                 isMultiple={false}
                 texts={
-                  "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                  <span>
+                    {"Drop files here or click "}
+                    <a
+                      href="#"
+                      style={{
+                        textDecoration: "underline",
+                        color: "#00ab55",
+                        display: "inline-block",
+                      }}
+                    >
+                      {" browse "}
+                    </a>
+                    {" through your machine, File size not more than"}
+                  </span>
                 }
                 fileTypes={["pdf", "doc"]}
                 handleChange={handleUploadPolicyE}
@@ -466,6 +484,7 @@ const CompanyPolicies = (props) => {
                 " " +
                 styles.text_left
               }
+              style={{ marginBottom: "20px"}}
             >
               {previewE && "Uploaded file"}
             </div>
@@ -730,14 +749,31 @@ const CompanyPolicies = (props) => {
                 </span>
               </Col>
             </Row>
-
+            <Row>
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <Divider>or</Divider>
+              </Col>
+            </Row>
             <Row>
               <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                 <FileUploaderMain
                   key={key}
                   isMultiple={false}
                   texts={
-                    "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                    <span>
+                      {"Drop files here or click "}
+                      <a
+                        href="#"
+                        style={{
+                          textDecoration: "underline",
+                          color: "#00ab55",
+                          display: "inline-block",
+                        }}
+                      >
+                        {" browse "}
+                      </a>
+                      {" through your machine, File size not more than"}
+                    </span>
                   }
                   fileTypes={["pdf", "doc"]}
                   handleChange={handleUploadPolicy}
@@ -757,6 +793,7 @@ const CompanyPolicies = (props) => {
                     " " +
                     styles.text_left
                   }
+                  style={{ marginBottom: "20px"}}
                 >
                   {uploadedPolicy && "Uploaded file"}
                 </div>
@@ -882,14 +919,31 @@ const CompanyPolicies = (props) => {
                     </span>
                   </Col>
                 </Row>
-
+                <Row>
+                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                    <Divider>or</Divider>
+                  </Col>
+                </Row>
                 <Row>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                     <FileUploaderMain
                       key={key}
                       isMultiple={false}
                       texts={
-                        "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                        <span>
+                          {"Drop files here or click "}
+                          <a
+                            href="#"
+                            style={{
+                              textDecoration: "underline",
+                              color: "#00ab55",
+                              display: "inline-block",
+                            }}
+                          >
+                            {" browse "}
+                          </a>
+                          {" through your machine, File size not more than"}
+                        </span>
                       }
                       fileTypes={["pdf", "doc"]}
                       handleChange={handleUploadPolicy}
@@ -909,6 +963,7 @@ const CompanyPolicies = (props) => {
                         " " +
                         styles.text_left
                       }
+                      style={{ marginBottom: "20px"}}
                     >
                       {uploadedPolicy && "Uploaded file"}
                     </div>
