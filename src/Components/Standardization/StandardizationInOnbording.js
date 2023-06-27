@@ -629,7 +629,7 @@ const StandardizationInOnbord = (props) => {
           >
             {props.inSettings
               ? "Create and update datapoints to standardise datasets."
-              : ""}
+              : "Enter the datapoints and datapoints attributes, we will show to others!"}
           </Typography>
         </div>
         <div className="data-point-input-box-container">

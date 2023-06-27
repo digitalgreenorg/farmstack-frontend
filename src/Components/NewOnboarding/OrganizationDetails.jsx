@@ -716,7 +716,7 @@ const OrganizationDetails = (props) => {
                   " " +
                   styles.text_left
                 }
-                style={{ marginBottom: "20px", marginLeft: "5px" }}
+                style={{ marginBottom: "20px", marginLeft: "10px" }}
               >
                 {preview && "Uploaded file"}
               </div>
@@ -741,7 +741,7 @@ const OrganizationDetails = (props) => {
                       id="cancel-uploaded-file"
                     />
                   </div>
-                  <div className={styles.text_left}>
+                  <div className={styles.text_left} style={{marginLeft: "10px"}}>
                     {preview
                       ? preview?.split("/").pop()
                       : uploadedLogo && uploadedLogo?.name}
