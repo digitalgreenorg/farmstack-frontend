@@ -533,7 +533,7 @@ const DataSetsView = (props) => {
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
         <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
           <Box sx={{ width: mobile ? "" : "638px" }}>
-            <Typography className="view_agriculture_heading text-left">
+            <Typography className="view_agriculture_heading text-left ellipsis">
               {dataSetName}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-20">
@@ -562,7 +562,7 @@ const DataSetsView = (props) => {
             <Typography className="view_datasets_light_text text-left mt-25">
               Geography
             </Typography>
-            <Typography className="view_datasets_bold_text text-left mt-3">
+            <Typography className="view_datasets_bold_text text-left mt-3 ellipsis maxWidth400">
               {/* IF GEOGRAPHY COUNTRY SAATE AND CITY ALL ARE "NA" THEN SHOW "Not Available" */}
               {!geography?.country?.name &&
               !geography?.state?.name &&
@@ -585,7 +585,25 @@ const DataSetsView = (props) => {
           {categories && categories.length ? "Dataset category" : ""}
         </div>
         <Box className="mt-20">
-          <ControlledAccordion data={categories} />
+          <ControlledAccordion
+            isCustomStyle={true}
+            titleStyle={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              width: "100%",
+              maxWidth: "800px",
+            }}
+            isCustomDetailStyle={true}
+            customDetailsStyle={{
+              wordBreak: "break-all",
+              maxWidth: "33%",
+              textAlign: "left",
+              width: "30%",
+              display: "inline-block",
+            }}
+            data={categories}
+          />
         </Box>
         <div className="bold_title mt-50">{"Dataset files"}</div>
         <Alert

@@ -121,6 +121,7 @@ const ControlledAccordion = ({
                   ? { padding: "8px 0px 16px !important" }
                   : accordionSummaryStyle
               }
+              style={isCustomDetailStyle ? { textAlign: "left" } : {}}
             >
               {acc?.details?.length ? (
                 acc?.details.map((detail, index) => (
