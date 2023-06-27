@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
+  findType,
   getUserMapId,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -814,7 +815,9 @@ const DatasetRequestTable = () => {
                         className={global_styles.primary_color}
                         onClick={() =>
                           history.push(
-                            "/datahub/new_datasets/view/" + row.dataset_id + "/"
+                            `/${findType()}/new_datasets/view/` +
+                              row.dataset_id +
+                              "/"
                           )
                         }
                         style={{
