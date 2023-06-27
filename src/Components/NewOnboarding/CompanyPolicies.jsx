@@ -52,6 +52,7 @@ const CompanyPolicies = (props) => {
     setUploadedPolicy(null);
     setPreview(null);
     setKey(key + 1);
+    setFileError("");
     console.log("file during delete", uploadedPolicy, key);
   };
   const confirm = (e, index) => {
@@ -168,7 +169,7 @@ const CompanyPolicies = (props) => {
                     policy_id: policy_id,
                   });
                 } else {
-                  setFileError(errorMessages[i]);
+                  setdescriptionError(errorMessages[i]);
                 }
                 break;
               case "file":
@@ -660,6 +661,8 @@ const CompanyPolicies = (props) => {
     } else {
       setEnableButton(false);
     }
+    setdescriptionError("")
+
   };
   useEffect(() => {
     getListOfPolicies();
@@ -725,7 +728,7 @@ const CompanyPolicies = (props) => {
               </Col>
             </Row>
             <Row>
-              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+              <Col lg={12} sm={12} style={{margin: "20px 0px"}}>
                 <RichTextEditor
                   placeholder="Description"
                   toolbarConfig={toolbarConfig}
@@ -744,7 +747,7 @@ const CompanyPolicies = (props) => {
                     border: "1px solid black",
                   }}
                 />
-                <span style={{ color: "red", fontSize: "12px" }}>
+                <span style={{ color: "red", fontSize: "12px"}}>
                   {descriptionError}
                 </span>
               </Col>
@@ -895,7 +898,7 @@ const CompanyPolicies = (props) => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                  <Col lg={12} sm={12} style={{ margin: "20px 0px" }}>
                     <RichTextEditor
                       placeholder="Description"
                       toolbarConfig={toolbarConfig}
@@ -914,7 +917,7 @@ const CompanyPolicies = (props) => {
                         border: "1px solid black",
                       }}
                     />
-                    <span style={{ color: "red", fontSize: "12px" }}>
+                    <span style={{ color: "red", fontSize: "12px", textAlign: "left" }}>
                       {descriptionError}
                     </span>
                   </Col>
