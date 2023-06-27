@@ -15,6 +15,14 @@ export default function SupportFilterStatus({
   setStatusFilter,
   getListOfTickets,
 }) {
+  const handleCheckboxChange = (e, checked) => {
+    if (checked) {
+      handleFilterByStatus(e, false);
+    } else {
+      setStatusFilter("");
+      getListOfTickets();
+    }
+  };
   return (
     <>
       <Card
@@ -45,7 +53,7 @@ export default function SupportFilterStatus({
                 checked={statusFilter === "open"}
                 value="open"
                 id="open"
-                onChange={(e) => handleFilterByStatus(e, false)}
+                onChange={(e) => handleCheckboxChange(e, e.target.checked)}
               />
             }
             label="Open"
@@ -56,7 +64,7 @@ export default function SupportFilterStatus({
                 checked={statusFilter === "closed"}
                 value="closed"
                 id="closed"
-                onChange={(e) => handleFilterByStatus(e, false)}
+                onChange={(e) => handleCheckboxChange(e, e.target.checked)}
               />
             }
             label="Closed"

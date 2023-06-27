@@ -38,6 +38,7 @@ export default function ControlledAccordions(props) {
   return (
     <div className="accordions_in_onboarding" style={{ margin: "10px 0px" }}>
       <Accordion
+        className={global_styles.break_word}
         expanded={expanded === "panel1"}
         onChange={handleChange("panel1")}
         id="condtrolled_accordion"

@@ -45,6 +45,7 @@ const CompanyPolicies = (props) => {
     setUploadedPolicy(file);
     setKey(key + 1);
     console.log("file during upload", uploadedPolicy, key);
+    setFileError("");
   };
   const handleDeletePolicy = (index) => {
     setUploadedPolicy(null);
@@ -341,7 +342,7 @@ const CompanyPolicies = (props) => {
       setSaveButtonEnabled(value.toString("html") !== "");
     };
     const handleChangePolicyName = (e) => {
-      setPolicyNameUnderAccordion(e.target.value);
+      setPolicyNameUnderAccordion(e.target.value.trimStart());
     };
     const handleSave = async () => {
       let payload = new FormData();
@@ -695,7 +696,10 @@ const CompanyPolicies = (props) => {
                   id="policyName"
                   name="policyName"
                   value={policyName}
-                  onChange={(e) => setPolicyName(e.target.value)}
+                  onChange={(e) => {
+                    setPolicyName(e.target.value.trimStart());
+                    setPolicyNameError("");
+                  }}
                   error={policyNameError ? true : false}
                   helperText={policyNameError}
                 />
@@ -844,7 +848,10 @@ const CompanyPolicies = (props) => {
                       id="policyName"
                       name="policyName"
                       value={policyName}
-                      onChange={(e) => setPolicyName(e.target.value)}
+                      onChange={(e) => {
+                        setPolicyName(e.target.value.trimStart());
+                        setPolicyNameError("");
+                      }}
                       error={policyNameError ? true : false}
                       helperText={policyNameError}
                     />
