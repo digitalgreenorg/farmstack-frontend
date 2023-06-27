@@ -361,7 +361,11 @@ function DashboardNew() {
         </div>
         <div className={`${localeStyle.userBasicDataContainer}`}>
           <div className={`${localeStyle.userBasicDataImg}`}>
-            {dashboardData?.user ? <img src={logoUrl} /> : ""}
+            {dashboardData?.user ? (
+              <img style={{ width: "auto", maxWidth: "180px" }} src={logoUrl} />
+            ) : (
+              ""
+            )}
             <div>
               <div
                 className={`${globalStyle.size26} ${globalStyle.bold600} ${localeStyle.ellipsis}`}

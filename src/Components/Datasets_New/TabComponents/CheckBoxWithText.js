@@ -11,6 +11,7 @@ const CheckBoxWithText = ({
   keyIndexPassed,
   categoryKeyName,
   fontSize,
+  customStyle,
 }) => {
   const handleClick = () => {
     handleCheckBox();
@@ -50,6 +51,7 @@ const CheckBoxWithText = ({
           color: "#212B36",
           textAlign: "left",
         }}
+        style={customStyle}
       >
         {text}
       </Typography>

@@ -17,6 +17,7 @@ import {
 import CheckBoxWithText from "./CheckBoxWithText";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import global_style from "../../../Assets/CSS/global.module.css";
 
 const StandardiseRow = ({
   keyName,
@@ -154,8 +155,16 @@ const StandardiseRow = ({
                   }`}
                   key={item.datapoint_category}
                   value={item}
+                  sx={{
+                    maxWidth: "800px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
                 >
-                  {item?.datapoint_category}
+                  {item?.datapoint_category.length <= 90
+                    ? item?.datapoint_category
+                    : item?.datapoint_category?.substring(0, 90) + "..."}
                 </MenuItem>
               ))}
             </Select>
@@ -204,8 +213,14 @@ const StandardiseRow = ({
                   id={`standardise-datapoint-attribute-${index + optIndex}`}
                   key={item}
                   value={item}
+                  sx={{
+                    maxWidth: "800px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
                 >
-                  {item}
+                  {item?.length <= 90 ? item : item?.substring(0, 90) + "..."}
                 </MenuItem>
               ))}
             </Select>

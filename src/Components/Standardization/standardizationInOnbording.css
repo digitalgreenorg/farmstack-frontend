@@ -86,7 +86,7 @@
   margin: auto;
 }
 .attribute-accordion-titile :nth-child(1) {
-  width: 100% !important;
+  width: 90% !important;
 }
 .datapoint-name-input-box input {
   height: 15px !important;
