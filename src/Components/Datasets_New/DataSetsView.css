@@ -101,3 +101,11 @@
 .break_word {
   word-break: break-all;
 }
+.ellipsis {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.maxWidth400 {
+  max-width: 400px;
+}

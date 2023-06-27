@@ -468,7 +468,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   Organisation name
                 </Col>
                 <Col
-                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} ${LocalStyle.alignLeft}`}
+                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} `}
                   xs={4}
                   sm={4}
                   md={4}
@@ -477,7 +477,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   User
                 </Col>
                 <Col
-                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} ${LocalStyle.alignLeft}`}
+                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} `}
                   xs={4}
                   sm={4}
                   md={4}
@@ -592,6 +592,13 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            style={{
+                              width: "100%",
+                              maxWidth: "300px",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
                           >
                             {item?.user?.first_name +
                               " " +
@@ -608,6 +615,13 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            style={{
+                              width: "100%",
+                              maxWidth: "300px",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
                           >
                             {item?.user?.email}
                           </Col>
