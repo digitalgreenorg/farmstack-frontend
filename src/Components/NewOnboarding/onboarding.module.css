@@ -153,12 +153,6 @@
   margin-left: 20px;
 }
 
-.send_otp {
-  /* margin-top: 100px; */
-  /* margin-left: auto; */
-  padding: 10px 20px;
-}
-
 .send_otp_div {
   margin: 10px auto;
   max-width: 564px !important;
@@ -172,6 +166,8 @@
 
 .send_otp {
   padding: 10px 20px !important;
+  width: 172px !important;
+  margin: 20px 0 !important
 }
 
 .main_label {
@@ -214,7 +210,7 @@
 
 .next_button {
   padding: 10px 20px;
-  width: 172px;
+  width: 172px !important;
 }
 
 .margintopbottom10 {
@@ -275,9 +271,11 @@
   width: 172px;
 }
 .termsAndConditionClass {
-  color: blue;
+  color: #000000;
   cursor: pointer;
   text-decoration: underline;
+  text-decoration-skip-ink: auto;
+  display: inline-block,
 }
 
 /* Extra small devices (phones, 320px and up) */
