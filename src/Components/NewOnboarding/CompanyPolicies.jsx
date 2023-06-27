@@ -45,6 +45,7 @@ const CompanyPolicies = (props) => {
     setUploadedPolicy(file);
     setKey(key + 1);
     console.log("file during upload", uploadedPolicy, key);
+    setFileError("");
   };
   const handleDeletePolicy = (index) => {
     setUploadedPolicy(null);
@@ -341,7 +342,7 @@ const CompanyPolicies = (props) => {
       setSaveButtonEnabled(value.toString("html") !== "");
     };
     const handleChangePolicyName = (e) => {
-      setPolicyNameUnderAccordion(e.target.value);
+      setPolicyNameUnderAccordion(e.target.value.trimStart());
     };
     const handleSave = async () => {
       let payload = new FormData();
@@ -484,7 +485,14 @@ const CompanyPolicies = (props) => {
 
                       <span
                         id="file-preview"
-                        className={global_style.blue + " " + styles.link}
+                        className={
+                          global_style.blue +
+                          " " +
+                          styles.link +
+                          " " +
+                          global_style.ellipses
+                        }
+                        style={{ width: "100%" }}
                         onClick={() => window.open(previewE)}
                       >
                         {/* {console.log(uploadedPolicyE, "uploadedPolicyE")} */}
@@ -688,7 +696,10 @@ const CompanyPolicies = (props) => {
                   id="policyName"
                   name="policyName"
                   value={policyName}
-                  onChange={(e) => setPolicyName(e.target.value)}
+                  onChange={(e) => {
+                    setPolicyName(e.target.value.trimStart());
+                    setPolicyNameError("");
+                  }}
                   error={policyNameError ? true : false}
                   helperText={policyNameError}
                 />
@@ -766,6 +777,7 @@ const CompanyPolicies = (props) => {
                             id="file-preview"
                             className={global_style.blue + " " + styles.link}
                             onClick={() => window.open(preview)}
+                            style={{ width: "100%" }}
                           >
                             {uploadedPolicy.name + " "}{" "}
                           </span>
@@ -836,7 +848,10 @@ const CompanyPolicies = (props) => {
                       id="policyName"
                       name="policyName"
                       value={policyName}
-                      onChange={(e) => setPolicyName(e.target.value)}
+                      onChange={(e) => {
+                        setPolicyName(e.target.value.trimStart());
+                        setPolicyNameError("");
+                      }}
                       error={policyNameError ? true : false}
                       helperText={policyNameError}
                     />

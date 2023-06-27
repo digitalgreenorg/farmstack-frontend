@@ -164,7 +164,7 @@ const OrganizationDetails = (props) => {
         [e.target.name]:
           e.target.name === "organisation_mail_id"
             ? e.target.value.trim()
-            : e.target.value,
+            : e.target.value.trimStart(),
       });
     } else {
       clearErrors("organisation_contact_number");
