@@ -452,3 +452,11 @@ export function goToTop(no) {
   document.body.scrollTop = no ? no : 0; // For Safari
   document.documentElement.scrollTop = no ? no : 0; // For Chrome, Firefox, IE and Opera
 }
+
+export function findType() {
+  if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+    return "datahub";
+  } else if (isLoggedInUserParticipant()) {
+    return "participant";
+  }
+}
