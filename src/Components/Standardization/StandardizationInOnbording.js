@@ -1152,6 +1152,7 @@ const StandardizationInOnbord = (props) => {
               className={global_style.secondary_button}
               id="add-finish-later-datapoint-button"
               onClick={() => setOnBoardedTrue()}
+              style={{ paddingRight: "25px" }}
             >
               Finish later
             </Button>

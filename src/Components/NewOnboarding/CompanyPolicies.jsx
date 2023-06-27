@@ -1027,6 +1027,7 @@ const CompanyPolicies = (props) => {
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.secondary_button}
             id="policy-button-onboard-finishlater"
+            style={{ paddingRight: "25px" }}
           >
             {" "}
             Finish later
