@@ -45,13 +45,13 @@ const BasicDetails = ({
   const handleDatasetName = (e) => {
     seteErrorDataSetName("");
     if (e.target.value.toString().length <= limitChar) {
-      setDataSetName(e.target.value);
+      setDataSetName(e.target.value.trimStart());
     }
   };
 
   const handleDescription = (e) => {
     if (e.target.value.toString().length <= limitCharDesc) {
-      setDataSetDescription(e.target.value);
+      setDataSetDescription(e.target.value.trimStart());
     }
   };
 

@@ -756,7 +756,7 @@ const AddConnector = (props) => {
       setErrorConnectorDesc("");
       setConnectorData({
         ...connectorData,
-        [e.target.name]: e.target.value,
+        [e.target.name]: e.target.value.trimStart(),
       });
       // validateInputField(e.target.value, RegexConstants.connector_name)
       //     ? setConnectorData({

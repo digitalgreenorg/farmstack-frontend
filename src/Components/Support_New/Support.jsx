@@ -535,7 +535,7 @@ export default function Support(props) {
               Support
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px !important", fill: "#00ab55" }} />
             </span>
             {isLoggedInUserAdmin() ? (
               <span className="add_light_text ml-16 fw600">
