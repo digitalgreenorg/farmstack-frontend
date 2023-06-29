@@ -216,9 +216,11 @@
   margin: 0px !important;
 }
 
-.secondary_button:active {}
+.secondary_button:active {
+}
 
-.secondary_button:hover {}
+.secondary_button:hover {
+}
 
 .secondary_button_error {
   font-family: Montserrat !important;
@@ -261,4 +263,12 @@
   font-style: italic !important;
   color: #565c63 !important;
   text-align: left;
+}
+.break_word {
+  word-break: break-all;
+}
+.ellipses {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }

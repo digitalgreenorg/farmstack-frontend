@@ -155,6 +155,7 @@ const StandardizationInOnbord = (props) => {
     setAllDataPoints(tmpAllDatapoints);
     setDatapointName("");
     setDatapointDes("");
+    callToast("Please submit to save the changes!", "info", true);
   };
   const handleUpdateCategoryName = (index, newValue) => {
     setSaveButtonEnabled(true);
@@ -622,7 +623,7 @@ const StandardizationInOnbord = (props) => {
       {contextHolder}
       <div className={styles.main_box}>
         <div className={styles.main_label}>
-          <div>Datapoint category details</div>
+          <div>Datapoint details</div>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
@@ -632,33 +633,40 @@ const StandardizationInOnbord = (props) => {
           </Typography>
         </div>
         <div className="data-point-input-box-container">
-          <TextField
-            required
-            value={datapointName}
-            onChange={(e) => handleDatapointCategoryName(e)}
-            onKeyDown={handleNameField}
-            inputProps={{ maxLength: 250 }}
-            className="datapoint-name-input-box"
-            id="datapoint-name-input-box-id"
-            label="Datapoint category name"
-            variant="outlined"
-            error={datapointNameError ? datapointNameError : ""}
-            helperText={datapointNameError ? datapointNameError : ""}
-          />
-          <TextField
-            required
-            value={datapointDes}
-            onChange={(e) => handleDatapointCategoryDescription(e)}
-            onKeyDown={handledescriptionKeydowndes}
-            inputProps={{ maxLength: 250 }}
-            style={{marginTop: "5px"}}
-            multiline
-            size="small"
-            className="datapoint-name-input-box-description"
-            id="datapoint-name-input-box-description-id"
-            label="Datapoint category description"
-            variant="outlined"
-          />
+          <Row>
+            <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                required
+                fullWidth
+                value={datapointName}
+                onChange={(e) => handleDatapointCategoryName(e)}
+                onKeyDown={handleNameField}
+                inputProps={{ maxLength: 250 }}
+                id="datapoint-name-input-box-id"
+                label="Datapoint name"
+                variant="outlined"
+                error={datapointNameError ? datapointNameError : ""}
+                helperText={datapointNameError ? datapointNameError : ""}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+              <TextField
+                fullWidth
+                value={datapointDes}
+                onChange={(e) => handleDatapointCategoryDescription(e)}
+                onKeyDown={handledescriptionKeydowndes}
+                inputProps={{ maxLength: 250 }}
+                rows={4}
+                multiline
+                size="small"
+                id="datapoint-name-input-box-description-id"
+                label="Datapoint description"
+                variant="outlined"
+              />
+            </Col>
+          </Row>
         </div>
         <div className="datapoint-add-button-classname">
           <Button
@@ -667,7 +675,7 @@ const StandardizationInOnbord = (props) => {
             className={global_style.primary_button + " " + styles.next_button}
             id="add-datapoint-button"
             onClick={handleAddDatapoint}
-            disabled={!datapointName || !datapointDes}
+            disabled={!datapointName}
           >
             Add
           </Button>
@@ -897,6 +905,8 @@ const StandardizationInOnbord = (props) => {
                                   className={styles.margintopbottom10}
                                 >
                                   <TextField
+                                    required
+                                    disabled
                                     fullWidth
                                     InputProps={{
                                       endAdornment: (
@@ -1143,6 +1153,7 @@ const StandardizationInOnbord = (props) => {
               className={global_style.secondary_button}
               id="add-finish-later-datapoint-button"
               onClick={() => setOnBoardedTrue()}
+              style={{ paddingRight: "25px" }}
             >
               Finish later
             </Button>

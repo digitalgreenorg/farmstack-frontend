@@ -88,6 +88,9 @@
 .w268 {
   width: 268px;
 }
+.contact {
+  width: 33%;
+}
 
 @media only screen and (min-width: 600px) and (max-width: 900px) {
   .footerTitle {

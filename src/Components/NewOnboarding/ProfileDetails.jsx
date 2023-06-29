@@ -49,7 +49,7 @@ const ProfileDetails = (props) => {
   });
   const handleChangeProfileDetails = (e, countryData) => {
     if (e.target) {
-      setProfileDetails({ ...profileDetails, [e.target.name]: e.target.value });
+      setProfileDetails({ ...profileDetails, [e.target.name]: e.target.value.trimStart() });
     } else {
       if (!isPhoneValid(e, countryData)) {
         setProfileDetailsError((prevState) => ({
@@ -385,6 +385,7 @@ const ProfileDetails = (props) => {
               onClick={() => setActiveStep((prev) => prev + 1)}
               className={global_style.secondary_button}
               id="finish-later-button"
+              style={{ paddingRight: "25px" }}
             >
               {" "}
               Finish later

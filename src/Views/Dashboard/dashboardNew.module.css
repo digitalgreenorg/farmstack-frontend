@@ -103,7 +103,8 @@
   width: 90%;
 }
 .userBasicDataImg img {
-  height: 65px;
+  height: auto;
+  max-height: 90px;
 }
 .subTitle > p {
   font-size: 16px;
@@ -115,4 +116,7 @@
   text-overflow: ellipsis;
   width: 90%;
   max-width: 200px;
+}
+.userBasicDataForParticipant > div {
+  width: 50% !important;
 }

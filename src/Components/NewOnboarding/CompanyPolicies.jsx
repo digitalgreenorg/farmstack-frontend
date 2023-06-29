@@ -22,6 +22,7 @@ import { Popconfirm } from "antd";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import Divider from "@mui/material/Divider";
 
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -45,11 +46,13 @@ const CompanyPolicies = (props) => {
     setUploadedPolicy(file);
     setKey(key + 1);
     console.log("file during upload", uploadedPolicy, key);
+    setFileError("");
   };
   const handleDeletePolicy = (index) => {
     setUploadedPolicy(null);
     setPreview(null);
     setKey(key + 1);
+    setFileError("");
     console.log("file during delete", uploadedPolicy, key);
   };
   const confirm = (e, index) => {
@@ -166,7 +169,7 @@ const CompanyPolicies = (props) => {
                     policy_id: policy_id,
                   });
                 } else {
-                  setFileError(errorMessages[i]);
+                  setdescriptionError(errorMessages[i]);
                 }
                 break;
               case "file":
@@ -341,7 +344,7 @@ const CompanyPolicies = (props) => {
       setSaveButtonEnabled(value.toString("html") !== "");
     };
     const handleChangePolicyName = (e) => {
-      setPolicyNameUnderAccordion(e.target.value);
+      setPolicyNameUnderAccordion(e.target.value.trimStart());
     };
     const handleSave = async () => {
       let payload = new FormData();
@@ -420,7 +423,11 @@ const CompanyPolicies = (props) => {
             </span>
           </Col>
         </Row>
-
+        <Row>
+          <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+            <Divider>or</Divider>
+          </Col>
+        </Row>
         <Row>
           <CSSTransition
             appear={isEditModeOn}
@@ -439,7 +446,20 @@ const CompanyPolicies = (props) => {
                 key={localKey}
                 isMultiple={false}
                 texts={
-                  "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                  <span>
+                    {"Drop files here or click "}
+                    <a
+                      href="#"
+                      style={{
+                        textDecoration: "underline",
+                        color: "#00ab55",
+                        display: "inline-block",
+                      }}
+                    >
+                      {" browse "}
+                    </a>
+                    {" through your machine, File size not more than"}
+                  </span>
                 }
                 fileTypes={["pdf", "doc"]}
                 handleChange={handleUploadPolicyE}
@@ -465,6 +485,7 @@ const CompanyPolicies = (props) => {
                 " " +
                 styles.text_left
               }
+              style={{ marginBottom: "20px"}}
             >
               {previewE && "Uploaded file"}
             </div>
@@ -484,7 +505,14 @@ const CompanyPolicies = (props) => {
 
                       <span
                         id="file-preview"
-                        className={global_style.blue + " " + styles.link}
+                        className={
+                          global_style.blue +
+                          " " +
+                          styles.link +
+                          " " +
+                          global_style.ellipses
+                        }
+                        style={{ width: "100%" }}
                         onClick={() => window.open(previewE)}
                       >
                         {/* {console.log(uploadedPolicyE, "uploadedPolicyE")} */}
@@ -633,6 +661,8 @@ const CompanyPolicies = (props) => {
     } else {
       setEnableButton(false);
     }
+    setdescriptionError("")
+
   };
   useEffect(() => {
     getListOfPolicies();
@@ -688,14 +718,17 @@ const CompanyPolicies = (props) => {
                   id="policyName"
                   name="policyName"
                   value={policyName}
-                  onChange={(e) => setPolicyName(e.target.value)}
+                  onChange={(e) => {
+                    setPolicyName(e.target.value.trimStart());
+                    setPolicyNameError("");
+                  }}
                   error={policyNameError ? true : false}
                   helperText={policyNameError}
                 />
               </Col>
             </Row>
             <Row>
-              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+              <Col lg={12} sm={12} style={{margin: "20px 0px"}}>
                 <RichTextEditor
                   placeholder="Description"
                   toolbarConfig={toolbarConfig}
@@ -714,19 +747,36 @@ const CompanyPolicies = (props) => {
                     border: "1px solid black",
                   }}
                 />
-                <span style={{ color: "red", fontSize: "12px" }}>
+                <span style={{ color: "red", fontSize: "12px"}}>
                   {descriptionError}
                 </span>
               </Col>
             </Row>
-
+            <Row>
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <Divider>or</Divider>
+              </Col>
+            </Row>
             <Row>
               <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                 <FileUploaderMain
                   key={key}
                   isMultiple={false}
                   texts={
-                    "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                    <span>
+                      {"Drop files here or click "}
+                      <a
+                        href="#"
+                        style={{
+                          textDecoration: "underline",
+                          color: "#00ab55",
+                          display: "inline-block",
+                        }}
+                      >
+                        {" browse "}
+                      </a>
+                      {" through your machine, File size not more than"}
+                    </span>
                   }
                   fileTypes={["pdf", "doc"]}
                   handleChange={handleUploadPolicy}
@@ -746,6 +796,7 @@ const CompanyPolicies = (props) => {
                     " " +
                     styles.text_left
                   }
+                  style={{ marginBottom: "20px"}}
                 >
                   {uploadedPolicy && "Uploaded file"}
                 </div>
@@ -766,6 +817,7 @@ const CompanyPolicies = (props) => {
                             id="file-preview"
                             className={global_style.blue + " " + styles.link}
                             onClick={() => window.open(preview)}
+                            style={{ width: "100%" }}
                           >
                             {uploadedPolicy.name + " "}{" "}
                           </span>
@@ -836,14 +888,17 @@ const CompanyPolicies = (props) => {
                       id="policyName"
                       name="policyName"
                       value={policyName}
-                      onChange={(e) => setPolicyName(e.target.value)}
+                      onChange={(e) => {
+                        setPolicyName(e.target.value.trimStart());
+                        setPolicyNameError("");
+                      }}
                       error={policyNameError ? true : false}
                       helperText={policyNameError}
                     />
                   </Col>
                 </Row>
                 <Row>
-                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                  <Col lg={12} sm={12} style={{ margin: "20px 0px" }}>
                     <RichTextEditor
                       placeholder="Description"
                       toolbarConfig={toolbarConfig}
@@ -862,19 +917,36 @@ const CompanyPolicies = (props) => {
                         border: "1px solid black",
                       }}
                     />
-                    <span style={{ color: "red", fontSize: "12px" }}>
+                    <span style={{ color: "red", fontSize: "12px", textAlign: "left" }}>
                       {descriptionError}
                     </span>
                   </Col>
                 </Row>
-
+                <Row>
+                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                    <Divider>or</Divider>
+                  </Col>
+                </Row>
                 <Row>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                     <FileUploaderMain
                       key={key}
                       isMultiple={false}
                       texts={
-                        "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                        <span>
+                          {"Drop files here or click "}
+                          <a
+                            href="#"
+                            style={{
+                              textDecoration: "underline",
+                              color: "#00ab55",
+                              display: "inline-block",
+                            }}
+                          >
+                            {" browse "}
+                          </a>
+                          {" through your machine, File size not more than"}
+                        </span>
                       }
                       fileTypes={["pdf", "doc"]}
                       handleChange={handleUploadPolicy}
@@ -894,6 +966,7 @@ const CompanyPolicies = (props) => {
                         " " +
                         styles.text_left
                       }
+                      style={{ marginBottom: "20px"}}
                     >
                       {uploadedPolicy && "Uploaded file"}
                     </div>
@@ -1012,6 +1085,7 @@ const CompanyPolicies = (props) => {
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.secondary_button}
             id="policy-button-onboard-finishlater"
+            style={{ paddingRight: "25px" }}
           >
             {" "}
             Finish later

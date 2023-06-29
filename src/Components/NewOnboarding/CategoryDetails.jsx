@@ -74,6 +74,7 @@ const CategoryDetails = (props) => {
       setCategoryName("");
       setDescription("");
       setCategoryNameError("");
+      callToast("Please submit to save the changes!", "info", true);
     }
     setAllCategories([
       ...allCategories,
@@ -328,6 +329,7 @@ const CategoryDetails = (props) => {
               placeholder="Sub-category"
               label="Sub-category"
               variant="outlined"
+              inputProps={{ maxLength: 50 }}
               id="each_subcategory"
               name="each_subcategory"
               value={subCategoryName}
@@ -541,6 +543,7 @@ const CategoryDetails = (props) => {
                   variant="outlined"
                   id="categoryName"
                   name="categoryName"
+                  inputProps={{ maxLength: 50 }}
                   value={categoryName}
                   onChange={(e) => setCategoryName(e.target.value.trimStart())}
                   error={categoryNameError ? true : false}
@@ -555,6 +558,7 @@ const CategoryDetails = (props) => {
                   label="Category Description"
                   multiline
                   fullWidth
+                  inputProps={{ maxLength: 150 }}
                   rows={4}
                   placeholder="Category Description"
                   value={description}
@@ -589,6 +593,7 @@ const CategoryDetails = (props) => {
                       label="Category name"
                       variant="outlined"
                       id="categoryName"
+                      inputProps={{ maxLength: 50 }}
                       name="categoryName"
                       value={categoryName}
                       onChange={(e) =>
@@ -606,6 +611,7 @@ const CategoryDetails = (props) => {
                       label="Category Description"
                       multiline
                       fullWidth
+                      inputProps={{ maxLength: 150 }}
                       rows={4}
                       placeholder="Category Description"
                       value={description}
@@ -661,6 +667,7 @@ const CategoryDetails = (props) => {
                     value={category.category_name}
                     onChange={(e) => handleChangeHeadName(e, index)}
                     onClick={(e) => e.stopPropagation()}
+                    inputProps={{ maxLength: 50 }}
                     id={`edit-${index}-head-accordian-name`}
                     // sx={{
                     //   "&.MuiTextField-root": {
@@ -711,6 +718,7 @@ const CategoryDetails = (props) => {
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.secondary_button}
             id="finishlater-button-category"
+            style={{ paddingRight: "25px" }}
           >
             {" "}
             Finish later
