@@ -9,6 +9,7 @@ import {
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
+import globalStyle from "../../Assets/CSS/global.module.css";
 const OnboardingFooter = () => {
   const history = useHistory();
   const [adminData, setAdminData] = useState(null);
@@ -57,14 +58,22 @@ const OnboardingFooter = () => {
           onClick={() => history.push("/home")}
           style={{ cursor: "pointer" }}
         >
-          <span style={{ cursor: "pointer" }}>
+          <span
+            className={`${globalStyle.break_word}`}
+            style={{ cursor: "pointer" }}
+          >
             About {adminData?.organization?.name ?? ""}
           </span>
         </Col>
         <Col lg={4} sm={12} md={12}>
           About Farmstack
         </Col>
-        <Col className={styles.bold} lg={4} sm={12} md={12}>
+        <Col
+          className={`${styles.bold} ${globalStyle.break_word}`}
+          lg={4}
+          sm={12}
+          md={12}
+        >
           Contact:{" "}
           <span className={styles.email_id}>
             {" "}
