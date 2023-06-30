@@ -25,6 +25,7 @@ import { getUserLocal, flushLocalstorage, setRoleLocal } from "./Utils/Common";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
 function App() {
   const { isLoading, toastDetail, setAdminData } = useContext(FarmStackContext);
+  const tele = window.Telegram.WebApp;
   function getAdminData() {
     let url =
       UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
@@ -69,6 +70,9 @@ function App() {
     verifyUserDataOfLocal();
     getAdminData();
   }, []);
+  useEffect(() => {
+    tele.ready();
+  });
   return (
     <React.Fragment>
       {isLoading ? <Loader /> : ""}

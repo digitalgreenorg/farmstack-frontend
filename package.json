@@ -67,6 +67,7 @@
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",
+    "telegraf": "^4.12.2",
     "tooltip": "^1.6.1",
     "validator": "^13.7.0"
   },
