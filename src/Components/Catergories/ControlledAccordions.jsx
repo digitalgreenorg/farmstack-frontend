@@ -116,7 +116,9 @@ export default function ControlledAccordions(props) {
           )}
         </AccordionSummary>
         <AccordionDetails id={`${index}-accordian-detail`}>
-          {Component && <Component data={data} index={index} />}
+          {Component && (
+            <Component data={data} index={index} setExpanded={setExpanded} />
+          )}
         </AccordionDetails>
       </Accordion>
     </div>
