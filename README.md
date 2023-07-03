@@ -70,5 +70,8 @@ bash : git push origin feature/my-new-feature
 
 Open a pull request on GitHub and provide a detailed description of your changes.
 
+
+Backend setup : Visit https://github.com/digitalgreenorg/datahub-api
+
 License
 The FarmStack React App is released under the MIT License.
