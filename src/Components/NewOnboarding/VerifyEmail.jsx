@@ -385,7 +385,7 @@ const VerifyEmailStep = (props) => {
           id="send-otp-btn"
         >
           {" "}
-          {!isValidEmailSent ? "Send OTP" : "Verify"}
+          {!isValidEmailSent ? "Send OTP" : "Submit"}
         </Button>
       </div>
     </div>
