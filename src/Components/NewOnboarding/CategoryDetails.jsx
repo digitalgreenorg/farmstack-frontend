@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import FileUploaderMain from "../Generic/FileUploader";
@@ -18,6 +24,10 @@ import { GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
 import { ClickAwayListener } from "@mui/base";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+import LocalStyle from "../DeletePopper/CustomDeletePopper.module.css";
+import { Popconfirm } from "antd";
+
 const CategoryDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
 
@@ -40,6 +50,22 @@ const CategoryDetails = (props) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const history = useHistory();
   const [key, setKey] = useState(0);
+  // const [anchorEl, setAnchorEl] = React.useState(null);
+  const [popoverOpen, setPopoverOpen] = React.useState({
+    state: false,
+    index: "",
+  });
+
+  // const handleDeletePopper = (event) => {
+  //   let ele = document.getElementById("delete-button-category");
+  //   console.log("event", event.currentTarget, event);
+  //   setAnchorEl(ele);
+  //   setOpen(true);
+  // };
+  // const closePopper = () => {
+  //   setOpen(false);
+  // };
+
   const handleUploadCategory = (file) => {
     setUploadedCategory(file);
     setKey(key + 1);
@@ -214,8 +240,10 @@ const CategoryDetails = (props) => {
   const [enableSave, setEnableSave] = useState(false);
 
   const [editedHeaderNameError, setEditedHeaderError] = useState("");
-  const handleEditHeading = (action, e, index) => {
-    e.stopPropagation();
+  const handleEditHeading = (action, e, index, doPropagation) => {
+    if (!doPropagation) {
+      e.stopPropagation();
+    }
     if (editedHeaderNameError) return;
     setHeadingEdit({
       status: action,
@@ -399,6 +427,116 @@ const CategoryDetails = (props) => {
                 </Col>
               );
             })}
+        </Row>
+        <Row>
+          <Col style={{ textAlign: "right", margin: "20px" }}>
+            <>
+              {/* <CustomDeletePopper
+                DeleteItem={"File"}
+                anchorEl={anchorEl}
+                handleDelete={(e) => {
+                  accordionDelete(e, index);
+                  setAnchorEl(null); // Reset anchorEl to null
+                  setOpen(false); // Reset open to false
+                }}
+                id="delete-popper-icon"
+                open={open}
+                closePopper={closePopper}
+                deletePopperId={`${index}-delete-popper-accordian-button`}
+                cancelPopperId={`${index}-cancel-popper-accordian-button`}
+              /> */}
+              {/* Style are overriden using classname */}
+              <Popconfirm
+                style={{ padding: "0px" }}
+                overlayClassName={styles.popConfirmClass}
+                // onCancel={cancel}
+                cancelButtonProps={{ ghost: true }}
+                okButtonProps={{
+                  danger: true,
+                }}
+                open={popoverOpen.index == index ? popoverOpen.state : false}
+                icon={
+                  <Box
+                    className={LocalStyle.popperContainer}
+                    sx={{ border: 1, p: 1, bgcolor: "background.paper" }}
+                  >
+                    <div className={`${LocalStyle.popperTitleContainer}`}>
+                      <img src={require("../../Assets/Img/delete_icon.svg")} />
+                      <Typography
+                        className={`${GlobalStyle.bold700} ${GlobalStyle.size18} ${GlobalStyle.highlighted_text}`}
+                        variant="h4"
+                      >
+                        {" "}
+                        Delete
+                        {/* {DeleteItem}? */}
+                      </Typography>
+                    </div>
+                    <Typography
+                      variant="subtitle1"
+                      className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${GlobalStyle.light_text} ${LocalStyle.popperMessage}`}
+                    >
+                      Are you sure want to delete?
+                    </Typography>
+                    <div className={LocalStyle.popperButtonContainer}>
+                      <Button
+                        variant="outlined"
+                        className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButtonOnDelete}`}
+                        onClick={() =>
+                          setPopoverOpen({ state: false, index: index })
+                        }
+                        // id={cancelPopperId}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        className={`${GlobalStyle.primary_button} ${LocalStyle.deleteButton}`}
+                        // onClick={handleDelete}
+                        // id={deletePopperId}
+                        onClick={(e) => {
+                          accordionDelete(e, index);
+                          setPopoverOpen({ state: false, index: index });
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </Box>
+                }
+              >
+                <Button
+                  id={`delete-button-category`}
+                  variant="outlined"
+                  style={{ margin: "20px" }}
+                  className={
+                    global_style.secondary_button_error +
+                    " " +
+                    styles.delete_button_policy
+                  }
+                  onClick={(e) => setPopoverOpen({ state: true, index: index })}
+                >
+                  Delete
+                </Button>
+              </Popconfirm>
+            </>
+            <Button
+              id={`edit-${index}-button-datapoint`}
+              variant="outlined"
+              style={{ margin: "20px" }}
+              className={global_style.primary_button + " " + styles.edit_button}
+              onClick={(e) => {
+                // this funtion will allow user to edit title
+                if (headingEdit.index == index) {
+                  handleEditHeading(false, e, index);
+                  callToast("Please submit to save the changes!", "info", true);
+                } else {
+                  handleEditHeading(true, e, index);
+                }
+              }}
+            >
+              {headingEdit.index == index ? "Update" : "Edit"}
+            </Button>
+          </Col>
         </Row>
       </span>
     );
