@@ -347,7 +347,7 @@ function DashboardNew() {
       <Box className={`${localeStyle.basicDetailsContainer}`}>
         <div className={`${localeStyle.titleContainer}`}>
           <div
-            className={`${localeStyle.title} ${globalStyle.size32}  ${globalStyle.bold700}`}
+            className={`${localeStyle.title} ${globalStyle.size32}  ${globalStyle.bold700} ${globalStyle.break_word}`}
           >
             {" "}
             Hello {dashboardData?.user?.first_name}{" "}
