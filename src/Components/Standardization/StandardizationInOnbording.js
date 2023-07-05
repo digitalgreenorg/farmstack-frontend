@@ -198,6 +198,7 @@ const StandardizationInOnbord = (props) => {
       console.log("edit title", tmp, editCategoryTitle);
       setEditCategoryTitle(tmp);
     }
+    callToast("Please submit to save the changes!", "info", true);
   };
 
   const hanldeAttributeInputChange = (

@@ -206,7 +206,7 @@ const FooterNew = () => {
                   } w-100`}
                 >
                   <div
-                    className={`${style.footerLightText} ${style.quickLinks} mt-10 ${globalStyle.break_word}`}
+                    className={`${style.footerLightText} ${style.quickLinks} mt-10 ${style.w50} ${globalStyle.break_word}`}
                   >
                     About {adminData?.organization?.name ?? ""}
                   </div>

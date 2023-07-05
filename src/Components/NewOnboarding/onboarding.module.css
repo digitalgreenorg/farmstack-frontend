@@ -15,6 +15,9 @@
 .font500 {
   font: 500 !important;
 }
+.mt50 {
+  margin-top: 50px !important;
+}
 
 .font600 {
   font: 600 !important;
@@ -212,6 +215,11 @@
   padding: 10px 20px;
   width: 172px !important;
 }
+.add_category_button {
+  padding: 10px 20px;
+  width: auto !important;
+  max-width: 200px !important;
+}
 
 .margintopbottom10 {
   margin: 10px 0px !important;
@@ -308,6 +316,6 @@
 .popConfirmClass > div > div:nth-child(2) {
   padding: 0 !important;
 }
-.popConfirmClass > div > div:nth-child(2) > div > div > div:nth-child(2) {
-  display: none !important;
+.popConfirmClass > div:nth-child(2) > div {
+  padding: 0 !important;
 }
