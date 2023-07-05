@@ -133,6 +133,8 @@ const CompanyPolicies = (props) => {
           callToast("Policy settings updated successfully!", "success", true);
         } else if (props.isPolicySettings && response.status === 204) {
           callToast("Policy deleted successfully", "success", true);
+        } else if (response.status === 201) {
+          callToast("Policy details added successfully!", "success", true);
         }
         if (method == "POST") {
           //after getting the response correclty trying to create accordion detail
@@ -352,7 +354,7 @@ const CompanyPolicies = (props) => {
     };
     const handleChangePolicyName = (e) => {
       setPolicyNameUnderAccordion(e.target.value.trimStart());
-    };
+    };    
     const handleSave = async () => {
       let payload = new FormData();
       payload.append("description", policyDesc);

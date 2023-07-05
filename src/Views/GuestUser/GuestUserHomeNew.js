@@ -254,7 +254,7 @@ const GuestUserHome = () => {
           />
           <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
             <Button
-              className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
+              className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
               onClick={() => history.push("/home/costeward")}
               id="home-view-all-costeward-btn-id"
             >
@@ -280,7 +280,7 @@ const GuestUserHome = () => {
         <ParticipantsCarouselNew title="Our Participants are" />
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
-            className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
+            className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/participants")}
             id="home-view-all-participants-btn-id"
           >
@@ -364,7 +364,7 @@ const GuestUserHome = () => {
         </Row>
         <Row className={`${LocalStyle.buttonContainer}`}>
           <Button
-            className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button}`}
+            className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/get-started")}
             id="home-get-started-btn2-id"
           >
