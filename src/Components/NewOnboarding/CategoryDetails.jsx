@@ -340,6 +340,12 @@ const CategoryDetails = (props) => {
     useEffect(() => {
       // console.log("calling");
     }, []);
+    const popoverContent = () => (
+      <div style={{ margin: 0, padding: 0 }}>
+        <div>Content of the Popover</div>
+        <div>More content...</div>
+      </div>
+    );
 
     return (
       <span>
@@ -449,12 +455,10 @@ const CategoryDetails = (props) => {
               <Popconfirm
                 style={{ padding: "0px" }}
                 overlayClassName={styles.popConfirmClass}
-                // onCancel={cancel}
-                cancelButtonProps={{ ghost: true }}
-                okButtonProps={{
-                  danger: true,
-                }}
+                okButtonProps={{ style: { display: "none" } }} // Hide OK button
+                cancelButtonProps={{ style: { display: "none" } }} // Hide Cancel button
                 open={popoverOpen.index == index ? popoverOpen.state : false}
+                overlayStyle={{ padding: 0 }}
                 icon={
                   <Box
                     className={LocalStyle.popperContainer}
@@ -570,8 +574,10 @@ const CategoryDetails = (props) => {
             <Button
               id="addnew-category-button"
               onClick={() => setIsFormVisible(true)}
-              className={global_style.primary_button + " " + styles.next_button}
-              style={{ width: "auto" }}
+              className={
+                global_style.primary_button + " " + styles.add_category_button
+              }
+              style={{ width: "200px !important" }}
             >
               Add New Category
             </Button>
@@ -799,46 +805,48 @@ const CategoryDetails = (props) => {
                     }
                   }}
                 >
-                  <TextField
-                    className="edit_head_name_accordion"
-                    style={{ height: "30px", width: "100%" }}
-                    value={category.category_name}
-                    onChange={(e) => handleChangeHeadName(e, index)}
-                    onClick={(e) => e.stopPropagation()}
-                    inputProps={{ maxLength: 50 }}
-                    id={`edit-${index}-head-accordian-name`}
-                    // sx={{
-                    //   "&.MuiTextField-root": {
-                    //     display: "flex",
-                    //     flexDirection: "inherit",
-                    //     width: "500px",
-                    //   },
-                    // }}
-                    variant="outlined"
-                    label="Category name"
-                    // InputProps={{
-                    //   endAdornment: (
-                    //     <InputAdornment position="end">
-                    //       {" "}
-                    //       {category.category_name && (
-                    //         <Button
-                    //           onClick={() =>
-                    //             setHeadingEdit({ status: false, index: -1 })
-                    //           }
-                    //           className={
-                    //             global_style.primary_button + " " + styles.save
-                    //           }
-                    //           style={{ height: "100%" }}
-                    //         >
-                    //           Save
-                    //         </Button>
-                    //       )}
-                    //     </InputAdornment>
-                    //   ),
-                    // }}
-                    error={editedHeaderNameError}
-                    helperText={editedHeaderNameError}
-                  />
+                  <div style={{ height: "80px" }}>
+                    <TextField
+                      className="edit_head_name_accordion"
+                      style={{ height: "30px", width: "100%" }}
+                      value={category.category_name}
+                      onChange={(e) => handleChangeHeadName(e, index)}
+                      onClick={(e) => e.stopPropagation()}
+                      inputProps={{ maxLength: 50 }}
+                      id={`edit-${index}-head-accordian-name`}
+                      // sx={{
+                      //   "&.MuiTextField-root": {
+                      //     display: "flex",
+                      //     flexDirection: "inherit",
+                      //     width: "500px",
+                      //   },
+                      // }}
+                      variant="outlined"
+                      label="Category name"
+                      // InputProps={{
+                      //   endAdornment: (
+                      //     <InputAdornment position="end">
+                      //       {" "}
+                      //       {category.category_name && (
+                      //         <Button
+                      //           onClick={() =>
+                      //             setHeadingEdit({ status: false, index: -1 })
+                      //           }
+                      //           className={
+                      //             global_style.primary_button + " " + styles.save
+                      //           }
+                      //           style={{ height: "100%" }}
+                      //         >
+                      //           Save
+                      //         </Button>
+                      //       )}
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
+                      error={editedHeaderNameError}
+                      helperText={editedHeaderNameError}
+                    />
+                  </div>
                 </ClickAwayListener>
               ) : (
                 category.category_name
@@ -851,7 +859,7 @@ const CategoryDetails = (props) => {
         );
       })}
       {!props.isCategorySetting ? (
-        <div className={styles.button_grp}>
+        <div className={`${styles.button_grp} ${styles.mt50}`}>
           <Button
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.secondary_button}
@@ -877,7 +885,7 @@ const CategoryDetails = (props) => {
           </Button>
         </div>
       ) : (
-        <div className={styles.button_grp}>
+        <div className={`${styles.button_grp} ${styles.mt50}`}>
           <Button
             onClick={() => history.push("/datahub/new_datasets")}
             className={global_style.secondary_button}
