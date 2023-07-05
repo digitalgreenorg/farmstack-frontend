@@ -601,6 +601,7 @@ const DataSetsView = (props) => {
               textAlign: "left",
               width: "30%",
               display: "inline-block",
+              marginBottom: "15px"
             }}
             data={categories}
           />
