@@ -55,6 +55,8 @@ const CompanyPolicies = (props) => {
     setFileError("");
     console.log("file during delete", uploadedPolicy, key);
   };
+
+  function closeAccordion() {}
   const confirm = (e, index) => {
     deletePolicyDetail(e, index);
   };
@@ -289,6 +291,7 @@ const CompanyPolicies = (props) => {
     const [policyNameUnderAccordion, setPolicyNameUnderAccordion] = useState(
       data.name
     );
+
     const [policyNameError, setPolicyNameError] = useState("");
     const [dataOfFile, setDataOfFile] = useState(data.file);
     const [localKey, setLocalKey] = useState(0);
@@ -297,6 +300,10 @@ const CompanyPolicies = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
 
+    const confirm = (e, index) => {
+      deletePolicyDetail(e, index);
+      props.setExpanded(false);
+    };
     const handleDeletePopper = (event) => {
       setAnchorEl(event.currentTarget);
       setOpen(true);
@@ -485,7 +492,7 @@ const CompanyPolicies = (props) => {
                 " " +
                 styles.text_left
               }
-              style={{ marginBottom: "20px"}}
+              style={{ marginBottom: "20px" }}
             >
               {previewE && "Uploaded file"}
             </div>
@@ -661,8 +668,7 @@ const CompanyPolicies = (props) => {
     } else {
       setEnableButton(false);
     }
-    setdescriptionError("")
-
+    setdescriptionError("");
   };
   useEffect(() => {
     getListOfPolicies();
@@ -728,7 +734,7 @@ const CompanyPolicies = (props) => {
               </Col>
             </Row>
             <Row>
-              <Col lg={12} sm={12} style={{margin: "20px 0px"}}>
+              <Col lg={12} sm={12} style={{ margin: "20px 0px" }}>
                 <RichTextEditor
                   placeholder="Description"
                   toolbarConfig={toolbarConfig}
@@ -747,7 +753,7 @@ const CompanyPolicies = (props) => {
                     border: "1px solid black",
                   }}
                 />
-                <span style={{ color: "red", fontSize: "12px"}}>
+                <span style={{ color: "red", fontSize: "12px" }}>
                   {descriptionError}
                 </span>
               </Col>
@@ -796,7 +802,7 @@ const CompanyPolicies = (props) => {
                     " " +
                     styles.text_left
                   }
-                  style={{ marginBottom: "20px"}}
+                  style={{ marginBottom: "20px" }}
                 >
                   {uploadedPolicy && "Uploaded file"}
                 </div>
@@ -917,7 +923,13 @@ const CompanyPolicies = (props) => {
                         border: "1px solid black",
                       }}
                     />
-                    <span style={{ color: "red", fontSize: "12px", textAlign: "left" }}>
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        textAlign: "left",
+                      }}
+                    >
                       {descriptionError}
                     </span>
                   </Col>
@@ -966,7 +978,7 @@ const CompanyPolicies = (props) => {
                         " " +
                         styles.text_left
                       }
-                      style={{ marginBottom: "20px"}}
+                      style={{ marginBottom: "20px" }}
                     >
                       {uploadedPolicy && "Uploaded file"}
                     </div>

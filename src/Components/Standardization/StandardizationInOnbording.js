@@ -288,19 +288,20 @@ const StandardizationInOnbord = (props) => {
     });
   };
   const handleDatapointCategoryDelete = (index) => {
-    if (allDatapoints[index]["id"]) {
-      console.log("id", allDatapoints[index]["id"]);
-      deleteDatapointCategory(allDatapoints[index]["id"], index);
-    } else {
-      let tmpAllDatapoints = [...allDatapoints];
-      tmpAllDatapoints.splice(index, 1);
-      setAllDataPoints(tmpAllDatapoints);
+    // if (allDatapoints[index]["id"]) {
+    //   console.log("id", allDatapoints[index]["id"]);
+    //   deleteDatapointCategory(allDatapoints[index]["id"], index);
+    // } else {
+    let tmpAllDatapoints = [...allDatapoints];
+    tmpAllDatapoints.splice(index, 1);
+    setAllDataPoints(tmpAllDatapoints);
 
-      let tmpAllAttributes = { ...allAttributes };
-      tmpAllAttributes[index] = [];
-      setAllAttributes(tmpAllAttributes);
-      callToast("Category deleted successfully.", "success", true);
-    }
+    let tmpAllAttributes = { ...allAttributes };
+    tmpAllAttributes[index] = [];
+    setAllAttributes(tmpAllAttributes);
+    setSaveButtonEnabled(true);
+    callToast("Please submit to save the changes!", "info", true);
+    // }
   };
 
   //   API calls
@@ -717,9 +718,10 @@ const StandardizationInOnbord = (props) => {
                       <TextField
                         value={item.datapoint_category}
                         required
-                        onChange={(e) =>
-                          handleUpdateCategoryName(index, e.target.value, e)
-                        }
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) => {
+                          handleUpdateCategoryName(index, e.target.value, e);
+                        }}
                         sx={{
                           "&.MuiTextField-root": {
                             textAlign: "left",
@@ -751,7 +753,7 @@ const StandardizationInOnbord = (props) => {
                         </Typography>
                       </div>
                     )}
-                    {editCategoryTitle[index] ? (
+                    {/* {editCategoryTitle[index] ? (
                       <IconButton>
                         <Button
                           id={`update-${index}-button-category`}
@@ -772,12 +774,12 @@ const StandardizationInOnbord = (props) => {
                           Update
                         </Button>
                       </IconButton>
-                    ) : null}
+                    ) : null} */}
 
                     <IconButton
                       onClick={(e) => {
                         // this funtion will make a particular index of editCategoryTitle array true
-                        e.stopPropagation();
+                        // e.stopPropagation();
                         let tmp = [...editCategoryTitle];
                         tmp[index] = true;
                         console.log("edit title", tmp, editCategoryTitle);
@@ -839,13 +841,13 @@ const StandardizationInOnbord = (props) => {
                             label="Datapoint attributes"
                             variant="outlined"
                             value={allAttributes[index]?.[0]}
-                            onChange={(e) =>
+                            onChange={(e) => {
                               hanldeAttributeInputChange(
                                 index,
                                 0,
                                 e.target.value
-                              )
-                            }
+                              );
+                            }}
                             inputProps={{ maxLength: 250 }}
                             helperText={
                               attributeErrorMessage[index]
@@ -993,14 +995,21 @@ const StandardizationInOnbord = (props) => {
                           }
                           onClick={(e) => {
                             // this funtion will make a particular index of editCategoryTitle array true
-                            e.stopPropagation();
-                            let tmp = [...editCategoryTitle];
-                            tmp[index] = true;
-                            console.log("edit title", tmp, editCategoryTitle);
-                            setEditCategoryTitle(tmp);
+
+                            if (editCategoryTitle[index]) {
+                              handleNameExistsUpdate(
+                                index,
+                                item.datapoint_category
+                              );
+                            } else {
+                              let tmp = [...editCategoryTitle];
+                              tmp[index] = true;
+                              console.log("edit title", tmp, editCategoryTitle);
+                              setEditCategoryTitle(tmp);
+                            }
                           }}
                         >
-                          Edit
+                          {editCategoryTitle[index] ? "Update" : "Edit"}
                         </Button>
                       </Col>
                     </Row>

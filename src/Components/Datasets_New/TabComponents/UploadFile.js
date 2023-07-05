@@ -98,7 +98,20 @@ const UploadFile = ({
     setFile(file);
     setKey(key + 1);
     let tempFiles = [...files];
-    tempFiles.push(...file);
+    let s = [...file]?.forEach((f) => {
+      if (!(f?.name.length > 85)) {
+        tempFiles.push(f);
+        return true;
+      } else {
+        callToast(
+          "File name shouldn't be more than 85 characters.",
+          "error",
+          true
+        );
+        return false;
+      }
+    });
+    // tempFiles.push(...file);
     setFiles(tempFiles);
     // setFiles((prev) => [...prev, file]);
     setFileSizeError("");

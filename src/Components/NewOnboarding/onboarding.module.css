@@ -167,7 +167,7 @@
 .send_otp {
   padding: 10px 20px !important;
   width: 172px !important;
-  margin: 20px 0 !important
+  margin: 20px 0 !important;
 }
 
 .main_label {
@@ -275,7 +275,7 @@
   cursor: pointer;
   text-decoration: underline;
   text-decoration-skip-ink: auto;
-  display: inline-block,
+  display: inline-block;
 }
 
 /* Extra small devices (phones, 320px and up) */
@@ -304,4 +304,10 @@
   .link {
     max-width: 250px;
   }
+}
+.popConfirmClass > div > div:nth-child(2) {
+  padding: 0 !important;
+}
+.popConfirmClass > div > div:nth-child(2) > div > div > div:nth-child(2) {
+  display: none !important;
 }
