@@ -22,7 +22,11 @@ export default function SupportList({ ticketList, handleSupportViewRoute }) {
           Organisation
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-left ml-20">
-          <img src={require("../../Assets/Img/category.svg")} alt="category" className={`${LocalStyle.iconStyle}`}/>
+          <img
+            src={require("../../Assets/Img/category.svg")}
+            alt="category"
+            className={`${LocalStyle.iconStyle}`}
+          />
           Category
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-left ml-20">
@@ -58,14 +62,21 @@ export default function SupportList({ ticketList, handleSupportViewRoute }) {
               </span>
             </Typography>
             <Typography className="datasets_list_view_text w-100 text-left ml-90">
-              <div className={`${GlobalStyle.bold600} ${GlobalStyle.size16}`}>
+              <div
+                className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${GlobalStyle.break_word}`}
+              >
                 {item ? item?.user_map?.organization?.name : "NA"}
               </div>
-              <div style={{marginTop: "10px"}} className={`${LocalStyle.textOverFlow}`}>
-              {item ? item?.user_map?.user?.first_name : "NA"}
+              <div
+                style={{ marginTop: "10px" }}
+                className={`${LocalStyle.textOverFlow}`}
+              >
+                {item ? item?.user_map?.user?.first_name : "NA"}
               </div>
             </Typography>
-            <Typography className="datasets_list_view_text w-100 text-left ml-20">
+            <Typography
+              className={`datasets_list_view_text w-100 text-left ml-20 ${GlobalStyle.break_word}`}
+            >
               {item ? item?.category : "NA"}
             </Typography>
             <Typography className="datasets_list_view_text w-100 text-left ml-20">
