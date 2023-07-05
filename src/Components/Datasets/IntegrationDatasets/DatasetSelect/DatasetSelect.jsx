@@ -253,7 +253,7 @@ const DatasetSelect = (props) => {
             helperText={errorConnectorDesc ? errorConnectorDesc : ""}
             rows={4}
             fullWidth
-            placeholder="Connector description not more that 512 character"
+            placeholder="Connector description not more than 512 character"
             id="outlined-basic"
             label="Connector description"
             variant="outlined"

@@ -170,8 +170,8 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="Dataset description not more that 512 character "
-        label="Dataset description not more that 512 character "
+        placeholder="Dataset description not more than 512 character "
+        label="Dataset description not more than 512 character "
         value={dataSetDescription}
         required
         onChange={(e) => handleDescription(e)}
