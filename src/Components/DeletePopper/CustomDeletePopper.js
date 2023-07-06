@@ -7,7 +7,17 @@ import LocalStyle from "./CustomDeletePopper.module.css";
 import { Button, Typography } from "@mui/material";
 
 const CustomDeletePopper = (props) => {
-  const { anchorEl, handleDelete, id, open, closePopper, DeleteItem, deletePopperId, cancelPopperId } = props;
+  const {
+    anchorEl,
+    handleDelete,
+    id,
+    open,
+    closePopper,
+    DeleteItem,
+    deletePopperId,
+    cancelPopperId,
+  } = props;
+  console.log("anchorEl", anchorEl);
   return (
     <Popper id={id} open={open} anchorEl={anchorEl} transition>
       {({ TransitionProps }) => (

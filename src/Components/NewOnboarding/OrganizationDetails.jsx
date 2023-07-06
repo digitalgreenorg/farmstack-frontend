@@ -311,12 +311,21 @@ const OrganizationDetails = (props) => {
           // callToast("Onboarded successfuly", "success", true);
           setOnBoardedTrue();
         }
-        if (props.isOrgSetting && response.status === 201)
-          callToast(
-            "Organisation settings updated successfully!",
-            "success",
-            true
-          );
+        if (response.status === 201) {
+          if (props.isOrgSetting) {
+            callToast(
+              "Organisation settings updated successfully!",
+              "success",
+              true
+            );
+          } else {
+            callToast(
+              "Organisation details added successfully!",
+              "success",
+              true
+            );
+          }
+        }
       })
       .catch(async (e) => {
         callLoader(false);

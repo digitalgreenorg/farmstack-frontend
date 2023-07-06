@@ -445,9 +445,9 @@ const GuestUserContactNew = () => {
         </Button>
       </Row>
       <Row className={LocalStyle.title2}>
-        {/* <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
-          Touch with us!
-        </Typography> */}
+        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
+          Contact with us!
+        </Typography>
       </Row>
       <Row className={LocalStyle.adminDetailsContainer}>
         <Col lg={10}>
