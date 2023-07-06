@@ -100,7 +100,11 @@ const CategoryDetails = (props) => {
       setCategoryName("");
       setDescription("");
       setCategoryNameError("");
+      if(props.isCategorySetting) {
       callToast("Please submit to save the changes!", "info", true);
+      } else {
+        callToast("Please click next to save the changes!", "info", true);
+      }
     }
     setAllCategories([
       ...allCategories,
@@ -173,7 +177,11 @@ const CategoryDetails = (props) => {
       let catList = [...categoryNamesList];
       catList.splice(ind);
       setCategoryNameList([...catList]);
-      callToast("Please submit to save the changes!", "info", true);
+      if(props.isCategorySetting) {
+        callToast("Please submit to save the changes!", "info", true);
+        } else {
+          callToast("Please click next to save the changes!", "info", true);
+        }
     }
     arr.splice(index, 1);
     setAllCategories([...arr]);
@@ -208,9 +216,13 @@ const CategoryDetails = (props) => {
             callToast("Request successfull", "success", true);
           }
         }
-        if (props.isCategorySetting && response.status === 201) {
+        if (response.status === 201) {
+         if(props.isCategorySetting) {
           callToast("Category settings updated successfully", "success", true);
-        }
+         } else {
+          callToast("Category details added successfully", "success", true);
+         }
+        } 
       })
       .catch(async (e) => {
         callLoader(false);
@@ -532,7 +544,11 @@ const CategoryDetails = (props) => {
                 // this funtion will allow user to edit title
                 if (headingEdit.index == index) {
                   handleEditHeading(false, e, index);
-                  callToast("Please submit to save the changes!", "info", true);
+                  if(props.isCategorySetting) {
+                    callToast("Please submit to save the changes!", "info", true);
+                    } else {
+                      callToast("Please click next to save the changes!", "info", true);
+                    }
                 } else {
                   handleEditHeading(true, e, index);
                 }
