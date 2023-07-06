@@ -175,6 +175,7 @@ const CategoryDetails = (props) => {
       setCategoryNameList([...catList]);
       callToast("Please submit to save the changes!", "info", true);
     }
+    callToast("Please submit to save the changes!", "info", true);
     arr.splice(index, 1);
     setAllCategories([...arr]);
     setEnableSave(true);
