@@ -49,6 +49,7 @@ function GuestUserParticipants(props) {
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
   const [searcParticipantsName, setSearcParticipantsName] = useState();
+  const [viewType, setViewType] = useState("grid");
 
   const getParticipants = () => {
     let url = UrlConstant.base_url + "microsite/participant/";
@@ -198,7 +199,7 @@ function GuestUserParticipants(props) {
     <Box style={containerStyle}>
       <Row>
         <Col>
-          <div className="text-left mt-50"> 
+          <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
               onClick={() => {
@@ -208,9 +209,7 @@ function GuestUserParticipants(props) {
               {"Home"}
             </span>
             <span className="add_light_text ml-16">
-                <ArrowForwardIosIcon
-                  sx={{ fontSize: "14px", fill: "#00ab55" }}
-                />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
               {isCosteward ? "Co-stewards" : "Participants"}
@@ -294,8 +293,8 @@ function GuestUserParticipants(props) {
           guestUser={true}
           isCosteward={isCosteward ? true : false}
           title={title ?? "Participants"}
-          viewType={"grid"}
-          // setViewType={setViewType}
+          viewType={viewType}
+          setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
           loadMoreButton={loadMoreButton}
           handleLoadMoreButton={getListOnClickOfLoadMore}
