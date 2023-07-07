@@ -23,6 +23,7 @@ import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import Divider from "@mui/material/Divider";
+import UrlConstants from "../../Constants/UrlConstants";
 
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -83,25 +84,7 @@ const CompanyPolicies = (props) => {
     setEditorGovLawValue(RichTextEditor.createValueFromString("", "html"));
   };
 
-  const [editPolicyNameError, setEditPolicyNameError] = useState({
-    error: "",
-    policy_id: "",
-  });
-  const [editPolicyDescriptionError, setEditPolicyDescriptionError] = useState({
-    error: "",
-    policy_id: "",
-  });
-  const [editPolicyFileError, setEditPolicyFileError] = useState({
-    error: "",
-    policy_id: "",
-  });
-  const resetEditError = (id) => {
-    setEditPolicyNameError({ error: "", policy_id: "" });
-    setEditPolicyDescriptionError({ error: "", policy_id: "" });
-    setEditPolicyFileError({ error: "", policy_id: "" });
-  };
-
-  const submitPolicy = async (method, policy_id, payloadForPatch) => {
+  const submitPolicy = async (method, policy_id) => {
     let url;
     let payload;
     if (method == "POST") {
@@ -113,13 +96,8 @@ const CompanyPolicies = (props) => {
         payload.append("file", uploadedPolicy);
       }
     } else if (method == "DELETE" && policy_id) {
-      resetEditError(policy_id);
       url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
       payload = "";
-    } else if (method == "PATCH" && policy_id) {
-      resetEditError(policy_id);
-      url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
-      payload = payloadForPatch;
     }
     callLoader(true);
     return await HTTPService(method, url, payload, true, true, false, false)
@@ -143,9 +121,6 @@ const CompanyPolicies = (props) => {
           refreshInputs();
         } else if (method == "DELETE") {
           getListOfPolicies();
-        } else if (method == "PATCH") {
-          // getListOfPolicies();
-          return response;
         }
       })
       .catch(async (e) => {
@@ -157,34 +132,13 @@ const CompanyPolicies = (props) => {
           for (var i = 0; i < errorKeys.length; i++) {
             switch (errorKeys[i]) {
               case "name":
-                if (method == "PATCH") {
-                  setEditPolicyNameError({
-                    error: errorMessages[i],
-                    policy_id: policy_id,
-                  });
-                } else {
-                  setPolicyNameError(errorMessages[i]);
-                }
+                setPolicyNameError(errorMessages[i]);
                 break;
               case "description":
-                if (method == "PATCH") {
-                  setEditPolicyDescriptionError({
-                    error: errorMessages[i],
-                    policy_id: policy_id,
-                  });
-                } else {
-                  setdescriptionError(errorMessages[i]);
-                }
+                setdescriptionError(errorMessages[i]);
                 break;
               case "file":
-                if (method == "PATCH") {
-                  setEditPolicyFileError({
-                    error: errorMessages[i],
-                    policy_id: policy_id,
-                  });
-                } else {
-                  setFileError(errorMessages[i]);
-                }
+                setFileError(errorMessages[i]);
                 break;
               default:
                 let error = await GetErrorHandlingRoute(e);
@@ -199,14 +153,6 @@ const CompanyPolicies = (props) => {
             }
           }
         } else {
-          // let error = await GetErrorHandlingRoute(e);
-          // if (error) {
-          //   callToast(
-          //     error?.message,
-          //     error?.status === 200 ? "success" : "error",
-          //     true
-          //   );
-          // }
           let error = await GetErrorHandlingRoute(e);
           console.log("Error obj", error);
           console.log(e);
@@ -240,14 +186,6 @@ const CompanyPolicies = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = await GetErrorHandlingRoute(e);
-        // if (error) {
-        //   callToast(
-        //     error?.message,
-        //     error?.status === 200 ? "success" : "error",
-        //     true
-        //   );
-        // }
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -288,19 +226,21 @@ const CompanyPolicies = (props) => {
     const [policyDescValue, setEditorpolicyDescValue] = React.useState(
       RichTextEditor.createValueFromString(policyDesc, "html")
     );
-    const [policyDescError, setPolicyDescError] = useState("");
     const [policySize, setPolicySize] = useState("");
     const [policyNameUnderAccordion, setPolicyNameUnderAccordion] = useState(
       data.name
     );
-
-    const [policyNameError, setPolicyNameError] = useState("");
     const [dataOfFile, setDataOfFile] = useState(data.file);
     const [localKey, setLocalKey] = useState(0);
     const [fileSizeErrorE, setFileSizeErrorE] = useState("");
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
+
+    const [editPolicyNameError, setEditPolicyNameError] = useState([]);
+    const [editPolicyDescriptionError, setEditPolicyDescriptionError] =
+      useState([]);
+    const [editPolicyFileError, setEditPolicyFileError] = useState([]);
 
     const confirm = (e, index) => {
       deletePolicyDetail(e, index);
@@ -316,11 +256,15 @@ const CompanyPolicies = (props) => {
     const handleUploadPolicyE = (file) => {
       console.log("handleUploadPolicyE called with file:", file);
       setUploadedPolicyE(file);
-      // data[index].file = file;
       setPolicySize(file.size);
       setIsLogoLinkE(false);
       setLocalKey(localKey + 1);
       setFileSizeErrorE("");
+      setEditPolicyFileError((prevErrors) => {
+        const updatedErrors = [...prevErrors];
+        updatedErrors[index] = "";
+        return updatedErrors;
+      });
     };
 
     const handleDeleteFile = () => {
@@ -332,6 +276,11 @@ const CompanyPolicies = (props) => {
       setIsLogoLinkE(false);
       setLocalKey(localKey + 1);
       setFileSizeErrorE("");
+      setEditPolicyFileError((prevErrors) => {
+        const updatedErrors = [...prevErrors];
+        updatedErrors[index] = "";
+        return updatedErrors;
+      });
     };
     useEffect(() => {
       if (uploadedPolicyE) {
@@ -351,32 +300,90 @@ const CompanyPolicies = (props) => {
       setEditorpolicyDescValue(value);
       setPolicyDesc(value.toString("html"));
       setSaveButtonEnabled(value.toString("html") !== "");
+      setEditPolicyDescriptionError((prevErrors) => {
+        const updatedErrors = [...prevErrors];
+        updatedErrors[index] = "";
+        return updatedErrors;
+      });
     };
     const handleChangePolicyName = (e) => {
       setPolicyNameUnderAccordion(e.target.value.trimStart());
-    };    
-    const handleSave = async () => {
+      setEditPolicyNameError((prevErrors) => {
+        const updatedErrors = [...prevErrors];
+        updatedErrors[index] = "";
+        return updatedErrors;
+      });
+    };
+    const handleSave = () => {
       let payload = new FormData();
       payload.append("description", policyDesc);
       payload.append("name", policyNameUnderAccordion);
       !isLogoLinkE && payload.append("file", uploadedPolicyE || "");
-
-      let response = await submitPolicy("PATCH", data.id, payload);
-
-      let arr = [...allPolicies];
-      if (response && response.data) {
-        arr[index] = { ...response?.data };
-        setAllPolicies([...arr]);
-        setIsLogoLinkE(true);
-      } else {
-        let obj = {
-          ...data,
-          name: policyNameUnderAccordion ?? "",
-          description: policyDesc,
-        };
-        arr[index] = { ...obj };
-        setAllPolicies([...arr]);
-      }
+      callLoader(true);
+      HTTPService(
+        "PATCH",
+        UrlConstant.base_url + UrlConstant.datahub_policy + data.id + "/",
+        payload,
+        true,
+        true,
+        false,
+        false
+      )
+        .then((response) => {
+          callLoader(false);
+          console.log(response);
+          if (response.status === 200) {
+            callToast("Policy settings updated successfully!", "success", true);
+          }
+          getListOfPolicies();
+        })
+        .catch(async (e) => {
+          callLoader(false);
+          console.log(e);
+          var returnValues = GetErrorKey(e, payload.keys());
+          var errorKeys = returnValues[0];
+          var errorMessages = returnValues[1];
+          if (errorKeys.length > 0) {
+            for (var i = 0; i < errorKeys.length; i++) {
+              switch (errorKeys[i]) {
+                case "name":
+                  setEditPolicyNameError((prevErrors) => {
+                    const updatedErrors = [...prevErrors];
+                    updatedErrors[index] = errorMessages[i];
+                    return updatedErrors;
+                  });
+                  break;
+                case "description":
+                  setEditPolicyDescriptionError((prevErrors) => {
+                    const updatedErrors = [...prevErrors];
+                    updatedErrors[index] = errorMessages[i];
+                    return updatedErrors;
+                  });
+                  break;
+                case "file":
+                  setEditPolicyFileError((prevErrors) => {
+                    const updatedErrors = [...prevErrors];
+                    updatedErrors[index] = errorMessages[i];
+                    return updatedErrors;
+                  });
+                  break;
+              }
+            }
+          } else {
+            let error = await GetErrorHandlingRoute(e);
+            console.log(e);
+            if (error?.toast) {
+              callToast(
+                "Something went wrong",
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path) {
+              history.push(error.path);
+            }
+          }
+        });
     };
 
     return (
@@ -393,13 +400,8 @@ const CompanyPolicies = (props) => {
               name="policyName"
               value={policyNameUnderAccordion}
               onChange={(e) => handleChangePolicyName(e)}
-              error={
-                editPolicyNameError.error &&
-                editPolicyNameError.policy_id == data.id
-                  ? true
-                  : false
-              }
-              helperText={editPolicyNameError.error}
+              error={Boolean(editPolicyNameError[index])} // Check if error exists for the specific index
+              helperText={editPolicyNameError[index]}
             />
           </Col>
         </Row>
@@ -425,9 +427,8 @@ const CompanyPolicies = (props) => {
               }}
             />
             <span style={{ color: "red", fontSize: "12px" }}>
-              {editPolicyDescriptionError.error &&
-              editPolicyDescriptionError.policy_id == data.id
-                ? editPolicyDescriptionError.error
+              {editPolicyDescriptionError[index]
+                ? editPolicyDescriptionError[index]
                 : ""}
             </span>
           </Col>
@@ -478,7 +479,6 @@ const CompanyPolicies = (props) => {
                 }
                 id={`${index}-file-update`}
               />
-              {/* <div>{"sizeError"}</div> */}
             </Col>
           </CSSTransition>
           <Col
@@ -554,9 +554,8 @@ const CompanyPolicies = (props) => {
                 styles.text_left
               }
             >
-              {editPolicyFileError.error &&
-              editPolicyFileError.policy_id == data.id
-                ? editPolicyFileError.error
+              {editPolicyFileError[index]
+                ? editPolicyFileError[index]
                 : fileSizeErrorE}
             </div>
           </Col>

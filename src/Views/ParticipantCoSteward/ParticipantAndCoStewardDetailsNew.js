@@ -528,14 +528,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   border: "1px solid rgba(255, 86, 48, 0.48)",
                   width: "200px",
                   height: "48px",
-                  marginRight: "28px",
                   textTransform: "none",
+                  whiteSpace: "nowrap",
                   "&:hover": {
                     background: "none",
                     border: "1px solid rgba(255, 86, 48, 0.48)",
                   },
                 }}
                 onClick={handleDeletePopper}
+                style={{marginRight: "0px"}}
               >
                 Delete {isCosteward ? "Co-steward" : "Participant"}
                 <DeleteOutlineIcon
@@ -742,7 +743,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 // id={title + "-form-title"}
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
-                List of Datasets
+                {isCosteward
+              ? "Costeward Datasets"
+              : "Participant Datasets"}
               </Typography>
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
