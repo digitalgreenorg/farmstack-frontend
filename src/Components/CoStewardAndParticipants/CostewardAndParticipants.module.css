@@ -4,8 +4,9 @@
 }
 
 .listAndGridViewButtonMd {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: row-reverse; */
+  display: none;
 }
 
 .listViewButton {
@@ -20,10 +21,14 @@
 
 .titleContainer {
   margin: 50px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .titleContainerSm {
   margin: 52px 0px 20px;
+  display: inline-block;
 }
 
 .title {

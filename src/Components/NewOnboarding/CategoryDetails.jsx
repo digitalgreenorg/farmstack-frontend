@@ -100,11 +100,7 @@ const CategoryDetails = (props) => {
       setCategoryName("");
       setDescription("");
       setCategoryNameError("");
-      if(props.isCategorySetting) {
       callToast("Please submit to save the changes!", "info", true);
-      } else {
-        callToast("Please click next to save the changes!", "info", true);
-      }
     }
     setAllCategories([
       ...allCategories,
@@ -175,13 +171,9 @@ const CategoryDetails = (props) => {
     let ind = categoryNamesList.indexOf(arr[index].category_name);
     if (ind > -1) {
       let catList = [...categoryNamesList];
-      catList.splice(ind);
+      catList.splice(ind, 1);
       setCategoryNameList([...catList]);
-      if(props.isCategorySetting) {
-        callToast("Please submit to save the changes!", "info", true);
-        } else {
-          callToast("Please click next to save the changes!", "info", true);
-        }
+      callToast("Please submit to save the changes!", "info", true);
     }
     arr.splice(index, 1);
     setAllCategories([...arr]);
@@ -216,13 +208,9 @@ const CategoryDetails = (props) => {
             callToast("Request successfull", "success", true);
           }
         }
-        if (response.status === 201) {
-         if(props.isCategorySetting) {
+        if (props.isCategorySetting && response.status === 201) {
           callToast("Category settings updated successfully", "success", true);
-         } else {
-          callToast("Category details added successfully", "success", true);
-         }
-        } 
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -544,11 +532,7 @@ const CategoryDetails = (props) => {
                 // this funtion will allow user to edit title
                 if (headingEdit.index == index) {
                   handleEditHeading(false, e, index);
-                  if(props.isCategorySetting) {
-                    callToast("Please submit to save the changes!", "info", true);
-                    } else {
-                      callToast("Please click next to save the changes!", "info", true);
-                    }
+                  callToast("Please submit to save the changes!", "info", true);
                 } else {
                   handleEditHeading(true, e, index);
                 }

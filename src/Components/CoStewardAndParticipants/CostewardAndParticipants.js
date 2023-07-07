@@ -79,7 +79,9 @@ const CoStewardAndParticipantsCard = (props) => {
           mobile ? LocalStyle.titleContainerSm : LocalStyle.titleContainer
         }
       >
-        <Box className={subTitle ? LocalStyle.titleParentDiv : "w-100"}>
+        <Box
+          className={!mobile && !tablet ? LocalStyle.titleParentDiv : "w-100"}
+        >
           <Typography
             id={title?.split(" ")[0] + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${
@@ -102,7 +104,7 @@ const CoStewardAndParticipantsCard = (props) => {
             md={6}
             xl={6}
           >
-            {title == "Participants" ? (
+            {title == "Participants" && !guestUser ? (
               <Row>
                 <Col lg={6}>
                   <div>
@@ -199,7 +201,7 @@ const CoStewardAndParticipantsCard = (props) => {
             md={6}
             xl={6}
           >
-            {title == "Participants" ? (
+            {title == "Participants" && !guestUser ? (
               <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
