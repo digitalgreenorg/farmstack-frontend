@@ -83,26 +83,7 @@ const CompanyPolicies = (props) => {
     setPreview(null);
     setEditorGovLawValue(RichTextEditor.createValueFromString("", "html"));
   };
-
-  // const [editPolicyNameError, setEditPolicyNameError] = useState({
-  //   error: "",
-  //   policy_id: "",
-  // });
-  // const [editPolicyDescriptionError, setEditPolicyDescriptionError] = useState({
-  //   error: "",
-  //   policy_id: "",
-  // });
-  // const [editPolicyFileError, setEditPolicyFileError] = useState({
-  //   error: "",
-  //   policy_id: "",
-  // });
-  // const resetEditError = (id) => {
-  //   setEditPolicyNameError({ error: "", policy_id: "" });
-  //   setEditPolicyDescriptionError({ error: "", policy_id: "" });
-  //   setEditPolicyFileError({ error: "", policy_id: "" });
-  // };
-
-  const submitPolicy = async (method, policy_id, payloadForPatch) => {
+  const submitPolicy = async (method, policy_id) => {
     let url;
     let payload;
     if (method == "POST") {
@@ -114,15 +95,9 @@ const CompanyPolicies = (props) => {
         payload.append("file", uploadedPolicy);
       }
     } else if (method == "DELETE" && policy_id) {
-      // resetEditError(policy_id);
       url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
       payload = "";
     }
-    // else if (method == "PATCH" && policy_id) {
-    //   resetEditError(policy_id);
-    //   url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
-    //   payload = payloadForPatch;
-    // }
     callLoader(true);
     return await HTTPService(method, url, payload, true, true, false, false)
       .then((response) => {
@@ -146,10 +121,6 @@ const CompanyPolicies = (props) => {
         } else if (method == "DELETE") {
           getListOfPolicies();
         }
-        // else if (method == "PATCH") {
-        //   // getListOfPolicies();
-        //   return response;
-        // }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -160,34 +131,13 @@ const CompanyPolicies = (props) => {
           for (var i = 0; i < errorKeys.length; i++) {
             switch (errorKeys[i]) {
               case "name":
-                // if (method == "PATCH") {
-                //   setEditPolicyNameError({
-                //     error: errorMessages[i],
-                //     policy_id: policy_id,
-                //   });
-                // } else {
                 setPolicyNameError(errorMessages[i]);
-                // }
                 break;
               case "description":
-                // if (method == "PATCH") {
-                //   setEditPolicyDescriptionError({
-                //     error: errorMessages[i],
-                //     policy_id: policy_id,
-                //   });
-                // } else {
                 setdescriptionError(errorMessages[i]);
-                // }
                 break;
               case "file":
-                // if (method == "PATCH") {
-                //   setEditPolicyFileError({
-                //     error: errorMessages[i],
-                //     policy_id: policy_id,
-                //   });
-                // } else {
                 setFileError(errorMessages[i]);
-                // }
                 break;
               default:
                 let error = await GetErrorHandlingRoute(e);
@@ -202,14 +152,6 @@ const CompanyPolicies = (props) => {
             }
           }
         } else {
-          // let error = await GetErrorHandlingRoute(e);
-          // if (error) {
-          //   callToast(
-          //     error?.message,
-          //     error?.status === 200 ? "success" : "error",
-          //     true
-          //   );
-          // }
           let error = await GetErrorHandlingRoute(e);
           console.log("Error obj", error);
           console.log(e);
@@ -243,14 +185,6 @@ const CompanyPolicies = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = await GetErrorHandlingRoute(e);
-        // if (error) {
-        //   callToast(
-        //     error?.message,
-        //     error?.status === 200 ? "success" : "error",
-        //     true
-        //   );
-        // }
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -739,6 +673,7 @@ const CompanyPolicies = (props) => {
                 isHeadEditing={false}
                 handleEditHeading={() => {}}
                 onOpenHideDelete={true}
+                getListOfPolicies={getListOfPolicies}
               />
             );
           })}

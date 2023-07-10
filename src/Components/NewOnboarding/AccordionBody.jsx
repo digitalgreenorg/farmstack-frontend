@@ -22,7 +22,7 @@ import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { CSSTransition } from "react-transition-group";
 
 function AccordionBody(props) {
-  const { data, index, deletePolicyDetail, toolbarConfig } = props;
+  const { data, index, deletePolicyDetail, toolbarConfig, getListOfPolicies } = props;
   const [isEditModeOn, setEditModeOn] = useState(true);
   const [uploadedPolicyE, setUploadedPolicyE] = useState(null);
   const [previewE, setPreviewE] = useState(null);
@@ -146,6 +146,7 @@ function AccordionBody(props) {
         console.log(response);
         if (response.status === 200) {
           callToast("Policy settings updated successfully!", "success", true);
+          getListOfPolicies()
         }
       })
       .catch(async (e) => {
