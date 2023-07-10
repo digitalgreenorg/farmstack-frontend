@@ -49,7 +49,10 @@ const ProfileDetails = (props) => {
   });
   const handleChangeProfileDetails = (e, countryData) => {
     if (e.target) {
-      setProfileDetails({ ...profileDetails, [e.target.name]: e.target.value.trimStart() });
+      setProfileDetails({
+        ...profileDetails,
+        [e.target.name]: e.target.value.trimStart(),
+      });
     } else {
       if (!isPhoneValid(e, countryData)) {
         setProfileDetailsError((prevState) => ({
@@ -138,9 +141,17 @@ const ProfileDetails = (props) => {
           setActiveStep((prev) => prev + 1);
           // }
         }
-        if (props.isAccountSetting && res.status === 201)
-          callToast("Account settings updated successfully!", "success", true);
-
+        if (res.status === 201) {
+          if (props.isAccountSetting)
+            callToast(
+              "Account settings updated successfully!",
+              "success",
+              true
+            );
+          else {
+            callToast("Profile details added successfully!", "success", true);
+          }
+        }
         setProfileDetailsError({
           first_name: "",
           last_name: "",

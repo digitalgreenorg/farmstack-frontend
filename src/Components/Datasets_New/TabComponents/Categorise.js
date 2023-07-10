@@ -216,6 +216,8 @@ const Categorise = (props) => {
                   props.setGeography((prev) => ({
                     ...prev,
                     country: e.target.value,
+                    state: "",
+                    city: ""
                   }))
                 }
                 sx={{
@@ -258,6 +260,8 @@ const Categorise = (props) => {
                   props.setGeography((prev) => ({
                     ...prev,
                     state: e.target.value,
+                    city: "",
+
                   }))
                 }
                 renderValue={() => props.geography?.state?.name}

@@ -885,8 +885,8 @@ const AddConnector = (props) => {
           className="mt-30"
           sx={textFieldStyle}
           name="desc"
-          placeholder="Connector description not more that 512 character "
-          label="Connector description not more that 512 character "
+          placeholder="Connector description not more than 512 character "
+          label="Connector description not more than 512 character "
           value={connectorData.desc}
           onChange={handleChange}
           inputProps={{ maxLength: 512 }}
