@@ -572,7 +572,7 @@ const OrganizationDetails = (props) => {
                 variant="outlined"
                 id="organisation_address"
                 name="organisation_address"
-                value={organisationDetails.organisation_address}
+                value={organisationDetails.organisation_address ?? ""}
                 onChange={(e) =>
                   e.target.value.length <= 255 ? handleOrgChange(e) : ""
                 }
@@ -741,7 +741,10 @@ const OrganizationDetails = (props) => {
                       id="cancel-uploaded-file"
                     />
                   </div>
-                  <div className={styles.text_left} style={{marginLeft: "10px"}}>
+                  <div
+                    className={styles.text_left}
+                    style={{ marginLeft: "10px" }}
+                  >
                     {preview
                       ? preview?.split("/").pop()
                       : uploadedLogo && uploadedLogo?.name}
