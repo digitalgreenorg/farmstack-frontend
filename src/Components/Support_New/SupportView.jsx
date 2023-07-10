@@ -50,7 +50,9 @@ export default function SupportView(props) {
   const [hoveredMessage, setHoveredMessage] = useState("");
   const [resolutionFileError, setResolutionFileError] = useState("");
   const [userLoggedIn, setUserLoggedIn] = useState("");
-  const [updateResErrorMessage, setUpdateResErrorMessage] = useState("")
+  const [updateResErrorMessage, setUpdateResErrorMessage] = useState("");
+  const [fileErrorMessage, setFileErrorMessage] = useState("");
+
   const handleSupportViewRoute = () => {
     if (isLoggedInUserCoSteward() || isLoggedInUserAdmin()) {
       return `/datahub/support`;
@@ -121,10 +123,9 @@ export default function SupportView(props) {
               case "resolution_text":
                 setResolutionError(errorMessages[i]);
                 break;
+                case "solution_attachments":
+                  setFileErrorMessage(errorMessages[i]);
               default:
-                let error = GetErrorHandlingRoute(e);
-                callToast(error?.message, "error", true);
-                break;
             }
           }
         } else {
@@ -510,6 +511,8 @@ export default function SupportView(props) {
               setResolutionFileError={setResolutionFileError}
               userLoggedIn={userLoggedIn}
               updateResErrorMessage={updateResErrorMessage}
+              setFileErrorMessage={setFileErrorMessage}
+              fileErrorMessage={fileErrorMessage}
             />
           </Col>
         </Row>

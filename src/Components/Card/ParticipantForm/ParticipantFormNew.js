@@ -865,6 +865,7 @@ const ParticipantFormNew = (props) => {
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButton}`}
           onClick={handleCancel}
+          style={{marginRight: "25px"}}
         >
           Cancel
         </Button>
