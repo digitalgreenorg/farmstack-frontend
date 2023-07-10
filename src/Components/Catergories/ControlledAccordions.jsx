@@ -19,6 +19,7 @@ export default function ControlledAccordions(props) {
     handleEditHeading,
     onOpenHideDelete,
     showPopper,
+    getListOfPolicies,
   } = props;
   const [expanded, setExpanded] = React.useState(false);
 
@@ -129,7 +130,7 @@ export default function ControlledAccordions(props) {
         </AccordionSummary>
         <AccordionDetails id={`${index}-accordian-detail`}>
           {Component && (
-            <Component data={data} index={index} setExpanded={setExpanded} />
+            <Component data={data} index={index} setExpanded={setExpanded} getListOfPolicies={getListOfPolicies} />
           )}
         </AccordionDetails>
       </Accordion>
