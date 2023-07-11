@@ -181,7 +181,7 @@ const InviteParticipantsNew = (props) => {
             fullWidth
             value={email}
             onKeyDown={(e) => hanldeEnterClick(e)}
-            onChange={(e) => handleEmailChange(e.target.value)}
+            onChange={(e) => handleEmailChange(e.target.value.trimStart())}
           />
           {allEmails.length ? (
             <Paper
