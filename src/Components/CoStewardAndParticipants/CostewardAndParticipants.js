@@ -510,11 +510,11 @@ const CoStewardAndParticipantsCard = (props) => {
                     <Row
                       id={title + "-list-view-" + index}
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
+                      onClick={() => handleViewDataset(item?.user_id)}
                     >
                       {title === "Co-steward" ? (
                         <>
                           <Col
-                            onClick={() => handleViewDataset(item?.user_id)}
                             id={
                               title?.split(" ")[0] + "list-view-title-" + index
                             }
@@ -551,7 +551,6 @@ const CoStewardAndParticipantsCard = (props) => {
                       ) : title === "Participants" ? (
                         <>
                           <Col
-                            onClick={() => handleViewDataset(item?.user_id)}
                             id={
                               title?.split(" ")[0] + "list-view-title-" + index
                             }
@@ -564,7 +563,6 @@ const CoStewardAndParticipantsCard = (props) => {
                             {item?.organization?.name}
                           </Col>
                           <Col
-                          onClick={() => handleViewDataset(item?.user_id)}
                             id={
                               title?.split(" ")[0] +
                               " list-view-datasets-no-" +
@@ -578,7 +576,6 @@ const CoStewardAndParticipantsCard = (props) => {
                             {item?.dataset_count}
                           </Col>
                           <Col
-                          onClick={() => handleViewDataset(item?.user_id)}
                             id={
                               title?.split(" ")[0] +
                               " list-view-root-user-name-" +
@@ -595,7 +592,6 @@ const CoStewardAndParticipantsCard = (props) => {
                       ) : title === "New participant requests" ? (
                         <>
                           <Col
-                            onClick={() => handleViewDataset(item?.user_id)}
                             id={
                               title?.split(" ")[0] + "list-view-title-" + index
                             }
