@@ -91,6 +91,9 @@
 .contact {
   width: 33%;
 }
+.w50 {
+  width: 50%;
+}
 
 @media only screen and (min-width: 600px) and (max-width: 900px) {
   .footerTitle {

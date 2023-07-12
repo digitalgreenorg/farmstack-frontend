@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
-import { Button, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import FileUploaderMain from "../Generic/FileUploader";
@@ -18,6 +24,10 @@ import { GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
 import { ClickAwayListener } from "@mui/base";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+import LocalStyle from "../DeletePopper/CustomDeletePopper.module.css";
+import { Popconfirm } from "antd";
+
 const CategoryDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
 
@@ -40,6 +50,22 @@ const CategoryDetails = (props) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const history = useHistory();
   const [key, setKey] = useState(0);
+  // const [anchorEl, setAnchorEl] = React.useState(null);
+  const [popoverOpen, setPopoverOpen] = React.useState({
+    state: false,
+    index: "",
+  });
+
+  // const handleDeletePopper = (event) => {
+  //   let ele = document.getElementById("delete-button-category");
+  //   console.log("event", event.currentTarget, event);
+  //   setAnchorEl(ele);
+  //   setOpen(true);
+  // };
+  // const closePopper = () => {
+  //   setOpen(false);
+  // };
+
   const handleUploadCategory = (file) => {
     setUploadedCategory(file);
     setKey(key + 1);
@@ -145,7 +171,7 @@ const CategoryDetails = (props) => {
     let ind = categoryNamesList.indexOf(arr[index].category_name);
     if (ind > -1) {
       let catList = [...categoryNamesList];
-      catList.splice(ind);
+      catList.splice(ind, 1);
       setCategoryNameList([...catList]);
       callToast("Please submit to save the changes!", "info", true);
     }
@@ -214,8 +240,10 @@ const CategoryDetails = (props) => {
   const [enableSave, setEnableSave] = useState(false);
 
   const [editedHeaderNameError, setEditedHeaderError] = useState("");
-  const handleEditHeading = (action, e, index) => {
-    e.stopPropagation();
+  const handleEditHeading = (action, e, index, doPropagation) => {
+    if (!doPropagation) {
+      e.stopPropagation();
+    }
     if (editedHeaderNameError) return;
     setHeadingEdit({
       status: action,
@@ -312,6 +340,12 @@ const CategoryDetails = (props) => {
     useEffect(() => {
       // console.log("calling");
     }, []);
+    const popoverContent = () => (
+      <div style={{ margin: 0, padding: 0 }}>
+        <div>Content of the Popover</div>
+        <div>More content...</div>
+      </div>
+    );
 
     return (
       <span>
@@ -400,6 +434,114 @@ const CategoryDetails = (props) => {
               );
             })}
         </Row>
+        <Row>
+          <Col style={{ textAlign: "right", margin: "20px" }}>
+            <>
+              {/* <CustomDeletePopper
+                DeleteItem={"File"}
+                anchorEl={anchorEl}
+                handleDelete={(e) => {
+                  accordionDelete(e, index);
+                  setAnchorEl(null); // Reset anchorEl to null
+                  setOpen(false); // Reset open to false
+                }}
+                id="delete-popper-icon"
+                open={open}
+                closePopper={closePopper}
+                deletePopperId={`${index}-delete-popper-accordian-button`}
+                cancelPopperId={`${index}-cancel-popper-accordian-button`}
+              /> */}
+              {/* Style are overriden using classname */}
+              <Popconfirm
+                style={{ padding: "0px" }}
+                overlayClassName={styles.popConfirmClass}
+                okButtonProps={{ style: { display: "none" } }} // Hide OK button
+                cancelButtonProps={{ style: { display: "none" } }} // Hide Cancel button
+                open={popoverOpen.index == index ? popoverOpen.state : false}
+                overlayStyle={{ padding: 0 }}
+                icon={
+                  <Box
+                    className={LocalStyle.popperContainer}
+                    sx={{ border: 1, p: 1, bgcolor: "background.paper" }}
+                  >
+                    <div className={`${LocalStyle.popperTitleContainer}`}>
+                      <img src={require("../../Assets/Img/delete_icon.svg")} />
+                      <Typography
+                        className={`${GlobalStyle.bold700} ${GlobalStyle.size18} ${GlobalStyle.highlighted_text}`}
+                        variant="h4"
+                      >
+                        {" "}
+                        Delete
+                        {/* {DeleteItem}? */}
+                      </Typography>
+                    </div>
+                    <Typography
+                      variant="subtitle1"
+                      className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${GlobalStyle.light_text} ${LocalStyle.popperMessage}`}
+                    >
+                      Are you sure want to delete?
+                    </Typography>
+                    <div className={LocalStyle.popperButtonContainer}>
+                      <Button
+                        variant="outlined"
+                        className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButtonOnDelete}`}
+                        onClick={() =>
+                          setPopoverOpen({ state: false, index: index })
+                        }
+                        // id={cancelPopperId}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        className={`${GlobalStyle.primary_button} ${LocalStyle.deleteButton}`}
+                        // onClick={handleDelete}
+                        // id={deletePopperId}
+                        onClick={(e) => {
+                          accordionDelete(e, index);
+                          setPopoverOpen({ state: false, index: index });
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </Box>
+                }
+              >
+                <Button
+                  id={`delete-button-category`}
+                  variant="outlined"
+                  style={{ margin: "20px" }}
+                  className={
+                    global_style.secondary_button_error +
+                    " " +
+                    styles.delete_button_policy
+                  }
+                  onClick={(e) => setPopoverOpen({ state: true, index: index })}
+                >
+                  Delete
+                </Button>
+              </Popconfirm>
+            </>
+            <Button
+              id={`edit-${index}-button-datapoint`}
+              variant="outlined"
+              style={{ margin: "20px" }}
+              className={global_style.primary_button + " " + styles.edit_button}
+              onClick={(e) => {
+                // this funtion will allow user to edit title
+                if (headingEdit.index == index) {
+                  handleEditHeading(false, e, index);
+                  callToast("Please submit to save the changes!", "info", true);
+                } else {
+                  handleEditHeading(true, e, index);
+                }
+              }}
+            >
+              {headingEdit.index == index ? "Update" : "Edit"}
+            </Button>
+          </Col>
+        </Row>
       </span>
     );
   }
@@ -432,8 +574,10 @@ const CategoryDetails = (props) => {
             <Button
               id="addnew-category-button"
               onClick={() => setIsFormVisible(true)}
-              className={global_style.primary_button + " " + styles.next_button}
-              style={{ width: "auto" }}
+              className={
+                global_style.primary_button + " " + styles.add_category_button
+              }
+              style={{ width: "200px !important" }}
             >
               Add New Category
             </Button>
@@ -661,46 +805,48 @@ const CategoryDetails = (props) => {
                     }
                   }}
                 >
-                  <TextField
-                    className="edit_head_name_accordion"
-                    style={{ height: "30px", width: "100%" }}
-                    value={category.category_name}
-                    onChange={(e) => handleChangeHeadName(e, index)}
-                    onClick={(e) => e.stopPropagation()}
-                    inputProps={{ maxLength: 50 }}
-                    id={`edit-${index}-head-accordian-name`}
-                    // sx={{
-                    //   "&.MuiTextField-root": {
-                    //     display: "flex",
-                    //     flexDirection: "inherit",
-                    //     width: "500px",
-                    //   },
-                    // }}
-                    variant="outlined"
-                    label="Category name"
-                    // InputProps={{
-                    //   endAdornment: (
-                    //     <InputAdornment position="end">
-                    //       {" "}
-                    //       {category.category_name && (
-                    //         <Button
-                    //           onClick={() =>
-                    //             setHeadingEdit({ status: false, index: -1 })
-                    //           }
-                    //           className={
-                    //             global_style.primary_button + " " + styles.save
-                    //           }
-                    //           style={{ height: "100%" }}
-                    //         >
-                    //           Save
-                    //         </Button>
-                    //       )}
-                    //     </InputAdornment>
-                    //   ),
-                    // }}
-                    error={editedHeaderNameError}
-                    helperText={editedHeaderNameError}
-                  />
+                  <div style={{ height: "80px" }}>
+                    <TextField
+                      className="edit_head_name_accordion"
+                      style={{ height: "30px", width: "100%" }}
+                      value={category.category_name}
+                      onChange={(e) => handleChangeHeadName(e, index)}
+                      onClick={(e) => e.stopPropagation()}
+                      inputProps={{ maxLength: 50 }}
+                      id={`edit-${index}-head-accordian-name`}
+                      // sx={{
+                      //   "&.MuiTextField-root": {
+                      //     display: "flex",
+                      //     flexDirection: "inherit",
+                      //     width: "500px",
+                      //   },
+                      // }}
+                      variant="outlined"
+                      label="Category name"
+                      // InputProps={{
+                      //   endAdornment: (
+                      //     <InputAdornment position="end">
+                      //       {" "}
+                      //       {category.category_name && (
+                      //         <Button
+                      //           onClick={() =>
+                      //             setHeadingEdit({ status: false, index: -1 })
+                      //           }
+                      //           className={
+                      //             global_style.primary_button + " " + styles.save
+                      //           }
+                      //           style={{ height: "100%" }}
+                      //         >
+                      //           Save
+                      //         </Button>
+                      //       )}
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
+                      error={editedHeaderNameError}
+                      helperText={editedHeaderNameError}
+                    />
+                  </div>
                 </ClickAwayListener>
               ) : (
                 category.category_name
@@ -713,7 +859,7 @@ const CategoryDetails = (props) => {
         );
       })}
       {!props.isCategorySetting ? (
-        <div className={styles.button_grp}>
+        <div className={`${styles.button_grp} ${styles.mt50}`}>
           <Button
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.secondary_button}
@@ -739,7 +885,7 @@ const CategoryDetails = (props) => {
           </Button>
         </div>
       ) : (
-        <div className={styles.button_grp}>
+        <div className={`${styles.button_grp} ${styles.mt50}`}>
           <Button
             onClick={() => history.push("/datahub/new_datasets")}
             className={global_style.secondary_button}

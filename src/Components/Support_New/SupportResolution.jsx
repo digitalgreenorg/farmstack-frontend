@@ -34,6 +34,8 @@ export default function SupportResolution({
   setResolutionFileError,
   userLoggedIn,
   updateResErrorMessage,
+  fileErrorMessage,
+  setFileErrorMessage
 }) {
   const fileTypes = ["pdf", "doc", "jpeg", "png", "docx"];
   console.log("get id", getUserMapId());
@@ -45,6 +47,9 @@ export default function SupportResolution({
   };
   const handleCancelFile = () => {
     setUploadFile(null);
+    setResolutionFileError("");
+    setFileErrorMessage("")
+
   };
   return (
     <>
@@ -206,14 +211,13 @@ export default function SupportResolution({
                   />
                 </>
               </div>
-            ) : (
+            ) : ( "") }
               <div
                 className="oversizemb-uploadimglogo"
-                style={{ marginLeft: "70px" }}
+                style={{ marginLeft: "80px", fontSize: "14px" }}
               >
-                {resolutionFileError}
+                {fileErrorMessage ? fileErrorMessage : resolutionFileError}
               </div>
-            )}
           </Col>
           <Col xs={12} sm={6} md={6} xl={6}>
             <div
