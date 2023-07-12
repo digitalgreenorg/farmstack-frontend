@@ -474,6 +474,7 @@ const ParticipantFormNew = (props) => {
           <Row>
             <Col xs={12}>
               <TextField
+                required
                 id="add-participant-website-link"
                 className={LocalStyle.textField}
                 label="Website Link"
@@ -864,6 +865,7 @@ const ParticipantFormNew = (props) => {
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButton}`}
           onClick={handleCancel}
+          style={{marginRight: "25px"}}
         >
           Cancel
         </Button>

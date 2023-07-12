@@ -18,6 +18,8 @@ export default function ControlledAccordions(props) {
     isHeadEditing,
     handleEditHeading,
     onOpenHideDelete,
+    showPopper,
+    getListOfPolicies,
   } = props;
   const [expanded, setExpanded] = React.useState(false);
 
@@ -28,6 +30,8 @@ export default function ControlledAccordions(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleDeletePopper = (event) => {
+    console.log("event", event.currentTarget, event);
+
     setAnchorEl(event.currentTarget);
     setOpen(true);
   };
@@ -36,7 +40,16 @@ export default function ControlledAccordions(props) {
   };
 
   return (
-    <div className="accordions_in_onboarding" style={{ margin: "10px 0px" }}>
+    <div
+      // onClick={(e) => {
+      //   let curEle = e.currentTarget;
+      //   let deleteButton = curEle.querySelector("#delete-button-category");
+      //   console.log("on open", curEle, deleteButton);
+      //   showPopper(deleteButton);
+      // }}
+      className="accordions_in_onboarding"
+      style={{ margin: "10px 0px" }}
+    >
       <Accordion
         className={global_styles.break_word}
         expanded={expanded === "panel1"}
@@ -116,7 +129,9 @@ export default function ControlledAccordions(props) {
           )}
         </AccordionSummary>
         <AccordionDetails id={`${index}-accordian-detail`}>
-          {Component && <Component data={data} index={index} />}
+          {Component && (
+            <Component data={data} index={index} setExpanded={setExpanded} getListOfPolicies={getListOfPolicies} />
+          )}
         </AccordionDetails>
       </Accordion>
     </div>
