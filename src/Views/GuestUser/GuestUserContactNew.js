@@ -36,6 +36,7 @@ const GuestUserContactNew = () => {
   const [subject, setSubject] = useState("");
   const [describeQuery, setDescribeQuery] = useState("");
   const [contactNumber, setContactNumber] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
@@ -250,6 +251,11 @@ const GuestUserContactNew = () => {
         }
       });
   };
+  const validateEmail = (value) => {
+    // Email regex pattern
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailPattern.test(value);
+  };
   useEffect(() => {
     getDatahubAdminDetails();
     goToTop(0);
@@ -292,7 +298,7 @@ const GuestUserContactNew = () => {
             required
             fullWidth
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) => setFirstName(e.target.value.trim())}
             error={firstNameErrorMessage}
             helperText={firstNameErrorMessage ?? ""}
           />
@@ -306,7 +312,7 @@ const GuestUserContactNew = () => {
             margin="normal"
             fullWidth
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(e) => setLastName(e.target.value.trim())}
             error={lastNameErrorMessage}
             helperText={lastNameErrorMessage ?? ""}
           />
@@ -323,9 +329,14 @@ const GuestUserContactNew = () => {
             required
             fullWidth
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={emailErrorMessage}
-            helperText={emailErrorMessage ?? ""}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setIsEmailValid(validateEmail(e.target.value));
+            }}
+            error={emailErrorMessage || !isEmailValid}
+            helperText={
+              emailErrorMessage || !isEmailValid ? "Invalid Email!" : ""
+            }
           />
         </Col>
         <Col lg={6} md={12}>
@@ -412,6 +423,7 @@ const GuestUserContactNew = () => {
             // required
             fullWidth
             onChange={(e) => setDescribeQuery(e.target.value)}
+            onBlur={(e) => setDescribeQuery((prevValue) => prevValue.trim())}
             error={describeQueryErrorMessage}
             helperText={describeQueryErrorMessage ?? ""}
             required
@@ -427,6 +439,7 @@ const GuestUserContactNew = () => {
           disabled={
             !firstName ||
             !email ||
+            !isEmailValid ||
             !contactNumber ||
             !subject ||
             !describeQuery ||
