@@ -90,7 +90,6 @@ const DatasetRequestTable = () => {
         let response = await GetErrorHandlingRoute(error);
         console.log(response, "response");
         if (response?.toast) {
-          //callToast(message, type, action)
           callToast(
             response?.message ?? response?.data?.detail,
             response.status == 200 ? "success" : "error",
@@ -103,7 +102,6 @@ const DatasetRequestTable = () => {
   };
 
   const SubmitHandler = (condition, usagePolicyId) => {
-    // callLoader(true);
     let url =
       UrlConstant.base_url + "datahub/usage_policies/" + usagePolicyId + "/";
     let method = "PATCH";
@@ -153,7 +151,6 @@ const DatasetRequestTable = () => {
               default:
                 let response = await GetErrorHandlingRoute(err);
                 if (response.toast) {
-                  //callToast(message, type, action)
                   callToast(
                     response?.message ?? response?.data?.detail ?? "Unknown",
                     response.status == 200 ? "success" : "error",
@@ -168,7 +165,6 @@ const DatasetRequestTable = () => {
         } else {
           let response = await GetErrorHandlingRoute(err);
           if (response.toast) {
-            //callToast(message, type, action)
             callToast(
               response?.message ?? response?.data?.detail ?? "Unknown",
               response.status == 200 ? "success" : "error",
@@ -206,11 +202,9 @@ const DatasetRequestTable = () => {
       "Dataset details",
       "Organization details",
       "Status",
-      // "Accessibility time",
       "Actions",
       "View",
     ];
-    // let columnsForReceived = ["dataset_name", "organization_name","approval_status", "accessibility_time", "Action"];
     setRequestReceivedColumns(columnsForReceived);
     setRequestSentColumns(columnsForSent);
   }, [allRequestReceivedList, allRequestSentList]);
@@ -327,7 +321,6 @@ const DatasetRequestTable = () => {
                       <TableRow
                         key={row.id}
                         sx={{
-                          // "&:last-child td, &:last-child th": { border: 0 },
                           textTransform: "capitalize",
                         }}
                         className={global_styles.bold500}
@@ -387,25 +380,10 @@ const DatasetRequestTable = () => {
                               </div>
                               <div>Organization name</div>
                             </div>
-                            {/* <span>
-                        <div
-                          className={
-                            global_styles.bold600 + " " + global_styles.size16
-                          }
-                        >
-                          {" "}
-                          {row.file_name}
-                        </div>
-                        <div>File name</div>
-                      </span> */}
                           </div>
                         </TableCell>
 
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          // style={{ display: "flex", gap: "20px" }}
-                        >
+                        <TableCell component="th" scope="row">
                           <div
                             style={{
                               display: "flex",
@@ -464,69 +442,11 @@ const DatasetRequestTable = () => {
                                 {row.updated_at?.substring(0, 10)}
                               </div>
                               Last updated
-                              {/* <div> Accessibility Time</div> */}
                             </div>
                           </div>
                         </TableCell>
-                        {/* <TableCell
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                      component="th"
-                      scope="row"
-                    >
-                      <Badge
-                        style={{
-                          backgroundColor:
-                            row.approval_status == "rejected"
-                              ? "#ff5630"
-                              : row.approval_status == "approved"
-                              ? "#00ab55"
-                              : "#faad14",
-                          width: "80px",
-                        }}
-                        count={row.approval_status}
-                      ></Badge>
-                    </TableCell> */}
-                        {/* <TableCell component="th" scope="row"> */}
-                        {/* <div style={{ display: "flex", gap: "20px" }}>
-                        <div>
-                          <div
-                            className={
-                              global_styles.bold600 + " " + global_styles.size16
-                            }
-                          >
-                            {row.accessibility_time}
-                          </div>
-                          <div>Accessibility Time</div>
-                        </div>
-                        <span>
-                        <div
-                          className={
-                            global_styles.bold600 + " " + global_styles.size16
-                          }
-                        >
-                          {" "}
-                          {row.file_name}
-                        </div>
-                        <div>File name</div>
-                      </span>
-                      </div> */}
-                        {/* </TableCell> */}
-                        {/* <TableCell component="th" scope="row">
-                    {row.}
-                  </TableCell> */}
 
                         <TableCell
-                          // style={{
-                          //   display: "flex",
-                          //   justifyContent: "center",
-                          //   alignItems: "center",
-                          //   gap: "20px",
-                          //   flexDirection: "column",
-                          // }}
                           className={styles.table_cell_for_approve_button}
                         >
                           {row.approval_status !== "approved" &&
@@ -655,7 +575,6 @@ const DatasetRequestTable = () => {
                                   style={{
                                     border: "1px solid #00ab55",
                                     color: "#00ab55",
-                                    // color: "white",
                                     textTransform: "none",
                                     height: "30px",
                                     fontFamily: "Montserrat",
@@ -673,7 +592,6 @@ const DatasetRequestTable = () => {
                               style={{
                                 border: "1px solid #ff5630",
                                 color: "#ff5630",
-                                // color: "white",
                                 textTransform: "none",
                                 height: "30px",
                                 width: "100px",
@@ -759,7 +677,6 @@ const DatasetRequestTable = () => {
                       <TableRow
                         key={row.id}
                         sx={{
-                          // "&:last-child td, &:last-child th": { border: 0 },
                           textTransform: "capitalize",
                         }}
                         className={global_styles.bold500}

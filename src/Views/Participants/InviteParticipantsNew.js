@@ -86,7 +86,6 @@ const InviteParticipantsNew = (props) => {
       .then((response) => {
         callLoader(false);
         console.log("otp valid", response.data);
-        // setisSuccess(true)
         callToast("Invite sent successfully!", "success", true);
         setAllEmails([]);
         setInviteNote(RichTextEditor.createEmptyValue);
@@ -201,7 +200,6 @@ const InviteParticipantsNew = (props) => {
                 return (
                   <ListItem className={LocalStyle.chipsListItem} key={index}>
                     <Chip
-                      //   icon={icon}
                       label={email}
                       onDelete={() => handleChipEmailDelete(index)}
                     />

@@ -85,7 +85,6 @@ const DataSetsTab = ({
     setFromDate("");
     setToDate("");
     setSearchDatasetsName("");
-    // clearFilter();
     setFilterState({});
     setValue(newValue);
   };
@@ -192,7 +191,6 @@ const DataSetsTab = ({
                   </span>
                 }
               />
-              {/* <Tab label={<span className={value == 2 ? 'tab_header_selected' : 'tab_header'}>Co-steward</span>} /> */}
             </Tabs>
           </Box>
         ) : (
