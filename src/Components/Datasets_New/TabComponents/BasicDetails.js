@@ -58,6 +58,7 @@ const BasicDetails = ({
   const handleFromDate = (value) => {
     let currentDate = new Date();
     let formattedDate = moment(value).format("DD/MM/YYYY");
+    setFromDateError(false);
 
     //  Get the current year
     const selectedYear = moment(value).year();
@@ -70,8 +71,12 @@ const BasicDetails = ({
       setFromDateError(false);
       setFromDate(value);
     } else {
-      setFromDateError(true);
-      setFromDate("");
+      if (!value) {
+        setFromDateError(false);
+      } else {
+        setFromDateError(true);
+        setFromDate("");
+      }
     }
   };
 
@@ -86,8 +91,12 @@ const BasicDetails = ({
       setToDateError(false);
       setToDate(value);
     } else {
-      setToDateError(true);
-      setToDate("");
+      if (!value) {
+        setToDateError(false);
+      } else {
+        setToDateError(true);
+        setToDate("");
+      }
     }
   };
 
