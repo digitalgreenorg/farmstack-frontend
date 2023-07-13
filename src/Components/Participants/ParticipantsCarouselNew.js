@@ -17,10 +17,78 @@ const ParticipantsCarouselNew = (props) => {
   const [participantsList, setParticipantsList] = useState([]);
   const settings = {
     infinite: true,
-    speed: 200,
-    slidesToShow: 3,
-    autoplay: true,
-    autoplaySpeed: 5000
+    speed: 500,
+    className: LocalStyle.slides,
+    responsive: [
+      {
+        breakpoint: 3060,
+        settings: {
+          slidesToShow:
+            participantsList.length >= 4 ? 4 : participantsList.length,
+          slidesToScroll: 3,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 2560,
+        settings: {
+          slidesToShow:
+            participantsList.length >= 4 ? 4 : participantsList.length,
+          slidesToScroll: 3,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1920,
+        settings: {
+          slidesToShow:
+            participantsList.length >= 4 ? 4 : participantsList.length,
+          slidesToScroll: 3,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1440,
+        settings: {
+          slidesToShow:
+            participantsList.length >= 3 ? 3 : participantsList.length,
+          slidesToScroll: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+        },
+      },
+    ],
   };
   let title = isCosteward ? "Co-steward" : "Participants";
   const history = useHistory();
@@ -82,7 +150,7 @@ const ParticipantsCarouselNew = (props) => {
       ) : (
         ""
       )}
-      <Slider className="center" {...settings}>
+      <Slider {...settings}>
         {participantsList.length === 0 && !isLoading
           ? ""
           : participantsList?.map((participant, index) => {
