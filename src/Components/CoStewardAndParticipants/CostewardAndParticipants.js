@@ -51,27 +51,9 @@ const CoStewardAndParticipantsCard = (props) => {
       localStorage.setItem("last_route", "/home");
       history.push("/home/participants/view/:id");
     }
-    // if (
-    //   (title == "Participants" || title == "Co-steward participants") &&
-    //   user == "guest"
-    // ) {
-    //   history.push(`/home/participants/view/${id}`);
-    // } else if (title == "Participants" || title == "Co-steward participants") {
-    //   history.push(`/datahub/participants/view/${id}`);
-    // } else if (title == "Co-steward") {
-    //   history.push(`/datahub/costeward/view/${id}`);
-    // } else if (title == "New participant requests") {
-    //   history.push(`/datahub/participants/view/approve/${id}`);
-    // } else if (title == "Our Participants are") {
-    //   history.push(`/home/participants/view/${id}`);
-    // } else if (title == "Our co-stewards are") {
-    //   history.push(`/home/costeward/view/${id}`);
-    // }
   };
 
-  // console.log("props in CoStewardAndParticipantsCard", props);
   let index = 0;
-  //   const viewType = grid
   return (
     <>
       <Row
@@ -271,7 +253,6 @@ const CoStewardAndParticipantsCard = (props) => {
           ""
         )}
       </Row>
-      {/* {viewType === "grid" || !viewType ? ( */}
       <CSSTransition
         appear={viewType === "grid" || !viewType}
         in={viewType === "grid" || !viewType}
@@ -303,14 +284,6 @@ const CoStewardAndParticipantsCard = (props) => {
                 }`}
                 className={LocalStyle.card}
               >
-                {/* <div
-                  id={`${title ? title : "title"}-card-title-${
-                    index ? index : ""
-                  }`}
-                  className={LocalStyle.content_title}
-                >
-                  
-                </div> */}
                 <Typography
                   id={title?.split(" ")[0] + "title"}
                   className={`${GlobalStyle.size20} ${GlobalStyle.bold700} ${LocalStyle.addTitle}`}
@@ -384,16 +357,8 @@ const CoStewardAndParticipantsCard = (props) => {
               </Col>
             );
           })}
-          {/* {!coStewardOrParticipantsList?.length ? (
-            <div style={{ margin: "auto" }}>
-              <EmptyFile text="Nothing found!" />
-            </div>
-          ) : (
-            ""
-          )} */}
         </Row>
       </CSSTransition>
-      {/* ) : ( */}
       <CSSTransition
         appear={viewType !== "grid"}
         in={viewType !== "grid"}
@@ -407,7 +372,7 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <>
           <Row>
-            {title === "Co-steward" ? (
+            {title === "Co-steward"  || isCosteward ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -512,7 +477,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
                       onClick={() => handleViewDataset(item?.user_id)}
                     >
-                      {title === "Co-steward" ? (
+                      {title === "Co-steward" || isCosteward ? (
                         <>
                           <Col
                             id={
@@ -662,9 +627,6 @@ const CoStewardAndParticipantsCard = (props) => {
           )}
         </>
       </CSSTransition>
-
-      {/* // )} */}
-      {/* </Row> */}
       {loadMoreButton ? (
         <Box className={LocalStyle.buttonContainer}>
           <div>
