@@ -59,9 +59,13 @@ const BasicDetails = ({
     let currentDate = new Date();
     let formattedDate = moment(value).format("DD/MM/YYYY");
 
+    //  Get the current year
+    const selectedYear = moment(value).year();
+    const minAllowedYear = 1900;
     if (
       moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
-      moment(value).isSameOrBefore(currentDate)
+      moment(value).isSameOrBefore(currentDate) &&
+      selectedYear >= minAllowedYear
     ) {
       setFromDateError(false);
       setFromDate(value);
