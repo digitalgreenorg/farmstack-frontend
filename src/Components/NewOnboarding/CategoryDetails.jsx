@@ -437,26 +437,11 @@ const CategoryDetails = (props) => {
         <Row>
           <Col style={{ textAlign: "right", margin: "20px" }}>
             <>
-              {/* <CustomDeletePopper
-                DeleteItem={"File"}
-                anchorEl={anchorEl}
-                handleDelete={(e) => {
-                  accordionDelete(e, index);
-                  setAnchorEl(null); // Reset anchorEl to null
-                  setOpen(false); // Reset open to false
-                }}
-                id="delete-popper-icon"
-                open={open}
-                closePopper={closePopper}
-                deletePopperId={`${index}-delete-popper-accordian-button`}
-                cancelPopperId={`${index}-cancel-popper-accordian-button`}
-              /> */}
-              {/* Style are overriden using classname */}
               <Popconfirm
                 style={{ padding: "0px" }}
                 overlayClassName={styles.popConfirmClass}
-                okButtonProps={{ style: { display: "none" } }} // Hide OK button
-                cancelButtonProps={{ style: { display: "none" } }} // Hide Cancel button
+                okButtonProps={{ style: { display: "none" } }}
+                cancelButtonProps={{ style: { display: "none" } }}
                 open={popoverOpen.index == index ? popoverOpen.state : false}
                 overlayStyle={{ padding: 0 }}
                 icon={
@@ -472,7 +457,6 @@ const CategoryDetails = (props) => {
                       >
                         {" "}
                         Delete
-                        {/* {DeleteItem}? */}
                       </Typography>
                     </div>
                     <Typography
@@ -488,15 +472,12 @@ const CategoryDetails = (props) => {
                         onClick={() =>
                           setPopoverOpen({ state: false, index: index })
                         }
-                        // id={cancelPopperId}
                       >
                         Cancel
                       </Button>
                       <Button
                         variant="outlined"
                         className={`${GlobalStyle.primary_button} ${LocalStyle.deleteButton}`}
-                        // onClick={handleDelete}
-                        // id={deletePopperId}
                         onClick={(e) => {
                           accordionDelete(e, index);
                           setPopoverOpen({ state: false, index: index });

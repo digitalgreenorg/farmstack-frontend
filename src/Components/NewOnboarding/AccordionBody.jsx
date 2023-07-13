@@ -11,6 +11,8 @@ import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { ClickAwayListener } from "@mui/base";
+
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
@@ -22,7 +24,8 @@ import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { CSSTransition } from "react-transition-group";
 
 function AccordionBody(props) {
-  const { data, index, deletePolicyDetail, toolbarConfig, getListOfPolicies } = props;
+  const { data, index, deletePolicyDetail, toolbarConfig, getListOfPolicies } =
+    props;
   const [isEditModeOn, setEditModeOn] = useState(true);
   const [uploadedPolicyE, setUploadedPolicyE] = useState(null);
   const [previewE, setPreviewE] = useState(null);
@@ -146,7 +149,7 @@ function AccordionBody(props) {
         console.log(response);
         if (response.status === 200) {
           callToast("Policy settings updated successfully!", "success", true);
-          getListOfPolicies()
+          getListOfPolicies();
         }
       })
       .catch(async (e) => {
@@ -381,27 +384,30 @@ function AccordionBody(props) {
           gap: "10px",
         }}
       >
-        <CustomDeletePopper
-          DeleteItem={policyNameUnderAccordion}
-          anchorEl={anchorEl}
-          handleDelete={(e) => confirm(e, index)}
-          id={"delete-popper-id"}
-          open={open}
-          closePopper={closePopper}
-          deletePopperId={`${index}-delete-popper-policy-button`}
-          cancelPopperId={`${index}-cancel-popper-policy-button`}
-        />
-        <Button
-          className={
-            global_style.secondary_button_error +
-            " " +
-            styles.delete_button_policy
-          }
-          onClick={handleDeletePopper}
-          id="delete-button-policy"
-        >
-          Delete
-        </Button>
+        <>
+          <CustomDeletePopper
+            DeleteItem={policyNameUnderAccordion}
+            anchorEl={anchorEl}
+            handleDelete={(e) => confirm(e, index)}
+            id={"delete-popper-id"}
+            open={open}
+            closePopper={closePopper}
+            deletePopperId={`${index}-delete-popper-policy-button`}
+            cancelPopperId={`${index}-cancel-popper-policy-button`}
+          />
+          <Button
+            className={
+              global_style.secondary_button_error +
+              " " +
+              styles.delete_button_policy
+            }
+            onClick={handleDeletePopper}
+            id="delete-button-policy"
+          >
+            Delete
+          </Button>
+        </>
+
         {isEditModeOn ? (
           <Button
             disabled={
