@@ -28,7 +28,7 @@ import AccordionBody from "./AccordionBody";
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [sizeError, setSizeError] = useState("");
-  const { setActiveStep } = props;
+  const { setActiveStep, isVisible } = props;
   const [policyName, setPolicyName] = useState("");
   const [policyNameError, setPolicyNameError] = useState("");
   const [fileError, setFileError] = useState("");
@@ -37,9 +37,9 @@ const CompanyPolicies = (props) => {
   const [uploadedPolicy, setUploadedPolicy] = useState(null);
   const [preview, setPreview] = useState(null);
   const [allPolicies, setAllPolicies] = useState([]);
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(isVisible);
 
-  const [key, setKey] = useState(0);
+  const [key, setKey] = useState();
   const history = useHistory();
 
   const handleUploadPolicy = (file) => {
@@ -170,35 +170,34 @@ const CompanyPolicies = (props) => {
   };
 
   const getListOfPolicies = () => {
-    callLoader(true);
-
-    let url = UrlConstant.base_url + UrlConstant.datahub_policy;
-    let method = "GET";
-    HTTPService(method, url, "", false, true, false, true)
-      .then((response) => {
-        callLoader(false);
-        console.log(response);
-        //after getting the response correclty trying to create accordion detail
-        let arr = [...response.data];
-        // arr = arr.sort((policyA, policyB) => policyA.name - policyB.name);
-        setAllPolicies([...arr]);
-      })
-      .catch(async (e) => {
-        callLoader(false);
-        let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if (error.toast) {
-          callToast(
-            error?.message || "Something went wrong",
-            error?.status === 200 ? "success" : "error",
-            true
-          );
-        }
-        if (error.path) {
-          history.push(error.path);
-        }
-      });
+    // callLoader(true);
+    // let url = UrlConstant.base_url + UrlConstant.datahub_policy;
+    // let method = "GET";
+    // HTTPService(method, url, "", false, true, false, true)
+    //   .then((response) => {
+    //     callLoader(false);
+    //     console.log(response);
+    //     //after getting the response correclty trying to create accordion detail
+    //     let arr = [...response.data];
+    //     // arr = arr.sort((policyA, policyB) => policyA.name - policyB.name);
+    //     setAllPolicies([...arr]);
+    //   })
+    //   .catch(async (e) => {
+    //     callLoader(false);
+    //     let error = await GetErrorHandlingRoute(e);
+    //     console.log("Error obj", error);
+    //     console.log(e);
+    //     if (error.toast) {
+    //       callToast(
+    //         error?.message || "Something went wrong",
+    //         error?.status === 200 ? "success" : "error",
+    //         true
+    //       );
+    //     }
+    //     if (error.path) {
+    //       history.push(error.path);
+    //     }
+    //   });
   };
 
   // create a preview as a side effect, whenever selected file is changed
@@ -280,6 +279,7 @@ const CompanyPolicies = (props) => {
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button
               id="addnew-policy-button"
+              aria-label="add_policy"
               onClick={() => setIsFormVisible(true)}
               className={global_style.primary_button + " " + styles.next_button}
             >
