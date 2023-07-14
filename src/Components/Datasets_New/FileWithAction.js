@@ -303,6 +303,16 @@ const FileWithAction = ({
             ? "Download"
             : "Login to Download"}
         </Button>
+        <Button
+            sx={{
+              fontFamily:"Montserrat",
+              fontWeight:"Bold",
+              backgroundColor:"green",
+              color:"white"
+            }}
+            >
+              Visualise 
+            </Button>
         {isLoggedInUserFromHome() ? (
           <Button
             sx={{
