@@ -330,7 +330,7 @@ const GuestUserContactNew = () => {
             fullWidth
             value={email}
             onChange={(e) => {
-              setEmail(e.target.value);
+              setEmail(e.target.value.trim());
               setIsEmailValid(validateEmail(e.target.value));
             }}
             error={emailErrorMessage || !isEmailValid}
@@ -422,7 +422,7 @@ const GuestUserContactNew = () => {
             margin="normal"
             // required
             fullWidth
-            onChange={(e) => setDescribeQuery(e.target.value)}
+            onChange={(e) => setDescribeQuery(e.target.value.trimStart())}
             onBlur={(e) => setDescribeQuery((prevValue) => prevValue.trim())}
             error={describeQueryErrorMessage}
             helperText={describeQueryErrorMessage ?? ""}
