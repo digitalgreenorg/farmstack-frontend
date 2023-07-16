@@ -170,34 +170,33 @@ const CompanyPolicies = (props) => {
   };
 
   const getListOfPolicies = () => {
-    // callLoader(true);
-    // let url = UrlConstant.base_url + UrlConstant.datahub_policy;
-    // let method = "GET";
-    // HTTPService(method, url, "", false, true, false, true)
-    //   .then((response) => {
-    //     callLoader(false);
-    //     console.log(response);
-    //     //after getting the response correclty trying to create accordion detail
-    //     let arr = [...response.data];
-    //     // arr = arr.sort((policyA, policyB) => policyA.name - policyB.name);
-    //     setAllPolicies([...arr]);
-    //   })
-    //   .catch(async (e) => {
-    //     callLoader(false);
-    //     let error = await GetErrorHandlingRoute(e);
-    //     console.log("Error obj", error);
-    //     console.log(e);
-    //     if (error.toast) {
-    //       callToast(
-    //         error?.message || "Something went wrong",
-    //         error?.status === 200 ? "success" : "error",
-    //         true
-    //       );
-    //     }
-    //     if (error.path) {
-    //       history.push(error.path);
-    //     }
-    //   });
+    callLoader(true);
+    let url = UrlConstant.base_url + UrlConstant.datahub_policy;
+    let method = "GET";
+    HTTPService(method, url, "", false, true, false, true)
+      .then((response) => {
+        callLoader(false);
+        //after getting the response correclty trying to create accordion detail
+        let arr = [...response.data];
+        // arr = arr.sort((policyA, policyB) => policyA.name - policyB.name);
+        setAllPolicies([...arr]);
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
   };
 
   // create a preview as a side effect, whenever selected file is changed
@@ -659,7 +658,7 @@ const CompanyPolicies = (props) => {
       ) : (
         ""
       )}
-      <Row style={{ marginBottom: "20px" }}>
+      <Row style={{ marginBottom: "20px 0px" }}>
         <Col lg={12} sm={12}>
           {allPolicies.map((each_policy, index) => {
             // console.log(allPolicies, each_policy);

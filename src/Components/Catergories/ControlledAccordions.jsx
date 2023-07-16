@@ -81,6 +81,7 @@ export default function ControlledAccordions(props) {
           onClick={(e) => handleEditHeading(false, e, index)}
         >
           <Typography
+            data-testid="accordion"
             className={global_styles.bold600 + " " + global_styles.size24}
             sx={{
               width: "95%",
