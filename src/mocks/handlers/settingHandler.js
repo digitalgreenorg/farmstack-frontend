@@ -1,6 +1,20 @@
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
 
+const savedDatapoint = [
+  {
+    id: "8d098de5-2178-4fb9-a257-d9d09a5707ab",
+    datapoint_category: "sofshdj",
+    datapoint_description: "ddf",
+    datapoint_attributes: {},
+  },
+  {
+    id: "8d098de5-2178-4fb9-a257-d9d09a5745ab",
+    datapoint_category: "Georgopol",
+    datapoint_description: "PochdsfdankiGatka",
+    datapoint_attributes: {},
+  },
+];
 export const settingHandler = [
   rest.get(
     UrlConstant.base_url + UrlConstant.datahub_policy,
@@ -47,17 +61,15 @@ export const settingHandler = [
   rest.get(
     UrlConstant.base_url + UrlConstant.standardization_get_data,
     (req, res, ctx) => {
-      return res(
-        ctx.status(200),
-        ctx.json([
-          {
-            id: "8d098de5-2178-4fb9-a257-d9d09a5707ab",
-            datapoint_category: "Pochanki",
-            datapoint_description: "PochankiGatka",
-            datapoint_attributes: {},
-          },
-        ])
-      );
+      return res(ctx.status(200), ctx.json(savedDatapoint));
+    }
+  ),
+  rest.put(
+    UrlConstant.base_url + UrlConstant.standardization_update_data,
+    (req, res, ctx) => {
+      console.log("🚀 ~ file: settingHandler.js:78 ~ req:", req.json());
+      // let payload = req.body.json()
+      return res(ctx.status(201), ctx.json({}));
     }
   ),
 ];

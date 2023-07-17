@@ -11,6 +11,7 @@ import "@testing-library/jest-dom";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { setUserId } from "../../Utils/Common";
 import StandardizationInOnbord from "../../Components/Standardization/StandardizationInOnbording";
+import userEvent from "@testing-library/user-event";
 
 describe("Datapoint Setting", () => {
   beforeEach(() => {
@@ -25,28 +26,55 @@ describe("Datapoint Setting", () => {
       wrapper: FarmStackProvider,
     });
   });
-  test("input existenece", async () => {
-    setUserId("sometoken");
+  // test("input existenece", async () => {
+  //   setUserId("sometoken");
 
-    render(<StandardizationInOnbord isSettings={true} />, {
-      wrapper: FarmStackProvider,
-    });
+  //   render(<StandardizationInOnbord inSettings={true} />, {
+  //     wrapper: FarmStackProvider,
+  //   });
 
-    expect(
-      screen.getByRole("textbox", {
-        name: "Datapoint name",
-      })
-    ).toBeInTheDocument();
-    expect(screen.getByLabelText("Datapoint description")).toBeInTheDocument();
-    expect(screen.getByText(/Add/i)).toBeInTheDocument();
-  });
+  //   expect(
+  //     screen.getByRole("textbox", {
+  //       name: "Datapoint name",
+  //     })
+  //   ).toBeInTheDocument();
+  //   expect(screen.getByLabelText("Datapoint description")).toBeInTheDocument();
+  //   expect(screen.getByText(/Add/i)).toBeInTheDocument();
+  // });
   test("renders list of datapoints", async () => {
     setUserId("sometoken");
-    render(<StandardizationInOnbord isSettings={true} />, {
+    render(<StandardizationInOnbord inSettings={true} />, {
       wrapper: FarmStackProvider,
     });
-    // const policies = await screen.findAllByTestId("accordion");
-    // expect(policies).toHaveLength(2);
-    // expect(policies[0]).toHaveTextContent("jiohujgvbv");
+    const datapoints = await screen.findAllByTestId("accordion");
+    expect(datapoints).toHaveLength(2);
+  });
+  test("Add datapoint", async () => {
+    setUserId("sometoken");
+    render(<StandardizationInOnbord inSettings={true} />, {
+      wrapper: FarmStackProvider,
+    });
+    const dataPointName = screen.getByRole("textbox", {
+      name: "Datapoint name",
+    });
+    const dataPointDescription = screen.getByLabelText("Datapoint description");
+
+    const addButton = screen.getByText(/Add/i);
+
+    fireEvent.change(dataPointName, {
+      target: { value: "sample datapoint" },
+    });
+    fireEvent.change(dataPointDescription, {
+      target: { value: "sample datapoint description" },
+    });
+    fireEvent.click(addButton);
+
+    const submitButton = screen.getByRole("button", {
+      name: /Submit/i,
+    });
+    fireEvent.click(submitButton);
+
+    const datapoints = await screen.findAllByTestId("accordion");
+    // expect(datapoints).toBE(1);
   });
 });

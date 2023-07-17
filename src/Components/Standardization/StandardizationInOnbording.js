@@ -568,7 +568,7 @@ const StandardizationInOnbord = (props) => {
     goToTop(0);
   }, []);
 
-  console.log("all attribute", allAttributes);
+  console.log("all datapoints", allDatapoints);
 
   return (
     <>
@@ -656,6 +656,7 @@ const StandardizationInOnbord = (props) => {
                     aria-controls="panel1a-content"
                     id={`datapoint-category-${index}-accordian`}
                     className="attribute-accordion-titile"
+                    data-testid="accordion"
                   >
                     {editCategoryTitle[index] ? (
                       <TextField
