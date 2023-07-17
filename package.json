@@ -74,7 +74,8 @@
     "start": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 start",
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "coverage": "react-scripts test --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -90,5 +91,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "axios-mock-adapter": "^1.21.5",
+    "msw": "^1.2.2"
   }
 }
