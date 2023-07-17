@@ -18,7 +18,6 @@ const CustomDeletePopper = (props) => {
     deletePopperId,
     cancelPopperId,
   } = props;
-  console.log("anchorEl", anchorEl);
   return (
     <Popper id={id} open={open} anchorEl={anchorEl} transition>
       {({ TransitionProps }) => (

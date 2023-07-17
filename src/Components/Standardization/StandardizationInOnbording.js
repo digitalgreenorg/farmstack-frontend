@@ -426,7 +426,6 @@ const StandardizationInOnbord = (props) => {
             tmp[index] = Object.keys(item.datapoint_attributes);
             tmp[index].push(tmp[index]?.[0]);
             tmp[index][0] = "";
-
             tmpDes[index] = Object.values(item.datapoint_attributes);
             tmpDes[index].push(tmpDes[index]?.[0]);
             tmpDes[index][0] = "";
@@ -438,30 +437,6 @@ const StandardizationInOnbord = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-
-        //   success('Standardization template created successfully')
-        // console.log(e);
-        // if (
-        //   e.response != null &&
-        //   e.response != undefined &&
-        //   (e.response.status === 401 || e.response.status === 502)
-        // ) {
-        //   setError(true);
-        //   // success(
-        //   //   e.response.data && e.response.data.message
-        //   //     ? e.response.data.message
-        //   //     : "User not registered", "error"
-        //   // );
-        //   history.push(GetErrorHandlingRoute(e));
-        // } else {
-        //   setError(false);
-        //   callToast(
-        //     e.response.data && e.response.data.message
-        //       ? e.response.data.message
-        //       : "Something went wrong.",
-        //     "error"
-        //   );
-        // }
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -541,28 +516,6 @@ const StandardizationInOnbord = (props) => {
       });
   };
 
-  // useEffect(()=>{
-  //     console.log('attribute in use effect to check', allAttributes)
-  // },[allAttributes])
-
-  //   useEffect(() => {
-  //     console.log('use effect run 1')
-  //     let tmpAllAttributes = { ...allAttributes };
-  //     let tmpAllAttributesDes = { ...allAttributesDes };
-  //     allDatapoints.forEach((item, index) => {
-
-  //         // if(!allAttributes[index]){
-  //         //     // console.log('in use effect loop', allAttributes, index, tmpAllAttributes)
-  //         //     tmpAllAttributes[index] = [];
-  //         //     tmpAllAttributesDes[index] = [];
-
-  //         // }
-  //     });
-  //     console.log("all attribute in map", allAttributes,tmpAllAttributes);
-  //     // setAllAttributes(tmpAllAttributes);
-  //     // setAllAttributesDes(tmpAllAttributesDes)
-
-  //   }, [allDatapoints]);
   const setOnBoardedTrue = () => {
     let data = {
       user_id: getUserLocal(),
@@ -611,9 +564,7 @@ const StandardizationInOnbord = (props) => {
       });
   };
   useEffect(() => {
-    // if (inSettings) {
     getStandardiziedTemplate();
-    // }
     goToTop(0);
   }, []);
 
@@ -697,11 +648,6 @@ const StandardizationInOnbord = (props) => {
             </div>
           )}
           {allDatapoints?.map((item, index) => {
-            // let tmpAllAttributes = {...allAttributes}
-            // tmpAllAttributes[index] = []
-            // setAllAttributes(tmpAllAttributes)
-            // console.log('all attribute in map', allAttributes)
-
             return (
               <>
                 <Accordion className="accordion-main-classname">
@@ -711,10 +657,6 @@ const StandardizationInOnbord = (props) => {
                     id={`datapoint-category-${index}-accordian`}
                     className="attribute-accordion-titile"
                   >
-                    {/* <Typography className="accordion-title" variant="h5">
-                      {item.datapoint_category}
-                    </Typography> */}
-
                     {editCategoryTitle[index] ? (
                       <TextField
                         value={item.datapoint_category}
@@ -754,29 +696,6 @@ const StandardizationInOnbord = (props) => {
                         </Typography>
                       </div>
                     )}
-                    {/* {editCategoryTitle[index] ? (
-                      <IconButton>
-                        <Button
-                          id={`update-${index}-button-category`}
-                          onClick={() =>
-                            handleNameExistsUpdate(
-                              index,
-                              item.datapoint_category
-                            )
-                          }
-                          // this funtion will make a particular index of editCategoryTitle array false
-                          // className="update-category-button"
-                          className={
-                            global_style.primary_button +
-                            " " +
-                            styles.next_button
-                          }
-                        >
-                          Update
-                        </Button>
-                      </IconButton>
-                    ) : null} */}
-
                     <IconButton
                       onClick={(e) => {
                         // this funtion will make a particular index of editCategoryTitle array true
@@ -861,22 +780,6 @@ const StandardizationInOnbord = (props) => {
                                 : attributeErrorMessage[index]
                             }
                           />
-                          {/* <TextField
-                          required
-                          className="datapoint-attribute-input-box"
-                          id="datapoint-attribute-input-box-id"
-                          label="Datapoint attributes description"
-                          variant="outlined"
-                          value={allAttributesDes[index]?.[0]}
-                          onChange={(e) =>
-                            hanldeAttributeDesInputChange(
-                              index,
-                              0,
-                              e.target.value
-                            )
-                          }
-                          inputProps={{ maxLength: 250 }}
-                        /> */}
                         </Col>
                         <Col
                           lg={6}
@@ -914,15 +817,6 @@ const StandardizationInOnbord = (props) => {
                                     InputProps={{
                                       endAdornment: (
                                         <>
-                                          {/* <Tooltip
-                                            title={
-                                              allAttributesDes?.[index]?.[
-                                                arrIndex
-                                              ]
-                                            }
-                                          >
-                                            <InfoIcon />
-                                          </Tooltip> */}
                                           <IconButton
                                             onClick={(e) =>
                                               handleDatapointAtticuteDelete(
@@ -935,18 +829,12 @@ const StandardizationInOnbord = (props) => {
                                             <DeleteOutlineIcon />
                                           </IconButton>
                                         </>
-
-                                        // </span>
                                       ),
                                     }}
-                                    // className="datapoint-attribute-input-box1"
                                     id="datapoint-attribute-input-box-id"
                                     label="Datapoint attributes"
                                     variant="outlined"
                                     value={inputValue}
-                                    //   onChange={(e) =>
-                                    //     // hanldeAttributeInputChange(index, 0, e.target.value)
-                                    //   }
                                   />
                                 </Col>
                               ) : (
@@ -1019,52 +907,6 @@ const StandardizationInOnbord = (props) => {
               </>
             );
           })}
-
-          {/* <h1>Datapoint attributes</h1>
-
-          <div className="attribute-main-div">
-            <h3>Farmer profile</h3>
-            <p>Add Datapoint attributes</p>
-            <div>
-              <TextField
-                className="datapoint-attribute-input-box"
-                id="datapoint-attribute-input-box-id"
-                label="Datapoint attributes"
-                variant="outlined"
-              />
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 48 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="24"
-                  cy="24"
-                  r="23.5"
-                  fill="white"
-                  stroke="#D5DADE"
-                />
-                <g clip-path="url(#clip0_651_27789)">
-                  <path
-                    d="M31 25H25V31H23V25H17V23H23V17H25V23H31V25Z"
-                    fill="black"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_651_27789">
-                    <rect
-                      width="24"
-                      height="24"
-                      fill="white"
-                      transform="translate(12 12)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            </div>
-          </div> */}
         </div>
         <Row style={{ display: "none" }}>
           <Col lg={6} md={12} sm={12}>
