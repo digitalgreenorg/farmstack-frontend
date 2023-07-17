@@ -73,7 +73,7 @@
   "scripts": {
     "start": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 start",
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -89,6 +89,26 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.7",
+    "@babel/preset-react": "^7.22.5",
+    "babel-jest": "^29.6.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest-matchmedia-mock": "^1.1.0",
+    "match-media-mock": "^0.1.1",
+    "matchmedia-polyfill": "^0.3.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
     ]
   }
 }
