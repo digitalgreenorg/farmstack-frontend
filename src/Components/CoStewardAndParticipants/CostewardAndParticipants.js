@@ -246,7 +246,7 @@ const CoStewardAndParticipantsCard = (props) => {
               onClick={() => setViewType("list")}
               className={LocalStyle.viewType}
             >
-              <img
+              <img 
                 className={LocalStyle.listAndgridViewImg}
                 src={
                   viewType === "list"
@@ -666,11 +666,11 @@ const CoStewardAndParticipantsCard = (props) => {
       {/* // )} */}
       {/* </Row> */}
       {loadMoreButton ? (
-        <Box className={LocalStyle.buttonContainer}>
+        <Box className={LocalStyle.buttonContainer} id="load-more-btn">
           <div>
             <Button
               onClick={handleLoadMoreButton}
-              id={title?.split(" ")[0] + "-load-more-button"}
+              id="load-more-button"
               variant="outlined"
               className={`${
                 mobile || tablet
