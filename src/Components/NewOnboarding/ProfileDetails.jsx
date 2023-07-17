@@ -232,7 +232,6 @@ const ProfileDetails = (props) => {
     let url = UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/";
     HTTPService(method, url, "", false, true, false, false)
       .then((res) => {
-        console.log(res);
         setProfileDetails({
           first_name: res.data.first_name,
           last_name: res.data.last_name,

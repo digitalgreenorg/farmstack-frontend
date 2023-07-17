@@ -4,14 +4,13 @@ import { getUserLocal } from "../../Utils/Common";
 export const onboardingHandler = [
   // pass your url in the first parameter
   rest.get(
-    "",
-    // UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/",
+    `${UrlConstant.base_url}${UrlConstant.profile}:userId/`,
+    // UrlConstant.base_url + UrlConstant.profile + "sometoken" + "/",
     (req, res, ctx) => {
-      console.log("inside onbaoding profile api");
       return res(
         ctx.status(200),
         ctx.json({
-          id: getTokenLocal(),
+          id: "id",
           email: "dgemail@digitalgreen.org",
           first_name: "digital",
           last_name: "green",

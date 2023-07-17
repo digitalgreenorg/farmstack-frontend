@@ -1,19 +1,24 @@
 import React from "react";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  logDOM,
+} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import ProfileDetails from "../../Components/NewOnboarding/ProfileDetails";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 
-import { getUserLocal, setUserId } from "../../Utils/Common";
+import { setUserId } from "../../Utils/Common";
 import { act } from "react-dom/test-utils";
 
-// jest.mock("axios");x
-const userId = "0f76cb90-2394-499b-9b60-bf4cad3751a4";
 beforeEach(() => {});
 
 afterEach(() => {
   cleanup();
 });
+
 describe("User profile", () => {
   // beforeEach(() => render(<ProfileDetails />, { wrapper: FarmStackProvider }));
   test("rendered correctly", () => {
@@ -55,20 +60,30 @@ describe("User profile", () => {
   });
 
   test("value", async () => {
-    act(() => {
-      setUserId("sometoken");
-      render(<ProfileDetails />, { wrapper: FarmStackProvider });
-      screen.debug();
-      expect(true);
+    setUserId("sometoken");
+    render(<ProfileDetails />, { wrapper: FarmStackProvider });
+
+    let firstName = await screen.findByRole("textbox", { name: /first name/i });
+    expect(firstName.value).toBe("digital");
+    // screen.debug();
+
+    let lastName = await screen.findByRole("textbox", { name: /last name/i });
+    expect(lastName.value).toBe("green");
+    let emailId = await screen.findByRole("textbox", {
+      name: /Enter mail id/i,
     });
-    // act(async () => {
-    // let firstName = await screen.findByRole("textbox", { name: /first name/i });
-    // expect(true);
-    // expect(firstName.value).toBe("digital");
-    // let lastName = await screen.findByRole("textbox", { name: /last name/i });
-    // expect(true);
-    // let emailId = await screen.findByRole("textbox", { name: //i });
-    // expect(lastName.value).toBe("green");
-    // });
+    expect(emailId.value).toBe("dgemail@digitalgreen.org");
+    let phoneNumber = await screen.findByRole("textbox", {
+      name: /Contact Number/i,
+    });
+    expect(phoneNumber.value).toBe("+91 98989-89898");
+  });
+
+  test("checking for all the labels inside onboarding profile detail step", () => {
+    render(<ProfileDetails />, { wrapper: FarmStackProvider });
+    const finishLater = screen.getByRole("button", {
+      name: /finish later/i,
+    });
+    expect(finishLater).toHaveTextContent("Finish later");
   });
 });
