@@ -34,6 +34,7 @@ import {
 import { CSSTransition } from "react-transition-group";
 import { Badge, Popconfirm, Switch } from "antd";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
+import NoData from "../../NoData/NoData";
 
 const DatasetRequestTable = () => {
   const { isLoading, toastDetail, callLoader, callToast } =
@@ -89,7 +90,6 @@ const DatasetRequestTable = () => {
         let response = await GetErrorHandlingRoute(error);
         console.log(response, "response");
         if (response?.toast) {
-          //callToast(message, type, action)
           callToast(
             response?.message ?? response?.data?.detail,
             response.status == 200 ? "success" : "error",
@@ -102,7 +102,6 @@ const DatasetRequestTable = () => {
   };
 
   const SubmitHandler = (condition, usagePolicyId) => {
-    // callLoader(true);
     let url =
       UrlConstant.base_url + "datahub/usage_policies/" + usagePolicyId + "/";
     let method = "PATCH";
@@ -152,7 +151,6 @@ const DatasetRequestTable = () => {
               default:
                 let response = await GetErrorHandlingRoute(err);
                 if (response.toast) {
-                  //callToast(message, type, action)
                   callToast(
                     response?.message ?? response?.data?.detail ?? "Unknown",
                     response.status == 200 ? "success" : "error",
@@ -167,7 +165,6 @@ const DatasetRequestTable = () => {
         } else {
           let response = await GetErrorHandlingRoute(err);
           if (response.toast) {
-            //callToast(message, type, action)
             callToast(
               response?.message ?? response?.data?.detail ?? "Unknown",
               response.status == 200 ? "success" : "error",
@@ -205,11 +202,9 @@ const DatasetRequestTable = () => {
       "Dataset details",
       "Organization details",
       "Status",
-      // "Accessibility time",
       "Actions",
       "View",
     ];
-    // let columnsForReceived = ["dataset_name", "organization_name","approval_status", "accessibility_time", "Action"];
     setRequestReceivedColumns(columnsForReceived);
     setRequestSentColumns(columnsForSent);
   }, [allRequestReceivedList, allRequestSentList]);
@@ -218,626 +213,567 @@ const DatasetRequestTable = () => {
   }, [refresh, showRequestSent]);
   return (
     <>
-      {/* <Container> */}
-      <Row>
-        <Col
-          lg={6}
-          sm={12}
-          md={12}
-          className={
-            global_styles.size36 +
-            " " +
-            global_styles.bold600 +
-            " text-left mt-20 mb-20"
-          }
-        >
-          Request {showRequestSent ? "sent" : "received"}
-          <Typography
-            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
-          >
-            {" "}
-            {showRequestSent
-              ? "Track the status of your dataset access requests."
-              : "Review requests from organizations seeking access to your dataset."}{" "}
-          </Typography>
-        </Col>
-        <Col
-          lg={6}
-          style={{
-            display: "flex",
-            gap: "10px",
-            alignItems: "center",
-            justifyContent: "right",
-          }}
-        >
-          <Typography className={global_styles.bold600}>Received</Typography>
-          <Switch
-            style={{ background: "#00ab55" }}
-            checked={showRequestSent}
-            onChange={setShowRequestSent}
-            id="dataset-requests-receive-and-sent-toggle"
-          />
-          <Typography className={global_styles.bold600}>Sent</Typography>
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12} sm={12} md={12}></Col>
-        <TableContainer
-          component={Paper}
-          style={{}}
-          className="requestTableContainer"
-        >
-          <CSSTransition
-            appear={!showRequestSent}
-            in={!showRequestSent}
-            timeout={{
-              appear: 600,
-              enter: 700,
-              exit: 100,
-            }}
-            classNames="step"
-            unmountOnExit
-          >
-            <Table
-              sx={{
-                "& .MuiTableCell-root": {
-                  borderLeft: "1px solid rgba(224, 224, 224, 1)",
-                  fontFamily: "Montserrat",
-                },
+      {allRequestSentList.length > 0 && allRequestReceivedList.length > 0 ? (
+        <>
+          <Row>
+            <Col
+              lg={6}
+              sm={12}
+              md={12}
+              className={
+                global_styles.size36 +
+                " " +
+                global_styles.bold600 +
+                " text-left mt-20 mb-20"
+              }
+            >
+              Request {showRequestSent ? "sent" : "received"}
+              <Typography
+                className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+              >
+                {" "}
+                {showRequestSent
+                  ? "Track the status of your dataset access requests."
+                  : "Review requests from organizations seeking access to your dataset."}{" "}
+              </Typography>
+            </Col>
+            <Col
+              lg={6}
+              style={{
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+                justifyContent: "right",
               }}
             >
-              <TableHead
-                sx={{
-                  background: "#F8F8F8 !important",
-                  fontFamily: "Montserrat",
+              <Typography className={global_styles.bold600}>
+                Received
+              </Typography>
+              <Switch
+                style={{ background: "#00ab55" }}
+                checked={showRequestSent}
+                onChange={setShowRequestSent}
+                id="dataset-requests-receive-and-sent-toggle"
+              />
+              <Typography className={global_styles.bold600}>Sent</Typography>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={12} sm={12} md={12}></Col>
+            <TableContainer
+              component={Paper}
+              style={{}}
+              className="requestTableContainer"
+            >
+              <CSSTransition
+                appear={!showRequestSent}
+                in={!showRequestSent}
+                timeout={{
+                  appear: 600,
+                  enter: 700,
+                  exit: 100,
                 }}
+                classNames="step"
+                unmountOnExit
               >
-                <TableRow
+                <Table
                   sx={{
                     "& .MuiTableCell-root": {
+                      borderLeft: "1px solid rgba(224, 224, 224, 1)",
                       fontFamily: "Montserrat",
                     },
                   }}
                 >
-                  {requestReceivedColumns.map((eachHead, index) => {
-                    let alignItems = index == 1 ? "left" : "center";
-                    return (
-                      <TableCell
-                        sx={{
-                          "& .MuiTableCell-root": {
-                            fontFamily: "Montserrat",
-                          },
-                          textAlign: alignItems,
-                          alignItems: alignItems,
-                        }}
-                        className={styles.file_table_column}
-                      >
-                        {eachHead}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {allRequestReceivedList.map((row, index) => (
-                  <TableRow
-                    key={row.id}
+                  <TableHead
                     sx={{
-                      // "&:last-child td, &:last-child th": { border: 0 },
-                      textTransform: "capitalize",
+                      background: "#F8F8F8 !important",
+                      fontFamily: "Montserrat",
                     }}
-                    className={global_styles.bold500}
-                    style={{ width: "100%" }}
                   >
-                    <TableCell
-                      style={{ width: "30%", maxWidth: "350px" }}
-                      component="th"
-                      scope="row"
-                    >
-                      <div style={{ display: "flex", gap: "20px" }}>
-                        <span style={{ width: "50%" }}>
-                          <div
-                            className={
-                              global_styles.bold600 +
-                              " " +
-                              global_styles.size16 +
-                              " " +
-                              global_styles.ellipses
-                            }
-                          >
-                            {row.dataset_name}
-                          </div>
-                          <div>Dataset name</div>
-                        </span>
-                        <span style={{ width: "50%" }}>
-                          <div
-                            className={
-                              global_styles.bold600 +
-                              " " +
-                              global_styles.size16 +
-                              " " +
-                              global_styles.ellipses
-                            }
-                          >
-                            {" "}
-                            {row.file_name}
-                          </div>
-                          <div>File name</div>
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      <div style={{ display: "flex", gap: "20px" }}>
-                        <div>
-                          <div
-                            style={{ maxWidth: "150px" }}
-                            className={
-                              global_styles.bold600 +
-                              " " +
-                              global_styles.size16 +
-                              " " +
-                              global_styles.ellipses
-                            }
-                          >
-                            {row.organization_name}
-                          </div>
-                          <div>Organization name</div>
-                        </div>
-                        {/* <span>
-                        <div
-                          className={
-                            global_styles.bold600 + " " + global_styles.size16
-                          }
-                        >
-                          {" "}
-                          {row.file_name}
-                        </div>
-                        <div>File name</div>
-                      </span> */}
-                      </div>
-                    </TableCell>
-
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      // style={{ display: "flex", gap: "20px" }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: "20px",
-                          justifyContent: "left",
-                        }}
-                      >
-                        <div>
-                          <div
-                            className={
-                              global_styles.bold600 + " " + global_styles.size16
-                            }
-                          >
-                            <Badge
-                              style={{
-                                backgroundColor:
-                                  row.approval_status == "rejected"
-                                    ? "#ff5630"
-                                    : row.approval_status == "approved"
-                                    ? "#00ab55"
-                                    : "#faad14",
-                                width: "80px",
-                              }}
-                              className={
-                                global_styles.bold600 +
-                                " " +
-                                global_styles.size16
-                              }
-                              count={row.approval_status}
-                            ></Badge>
-                          </div>
-
-                          <div
-                            style={{ fontStyle: "italic", width: "112px" }}
-                            className={global_styles.ellipses}
-                          >
-                            {row.approval_status == "approved"
-                              ? `Till : ${row.accessibility_time ?? "NA"}`
-                              : ""}
-                          </div>
-                        </div>
-
-                        <div>
-                          <div
-                            className={
-                              global_styles.bold600 +
-                              " " +
-                              global_styles.size16 +
-                              " " +
-                              global_styles.ellipses
-                            }
-                            style={{ maxWidth: "112px" }}
-                          >
-                            {row.updated_at?.substring(0, 10)}
-                          </div>
-                          Last updated
-                          {/* <div> Accessibility Time</div> */}
-                        </div>
-                      </div>
-                    </TableCell>
-                    {/* <TableCell
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                    <TableRow
+                      sx={{
+                        "& .MuiTableCell-root": {
+                          fontFamily: "Montserrat",
+                        },
                       }}
-                      component="th"
-                      scope="row"
                     >
-                      <Badge
-                        style={{
-                          backgroundColor:
-                            row.approval_status == "rejected"
-                              ? "#ff5630"
-                              : row.approval_status == "approved"
-                              ? "#00ab55"
-                              : "#faad14",
-                          width: "80px",
-                        }}
-                        count={row.approval_status}
-                      ></Badge>
-                    </TableCell> */}
-                    {/* <TableCell component="th" scope="row"> */}
-                    {/* <div style={{ display: "flex", gap: "20px" }}>
-                        <div>
-                          <div
-                            className={
-                              global_styles.bold600 + " " + global_styles.size16
-                            }
+                      {requestReceivedColumns.map((eachHead, index) => {
+                        let alignItems = index == 1 ? "left" : "center";
+                        return (
+                          <TableCell
+                            sx={{
+                              "& .MuiTableCell-root": {
+                                fontFamily: "Montserrat",
+                              },
+                              textAlign: alignItems,
+                              alignItems: alignItems,
+                            }}
+                            className={styles.file_table_column}
                           >
-                            {row.accessibility_time}
-                          </div>
-                          <div>Accessibility Time</div>
-                        </div>
-                        <span>
-                        <div
-                          className={
-                            global_styles.bold600 + " " + global_styles.size16
-                          }
+                            {eachHead}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {allRequestReceivedList.map((row, index) => (
+                      <TableRow
+                        key={row.id}
+                        sx={{
+                          textTransform: "capitalize",
+                        }}
+                        className={global_styles.bold500}
+                        style={{ width: "100%" }}
+                      >
+                        <TableCell
+                          style={{ width: "30%", maxWidth: "350px" }}
+                          component="th"
+                          scope="row"
                         >
-                          {" "}
-                          {row.file_name}
-                        </div>
-                        <div>File name</div>
-                      </span>
-                      </div> */}
-                    {/* </TableCell> */}
-                    {/* <TableCell component="th" scope="row">
-                    {row.}
-                  </TableCell> */}
-
-                    <TableCell
-                      // style={{
-                      //   display: "flex",
-                      //   justifyContent: "center",
-                      //   alignItems: "center",
-                      //   gap: "20px",
-                      //   flexDirection: "column",
-                      // }}
-                      className={styles.table_cell_for_approve_button}
-                    >
-                      {row.approval_status !== "approved" &&
-                        row.approval_status !== "rejected" && (
-                          <Popconfirm
-                            title={
-                              <span
-                                style={{
-                                  color: "#00ab55",
-                                  textTransform: "none",
-                                  fontFamily: "Montserrat",
-                                }}
+                          <div style={{ display: "flex", gap: "20px" }}>
+                            <span style={{ width: "50%" }}>
+                              <div
+                                className={
+                                  global_styles.bold600 +
+                                  " " +
+                                  global_styles.size16 +
+                                  " " +
+                                  global_styles.ellipses
+                                }
                               >
-                                Please select the accessibility time
-                              </span>
-                            }
-                            description={
-                              <>
-                                <LocalizationProvider
-                                  dateAdapter={AdapterDateFns}
-                                >
-                                  <DatePicker
-                                    disablePast
-                                    inputFormat="dd/MM/yyyy"
-                                    placeholder="Till"
-                                    label="Till"
-                                    value={toDate}
-                                    onChange={(value) => handleToDate(value)}
-                                    PaperProps={{
-                                      sx: {
-                                        borderRadius: "16px !important",
-                                        "& .MuiPickersDay-root": {
-                                          "&.Mui-selected": {
-                                            backgroundColor:
-                                              "#007B55 !important",
-                                          },
-                                        },
-                                      },
+                                {row.dataset_name}
+                              </div>
+                              <div>Dataset name</div>
+                            </span>
+                            <span style={{ width: "50%" }}>
+                              <div
+                                className={
+                                  global_styles.bold600 +
+                                  " " +
+                                  global_styles.size16 +
+                                  " " +
+                                  global_styles.ellipses
+                                }
+                              >
+                                {" "}
+                                {row.file_name}
+                              </div>
+                              <div>File name</div>
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          <div style={{ display: "flex", gap: "20px" }}>
+                            <div>
+                              <div
+                                style={{ maxWidth: "150px" }}
+                                className={
+                                  global_styles.bold600 +
+                                  " " +
+                                  global_styles.size16 +
+                                  " " +
+                                  global_styles.ellipses
+                                }
+                              >
+                                {row.organization_name}
+                              </div>
+                              <div>Organization name</div>
+                            </div>
+                          </div>
+                        </TableCell>
+
+                        <TableCell component="th" scope="row">
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "20px",
+                              justifyContent: "left",
+                            }}
+                          >
+                            <div>
+                              <div
+                                className={
+                                  global_styles.bold600 +
+                                  " " +
+                                  global_styles.size16
+                                }
+                              >
+                                <Badge
+                                  style={{
+                                    backgroundColor:
+                                      row.approval_status == "rejected"
+                                        ? "#ff5630"
+                                        : row.approval_status == "approved"
+                                        ? "#00ab55"
+                                        : "#faad14",
+                                    width: "80px",
+                                  }}
+                                  className={
+                                    global_styles.bold600 +
+                                    " " +
+                                    global_styles.size16
+                                  }
+                                  count={row.approval_status}
+                                ></Badge>
+                              </div>
+
+                              <div
+                                style={{ fontStyle: "italic", width: "112px" }}
+                                className={global_styles.ellipses}
+                              >
+                                {row.approval_status == "approved"
+                                  ? `Till : ${row.accessibility_time ?? "NA"}`
+                                  : ""}
+                              </div>
+                            </div>
+
+                            <div>
+                              <div
+                                className={
+                                  global_styles.bold600 +
+                                  " " +
+                                  global_styles.size16 +
+                                  " " +
+                                  global_styles.ellipses
+                                }
+                                style={{ maxWidth: "112px" }}
+                              >
+                                {row.updated_at?.substring(0, 10)}
+                              </div>
+                              Last updated
+                            </div>
+                          </div>
+                        </TableCell>
+
+                        <TableCell
+                          className={styles.table_cell_for_approve_button}
+                        >
+                          {row.approval_status !== "approved" &&
+                            row.approval_status !== "rejected" && (
+                              <Popconfirm
+                                title={
+                                  <span
+                                    style={{
+                                      color: "#00ab55",
+                                      textTransform: "none",
+                                      fontFamily: "Montserrat",
                                     }}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        id="dataset-request-recevie-data-field"
-                                        disabled
-                                        {...params}
-                                        variant="outlined"
-                                        sx={{
-                                          width: "300px",
-                                          svg: { color: "#00AB55" },
-                                          "& .MuiInputBase-input": {
-                                            height: "20px",
-                                          },
-                                          "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                              borderColor: "#919EAB !important",
-                                            },
-                                            "&:hover fieldset": {
-                                              borderColor: "#919EAB",
-                                            },
-                                            "&.Mui-focused fieldset": {
-                                              borderColor: "#919EAB",
+                                  >
+                                    Please select the accessibility time
+                                  </span>
+                                }
+                                description={
+                                  <>
+                                    <LocalizationProvider
+                                      dateAdapter={AdapterDateFns}
+                                    >
+                                      <DatePicker
+                                        disablePast
+                                        inputFormat="dd/MM/yyyy"
+                                        placeholder="Till"
+                                        label="Till"
+                                        value={toDate}
+                                        onChange={(value) =>
+                                          handleToDate(value)
+                                        }
+                                        PaperProps={{
+                                          sx: {
+                                            borderRadius: "16px !important",
+                                            "& .MuiPickersDay-root": {
+                                              "&.Mui-selected": {
+                                                backgroundColor:
+                                                  "#007B55 !important",
+                                              },
                                             },
                                           },
                                         }}
-                                        helperText={
-                                          <Typography
+                                        renderInput={(params) => (
+                                          <TextField
+                                            id="dataset-request-recevie-data-field"
+                                            disabled
+                                            {...params}
+                                            variant="outlined"
                                             sx={{
-                                              fontFamily:
-                                                "Montserrat !important",
-                                              fontWeight: "400",
-                                              fontSize: "12px",
-                                              lineHeight: "18px",
-                                              color: "#FF0000",
-                                              textAlign: "left",
+                                              width: "300px",
+                                              svg: { color: "#00AB55" },
+                                              "& .MuiInputBase-input": {
+                                                height: "20px",
+                                              },
+                                              "& .MuiOutlinedInput-root": {
+                                                "& fieldset": {
+                                                  borderColor:
+                                                    "#919EAB !important",
+                                                },
+                                                "&:hover fieldset": {
+                                                  borderColor: "#919EAB",
+                                                },
+                                                "&.Mui-focused fieldset": {
+                                                  borderColor: "#919EAB",
+                                                },
+                                              },
                                             }}
-                                          ></Typography>
-                                        }
+                                            helperText={
+                                              <Typography
+                                                sx={{
+                                                  fontFamily:
+                                                    "Montserrat !important",
+                                                  fontWeight: "400",
+                                                  fontSize: "12px",
+                                                  lineHeight: "18px",
+                                                  color: "#FF0000",
+                                                  textAlign: "left",
+                                                }}
+                                              ></Typography>
+                                            }
+                                          />
+                                        )}
                                       />
-                                    )}
-                                  />
-                                </LocalizationProvider>
-                                <div
+                                    </LocalizationProvider>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "right",
+                                        alignItems: "center",
+                                        gap: "20px",
+                                        marginTop: "20px",
+                                      }}
+                                    >
+                                      <Button
+                                        className={
+                                          global_styles.secondary_button
+                                        }
+                                        onClick={() => handleCancel()}
+                                        id="dataset-request-recevied-cancel-btn"
+                                      >
+                                        Cancel
+                                      </Button>
+                                      <Button
+                                        className={global_styles.primary_button}
+                                        onClick={() =>
+                                          handleOk("approved", row.id)
+                                        }
+                                        id="dataset-request-recevied-approve-btn"
+                                      >
+                                        Approve
+                                      </Button>
+                                    </div>
+                                  </>
+                                }
+                                open={open && index == confirmIndex}
+                                onOpenChange={() => console.log("open change")}
+                                okButtonProps={{
+                                  ghost: true,
+                                  type: "text",
+                                  disabled: true,
+                                }}
+                                okText={<></>}
+                                showCancel={false}
+                                className={styles.ant_buttons}
+                              >
+                                <Button
                                   style={{
-                                    display: "flex",
-                                    justifyContent: "right",
-                                    alignItems: "center",
-                                    gap: "20px",
-                                    marginTop: "20px",
+                                    border: "1px solid #00ab55",
+                                    color: "#00ab55",
+                                    textTransform: "none",
+                                    height: "30px",
+                                    fontFamily: "Montserrat",
+                                    width: "100px",
                                   }}
+                                  onClick={() => showPopconfirm(index)}
+                                  id="dataset-request-recevied-approve-btn2"
                                 >
-                                  <Button
-                                    className={global_styles.secondary_button}
-                                    onClick={() => handleCancel()}
-                                    id="dataset-request-recevied-cancel-btn"
-                                  >
-                                    Cancel
-                                  </Button>
-                                  <Button
-                                    className={global_styles.primary_button}
-                                    onClick={() => handleOk("approved", row.id)}
-                                    id="dataset-request-recevied-approve-btn"
-                                  >
-                                    Approve
-                                  </Button>
-                                </div>
-                              </>
-                            }
-                            open={open && index == confirmIndex}
-                            onOpenChange={() => console.log("open change")}
-                            okButtonProps={{
-                              ghost: true,
-                              type: "text",
-                              disabled: true,
-                            }}
-                            okText={<></>}
-                            showCancel={false}
-                            className={styles.ant_buttons}
-                          >
+                                  Approve
+                                </Button>{" "}
+                              </Popconfirm>
+                            )}
+                          {row.approval_status !== "rejected" && (
                             <Button
                               style={{
-                                border: "1px solid #00ab55",
-                                color: "#00ab55",
-                                // color: "white",
+                                border: "1px solid #ff5630",
+                                color: "#ff5630",
                                 textTransform: "none",
                                 height: "30px",
-                                fontFamily: "Montserrat",
                                 width: "100px",
+                                fontFamily: "Montserrat",
                               }}
-                              onClick={() => showPopconfirm(index)}
-                              id="dataset-request-recevied-approve-btn2"
+                              onClick={() => SubmitHandler("rejected", row.id)}
+                              id="dataset-request-recevied-recall-reject-btn"
                             >
-                              Approve
-                            </Button>{" "}
-                          </Popconfirm>
-                        )}
-                      {row.approval_status !== "rejected" && (
-                        <Button
-                          style={{
-                            border: "1px solid #ff5630",
-                            color: "#ff5630",
-                            // color: "white",
-                            textTransform: "none",
-                            height: "30px",
-                            width: "100px",
-                            fontFamily: "Montserrat",
-                          }}
-                          onClick={() => SubmitHandler("rejected", row.id)}
-                          id="dataset-request-recevied-recall-reject-btn"
-                        >
-                          {row.approval_status == "approved"
-                            ? "Recall"
-                            : "Reject"}
-                        </Button>
-                      )}
-                      {row.approval_status === "rejected" && (
-                        <div>No Action available</div>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <span
-                        className={global_styles.primary_color}
-                        onClick={() => history.push(handleDetailRoute(row))}
-                        style={{
-                          cursor: "pointer",
-                          fontFamily: "Montserrat",
-                          textAlign: "center",
-                        }}
-                        id="dataset-request-detail"
-                      >
-                        Detail
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CSSTransition>
-          <CSSTransition
-            appear={showRequestSent}
-            in={showRequestSent}
-            timeout={{
-              appear: 600,
-              enter: 700,
-              exit: 100,
-            }}
-            classNames="step"
-            unmountOnExit
-          >
-            <Table
-              sx={{
-                "& .MuiTableCell-root": {
-                  borderLeft: "1px solid rgba(224, 224, 224, 1)",
-                  fontFamily: "Montserrat",
-                },
-              }}
-            >
-              <TableHead
-                sx={{
-                  background: "#F8F8F8 !important",
-                  fontFamily: "Montserrat",
+                              {row.approval_status == "approved"
+                                ? "Recall"
+                                : "Reject"}
+                            </Button>
+                          )}
+                          {row.approval_status === "rejected" && (
+                            <div>No Action available</div>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <span
+                            className={global_styles.primary_color}
+                            onClick={() => history.push(handleDetailRoute(row))}
+                            style={{
+                              cursor: "pointer",
+                              fontFamily: "Montserrat",
+                              textAlign: "center",
+                            }}
+                            id="dataset-request-detail"
+                          >
+                            Detail
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CSSTransition>
+              <CSSTransition
+                appear={showRequestSent}
+                in={showRequestSent}
+                timeout={{
+                  appear: 600,
+                  enter: 700,
+                  exit: 100,
                 }}
+                classNames="step"
+                unmountOnExit
               >
-                <TableRow>
-                  {requestSentColumns.map((eachHead, index) => {
-                    return (
-                      <TableCell
-                        sx={{
-                          "& .MuiTableCell-root": {
-                            fontFamily: "Montserrat",
-                          },
-                          alignItems: "center",
-                          textAlign: "left",
-                        }}
-                        className={styles.file_table_column}
-                      >
-                        {eachHead}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {allRequestSentList.map((row) => (
-                  <TableRow
-                    key={row.id}
+                <Table
+                  sx={{
+                    "& .MuiTableCell-root": {
+                      borderLeft: "1px solid rgba(224, 224, 224, 1)",
+                      fontFamily: "Montserrat",
+                    },
+                  }}
+                >
+                  <TableHead
                     sx={{
-                      // "&:last-child td, &:last-child th": { border: 0 },
-                      textTransform: "capitalize",
+                      background: "#F8F8F8 !important",
+                      fontFamily: "Montserrat",
                     }}
-                    className={global_styles.bold500}
                   >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      style={{ width: "20%", maxWidth: "150px" }}
-                      className={global_styles.ellipses}
-                    >
-                      {row.dataset_name}
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      style={{ width: "20%", maxWidth: "150px" }}
-                      className={global_styles.ellipses}
-                    >
-                      {row.file_name}
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      style={{ width: "15%", maxWidth: "150px" }}
-                      className={global_styles.ellipses}
-                    >
-                      {row.organization_name}
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      style={{ width: "15%", maxWidth: "150px" }}
-                      className={global_styles.ellipses}
-                    >
-                      {row.accessibility_time}
-                    </TableCell>
-
-                    <TableCell
-                      style={{
-                        color:
-                          row.approval_status == "rejected"
-                            ? "#ff5630"
-                            : row.approval_status == "approved"
-                            ? "#00ab55"
-                            : "#c09507",
-                        textAlign: "left",
-                      }}
-                      component="th"
-                      scope="row"
-                    >
-                      <Badge
-                        style={{
-                          backgroundColor:
-                            row.approval_status == "rejected"
-                              ? "#ff5630"
-                              : row.approval_status == "approved"
-                              ? "#00ab55"
-                              : "#faad14",
-                          width: "80px",
+                    <TableRow>
+                      {requestSentColumns.map((eachHead, index) => {
+                        return (
+                          <TableCell
+                            sx={{
+                              "& .MuiTableCell-root": {
+                                fontFamily: "Montserrat",
+                              },
+                              alignItems: "center",
+                              textAlign: "left",
+                            }}
+                            className={styles.file_table_column}
+                          >
+                            {eachHead}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {allRequestSentList.map((row) => (
+                      <TableRow
+                        key={row.id}
+                        sx={{
+                          textTransform: "capitalize",
                         }}
-                        count={row.approval_status}
-                      ></Badge>
-                    </TableCell>
-                    <TableCell>
-                      <span
-                        className={global_styles.primary_color}
-                        onClick={() =>
-                          history.push(
-                            `/${findType()}/new_datasets/view/` +
-                              row.dataset_id +
-                              "/"
-                          )
-                        }
-                        style={{
-                          cursor: "pointer",
-                          fontFamily: "Montserrat",
-                          textAlign: "center",
-                        }}
-                        id="dataset-request-detail2"
+                        className={global_styles.bold500}
                       >
-                        Detail
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CSSTransition>
-        </TableContainer>
-      </Row>
-      {/* </Container> */}
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          style={{ width: "20%", maxWidth: "150px" }}
+                          className={global_styles.ellipses}
+                        >
+                          {row.dataset_name}
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          style={{ width: "20%", maxWidth: "150px" }}
+                          className={global_styles.ellipses}
+                        >
+                          {row.file_name}
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          style={{ width: "15%", maxWidth: "150px" }}
+                          className={global_styles.ellipses}
+                        >
+                          {row.organization_name}
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          style={{ width: "15%", maxWidth: "150px" }}
+                          className={global_styles.ellipses}
+                        >
+                          {row.accessibility_time}
+                        </TableCell>
+
+                        <TableCell
+                          style={{
+                            color:
+                              row.approval_status == "rejected"
+                                ? "#ff5630"
+                                : row.approval_status == "approved"
+                                ? "#00ab55"
+                                : "#c09507",
+                            textAlign: "left",
+                          }}
+                          component="th"
+                          scope="row"
+                        >
+                          <Badge
+                            style={{
+                              backgroundColor:
+                                row.approval_status == "rejected"
+                                  ? "#ff5630"
+                                  : row.approval_status == "approved"
+                                  ? "#00ab55"
+                                  : "#faad14",
+                              width: "80px",
+                            }}
+                            count={row.approval_status}
+                          ></Badge>
+                        </TableCell>
+                        <TableCell>
+                          <span
+                            className={global_styles.primary_color}
+                            onClick={() =>
+                              history.push(
+                                `/${findType()}/new_datasets/view/` +
+                                  row.dataset_id +
+                                  "/"
+                              )
+                            }
+                            style={{
+                              cursor: "pointer",
+                              fontFamily: "Montserrat",
+                              textAlign: "center",
+                            }}
+                            id="dataset-request-detail2"
+                          >
+                            Detail
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CSSTransition>
+            </TableContainer>
+          </Row>
+        </>
+      ) : (
+        <NoData
+          title={"There is no datasets"}
+          subTitle={"As of now there is no request"}
+        />
+      )}
     </>
   );
 };

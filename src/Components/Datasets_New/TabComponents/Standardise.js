@@ -222,6 +222,7 @@ const Standardise = ({
         tmpStandardisedFileLink[standardiseFile] =
           response?.data?.standardised_file_path;
         setStandardisedFileLink(tmpStandardisedFileLink);
+        getDatasetForEdit(datasetId, "idCreated");
       })
       .catch((e) => {
         callLoader(false);

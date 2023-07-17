@@ -14,7 +14,7 @@ const FileUploaderMain = (props) => {
     setSizeError,
     texts,
     key,
-    id
+    id,
   } = props;
   return (
     <>
