@@ -1,20 +1,35 @@
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
 import { getUserLocal } from "../../Utils/Common";
+import settingController from "../controllers/setting.controller";
+
 const getBaseUrl = () => {
   return process.env.REACT_APP_BASEURL;
 };
 export const onboardingHandler = [
   // pass your url in the first parameter
   rest.get(`${getBaseUrl()}${UrlConstant.profile}:userId/`, (req, res, ctx) => {
-    console.log(`${getBaseUrl()}${UrlConstant.profile}:userId/`);
+    // console.log(`${getBaseUrl()}${UrlConstant.profile}:userId/`);
     const { userId } = req.params;
-    console.log(userId, "cheking");
+    console.log(userId, "error_in_get");
     if (userId == "error_in_get") {
       return res(
-        ctx.status(400),
+        ctx.status(401),
         ctx.json({
-          message: ["Unauthorised"],
+          code: "token_not_valid",
+          access: "Given token not valid for any token type",
+          messages: [
+            {
+              token_class: "AccessToken",
+              token_type: "access",
+              message: "Token is invalid or expired",
+            },
+          ],
+          0: {
+            token_class: "AccessToken",
+            token_type: "access",
+            message: "Token is invalid or expired",
+          },
         })
       );
     } else {
@@ -40,7 +55,7 @@ export const onboardingHandler = [
     `${UrlConstant.base_url}${UrlConstant.profile}:userId/`,
     (req, res, ctx) => {
       const { userId } = req.params;
-      console.log(req, "req");
+      // console.log(req, "req");
       if (userId === "error") {
         console.log(userId, "put call");
 
@@ -54,7 +69,7 @@ export const onboardingHandler = [
           })
         );
       } else if (userId === "status403") {
-        console.log(userId, "put call");
+        // console.log(userId, "put call");
 
         return res(
           ctx.status(403),
@@ -103,4 +118,5 @@ export const onboardingHandler = [
       }
     }
   ),
+  rest.get(`${getBaseUrl()}${UrlConstant.refesh}`, () => {}),
 ];
