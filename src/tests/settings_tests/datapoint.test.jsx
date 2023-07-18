@@ -145,6 +145,34 @@ describe("Datapoint Setting", () => {
     // );
     // fireEvent.click(deleteConfirmationButton);
   });
+  test("Cancel datapoint addition", () => {
+    setUserId("sometoken");
+    render(
+      <Router>
+        <StandardizationInOnbord inSettings={true} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const dataPointName = screen.getByRole("textbox", {
+      name: "Datapoint name",
+    });
+    const dataPointDescription = screen.getByLabelText("Datapoint description");
+
+    const addButton = screen.getByText(/Add/i);
+
+    fireEvent.change(dataPointName, {
+      target: { value: "sample datapoint" },
+    });
+    fireEvent.change(dataPointDescription, {
+      target: { value: "sample datapoint description" },
+    });
+    fireEvent.click(addButton);
+
+    const submitButton = screen.getByText("Cancel");
+    fireEvent.click(submitButton);
+  });
   test("Delete datapoint attributes", async () => {
     setUserId("sometoken");
     render(<StandardizationInOnbord inSettings={true} />, {
@@ -237,11 +265,17 @@ describe("Datapoint Setting", () => {
     );
     expect(text).toBeInTheDocument();
   });
-  test("add datapoint in onboarding module", () => {
+  test("add datapoint in onboarding module with finish", () => {
     setUserId("sometoken");
-    render(<StandardizationInOnbord isOnborading={true} inSettings={false} />, {
-      wrapper: FarmStackProvider,
-    });
+    localStorage.setItem("role", JSON.stringify("datahub_admin"));
+    render(
+      <Router>
+        <StandardizationInOnbord isOnborading={true} inSettings={false} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
     const dataPointName = screen.getByRole("textbox", {
       name: "Datapoint name",
     });
@@ -255,11 +289,73 @@ describe("Datapoint Setting", () => {
     fireEvent.change(dataPointDescription, {
       target: { value: "sample datapoint description" },
     });
-    // fireEvent.click(addButton);
+    fireEvent.click(addButton);
 
-    // const submitButton = screen.getByRole("button", {
-    //   name: /Submit/i,
-    // });
-    // fireEvent.click(submitButton);
+    const submitButton = screen.getByText("Finish");
+    fireEvent.click(submitButton);
+  });
+  test("add datapoint in onboarding module with finish later", () => {
+    setUserId("sometoken");
+    localStorage.setItem("role", JSON.stringify("datahub_admin"));
+    render(
+      <Router>
+        <StandardizationInOnbord isOnborading={true} inSettings={false} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const dataPointName = screen.getByRole("textbox", {
+      name: "Datapoint name",
+    });
+    const dataPointDescription = screen.getByLabelText("Datapoint description");
+
+    const addButton = screen.getByText(/Add/i);
+
+    fireEvent.change(dataPointName, {
+      target: { value: "sample datapoint" },
+    });
+    fireEvent.change(dataPointDescription, {
+      target: { value: "sample datapoint description" },
+    });
+    fireEvent.click(addButton);
+
+    const submitButton = screen.getByText("Finish later");
+    fireEvent.click(submitButton);
+  });
+
+  test("add datapoint in onboarding module with finish later failure scenario", () => {
+    server.use(
+      rest.post(`${undefined}${UrlConstant.onboarded}`, (req, res, ctx) => {
+        return res(ctx.status(404), ctx.json());
+      })
+    );
+    setUserId("sometoken");
+    localStorage.setItem("role", JSON.stringify("datahub_admin"));
+    render(
+      <Router>
+        <StandardizationInOnbord isOnborading={true} inSettings={false} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const dataPointName = screen.getByRole("textbox", {
+      name: "Datapoint name",
+    });
+    const dataPointDescription = screen.getByLabelText("Datapoint description");
+
+    const addButton = screen.getByText(/Add/i);
+
+    fireEvent.change(dataPointName, {
+      target: { value: "sample datapoint" },
+    });
+    fireEvent.change(dataPointDescription, {
+      target: { value: "sample datapoint description" },
+    });
+    fireEvent.click(addButton);
+
+    const submitButton = screen.getByText("Finish");
+    fireEvent.click(submitButton);
   });
 });

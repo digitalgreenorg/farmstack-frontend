@@ -1,17 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import "./standardizationInOnbording.css";
-// import { Button } from 'antd';
 import Button from "@mui/material/Button";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import InfoIcon from "@mui/icons-material/Info";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import AddIcon from "@mui/icons-material/Add";
-import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   FormControl,
@@ -20,7 +16,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { useHistory, useLocation, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
 
 import add_icon from "../../Assets/Img/Farmstack V2.0/add_icon.svg";
@@ -35,8 +31,7 @@ import {
 } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import Loader from "../Loader/Loader";
-import { message, Space } from "antd";
-import RegexConstants from "../../Constants/RegexConstants";
+import { message } from "antd";
 import { handleUnwantedSpace } from "../../Utils/Common";
 import global_style from "../../Assets/CSS/global.module.css";
 import styles from "../NewOnboarding/onboarding.module.css";
@@ -47,17 +42,12 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 const StandardizationInOnbord = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
-  const [allDatapoints, setAllDataPoints] = useState([
-    // { datapoint_category: "Farmer profile", datapoint_description: "Add Datapoint attributes" },
-    // { datapoint_category: "Farmer profile", datapoint_description: "Add Datapoint attributes" },
-  ]);
+  const [allDatapoints, setAllDataPoints] = useState([]);
   const [allAttributes, setAllAttributes] = useState({});
   const [allAttributesDes, setAllAttributesDes] = useState({});
   const [datapointName, setDatapointName] = useState("");
   const [datapointDes, setDatapointDes] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessages, setErrorMessage] = useState("");
   const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
   const [editCategoryTitle, setEditCategoryTitle] = useState([]);
   const [datapointNameError, setDatapointNameError] = useState("");
@@ -67,13 +57,7 @@ const StandardizationInOnbord = (props) => {
   const history = useHistory();
 
   const [messageApi, contextHolder] = message.useMessage();
-  const success = (text, type) => {
-    messageApi.open({
-      type: type,
-      content: text,
-      duration: 5,
-    });
-  };
+
   const [anchorEl, setAnchorEl] = React.useState(
     Array(allDatapoints.length).fill(null)
   );
@@ -137,17 +121,12 @@ const StandardizationInOnbord = (props) => {
     let tmpAllAttributesDes = { ...allAttributesDes };
 
     let keys = Object.keys(allAttributes);
-    console.log("keys", keys);
 
     tmpAllAttributes[keys.length] = [];
     tmpAllAttributesDes[keys.length] = [];
 
-    console.log("all attribute tmp in add", tmpAllAttributes);
-
     setAllAttributes({ ...tmpAllAttributes });
     setAllAttributesDes({ ...tmpAllAttributesDes });
-
-    console.log("tmpAllDatapoints in add", tmpAllDatapoints);
 
     tmpAllDatapoints.push(newDatapoint);
     setAllDataPoints(tmpAllDatapoints);
@@ -208,12 +187,10 @@ const StandardizationInOnbord = (props) => {
       return;
     }
     setSaveButtonEnabled(true);
-    console.log("allAttribute in start of function", allAttributes);
     let tmpAllAttributes = { ...allAttributes };
 
     tmpAllAttributes[index][allAttributesArrIndex] = newValue.trimStart();
     setAllAttributes(tmpAllAttributes);
-    console.log("allAttribute", allAttributes);
   };
 
   const handleAddDatapointAttribute = (index) => {
@@ -244,7 +221,6 @@ const StandardizationInOnbord = (props) => {
     tmpAllAttributesDes[index][0] = "";
     setAllAttributesDes(tmpAllAttributesDes);
     setAttributeErrorMessage("");
-    console.log("all Des", tmpAllAttributesDes);
   };
   const handleDatapointAtticuteDelete = (index, arrIndex) => {
     let tmpAllAttributes = { ...allAttributes };
@@ -279,9 +255,6 @@ const StandardizationInOnbord = (props) => {
 
   const handleSubmit = () => {
     let payload = [...allDatapoints];
-
-    console.log("payload before setting up", payload);
-
     for (let index = 0; allDatapoints[index]; index++) {
       let attributeObj = {};
       for (let i = 1; i < allAttributes[index].length; i++) {
@@ -290,9 +263,6 @@ const StandardizationInOnbord = (props) => {
       }
       payload[index]["datapoint_attributes"] = attributeObj;
     }
-
-    console.log("final payload", payload);
-
     let method, url;
     if (inSettings) {
       method = "PUT";
@@ -325,8 +295,6 @@ const StandardizationInOnbord = (props) => {
           } else {
             // callToast("Onboarding successfull", "success", true);
           }
-          console.log("success");
-
           if (isOnborading) {
             setOnBoardedTrue();
           } else if (inSettings) {
@@ -417,13 +385,6 @@ const StandardizationInOnbord = (props) => {
         }
       })
       .catch(async (e) => {
-        // setIsLoader(false);
-        // console.log(e);
-        // callToast(
-        //   JSON.stringify(e?.response?.data ?? "Some error occurred"),
-        //   "error",
-        //   true
-        // );
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -498,7 +459,6 @@ const StandardizationInOnbord = (props) => {
         <div className="datapoint-add-button-classname">
           <Button
             variant="contained"
-            // className="datapoint-add-button"
             className={global_style.primary_button + " " + styles.next_button}
             id="add-datapoint-button"
             onClick={handleAddDatapoint}
@@ -573,8 +533,6 @@ const StandardizationInOnbord = (props) => {
                     )}
                     <IconButton
                       onClick={(e) => {
-                        // this funtion will make a particular index of editCategoryTitle array true
-                        // e.stopPropagation();
                         let tmp = [...editCategoryTitle];
                         tmp[index] = true;
                         console.log("edit title", tmp, editCategoryTitle);
@@ -609,7 +567,6 @@ const StandardizationInOnbord = (props) => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <div className="attribute-main-div">
-                      {/* <h3>Farmer profile</h3> */}
                       <p className="standardization-accordion-description">
                         {item.datapoint_description}
                       </p>
@@ -759,8 +716,6 @@ const StandardizationInOnbord = (props) => {
                             styles.edit_button
                           }
                           onClick={(e) => {
-                            // this funtion will make a particular index of editCategoryTitle array true
-
                             if (editCategoryTitle[index]) {
                               handleNameExistsUpdate(
                                 index,
@@ -784,74 +739,6 @@ const StandardizationInOnbord = (props) => {
             );
           })}
         </div>
-        <Row style={{ display: "none" }}>
-          <Col lg={6} md={12} sm={12}>
-            <div className={styles.main_label}> Geography</div>
-            <div>
-              <FormControl required fullWidth>
-                <InputLabel id="geography_label"> Select geography</InputLabel>
-                <Select
-                  required
-                  labelId="geography_label"
-                  id="geography"
-                  // value={organisationDetails.organisation_country}
-                  name="geography"
-                  // onChange={(e) => handleOrgChange(e)}
-                  label="Select geography"
-                  // error={
-                  //   organisationDetailsError.organisation_country_error
-                  //     ? true
-                  //     : false
-                  // }
-                  // helperText={organisationDetailsError.organisation_country_error}
-                >
-                  <MenuItem value={"in"} id="India">
-                    India
-                  </MenuItem>
-                  <MenuItem value={"eth"} id="Ethiopia">
-                    Ethiopia
-                  </MenuItem>
-                  <MenuItem value={"kenya"} id="Kenya">
-                    Kenya
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </Col>
-          <Col lg={6} md={12} sm={12}>
-            <div className={styles.main_label}>Value chain</div>
-            <div>
-              <FormControl required fullWidth>
-                <InputLabel id="value_label">Select value chain</InputLabel>
-                <Select
-                  required
-                  labelId="value_label"
-                  id="value_chain"
-                  // value={organisationDetails.organisation_country}
-                  name="value_chain"
-                  // onChange={(e) => handleOrgChange(e)}
-                  label="Select value chain"
-                  // error={
-                  //   organisationDetailsError.organisation_country_error
-                  //     ? true
-                  //     : false
-                  // }
-                  // helperText={organisationDetailsError.organisation_country_error}
-                >
-                  <MenuItem value={"in"} id="India">
-                    India
-                  </MenuItem>
-                  <MenuItem value={"eth"} id="Ethiopia">
-                    Ethiopia
-                  </MenuItem>
-                  <MenuItem value={"kenya"} id="Kenya">
-                    Kenya
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </Col>
-        </Row>
       </div>
       <div className="datapoint-add-button-classname">
         {inSettings ? (

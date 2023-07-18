@@ -90,4 +90,13 @@ export const settingHandler = [
       })
     );
   }),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.standardization_post_data,
+    (req, res, ctx) => {
+      return res(ctx.status(201), ctx.json({}));
+    }
+  ),
+  rest.post(UrlConstant.base_url + UrlConstant.onboarded, (req, res, ctx) => {
+    return res(ctx.status(201), ctx.json({}));
+  }),
 ];
