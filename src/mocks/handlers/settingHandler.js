@@ -6,7 +6,12 @@ const savedDatapoint = [
     id: "8d098de5-2178-4fb9-a257-d9d09a5707ab",
     datapoint_category: "sofshdj",
     datapoint_description: "ddf",
-    datapoint_attributes: {},
+    datapoint_attributes: {
+      "red chilli": "",
+      "blue chilli": "",
+      "pink chilli": "",
+      "green chilli": "",
+    },
   },
   {
     id: "8d098de5-2178-4fb9-a257-d9d09a5745ab",
@@ -15,6 +20,7 @@ const savedDatapoint = [
     datapoint_attributes: {},
   },
 ];
+
 export const settingHandler = [
   rest.get(
     UrlConstant.base_url + UrlConstant.datahub_policy,
@@ -67,9 +73,30 @@ export const settingHandler = [
   rest.put(
     UrlConstant.base_url + UrlConstant.standardization_update_data,
     (req, res, ctx) => {
-      console.log("🚀 ~ file: settingHandler.js:78 ~ req:", req.json());
-      // let payload = req.body.json()
       return res(ctx.status(201), ctx.json({}));
     }
   ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.standardization_update_data,
+    (req, res, ctx) => {
+      return res(ctx.status(201), ctx.json({}));
+    }
+  ),
+  rest.post(`${UrlConstant.base_url}token/refresh/`, (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        access: "refreshed token",
+      })
+    );
+  }),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.standardization_post_data,
+    (req, res, ctx) => {
+      return res(ctx.status(201), ctx.json({}));
+    }
+  ),
+  rest.post(UrlConstant.base_url + UrlConstant.onboarded, (req, res, ctx) => {
+    return res(ctx.status(201), ctx.json({}));
+  }),
 ];

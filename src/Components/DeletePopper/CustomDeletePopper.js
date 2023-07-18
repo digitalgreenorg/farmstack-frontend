@@ -48,6 +48,7 @@ const CustomDeletePopper = (props) => {
                 className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButtonOnDelete}`}
                 onClick={(e) => closePopper(e)}
                 id={cancelPopperId}
+                data-testid="closepopper"
               >
                 Cancel
               </Button>
@@ -56,6 +57,7 @@ const CustomDeletePopper = (props) => {
                 className={`${GlobalStyle.primary_button} ${LocalStyle.deleteButton}`}
                 onClick={(e) => handleDelete(e)}
                 id={deletePopperId}
+                data-testid="deletepopper"
               >
                 Delete
               </Button>
