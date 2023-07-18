@@ -91,7 +91,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 <Col lg={6}>
                   <div>
                     <Button
-                      id="add-participant-submit-button"
+                    id="add-participant-submit-button"
                       onClick={() =>
                         history.push("/datahub/participants/invite")
                       }
@@ -104,6 +104,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 <Col lg={6}>
                   <div>
                     <Button
+                      data-testid="add-new-participants"
                       id="add-participant-submit-button"
                       onClick={() => history.push("/datahub/participants/add")}
                       className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
@@ -133,6 +134,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   }
                 />
                 <span
+                  data-testid="invite-btn"
                   id={title?.split(" ")[0] + "grid-view-title"}
                   className={
                     viewType === "grid"
@@ -187,6 +189,7 @@ const CoStewardAndParticipantsCard = (props) => {
               <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
+                  data-testid="invite-btn"
                   onClick={() => history.push("/datahub/participants/invite")}
                   className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
                 >
@@ -265,6 +268,7 @@ const CoStewardAndParticipantsCard = (props) => {
         unmountOnExit
       >
         <Row
+          data-testid="row"
           id={title?.split(" ")[0] + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >

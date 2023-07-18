@@ -3,10 +3,10 @@ import UrlConstant from "../../Constants/UrlConstants";
 
 export const participantHandler = [
   // pass your url in the first parameter
-  //   rest.get(
-  //     UrlConstant.base_url + UrlConstant.datahub_policy,
-  //     (req, res, ctx) => {
-  //       return res(ctx.status(200), ctx.json([]));
-  //     }
-  //   ),
+    rest.get(
+      UrlConstant.base_url + UrlConstant.participant,
+      (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json([]));
+      }
+    ),
 ];
