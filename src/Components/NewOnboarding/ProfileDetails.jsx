@@ -165,7 +165,7 @@ const ProfileDetails = (props) => {
               true
             );
           }
-          if (error.path && history) {
+          if (error.path) {
             history.push(error.path);
           }
         }
