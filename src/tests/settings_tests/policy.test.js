@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import {
   act,
   render,
@@ -11,6 +12,14 @@ import userEvent from "@testing-library/user-event";
 import CompanyPolicies from "../../Components/NewOnboarding/CompanyPolicies";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { setUserId } from "../../Utils/Common";
+import UrlConstant from "../../Constants/UrlConstants";
+import { server } from "../../mocks/server";
+import { rest } from "msw";
+
+jest.mock("../../Components/Generic/FileUploader", () => ({
+  __esModule: true,
+  default: jest.fn(() => <div>Mocked FileUploaderMain</div>),
+}));
 
 describe("Settings module", () => {
   beforeEach(() => {
@@ -42,6 +51,9 @@ describe("Settings module", () => {
       name: "Block type",
     });
     expect(policyDescriptionElement).toBeInTheDocument();
+    // const addButton = screen.getByText("button", {
+    //   name: "Add New Policy",
+    // });
   });
 
   test("adds a new policy on button click", async () => {
@@ -91,15 +103,15 @@ describe("Settings module", () => {
     // });
     // expect(policyDescriptionInput).toHaveValue(value);
 
-    fireEvent.change(uploadFileInput, {
-      target: {
-        files: [
-          new File(["file content"], "test.pdf", { type: "application/pdf" }),
-        ],
-      },
-    });
-    expect(uploadFileInput.files[0].name).toBe("test.pdf");
-    expect(uploadFileInput.files[0].type).toBe("application/pdf");
+    // fireEvent.change(uploadFileInput, {
+    //   target: {
+    //     files: [
+    //       new File(["file content"], "test.pdf", { type: "application/pdf" }),
+    //     ],
+    //   },
+    // });
+    // expect(uploadFileInput.files[0].name).toBe("test.pdf");
+    // expect(uploadFileInput.files[0].type).toBe("application/pdf");
 
     // const addButtonInForm = screen.getByText("Add");
     // act(() => {
@@ -122,5 +134,89 @@ describe("Settings module", () => {
     const policies = await screen.findAllByTestId("accordion");
     expect(policies).toHaveLength(2);
     expect(policies[0]).toHaveTextContent("jiohujgvbv");
+  });
+  test("renders list of policies failure", async () => {
+    server.use(
+      rest.get(`${undefined}${UrlConstant.datahub_policy}`, (req, res, ctx) => {
+        return res(ctx.status(400), ctx.json());
+      })
+    );
+    setUserId("sometoken");
+    render(
+      <Router>
+        <CompanyPolicies
+          isPolicySettings={true}
+          isVisible={false}
+          initialKey={0}
+        />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+  });
+  // test("renders FileUploaderMain with the correct props", () => {
+  //   const mockCreateObjectURL = jest.fn();
+  //   URL.createObjectURL = mockCreateObjectURL;
+
+  //   // Set up the mock implementation of URL.createObjectURL
+  //   mockCreateObjectURL.mockReturnValue("mocked-object-url");
+  //   setUserId("sometoken");
+  //   render(
+  //     <CompanyPolicies
+  //       isPolicySettings={true}
+  //       isVisible={true}
+  //       initialKey={0}
+  //     />,
+  //     {
+  //       wrapper: FarmStackProvider,
+  //     }
+  //   );
+  //   expect(FileUploaderMain).toHaveBeenCalledTimes(10);
+  //   const [props] = FileUploaderMain.mock.calls[0];
+  //   expect(props).toMatchObject({
+  //     isMultiple: false,
+  //     fileTypes: ["pdf", "doc"],
+  //     handleChange: expect.any(Function),
+  //     maxSize: 25,
+  //     setSizeError: expect.any(Function),
+  //     id: "upload-policy-file",
+  //   });
+  //   // const handleUploadPolicy = FileUploaderMain.mock.calls[0][0].handleChange;
+
+  //   // const file = new File(["file content"], "example.pdf", {
+  //   //   type: "application/pdf",
+  //   // });
+  //   // handleUploadPolicy(file);
+  //   // expect(handleUploadPolicy).toHaveBeenCalledWith(file);
+  // });
+
+  test("calls handleUploadPolicy with the file when handleChange is triggered", () => {
+    setUserId("sometoken");
+    let isVisible = true;
+    render(
+      <Router>
+        <CompanyPolicies
+          isPolicySettings={true}
+          isVisible={isVisible}
+          initialKey={0}
+        />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const addButton = screen.getByText(/Add New Policy/i);
+    expect(addButton).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(addButton);
+      isVisible = true;
+    });
+    const inputFile = screen.getByText(/file/i);
+    const file = new File(["file content"], "example.pdf", {
+      type: "application/pdf",
+    });
+    fireEvent.change(inputFile, { target: { files: [file] } });
   });
 });

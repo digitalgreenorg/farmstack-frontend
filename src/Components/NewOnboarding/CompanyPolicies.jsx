@@ -17,9 +17,6 @@ import {
   GetErrorKey,
   goToTop,
 } from "../../Utils/Common";
-import { CSSTransition } from "react-transition-group";
-import { Popconfirm } from "antd";
-import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import Divider from "@mui/material/Divider";
@@ -27,7 +24,6 @@ import AccordionBody from "./AccordionBody";
 
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
-  const [sizeError, setSizeError] = useState("");
   const { setActiveStep, isVisible } = props;
   const [policyName, setPolicyName] = useState("");
   const [policyNameError, setPolicyNameError] = useState("");
@@ -57,10 +53,6 @@ const CompanyPolicies = (props) => {
     console.log("file during delete", uploadedPolicy, key);
   };
 
-  function closeAccordion() {}
-  const confirm = (e, index) => {
-    deletePolicyDetail(e, index);
-  };
   const deletePolicyDetail = (e, index) => {
     if (e) {
       e.stopPropagation();
@@ -71,7 +63,6 @@ const CompanyPolicies = (props) => {
     submitPolicy("DELETE", id);
   };
   const handleAddPolicy = (e) => {
-    // e.preventDefault();
     setFileError("");
     setPolicyNameError("");
     submitPolicy("POST");
@@ -184,8 +175,6 @@ const CompanyPolicies = (props) => {
       .catch(async (e) => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
         if (error.toast) {
           callToast(
             error?.message || "Something went wrong",
@@ -407,6 +396,7 @@ const CompanyPolicies = (props) => {
 
                           <span
                             id="file-preview"
+                            data-testid="filepreview"
                             className={global_style.blue + " " + styles.link}
                             onClick={() => window.open(preview)}
                             style={{ width: "100%" }}
