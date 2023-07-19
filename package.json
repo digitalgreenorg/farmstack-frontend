@@ -57,7 +57,6 @@
     "react-select-country-list": "^2.2.3",
     "react-slick": "^0.29.0",
     "react-sortable-tree-patch-react-17": "2.9.0",
-    "react-test-renderer": "^18.2.0",
     "react-toastify": "^8.0.2",
     "react-tooltip": "^4.2.21",
     "react-transition-group": "^4.4.5",
@@ -102,7 +101,8 @@
     "collectCoverageFrom": [
       "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/CompanyPolicies.jsx",
-      "src/Components/Standardization/StandardizationInOnbording.js"
+      "src/Components/Standardization/StandardizationInOnbording.js",
+      "src/Components/CoStewardAndParticipants/CostewardAndParticipant.js"
     ]
   }
 }
