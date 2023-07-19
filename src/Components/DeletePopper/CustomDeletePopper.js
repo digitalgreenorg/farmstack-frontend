@@ -5,9 +5,20 @@ import Box from "@mui/material/Box";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./CustomDeletePopper.module.css";
 import { Button, Typography } from "@mui/material";
+import { ClickAwayListener } from "@mui/base";
 
 const CustomDeletePopper = (props) => {
-  const { anchorEl, handleDelete, id, open, closePopper, DeleteItem, deletePopperId, cancelPopperId } = props;
+  const {
+    anchorEl,
+    handleDelete,
+    id,
+    open,
+    closePopper,
+    DeleteItem,
+    deletePopperId,
+    cancelPopperId,
+  } = props;
+  console.log("anchorEl", anchorEl);
   return (
     <Popper id={id} open={open} anchorEl={anchorEl} transition>
       {({ TransitionProps }) => (
@@ -36,7 +47,7 @@ const CustomDeletePopper = (props) => {
               <Button
                 variant="outlined"
                 className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButtonOnDelete}`}
-                onClick={() => closePopper(false)}
+                onClick={(e) => closePopper(e)}
                 id={cancelPopperId}
               >
                 Cancel
@@ -44,7 +55,7 @@ const CustomDeletePopper = (props) => {
               <Button
                 variant="outlined"
                 className={`${GlobalStyle.primary_button} ${LocalStyle.deleteButton}`}
-                onClick={handleDelete}
+                onClick={(e) => handleDelete(e)}
                 id={deletePopperId}
               >
                 Delete

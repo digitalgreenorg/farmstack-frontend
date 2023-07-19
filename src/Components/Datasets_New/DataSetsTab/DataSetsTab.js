@@ -21,6 +21,7 @@ import {
 } from "../../../Utils/Common";
 import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
 import { CSSTransition } from "react-transition-group";
+import NoData from "../../NoData/NoData";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,7 +85,6 @@ const DataSetsTab = ({
     setFromDate("");
     setToDate("");
     setSearchDatasetsName("");
-    // clearFilter();
     setFilterState({});
     setValue(newValue);
   };
@@ -191,7 +191,6 @@ const DataSetsTab = ({
                   </span>
                 }
               />
-              {/* <Tab label={<span className={value == 2 ? 'tab_header_selected' : 'tab_header'}>Co-steward</span>} /> */}
             </Tabs>
           </Box>
         ) : (
@@ -216,6 +215,8 @@ const DataSetsTab = ({
               history={history}
               addDataset={addDataset}
             />
+            {datasetList.length > 0 ? (
+              <>
             <CSSTransition
               in={isGrid}
               timeout={{
@@ -226,54 +227,66 @@ const DataSetsTab = ({
               classNames="step"
               unmountOnExit={true}
             >
-              <div className="datasets_card">
-                {user !== "guest" ? (
-                  <AddDataSetCardNew
-                    history={history}
-                    addDataset={addDataset}
-                  />
-                ) : (
-                  ""
-                )}
-                {datasetList?.map((item, index) => (
-                  <DataSetCardNew
-                    index={index}
-                    id="dataset-card-in-dataset"
-                    key={item?.id}
-                    history={history}
-                    item={item}
-                    value={
-                      value === 0 && user !== "guest" ? "my_organisation" : ""
-                    }
-                    handleCardClick={
-                      user === "guest"
-                        ? () => {
-                            return `/home/datasets/${item.id}`;
-                          }
-                        : handleCardClick
-                    }
-                  />
-                ))}
-              </div>
+                <div className="datasets_card">
+                  {user !== "guest" ? (
+                    <AddDataSetCardNew
+                      history={history}
+                      addDataset={addDataset}
+                    />
+                  ) : (
+                    ""
+                  )}
+                  {datasetList?.map((item, index) => (
+                    <DataSetCardNew
+                      index={index}
+                      id="dataset-card-in-dataset"
+                      key={item?.id}
+                      history={history}
+                      item={item}
+                      value={
+                        value === 0 && user !== "guest" ? "my_organisation" : ""
+                      }
+                      handleCardClick={
+                        user === "guest"
+                          ? () => {
+                              return `/home/datasets/${item.id}`;
+                            }
+                          : handleCardClick
+                      }
+                    />
+                  ))}
+                </div>
             </CSSTransition>
-
-            <CSSTransition
-              in={!isGrid}
-              timeout={{
-                appear: 600,
-                enter: 700,
-                exit: 100,
-              }}
-              classNames="step"
-              unmountOnExit={true}
-            >
-              <DataSetsListView
-                datasets={datasetList}
-                history={history}
-                value={value === 0 && user !== "guest" ? "my_organisation" : ""}
-                handleCardClick={handleCardClick}
+              <CSSTransition
+                in={!isGrid}
+                timeout={{
+                  appear: 600,
+                  enter: 700,
+                  exit: 100,
+                }}
+                classNames="step"
+                unmountOnExit={true}
+              >
+                <DataSetsListView
+                  datasets={datasetList}
+                  history={history}
+                  value={
+                    value === 0 && user !== "guest" ? "my_organisation" : ""
+                  }
+                  handleCardClick={handleCardClick}
+                />
+              </CSSTransition>
+              </> ) : (
+              <NoData
+                title={"There is no datasets"}
+                subTitle={
+                  "As of now there is no datasets, so add new datasets!"
+                }
+                primaryButton={"Add new Dataset "}
+                primaryButtonOnClick={() => history.push(addDataset())}
               />
-            </CSSTransition>
+            )}
+
             {showLoadMoreAdmin ? (
               <Button
                 variant="outlined"
@@ -300,25 +313,36 @@ const DataSetsTab = ({
               history={history}
               addDataset={addDataset}
             />
-            {isGridOther ? (
-              <div className="datasets_card">
-                {memberDatasetList?.map((item, index) => (
-                  <DataSetCardNew
-                    index={index}
-                    key={item?.id}
+            {memberDatasetList.length > 0 ? (
+              <>
+                {isGridOther ? (
+                  <div className="datasets_card">
+                    {memberDatasetList?.map((item, index) => (
+                      <DataSetCardNew
+                        index={index}
+                        key={item?.id}
+                        value={value === 1 ? "other_organisation" : ""}
+                        history={history}
+                        item={item}
+                        handleCardClick={handleCardClick}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <DataSetsListView
+                    datasets={memberDatasetList}
                     value={value === 1 ? "other_organisation" : ""}
                     history={history}
-                    item={item}
                     handleCardClick={handleCardClick}
                   />
-                ))}
-              </div>
+                )}
+              </>
             ) : (
-              <DataSetsListView
-                datasets={memberDatasetList}
-                value={value === 1 ? "other_organisation" : ""}
-                history={history}
-                handleCardClick={handleCardClick}
+              <NoData
+                title={"There is no datasets"}
+                subTitle={
+                  "As of now there is no datasets from other organisation"
+                }
               />
             )}
             {showLoadMoreMember ? (

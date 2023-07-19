@@ -190,6 +190,7 @@ const OrganizationDetails = (props) => {
   const [tempImage, setTempImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [uploadedImgName, setUploadedImgName] = useState("");
 
   const canvasRef = useRef(null);
   const [key, setKey] = useState(0);
@@ -229,7 +230,12 @@ const OrganizationDetails = (props) => {
       let croppedImageObjectAfterConvert = await convertImageUrlToObject(
         croppedImage
       );
-      console.log("org logo", croppedImageObjectAfterConvert);
+      console.log(
+        "org logo",
+        croppedImageObjectAfterConvert,
+        croppedImageObjectAfterConvert?.name
+      );
+      setUploadedImgName(croppedImageObjectAfterConvert?.name);
       setUploadedLogo(croppedImageObjectAfterConvert);
       setPreview(croppedImage);
       setIsLogoLink(false);
@@ -305,12 +311,21 @@ const OrganizationDetails = (props) => {
           // callToast("Onboarded successfuly", "success", true);
           setOnBoardedTrue();
         }
-        if (props.isOrgSetting && response.status === 201)
-          callToast(
-            "Organisation settings updated successfully!",
-            "success",
-            true
-          );
+        if (response.status === 201) {
+          if (props.isOrgSetting) {
+            callToast(
+              "Organisation settings updated successfully!",
+              "success",
+              true
+            );
+          } else {
+            callToast(
+              "Organisation details added successfully!",
+              "success",
+              true
+            );
+          }
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -446,6 +461,8 @@ const OrganizationDetails = (props) => {
     getOrganizationData();
     goToTop(0);
   }, []);
+
+  console.log("uploadedlogo", uploadedLogo, preview);
 
   return (
     <>
@@ -716,7 +733,7 @@ const OrganizationDetails = (props) => {
                   " " +
                   styles.text_left
                 }
-                style={{ marginBottom: "20px", marginLeft: "5px" }}
+                style={{ marginBottom: "20px", marginLeft: "10px" }}
               >
                 {preview && "Uploaded file"}
               </div>
@@ -741,8 +758,13 @@ const OrganizationDetails = (props) => {
                       id="cancel-uploaded-file"
                     />
                   </div>
-                  <div className={styles.text_left}>
-                    {preview
+                  <div
+                    className={styles.text_left}
+                    style={{ marginLeft: "10px" }}
+                  >
+                    {preview && uploadedImgName
+                      ? uploadedImgName
+                      : preview
                       ? preview?.split("/").pop()
                       : uploadedLogo && uploadedLogo?.name}
                   </div>

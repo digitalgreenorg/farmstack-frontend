@@ -572,16 +572,16 @@ const NavbarNew = ({ loginType }) => {
                     sx={{
                       fontFamily: "Montserrat !important",
                       fontWeight: 700,
-                      fontSize: "14px",
-                      width: "94px",
-                      height: "34px",
-                      background: "#00AB55",
-                      borderRadius: "8px",
-                      textTransform: "none",
-                      color: "white",
+                      fontSize: "14px !important",
+                      width: "94px !important",
+                      height: "34px !important",
+                      background: "#00AB55 !important",
+                      borderRadius: "8px !important",
+                      textTransform: "none !important",
+                      color: "white !important",
                       "&:hover": {
-                        backgroundColor: "#00AB55",
-                        color: "#fffff",
+                        backgroundColor: "#00AB55 !important",
+                        color: "#fffff !important",
                       },
                     }}
                     onClick={(e) => handleSignOut(e)}

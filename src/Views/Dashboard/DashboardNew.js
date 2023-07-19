@@ -347,7 +347,7 @@ function DashboardNew() {
       <Box className={`${localeStyle.basicDetailsContainer}`}>
         <div className={`${localeStyle.titleContainer}`}>
           <div
-            className={`${localeStyle.title} ${globalStyle.size32}  ${globalStyle.bold700}`}
+            className={`${localeStyle.title} ${globalStyle.size32}  ${globalStyle.bold700} ${globalStyle.break_word}`}
           >
             {" "}
             Hello {dashboardData?.user?.first_name}{" "}
@@ -423,7 +423,7 @@ function DashboardNew() {
         {!isLoggedInUserParticipant() ? (
           <FormControl sx={{ width: "150px" }}>
             <NativeSelect
-              sx={{ fontWeight: "500" }}
+              sx={{ fontWeight: "500", fontFamily: "Montserrat !important" }}
               defaultValue={"my_organisation"}
               onChange={(e) => setOrg(e.target.value)}
               value={org}
