@@ -10,23 +10,23 @@ export const onboardingHandler = [
   // pass your url in the first parameter
   rest.get(`${undefined}${UrlConstant.profile}:userId/`, (req, res, ctx) => {
     console.log("IN GET");
-    //     ctx.status(401),
-    //     ctx.json({
-    //       code: "token_not_valid",
-    //       access: "Given token not valid for any token type",
-    //       messages: [
-    //         {
-    //           token_class: "AccessToken",
-    //           token_type: "access",
-    //           message: "Token is invalid or expired",
-    //         },
-    //       ],
-    //       0: {
-    //         token_class: "AccessToken",
-    //         token_type: "access",
-    //         message: "Token is invalid or expired",
-    //       },
-    //     })
+    // ctx.status(401),
+    // ctx.json({
+    //   code: "token_not_valid",
+    //   access: "Given token not valid for any token type",
+    //   messages: [
+    //     {
+    //       token_class: "AccessToken",
+    //       token_type: "access",
+    //       message: "Token is invalid or expired",
+    //     },
+    //   ],
+    //   0: {
+    //     token_class: "AccessToken",
+    //     token_type: "access",
+    //     message: "Token is invalid or expired",
+    //   },
+    // })
     //   );
     // } else {
     return res(
@@ -92,7 +92,7 @@ export const onboardingHandler = [
       //       },
       //     })
       //   );
-      // } else {
+      // }a else {
       return res(
         ctx.status(201),
         ctx.json({
@@ -119,11 +119,11 @@ export const onboardingHandler = [
       ctx.status(200),
       ctx.json({
         user: {
-          id: "0f76cb90-2394-499b-9b60-bf4cad3751a4",
+          id: "userid",
         },
         organization: {
-          id: "5c6d28fb-8603-417c-95db-ecf2e85f4f07",
-          org_email: "digitalgreen@digitalgreen.com",
+          id: "orgid",
+          org_email: "dg@digitalgreen.com",
           website: "https://www.digitalgreen.org",
           name: "Digital green",
           address: {
@@ -132,7 +132,7 @@ export const onboardingHandler = [
             country: "Argentina",
             pincode: "12345678654321",
           },
-          phone_number: "+91 97380-39097",
+          phone_number: "+91 97380-19097",
           logo: "/media/organizations/logos/KALRO_PcWNbzH.png",
           hero_image: null,
           org_description:
@@ -142,5 +142,44 @@ export const onboardingHandler = [
       })
     );
   }),
-  // rest.get(`${getBaseUrl()}${UrlConstant.refesh}`, () => {}),
+  rest.put(`${getBaseUrl()}${UrlConstant.org}:userId/`, (req, res, ctx) => {
+    console.log("calling org get");
+    return res(
+      ctx.status(200),
+      ctx.json({
+        user: {
+          id: "0f76cb90-2394-499b-9b60-bf4cad3751a4",
+        },
+        organization: {
+          id: "5c6d28fb-8603-417c-95db-ecf2e85f4f07",
+          org_email: "dg@digitalgreen.com",
+          website: "https://www.digitalgreen.org",
+          name: "Digital green",
+          address: {
+            country: "Argentina",
+            pincode: "12345678654321",
+            address: "4th block, Koramangala, New Hp Petrol pump, Bangalore",
+            city: "",
+          },
+          phone_number: "+91 97380-19097",
+          logo: "/media/organizations/logos/KALRO_PcWNbzH.png",
+          hero_image: null,
+          org_description:
+            "Digital Green is a non-profit organization that was founded in 2006 and is based in Koramangala, Bangalore. The organization uses technology to empower smallholder farmers in developing countries by sharing agricultural knowledge and practices.",
+          status: true,
+        },
+        user_map: "a4afc139-5829-49a4-8131-9021eceb4dd6",
+        org_id: "5c6d28fb-8603-417c-95db-ecf2e85f4f07",
+      })
+    );
+  }),
+  rest.get(`${getBaseUrl()}${UrlConstant.refesh}`, (req, res, ctx) => {
+    console.log("calling refresh token");
+    return res(
+      ctx.status(200),
+      ctx.json({
+        access: "new token",
+      })
+    );
+  }),
 ];

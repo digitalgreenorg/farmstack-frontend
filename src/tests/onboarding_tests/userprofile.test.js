@@ -303,7 +303,7 @@ describe("User profile - Negative scenerio", () => {
       rest.get(
         `${undefined}${UrlConstant.profile}:userId/`,
         (req, res, ctx) => {
-          console.log("inside failed call");
+          // console.log("inside failed call");
           return res(
             ctx.status(401),
             ctx.json({
@@ -388,7 +388,7 @@ describe("User profile - Negative scenerio", () => {
       rest.put(
         `${undefined}${UrlConstant.profile}:userId/`,
         (req, res, ctx) => {
-          console.log("inside failed call");
+          // console.log("inside failed call");
           return res(
             ctx.status(400),
             ctx.json({
@@ -438,7 +438,7 @@ describe("User profile - Negative scenerio", () => {
       rest.put(
         `${undefined}${UrlConstant.profile}:userId/`,
         (req, res, ctx) => {
-          console.log("inside failed call");
+          // console.log("inside failed call");
           return res(
             ctx.status(401),
             ctx.json({
