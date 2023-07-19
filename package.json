@@ -75,7 +75,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage"
+    "coverage": "react-scripts test --coverage --watchAll"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -96,5 +96,12 @@
     "@testing-library/jest-dom": "^5.16.5",
     "axios-mock-adapter": "^1.21.5",
     "msw": "^1.2.2"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/Components/NewOnboarding/ProfileDetails.jsx",
+      "src/Components/NewOnboarding/CompanyPolicies.jsx",
+      "src/Components/Standardization/StandardizationInOnbording.js"
+    ]
   }
 }

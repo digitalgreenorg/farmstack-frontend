@@ -33,7 +33,6 @@ export default function ControlledAccordions(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleDeletePopper = (event) => {
-    console.log("event", event.currentTarget, event);
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
     setOpen(true);
@@ -46,16 +45,7 @@ export default function ControlledAccordions(props) {
   };
 
   return (
-    <div
-      // onClick={(e) => {
-      //   let curEle = e.currentTarget;
-      //   let deleteButton = curEle.querySelector("#delete-button-category");
-      //   console.log("on open", curEle, deleteButton);
-      //   showPopper(deleteButton);
-      // }}
-      className="accordions_in_onboarding"
-      style={{ margin: "10px 0px" }}
-    >
+    <div className="accordions_in_onboarding" style={{ margin: "10px 0px" }}>
       <Accordion
         className={global_styles.break_word}
         expanded={expanded === index}
@@ -109,14 +99,6 @@ export default function ControlledAccordions(props) {
             />
           ) : (
             ""
-          )}
-          {console.log(
-            onOpenHideDelete,
-            !anchorEl,
-            !open,
-            expanded,
-            index,
-            "here"
           )}
           {expanded == index ? (
             ""
