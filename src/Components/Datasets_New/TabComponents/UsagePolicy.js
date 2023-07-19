@@ -86,7 +86,13 @@ const UsagePolicy = (props) => {
         setFilesAccessibility((prev) => {
           return prev.map((fileObj) => {
             if (fileObj.id == file) {
-              return { ...fileObj, id: file, accessibility: selectedChecked };
+              return {
+                id: file,
+                accessibility: selectedChecked,
+                file: fileObj.file,
+              };
+            } else {
+              return fileObj;
             }
           });
         });
