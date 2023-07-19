@@ -670,6 +670,7 @@ const AddDataSet = (props) => {
             restApifiles={restApifiles}
             setRestApiFiles={setRestApiFiles}
             validator={validator}
+            getDatasetForEdit={getDatasetForEdit}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
@@ -713,6 +714,7 @@ const AddDataSet = (props) => {
                 : datasetId
             }
             allFilesAccessibility={allFilesAccessibility}
+            setAllFilesAccessibility={setAllFilesAccessibility}
             isEditModeOn={props.isEditModeOn}
           />
         </TabPanel>

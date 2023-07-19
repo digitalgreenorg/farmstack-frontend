@@ -15,7 +15,7 @@
     "@mui/x-data-grid": "^5.17.4",
     "@mui/x-date-pickers": "^5.0.0-beta.1",
     "@testing-library/react": "^9.4.0",
-    "@testing-library/user-event": "^7.2.1",
+    "@testing-library/user-event": "^14.4.3",
     "antd": "^5.1.5",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
@@ -23,6 +23,7 @@
     "chart.js": "^3.7.0",
     "country-state-city": "^3.1.2",
     "date-fns": "^2.30.0",
+    "dotenv": "^16.3.1",
     "echarts": "5.1.2",
     "echarts-for-react": "3.0.1",
     "env-cmd": "^10.1.0",
@@ -74,7 +75,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage"
+    "coverage": "react-scripts test --coverage --watchAll"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -93,6 +94,14 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "axios-mock-adapter": "^1.21.5"
+    "axios-mock-adapter": "^1.21.5",
+    "msw": "^1.2.2"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/Components/NewOnboarding/ProfileDetails.jsx",
+      "src/Components/NewOnboarding/CompanyPolicies.jsx",
+      "src/Components/Standardization/StandardizationInOnbording.js"
+    ]
   }
 }
