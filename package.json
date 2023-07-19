@@ -102,7 +102,7 @@
       "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/CompanyPolicies.jsx",
       "src/Components/Standardization/StandardizationInOnbording.js",
-      "src/Components/CoStewardAndParticipants/CostewardAndParticipant.js"
+      "src/Components/CoStewardAndParticipants/CostewardAndParticipants.js"
     ]
   }
 }
