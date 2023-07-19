@@ -477,6 +477,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 return (
                   <>
                     <Row
+                      data-testid="list-item" key={index}
                       id={title + "-list-view-" + index}
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
                       onClick={() => handleViewDataset(item?.user_id)}
@@ -495,6 +496,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`organization-name-${index}`}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -504,6 +506,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             id={title + " list-view-datasets-no-" + index}
+                            data-testid={`dataset-count-${index}`}
                           >
                             {item?.dataset_count}
                           </Col>
@@ -513,6 +516,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`number-of-participants-${index}`}
                           >
                             {item?.number_of_participants}
                           </Col>
@@ -528,6 +532,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`part-organization-name-${index}`}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -541,6 +546,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`part-dataset-count-${index}`}
                           >
                             {item?.dataset_count}
                           </Col>
@@ -554,6 +560,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`root-user-${index}`}
                           >
                             {item?.user?.first_name}
                           </Col>
@@ -569,6 +576,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`request-organization-name-${index}`}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -590,6 +598,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                             }}
+                            data-testid={`request-user-name${index}`}
                           >
                             {item?.user?.first_name +
                               " " +
@@ -613,6 +622,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                             }}
+                            data-testid={`request-user-email${index}`}
                           >
                             {item?.user?.email}
                           </Col>
@@ -636,7 +646,8 @@ const CoStewardAndParticipantsCard = (props) => {
           <div>
             <Button
               onClick={handleLoadMoreButton}
-              id="load-more-button"
+              id={title?.split(" ")[0] + "-load-more-button"}
+              data-testid="load-more-button"
               variant="outlined"
               className={`${
                 mobile || tablet
