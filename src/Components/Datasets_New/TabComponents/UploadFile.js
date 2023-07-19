@@ -38,6 +38,7 @@ const UploadFile = ({
   validator,
   datasetId,
   dataSetName,
+  getDatasetForEdit,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [selectedUploadType, setSelectedUploadType] = useState("file_upload");
@@ -396,6 +397,7 @@ const UploadFile = ({
           // results will comes in type of array
           callLoader(false);
           setFiles([]);
+          getDatasetForEdit(datasetId, true);
           console.log(results);
         })
         .catch((err) => {
