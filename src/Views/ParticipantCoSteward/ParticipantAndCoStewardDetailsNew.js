@@ -105,30 +105,49 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       .then((response) => {
         // callLoader(false);
         console.log("reasponce in view details of user", response.data);
-        setOrgId(response?.data?.organization_id);
-        setUserId(response?.data?.user_id);
-        setLogoPath(response?.data?.organization?.logo);
-        setOrganisationName(response?.data?.organization?.name);
-        setOrganisationAddress(
-          response?.data?.organization?.address?.address ||
-            JSON.parse(response?.data?.organization?.address)?.address
-        );
-        setOrginsationEmail(response?.data?.organization?.org_email);
-        setCountryValue(
-          response?.data?.organization?.address?.country ||
-            JSON.parse(response?.data?.organization?.address)?.country
-        );
-        setContactNumber(response?.data?.user?.phone_number);
-        setWebsiteLink(response?.data?.organization?.website);
-        setPincode(
-          response?.data?.organization?.address?.pincode ||
-            JSON.parse(response?.data?.organization?.address)?.pincode
-        );
-        setFirstName(response?.data?.user?.first_name);
-        setLastName(response?.data?.user?.last_name);
-        setUserEmail(response?.data?.user?.email);
+        if (response?.data?.organization_id) {
+          setOrgId(response?.data?.organization_id);
+        }
+        response?.data?.user_id ? setUserId(response?.data?.user_id) : "";
+        response?.data?.organization?.logo
+          ? setLogoPath(response?.data?.organization?.logo)
+          : "";
+        response?.data?.organization?.name
+          ? setOrganisationName(response?.data?.organization?.name)
+          : "";
+        response?.data?.organization?.address?.address
+          ? setOrganisationAddress(
+              response?.data?.organization?.address?.address
+            )
+          : "";
+        response?.data?.organization?.org_email
+          ? setOrginsationEmail(response?.data?.organization?.org_email)
+          : "";
+        response?.data?.organization?.address?.country
+          ? setCountryValue(response?.data?.organization?.address?.country)
+          : "";
+        response?.data?.user?.phone_number
+          ? setContactNumber(response?.data?.user?.phone_number)
+          : "";
+        response?.data?.organization?.website
+          ? setWebsiteLink(response?.data?.organization?.website)
+          : "";
+        response?.data?.organization?.address?.pincode
+          ? setPincode(response?.data?.organization?.address?.pincode)
+          : "";
+        response?.data?.user?.first_name
+          ? setFirstName(response?.data?.user?.first_name)
+          : "";
+        response?.data?.user?.last_name
+          ? setLastName(response?.data?.user?.last_name)
+          : "";
+        response?.data?.user?.email
+          ? setUserEmail(response?.data?.user?.email)
+          : "";
         // setorganisationlength(response.data.user.subscription)
-        setistrusted(response?.data?.user?.approval_status);
+        response?.data?.user?.approval_status
+          ? setistrusted(response?.data?.user?.approval_status)
+          : "";
         if (response?.data?.next) setLoadMoreUrl(response?.data?.next);
         else setLoadMoreUrl("");
 
@@ -536,7 +555,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                     border: "1px solid rgba(255, 86, 48, 0.48)",
                   },
                 }}
-                style={{marginRight: "0px"}}
+                style={{ marginRight: "0px" }}
                 onClick={handleDeletePopper}
               >
                 Delete {isCosteward ? "Co-steward" : "Participant"}
@@ -744,9 +763,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 // id={title + "-form-title"}
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
-               {isCosteward
-              ? "Costeward Datasets"
-              : "Participant Datasets"}
+                {isCosteward ? "Costeward Datasets" : "Participant Datasets"}
               </Typography>
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
