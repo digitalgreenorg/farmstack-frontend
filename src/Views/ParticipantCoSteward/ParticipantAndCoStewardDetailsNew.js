@@ -108,46 +108,48 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         if (response?.data?.organization_id) {
           setOrgId(response?.data?.organization_id);
         }
-        response?.data?.user_id ? setUserId(response?.data?.user_id) : "";
-        response?.data?.organization?.logo
-          ? setLogoPath(response?.data?.organization?.logo)
-          : "";
-        response?.data?.organization?.name
-          ? setOrganisationName(response?.data?.organization?.name)
-          : "";
-        response?.data?.organization?.address?.address
-          ? setOrganisationAddress(
-              response?.data?.organization?.address?.address
-            )
-          : "";
-        response?.data?.organization?.org_email
-          ? setOrginsationEmail(response?.data?.organization?.org_email)
-          : "";
-        response?.data?.organization?.address?.country
-          ? setCountryValue(response?.data?.organization?.address?.country)
-          : "";
-        response?.data?.user?.phone_number
-          ? setContactNumber(response?.data?.user?.phone_number)
-          : "";
-        response?.data?.organization?.website
-          ? setWebsiteLink(response?.data?.organization?.website)
-          : "";
-        response?.data?.organization?.address?.pincode
-          ? setPincode(response?.data?.organization?.address?.pincode)
-          : "";
-        response?.data?.user?.first_name
-          ? setFirstName(response?.data?.user?.first_name)
-          : "";
-        response?.data?.user?.last_name
-          ? setLastName(response?.data?.user?.last_name)
-          : "";
-        response?.data?.user?.email
-          ? setUserEmail(response?.data?.user?.email)
-          : "";
+        if (response?.data?.user_id) {
+          setUserId(response?.data?.user_id);
+        }
+        if (response?.data?.organization?.logo) {
+          setLogoPath(response?.data?.organization?.logo);
+        }
+        if (response?.data?.organization?.name) {
+          setOrganisationName(response?.data?.organization?.name);
+        }
+        if (response?.data?.organization?.address?.address) {
+          setOrganisationAddress(
+            response?.data?.organization?.address?.address
+          );
+        }
+        if (response?.data?.organization?.org_email) {
+          setOrginsationEmail(response?.data?.organization?.org_email);
+        }
+        if (response?.data?.organization?.address?.country) {
+          setCountryValue(response?.data?.organization?.address?.country);
+        }
+        if (response?.data?.user?.phone_number) {
+          setContactNumber(response?.data?.user?.phone_number);
+        }
+        if (response?.data?.organization?.website) {
+          setWebsiteLink(response?.data?.organization?.website);
+        }
+        if (response?.data?.organization?.address?.pincode) {
+          setPincode(response?.data?.organization?.address?.pincode);
+        }
+        if (response?.data?.user?.first_name) {
+          setFirstName(response?.data?.user?.first_name);
+        }
+        if (response?.data?.user?.last_name) {
+          setLastName(response?.data?.user?.last_name);
+        }
+        if (response?.data?.user?.email) {
+          setUserEmail(response?.data?.user?.email);
+        }
         // setorganisationlength(response.data.user.subscription)
-        response?.data?.user?.approval_status
-          ? setistrusted(response?.data?.user?.approval_status)
-          : "";
+        if (response?.data?.user?.approval_status) {
+          setistrusted(response?.data?.user?.approval_status);
+        }
         if (response?.data?.next) setLoadMoreUrl(response?.data?.next);
         else setLoadMoreUrl("");
 
