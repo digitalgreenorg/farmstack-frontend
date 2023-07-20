@@ -228,6 +228,7 @@ const StandardizationInOnbord = (props) => {
     setAllAttributes(tmpAllAttributes);
     setSaveButtonEnabled(true);
     console.log("tmpAllAttributes", tmpAllAttributes);
+    callToast("Please submit to save the changes!", "info", true);
   };
 
   const confirm = (e, index) => {

@@ -39,6 +39,7 @@ export default function AskSupport(props) {
   const [key, setKey] = useState(0);
   const [preview, setPreview] = useState(null);
   const { callToast, callLoader } = useContext(FarmStackContext);
+  const [filesizeError, setFileSizeError] = useState("")
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value.trimStart());
@@ -47,12 +48,14 @@ export default function AskSupport(props) {
     setUploadedFile(file);
     setKey(key + 1);
     setFileError("");
+    setFileSizeError("");
   };
   const handleCancelFile = () => {
     setUploadedFile(null);
     setPreview(null);
     setKey(key + 1);
     setFileError("");
+    setFileSizeError("");
   };
 
   const handleClearForm = () => {
@@ -70,6 +73,7 @@ export default function AskSupport(props) {
     setKey(null);
     setPreview(null);
     setUploadedFile(null);
+    setFileSizeError("")
   };
 
   const handleSupportViewRouteBreadCrumbs = () => {
@@ -85,6 +89,7 @@ export default function AskSupport(props) {
     setTitleError("");
     setQueryFieldError("");
     setFileError("");
+    setFileSizeError("")
     callLoader(true);
 
     var bodyFormData = new FormData();
@@ -181,7 +186,7 @@ export default function AskSupport(props) {
               Support
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px !important", fill: "#00ab55" }} />
             </span>
             <span className="add_light_text ml-16 fw600">Ask Support</span>
           </div>
@@ -297,7 +302,7 @@ export default function AskSupport(props) {
               handleChange={handleUploadSupportFile}
               maxSize={2}
               setSizeError={() =>
-                setFileError("Maximum file size allowed is 2MB")
+                setFileSizeError("Maximum file size allowed is 2MB")
               }
               id="file_uploader-support"
             />
@@ -365,7 +370,7 @@ export default function AskSupport(props) {
                 LocalStyle.text_left
               }
             >
-              {fileError}
+              {fileError ? fileError : filesizeError}
             </div>
           </Col>
         </Row>
