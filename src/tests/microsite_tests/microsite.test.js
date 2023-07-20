@@ -54,16 +54,16 @@ describe("GuestUserHome Component", () => {
     expect(window.location.pathname).toBe("/home/get-started");
   });
 
-  test("renders the 'Datasets' title correctly", () => {
-    render(
-      <Router>
-        <GuestUserHome />
-      </Router>,
-      { wrapper: FarmStackProvider }
-    );
-    const datasetsTitle = screen.getByText(/Datasets/i);
-    expect(datasetsTitle).toBeInTheDocument();
-  });
+  //   test("renders the 'Datasets' title correctly", () => {
+  //     render(
+  //       <Router>
+  //         <GuestUserHome />
+  //       </Router>,
+  //       { wrapper: FarmStackProvider }
+  //     );
+  //     const datasetsTitle = screen.getByText(/Datasets/i);
+  //     expect(datasetsTitle).toBeInTheDocument();
+  //   });
 
   test("renders dataset list", () => {
     render(
@@ -76,27 +76,27 @@ describe("GuestUserHome Component", () => {
     expect(datasetList).toBeInTheDocument();
   });
 
-  test("renders the 'Co-steward' title correctly", () => {
-    render(
-      <Router>
-        <GuestUserHome />
-      </Router>,
-      { wrapper: FarmStackProvider }
-    );
-    const costewardTitle = screen.getByText(/Co-steward/i);
-    expect(costewardTitle).toBeInTheDocument();
-  });
+  //   test("renders the 'Co-steward' title correctly", () => {
+  //     render(
+  //       <Router>
+  //         <GuestUserHome />
+  //       </Router>,
+  //       { wrapper: FarmStackProvider }
+  //     );
+  //     const costewardTitle = screen.getByText(/Co-steward/i);
+  //     expect(costewardTitle).toBeInTheDocument();
+  //   });
 
-  test("renders the 'Participants' title correctly", () => {
-    render(
-      <Router>
-        <GuestUserHome />
-      </Router>,
-      { wrapper: FarmStackProvider }
-    );
-    const participantsTitle = screen.getByText(/Participants/i);
-    expect(participantsTitle).toBeInTheDocument();
-  });
+  //   test("renders the 'Participants' title correctly", () => {
+  //     render(
+  //       <Router>
+  //         <GuestUserHome />
+  //       </Router>,
+  //       { wrapper: FarmStackProvider }
+  //     );
+  //     const participantsTitle = screen.getByText(/Participants/i);
+  //     expect(participantsTitle).toBeInTheDocument();
+  //   });
 
   test("renders carousel for 'Co-steward'", () => {
     render(

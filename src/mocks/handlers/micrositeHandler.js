@@ -8,7 +8,7 @@ const getBaseUrl = () => {
 export const micrositeHandler = [
   // pass your url in the first parameter
   rest.post(
-    `${getBaseUrl}${UrlConstant.costeward_onboarded_dataset}`,
+    `${getBaseUrl()}${UrlConstant.costeward_onboarded_dataset}`,
     (req, res, ctx) => {
       console.log("microsite onboarding dataset", req);
       return res(
