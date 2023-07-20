@@ -43,6 +43,7 @@ export default function SupportResolution({
   const handleFileChange = (file) => {
     setUploadFile(file);
     setResolutionFileError("");
+    setFileErrorMessage("")
     console.log(file);
   };
   const handleCancelFile = () => {
