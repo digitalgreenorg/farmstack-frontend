@@ -32,10 +32,9 @@ const CategoryDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
 
   const { setActiveStep } = props;
-  const [allCategories, setAllCategories] = useState([
-    // { category_name: "", description: "", sub_categories: [] },
-  ]);
+  const [allCategories, setAllCategories] = useState([]);
   const [categoryNamesList, setCategoryNameList] = useState([]);
+  const [categoryDescriptionList, setCateogryDescriptionList] = useState({});
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
   const [preview, setPreview] = useState(null);
@@ -92,11 +91,18 @@ const CategoryDetails = (props) => {
   // const [subCategoryName, setSubCategoryName] = useState("")
   const createCategory = () => {
     if (categoryNamesList.includes(categoryName)) {
+      console.log(
+        "🚀 ~ file: CategoryDetails.jsx:96 ~ createCategory ~ categoryNamesList:",
+        categoryNamesList
+      );
       setCategoryNameError("This category already exist");
       return;
     } else {
       setEnableSave(true);
       setCategoryNameList([...categoryNamesList, categoryName]);
+      let tmpCategoryDescriptionList = { ...categoryDescriptionList };
+      tmpCategoryDescriptionList[categoryName] = description;
+      setCateogryDescriptionList(tmpCategoryDescriptionList);
       setCategoryName("");
       setDescription("");
       setCategoryNameError("");
@@ -123,20 +129,26 @@ const CategoryDetails = (props) => {
     callLoader(true);
     HTTPService(method, url, "", false, true, false, false)
       .then((response) => {
+        console.log(
+          "🚀 ~ file: CategoryDetails.jsx:130 ~ .then ~ response:",
+          response
+        );
         callLoader(false);
         let categories = [];
         let categoryNames = [];
-        for (var key in response.data) {
+        for (var key in response?.data?.["name"]) {
           let obj = {
             category_name: key,
-            description: "",
-            sub_categories: response.data[key],
+            description: response.data["description"][key],
+            sub_categories: response.data["name"][key],
           };
+          console.log("🚀 ~ file: CategoryDetails.jsx:145 ~ .then ~ obj:", obj);
           categoryNames.push(key);
           categories.push(obj);
         }
         setCategoryNameList([...categoryNames]);
         setAllCategories([...categories]);
+        setCateogryDescriptionList({ ...response.data["description"] });
       })
       .catch(async (e) => {
         callLoader(false);
@@ -181,6 +193,10 @@ const CategoryDetails = (props) => {
   };
 
   let categoryNames = [];
+  console.log(
+    "🚀 ~ file: CategoryDetails.jsx:197 ~ CategoryDetails ~ allCategories:",
+    allCategories
+  );
   for (let i = 0; i < allCategories.length; i++) {
     categoryNames.push(allCategories[i].category_name);
   }
@@ -189,11 +205,18 @@ const CategoryDetails = (props) => {
   const handleSubmitCategories = () => {
     //build the payload
     console.log(allCategories);
+    let tmpAllCategoriesName = {};
     let payload = {};
     for (let i = 0; i < allCategories.length; i++) {
-      payload[allCategories[i].category_name] = allCategories[i].sub_categories;
+      tmpAllCategoriesName[allCategories[i].category_name] =
+        allCategories[i].sub_categories;
     }
-    console.log(payload);
+    payload["name"] = tmpAllCategoriesName;
+    payload["description"] = categoryDescriptionList;
+    console.log(
+      "🚀 ~ file: CategoryDetails.jsx:197 ~ handleSubmitCategories ~ payload:",
+      payload
+    );
     let url = UrlConstant.base_url + UrlConstant.add_category_edit_category;
     let method = "POST";
     callLoader(true);
@@ -272,6 +295,10 @@ const CategoryDetails = (props) => {
   //component to be passed into the body of the accordion
   function ParentCompoent(props) {
     const { data, index } = props;
+    console.log(
+      "🚀 ~ file: CategoryDetails.jsx:298 ~ ParentCompoent ~ data:",
+      data
+    );
     const [subCategoryName, setSubCategoryName] = useState("");
     const [editedValue, setEditedValue] = useState("");
     const [subCatError, setsubCatError] = useState("");
@@ -349,6 +376,9 @@ const CategoryDetails = (props) => {
 
     return (
       <span>
+        <p className="standardization-accordion-description">
+          {data.description}
+        </p>
         <div
           style={{ textAlign: "left" }}
           className={global_style.bold600 + " " + global_style.size20}
