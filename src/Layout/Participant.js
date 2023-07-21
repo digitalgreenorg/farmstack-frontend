@@ -298,6 +298,7 @@ function Participant(props) {
               onClick={() => {
                 props.history.push("/participant/support");
               }}
+              className={"fabIcon"}
             >
               <AddIcCallRoundedIcon />
             </Fab>
