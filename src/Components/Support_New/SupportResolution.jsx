@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button, Box, TextField, Avatar, Divider } from "@mui/material";
 import LocalStyle from "./Support.module.css";
@@ -35,7 +35,7 @@ export default function SupportResolution({
   userLoggedIn,
   updateResErrorMessage,
   fileErrorMessage,
-  setFileErrorMessage
+  setFileErrorMessage,
 }) {
   const fileTypes = ["pdf", "doc", "jpeg", "png", "docx"];
   console.log("get id", getUserMapId());
@@ -43,23 +43,24 @@ export default function SupportResolution({
   const handleFileChange = (file) => {
     setUploadFile(file);
     setResolutionFileError("");
-    setFileErrorMessage("")
+    setFileErrorMessage("");
     console.log(file);
   };
   const handleCancelFile = () => {
     setUploadFile(null);
     setResolutionFileError("");
-    setFileErrorMessage("")
-
+    setFileErrorMessage("");
   };
   return (
     <>
       <Box className={LocalStyle.resolutionBox}>
         {resolutionMessage?.map((item, index) => (
-          <>
+          <div key={index}>
             <Row
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
+              data-testid="eachresolution"
+              key={index}
             >
               <Col xs={12} sm={12} md={12} lg={12}>
                 <div style={{ display: "flex", alignItems: "center" }}>
@@ -98,7 +99,13 @@ export default function SupportResolution({
                       }
                     />
                   ) : (
-                    <span style={{ width: "90%", wordBreak: "break-all", marginLeft: "10px" }}>
+                    <span
+                      style={{
+                        width: "90%",
+                        wordBreak: "break-all",
+                        marginLeft: "10px",
+                      }}
+                    >
                       {item?.resolution_text}
                     </span>
                   )}
@@ -106,6 +113,7 @@ export default function SupportResolution({
                     <IconButton
                       onClick={(e) => handleUpgradeResolutionMessage(e, index)}
                       style={{ margin: "15px" }}
+                      data-testid="sendicon"
                     >
                       <SendIcon />
                     </IconButton>
@@ -117,7 +125,7 @@ export default function SupportResolution({
                         <IconButton
                           size="small"
                           aria-label="Edit"
-                          style={{marginRight: "25px"}}
+                          style={{ marginRight: "25px" }}
                           onClick={(e) => {
                             e.stopPropagation();
                             let tmp = [...editResolutionMessage];
@@ -163,7 +171,7 @@ export default function SupportResolution({
               ""
             )}
             <Divider />
-          </>
+          </div>
         ))}
         <Row>
           <Col
@@ -212,13 +220,15 @@ export default function SupportResolution({
                   />
                 </>
               </div>
-            ) : ( "") }
-              <div
-                className="oversizemb-uploadimglogo"
-                style={{ marginLeft: "80px", fontSize: "14px" }}
-              >
-                {fileErrorMessage ? fileErrorMessage : resolutionFileError}
-              </div>
+            ) : (
+              ""
+            )}
+            <div
+              className="oversizemb-uploadimglogo"
+              style={{ marginLeft: "80px", fontSize: "14px" }}
+            >
+              {fileErrorMessage ? fileErrorMessage : resolutionFileError}
+            </div>
           </Col>
           <Col xs={12} sm={6} md={6} xl={6}>
             <div
@@ -238,7 +248,7 @@ export default function SupportResolution({
                 name="file"
                 types={fileTypes}
                 children={
-                  <IconButton style={{border: "none"}}>
+                  <IconButton style={{ border: "none" }}>
                     <AttachFileIcon />
                   </IconButton>
                 }

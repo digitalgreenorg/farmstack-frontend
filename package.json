@@ -75,7 +75,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll"
+    "coverage": "react-scripts test --coverage --watchAll src/tests/support_tickets_tests/viewsupport.test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -93,6 +93,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/dom": "^9.3.1",
     "@testing-library/jest-dom": "^5.16.5",
     "axios-mock-adapter": "^1.21.5",
     "msw": "^1.2.2"
@@ -102,7 +103,8 @@
       "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/CompanyPolicies.jsx",
       "src/Components/Standardization/StandardizationInOnbording.js",
-      "src/Components/Support_New/Support.jsx"
+      "src/Components/Support_New/Support.jsx",
+      "src/Components/Support_New/SupportView.jsx"
     ]
   }
 }
