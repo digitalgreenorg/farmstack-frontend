@@ -2,6 +2,7 @@ import { Box, Button, Stack, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import styles from "../dataset_integration.module.css";
+import globalStyle from "../../../../Assets/CSS/global.module.css";
 import download_data from "../../../../Assets/Img/download_data.svg";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -310,7 +311,7 @@ const Preview = (props) => {
               history.push("/datahub/connectors");
               resetAll(true, true, true, true, setCol, setRow);
             }}
-            className={styles.cancelBtn}
+            className={globalStyle.secondary_button}
           >
             Cancel
           </Button>
