@@ -193,7 +193,7 @@ button.submitbtn:hover {
   display: block;
 }
 
-.react-multi-email > input {
+.react-multi-email>input {
   background: none !important;
 }
 
@@ -205,14 +205,14 @@ button.submitbtn:hover {
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor > div:first-child {
+.invite-participant-text-editor>div:first-child {
   background: #f1f1f1 !important;
   border: none !important;
   border-bottom: 1px solid #9aa1a9 !important;
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor > div:first-child > div:first-child {
+.invite-participant-text-editor>div:first-child>div:first-child {
   text-align: left;
 }
 
@@ -360,6 +360,7 @@ button.cancelbtnteam {
   margin-bottom: 50px;
   box-shadow: none !important;
 }
+
 .backlabel {
   font-family: "Montserrat";
   font-style: normal;
@@ -415,7 +416,7 @@ button.cancelbtnteam {
   border-top: 1px solid rgba(238, 238, 238, 0.5);
 }
 
-.react-multi-email.empty > span[data-placeholder] {
+.react-multi-email.empty>span[data-placeholder] {
   display: inline;
   color: #3d4a52 !important;
 }
@@ -741,6 +742,7 @@ button.disbalesubmitbtndept {
   justify-content: right;
   transition: width 2s;
 }
+
 #categories-main-container .Mui-selected {
   color: black !important;
   background-color: white !important;
@@ -882,6 +884,7 @@ html {
   border-bottom-left-radius: 10px !important;
   border-bottom-right-radius: 10px !important;
 }
+
 .connectorCard {
   padding: 20px 40px 20px 5px;
   font-family: "Montserrat";
@@ -907,6 +910,7 @@ html {
 .dataset_selector_in_integration .backButtonMainDiv .MuiSvgIcon-root {
   color: #3491ee !important;
 }
+
 .ant-segmented-group label {
   margin-bottom: 0px !important;
 }
@@ -978,8 +982,7 @@ textarea {
   height: 56px;
 }
 
-.input_field_subscribe
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
 }
@@ -990,8 +993,7 @@ textarea {
   height: 30px !important;
 }
 
-.input_field_subscribe_sm
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_sm .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 30px !important;
@@ -1004,13 +1006,13 @@ textarea {
   height: 30px !important;
 }
 
-.input_field_subscribe_md
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_md .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 32px !important;
   width: 273px !important;
 }
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1122,6 +1124,7 @@ textarea {
 .category_detail_main_box .MuiInputAdornment-root .btn-primary {
   padding: 0px 10px !important;
 }
+
 .rich_text_editor select,
 .rich_text_editor button {
   border: none !important;
@@ -1170,6 +1173,7 @@ textarea {
 .MuiSlider-colorPrimary {
   color: #00ab55 !important;
 }
+
 .fabIcon {
   background-color: white !important;
 }
