@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom";
 import CustomDeletePopper from "../../../DeletePopper/CustomDeletePopper";
 import ControllerModal from "../../../Generic/ControllerModal";
 import ModalBody from "./ModalBody";
+import { findType } from "../../../../Utils/Common";
 
 function NoResultsOverlay() {
   return (
