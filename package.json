@@ -101,7 +101,8 @@
     "collectCoverageFrom": [
       "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/CompanyPolicies.jsx",
-      "src/Components/Standardization/StandardizationInOnbording.js"
+      "src/Components/Standardization/StandardizationInOnbording.js",
+      "src/Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew.js"
     ]
   }
 }

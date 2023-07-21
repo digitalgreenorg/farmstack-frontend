@@ -40,7 +40,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [istrusted, setistrusted] = React.useState(false);
 
   const [logoPath, setLogoPath] = useState("");
@@ -433,7 +432,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
             </span>
-            <span className="add_light_text ml-16 fw600">
+            <span className="add_light_text ml-16 fw600" data-testid="label-breadcrumb">
               {isCosteward && !isParticipantRequest
                 ? "Co-Steward details"
                 : !isCosteward && !isParticipantRequest
@@ -470,6 +469,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <img
                 src={UrlConstant.base_url_without_slash + logoPath}
                 style={{ width: "179px", height: "90px" }}
+                
               />
             ) : (
               <h1 className={LocalStyle.firstLetterOnLogo}>
@@ -591,7 +591,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       <Row>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Row className={LocalStyle.textRow}>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col xs={12} sm={12} md={6} xl={6} data-testid="org_Name">
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
               >
