@@ -22,6 +22,7 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 
 const ProfileDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const [dialCode, setDialCode] = useState("")
 
   const { setActiveStep } = props;
   const history = useHistory();
@@ -46,7 +47,8 @@ const ProfileDetails = (props) => {
         ...profileDetails,
         [e.target.name]: e.target.value.trimStart(),
       });
-    } else {
+    } 
+    else {
       if (!isPhoneValid(e, countryData)) {
         setProfileDetailsError((prevState) => ({
           ...prevState,
@@ -58,7 +60,14 @@ const ProfileDetails = (props) => {
           contact_number: "",
         }));
       }
-      setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
+      //setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
+      if(e.startsWith(countryData?.dialCode)){
+        let index = countryData?.dialCode.length;
+        if(!e.includes(" ", index)) {
+          e = e.substr(0, index)+ " " + e.subtr(index);
+          setProfileDetails(e)
+        }
+      }
     }
   };
 
@@ -165,7 +174,7 @@ const ProfileDetails = (props) => {
               true
             );
           }
-          if (error.path && history) {
+          if (error.path) {
             history.push(error.path);
           }
         }
