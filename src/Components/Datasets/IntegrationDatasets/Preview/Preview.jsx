@@ -8,6 +8,7 @@ import NoDataAvailable from "../../../Dashboard/NoDataAvailable/NoDataAvailable"
 import { message } from "antd";
 import { useHistory } from "react-router-dom";
 import CustomDeletePopper from "../../../DeletePopper/CustomDeletePopper";
+import { findType } from "../../../../Utils/Common";
 
 function NoResultsOverlay() {
   return (
@@ -258,7 +259,7 @@ const Preview = (props) => {
           <Button
             id="cancel-button"
             onClick={() => {
-              history.push("/datahub/connectors");
+              history.push(`/${findType()}/connectors`);
               resetAll(true, true, true, true, setCol, setRow);
             }}
             className={styles.cancelBtn}
