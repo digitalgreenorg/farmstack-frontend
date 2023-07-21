@@ -612,7 +612,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       <Row>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Row className={LocalStyle.textRow}>
-            <Col xs={12} sm={12} md={6} xl={6} data-testid="org_Name">
+            <Col xs={12} sm={12} md={6} xl={6} data-testid="check_org_Name">
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
               >

@@ -7,7 +7,7 @@ const getBaseUrl = () => {
 export const participantHandler = [
   // pass your url in the first parameter
     rest.get(
-      `${getBaseUrl()}${UrlConstant.participant}:userId/`,
+      `${UrlConstant.base_url}${UrlConstant.participant}:userId/`,
       (req, res, ctx) => {
         const { userId } = req.params;
         if(userId == "error_in_get") {
