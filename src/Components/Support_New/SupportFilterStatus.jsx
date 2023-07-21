@@ -64,6 +64,7 @@ export default function SupportFilterStatus({
                 checked={statusFilter === "closed"}
                 value="closed"
                 id="closed"
+                data-testid="closed"
                 onChange={(e) => handleCheckboxChange(e, e.target.checked)}
               />
             }
@@ -89,7 +90,7 @@ export default function SupportFilterStatus({
               onClick={() => {
                 setShowFilter(false);
                 setStatusFilter("");
-                getListOfTickets()
+                getListOfTickets();
               }}
               id="status-close-filter-id"
             >
