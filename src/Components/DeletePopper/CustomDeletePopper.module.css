@@ -3,16 +3,19 @@
   margin: auto;
   align-items: center;
 }
+
 .popperContainer {
   padding: 24px !important;
   text-align: left;
-  box-shadow: -40px 40px 80px -8px rgba(145, 158, 171, 0.24);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   border-radius: 16px;
   border: none !important;
 }
+
 .popperMessage {
   margin: 24px auto !important;
 }
+
 .deleteButton {
   background: #ff5630 !important;
   color: #ffffff !important;
@@ -22,6 +25,7 @@
   border: none !important;
   margin: 0 6px !important;
 }
+
 .cancelButtonOnDelete {
   background: #ffffff !important;
   color: #212b36 !important;
@@ -30,13 +34,14 @@
   font-weight: 700 !important;
   border: 1px solid #cad0d6 !important;
   margin: 0 6px !important;
-  box-shadow: -40px 40px 80px -8px rgba(145, 158, 171, 0.24) !important;
   /* border-radius: 16px !important; */
 }
+
 .popperButtonContainer {
   display: flex;
   flex-direction: row-reverse;
 }
-.popperTitleContainer > h4 {
+
+.popperTitleContainer>h4 {
   margin: 0 18px;
 }
