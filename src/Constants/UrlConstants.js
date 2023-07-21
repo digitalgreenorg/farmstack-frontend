@@ -135,7 +135,7 @@ const UrlConstant = {
   support_ticket: "participant/support_ticket/",
   support_ticket_tab: "/participant/support_ticket/list_tickets/",
   support_resolution: "participant/ticket_resolution/",
-  search_support_ticket: "/participant/support_ticket/search_support_tickets/"
+  search_support_ticket: "/participant/support_ticket/search_support_tickets/",
 };
 
 export default UrlConstant;

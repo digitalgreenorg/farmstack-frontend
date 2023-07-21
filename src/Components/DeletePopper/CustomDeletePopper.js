@@ -18,7 +18,6 @@ const CustomDeletePopper = (props) => {
     deletePopperId,
     cancelPopperId,
   } = props;
-  console.log("anchorEl", anchorEl);
   return (
     <Popper id={id} open={open} anchorEl={anchorEl} transition>
       {({ TransitionProps }) => (
@@ -49,6 +48,7 @@ const CustomDeletePopper = (props) => {
                 className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButtonOnDelete}`}
                 onClick={(e) => closePopper(e)}
                 id={cancelPopperId}
+                data-testid="closepopper"
               >
                 Cancel
               </Button>
@@ -57,6 +57,7 @@ const CustomDeletePopper = (props) => {
                 className={`${GlobalStyle.primary_button} ${LocalStyle.deleteButton}`}
                 onClick={(e) => handleDelete(e)}
                 id={deletePopperId}
+                data-testid="deletepopper"
               >
                 Delete
               </Button>

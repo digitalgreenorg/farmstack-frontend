@@ -571,7 +571,7 @@ const NavbarNew = ({ loginType }) => {
                     id="navbar-signout"
                     sx={{
                       fontFamily: "Montserrat !important",
-                      fontWeight: 700,
+                      fontWeight: "700 !important",
                       fontSize: "14px !important",
                       width: "94px !important",
                       height: "34px !important",

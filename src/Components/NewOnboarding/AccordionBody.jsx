@@ -55,6 +55,8 @@ function AccordionBody(props) {
   const confirm = (e, index) => {
     deletePolicyDetail(e, index);
     props.setExpanded(false);
+    setAnchorEl(null);
+    setOpen(false);
   };
   const handleDeletePopper = (event) => {
     setAnchorEl(event.currentTarget);

@@ -21,14 +21,13 @@ import FilterDate from "../Filter/FilterDate";
 import SupportFilterStatus from "./SupportFilterStatus";
 import SupportFilterCategory from "./SupportFilterCategory";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-export default function Support(props) {
+const Support = (props) => {
   const [ticketList, setTicketList] = useState([]);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [searchTickets, setSearchTickets] = useState(null);
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
-  const [ListOfTickets, setlistOfTickets] = useState([]);
   const [tabValue, setTabValue] = useState(
     parseInt(localStorage.getItem("supportTicketsTabValue")) || 0
   );
@@ -535,7 +534,9 @@ export default function Support(props) {
               Support
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px !important", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon
+                sx={{ fontSize: "14px !important", fill: "#00ab55" }}
+              />
             </span>
             {isLoggedInUserAdmin() ? (
               <span className="add_light_text ml-16 fw600">
@@ -619,6 +620,7 @@ export default function Support(props) {
               }
               onClick={() => handleFilterClick("status")}
               id="status_filter"
+              data-testid="status_filter"
             >
               <img
                 src={require("../../Assets/Img/supportStatus.svg")}
@@ -636,6 +638,7 @@ export default function Support(props) {
               }
               onClick={() => handleFilterClick("categories")}
               id="support-filter-by-categories-id"
+              data-testid="support-filter-by-categories-id"
             >
               <img
                 src={require("../../Assets/Img/category.svg")}
@@ -653,6 +656,7 @@ export default function Support(props) {
               }
               onClick={() => handleFilterClick("date")}
               id="support-filter-by-date-id"
+              data-testid="support-filter-by-date-id"
             >
               <img
                 src={require("../../Assets/Img/by_date.svg")}
@@ -676,6 +680,7 @@ export default function Support(props) {
                 getListOfTickets();
               }}
               id="dataset-filter-clear-all-id"
+              data-testid="dataset-filter-clear-all-id"
             >
               <img
                 src={require("../../Assets/Img/clear_all.svg")}
@@ -738,8 +743,6 @@ export default function Support(props) {
         setLoadMoreUrl={setLoadMoreUrl}
         loadMoreButton={loadMoreButton}
         setLoadMoreButton={setLoadMoreButton}
-        ListOfTickets={ListOfTickets}
-        setlistOfTickets={setlistOfTickets}
         getTicketListOnLoadMore={getTicketListOnLoadMore}
         getListOfTickets={getListOfTickets}
         statusFilter={statusFilter}
@@ -747,4 +750,6 @@ export default function Support(props) {
       />
     </>
   );
-}
+};
+
+export default Support;
