@@ -124,6 +124,8 @@ const AddConnector = (props) => {
     create_at: "",
     last_updated: "",
   });
+  const [nameRenameConfigData, setNameRenameConfigData] = useState({});
+  const [refresh, setFresh] = useState(false);
   const [totalCounter, setTotalCounter] = useState(-1);
   const [errorConnectorName, setErrorConnectorName] = useState("");
   const [errorConnectorDesc, setErrorConnectorDesc] = useState("");
@@ -488,6 +490,7 @@ const AddConnector = (props) => {
       finalPayload = {
         name: connectorData.name,
         description: connectorData.desc,
+        config: nameRenameConfigData,
         user: getUserLocal(),
         maps: payload,
         integrated_file: integratedFilePath,
@@ -517,6 +520,7 @@ const AddConnector = (props) => {
       finalPayload = {
         name: connectorData.name,
         description: connectorData.desc,
+        config: nameRenameConfigData,
         user: getUserLocal(),
         maps: payload,
       };
@@ -768,13 +772,22 @@ const AddConnector = (props) => {
   };
 
   //Download functionality
-  const downloadDocument = () => {
+  const downloadDocument = (editFileDownload) => {
     let uri;
-    if (integratedFilePath[0] === "/") {
-      uri = UrlConstant.base_url_without_slash + integratedFilePath;
+    if (editFileDownload) {
+      if (editFileDownload[0] === "/") {
+        uri = UrlConstant.base_url_without_slash + editFileDownload;
+      } else {
+        uri = UrlConstant.base_url + editFileDownload;
+      }
     } else {
-      uri = UrlConstant.base_url + integratedFilePath;
+      if (integratedFilePath[0] === "/") {
+        uri = UrlConstant.base_url_without_slash + integratedFilePath;
+      } else {
+        uri = UrlConstant.base_url + integratedFilePath;
+      }
     }
+
     download(
       uri,
       connectorData.name ? connectorData.name : "Integrated_dataset"
@@ -798,7 +811,55 @@ const AddConnector = (props) => {
       return "/datahub/connectors";
     }
   };
+
+  function fetchBeforeDownload(url) {
+    console.log("hitting for download");
+
+    // Fetch the CSV data from the server
+    fetch(url)
+      .then((response) => response.text())
+      .then((csvData) => {
+        // Manipulate the CSV data as needed
+        const modifiedCsvData = manipulateCsvData(csvData);
+
+        // Create a Blob object from the modified CSV data
+        // const blob = new Blob([modifiedCsvData], { type: "text/csv" });
+
+        // // Create a temporary URL for the Blob
+        // const blobUrl = URL.createObjectURL(blob);
+
+        // // Create a temporary anchor element
+        // const a = document.createElement("a");
+        // a.setAttribute("hidden", "");
+        // a.setAttribute("href", blobUrl);
+        // a.setAttribute("download", connector_name);
+        // document.body.appendChild(a);
+
+        // // Trigger the download
+        // a.click();
+
+        // // Clean up the temporary elements
+        // document.body.removeChild(a);
+        // URL.revokeObjectURL(blobUrl);
+      })
+      .catch((error) => {
+        console.error("Error fetching CSV data:", error);
+      });
+
+    // Function to manipulate the CSV data
+    function manipulateCsvData(csvData) {
+      // Manipulate the CSV data as needed
+      const modifiedCsvData = csvData.replace(/some-pattern/g, "replacement");
+      return modifiedCsvData;
+    }
+  }
+
+  function manipulateCsvData(data) {
+    console.log("some data", data);
+  }
+
   const download = (url, connector_name) => {
+    console.log("hitting for download");
     const a = document.createElement("a");
     a.setAttribute("hidden", "");
     a.setAttribute("href", url);
@@ -806,9 +867,80 @@ const AddConnector = (props) => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    callLoader(false);
   };
   const deleteConnector = () => {
     generateData(1, "delete");
+  };
+
+  const prepareDataForSavingConf = () => {
+    // dataObj is the object where all the state data is stored and before sending it for saving need to make in a format as below
+    let objForRanaming = {};
+    let arrayForSelectedColumns = [];
+    for (var key in nameRenameConfigData) {
+      console.log(
+        "🚀 ~ file: AddConnector.js:876 ~ prepareDataForSavingConf ~ key:",
+        key,
+        nameRenameConfigData[key]
+      );
+      if (nameRenameConfigData[key]["renamed_to"]?.trim()) {
+        objForRanaming[nameRenameConfigData[key]["field"]] =
+          nameRenameConfigData[key]["renamed_to"].trim();
+      }
+      if (nameRenameConfigData[key]["selectedForExport"]) {
+        arrayForSelectedColumns.push(nameRenameConfigData[key]["field"]);
+      }
+    }
+
+    let payloadObj = {
+      name: connectorData?.name,
+      config: {
+        renames: { ...objForRanaming },
+        selected: [...arrayForSelectedColumns],
+      },
+    };
+    return payloadObj;
+  };
+
+  const saveConfigData = (data) => {
+    let method = "POST";
+    const payload = prepareDataForSavingConf();
+    // let payload = {
+    //   name: "chgdchhgd",
+    //   config: {
+    //     renames: { REGION: "region" },
+    //     selected: [
+    //       "REGION",
+    //       "WOREDA",
+    //       "KEBELE",
+    //       "FIRST_NAME",
+    //       "LAST_NAME",
+    //       "None_x",
+    //       "farm",
+    //       "temperature",
+    //     ],
+    //   },
+    // };
+    let url = UrlConstant.base_url + "connectors/patch_config/";
+    callLoader(true);
+    HTTPService(method, url, payload, false, true, false, false)
+      .then((res) => {
+        // callLoader(false);
+
+        console.log("🚀 ~ file: AddConnector.js:920 ~ .then ~ res:", res);
+        if (res.data.file_path) {
+          // callLoader()
+          downloadDocument(res.data.file_path);
+          setFresh(!refresh);
+        } else {
+          return;
+        }
+      })
+      .catch((err) => {
+        callLoader(false);
+
+        console.log("🚀 ~ file: AddConnector.js:894 ~ HTTPService ~ err:", err);
+      });
   };
   useEffect(() => {
     getDataList("org_names");
@@ -820,6 +952,7 @@ const AddConnector = (props) => {
     props.isEditModeOn,
     props.connectorIdForView,
     isDatasetIntegrationListModeOn,
+    refresh,
   ]);
   console.log(completeData, "connector data");
   return (
@@ -992,6 +1125,9 @@ const AddConnector = (props) => {
           finalDatasetAfterIntegration?.length > 0 && (
             <Box>
               <Preview
+                setIsConditionForConnectorDataForSaveMet={
+                  setIsConditionForConnectorDataForSaveMet
+                }
                 temporaryDeletedCards={temporaryDeletedCards}
                 integratedFilePath={integratedFilePath}
                 noOfRecords={noOfRecords}
@@ -1005,6 +1141,8 @@ const AddConnector = (props) => {
                 setIsDatasetIntegrationListModeOn={
                   setIsDatasetIntegrationListModeOn
                 }
+                nameRenameConfigData={nameRenameConfigData}
+                setNameRenameConfigData={setNameRenameConfigData}
                 deleteConnector={deleteConnector}
                 counterForIntegrator={counterForIntegrator}
                 completeData={completeData}
@@ -1014,6 +1152,7 @@ const AddConnector = (props) => {
                 connectorData={connectorData}
                 downloadDocument={downloadDocument}
                 finalDatasetAfterIntegration={finalDatasetAfterIntegration}
+                saveConfigData={saveConfigData}
               />
             </Box>
           )}
