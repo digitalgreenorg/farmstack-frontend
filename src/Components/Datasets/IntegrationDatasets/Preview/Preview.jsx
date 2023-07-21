@@ -308,7 +308,7 @@ const Preview = (props) => {
           <Button
             id="cancel-button"
             onClick={() => {
-              history.push("/datahub/connectors");
+              history.push(`/${findType()}/connectors`);
               resetAll(true, true, true, true, setCol, setRow);
             }}
             className={globalStyle.secondary_button}
