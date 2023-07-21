@@ -96,6 +96,7 @@ export default function AskSupport(props) {
     bodyFormData.append("ticket_title", title);
     bodyFormData.append("category", selectedCategory);
     bodyFormData.append("description", queryField);
+    console.log(uploadedfile, "uploadedfile");
     if (uploadedfile) {
       bodyFormData.append("ticket_attachment", uploadedfile);
     }
@@ -161,7 +162,7 @@ export default function AskSupport(props) {
         }
       });
   };
-    useEffect(() => {
+  useEffect(() => {
     if (!uploadedfile) {
       setPreview(undefined);
       return;
@@ -298,7 +299,7 @@ export default function AskSupport(props) {
               texts={
                 "Drop files here or click browse thorough your machine, supported files are JPEG, PNG, PDF, Doc and Docx file size not more than"
               }
-              fileTypes={["pdf", "doc", "jpeg", "png", "docx" ]}
+              fileTypes={["pdf", "doc", "jpeg", "png", "docx"]}
               handleChange={handleUploadSupportFile}
               maxSize={2}
               setSizeError={() =>
