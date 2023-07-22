@@ -68,6 +68,73 @@ export const supportTicketHandler = [
       );
     }
   ),
+  rest.post(
+    "https://datahubethdev.farmstack.co/be/participant/support_ticket/list_tickets/?page=2",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          count: 7,
+          next: null,
+          previous:
+            "https://datahubethdev.farmstack.co/be/participant/support_ticket/list_tickets/",
+          results: [
+            {
+              id: "0adfcaf0-6f47-4c95-ade5-c6c4c12eb049",
+              user_map: {
+                id: "4a38d1b1-868d-4bbf-950a-db62d9350f50",
+                user: {
+                  first_name:
+                    "monikasdfrgthygtrfedfrgthyjuhgfergthyjukjyhgfdsfgthyjuyhgfdwefrgthyjuhgfdsfghyjuyhtgrfedwefrgthyjuk",
+                  last_name: "chandran",
+                  phone_number: "+91 23456-78909",
+                  role: 6,
+                },
+                organization: {
+                  name: "shru costeward org and something new to check the space",
+                  hero_image: null,
+                  phone_number: "+91 23456-78909",
+                  logo: "/media/organizations/logos/bitter_VVN9G1p.jpeg",
+                },
+              },
+              created_at: "2023-06-07T20:04:40.982617Z",
+              updated_at: "2023-06-07T20:04:40.982645Z",
+              ticket_title: "costeward ticket of shru",
+              description: "doubt in connectors need admin support",
+              category: "connectors",
+              ticket_attachment: null,
+              status: "closed",
+            },
+            {
+              id: "f87e7bca-0769-448d-a1cb-e5958c8ffb3e",
+              user_map: {
+                id: "65ffcfd2-acb6-431d-8969-dc53ecfd8723",
+                user: {
+                  first_name: "sdfa",
+                  last_name: "sf,nsdlkj",
+                  phone_number: "+91 9996957626",
+                  role: 6,
+                },
+                organization: {
+                  name: "Jai's Demo Organization_1",
+                  hero_image: null,
+                  phone_number: "+91 86969-57626",
+                  logo: "/media/organizations/logos/Akasa_Air_Logo.png",
+                },
+              },
+              created_at: "2023-06-06T06:02:38.489507Z",
+              updated_at: "2023-06-06T06:02:38.489527Z",
+              ticket_title: "Some Ticket Title",
+              description: "Some description",
+              category: "datasets",
+              ticket_attachment: null,
+              status: "open",
+            },
+          ],
+        })
+      );
+    }
+  ),
   rest.get(
     UrlConstant.base_url + UrlConstant.support_ticket + ":id" + "/",
     (req, res, ctx) => {
