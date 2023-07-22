@@ -299,4 +299,46 @@ export const supportTicketHandler = [
       );
     }
   ),
+  rest.put(
+    UrlConstant.base_url + UrlConstant.support_resolution + ":messageId" + "/",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: "7a13f0f4-fcce-44d8-b902-3f5e1fa3b52c",
+          ticket: {
+            id: "e1fa439e-5216-4459-89ff-a446b13aef62",
+            user_map: {
+              id: "4a38d1b1-868d-4bbf-950a-db62d9350f50",
+              user: {
+                first_name:
+                  "monikasdfrgthygtrfedfrgthyjuhgfergthyjukjyhgfdsfgthyjuyhgfdwefrgthyjuhgfdsfghyjuyhtgrfedwefrgthyjuk",
+                last_name: "chandran",
+                phone_number: "+91 23456-78909",
+                role: 6,
+              },
+              organization: {
+                name: "shru costeward org and something new to check the space",
+                hero_image: null,
+                phone_number: "+91 23456-78909",
+                logo: "https://datahubethdev.farmstack.co/media/organizations/logos/bitter_VVN9G1p.jpeg",
+              },
+            },
+            created_at: "2023-06-08T03:22:52.837095Z",
+            updated_at: "2023-07-19T08:51:11.454693Z",
+            ticket_title: "6 tickets",
+            description: "sdfr",
+            category: "others",
+            ticket_attachment: null,
+            status: "open",
+          },
+          created_at: "2023-07-21T07:12:57.479135Z",
+          updated_at: "2023-07-22T12:59:08.069374Z",
+          resolution_text: "anku1d",
+          solution_attachments: null,
+          user_map: "206722c0-4a7e-4415-961a-8fd921eb5342",
+        })
+      );
+    }
+  ),
 ];

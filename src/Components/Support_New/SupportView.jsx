@@ -43,7 +43,6 @@ export default function SupportView(props) {
   const [resolutionError, setResolutionError] = useState("");
   const [resolutionMessage, setResolutionMessage] = useState([]);
   const history = useHistory();
-  const [hoveredIndex, setHoveredIndex] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [editResolutionMessage, setEditResolutionMessage] = useState([]);
   const [uploadFile, setUploadFile] = useState(null);
@@ -64,13 +63,7 @@ export default function SupportView(props) {
     setResolution("");
     setResolutionError("");
   };
-  const handleMouseEnter = (index) => {
-    setHoveredIndex(index);
-  };
 
-  const handleMouseLeave = () => {
-    setHoveredIndex(null);
-  };
   const handleUpdateResolutionMessage = (index, newValue, e) => {
     e.stopPropagation();
     const updatedResolutionMessage = [...resolutionMessage];
@@ -483,10 +476,6 @@ export default function SupportView(props) {
               resolutionError={resolutionError}
               setResolutionError={setResolutionError}
               resolutionMessage={resolutionMessage}
-              handleMouseEnter={handleMouseEnter}
-              handleMouseLeave={handleMouseLeave}
-              hoveredIndex={hoveredIndex}
-              setHoveredIndex={setHoveredIndex}
               editResolutionMessage={editResolutionMessage}
               setEditResolutionMessage={setEditResolutionMessage}
               handleUpdateResolutionMessage={handleUpdateResolutionMessage}

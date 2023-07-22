@@ -20,9 +20,6 @@ export default function SupportResolution({
   handleSubmitResolution,
   resolutionError,
   resolutionMessage,
-  handleMouseEnter,
-  handleMouseLeave,
-  hoveredIndex,
   editResolutionMessage,
   setEditResolutionMessage,
   handleUpdateResolutionMessage,
@@ -39,7 +36,8 @@ export default function SupportResolution({
 }) {
   const fileTypes = ["pdf", "doc", "jpeg", "png", "docx"];
   console.log("get id", getUserMapId());
-
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const handleFileChange = (file) => {
     setUploadFile(file);
     setResolutionFileError("");
@@ -57,8 +55,16 @@ export default function SupportResolution({
         {resolutionMessage?.map((item, index) => (
           <div key={index}>
             <Row
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={() => {
+                if (index === resolutionMessage.length - 1) {
+                  setHoveredIndex(index);
+                }
+              }}
+              onMouseLeave={() => {
+                if (index === resolutionMessage.length - 1) {
+                  setHoveredIndex(null);
+                }
+              }}
               data-testid="eachresolution"
               key={index}
             >
@@ -72,62 +78,65 @@ export default function SupportResolution({
                     }
                     sx={{ width: 44, height: 44, margin: "15px" }}
                   />
-                  {editResolutionMessage[index] ? (
-                    <TextField
-                      value={item.resolution_text}
-                      required
-                      onChange={(e) =>
-                        handleUpdateResolutionMessage(
-                          index,
-                          e.target.value.trimStart(),
-                          e
-                        )
-                      }
-                      sx={{
-                        "&.MuiTextField-root": {
-                          width: "87%",
-                        },
-                      }}
-                      minRows={2}
-                      inputProps={{ maxLength: 250 }}
-                      className="datapoint-name-input-box"
-                      label="Resolution message"
-                      variant="outlined"
-                      error={updateResErrorMessage ? true : false}
-                      helperText={
-                        updateResErrorMessage ? updateResErrorMessage : ""
-                      }
-                    />
+                  {isEditing && index === resolutionMessage.length - 1 ? (
+                    <>
+                      <TextField
+                        value={item.resolution_text}
+                        required
+                        onChange={(e) =>
+                          handleUpdateResolutionMessage(
+                            index,
+                            e.target.value.trimStart(),
+                            e
+                          )
+                        }
+                        sx={{
+                          "&.MuiTextField-root": {
+                            width: "87%",
+                          },
+                        }}
+                        minRows={2}
+                        inputProps={{ maxLength: 250 }}
+                        className="datapoint-name-input-box"
+                        label="Resolution message"
+                        variant="outlined"
+                        error={updateResErrorMessage ? true : false}
+                        helperText={
+                          updateResErrorMessage ? updateResErrorMessage : ""
+                        }
+                      />
+                      <IconButton
+                        onClick={(e) => {
+                          setIsEditing(false);
+                          handleUpgradeResolutionMessage(e, index);
+                        }}
+                        style={{ margin: "15px" }}
+                        data-testid="sendicon"
+                      >
+                        <SendIcon />
+                      </IconButton>
+                    </>
                   ) : (
-                    <span
-                      style={{
-                        width: "90%",
-                        wordBreak: "break-all",
-                        marginLeft: "10px",
-                      }}
-                    >
-                      {item?.resolution_text}
-                    </span>
-                  )}
-                  {editResolutionMessage[index] ? (
-                    <IconButton
-                      onClick={(e) => handleUpgradeResolutionMessage(e, index)}
-                      style={{ margin: "15px" }}
-                      data-testid="sendicon"
-                    >
-                      <SendIcon />
-                    </IconButton>
-                  ) : (
-                    hoveredIndex === resolutionMessage.length - 1 &&
-                    item?.user_map?.id == getUserMapId() &&
-                    hoveredIndex === index && (
-                      <>
+                    <>
+                      <span
+                        style={{
+                          width: "90%",
+                          wordBreak: "break-all",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {item?.resolution_text}
+                      </span>
+                      {index === resolutionMessage.length - 1 &&
+                      hoveredIndex ? (
                         <IconButton
                           size="small"
                           aria-label="Edit"
                           style={{ marginRight: "25px" }}
+                          data-testid="editthe"
                           onClick={(e) => {
                             e.stopPropagation();
+                            setIsEditing(true);
                             let tmp = [...editResolutionMessage];
                             tmp[index] = true;
                             console.log(
@@ -140,8 +149,10 @@ export default function SupportResolution({
                         >
                           <EditIcon />
                         </IconButton>
-                      </>
-                    )
+                      ) : (
+                        <></>
+                      )}
+                    </>
                   )}
                 </div>
               </Col>

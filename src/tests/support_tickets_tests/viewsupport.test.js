@@ -159,14 +159,44 @@ describe("Support View component", () => {
     );
 
     const resolutions = await screen.findAllByTestId("eachresolution");
-    // const editButton = screen.getByTestId("editthe");
-    // fireEvent.click(editButton[3]);
-    // const responseMessageField = screen.getByLabelText(/Resolution message/i);
-    // fireEvent.change(responseMessageField, { target: { value: "something" } });
-    // const sendButton = await screen.findByTestId("sendicon");
-    // fireEvent.click(sendButton);
+    fireEvent.mouseEnter(resolutions[3]);
+    const editButton = await screen.findByTestId("editthe");
+    fireEvent.click(editButton);
+    const responseMessageField = screen.getByLabelText(/Resolution message/i);
+    fireEvent.change(responseMessageField, { target: { value: "something" } });
+    const sendButton = await screen.findByTestId("sendicon");
+    fireEvent.click(sendButton);
+  });
+  test("update last ticket message failure", async () => {
+    server.use(
+      rest.put(
+        `${undefined}${UrlConstant.support_resolution}:messageId/`,
+        (req, res, ctx) => {
+          console.log("🚀 ~ file: viewsupport.test.js:100 ~ test ~ req:", req);
 
-    screen.debug();
+          return res(ctx.status(400), ctx.json());
+        }
+      )
+    );
+    userEvent.setup();
+    setUserId("sometoken");
+    setUserMapId("somemapid");
+    localStorage.setItem("role", JSON.stringify("datahub_admin"));
+    render(
+      <Router>
+        <SupportView />
+      </Router>,
+      { wrapper: FarmStackProvider }
+    );
+
+    const resolutions = await screen.findAllByTestId("eachresolution");
+    fireEvent.mouseEnter(resolutions[3]);
+    const editButton = await screen.findByTestId("editthe");
+    fireEvent.click(editButton);
+    const responseMessageField = screen.getByLabelText(/Resolution message/i);
+    fireEvent.change(responseMessageField, { target: { value: "something" } });
+    const sendButton = await screen.findByTestId("sendicon");
+    fireEvent.click(sendButton);
   });
   test("action on close the status of ticket", async () => {
     render(
