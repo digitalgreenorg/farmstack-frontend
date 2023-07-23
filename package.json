@@ -105,7 +105,8 @@
       "src/Components/NewOnboarding/CompanyPolicies.jsx",
       "src/Components/Standardization/StandardizationInOnbording.js",
       "src/Components/Support_New/Support.jsx",
-      "src/Components/Support_New/SupportView.jsx"
+      "src/Components/Support_New/SupportView.jsx",
+      "src/Components/Support_New/SupportForm.jsx"
     ]
   }
 }

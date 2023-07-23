@@ -408,4 +408,23 @@ export const supportTicketHandler = [
       );
     }
   ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.support_ticket,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(201),
+        ctx.json({
+          id: "e039426b-18a5-418d-bdea-9461740897e1",
+          created_at: "2023-07-23T08:39:50.212576Z",
+          updated_at: "2023-07-23T08:39:50.212600Z",
+          ticket_title: "someticket",
+          description: "sample query",
+          category: "connectors",
+          ticket_attachment: null,
+          status: "open",
+          user_map: "361d6d8a-a809-4120-aa33-14a213aa4aa1",
+        })
+      );
+    }
+  ),
 ];
