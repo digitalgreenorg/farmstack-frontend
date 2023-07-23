@@ -134,7 +134,6 @@ const CoStewardAndParticipantsCard = (props) => {
                   }
                 />
                 <span
-                  data-testid="invite-btn"
                   id={title?.split(" ")[0] + "grid-view-title"}
                   className={
                     viewType === "grid"
