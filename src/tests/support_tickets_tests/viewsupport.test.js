@@ -14,7 +14,6 @@ import { setUserId, setUserMapId } from "../../Utils/Common";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
-import { waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 describe("Support View component", () => {
   beforeEach(() => {
