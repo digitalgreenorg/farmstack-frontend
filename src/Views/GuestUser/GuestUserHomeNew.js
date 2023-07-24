@@ -75,9 +75,6 @@ const GuestUserHome = () => {
                     ` Revolutionary approach to data exchange in agriculture by
         fostering collaboration between organisations and harnessing the
         power of collective data.`, // Types 'Three' without deleting 'Two'
-                    () => {
-                      console.log("Sequence completed");
-                    },
                   ]}
                   wrapper="span"
                   cursor={true}
@@ -91,6 +88,7 @@ const GuestUserHome = () => {
               <Button
                 onClick={() => history.push("/home/get-started")}
                 id="home-get-started-btn"
+                data-testid={"home-get-started-btn-test"}
                 className={`${LocalStyle.primaryButton} ${GlobalStyles.primary_button}`}
               >
                 Get Started
@@ -367,6 +365,7 @@ const GuestUserHome = () => {
             className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/get-started")}
             id="home-get-started-btn2-id"
+            data-testid={"home-get-started-btn-test2"}
           >
             Get Started
           </Button>
