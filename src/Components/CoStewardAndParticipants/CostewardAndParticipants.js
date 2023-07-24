@@ -11,6 +11,7 @@ import { getTokenLocal } from "../../Utils/Common";
 const CoStewardAndParticipantsCard = (props) => {
   const {
     coStewardOrParticipantsList,
+    data,
     viewType,
     setViewType,
     title, // card is being render based in title if title is changing check all condition based on title
@@ -469,15 +470,18 @@ const CoStewardAndParticipantsCard = (props) => {
               ""
             )}
           </Row>
+          
           {viewType == "list" ? (
             <div className={LocalStyle.cardContainerList}>
               <hr />
-              {coStewardOrParticipantsList?.map((item, index) => {
+              {console.log(data, "somedata")}
+              {data?.map((item, index) => {
                 return (
                   <>
                     <Row
                       data-testid="list-item" key={index}
                       id={title + "-list-view-" + index}
+                      data-tesid="clist"
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
                       onClick={() => handleViewDataset(item?.user_id)}
                     >
