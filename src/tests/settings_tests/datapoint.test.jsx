@@ -226,7 +226,7 @@ describe("Datapoint Setting", () => {
   test("renders list of datapoints failure scenarios", async () => {
     server.use(
       rest.get(
-        `${undefined}${UrlConstant.standardization_get_data}`,
+        `${UrlConstant.base_url}${UrlConstant.standardization_get_data}`,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
@@ -240,7 +240,7 @@ describe("Datapoint Setting", () => {
     localStorage.setItem("refresh", JSON.stringify("some refresh token"));
     server.use(
       rest.get(
-        `${undefined}${UrlConstant.standardization_get_data}`,
+        `${UrlConstant.base_url}${UrlConstant.standardization_get_data}`,
         (req, res, ctx) => {
           return res(ctx.status(401), ctx.json({ error: "unautorised" }));
         }
@@ -326,9 +326,12 @@ describe("Datapoint Setting", () => {
 
   test("add datapoint in onboarding module with finish later failure scenario", () => {
     server.use(
-      rest.post(`${undefined}${UrlConstant.onboarded}`, (req, res, ctx) => {
-        return res(ctx.status(404), ctx.json());
-      })
+      rest.post(
+        `${UrlConstant.base_url}${UrlConstant.onboarded}`,
+        (req, res, ctx) => {
+          return res(ctx.status(404), ctx.json());
+        }
+      )
     );
     setUserId("sometoken");
     localStorage.setItem("role", JSON.stringify("datahub_admin"));

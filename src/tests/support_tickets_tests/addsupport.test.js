@@ -136,7 +136,7 @@ describe("Add Support module", () => {
   test("add support ticket failure", async () => {
     server.use(
       rest.post(
-        `${undefined}${UrlConstant.support_ticket}`,
+        `${UrlConstant.base_url}${UrlConstant.support_ticket}`,
         (req, res, ctx) => {
           return res(
             ctx.status(400),
@@ -197,7 +197,7 @@ describe("Add Support module", () => {
   test("add support ticket failure with attachment", async () => {
     server.use(
       rest.post(
-        `${undefined}${UrlConstant.support_ticket}`,
+        `${UrlConstant.base_url}${UrlConstant.support_ticket}`,
         (req, res, ctx) => {
           return res(
             ctx.status(400),

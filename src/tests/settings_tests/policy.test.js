@@ -113,7 +113,7 @@ describe("Settings module", () => {
   test("adds a new policy on button click with failure description", async () => {
     server.use(
       rest.post(
-        `${undefined}${UrlConstant.datahub_policy}`,
+        `${UrlConstant.base_url}${UrlConstant.datahub_policy}`,
         (req, res, ctx) => {
           return res(
             ctx.status(400),
@@ -154,7 +154,7 @@ describe("Settings module", () => {
   test("adds a new policy on button click failure without any error key", async () => {
     server.use(
       rest.post(
-        `${undefined}${UrlConstant.datahub_policy}`,
+        `${UrlConstant.base_url}${UrlConstant.datahub_policy}`,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json({}));
         }
@@ -207,9 +207,12 @@ describe("Settings module", () => {
   });
   test("renders list of policies failure", async () => {
     server.use(
-      rest.get(`${undefined}${UrlConstant.datahub_policy}`, (req, res, ctx) => {
-        return res(ctx.status(400), ctx.json({}));
-      })
+      rest.get(
+        `${UrlConstant.base_url}${UrlConstant.datahub_policy}`,
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json({}));
+        }
+      )
     );
     setUserId("sometoken");
     render(
