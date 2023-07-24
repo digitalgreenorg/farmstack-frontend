@@ -11,7 +11,6 @@ import { getTokenLocal } from "../../Utils/Common";
 const CoStewardAndParticipantsCard = (props) => {
   const {
     coStewardOrParticipantsList,
-    data,
     viewType,
     setViewType,
     title, // card is being render based in title if title is changing check all condition based on title
@@ -92,7 +91,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 <Col lg={6}>
                   <div>
                     <Button
-                    id="add-participant-submit-button"
+                      id="add-participant-submit-button"
                       onClick={() =>
                         history.push("/datahub/participants/invite")
                       }
@@ -231,7 +230,7 @@ const CoStewardAndParticipantsCard = (props) => {
               onClick={() => setViewType("list")}
               className={LocalStyle.viewType}
             >
-              <img 
+              <img
                 className={LocalStyle.listAndgridViewImg}
                 src={
                   viewType === "list"
@@ -376,7 +375,7 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <>
           <Row>
-            {title === "Co-steward"  || isCosteward ? (
+            {title === "Co-steward" || isCosteward ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -470,18 +469,17 @@ const CoStewardAndParticipantsCard = (props) => {
               ""
             )}
           </Row>
-          
+
           {viewType == "list" ? (
             <div className={LocalStyle.cardContainerList}>
               <hr />
-              {console.log(data, "somedata")}
-              {data?.map((item, index) => {
+              {coStewardOrParticipantsList?.map((item, index) => {
                 return (
                   <>
                     <Row
-                      data-testid="list-item" key={index}
+                      data-testid="list-item"
+                      key={index}
                       id={title + "-list-view-" + index}
-                      data-tesid="clist"
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
                       onClick={() => handleViewDataset(item?.user_id)}
                     >
