@@ -75,7 +75,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll"
+    "coverage": "react-scripts test --coverage --watchAll src/tests/microsite_tests/microsite.test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -101,6 +101,11 @@
   },
   "jest": {
     "collectCoverageFrom": [
+      "src/Components/NewOnboarding/ProfileDetails.jsx",
+      "src/Components/NewOnboarding/OrganizationDetails.jsx",
+      "src/Components/NewOnboarding/CompanyPolicies.jsx",
+      "src/Components/Standardization/StandardizationInOnbording.js",
+      "src/Components/Support_New/Support.jsx",
       "src/Views/GuestUser/GuestUserHomeNew.js"
     ]
   }
