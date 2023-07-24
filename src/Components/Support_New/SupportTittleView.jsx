@@ -256,6 +256,7 @@ export default function SupportTittleView({
                               variant="outlied"
                               className={`${LocalStyle.pButtonStyle}`}
                               style={{ "text-transform": "none" }}
+                              data-testid="loadmorebtn"
                             >
                               Load more
                             </Button>
@@ -321,6 +322,7 @@ export default function SupportTittleView({
                               variant="outlied"
                               className={`${LocalStyle.pButtonStyle}`}
                               style={{ "text-transform": "none" }}
+                              data-testid="loadmorebtn"
                             >
                               Load more
                             </Button>
@@ -350,6 +352,7 @@ export default function SupportTittleView({
                             variant="outlied"
                             className={`${LocalStyle.pButtonStyle}`}
                             style={{ "text-transform": "none" }}
+                            data-testid="loadmorebtn"
                           >
                             Load more
                           </Button>
@@ -499,6 +502,7 @@ export default function SupportTittleView({
                           variant="outlied"
                           className={`${LocalStyle.pButtonStyle}`}
                           style={{ "text-transform": "none" }}
+                          data-testid="loadmorebtn"
                         >
                           Load more
                         </Button>
@@ -528,6 +532,7 @@ export default function SupportTittleView({
                         variant="outlied"
                         className={`${LocalStyle.pButtonStyle}`}
                         style={{ "text-transform": "none" }}
+                        data-testid="loadmorebtn"
                       >
                         Load more
                       </Button>
