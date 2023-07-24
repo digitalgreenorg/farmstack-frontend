@@ -57,10 +57,6 @@ const CompanyPolicies = (props) => {
     console.log("file during delete", uploadedPolicy, key);
   };
 
-  function closeAccordion() {}
-  const confirm = (e, index) => {
-    deletePolicyDetail(e, index);
-  };
   const deletePolicyDetail = (e, index) => {
     if (e) {
       e.stopPropagation();
@@ -407,6 +403,7 @@ const CompanyPolicies = (props) => {
 
                           <span
                             id="file-preview"
+                            data-testid="file-preview"
                             className={global_style.blue + " " + styles.link}
                             onClick={() => window.open(preview)}
                             style={{ width: "100%" }}
@@ -427,6 +424,7 @@ const CompanyPolicies = (props) => {
                           style={{ cursor: "pointer" }}
                           fontSize="small"
                           id="cancel-policy-file"
+                          data-testid="cancel-policy-file"
                         />
                       </div>
                     )}
@@ -585,6 +583,7 @@ const CompanyPolicies = (props) => {
 
                               <span
                                 id="preview-file"
+                                data-testid="preview-file"
                                 className={
                                   global_style.blue + " " + styles.link
                                 }
@@ -606,6 +605,7 @@ const CompanyPolicies = (props) => {
                               style={{ cursor: "pointer" }}
                               fontSize="small"
                               id="cancel-policy-file"
+                              data-testid="cancel-policy-file"
                             />
                           </div>
                         )}

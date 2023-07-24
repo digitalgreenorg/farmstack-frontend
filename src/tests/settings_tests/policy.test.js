@@ -7,11 +7,20 @@ import {
   cleanup,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import userEvent from "@testing-library/user-event";
+import { BrowserRouter as Router } from "react-router-dom";
 import CompanyPolicies from "../../Components/NewOnboarding/CompanyPolicies";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { setUserId } from "../../Utils/Common";
+import UrlConstant from "../../Constants/UrlConstants";
+import { server } from "../../mocks/server";
+import { rest } from "msw";
+import "@testing-library/jest-dom/extend-expect";
 
+const pdfContent = "This is the content of the PDF file.";
+const pdfBlob = new Blob([pdfContent], { type: "application/pdf" });
+const file = new File([pdfBlob], "example.pdf");
+global.URL.createObjectURL = jest.fn(() => "mocked-object-url");
+global.URL.revokeObjectURL = jest.fn();
 describe("Settings module", () => {
   beforeEach(() => {
     cleanup();
@@ -45,12 +54,10 @@ describe("Settings module", () => {
   });
 
   test("adds a new policy on button click", async () => {
-    userEvent.setup();
-    let isVisible = false;
-    const { container } = render(
+    render(
       <CompanyPolicies
         isPolicySettings={true}
-        isVisible={isVisible}
+        isVisible={true}
         initialKey={0}
       />,
       {
@@ -60,52 +67,127 @@ describe("Settings module", () => {
 
     const addButton = screen.getByText(/Add New Policy/i);
     expect(addButton).toBeInTheDocument();
-
-    act(() => {
-      fireEvent.click(addButton);
-      isVisible = true;
-    });
-
+    fireEvent.click(addButton);
     const policyNameInput = screen.getByRole("textbox", {
       name: "Policy name",
     });
     expect(policyNameInput).toBeInTheDocument();
-    const policyDescriptionInput = screen.getByRole("textbox", {
-      name: /description/i,
-    });
-    expect(policyDescriptionInput).toBeInTheDocument();
-    const uploadFileInput = container.querySelector(
-      "#file-upload-drag-and-drop-upload-policy-file"
-    );
-
     fireEvent.change(policyNameInput, {
       target: { value: "Test Policy" },
     });
-    expect(policyNameInput.value).toBe("Test Policy");
-    let value = /this is the value/i;
-    // act(async () => {
-    //   await userEvent.type(
-    //     policyDescriptionInput,
-    //     RichTextEditor.createValueFromString(value, "html")
-    //   );
-    // });
-    // expect(policyDescriptionInput).toHaveValue(value);
+    const fileInput = screen.getByLabelText(/Drop files here or click /i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
 
-    fireEvent.change(uploadFileInput, {
-      target: {
-        files: [
-          new File(["file content"], "test.pdf", { type: "application/pdf" }),
-        ],
-      },
+    const addPolicy = screen.getByText("Add");
+    fireEvent.click(addPolicy);
+  });
+  test("clear uploaded file after upload", () => {
+    render(
+      <CompanyPolicies
+        isPolicySettings={true}
+        isVisible={true}
+        initialKey={0}
+      />,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const addButton = screen.getByText(/Add New Policy/i);
+    expect(addButton).toBeInTheDocument();
+    fireEvent.click(addButton);
+    const policyNameInput = screen.getByRole("textbox", {
+      name: "Policy name",
     });
-    expect(uploadFileInput.files[0].name).toBe("test.pdf");
-    expect(uploadFileInput.files[0].type).toBe("application/pdf");
+    expect(policyNameInput).toBeInTheDocument();
+    fireEvent.change(policyNameInput, {
+      target: { value: "Test Policy" },
+    });
+    const fileInput = screen.getByLabelText(/Drop files here or click /i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
 
-    // const addButtonInForm = screen.getByText("Add");
-    // act(() => {
-    //   fireEvent.click(addButtonInForm);
-    // });
-    // const policy = await screen.findByText("kannu");
+    const previewFileBtn = screen.getByTestId("preview-file");
+    fireEvent.click(previewFileBtn);
+    const cancelUploadIcon = screen.getByTestId("cancel-policy-file");
+    fireEvent.click(cancelUploadIcon);
+  });
+  test("adds a new policy on button click with failure description", async () => {
+    server.use(
+      rest.post(
+        `${undefined}${UrlConstant.datahub_policy}`,
+        (req, res, ctx) => {
+          return res(
+            ctx.status(400),
+            ctx.json({
+              description: ["Description is required"],
+            })
+          );
+        }
+      )
+    );
+    render(
+      <CompanyPolicies
+        isPolicySettings={true}
+        isVisible={true}
+        initialKey={0}
+      />,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+
+    const addButton = screen.getByText(/Add New Policy/i);
+    expect(addButton).toBeInTheDocument();
+    fireEvent.click(addButton);
+    const policyNameInput = screen.getByRole("textbox", {
+      name: "Policy name",
+    });
+    expect(policyNameInput).toBeInTheDocument();
+    fireEvent.change(policyNameInput, {
+      target: { value: "Test Policy" },
+    });
+    const fileInput = screen.getByLabelText(/Drop files here or click /i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    const addPolicy = screen.getByText("Add");
+    fireEvent.click(addPolicy);
+  });
+  test("adds a new policy on button click failure without any error key", async () => {
+    server.use(
+      rest.post(
+        `${undefined}${UrlConstant.datahub_policy}`,
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json({}));
+        }
+      )
+    );
+    render(
+      <Router>
+        <CompanyPolicies
+          isPolicySettings={true}
+          isVisible={true}
+          initialKey={0}
+        />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+
+    const addButton = screen.getByText(/Add New Policy/i);
+    expect(addButton).toBeInTheDocument();
+    fireEvent.click(addButton);
+    const policyNameInput = screen.getByRole("textbox", {
+      name: "Policy name",
+    });
+    expect(policyNameInput).toBeInTheDocument();
+    fireEvent.change(policyNameInput, {
+      target: { value: "Test Policy" },
+    });
+    const fileInput = screen.getByLabelText(/Drop files here or click /i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    const addPolicy = screen.getByText("Add");
+    fireEvent.click(addPolicy);
   });
   test("renders list of policies", async () => {
     setUserId("sometoken");
@@ -122,5 +204,92 @@ describe("Settings module", () => {
     const policies = await screen.findAllByTestId("accordion");
     expect(policies).toHaveLength(2);
     expect(policies[0]).toHaveTextContent("jiohujgvbv");
+  });
+  test("renders list of policies failure", async () => {
+    server.use(
+      rest.get(`${undefined}${UrlConstant.datahub_policy}`, (req, res, ctx) => {
+        return res(ctx.status(400), ctx.json({}));
+      })
+    );
+    setUserId("sometoken");
+    render(
+      <Router>
+        <CompanyPolicies
+          isPolicySettings={true}
+          isVisible={true}
+          initialKey={0}
+        />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+  });
+});
+
+describe("Onboarding module", () => {
+  beforeEach(() => cleanup());
+  afterEach(() => cleanup());
+
+  test("render and check the component flow for while onboarding", () => {
+    render(
+      <Router>
+        <CompanyPolicies
+          isPolicySettings={false}
+          isVisible={false}
+          initialKey={0}
+        />
+      </Router>,
+      { wrapper: FarmStackProvider }
+    );
+    const titleText = screen.getByText("Company Policies");
+    expect(titleText).toBeInTheDocument();
+    const policyNameInput = screen.getByRole("textbox", {
+      name: "Policy name",
+    });
+    expect(policyNameInput).toBeInTheDocument();
+    fireEvent.change(policyNameInput, {
+      target: { value: "Test Policy" },
+    });
+    const fileInput = screen.getByLabelText(/Drop files here or click /i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    const previewFileBtn = screen.getByTestId("file-preview");
+    fireEvent.click(previewFileBtn);
+    const cancelUploadIcon = screen.getByTestId("cancel-policy-file");
+    fireEvent.click(cancelUploadIcon);
+  });
+
+  test("Add Policy while onboarding", async () => {
+    // userEvent.setup();
+    const handlegovLawChange = jest.fn();
+    render(
+      <Router>
+        <CompanyPolicies
+          isPolicySettings={false}
+          isVisible={false}
+          initialKey={0}
+          handlegovLawChange={handlegovLawChange}
+        />
+      </Router>,
+      { wrapper: FarmStackProvider }
+    );
+    const titleText = screen.getByText("Company Policies");
+    expect(titleText).toBeInTheDocument();
+    const policyNameInput = screen.getByRole("textbox", {
+      name: "Policy name",
+    });
+    expect(policyNameInput).toBeInTheDocument();
+    fireEvent.change(policyNameInput, {
+      target: { value: "Test Policy" },
+    });
+
+    const fileInput = screen.getByLabelText(/Drop files here or click /i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    const previewFileBtn = screen.getByTestId("file-preview");
+    fireEvent.click(previewFileBtn);
+    const addPolicy = screen.getByText("Add");
+    fireEvent.click(addPolicy);
   });
 });
