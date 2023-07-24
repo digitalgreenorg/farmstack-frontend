@@ -8,12 +8,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { getUserLocal, setUserId } from "../../Utils/Common";
 import StandardizationInOnbord from "../../Components/Standardization/StandardizationInOnbording";
