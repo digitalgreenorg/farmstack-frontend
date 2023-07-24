@@ -492,7 +492,7 @@ const AddConnector = (props) => {
       finalPayload = {
         name: connectorData.name,
         description: connectorData.desc,
-        config: nameRenameConfigData,
+        config: prepareDataForSavingConf().config,
         user: getUserLocal(),
         maps: payload,
         integrated_file: integratedFilePath,
@@ -522,7 +522,7 @@ const AddConnector = (props) => {
       finalPayload = {
         name: connectorData.name,
         description: connectorData.desc,
-        config: nameRenameConfigData,
+        config: prepareDataForSavingConf().config,
         user: getUserLocal(),
         maps: payload,
       };
