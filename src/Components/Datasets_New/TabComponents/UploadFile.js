@@ -10,9 +10,14 @@ import TableImport from "./TableImport";
 import ApiConfiguration from "./ApiConfiguration";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { GetErrorKey, getTokenLocal } from "../../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  getTokenLocal,
+} from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -38,6 +43,7 @@ const UploadFile = ({
   validator,
   datasetId,
   dataSetName,
+  getDatasetForEdit,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [selectedUploadType, setSelectedUploadType] = useState("file_upload");
@@ -93,12 +99,26 @@ const UploadFile = ({
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
 
+  const history = useHistory();
   const handleFileChange = (file) => {
     setIsSizeError(false);
     setFile(file);
     setKey(key + 1);
     let tempFiles = [...files];
-    tempFiles.push(...file);
+    let s = [...file]?.forEach((f) => {
+      if (!(f?.name.length > 85)) {
+        tempFiles.push(f);
+        return true;
+      } else {
+        callToast(
+          "File name shouldn't be more than 85 characters.",
+          "error",
+          true
+        );
+        return false;
+      }
+    });
+    // tempFiles.push(...file);
     setFiles(tempFiles);
     // setFiles((prev) => [...prev, file]);
     setFileSizeError("");
@@ -383,6 +403,7 @@ const UploadFile = ({
           // results will comes in type of array
           callLoader(false);
           setFiles([]);
+          getDatasetForEdit(datasetId, true);
           console.log(results);
         })
         .catch((err) => {
@@ -474,7 +495,7 @@ const UploadFile = ({
           setSqlTables([...res.data]);
           setIsMySqlConnected(true);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           callLoader(false);
           console.log(err);
           console.log(err.response.data);
@@ -516,6 +537,20 @@ const UploadFile = ({
                   break;
               }
             }
+          } else {
+            let error = await GetErrorHandlingRoute(err);
+            console.log("Error obj", error);
+            console.log(err);
+            if (error.toast) {
+              callToast(
+                error?.message,
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path && history) {
+              history.push(error.path);
+            }
           }
         });
     } else if (selectedUploadType === "postgres") {
@@ -541,7 +576,7 @@ const UploadFile = ({
           setPostgresTables([...res.data]);
           setIsPostgresConnected(true);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           callLoader(false);
           console.log(err);
           let returnValues = GetErrorKey(err, [
@@ -579,6 +614,20 @@ const UploadFile = ({
                   callToast("Connection establishment failed!", "error", true);
                   break;
               }
+            }
+          } else {
+            let error = await GetErrorHandlingRoute(err);
+            console.log("Error obj", error);
+            console.log(err);
+            if (error.toast) {
+              callToast(
+                error?.message,
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path && history) {
+              history.push(error.path);
             }
           }
         });

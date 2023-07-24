@@ -52,18 +52,18 @@ const FooterNew = () => {
       mobile || tablet
         ? "30px"
         : desktop
-        ? "144px"
+        ? "100px"
         : largeDesktop
         ? "300px"
-        : "144px",
+        : "100px",
     marginRight:
       mobile || tablet
         ? "30px"
         : desktop
-        ? "144px"
+        ? "100px"
         : largeDesktop
         ? "400px"
-        : "144px",
+        : "100px",
   };
   const handleItemClick = (name) => {
     if (name === "datasets") {
@@ -111,7 +111,6 @@ const FooterNew = () => {
               maxWidth: "172px",
               width: "auto",
               maxHeight: "65px",
-              boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
             }}
             src={
               UrlConstant.base_url_without_slash + adminData?.organization?.logo
@@ -206,7 +205,7 @@ const FooterNew = () => {
                   } w-100`}
                 >
                   <div
-                    className={`${style.footerLightText} ${style.quickLinks} mt-10 ${globalStyle.break_word}`}
+                    className={`${style.footerLightText} ${style.quickLinks} mt-10 ${style.w50} ${globalStyle.break_word}`}
                   >
                     About {adminData?.organization?.name ?? ""}
                   </div>

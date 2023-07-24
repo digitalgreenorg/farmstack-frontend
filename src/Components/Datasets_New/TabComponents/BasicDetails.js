@@ -58,16 +58,25 @@ const BasicDetails = ({
   const handleFromDate = (value) => {
     let currentDate = new Date();
     let formattedDate = moment(value).format("DD/MM/YYYY");
+    setFromDateError(false);
 
+    //  Get the current year
+    const selectedYear = moment(value).year();
+    const minAllowedYear = 1900;
     if (
       moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
-      moment(value).isSameOrBefore(currentDate)
+      moment(value).isSameOrBefore(currentDate) &&
+      selectedYear >= minAllowedYear
     ) {
       setFromDateError(false);
       setFromDate(value);
     } else {
-      setFromDateError(true);
-      setFromDate("");
+      if (!value) {
+        setFromDateError(false);
+      } else {
+        setFromDateError(true);
+        setFromDate("");
+      }
     }
   };
 
@@ -82,8 +91,12 @@ const BasicDetails = ({
       setToDateError(false);
       setToDate(value);
     } else {
-      setToDateError(true);
-      setToDate("");
+      if (!value) {
+        setToDateError(false);
+      } else {
+        setToDateError(true);
+        setToDate("");
+      }
     }
   };
 
@@ -170,8 +183,8 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="Dataset description not more that 512 character "
-        label="Dataset description not more that 512 character "
+        placeholder="Dataset description not more than 512 character "
+        label="Dataset description not more than 512 character "
         value={dataSetDescription}
         required
         onChange={(e) => handleDescription(e)}

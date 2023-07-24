@@ -83,10 +83,19 @@ const UsagePolicy = (props) => {
     HTTPService("PATCH", url, payload, false, accessToken)
       .then((response) => {
         callLoader(false);
-        setFilesAccessibility((prev) => [
-          ...prev,
-          { id: file, accessibility: selectedChecked },
-        ]);
+        setFilesAccessibility((prev) => {
+          return prev.map((fileObj) => {
+            if (fileObj.id == file) {
+              return {
+                id: file,
+                accessibility: selectedChecked,
+                file: fileObj.file,
+              };
+            } else {
+              return fileObj;
+            }
+          });
+        });
         callToast("Usage policy updated successfully!", "success", true);
       })
       .catch((e) => {

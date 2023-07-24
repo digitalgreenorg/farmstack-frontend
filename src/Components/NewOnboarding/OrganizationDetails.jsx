@@ -84,7 +84,7 @@ const OrganizationDetails = (props) => {
 
   const clearErrors = (name) => {
     let Message = "";
-    console.log(name, Message);
+    // console.log(name, Message);
     switch (name) {
       case "organisation_mail_id":
         setOrganisationDetailsError({
@@ -142,7 +142,7 @@ const OrganizationDetails = (props) => {
         // setIsLoader(false);
         callToast("Onboarded successfuly", "success", true);
 
-        console.log("onboarded true response", response.data);
+        // console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
           history.push("/datahub/new_datasets");
         } else if (isLoggedInUserParticipant()) {
@@ -153,7 +153,7 @@ const OrganizationDetails = (props) => {
       })
       .catch((e) => {
         callToast("Some error occurred", "error", true);
-        console.log(e);
+        // console.log(e);
       });
   };
   const handleOrgChange = (e, countryData) => {
@@ -190,12 +190,13 @@ const OrganizationDetails = (props) => {
   const [tempImage, setTempImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [uploadedImgName, setUploadedImgName] = useState("");
 
   const canvasRef = useRef(null);
   const [key, setKey] = useState(0);
 
   const handleFileForCrop = (file) => {
-    console.log(file);
+    // console.log(file);
     setSelectedImage(URL.createObjectURL(file));
     setTempImage(file);
     setOpen(true);
@@ -210,12 +211,12 @@ const OrganizationDetails = (props) => {
       const response = await fetch(imageUrl);
       const blob = await response.blob();
       const contentType = response.headers.get("content-type");
-      console.log(contentType, "contentType");
+      // console.log(contentType, "contentType");
       const filename = tempImage?.name ?? "logo.png"; // You can implement this function to extract the filename from the URL
       const file = new File([blob], filename, { type: contentType });
       return file;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -229,25 +230,30 @@ const OrganizationDetails = (props) => {
       let croppedImageObjectAfterConvert = await convertImageUrlToObject(
         croppedImage
       );
-      console.log("org logo", croppedImageObjectAfterConvert);
+      // console.log(
+      //   "org logo",
+      //   croppedImageObjectAfterConvert,
+      //   croppedImageObjectAfterConvert?.name
+      // );
+      setUploadedImgName(croppedImageObjectAfterConvert?.name);
       setUploadedLogo(croppedImageObjectAfterConvert);
       setPreview(croppedImage);
       setIsLogoLink(false);
       setOpen(false);
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       setOpen(false);
     }
   }, [croppedAreaPixels]);
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    console.log(croppedArea, croppedAreaPixels);
+    // console.log(croppedArea, croppedAreaPixels);
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
-    console.log("uploadedLogo", uploadedLogo);
+    // console.log("uploadedLogo", uploadedLogo);
   }, [uploadedLogo]);
   const handleSubmitOrganizationDetails = (e) => {
     e.preventDefault();
@@ -295,7 +301,7 @@ const OrganizationDetails = (props) => {
     HTTPService(method, url, bodyFormData, true, true, false, false)
       .then((response) => {
         callLoader(false);
-        console.log(response);
+        // console.log(response);
         if (isLoggedInUserAdmin() && !props.isOrgSetting) {
           setActiveStep((prev) => prev + 1);
         } else if (
@@ -305,12 +311,21 @@ const OrganizationDetails = (props) => {
           // callToast("Onboarded successfuly", "success", true);
           setOnBoardedTrue();
         }
-        if (props.isOrgSetting && response.status === 201)
-          callToast(
-            "Organisation settings updated successfully!",
-            "success",
-            true
-          );
+        if (response.status === 201) {
+          if (props.isOrgSetting) {
+            callToast(
+              "Organisation settings updated successfully!",
+              "success",
+              true
+            );
+          } else {
+            callToast(
+              "Organisation details added successfully!",
+              "success",
+              true
+            );
+          }
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -366,7 +381,7 @@ const OrganizationDetails = (props) => {
                     error?.status === 200 ? "success" : "error",
                     true
                   );
-                  console.log(e, error);
+                  // console.log(e, error);
                 }
                 break;
             }
@@ -374,8 +389,8 @@ const OrganizationDetails = (props) => {
           setOrganisationDetailsError(errorObj);
         } else {
           let error = await GetErrorHandlingRoute(e);
-          console.log("Error obj", error);
-          console.log(e);
+          // console.log("Error obj", error);
+          // console.log(e);
           if (error.toast) {
             callToast(
               error?.message || "Something went wrong",
@@ -390,10 +405,10 @@ const OrganizationDetails = (props) => {
       });
   };
 
-  console.log(
-    "organisation_logo_error_logo",
-    organisationDetailsError.organisation_logo_error_logo
-  );
+  // console.log(
+  //   "organisation_logo_error_logo",
+  //   organisationDetailsError.organisation_logo_error_logo
+  // );
   const getOrganizationData = () => {
     callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
@@ -402,7 +417,7 @@ const OrganizationDetails = (props) => {
       .then((response) => {
         callLoader(false);
 
-        console.log(response);
+        // console.log(response);
         let data = response.data;
         let org = response.data.organization;
         if (org != "null") {
@@ -424,12 +439,13 @@ const OrganizationDetails = (props) => {
           org.logo ? UrlConstant.base_url_without_slash + org.logo : null
         );
         setIsLogoLink(true);
+        // console.log("success in get", data);
       })
       .catch(async (e) => {
+        console.log("gett", error);
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
+        // console.log(e);
         if (error?.toast) {
           callToast(
             error?.message || "Something went wrong",
@@ -447,13 +463,15 @@ const OrganizationDetails = (props) => {
     goToTop(0);
   }, []);
 
+  // console.log("uploadedlogo", uploadedLogo, preview);
+
   return (
     <>
       <div className={styles.main_box}>
         <div className={styles.main_label}>
           {props.isOrgSetting
             ? "Organisation settings"
-            : " Organisation Details"}
+            : "Organisation Details"}
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
@@ -548,7 +566,7 @@ const OrganizationDetails = (props) => {
                 name="organisation_contact_number"
                 value={organisationDetails.organisation_contact_number}
                 onChange={(value, countryData) => {
-                  console.log(value, countryData);
+                  // console.log(value, countryData);
                   handleOrgChange(value, countryData);
                 }}
                 error={
@@ -588,7 +606,7 @@ const OrganizationDetails = (props) => {
           <Row>
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
               <FormControl required fullWidth>
-                <InputLabel id="country_label"> Country</InputLabel>
+                <InputLabel id="country_label">Country</InputLabel>
                 <Select
                   required
                   labelId="country_label"
@@ -741,8 +759,13 @@ const OrganizationDetails = (props) => {
                       id="cancel-uploaded-file"
                     />
                   </div>
-                  <div className={styles.text_left} style={{marginLeft: "10px"}}>
-                    {preview
+                  <div
+                    className={styles.text_left}
+                    style={{ marginLeft: "10px" }}
+                  >
+                    {preview && uploadedImgName
+                      ? uploadedImgName
+                      : preview
                       ? preview?.split("/").pop()
                       : uploadedLogo && uploadedLogo?.name}
                   </div>
@@ -825,6 +848,7 @@ const OrganizationDetails = (props) => {
               id="nextbutton_org_onboard"
             >
               {" "}
+              {console.log(isLoggedInUserAdmin(), "logged")}
               {isLoggedInUserAdmin() ? "Next" : "Finish"}
             </Button>
           </div>
