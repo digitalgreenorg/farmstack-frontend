@@ -1,5 +1,5 @@
-import React, {useEffect, useContext, useState } from "react";
-import {Container} from "react-bootstrap";
+import React, { useEffect, useContext, useState } from "react";
+import { Container } from "react-bootstrap";
 import Slider from "react-slick";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
@@ -109,6 +109,10 @@ const ParticipantsCarouselNew = (props) => {
       url = UrlConstant.participant + unApprovedId + "?approval_status=True";
     HTTPService("GET", url, params, false, false)
       .then((response) => {
+        console.log(
+          "🚀 ~ file: ParticipantsCarouselNew.js:112 ~ .then ~ response:",
+          response
+        );
         callLoader(false);
         console.log();
         if (response?.data?.results) setParticipantsList(response.data.results);
