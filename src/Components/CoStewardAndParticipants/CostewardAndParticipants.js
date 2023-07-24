@@ -121,6 +121,7 @@ const CoStewardAndParticipantsCard = (props) => {
               <div
                 id={title?.split(" ")[0] + "grid-view"}
                 className={LocalStyle.viewType}
+                data-testid="grid-view"
                 onClick={() => setViewType("grid")}
               >
                 <img
@@ -147,6 +148,7 @@ const CoStewardAndParticipantsCard = (props) => {
               </div>
               <div
                 id={title?.split(" ")[0] + "list-view"}
+                data-testid="list-view"
                 onClick={() => setViewType("list")}
                 className={LocalStyle.viewType}
               >
@@ -267,7 +269,6 @@ const CoStewardAndParticipantsCard = (props) => {
         unmountOnExit
       >
         <Row
-          data-testid="row"
           id={title?.split(" ")[0] + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
@@ -320,6 +321,7 @@ const CoStewardAndParticipantsCard = (props) => {
           {coStewardOrParticipantsList?.map((participant, index) => {
             let id = participant?.user_id;
             console.log("participant", participant);
+            {console.log(viewType, "VIEWTYPE")}
             return (
               <Col
                 id={title?.split(" ")[0] + "grid-card-id" + index}
@@ -329,6 +331,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 md={6}
                 xl={4}
                 onClick={() => handleViewDataset(id)}
+                data-testid="grid-item"
               >
                 <CustomCard
                   image={participant?.organization?.logo}
