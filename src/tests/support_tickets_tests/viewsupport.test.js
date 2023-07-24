@@ -37,7 +37,7 @@ describe("Support View component", () => {
   test("render view support with crashing", () => {
     server.use(
       rest.get(
-        `${undefined}${UrlConstant.support_ticket}:id/`,
+        `${UrlConstant.base_url}${UrlConstant.support_ticket}:id/`,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
@@ -96,7 +96,7 @@ describe("Support View component", () => {
   test("update resolution failure scenario", async () => {
     server.use(
       rest.post(
-        `${undefined}${UrlConstant.support_resolution}`,
+        `${UrlConstant.base_url}${UrlConstant.support_resolution}`,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
@@ -169,7 +169,7 @@ describe("Support View component", () => {
   test("update last ticket message failure", async () => {
     server.use(
       rest.put(
-        `${undefined}${UrlConstant.support_resolution}:messageId/`,
+        `${UrlConstant.base_url}${UrlConstant.support_resolution}:messageId/`,
         (req, res, ctx) => {
           console.log("🚀 ~ file: viewsupport.test.js:100 ~ test ~ req:", req);
 
@@ -214,7 +214,7 @@ describe("Support View component", () => {
   test("action on close the status of ticket failure", async () => {
     server.use(
       rest.put(
-        `${undefined}${UrlConstant.support_ticket}:id/`,
+        `${UrlConstant.base_url}${UrlConstant.support_ticket}:id/`,
         (req, res, ctx) => {
           console.log("🚀 ~ file: viewsupport.test.js:100 ~ test ~ req:", req);
 

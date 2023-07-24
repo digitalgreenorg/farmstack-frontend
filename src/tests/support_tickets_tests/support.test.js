@@ -157,7 +157,7 @@ describe("Support module for admin", () => {
   test("trigger handleFilterByStatus action in support page failure", () => {
     server.use(
       rest.post(
-        `${undefined}${UrlConstant.support_ticket_tab}`,
+        `${UrlConstant.base_url}${UrlConstant.support_ticket_tab}`,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
@@ -215,7 +215,7 @@ describe("Support module for admin", () => {
   test("trigger handleFilterByCategory action in support page failure", () => {
     server.use(
       rest.post(
-        `${undefined}${UrlConstant.support_ticket_tab}`,
+        `${UrlConstant.base_url}${UrlConstant.support_ticket_tab}`,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
@@ -285,7 +285,7 @@ describe("Support module for admin", () => {
   test("renders list of tickets failure scenarios", async () => {
     server.use(
       rest.post(
-        `${undefined}${UrlConstant.support_ticket_tab}`,
+        `${UrlConstant.base_url}${UrlConstant.support_ticket_tab}`,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
