@@ -2,12 +2,14 @@ import { Box, Button, Stack, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import styles from "../dataset_integration.module.css";
+import globalStyle from "../../../../Assets/CSS/global.module.css";
 import download_data from "../../../../Assets/Img/download_data.svg";
 import { DataGrid } from "@mui/x-data-grid";
 import NoDataAvailable from "../../../Dashboard/NoDataAvailable/NoDataAvailable";
 import { message } from "antd";
 import { useHistory } from "react-router-dom";
 import CustomDeletePopper from "../../../DeletePopper/CustomDeletePopper";
+import { findType } from "../../../../Utils/Common";
 
 function NoResultsOverlay() {
   return (
@@ -258,10 +260,10 @@ const Preview = (props) => {
           <Button
             id="cancel-button"
             onClick={() => {
-              history.push("/datahub/connectors");
+              history.push(`/${findType()}/connectors`);
               resetAll(true, true, true, true, setCol, setRow);
             }}
-            className={styles.cancelBtn}
+            className={globalStyle.secondary_button}
           >
             Cancel
           </Button>
