@@ -154,7 +154,73 @@ describe("Support module for admin", () => {
     const closeBtn = screen.getByRole("button", { name: "Close" });
     fireEvent.click(closeBtn);
   });
+  test("trigger handleFilterByStatus action in support page failure", () => {
+    server.use(
+      rest.post(
+        `${undefined}${UrlConstant.support_ticket_tab}`,
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json());
+        }
+      )
+    );
+    setUserId("sometoken");
+    localStorage.setItem("role", JSON.stringify("datahub_admin"));
+    render(
+      <Router>
+        <Support />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+
+    const statusFilterBtn = screen.getByTestId("status_filter");
+    fireEvent.click(statusFilterBtn);
+
+    const checkbox = screen.getByRole("checkbox", {
+      name: /open/i,
+    });
+    fireEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+
+    const closeBtn = screen.getByRole("button", { name: "Close" });
+    fireEvent.click(closeBtn);
+  });
   test("trigger handleFilterByCategory action in support page", () => {
+    setUserId("sometoken");
+    localStorage.setItem("role", JSON.stringify("datahub_admin"));
+    render(
+      <Router>
+        <Support />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+
+    const categoryFilterBtn = screen.getByTestId(
+      "support-filter-by-categories-id"
+    );
+    fireEvent.click(categoryFilterBtn);
+
+    const checkbox = screen.getByRole("checkbox", {
+      name: /certificate/i,
+    });
+    fireEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+
+    const closeBtn = screen.getByRole("button", { name: "Close" });
+    fireEvent.click(closeBtn);
+  });
+  test("trigger handleFilterByCategory action in support page failure", () => {
+    server.use(
+      rest.post(
+        `${undefined}${UrlConstant.support_ticket_tab}`,
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json());
+        }
+      )
+    );
     setUserId("sometoken");
     localStorage.setItem("role", JSON.stringify("datahub_admin"));
     render(
@@ -233,6 +299,18 @@ describe("Support module for admin", () => {
         wrapper: FarmStackProvider,
       }
     );
+  });
+  test("trigger load more function in support module", async () => {
+    render(
+      <Router>
+        <Support />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const loadMoreBtn = await screen.findByTestId("loadmorebtn");
+    fireEvent.click(loadMoreBtn);
   });
 });
 
