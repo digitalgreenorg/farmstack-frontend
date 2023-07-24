@@ -75,7 +75,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll"
+    "coverage": "react-scripts test --coverage --watchAll src/tests/participants_tests/ParticipantDetails.test.jsx"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -559,6 +559,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 }}
                 style={{ marginRight: "0px" }}
                 onClick={handleDeletePopper}
+                data-testid="delete-button"
               >
                 Delete {isCosteward ? "Co-steward" : "Participant"}
                 <DeleteOutlineIcon
@@ -585,6 +586,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                     border: "1px solid rgba(0, 171, 85, 0.48)",
                   },
                 }}
+                data-testid="edit-button"
                 onClick={(e) =>
                   history.push(
                     `/datahub/${
@@ -615,11 +617,13 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             <Col xs={12} sm={12} md={6} xl={6} data-testid="check_org_Name">
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
+                
               >
                 Organisation Name
               </Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
+                data-testid="org_Name"
               >
                 {organisationName}
               </Typography>
@@ -892,6 +896,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
               onClick={() => approveParticipantsRequest(id, true)}
+              data-testid="approve-button"
             >
               Approve
             </Button>
@@ -900,6 +905,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
               onClick={() => deleteParticipants(true)}
+              data-testid="reject-button"
             >
               Reject
             </Button>
@@ -908,6 +914,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.borderNone}`}
               onClick={() => history.go(-1)}
+              data-testid="back-button"
             >
               Back
             </Button>
@@ -934,6 +941,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             }}
             variant="outlined"
             onClick={() => history.go(-1)}
+            data-testid="back-con-button"
           >
             Back
           </Button>
