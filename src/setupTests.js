@@ -1,6 +1,6 @@
 // src/setupTests.js
 import { server } from "./mocks/server";
-require("dotenv").config({ path: ".env.production" });
+require("dotenv").config({ path: ".env.test" });
 
 // Establish API mocking before all tests.
 beforeAll(() => {

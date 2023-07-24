@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Row, Col } from "react-bootstrap";
 import {
   TextField,
@@ -39,7 +39,7 @@ export default function AskSupport(props) {
   const [key, setKey] = useState(0);
   const [preview, setPreview] = useState(null);
   const { callToast, callLoader } = useContext(FarmStackContext);
-  const [filesizeError, setFileSizeError] = useState("")
+  const [filesizeError, setFileSizeError] = useState("");
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value.trimStart());
@@ -73,7 +73,7 @@ export default function AskSupport(props) {
     setKey(null);
     setPreview(null);
     setUploadedFile(null);
-    setFileSizeError("")
+    setFileSizeError("");
   };
 
   const handleSupportViewRouteBreadCrumbs = () => {
@@ -89,7 +89,7 @@ export default function AskSupport(props) {
     setTitleError("");
     setQueryFieldError("");
     setFileError("");
-    setFileSizeError("")
+    setFileSizeError("");
     callLoader(true);
 
     var bodyFormData = new FormData();
@@ -182,12 +182,15 @@ export default function AskSupport(props) {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
+              data-testid="goback_to_support_page"
               onClick={() => history.push(handleSupportViewRouteBreadCrumbs())}
             >
               Support
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px !important", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon
+                sx={{ fontSize: "14px !important", fill: "#00ab55" }}
+              />
             </span>
             <span className="add_light_text ml-16 fw600">Ask Support</span>
           </div>
@@ -231,6 +234,7 @@ export default function AskSupport(props) {
               <Select
                 required
                 id="Support-category"
+                data-testid={"component-under-test"}
                 value={selectedCategory}
                 name="Support Category"
                 onChange={(e) => setSelectedCategory(e.target.value)}

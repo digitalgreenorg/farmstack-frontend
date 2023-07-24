@@ -7,7 +7,7 @@ const cardSx = {
   border: "1px solid #2CD37F",
   borderRadius: "10px",
   "&:hover": {
-    boxShadow: "-40px 40px 80px rgba(145, 158, 171, 0.16)",
+    // boxShadow: "-40px 40px 80px rgba(145, 158, 171, 0.16)",
     cursor: "pointer",
   },
 };
@@ -21,7 +21,11 @@ const AddConnectorCard = ({ history, addConnector }) => {
     >
       <div className={style.addNewCard}>Add New Connector</div>
       <div>
-        <img id="add-connector-button" src={require("../../Assets/Img/add_new.svg")} alt="add" />
+        <img
+          id="add-connector-button"
+          src={require("../../Assets/Img/add_new.svg")}
+          alt="add"
+        />
       </div>
       <div className={style.addNewCardText}>
         Add details about your connector.
