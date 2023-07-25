@@ -148,7 +148,7 @@ export const onboardingHandler = [
   rest.put(`${getBaseUrl()}${UrlConstant.org}:userId/`, (req, res, ctx) => {
     console.log("calling org get");
     return res(
-      ctx.status(200),
+      ctx.status(201),
       ctx.json({
         user: {
           id: "0f76cb90-2394-499b-9b60-bf4cad3751a4",
