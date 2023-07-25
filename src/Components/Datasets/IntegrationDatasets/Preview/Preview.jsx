@@ -5,10 +5,13 @@ import styles from "../dataset_integration.module.css";
 import globalStyle from "../../../../Assets/CSS/global.module.css";
 import download_data from "../../../../Assets/Img/download_data.svg";
 import { DataGrid } from "@mui/x-data-grid";
+
 import NoDataAvailable from "../../../Dashboard/NoDataAvailable/NoDataAvailable";
 import { message } from "antd";
 import { useHistory } from "react-router-dom";
 import CustomDeletePopper from "../../../DeletePopper/CustomDeletePopper";
+import ControllerModal from "../../../Generic/ControllerModal.jsx";
+import ModalBody from "./ModalBody";
 import { findType } from "../../../../Utils/Common";
 
 function NoResultsOverlay() {
@@ -34,6 +37,7 @@ const Preview = (props) => {
     temporaryDeletedCards,
     noOfRecords,
     isConditionForConnectorDataForSaveMet,
+    setIsConditionForConnectorDataForSaveMet,
     isAllConditionForSaveMet,
     connectorData,
     generateData,
@@ -44,6 +48,10 @@ const Preview = (props) => {
     resetAll,
     finalDatasetAfterIntegration,
     downloadDocument,
+    nameRenameConfigData,
+    setNameRenameConfigData,
+    saveConfigData,
+    datasetForPrePupulatingRename,
   } = props;
   const history = useHistory();
   const theme = useTheme();
@@ -54,7 +62,21 @@ const Preview = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const id = "delete-popper";
-
+  // statusOfModal={statusOfModal}
+  // handleOk={handleOk}
+  // handleCancel={handleCancel}
+  const [statusOfModal, setStatusOfModal] = useState(false);
+  const handleOk = () => {
+    saveConfigData();
+    setStatusOfModal(false);
+  };
+  const handleCancel = () => {
+    setStatusOfModal(false);
+  };
+  const handleOkForSecondButton = () => {
+    downloadDocument();
+    setStatusOfModal(false);
+  };
   const handleDeletePopper = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
@@ -76,7 +98,13 @@ const Preview = (props) => {
       let val = [];
 
       for (let key in finalDatasetAfterIntegration[0]) {
-        let obj = { field: key, headerName: key, width: 300 };
+        let obj = {
+          field: key,
+          headerName: key,
+          width: 300,
+          renamed_to: "",
+          selectedForExport: true,
+        };
         val.push(obj);
       }
       let rowArr = [];
@@ -231,7 +259,7 @@ const Preview = (props) => {
               styles.flexForBtn
             }
             sx={{ width: "300px !important", height: "182px !important" }}
-            onClick={() => downloadDocument()}
+            onClick={() => setStatusOfModal(true)}
           >
             <img
               src={download_data}
@@ -240,6 +268,29 @@ const Preview = (props) => {
             />{" "}
             <span className="mt-20">Download CSV file</span>
           </Button>
+          {/* <button onClick={() => setStatusOfModal(true)}>Open </button> */}
+          {statusOfModal && (
+            <ControllerModal
+              statusOfModal={statusOfModal}
+              handleOk={() => handleOk()}
+              handleCancel={handleCancel}
+              handleOkForSecondButton={handleOkForSecondButton}
+              modalBody={
+                <ModalBody
+                  col={col}
+                  row={row}
+                  nameRenameConfigData={nameRenameConfigData}
+                  setNameRenameConfigData={setNameRenameConfigData}
+                  setIsConditionForConnectorDataForSaveMet={
+                    setIsConditionForConnectorDataForSaveMet
+                  }
+                  connectorData={connectorData}
+                  saveConfigData={saveConfigData}
+                  datasetForPrePupulatingRename={datasetForPrePupulatingRename}
+                />
+              }
+            />
+          )}
           {/* </div> */}
           {/* </Affix> */}
         </div>

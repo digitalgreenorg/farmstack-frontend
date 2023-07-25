@@ -143,9 +143,7 @@ const OrganizationDetails = (props) => {
         callToast("Onboarded successfuly", "success", true);
 
         // console.log("onboarded true response", response.data);
-        if (isLoggedInUserAdmin()) {
-          history.push("/datahub/new_datasets");
-        } else if (isLoggedInUserParticipant()) {
+        if (isLoggedInUserParticipant()) {
           history.push("/participant/new_datasets");
         } else if (isLoggedInUserCoSteward()) {
           history.push("/datahub/new_datasets");
@@ -298,6 +296,7 @@ const OrganizationDetails = (props) => {
       "org_description",
       organisationDetails.organisation_description
     );
+    console.log(isLoggedInUserParticipant(), "local");
     HTTPService(method, url, bodyFormData, true, true, false, false)
       .then((response) => {
         callLoader(false);
@@ -308,6 +307,7 @@ const OrganizationDetails = (props) => {
           (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) &&
           !props.isOrgSetting
         ) {
+          console.log("inside lk");
           // callToast("Onboarded successfuly", "success", true);
           setOnBoardedTrue();
         }
@@ -412,12 +412,20 @@ const OrganizationDetails = (props) => {
   const getOrganizationData = () => {
     callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
+    console.log(
+      "🚀 ~ file: OrganizationDetails.jsx:415 ~ getOrganizationData ~ u:",
+      url
+    );
     let method = "GET";
     HTTPService(method, url, "", false, true, false, false)
       .then((response) => {
         callLoader(false);
 
-        // console.log(response);
+        console.log(response);
+        console.log(
+          "🚀 ~ file: OrganizationDetails.jsx:421 ~ .then ~ response:",
+          response
+        );
         let data = response.data;
         let org = response.data.organization;
         if (org != "null") {
@@ -442,7 +450,7 @@ const OrganizationDetails = (props) => {
         // console.log("success in get", data);
       })
       .catch(async (e) => {
-        console.log("gett", error);
+        console.log("gett", e);
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         // console.log(e);
