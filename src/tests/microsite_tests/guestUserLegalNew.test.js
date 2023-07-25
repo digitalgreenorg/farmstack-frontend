@@ -54,7 +54,7 @@ describe("legal policy component", () => {
   test("legal policy api failer", async () => {
     server.use(
       rest.get(
-        `${getBaseUrl()}${UrlConstant.microsite_get_policy}`,
+        `${UrlConstant.base_url}${UrlConstant.microsite_get_policy}`,
         (req, res, ctx) => {
           console.log("failer api call");
           return res(ctx.status(400), ctx.json({ message: "Failed" }));

@@ -7,7 +7,7 @@ const getBaseUrl = () => {
 
 export const legalHandler = [
   rest.get(
-    `${getBaseUrl()}${UrlConstant.microsite_get_policy}`,
+    `${UrlConstant.base_url}${UrlConstant.microsite_get_policy}`,
     (req, res, ctx) => {
       console.log("get policy api");
       return res(
