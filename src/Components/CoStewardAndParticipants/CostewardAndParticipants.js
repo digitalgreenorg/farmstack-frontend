@@ -174,7 +174,7 @@ const CoStewardAndParticipantsCard = (props) => {
               </div>
             </Row>
           </Col>
-        ) : viewType && setViewType && !mobile ? (
+        ) : viewType && !mobile ? (
           <Col
             className={
               tablet && title == "Participants"
@@ -321,7 +321,9 @@ const CoStewardAndParticipantsCard = (props) => {
           {coStewardOrParticipantsList?.map((participant, index) => {
             let id = participant?.user_id;
             console.log("participant", participant);
-            {console.log(viewType, "VIEWTYPE")}
+            {
+              console.log(viewType, "VIEWTYPE");
+            }
             return (
               <Col
                 id={title?.split(" ")[0] + "grid-card-id" + index}
