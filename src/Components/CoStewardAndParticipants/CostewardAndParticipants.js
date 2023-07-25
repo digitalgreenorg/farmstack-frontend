@@ -29,7 +29,6 @@ const CoStewardAndParticipantsCard = (props) => {
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
-    console.log("isCostewardsParticipant", isCostewardsParticipant);
     if (isCostewardsParticipant) {
       history.push(`/datahub/costeward/participants/view/${id}`);
     } else if (guestUser && isCosteward) {
@@ -91,6 +90,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 <Col lg={6}>
                   <div>
                     <Button
+                      data-testid="invite-btn-test-list"
                       id="add-participant-submit-button"
                       onClick={() =>
                         history.push("/datahub/participants/invite")
@@ -204,6 +204,7 @@ const CoStewardAndParticipantsCard = (props) => {
               id={title?.split(" ")[0] + "grid-view"}
               className={LocalStyle.viewType}
               onClick={() => setViewType("grid")}
+              data-testid="grid-view-test"
             >
               <img
                 className={LocalStyle.listAndgridViewImg}
@@ -231,6 +232,7 @@ const CoStewardAndParticipantsCard = (props) => {
               id={title?.split(" ")[0] + "list-view"}
               onClick={() => setViewType("list")}
               className={LocalStyle.viewType}
+              data-testid="list-view-test"
             >
               <img
                 className={LocalStyle.listAndgridViewImg}
@@ -280,6 +282,7 @@ const CoStewardAndParticipantsCard = (props) => {
               sm={12}
               md={6}
               xl={4}
+              data-testid="add-new-participants-test"
               onClick={() => history.push("/datahub/participants/add")}
             >
               <Card
@@ -320,10 +323,6 @@ const CoStewardAndParticipantsCard = (props) => {
           )}
           {coStewardOrParticipantsList?.map((participant, index) => {
             let id = participant?.user_id;
-            console.log("participant", participant);
-            {
-              console.log(viewType, "VIEWTYPE");
-            }
             return (
               <Col
                 id={title?.split(" ")[0] + "grid-card-id" + index}
