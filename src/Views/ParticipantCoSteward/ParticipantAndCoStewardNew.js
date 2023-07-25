@@ -220,7 +220,7 @@ const ParticipantsAndCoStewardNew = () => {
               {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
             </span>
-            <span className="add_light_text ml-16 fw600" data-testid="test_id_string">
+            <span className="add_light_text ml-16 fw600">
               {tabValue == 0
                 ? isLoggedInUserCoSteward()
                   ? "Participant"
