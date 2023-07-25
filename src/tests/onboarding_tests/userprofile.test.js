@@ -307,7 +307,7 @@ describe("User profile - Negative scenerio", () => {
           return res(
             ctx.status(401),
             ctx.json({
-              error: error,
+              error: "error",
             })
           );
         }

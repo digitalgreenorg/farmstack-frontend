@@ -100,8 +100,8 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/OrganizationDetails.jsx",
+      "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/CompanyPolicies.jsx",
       "src/Components/Standardization/StandardizationInOnbording.js",
       "src/Components/CoStewardAndParticipants/CostewardAndParticipants.js",
@@ -109,7 +109,8 @@
       "src/Views/ParticipantCoSteward/ParticipantAndCoStewardNew.js",
       "src/Views/GuestUser/GuestUserHomeNew.js",
       "src/Components/Support_New/SupportView.jsx",
-      "src/Components/Support_New/SupportForm.jsx"
+      "src/Components/Support_New/SupportForm.jsx",
+      "src/Views/GetStarted/GetStarted.js"
     ]
   }
 }
