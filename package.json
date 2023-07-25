@@ -108,7 +108,8 @@
       "src/Views/GuestUser/GuestUserHomeNew.js",
       "src/Components/Support_New/SupportView.jsx",
       "src/Components/Support_New/SupportForm.jsx",
-      "src/Views/GuestUser/GuestUserLegalNew.js"
+      "src/Views/GuestUser/GuestUserLegalNew.js",
+      "src/Views/GetStarted/GetStarted.js"
     ]
   }
 }
