@@ -8,7 +8,7 @@ const getBaseUrl = () => {
 export const micrositeHandler = [
   // pass your url in the first parameter
   rest.post(
-    `${getBaseUrl()}${UrlConstants.costeward_onboarded_dataset}`,
+    `${UrlConstants.base_url}${UrlConstants.costeward_onboarded_dataset}`,
     (req, res, ctx) => {
       console.log("microsite onboarding dataset", req);
       return res(
@@ -59,7 +59,7 @@ export const micrositeHandler = [
     }
   ),
   rest.post(
-    `${getBaseUrl()}${UrlConstants.guest_dataset_filtered_data}`,
+    `${UrlConstants.base_url}${UrlConstants.guest_dataset_filtered_data}`,
     (req, res, ctx) => {
       return res(
         ctx.status(200),
@@ -381,9 +381,7 @@ export const micrositeHandler = [
     }
   ),
   rest.get(
-    `${getBaseUrl()}${
-      UrlConstants.microsite_participant_end_point_new
-    }?co_steward=True`,
+    `${UrlConstants.base_url}${UrlConstants.microsite_participant_end_point_new}?co_steward=True`,
     (req, res, ctx) => {
       // get payload form req
       console.log("req in get carousle", req);
@@ -595,7 +593,7 @@ export const micrositeHandler = [
     }
   ),
   rest.get(
-    `${getBaseUrl()}${UrlConstants.microsite_participant_end_point_new}`,
+    `${UrlConstants.base_url}${UrlConstants.microsite_participant_end_point_new}`,
     (req, res, ctx) => {
       return (
         ctx.status(200),
