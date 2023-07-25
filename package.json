@@ -106,7 +106,6 @@
       "src/Components/Standardization/StandardizationInOnbording.js",
       "src/Components/CoStewardAndParticipants/CostewardAndParticipants.js",
       "src/Components/Support_New/Support.jsx",
-      "src/Views/ParticipantCoSteward/ParticipantAndCoStewardNew.js",
       "src/Views/GuestUser/GuestUserHomeNew.js",
       "src/Components/Support_New/SupportView.jsx",
       "src/Components/Support_New/SupportForm.jsx",
