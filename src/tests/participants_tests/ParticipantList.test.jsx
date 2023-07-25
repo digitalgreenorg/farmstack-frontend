@@ -39,7 +39,7 @@ describe("render the labels and buttons", () => {
   test("render invite btn exists", () => {
     render(<CoStewardAndParticipantsCard />, { wrapper: FarmStackProvider });
 
-    const inviteBtn = screen.getByTestId("invite-btn");
+    const inviteBtn = screen.getByTestId("invite-btn-test");
     expect(inviteBtn).toBeInTheDocument();
     // fireEvent.click(inviteBtn);
   });
@@ -50,10 +50,15 @@ describe("render the labels and buttons", () => {
     const addParticipantBtn = screen.queryAllByTestId("add-new-participants");
     expect(addParticipantBtn).not.toBeNull();
   });
-
   //check loadmore button
   test("render loadmore button ", () => {
-    render(<CoStewardAndParticipantsCard />, { wrapper: FarmStackProvider });
+    render
+    
+    (<Router>
+
+    <CoStewardAndParticipantsCard />
+    </Router>
+    , { wrapper: FarmStackProvider });
     const loadmoreButton = screen.queryAllByTestId("load-more-btn");
     expect(loadmoreButton).not.toBeNull();
   });
@@ -72,7 +77,11 @@ describe("render the labels and buttons", () => {
   // });
   test("click the grid button and show grid list", () => {
     const setViewType = jest.fn();
-    render(<CoStewardAndParticipantsCard setViewType={setViewType} />, {
+    render( <Router>
+
+      <CoStewardAndParticipantsCard setViewType={setViewType} />
+    </Router>
+      , {
       wrapper: FarmStackProvider,
     });
     const gridView = screen.getByText(/Grid view/i);
@@ -81,7 +90,10 @@ describe("render the labels and buttons", () => {
   });
   test("click the list button and cards in list", () => {
     const setViewType = jest.fn();
-    render(<CoStewardAndParticipantsCard setViewType={setViewType} />, {
+    render(<Router>
+      <CoStewardAndParticipantsCard setViewType={setViewType} />
+      </Router>
+      , {
       wrapper: FarmStackProvider,
     });
     const listView = screen.getByText(/List view/i);
@@ -121,20 +133,22 @@ describe("render the labels and buttons", () => {
     fireEvent.click(viewDatasetGridButtons[0]);
     screen.debug();
   });
-  // test("click invite button", () => {
-  //   render(
-  //     <Router>
-  //       <CoStewardAndParticipantsCard
-  //       //title = {"Participants" && !guestUser}
-  //       />
-  //     </Router>, { wrapper: FarmStackProvider }
-  //   );
-  //   const inviteButton = screen.getByRole("button", {
-  //         name: "+ Invite Participants"
-  //       })
-  //       screen.debug()
-  //   fireEvent.click(inviteButton);
-  // })
+  test("click invite button", () => {
+    const history = jest.fn()
+    render(
+      <Router >
+        <CoStewardAndParticipantsCard
+        //title = {"Participants" && !guestUser}
+        title="Participants" // Set the title to "Participants" for the button to be rendered
+        guestUser={false}
+        />
+      </Router>
+    );
+    const inviteButton = screen.getByTestId("invite-btn-test")
+        screen.debug()
+    fireEvent.click(inviteButton);
+    // expect(window.location.pathname).toBe("/datahub/participants/invite")
+  })
 
   describe("rendering costeward list", () => {
     it("renders the list items correctly", () => {
@@ -148,7 +162,10 @@ describe("render the labels and buttons", () => {
       ];
 
       const component = render(
+        <Router>
+
         <CoStewardAndParticipantsCard coStewardOrParticipantsList={mockData} />
+        </Router>
       );
       const listItems = component.queryAllByTestId("list-item");
       listItems.forEach((item, index) => {
@@ -185,7 +202,10 @@ describe("render the labels and buttons", () => {
       ];
 
       const component = render(
+        <Router>
+
         <CoStewardAndParticipantsCard coStewardOrParticipantsList={mockData} />
+        </Router>
       );
       const listItems = component.queryAllByTestId("list-item");
       listItems.forEach((item, index) => {
@@ -215,10 +235,14 @@ describe("render the labels and buttons", () => {
           user: { first_name: "Kumar" },
           user: { email: "kumar@dg.org" },
         },
+
       ];
 
       const component = render(
+        <Router>
+
         <CoStewardAndParticipantsCard coStewardOrParticipantsList={mockData} />
+        </Router>
       );
       const listItems = component.queryAllByTestId("list-item");
       listItems.forEach((item, index) => {

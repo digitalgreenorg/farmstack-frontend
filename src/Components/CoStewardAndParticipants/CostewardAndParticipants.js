@@ -190,7 +190,7 @@ const CoStewardAndParticipantsCard = (props) => {
               <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
-                  data-testid="invite-btn"
+                  data-testid="invite-btn-test"
                   onClick={() => history.push("/datahub/participants/invite")}
                   className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
                 >
