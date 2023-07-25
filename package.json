@@ -73,7 +73,7 @@
   "scripts": {
     "start": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 start",
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
-    "test": "react-scripts test",
+    "test": "react-scripts test src/Components/NewOnboarding/OrganizationDetails.jsx",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test --coverage --watchAll"
   },
@@ -100,8 +100,8 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/OrganizationDetails.jsx",
+      "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/CompanyPolicies.jsx",
       "src/Components/Standardization/StandardizationInOnbording.js",
       "src/Components/Support_New/Support.jsx",
