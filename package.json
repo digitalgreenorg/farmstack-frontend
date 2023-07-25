@@ -75,7 +75,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll"
+    "coverage": "react-scripts test --coverage --watchAll src/tests/microsite_tests/guestUserLegalNew.test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -107,7 +107,8 @@
       "src/Components/Support_New/Support.jsx",
       "src/Views/GuestUser/GuestUserHomeNew.js",
       "src/Components/Support_New/SupportView.jsx",
-      "src/Components/Support_New/SupportForm.jsx"
+      "src/Components/Support_New/SupportForm.jsx",
+      "src/Views/GuestUser/GuestUserLegalNew.js"
     ]
   }
 }
