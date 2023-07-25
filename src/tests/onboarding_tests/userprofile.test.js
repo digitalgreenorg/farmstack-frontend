@@ -301,13 +301,13 @@ describe("User profile - Negative scenerio", () => {
   test("getting error while", () => {
     server.use(
       rest.get(
-        `${undefined}${UrlConstant.profile}:userId/`,
+        `${UrlConstant.base_url}${UrlConstant.profile}:userId/`,
         (req, res, ctx) => {
           // console.log("inside failed call");
           return res(
             ctx.status(401),
             ctx.json({
-              error: error,
+              error: "error",
             })
           );
         }
@@ -386,7 +386,7 @@ describe("User profile - Negative scenerio", () => {
   test("getting all the value by get and checking and submitting the same and handling error", async () => {
     server.use(
       rest.put(
-        `${undefined}${UrlConstant.profile}:userId/`,
+        `${UrlConstant.base_url}${UrlConstant.profile}:userId/`,
         (req, res, ctx) => {
           // console.log("inside failed call");
           return res(
@@ -436,7 +436,7 @@ describe("User profile - Negative scenerio", () => {
   test("getting all the value by get and checking and submitting the same and handling error", async () => {
     server.use(
       rest.put(
-        `${undefined}${UrlConstant.profile}:userId/`,
+        `${UrlConstant.base_url}${UrlConstant.profile}:userId/`,
         (req, res, ctx) => {
           // console.log("inside failed call");
           return res(

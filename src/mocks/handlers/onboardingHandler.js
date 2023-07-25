@@ -8,45 +8,48 @@ export const getBaseUrl = () => {
 };
 export const onboardingHandler = [
   // pass your url in the first parameter
-  rest.get(`${undefined}${UrlConstant.profile}:userId/`, (req, res, ctx) => {
-    console.log("IN GET");
-    // ctx.status(401),
-    // ctx.json({
-    //   code: "token_not_valid",
-    //   access: "Given token not valid for any token type",
-    //   messages: [
-    //     {
-    //       token_class: "AccessToken",
-    //       token_type: "access",
-    //       message: "Token is invalid or expired",
-    //     },
-    //   ],
-    //   0: {
-    //     token_class: "AccessToken",
-    //     token_type: "access",
-    //     message: "Token is invalid or expired",
-    //   },
-    // })
-    //   );
-    // } else {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        id: "id",
-        email: "dgemail@digitalgreen.org",
-        first_name: "digital",
-        last_name: "green",
-        phone_number: "+91 98989-89898",
-        role: 1,
-        subscription: null,
-        profile_picture: null,
-        on_boarded: true,
-        approval_status: true,
-        on_boarded_by: null,
-      })
-    );
-    // }
-  }),
+  rest.get(
+    `${UrlConstant.base_url}${UrlConstant.profile}:userId/`,
+    (req, res, ctx) => {
+      console.log("IN GET");
+      // ctx.status(401),
+      // ctx.json({
+      //   code: "token_not_valid",
+      //   access: "Given token not valid for any token type",
+      //   messages: [
+      //     {
+      //       token_class: "AccessToken",
+      //       token_type: "access",
+      //       message: "Token is invalid or expired",
+      //     },
+      //   ],
+      //   0: {
+      //     token_class: "AccessToken",
+      //     token_type: "access",
+      //     message: "Token is invalid or expired",
+      //   },
+      // })
+      //   );
+      // } else {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: "id",
+          email: "dgemail@digitalgreen.org",
+          first_name: "digital",
+          last_name: "green",
+          phone_number: "+91 98989-89898",
+          role: 1,
+          subscription: null,
+          profile_picture: null,
+          on_boarded: true,
+          approval_status: true,
+          on_boarded_by: null,
+        })
+      );
+      // }
+    }
+  ),
   rest.put(
     `${UrlConstant.base_url}${UrlConstant.profile}:userId/`,
     (req, res, ctx) => {
@@ -145,7 +148,7 @@ export const onboardingHandler = [
   rest.put(`${getBaseUrl()}${UrlConstant.org}:userId/`, (req, res, ctx) => {
     console.log("calling org get");
     return res(
-      ctx.status(200),
+      ctx.status(201),
       ctx.json({
         user: {
           id: "0f76cb90-2394-499b-9b60-bf4cad3751a4",

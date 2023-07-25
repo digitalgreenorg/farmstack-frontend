@@ -1,6 +1,7 @@
 import { connectorHandler } from "./handlers/connectorHandler";
 import { dashboardHandler } from "./handlers/dashboardHandler";
 import { datasetHandler } from "./handlers/datasetHandler";
+import { legalHandler } from "./handlers/legalHandler";
 import { loginHandler } from "./handlers/loginHandler";
 import { micrositeHandler } from "./handlers/micrositeHandler";
 import { onboardingHandler } from "./handlers/onboardingHandler";
@@ -21,4 +22,5 @@ export const handlers = [
   ...settingHandler,
   ...supportTicketHandler,
   ...otherHandler,
+  ...legalHandler,
 ];
