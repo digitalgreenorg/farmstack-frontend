@@ -438,6 +438,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
+              data-testid="route-breadcrubm-button"
               onClick={() => {
                 let last_route = localStorage.getItem("last_route");
                 localStorage.removeItem("last_route");
@@ -533,6 +534,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <CustomDeletePopper
                 DeleteItem={organisationName}
                 anchorEl={anchorEl}
+                data-testid="delete-popper-test"
                 handleDelete={() => deleteParticipants(false)}
                 id={id}
                 open={open}
@@ -783,7 +785,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Row>
           <Row>
             {datasetList?.map((dataset, index) => {
-              console.log("datasets ", dataset);
+              console.log("datasetslist", dataset);
               return (
                 <Col
                   onClick={() =>
@@ -795,6 +797,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   sm={12}
                   md={6}
                   xl={4}
+                  data-testid="view-dataset-detail"
                 >
                   <DatasetCart
                     publishDate={dataset?.created_at}
@@ -896,7 +899,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
               onClick={() => approveParticipantsRequest(id, true)}
-              data-testid="approve-button"
+              data-testid="approve-button-test"
             >
               Approve
             </Button>
@@ -905,7 +908,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
               onClick={() => deleteParticipants(true)}
-              data-testid="reject-button"
+              data-testid="reject-button-test"
             >
               Reject
             </Button>
@@ -914,7 +917,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.borderNone}`}
               onClick={() => history.go(-1)}
-              data-testid="back-button"
+              data-testid="back-button-test"
             >
               Back
             </Button>
