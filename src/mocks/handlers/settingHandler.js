@@ -58,7 +58,7 @@ export const settingHandler = [
           created_at: "2023-07-14T11:23:36.506894Z",
           updated_at: "2023-07-14T11:23:36.506921Z",
           name: "kannu",
-          description: "<p>kojilkbhv</p>",
+          description: "",
           file: null,
         })
       );

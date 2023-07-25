@@ -95,15 +95,20 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "axios-mock-adapter": "^1.21.5",
+    "jest-svg-transformer": "^1.0.0",
     "msw": "^1.2.2"
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/OrganizationDetails.jsx",
+      "src/Components/NewOnboarding/ProfileDetails.jsx",
       "src/Components/NewOnboarding/CompanyPolicies.jsx",
       "src/Components/Standardization/StandardizationInOnbording.js",
-      "src/Components/Support_New/Support.jsx"
+      "src/Components/Support_New/Support.jsx",
+      "src/Views/GuestUser/GuestUserHomeNew.js",
+      "src/Components/Support_New/SupportView.jsx",
+      "src/Components/Support_New/SupportForm.jsx",
+      "src/Views/GetStarted/GetStarted.js"
     ]
   }
 }

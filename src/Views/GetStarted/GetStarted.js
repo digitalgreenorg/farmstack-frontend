@@ -121,11 +121,14 @@ const GetStarted = () => {
     );
     return arr;
   };
+
+  const accordionData = getData();
+
   return (
     <Box sx={containerStyle}>
       {mobile || tablet ? (
         <ControlledAccordion
-          data={getData()}
+          data={accordionData}
           customBorder={true}
           customPadding={true}
           isTables={true}
