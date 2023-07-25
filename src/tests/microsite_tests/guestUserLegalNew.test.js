@@ -1,9 +1,17 @@
 import "./matchMedia.mock";
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Await, BrowserRouter as Router } from "react-router-dom";
 import GuestUserLegalNew from "../../Views/GuestUser/GuestUserLegalNew";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
+import { server } from "../../mocks/server";
+import { rest } from "msw";
+import UrlConstant from "../../Constants/UrlConstants";
+import FileSaver from "file-saver";
+
+const getBaseUrl = () => {
+  return process.env.REACT_APP_BASEURL;
+};
 
 jest.mock("@mui/material", () => ({
   ...jest.requireActual("@mui/material"),
@@ -22,44 +30,60 @@ describe("legal policy component", () => {
       </Router>,
       { wrapper: FarmStackProvider }
     );
-    // let policyTitle = screen.getByText("Legal Policies");
-    // expect(policyTitle).toBeInTheDocument;
+    let policyTitle = screen.getByText("Legal Policies");
+    expect(policyTitle).toBeInTheDocument;
   });
 
-  //   test("Click to download policy file", () => {
-  //     render(
-  //       <Router>
-  //         <GuestUserLegalNew />
-  //       </Router>,
-  //       { wrapper: FarmStackProvider }
-  //     );
-  //     let downlaodPolicyButton = screen.getByTestId(
-  //       "legal-policy-download-document-test"
-  //     );
-  //     const mockSaveAs = jest.fn();
-  //     FileSaver.saveAs = mockSaveAs;
-  //     fireEvent.click(downlaodPolicyButton);
-  //     expect(mockSaveAs).toHaveBeenCalledTimes(1);
-  //     // it will download a file
-  //   });
-  // test("Click to view policy file", () => {
-  //   render(
-  //     <Router>
-  //       <GuestUserLegalNew />
-  //     </Router>,
-  //     { wrapper: FarmStackProvider }
-  //   );
-  //   let viewPolicyButton = screen.getByTestId(
-  //     "legal-policy-view-document-test"
-  //   );
-  //   // It should open a new tab on click of viewPolicyButton
-  //   const mockWindowOpen = jest.fn();
-  //   window.open = mockWindowOpen;
+  test("Click to download policy file", async () => {
+    render(
+      <Router>
+        <GuestUserLegalNew />
+      </Router>,
+      { wrapper: FarmStackProvider }
+    );
+    let downlaodPolicyButton = await screen.findAllByTestId(
+      "legal-policy-download-document-test"
+    );
+    // it will download a file
+    const mockSaveAs = jest.fn();
+    FileSaver.saveAs = mockSaveAs;
+    fireEvent.click(downlaodPolicyButton[0]);
+    expect(mockSaveAs).toHaveBeenCalledTimes(1);
+  });
 
-  //   // Simulate the click event
-  //   fireEvent.click(viewPolicyButton);
+  test("legal policy api failer", async () => {
+    server.use(
+      rest.get(
+        `${getBaseUrl()}${UrlConstant.microsite_get_policy}`,
+        (req, res, ctx) => {
+          console.log("failer api call");
+          return res(ctx.status(400), ctx.json({ message: "Failed" }));
+        }
+      )
+    );
+    render(
+      <Router>
+        <GuestUserLegalNew />
+      </Router>,
+      { wrapper: FarmStackProvider }
+    );
+  });
 
-  //   // Assert that window.open method is called with the expected URL and target (_blank)
-  //   expect(mockWindowOpen).toHaveBeenCalledTimes(1);
-  // });
+  test("Click to view policy file", async () => {
+    render(
+      <Router>
+        <GuestUserLegalNew />
+      </Router>,
+      { wrapper: FarmStackProvider }
+    );
+    let viewPolicyButton = await screen.findAllByTestId(
+      "legal-policy-view-document-test"
+    );
+    // It should open a new tab on click of viewPolicyButton
+    const mockWindowOpen = jest.fn();
+    window.open = mockWindowOpen;
+
+    fireEvent.click(viewPolicyButton[0]);
+    expect(mockWindowOpen).toHaveBeenCalledTimes(1);
+  });
 });

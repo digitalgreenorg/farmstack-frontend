@@ -101,8 +101,6 @@ const GuestUserLegalNew = (props) => {
           setPolicies(tempPolicies);
           // end prep.
           console.log("tmpLabels", tmpLabels);
-        } else {
-          console.log("something is wrong in .then");
         }
       })
       .catch(async (e) => {
