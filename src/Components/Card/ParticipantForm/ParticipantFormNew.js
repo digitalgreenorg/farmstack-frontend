@@ -457,7 +457,7 @@ const ParticipantFormNew = (props) => {
               <TextField
                 id="add-participant-mail-id"
                 className={LocalStyle.textField}
-                label="Mail Id "
+                label="email Id "
                 type="email"
                 fullWidth
                 required

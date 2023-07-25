@@ -107,7 +107,8 @@
       "src/Components/Support_New/Support.jsx",
       "src/Views/GuestUser/GuestUserHomeNew.js",
       "src/Components/Support_New/SupportView.jsx",
-      "src/Components/Support_New/SupportForm.jsx"
+      "src/Components/Support_New/SupportForm.jsx",
+      "src/Components/Card/ParticipantForm/ParticipantFormNew.js"
     ]
   }
 }
