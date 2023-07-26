@@ -75,7 +75,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll src/tests/participants_tests/ParticipantDetails.test.jsx"
+    "coverage": "react-scripts test --coverage --watchAll"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -106,7 +106,6 @@
       "src/Components/Standardization/StandardizationInOnbording.js",
       "src/Components/Support_New/Support.jsx",
       "src/Components/CoStewardAndParticipants/CostewardAndParticipants.js",
-      "src/Components/Support_New/Support.jsx",
       "src/Views/GuestUser/GuestUserHomeNew.js",
       "src/Components/Support_New/SupportView.jsx",
       "src/Components/Support_New/SupportForm.jsx",
