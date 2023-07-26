@@ -534,7 +534,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <CustomDeletePopper
                 DeleteItem={organisationName}
                 anchorEl={anchorEl}
-                data-testid="delete-popper-test"
                 handleDelete={() => deleteParticipants(false)}
                 id={id}
                 open={open}

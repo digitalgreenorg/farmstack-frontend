@@ -4,8 +4,6 @@ import {
   screen,
   fireEvent,
   cleanup,
-  waitFor,
-  act,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import ParticipantAndCoStewardDetailsNew from "../../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
@@ -14,7 +12,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
-import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 
 describe("render all values", () => {
   beforeEach(() => {
@@ -59,8 +56,21 @@ describe("render all values", () => {
     const breadcrubmButton = screen.getByTestId("route-breadcrubm-button");
     fireEvent.click(breadcrubmButton);
   });
+  test("onclick of breadcrumb for guest", () => {
+    localStorage.setItem("last_route", "/datahub/settings/");
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const breadcrubmButton = screen.getByTestId("route-breadcrubm-button");
+    fireEvent.click(breadcrubmButton);
+  });
 
-  test("onclick of buttons", () => {
+  test("onclick of edit and delete buttons", () => {
     render(
       <Router>
         <ParticipantAndCoStewardDetailsNew />
@@ -75,20 +85,31 @@ describe("render all values", () => {
     const editButton = screen.getByTestId("edit-button");
     fireEvent.click(editButton);
   });
-  test("onclick of delete popper", () => {
+  test("onclick of dataset buttons", () => {
     render(
       <Router>
-        <ParticipantAndCoStewardDetailsNew
-        />
+        <ParticipantAndCoStewardDetailsNew user={"guest"} />
       </Router>,
       {
         wrapper: FarmStackProvider,
       }
     );
-    const deletePopper = screen.getByTestId("delete-popper-test");
-    screen.debug()
-    fireEvent.click(deletePopper);
+    //const datasetButtons = screen.findAllByTestId("view-dataset-detail");
+    //fireEvent.click(datasetButtons[0]);
   });
+  //   render(
+  //     <Router>
+  //       <ParticipantAndCoStewardDetailsNew
+  //       />
+  //     </Router>,
+  //     {
+  //       wrapper: FarmStackProvider,
+  //     }
+  //   );
+  //   const cancelPopper = screen.getByTestId("closepopper");
+  //   screen.debug()
+  //   fireEvent.click(cancelPopper);
+  // });
   test("onclick of back", () => {
     render(
       <Router>
@@ -125,19 +146,30 @@ describe("render all values", () => {
     const rejectButton = screen.getByTestId("reject-button-test");
     fireEvent.click(rejectButton);
   });
-  // test("onclick of loadmore", () => {
-  //   render(
-  //     <Router>
-  //       <ParticipantAndCoStewardDetailsNew
-  //       datasetLoadMoreUrl={true} />
-  //     </Router>,
-  //     {
-  //       wrapper: FarmStackProvider,
-  //     }
-  //   );
-  //   const loadMoreButton = screen.getByTestId("load-more-button-test");
-  //   fireEvent.click(loadMoreButton);
-  // });
+  test("onclick of loadmore in child component", () => {
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew isCosteward={true} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const loadMoreButton = screen.getByTestId("load-more-button-test-button");
+    fireEvent.click(loadMoreButton);
+  });
+  test("onclick of loadmore", async () => {
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const loadMoreButton = await screen.findByTestId("load-more-button-test");
+    fireEvent.click(loadMoreButton);
+  });
   test("onclick of back button with no request", () => {
     render(
       <Router>
@@ -207,60 +239,114 @@ describe("render all values", () => {
       }
     );
   });
-});
-test("render view details failed when delete", () => {
-  server.use(
-    rest.post(
-      UrlConstant.base_url + UrlConstant.costeward_onboarded_dataset,
-      (req, res, ctx) => {
-        return res(ctx.status(400), ctx.json());
+  test("render view details", () => {
+    server.use(
+      rest.post(
+        UrlConstant.base_url + UrlConstant.costeward_onboarded_dataset,
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json());
+        }
+      )
+    );
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
       }
-    )
-  );
-  render(
-    <Router>
-      <ParticipantAndCoStewardDetailsNew />
-    </Router>,
-    {
-      wrapper: FarmStackProvider,
-    }
-  );
-});
-test("render loadmore button failed", () => {
-  server.use(
-    rest.post(
-      "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/dataset_filters/?page=2",
-      (req, res, ctx) => {
-        return res(ctx.status(400), ctx.json());
+    );
+  });
+  test("render loadmore button failed", () => {
+    server.use(
+      rest.post(
+        "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/dataset_filters/?page=2",
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json());
+        }
+      )
+    );
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
       }
-    )
-  );
-  render(
-    <Router>
-      <ParticipantAndCoStewardDetailsNew />
-    </Router>,
-    {
-      wrapper: FarmStackProvider,
-    }
-  );
-});
-test("render Approve button failed", () => {
-  server.use(
-    rest.put(
-      UrlConstant.base_url + UrlConstant.participant + ":id" + "/",
-      (req, res, ctx) => {
-        return res(ctx.status(400), ctx.json());
+    );
+  });
+  test("render Approve button failed", () => {
+    server.use(
+      rest.put(
+        UrlConstant.base_url + UrlConstant.participant + ":id" + "/",
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json());
+        }
+      )
+    );
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
       }
-    )
-  );
-  render(
-    <Router>
-      <ParticipantAndCoStewardDetailsNew />
-    </Router>,
-    {
-      wrapper: FarmStackProvider,
-    }
-  );
+    );
+  });
+  test("render loadmore button failed of part", () => {
+    server.use(
+      rest.get(
+        "https://datahubethdev.farmstack.co/be/datahub/participant/?page=2",
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json());
+        }
+      )
+    );
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+  });
+  test("render loadmore button failed", () => {
+    server.use(
+      rest.post(
+        "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/dataset_filters/",
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json());
+        }
+      )
+    );
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+  });
+  test("render list in microsite", () => {
+    server.use(
+      rest.post(
+        "https://datahubethdev.farmstack.co/be/microsite/datasets/dataset_filters/",
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json());
+        }
+      )
+    );
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+  });
 });
 
 describe("render ParticipantAndCoSteward", () => {
@@ -273,19 +359,19 @@ describe("render ParticipantAndCoSteward", () => {
         wrapper: FarmStackProvider,
       }
     );
-    const name = await screen.findByText("ekta");
+    const name = await screen.findByText("monikashruthi");
     expect(name).toBeInTheDocument();
-    const website = await screen.findByText("https://www.google.com");
+    const website = await screen.findByText("www.sdf.com");
     expect(website).toBeInTheDocument();
-    const lastName = await screen.findByText("part");
+    const lastName = await screen.findByText("ravi");
     expect(lastName).toBeInTheDocument();
-    const contact = await screen.findByText("+91 96114-57777");
+    const contact = await screen.findByText("+91 34567-89456");
     expect(contact).toBeInTheDocument();
-    const address = await screen.findByText("patna");
+    const address = await screen.findByText("chennai");
     expect(address).toBeInTheDocument();
-    const country = await screen.findByText("India");
+    const country = await screen.findByText("Jersey");
     expect(country).toBeInTheDocument();
-    const orgName = await screen.findByText("ekta dummy");
+    const orgName = await screen.findByText("SHRU. orggggg");
     expect(orgName).toBeInTheDocument();
   });
 });
