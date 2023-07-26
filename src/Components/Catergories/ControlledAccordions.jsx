@@ -47,6 +47,7 @@ export default function ControlledAccordions(props) {
   return (
     <div className="accordions_in_onboarding" style={{ margin: "10px 0px" }}>
       <Accordion
+        data-testid="accordion-heading"
         className={global_styles.break_word}
         expanded={expanded === index}
         onChange={handleChange(index)}
@@ -96,6 +97,7 @@ export default function ControlledAccordions(props) {
               fontSize="small"
               onClick={(e) => handleEditHeading(true, e, index)}
               id={`${index}edit-icon`}
+              data-testid="edit-button-accordion-closed"
             />
           ) : (
             ""
@@ -122,6 +124,7 @@ export default function ControlledAccordions(props) {
               <DeleteOutlineIcon
                 onClick={handleDeletePopper}
                 id={`${index}delete-icon`}
+                data-testid="delete-icon-accordion-closed"
               />
             </>
           )}
