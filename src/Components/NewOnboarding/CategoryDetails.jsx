@@ -66,28 +66,28 @@ const CategoryDetails = (props) => {
   //   setOpen(false);
   // };
 
-  const handleUploadCategory = (file) => {
-    setUploadedCategory(file);
-    setKey(key + 1);
-  };
-  const handleDeleteCategory = (index) => {
-    setUploadedCategory(null);
-    setPreview(null);
-    setKey(key + 1);
-  };
+  // const handleUploadCategory = (file) => {
+  //   setUploadedCategory(file);
+  //   setKey(key + 1);
+  // };
+  // const handleDeleteCategory = (index) => {
+  //   setUploadedCategory(null);
+  //   setPreview(null);
+  //   setKey(key + 1);
+  // };
   // create a preview as a side effect, whenever selected file is changed
-  useEffect(() => {
-    console.log(uploadedCategory);
-    if (!uploadedCategory) {
-      setPreview(undefined);
-      return;
-    }
-    const objectUrl = URL.createObjectURL(uploadedCategory);
-    setPreview(objectUrl);
+  // useEffect(() => {
+  //   console.log(uploadedCategory);
+  //   if (!uploadedCategory) {
+  //     setPreview(undefined);
+  //     return;
+  //   }
+  //   const objectUrl = URL.createObjectURL(uploadedCategory);
+  //   setPreview(objectUrl);
 
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [uploadedCategory]);
+  //   // free memory when ever this component is unmounted
+  //   return () => URL.revokeObjectURL(objectUrl);
+  // }, [uploadedCategory]);
 
   // const [subCategoryName, setSubCategoryName] = useState("")
   const createCategory = () => {
@@ -203,11 +203,8 @@ const CategoryDetails = (props) => {
         console.log(response);
         if (!props.isCategorySetting) {
           setActiveStep((prev) => prev + 1);
-        } else {
-          if (!props.isCategorySetting) {
-            callToast("Request successfull", "success", true);
-          }
         }
+
         if (props.isCategorySetting && response.status === 201) {
           callToast("Category settings updated successfully", "success", true);
         }
@@ -315,37 +312,21 @@ const CategoryDetails = (props) => {
       setEnableSave(true);
     };
 
-    const handleEditSubcategory = (e, ind) => {
-      setEnableSave(true);
-      setEditedValue(e.target.value);
-      console.log(editedValue);
-      // console.log(e.target.value);
-      // let arr = [...allCategories];
-      // console.log(data["sub_categories"][ind]);
-      // data["sub_categories"][ind] = e.target.value;
-      // arr[index] = data;
-      // setAllCategories([...arr]);
-    };
+    // const handleEditSubcategory = (e, ind) => {
+    //   setEnableSave(true);
+    //   setEditedValue(e.target.value);
+    //   console.log(editedValue);
+    //   // console.log(e.target.value);
+    //   // let arr = [...allCategories];
+    //   // console.log(data["sub_categories"][ind]);
+    //   // data["sub_categories"][ind] = e.target.value;
+    //   // arr[index] = data;
+    //   // setAllCategories([...arr]);
+    // };
 
-    const editInputMode = (value) => {
-      setEditedValue(value);
-    };
-
-    const saveChange = (ind) => {
-      let arr = [...allCategories];
-      data["sub_categories"][ind] = editedValue;
-      arr[index] = { ...data };
-      setAllCategories([...arr]);
-    };
     useEffect(() => {
       // console.log("calling");
     }, []);
-    const popoverContent = () => (
-      <div style={{ margin: 0, padding: 0 }}>
-        <div>Content of the Popover</div>
-        <div>More content...</div>
-      </div>
-    );
 
     return (
       <span>
@@ -399,7 +380,7 @@ const CategoryDetails = (props) => {
                     id={`${index}each_subcategory`}
                     name="each_subcategory"
                     value={each_sub_category}
-                    onChange={(e) => handleEditSubcategory(e, index)}
+                    // onChange={(e) => handleEditSubcategory(e, index)}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
@@ -565,7 +546,7 @@ const CategoryDetails = (props) => {
           </Col>
         </Row>
       )}
-      {!props.isCategorySetting ? (
+      {/* {!props.isCategorySetting ? (
         <div className={styles.all_inputs} style={{ display: "none" }}>
           <Row>
             {false && (
@@ -643,7 +624,7 @@ const CategoryDetails = (props) => {
         </div>
       ) : (
         ""
-      )}
+      )} */}
       <hr />
       {!props.isCategorySetting ? (
         <>
@@ -695,6 +676,7 @@ const CategoryDetails = (props) => {
           <div className={styles.button_grp}>
             <Button
               id="add-category-button"
+              data-testid="add-button-not-in-category"
               disabled={categoryName ? false : true}
               onClick={() => createCategory()}
               className={global_style.primary_button + " " + styles.next_button}
@@ -750,6 +732,7 @@ const CategoryDetails = (props) => {
               <div className={styles.button_grp}>
                 <Button
                   id="add-category-button"
+                  data-testid="add-button-in-category"
                   disabled={categoryName ? false : true}
                   onClick={() => createCategory()}
                   className={
@@ -795,6 +778,7 @@ const CategoryDetails = (props) => {
                       onClick={(e) => e.stopPropagation()}
                       inputProps={{ maxLength: 50 }}
                       id={`edit-${index}-head-accordian-name`}
+                      data-testid="heading-in-edit"
                       // sx={{
                       //   "&.MuiTextField-root": {
                       //     display: "flex",
