@@ -185,4 +185,26 @@ export const onboardingHandler = [
       })
     );
   }),
+  rest.get(
+    `${getBaseUrl()}${UrlConstant.add_category_edit_category}`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          category1: ["subcat1", "subcat2"],
+        })
+      );
+    }
+  ),
+  rest.post(
+    `${getBaseUrl()}${UrlConstant.add_category_edit_category}`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(201),
+        ctx.json({
+          category1: ["subcat1", "subcat2"],
+        })
+      );
+    }
+  ),
 ];
