@@ -54,6 +54,7 @@ const ModalBody = (props) => {
     connectorData,
     saveConfigData,
     datasetForPrePupulatingRename,
+    setDatasetForPrePupulatingRename,
   } = props;
   const [allColumns, setAllColumns] = useState([]);
 
@@ -116,8 +117,14 @@ const ModalBody = (props) => {
       }
       obj[key].selectedForExport = true;
     }
+    console.log(
+      "🚀 ~ file: ModalBody.jsx:118 ~ resetAllNameToDefault ~ obj:",
+      obj
+    );
+
     setAllColumns({ ...obj });
     setNameRenameConfigData({ ...obj });
+    setDatasetForPrePupulatingRename({});
   };
 
   const prePopulateRenameData = () => {};
@@ -125,7 +132,9 @@ const ModalBody = (props) => {
   useEffect(() => {
     console.log(
       "🚀 ~ file: ModalBody.jsx:122 ~ useEffect ~ datasetForPrePupulatingRename:",
-      datasetForPrePupulatingRename
+      datasetForPrePupulatingRename,
+      allColumns,
+      "allColumns"
     );
     prepareRows();
   }, []);

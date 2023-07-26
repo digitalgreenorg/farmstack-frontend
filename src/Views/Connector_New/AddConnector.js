@@ -1172,6 +1172,9 @@ const AddConnector = (props) => {
                 downloadDocument={downloadDocument}
                 finalDatasetAfterIntegration={finalDatasetAfterIntegration}
                 saveConfigData={saveConfigData}
+                setDatasetForPrePupulatingRename={
+                  setDatasetForPrePupulatingRename
+                }
               />
             </Box>
           )}

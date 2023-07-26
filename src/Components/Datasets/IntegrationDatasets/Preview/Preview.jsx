@@ -52,6 +52,7 @@ const Preview = (props) => {
     setNameRenameConfigData,
     saveConfigData,
     datasetForPrePupulatingRename,
+    setDatasetForPrePupulatingRename,
   } = props;
   const history = useHistory();
   const theme = useTheme();
@@ -287,6 +288,9 @@ const Preview = (props) => {
                   connectorData={connectorData}
                   saveConfigData={saveConfigData}
                   datasetForPrePupulatingRename={datasetForPrePupulatingRename}
+                  setDatasetForPrePupulatingRename={
+                    setDatasetForPrePupulatingRename
+                  }
                 />
               }
             />
