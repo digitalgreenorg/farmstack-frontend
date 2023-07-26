@@ -242,16 +242,6 @@ export const participantHandler = [
       );
     }
   ),
-  rest.delete(
-    UrlConstant.base_url + UrlConstant.participant + ":id" + "/",
-    (req, res, ctx) => {
-      return res(
-        ctx.status(204),
-        ctx.json(
-        )
-      );
-    }
-  ),
   rest.post(
     "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/dataset_filters/?page=2",
     (req, res, ctx) => {
@@ -346,6 +336,57 @@ export const participantHandler = [
                 }
             ]
         }
+        )
+      );
+    }
+  ),
+  rest.put(
+    UrlConstant.base_url + UrlConstant.participant + ":id" + "/",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(201),
+        ctx.json({
+          "user": {
+              "id": "f8c58cf7-0523-4cc3-ad34-ae999b4de99b",
+              "email": "test@gmail.com",
+              "first_name": "test",
+              "last_name": "testuser",
+              "phone_number": "+91 93449-57735",
+              "role": 3,
+              "subscription": null,
+              "profile_picture": null,
+              "on_boarded": false,
+              "approval_status": true,
+              "on_boarded_by": null
+          },
+          "organization": {
+              "id": "bb92b790-e810-462d-b5db-c40139ffa8fe",
+              "org_email": "dummy@gmail.com",
+              "website": "https://www.digitalgreen.org",
+              "name": "Dummy org",
+              "address": {
+                  "address": "Chennai",
+                  "country": "Anguilla",
+                  "pincode": "234567456"
+              },
+              "phone_number": "+91 93449-57735",
+              "logo": null,
+              "hero_image": null,
+              "org_description": null,
+              "status": true
+          }
+      }
+
+        )
+      );
+    }
+  ),
+  rest.delete(
+    UrlConstant.base_url + UrlConstant.participant + ":id" + "/",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(204),
+        ctx.json(
         )
       );
     }

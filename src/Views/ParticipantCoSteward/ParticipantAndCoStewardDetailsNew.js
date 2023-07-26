@@ -832,6 +832,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
           <Button
+            data-testid="load-more-button-test"
             id={"details-page-load-more-dataset-button"}
             variant="outlined"
             className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}

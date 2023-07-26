@@ -14,6 +14,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
+import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 
 describe("render all values", () => {
   beforeEach(() => {
@@ -46,7 +47,7 @@ describe("render all values", () => {
 
     expect(screen.getByText("Participant details")).toBeInTheDocument();
   });
-  test("onclick of breadcrumb button", () => {
+  test("onclick of breadcrumb", () => {
     render(
       <Router>
         <ParticipantAndCoStewardDetailsNew />
@@ -58,49 +59,7 @@ describe("render all values", () => {
     const breadcrubmButton = screen.getByTestId("route-breadcrubm-button");
     fireEvent.click(breadcrubmButton);
   });
-  test("onclick of view dataset button", () => {
-    // const data = [
-    //   {
-    //     created_at: "2023-06-20T04:48:23.719871Z",
-    //     category: {
-    //       "Periculture": [
-    //           "asdf"
-    //       ],
-    //       "sericulture": [
-    //           "add"
-    //       ],
-    //       "Horticulture": [
-    //           "GDHFDHGDFHGF"
-    //       ],
-    //       "subsistence and commercial": [
-    //           "dddd"
-    //       ]
-    //   },
-    //   name: "paddy dataset",
-    //   name: "SHRU. orggggg",
-    //   category:"",
-    //   city:"",
-    //   updated_at:""
 
-    //   },
-    //   {
-    //     id: 2,
-    //     name: "sample org",
-    //     dataset_count: 4,
-    //     number_of_participants: 20,
-    //   },
-    // ];
-    render(
-      <Router>
-        <ParticipantAndCoStewardDetailsNew />
-      </Router>,
-      {
-        wrapper: FarmStackProvider,
-      }
-    );
-    const breadcrubmButton = screen.getByTestId("view-dataset-detail");
-    fireEvent.click(breadcrubmButton);
-  });
   test("onclick of buttons", () => {
     render(
       <Router>
@@ -113,13 +72,24 @@ describe("render all values", () => {
     const deleteButton = screen.getByTestId("delete-button");
     fireEvent.click(deleteButton);
 
-    // const deletePopper = screen.getByTestId("delete-popper-test");
-    // fireEvent.click(deletePopper)
-
     const editButton = screen.getByTestId("edit-button");
     fireEvent.click(editButton);
   });
-  test("onclick of reject, approve, back", () => {
+  test("onclick of delete popper", () => {
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew
+        />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const deletePopper = screen.getByTestId("delete-popper-test");
+    screen.debug()
+    fireEvent.click(deletePopper);
+  });
+  test("onclick of back", () => {
     render(
       <Router>
         <ParticipantAndCoStewardDetailsNew isParticipantRequest={true} />
@@ -130,14 +100,44 @@ describe("render all values", () => {
     );
     const backButton = screen.getByTestId("back-button-test");
     fireEvent.click(backButton);
-  //   const approveButton = screen.getByTestId("approve-button-test");
-  //   fireEvent.click(approveButton);
+  });
+  test("onclick of approveButton", () => {
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew isParticipantRequest={true} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const approveButton = screen.getByTestId("approve-button-test");
+    fireEvent.click(approveButton);
+  });
+  test("onclick of rejectButton", () => {
+    render(
+      <Router>
+        <ParticipantAndCoStewardDetailsNew isParticipantRequest={true} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const rejectButton = screen.getByTestId("reject-button-test");
+    fireEvent.click(rejectButton);
+  });
+  // test("onclick of loadmore", () => {
+  //   render(
+  //     <Router>
+  //       <ParticipantAndCoStewardDetailsNew
+  //       datasetLoadMoreUrl={true} />
+  //     </Router>,
+  //     {
+  //       wrapper: FarmStackProvider,
+  //     }
+  //   );
+  //   const loadMoreButton = screen.getByTestId("load-more-button-test");
+  //   fireEvent.click(loadMoreButton);
   // });
-
-  //   const rejectButton = screen.getByTestId("reject-button-test");
-  //   fireEvent.click(rejectButton);
-    })
-
   test("onclick of back button with no request", () => {
     render(
       <Router>
@@ -171,7 +171,10 @@ describe("render all values", () => {
   test("render view details failed when onboarded_by", () => {
     server.use(
       rest.get(
-        UrlConstant.base_url + UrlConstant.participant + "?on_boarded_by=" + ":id",
+        UrlConstant.base_url +
+          UrlConstant.participant +
+          "?on_boarded_by=" +
+          ":id",
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
@@ -241,6 +244,24 @@ test("render loadmore button failed", () => {
     }
   );
 });
+test("render Approve button failed", () => {
+  server.use(
+    rest.put(
+      UrlConstant.base_url + UrlConstant.participant + ":id" + "/",
+      (req, res, ctx) => {
+        return res(ctx.status(400), ctx.json());
+      }
+    )
+  );
+  render(
+    <Router>
+      <ParticipantAndCoStewardDetailsNew />
+    </Router>,
+    {
+      wrapper: FarmStackProvider,
+    }
+  );
+});
 
 describe("render ParticipantAndCoSteward", () => {
   test("render all values", async () => {
@@ -253,18 +274,18 @@ describe("render ParticipantAndCoSteward", () => {
       }
     );
     const name = await screen.findByText("ekta");
-     expect(name).toBeInTheDocument()
+    expect(name).toBeInTheDocument();
     const website = await screen.findByText("https://www.google.com");
-    expect(website).toBeInTheDocument()
+    expect(website).toBeInTheDocument();
     const lastName = await screen.findByText("part");
-    expect(lastName).toBeInTheDocument()
+    expect(lastName).toBeInTheDocument();
     const contact = await screen.findByText("+91 96114-57777");
-    expect(contact).toBeInTheDocument()
+    expect(contact).toBeInTheDocument();
     const address = await screen.findByText("patna");
-    expect(address).toBeInTheDocument()
-    const country = await screen.findByText("India") 
-    expect(country).toBeInTheDocument()
-    const orgName = await screen.findByText("ekta dummy")
-    expect(orgName).toBeInTheDocument()
+    expect(address).toBeInTheDocument();
+    const country = await screen.findByText("India");
+    expect(country).toBeInTheDocument();
+    const orgName = await screen.findByText("ekta dummy");
+    expect(orgName).toBeInTheDocument();
   });
 });
