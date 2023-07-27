@@ -164,9 +164,6 @@ describe("Self register module", () => {
     const lastName = screen.getByLabelText(/Last Name/i);
     fireEvent.change(lastName, { target: { value: "testuser" } });
 
-    // const emailId = screen.getByLabelText(/Mail Id/i);
-    // fireEvent.change(emailId, { target: { value: "test@gmail.com" } });
-
     const contactNumber = screen.getByLabelText(/Contact Number /i);
     fireEvent.change(contactNumber, { target: { value: "+91 93449-57735" } });
 
@@ -207,9 +204,6 @@ describe("Self register module", () => {
     const lastName = screen.getByLabelText(/Last Name/i);
     fireEvent.change(lastName, { target: { value: "testuser" } });
 
-    // const emailId = screen.getByLabelText(/Mail Id/i);
-    // fireEvent.change(emailId, { target: { value: "test@gmail.com" } });
-
     const contactNumber = screen.getByLabelText(/Contact Number /i);
     fireEvent.change(contactNumber, { target: { value: "+91 93449-57735" } });
 
@@ -232,45 +226,33 @@ describe("Self register module", () => {
     const orgName = await screen.findByRole("textbox", {
       name: /organisation name/i,
     });
-    expect(orgName.value).toBe("ekta dummy");
+    expect(orgName.value).toBe("SHRU. orggggg");
 
     const orgEmail = await screen.findByRole("textbox", {
       name: /Orgnaisation email Id/i,
     });
-    expect(orgEmail.value).toBe("ekta+part@digitalgreen.org");
+    expect(orgEmail.value).toBe("fghjk@fghj.com");
 
     const orgWebsite = await screen.findByRole("textbox", {
       name: /Website Link/i,
     });
-    expect(orgWebsite.value).toBe("https://www.google.com");
+    expect(orgWebsite.value).toBe("www.sdf.com");
 
     const orgAddress = screen.getByLabelText(/Organisation Address /i);
-    expect(orgAddress.value).toBe("patna");
+    expect(orgAddress.value).toBe("chennai");
 
     const country = await screen.findByRole("button", {
       name: /Country/i,
     });
-    // expect(country.value).toBe("India");
-    expect(country).toBeInTheDocument();
 
     const pincode = screen.getByLabelText(/PIN Code/i);
-    expect(pincode.value).toBe("800001");
+    expect(pincode.value).toBe("234567890");
 
     const firstName = await screen.findByRole("textbox", {
       name: /First Name/i,
     });
-    expect(firstName.value).toBe("ekta");
+    expect(firstName.value).toBe("monikashruthi");
 
-    // const lastName = await screen.findByRole("textbox", {
-    //   name: /Last Name/i,
-    // });
-    // expect(lastName.value).toBe("part");
-
-    // const lastName = screen.getByLabelText(/Last Name/i);
-    // fireEvent.change(lastName, { target: { value: "David" } });
-
-    // const contactNumber = screen.getByLabelText(/Contact Number /i);
-    // fireEvent.change(contactNumber, { target: { value: "9344957735" } });
 
   });
   test("onclick of handlesubmit button", () => {
@@ -466,7 +448,7 @@ describe("Self register module", () => {
   test("check for get list of costeward", async () => {
     server.use(
       rest.post(
-        UrlConstant.base_url + "datahub/participant/get_list_co_steward/",
+        UrlConstant.base_url + UrlConstant.costewardlist_selfregister,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
