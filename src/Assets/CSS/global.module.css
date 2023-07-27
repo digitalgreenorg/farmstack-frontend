@@ -16,7 +16,7 @@
   background-color: #00ab55 !important;
 }
 
-/* .primary_button {
+.primary_buttonSupport {
   font-weight: 700 !important;
   font-size: 15px !important;
   line-height: 26px !important;
@@ -26,7 +26,14 @@
   align-items: center !important;
   padding: 11px 38px !important;
   color: #ffffff !important;
-} */
+  text-transform: none !important;
+}
+.primary_buttonSupport:disabled {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  color: rgba(0, 0, 0, 0.26) !important;
+}
 .outlined_button {
   font-weight: 700 !important;
   font-size: 15px !important;
@@ -177,6 +184,7 @@
   cursor: pointer !important;
   margin: 0px !important;
   color: #ffffff !important;
+  border-radius: 8px !important;
 }
 
 .primary_button:active {
@@ -208,9 +216,11 @@
   margin: 0px !important;
 }
 
-.secondary_button:active {}
+.secondary_button:active {
+}
 
-.secondary_button:hover {}
+.secondary_button:hover {
+}
 
 .secondary_button_error {
   font-family: Montserrat !important;
@@ -253,4 +263,15 @@
   font-style: italic !important;
   color: #565c63 !important;
   text-align: left;
+}
+.break_word {
+  word-break: break-all;
+}
+.ellipses {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.homeButtonWidth {
+  width: 368px !important
 }

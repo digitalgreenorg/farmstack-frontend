@@ -1,7 +1,4 @@
 @import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-/* @import '../../../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'; */
-/* @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap'); */
-/* @import url("https://fonts.googleapis.com/css2?family=Open+Sans"); */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap");
@@ -15,10 +12,8 @@ body {
 }
 
 .center_keeping_conatiner {
-  /* border: 1px solid red; */
   width: 100vw;
   height: 100vh;
-  /* margin-left: 2 */
   margin: 0 auto;
 }
 
@@ -74,7 +69,6 @@ button.editbtn {
   font-weight: 700;
   font-size: 14px;
   line-height: 19px;
-  /* identical to box height */
   color: #585d60;
 }
 
@@ -106,10 +100,6 @@ button.submitbtn:hover {
   font-weight: 700;
   font-size: 20px;
   line-height: 138.69%;
-  /* identical to box height, or 28px */
-
-  /* headings */
-
   color: #3d4a52;
 }
 
@@ -125,10 +115,6 @@ button.submitbtn:hover {
   font-weight: 600;
   font-size: 16px;
   line-height: 138.69%;
-  /* or 22px */
-
-  /* headings */
-
   color: #3d4a52;
 }
 
@@ -168,10 +154,6 @@ button.submitbtn:hover {
   font-weight: 400;
   font-size: 14px;
   line-height: 138.69%;
-  /* or 19px */
-
-  /* headings */
-
   color: #3d4a52;
 }
 
@@ -201,10 +183,6 @@ button.submitbtn:hover {
 
 .css-1gsv261 {
   border-bottom: 1px solid #c09507 !important;
-}
-
-.css-1aquho2-MuiTabs-indicator {
-  background-color: #c09507 !important;
 }
 
 .boldimage {
@@ -252,11 +230,6 @@ button.submitbtn:hover {
   border-top: 1px solid #d8af28 !important;
 }
 
-.settingsTabs .MuiTabs-indicator {
-  background: #c09507 !important;
-  border-bottom: none !important;
-}
-
 .particaipancard .MuiCardHeader-title {
   padding-bottom: 18px;
   font-family: "Montserrat";
@@ -273,28 +246,8 @@ button.submitbtn:hover {
   font-weight: 400;
   font-size: 14px;
   line-height: 19px;
-  /* identical to box height */
-
   color: #000000;
-
   opacity: 0.5;
-}
-
-/* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
-  background: #FFFFFF;
-  border: 1px solid #D8AF28 !important;
-  text-transform: capitalize !important;
-  font-weight: 400 !important;
-  width: 200px;
-} */
-:not(.Mui-selected).MuiTab-root {
-  background: #ffffff;
-  text-transform: none !important;
-  font-weight: 400 !important;
-  width: 225px;
-  border-left: 1px solid #d8af28 !important;
-  border-right: 1px solid #d8af28 !important;
-  border-top: 1px solid #d8af28 !important;
 }
 
 input::-webkit-outer-spin-button,
@@ -303,18 +256,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* .MuiDataGrid-columnHeaders {
-
-  background-color: #FFDB64 !important;
-} */
-
-.MuiTabs-root .MuiButtonBase-root {
-  /* width: 162.5px !important; */
-
-  /* border: 1px solid red !important; */
-}
-
-/* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -406,9 +347,6 @@ button.submitbtn:hover {
   background-color: #ab8405 !important;
 }
 
-/* button.submitbtnupdt:hover{
-  background-color: #ab8405 !important; */
-
 button.cancelbtnteam {
   text-transform: none !important;
   border-radius: 2px;
@@ -423,38 +361,12 @@ button.cancelbtnteam {
   box-shadow: none !important;
 }
 
-/* button.disbalesubmitbtupdt {
-  text-transform: capitalize;
-  border-radius: 2px;
-  box-shadow: none !important;
-  background: #ffffff !important;
-  width: 420px !important;
-  height: 42px;
-  margin-top: 200px;
-  border: 1px solid #c09507 !important;
-  color: #585d60 !important;
-  opacity: 0.5;
-  font-weight: 700;
-}
-button.submitbtnupdt {
-  width: 420px !important;
-  text-transform: capitalize;
-  color: #ffffff;
-  height: 42px;
-  margin-top: 200px;
-  font-weight: 700;
-  background: #c09507;
-  border-radius: 2px;
-  border: 2px solid #c09507 !important;
-  box-shadow: none !important;
-} */
 .backlabel {
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 138.69%;
-  /* or 19px */
   color: #3491ee;
 }
 
@@ -475,8 +387,6 @@ button.submitbtnupdt {
   font-weight: 400;
   font-size: 14px;
   line-height: 19px;
-
-  /* headings */
   color: #3d4a52 !important;
 }
 
@@ -492,12 +402,10 @@ button.submitbtnupdt {
   background: none !important;
 }
 
-/* common css for dashboard */
 .widht640andheight368pxandborderradius10andborder1pxsolidE4E4E4 {
   width: 640px;
   height: 368px;
   border-radius: 10px;
-  /* border: 1px solid #d21a1a; */
   border: 1px solid #e4e4e4;
 }
 
@@ -561,16 +469,11 @@ MuiLinearProgress-determinate {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 200px !important;
-  /* border: 1px solid red; */
 }
 
 .memberDataSetCardTooltipAndWidthAndOverflow {
   overflow: hidden;
   text-overflow: ellipsis;
-  /* min-width: 100px !important; */
-  /* max-width: 350px !important; */
-  /* border: 1px solid red; */
-  /* padding: 0; */
 }
 
 .text_overflow_ellipsis_overflow_hidden {
@@ -580,7 +483,6 @@ MuiLinearProgress-determinate {
 
 .width100px {
   width: 100px;
-  /* border: 1px solid red; */
 }
 
 .width150px {
@@ -589,12 +491,10 @@ MuiLinearProgress-determinate {
 
 .width173px {
   width: 173px;
-  /* border: 1px solid red; */
 }
 
 .width200px {
   width: 200px;
-  /* border: 1px solid red; */
 }
 
 .width250px {
@@ -607,33 +507,26 @@ MuiLinearProgress-determinate {
 
 .width270px {
   width: 270px;
-  /* border: 1px solid red; */
 }
 
 .width300px {
   width: 300px;
-  /* border: 1px solid red; */
 }
 
 .width300px_mt5px {
   width: 300px;
   margin-top: 5px;
-  /* border: 1px solid red; */
 }
 
 .width600px {
   width: 600px;
-  /* border: 1px solid blue; */
 }
 
 .width1000px {
   width: 1000px;
-  /* border: 1px solid red; */
 }
 
 .classForPtag {
-  /* border: 1px solid red; */
-  /* width: 1000px; */
   margin: 0px auto;
   word-wrap: break-word;
 }
@@ -651,13 +544,11 @@ MuiLinearProgress-determinate {
   margin-left: 15%;
   list-style: none;
   width: 72px !important;
-  /* border: 1px solid red; */
 }
 
 .carousel-control-next,
 .carousel-control-prev {
   z-index: 200 !important;
-  /* border: 1px solid red; */
 }
 
 .carousel-control-next {
@@ -691,21 +582,18 @@ MuiLinearProgress-determinate {
 }
 
 .cardheaderTitlespecifier .css-et1ao3-MuiTypography-root {
-  /* border: 1px solid red; */
   width: 250px;
   text-overflow: ellipsis !important;
   overflow: hidden !important;
 }
 
 .cardheaderTitlespecifier .css-et1ao3-MuiTypography-root {
-  /* border: 1px solid green; */
   width: 250px;
   text-overflow: ellipsis !important;
   overflow: hidden !important;
 }
 
 .cardheaderTitlespecifier .css-83ijpv-MuiTypography-root {
-  /* border: 1px solid green; */
   width: 250px;
   text-overflow: ellipsis !important;
   overflow: hidden !important;
@@ -716,7 +604,6 @@ MuiLinearProgress-determinate {
 }
 
 .successIconInsideCardheader {
-  /* border: 1px solid red; */
   width: 22px;
   height: 21px;
 }
@@ -738,40 +625,24 @@ MuiLinearProgress-determinate {
 
 .minHeightWithoutFooter {
   min-height: 500px;
-  /* border: 1px solid green; */
 }
-
-/* .minHeight300px{
-  min-height:255px;
-  border: 1px solid red;
-  max-height: 255px;
-} */
 
 .minHeight232px {
   min-height: 232px;
-  /* border: 1px solid red; */
-  /* max-height: 232px; */
 }
 
 .minHeight501pxsettingpagemaindiv {
   min-height: 501px;
-  /* border: 1px solid red; */
-  /* max-height: 509px; */
 }
 
 .minHeight67vhParticipantPage {
   min-height: 67.5vh;
   margin-top: 100px;
-
-  /* border: 1px solid red; */
-  /* max-height: 100vh; */
 }
 
 .minHeight67vhDatahubPage {
   margin-top: 100px;
   min-height: 67.5vh;
-  /* border: 1px solid red; */
-  /* max-height: 100vh; */
 }
 
 .hover {
@@ -848,11 +719,6 @@ button.disbalesubmitbtndept {
   font-weight: 700;
 }
 
-/* :not(.Mui-selected).MuiTab-root{
-  text-transform: none !important;
-
-} */
-
 .recharts-tooltip-wrapper {
   border: none !important;
 }
@@ -870,32 +736,12 @@ button.disbalesubmitbtndept {
 }
 
 .searchBarForDataset {
-  /* border-left: 1px solid #d8af28 !important; */
-  /* border-right: 1px solid #d8af28 !important; */
-  /* border-top: 1px solid #d8af28 !important; */
-  /* border: 1px solid red; */
   display: flex;
   width: 100%;
   padding: 10px 10px !important;
   justify-content: right;
   transition: width 2s;
 }
-
-/* .searchBarForDataset #filled-basic{ */
-/* width: 100% !important; */
-/* border: 1px solid red; */
-/* transition: width 2s; */
-/* } */
-/* .searchBarForDataset #filled-basic:focus{ */
-/* width: 800px !important; */
-/* border: 1px solid green; */
-/* transition: width 3s; */
-/* } */
-/* .searchBarForDataset #filled-basic:focus .searchBarForDataset{ */
-/* width: 100% !important; */
-/* border: 1px solid green; */
-/* transition: width 3s; */
-/* } */
 
 #categories-main-container .Mui-selected {
   color: black !important;
@@ -905,10 +751,6 @@ button.disbalesubmitbtndept {
 
 #categories-main-container .MuiTreeItem-label {
   width: auto !important;
-  /* width: 100% !important; */
-  /* border: 1px solid green; */
-  /* transition: width 3s; */
-  /* } */
 }
 
 .viewdatasetsecondheading {
@@ -917,7 +759,6 @@ button.disbalesubmitbtndept {
   font-weight: 600;
   font-size: 1px;
   line-height: 138.69%;
-  /* or 22px */
 
   /* headings */
 
@@ -989,34 +830,13 @@ button.disbalesubmitbtndept {
   border-radius: 8px !important;
 }
 
-.accordion_for_columns_under_integration .accordion_detail .MuiSvgIcon-root,
-.accordion_for_columns_under_integration .select_all_btn .MuiSvgIcon-root,
-.dataset_selector_in_integration .MuiSvgIcon-root {
-  /* color: #c09507 !important; */
-}
-
-/* .dataset_selector_in_integration .MuiDataGrid-columnHeaders {
-  background: #F8F8F8 !important;
-  border: 1px solid #E4E4E4 !important;
-  height: 42px !important;
-} */
-
 .react-multi-email input {
   min-width: 500px !important;
 }
 
-.carousel_in_guest_user_main_page .slick-current {
-  /* height: 300px !important;
-  width: 400px !important; */
-  /* height: 300px; */
-}
-
 .carousel_in_guest_user_main_page .slick-arrow {
-  height: 50px !important;
-  width: 50px !important;
-  background-color: rgba(228, 228, 228, 1) !important;
-  z-index: 10;
-  border-radius: 10px !important;
+  background-color: #00AB55 !important;
+  border-radius: 1px !important;
 }
 
 .back_btn_guest .MuiSvgIcon-root {
@@ -1059,22 +879,11 @@ html {
 
 .ant-affix .all_selectors_as_sticky {
   box-shadow: 0px 2px 5px rgb(0 0 0 / 50%) !important;
-  /* width: 100vw !important; */
   margin: 0px !important;
   padding: 5px 0px !important;
   border-bottom-left-radius: 10px !important;
   border-bottom-right-radius: 10px !important;
 }
-
-/* .dataset_selector_in_integration .MuiDataGrid-row:nth-child(even) {
-  background-color: #F9EABC !important;
-  margin: 5px 0px;
-} */
-
-/* .dataset_selector_in_integration .MuiDataGrid-row:nth-child(odd) {
-  background-color: #f7f4ebd3 !important;
-  padding: 5px 0px;
-} */
 
 .connectorCard {
   padding: 20px 40px 20px 5px;
@@ -1094,17 +903,12 @@ html {
 
 .connectorCard:hover {
   box-shadow: 0px 4px 20px rgba(216, 175, 40, 0.28);
-  /* border: 1px solid red; */
   border: 1px solid #ffdb64;
   cursor: pointer;
 }
 
 .dataset_selector_in_integration .backButtonMainDiv .MuiSvgIcon-root {
   color: #3491ee !important;
-}
-
-.dataset_selector_in_integration .Mui-focused {
-  /* border: 1px solid #ab8405 !important; */
 }
 
 .ant-segmented-group label {
@@ -1209,11 +1013,6 @@ textarea {
   width: 273px !important;
 }
 
-/* .input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
-  padding-right: 0px !important;
-  border-radius: 8px !important;
-} */
-
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1311,7 +1110,7 @@ textarea {
 }
 
 .breadcrumbItem:hover {
-  color: #00AB55 !important;
+  color: #00ab55 !important;
 }
 
 .MuiSnackbar-root {
@@ -1326,10 +1125,6 @@ textarea {
   padding: 0px 10px !important;
 }
 
-/* snackbar */
-/* .mainOnboardingParent .MuiSnackbar-root {
-  top: 0px !important;
-} */
 .rich_text_editor select,
 .rich_text_editor button {
   border: none !important;
@@ -1351,12 +1146,13 @@ textarea {
 .public-DraftEditor-content {
   height: 150px !important;
   max-height: 250px !important;
+  font-family: "Montserrat" !important;
 }
 
 .edit_head_name_accordion {
-    width: 950px;
-    height: 50px;
-    margin: 20px auto !important;
+  width: 950px;
+  height: 50px;
+  margin: 20px auto !important;
 }
 
 .accordions_in_onboarding .MuiAccordionSummary-content {
@@ -1372,5 +1168,12 @@ textarea {
 
 .requestTableContainer .MuiTableCell-root {
   border-left: none !important;
-  /* padding: 30px 30px; */
+}
+
+.MuiSlider-colorPrimary {
+  color: #00ab55 !important;
+}
+
+.fabIcon {
+  background-color: white !important;
 }

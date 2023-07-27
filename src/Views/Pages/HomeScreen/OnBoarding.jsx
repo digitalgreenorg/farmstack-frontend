@@ -25,8 +25,6 @@ import LetsGetStarted from "../../../Components/NewOnboarding/LetsGetStarted";
 import global_styles from "../../../Assets/CSS/global.module.css";
 import { CSSTransition } from "react-transition-group";
 import {
-  getTokenLocal,
-  getUserLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -170,11 +168,8 @@ ColorlibStepIcon.propTypes = {
 };
 
 export default function OnBoarding() {
-  const { adminData, setAdminData, callLoader } =
-    React.useContext(FarmStackContext);
-  // console.log(adminData?.organization?.logo, " adminData?.organization?.logo");
-  // let stepNumber = adminData?.organization?.logo ? 0 : -1;
-  // console.log(stepNumber);
+  const { setAdminData, callLoader } = React.useContext(FarmStackContext);
+
   const [activeStep, setActiveStep] = React.useState(0);
 
   function getAdminData() {
@@ -182,21 +177,16 @@ export default function OnBoarding() {
     let url =
       UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
     let method = "GET";
-    // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
     HTTPService(method, url, "", false, false, false, false, false)
       .then((response) => {
         callLoader(false);
 
         setAdminData(response.data);
-        // if (response.data?.organization?.logo) {
         let stepNumber = response.data?.organization?.logo ? 0 : -1;
         setActiveStep(stepNumber);
-        // }
       })
       .catch((error) => {
         callLoader(false);
-
-        console.log("error");
       });
   }
   React.useEffect(() => {
@@ -205,38 +195,37 @@ export default function OnBoarding() {
 
   let dev_mode =
     Window?.ENV_VARS?.REACT_APP_DEV_MODE || process.env.REACT_APP_DEV_MODE;
-  console.log(dev_mode);
   localStorage.setItem("dev_mode", dev_mode);
   let steps = [];
   if (isLoggedInUserAdmin()) {
     steps = [
       {
-        label: "Verify Email ID",
+        label: "Verify mail id",
         subLabel: "Step 1",
         completed: false,
       },
       {
-        label: "Profile Details",
+        label: "Profile details",
         subLabel: "Step 2",
         completed: false,
       },
       {
-        label: "Organisation Details",
+        label: "Organisation details",
         subLabel: "Step 3",
         completed: false,
       },
       {
-        label: "Company Policies",
+        label: "Company policies",
         subLabel: "Step 4",
         completed: false,
       },
       {
-        label: "Category Details",
+        label: "Category details",
         subLabel: "Step 5",
         completed: false,
       },
       {
-        label: "DataPoint Details",
+        label: "DataPoint details",
         subLabel: "Step 6",
         completed: false,
       },
@@ -244,17 +233,17 @@ export default function OnBoarding() {
   } else if (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) {
     steps = [
       {
-        label: "Verify Email ID",
+        label: "Verify mail id",
         subLabel: "Step 1",
         completed: false,
       },
       {
-        label: "Profile Details",
+        label: "Profile details",
         subLabel: "Step 2",
         completed: false,
       },
       {
-        label: "Organisation Details",
+        label: "Organisation details",
         subLabel: "Step 3",
         completed: false,
       },
@@ -271,7 +260,6 @@ export default function OnBoarding() {
       }
       sx={{ width: "100%" }}
     >
-      {/* {isLoggedInUserAdmin() && ( */}
       <div className={styles.farmstack_logo}>
         <img
           className={styles.farmstack_logo_img}
@@ -279,7 +267,6 @@ export default function OnBoarding() {
           alt="Farmstack"
         />
       </div>
-      {/* )} */}
 
       {activeStep > 0 && (
         <Stepper
@@ -311,7 +298,6 @@ export default function OnBoarding() {
           Login to access a world of data collaboration, insights, and
           innovation. <br />
           Let's make data-driven decisions together. <br />
-          {/* <span className={global_styles.bold600}>Welcome aboard!</span> */}
         </div>
       )}
       <CSSTransition

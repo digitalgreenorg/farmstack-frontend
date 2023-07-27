@@ -15,6 +15,9 @@
 .font500 {
   font: 500 !important;
 }
+.mt50 {
+  margin-top: 50px !important;
+}
 
 .font600 {
   font: 600 !important;
@@ -153,12 +156,6 @@
   margin-left: 20px;
 }
 
-.send_otp {
-  /* margin-top: 100px; */
-  /* margin-left: auto; */
-  padding: 10px 20px;
-}
-
 .send_otp_div {
   margin: 10px auto;
   max-width: 564px !important;
@@ -172,6 +169,8 @@
 
 .send_otp {
   padding: 10px 20px !important;
+  width: 172px !important;
+  margin: 20px 0 !important;
 }
 
 .main_label {
@@ -214,7 +213,12 @@
 
 .next_button {
   padding: 10px 20px;
-  width: 172px;
+  width: 172px !important;
+}
+.add_category_button {
+  padding: 10px 20px;
+  width: auto !important;
+  max-width: 200px !important;
 }
 
 .margintopbottom10 {
@@ -226,8 +230,9 @@
 }
 
 .preview_logo {
-  height: 75px;
-  width: 150px;
+  height: 60px;
+  width: auto;
+  max-width: 180px;
   margin: 10px;
 }
 
@@ -258,7 +263,13 @@
 .download_button {
   margin-left: 50px !important;
 }
-
+.link {
+  max-width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
 .link:hover {
   text-decoration: underline;
   cursor: pointer;
@@ -268,9 +279,11 @@
   width: 172px;
 }
 .termsAndConditionClass {
-  color: blue;
+  color: #000000;
   cursor: pointer;
   text-decoration: underline;
+  text-decoration-skip-ink: auto;
+  display: inline-block;
 }
 
 /* Extra small devices (phones, 320px and up) */
@@ -295,5 +308,14 @@
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
+@media (max-width: 1200px) {
+  .link {
+    max-width: 250px;
+  }
+}
+.popConfirmClass > div > div:nth-child(2) {
+  padding: 0 !important;
+}
+.popConfirmClass > div:nth-child(2) > div {
+  padding: 0 !important;
 }

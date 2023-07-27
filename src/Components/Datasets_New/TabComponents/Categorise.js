@@ -77,6 +77,13 @@ const Categorise = (props) => {
                 categoryKeyName={keys[0]}
                 keyName={res}
                 handleCheckBox={handleCheckBox}
+                customStyle={{
+                  width: "auto",
+                  maxWidth: "350px",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               />
             );
           });
@@ -121,24 +128,24 @@ const Categorise = (props) => {
     console.log(props.geography);
   }, [props.geography]);
 
-  function renderCountryValue(selectedValue) {
-    const selectedOption = countries.find(
-      (option) => option.name === selectedValue
-    );
-    return selectedOption ? selectedOption.name : "";
-  }
-  function renderStateValue(selectedValue) {
-    const selectedOption = states.find(
-      (option) => option.name === selectedValue
-    );
-    return selectedOption ? selectedOption.name : "";
-  }
-  function renderCityValue(selectedValue) {
-    const selectedOption = cities.find(
-      (option) => option.name === selectedValue
-    );
-    return selectedOption ? selectedOption.name : "";
-  }
+  // function renderCountryValue(selectedValue) {
+  //   const selectedOption = countries.find(
+  //     (option) => option.name === selectedValue
+  //   );
+  //   return selectedOption ? selectedOption.name : "";
+  // }
+  // function renderStateValue(selectedValue) {
+  //   const selectedOption = states.find(
+  //     (option) => option.name === selectedValue
+  //   );
+  //   return selectedOption ? selectedOption.name : "";
+  // }
+  // function renderCityValue(selectedValue) {
+  //   const selectedOption = cities.find(
+  //     (option) => option.name === selectedValue
+  //   );
+  //   return selectedOption ? selectedOption.name : "";
+  // }
   return (
     <div className="mt-20">
       <Typography
@@ -164,6 +171,15 @@ const Categorise = (props) => {
           data={allCategories}
           customBorder={true}
           customPadding={true}
+          isCustomStyle={true}
+          titleStyle={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "900px",
+          }}
+          isCustomDetailStyle={true}
+          customDetailsStyle={{ display: "inline-block", width: "30%" }}
           addHeaderBackground={true}
           headerBackground={"#eafbf3"}
         />
@@ -200,6 +216,8 @@ const Categorise = (props) => {
                   props.setGeography((prev) => ({
                     ...prev,
                     country: e.target.value,
+                    state: "",
+                    city: ""
                   }))
                 }
                 sx={{
@@ -242,6 +260,8 @@ const Categorise = (props) => {
                   props.setGeography((prev) => ({
                     ...prev,
                     state: e.target.value,
+                    city: "",
+
                   }))
                 }
                 renderValue={() => props.geography?.state?.name}

@@ -17,11 +17,11 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
-
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const InviteParticipantsNew = (props) => {
   let title = "Invite Participants";
   let errorTextField = LocalStyle.customTextFieldError;
-  const history = useHistory()
+  const history = useHistory();
 
   const { callToast, callLoader } = useContext(FarmStackContext);
   let errorTextFieldClass = "";
@@ -61,6 +61,7 @@ const InviteParticipantsNew = (props) => {
       } else if (!validator.isEmail(email)) {
         errorTextFieldClass = "error";
         console.log("error");
+        callToast("Please enter valid email.", "error", true);
       }
     }
     console.log("hanldeEnterClick");
@@ -68,7 +69,7 @@ const InviteParticipantsNew = (props) => {
 
   const handleSubmit = () => {
     if (validator.isEmail(email)) {
-      callToast("Please press enter after entring email!", "info", true);
+      callToast("Please press enter after entering email!", "info", true);
       return;
     } else if (email !== "") {
       callToast("Please enter valid email and press enter!", "info", true);
@@ -85,12 +86,11 @@ const InviteParticipantsNew = (props) => {
       .then((response) => {
         callLoader(false);
         console.log("otp valid", response.data);
-        // setisSuccess(true)
         callToast("Invite sent successfully!", "success", true);
         setAllEmails([]);
         setInviteNote(RichTextEditor.createEmptyValue);
       })
-      .catch( async(e) => {
+      .catch(async (e) => {
         callLoader(false);
         var returnValues = GetErrorKey(e, Object.keys(data));
         var errorKeys = returnValues[0];
@@ -108,17 +108,19 @@ const InviteParticipantsNew = (props) => {
           }
         } else {
           console.log("error ", GetErrorHandlingRoute(e));
-          
+
           let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if(error.toast){
-          callToast(error?.message || "Something went wrong", 
-            error?.status === 200 ? "success" : "error",
-            true);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
           }
-          if(error.path){
-            history.push(error.path)
+          if (error.path) {
+            history.push(error.path);
           }
         }
       });
@@ -128,10 +130,29 @@ const InviteParticipantsNew = (props) => {
     setAllEmails([]);
     setEmail("");
     setInviteNote(RichTextEditor.createEmptyValue);
+    history.go(-1);
   };
 
   return (
     <Container>
+        <Row>
+        <Col style={{marginLeft: "inherit"}}>
+          <div className="text-left mt-50">
+            <span
+              className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => history.push("/datahub/participants/")}
+            >
+              {"Participant"}
+            </span>
+            <span className="add_light_text ml-16">
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            </span>
+            <span className="add_light_text ml-16 fw600">
+                 {"Invite Participant"}
+            </span>
+          </div>
+        </Col>
+      </Row>
       <div className={LocalStyle.emailFieldContainer}>
         <Row className={`${GlobalStyle.padding0}`}>
           <Col
@@ -159,7 +180,7 @@ const InviteParticipantsNew = (props) => {
             fullWidth
             value={email}
             onKeyDown={(e) => hanldeEnterClick(e)}
-            onChange={(e) => handleEmailChange(e.target.value)}
+            onChange={(e) => handleEmailChange(e.target.value.trimStart())}
           />
           {allEmails.length ? (
             <Paper
@@ -179,7 +200,6 @@ const InviteParticipantsNew = (props) => {
                 return (
                   <ListItem className={LocalStyle.chipsListItem} key={index}>
                     <Chip
-                      //   icon={icon}
                       label={email}
                       onDelete={() => handleChipEmailDelete(index)}
                     />

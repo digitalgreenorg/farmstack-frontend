@@ -1,149 +1,62 @@
 import React, { useState, useRef } from "react";
-import {
-  Box,
-  Card,
-  List,
-  ListItemButton,
-  ListItemText,
-  ListSubheader,
-  Collapse,
-  Typography,
-} from "@mui/material";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
+import { Box, Card, Tab, Tabs, Typography, Divider } from "@mui/material";
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+      style={{ overflowY: "auto", width: "100%" }}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
 const Sidebar = ({ sideMenus }) => {
-  const ref1 = useRef(null);
-  const ref11 = useRef(null);
-  const ref12 = useRef(null);
-  const ref2 = useRef(null);
-  const ref21 = useRef(null);
-  const ref3 = useRef(null);
-  const ref4 = useRef(null);
-  const ref41 = useRef(null);
-  const ref5 = useRef(null);
-  const ref6 = useRef(null);
-  const ref7 = useRef(null);
-  const ref8 = useRef(null);
-  const ref9 = useRef(null);
+  const [activeTab, setActiveTab] = React.useState(0);
 
-  const [open, setOpen] = useState("");
-  const [activeMenu, setActiveMenu] = useState("");
-  const [activeSubMenu, setActiveSubMenu] = useState("");
-  const executeScroll = (index) => {
-    switch (parseInt(index)) {
-      case 1:
-        setActiveMenu(0);
-        ref1.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 11:
-        setActiveMenu(0);
-        setActiveSubMenu(11);
-        ref11.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 12:
-        setActiveMenu(0);
-        setActiveSubMenu(12);
-        ref12.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 2:
-        setActiveMenu(1);
-        ref2.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 21:
-        setActiveMenu(1);
-        setActiveSubMenu(21);
-        ref21.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 3:
-        setActiveMenu(2);
-        ref3.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 4:
-        setActiveMenu(3);
-        ref4.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 41:
-        setActiveMenu(3);
-        setActiveSubMenu(41);
-        ref41.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 5:
-        setActiveMenu(4);
-        ref5.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 6:
-        setActiveMenu(5);
-        ref6.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 7:
-        setActiveMenu(6);
-        ref7.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 8:
-        setActiveMenu(7);
-        ref8.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      case 9:
-        setActiveMenu(8);
-        ref9.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "start",
-        });
-        break;
-      default:
-        break;
-    }
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
   };
-
+  function renderTabs() {
+    return sideMenus.map((menu, index) => (
+      <Tab
+        key={index}
+        sx={{
+          "&.MuiTab-root": {
+            color: activeTab === index ? "#000000DE" : "rgba(0, 0, 0, 0.87)",
+            backgroundColor: activeTab === index ? "#eafbf3" : "",
+            fontWeight: activeTab === index ? 600 : 400,
+            alignItems: "flex-start",
+            textAlign: "left",
+            justifyContent: "left",
+            textTransform: "none",
+            fontSize: "16px",
+          },
+        }}
+        component={React.forwardRef((props, ref) => (
+          <>
+            <Typography {...props} ref={ref}>
+              {menu.menu}
+            </Typography>
+            <Divider />
+          </>
+        ))}
+        id={`simple-tab-${index}`}
+        aria-controls={`simple-tabpanel-${index}`}
+      />
+    ));
+  }
   return (
     <Box>
       <Card
@@ -151,109 +64,30 @@ const Sidebar = ({ sideMenus }) => {
           margin: "30px",
           boxShadow: "rgba(17, 17, 26, 0.1) 0px 0px 16px",
           display: "flex",
-          position: "fixed",
-          zIndex: "1100",
+          maxHeight: 490,
         }}
       >
-        <List
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={activeTab}
+          onChange={handleTabChange}
+          visibleScrollbar={true}
+          scrollButtons={false}
           sx={{
-            width: "100%",
-            maxWidth: 360,
-            maxHeight: 490,
-            overflowX: "auto",
-            bgcolor: "background.paper",
+            maxWidth: "300px",
+            minWidth: "300px",
+            maxHeight: "460px",
+            paddingTop: "10px",
+            ".MuiTabs-indicator": {
+              display: "none",
+            },
           }}
-          component="nav"
-          aria-labelledby="nested-list-subheader"
         >
-          {sideMenus?.map((sMenu, index) => {
-            return (
-              <>
-                <ListItemButton
-                  key={index}
-                  onClick={() => executeScroll(index + 1)}
-                  sx={{
-                    backgroundColor:
-                      open === index || activeMenu === index ? "#eafbf3" : "",
-                    "&:hover": {
-                      backgroundColor:
-                        open === index || activeMenu === index ? "#eafbf3" : "",
-                    },
-                  }}
-                  divider
-                >
-                  <ListItemText
-                    primary={sMenu?.menu}
-                    primaryTypographyProps={{
-                      fontWeight:
-                        open === index || activeMenu === index
-                          ? "600 !important"
-                          : "400 !important",
-                      color:
-                        open === index || activeMenu === index
-                          ? "#212B36"
-                          : "#000000DE",
-                    }}
-                  />
-                  {sMenu?.menuItems?.length ? (
-                    open === index ? (
-                      <ExpandLess onClick={() => setOpen("")} />
-                    ) : (
-                      <ExpandMore onClick={() => setOpen(index)} />
-                    )
-                  ) : (
-                    <></>
-                  )}
-                </ListItemButton>
-                <Collapse
-                  in={open === index ? true : false}
-                  timeout="auto"
-                  unmountOnExit
-                >
-                  <List component="div" disablePadding>
-                    {sMenu?.menuItems?.map((mItem, ind) => (
-                      <ListItemButton
-                        key={ind}
-                        sx={{
-                          pl: 4,
-                          backgroundColor:
-                            open === index &&
-                            activeSubMenu ===
-                              parseInt(index + 1 + String(ind + 1))
-                              ? "#eafbf3"
-                              : "",
-                          "&:hover": {
-                            backgroundColor:
-                              open === index &&
-                              activeSubMenu ===
-                                parseInt(index + 1 + String(ind + 1))
-                                ? "#eafbf3"
-                                : "",
-                          },
-                        }}
-                        onClick={() =>
-                          executeScroll(index + 1 + String(ind + 1))
-                        }
-                      >
-                        <ListItemText primary={mItem} />
-                      </ListItemButton>
-                    ))}
-                  </List>
-                </Collapse>
-              </>
-            );
-          })}
-        </List>
-        <Box
-          sx={{
-            // width: "70%",
-            maxHeight: 490,
-            overflowX: "auto",
-            padding: "20px",
-          }}
-          className="text-left"
-        >
-          <Box ref={ref1} className="text-left">
+          {renderTabs()}
+        </Tabs>
+        <TabPanel value={activeTab} index={0}>
+          <Box className="text-left">
             <h1>Overview</h1>
             <ul>
               <li className="p-2">
@@ -275,7 +109,7 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
 
-            <h2 ref={ref11}>Problem Statement</h2>
+            <h2>Problem Statement</h2>
             <p>
               The agricultural sector faces several challenges that prevent the
               effective use of collected data:
@@ -309,7 +143,7 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
 
-            <h2 ref={ref12}>Solution</h2>
+            <h2>Solution</h2>
             <p>
               Farmstack, an open-source data exchange platform, has been
               developed to tackle these issues and unlock the full potential of
@@ -350,9 +184,11 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
           </Box>
-          <Box ref={ref2} className="text-left">
+        </TabPanel>
+        <TabPanel value={activeTab} index={1}>
+          <Box className="text-left">
             <h1>Introducing Farmstack</h1>
-            <h2 ref={ref21} className="pt-2">
+            <h2 className="pt-2">
               Revolutionising Data Exchange in Agriculture
             </h2>
             <p>
@@ -364,7 +200,9 @@ const Sidebar = ({ sideMenus }) => {
               collective data.
             </p>
           </Box>
-          <Box ref={ref3} className="text-left">
+        </TabPanel>
+        <TabPanel value={activeTab} index={2}>
+          <Box className="text-left">
             <h1>Stewards: The Guardians of Data</h1>
             <p>
               Stewards form the backbone of Farmstack, expertly managing the
@@ -402,7 +240,9 @@ const Sidebar = ({ sideMenus }) => {
               needs.
             </p>
           </Box>
-          <Box ref={ref4} className="text-left">
+        </TabPanel>
+        <TabPanel value={activeTab} index={3}>
+          <Box className="text-left">
             <h1>Participants: The Data Pioneers</h1>
             <p>
               As data providers, consumers, or both, participants drive data
@@ -432,7 +272,7 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
 
-            <h2 ref={ref41}>Participant Management</h2>
+            <h2>Participant Management</h2>
             <p>
               Farmstack Participant Management offers admins a comprehensive
               suite of tools to manage and engage with participants, fostering a
@@ -459,7 +299,9 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
           </Box>
-          <Box ref={ref5} className="text-left">
+        </TabPanel>
+        <TabPanel value={activeTab} index={4}>
+          <Box className="text-left">
             <h1>Dataset Management</h1>
             <p>
               Farmstack Dataset Management provides users with a comprehensive
@@ -498,7 +340,9 @@ const Sidebar = ({ sideMenus }) => {
               <li className="p-2">Tailored Usage Policies</li>
             </ul>
           </Box>
-          <Box ref={ref6} className="text-left">
+        </TabPanel>
+        <TabPanel value={activeTab} index={5}>
+          <Box className="text-left">
             <h1>
               Data Integration Connectors: Unleashing the Power of Collective
               Data
@@ -537,7 +381,9 @@ const Sidebar = ({ sideMenus }) => {
               use cases. Embrace the future of agriculture with Farmstack.
             </p>
           </Box>
-          <Box ref={ref7} className="text-left">
+        </TabPanel>
+        <TabPanel value={activeTab} index={6}>
+          <Box className="text-left">
             <h1>Category and Subcategory Management</h1>
             <p>
               Optimise dataset discoverability and organisation with Farmstack
@@ -574,7 +420,9 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
           </Box>
-          <Box ref={ref8} className="text-left">
+        </TabPanel>
+        <TabPanel value={activeTab} index={7}>
+          <Box className="text-left">
             <h1>Data Standardisation Templates</h1>
             <p>
               Farmstack Data Standardisation Templates empower admins to create,
@@ -610,7 +458,9 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ul>
           </Box>
-          <Box ref={ref9} className="text-left">
+        </TabPanel>
+        <TabPanel value={activeTab} index={8}>
+          <Box className="text-left">
             <h1>Frequently asked questions</h1>
             <ol>
               <li className="p-2">
@@ -834,7 +684,7 @@ const Sidebar = ({ sideMenus }) => {
               </li>
             </ol>
           </Box>
-        </Box>
+        </TabPanel>
       </Card>
     </Box>
   );

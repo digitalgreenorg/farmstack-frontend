@@ -7,20 +7,16 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import GlobalStyles from "../../Assets/CSS/global.module.css";
 import DatasetListNew from "../../Components/Dataset/DatasetListNew";
 import ParticipantsCarouselNew from "../../Components/Participants/ParticipantsCarouselNew";
 import LocalStyle from "./GuestUserHomeNew.module.css";
 import { useHistory } from "react-router-dom";
-import {
-  getUserLocal,
-  isLoggedInUserAdmin,
-  isLoggedInUserCoSteward,
-  isLoggedInUserParticipant,
-} from "../../Utils/Common";
+
 import { TypeAnimation } from "react-type-animation";
 import imageFilename from "../../Assets/Img/microsite_yellow_gradient_img.svg";
+import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 const GuestUserHome = () => {
   let history = useHistory();
   const theme = createTheme({
@@ -47,6 +43,7 @@ const GuestUserHome = () => {
   };
   return (
     <>
+      <ScrollToTop />
       <Box
         className={
           mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
@@ -78,9 +75,6 @@ const GuestUserHome = () => {
                     ` Revolutionary approach to data exchange in agriculture by
         fostering collaboration between organisations and harnessing the
         power of collective data.`, // Types 'Three' without deleting 'Two'
-                    () => {
-                      console.log("Sequence completed");
-                    },
                   ]}
                   wrapper="span"
                   cursor={true}
@@ -94,6 +88,7 @@ const GuestUserHome = () => {
               <Button
                 onClick={() => history.push("/home/get-started")}
                 id="home-get-started-btn"
+                data-testid={"home-get-started-btn-test"}
                 className={`${LocalStyle.primaryButton} ${GlobalStyles.primary_button}`}
               >
                 Get Started
@@ -257,7 +252,7 @@ const GuestUserHome = () => {
           />
           <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
             <Button
-              className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
+              className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
               onClick={() => history.push("/home/costeward")}
               id="home-view-all-costeward-btn-id"
             >
@@ -283,7 +278,7 @@ const GuestUserHome = () => {
         <ParticipantsCarouselNew title="Our Participants are" />
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
-            className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button}`}
+            className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/participants")}
             id="home-view-all-participants-btn-id"
           >
@@ -367,9 +362,10 @@ const GuestUserHome = () => {
         </Row>
         <Row className={`${LocalStyle.buttonContainer}`}>
           <Button
-            className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button}`}
+            className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/get-started")}
             id="home-get-started-btn2-id"
+            data-testid={"home-get-started-btn-test2"}
           >
             Get Started
           </Button>

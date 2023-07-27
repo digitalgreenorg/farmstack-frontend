@@ -6,7 +6,6 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 import { getTokenLocal } from "../../Utils/Common";
 
 const CoStewardAndParticipantsCard = (props) => {
@@ -17,24 +16,22 @@ const CoStewardAndParticipantsCard = (props) => {
     title, // card is being render based in title if title is changing check all condition based on title
     handleLoadMoreButton,
     loadMoreButton,
-    user,
     guestUser,
     isCosteward,
     subTitle,
+    isCostewardsParticipant,
   } = props;
   const history = useHistory();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
-  const containerStyle = {
-    marginLeft: mobile || tablet ? "30px" : "144px",
-    marginRight: mobile || tablet ? "30px" : "144px",
-  };
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
-    if (guestUser && isCosteward) {
+    if (isCostewardsParticipant) {
+      history.push(`/datahub/costeward/participants/view/${id}`);
+    } else if (guestUser && isCosteward) {
       history.push(`/home/costeward/view/${id}`);
       localStorage.setItem("last_route", "/home");
     } else if (
@@ -53,27 +50,9 @@ const CoStewardAndParticipantsCard = (props) => {
       localStorage.setItem("last_route", "/home");
       history.push("/home/participants/view/:id");
     }
-    // if (
-    //   (title == "Participants" || title == "Co-steward participants") &&
-    //   user == "guest"
-    // ) {
-    //   history.push(`/home/participants/view/${id}`);
-    // } else if (title == "Participants" || title == "Co-steward participants") {
-    //   history.push(`/datahub/participants/view/${id}`);
-    // } else if (title == "Co-steward") {
-    //   history.push(`/datahub/costeward/view/${id}`);
-    // } else if (title == "New participant requests") {
-    //   history.push(`/datahub/participants/view/approve/${id}`);
-    // } else if (title == "Our Participants are") {
-    //   history.push(`/home/participants/view/${id}`);
-    // } else if (title == "Our co-stewards are") {
-    //   history.push(`/home/costeward/view/${id}`);
-    // }
   };
 
-  // console.log("props in CoStewardAndParticipantsCard", props);
   let index = 0;
-  //   const viewType = grid
   return (
     <>
       <Row
@@ -81,7 +60,9 @@ const CoStewardAndParticipantsCard = (props) => {
           mobile ? LocalStyle.titleContainerSm : LocalStyle.titleContainer
         }
       >
-        <Box className={subTitle ? LocalStyle.titleParentDiv : "w-100"}>
+        <Box
+          className={!mobile && !tablet ? LocalStyle.titleParentDiv : "w-100"}
+        >
           <Typography
             id={title?.split(" ")[0] + "title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${
@@ -104,11 +85,12 @@ const CoStewardAndParticipantsCard = (props) => {
             md={6}
             xl={6}
           >
-            {title == "Participants" ? (
+            {title == "Participants" && !guestUser ? (
               <Row>
                 <Col lg={6}>
                   <div>
                     <Button
+                      data-testid="invite-btn-test-list"
                       id="add-participant-submit-button"
                       onClick={() =>
                         history.push("/datahub/participants/invite")
@@ -122,6 +104,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 <Col lg={6}>
                   <div>
                     <Button
+                      data-testid="add-new-participants"
                       id="add-participant-submit-button"
                       onClick={() => history.push("/datahub/participants/add")}
                       className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
@@ -138,6 +121,7 @@ const CoStewardAndParticipantsCard = (props) => {
               <div
                 id={title?.split(" ")[0] + "grid-view"}
                 className={LocalStyle.viewType}
+                data-testid="grid-view"
                 onClick={() => setViewType("grid")}
               >
                 <img
@@ -164,6 +148,7 @@ const CoStewardAndParticipantsCard = (props) => {
               </div>
               <div
                 id={title?.split(" ")[0] + "list-view"}
+                data-testid="list-view"
                 onClick={() => setViewType("list")}
                 className={LocalStyle.viewType}
               >
@@ -189,7 +174,7 @@ const CoStewardAndParticipantsCard = (props) => {
               </div>
             </Row>
           </Col>
-        ) : viewType && setViewType && !mobile ? (
+        ) : viewType && !mobile ? (
           <Col
             className={
               tablet && title == "Participants"
@@ -201,10 +186,11 @@ const CoStewardAndParticipantsCard = (props) => {
             md={6}
             xl={6}
           >
-            {title == "Participants" ? (
+            {title == "Participants" && !guestUser ? (
               <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
+                  data-testid="invite-btn-test"
                   onClick={() => history.push("/datahub/participants/invite")}
                   className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
                 >
@@ -218,6 +204,7 @@ const CoStewardAndParticipantsCard = (props) => {
               id={title?.split(" ")[0] + "grid-view"}
               className={LocalStyle.viewType}
               onClick={() => setViewType("grid")}
+              data-testid="grid-view-test"
             >
               <img
                 className={LocalStyle.listAndgridViewImg}
@@ -245,6 +232,7 @@ const CoStewardAndParticipantsCard = (props) => {
               id={title?.split(" ")[0] + "list-view"}
               onClick={() => setViewType("list")}
               className={LocalStyle.viewType}
+              data-testid="list-view-test"
             >
               <img
                 className={LocalStyle.listAndgridViewImg}
@@ -271,7 +259,6 @@ const CoStewardAndParticipantsCard = (props) => {
           ""
         )}
       </Row>
-      {/* {viewType === "grid" || !viewType ? ( */}
       <CSSTransition
         appear={viewType === "grid" || !viewType}
         in={viewType === "grid" || !viewType}
@@ -295,6 +282,7 @@ const CoStewardAndParticipantsCard = (props) => {
               sm={12}
               md={6}
               xl={4}
+              data-testid="add-new-participants-test"
               onClick={() => history.push("/datahub/participants/add")}
             >
               <Card
@@ -303,14 +291,6 @@ const CoStewardAndParticipantsCard = (props) => {
                 }`}
                 className={LocalStyle.card}
               >
-                {/* <div
-                  id={`${title ? title : "title"}-card-title-${
-                    index ? index : ""
-                  }`}
-                  className={LocalStyle.content_title}
-                >
-                  
-                </div> */}
                 <Typography
                   id={title?.split(" ")[0] + "title"}
                   className={`${GlobalStyle.size20} ${GlobalStyle.bold700} ${LocalStyle.addTitle}`}
@@ -343,7 +323,6 @@ const CoStewardAndParticipantsCard = (props) => {
           )}
           {coStewardOrParticipantsList?.map((participant, index) => {
             let id = participant?.user_id;
-            console.log("participant", participant);
             return (
               <Col
                 id={title?.split(" ")[0] + "grid-card-id" + index}
@@ -353,6 +332,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 md={6}
                 xl={4}
                 onClick={() => handleViewDataset(id)}
+                data-testid="grid-item"
               >
                 <CustomCard
                   image={participant?.organization?.logo}
@@ -384,16 +364,8 @@ const CoStewardAndParticipantsCard = (props) => {
               </Col>
             );
           })}
-          {/* {!coStewardOrParticipantsList?.length ? (
-            <div style={{ margin: "auto" }}>
-              <EmptyFile text="Nothing found!" />
-            </div>
-          ) : (
-            ""
-          )} */}
         </Row>
       </CSSTransition>
-      {/* ) : ( */}
       <CSSTransition
         appear={viewType !== "grid"}
         in={viewType !== "grid"}
@@ -407,7 +379,7 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <>
           <Row>
-            {title === "Co-steward" ? (
+            {title === "Co-steward" || isCosteward ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -441,21 +413,30 @@ const CoStewardAndParticipantsCard = (props) => {
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
-                  xs={6}
-                  sm={6}
-                  md={6}
-                  xl={6}
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  xl={4}
                 >
                   Organisation name
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
-                  xs={6}
-                  sm={6}
-                  md={6}
-                  xl={6}
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  xl={4}
                 >
                   No.of datasets
+                </Col>
+                <Col
+                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  xl={4}
+                >
+                  Root user
                 </Col>
               </>
             ) : title === "New participant requests" ? (
@@ -470,7 +451,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   Organisation name
                 </Col>
                 <Col
-                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} ${LocalStyle.alignLeft}`}
+                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} `}
                   xs={4}
                   sm={4}
                   md={4}
@@ -479,7 +460,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   User
                 </Col>
                 <Col
-                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} ${LocalStyle.alignLeft}`}
+                  className={`${GlobalStyle.size16} ${GlobalStyle.bold600} `}
                   xs={4}
                   sm={4}
                   md={4}
@@ -492,6 +473,7 @@ const CoStewardAndParticipantsCard = (props) => {
               ""
             )}
           </Row>
+
           {viewType == "list" ? (
             <div className={LocalStyle.cardContainerList}>
               <hr />
@@ -499,13 +481,15 @@ const CoStewardAndParticipantsCard = (props) => {
                 return (
                   <>
                     <Row
+                      data-testid="list-item"
+                      key={index}
                       id={title + "-list-view-" + index}
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
+                      onClick={() => handleViewDataset(item?.user_id)}
                     >
-                      {title === "Co-steward" ? (
+                      {title === "Co-steward" || isCosteward ? (
                         <>
                           <Col
-                            onClick={() => handleViewDataset(item?.user_id)}
                             id={
                               title?.split(" ")[0] + "list-view-title-" + index
                             }
@@ -517,6 +501,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`organization-name-${index}`}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -526,6 +511,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             id={title + " list-view-datasets-no-" + index}
+                            data-testid={`dataset-count-${index}`}
                           >
                             {item?.dataset_count}
                           </Col>
@@ -535,6 +521,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`number-of-participants-${index}`}
                           >
                             {item?.number_of_participants}
                           </Col>
@@ -542,15 +529,15 @@ const CoStewardAndParticipantsCard = (props) => {
                       ) : title === "Participants" ? (
                         <>
                           <Col
-                            onClick={() => handleViewDataset(item?.user_id)}
                             id={
                               title?.split(" ")[0] + "list-view-title-" + index
                             }
                             className={LocalStyle.content_title}
-                            xs={6}
-                            sm={6}
-                            md={6}
-                            xl={6}
+                            xs={4}
+                            sm={4}
+                            md={4}
+                            xl={4}
+                            data-testid={`part-organization-name-${index}`}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -560,18 +547,32 @@ const CoStewardAndParticipantsCard = (props) => {
                               " list-view-datasets-no-" +
                               index
                             }
-                            xs={6}
-                            sm={6}
-                            md={6}
-                            xl={6}
+                            xs={4}
+                            sm={4}
+                            md={4}
+                            xl={4}
+                            data-testid={`part-dataset-count-${index}`}
                           >
                             {item?.dataset_count}
+                          </Col>
+                          <Col
+                            id={
+                              title?.split(" ")[0] +
+                              " list-view-root-user-name-" +
+                              index
+                            }
+                            xs={4}
+                            sm={4}
+                            md={4}
+                            xl={4}
+                            data-testid={`root-user-${index}`}
+                          >
+                            {item?.user?.first_name}
                           </Col>
                         </>
                       ) : title === "New participant requests" ? (
                         <>
                           <Col
-                            onClick={() => handleViewDataset(item?.user_id)}
                             id={
                               title?.split(" ")[0] + "list-view-title-" + index
                             }
@@ -580,6 +581,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`request-organization-name-${index}`}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -594,6 +596,14 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            style={{
+                              width: "100%",
+                              maxWidth: "300px",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                            data-testid={`request-user-name${index}`}
                           >
                             {item?.user?.first_name +
                               " " +
@@ -610,6 +620,14 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            style={{
+                              width: "100%",
+                              maxWidth: "300px",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                            data-testid={`request-user-email${index}`}
                           >
                             {item?.user?.email}
                           </Col>
@@ -628,23 +646,23 @@ const CoStewardAndParticipantsCard = (props) => {
           )}
         </>
       </CSSTransition>
-
-      {/* // )} */}
-      {/* </Row> */}
       {loadMoreButton ? (
-        <Box className={LocalStyle.buttonContainer}>
-          <Button
-            onClick={handleLoadMoreButton}
-            id={title?.split(" ")[0] + "-load-more-button"}
-            variant="outlined"
-            className={`${
-              mobile || tablet
-                ? LocalStyle.pButtonStyleMd
-                : LocalStyle.pButtonStyle
-            }`}
-          >
-            Load more
-          </Button>
+        <Box className={LocalStyle.buttonContainer} id="load-more-btn">
+          <div>
+            <Button
+              onClick={handleLoadMoreButton}
+              id={title?.split(" ")[0] + "-load-more-button"}
+              data-testid="load-more-button-test-button"
+              variant="outlined"
+              className={`${
+                mobile || tablet
+                  ? LocalStyle.pButtonStyleMd
+                  : LocalStyle.pButtonStyle
+              }`}
+            >
+              Load more
+            </Button>
+          </div>
         </Box>
       ) : (
         ""

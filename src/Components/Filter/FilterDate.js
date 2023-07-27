@@ -22,7 +22,6 @@ const FilterDate = ({
   setDates,
   setShowFilter,
   callApply,
-  handleClickAway,
   setUpdate,
 }) => {
   const theme = useTheme();
@@ -84,7 +83,6 @@ const FilterDate = ({
 
   console.log(fromDate, "fromDate", toDate);
   return (
-    // <ClickAwayListener onClickAway={handleClickAway}>
     <div style={containerStyle}>
       <Card
         sx={{
@@ -114,6 +112,7 @@ const FilterDate = ({
                   maxDate={new Date()}
                   value={fromDate ?? null}
                   onChange={(value) => handleFromDate(value)}
+                  data-testid="filter-by-date-from-date"
                   PaperProps={{
                     sx: {
                       borderRadius: "16px !important",
@@ -126,11 +125,11 @@ const FilterDate = ({
                   }}
                   renderInput={(params) => (
                     <TextField
-                    id="filter-by-date-from-date"
+                      id="filter-by-date-from-date"
                       {...params}
                       variant="outlined"
                       sx={{
-                        width: mobile ? "250px" : "468px",
+                        width: mobile ? "250px" : "388px",
                         svg: { color: "#00AB55" },
                         "& .MuiInputBase-input": {
                           height: "36px",
@@ -201,7 +200,7 @@ const FilterDate = ({
                       id="filter-by-date-to-date"
                       variant="outlined"
                       sx={{
-                        width: mobile ? "250px" : "468px",
+                        width: mobile ? "250px" : "388px",
                         svg: { color: "#00AB55" },
                         "& .MuiInputBase-input": {
                           height: mobile ? "30px" : "36px",
@@ -281,32 +280,10 @@ const FilterDate = ({
             >
               Close
             </Button>
-            {/* <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: 700,
-                fontSize: "14px",
-                width: "86px",
-                height: "36px",
-                background: "#00AB55",
-                borderRadius: "8px",
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: "#00AB55",
-                  color: "#fffff",
-                },
-              }}
-              disabled={fromDate && toDate ? false : true}
-              variant="contained"
-              onClick={() => handleClose()}
-            >
-              Apply
-            </Button> */}
           </Box>
         </Box>
       </Card>
     </div>
-    // </ClickAwayListener>
   );
 };
 

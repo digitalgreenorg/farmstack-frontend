@@ -9,6 +9,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -16,6 +17,7 @@ import {
 import CheckBoxWithText from "./CheckBoxWithText";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import global_style from "../../../Assets/CSS/global.module.css";
 
 const StandardiseRow = ({
   keyName,
@@ -58,20 +60,25 @@ const StandardiseRow = ({
   return (
     <div className="mt-50" key={index}>
       <Box className="d-flex justify-content-between align-items-center w-100 mb-20">
-        <Typography
-          className="ml-16"
-          sx={{
-            fontFamily: "Montserrat !important",
-            fontWeight: "400",
-            fontSize: "20px",
-            lineHeight: "24px",
-            color: "#000000",
-            textAlign: "left",
-            width: mobile || tablet ? "100%" : "100px",
-          }}
-        >
-          {keyName}
-        </Typography>
+        <Tooltip arrow title={keyName}>
+          <Typography
+            className="ml-16"
+            sx={{
+              fontFamily: "Montserrat !important",
+              fontWeight: "400",
+              fontSize: "20px",
+              lineHeight: "24px",
+              color: "#000000",
+              textAlign: "left",
+              width: mobile || tablet ? "100%" : "135px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {keyName}
+          </Typography>
+        </Tooltip>
         <Box className={mobile || tablet || miniLaptop ? "m-3" : ""}>
           <FormControl fullWidth sx={{ width: "273px" }}>
             <InputLabel>Datapoint category</InputLabel>
@@ -148,8 +155,16 @@ const StandardiseRow = ({
                   }`}
                   key={item.datapoint_category}
                   value={item}
+                  sx={{
+                    maxWidth: "800px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
                 >
-                  {item?.datapoint_category}
+                  {item?.datapoint_category.length <= 90
+                    ? item?.datapoint_category
+                    : item?.datapoint_category?.substring(0, 90) + "..."}
                 </MenuItem>
               ))}
             </Select>
@@ -198,8 +213,14 @@ const StandardiseRow = ({
                   id={`standardise-datapoint-attribute-${index + optIndex}`}
                   key={item}
                   value={item}
+                  sx={{
+                    maxWidth: "800px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
                 >
-                  {item}
+                  {item?.length <= 90 ? item : item?.substring(0, 90) + "..."}
                 </MenuItem>
               ))}
             </Select>

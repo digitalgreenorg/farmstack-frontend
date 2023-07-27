@@ -1,8 +1,10 @@
+
 # Build react app
 FROM node:14 as build-image
 WORKDIR /app
+COPY package.json ./
+RUN npm install
 COPY . ./
-RUN npm install --force
 RUN npm run build
 
 # copy static files and run nginx server
@@ -14,3 +16,4 @@ COPY ./private.key /etc/nginx/cert/private.key
 EXPOSE 80
 EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]
+

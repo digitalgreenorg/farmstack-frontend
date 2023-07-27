@@ -24,6 +24,7 @@ const File = ({
         <img
           style={{ marginLeft: isTables ? "" : "20px" }}
           src={require("../../../Assets/Img/file.svg")}
+          alt="file_image"
         />
         <Typography
           sx={{

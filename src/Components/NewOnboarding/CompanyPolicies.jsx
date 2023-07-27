@@ -22,11 +22,13 @@ import { Popconfirm } from "antd";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import Divider from "@mui/material/Divider";
+import AccordionBody from "./AccordionBody";
 
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [sizeError, setSizeError] = useState("");
-  const { setActiveStep } = props;
+  const { setActiveStep, isVisible } = props;
   const [policyName, setPolicyName] = useState("");
   const [policyNameError, setPolicyNameError] = useState("");
   const [fileError, setFileError] = useState("");
@@ -35,9 +37,9 @@ const CompanyPolicies = (props) => {
   const [uploadedPolicy, setUploadedPolicy] = useState(null);
   const [preview, setPreview] = useState(null);
   const [allPolicies, setAllPolicies] = useState([]);
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(isVisible);
 
-  const [key, setKey] = useState(0);
+  const [key, setKey] = useState();
   const history = useHistory();
 
   const handleUploadPolicy = (file) => {
@@ -45,16 +47,16 @@ const CompanyPolicies = (props) => {
     setUploadedPolicy(file);
     setKey(key + 1);
     console.log("file during upload", uploadedPolicy, key);
+    setFileError("");
   };
   const handleDeletePolicy = (index) => {
     setUploadedPolicy(null);
     setPreview(null);
     setKey(key + 1);
+    setFileError("");
     console.log("file during delete", uploadedPolicy, key);
   };
-  const confirm = (e, index) => {
-    deletePolicyDetail(e, index);
-  };
+
   const deletePolicyDetail = (e, index) => {
     if (e) {
       e.stopPropagation();
@@ -77,26 +79,7 @@ const CompanyPolicies = (props) => {
     setPreview(null);
     setEditorGovLawValue(RichTextEditor.createValueFromString("", "html"));
   };
-
-  const [editPolicyNameError, setEditPolicyNameError] = useState({
-    error: "",
-    policy_id: "",
-  });
-  const [editPolicyDescriptionError, setEditPolicyDescriptionError] = useState({
-    error: "",
-    policy_id: "",
-  });
-  const [editPolicyFileError, setEditPolicyFileError] = useState({
-    error: "",
-    policy_id: "",
-  });
-  const resetEditError = (id) => {
-    setEditPolicyNameError({ error: "", policy_id: "" });
-    setEditPolicyDescriptionError({ error: "", policy_id: "" });
-    setEditPolicyFileError({ error: "", policy_id: "" });
-  };
-
-  const submitPolicy = async (method, policy_id, payloadForPatch) => {
+  const submitPolicy = async (method, policy_id) => {
     let url;
     let payload;
     if (method == "POST") {
@@ -108,13 +91,8 @@ const CompanyPolicies = (props) => {
         payload.append("file", uploadedPolicy);
       }
     } else if (method == "DELETE" && policy_id) {
-      resetEditError(policy_id);
       url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
       payload = "";
-    } else if (method == "PATCH" && policy_id) {
-      resetEditError(policy_id);
-      url = UrlConstant.base_url + UrlConstant.datahub_policy + policy_id + "/";
-      payload = payloadForPatch;
     }
     callLoader(true);
     return await HTTPService(method, url, payload, true, true, false, false)
@@ -128,6 +106,8 @@ const CompanyPolicies = (props) => {
           callToast("Policy settings updated successfully!", "success", true);
         } else if (props.isPolicySettings && response.status === 204) {
           callToast("Policy deleted successfully", "success", true);
+        } else if (response.status === 201) {
+          callToast("Policy details added successfully!", "success", true);
         }
         if (method == "POST") {
           //after getting the response correclty trying to create accordion detail
@@ -136,9 +116,6 @@ const CompanyPolicies = (props) => {
           refreshInputs();
         } else if (method == "DELETE") {
           getListOfPolicies();
-        } else if (method == "PATCH") {
-          // getListOfPolicies();
-          return response;
         }
       })
       .catch(async (e) => {
@@ -150,34 +127,13 @@ const CompanyPolicies = (props) => {
           for (var i = 0; i < errorKeys.length; i++) {
             switch (errorKeys[i]) {
               case "name":
-                if (method == "PATCH") {
-                  setEditPolicyNameError({
-                    error: errorMessages[i],
-                    policy_id: policy_id,
-                  });
-                } else {
-                  setPolicyNameError(errorMessages[i]);
-                }
+                setPolicyNameError(errorMessages[i]);
                 break;
               case "description":
-                if (method == "PATCH") {
-                  setEditPolicyDescriptionError({
-                    error: errorMessages[i],
-                    policy_id: policy_id,
-                  });
-                } else {
-                  setFileError(errorMessages[i]);
-                }
+                setdescriptionError(errorMessages[i]);
                 break;
               case "file":
-                if (method == "PATCH") {
-                  setEditPolicyFileError({
-                    error: errorMessages[i],
-                    policy_id: policy_id,
-                  });
-                } else {
-                  setFileError(errorMessages[i]);
-                }
+                setFileError(errorMessages[i]);
                 break;
               default:
                 let error = await GetErrorHandlingRoute(e);
@@ -192,14 +148,6 @@ const CompanyPolicies = (props) => {
             }
           }
         } else {
-          // let error = await GetErrorHandlingRoute(e);
-          // if (error) {
-          //   callToast(
-          //     error?.message,
-          //     error?.status === 200 ? "success" : "error",
-          //     true
-          //   );
-          // }
           let error = await GetErrorHandlingRoute(e);
           console.log("Error obj", error);
           console.log(e);
@@ -219,13 +167,11 @@ const CompanyPolicies = (props) => {
 
   const getListOfPolicies = () => {
     callLoader(true);
-
     let url = UrlConstant.base_url + UrlConstant.datahub_policy;
     let method = "GET";
     HTTPService(method, url, "", false, true, false, true)
       .then((response) => {
         callLoader(false);
-        console.log(response);
         //after getting the response correclty trying to create accordion detail
         let arr = [...response.data];
         // arr = arr.sort((policyA, policyB) => policyA.name - policyB.name);
@@ -233,14 +179,6 @@ const CompanyPolicies = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = await GetErrorHandlingRoute(e);
-        // if (error) {
-        //   callToast(
-        //     error?.message,
-        //     error?.status === 200 ? "success" : "error",
-        //     true
-        //   );
-        // }
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -271,327 +209,6 @@ const CompanyPolicies = (props) => {
     return () => URL.revokeObjectURL(objectUrl);
   }, [uploadedPolicy]);
 
-  function AccordionBody(props) {
-    const { data, index } = props;
-    const [isEditModeOn, setEditModeOn] = useState(true);
-    const [uploadedPolicyE, setUploadedPolicyE] = useState(null);
-    const [previewE, setPreviewE] = useState(null);
-    const [isLogoLinkE, setIsLogoLinkE] = useState(false);
-    const [policyDesc, setPolicyDesc] = useState(data.description);
-    const [policyDescValue, setEditorpolicyDescValue] = React.useState(
-      RichTextEditor.createValueFromString(policyDesc, "html")
-    );
-    const [policyDescError, setPolicyDescError] = useState("");
-    const [policySize, setPolicySize] = useState("");
-    const [policyNameUnderAccordion, setPolicyNameUnderAccordion] = useState(
-      data.name
-    );
-    const [policyNameError, setPolicyNameError] = useState("");
-    const [dataOfFile, setDataOfFile] = useState(data.file);
-    const [localKey, setLocalKey] = useState(0);
-    const [fileSizeErrorE, setFileSizeErrorE] = useState("");
-    const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [open, setOpen] = React.useState(false);
-    const id = "delete-popper";
-
-    const handleDeletePopper = (event) => {
-      setAnchorEl(event.currentTarget);
-      setOpen(true);
-    };
-    const closePopper = () => {
-      setOpen(false);
-    };
-    const handleUploadPolicyE = (file) => {
-      console.log("handleUploadPolicyE called with file:", file);
-      setUploadedPolicyE(file);
-      // data[index].file = file;
-      setPolicySize(file.size);
-      setIsLogoLinkE(false);
-      setLocalKey(localKey + 1);
-      setFileSizeErrorE("");
-    };
-
-    const handleDeleteFile = () => {
-      console.log("isfile deleted", uploadedPolicyE);
-      setUploadedPolicyE(null);
-      setDataOfFile(null);
-      setPreviewE(null);
-      setPolicySize("");
-      setIsLogoLinkE(false);
-      setLocalKey(localKey + 1);
-      setFileSizeErrorE("");
-    };
-    useEffect(() => {
-      if (uploadedPolicyE) {
-        const objectUrl = URL.createObjectURL(uploadedPolicyE);
-        setPreviewE(objectUrl);
-        setIsLogoLinkE(false);
-      } else if (dataOfFile) {
-        setPreviewE(dataOfFile);
-        setIsLogoLinkE(true);
-      } else {
-        setPreviewE(null);
-        setIsLogoLinkE(false);
-      }
-    }, [uploadedPolicyE, dataOfFile]);
-
-    const handleDescChange = (value) => {
-      setEditorpolicyDescValue(value);
-      setPolicyDesc(value.toString("html"));
-      setSaveButtonEnabled(value.toString("html") !== "");
-    };
-    const handleChangePolicyName = (e) => {
-      setPolicyNameUnderAccordion(e.target.value);
-    };
-    const handleSave = async () => {
-      let payload = new FormData();
-      payload.append("description", policyDesc);
-      payload.append("name", policyNameUnderAccordion);
-      !isLogoLinkE && payload.append("file", uploadedPolicyE || "");
-
-      let response = await submitPolicy("PATCH", data.id, payload);
-
-      let arr = [...allPolicies];
-      if (response && response.data) {
-        arr[index] = { ...response?.data };
-        setAllPolicies([...arr]);
-        setIsLogoLinkE(true);
-      } else {
-        let obj = {
-          ...data,
-          name: policyNameUnderAccordion ?? "",
-          description: policyDesc,
-        };
-        arr[index] = { ...obj };
-        setAllPolicies([...arr]);
-      }
-    };
-
-    return (
-      <div style={{ textAlign: "left" }}>
-        <Row>
-          <Col>
-            <TextField
-              fullWidth
-              required
-              placeholder="Policy name"
-              label="Policy name"
-              variant="outlined"
-              id="policyName"
-              name="policyName"
-              value={policyNameUnderAccordion}
-              onChange={(e) => handleChangePolicyName(e)}
-              error={
-                editPolicyNameError.error &&
-                editPolicyNameError.policy_id == data.id
-                  ? true
-                  : false
-              }
-              helperText={editPolicyNameError.error}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12} sm={12} style={{ margin: "20px 0px" }}>
-            <RichTextEditor
-              placeholder="Description"
-              toolbarConfig={toolbarConfig}
-              value={policyDescValue}
-              // onKeyDown={handledatasetnameKeydown}
-              onChange={handleDescChange}
-              required
-              className="rich_text_editor"
-              id="rich_text_editor"
-              name="bodyText"
-              type="string"
-              multiline
-              variant="filled"
-              style={{
-                textAlign: "left",
-                minHeight: 410,
-                border: "1px solid black",
-              }}
-            />
-            <span style={{ color: "red", fontSize: "12px" }}>
-              {editPolicyDescriptionError.error &&
-              editPolicyDescriptionError.policy_id == data.id
-                ? editPolicyDescriptionError.error
-                : ""}
-            </span>
-          </Col>
-        </Row>
-
-        <Row>
-          <CSSTransition
-            appear={isEditModeOn}
-            in={isEditModeOn}
-            timeout={{
-              appear: 600,
-              enter: 700,
-              exit: 100,
-            }}
-            mountOnEnter
-            classNames="step"
-            unmountOnExit
-          >
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <FileUploaderMain
-                key={localKey}
-                isMultiple={false}
-                texts={
-                  "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
-                }
-                fileTypes={["pdf", "doc"]}
-                handleChange={handleUploadPolicyE}
-                maxSize={25}
-                setSizeError={() =>
-                  setFileSizeErrorE("Maximum file size allowed is 25MB")
-                }
-                id="file_uploader-update"
-              />
-              {/* <div>{"sizeError"}</div> */}
-            </Col>
-          </CSSTransition>
-          <Col
-            lg={isEditModeOn ? 6 : 12}
-            sm={12}
-            style={{ marginBottom: "20px" }}
-          >
-            <div
-              className={
-                global_style.bold600 +
-                " " +
-                global_style.font20 +
-                " " +
-                styles.text_left
-              }
-            >
-              {previewE && "Uploaded file"}
-            </div>
-
-            {uploadedPolicyE || dataOfFile ? (
-              <div className={styles.text_left + " " + styles.preview_box}>
-                {previewE && (
-                  <div className={styles.each_preview_policy}>
-                    <div>
-                      <img
-                        id="document-upload-logo"
-                        height={"52px"}
-                        width={"42px"}
-                        className={styles.document_upload_logo}
-                        src={document_upload}
-                      />
-
-                      <span
-                        id="file-preview"
-                        className={global_style.blue + " " + styles.link}
-                        onClick={() => window.open(previewE)}
-                      >
-                        {/* {console.log(uploadedPolicyE, "uploadedPolicyE")} */}
-                        {uploadedPolicyE?.name
-                          ? uploadedPolicyE?.name
-                          : dataOfFile
-                          ? dataOfFile?.split("/").at(-1)
-                          : ""}
-                      </span>
-                      <span id="file-size" className={global_style.light_text}>
-                        {policySize && (policySize / 1000000).toFixed(2) + "MB"}
-                      </span>
-                    </div>
-                    <CancelIcon
-                      onClick={() => handleDeleteFile()}
-                      style={{ cursor: "pointer" }}
-                      fontSize="small"
-                      id="cancel-uploaded-file-icon"
-                    />
-                  </div>
-                )}
-              </div>
-            ) : null}
-            <div
-              className={
-                global_style.size14 +
-                " " +
-                global_style.error +
-                " " +
-                styles.text_left
-              }
-            >
-              {editPolicyFileError.error &&
-              editPolicyFileError.policy_id == data.id
-                ? editPolicyFileError.error
-                : fileSizeErrorE}
-            </div>
-          </Col>
-        </Row>
-
-        {/* <div>
-          {data.description ? HTMLReactParser(data.description) : "Description"}
-        </div> */}
-        <div
-          style={{
-            display: "flex",
-            marginTop: "20px",
-            justifyContent: "right",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <CustomDeletePopper
-            DeleteItem={policyNameUnderAccordion}
-            anchorEl={anchorEl}
-            handleDelete={(e) => confirm(e, index)}
-            id={id}
-            open={open}
-            closePopper={closePopper}
-          />
-          <Button
-            className={
-              global_style.secondary_button_error +
-              " " +
-              styles.delete_button_policy
-            }
-            onClick={handleDeletePopper}
-            id="delete-button-policy"
-          >
-            Delete
-          </Button>
-          {isEditModeOn ? (
-            <Button
-              disabled={
-                (uploadedPolicyE ||
-                  dataOfFile ||
-                  policyDesc !== "<p><br></p>") &&
-                policyNameUnderAccordion
-                  ? false
-                  : true
-              }
-              onClick={(prev) => handleSave()}
-              className={global_style.primary_button + " " + styles.edit_button}
-              id="save-button-policy"
-            >
-              {/* <a style={{ color: "white" }} href={data.file ? data.file : ""}> */}
-              Save
-              {/* </a> */}
-            </Button>
-          ) : (
-            <Button
-              onClick={(prev) => setEditModeOn(true)}
-              className={
-                global_style.outlined_button + " " + styles.edit_button
-              }
-              id="edit-button-policy"
-            >
-              {/* <a style={{ color: "white" }} href={data.file ? data.file : ""}> */}
-              Edit
-              {/* </a> */}
-            </Button>
-          )}
-        </div>
-      </div>
-    );
-  }
   const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
     display: [
@@ -632,6 +249,7 @@ const CompanyPolicies = (props) => {
     } else {
       setEnableButton(false);
     }
+    setdescriptionError("");
   };
   useEffect(() => {
     getListOfPolicies();
@@ -656,6 +274,7 @@ const CompanyPolicies = (props) => {
           <Col xs={12} sm={6} md={6} xl={6} style={{ textAlign: "right" }}>
             <Button
               id="addnew-policy-button"
+              aria-label="add_policy"
               onClick={() => setIsFormVisible(true)}
               className={global_style.primary_button + " " + styles.next_button}
             >
@@ -687,14 +306,17 @@ const CompanyPolicies = (props) => {
                   id="policyName"
                   name="policyName"
                   value={policyName}
-                  onChange={(e) => setPolicyName(e.target.value)}
+                  onChange={(e) => {
+                    setPolicyName(e.target.value.trimStart());
+                    setPolicyNameError("");
+                  }}
                   error={policyNameError ? true : false}
                   helperText={policyNameError}
                 />
               </Col>
             </Row>
             <Row>
-              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+              <Col lg={12} sm={12} style={{ margin: "20px 0px" }}>
                 <RichTextEditor
                   placeholder="Description"
                   toolbarConfig={toolbarConfig}
@@ -718,14 +340,31 @@ const CompanyPolicies = (props) => {
                 </span>
               </Col>
             </Row>
-
+            <Row>
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <Divider>or</Divider>
+              </Col>
+            </Row>
             <Row>
               <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                 <FileUploaderMain
                   key={key}
                   isMultiple={false}
                   texts={
-                    "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                    <span>
+                      {"Drop files here or click "}
+                      <a
+                        href="#"
+                        style={{
+                          textDecoration: "underline",
+                          color: "#00ab55",
+                          display: "inline-block",
+                        }}
+                      >
+                        {" browse "}
+                      </a>
+                      {" through your machine, File size not more than"}
+                    </span>
                   }
                   fileTypes={["pdf", "doc"]}
                   handleChange={handleUploadPolicy}
@@ -745,6 +384,7 @@ const CompanyPolicies = (props) => {
                     " " +
                     styles.text_left
                   }
+                  style={{ marginBottom: "20px" }}
                 >
                   {uploadedPolicy && "Uploaded file"}
                 </div>
@@ -763,8 +403,10 @@ const CompanyPolicies = (props) => {
 
                           <span
                             id="file-preview"
+                            data-testid="file-preview"
                             className={global_style.blue + " " + styles.link}
                             onClick={() => window.open(preview)}
+                            style={{ width: "100%" }}
                           >
                             {uploadedPolicy.name + " "}{" "}
                           </span>
@@ -782,6 +424,7 @@ const CompanyPolicies = (props) => {
                           style={{ cursor: "pointer" }}
                           fontSize="small"
                           id="cancel-policy-file"
+                          data-testid="cancel-policy-file"
                         />
                       </div>
                     )}
@@ -835,14 +478,17 @@ const CompanyPolicies = (props) => {
                       id="policyName"
                       name="policyName"
                       value={policyName}
-                      onChange={(e) => setPolicyName(e.target.value)}
+                      onChange={(e) => {
+                        setPolicyName(e.target.value.trimStart());
+                        setPolicyNameError("");
+                      }}
                       error={policyNameError ? true : false}
                       helperText={policyNameError}
                     />
                   </Col>
                 </Row>
                 <Row>
-                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                  <Col lg={12} sm={12} style={{ margin: "20px 0px" }}>
                     <RichTextEditor
                       placeholder="Description"
                       toolbarConfig={toolbarConfig}
@@ -861,19 +507,42 @@ const CompanyPolicies = (props) => {
                         border: "1px solid black",
                       }}
                     />
-                    <span style={{ color: "red", fontSize: "12px" }}>
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        textAlign: "left",
+                      }}
+                    >
                       {descriptionError}
                     </span>
                   </Col>
                 </Row>
-
+                <Row>
+                  <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                    <Divider>or</Divider>
+                  </Col>
+                </Row>
                 <Row>
                   <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
                     <FileUploaderMain
                       key={key}
                       isMultiple={false}
                       texts={
-                        "Drop files here or click browse thorough your machine, supported files are .doc, .pdf file size not more than"
+                        <span>
+                          {"Drop files here or click "}
+                          <a
+                            href="#"
+                            style={{
+                              textDecoration: "underline",
+                              color: "#00ab55",
+                              display: "inline-block",
+                            }}
+                          >
+                            {" browse "}
+                          </a>
+                          {" through your machine, File size not more than"}
+                        </span>
                       }
                       fileTypes={["pdf", "doc"]}
                       handleChange={handleUploadPolicy}
@@ -893,6 +562,7 @@ const CompanyPolicies = (props) => {
                         " " +
                         styles.text_left
                       }
+                      style={{ marginBottom: "20px" }}
                     >
                       {uploadedPolicy && "Uploaded file"}
                     </div>
@@ -913,6 +583,7 @@ const CompanyPolicies = (props) => {
 
                               <span
                                 id="preview-file"
+                                data-testid="preview-file"
                                 className={
                                   global_style.blue + " " + styles.link
                                 }
@@ -934,6 +605,7 @@ const CompanyPolicies = (props) => {
                               style={{ cursor: "pointer" }}
                               fontSize="small"
                               id="cancel-policy-file"
+                              data-testid="cancel-policy-file"
                             />
                           </div>
                         )}
@@ -986,7 +658,7 @@ const CompanyPolicies = (props) => {
       ) : (
         ""
       )}
-      <Row style={{ marginBottom: "20px" }}>
+      <Row style={{ marginBottom: "20px 0px" }}>
         <Col lg={12} sm={12}>
           {allPolicies.map((each_policy, index) => {
             // console.log(allPolicies, each_policy);
@@ -1000,6 +672,7 @@ const CompanyPolicies = (props) => {
                 isHeadEditing={false}
                 handleEditHeading={() => {}}
                 onOpenHideDelete={true}
+                getListOfPolicies={getListOfPolicies}
               />
             );
           })}
@@ -1011,6 +684,7 @@ const CompanyPolicies = (props) => {
             onClick={() => setActiveStep((prev) => prev + 1)}
             className={global_style.secondary_button}
             id="policy-button-onboard-finishlater"
+            style={{ paddingRight: "25px" }}
           >
             {" "}
             Finish later

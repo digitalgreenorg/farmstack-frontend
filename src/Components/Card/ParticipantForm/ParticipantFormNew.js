@@ -1,14 +1,5 @@
 import React, { useEffect, useMemo, useState, useContext } from "react";
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Select,
-  MenuItem,
-  InputLabel,
-} from "@material-ui/core";
+import { FormControl, Select, MenuItem, InputLabel } from "@material-ui/core";
 import {
   Typography,
   TextField,
@@ -18,12 +9,10 @@ import {
   Alert,
   Stack,
 } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import LocalStyle from "./ParticipantForm.module.css";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import labels from "../../../Constants/labels";
 import UrlConstants from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
@@ -39,7 +28,6 @@ import {
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
-import InfoIcon from "@mui/icons-material/Info";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { isPhoneValid } from "../../NewOnboarding/utils";
@@ -50,8 +38,6 @@ const ParticipantFormNew = (props) => {
   const history = useHistory();
   const countryNameList = useMemo(() => countryList().getData(), []);
   const { id } = useParams();
-
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [organisationName, setOrganisationName] = useState("");
   const [organisationEmail, setOrganisationEmail] = useState("");
   const [website, setWebsite] = useState("");
@@ -100,14 +86,6 @@ const ParticipantFormNew = (props) => {
     // perform form submission logic here
   };
 
-  const isValidURL = (string) => {
-    var res = string.match(RegexConstants.NEW_WEBSITE_REGEX);
-    return res !== null;
-  };
-  const isValidCapsUrl = (string) => {
-    var res1 = string.match(RegexConstants.NEW_C_WEBSITE_REGEX);
-    return res1 !== null;
-  };
   const handleContactNumber = (e, countryData) => {
     if (!isPhoneValid(e, countryData)) {
       setOrgContactErrorMessage("Invalid phone number");
@@ -374,9 +352,6 @@ const ParticipantFormNew = (props) => {
   };
 
   const getAllListOfCoSteward = () => {
-    let url =
-      UrlConstants.base_url + "datahub/participant/get_list_co_steward/";
-    let method = "GET";
     HTTPService(
       "POST",
       UrlConstants.base_url + UrlConstants.costewardlist_selfregister,
@@ -409,7 +384,9 @@ const ParticipantFormNew = (props) => {
         }
       });
   };
-
+  const handleOrgWebsite = (e) => {
+    setWebsite(e.target.value.trim());
+  };
   useEffect(() => {
     if (isEditModeOn) {
       getDataOnEdit();
@@ -443,7 +420,7 @@ const ParticipantFormNew = (props) => {
             </Typography>
           </Col>
         </Row>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} data-testid="handle-submit-button">
           <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
@@ -471,20 +448,14 @@ const ParticipantFormNew = (props) => {
               <TextField
                 id="add-participant-mail-id"
                 className={LocalStyle.textField}
-                label="Mail Id "
+                label="Orgnaisation email Id"
                 type="email"
                 fullWidth
                 required
                 value={organisationEmail}
                 disabled={isEditModeOn}
                 onChange={(e) => {
-                  // validateInputField(
-                  //   e.target.value,
-                  //   RegexConstants.NO_SPACE_REGEX
-                  // )
-                  //   ?
                   setOrganisationEmail(e.target.value.trim());
-                  // : e.preventDefault();
                 }}
                 error={orgEmailErrorMessage ? true : false}
                 helperText={orgEmailErrorMessage ? orgEmailErrorMessage : ""}
@@ -494,12 +465,13 @@ const ParticipantFormNew = (props) => {
           <Row>
             <Col xs={12}>
               <TextField
+                required
                 id="add-participant-website-link"
                 className={LocalStyle.textField}
                 label="Website Link"
                 fullWidth
                 value={website}
-                onChange={(event) => setWebsite(event.target.value.trim())}
+                onChange={handleOrgWebsite}
                 error={orgWebsiteErrorMessage}
                 helperText={
                   orgWebsiteErrorMessage ? orgWebsiteErrorMessage : ""
@@ -516,7 +488,12 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={address}
-                onChange={(event) => setAddress(event.target.value)}
+                onChange={(event) => {
+                  console.log("event.target.value", event.target.value);
+                  if (event.target.value?.length < 256) {
+                    setAddress(event.target.value);
+                  }
+                }}
               />
             </Col>
           </Row>
@@ -663,42 +640,20 @@ const ParticipantFormNew = (props) => {
             <TextField
               id="add-participant-rootuser-mail-id"
               className={LocalStyle.textField}
-              label="Mail Id "
+              label="Mail Id"
               type="email"
               fullWidth
               required
               value={email}
               disabled={isEditModeOn}
               onChange={(e) => {
-                // validateInputField(
-                //   e.target.value,
-                //   RegexConstants.NO_SPACE_REGEX
-                // )
-                //   ?
                 setEmail(e.target.value.trim());
-                // : e.preventDefault();
               }}
               error={emailErrorMessage ? true : false}
               helperText={emailErrorMessage ? emailErrorMessage : ""}
             />
-            {/* <TextField
-              className={LocalStyle.textField}
-              label="Country "
-              fullWidth
-              required
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            /> */}
           </Col>
           <Col xs={12} sm={6} md={6} xl={6}>
-            {/* <TextField
-              className={LocalStyle.textField}
-              label="Contact Number"
-              fullWidth
-              required
-              value={contactNumber}
-              onChange={(event) => setContactNumber(event.target.value)}
-            /> */}
             <MuiPhoneNumber
               className={LocalStyle.textField}
               fullWidth
@@ -792,6 +747,7 @@ const ParticipantFormNew = (props) => {
                         />
                       </div>
                     )}
+                    data-testid="Costeward-field"
                     labelId="Costeward"
                     id="select_costeward"
                     label="Costeward "
@@ -821,44 +777,6 @@ const ParticipantFormNew = (props) => {
             </Col>
           )}
         </Row>
-        {/* <Row>
-          <Col xs={12} sm={6} md={6} xl={6}>
-            <FormControl
-              variant="outlined"
-              fullWidth
-              className={LocalStyle.textField}
-            >
-              <InputLabel id="assign-role-in-add-participants">
-                Assign Role
-              </InputLabel>
-              <Select
-                IconComponent={(_props) => (
-                  <div style={{ position: "relative" }}>
-                    <img
-                      className={LocalStyle.icon}
-                      src={require("../../../Assets/Img/down_arrow.svg")}
-                    />
-                  </div>
-                )}
-                labelId="Assign Role"
-                id="assign-role-in-add-participants"
-                value={!isEditModeOn ? "Participant" : assignRole}
-                label="Assign Role"
-                onChange={(e) => {
-                  // console.log(e.target.value, assignRole);
-                  setAssignRole(e.target.value);
-                }}
-              >
-                <MenuItem value="Individual Organisation">
-                  Individual Organisation
-                </MenuItem>
-                <MenuItem value="Co-Steward">Co-Steward</MenuItem>
-                <MenuItem value="Participant">Participant</MenuItem>
-               
-              </Select>
-            </FormControl>
-          </Col>
-        </Row>  */}
       </div>
       <Row className={LocalStyle.buttonContainer}>
         <Button
@@ -885,6 +803,7 @@ const ParticipantFormNew = (props) => {
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButton}`}
           onClick={handleCancel}
+          style={{marginRight: "25px"}}
         >
           Cancel
         </Button>

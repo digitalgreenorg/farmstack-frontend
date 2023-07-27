@@ -1,13 +1,22 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
 import {
+  Box,
   Button,
   FormControl,
   InputLabel,
   TextField,
   Typography,
 } from "@mui/material";
+
 import global_style from "../../Assets/CSS/global.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -32,14 +41,22 @@ import HTTPService from "../../Services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
-import { isPhoneValid } from "./utils";
+import getCroppedImg, { isPhoneValid } from "./utils";
+import ReactEasyCropperForFarmstack from "../Generic/ReactEasyCropperForFarmstack";
+import Modal from "@mui/material/Modal";
 import RegexConstants from "../../Constants/RegexConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import parse from "html-react-parser";
 
 const OrganizationDetails = (props) => {
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const fileTypes = ["jpg", "jpeg", "png"];
+
   const countryNameList = useMemo(() => countryList().getData(), []);
   const { setActiveStep } = props;
   const [alreadyOnboarded, setAlreadyOnboarded] = useState(false);
@@ -67,7 +84,7 @@ const OrganizationDetails = (props) => {
 
   const clearErrors = (name) => {
     let Message = "";
-    console.log(name, Message);
+    // console.log(name, Message);
     switch (name) {
       case "organisation_mail_id":
         setOrganisationDetailsError({
@@ -125,10 +142,8 @@ const OrganizationDetails = (props) => {
         // setIsLoader(false);
         callToast("Onboarded successfuly", "success", true);
 
-        console.log("onboarded true response", response.data);
-        if (isLoggedInUserAdmin()) {
-          history.push("/datahub/new_datasets");
-        } else if (isLoggedInUserParticipant()) {
+        // console.log("onboarded true response", response.data);
+        if (isLoggedInUserParticipant()) {
           history.push("/participant/new_datasets");
         } else if (isLoggedInUserCoSteward()) {
           history.push("/datahub/new_datasets");
@@ -136,7 +151,7 @@ const OrganizationDetails = (props) => {
       })
       .catch((e) => {
         callToast("Some error occurred", "error", true);
-        console.log(e);
+        // console.log(e);
       });
   };
   const handleOrgChange = (e, countryData) => {
@@ -144,7 +159,10 @@ const OrganizationDetails = (props) => {
       clearErrors(e.target.name);
       setOrganisationDetails({
         ...organisationDetails,
-        [e.target.name]: e.target.value,
+        [e.target.name]:
+          e.target.name === "organisation_mail_id"
+            ? e.target.value.trim()
+            : e.target.value.trimStart(),
       });
     } else {
       clearErrors("organisation_contact_number");
@@ -167,32 +185,74 @@ const OrganizationDetails = (props) => {
   };
 
   const [preview, setPreview] = useState();
-  const [key, setKey] = useState(0);
-  const handleUpload = (file) => {
-    console.log(file);
-    setIsLogoLink(false);
-    setUploadedLogo(file);
-    setKey(key + 1); // generate a new key when a file is uploaded
-  };
+  const [tempImage, setTempImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [uploadedImgName, setUploadedImgName] = useState("");
 
-  // create a preview as a side effect, whenever selected file is changed
-  useEffect(() => {
-    console.log(uploadedLogo, "inside useEffect");
-    if (!uploadedLogo) {
-      setPreview(null);
-      return;
-    }
+  const canvasRef = useRef(null);
+  const [key, setKey] = useState(0);
+
+  const handleFileForCrop = (file) => {
+    // console.log(file);
+    setSelectedImage(URL.createObjectURL(file));
+    setTempImage(file);
+    setOpen(true);
+    setKey(key + 1); // generate a new key when a file is uploaded
     setOrganisationDetailsError({
       ...organisationDetailsError,
       organisation_logo_error_logo: "",
     });
-    const objectUrl = URL.createObjectURL(uploadedLogo);
-    setPreview(objectUrl);
+  };
+  const convertImageUrlToObject = async (imageUrl) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const contentType = response.headers.get("content-type");
+      // console.log(contentType, "contentType");
+      const filename = tempImage?.name ?? "logo.png"; // You can implement this function to extract the filename from the URL
+      const file = new File([blob], filename, { type: contentType });
+      return file;
+    } catch (error) {
+      // console.log(error);
+    }
+  };
 
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl);
+  const showCroppedImage = useCallback(async () => {
+    try {
+      const croppedImage = await getCroppedImg(
+        selectedImage, // string url
+        croppedAreaPixels, // updated as per user x and y and other values
+        0
+      );
+      let croppedImageObjectAfterConvert = await convertImageUrlToObject(
+        croppedImage
+      );
+      // console.log(
+      //   "org logo",
+      //   croppedImageObjectAfterConvert,
+      //   croppedImageObjectAfterConvert?.name
+      // );
+      setUploadedImgName(croppedImageObjectAfterConvert?.name);
+      setUploadedLogo(croppedImageObjectAfterConvert);
+      setPreview(croppedImage);
+      setIsLogoLink(false);
+      setOpen(false);
+    } catch (e) {
+      // console.error(e);
+      setOpen(false);
+    }
+  }, [croppedAreaPixels]);
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    // console.log(croppedArea, croppedAreaPixels);
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  // create a preview as a side effect, whenever selected file is changed
+  useEffect(() => {
+    // console.log("uploadedLogo", uploadedLogo);
   }, [uploadedLogo]);
-
   const handleSubmitOrganizationDetails = (e) => {
     e.preventDefault();
     callLoader(true);
@@ -236,25 +296,36 @@ const OrganizationDetails = (props) => {
       "org_description",
       organisationDetails.organisation_description
     );
+    console.log(isLoggedInUserParticipant(), "local");
     HTTPService(method, url, bodyFormData, true, true, false, false)
       .then((response) => {
         callLoader(false);
-        console.log(response);
+        // console.log(response);
         if (isLoggedInUserAdmin() && !props.isOrgSetting) {
           setActiveStep((prev) => prev + 1);
         } else if (
           (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) &&
           !props.isOrgSetting
         ) {
+          console.log("inside lk");
           // callToast("Onboarded successfuly", "success", true);
           setOnBoardedTrue();
         }
-        if (props.isOrgSetting && response.status === 201)
-          callToast(
-            "Organisation settings updated successfully!",
-            "success",
-            true
-          );
+        if (response.status === 201) {
+          if (props.isOrgSetting) {
+            callToast(
+              "Organisation settings updated successfully!",
+              "success",
+              true
+            );
+          } else {
+            callToast(
+              "Organisation details added successfully!",
+              "success",
+              true
+            );
+          }
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -310,25 +381,16 @@ const OrganizationDetails = (props) => {
                     error?.status === 200 ? "success" : "error",
                     true
                   );
-                  console.log(e, error);
+                  // console.log(e, error);
                 }
                 break;
             }
           }
           setOrganisationDetailsError(errorObj);
         } else {
-          // let error = await GetErrorHandlingRoute(e);
-          // if (error) {
-          //   callToast(
-          //     error?.message,
-          //     error?.status === 200 ? "success" : "error",
-          //     true
-          //   );
-          //   console.log(e, error);
-          // }
           let error = await GetErrorHandlingRoute(e);
-          console.log("Error obj", error);
-          console.log(e);
+          // console.log("Error obj", error);
+          // console.log(e);
           if (error.toast) {
             callToast(
               error?.message || "Something went wrong",
@@ -343,19 +405,27 @@ const OrganizationDetails = (props) => {
       });
   };
 
-  console.log(
-    "organisation_logo_error_logo",
-    organisationDetailsError.organisation_logo_error_logo
-  );
+  // console.log(
+  //   "organisation_logo_error_logo",
+  //   organisationDetailsError.organisation_logo_error_logo
+  // );
   const getOrganizationData = () => {
     callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
+    console.log(
+      "🚀 ~ file: OrganizationDetails.jsx:415 ~ getOrganizationData ~ u:",
+      url
+    );
     let method = "GET";
     HTTPService(method, url, "", false, true, false, false)
       .then((response) => {
         callLoader(false);
 
         console.log(response);
+        console.log(
+          "🚀 ~ file: OrganizationDetails.jsx:421 ~ .then ~ response:",
+          response
+        );
         let data = response.data;
         let org = response.data.organization;
         if (org != "null") {
@@ -369,48 +439,39 @@ const OrganizationDetails = (props) => {
           organisation_address: org.address.address,
           organisation_country: org.address.country,
           organisation_pin_code: org.address.pincode,
-          organisation_description: org.org_description,
+          organisation_description: org.org_description
+            ? parse(org.org_description)
+            : org.org_description,
         });
         setPreview(
           org.logo ? UrlConstant.base_url_without_slash + org.logo : null
         );
         setIsLogoLink(true);
-        // setUploadedLogo(
-        //   org.logo ? UrlConstant.base_url_without_slash + org.logo : null
-        // );
+        // console.log("success in get", data);
       })
       .catch(async (e) => {
+        console.log("gett", e);
         callLoader(false);
-        // let error = await GetErrorHandlingRoute(e);
-        // console.log(e, error);
-        // if (error) {
-        //   callToast(
-        //     error?.message,
-        //     error?.status === 200 ? "success" : "error",
-        //     true
-        //   );
-        // }
         let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if (error.toast) {
+        // console.log(e);
+        if (error?.toast) {
           callToast(
             error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
             true
           );
         }
-        if (error.path) {
+        if (error?.path) {
           history.push(error.path);
         }
       });
   };
-  // console.log(preview, uploadedLogo);
-
   useEffect(() => {
     getOrganizationData();
     goToTop(0);
   }, []);
+
+  // console.log("uploadedlogo", uploadedLogo, preview);
 
   return (
     <>
@@ -418,7 +479,7 @@ const OrganizationDetails = (props) => {
         <div className={styles.main_label}>
           {props.isOrgSetting
             ? "Organisation settings"
-            : " Organisation Details"}
+            : "Organisation Details"}
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
@@ -470,7 +531,11 @@ const OrganizationDetails = (props) => {
                     ? true
                     : false
                 }
-                helperText={organisationDetailsError.organisation_mail_id_error}
+                helperText={
+                  organisationDetailsError.organisation_mail_id_error
+                    ? organisationDetailsError.organisation_mail_id_error
+                    : ""
+                }
               />
             </Col>
           </Row>
@@ -509,7 +574,7 @@ const OrganizationDetails = (props) => {
                 name="organisation_contact_number"
                 value={organisationDetails.organisation_contact_number}
                 onChange={(value, countryData) => {
-                  console.log(value, countryData);
+                  // console.log(value, countryData);
                   handleOrgChange(value, countryData);
                 }}
                 error={
@@ -534,7 +599,9 @@ const OrganizationDetails = (props) => {
                 id="organisation_address"
                 name="organisation_address"
                 value={organisationDetails.organisation_address}
-                onChange={(e) => handleOrgChange(e)}
+                onChange={(e) =>
+                  e.target.value.length <= 255 ? handleOrgChange(e) : ""
+                }
                 error={
                   organisationDetailsError.organisation_address_error
                     ? true
@@ -547,7 +614,7 @@ const OrganizationDetails = (props) => {
           <Row>
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
               <FormControl required fullWidth>
-                <InputLabel id="country_label"> Country</InputLabel>
+                <InputLabel id="country_label">Country</InputLabel>
                 <Select
                   required
                   labelId="country_label"
@@ -637,18 +704,33 @@ const OrganizationDetails = (props) => {
               <FileUploaderMain
                 key={key} // set the key prop to force a re-render when the key changes
                 texts={
-                  "Drop files here or click browse thorough your machine,File size not more than "
+                  <span>
+                    {"Drop files here or click "}
+                    <a
+                      href="#"
+                      style={{
+                        textDecoration: "underline",
+                        color: "#00ab55",
+                        display: "inline-block",
+                      }}
+                    >
+                      {" browse "}
+                    </a>
+                    {" through your machine, File size not more than"}
+                  </span>
                 }
                 maxSize={2}
                 isMultiple={false}
-                handleChange={handleUpload}
+                handleChange={handleFileForCrop}
                 id="org-upload-file"
-                // setSizeError={() =>
-                //   setOrganisationDetailsError({
-                //     ...organisationDetailsError,
-                //     organisation_logo_error_logo: "Maximum size exceeds",
-                //   })
-                // }
+                fileTypes={fileTypes}
+                setSizeError={() =>
+                  setOrganisationDetailsError({
+                    ...organisationDetailsError,
+                    organisation_logo_error_logo:
+                      "Maximum file size allowed is 2MB",
+                  })
+                }
               />
             </Col>
             <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
@@ -660,25 +742,42 @@ const OrganizationDetails = (props) => {
                   " " +
                   styles.text_left
                 }
+                style={{ marginBottom: "20px", marginLeft: "10px" }}
               >
                 {preview && "Uploaded file"}
               </div>
               {preview && (
-                <div className={styles.text_left + " " + styles.preview_box}>
-                  {preview && (
-                    <img className={styles.preview_logo} src={preview} />
-                  )}
-                  <CancelIcon
-                    onClick={() => {
-                      setPreview(null);
-                      setUploadedLogo(null);
-                      setKey(key + 1); // generate a new key when a file is deleted
-                    }}
-                    style={{ cursor: "pointer" }}
-                    fontSize="small"
-                    id="cancel-uploaded-file"
-                  />
-                </div>
+                <>
+                  <div className={styles.text_left + " " + styles.preview_box}>
+                    {preview && (
+                      <img className={styles.preview_logo} src={preview} />
+                    )}
+                    <CancelIcon
+                      onClick={() => {
+                        setPreview(null);
+                        setUploadedLogo(null);
+                        setKey(key + 1); // generate a new key when a file is deleted
+                      }}
+                      style={{
+                        cursor: "pointer",
+                        marginBottom: "70px",
+                        fill: "rgba(0, 0, 0, 0.48)",
+                      }}
+                      fontSize="medium"
+                      id="cancel-uploaded-file"
+                    />
+                  </div>
+                  <div
+                    className={styles.text_left}
+                    style={{ marginLeft: "10px" }}
+                  >
+                    {preview && uploadedImgName
+                      ? uploadedImgName
+                      : preview
+                      ? preview?.split("/").pop()
+                      : uploadedLogo && uploadedLogo?.name}
+                  </div>
+                </>
               )}
               <div
                 className={
@@ -737,17 +836,6 @@ const OrganizationDetails = (props) => {
           </Row>
         ) : (
           <div className={styles.button_grp}>
-            {/* <Button
-              onClick={() =>
-                !isLoggedInUserAdmin()
-                  ? setOnBoardedTrue()
-                  : setActiveStep((prev) => prev + 1)
-              }
-              className={global_style.secondary_button}
-            >
-              {" "}
-              Finish later
-            </Button> */}
             <Button
               disabled={
                 organisationDetails.organisation_address &&
@@ -768,12 +856,27 @@ const OrganizationDetails = (props) => {
               id="nextbutton_org_onboard"
             >
               {" "}
+              {console.log(isLoggedInUserAdmin(), "logged")}
               {isLoggedInUserAdmin() ? "Next" : "Finish"}
             </Button>
           </div>
         )}
-        {/* <div className={styles.send_otp_div}>
-</div> */}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={{ height: "300px", width: "300px" }}>
+            {selectedImage && (
+              <ReactEasyCropperForFarmstack
+                file={selectedImage}
+                handleCropComplete={onCropComplete}
+                showCroppedImage={showCroppedImage}
+              />
+            )}
+          </Box>
+        </Modal>
       </div>
     </>
   );

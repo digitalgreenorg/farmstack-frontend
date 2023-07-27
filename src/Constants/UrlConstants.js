@@ -130,6 +130,12 @@ const UrlConstant = {
   //new v2 urls
   datahub_policy: "datahub/policy/",
   new_datahub_dashboard: "datahub/newdashboard/dashboard/",
+
+  //new support
+  support_ticket: "participant/support_ticket/",
+  support_ticket_tab: "/participant/support_ticket/list_tickets/",
+  support_resolution: "participant/ticket_resolution/",
+  search_support_ticket: "/participant/support_ticket/search_support_tickets/",
 };
 
 export default UrlConstant;

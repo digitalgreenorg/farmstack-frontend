@@ -23,7 +23,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const Connectors = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -61,6 +61,7 @@ const Connectors = () => {
     callLoader(true);
     HTTPService("GET", url, "", false, accessToken)
       .then((response) => {
+        console.log(response.data.next, "next");
         callLoader(false);
         if (response.data.next == null) {
           setShowLoadMore(false);

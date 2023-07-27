@@ -1,29 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import Navbar from "../Components/Navbar/Navbar";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
-  withRouter,
   useHistory,
 } from "react-router-dom";
 import AddCoSteward from "../Components/CoSteward/AddCoSteward";
-import ParticipantCoStewardManagement from "../Views/ParticipantCoSteward/ParticipantCoStewardManagement";
-import Participants from "../Views/Participants/Participants";
-import AddParticipants from "../Views/Participants/AddParticipants";
-import EditParticipants from "../Views/Participants/EditParticipants";
-import ViewParticipants from "../Views/Participants/ViewParticipants";
-import InviteParticipants from "../Views/Participants/InviteParticipants";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
-// import Settings from "../Views/Settings/Settings/Settings";
 import Settings from "../Components/SettingsNew/Settings";
-import Support from "../Views/Support/Support";
-// import AddDataset from "../Views/Dataset/DatasetAdmin/AddDataset";
-import DatasetAdmin from "../Views/Dataset/DatasetAdmin/DatasetAdmin";
-// import EditDataset from "../Views/Dataset/DatasetAdmin/EditDataset";
-import { useParams } from "react-router-dom";
+
 import {
   flushLocalstorage,
   getRoleLocal,
@@ -35,25 +21,17 @@ import {
   GetErrorHandlingRoute,
   goToTop,
 } from "../Utils/Common";
-import SampleDataSet from "../Views/Support/SampleDataSet";
-import Footer from "../Components/Footer/Footer";
+
 import Dashboard from "../Views/Dashboard/Dashboard";
-import AddConnectorParticipant from "../Views/Role/Participant/Connectors/AddConnectorParticipant";
-import EditConnectorParticipant from "../Views/Role/Participant/Connectors/EditConnectorParticipant";
-import ConnectorParticipant from "../Views/Connector/ConnectorParticipant/ConnectorParticipant";
+
 import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
-import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
-import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
-import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
+
 import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
-import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
-import ViewCoSteward from "../Components/Participants/ViewCoSteword";
-import EditCoSteward from "../Components/Participants/EditCoSteward";
-import DatasetIntegration from "../Components/Datasets/IntegrationDatasets/DatasetIntegration";
-import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+
+// import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
 import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
 import NavbarNew from "../Components/Navbar/Navbar_New";
@@ -75,16 +53,20 @@ import UrlConstant from "../Constants/UrlConstants";
 import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
+import Fab from "@mui/material/Fab";
+import Support from "../Components/Support_New/Support";
+import SupportView from "../Components/Support_New/SupportView";
+import AskSupport from "../Components/Support_New/SupportForm";
+import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
+import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
+
 function Datahub(props) {
-  // const [activePage, setactivePage] = useState("");
-  // useEffect(() => {
-  // }, []);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [render, reRender] = useState(0);
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
+  const [showButton, setShowButton] = useState(false);
   let roleId = {
     1: "datahub_admin",
     3: "datahub_participant_root",
@@ -94,7 +76,6 @@ function Datahub(props) {
   const verifyUserDataOfLocal = () => {
     let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
     let userId = getUserLocal();
-    let returnValue = false;
     if (!userId) {
       flushLocalstorage();
       return;
@@ -136,10 +117,20 @@ function Datahub(props) {
         }
       });
   };
+  const shouldRenderButton = () => {
+    const currentPath = window.location.pathname;
+    const excludedPaths = [
+      "/datahub/support",
+      "/datahub/support/add",
+      "/datahub/support/view/",
+    ]; // Add the paths where the floating button should be excluded
+    return !excludedPaths.some((path) => currentPath.includes(path));
+  };
 
   useEffect(() => {
     verifyUserDataOfLocal();
     goToTop(0);
+    setShowButton(true);
   }, []);
 
   return verifyLocalData ? (
@@ -162,6 +153,11 @@ function Datahub(props) {
                 exact
                 path="/datahub/participants/view/:id"
                 component={ParticipantsAndCoStewardDetailsNew}
+              />
+              <Route
+                exact
+                path="/datahub/costeward/participants/view/:id"
+                component={CostewardsParticipant}
               />
               <Route
                 exact
@@ -340,12 +336,37 @@ function Datahub(props) {
                 <Connectors />
               </Route>
               {/* end */}
-              <Route exact path="/datahub/connectors/list">
+              {/* <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
+              </Route> */}
+              <Route exact path="/datahub/support">
+                <Support />
+              </Route>
+              <Route exact path="/datahub/support/add">
+                <AskSupport />
+              </Route>
+              <Route exact path="/datahub/support/view/:id">
+                <SupportView />
               </Route>
             </Switch>
           </div>
           {/* <Footer /> */}
+          {shouldRenderButton() && showButton && (
+            <Fab
+              style={{
+                position: "fixed",
+                bottom: "20px",
+                right: "30px",
+                zIndex: 1000,
+              }}
+              onClick={() => {
+                props.history.push("/datahub/support");
+              }}
+              className={"fabIcon"}
+            >
+              <AddIcCallRoundedIcon />
+            </Fab>
+          )}
           <Divider className="mt-50" />
           <FooterNew />
         </div>

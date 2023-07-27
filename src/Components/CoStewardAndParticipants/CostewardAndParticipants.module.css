@@ -4,8 +4,9 @@
 }
 
 .listAndGridViewButtonMd {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: row-reverse; */
+  display: none;
 }
 
 .listViewButton {
@@ -13,17 +14,21 @@
   flex-direction: column;
 }
 
-.listAndGridViewButton>div {
+.listAndGridViewButton > div {
   /* display: inline-block; */
   margin: 0 10px;
 }
 
 .titleContainer {
   margin: 50px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .titleContainerSm {
   margin: 52px 0px 20px;
+  display: inline-block;
 }
 
 .title {
@@ -42,7 +47,7 @@
 
 .titleSm {
   text-align: left;
-  color: #585D60;
+  color: #585d60;
 }
 
 .loadMoreButton {
@@ -53,7 +58,7 @@
 }
 
 .pButtonStyle {
-  font-family: 'Montserrat' !important;
+  font-family: "Montserrat" !important;
   font-weight: 700 !important;
   font-size: 15px !important;
   line-height: 26px !important;
@@ -63,11 +68,11 @@
   border-radius: 8px !important;
   /* background: #00AB55 !important; */
   border: 1px solid rgba(0, 171, 85, 0.48) !important;
-  color: #00AB55 !important;
+  color: #00ab55 !important;
 }
 
 .pButtonStyleMd {
-  font-family: 'Montserrat' !important;
+  font-family: "Montserrat" !important;
   font-weight: 700 !important;
   font-size: 14px !important;
   line-height: 24px !important;
@@ -77,7 +82,7 @@
   border-radius: 8px !important;
   /* background: #00AB55 !important; */
   border: 1px solid rgba(0, 171, 85, 0.48) !important;
-  color: #00AB55 !important;
+  color: #00ab55 !important;
 }
 
 .buttonContainer {
@@ -160,6 +165,10 @@
   height: 48px !important;
   margin: 0px !important;
   border-radius: 8px;
+}
+.buttonContainer > div {
+  width: 33%;
+  margin: auto;
 }
 
 .listAndgridViewImg {

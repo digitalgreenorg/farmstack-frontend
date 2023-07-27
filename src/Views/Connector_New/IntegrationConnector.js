@@ -1,38 +1,14 @@
 import React, { useState } from "react";
-import {
-  Alert,
-  Box,
-  Button,
-  Card,
-  Checkbox,
-  Divider,
-  Typography,
-} from "@mui/material";
-import leftG from "../../Assets/Img/Join type/Color/Left.svg";
-import leftB from "../../Assets/Img/Join type/Normal state/left.svg";
-import rightB from "../../Assets/Img/Join type/Normal state/right.svg";
-import rightG from "../../Assets/Img/Join type/Color/right.svg";
-import fullB from "../../Assets/Img/Join type/Normal state/outer.svg";
-import fullG from "../../Assets/Img/Join type/Color/outer.svg";
-import innerB from "../../Assets/Img/Join type/Normal state/inner.svg";
-import innerG from "../../Assets/Img/Join type/Color/inner.svg";
-import settinggif from "../../Assets/Img/setting.gif";
-import analytics from "../../Assets/Img/analytics.png";
-import globalStyle from "../../Assets/CSS/global.module.css";
-import style from "./connector.module.css";
+import { Alert, Box } from "@mui/material";
 import styles from "../../Components/Datasets/IntegrationDatasets/dataset_integration.module.css";
 import CardDetail from "./CardDetail";
-import { toTitleCase, validateInputField } from "../../Utils/Common";
+import { toTitleCase } from "../../Utils/Common";
 import Join from "../../Components/Datasets/IntegrationDatasets/Join/Join";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import RegexConstants from "../../Constants/RegexConstants";
 import JoinedBy from "./JoinedBy";
 
 const IntegrationConnector = ({
-  index,
   completeData,
   setCompleteData,
-  data,
   orgList,
   setIsAllConditionForSaveMet,
   setTotalCounter,
@@ -42,17 +18,9 @@ const IntegrationConnector = ({
   joinType,
   setJoinType,
   connectorData,
-  setConnectorData,
-  finalDataNeedToBeGenerated,
-  setIsConditionForConnectorDataForSaveMet,
-}) => {
-  const [joinTypeArr, setJoinTypeArr] = useState([
-    { name: "left", black: leftB, green: leftG },
-    { name: "right", black: rightB, green: rightG },
-    { name: "inner", black: innerB, green: innerG },
-    { name: "outer", black: fullB, green: fullG },
-  ]);
 
+  finalDataNeedToBeGenerated,
+}) => {
   const [value, setValue] = useState("Join by");
   const [show, setShow] = useState(false);
   const [indexShow, setIndex] = useState(-1);

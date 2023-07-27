@@ -5,10 +5,6 @@ import {
   Button,
   Card,
   Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
   useMediaQuery,
   useTheme,
@@ -17,11 +13,9 @@ import "./DataSetsView.css";
 import FileTable from "./FileTable";
 import FileWithAction from "./FileWithAction";
 import { useHistory, useParams } from "react-router-dom";
-import FooterNew from "../Footer/Footer_New";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../Accordion/Accordion";
-import OutlinedButton from "../Button/OutlinedButton";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import {
@@ -36,10 +30,9 @@ import {
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { Popconfirm } from "antd";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import { Col, Row } from "react-bootstrap";
 
 const DataSetsView = (props) => {
   const { userType, breadcrumbFromRoute } = props;
@@ -85,17 +78,6 @@ const DataSetsView = (props) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
-
-  // Upload File
-  // const [files, setFiles] = useState([]);
-  const [sqlFiles, setSqlFiles] = useState([]);
-  const [postgresFiles, setPostgresFiles] = useState([]);
-  const [sqLiteFiles, setSqLiteFiles] = useState([]);
-  const [restApifiles, setRestApiFiles] = useState([]);
-
-  // Standardise
-  const [allStandardisedFile, setAllStandardisedFile] = useState({});
-  const [standardisedFileLink, setStandardisedFileLink] = useState({});
 
   // Categories
   // const [categorises, setCategorises] = useState({})
@@ -263,6 +245,7 @@ const DataSetsView = (props) => {
                 <Box className="d-flex">
                   <FileWithAction
                     index={index}
+                    datasetId={response?.data?.id}
                     name={tempFile?.file?.slice(
                       tempFile?.file?.lastIndexOf("/") + 1
                     )}
@@ -273,10 +256,12 @@ const DataSetsView = (props) => {
                     getDataset={getDataset}
                     userType={userType === "guest" ? "guest" : ""}
                     isOther={
-                      history?.location?.state?.tab === "other_organisation"
+                      history?.location?.state?.tab === "other_organisation" ||
+                      userType === "guest"
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 <FileTable fileData={tempFile} />
@@ -293,6 +278,7 @@ const DataSetsView = (props) => {
                 <Box className="d-flex">
                   <FileWithAction
                     index={index}
+                    datasetId={response?.data?.id}
                     name={tempFile?.file?.slice(
                       tempFile.file.lastIndexOf("/") + 1
                     )}
@@ -303,10 +289,12 @@ const DataSetsView = (props) => {
                     getDataset={getDataset}
                     userType={userType === "guest" ? "guest" : ""}
                     isOther={
-                      history?.location?.state?.tab === "other_organisation"
+                      history?.location?.state?.tab === "other_organisation" ||
+                      userType === "guest"
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
@@ -325,6 +313,7 @@ const DataSetsView = (props) => {
                 <Box className="d-flex">
                   <FileWithAction
                     index={index}
+                    datasetId={response?.data?.id}
                     name={tempFile?.file?.slice(
                       tempFile.file.lastIndexOf("/") + 1
                     )}
@@ -335,10 +324,12 @@ const DataSetsView = (props) => {
                     getDataset={getDataset}
                     userType={userType === "guest" ? "guest" : ""}
                     isOther={
-                      history?.location?.state?.tab === "other_organisation"
+                      history?.location?.state?.tab === "other_organisation" ||
+                      userType === "guest"
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
@@ -357,6 +348,7 @@ const DataSetsView = (props) => {
                 <Box className="d-flex">
                   <FileWithAction
                     index={index}
+                    datasetId={response?.data?.id}
                     name={tempFile?.file?.slice(
                       tempFile.file.lastIndexOf("/") + 1
                     )}
@@ -367,10 +359,12 @@ const DataSetsView = (props) => {
                     getDataset={getDataset}
                     userType={userType === "guest" ? "guest" : ""}
                     isOther={
-                      history?.location?.state?.tab === "other_organisation"
+                      history?.location?.state?.tab === "other_organisation" ||
+                      userType === "guest"
                         ? true
                         : false
                     }
+                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
@@ -408,8 +402,6 @@ const DataSetsView = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // callToast("Something went wrong while loading dataset!", "error", true);
-        // console.log("error while loading dataset", e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -428,7 +420,7 @@ const DataSetsView = (props) => {
   useEffect(() => {
     getDataset();
   }, [id, approvalStatus]);
-  console.log(history.location?.state);
+
   return (
     <Box>
       <Box sx={containerStyle}>
@@ -541,13 +533,13 @@ const DataSetsView = (props) => {
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
         <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
           <Box sx={{ width: mobile ? "" : "638px" }}>
-            <Typography className="view_agriculture_heading text-left">
+            <Typography className="view_agriculture_heading text-left ellipsis">
               {dataSetName}
             </Typography>
             <Typography className="view_datasets_light_text text-left mt-20">
               Description
             </Typography>
-            <Typography className="view_datasets_bold_text text-left mt-3">
+            <Typography className="view_datasets_bold_text wordWrap text-left mt-3">
               {dataSetDescription}
             </Typography>
           </Box>
@@ -570,7 +562,7 @@ const DataSetsView = (props) => {
             <Typography className="view_datasets_light_text text-left mt-25">
               Geography
             </Typography>
-            <Typography className="view_datasets_bold_text text-left mt-3">
+            <Typography className="view_datasets_bold_text text-left mt-3 ellipsis maxWidth400">
               {/* IF GEOGRAPHY COUNTRY SAATE AND CITY ALL ARE "NA" THEN SHOW "Not Available" */}
               {!geography?.country?.name &&
               !geography?.state?.name &&
@@ -593,7 +585,26 @@ const DataSetsView = (props) => {
           {categories && categories.length ? "Dataset category" : ""}
         </div>
         <Box className="mt-20">
-          <ControlledAccordion data={categories} />
+          <ControlledAccordion
+            isCustomStyle={true}
+            titleStyle={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              width: "100%",
+              maxWidth: "800px",
+            }}
+            isCustomDetailStyle={true}
+            customDetailsStyle={{
+              wordBreak: "break-all",
+              maxWidth: "33%",
+              textAlign: "left",
+              width: "30%",
+              display: "inline-block",
+              marginBottom: "15px"
+            }}
+            data={categories}
+          />
         </Box>
         <div className="bold_title mt-50">{"Dataset files"}</div>
         <Alert
@@ -614,7 +625,6 @@ const DataSetsView = (props) => {
           />
         </Box>
         <Divider className="mt-50" />
-        {console.log(history)}
         {history.location?.state?.tab === "my_organisation" &&
         userType !== "guest" ? (
           <>
@@ -643,9 +653,14 @@ const DataSetsView = (props) => {
             <Card className="organisation_icon_card">
               <Box className="d-flex h-100 align-items-center">
                 {orgDetails?.logo ? (
-                  <img src={orgDetails?.logo} alt="footerLogo" />
+                  <img
+                    style={{ width: "100%" }}
+                    src={orgDetails?.logo}
+                    alt="footerLogo"
+                  />
                 ) : (
                   <img
+                    style={{ width: "100%" }}
                     src={require("../../Assets/Img/footer_logo.svg")}
                     alt="footerLogo"
                   />
@@ -653,8 +668,23 @@ const DataSetsView = (props) => {
               </Box>
             </Card>
 
-            <div className="d-flex mt-30">
-              <div className="text-left w-313">
+            <Row className="">
+              <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
+                <Typography className="view_datasets_light_text">
+                  Organisation name
+                </Typography>
+                <Typography
+                  className={
+                    mobile
+                      ? "view_datasets_bold_text_sm"
+                      : "view_datasets_bold_text break_word"
+                  }
+                >
+                  {orgDetails?.name}
+                </Typography>
+              </Col>
+              {/* <hr /> */}
+              <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
                 <Typography className="view_datasets_light_text">
                   Organisation address
                 </Typography>
@@ -662,13 +692,13 @@ const DataSetsView = (props) => {
                   className={
                     mobile
                       ? "view_datasets_bold_text_sm"
-                      : "view_datasets_bold_text"
+                      : "view_datasets_bold_text break_word"
                   }
                 >
                   {orgAddress}
                 </Typography>
-              </div>
-              <div className={`text-left ${mobile ? "ml-28" : "ml-79"}`}>
+              </Col>
+              <Col xl={4} lg={4} md={6} sm={6} className={`text-left mt-30`}>
                 <Typography className="view_datasets_light_text">
                   Root user details
                 </Typography>
@@ -676,7 +706,7 @@ const DataSetsView = (props) => {
                   className={
                     mobile
                       ? "view_datasets_bold_text_sm"
-                      : "view_datasets_bold_text"
+                      : "view_datasets_bold_text break_word"
                   }
                 >
                   {userDetails?.first_name + " " + userDetails?.last_name}
@@ -685,13 +715,13 @@ const DataSetsView = (props) => {
                   className={
                     mobile
                       ? "view_datasets_bold_text_sm"
-                      : "view_datasets_bold_text"
+                      : "view_datasets_bold_text break_word"
                   }
                 >
                   {userDetails?.email}
                 </Typography>
-              </div>
-            </div>
+              </Col>
+            </Row>
           </Box>
         )}
         <Divider className="mt-50" />

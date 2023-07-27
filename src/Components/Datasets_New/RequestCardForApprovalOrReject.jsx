@@ -6,14 +6,8 @@ import { Col, Row } from "react-bootstrap";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
-  Avatar,
   Box,
   Button,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -29,17 +23,16 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-import { daysSincePublish } from "../NewOnboarding/utils";
-import { Badge, Popconfirm } from "antd";
-import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
+
+import { Badge } from "antd";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 const RequestCardForApprovalOrReject = (props) => {
   const { data, setApprovalStatus, approvalStatus } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
-  const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  // const theme = useTheme();
+  // const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  // const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
   const [requestReceivedColumns, setRequestReceivedColumns] = useState([]);
   const [noDataRequest, setNoDataRequest] = useState(true);
@@ -91,17 +84,6 @@ const RequestCardForApprovalOrReject = (props) => {
   ]);
   const [open, setOpen] = useState(false);
   const [confirmIndex, setConfirmIndex] = useState(-1);
-
-  const showPopconfirm = (index) => {
-    setOpen(true);
-    setConfirmIndex(index);
-  };
-
-  const handleOk = (condition, usagePolicyId) => {
-    // setConfirmLoading(true);
-
-    SubmitHandler(condition, usagePolicyId);
-  };
 
   const handleCancel = () => {
     setConfirmIndex(-1);
@@ -326,9 +308,10 @@ const RequestCardForApprovalOrReject = (props) => {
                                       />
                                       <div
                                         style={{
-                                          // width: "100px",
+                                          maxWidth: "150px",
                                           overflow: "hidden",
                                           textOverflow: "ellipsis",
+                                          textWrap: "nowrap",
                                         }}
                                         className={local_style.link_name}
                                       >
@@ -400,8 +383,13 @@ const RequestCardForApprovalOrReject = (props) => {
                                       className={
                                         global_styles.bold600 +
                                         " " +
-                                        global_styles.size14
+                                        global_styles.size14 +
+                                        " " +
+                                        global_style.ellipses
                                       }
+                                      style={{
+                                        maxWidth: "200px",
+                                      }}
                                     >
                                       {/* <Avatar
                                   alt="Remy Sharp"
@@ -421,8 +409,13 @@ const RequestCardForApprovalOrReject = (props) => {
                                       className={
                                         global_styles.bold600 +
                                         " " +
-                                        global_styles.size14
+                                        global_styles.size14 +
+                                        " " +
+                                        global_style.ellipses
                                       }
+                                      style={{
+                                        maxWidth: "200px",
+                                      }}
                                     >
                                       {" "}
                                       {eachUsagePolicy.organization.org_email}
@@ -436,8 +429,13 @@ const RequestCardForApprovalOrReject = (props) => {
                                       className={
                                         global_styles.bold600 +
                                         " " +
-                                        global_styles.size14
+                                        global_styles.size14 +
+                                        " " +
+                                        global_style.ellipses
                                       }
+                                      style={{
+                                        maxWidth: "150px",
+                                      }}
                                     >
                                       {" "}
                                       {

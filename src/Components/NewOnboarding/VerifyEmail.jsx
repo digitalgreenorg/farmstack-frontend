@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
-import { Col, Row } from "react-bootstrap";
 import {
   Button,
   Checkbox,
@@ -13,8 +12,7 @@ import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
 // import { logIn } from "./utils";
 import HTTPService from "../../Services/HTTPService";
-import OtpCountDownTimer from "../signup/OtpCountDownTimer";
-import Countdown from "react-countdown";
+
 import validator from "validator";
 import {
   GetErrorHandlingRoute,
@@ -46,7 +44,6 @@ const VerifyEmailStep = (props) => {
   const [emailId, setEmailId] = useState("");
   const [otp, setOtp] = useState("");
   const [isValidEmailSent, setIsValidEmailSent] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [gotOtp, setGotOtp] = useState(false);
   const [key, setKey] = useState(0);
 
@@ -282,9 +279,9 @@ const VerifyEmailStep = (props) => {
       <div className={styles.inputs}>
         <TextField
           fullWidth
-          placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Email"}
+          placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
           id="email_id_for_login"
-          label={isValidEmailSent ? "Enter 6 digit OTP" : "Email"}
+          label={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
           variant="outlined"
           value={isValidEmailSent ? otp : emailId}
           onChange={(e) =>
@@ -323,14 +320,13 @@ const VerifyEmailStep = (props) => {
           />{" "}
           <span className={styles.agreement_line}>
             {" "}
-            Agree to the{" "}
+            Agree to the Farmstack{" "}
             <span
               className={styles.termsAndConditionClass}
               onClick={() => history.push("/home/legal")}
             >
-              terms and privacy
+              terms and privacy policy.
             </span>{" "}
-            policies.
           </span>
         </div>
       )}
@@ -389,7 +385,7 @@ const VerifyEmailStep = (props) => {
           id="send-otp-btn"
         >
           {" "}
-          {!isValidEmailSent ? "Send OTP" : "Verify"}
+          {!isValidEmailSent ? "Send OTP" : "Submit"}
         </Button>
       </div>
     </div>

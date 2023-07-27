@@ -16,15 +16,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import MenuItem from "@mui/material/MenuItem";
 import $ from "jquery";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
 import { FileUploader } from "react-drag-drop-files";
 import Success from "../../Components/Success/Success";
 import FileSaver from "file-saver";
 import Avatar from "@mui/material/Avatar";
-import HandleSessionTimeout, {
-  GetErrorKey,
-  handleUnwantedSpace,
-} from "../../Utils/Common";
+import { GetErrorKey, handleUnwantedSpace } from "../../Utils/Common";
 import Loader from "../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import { Tooltip } from "@mui/material";
@@ -269,7 +265,8 @@ function Support(props) {
           btntext={"ok"}
           heading={"Ticket updated successfully !"}
           imageText={"Success!"}
-          msg={"Your solutions are updated."}></Success>
+          msg={"Your solutions are updated."}
+        ></Success>
       ) : (
         <></>
       )}
@@ -289,7 +286,8 @@ function Support(props) {
                 {filterObject.all ? (
                   <Row
                     onClick={() => filterRow("all", false, "all")}
-                    className="supportfiltersecondrow">
+                    className="supportfiltersecondrow"
+                  >
                     <span className="supportallicon">
                       <img
                         src={require("../../Assets/Img/filter.svg")}
@@ -303,7 +301,8 @@ function Support(props) {
                 ) : (
                   <Row
                     onClick={() => filterRow("all", true, "all")}
-                    className="supportfiltersecondrowbold">
+                    className="supportfiltersecondrowbold"
+                  >
                     <span className="supportallicon">
                       <img
                         src={require("../../Assets/Img/filter_bold.svg")}
@@ -320,7 +319,8 @@ function Support(props) {
                     secondrow
                       ? "supportfilterthirdrowhighlight"
                       : "supportfilterthirdrow"
-                  }>
+                  }
+                >
                   <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterthirdrowheadingtext">
                     {screenlabels.support.date}
                   </span>
@@ -365,7 +365,8 @@ function Support(props) {
                       <Button
                         onClick={() => filterByDates()}
                         variant="contained"
-                        className="enabledatesubmitbtn">
+                        className="enabledatesubmitbtn"
+                      >
                         Submit
                       </Button>
                     </span>
@@ -373,7 +374,8 @@ function Support(props) {
                     <span className="supportsubmitbrn">
                       <Button
                         variant="outlined"
-                        className="disbaledatesubmitbtn">
+                        className="disbaledatesubmitbtn"
+                      >
                         Submit
                       </Button>
                     </span>
@@ -391,7 +393,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrow"}
                     secondcss={"supportfiltercommontexticon"}
                     thirdcss={"supportfiltercommontext"}
-                    label={screenlabels.support.open_status}></FilterRow>
+                    label={screenlabels.support.open_status}
+                  ></FilterRow>
                 ) : (
                   <FilterRow
                     supportFilter={() => filterRow("open", true, "status")}
@@ -399,7 +402,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrowbold"}
                     secondcss={"supportfiltercommontexticonbold"}
                     thirdcss={"supportfiltercommontextbold"}
-                    label={screenlabels.support.open_status}></FilterRow>
+                    label={screenlabels.support.open_status}
+                  ></FilterRow>
                 )}
                 {filterObject.closed ? (
                   <FilterRow
@@ -408,7 +412,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrow"}
                     secondcss={"supportfiltercommontexticon"}
                     thirdcss={"supportfiltercommontext"}
-                    label={screenlabels.support.close_status}></FilterRow>
+                    label={screenlabels.support.close_status}
+                  ></FilterRow>
                 ) : (
                   <FilterRow
                     supportFilter={() => filterRow("closed", true, "status")}
@@ -416,7 +421,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrowbold"}
                     secondcss={"supportfiltercommontexticonbold"}
                     thirdcss={"supportfiltercommontextbold"}
-                    label={screenlabels.support.close_status}></FilterRow>
+                    label={screenlabels.support.close_status}
+                  ></FilterRow>
                 )}
                 {filterObject.hold ? (
                   <FilterRow
@@ -425,7 +431,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrow"}
                     secondcss={"supportfiltercommontexticon"}
                     thirdcss={"supportfiltercommontext"}
-                    label={screenlabels.support.hold_status}></FilterRow>
+                    label={screenlabels.support.hold_status}
+                  ></FilterRow>
                 ) : (
                   <FilterRow
                     supportFilter={() => filterRow("hold", true, "status")}
@@ -433,7 +440,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrowbold"}
                     secondcss={"supportfiltercommontexticonbold"}
                     thirdcss={"supportfiltercommontextbold"}
-                    label={screenlabels.support.hold_status}></FilterRow>
+                    label={screenlabels.support.hold_status}
+                  ></FilterRow>
                 )}
                 <Row className="supportfiltersecondrowbold">
                   <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
@@ -449,7 +457,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrow"}
                     secondcss={"supportfiltercommontexticon"}
                     thirdcss={"supportfiltercommontext"}
-                    label={screenlabels.support.User_Accounts}></FilterRow>
+                    label={screenlabels.support.User_Accounts}
+                  ></FilterRow>
                 ) : (
                   <FilterRow
                     supportFilter={() =>
@@ -459,7 +468,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrowbold"}
                     secondcss={"supportfiltercommontexticonbold"}
                     thirdcss={"supportfiltercommontextbold"}
-                    label={screenlabels.support.User_Accounts}></FilterRow>
+                    label={screenlabels.support.User_Accounts}
+                  ></FilterRow>
                 )}
                 {filterObject.datasets ? (
                   <FilterRow
@@ -470,7 +480,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrow"}
                     secondcss={"supportfiltercommontexticon"}
                     thirdcss={"supportfiltercommontext"}
-                    label={screenlabels.support.Datasets}></FilterRow>
+                    label={screenlabels.support.Datasets}
+                  ></FilterRow>
                 ) : (
                   <FilterRow
                     supportFilter={() =>
@@ -480,7 +491,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrowbold"}
                     secondcss={"supportfiltercommontexticonbold"}
                     thirdcss={"supportfiltercommontextbold"}
-                    label={screenlabels.support.Datasets}></FilterRow>
+                    label={screenlabels.support.Datasets}
+                  ></FilterRow>
                 )}
                 {filterObject.usage_policy ? (
                   <FilterRow
@@ -491,7 +503,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrow"}
                     secondcss={"supportfiltercommontexticon"}
                     thirdcss={"supportfiltercommontext"}
-                    label={screenlabels.support.Usage_Policy}></FilterRow>
+                    label={screenlabels.support.Usage_Policy}
+                  ></FilterRow>
                 ) : (
                   <FilterRow
                     supportFilter={() =>
@@ -501,7 +514,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrowbold"}
                     secondcss={"supportfiltercommontexticonbold"}
                     thirdcss={"supportfiltercommontextbold"}
-                    label={screenlabels.support.Usage_Policy}></FilterRow>
+                    label={screenlabels.support.Usage_Policy}
+                  ></FilterRow>
                 )}
                 {filterObject.certificate ? (
                   <FilterRow
@@ -512,7 +526,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrow"}
                     secondcss={"supportfiltercommontexticon"}
                     thirdcss={"supportfiltercommontext"}
-                    label={screenlabels.support.Certificate}></FilterRow>
+                    label={screenlabels.support.Certificate}
+                  ></FilterRow>
                 ) : (
                   <FilterRow
                     supportFilter={() =>
@@ -522,7 +537,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrowbold"}
                     secondcss={"supportfiltercommontexticonbold"}
                     thirdcss={"supportfiltercommontextbold"}
-                    label={screenlabels.support.Certificate}></FilterRow>
+                    label={screenlabels.support.Certificate}
+                  ></FilterRow>
                 )}
                 {filterObject.connectors ? (
                   <FilterRow
@@ -533,7 +549,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrow"}
                     secondcss={"supportfiltercommontexticon"}
                     thirdcss={"supportfiltercommontext"}
-                    label={screenlabels.support.Connectors}></FilterRow>
+                    label={screenlabels.support.Connectors}
+                  ></FilterRow>
                 ) : (
                   <FilterRow
                     supportFilter={() =>
@@ -543,7 +560,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrowbold"}
                     secondcss={"supportfiltercommontexticonbold"}
                     thirdcss={"supportfiltercommontextbold"}
-                    label={screenlabels.support.Connectors}></FilterRow>
+                    label={screenlabels.support.Connectors}
+                  ></FilterRow>
                 )}
                 {filterObject.others ? (
                   <FilterRow
@@ -552,7 +570,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrow"}
                     secondcss={"supportfiltercommontexticon"}
                     thirdcss={"supportfiltercommontext"}
-                    label={screenlabels.support.Others}></FilterRow>
+                    label={screenlabels.support.Others}
+                  ></FilterRow>
                 ) : (
                   <FilterRow
                     supportFilter={() => filterRow("others", true, "category")}
@@ -560,7 +579,8 @@ function Support(props) {
                     firstcss={"supportfiltercommorrowbold"}
                     secondcss={"supportfiltercommontexticonbold"}
                     thirdcss={"supportfiltercommontextbold"}
-                    label={screenlabels.support.Others}></FilterRow>
+                    label={screenlabels.support.Others}
+                  ></FilterRow>
                 )}
               </Col>
               <Col className="supportSecondCOlumn">
@@ -573,13 +593,15 @@ function Support(props) {
                             viewCardDetails={() => viewCardDetails(rowData)}
                             margingtop={"supportcard supportcardmargintop0px"}
                             data={rowData}
-                            index={index}></SupportCard>
+                            index={index}
+                          ></SupportCard>
                         ) : (
                           <SupportCard
                             viewCardDetails={() => viewCardDetails(rowData)}
                             margingtop={"supportcard supportcardmargintop20px"}
                             data={rowData}
-                            index={index}></SupportCard>
+                            index={index}
+                          ></SupportCard>
                         )}
                       </>
                     ))}
@@ -593,7 +615,8 @@ function Support(props) {
                     <Button
                       onClick={() => loadMoreSupportList()}
                       variant="outlined"
-                      className="cancelbtn">
+                      className="cancelbtn"
+                    >
                       Load more
                     </Button>
                   ) : (
@@ -617,7 +640,8 @@ function Support(props) {
               </span>
               <span
                 className="supportViewDetailsback"
-                onClick={() => showSuppport()}>
+                onClick={() => showSuppport()}
+              >
                 {"Back"}
               </span>
             </Col>
@@ -631,7 +655,8 @@ function Support(props) {
               "margin-left": "79px",
               "margin-top": "30px",
               "text-align": "left",
-            }}>
+            }}
+          >
             <Col>
               <Tooltip title={rowdata.subject}>
                 <span className="secondmainheading d-inline-block text-truncate width300px">
@@ -653,12 +678,14 @@ function Support(props) {
               "margin-left": "79px",
               "margin-top": "5px",
               "text-align": "left",
-            }}>
+            }}
+          >
             <Col>
               <Tooltip
                 TransitionComponent={Zoom}
                 placement="bottom-start"
-                title={rowdata.issue_message}>
+                title={rowdata.issue_message}
+              >
                 <div className="messagedescription thirdmainheading">
                   {rowdata.issue_message}
                 </div>
@@ -679,7 +706,8 @@ function Support(props) {
                   ) : (
                     <Avatar
                       sx={{ bgcolor: "#c09507", width: 56, height: 56 }}
-                      aria-label="recipe">
+                      aria-label="recipe"
+                    >
                       {rowdata.organization.name.charAt(0)}
                     </Avatar>
                   )}
@@ -688,7 +716,8 @@ function Support(props) {
                   <Tooltip
                     TransitionComponent={Zoom}
                     placement="bottom-start"
-                    title={rowdata.organization.name}>
+                    title={rowdata.organization.name}
+                  >
                     <span className="thirdmainheading d-inline-block text-truncate width300px">
                       {rowdata.organization.name}
                     </span>
@@ -701,7 +730,8 @@ function Support(props) {
               <Tooltip
                 TransitionComponent={Zoom}
                 placement="bottom-start"
-                title={rowdata.user.first_name}>
+                title={rowdata.user.first_name}
+              >
                 <span className="thirdmainheading d-inline-block text-truncate width300px">
                   {rowdata.user.first_name}
                 </span>
@@ -713,7 +743,8 @@ function Support(props) {
               "margin-left": "79px",
               "margin-top": "40px",
               "text-align": "left",
-            }}>
+            }}
+          >
             <Col>
               <span className="secondmainheading">{"Date & Time"}</span>
             </Col>
@@ -729,7 +760,8 @@ function Support(props) {
               "margin-left": "79px",
               "margin-top": "5px",
               "text-align": "left",
-            }}>
+            }}
+          >
             <Col>
               <span className="thirdmainheading">
                 {dateTimeFormat(rowdata.updated_at)}
@@ -741,7 +773,8 @@ function Support(props) {
             {rowdata.issue_attachments ? (
               <Col
                 onClick={() => downloadAttachment(rowdata.issue_attachments)}
-                style={{ cursor: "pointer" }}>
+                style={{ cursor: "pointer" }}
+              >
                 <>
                   <span>
                     <img
@@ -765,7 +798,8 @@ function Support(props) {
               "margin-left": "79px",
               "margin-top": "40px",
               "text-align": "left",
-            }}>
+            }}
+          >
             <Col>
               <span className="secondmainheading">{"Status"}</span>
             </Col>
@@ -775,11 +809,13 @@ function Support(props) {
               "margin-left": "79px",
               "margin-top": "5px",
               "text-align": "left",
-            }}>
+            }}
+          >
             {rowdata.status == "open" ? (
               <Col
                 style={{ color: "#FF3D00", "text-transform": "capitalize" }}
-                className="thirdmainheading">
+                className="thirdmainheading"
+              >
                 {rowdata.status}
               </Col>
             ) : (
@@ -788,7 +824,8 @@ function Support(props) {
             {rowdata.status == "hold" ? (
               <Col
                 style={{ color: "#D8AF28", "text-transform": "capitalize" }}
-                className="thirdmainheading">
+                className="thirdmainheading"
+              >
                 {rowdata.status}
               </Col>
             ) : (
@@ -797,7 +834,8 @@ function Support(props) {
             {rowdata.status == "closed" ? (
               <Col
                 style={{ color: "#096D0D", "text-transform": "capitalize" }}
-                className="thirdmainheading">
+                className="thirdmainheading"
+              >
                 {rowdata.status}
               </Col>
             ) : (
@@ -810,14 +848,16 @@ function Support(props) {
               "margin-left": "290px",
               "margin-top": "30px",
               "text-align": "left",
-            }}>
+            }}
+          >
             <Col>
               <span className="mainheading">{"Resolution"}</span>
             </Col>
           </Row>
           <Row
             className="resolution"
-            style={{ "margin-left": "28px", "margin-top": "30px" }}>
+            style={{ "margin-left": "28px", "margin-top": "30px" }}
+          >
             <Col>
               <TextField
                 id="filled-multiline-static"
@@ -845,7 +885,8 @@ function Support(props) {
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 value={status}
-                onChange={(e) => setstatus(e.target.value)}>
+                onChange={(e) => setstatus(e.target.value)}
+              >
                 <MenuItem value={"open"}>Open</MenuItem>
                 <MenuItem value={"closed"}>Closed</MenuItem>
                 <MenuItem value={"hold"}>Hold</MenuItem>
@@ -892,7 +933,8 @@ function Support(props) {
                   onClick={() => submitResolution()}
                   variant="contained"
                   style={{ textTransform: "none" }}
-                  className="submitbtn">
+                  className="submitbtn"
+                >
                   {screenlabels.common.submit}
                 </Button>
               ) : (
@@ -900,7 +942,8 @@ function Support(props) {
                   variant="outlined"
                   style={{ textTransform: "none" }}
                   disabled
-                  className="disbalesubmitbtn">
+                  className="disbalesubmitbtn"
+                >
                   {screenlabels.common.submit}
                 </Button>
               )}
@@ -913,7 +956,8 @@ function Support(props) {
                 onClick={() => showSuppport()}
                 style={{ textTransform: "none" }}
                 variant="outlined"
-                className="cancelbtn">
+                className="cancelbtn"
+              >
                 {screenlabels.common.cancel}
               </Button>
             </Col>

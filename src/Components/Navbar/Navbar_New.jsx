@@ -285,7 +285,12 @@ const NavbarNew = ({ loginType }) => {
             <Box className="d-flex align-items-center">
               <img
                 // src={require("../../Assets/Img/footer_logo.svg")}
-                style={{ height: "auto", width: "172px", maxHeight: "65px" }}
+                style={{
+                  height: "auto",
+                  maxWidth: "172px",
+                  width: "auto",
+                  maxHeight: "65px",
+                }}
                 src={
                   UrlConstant.base_url_without_slash +
                   adminData?.organization?.logo
@@ -307,6 +312,29 @@ const NavbarNew = ({ loginType }) => {
                   onClick={() => handleSelect("new_dashboard")}
                 >
                   {isNavLinkActive("/datahub/new_dashboard") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Dashboard
+                </NavLink>
+              ) : loginType === "participant" ? (
+                <NavLink
+                  id="navbar-new_dashboard"
+                  activeStyle={
+                    isNavLinkActive("/participant/new_dashboard")
+                      ? navActiveStyle
+                      : navInActiveStyle
+                  }
+                  style={navInActiveStyle}
+                  to="/participant/new_dashboard"
+                  onClick={() => handleSelect("new_dashboard")}
+                >
+                  {isNavLinkActive("/participant/new_dashboard") ? (
                     <img
                       className={style.dotStyle}
                       src={require("../../Assets/Img/green_dot.svg")}
@@ -543,17 +571,17 @@ const NavbarNew = ({ loginType }) => {
                     id="navbar-signout"
                     sx={{
                       fontFamily: "Montserrat !important",
-                      fontWeight: 700,
-                      fontSize: "14px",
-                      width: "94px",
-                      height: "34px",
-                      background: "#00AB55",
-                      borderRadius: "8px",
-                      textTransform: "none",
-                      color: "white",
+                      fontWeight: "700 !important",
+                      fontSize: "14px !important",
+                      width: "94px !important",
+                      height: "34px !important",
+                      background: "#00AB55 !important",
+                      borderRadius: "8px !important",
+                      textTransform: "none !important",
+                      color: "white !important",
                       "&:hover": {
-                        backgroundColor: "#00AB55",
-                        color: "#fffff",
+                        backgroundColor: "#00AB55 !important",
+                        color: "#fffff !important",
                       },
                     }}
                     onClick={(e) => handleSignOut(e)}

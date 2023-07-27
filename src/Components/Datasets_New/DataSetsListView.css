@@ -20,6 +20,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.datasets_list_view_details_ellipsis {
+  white-space: nowrap;
+  width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .mr-44 {
   margin-right: 44px !important;

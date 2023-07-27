@@ -14,7 +14,14 @@ const cardSx = {
     border: "1px solid #2CD37F",
   },
 };
-const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
+const DataSetCardNew = ({
+  history,
+  item,
+  title,
+  handleCardClick,
+  value,
+  index,
+}) => {
   return (
     <Card
       className="card"
@@ -22,13 +29,16 @@ const DataSetCardNew = ({ history, item, title, handleCardClick, value }) => {
       onClick={() =>
         history.push(handleCardClick(item?.id), { data: title, tab: value })
       }
-      id={`dataset-card-view-id${title? title.split(" ")?.join("-") : item.name.split(" ")?.join("-")}`}
+      id={`dataset-card-view-id${index}`}
+      data-testid="navigate_dataset_view"
     >
       <div className="published">
         <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
         <span className="published_text">
           Published on:{" "}
-          {item?.created_at ? dateTimeFormat(item?.created_at, false) : "Not Available"}
+          {item?.created_at
+            ? dateTimeFormat(item?.created_at, false)
+            : "Not Available"}
         </span>
       </div>
       <div className="d_content_title">{item?.name}</div>

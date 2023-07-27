@@ -6,9 +6,8 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Admin_upload_dataset from "./UploadDatasetComponent";
-import Admin_add_metadata from "./AddMetadata";
 import "./admin-add-dataset.css";
-import { TextField, Tooltip } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
@@ -20,49 +19,21 @@ import {
   getRoleLocal,
 } from "../../Utils/Common";
 import RegexConstants from "../../Constants/RegexConstants";
-import ListForUploadedFiles from "./ListForUploadedFiles";
-import { handleDeleteFile } from "./Utils";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import StepperForProgressOfCreatingDataset from "./StepperForProgressOfCreatingDataset";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import InfoIcon from "@mui/icons-material/Info";
 import { useHistory } from "react-router-dom";
 import RichTextEditor from "react-rte";
 import AddMetadata from "./AddMetadata";
 import $ from "jquery";
 import Loader from "../Loader/Loader";
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
-import {
-  Avatar,
-  Checkbox,
-  CircularProgress,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  InputAdornment,
-  InputLabel,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  MenuItem,
-  Select,
-  List,
-  IconButton,
-  Snackbar,
-  Alert,
-  Chip,
-  Paper,
-  Divider,
-  Skeleton,
-} from "@mui/material";
+import { IconButton, Snackbar, Alert } from "@mui/material";
 import Success from "../Success/Success";
-import CategorySelectorList from "./CategorySelectorList";
 import DataStandardizationInAddDataset from "./DataStandardizationInAddDataset.js";
 
 //stepper steps label
@@ -87,7 +58,6 @@ const AddDataset = (props) => {
   const [uploadFile, setFile] = useState([]);
   const [progress, setProgress] = useState(0);
   const [value, setValue] = React.useState("1");
-  const [nameErrorMessage, setnameErrorMessage] = useState(null);
   const [datasetname, setdatasetname] = useState("");
   const [localUploaded, setLocalUploaded] = useState([]);
   const [allFiles, setAllFiles] = useState([]);

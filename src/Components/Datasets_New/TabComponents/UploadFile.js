@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Box, Button, Divider, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import "./UploadFile.css";
 import { FileUploader } from "react-drag-drop-files";
 import ControlledAccordion from "../../Accordion/Accordion";
 import File from "./File";
 import EmptyFile from "./EmptyFile";
-import CheckBoxWithText from "./CheckBoxWithText";
 import DbConfiguration from "./DbConfiguration";
 import TableImport from "./TableImport";
 import ApiConfiguration from "./ApiConfiguration";
@@ -14,11 +13,11 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
-  fileUpload,
   getTokenLocal,
 } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -44,10 +43,10 @@ const UploadFile = ({
   validator,
   datasetId,
   dataSetName,
+  getDatasetForEdit,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [selectedUploadType, setSelectedUploadType] = useState("file_upload");
-  const [selectedPanel, setSelectedPanel] = useState();
   const [file, setFile] = useState();
   const [isSizeError, setIsSizeError] = useState(false);
   const [mySqlDbName, setMySqlDbName] = useState();
@@ -88,7 +87,6 @@ const UploadFile = ({
   const [mySqlTableName, setMySqlTableName] = useState();
   const [postgresFileName, setPostgresFileName] = useState();
   const [postgresTableName, setPostgresTableName] = useState();
-  const [sqliteFileName, setSqliteFileName] = useState();
   const [sqliteTableName, setSqliteTableName] = useState();
 
   const [sqlTables, setSqlTables] = useState(["1_Person.csv"]);
@@ -101,18 +99,32 @@ const UploadFile = ({
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
 
+  const history = useHistory();
   const handleFileChange = (file) => {
     setIsSizeError(false);
     setFile(file);
     setKey(key + 1);
     let tempFiles = [...files];
-    tempFiles.push(...file);
+    let s = [...file]?.forEach((f) => {
+      if (!(f?.name.length > 85)) {
+        tempFiles.push(f);
+        return true;
+      } else {
+        callToast(
+          "File name shouldn't be more than 85 characters.",
+          "error",
+          true
+        );
+        return false;
+      }
+    });
+    // tempFiles.push(...file);
     setFiles(tempFiles);
     // setFiles((prev) => [...prev, file]);
-    setFileSizeError("")
+    setFileSizeError("");
   };
   const handleDelete = (index, id, filename, type) => {
-    setFileSizeError("")
+    setFileSizeError("");
     let source = "";
     if (type === "file_upload") {
       source = "file";
@@ -354,7 +366,7 @@ const UploadFile = ({
   };
 
   const getUpdatedFile = async (fileItem) => {
-    setFileSizeError("")
+    setFileSizeError("");
     let bodyFormData = new FormData();
     bodyFormData.append("dataset", datasetId);
     bodyFormData.append("source", "file");
@@ -391,6 +403,7 @@ const UploadFile = ({
           // results will comes in type of array
           callLoader(false);
           setFiles([]);
+          getDatasetForEdit(datasetId, true);
           console.log(results);
         })
         .catch((err) => {
@@ -459,10 +472,10 @@ const UploadFile = ({
     callLoader(true);
     if (selectedUploadType === "mysql") {
       let bodyData = {
-        database: mySqlDbName,
-        username: mySqlUserName,
-        password: mySqlPassword,
-        host: mySqlDbUrl,
+        database: mySqlDbName.trim(),
+        username: mySqlUserName.trim(),
+        password: mySqlPassword.trim(),
+        host: mySqlDbUrl.trim(),
         port: mySqlPort,
         database_type: "mysql",
       };
@@ -482,7 +495,7 @@ const UploadFile = ({
           setSqlTables([...res.data]);
           setIsMySqlConnected(true);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           callLoader(false);
           console.log(err);
           console.log(err.response.data);
@@ -524,14 +537,28 @@ const UploadFile = ({
                   break;
               }
             }
+          } else {
+            let error = await GetErrorHandlingRoute(err);
+            console.log("Error obj", error);
+            console.log(err);
+            if (error.toast) {
+              callToast(
+                error?.message,
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path && history) {
+              history.push(error.path);
+            }
           }
         });
     } else if (selectedUploadType === "postgres") {
       let bodyData = {
-        dbname: postgresDbName,
-        user: postgresUserName,
-        password: postgresPassword,
-        host: postgresDbUrl,
+        dbname: postgresDbName.trim(),
+        user: postgresUserName.trim(),
+        password: postgresPassword.trim(),
+        host: postgresDbUrl.trim(),
         port: postgresPort,
         database_type: "postgresql",
       };
@@ -549,7 +576,7 @@ const UploadFile = ({
           setPostgresTables([...res.data]);
           setIsPostgresConnected(true);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           callLoader(false);
           console.log(err);
           let returnValues = GetErrorKey(err, [
@@ -587,6 +614,20 @@ const UploadFile = ({
                   callToast("Connection establishment failed!", "error", true);
                   break;
               }
+            }
+          } else {
+            let error = await GetErrorHandlingRoute(err);
+            console.log("Error obj", error);
+            console.log(err);
+            if (error.toast) {
+              callToast(
+                error?.message,
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path && history) {
+              history.push(error.path);
             }
           }
         });
@@ -867,20 +908,21 @@ const UploadFile = ({
       let body = {
         dataset: datasetId,
         dataset_name: dataSetName,
-        url: api,
-        file_name: exportFileName,
+        url: api.trim(),
+        file_name: exportFileName.trim(),
         source: "live_api",
         auth_type: authType,
       };
       if (authType === "NO_AUTH") {
         // do nothing for now
       } else if (authType === "API_KEY" && authApiKeyName && authApiKeyValue) {
-        body["api_key_name"] = authApiKeyName;
-        body["api_key_value"] = authApiKeyValue;
+        body["api_key_name"] = authApiKeyName.trim();
+        body["api_key_value"] = authApiKeyValue.trim();
       } else if (authType === "BEARER") {
-        body["token"] = authToken;
+        body["token"] = authToken.trim();
       }
       let accessToken = getTokenLocal() ?? false;
+      callLoader(true);
       HTTPService(
         "POST",
         UrlConstant.base_url + UrlConstant.live_api,
@@ -890,10 +932,12 @@ const UploadFile = ({
         accessToken
       )
         .then((res) => {
+          callLoader(false);
           setRestApiFiles([...restApifiles, res.data]);
           setIsApiConnected(true);
         })
         .catch((err) => {
+          callLoader(false);
           console.log(err);
           callToast(err.response?.data?.message, "error", true);
         });
@@ -952,7 +996,19 @@ const UploadFile = ({
             Imports
           </Typography>
           <Typography
-            onClick={() => setSelectedUploadType("mysql")}
+            onClick={() => {
+              setSelectedUploadType("mysql");
+              setIsMySqlConnected(false);
+              setMySqlDbName("");
+              setMySqlUserName("");
+              setMySqlPassword("");
+              setMySqlDbUrl("");
+              setMySqlPort("");
+              setSqlTables([]);
+              setMysqlFileName("");
+              setAllColumns([]);
+              setIsMySqlSaveCreds(false);
+            }}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: selectedUploadType === "mysql" ? "700" : "500",
@@ -969,7 +1025,19 @@ const UploadFile = ({
             MySQL
           </Typography>
           <Typography
-            onClick={() => setSelectedUploadType("postgres")}
+            onClick={() => {
+              setSelectedUploadType("postgres");
+              setIsPostgresConnected(false);
+              setPostgresDbName("");
+              setPostgresUserName("");
+              setPostgresPassword("");
+              setPostgresDbUrl("");
+              setPostgresPort("");
+              setPostgresTables([]);
+              setPostgresFileName("");
+              setAllColumns([]);
+              setIsPostgresSaveCreds(false);
+            }}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: selectedUploadType === "postgres" ? "700" : "500",
@@ -999,7 +1067,15 @@ const UploadFile = ({
                             marginTop: '22px'
                         }}>SQLite</Typography> */}
           <Typography
-            onClick={() => setSelectedUploadType("rest_api")}
+            onClick={() => {
+              setSelectedUploadType("rest_api");
+              setApi("");
+              setAuthType("");
+              setAuthApiKeyName("");
+              setAuthApiKeyValue("");
+              setAuthToken("");
+              setExportFileName("");
+            }}
             sx={{
               fontFamily: "Montserrat !important",
               fontWeight: selectedUploadType === "rest_api" ? "700" : "500",
@@ -1035,11 +1111,13 @@ const UploadFile = ({
                       src={require("../../../Assets/Img/Upload.svg")}
                     />
                   }
-                  maxSize={50}
-                  onSizeError={() => setFileSizeError("Maximum file size allowed is 50MB")}  
                   types={fileTypes}
                 />
-                <span style={{ color: "red", fontSize: "14px", textAlign: "left"}}>{fileSizeError}</span>
+                <span
+                  style={{ color: "red", fontSize: "14px", textAlign: "left" }}
+                >
+                  {fileSizeError}
+                </span>
               </div>
               <Typography className="text-danger">
                 {isSizeError

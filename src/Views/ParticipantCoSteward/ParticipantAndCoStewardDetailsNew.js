@@ -6,9 +6,8 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
-import CustomCard from "../../Components/Card/CustomCard";
 import DatasetCart from "../../Components/DatasetCard/DatasetCard";
 import UrlConstants from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
@@ -17,20 +16,12 @@ import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
-import {
-  GetErrorHandlingRoute,
-  getOrgLocal,
-  getUserLocal,
-} from "../../Utils/Common";
+import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import Popper from "@mui/material/Popper";
-import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
 import NoData from "../../Components/NoData/NoData";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { message, Popconfirm } from "antd";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -42,24 +33,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     isParticipantRequest,
     user,
     userTypeCosteward,
-    title,
     breadcrumbFromRoute,
+    isCostewardsParticipant,
   } = props;
-  const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [istrusted, setistrusted] = React.useState(false);
-  const [isorganisationemailerror, setisorganisationemailerror] =
-    useState(false);
-  const [iscontactnumbererror, setiscontactnumbererror] = useState(false);
-  const [iswebsitelinkrerror, setwebsitelinkerror] = useState(false);
-  const [isuseremailerror, setisuseremailerror] = useState(false);
-  const [isSuccess, setisSuccess] = useState(true);
-  const [isDelete, setisDelete] = useState(false);
-  const [isDeleteCoSteward, setisDeleteCoSteward] = useState(false);
-  const [isDeleteSuccess, setisDeleteSuccess] = useState(false);
 
   const [logoPath, setLogoPath] = useState("");
   const [organisationName, setOrganisationName] = useState("");
@@ -80,7 +61,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const [loadMoreButton, setLoadMoreButton] = useState([]);
   const [loadMoreUrl, setLoadMoreUrl] = useState([]);
   const [datasetLoadMoreUrl, setDatasetLoadMoreUrl] = useState("");
-  const [openDeletePoper, setOpenDeletePoper] = useState(false);
   const history = useHistory();
   const { id } = useParams();
 
@@ -124,30 +104,51 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       .then((response) => {
         // callLoader(false);
         console.log("reasponce in view details of user", response.data);
-        setOrgId(response?.data?.organization_id);
-        setUserId(response?.data?.user_id);
-        setLogoPath(response?.data?.organization?.logo);
-        setOrganisationName(response?.data?.organization?.name);
-        setOrganisationAddress(
-          response?.data?.organization?.address?.address ||
-            JSON.parse(response?.data?.organization?.address)?.address
-        );
-        setOrginsationEmail(response?.data?.organization?.org_email);
-        setCountryValue(
-          response?.data?.organization?.address?.country ||
-            JSON.parse(response?.data?.organization?.address)?.country
-        );
-        setContactNumber(response?.data?.user?.phone_number);
-        setWebsiteLink(response?.data?.organization?.website);
-        setPincode(
-          response?.data?.organization?.address?.pincode ||
-            JSON.parse(response?.data?.organization?.address)?.pincode
-        );
-        setFirstName(response?.data?.user?.first_name);
-        setLastName(response?.data?.user?.last_name);
-        setUserEmail(response?.data?.user?.email);
+        if (response?.data?.organization_id) {
+          setOrgId(response?.data?.organization_id);
+        }
+        if (response?.data?.user_id) {
+          setUserId(response?.data?.user_id);
+        }
+        if (response?.data?.organization?.logo) {
+          setLogoPath(response?.data?.organization?.logo);
+        }
+        if (response?.data?.organization?.name) {
+          setOrganisationName(response?.data?.organization?.name);
+        }
+        if (response?.data?.organization?.address?.address) {
+          setOrganisationAddress(
+            response?.data?.organization?.address?.address
+          );
+        }
+        if (response?.data?.organization?.org_email) {
+          setOrginsationEmail(response?.data?.organization?.org_email);
+        }
+        if (response?.data?.organization?.address?.country) {
+          setCountryValue(response?.data?.organization?.address?.country);
+        }
+        if (response?.data?.user?.phone_number) {
+          setContactNumber(response?.data?.user?.phone_number);
+        }
+        if (response?.data?.organization?.website) {
+          setWebsiteLink(response?.data?.organization?.website);
+        }
+        if (response?.data?.organization?.address?.pincode) {
+          setPincode(response?.data?.organization?.address?.pincode);
+        }
+        if (response?.data?.user?.first_name) {
+          setFirstName(response?.data?.user?.first_name);
+        }
+        if (response?.data?.user?.last_name) {
+          setLastName(response?.data?.user?.last_name);
+        }
+        if (response?.data?.user?.email) {
+          setUserEmail(response?.data?.user?.email);
+        }
         // setorganisationlength(response.data.user.subscription)
-        setistrusted(response?.data?.user?.approval_status);
+        if (response?.data?.user?.approval_status) {
+          setistrusted(response?.data?.user?.approval_status);
+        }
         if (response?.data?.next) setLoadMoreUrl(response?.data?.next);
         else setLoadMoreUrl("");
 
@@ -244,7 +245,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
         let datalist = coStewardOrParticipantsList;
-        if (response?.data?.next) {
+        if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
           setCoStewardOrParticipantsList(finalDataList);
         }
@@ -256,14 +257,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
-        if (error.toast) {
+        if (error?.toast) {
           callToast(
             error?.message || "Something went wrong",
             error?.status === 200 ? "success" : "error",
             true
           );
         }
-        if (error.path) {
+        if (error?.path) {
           history.push(error.path);
         }
         console.log(e);
@@ -332,9 +333,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
     HTTPService("POST", url, payload, false, isAuthorization)
       .then((res) => {
-        if (isParticipantRequest) {
-          callLoader(false);
-        }
+        callLoader(false);
+        // if (isParticipantRequest) {
+        // }
         console.log("res", res);
         let data = [...datasetList, ...res?.data?.results];
         setDatasetList(data);
@@ -437,6 +438,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
+              data-testid="route-breadcrubm-button"
               onClick={() => {
                 let last_route = localStorage.getItem("last_route");
                 localStorage.removeItem("last_route");
@@ -452,7 +454,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
             </span>
-            <span className="add_light_text ml-16 fw600">
+            <span className="add_light_text ml-16 fw600" data-testid="label-breadcrumb">
               {isCosteward && !isParticipantRequest
                 ? "Co-Steward details"
                 : !isCosteward && !isParticipantRequest
@@ -489,6 +491,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <img
                 src={UrlConstant.base_url_without_slash + logoPath}
                 style={{ width: "179px", height: "90px" }}
+                
               />
             ) : (
               <h1 className={LocalStyle.firstLetterOnLogo}>
@@ -523,7 +526,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           md={6}
           xl={6}
         >
-          {!isParticipantRequest && !userTypeCosteward && user !== "guest" ? (
+          {!isParticipantRequest &&
+          !userTypeCosteward &&
+          user !== "guest" &&
+          !isCostewardsParticipant ? (
             <>
               <CustomDeletePopper
                 DeleteItem={organisationName}
@@ -546,12 +552,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   height: "48px",
                   marginRight: "28px",
                   textTransform: "none",
+                  whiteSpace: "nowrap",
                   "&:hover": {
                     background: "none",
                     border: "1px solid rgba(255, 86, 48, 0.48)",
                   },
                 }}
+                style={{ marginRight: "0px" }}
                 onClick={handleDeletePopper}
+                data-testid="delete-button"
               >
                 Delete {isCosteward ? "Co-steward" : "Participant"}
                 <DeleteOutlineIcon
@@ -578,6 +587,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                     border: "1px solid rgba(0, 171, 85, 0.48)",
                   },
                 }}
+                data-testid="edit-button"
                 onClick={(e) =>
                   history.push(
                     `/datahub/${
@@ -605,14 +615,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       <Row>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Row className={LocalStyle.textRow}>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col xs={12} sm={12} md={6} xl={6} data-testid="check_org_Name">
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
+                
               >
                 Organisation Name
               </Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
+                data-testid="org_Name"
               >
                 {organisationName}
               </Typography>
@@ -758,7 +770,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 // id={title + "-form-title"}
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
-                List of Datasets
+                {isCosteward ? "Costeward Datasets" : "Participant Datasets"}
               </Typography>
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -772,7 +784,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Row>
           <Row>
             {datasetList?.map((dataset, index) => {
-              console.log("datasets ", dataset);
+              console.log("datasetslist", dataset);
               return (
                 <Col
                   onClick={() =>
@@ -784,6 +796,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   sm={12}
                   md={6}
                   xl={4}
+                  data-testid="view-dataset-detail"
                 >
                   <DatasetCart
                     publishDate={dataset?.created_at}
@@ -817,19 +830,17 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       )}
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
-          <Col xs={0} sm={0} md={2} lg={4}></Col>
-          <Col xs={12} sm={12} md={8} lg={4}>
-            <Button
-              id={"details-page-load-more-dataset-button"}
-              variant="outlined"
-              className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
-              onClick={() =>
-                getDatasetOfParticipantOrCoSteward(true, userId, orgId)
-              } // passing true will call loadmore api
-            >
-              Load more
-            </Button>
-          </Col>
+          <Button
+            data-testid="load-more-button-test"
+            id={"details-page-load-more-dataset-button"}
+            variant="outlined"
+            className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
+            onClick={() =>
+              getDatasetOfParticipantOrCoSteward(true, userId, orgId)
+            } // passing true will call loadmore api
+          >
+            Load more
+          </Button>
         </Row>
       ) : (
         ""
@@ -842,9 +853,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           user={user}
           guestUser={user}
           viewType={false}
+          isCostewardsParticipant={user ? false : true}
           // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
-          loadMoreButton={loadMoreUrl}
+          loadMoreButton={loadMoreButton}
           handleLoadMoreButton={handleLoadMoreButton}
         />
       ) : (
@@ -887,6 +899,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
               onClick={() => approveParticipantsRequest(id, true)}
+              data-testid="approve-button-test"
             >
               Approve
             </Button>
@@ -895,6 +908,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
               onClick={() => deleteParticipants(true)}
+              data-testid="reject-button-test"
             >
               Reject
             </Button>
@@ -903,6 +917,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.borderNone}`}
               onClick={() => history.go(-1)}
+              data-testid="back-button-test"
             >
               Back
             </Button>
@@ -929,6 +944,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             }}
             variant="outlined"
             onClick={() => history.go(-1)}
+            data-testid="back-con-button"
           >
             Back
           </Button>

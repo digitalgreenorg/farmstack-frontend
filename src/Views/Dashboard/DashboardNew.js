@@ -19,16 +19,7 @@ import { Chart } from "chart.js";
 function DashboardNew() {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [dashboardData, setDashboardData] = useState("");
-  const [fileChart, setFileChart] = useState({
-    labels: ["Label 1", "Label 2", "Label 3"],
-    datasets: [
-      {
-        data: [10, 20, 30],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-      },
-    ],
-  });
+  const [fileChart, setFileChart] = useState({});
   const [geographyChart, setGeographyChart] = useState({});
   const [categoryChart, setCategoryChart] = useState({});
   const [org, setOrg] = useState("my_organisation");
@@ -173,6 +164,7 @@ function DashboardNew() {
             true
           );
         }
+        console.log("error", error);
         if (error.path) {
           history.push(error.path);
         }
@@ -227,8 +219,23 @@ function DashboardNew() {
       return;
     }
     if (dashboardData.dataset_file_metrics) {
+      let uploadTypeObj = {
+        file: "File",
+        live_api: "API",
+        mysql: "MySQL",
+        postgresql: "PostgreSQL",
+      };
       dashboardData.dataset_file_metrics.forEach((item) => {
-        tmpLabels.push(item?.datasets__source);
+        let size = (item?.total_size / (1024 * 1024)).toFixed(2);
+        let uploadType = item?.datasets__source;
+
+        tmpLabels.push(
+          `${uploadTypeObj[uploadType]}`
+          // `
+          //  (${
+          //   item?.total_size / (1024 * 1024) ? size + "MB" : "Not available"
+          // })`
+        );
         datasets.data.push(item?.dataset_count);
       });
       datasets.backgroundColor = [
@@ -258,7 +265,11 @@ function DashboardNew() {
     };
     if (dashboardData.dataset_state_metrics) {
       dashboardData.dataset_state_metrics.forEach((item) => {
-        tmpLabels.push(item?.state_name ?? "Others");
+        let tmpStateName = item?.state_name;
+        if (tmpStateName && tmpStateName.length > 20) {
+          tmpStateName = tmpStateName.substring(0, 20) + "...";
+        }
+        tmpLabels.push(tmpStateName ?? "Others");
         datasets.data.push(item?.dataset_count);
       });
       datasets.backgroundColor = Chart.defaults.color.primary;
@@ -284,21 +295,32 @@ function DashboardNew() {
       hoverBackgroundColor: [],
     };
     if (dashboardData?.dataset_category_metrics) {
-      tmpLabels = Object.keys(dashboardData?.dataset_category_metrics);
-      datasets = {
-        data: Object.values(dashboardData?.dataset_category_metrics),
-        // backgroundColor: "#d14f4f",
-        backgroundColor: [
-          "#36a2eb",
-          "#ff6384",
-          "#4bc0c0",
-          "#ff9f40",
-          "#9966ff",
-          "#ffcd56",
-          "#c9cbcf",
-        ],
-        hoverBackgroundColor: "#af0000",
-      };
+      let allCategories = Object.keys(dashboardData?.dataset_category_metrics);
+      let tmpAllCategories = [];
+      allCategories.forEach((item, index) => {
+        if (item.length > 20) {
+          tmpAllCategories.push(item.substring(0, 20) + "...");
+        } else {
+          tmpAllCategories.push(item);
+        }
+      });
+      if (Object.keys(dashboardData?.dataset_category_metrics).length) {
+        tmpLabels = tmpAllCategories;
+        datasets = {
+          data: Object.values(dashboardData?.dataset_category_metrics),
+          // backgroundColor: "#d14f4f",
+          backgroundColor: [
+            "#36a2eb",
+            "#ff6384",
+            "#4bc0c0",
+            "#ff9f40",
+            "#9966ff",
+            "#ffcd56",
+            "#c9cbcf",
+          ],
+          hoverBackgroundColor: "#af0000",
+        };
+      }
     }
     setCategoryChart({
       labels: tmpLabels,
@@ -313,23 +335,19 @@ function DashboardNew() {
     setGeographyChart({});
     getDashboard();
   }, [org]);
-  // useEffect(() => {
-  //   formatData();
-  // }, [dashboardData]);
+
   useEffect(() => {
-    // setDashboardData({});
-    // setCategoryChart({});
-    // setFileChart({});
-    // setGeographyChart({});
     getDashboard();
   }, []);
+
+  let logoUrl = UrlConstant.base_url + "/" + dashboardData?.user?.logo;
 
   return (
     <Box className={`${localeStyle.dashboardContainer}`}>
       <Box className={`${localeStyle.basicDetailsContainer}`}>
         <div className={`${localeStyle.titleContainer}`}>
           <div
-            className={`${localeStyle.title} ${globalStyle.size32}  ${globalStyle.bold700}`}
+            className={`${localeStyle.title} ${globalStyle.size32}  ${globalStyle.bold700} ${globalStyle.break_word}`}
           >
             {" "}
             Hello {dashboardData?.user?.first_name}{" "}
@@ -343,34 +361,55 @@ function DashboardNew() {
         </div>
         <div className={`${localeStyle.userBasicDataContainer}`}>
           <div className={`${localeStyle.userBasicDataImg}`}>
-            <img src={require("../../Assets/Img/empower_now.svg")} />
+            {dashboardData?.user ? (
+              <img style={{ width: "auto", maxWidth: "180px" }} src={logoUrl} />
+            ) : (
+              ""
+            )}
             <div>
-              <div className={`${globalStyle.size26} ${globalStyle.bold600}`}>
-                EmpowerNow
+              <div
+                className={`${globalStyle.size26} ${globalStyle.bold600} ${localeStyle.ellipsis}`}
+              >
+                {dashboardData?.user?.name ?? "Not available"}
               </div>
               <div
-                className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor}`}
+                className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor} ${localeStyle.ellipsis}`}
               >
-                {dashboardData?.user?.first_name +
-                  " " +
-                  dashboardData?.user?.last_name}
+                {dashboardData?.user?.first_name &&
+                dashboardData?.user?.last_name
+                  ? dashboardData?.user?.first_name +
+                    " " +
+                    dashboardData?.user?.last_name
+                  : "Not available"}
               </div>
             </div>
           </div>
-          <div className={`${localeStyle.userBasicData}`}>
-            <div>
-              <span>Participants</span>
-              <span>
-                {dashboardData?.total_participants?.participants_count}
-              </span>
-            </div>
+          <div
+            className={
+              isLoggedInUserParticipant()
+                ? `${localeStyle.userBasicData} ${localeStyle.userBasicDataForParticipant}`
+                : localeStyle.userBasicData
+            }
+          >
+            {!isLoggedInUserParticipant() ? (
+              <>
+                <div>
+                  <span>Participants</span>
+                  <span>
+                    {dashboardData?.total_participants?.participants_count ?? 0}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
             <div>
               <span>Datasets</span>
-              <span>{dashboardData?.total_dataset_count}</span>
+              <span>{dashboardData?.total_dataset_count ?? 0}</span>
             </div>
             <div>
               <span>Connectors</span>
-              <span>{dashboardData?.total_connectors_count}</span>
+              <span>{dashboardData?.total_connectors_count ?? 0}</span>
             </div>
           </div>
         </div>
@@ -384,7 +423,7 @@ function DashboardNew() {
         {!isLoggedInUserParticipant() ? (
           <FormControl sx={{ width: "150px" }}>
             <NativeSelect
-              sx={{ fontWeight: "500" }}
+              sx={{ fontWeight: "500", fontFamily: "Montserrat !important" }}
               defaultValue={"my_organisation"}
               onChange={(e) => setOrg(e.target.value)}
               value={org}
@@ -397,26 +436,33 @@ function DashboardNew() {
           ""
         )}
       </Box>
+      <div className={localeStyle.subTitle}>
+        <p>Discover and Explore Insights</p>
+      </div>
       <Box className={`${localeStyle.graphContainer}`}>
         <CustomGraph
           data={categoryChart}
           title="Datasets by Categories"
           chartType="doughnut"
+          subTitle="Unleash insights of dataset distribution by category."
         />
         <CustomGraph
           data={fileChart}
           title="Dataset by Sources"
           chartType="bar"
+          subTitle="Unleash insights categorized datasets based on upload methods."
         />
         <CustomGraph
           data={geographyChart}
           title="Dataset by Geography"
           chartType="pie"
+          subTitle="Unlock insights on geographically categorized datasets."
         />
         <CustomDashBoardTable
           recentDatasetTable={true}
           title="Recent Datasets"
           data={dashboardData.recent_datasets}
+          subTitle="Connector Insights and Recent Connector"
         />
       </Box>
       <Box>
@@ -424,6 +470,9 @@ function DashboardNew() {
           className={`${globalStyle.size24} ${globalStyle.bold700} ${localeStyle.secondaryColor}`}
         >
           Connectors
+          <div className={localeStyle.subTitle}>
+            <p>Connector Insights and Recent Connector</p>
+          </div>
         </span>
         <div className={`${localeStyle.connectorsDataContainer}`}>
           <div
@@ -447,6 +496,7 @@ function DashboardNew() {
               recentConnectorsTable={true}
               title="Recent Connectors"
               data={dashboardData?.recent_connectors}
+              subTitle="Discover the Latest Connectors"
             />
           </div>
         </div>

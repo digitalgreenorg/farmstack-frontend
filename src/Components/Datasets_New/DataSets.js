@@ -52,7 +52,6 @@ const cardSx = {
 };
 const DataSets = (props) => {
   const { user, breadcrumbFromRoute } = props;
-  console.log("breadcrumbFromRoute", breadcrumbFromRoute);
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
@@ -143,9 +142,20 @@ const DataSets = (props) => {
 
   const getDataSets = (isLoadMore) => {
     let method = "POST";
+    let payload = {};
+
     if (!isLoadMore) {
       resetUrls();
       if (!Object.keys(filterState).length) {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -182,7 +192,7 @@ const DataSets = (props) => {
         return;
       }
     }
-    // console.log(user, "user inside the microste");
+
     let accessToken = user != "guest" ? getTokenLocal() : false;
 
     callLoader(true);
@@ -234,6 +244,15 @@ const DataSets = (props) => {
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
         payload["others"] = true;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        setFilterState(payload);
+      } else {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
@@ -372,7 +391,6 @@ const DataSets = (props) => {
       .catch(async (e) => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
         console.log(e);
         if (error.toast) {
           callToast(
@@ -447,12 +465,6 @@ const DataSets = (props) => {
           if (keys.length) {
             let tCategory = categorises?.[keys];
             prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-              console.log(
-                tCategory?.includes(res),
-                tCategory,
-                res,
-                "tCategory?.includes(res)"
-              );
               return (
                 <CheckBoxWithText
                   key={ind}
@@ -477,9 +489,7 @@ const DataSets = (props) => {
         setAllCategories(tempCategories);
       })
       .catch(async (e) => {
-        console.log(e);
         let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
         console.log(e);
         if (error.toast) {
           callToast(
@@ -509,12 +519,6 @@ const DataSets = (props) => {
         )
       );
     }
-  };
-
-  const handleClickAway = (e) => {
-    console.log("tri");
-    // e.stopPropagation();
-    setShowFilter(false);
   };
 
   const callApply = (isLoadMore) => {
@@ -549,8 +553,14 @@ const DataSets = (props) => {
     }
     if (fromDate && toDate) {
       let tempDateRange = [];
-      tempDateRange.push(fromDate);
-      tempDateRange.push(toDate);
+      tempDateRange.push(
+        new Date(
+          fromDate.getTime() - fromDate.getTimezoneOffset() * 60000
+        ).toJSON()
+      );
+      tempDateRange.push(
+        new Date(toDate.getTime() - toDate.getTimezoneOffset() * 60000).toJSON()
+      );
       payload["updated_at__range"] = tempDateRange;
     }
     setFilterState(payload);
@@ -607,9 +617,7 @@ const DataSets = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        console.log(e);
         let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
         console.log(e);
         if (error.toast) {
           callToast(
@@ -625,7 +633,6 @@ const DataSets = (props) => {
   };
 
   const handleFromDate = (value) => {
-    console.log("handleFromDate");
     let currentDate = new Date();
     let formattedDate = moment(value).format("DD/MM/YYYY");
     if (
@@ -636,23 +643,16 @@ const DataSets = (props) => {
       tempDates[0].fromDate = value;
       setDates(tempDates);
       setFromDate(value);
-      // setUpdate((prev) => prev + 1);
-      // setFromDateError(false);
     } else {
-      // setFromDateError(true);
-      console.log("inside from date");
       let tempDates = [...dates];
       tempDates[0].fromDate = null;
       setDates(tempDates);
-      // setUpdate((prev) => prev + 1);
       handleToDate("");
       setFromDate("");
     }
-    // setUpdate((prev) => prev + 1);
   };
 
   const handleToDate = (value) => {
-    console.log("called", dates);
     let formattedDate = moment(value).format("DD/MM/YYYY");
     if (
       moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
@@ -663,15 +663,10 @@ const DataSets = (props) => {
       tempDates[0].toDate = value;
       setDates(tempDates);
       setToDate(value);
-      // setUpdate((prev) => prev + 1);
-      // setToDateError(false);
     } else {
       let tempDates = [...dates];
-      console.log(tempDates, "tempDates");
       tempDates[0].toDate = null;
       setDates(tempDates);
-      // setUpdate((prev) => prev + 1);
-      // setToDateError(true);
       setToDate("");
     }
   };
@@ -694,7 +689,6 @@ const DataSets = (props) => {
   }, [debouncedSearchValue]);
   useEffect(() => {
     getAllGeoGraphies();
-    console.log("called useEffect");
   }, [geography, type]);
 
   useEffect(() => {
@@ -702,7 +696,6 @@ const DataSets = (props) => {
   }, [categorises, type]);
 
   useEffect(() => {
-    console.log("Updator");
     callApply();
   }, [updater]);
 
@@ -720,25 +713,24 @@ const DataSets = (props) => {
             <div className="text-left mt-50">
               <span
                 className="add_light_text cursor-pointer breadcrumbItem"
+                data-testid="go_home"
                 onClick={() => {
-                  breadcrumbFromRoute == "Home"
+                  breadcrumbFromRoute === "Home"
                     ? history.push("/home")
-                    : history.push("/datahub/new_datasets");
+                    : isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                    ? history.push("/datahub/new_datasets")
+                    : history.push("/participant/new_datasets");
                 }}
               >
-                {breadcrumbFromRoute ?? ""}
+                {breadcrumbFromRoute ? breadcrumbFromRoute : "Datasets"}
               </span>
               <span className="add_light_text ml-16">
-                {breadcrumbFromRoute ? (
-                  <ArrowForwardIosIcon
-                    sx={{ fontSize: "14px", fill: "#00ab55" }}
-                  />
-                ) : (
-                  ""
-                )}
+                <ArrowForwardIosIcon
+                  sx={{ fontSize: "14px", fill: "#00ab55" }}
+                />
               </span>
               <span className="add_light_text ml-16 fw600">
-                {!breadcrumbFromRoute
+                {user
                   ? "Datasets"
                   : value == 0
                   ? "My organisation datasets"
@@ -767,6 +759,7 @@ const DataSets = (props) => {
         </div>
         <TextField
           id="dataset-search-input-id"
+          data-testid="dataset-search-input-id"
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
@@ -804,7 +797,6 @@ const DataSets = (props) => {
             ),
           }}
         />
-        {/* <ClickAwayListener onClickAway={handleClickAway}> */}
         <div>
           <div
             className={
@@ -865,6 +857,7 @@ const DataSets = (props) => {
                 }
                 onClick={() => handleFilterClick("geography")}
                 id="dataset-filter-by-geography-id"
+                data-testid="dataset-filter-by-geography-id"
               >
                 <img
                   src={require("../../Assets/Img/geography_new.svg")}
@@ -894,6 +887,7 @@ const DataSets = (props) => {
                 }
                 onClick={() => handleFilterClick("categories")}
                 id="dataset-filter-by-categories-id"
+                data-testid="dataset-filter-by-categories-id"
               >
                 <img
                   src={require("../../Assets/Img/crop_new.svg")}
@@ -923,6 +917,7 @@ const DataSets = (props) => {
                 }
                 onClick={() => handleFilterClick("date")}
                 id="dataset-filter-by-date-id"
+                data-testid="dataset-filter-by-date-id"
               >
                 <img
                   src={require("../../Assets/Img/by_date.svg")}
@@ -961,6 +956,7 @@ const DataSets = (props) => {
                     setFilterState({});
                   }}
                   id="dataset-filter-clear-all-id"
+                  data-testid="dataset-filter-clear-all-id"
                 >
                   <img
                     src={require("../../Assets/Img/clear_all.svg")}
@@ -982,7 +978,6 @@ const DataSets = (props) => {
             type === "geography" ? (
               <Filter
                 setUpdate={setUpdate}
-                handleClickAway={handleClickAway}
                 type={type}
                 dataType={"component"}
                 geography={geography}
@@ -999,7 +994,6 @@ const DataSets = (props) => {
             ) : type === "categories" ? (
               <Filter
                 setUpdate={setUpdate}
-                handleClickAway={handleClickAway}
                 categorises={categorises}
                 type={type}
                 dataType={"list"}
@@ -1011,7 +1005,6 @@ const DataSets = (props) => {
             ) : type === "date" ? (
               <FilterDate
                 setUpdate={setUpdate}
-                handleClickAway={handleClickAway}
                 type={type}
                 dataType={"date"}
                 fromDate={fromDate}

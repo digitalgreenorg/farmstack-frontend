@@ -18,37 +18,48 @@ export default function ControlledAccordions(props) {
     isHeadEditing,
     handleEditHeading,
     onOpenHideDelete,
+    showPopper,
+    getListOfPolicies,
+    deletePolicyDetail,
   } = props;
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(-1);
 
   const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    setExpanded(isExpanded ? panel : -1);
+    setOpen(false);
+    setAnchorEl(null);
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
 
   const handleDeletePopper = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
     setOpen(true);
   };
-  const closePopper = () => {
+  const closePopper = (e) => {
+    e.stopPropagation();
+    setExpanded(-1);
     setOpen(false);
+    setAnchorEl(null);
   };
 
   return (
     <div className="accordions_in_onboarding" style={{ margin: "10px 0px" }}>
       <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
+        data-testid="accordion-heading"
+        className={global_styles.break_word}
+        expanded={expanded === index}
+        onChange={handleChange(index)}
         id="condtrolled_accordion"
         sx={{
-          // margin: expanded === "panel1" ? "20px 0px" : "10px 0px",
+          // margin: expanded === "index" ? "20px 0px" : "10px 0px",
           boxShadow:
-            expanded === "panel1"
+            expanded === "index"
               ? "0px 20px 40px -4px rgba(145, 158, 171, 0.16)"
               : "",
-          borderRadius: expanded === "panel1" ? "8px" : "",
-          border: expanded === "panel1" ? "1px solid #919EAB" : "",
+          borderRadius: expanded === "index" ? "8px" : "",
+          border: expanded === "index" ? "1px solid #919EAB" : "",
           // "&.MuiAccordionSummary-content": {
           //   alignItems: "center",
           // },
@@ -56,36 +67,42 @@ export default function ControlledAccordions(props) {
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id={`panel${index}bh-header`}
+          aria-controls="indexbh-content"
+          id={`accordian-${index}-header`}
           onClick={(e) => handleEditHeading(false, e, index)}
-          sx={{}}
         >
           <Typography
+            data-testid="accordion"
             className={global_styles.bold600 + " " + global_styles.size24}
             sx={{
               width: "95%",
-              flexShrink: 0,
-              textAlign: "left",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              // flexShrink: 0,
+              // textAlign: "left",
+              // display: "flex",
+              // flexDirection: "row",
+              // justifyContent: "space-between",
               marginRight: "20px",
-              alignItems: "center",
+              textAlign: "left",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              maxWidth: "800px",
             }}
           >
             {heading}{" "}
-            {isHeadEditing ? (
-              <EditIcon
-                fontSize="small"
-                onClick={(e) => handleEditHeading(true, e, index)}
-                id={`${index}edit-icon`}
-              />
-            ) : (
-              ""
-            )}
           </Typography>
-          {onOpenHideDelete && !anchorEl && !open && expanded == "panel1" ? (
+          {isHeadEditing ? (
+            <EditIcon
+              style={{ margin: "0 10px" }}
+              fontSize="small"
+              onClick={(e) => handleEditHeading(true, e, index)}
+              id={`${index}edit-icon`}
+              data-testid="edit-button-accordion-closed"
+            />
+          ) : (
+            ""
+          )}
+          {expanded == index ? (
             ""
           ) : (
             <>
@@ -93,23 +110,35 @@ export default function ControlledAccordions(props) {
                 DeleteItem={"File"}
                 anchorEl={anchorEl}
                 handleDelete={(e) => {
+                  e.stopPropagation();
                   accordionDelete(e, index);
                   setAnchorEl(null); // Reset anchorEl to null
                   setOpen(false); // Reset open to false
                 }}
-                id={`${index}-delete-popper-icon`}
+                id="delete-popper-icon"
                 open={open}
                 closePopper={closePopper}
+                deletePopperId={`${index}-delete-popper-accordian-button`}
+                cancelPopperId={`${index}-cancel-popper-accordian-button`}
               />
               <DeleteOutlineIcon
                 onClick={handleDeletePopper}
                 id={`${index}delete-icon`}
+                data-testid="delete-icon-accordion-closed"
               />
             </>
           )}
         </AccordionSummary>
         <AccordionDetails id={`${index}-accordian-detail`}>
-          {Component && <Component data={data} index={index} />}
+          {Component && (
+            <Component
+              data={data}
+              index={index}
+              setExpanded={setExpanded}
+              getListOfPolicies={getListOfPolicies}
+              deletePolicyDetail={accordionDelete}
+            />
+          )}
         </AccordionDetails>
       </Accordion>
     </div>

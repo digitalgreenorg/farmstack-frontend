@@ -20,6 +20,7 @@ import {
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import globalStyle from "../../Assets/CSS/global.module.css";
 const FooterNew = () => {
   const handleSubscribe = () => {};
   const history = useHistory();
@@ -51,18 +52,18 @@ const FooterNew = () => {
       mobile || tablet
         ? "30px"
         : desktop
-        ? "144px"
+        ? "100px"
         : largeDesktop
         ? "300px"
-        : "144px",
+        : "100px",
     marginRight:
       mobile || tablet
         ? "30px"
         : desktop
-        ? "144px"
+        ? "100px"
         : largeDesktop
         ? "400px"
-        : "144px",
+        : "100px",
   };
   const handleItemClick = (name) => {
     if (name === "datasets") {
@@ -107,9 +108,9 @@ const FooterNew = () => {
           <img
             style={{
               height: "auto",
-              width: "172px",
+              maxWidth: "172px",
+              width: "auto",
               maxHeight: "65px",
-              boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
             }}
             src={
               UrlConstant.base_url_without_slash + adminData?.organization?.logo
@@ -129,13 +130,15 @@ const FooterNew = () => {
           } text-left`}
         >
           <Box className="d-flex justify-content-between">
-            <div className={`contact`}>
+            <div className={style.contact}>
               <div className={`${style.footerTitle}`}>Contacts</div>
               <div className="mb-30 mt-20">
                 <div className={`${style.footerLightTextOnly} text-left`}>
                   Email
                 </div>
-                <div className={`${style.footerDarkText} mt-2 text-left`}>
+                <div
+                  className={`${style.footerDarkText} mt-2 text-left ${globalStyle.break_word}`}
+                >
                   {adminData?.user?.email ?? ""}
                 </div>
               </div>
@@ -202,7 +205,7 @@ const FooterNew = () => {
                   } w-100`}
                 >
                   <div
-                    className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+                    className={`${style.footerLightText} ${style.quickLinks} mt-10 ${style.w50} ${globalStyle.break_word}`}
                   >
                     About {adminData?.organization?.name ?? ""}
                   </div>
