@@ -40,7 +40,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [istrusted, setistrusted] = React.useState(false);
 
   const [logoPath, setLogoPath] = useState("");
@@ -439,6 +438,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
+              data-testid="route-breadcrubm-button"
               onClick={() => {
                 let last_route = localStorage.getItem("last_route");
                 localStorage.removeItem("last_route");
@@ -454,7 +454,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
             </span>
-            <span className="add_light_text ml-16 fw600">
+            <span className="add_light_text ml-16 fw600" data-testid="label-breadcrumb">
               {isCosteward && !isParticipantRequest
                 ? "Co-Steward details"
                 : !isCosteward && !isParticipantRequest
@@ -491,6 +491,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <img
                 src={UrlConstant.base_url_without_slash + logoPath}
                 style={{ width: "179px", height: "90px" }}
+                
               />
             ) : (
               <h1 className={LocalStyle.firstLetterOnLogo}>
@@ -559,6 +560,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 }}
                 style={{ marginRight: "0px" }}
                 onClick={handleDeletePopper}
+                data-testid="delete-button"
               >
                 Delete {isCosteward ? "Co-steward" : "Participant"}
                 <DeleteOutlineIcon
@@ -585,6 +587,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                     border: "1px solid rgba(0, 171, 85, 0.48)",
                   },
                 }}
+                data-testid="edit-button"
                 onClick={(e) =>
                   history.push(
                     `/datahub/${
@@ -612,14 +615,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       <Row>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Row className={LocalStyle.textRow}>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col xs={12} sm={12} md={6} xl={6} data-testid="check_org_Name">
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
+                
               >
                 Organisation Name
               </Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
+                data-testid="org_Name"
               >
                 {organisationName}
               </Typography>
@@ -779,7 +784,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Row>
           <Row>
             {datasetList?.map((dataset, index) => {
-              console.log("datasets ", dataset);
+              console.log("datasetslist", dataset);
               return (
                 <Col
                   onClick={() =>
@@ -791,6 +796,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   sm={12}
                   md={6}
                   xl={4}
+                  data-testid="view-dataset-detail"
                 >
                   <DatasetCart
                     publishDate={dataset?.created_at}
@@ -825,6 +831,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
           <Button
+            data-testid="load-more-button-test"
             id={"details-page-load-more-dataset-button"}
             variant="outlined"
             className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
@@ -892,6 +899,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
               onClick={() => approveParticipantsRequest(id, true)}
+              data-testid="approve-button-test"
             >
               Approve
             </Button>
@@ -900,6 +908,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
               onClick={() => deleteParticipants(true)}
+              data-testid="reject-button-test"
             >
               Reject
             </Button>
@@ -908,6 +917,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.borderNone}`}
               onClick={() => history.go(-1)}
+              data-testid="back-button-test"
             >
               Back
             </Button>
@@ -934,6 +944,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             }}
             variant="outlined"
             onClick={() => history.go(-1)}
+            data-testid="back-con-button"
           >
             Back
           </Button>
