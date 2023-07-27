@@ -30,6 +30,7 @@ const DataSetCardNew = ({
         history.push(handleCardClick(item?.id), { data: title, tab: value })
       }
       id={`dataset-card-view-id${index}`}
+      data-testid="navigate_dataset_view"
     >
       <div className="published">
         <img src={require("../../Assets/Img/globe.svg")} alt="globe" />

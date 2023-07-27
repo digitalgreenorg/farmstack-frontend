@@ -106,7 +106,7 @@ const ShowFilterChips = ({
         if (!each) return;
         return (
           <Chip
-          id={`geographies-filter-chips-id${ind}`}
+            id={`geographies-filter-chips-id${ind}`}
             sx={{
               marginLeft: "5px",
               marginRight: "15px",
@@ -143,13 +143,13 @@ const ShowFilterChips = ({
           </>
         );
       })}
-      {dates?.map((each,index) => {
+      {dates?.map((each, index) => {
         console.log(dates);
         return (
           <>
             {each.fromDate ? (
               <Chip
-              id={`date-filter-chips-id${index}`}
+                id={`date-filter-chips-id${index}`}
                 sx={{
                   marginLeft: "5px",
                   marginRight: "15px",
