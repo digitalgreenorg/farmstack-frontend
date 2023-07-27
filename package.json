@@ -112,7 +112,8 @@
       "src/Components/Card/ParticipantForm/ParticipantFormNew.js",
       "src/Components/NewOnboarding/CategoryDetails.jsx",
       "src/Views/GuestUser/GuestUserLegalNew.js",
-      "src/Views/GetStarted/GetStarted.js"
+      "src/Views/GetStarted/GetStarted.js",
+      "src/Components/Connectors_New/Connectors.jsx"
     ]
   }
 }
