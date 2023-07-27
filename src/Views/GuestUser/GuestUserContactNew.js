@@ -432,6 +432,7 @@ const GuestUserContactNew = () => {
       </Row>
       <Row className={LocalStyle.backButtonContainer}>
         <Button
+          data-testId="submit-button-test"
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
@@ -449,6 +450,7 @@ const GuestUserContactNew = () => {
           Submit
         </Button>
         <Button
+          data-testId="cancel-button-test"
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
