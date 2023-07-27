@@ -97,19 +97,6 @@ describe("render all values", () => {
     //const datasetButtons = screen.findAllByTestId("view-dataset-detail");
     //fireEvent.click(datasetButtons[0]);
   });
-  //   render(
-  //     <Router>
-  //       <ParticipantAndCoStewardDetailsNew
-  //       />
-  //     </Router>,
-  //     {
-  //       wrapper: FarmStackProvider,
-  //     }
-  //   );
-  //   const cancelPopper = screen.getByTestId("closepopper");
-  //   screen.debug()
-  //   fireEvent.click(cancelPopper);
-  // });
   test("onclick of back", () => {
     render(
       <Router>
