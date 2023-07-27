@@ -75,7 +75,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll"
+    "coverage": "react-scripts test --coverage --watchAll src/tests/dashboard_tests/dashboardNew.test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -113,7 +113,8 @@
       "src/Views/GuestUser/GuestUserLegalNew.js",
       "src/Views/GetStarted/GetStarted.js",
       "src/Components/Datasets_New/DataSets.js",
-      "src/Components/Connectors_New/Connectors.jsx"
+      "src/Components/Connectors_New/Connectors.jsx",
+      "src/Views/Dashboard/DashboardNew.js"
     ]
   }
 }
