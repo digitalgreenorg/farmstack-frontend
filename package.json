@@ -113,6 +113,7 @@
       "src/Views/GuestUser/GuestUserLegalNew.js",
       "src/Views/GetStarted/GetStarted.js",
       "src/Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew.js",
+      "src/Components/Datasets_New/DataSets.js",
       "src/Components/Connectors_New/Connectors.jsx"
     ]
   }
