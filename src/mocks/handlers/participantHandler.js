@@ -7,13 +7,7 @@ export const participantHandler = [
       UrlConstant.base_url + UrlConstant.register_participant,
       (req, res, ctx) => {
         return res(ctx.status(201), ctx.json(
-          {
-            "id": "a2b12bae-389c-4d56-b11a-7233fa466050",
-            "created_at": "2023-07-24T19:12:41.117381Z",
-            "updated_at": "2023-07-24T19:12:41.117409Z",
-            "user": "f8c58cf7-0523-4cc3-ad34-ae999b4de99b",
-            "organization": "bb92b790-e810-462d-b5db-c40139ffa8fe"
-        }
+          {}
         ));
       }
     ),
@@ -143,7 +137,7 @@ export const participantHandler = [
             "user": {
                 "id": "dccf135e-cdc3-4412-aa79-a89db0dfa6bc",
                 "email": "ekta+part@digitalgreen.org",
-                "first_name": "ektaaa",
+                "first_name": "ekta",
                 "last_name": "part",
                 "phone_number": "+91 96114-57777",
                 "role": 3,
@@ -175,6 +169,14 @@ export const participantHandler = [
             "connector_count": 0,
             "number_of_participants": 0
         }
+        ));
+      }
+    ),
+    rest.post(
+      UrlConstant.base_url + UrlConstant.participant,
+      (req, res, ctx) => {
+        return res(ctx.status(201), ctx.json(
+          {}
         ));
       }
     ),
