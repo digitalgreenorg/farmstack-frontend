@@ -30,9 +30,6 @@ const Filter = ({
   states,
   cities,
   setShowFilter,
-  callApply,
-  categorises,
-  handleClickAway,
   setUpdate,
 }) => {
   const theme = useTheme();
@@ -44,17 +41,8 @@ const Filter = ({
     marginLeft: mobile || tablet || miniLaptop ? "0px" : "144px",
     marginRight: mobile || tablet || miniLaptop ? "0px" : "144px",
   };
-  const handleClose = () => {
-    callApply();
-    setShowFilter(false);
-  };
-
-  // useEffect(() => {
-  //   callApply();
-  // }, [geographies, categorises]);
 
   return (
-    // <ClickAwayListener onClickAway={handleClickAway}>
     <div style={containerStyle}>
       <Card
         sx={{
@@ -74,9 +62,9 @@ const Filter = ({
                     : { width: "100%", ...contentDetailsStyle }
                 }
               >
-                {content?.map((acc) => {
+                {content?.map((acc, index) => {
                   return (
-                    <Box className="text-left">
+                    <Box className="text-left" key={index}>
                       <Typography
                         sx={{
                           marginLeft: "12px",
@@ -90,7 +78,12 @@ const Filter = ({
                         sx={type === "categories" ? contentDetailsStyle : {}}
                       >
                         {acc?.details?.map((detail, index) => (
-                          <Box id={`${acc?.title[0]}-${detail}-${index}`} key={index}>{detail}</Box>
+                          <Box
+                            id={`${acc?.title[0]}-${detail}-${index}`}
+                            key={index}
+                          >
+                            {detail}
+                          </Box>
                         ))}
                       </Box>
                     </Box>
@@ -114,6 +107,7 @@ const Filter = ({
                 <Select
                   labelId="demo-simple-select-label"
                   id="dataset-filter-by-country-id"
+                  data-testid={"select_country_test"}
                   value={geography?.country?.name}
                   renderValue={() => geographies[0]}
                   onChange={(e) => {
@@ -157,11 +151,18 @@ const Filter = ({
                   label="Select Country"
                   placeholder="Select Country"
                 >
-                  {countries?.map((item,index) => (
-                    <MenuItem id={`dataset-filter-country-id${index}`} key={item} value={item}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
+                  {countries?.map((item, index) => {
+                    // console.log(item);
+                    return (
+                      <MenuItem
+                        id={`dataset-filter-country-id${index}`}
+                        key={index}
+                        value={item}
+                      >
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
               <FormControl
@@ -216,8 +217,12 @@ const Filter = ({
                   label="Select State"
                   placeholder="Select State"
                 >
-                  {states?.map((item,index) => (
-                    <MenuItem id={`select-country-in-geography-id${index}`} key={item} value={item}>
+                  {states?.map((item, index) => (
+                    <MenuItem
+                      id={`select-country-in-geography-id${index}`}
+                      key={index}
+                      value={item}
+                    >
                       {item.name}
                     </MenuItem>
                   ))}
@@ -273,8 +278,12 @@ const Filter = ({
                   label="Select City"
                   placeholder="Select City"
                 >
-                  {cities?.map((item,index) => (
-                    <MenuItem id={`select-state-in-geography-id${index}`} key={item} value={item}>
+                  {cities?.map((item, index) => (
+                    <MenuItem
+                      id={`select-state-in-geography-id${index}`}
+                      key={index}
+                      value={item}
+                    >
                       {item.name}
                     </MenuItem>
                   ))}
@@ -310,31 +319,10 @@ const Filter = ({
             >
               Close
             </Button>
-            {/* <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: 700,
-                fontSize: "14px",
-                width: "86px",
-                height: "36px",
-                background: "#00AB55",
-                borderRadius: "8px",
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: "#00AB55",
-                  color: "#fffff",
-                },
-              }}
-              variant="contained"
-              onClick={() => handleClose()}
-            >
-              Apply
-            </Button> */}
           </Box>
         </Box>
       </Card>
     </div>
-    // </ClickAwayListener>
   );
 };
 
