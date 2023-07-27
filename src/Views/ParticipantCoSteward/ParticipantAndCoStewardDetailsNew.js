@@ -883,7 +883,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <hr />
           <Row className={LocalStyle.backButtonContainer}>
             <Button
-              id={"details-page-load-more-dataset-button"}
+              id={"details-page-approve-button"}
               variant="outlined"
               className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
               onClick={() => approveParticipantsRequest(id, true)}
@@ -891,7 +891,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               Approve
             </Button>
             <Button
-              id={"details-page-load-more-dataset-button"}
+              id={"details-page-reject-button"}
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
               onClick={() => deleteParticipants(true)}
@@ -899,7 +899,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               Reject
             </Button>
             <Button
-              id={"details-page-load-more-dataset-button"}
+              id={"details-page-back-button"}
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.borderNone}`}
               onClick={() => history.go(-1)}
@@ -911,7 +911,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       ) : (
         <Box className={LocalStyle.backButtonContainerAlingCenter}>
           <Button
-            id={"details-page-load-more-dataset-button"}
+            id={"details-page-back-button2"}
             sx={{
               fontFamily: "Montserrat",
               fontWeight: 700,
