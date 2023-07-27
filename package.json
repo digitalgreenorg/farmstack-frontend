@@ -112,7 +112,8 @@
       "src/Components/NewOnboarding/CategoryDetails.jsx",
       "src/Views/GuestUser/GuestUserLegalNew.js",
       "src/Views/GetStarted/GetStarted.js",
-      "src/Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew.js"
+      "src/Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew.js",
+      "src/Components/Connectors_New/Connectors.jsx"
     ]
   }
 }
