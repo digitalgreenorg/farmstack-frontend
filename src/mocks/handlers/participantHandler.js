@@ -245,7 +245,7 @@ export const participantHandler = [
     }
   ),
   rest.post(
-    "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/dataset_filters/?page=2",
+    UrlConstant.base_url + UrlConstant.costeward_onboarded_dataset + "?page=2",
     (req, res, ctx) => {
       return res(
         ctx.status(200),
@@ -394,7 +394,7 @@ export const participantHandler = [
     }
   ),
   rest.get(
-    "https://datahubethdev.farmstack.co/be/datahub/participant/?page=2",
+    UrlConstant.base_url + UrlConstant.participant + "?page=2",
     (req, res, ctx) => {
       return res(
         ctx.status(200),
@@ -450,7 +450,7 @@ export const participantHandler = [
     }
   ),
   rest.post(
-    "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/dataset_filters/",
+    UrlConstant.base_url + UrlConstant.costeward_onboarded_dataset,
     (req, res, ctx) => {
       return res(
         ctx.status(200),
@@ -572,7 +572,7 @@ export const participantHandler = [
     }
   ),
   rest.post(
-    "https://datahubethdev.farmstack.co/be/microsite/datasets/dataset_filters/",
+    UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data,
     (req, res, ctx) => {
       return res(
         ctx.status(200),
@@ -694,7 +694,7 @@ export const participantHandler = [
     }
   ),
   rest.post(
-    "https://datahubethdev.farmstack.co/be/microsite/participant/56695d23-37f2-4cc1-9abb-9051f7a84761/?co_steward=True",
+    UrlConstant.base_url + "microsite/participant/" + ":id" + "/",
     (req, res, ctx) => {
       return res(
         ctx.status(200),
@@ -743,7 +743,7 @@ export const participantHandler = [
     }
   ),
   rest.delete(
-    "https://datahubethdev.farmstack.co/be/datahub/participant/30f7e3d9-8b4c-40c4-af6f-6ee8ef5c0c4f/",
+    UrlConstant.base_url + UrlConstant.participant + ":id" + "/",
     (req, res, ctx) => {
       return res(
         ctx.status(204),

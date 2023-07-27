@@ -13,6 +13,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
 
+
 describe("render all values", () => {
   beforeEach(() => {
     cleanup();
@@ -94,8 +95,6 @@ describe("render all values", () => {
         wrapper: FarmStackProvider,
       }
     );
-    //const datasetButtons = screen.findAllByTestId("view-dataset-detail");
-    //fireEvent.click(datasetButtons[0]);
   });
   test("onclick of back", () => {
     render(
@@ -247,7 +246,7 @@ describe("render all values", () => {
   test("render loadmore button failed", () => {
     server.use(
       rest.post(
-        "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/dataset_filters/?page=2",
+        UrlConstant.base_url + UrlConstant.costeward_onboarded_dataset + "?page=2",
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
@@ -283,7 +282,7 @@ describe("render all values", () => {
   test("render loadmore button failed of part", () => {
     server.use(
       rest.get(
-        "https://datahubethdev.farmstack.co/be/datahub/participant/?page=2",
+        UrlConstant.base_url + UrlConstant.participant + "?page=2",
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
@@ -301,7 +300,7 @@ describe("render all values", () => {
   test("render loadmore button failed", () => {
     server.use(
       rest.post(
-        "https://datahubethdev.farmstack.co/be/datahub/dataset/v2/dataset_filters/",
+        UrlConstant.base_url + UrlConstant.costeward_onboarded_dataset,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
@@ -319,7 +318,7 @@ describe("render all values", () => {
   test("render list in microsite", () => {
     server.use(
       rest.post(
-        "https://datahubethdev.farmstack.co/be/microsite/datasets/dataset_filters/",
+        UrlConstant.base_url + UrlConstant.guest_dataset_filtered_data,
         (req, res, ctx) => {
           return res(ctx.status(400), ctx.json());
         }
