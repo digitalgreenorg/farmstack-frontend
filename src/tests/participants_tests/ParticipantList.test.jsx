@@ -204,7 +204,7 @@ describe("render the labels and buttons", () => {
         wrapper: FarmStackProvider,
       }
     );
-    const loadmoreButton = screen.getByTestId("load-more-button");
+    const loadmoreButton = screen.getByTestId("load-more-button-test-button");
     fireEvent.click(loadmoreButton);
   });
 
