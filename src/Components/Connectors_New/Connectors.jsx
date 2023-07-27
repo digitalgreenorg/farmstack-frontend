@@ -61,6 +61,7 @@ const Connectors = () => {
     callLoader(true);
     HTTPService("GET", url, "", false, accessToken)
       .then((response) => {
+        console.log(response.data.next, "next");
         callLoader(false);
         if (response.data.next == null) {
           setShowLoadMore(false);
