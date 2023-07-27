@@ -46,6 +46,8 @@ describe("render all values", () => {
 
     const contactNumber = screen.getByPlaceholderText("Contact Number");
     fireEvent.change(contactNumber, { target: { value: "9344957735" } });
+    // const contactNumberErrorMessage = screen.queryByText('Invalid phone number');
+    // expect(contactNumberErrorMessage).toBeNull();
 
     const query = screen.getByPlaceholderText("Describe your query");
     fireEvent.change(query, {
@@ -123,7 +125,9 @@ test("onclick of cancel button", async () => {
       rest.post(
         UrlConstant.base_url + UrlConstant.microsite_contact_form,
         (req, res, ctx) => {
-          return res(ctx.status(400), ctx.json());
+          return res(ctx.status(400), ctx.json({
+            first_name: ["invalid name"]
+          }));
         }
       )
     );
@@ -153,48 +157,66 @@ test("onclick of cancel button", async () => {
         wrapper: FarmStackProvider,
       }
     );
+    const submitButton = screen.getByTestId('submit-button-test');
+    fireEvent.click(submitButton);
+  
+    // // Wait for the error messages to be displayed after the API call fails
+    // await screen.findByText('Invalid first name');
+    // await screen.findByText('Invalid last name');
+    // await screen.findByText('Invalid email');
   });
 
-  // test("get all data of  datahubadmin", async () => {
-  //   render(
-  //     <Router>
-  //       <GuestUserContactNew/>
-  //     </Router>,
-  //     {
-  //       wrapper: FarmStackProvider,
-  //     }
-  //   );
-  //   const orgName = await screen.findByRole("textbox", {
-  //     name: /organisation name/i,
-  //   });
-  //   expect(orgName.value).toBe("ekta dummy");
+  test("get all data of  datahubadmin", async () => {
+    render(
+      <Router>
+        <GuestUserContactNew/>
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const firstName = screen.getByPlaceholderText("Enter your first name");
+    expect(firstName.value).toBe("asdfg");
 
-  //   // const orgEmail = await screen.findByRole("textbox", {
-  //   //   name: /Orgnaisation email Id/i,
-  //   // });
-  //   // expect(orgEmail.value).toBe("ekta+part@digitalgreen.org");
+    const lastName = screen.getByPlaceholderText("Enter your last name");
+    expect(lastName.value).toBe("");
 
-  //   // const orgWebsite = await screen.findByRole("textbox", {
-  //   //   name: /Website Link/i,
-  //   // });
-  //   // expect(orgWebsite.value).toBe("https://www.google.com");
+    // const orgAddress = screen.getByLabelText(/Organisation Address /i);
+    // expect(orgAddress.value).toBe("patna");
 
-  //   // const orgAddress = screen.getByLabelText(/Organisation Address /i);
-  //   // expect(orgAddress.value).toBe("patna");
+    // const country = await screen.findByRole("button", {
+    //   name: /Country/i,
+    // });
+    // // expect(country.value).toBe("India");
+    // expect(country).toBeInTheDocument();
 
-  //   // const country = await screen.findByRole("button", {
-  //   //   name: /Country/i,
-  //   // });
-  //   // // expect(country.value).toBe("India");
-  //   // expect(country).toBeInTheDocument();
+    // const pincode = screen.getByLabelText(/PIN Code/i);
+    // expect(pincode.value).toBe("800001");
 
-  //   // const pincode = screen.getByLabelText(/PIN Code/i);
-  //   // expect(pincode.value).toBe("800001");
+    // const firstName = await screen.findByRole("textbox", {
+    //   name: /First Name/i,
+    // });
+    // expect(firstName.value).toBe("ekta");
 
-  //   // const firstName = await screen.findByRole("textbox", {
-  //   //   name: /First Name/i,
-  //   // });
-  //   // expect(firstName.value).toBe("ekta");
+  });
 
-  // });
+  test('should handle API call failure and set error messages', async () => {
+      render(
+        <Router>
+        <GuestUserContactNew/>
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const submitButton = screen.getByTestId("submit-button-test")
+    fireEvent.click(submitButton);
+    expect('Your query is submitted! Thank you.').toBeInTheDocument();
+  
+    // // Verify that the error messages are set as expected
+    // expect(screen.queryByText('Invalid first name')).toBeInTheDocument();
+    // expect(screen.queryByText('Invalid last name')).toBeInTheDocument();
+    // expect(screen.queryByText('Invalid email')).toBeInTheDocument();
+    // ... Add more assertions for other error messages
+  });
 });

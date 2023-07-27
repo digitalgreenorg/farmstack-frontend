@@ -423,7 +423,6 @@ const GuestUserContactNew = () => {
             // required
             fullWidth
             onChange={(e) => setDescribeQuery(e.target.value.trimStart())}
-            onBlur={(e) => setDescribeQuery((prevValue) => prevValue.trim())}
             error={describeQueryErrorMessage}
             helperText={describeQueryErrorMessage ?? ""}
             required
