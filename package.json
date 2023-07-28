@@ -115,7 +115,8 @@
       "src/Views/GetStarted/GetStarted.js",
       "src/Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew.js",
       "src/Components/Datasets_New/DataSets.js",
-      "src/Components/Connectors_New/Connectors.jsx"
+      "src/Components/Connectors_New/Connectors.jsx",
+      "src/Components/Datasets_New/DataSetsView.js"
     ]
   }
 }
