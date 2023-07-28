@@ -29,7 +29,6 @@ const CoStewardAndParticipantsCard = (props) => {
   // if(!viewType) viewType = "grid"
 
   const handleViewDataset = (id) => {
-    console.log("isCostewardsParticipant", isCostewardsParticipant);
     if (isCostewardsParticipant) {
       history.push(`/datahub/costeward/participants/view/${id}`);
     } else if (guestUser && isCosteward) {
@@ -91,6 +90,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 <Col lg={6}>
                   <div>
                     <Button
+                      data-testid="invite-btn-test-list"
                       id="add-participant-submit-button"
                       onClick={() =>
                         history.push("/datahub/participants/invite")
@@ -104,6 +104,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 <Col lg={6}>
                   <div>
                     <Button
+                      data-testid="add-new-participants"
                       id="add-participant-submit-button"
                       onClick={() => history.push("/datahub/participants/add")}
                       className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
@@ -120,6 +121,7 @@ const CoStewardAndParticipantsCard = (props) => {
               <div
                 id={title?.split(" ")[0] + "grid-view"}
                 className={LocalStyle.viewType}
+                data-testid="grid-view"
                 onClick={() => setViewType("grid")}
               >
                 <img
@@ -146,6 +148,7 @@ const CoStewardAndParticipantsCard = (props) => {
               </div>
               <div
                 id={title?.split(" ")[0] + "list-view"}
+                data-testid="list-view"
                 onClick={() => setViewType("list")}
                 className={LocalStyle.viewType}
               >
@@ -171,7 +174,7 @@ const CoStewardAndParticipantsCard = (props) => {
               </div>
             </Row>
           </Col>
-        ) : viewType && setViewType && !mobile ? (
+        ) : viewType && !mobile ? (
           <Col
             className={
               tablet && title == "Participants"
@@ -187,6 +190,7 @@ const CoStewardAndParticipantsCard = (props) => {
               <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
+                  data-testid="invite-btn-test"
                   onClick={() => history.push("/datahub/participants/invite")}
                   className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
                 >
@@ -200,6 +204,7 @@ const CoStewardAndParticipantsCard = (props) => {
               id={title?.split(" ")[0] + "grid-view"}
               className={LocalStyle.viewType}
               onClick={() => setViewType("grid")}
+              data-testid="grid-view-test"
             >
               <img
                 className={LocalStyle.listAndgridViewImg}
@@ -227,6 +232,7 @@ const CoStewardAndParticipantsCard = (props) => {
               id={title?.split(" ")[0] + "list-view"}
               onClick={() => setViewType("list")}
               className={LocalStyle.viewType}
+              data-testid="list-view-test"
             >
               <img
                 className={LocalStyle.listAndgridViewImg}
@@ -276,6 +282,7 @@ const CoStewardAndParticipantsCard = (props) => {
               sm={12}
               md={6}
               xl={4}
+              data-testid="add-new-participants-test"
               onClick={() => history.push("/datahub/participants/add")}
             >
               <Card
@@ -316,7 +323,6 @@ const CoStewardAndParticipantsCard = (props) => {
           )}
           {coStewardOrParticipantsList?.map((participant, index) => {
             let id = participant?.user_id;
-            console.log("participant", participant);
             return (
               <Col
                 id={title?.split(" ")[0] + "grid-card-id" + index}
@@ -326,6 +332,7 @@ const CoStewardAndParticipantsCard = (props) => {
                 md={6}
                 xl={4}
                 onClick={() => handleViewDataset(id)}
+                data-testid="grid-item"
               >
                 <CustomCard
                   image={participant?.organization?.logo}
@@ -372,7 +379,7 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <>
           <Row>
-            {title === "Co-steward"  || isCosteward ? (
+            {title === "Co-steward" || isCosteward ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -466,6 +473,7 @@ const CoStewardAndParticipantsCard = (props) => {
               ""
             )}
           </Row>
+
           {viewType == "list" ? (
             <div className={LocalStyle.cardContainerList}>
               <hr />
@@ -473,6 +481,8 @@ const CoStewardAndParticipantsCard = (props) => {
                 return (
                   <>
                     <Row
+                      data-testid="list-item"
+                      key={index}
                       id={title + "-list-view-" + index}
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
                       onClick={() => handleViewDataset(item?.user_id)}
@@ -491,6 +501,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`organization-name-${index}`}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -500,6 +511,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             id={title + " list-view-datasets-no-" + index}
+                            data-testid={`dataset-count-${index}`}
                           >
                             {item?.dataset_count}
                           </Col>
@@ -509,6 +521,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`number-of-participants-${index}`}
                           >
                             {item?.number_of_participants}
                           </Col>
@@ -524,6 +537,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`part-organization-name-${index}`}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -537,6 +551,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`part-dataset-count-${index}`}
                           >
                             {item?.dataset_count}
                           </Col>
@@ -550,6 +565,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`root-user-${index}`}
                           >
                             {item?.user?.first_name}
                           </Col>
@@ -565,6 +581,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             sm={4}
                             md={4}
                             xl={4}
+                            data-testid={`request-organization-name-${index}`}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -586,6 +603,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                             }}
+                            data-testid={`request-user-name${index}`}
                           >
                             {item?.user?.first_name +
                               " " +
@@ -609,6 +627,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                             }}
+                            data-testid={`request-user-email${index}`}
                           >
                             {item?.user?.email}
                           </Col>
@@ -628,11 +647,12 @@ const CoStewardAndParticipantsCard = (props) => {
         </>
       </CSSTransition>
       {loadMoreButton ? (
-        <Box className={LocalStyle.buttonContainer}>
+        <Box className={LocalStyle.buttonContainer} id="load-more-btn">
           <div>
             <Button
               onClick={handleLoadMoreButton}
               id={title?.split(" ")[0] + "-load-more-button"}
+              data-testid="load-more-button-test-button"
               variant="outlined"
               className={`${
                 mobile || tablet

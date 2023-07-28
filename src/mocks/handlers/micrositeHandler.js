@@ -8,7 +8,7 @@ const getBaseUrl = () => {
 export const micrositeHandler = [
   // pass your url in the first parameter
   rest.post(
-    `${getBaseUrl()}${UrlConstants.costeward_onboarded_dataset}`,
+    `${UrlConstants.base_url}${UrlConstants.costeward_onboarded_dataset}`,
     (req, res, ctx) => {
       console.log("microsite onboarding dataset", req);
       return res(
@@ -59,7 +59,7 @@ export const micrositeHandler = [
     }
   ),
   rest.post(
-    `${getBaseUrl()}${UrlConstants.guest_dataset_filtered_data}`,
+    `${UrlConstants.base_url}${UrlConstants.guest_dataset_filtered_data}`,
     (req, res, ctx) => {
       return res(
         ctx.status(200),
@@ -381,9 +381,7 @@ export const micrositeHandler = [
     }
   ),
   rest.get(
-    `${getBaseUrl()}${
-      UrlConstants.microsite_participant_end_point_new
-    }?co_steward=True`,
+    `${UrlConstants.base_url}${UrlConstants.microsite_participant_end_point_new}?co_steward=True`,
     (req, res, ctx) => {
       // get payload form req
       console.log("req in get carousle", req);
@@ -595,7 +593,7 @@ export const micrositeHandler = [
     }
   ),
   rest.get(
-    `${getBaseUrl()}${UrlConstants.microsite_participant_end_point_new}`,
+    `${UrlConstants.base_url}${UrlConstants.microsite_participant_end_point_new}`,
     (req, res, ctx) => {
       return (
         ctx.status(200),
@@ -799,6 +797,41 @@ export const micrositeHandler = [
             },
           ],
         })
+      );
+    }
+  ),
+  rest.get(
+    UrlConstants.base_url + "microsite/admin_organization/",
+    (req, res, ctx) => {
+      return (
+        ctx.status(200),
+        ctx.json(
+          {
+            "user": {
+                "first_name": "asdfg",
+                "last_name": "",
+                "email": "kanhaiya@digitalgreen.org",
+                "phone_number": "+91 89768-79231"
+            },
+            "organization": {
+                "name": "Digital green",
+                "org_email": "digitalgreen@digitalgreen.com",
+                "address": {
+                    "city": "",
+                    "address": "4th block, Koramangala, New Hp Petrol pump, Bangalore",
+                    "country": "Argentina",
+                    "pincode": "12345678654321"
+                },
+                "phone_number": "+91 97380-39097",
+                "logo": "/media/organizations/logos/KALRO_PcWNbzH.png",
+                "hero_image": null,
+                "org_description": "Digital Green is a non-profit organization that was founded in 2006 and is based in Koramangala, Bangalore. The organization uses technology to empower smallholder farmers in developing countries by sharing agricultural knowledge and practices.",
+                "website": "https://www.digitalgreen.org",
+                "status": true
+            }
+        }
+
+        )
       );
     }
   ),

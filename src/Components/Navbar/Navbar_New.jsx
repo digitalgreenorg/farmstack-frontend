@@ -301,6 +301,7 @@ const NavbarNew = ({ loginType }) => {
             <Box className="d-flex align-items-center">
               {loginType === "admin" ? (
                 <NavLink
+                  data-testId="navbar-dashboard-button"
                   id="navbar-new_dashboard"
                   activeStyle={
                     isNavLinkActive("/datahub/new_dashboard")
@@ -324,6 +325,7 @@ const NavbarNew = ({ loginType }) => {
                 </NavLink>
               ) : loginType === "participant" ? (
                 <NavLink
+                  data-testId="navbar-dashboard-part-button"
                   id="navbar-new_dashboard"
                   activeStyle={
                     isNavLinkActive("/participant/new_dashboard")
@@ -349,6 +351,7 @@ const NavbarNew = ({ loginType }) => {
                 ""
               )}
               <NavLink
+                data-testId="navbar-home-button"
                 id="navbar-home"
                 activeStyle={
                   isNavLinkActive("/home") ? navActiveStyle : navInActiveStyle
@@ -393,6 +396,7 @@ const NavbarNew = ({ loginType }) => {
               {(loginType === "admin" || loginType === "guest") &&
               !isLoggedInUserParticipant() ? (
                 <NavLink
+                  data-testId="navbar-participants-button"
                   id="navbar-participants"
                   activeStyle={navActiveStyle}
                   style={
@@ -428,6 +432,7 @@ const NavbarNew = ({ loginType }) => {
               loginType === "participant" ||
               loginType === "guest" ? (
                 <NavLink
+                  data-testId="navbar-datasets-button"
                   id="navbar-dataset"
                   activeStyle={navActiveStyle}
                   style={
@@ -462,6 +467,7 @@ const NavbarNew = ({ loginType }) => {
               )}
               {loginType === "admin" || loginType === "participant" ? (
                 <NavLink
+                  data-testId="navbar-connectors-button"
                   id="navbar-connectors"
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
@@ -511,6 +517,7 @@ const NavbarNew = ({ loginType }) => {
           )} */}
               {loginType === "admin" || loginType === "participant" ? (
                 <NavLink
+                  data-testId="navbar-settings-button"
                   id="navbar-settings"
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
@@ -547,6 +554,7 @@ const NavbarNew = ({ loginType }) => {
                 <></>
               ) : (
                 <NavLink
+                  data-testId="navbar-login-button"
                   id="navbar-login"
                   to={"/login"}
                   activeStyle={navActiveStyle}
@@ -568,6 +576,7 @@ const NavbarNew = ({ loginType }) => {
               <Box>
                 {getUserLocal() && loginType !== "guest" ? (
                   <Button
+                    data-testId="navbar-signout-button"
                     id="navbar-signout"
                     sx={{
                       fontFamily: "Montserrat !important",
@@ -590,6 +599,7 @@ const NavbarNew = ({ loginType }) => {
                   </Button>
                 ) : (
                   <Button
+                    data-testId="navbar-register-button"
                     id="navbar-register"
                     sx={{
                       fontFamily: "Montserrat !important",
