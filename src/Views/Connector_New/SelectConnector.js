@@ -135,6 +135,9 @@ const SelectConnector = ({
                 return (
                   <MenuItem
                     id={"connectors-select-orgnisation-id-option" + index}
+                    data-testid={
+                      "connectors-select-orgnisation-id-option" + index
+                    }
                     key={item?.org_id}
                     value={item?.org_id}
                   >

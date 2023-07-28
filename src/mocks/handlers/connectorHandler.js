@@ -1,6 +1,7 @@
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
 import { getUserLocal, isLoggedInUserCoSteward } from "../../Utils/Common";
+import getAllOrgList from "../controllers/connector.controller";
 
 const getValuesOfSearchParams = (searchParams) => {
   // Accessing the "user" value
@@ -23,7 +24,6 @@ export const connectorHandler = [
       const { user, isCoSteward, page } = getValuesOfSearchParams(
         req.url.searchParams
       );
-      console.log("pagehere", page);
       return res(
         ctx.status(200),
         ctx.json({
@@ -105,6 +105,16 @@ export const connectorHandler = [
           ],
         })
       );
+    }
+  ),
+
+  //for add mode all the api having crud operation
+  // for getting org list ==> url = UrlConstant.base_url + UrlConstant.get_org_name_list
+  // url = https://datahubethdev.farmstack.co/be/datahub/dataset_ops/organization/
+  rest.get(
+    UrlConstant.base_url + UrlConstant.get_org_name_list,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getAllOrgList()));
     }
   ),
 ];

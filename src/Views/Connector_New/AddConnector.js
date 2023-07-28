@@ -992,7 +992,10 @@ const AddConnector = (props) => {
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
             <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
           </span>
-          <span className="add_light_text ml-16 fw600">
+          <span
+            data-testid="label-for-state-of-connector"
+            className="add_light_text ml-16 fw600"
+          >
             {props.isEditModeOn ? "Edit connector" : "New connector"}
           </span>
         </div>
