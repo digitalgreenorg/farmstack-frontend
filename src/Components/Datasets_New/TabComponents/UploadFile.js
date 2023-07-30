@@ -18,6 +18,7 @@ import {
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import FileUploaderTest from "../../Generic/FileUploaderTest";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -119,6 +120,7 @@ const UploadFile = ({
       }
     });
     // tempFiles.push(...file);
+    console.log(tempFiles, "somehthingcheck");
     setFiles(tempFiles);
     // setFiles((prev) => [...prev, file]);
     setFileSizeError("");
@@ -1053,19 +1055,6 @@ const UploadFile = ({
           >
             PostgreSQL
           </Typography>
-          {/* <Typography
-                        onClick={() => setSelectedUploadType('sqlite')}
-                        sx={{
-                            fontFamily: "Montserrat !important",
-                            fontWeight: selectedUploadType === 'sqlite' ? "700" : "500",
-                            fontSize: "16px",
-                            lineHeight: "26px",
-                            color: selectedUploadType === 'sqlite' ? "#00AB55" : "#212B36",
-                            textAlign: 'left',
-                            cursor: 'pointer',
-                            marginLeft: '10px',
-                            marginTop: '22px'
-                        }}>SQLite</Typography> */}
           <Typography
             onClick={() => {
               setSelectedUploadType("rest_api");
@@ -1100,17 +1089,12 @@ const UploadFile = ({
                 <FileUploader
                   id="add-dataset-upload-file-id"
                   key={key}
+                  name="file"
                   handleChange={handleFileChange}
                   multiple={true}
                   maxSize={50}
                   onSizeError={(file) => setIsSizeError(true)}
-                  // onClick={(e) => (e.target.value = null)}
-                  children={
-                    <img
-                      className="cursor-pointer"
-                      src={require("../../../Assets/Img/Upload.svg")}
-                    />
-                  }
+                  children={<FileUploaderTest texts={"Drop files here"} />}
                   types={fileTypes}
                 />
                 <span
@@ -1280,46 +1264,6 @@ const UploadFile = ({
           ) : (
             <></>
           )}
-          {/* for SQLite */}
-          {/* {selectedUploadType === 'sqlite' ?
-                        <>
-                            {!isSqLiteConnected ?
-                                <DbConfiguration
-                                    dbaseName={sqLiteDbName}
-                                    setDbaseName={setSqLiteDbName}
-                                    userName={sqLiteUserName}
-                                    setUserName={setSqLiteUserName}
-                                    password={sqLitePassword}
-                                    setPassword={setSqLitePassword}
-                                    dbUrl={sqLiteDbUrl}
-                                    setDbUrl={setSqLiteDbUrl}
-                                    port={sqLitePort}
-                                    setPort={setSqLitePort}
-                                    handleCheckBox={handleCheckBox}
-                                    handleClearFields={handleClearFields}
-                                    handleConnect={handleConnect}
-                                    validator={validator}
-                                    dbName={'SQLite'}
-                                />
-                                : <TableImport
-                                    dbName={'SQLite'}
-                                    tableName={sqliteTableName}
-                                    setTableName={setSqliteTableName}
-                                    handleTableChange={handleTableChange}
-                                    fileName={sqliteFileName}
-                                    setFileName={setSqliteFileName}
-                                    handleDisconnect={handleDisconnect}
-                                    handleImport={handleImport}
-                                    validator={validator}
-                                    menus={sqLiteTables}
-                                    allColumns={allColumns}
-                                    setAllColumns={setAllColumns}
-                                    handleCheckBoxCheck={handleCheckBoxCheck}
-                                />
-                            }
-                        </>
-                        : <></>
-                    } */}
           {/* for Rest API */}
           {selectedUploadType === "rest_api" ? (
             <>

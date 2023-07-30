@@ -68,131 +68,13 @@ const datasetViewResponse = {
   },
   datasets: [
     {
-      id: "63736bb3-3bf3-4f9f-9221-81e17e938538",
-      content: [
-        {
-          add: "FName1",
-          df: "LName1",
-          PHONE_NUMBER: 1234567890,
-          REGION: "Region1",
-          WOREDA_x: "Woreda1",
-          KEBELE_x: "Kebele1",
-          WOREDA_y: "Woreda1",
-          KEBELE_y: "Kebele1",
-          LIVE_WEIGHT_x: 325,
-          PREGNANCY_MTH_x: 1,
-          MILK_VOLUMNE_x: 9,
-          MILK_FAT: 4,
-          MILK_PROTEIN: 2.6,
-          LACTATION_STAGE_x: "Early lactation",
-          HAY: 2.65,
-          CORN: 0.0,
-          WHEAT_BRAN: 4.5,
-          LINSEED_CAKE: 2.69,
-          FEED_COST: 283.25,
-          MIFC_DAY: 22.75,
-          RATION_PRICE: 28.79,
-          FIRST_NAME_y: "FName1",
-          LAST_NAME_y: "LName1",
-          WOREDA_LDI: "Woreda1",
-          KEBELE: "Kebele1",
-          LIVE_WEIGHT_y: 325,
-          PREGNANCY_MTH_y: 0,
-          MILK_VOLUMNE_y: 5,
-          LACTATION_STAGE_y: "Early lactation",
-          None: "######",
-          "None.1": "######",
-        },
-        {
-          add: "FName1",
-          df: "LName1",
-          PHONE_NUMBER: 1234567890,
-          REGION: "Region1",
-          WOREDA_x: "Woreda1",
-          KEBELE_x: "Kebele1",
-          WOREDA_y: "Woreda1",
-          KEBELE_y: "Kebele1",
-          LIVE_WEIGHT_x: 325,
-          PREGNANCY_MTH_x: 1,
-          MILK_VOLUMNE_x: 9,
-          MILK_FAT: 4,
-          MILK_PROTEIN: 2.6,
-          LACTATION_STAGE_x: "Early lactation",
-          HAY: 2.65,
-          CORN: 0.0,
-          WHEAT_BRAN: 4.5,
-          LINSEED_CAKE: 2.69,
-          FEED_COST: 283.25,
-          MIFC_DAY: 22.75,
-          RATION_PRICE: 28.79,
-          FIRST_NAME_y: "FName7",
-          LAST_NAME_y: "LName7",
-          WOREDA_LDI: "Woreda1",
-          KEBELE: "Kebele1",
-          LIVE_WEIGHT_y: 325,
-          PREGNANCY_MTH_y: 0,
-          MILK_VOLUMNE_y: 11,
-          LACTATION_STAGE_y: "Early lactation",
-          None: "######",
-          "None.1": "######",
-        },
-      ],
-      file: "protected/datasets/abbusijke`/file/PXD_Connector_1_standerdise_2_standerdise_standerdise.csv",
-      source: "file",
-      file_size: 339995,
-      accessibility: "private",
-      standardised_file:
-        "protected/datasets/abbusijke`/file/PXD_Connector_1_standerdise_2_standerdise_standerdise.csv",
-      standardisation_config: {
-        FIRST_NAME_x: {
-          masked: false,
-          mapped_to: "add",
-          mapped_category: "White Revolution",
-        },
-      },
-      usage_policy: [],
-    },
-    {
-      id: "2b6e08fc-b19a-4fe5-8ea0-e51e4b253d84",
-      content: [
-        {
-          farm: 1,
-          name: "######",
-          None: "######",
-        },
-        {
-          farm: 2,
-          name: "######",
-          None: "######",
-        },
-      ],
-      file: "protected/datasets/abbusijke`/postgresql/abhi_standerdise.xls",
-      source: "postgresql",
-      file_size: 9728,
-      accessibility: "public",
-      standardised_file:
-        "protected/datasets/abbusijke`/postgresql/abhi_standerdise.xls",
-      standardisation_config: {
-        id: {
-          masked: false,
-          mapped_to: "farm",
-          mapped_category: "White Revolution",
-        },
-        name: {
-          masked: true,
-        },
-      },
-      usage_policy: [],
-    },
-    {
-      id: "14e13e98-8c79-4ad2-8030-fe1bbe5f244d",
+      id: "81e2b35c-e9ab-40e3-8e9f-653a5d96228c",
       content: [],
-      file: "protected/datasets/abbusijke`/live_api/sampleapi.json",
-      source: "live_api",
-      file_size: 4423,
+      file: "protected/datasets/my test/file/testfile.png",
+      source: "file",
+      file_size: 171675,
       accessibility: "public",
-      standardised_file:
-        "protected/datasets/abbusijke`/live_api/sampleapi.json",
+      standardised_file: "protected/datasets/my test/file/testfile.png",
       standardisation_config: {},
       usage_policy: [],
     },
@@ -620,6 +502,207 @@ export const datasetHandler = [
     UrlConstant.base_url + UrlConstant.delete_dataset + ":id" + "/",
     (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(datasetViewResponse));
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.add_basic_dataset,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: "01a5ec87-f5fc-434e-8084-601d0455e82d",
+          created_at: "2023-07-28T06:30:03.748419Z",
+          updated_at: "2023-07-28T06:30:03.748452Z",
+          name: "new dataset",
+          description: "snmnbdfn,",
+          category: {},
+          geography: {},
+          data_capture_start: null,
+          data_capture_end: null,
+          constantly_update: true,
+          is_temp: true,
+          user_map: "206722c0-4a7e-4415-961a-8fd921eb5342",
+        })
+      );
+    }
+  ),
+  rest.put(
+    UrlConstant.base_url + UrlConstant.add_basic_dataset + ":datasetId/",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: "01a5ec87-f5fc-434e-8084-601d0455e82d",
+          created_at: "2023-07-28T06:30:03.748419Z",
+          updated_at: "2023-07-28T06:30:03.748452Z",
+          name: "new dataset",
+          description: "snmnbdfn,",
+          category: {},
+          geography: {},
+          data_capture_start: null,
+          data_capture_end: null,
+          constantly_update: true,
+          is_temp: true,
+          user_map: "206722c0-4a7e-4415-961a-8fd921eb5342",
+        })
+      );
+    }
+  ),
+  rest.put(
+    UrlConstant.base_url +
+      UrlConstant.add_basic_dataset +
+      ":props.datasetIdForEdit/",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: "01a5ec87-f5fc-434e-8084-601d0455e82d",
+          created_at: "2023-07-28T06:30:03.748419Z",
+          updated_at: "2023-07-28T06:30:03.748452Z",
+          name: "new dataset",
+          description: "snmnbdfn,",
+          category: {},
+          geography: {},
+          data_capture_start: null,
+          data_capture_end: null,
+          constantly_update: true,
+          is_temp: true,
+          user_map: "206722c0-4a7e-4415-961a-8fd921eb5342",
+        })
+      );
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.upload_files,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(201),
+        ctx.json({
+          id: "dbc8e1c0-c1dc-460d-a430-ff5752000cbb",
+          created_at: "2023-07-30T17:54:11.689594Z",
+          updated_at: "2023-07-30T17:54:11.695451Z",
+          file: "test1/file/testfile.png",
+          file_size: 310330,
+          source: "file",
+          standardised_configuration: {},
+          accessibility: "public",
+          dataset: "5328fcbe-665f-46b4-846a-d8032b6e86d1",
+        })
+      );
+    }
+  ),
+  rest.get(
+    UrlConstant.base_url + UrlConstant.list_of_files + ":datasetId" + "/",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json([
+          {
+            id: "dbc8e1c0-c1dc-460d-a430-ff5752000cbb",
+            file: "test1/file/testfile.png",
+          },
+          {
+            id: "cc70ff0d-f54d-4890-80c4-22e91d3e34b1",
+            file: "test1/file/sometable.xls",
+          },
+        ])
+      );
+    }
+  ),
+  rest.get(
+    UrlConstant.base_url + UrlConstant.standardization_get_data,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json([
+          {
+            id: "41369a20-0750-4849-8694-c4c8ef6bd79d",
+            datapoint_category: "sdfhdshdshdsdfgdsg",
+            datapoint_description: "dfgdsghsdfhsdh",
+            datapoint_attributes: {
+              231: "",
+              "red chilli": "",
+              "green chilli": "",
+            },
+          },
+          {
+            id: "0e84f79a-1ca0-4c95-ac9e-89417c872e5b",
+            datapoint_category: "nbvcdxsza",
+            datapoint_description: "ghfdsa",
+            datapoint_attributes: {
+              asdf: "",
+              dcfv: "",
+              sdcfv: "",
+              sxdcfvg: "",
+            },
+          },
+        ])
+      );
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.get_file_columns,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json([
+          "FIRST_NAME_x",
+          "LAST_NAME_x",
+          "PHONE_NUMBER",
+          "REGION",
+          "WOREDA_x",
+          "KEBELE_x",
+          "WOREDA_y",
+          "KEBELE_y",
+          "LIVE_WEIGHT_x",
+          "PREGNANCY_MTH_x",
+          "MILK_VOLUMNE_x",
+          "MILK_FAT",
+          "MILK_PROTEIN",
+          "LACTATION_STAGE_x",
+          "HAY",
+          "CORN",
+          "WHEAT_BRAN",
+          "LINSEED_CAKE",
+          "FEED_COST",
+          "MIFC_DAY",
+          "RATION_PRICE",
+          "FIRST_NAME_y",
+          "LAST_NAME_y",
+          "WOREDA_LDI",
+          "KEBELE",
+          "LIVE_WEIGHT_y",
+          "PREGNANCY_MTH_y",
+          "MILK_VOLUMNE_y",
+          "LACTATION_STAGE_y",
+          "Unnamed: 10",
+        ])
+      );
+    }
+  ),
+  rest.put(
+    UrlConstant.base_url + UrlConstant.standardised_file + ":standardiseFile/",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: "dbc8e1c0-c1dc-460d-a430-ff5752000cbb",
+          created_at: "2023-07-30T17:54:11.689594Z",
+          updated_at: "2023-07-30T18:22:03.118932Z",
+          file: "https://datahubethdev.farmstack.co/datahub/dataset_files/dbc8e1c0-c1dc-460d-a430-ff5752000cbb/test1/file/testfile.png",
+          file_size: 315536,
+          source: "file",
+          standardised_configuration: {
+            FIRST_NAME_x: {
+              mapped_to: "231",
+              mapped_category: "sdfhdshdshdsdfgdsg",
+              masked: false,
+            },
+          },
+          accessibility: "public",
+          dataset: "5328fcbe-665f-46b4-846a-d8032b6e86d1",
+        })
+      );
     }
   ),
 ];

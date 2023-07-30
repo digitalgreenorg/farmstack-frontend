@@ -240,9 +240,6 @@ const AddDataSet = (props) => {
   };
 
   const shouldTabDisabled = () => {
-    console.log(
-      sqlFiles || postgresFiles || restApifiles || files | uploadedFiles
-    );
     if (
       (datasetId || props.datasetIdForEdit) &&
       (sqlFiles?.length > 0 ||
@@ -508,6 +505,7 @@ const AddDataSet = (props) => {
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
             id="add-dataset-breadcrum"
+            data-testid="goPrevRoute"
           >
             Datasets
           </span>
