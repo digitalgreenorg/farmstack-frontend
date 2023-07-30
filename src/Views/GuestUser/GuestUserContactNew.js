@@ -65,7 +65,7 @@ const GuestUserContactNew = () => {
     if (!isPhoneValid(e, countryData)) {
       setContactNumberErrorMessage("Invalid phone number");
     } else {
-      setContactNumberErrorMessage(null);
+       setContactNumberErrorMessage("");
     }
     setContactNumber(e);
   };
@@ -251,11 +251,6 @@ const GuestUserContactNew = () => {
         }
       });
   };
-  const validateEmail = (value) => {
-    // Email regex pattern
-    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    return emailPattern.test(value);
-  };
   useEffect(() => {
     getDatahubAdminDetails();
     goToTop(0);
@@ -331,11 +326,10 @@ const GuestUserContactNew = () => {
             value={email}
             onChange={(e) => {
               setEmail(e.target.value.trim());
-              setIsEmailValid(validateEmail(e.target.value));
             }}
-            error={emailErrorMessage || !isEmailValid}
+            error={emailErrorMessage}
             helperText={
-              emailErrorMessage || !isEmailValid ? "Invalid Email!" : ""
+              emailErrorMessage ?? ""
             }
           />
         </Col>
@@ -439,11 +433,9 @@ const GuestUserContactNew = () => {
           disabled={
             !firstName ||
             !email ||
-            !isEmailValid ||
             !contactNumber ||
             !subject ||
-            !describeQuery ||
-            contactNumberErrorMessage
+            !describeQuery 
           }
         >
           Submit
