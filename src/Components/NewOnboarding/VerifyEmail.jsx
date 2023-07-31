@@ -176,10 +176,6 @@ const VerifyEmailStep = (props) => {
                   setLoginError(errorMessages[i]);
                   break;
                 default:
-                  let error = await GetErrorHandlingRoute(e);
-                  if (error) {
-                    callToast(error?.message, "error", true);
-                  }
                   break;
               }
             }
@@ -235,7 +231,6 @@ const VerifyEmailStep = (props) => {
         setKey((prevKey) => prevKey + 1);
       })
       .catch(async (e) => {
-        console.log("🚀 ~ file: VerifyEmail.jsx:235 ~ hanleResendOTp ~ e:", e);
         callLoader(false);
         if (
           e.response != null &&
@@ -259,7 +254,10 @@ const VerifyEmailStep = (props) => {
           );
         } else {
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
+          if (error?.path) {
+            history.push(error.path);
+          }
+          if (error.toast) {
             callToast(error?.message ?? "Unknown error", "error", true);
           }
         }

@@ -60,6 +60,60 @@ describe("Login component", () => {
     );
   });
 
+  // test("error 500 while login", async () => {
+  //   server.use(
+  //     rest.post(
+  //       `${UrlConstant.base_url}${UrlConstant.login}`,
+  //       (req, res, ctx) => {
+  //         console.log("🚀 ~ file: verifyEmail.test.js:364 ~ test ~ req:", req);
+
+  //         return res(
+  //           ctx.status(500),
+  //           ctx.json({
+  //             message: "Internal Server Error.",
+  //           })
+  //         );
+  //       }
+  //     )
+  //   );
+  //   render(
+  //     <Router>
+  //       <VerifyEmailStep />
+  //     </Router>,
+  //     { wrapper: FarmStackProvider }
+  //   );
+  //   const emailInput = await screen.findByPlaceholderText(/Enter mail id/i);
+  //   fireEvent.change(emailInput, {
+  //     target: { value: "nilesh@digitalgreen.org" },
+  //   });
+  //   // Click and accept term and condition
+  //   const termsAndCondition = screen.getByTestId(
+  //     "login-agree-terms-and-condition-check-box-test"
+  //   );
+  //   const checkbox = termsAndCondition.querySelector("input");
+  //   fireEvent.click(checkbox);
+  //   console.log(
+  //     "🚀 ~ file: verifyEmail.test.js:96 ~ routed ~ window.location.pathname:",
+  //     window.location.pathname
+  //   );
+  //   // Press enter button in keyboard to get otp
+  //   const submitButton = screen.getByTestId("send-otp-btn-test");
+  //   expect(submitButton).toBeEnabled();
+  //   fireEvent.keyDown(emailInput, { key: "Enter", code: 13, charCode: 13 });
+  //   let routed = await customWaitFor(() => {
+  //     console.log(
+  //       "🚀 ~ file: verifyEmail.test.js:393 ~ routed ~ window.location.pathname:",
+  //       window.location.pathname
+  //     );
+  //     if (window.location.pathname === "/error/500") {
+  //       return true;
+  //     }
+  //   });
+  //   if (routed) {
+  //     expect(window.location.pathname).toBe("/error/500");
+  //   }
+  // });
+
   test("Enter email and click submit and enter opt and verify", async () => {
     render(
       <Router>
@@ -303,8 +357,8 @@ describe("Login component", () => {
     screen.debug(errorText);
     expect(errorText).toBeEnabled();
   });
-  // testing otp resnd button in 3 sec to instead of 2 min
-  test("resend otp after 120 sec (3 sec)", async () => {
+  // resend otp button should be visible after 120 second
+  test("resend otp after 120 sec", async () => {
     // jest.useFakeTimers();
     render(
       <Router>
@@ -327,9 +381,12 @@ describe("Login component", () => {
     const submitButton = screen.getByTestId("send-otp-btn-test");
     expect(submitButton).toBeEnabled();
     fireEvent.keyDown(emailInput, { key: "Enter", code: 13, charCode: 13 });
-    let findResentButton = await customWaitFor(async () => {
-      return true;
-    });
+    let findResentButton = await customWaitFor(
+      async () => {
+        return true;
+      },
+      { time: 130000, interval: 121000 }
+    );
     console.log("findResentButton", findResentButton);
     if (findResentButton) {
       const resendOtpButton = await screen.findByTestId(
@@ -339,17 +396,17 @@ describe("Login component", () => {
       fireEvent.click(resendOtpButton);
       let date = new Date();
       console.log("date...1", date.getMinutes(), date.getSeconds());
-      let waitFor2Min = customWait(async () => {
+      let waitFor2Sec = customWait(async () => {
         return true;
       });
       console.log("date...2", date.getMinutes(), date.getSeconds());
 
-      if (waitFor2Min) {
+      if (waitFor2Sec) {
         const resendOtpButton2 = await screen.findByTestId(
           "resend-otp-button-test"
         );
         expect(resendOtpButton2).toBeUndefined();
       }
     }
-  });
+  }, 140000);
 });
