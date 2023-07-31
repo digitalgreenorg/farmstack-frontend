@@ -27,6 +27,7 @@
     "echarts": "5.1.2",
     "echarts-for-react": "3.0.1",
     "env-cmd": "^10.1.0",
+    "enzyme": "^3.11.0",
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
     "history": "4.9.0",
@@ -75,7 +76,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll"
+    "coverage": "react-scripts test --coverage --watchAll src/tests/login_tests/VerifyEmail.test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -119,7 +120,8 @@
       "src/Views/Dashboard/DashboardNew.js",
       "src/Components/Navbar/Navbar_New.jsx",
       "src/Components/Footer/Footer_New.jsx",
-      "src/Components/Datasets_New/DataSetsView.js"
+      "src/Components/Datasets_New/DataSetsView.js",
+      "src/Components/NewOnboarding/VerifyEmail.jsx"
     ]
   }
 }
