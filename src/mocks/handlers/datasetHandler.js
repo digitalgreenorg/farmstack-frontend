@@ -645,38 +645,7 @@ export const datasetHandler = [
     (req, res, ctx) => {
       return res(
         ctx.status(200),
-        ctx.json([
-          "FIRST_NAME_x",
-          "LAST_NAME_x",
-          "PHONE_NUMBER",
-          "REGION",
-          "WOREDA_x",
-          "KEBELE_x",
-          "WOREDA_y",
-          "KEBELE_y",
-          "LIVE_WEIGHT_x",
-          "PREGNANCY_MTH_x",
-          "MILK_VOLUMNE_x",
-          "MILK_FAT",
-          "MILK_PROTEIN",
-          "LACTATION_STAGE_x",
-          "HAY",
-          "CORN",
-          "WHEAT_BRAN",
-          "LINSEED_CAKE",
-          "FEED_COST",
-          "MIFC_DAY",
-          "RATION_PRICE",
-          "FIRST_NAME_y",
-          "LAST_NAME_y",
-          "WOREDA_LDI",
-          "KEBELE",
-          "LIVE_WEIGHT_y",
-          "PREGNANCY_MTH_y",
-          "MILK_VOLUMNE_y",
-          "LACTATION_STAGE_y",
-          "Unnamed: 10",
-        ])
+        ctx.json(["REGION", "WOREDA", "KEBELE", "FIRST_NAME", "LAST_NAME"])
       );
     }
   ),
@@ -699,6 +668,43 @@ export const datasetHandler = [
               masked: false,
             },
           },
+          accessibility: "public",
+          dataset: "5328fcbe-665f-46b4-846a-d8032b6e86d1",
+        })
+      );
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.connection_to_db_end_point,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json(["AEInstalacion", "AELevantamiento", "AnalisisAgua"])
+      );
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.get_column_from_table_name,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json(["id", "created_by", "modified_by", "deleted", "status"])
+      );
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.send_columns_to_export,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: "53f82c3f-5bd3-487a-8fba-104bf15cd4bd",
+          created_at: "2023-07-31T09:05:07.417380Z",
+          updated_at: "2023-07-31T09:05:07.417411Z",
+          file: "test1/mysql/samplesql.xls",
+          file_size: 5632,
+          source: "mysql",
+          standardised_configuration: {},
           accessibility: "public",
           dataset: "5328fcbe-665f-46b4-846a-d8032b6e86d1",
         })

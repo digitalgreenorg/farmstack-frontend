@@ -633,33 +633,6 @@ const UploadFile = ({
             }
           }
         });
-    } else if (selectedUploadType === "sqlite") {
-      let bodyData = {
-        dbname: sqLiteDbName,
-        user: sqLiteUserName,
-        password: sqLitePassword,
-        host: sqLiteDbUrl,
-        port: sqLitePort,
-        database_type: "sqlite",
-      };
-      let accessToken = getTokenLocal() ?? false;
-      HTTPService(
-        "POST",
-        UrlConstant.base_url + UrlConstant.connection_to_db_end_point,
-        bodyData,
-        false,
-        true,
-        accessToken
-      )
-        .then((res) => {
-          callLoader(false);
-          setSqLiteTables([...res.data]);
-          setIsSqLiteConnected(true);
-        })
-        .catch((err) => {
-          callLoader(false);
-          console.log(err);
-        });
     }
   };
 
@@ -869,31 +842,6 @@ const UploadFile = ({
           );
         });
     }
-    // else if (selectedUploadType === 'sqlite') {
-    //     let query = sqliteFileName;
-    //     let table_name = sqliteTableName
-    //     let selectedColumns = [];
-    //     for (let i = 0; i < allColumns.length; i++) {
-    //         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
-    //     }
-    //     let bodyFormData = new FormData()
-    //     bodyFormData.append("col", JSON.stringify(selectedColumns))
-    //     bodyFormData.append("file_name", query)
-    //     bodyFormData.append("dataset_name", dataSetName)
-    //     bodyFormData.append("source", "sqlite")
-    //     bodyFormData.append("table_name", table_name)
-    //     let accessToken = getTokenLocal() ?? false;
-    //     HTTPService('POST',
-    //         UrlConstant.base_url + UrlConstant.send_columns_to_export,
-    //         bodyFormData,
-    //         true,
-    //         true,
-    //         accessToken
-    //     ).then((res) => {
-    //         setSqLiteFiles(res.data)
-    //     })
-    //         .catch((err) => { console.log(err) })
-    // }
   };
 
   const handleExport = () => {
@@ -1023,6 +971,7 @@ const UploadFile = ({
               marginTop: "31px",
             }}
             id="add-dataset-upload-type-mysql"
+            data-testid="add_dataset_upload_type_mysql"
           >
             MySQL
           </Typography>
@@ -1052,6 +1001,7 @@ const UploadFile = ({
               marginTop: "22px",
             }}
             id="add-dataset-upload-type-postgres"
+            data-testid="add_dataset_upload_type_postgres"
           >
             PostgreSQL
           </Typography>
@@ -1077,6 +1027,7 @@ const UploadFile = ({
               marginTop: "22px",
             }}
             id="add-dataset-upload-type-rest-api"
+            data-testid="add_dataset_upload_type_rest_api"
           >
             Rest API
           </Typography>
