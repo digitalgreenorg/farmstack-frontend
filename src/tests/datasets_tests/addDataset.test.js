@@ -370,11 +370,11 @@ describe("Add dataset module for admin", () => {
 
     fireEvent.click(nextBtn);
 
-    const categoryAccordionTitle = await screen.findByText(/dsagffas/i);
+    const categoryAccordionTitle = await screen.findByText(/category1/i);
     fireEvent.click(categoryAccordionTitle);
 
     const subCategoryCheckboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(subCategoryCheckboxes[2]);
+    fireEvent.click(subCategoryCheckboxes[0]);
 
     fireEvent.click(nextBtn);
 
@@ -545,11 +545,11 @@ describe("Add dataset module for admin", () => {
 
     fireEvent.click(nextBtn);
 
-    const categoryAccordionTitle = await screen.findByText(/dsagffas/i);
+    const categoryAccordionTitle = await screen.findByText(/category1/i);
     fireEvent.click(categoryAccordionTitle);
 
     const subCategoryCheckboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(subCategoryCheckboxes[2]);
+    fireEvent.click(subCategoryCheckboxes[0]);
 
     fireEvent.click(nextBtn);
 
@@ -720,11 +720,11 @@ describe("Add dataset module for admin", () => {
 
     fireEvent.click(nextBtn);
 
-    const categoryAccordionTitle = await screen.findByText(/dsagffas/i);
+    const categoryAccordionTitle = await screen.findByText(/category1/i);
     fireEvent.click(categoryAccordionTitle);
 
     const subCategoryCheckboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(subCategoryCheckboxes[2]);
+    fireEvent.click(subCategoryCheckboxes[0]);
 
     fireEvent.click(nextBtn);
 
@@ -903,11 +903,11 @@ describe("Add dataset module for admin", () => {
 
     fireEvent.click(nextBtn);
 
-    const categoryAccordionTitle = await screen.findByText(/dsagffas/i);
+    const categoryAccordionTitle = await screen.findByText(/category1/i);
     fireEvent.click(categoryAccordionTitle);
 
     const subCategoryCheckboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(subCategoryCheckboxes[2]);
+    fireEvent.click(subCategoryCheckboxes[0]);
 
     fireEvent.click(nextBtn);
 
@@ -1081,11 +1081,11 @@ describe("Add dataset module for admin", () => {
 
     fireEvent.click(nextBtn);
 
-    const categoryAccordionTitle = await screen.findByText(/dsagffas/i);
+    const categoryAccordionTitle = await screen.findByText(/category1/i);
     fireEvent.click(categoryAccordionTitle);
 
     const subCategoryCheckboxes = await screen.findAllByRole("checkbox");
-    fireEvent.click(subCategoryCheckboxes[2]);
+    fireEvent.click(subCategoryCheckboxes[0]);
 
     fireEvent.click(nextBtn);
 
