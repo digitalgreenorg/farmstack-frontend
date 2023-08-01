@@ -78,14 +78,12 @@ const Join = (props) => {
   ]);
 
   const handleChangeJoin = (e, ind, source) => {
-    // console.log("valuein");
     let arr = [...completeData];
     let obj1 = { ...each };
     const {
       target: { value },
     } = e;
     if (source == "join1") {
-      // console.log(value);
       obj1["left_on"][ind] = value;
       arr[index] = { ...obj1 };
     } else {
@@ -136,7 +134,6 @@ const Join = (props) => {
     // clear right join field
     obj["right_on"] = [];
 
-    // console.log(obj);
     arr[index] = { ...obj };
 
     setCompleteData([...arr]);
