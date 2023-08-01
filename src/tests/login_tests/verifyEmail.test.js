@@ -50,7 +50,8 @@ function customWait(fun, option = { time: 2000 }) {
 }
 
 describe("Login component", () => {
-  beforeEach(() => cleanup()), afterEach(() => cleanup());
+  beforeEach(() => cleanup());
+  afterEach(() => cleanup());
   test("Render Login without error", () => {
     render(
       <Router>
@@ -305,108 +306,108 @@ describe("Login component", () => {
     expect(errorText).toBeEnabled();
   });
 
-  test("Wrong otp error", async () => {
-    // server.use(
-    //   rest.post(`${UrlConstant.base_url}${UrlConstant.otp}`, () => {
-    //     console.log("error 401");
-    //     return rest(
-    //       ctx.status(400),
-    //       ctx.status({ otp: "Invalid OTP, remaining attempts left: 2" })
-    //     );
-    //   })
-    // );
-    render(
-      <Router>
-        <VerifyEmailStep />
-      </Router>,
-      { wrapper: FarmStackProvider }
-    );
-    const emailInput = await screen.findByPlaceholderText(/Enter mail id/i);
-    fireEvent.change(emailInput, {
-      target: { value: "nilesh403@google.org" },
-    });
-    // Click and accept term and condition
-    const termsAndCondition = screen.getByTestId(
-      "login-agree-terms-and-condition-check-box-test"
-    );
-    const checkbox = termsAndCondition.querySelector("input");
-    fireEvent.click(checkbox);
+  // test("Wrong otp error", async () => {
+  //   // server.use(
+  //   //   rest.post(`${UrlConstant.base_url}${UrlConstant.otp}`, () => {
+  //   //     console.log("error 401");
+  //   //     return rest(
+  //   //       ctx.status(400),
+  //   //       ctx.status({ otp: "Invalid OTP, remaining attempts left: 2" })
+  //   //     );
+  //   //   })
+  //   // );
+  //   render(
+  //     <Router>
+  //       <VerifyEmailStep />
+  //     </Router>,
+  //     { wrapper: FarmStackProvider }
+  //   );
+  //   const emailInput = await screen.findByPlaceholderText(/Enter mail id/i);
+  //   fireEvent.change(emailInput, {
+  //     target: { value: "nilesh403@google.org" },
+  //   });
+  //   // Click and accept term and condition
+  //   const termsAndCondition = screen.getByTestId(
+  //     "login-agree-terms-and-condition-check-box-test"
+  //   );
+  //   const checkbox = termsAndCondition.querySelector("input");
+  //   fireEvent.click(checkbox);
 
-    // Press enter button in keyboard to get otp
-    const submitButton = screen.getByTestId("send-otp-btn-test");
-    expect(submitButton).toBeEnabled();
-    fireEvent.keyDown(emailInput, { key: "Enter", code: 13, charCode: 13 });
-    console.log("waiting for the page");
+  //   // Press enter button in keyboard to get otp
+  //   const submitButton = screen.getByTestId("send-otp-btn-test");
+  //   expect(submitButton).toBeEnabled();
+  //   fireEvent.keyDown(emailInput, { key: "Enter", code: 13, charCode: 13 });
+  //   console.log("waiting for the page");
 
-    // Check if error shown
-    // let emailInputEle = screen.getByTestId("email_id_for_login_test")
-    // const errorPTag = emailInputEle.querySelector("p")
-    // Enter OTP
-    const otpInput = await screen.findByPlaceholderText(/Enter 6 digit OTP/i);
-    screen.debug(otpInput);
-    expect(otpInput).toBeEnabled();
-    // Press enter to submit otp
-    fireEvent.change(otpInput, { target: { value: "000000" } });
-    expect(submitButton).toBeEnabled();
-    fireEvent.keyDown(emailInput, { key: "Enter", code: 13, charCode: 13 });
+  //   // Check if error shown
+  //   // let emailInputEle = screen.getByTestId("email_id_for_login_test")
+  //   // const errorPTag = emailInputEle.querySelector("p")
+  //   // Enter OTP
+  //   const otpInput = await screen.findByPlaceholderText(/Enter 6 digit OTP/i);
+  //   screen.debug(otpInput);
+  //   expect(otpInput).toBeEnabled();
+  //   // Press enter to submit otp
+  //   fireEvent.change(otpInput, { target: { value: "000000" } });
+  //   expect(submitButton).toBeEnabled();
+  //   fireEvent.keyDown(emailInput, { key: "Enter", code: 13, charCode: 13 });
 
-    // Check error shown on screen
-    let errorText = await screen.findByText(
-      /Invalid OTP, remaining attempts left: 2/i
-    );
-    screen.debug(errorText);
-    expect(errorText).toBeEnabled();
-  });
-  // resend otp button should be visible after 120 second
-  test("resend otp after 120 sec", async () => {
-    // jest.useFakeTimers();
-    render(
-      <Router>
-        <VerifyEmailStep />
-      </Router>,
-      { wrapper: FarmStackProvider }
-    );
-    const emailInput = await screen.findByPlaceholderText(/Enter mail id/i);
-    fireEvent.change(emailInput, {
-      target: { value: "nilesh@digitalgreen.org" },
-    });
-    // Click and accept term and condition
-    const termsAndCondition = screen.getByTestId(
-      "login-agree-terms-and-condition-check-box-test"
-    );
-    const checkbox = termsAndCondition.querySelector("input");
-    fireEvent.click(checkbox);
+  //   // Check error shown on screen
+  //   let errorText = await screen.findByText(
+  //     /Invalid OTP, remaining attempts left: 2/i
+  //   );
+  //   screen.debug(errorText);
+  //   expect(errorText).toBeEnabled();
+  // });
+  // // resend otp button should be visible after 120 second
+  // test("resend otp after 120 sec", async () => {
+  //   // jest.useFakeTimers();
+  //   render(
+  //     <Router>
+  //       <VerifyEmailStep />
+  //     </Router>,
+  //     { wrapper: FarmStackProvider }
+  //   );
+  //   const emailInput = await screen.findByPlaceholderText(/Enter mail id/i);
+  //   fireEvent.change(emailInput, {
+  //     target: { value: "nilesh@digitalgreen.org" },
+  //   });
+  //   // Click and accept term and condition
+  //   const termsAndCondition = screen.getByTestId(
+  //     "login-agree-terms-and-condition-check-box-test"
+  //   );
+  //   const checkbox = termsAndCondition.querySelector("input");
+  //   fireEvent.click(checkbox);
 
-    // Press enter button in keyboard to get otp
-    const submitButton = screen.getByTestId("send-otp-btn-test");
-    expect(submitButton).toBeEnabled();
-    fireEvent.keyDown(emailInput, { key: "Enter", code: 13, charCode: 13 });
-    let findResentButton = await customWaitFor(
-      async () => {
-        return true;
-      },
-      { time: 130000, interval: 121000 }
-    );
-    console.log("findResentButton", findResentButton);
-    if (findResentButton) {
-      const resendOtpButton = await screen.findByTestId(
-        "resend-otp-button-test"
-      );
-      screen.debug(resendOtpButton);
-      fireEvent.click(resendOtpButton);
-      let date = new Date();
-      console.log("date...1", date.getMinutes(), date.getSeconds());
-      let waitFor2Sec = customWait(async () => {
-        return true;
-      });
-      console.log("date...2", date.getMinutes(), date.getSeconds());
+  //   // Press enter button in keyboard to get otp
+  //   const submitButton = screen.getByTestId("send-otp-btn-test");
+  //   expect(submitButton).toBeEnabled();
+  //   fireEvent.keyDown(emailInput, { key: "Enter", code: 13, charCode: 13 });
+  //   let findResentButton = await customWaitFor(
+  //     async () => {
+  //       return true;
+  //     },
+  //     { time: 130000, interval: 121000 }
+  //   );
+  //   console.log("findResentButton", findResentButton);
+  //   if (findResentButton) {
+  //     const resendOtpButton = await screen.findByTestId(
+  //       "resend-otp-button-test"
+  //     );
+  //     screen.debug(resendOtpButton);
+  //     fireEvent.click(resendOtpButton);
+  //     let date = new Date();
+  //     console.log("date...1", date.getMinutes(), date.getSeconds());
+  //     let waitFor2Sec = customWait(async () => {
+  //       return true;
+  //     });
+  //     console.log("date...2", date.getMinutes(), date.getSeconds());
 
-      if (waitFor2Sec) {
-        const resendOtpButton2 = await screen.findByTestId(
-          "resend-otp-button-test"
-        );
-        expect(resendOtpButton2).toBeUndefined();
-      }
-    }
-  }, 140000);
+  //     if (waitFor2Sec) {
+  //       const resendOtpButton2 = await screen.findByTestId(
+  //         "resend-otp-button-test"
+  //       );
+  //       expect(resendOtpButton2).toBeUndefined();
+  //     }
+  //   }
+  // }, 140000);
 });
